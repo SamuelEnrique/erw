@@ -725,6 +725,15 @@ class Rows126And127W42OnTheStack(unittest.TestCase):
         self.assertEqual(brief.sector_words("datacenter_power"), "datacenter power")
 
 
+class Row128ADescriptionIsNoName(unittest.TestCase):
+    def test_us_regulator(self):
+        head = "Regulatory milestone for US laser enrichment plant"
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "Global Laser Enrichment; US regulator"}, head),
+                         "Also named: Global Laser Enrichment. ")
+        self.assertFalse(brief.party_in_head("Department of Energy", "A loan closes"))
+        self.assertFalse(brief.party_in_head("Banco de Chile", "A loan closes"))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

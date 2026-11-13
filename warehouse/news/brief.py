@@ -927,6 +927,10 @@ def party_in_head(party, head):
     low, h = party.lower(), str(head or "")
     if low.startswith(("unnamed", "undisclosed", "an unnamed", "a unnamed")) or low in h.lower():
         return True
+    # session 3349 (faults file row 128): a party that is a description, not a name ("US regulator", "a utility"): a word
+    # in lower case other than of, the, and, for, de; it is never printed as one named
+    if any(w[:1].islower() and w not in ("of", "the", "and", "for", "de", "du", "la") for w in party.split()):
+        return True
     if len(low) > 4 and low.endswith("s") and re.search(rf"\b{re.escape(low[:-1])}\b", h.lower()):   # "Houthis", "Houthi attacks"
         return True
     initials = "".join(w[0] for w in re.findall(r"[A-Za-z][\w'-]*", party) if w[0].isupper())
