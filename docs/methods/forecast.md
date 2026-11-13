@@ -115,9 +115,15 @@ Session 4209 (chain 239). `site/scripts/forecast-crosscheck.mjs` runs each study
 | | | operating jobs a year | 207 | 733 | 3.54 |
 | | | tax revenue a year | "up to $22.5M" (USD 9,000 per MW, Ohio's payment in lieu ceiling) | no rule held (codes.ohio.gov disallows every path) | none |
 
+| Indiana's first 1,000 MW of wind, NREL/TP-6A20-60914, 2014 ([docs.nlr.gov](https://docs.nlr.gov/docs/fy14osti/60914.pdf), request 78); JEDI Wind with the seven projects' own expenditures and local shares (about 20 percent of construction and 40 percent of O&M in Indiana) | per 1,000 MW of the 1,339 MW built 2008 to 2011; construction expenditure USD 2,487 million for the 1,339 MW (2010 dollars), scaled | construction jobs | "more than 4,400" | 4,537 | 1.03 |
+| | | operating jobs a year | "approximately 260" | 232 | 0.89 |
+| | | property tax a year | "more than $8 million" | no rule held (Indiana's are negotiated abatements) | none |
+
+Session 4253 added Indiana. Two more studies were sought and not used: a West Virginia gas plant study whose host disallows ClaudeBot and anthropic-ai by name, and a regional battery study (no JEDI model, not statewide).
+
 **What the differences say.**
 
-- **Local content is the study's, not JEDI's default.** Jayhawk's developer planned far more onsite spending in Kansas than JEDI's default shares (onsite jobs 190 against the model's 77), while the supply chain and induced lines agree within 7 percent. Ohio's 80 percent labor and 30 percent materials are close to JEDI's utility defaults, and its construction jobs agree within 10 percent. The tool's local content input is where a reader with a project's spending plan moves the figure.
+- **Local content is the study's, not JEDI's default.** Jayhawk's developer planned far more onsite spending in Kansas than JEDI's default shares (onsite jobs 190 against the model's 77), while the supply chain and induced lines agree within 7 percent. Ohio's 80 percent labor and 30 percent materials are close to JEDI's utility defaults, and its construction jobs agree within 10 percent. Indiana's projects, modeled with their own costs and local shares, agree within 3 percent (construction) and 11 percent (operations). The tool's local content input is where a reader with a project's spending plan moves the figure.
 - **JEDI's PV operating figures are high for today's plants.** JEDI's utility PV default holds 0.185 onsite FTE per MW DC a year (2010 operating costs), so 2.5 GW gives 461 onsite operating jobs against Ohio's 207 in total, which used NREL's 2018 O&M benchmark. The tool's PV operating jobs are therefore an upper reading; the tip on the operating figures says so, and a later session may add an operating spending input (percent of JEDI's default), as Ohio's study changed JEDI's costs.
 - **A headline count may not say what it counts.** Glendive's "approx. 400 construction jobs" is a summary's headline; the model's onsite jobs (272) are nearer to it than its total (1,730), and job-years spread over a short build can be read as a peak headcount. The study itself was not found; the comparison is kept with that caveat, not dropped.
 - **Dollar figures** run about 0.75 to 0.86 of the studies': JEDI's default multipliers are of 2014 to 2019 and its default cost mixes are of 2010 to 2017; the studies updated both.

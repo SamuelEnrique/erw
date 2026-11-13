@@ -55,6 +55,15 @@ export const STUDIES = [
     published_words: "a total of 18,039 one-time construction phase jobs, and 207 annual operations and maintenance (O&M) phase jobs; 8,536 direct construction jobs; roughly $3.2B construction phase economic impacts; up to $22.5M in annual tax revenues",
     dollars_of: 2018,
   },
+  {
+    id: "indiana_wind", title: "Economic Impacts from Indiana's First 1,000 Megawatts of Wind Power, NREL/TP-6A20-60914 (Tegen, Keyser and Flores-Espino, 2014)",
+    url: "https://docs.nlr.gov/docs/fy14osti/60914.pdf", request: 78,
+    method: "JEDI Wind with the seven projects' own expenditures and local shares (1,339 MW built 2008 to 2011; about 20 percent of construction spending and 40 percent of O&M in Indiana), results per 1,000 MW in 2010 real dollars",
+    tech: "land_based_wind", state: "in", mw: 1000, cost_usd: 2487e6 / 1.339, cost_year: 2010, cost_words: "Table 3: construction expenditure USD 2,487 million for the 1,339 MW analyzed (equipment 1,830, materials 331, construction labor 159, development and other 167), scaled to 1,000 MW", life: 20,
+    published: { "construction:total:jobs": 4400, "operations:total:jobs": 260, "property:year": 8e6 },
+    published_words: "Supported employment totaling more than 4,400 full-time-equivalent (FTE) jobs in Indiana during the construction periods; Supports approximately 260 ongoing Indiana jobs; Generates more than $8 million in annual property taxes (per 1,000 MW)",
+    dollars_of: 2010,
+  },
 ];
 
 export function crosscheck(rows) {
