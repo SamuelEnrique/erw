@@ -189,7 +189,33 @@ class TheEvaluationsOwnLedgerStep(unittest.TestCase):
         self.assertIn("ASK_EVAL_DAILY_USD", src("site", "README.md"))
 
 
+def aged_out(slug, tables, today=None):
+    """Session 3890: of these tables, those the live set keeps for its recent window only (live_set.yaml, recent), when
+    the grid's publisher is paused (warehouse/metadata/paused_sources.csv) and the pause is older than that window."""
+    import csv
+    import datetime as dt
+    import yaml
+    with open(os.path.join(ROOT, "warehouse", "metadata", "paused_sources.csv"), encoding="utf-8") as f:
+        paused = {r["scope"]: r["paused_on"] for r in csv.DictReader(f)}
+    if slug not in paused:
+        return set()
+    with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
+        recent = yaml.safe_load(f)["recent"]
+    today = today or dt.datetime.now(dt.timezone.utc).date()
+    if (today - dt.date.fromisoformat(paused[slug])).days <= int(recent["days"]):
+        return set()
+    return {t for t in tables if any(re.match(p, t) for p in recent["tables"])}
+
+
 class TheGridsTablesByRule(unittest.TestCase):
+    def test_a_paused_grids_rows_age_out_of_the_window_only_after_it(self):
+        # session 3890: MISO's pause (4 October 2026) and the recent window (35 days)
+        import datetime as dt
+        both = ["iso_dam_hub_prices", "iso_rtm_hub_prices"]
+        self.assertEqual(aged_out("miso", both + ["energy_projects"], dt.date(2026, 11, 13)), set(both))
+        self.assertEqual(aged_out("miso", both, dt.date(2026, 11, 1)), set())        # inside the window: still a fault
+        self.assertEqual(aged_out("ercot", both, dt.date(2026, 11, 13)), set())      # not paused: still a fault
+
     def test_the_rule_found_every_hand_listed_table_that_holds_the_grids_rows(self):
         ruled = json.load(open(os.path.join(ROOT, "docs", "grids", "grid_tables.json"), encoding="utf-8"))
         hand = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
@@ -201,8 +227,13 @@ class TheGridsTablesByRule(unittest.TestCase):
             self.assertEqual(sorted(set(hand[slug]["tables"]) - set(g["tables"])), g["grids_json_not_found"], slug)
             self.assertEqual(sorted(set(g["tables"]) - set(hand[slug]["tables"])), g["not_in_grids_json"], slug)
             # the one hand-listed table the rule does not find: energy_projects for NYISO and MISO, which holds no row of
-            # their queues (the hand list claimed it; its filter read no row); every other table of the list is found
-            self.assertLessEqual(set(g["grids_json_not_found"]), {"energy_projects"}, slug)
+            # their queues (the hand list claimed it; its filter read no row); every other table of the list is found,
+            # except (session 3890, chain 227) a paused publisher's rows in a table the live set keeps for its recent
+            # window only: they age out of the live set the rule reads once the pause is older than the window
+            # (MISO, paused on 4 October 2026: its last hub prices, of 3 and 4 October, left the 35-day window on 13
+            # November, and the data machine's grid_tables.json no longer found iso_dam_hub_prices and
+            # iso_rtm_hub_prices for it; the push guard refused that day's page files)
+            self.assertLessEqual(set(g["grids_json_not_found"]), {"energy_projects"} | aged_out(slug, g["grids_json_not_found"]), slug)
             self.assertTrue(all(t.startswith(slug + "_") for t, by in g["by"].items() if by == "name"), slug)
             self.assertTrue(all(not t.startswith(slug + "_") for t, by in g["by"].items() if by != "name"), slug)
         # session 302's tables, by the entity prefix, in the grids that hold their rows
