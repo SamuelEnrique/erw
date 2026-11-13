@@ -95,7 +95,11 @@ export const FIELDS: FieldDef[] = [
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
-    source: () => "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls." },
+    // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
+    // agreement), the rate covers those years, not "no statute"
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
+      ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
+      : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.") },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",

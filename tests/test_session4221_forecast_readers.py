@@ -37,5 +37,14 @@ class TheReaders(unittest.TestCase):
         self.assertRegex(self.page, r"saysOnCard\s+says=\{\(i\) => `\$\{byTax\[i\]\.name\}", "the hover says which states count a property tax")
 
 
+class Fault16(unittest.TestCase):
+    def test_16_the_own_rate_tip_does_not_say_no_statute_where_one_is_held(self):
+        with open(os.path.join(ROOT, "site", "lib", "forecastui.ts"), encoding="utf-8") as f:
+            ui = f.read()
+        self.assertIn("The state's statute leaves some years or cases open", ui)
+        own = ui[ui.index('{ key: "own",'):ui.index('{ key: "ownyears",')]
+        self.assertIn("(P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))", own)
+
+
 if __name__ == "__main__":
     unittest.main()
