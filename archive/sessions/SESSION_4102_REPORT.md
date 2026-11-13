@@ -52,7 +52,7 @@ Energy Research Warehouse (ERW). Chain 229, session 3 of 50, lab-desktop third w
 - **Three policy tables held** ("license needed") rather than flagged internal. They declare `License: public` in their headers, so `sources.csv` cannot set their flag, and the owner's ruling of 12 October is the rule for a public table whose publisher asks permission.
 - **Their start day is 2026-10-21**, the tool's one public day (tests 215 and 248 pin it). Each row's note says chain 229 and read 1689.
 - **No re-read of the four state commissions** (AZ, IL, OR, PA): their October reads found no terms at the same addresses. This waits for a better page.
-- **Copied dash:** a news outlet's name with an en dash ("IEA – International Energy Agency", written to `sources.csv` by the daily run) now appears in the regenerated `site/data/table_citations.json` and the release `tables.csv`, as it would in any regeneration. The data was left alone, and a request for window A is in `docs/state/data_requests_licenses.md`.
+- **Copied dash:** a news outlet's name with an en dash ("IEA, an en dash, International Energy Agency", written to `sources.csv` by the daily run) now appears in the regenerated `site/data/table_citations.json` and the release `tables.csv`, as it would in any regeneration. The data was left alone, and a request for window A is in `docs/state/data_requests_licenses.md`.
 - **Stanford package left as it is:** `release_v1.py --target stanford --check` differs by 286 rows on main and 288 here (the two FERC 714 tables). Not a gate, not regenerated.
 
 ## For Samuel's ruling
