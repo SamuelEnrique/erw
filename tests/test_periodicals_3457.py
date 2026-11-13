@@ -520,6 +520,19 @@ class Row170AlsoInDeals(unittest.TestCase):
             self.assertEqual(email_digest.ALSO_RE.match(label + " x").group(1), label)
 
 
+class Row170TheEmailKeepsTheWhyBesideAnLNGAlsoLine(unittest.TestCase):
+    """Row 170, found again by session 3469: the email read "Also in LNG: ..." as the item's why line (its reader read lower
+    case only), so the item's why line and its source were lost and the also line printed in their place."""
+
+    def test_the_item_keeps_its_why_and_source(self):
+        import email_digest
+        lines = ["## What moved", "", "1. **Trump to Tout Korean LNG Plan** (LNG)  ", "   Its reason. Sources: [Bloomberg](https://example.org/b)  ",
+                 "   Also in LNG: Another LNG story ([Reuters](https://example.org/r)).", ""]
+        text = email_digest.story_list(email_digest.numbered(lines, ("## What moved",), 3))[0]
+        self.assertEqual(text, ["1. Trump to Tout Korean LNG Plan", "   Its reason.", "   Bloomberg: https://example.org/b",
+                                "   Also in LNG: Another LNG story (Reuters)."])
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
