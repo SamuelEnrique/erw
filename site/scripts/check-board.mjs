@@ -82,7 +82,8 @@ check(wrong.length === 0, `every marked number of the ${shown} rows shown is the
     if (r.status !== "ok") { if (`top|${r.id}|last` in got) badTop.push(`${r.id}: not shown on the wall, a number in the top block`); continue; }
     if (got[`top|${r.id}|last`] !== b.fmt(r.last.v, r.unit)) badTop.push(`top|${r.id}|last: page ${got[`top|${r.id}|last`]}, file ${b.fmt(r.last.v, r.unit)}`);
     if (got[`top|${r.id}|last`] !== got[`${r.id}|last`]) badTop.push(`${r.id}: the top block and the wall differ`);
-    for (const k of ["d", "w"]) { const mv = r.moves[k]; if (mv ? got[`top|${r.id}|${k}`] !== b.signed(mv.ch, r.unit) : `top|${r.id}|${k}` in got) badTop.push(`top|${r.id}|${k}: page ${got[`top|${r.id}|${k}`]}, file ${mv ? b.signed(mv.ch, r.unit) : "no move"}`); }
+    // session 1890: a stale tile's moves are blank, as its row's are (shownMove)
+    for (const k of ["d", "w"]) { const mv = b.shownMove(r, k, file.built); if (mv ? got[`top|${r.id}|${k}`] !== b.signed(mv.ch, r.unit) : `top|${r.id}|${k}` in got) badTop.push(`top|${r.id}|${k}: page ${got[`top|${r.id}|${k}`]}, file ${mv ? b.signed(mv.ch, r.unit) : "no move"}`); }
     if (!html.includes(`data-top-spark="${r.id}"`)) badTop.push(`${r.id}: no trend line`);
   }
   const tiles = [...html.matchAll(/data-number-tile="([^"]+)"/g)].map((m) => m[1]);
