@@ -4,6 +4,8 @@
 
 Clock: precheck 19:35 UTC, the tree's scan and the audits by 19:40 UTC, the history's scan started 19:37 UTC and still running when this was written (19:53 UTC). Inside the long end of 1:00 for everything but that scan.
 
+**Added by session 5188: the scan of the history named below did not finish.** After 93 minutes Claude Code stopped it because the machine was critically short of memory; it wrote no result and was not started again. What this report says of the tree as it stands is unchanged.
+
 ## Read these first
 
 - **The tree as it stands holds no secret.** 15,264 tracked text files against the scanner's ten patterns: 0 hits. No tracked file is named like a key or an env file.

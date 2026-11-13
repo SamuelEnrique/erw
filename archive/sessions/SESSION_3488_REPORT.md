@@ -35,3 +35,18 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 - The rest of W44 read whole: the five stories, both tables, the numbers, the chart of the week, Next week, the fun fact. Nothing else new. The oil-topic fold (Shell's profits with Iran's USD 130 oil) is the owner's "one sector in one region" rule, and "Bhubaneswar" with no country is the data machine's.
 - Tests: `Row183NoQuantityWordsLeftInALine` (2). The 72 files: 1,397 passed, 20 skipped.
 - **Row 11:** moved to `6a97ed35c` (rows 161 to 183 wait).
+- **Row 11 landed in part again** (desk session 4012): rows 161 to 171 (to `91cc7525c`) at `ad7f16ca6`. The desk takes `48b5fb1df` next (session 4013). The rebase conflict was resolved as before: the desk's state cell, with the head and the rows that wait (172 to 183). `origin/main` was merged into the stack as `7028d48ce` (other machines' site and requirements changes, none in this stack's files). The 72 files: 1,397 passed. Row 11 moved there.
+
+## Session 3494: W39 to W43 on the latest stack
+
+- W39 to W43 ran again (`runs/periodicals_dryrun/s3494/`) and were diffed against session 3468's runs. The changes are row 173 (W43's Next week), main's newer chart of the week for W41 (from the merge, not this stack), and row 183's Policy of the Week.
+- **Row 183, narrowed:** printing the impact read whole added a second sentence to each Policy of the Week (W39 to W43). The read now keeps its first sentence, as before, with its figures, and W39 matches session 3468's run again. The faults file, the test name and the Roundup's method note say so.
+- The 72 files: 1,397 passed, 20 skipped. No new row.
+- **Row 11:** moved to `b8153100d`.
+
+## Session 3495: W43 read whole, row 184
+
+- **Row 184 (new, fixed):** W43 on the stack with no model printed "AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana - Company Announcement". Row 119 took such a site tail off the also lines and the fallback, not the publishers' own titles (591 stored stories carry it). One rule (`brief.tail_off`) now serves all three. Three stored Digests' headlines change on the stack (25 September, 2 October, 20 October).
+- Nothing else new in W43. "Datacenter power deal: 960 MW ..." now carries its evidence line consistently with row 180.
+- Tests: `Row184NoSiteTailOnAPublishersTitle` (2). The 72 files: 1,399 passed, 20 skipped.
+- **Row 11:** moved to `49be99929` (rows 172 to 184 wait).
