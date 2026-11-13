@@ -119,3 +119,11 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **By design, kept:** the text part names a Google News outlet without its address (session 803), and prints What moved's first three items (session 2703).
 - Tests: `Row171TheTextEmailNamesTheChartOnce` (2). The 66 files: 1,261 passed, 20 skipped.
 - **Row 11:** moved to `91cc7525c`.
+
+## Session 3468: every stored Roundup week on the stack
+
+- W39 to W44 as dry runs on the stack (`--no-model`, main's tables; `runs/periodicals_dryrun/s3468/`), with W45 (session 3466) and W46 (session 3462), scanned for rows 161, 162 and 165.
+- **Row 161 holds:** in all eight weeks the five's deal of the week is in the Deals table. The stored issues before W45 were written by the old code, which had no deal-of-the-week line.
+- **Row 162 holds:** the five's datacenter row now names the developer the table already showed. W44 reads "10,400 MW, SB Energy (developer), OH." where row 118's line said "52 MW, Vyoma, Chennai (2 larger loads ... name no operator or site)". W40, W42 and W43 name places with no country ("Pyhajoki", "Wagga Wagga", "Newport") because their rows hold none (the data machine's).
+- **Seen, kept:** W39's subject ends "TotalEnergies Announces Final Investment". The publisher's title is in Title Case (the issue with no model), so row 157's rule, which reads a lower-case word inside a phrase, has nothing to go back to. With the model, headlines are in sentence case.
+- No new row. "Also in LNG:" (W40) is now read by the email and the fold's count (row 170).
