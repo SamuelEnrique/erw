@@ -180,7 +180,8 @@
    "license": "public",
    "license_basis": "the Commission's own news release; Xcel's petition as filed in the docket (copy posted by legalectric.org); NSP-Minnesota's SEC filing",
    "erw_overlap": "none",
-   "notes": "The written order of June 2026 was not read: the Minnesota eDockets host answered with a browser security check (see refused). The approved compliance sheets were not read; Xcel's posted Minnesota rate book Section 5 (fetched 13 Nov 2026 before its host's terms could be read; no value taken from it) holds no Large General Time of Day Service sheet. The petition also proposed a companion Large Peak Controlled Time of Day Service tariff and an Incremental Cost Test (approved with added OAG requirements per the release). Related: MPUC Docket 26-159, an ESA between Xcel and Echo Zone, LLC (a Google subsidiary) for a Pine Island data center, filed 14 April 2026, pending (https://mn.gov/puc/activities/v-l-e-c/data-centers/); NSP-Minnesota's 10-Q says it includes a proposed Clean Energy Accelerator Charge for 1,900 MW of clean energy resources and a decision is expected in early 2027. Leads not verified in a primary: Fresh Energy and ELPC say the Commission also directed a clean energy and capacity tariff filing by 1 December 2026. Status date as the reading group wrote it: '2026-06 (written order; the Commission announced its decision on 18 May 2026)'."
+   "notes": "The written order of June 2026 was not read: the Minnesota eDockets host answered with a browser security check (see refused). The approved compliance sheets were not read; Xcel's posted Minnesota rate book Section 5 (fetched 13 Nov 2026 before its host's terms could be read; no value taken from it) holds no Large General Time of Day Service sheet. The petition also proposed a companion Large Peak Controlled Time of Day Service tariff and an Incremental Cost Test (approved with added OAG requirements per the release). Related: MPUC Docket 26-159, an ESA between Xcel and Echo Zone, LLC (a Google subsidiary) for a Pine Island data center, filed 14 April 2026, pending (https://mn.gov/puc/activities/v-l-e-c/data-centers/); NSP-Minnesota's 10-Q says it includes a proposed Clean Energy Accelerator Charge for 1,900 MW of clean energy resources and a decision is expected in early 2027. Leads not verified in a primary: Fresh Energy and ELPC say the Commission also directed a clean energy and capacity tariff filing by 1 December 2026. Status date as the reading group wrote it: '2026-06 (written order; the Commission announced its decision on 18 May 2026)'.",
+   "row_id": "xcel_plains-01"
   },
   {
    "utility": "All Minnesota public utilities providing electric service (applies to Northern States Power Company, Minnesota)",
@@ -266,7 +267,8 @@
    "license": "public",
    "license_basis": "the State's official publication of its statutes and session laws",
    "erw_overlap": "none",
-   "notes": "Required outcomes the Commission must consider (subd. 2): costs of very large customers assigned to their class; electricity meeting the § 216B.1691 benchmarks; protections so other customers are not placed at risk for stranded costs. Subd. 3: the section does not apply to existing, renewed or extended ESAs or to very large customers taking service before 2020. Related definition (Minn. Stat. § 216B.02, subd. 11, https://www.revisor.mn.gov/statutes/cite/216B.02): a data center is a facility designed to have a load of 100 megawatts or more. The MPUC's data center page (https://mn.gov/puc/activities/v-l-e-c/data-centers/) names §§ 216B.1622 and 216B.1623 and an annual ECO fund fee of 2 to 5 million dollars for qualified large-scale data centers (not a connection term). Status date as the reading group wrote it: '2025-06-14 (signed; the section is effective the day following final enactment)'."
+   "notes": "Required outcomes the Commission must consider (subd. 2): costs of very large customers assigned to their class; electricity meeting the § 216B.1691 benchmarks; protections so other customers are not placed at risk for stranded costs. Subd. 3: the section does not apply to existing, renewed or extended ESAs or to very large customers taking service before 2020. Related definition (Minn. Stat. § 216B.02, subd. 11, https://www.revisor.mn.gov/statutes/cite/216B.02): a data center is a facility designed to have a load of 100 megawatts or more. The MPUC's data center page (https://mn.gov/puc/activities/v-l-e-c/data-centers/) names §§ 216B.1622 and 216B.1623 and an annual ECO fund fee of 2 to 5 million dollars for qualified large-scale data centers (not a connection term). Status date as the reading group wrote it: '2025-06-14 (signed; the section is effective the day following final enactment)'.",
+   "row_id": "xcel_plains-02"
   },
   {
    "utility": "Public Service Company of Colorado (Xcel Energy)",
@@ -381,7 +383,8 @@
    "license": "public",
    "license_basis": "the Commission's own web page; PSCo's SEC filing",
    "erw_overlap": "large_load_tariffs/xcel_colorado_schedule_tl.yaml: threshold held as 50 MW (Decision C26-0396-I p. 2); the Commission's page adds that new customers of 20 to 50 MW may also be subject. Contract term of 15 years is now read in the Commission's page and PSCo's 10-Q (the yaml has it only as an intervenor-testimony lead). Status unchanged: proposed, decision TBD; hearing held 21, 22, 26, 27 and 28 October 2026 per the page",
-   "notes": "No final decision found as of 13 Nov 2026. The page lists stipulations or settlement agreements due 5 Oct 2026; none was read. Leads from intervenor testimony (held in the yaml's notes, not written as values): minimum monthly bill on 80 percent of contract capacity, optional ramp up to 5 years inside the 15-year term, exit fee the sum of remaining minimum monthly bills. www.dora.state.co.us not requested (robots disallow, per the brief). Status date as the reading group wrote it: '2026-04-02 (filed); Commission decision TBD on the page read 13 Nov 2026'."
+   "notes": "No final decision found as of 13 Nov 2026. The page lists stipulations or settlement agreements due 5 Oct 2026; none was read. Leads from intervenor testimony (held in the yaml's notes, not written as values): minimum monthly bill on 80 percent of contract capacity, optional ramp up to 5 years inside the 15-year term, exit fee the sum of remaining minimum monthly bills. www.dora.state.co.us not requested (robots disallow, per the brief). Status date as the reading group wrote it: '2026-04-02 (filed); Commission decision TBD on the page read 13 Nov 2026'.",
+   "row_id": "xcel_plains-03"
   },
   {
    "utility": "Southwestern Public Service Company (Xcel Energy)",
@@ -560,7 +563,8 @@
    "license": "public",
    "license_basis": "the PUCT's docket copies (interchange.puc.texas.gov)",
    "erw_overlap": "none",
-   "notes": "Group 3 (Contracted Load Growth of 75 MW or more) is to bear an incremental cost test that SPS will propose in its next base rate case, which it expects to file in the second half of 2027 (application p. 6). The application proposed an effective date of 30 October 2026; parties requesting a hearing include TIEC and OPUC; Data Center Coalition and Federal Executive Agencies moved to intervene on 9 November 2026. New Mexico: Xcel Energy's 10-Q for Q3 2026 says SPS expects to file similar tariff modifications in New Mexico in the fourth quarter of 2026 (https://www.sec.gov/Archives/edgar/data/72903/000007290326000181/xel-20260930.htm); no NMPRC filing was read. Status date as the reading group wrote it: '2026-09-25 (filed); effective date suspended to 2027-02-27'."
+   "notes": "Group 3 (Contracted Load Growth of 75 MW or more) is to bear an incremental cost test that SPS will propose in its next base rate case, which it expects to file in the second half of 2027 (application p. 6). The application proposed an effective date of 30 October 2026; parties requesting a hearing include TIEC and OPUC; Data Center Coalition and Federal Executive Agencies moved to intervene on 9 November 2026. New Mexico: Xcel Energy's 10-Q for Q3 2026 says SPS expects to file similar tariff modifications in New Mexico in the fourth quarter of 2026 (https://www.sec.gov/Archives/edgar/data/72903/000007290326000181/xel-20260930.htm); no NMPRC filing was read. Status date as the reading group wrote it: '2026-09-25 (filed); effective date suspended to 2027-02-27'.",
+   "row_id": "xcel_plains-04"
   },
   {
    "utility": "Northern States Power Company, a Wisconsin corporation (Xcel Energy)",
@@ -644,7 +648,8 @@
    "license": "public",
    "license_basis": "NSP-Wisconsin's SEC filing",
    "erw_overlap": "none",
-   "notes": "The tariff sheets were not read: PSCW ERF (apps.psc.wi.gov) disallows Claude's agents and Xcel's own site answered with a bot check. Michigan (NSP-Wisconsin's Michigan service): no large-load rule found in the documents read (the 10-Q names only Wisconsin); the MPSC was not searched. Status date as the reading group wrote it: 'filed in the second quarter of 2026 (day not published); PSCW decision expected early 2027'."
+   "notes": "The tariff sheets were not read: PSCW ERF (apps.psc.wi.gov) disallows Claude's agents and Xcel's own site answered with a bot check. Michigan (NSP-Wisconsin's Michigan service): no large-load rule found in the documents read (the 10-Q names only Wisconsin); the MPSC was not searched. Status date as the reading group wrote it: 'filed in the second quarter of 2026 (day not published); PSCW decision expected early 2027'.",
+   "row_id": "xcel_plains-05"
   },
   {
    "utility": "Wisconsin Power and Light Company (Alliant Energy)",
@@ -727,7 +732,8 @@
    "license": "public",
    "license_basis": "WPL's SEC filing (the combined 10-Q of Alliant Energy, IPL and WPL)",
    "erw_overlap": "none",
-   "notes": "Ordered by the PSCW in Docket 6680-TE-115 (see the next row). The tariff sheets were not read (PSCW ERF and alliantenergy.com refused). Status date as the reading group wrote it: '2026-09 (filed; day not published); PSCW decision expected in the first half of 2027'."
+   "notes": "Ordered by the PSCW in Docket 6680-TE-115 (see the next row). The tariff sheets were not read (PSCW ERF and alliantenergy.com refused). Status date as the reading group wrote it: '2026-09 (filed; day not published); PSCW decision expected in the first half of 2027'.",
+   "row_id": "xcel_plains-06"
   },
   {
    "utility": "Wisconsin Power and Light Company (Alliant Energy)",
@@ -803,7 +809,8 @@
    "license": "public",
    "license_basis": "the Commission's own news release; WPL's SEC filing",
    "erw_overlap": "none",
-   "notes": "A single-customer agreement under a general tariff in place since 2000 (per the release), kept as a row because the PSCW's order sets the terms for this data center and directed the stand-alone large load tariff (previous row). The release also lists added reporting requirements, a contribution to the statewide energy efficiency and renewable program and approved Renewable Energy Procurement Agreements. Alliant's 10-Q says customers on approved ICRs are a separate class in WPL's next cost-of-service study. Status date as the reading group wrote it: '2026-06 (final order; decided at the PSCW open meeting of 7 May 2026)'."
+   "notes": "A single-customer agreement under a general tariff in place since 2000 (per the release), kept as a row because the PSCW's order sets the terms for this data center and directed the stand-alone large load tariff (previous row). The release also lists added reporting requirements, a contribution to the statewide energy efficiency and renewable program and approved Renewable Energy Procurement Agreements. Alliant's 10-Q says customers on approved ICRs are a separate class in WPL's next cost-of-service study. Status date as the reading group wrote it: '2026-06 (final order; decided at the PSCW open meeting of 7 May 2026)'.",
+   "row_id": "xcel_plains-07"
   },
   {
    "utility": "Interstate Power and Light Company (Alliant Energy)",
@@ -900,7 +907,8 @@
    "license": "public",
    "license_basis": "IPL's and WPL's SEC filings (the combined 10-K and 10-Q of Alliant Energy, IPL and WPL)",
    "erw_overlap": "none",
-   "notes": "The ICR tariff sheet and the IUC's ICR orders were not read (IUC EFS disallows all robots; alliantenergy.com robots answered 403). The 10-K says IPL has ESAs with two new data center customers and WPL with one. The 10-Q says a WPL data center customer moved to a site in IPL's territory in Q1 2026 and its ESA was renegotiated. The IUC's newsroom (iuc.iowa.gov) shows no large-load release in 2025 or 2026. Status date as the reading group wrote it: '2024-09 (IUC rate review order creating the ICR tariff); ICRs for data centers approved May 2025 and October 2025; a further ICR request filed October 2026, decision expected Q1 2027'."
+   "notes": "The ICR tariff sheet and the IUC's ICR orders were not read (IUC EFS disallows all robots; alliantenergy.com robots answered 403). The 10-K says IPL has ESAs with two new data center customers and WPL with one. The 10-Q says a WPL data center customer moved to a site in IPL's territory in Q1 2026 and its ESA was renegotiated. The IUC's newsroom (iuc.iowa.gov) shows no large-load release in 2025 or 2026. Status date as the reading group wrote it: '2024-09 (IUC rate review order creating the ICR tariff); ICRs for data centers approved May 2025 and October 2025; a further ICR request filed October 2026, decision expected Q1 2027'.",
+   "row_id": "xcel_plains-08"
   },
   {
    "utility": "Omaha Public Power District (OPPD)",
@@ -998,7 +1006,8 @@
    "license": "internal",
    "license_basis": "OPPD's site terms allow personal, non-commercial use only (https://www.oppd.com/contact/terms-conditions/)",
    "erw_overlap": "none",
-   "notes": "A Board-approved transmission-level rate with market (SPP) energy pricing, not a data-center-specific tariff; no OPPD large-load or data center policy was found in the rate manual (no 'large load' text). Rate 261M also requires the customer to notify expected monthly demand a week ahead, bars export and resale, and bars wholesale transmission service to serve its demand (p. 46). Monthly service charge 10,000 dollars, demand charge 23.91 dollars per kW-month (p. 44)."
+   "notes": "A Board-approved transmission-level rate with market (SPP) energy pricing, not a data-center-specific tariff; no OPPD large-load or data center policy was found in the rate manual (no 'large load' text). Rate 261M also requires the customer to notify expected monthly demand a week ahead, bars export and resale, and bars wholesale transmission service to serve its demand (p. 46). Monthly service charge 10,000 dollars, demand charge 23.91 dollars per kW-month (p. 44).",
+   "row_id": "xcel_plains-09"
   }
  ],
  "refused": [

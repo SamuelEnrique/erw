@@ -87,7 +87,8 @@
    "license_basis": "SEC EDGAR filings (public); nothing is read from tristate.coop, whose terms bar robots",
    "erw_overlap": "none (window A holds no registry file for Tri-State)",
    "notes": "History, from Tri-State's SEC filings: the first HILT was board-approved and filed with FERC in August 2025 and rejected by FERC in October 2025 (Q3 2025 10-Q: \"In August 2025, our Board approved and we filed with FERC a new tariff and pro forma agreement for high impact loads that have large load requirements, including data centers, into our system.\" and \"In October 2025, FERC issued an order rejecting our tariff.\"); the 2026 filing drew a FERC deficiency letter in May 2026 and Tri-State's response in June 2026 (Q2 2026 10-Q). In August 2025 Tri-State also filed BYOR tariff amendments to expand the BYOR Program to high impact loads, accepted by FERC in October 2025 (2025 10-K, Bring Your Own Resource Program). Leads not used as values: Tri-State's own press release of 14 August 2026 on tristate.coop (read before its terms were read; terms bar robots, so not used) and a Colorado news report describe a 45 MW threshold (load additions over 45 MW at request or forecast to exceed 45 MW within four years), a security payment, a minimum term, minimum monthly demand and energy charges, and a 30-day compliance filing on agreements for Eastern Interconnection members; the 2025 filing's FERC docket is ER25-3316 per search results only (its copy on rtoinsider.com is refused by robots). Waits: the FERC order of August 2026 and the 2026 HILT filing (eLibrary accession numbers needed), and the compliance filing.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power-01"
   },
   {
    "utility": "Basin Electric Power Cooperative",
@@ -198,7 +199,8 @@
    "internal_fields": [
     "connection_timeline",
     "study_timeline"
-   ]
+   ],
+   "row_id": "coops_public_power-02"
   },
   {
    "utility": "Old Dominion Electric Cooperative",
@@ -272,7 +274,8 @@
    "license_basis": "SEC EDGAR filings (public)",
    "erw_overlap": "none (window A holds no registry file for ODEC)",
    "notes": "Q3 2026 10-Q: market-based rate revenues rose 143.6 percent (three months) and 167.2 percent (nine months), \"primarily due to load growth related to increased member distribution cooperative sales to data centers.\" 10-K: for Virginia members, \"the VSCC must approve any tariff governing the rates and terms of service between the member distribution cooperative and the substantially large load customer\"; ODEC was offered and declined, beginning in 2024, opportunities to purchase the power requirements to serve substantially large loads under the wholesale contract's second exception (purchases from other suppliers with board approval); the VSCC's order of 18 February 2025 let REC serve 13 potential large-load customers through an affiliate for three years (REC and NOVEC are other groups'; the VSCC is paused). The members' own large-load tariffs (NOVEC, REC, SVEC and others) are not ODEC's rules and are not in this row. Status date as the reading group wrote it: 'not published'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power-03"
   },
   {
    "utility": "Imperial Irrigation District",
@@ -476,7 +479,8 @@
    "license_basis": "the public power district's own published rate schedule and procedure; iid.com shows no terms of use restricting reuse",
    "erw_overlap": "none (window A holds no registry file for IID)",
    "notes": "The Queue Service Request Process also sets a fixed $20,000 non-refundable application fee, a 10 Business Day cure period, first-ready, first-served administration, and serial or cluster studies. Service under Schedule LL is full requirements service at 69 kV or higher and interruptible at IID's sole discretion (p. 3). The customer pays the actual costs of all studies and bears the cost of substations and upgrades (pp. 2 to 3).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power-04"
   }
  ],
  "refused": [

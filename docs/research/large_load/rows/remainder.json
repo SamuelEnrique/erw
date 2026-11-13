@@ -154,7 +154,8 @@
    "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov); the queue figures from MDU Resources' Form 10-Q on SEC EDGAR",
    "erw_overlap": "",
    "notes": "Schedule terms also printed: the company must be able to interrupt for up to 200 hours a year or as the agreement says (p.48); penalty for non-performance the greater of $10.00 per kW of the agreement's demand or reallocated MISO penalties (p.49). MDU's presentation to the ND Legislature of 27 August 2025 (https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5028.03000appendixb.pdf, p.5) describes Rate 45 as 'Approved rate in North and South Dakota' and (p.4) 'Sufficient security and credit support for data center customers'. Search leads not read: the original Rate 45 filing, Case PU-22-337 (filed 1 August 2022). montana-dakota.com's own tariff PDFs (NDElectric45.pdf, NDElectricTableOfContents.pdf) answered HTTP 404. MDU's Q3 2026 call (news only, not used): over 1 GW of data center load signed.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-01"
   },
   {
    "utility": "Montana-Dakota Utilities Co. (MDU), South Dakota",
@@ -253,7 +254,8 @@
    "license_basis": "the South Dakota PUC's tariff book copy (puc.sd.gov)",
    "erw_overlap": "",
    "notes": "Same terms as the ND schedule (interruption up to 200 hours a year; non-performance penalty the greater of $10.00 per kW or reallocated MISO penalties, p.2). The one SD agreement under it, up to 50 MW near Leola, was pending at the SDPUC with a hearing in November 2026 (MDU Resources Q3 2026 10-Q, cited on the ND row).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-02"
   },
   {
    "utility": "Montana-Dakota Utilities Co. (MDU), North Dakota",
@@ -346,7 +348,8 @@
    "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov); MDU's presentation on the ND Legislature's host; SEC EDGAR",
    "erw_overlap": "",
    "notes": "The order (p.3) also refers to Applied Digital's other agreement for 180 MW approved in Case No. PU-22-371. The 530 MW figure is MDU's own (presentation to the ND Legislature, 27 August 2025).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-03"
   },
   {
    "utility": "Montana-Dakota Utilities Co. (MDU), North Dakota",
@@ -462,7 +465,8 @@
    "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov)",
    "erw_overlap": "",
    "notes": "Agreement 16.a (p.29): 'The maximum amount of service provided under this Agreement is 430 MW'. The letter (p.2) says the company agreed to limit interruptions at Center to MISO-declared emergencies or LMR dispatch. PU-26-235 document 018-010 has no text layer (a scan) and was not read. Roughrider's protest (018-020) is another party's filing, used only for the status note.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-04"
   },
   {
    "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
@@ -574,7 +578,8 @@
    "license_basis": "mytpu.org's Disclaimer & Copyright page: 'All rights are reserved. The content of this website is copyrighted and may not be reproduced in any form including digital and print for any non-commercial purpose so long as this notice remains visible and attached hereto.' (read as limited to non-commercial use); the same schedule is Tacoma Municipal Code 12.06.266, whose copy on the City's code host was not read",
    "erw_overlap": "",
    "notes": "Interim rate (E, p.31): a customer on G, HVG, CP or NLL that grows by 10 aMW becomes a BPA 'New Large Single Load' and pays BPA's New Resource Firm Power rates during a Transition Period of up to 12 months, then two times that rate until a Power Service Agreement is effective; the agreement is subject to approval by the Tacoma Public Utility Board and City Council. Energy and demand are priced at Tacoma Power's incremental cost plus a service fee no greater than 10 percent (C.1). Proposed 2027 to 2028 rate adjustments are posted (mytpu.org power rates page) with no VLL change found in what was read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-05"
   },
   {
    "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
@@ -687,7 +692,8 @@
    "license_basis": "mytpu.org's Disclaimer & Copyright page (reproduction limited to non-commercial purposes, as read); see the VLL row",
    "erw_overlap": "",
    "notes": "A customer whose consumption grows by 10 aMW or more in 12 months moves to Schedule VLL (p.26). Below the roughly 20 MW scale of this pass, kept because it is Tacoma Power's large new load class.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-06"
   },
   {
    "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
@@ -779,7 +785,8 @@
    "license_basis": "mytpu.org's Disclaimer & Copyright page (reproduction limited to non-commercial purposes, as read); see the VLL row",
    "erw_overlap": "",
    "notes": "Not a data-center rule: a large-load pilot for hydrogen electrofuel production, listed because it is a 10 aMW-and-up schedule with its own cap.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-07"
   },
   {
    "utility": "Public Utility District No. 1 of Snohomish County (Snohomish County PUD)",
@@ -978,7 +985,8 @@
    "license_basis": "a public power utility's published policy and rate book; snopud.com's privacy policy page carries no terms limiting reuse or automated reading",
    "erw_overlap": "",
    "notes": "Threshold of 2.5 MVA is below the roughly 20 MW scale of this pass; the 10 MVA and 10 aMVA tiers are the data-center-scale terms. Lead (news only, not used as a value): The Herald (16 May 2026) reported 8 large-load inquiries in 2025, none data centers. The Large Load Interconnection Process Workflow (https://www.snopud.com/wp-content/uploads/2026/04/LargeLoadWF.pdf) and the 2026 interconnection requirements were not read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-08"
   },
   {
    "utility": "Public Utility District No. 1 of Snohomish County (Snohomish County PUD)",
@@ -1067,7 +1075,8 @@
    "license_basis": "a public power utility's published rate book (snopud.com)",
    "erw_overlap": "",
    "notes": "Rates (4)(a): energy and capacity priced on the PUD's cost of power available or acquired to serve the customer, plus a reasonable service fee, under written power supply arrangements. Schedules 20, 36 and 38 exclude New Large Single Loads and send them to Schedule 37.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-09"
   },
   {
    "utility": "Bryan Texas Utilities (BTU), City of Bryan",
@@ -1170,7 +1179,8 @@
    "license_basis": "a municipal utility's council-adopted rate ordinance published on its site; btutilities.com shows no terms-of-use page in its links",
    "erw_overlap": "",
    "notes": "Loads of 75 MW and up are not covered by any BTU schedule in Ordinance No. 2788 (both transmission schedules stop below 75 MW); no BTU large-load (75 MW) rule was found in what was read. BTU is an ERCOT transmission and distribution provider subject to the PUCT's large-load interconnection standards (covered by the texas group).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "remainder-10"
   }
  ],
  "refused": [

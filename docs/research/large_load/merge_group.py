@@ -214,6 +214,23 @@ def main() -> int:
         return 1
     os.makedirs(os.path.join(HERE, "rows"), exist_ok=True)
     out = os.path.join(HERE, "rows", f"{group}.json")
+    # row ids are stable (session 5302): a row already merged keeps its id, matched by utility and rule name; a new
+    # row takes the next free number, so a change entry's "affects" never moves
+    old_ids = {}
+    if os.path.exists(out):
+        for r in json.load(open(out, encoding="utf-8")).get("rows") or []:
+            if r.get("row_id"):
+                old_ids[(r.get("utility"), r.get("rule_name"))] = r["row_id"]
+    used = set(old_ids.values())
+    nxt = max([int(x.rsplit("-", 1)[1]) for x in used] or [0]) + 1
+    for r in rows:
+        rid = old_ids.get((r.get("utility"), r.get("rule_name")))
+        if not rid:
+            rid = f"{group}-{nxt:02d}"
+            nxt += 1
+            if old_ids:
+                print(f"new row id {rid}: {r.get('utility', '')[:40]} | {r.get('rule_name', '')[:50]}")
+        r["row_id"] = rid
     with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1, ensure_ascii=False)
         f.write("\n")

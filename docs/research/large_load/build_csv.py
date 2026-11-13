@@ -86,7 +86,7 @@ def main() -> int:
             dk = r.get("docket") or {}
             qc = r.get("quoted_clause") or {}
             rec = {
-                "row_id": f"{group}-{i:02d}",
+                "row_id": r.get("row_id") or f"{group}-{i:02d}",
                 "group": group,
                 "utility": r.get("utility", ""),
                 "state": r.get("state", ""),

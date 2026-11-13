@@ -87,7 +87,8 @@
    "license_basis": "Hoosier Energy's own news post; the site's only legal page is a privacy policy (https://hoosierenergy.com/privacy-policy/, read 13 November 2026), with no terms limiting use or reproduction",
    "erw_overlap": "",
    "notes": "The post (a staff article, quoting Hoosier executives) says the costs the load pays include studies, transmission infrastructure, transmission costs, capacity costs and administrative fees, and that Hoosier does not procure capacity for the data center: the load must procure its own (\"we do not procure any capacity on behalf of the actual data center\"). The policy document itself was not found. Leads not read: none.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-01"
   },
   {
    "utility": "Seattle City Light (City of Seattle, City Light Department)",
@@ -240,7 +241,8 @@
    "license_basis": "the City of Seattle's legislative record (seattle.legistar.com) and City web pages; seattle.gov's terms of use (https://www.seattle.gov/digital/terms-of-use, read 13 November 2026) set no limit on use or reproduction",
    "erw_overlap": "",
    "notes": "The signed Ordinance 127473 PDF (legistar2.granicus.com) is refused by robots; the text read is the passed version 2 of the bill on seattle.legistar.com (the history shows version 2 passed by the Council on 21 July 2026 after the committee's amendment of 15 July). Other conditions of SMC 21.49.059: curtailment provisions and energy conservation measures (B.5, B.6), full recovery of the procurement cost of new resources (B.8), energy and demand charges at City Light's marginal cost plus a service fee (D.1). City Light's own summary: threshold \"10 megavolt-amperes (MVA) or more\" (post); the Review Panel minutes of 17 June 2026 (p. 2) say \"greater than 10 MVA\". Separately, the City Council's one-year moratorium (Council Bill 121214) bars siting data centers over 20 MVA within city limits; that is a land-use rule, not a connection rule.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-02"
   },
   {
    "utility": "Buckeye Power, Inc. and Ohio's Electric Cooperatives (the 24 Ohio distribution cooperatives Buckeye serves)",
@@ -306,7 +308,8 @@
    "license_basis": "a member cooperative's posting; ppec.coop's terms of use (https://www.ppec.coop/terms/, read 13 November 2026) note copyright and limit only the use of trademarks, with no personal-use limit or bar on reproduction",
    "erw_overlap": "",
    "notes": "The page says the schedule \"assigns the full cost of serving data centers directly to those customers\". Leads not used: the Ohio Farm Bureau article (ofbf.org, 25 May 2026) on the schedule, a third party, not read. The schedule's own terms wait for Buckeye's or OEC's posting of the schedule.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-03"
   },
   {
    "utility": "Tri-County Electric Cooperative, Inc. (Azle, Texas; a Brazos Electric Power Cooperative member)",
@@ -435,7 +438,8 @@
    "license_basis": "the cooperative's posted forms and pro forma agreements; tcectexas.com shows no terms of use (its footer links only a privacy policy and a copyright line)",
    "erw_overlap": "",
    "notes": "Request form p.1: a request enters the \"large load evaluation queue\" only after the Reimbursable Services Agreement is executed and the deposit paid, and \"A request for large load electric service will expire ninety (90) days after submission unless the Reimbursable Services Agreement has been executed\" and the initial payment received; submission \"does not establish queue position or priority for service\". Electric Service Agreement section 4: $1,000 per installed MVA a month; energy at North Texas ERCOT real-time LMP plus a margin; 100 percent of transmission-related costs; bills may be weekly, due in 10 business days. The page links the form as large-load-electric-service-request-final-1.pdf; the copy read is large-load-electric-service-request-final.pdf in the same folder. This is the one Brazos member program found; Brazos's own rule was not found. Status date as the reading group wrote it: 'not published'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-04"
   },
   {
    "utility": "Sunflower Electric Power Corporation and its seven member utilities (central and western Kansas)",
@@ -506,7 +510,8 @@
    "license_basis": "Sunflower's own page; its Terms & Conditions (https://www.sunflower.net/terms-and-conditions, effective 15 August 2025, read 13 November 2026) state information is for general purposes and note copyright, with no personal-use limit or bar on reproduction",
    "erw_overlap": "",
    "notes": "Each of the three phases includes \"A non-refundable application fee\" and an application form for the engineering studies (page text); the fee amounts are not posted. The page: \"our long-standing policy is to protect member privacy by not publicly sharing specific potential project information.\" Lead not read: Victory Electric's large load information page (victoryelectric.net). Status date as the reading group wrote it: 'not published'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-05"
   },
   {
    "utility": "City of Ames Electric Services (City of Ames, Iowa)",
@@ -587,7 +592,8 @@
    "license_basis": "the City of Ames's council staff report and project page (a city government's public record); cityofames.org's terms were not read",
    "erw_overlap": "",
    "notes": "Report p.3: resolving the discrepancy \"would strengthen the utility's ability to require large power users to pay upfront for the installation of additional infrastructure necessary to serve the customer.\" The report also lists zoning, noise, water and wastewater options and a possible moratorium. Not a rule in force: kept as a pending proposal.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "coops_public_power_2-06"
   }
  ],
  "refused": [

@@ -168,7 +168,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record; the queue figure from Ameren's Form 10-Q on SEC EDGAR",
    "erw_overlap": "large_load_tariffs/ameren_missouri_llcs.yaml: threshold (75 MW) and minimum demand (80 percent) are the same and not repeated. contract_term, collateral and exit_fee repeat the held figures (ramp plus 12 years; two years of Minimum Monthly Bills; Exit Fee) and add what the yaml does not carry: the 36-month non-extension notice, the 24-month Termination Notice, the collateral discount tiers and timing, the Early Termination Fee and the Capacity Reduction Fee. No figure differs.",
    "notes": "Sheet 61.13 (p. 12) adds an Interim Capacity Adjustment: if the existing system cannot serve the load, the Company may buy market capacity under an Interim Capacity Agreement at the customer's full cost. Missouri S.B. 4 (2025): the Missouri PSC's fact sheet says the law required the PSC to adopt rates for large load customers and that Ameren Missouri and Evergy have approved large-load tariffs (https://psc.mo.gov/CMSInternetData/Community%20Outreach/Large%20Load%20Tariff%20Fact%20Sheet.pdf, p. 1); the tariff sheets themselves do not cite the law. The 2026 preferred resource plan (Ameren 10-Q, same section) forecasts total load growth of 2.9 GW by 2030, 5 GW by 2035 and 6 GW by 2045: a forecast, not a queue. Leads only (news summaries of Ameren's earnings calls, not read): 3.4 GW of construction agreements in Missouri and a further 4 GW of Missouri projects with completed interconnection studies (Q2 2026 call); Ameren's posted call transcript on s21.q4cdn.com was refused (robots answered 403). ameren.com was not read: its terms forbid bots and automated tools (see refused), so the queue details the Company posts on its website (Sheet 126) are unread. The Order Approving Tariff Revision of 19 December 2025 (EFIS 860789) was not read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-01"
   },
   {
    "utility": "Union Electric Company d/b/a Ameren Missouri",
@@ -294,7 +295,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
    "erw_overlap": "none: the registries do not hold Ameren Missouri's General Rules III.P.",
    "notes": "Sheet 126, III.P.5: further queue details are posted on the Company's website, which was not read (ameren.com's terms forbid bots). Sheet 125 marks III.P as an addition in this filing; the same rule text appears in Evergy's Missouri rules (2.14 and 2.10) with SPP in place of MISO.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-02"
   },
   {
    "utility": "Evergy Metro, Inc. d/b/a Evergy Missouri Metro",
@@ -385,7 +387,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
    "erw_overlap": "large_load_tariffs/evergy_missouri_metro_llps.yaml: threshold, minimum demand, term and exit fee are the same and not repeated. collateral repeats the held two years of Minimum Monthly Bills and adds the discount tiers and timing; no figure differs.",
    "notes": "Sheet 78 (p. 22): capacity may be cut after the first five years by the lower of 25 MW or 10 percent without charge (24 months' notice), and beyond that on 36 months' notice subject to a Capacity Reduction Fee. The Evergy pipeline figure (Evergy Companies, Kansas and Missouri together) is on the Kansas LLPS row. The EO-2025-0154 docket closed on 13 March 2026 (EFIS docket sheet, item 228, Notice Closing Case). evergy.com not requested (bot check reported earlier).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-03"
   },
   {
    "utility": "Evergy Metro, Inc. d/b/a Evergy Missouri Metro",
@@ -518,7 +521,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
    "erw_overlap": "none: the registries do not hold Evergy Missouri Metro's Rules 2.14 or 9.11(E).",
    "notes": "Sheet 1.09D is an original sheet (new on 9 March 2026). 2.14 E: further queue details are posted on Evergy's website, not read (evergy.com gave a bot check to earlier readers; not requested).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-04"
   },
   {
    "utility": "Evergy Missouri West, Inc. d/b/a Evergy Missouri West",
@@ -609,7 +613,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
    "erw_overlap": "large_load_tariffs/evergy_missouri_west_llps.yaml: threshold, minimum demand, term and exit fee are the same and not repeated. collateral repeats the held two years of Minimum Monthly Bills and adds the discount tiers and timing; no figure differs.",
    "notes": "Sheet 188 (p. 9): capacity may be cut after the first five years by the lower of 25 MW or 10 percent without charge (24 months' notice), and beyond that on 36 months' notice subject to a Capacity Reduction Fee. In November 2026 Evergy Missouri West filed a rate case with the MPSC whose request is partly offset by new large load revenues (Evergy 10-Q, quarter ended 30 September 2026); no change to Schedule LLPS was read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-05"
   },
   {
    "utility": "Evergy Missouri West, Inc. d/b/a Evergy Missouri West",
@@ -742,7 +747,8 @@
    "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
    "erw_overlap": "none: the registries do not hold Evergy Missouri West's Rules 2.10 or 7.11 E.",
    "notes": "Sheet R-21 is a 2nd Revised sheet cancelling the 1st Revised; whether 2.10 existed before this revision was not established (the redline, EFIS 865323, does not mark changes in its text). The substitute filings of 13 and 17 February 2026 (EFIS 865973, 866165) carry Schedule LLPS sheets only, so Sheets R-21 and R-54 stand as filed on 5 February 2026. 2.10 E: further queue details are posted on Evergy's website, not read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-06"
   },
   {
    "utility": "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)",
@@ -901,7 +907,8 @@
    "license_basis": "the Kansas Corporation Commission's own report, slides and news release on kcc.ks.gov; the queue figure from Evergy's filings on SEC EDGAR",
    "erw_overlap": "none: the registries hold Evergy's Missouri LLPS schedules only, not the Kansas one.",
    "notes": "Rates (KCC report p. 17, from the settlement): Evergy Kansas Central LLPS customer charge $386.67 per month, demand charges $22.985/kW summer and $20.817/kW winter, energy $0.00872/kWh, Grid charges $0.248/kW substation and $0.156/kW transmission; Evergy Kansas Metro customer charge $751.02, demand $21.174/kW summer and $19.174/kW winter, energy $0.01000/kWh, Grid $0.200/kW substation and $0.126/kW transmission (for window A's tariff table, not one of this row's fields). The application of 11 February 2025 proposed the rate for customers over 100 MW (report p. 16); the settlement lowered it to 75 MW. Settlement filed 18 August 2025, hearing 8 October 2025 (slides p. 8). The slides (p. 18) say LLPS applies only in the Evergy Kansas Central and Evergy Kansas Metro service territories (Evergy Kansas South lies within Evergy Kansas Central's). The tariff's effective date was not read in a primary document (CURB's newsletter, another party, is a lead only), so the status is approved with the order date. Evergy 10-Q table: remaining contractual minimum consideration for large load contracts $8.9 billion (Evergy), weighted average remaining term 15 years, as of 30 September 2026. Refused: the KCC order on kcc-connect.kcc.ks.gov (bot check); evergy.com not requested.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-07"
   },
   {
    "utility": "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)",
@@ -969,7 +976,8 @@
    "license_basis": "Evergy's Form 10-Q on SEC EDGAR",
    "erw_overlap": "none",
    "notes": "The 10-Q says the plan preserves the existing LLPS rate plan as the governing framework and further distinguishes the cost responsibility of future large load customers. The docket number and the application were not found: the KCC's docket system (kcc-connect.kcc.ks.gov) answers with a bot check, and the web search budget of this pass ran out before the KCC's news pages could be searched further. The filing date is given only to the month.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-08"
   },
   {
    "utility": "Ameren Illinois Company d/b/a Ameren Illinois",
@@ -1043,7 +1051,8 @@
    "license_basis": "the Illinois Commerce Commission's own docket list",
    "erw_overlap": "none",
    "notes": "Case type in the ICC list: Rate General Increase (9-201); case status Initial; docket opened 19 August 2026. Whether these revised terms are a data-center style large-load rule could not be confirmed: the tariff sheets and the ICC's suspension order were not read (the docket page carries 'Please, no robots or crawlers beyond this point' and a captcha). A later pass with permission to read the ICC's docket, or Ameren's filed tariff from another public copy, is needed.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-09"
   },
   {
    "utility": "Oklahoma Gas and Electric Company (OG&E)",
@@ -1127,7 +1136,8 @@
    "license_basis": "OGE Energy's and OG&E's Form 10-Q on SEC EDGAR",
    "erw_overlap": "none",
    "notes": "Separately, in May 2026 OG&E applied to the OCC for a special contract with Google (a single-customer contract, not a rule) with long-term commitments and minimum billing demand; a non-contested settlement was reached on 9 September 2026 and the ALJ recommended approval (same 10-Q). Arkansas: the 10-Q's APSC proceedings list no OG&E large-load tariff, only the two Google-related capacity purchase agreements (APSC Staff recommended denial on 15 October 2026). The 10-Q also reports the FERC show cause proceeding of June 2026 on SPP's integration of large and co-located loads, responses due 20 November 2026. The OCC's case system was not searched (web search budget exhausted): the cause number and the application wait.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-10"
   },
   {
    "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
@@ -1205,7 +1215,8 @@
    "license_basis": "Algonquin's filing on SEC EDGAR and the Missouri PSC's own page",
    "erw_overlap": "none",
    "notes": "The MD&A says the proposed tariff is intended to support economic development and large-load investment while requiring large-load customers to pay their representative cost of service. Missouri S.B. 4 is the law the filing implements (MD&A quote above; the PSC fact sheet says the law required the PSC to adopt rates for large load customers). Empire in Kansas, Oklahoma and Arkansas: no large-load rule found (the MD&A lists only the Missouri filing). Waits: the ET-2026-0184 tariff sheets from EFIS once the case address is known.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "ameren_evergy_spp-11"
   }
  ],
  "refused": [

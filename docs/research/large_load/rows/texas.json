@@ -278,7 +278,8 @@
    "license_basis": "the PUCT's own docket copy (interchange.puc.texas.gov, Project 58481, items 218 and 219)",
    "erw_overlap": "Not held. large_load_connection_rules/puct_project_58000_proposal.yaml is the separate tariff rulemaking (proposed amendments to 25.192 and 25.193 and new 25.252: 20-year agreement, 240 payments); it is still pending (the latest filing in Project 58000, item 70 of 1 October 2026, is comments on the minimum billing demand study), and §25.194 relies on its §25.193 minimum billing demand. ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold ERCOT's own Batch Zero clocks and threshold; §25.194(h) sets the PUCT's return and forfeiture terms for batch zero load, which those files do not hold.",
    "notes": "The rule binds electric utilities, municipally owned utilities and electric cooperatives interconnecting large loads to the ERCOT system (subsection (a)); a municipally owned utility or cooperative may add its own requirements: 'Nothing in this section limits the authority of a municipally owned utility or an electric cooperative to impose electric service requirements for large load customers on their systems in addition to the standards adopted under this section' (page 25). Also in the rule, not entered as fields: required disclosures under both agreements (site control with a lease of at least five years, substantially similar requests elsewhere in Texas, water, backup generation, power supply, controllable load resource), audit and verification by ERCOT and commission staff with forfeiture and reallocation for false information (subsections (j), (k)), and the transition for customers that signed a §25.370(g) agreement (subsection (i)). A batch zero load with an interconnection agreement signed on or before 1 June 2025 pays direct interconnection costs under that agreement (subsection (h)(3)(B), page 65). The Texas Register's own pages were not read (sos.state.tx.us answered 403 on the October 9 issue; the adoption was submitted for the issue of 2 October 2026).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-01"
   },
   {
    "utility": "Oncor Electric Delivery Company LLC",
@@ -588,7 +589,8 @@
    "license_basis": "Oncor's SEC filings (EDGAR), the PUCT's stamped approved copy of Oncor's tariff (Docket 58306, item 758) and the PUCT's adoption order in Project 58481; the two Section 5.7.3 cites are from Oncor's own copy on oncor.com (the PUCT's compliance copy holds only the revised sheets), whose terms allow 'personal, noncommercial, and, as applicable, educational purposes only'; window A licensed that filed tariff book public",
    "erw_overlap": "large_load_tariffs/oncor_transmission_service.yaml: the delivery schedule (80% ratchet, same value, written held); its docket field reads 'not printed for the base rates', while the PUCT's stamped copy of the same tariff prints 'Docket: 58306' and 'Approved on: APR 17 2026' on its sheets and Oncor's 10-Q says the new base rates took effect 1 June 2026 (a correction for window A to check). large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; 16 TAC §25.194 is the statewide row of this file.",
    "notes": "Oncor's tariff (Docket 58306) has no large-load schedule or section: a large load uses Transmission Service, the Facilities Extension Policy (5.7), 6.2.3.6 and the 6.3.2 agreement form; the 6.3.5 Discretionary Service Agreement form (page 182 of oncor.com's copy) leaves term and services blank. Lead, not a value: the complaint of ACS DC Hicks Field Road LLC against ERCOT (PUCT Docket 60425, the copy ERCOT posts at https://www.ercot.com/files/docs/2026/10/26/60425-Complaint-of-ACS-DC-Hicks-Field-Road-LLC-Against-ERCOT.pdf) describes one Oncor Facility Extension Agreement requiring financial security within ten business days of execution; customer-specific. Oncor's 8-K Exhibit 99.1: a final transmission plan reflecting Batch Zero is not expected until fall of 2027 (the 10-Q: second half of 2027); classifications conditional on an ERCOT audit expected in December 2026. Customer cash deposits were about $580 million on 31 October 2026 (10-Q).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-02"
   },
   {
    "utility": "CenterPoint Energy Houston Electric, LLC",
@@ -740,7 +742,8 @@
    "license_basis": "CenterPoint's filed Tariff for Retail Delivery Service (the copy window A read and licensed public) and CenterPoint Energy's Form 10-Q on SEC EDGAR Made internal by merge_group.py's license audit: threshold_mw rests only on a host whose terms ask permission: CenterPoint's Terms of Use (personal and non-commercial use; robots barred), read 2026-11-13.",
    "erw_overlap": "large_load_tariffs/centerpoint_houston_transmission_service.yaml: the same tariff book; that file holds the Transmission Service rates and the 60,000 volt definition from Sheet 6.25. No value here differs; this row adds the facility extension terms and the Batch Zero figures.",
    "notes": "Not a large-load-specific schedule: Subsection 2.3 and the Sheet 6.25 form apply to every transmission-voltage extension, and CenterPoint's 10-Q names Facilities Extension Agreements as the instrument of its Batch Zero submissions. Sheet 6.16 also provides a prorated refund of common-facility reimbursement over $10,000,000 if further transmission customers are served from the same facilities within five years (page 203). The 10-Q also states that in Q3 2026 customers provided about $290 million of CIAC and about $600 million of financial security, of which about $135 million was returned. The investor slides (8-K Exhibit 99.2 of 27 October 2026) are images and were not read. From 8 October 2026 a large load of 75 MW or more connecting to CenterPoint is also under 16 TAC §25.194 (the statewide row: intermediate agreement, $50,000 per MW security, SLLIA, non-refundable cash CIAC).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-03"
   },
   {
    "utility": "AEP Texas Inc.",
@@ -963,7 +966,8 @@
    "license_basis": "AEP's combined Form 10-Q on SEC EDGAR and the PUCT's adoption order in Project 58481 (AEP's own sites allow personal use only and were not used for any value)",
    "erw_overlap": "large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; large_load_connection_rules/puct_project_58000_proposal.yaml holds the separate, still pending Project 58000 proposal (25.192, 25.193, 25.252). 16 TAC §25.194 is the statewide row of this file.",
    "notes": "AEP Texas's own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP 404 and was not read; no AEP Texas large-load schedule is named in the 10-Q (AEP's pending Texas large-load tariff is SWEPCo-Texas, outside ERCOT). The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and an audit of data center projects 25 MW and above; ERCOT 'has currently paused Batch Zero classification and study activity and stated it will not authorize large loads to energize until verification is complete.'",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-04"
   },
   {
    "utility": "CPS Energy (City Public Service Board of San Antonio)",
@@ -1079,7 +1083,8 @@
    "license_basis": "CPS Energy's own presentation, read only from a third-party conference file store with no stated terms (no robots file); CPS Energy's own site bars Claude's agents in robots.txt and was not read",
    "erw_overlap": "",
    "notes": "cpsenergy.com refused (robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai); leads only, unverified: its large-load page is reported (search snippet) to list an End-User Interconnection Study for 40 to 75 MW at $75,000, a Pre-LLIS Screening Study for 75 MW and up at $75,000 and the ERCOT LLIS at $150,000 per point of interconnection, and a March 2026 council briefing to define large load at 40 MW and to track 59 projects. Not taken as values. The deck's page 9 table is laid out in two columns; the row values are quoted as printed. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-05"
   },
   {
    "utility": "Austin Energy (City of Austin)",
@@ -1190,7 +1195,8 @@
    "license_basis": "City of Austin public records (services.austintexas.gov: council backup, ordinance, Austin Energy presentation)",
    "erw_overlap": "",
    "notes": "The February 2026 presentation calls the repealed section the '2003 City Code'; the ordinance and the RCA say Section 15-9-5 was adopted in 2004. The Electric Utility Commission recommended the repeal on 9 February 2026 (8-0). City work session transcript (https://services.austintexas.gov/edims/document.cfm?id=480040, page 7): 'Austin energy currently serves ten data centers. These facilities, for the most part, are 20mw and under. At this time, Austin energy is not aware of any interconnection requests' for a hyperscale data center (a caption transcript, so not entered as a queue value). Council was to take up a data center resolution (item 61, 27 August 2026) to begin code amendments; its outcome was not read. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-06"
   },
   {
    "utility": "El Paso Electric Company",
@@ -1374,7 +1380,8 @@
    "license_basis": "EPE's own site (terms of use: personal, noncommercial use); threshold, term and ramp also printed in EPE's public presentation to the New Mexico legislature (nmlegis.gov)",
    "erw_overlap": "",
    "notes": "Read from EPE's posted copy of its amended filing in NM PRC Case No. 25-00082-UT (EPE's site terms: 'The content of the Site is for your personal, noncommercial use', so the row is internal); the PRC's e360 docket copy was not found on a readable host. Public confirmation of the threshold, the 20-year minimum initial term and the up-to-4-year ramp: EPE's presentation to the New Mexico legislature's ERDPC, 8 September 2026 (https://www.nmlegis.gov/handouts/ERDPC%20090826%20Item%204%20EPE%20-%20%20Powering%20Responsible%20and%20Innovative%20Growth%20in%20Southern%20New%20Mexico.pdf, pages 7 to 9), and the PRC's notice of the proposal (https://www.prc.nm.gov/wp-content/uploads/2026/04/25-00082-Attachment-A-Notice-Final.pdf, page 2). No PRC order was found; the proceeding was re-noticed after the PRC's Sua Sponte Order of 16 July 2026 required an amended application.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-07"
   },
   {
    "utility": "El Paso Electric Company",
@@ -1557,7 +1564,8 @@
    "license_basis": "EPE's own site (terms of use: personal, noncommercial use); threshold, term and ramp also printed in EPE's public presentation to the New Mexico legislature (nmlegis.gov)",
    "erw_overlap": "",
    "notes": "Read from EPE's posted copy of its amended filing in NM PRC Case No. 25-00082-UT (EPE's site terms: 'The content of the Site is for your personal, noncommercial use', so the row is internal); the PRC's e360 docket copy was not found on a readable host. Public confirmation of the threshold, the 20-year minimum initial term and the up-to-4-year ramp: EPE's presentation to the New Mexico legislature's ERDPC, 8 September 2026 (https://www.nmlegis.gov/handouts/ERDPC%20090826%20Item%204%20EPE%20-%20%20Powering%20Responsible%20and%20Innovative%20Growth%20in%20Southern%20New%20Mexico.pdf, pages 7 to 9), and the PRC's notice of the proposal (https://www.prc.nm.gov/wp-content/uploads/2026/04/25-00082-Attachment-A-Notice-Final.pdf, page 2). No PRC order was found; the proceeding was re-noticed after the PRC's Sua Sponte Order of 16 July 2026 required an amended application.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-08"
   },
   {
    "utility": "El Paso Electric Company",
@@ -1662,7 +1670,8 @@
    "license_basis": "EPE's own site (terms of use: personal, noncommercial use); the PUCT's copy could not be read",
    "erw_overlap": "",
    "notes": "Pending, Texas: the City of El Paso's release of 27 April 2026 (https://www.elpasotexas.gov/assets/Press-Releases/2026.04.27-NEWS-RELEASE_City-Council-Authorizes-Action-on-Multiple-El-Paso-Electric-Filings.pdf) says Council 'authorized action on EPE's proposed High Load Factor tariff for very large energy users, including data centers. The City will suspend the proposed rate for additional review'; the tariff itself, its filing date and its docket were not found on a readable host (the PUCT's interchange failed the reader's TLS check; EPE's Texas tariff page lists no such schedule). A separate row was not made for it because no document read prints any of its terms. Schedule 33A also offers a Displaced Load Service option with Schedule GEP-A (virtual load netting).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "texas-09"
   }
  ],
  "refused": [

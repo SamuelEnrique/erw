@@ -13,6 +13,7 @@ Then: verify_quotes.py <that file> --stamp.
 
 from __future__ import annotations
 
+import glob
 import json
 import os
 import re
@@ -64,6 +65,17 @@ def change_problems(c: dict) -> list[str]:
     if c.get("license") not in ("public", "internal"):
         out.append(f"license {c.get('license')}")
     aff = c.get("affects", "")
+    rid = aff.split()[0] if aff else ""
+    if re.match(r"^[a-z_0-9]+-\d\d$", rid):
+        rows = {}
+        for fp in glob.glob(os.path.join(HERE, "rows", "*.json")):
+            for r in json.load(open(fp, encoding="utf-8")).get("rows") or []:
+                rows[r.get("row_id")] = r
+        r = rows.get(rid)
+        if r is None:
+            out.append(f"affects an unknown row {rid}")
+        elif re.sub(r"[^a-z]", "", r.get("utility", "").lower())[:8] != re.sub(r"[^a-z]", "", c.get("utility", "").lower())[:8]:
+            out.append(f"affects {rid}, which is {r.get('utility', '')[:40]}'s row, not {c.get('utility', '')[:40]}'s")
     if aff.startswith(("large_load_tariffs/", "large_load_connection_rules/")):
         if not os.path.exists(os.path.join(ROOT, "warehouse", "sources", aff.split()[0])):
             out.append(f"affects a registry file not found: {aff}")

@@ -147,7 +147,8 @@
    "license_basis": "every value is cited to the CPUC's own docket copies (Decision 25-07-039 and the ALJ ruling of 7 August 2026, docs.cpuc.ca.gov, no robots file) or to PG&E Corporation's Form 8-K exhibit on sec.gov; nothing is cited to pge.com, whose terms bar use in publications without consent",
    "erw_overlap": "large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml holds the interim Rule 30 sheets (Advice 7772-E, document_date 2025-12-04) as four timed steps, read from pge.com; no held value differs. This row re-cites the rule on D.25-07-039 and adds collateral and queue.",
    "notes": "The Rule 30 sheets on pge.com (Advice 7772-E, Sheets 1 to 22; internal, PG&E's terms bar use in publications without consent) print what D.25-07-039 does not: an Advance based on the Project Specific Cost Estimate (C.2), PG&E keeping the earned part of advances if the Applicant terminates before the facilities go into service (C.7), forfeiture of refunds if no service is taken by the end of the first calendar year after in-service (C.8), and Excess Facilities removal costs if load falls significantly below the Usage Forecast (C.9); no CPUC host copy of the sheets or of Advice 7772-E was found, so these stay out of the fields. Final Rule 30 still pending in A.24-11-007 on 13 November 2026: the ALJ ruling of 7 August 2026 reopened the record for comments on FERC's show cause order (EL26-71), reply comments due 4 September 2026, after which the record is submitted; no proposed or final decision was found. A partial settlement of 7 May 2026 (PG&E, Cal Advocates, CalCCA, Sierra Club) covers information sharing only (per AReM and Shell's comments, docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M608/K211/608211962.PDF). Customer-specific transmission-level agreements are approved by resolution: draft Resolution E-5455 of 16 July 2026 (Google, 250 MW at 230 kV, San Jose; docs.cpuc.ca.gov/PublishedDocs/Published/G000/M607/K718/607718746.PDF) limits annual refunds to 100 percent of annual net revenues and says Resolutions E-5420, E-5433 and E-5439 limited them to 75 percent; refunds are not one of the eight fields. Refused: the CPUC proceeding page (apps.cpuc.ca.gov, robots) and PG&E's investor PDF host (s21.q4cdn.com, robots 403); the same presentation was read from the SEC copy. The pipeline counts data center load of 20 MW or more at any voltage, not only Rule 30 applicants. Status date basis: held: large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml (the compliance sheets of Advice 7772-E, document_date 2025-12-04); the CPUC documents read give the decision's date and its effect until the final decision, not the sheets' date",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southwest_california-01"
   },
   {
    "utility": "Arizona Public Service Company",
@@ -250,7 +251,8 @@
    "license_basis": "Pinnacle West's and APS's filings on sec.gov (Form 8-K exhibit and Form 10-Q)",
    "erw_overlap": "large_load_tariffs/aps_xhlf.yaml holds Rate Schedule XHLF in effect (A.C.C. No. 6067, Decision No. 79293, effective 2024-03-08); this row is the pending revision in E-01345A-25-0105, whose sheet was not read. No held value differs.",
    "notes": "Decision expected December 2026 (investor deck; the 10-Q says the hearing concluded on 7 July 2026). Not read: the proposed XHLF redline and clean sheets and the Hobbick testimony (s22.q4cdn.com refused, robots 403; docket.images.azcc.gov refused, robots disallow; images.edocket.azcc.gov refused, certificate mismatch). APS's own pages (aps.com, terms limit use to personal noncommercial use) say the June 2025 request proposed a 45 percent increase for extra-large users and name minimum bill and collateral requirements without figures: internal leads only. The Q3 2026 10-Q (sec.gov, pnw-20260930.htm) reports a Direct Pricing Contract signed 16 October 2026 with TSMC Arizona, ramping to about 1.88 GW for an initial term of 25 years, with upfront payments for credit support and liquid and non-liquid collateral from 1 January 2027, to be submitted to the ACC: a semiconductor customer-specific contract, not a rule, so not a row. The ACC's generic inquiry into data center rate classifications is E-00000A-25-0069 (workshop 16 April 2026).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southwest_california-02"
   },
   {
    "utility": "Salt River Project Agricultural Improvement and Power District",
@@ -417,7 +419,8 @@
    "license_basis": "read only from SRP's own website (srpnet.com), whose Website Terms and Conditions bar reproducing or distributing its materials and commercial use without SRP's prior written permission",
    "erw_overlap": "large_load_tariffs/srp_e67.yaml: its term field reads that the customer signs the Agreement for Electric Service 'having a minimum term as set forth therein' (the agreement not read); this row adds the 15-year minimum term. Threshold (20 MW) and the 80 percent minimum billing demand are held and match SRP's page.",
    "notes": "Board packet page 53 also gives the transition cluster's 83 network upgrades and a total transmission upgrade cost of $12.8B. SRP's page says data centers contributed 7% of the summer 2026 peak. Leads only, not written: KJZZ (26 October 2026) quotes SRP on 10 data center customers needing about 2 GW; the ACC's workshop release (20 April 2026) says SRP serves 59 large load customers with a combined load of nearly 7,000 MW (served load, not a queue). SRP is public power: its Board, not the ACC, sets the terms. A newer queue figure than October 2025 was not found in an SRP document.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southwest_california-03"
   },
   {
    "utility": "Tucson Electric Power Company",
@@ -533,7 +536,8 @@
    "license_basis": "TEP's Form 10-Q on sec.gov; the Arizona Corporation Commission's own news release",
    "erw_overlap": "",
    "notes": "Leads (news, not written): the agreement is with Humphrey's Peak Power LLC for Beale Infrastructure's Project Blue campus, approved 4 to 1 on 3 December 2025; the Attorney General and the City of Tucson challenged the approval (the 10-Q confirms the challenge in the Superior Court of Maricopa County, February 2026). The 10-Q also says TEP is analyzing additional requests from large retail customers and that its 2026 IRP includes a high load factor customer scenario. No TEP large-load tariff or standard ESA form was found. The ACC's April 2026 workshop discussed a universal large load tariff with ESAs (E-00000A-25-0069), not yet proposed.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southwest_california-04"
   },
   {
    "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
@@ -732,7 +736,8 @@
    "license_basis": "NV Energy's posted copy of its application to the PUCN for the form and its figures; the PUCN's own docket list and calendar (pucweb1.state.nv.us, no robots file) for the docket, filing date and hearings; window A's registry reads nvenergy.com as public; no terms of use page was found linked from the script-rendered nvenergy.com pages read",
    "erw_overlap": "large_load_tariffs/nv_energy_llesa.yaml (the June 2026 fact sheet): status 'framework' with effective 2026-06-01 differs, the form LLESA is proposed and pending in PUCN Docket 26-05007 (filed 2026-05-07 per the PUCN, application dated 2026-05-06, statutory deadline 2026-12-02, no order found); the fact sheet printed no minimum share, term, security or exit figure, which this row adds from the form. Threshold (25 MW) matches and is held.",
    "notes": "PUCN record read on 13 November 2026 (pucweb1.state.nv.us, on the coordinator's retry after the certificate fix): the docket list (26-05007 dated 05/07/2026; the customer LLESA dockets 26-05026, 26-05027, 26-05029 and 26-05030 dated 05/29/2026, and 26-05028 dated 06/03/2026) and the calendar (hearings in 26-05007 on 26 to 29 October and 16 to 20 November 2026, Phase 3 rebuttal testimony due 2 November 2026). No order, stipulation or hearing transcript was found: the PUCN's docket detail and document search open only through form postbacks, which this GET-only reader cannot follow, and puc.nv.gov's /uploadedFiles/ newsletters are barred by its robots file. Which phase carries the form LLESA is not stated in a PUCN document read (a lead, the Nevada Conservation League's tracker, puts large-load cost responsibility in Phase 2). The form adds rate components to bundled Schedule LGS-3 / GS-3 (Wells Direct p. 109). The Companies asked for a deemed approved date of 18 September 2026 for the form (p. 7). Leads (news, not written): PUCN Staff recommended rejecting the form in its current form and opening a separate proceeding; Microsoft's rebuttal of 16 October 2026 asked for a replacement large-load tariff. Customer redlines in the same exhibit reserve positions on the 90 percent minimums and the security (Exhibit G). Clean Transition Tariff: the CTT orders of Dockets 24-05022 and 24-05023 required an exemplar CTT pricing model in an IRP, filed here as Exhibits Wells-Direct-4 and -5 (p. 126); the CTT sheets were not found (nvenergy.com CTT_North.pdf answered 404), so no CTT row. Schedule LGS-X (closed) is held in large_load_tariffs/nv_energy_nevada_power_lgs_x.yaml.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southwest_california-05"
   }
  ],
  "refused": [
