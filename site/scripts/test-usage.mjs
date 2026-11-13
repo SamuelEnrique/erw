@@ -131,6 +131,17 @@ await test("usageVisitorsOff and usageNobody: the switch is one word, and what i
   assert.equal(guard.usageNobody.length, 2);                                    // it is given no address and no user agent
 });
 
+// session 5155 (docs/reviews/security-faults-2026-11-13.md, row 24)
+await test("usageToolPagesOff and noCount: the setting is one word, and the list is the marked pages, matched exactly", () => {
+  assert.equal(guard.usageToolPagesOff({}), false);                             // unset: the page view is recorded, as since session 208
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: "on" }), false);
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: "off" }), true);
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: " Off" }), true);
+  for (const p of ["/cost-of-power", "/cost-of-power/battery", "/cost-of-power/seller", "/battery/customer", "/severance", "/impact", "/play/ev"]) assert.equal(up.noCount(p), true, p);
+  for (const p of ["/", "/storage", "/grid", "/about", "/cost-of-power/battery/awards", "/severance/finder", "/play/battery", "/cost-of-powerx"]) assert.equal(up.noCount(p), false, p);
+  assert.deepEqual([...up.NO_COUNT].sort(), up.NO_COUNT);                       // kept in order, so a change reads as one line
+});
+
 await test("optedOut: Do Not Track and Global Privacy Control send nothing", () => {
   assert.equal(usage.optedOut({ doNotTrack: "1" }), true);
   assert.equal(usage.optedOut({ doNotTrack: "yes" }), true);

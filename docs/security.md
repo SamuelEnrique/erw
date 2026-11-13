@@ -135,3 +135,17 @@ The default is (b). (c) needs a window that builds.
 ## The usage counts and "no identifier", 13 November 2026 (session 5154, row 23 of the list)
 
 The roadmap's item 7 is done when the counts run "with no cookie and no identifier". The first half holds and is pinned (`tests/test_session5154.py`): the route sets no cookie, the browser side keeps nothing and sends a path without its query, and of an earlier day the database keeps numbers only. The second half is Samuel's to read: for the UTC day in progress the database holds a code that stands for one browser (a keyed hash hashed again under a random salt of the day, both deleted when the day is over). Choice: (a) as today, the roadmap's words read as "no identifier kept in the browser and none that outlives the day"; or (b) `USAGE_VISITORS=off` in the host's environment, built by session 5154: no value stands for a visitor at all, events are counted as before, and the `visitors` numbers count pages. The method note says both ([`docs/methods/usage_counts.md`](methods/usage_counts.md), "Counting with no code at all"). The default is (a); nothing changes until the variable is set.
+
+## The usage counts and the pages the ruling allows, 13 November 2026 (session 5155, row 24 of the list)
+
+The ruling is one line, "no usage count on tool pages" (12 October 2026, `docs/roadmap.md`). It was made when the question was open for three pages: the cost of power, the battery and the generator. What the code does today, read page by page from the menu's own list (`runs/s5155/pages.out` of the session's worktree):
+
+| Pages | What is counted |
+|---|---|
+| 7 that carry the mark `<Brand noUsage>`: `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact`, `/play/ev` | the page view, and nothing a reader does after it |
+| The other 29 pages of the menu (`/storage`, `/grid`, `/datacenters`, `/deals`, `/policy`, `/companies`, `/board`, `/map`, `/ask` and the rest; the news and About pages among them) | the page view, a changed control (the fact, never its name or value), a download |
+| A page in review asked for by a visitor | the page view, under the name "In review (not opened)" |
+
+No tool sends a count of its own: "scenario compared" is an event nothing sends.
+
+Choice: (a) as today, the ruling read as "nothing a reader does on those tool pages is counted". (b) `USAGE_TOOL_PAGES=off` in the host's environment, built by session 5155: the server records nothing for the seven marked pages, the page view included. (c) the mark on every page of the menu's groups Economics, Grid, Infrastructure, Analysis and Games, 23 more pages: a session's work in the tools' own files. The default is (a); nothing changes until the variable is set. What is counted and how is in [`docs/methods/usage_counts.md`](methods/usage_counts.md).

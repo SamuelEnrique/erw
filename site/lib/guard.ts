@@ -144,3 +144,10 @@ export function usageVisitorsOff(env: Record<string, string | undefined> = proce
 export function usageNobody(path: string, secret: string): string {
   return createHmac("sha256", secret).update(`erw-usage-nobody\n${path}`).digest("hex");
 }
+
+// Session 5155 (row 24): the owner's ruling of 12 October 2026 is "no usage count on tool pages". Since session 208 the
+// pages that carry the mark send their page view and nothing after it. With USAGE_TOOL_PAGES=off on the server the page
+// view of such a page is not recorded either (lib/usagepath.ts, NO_COUNT). Unset, or any other word: as since session 208.
+export function usageToolPagesOff(env: Record<string, string | undefined> = process.env): boolean {
+  return (env.USAGE_TOOL_PAGES ?? "").trim().toLowerCase() === "off";
+}

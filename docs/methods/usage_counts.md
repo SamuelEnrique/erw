@@ -44,6 +44,14 @@ The daily code is deleted when its day is over, yet for that day it stands for o
 
 Unset, or any other word, the daily code is made as described above. That is the state since session 177 and the default.
 
+## The pages that carry the no-count mark
+
+The owner's ruling of 12 October 2026 is "no usage count on tool pages". Seven pages of the menu carry the mark on the whole page (`<Brand noUsage>`, which writes `data-no-usage`): `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact` and `/play/ev`. On them the browser sends the page view and nothing after it: no "input changed", no "download".
+
+With `USAGE_TOOL_PAGES=off` in the server's environment (session 5155, row 24 of `docs/reviews/security-faults-2026-11-13.md`) the server records nothing for those seven pages, the page view included. The browser still sends the page view (it cannot read the server's setting); the server answers it as it answers every count and keeps nothing. Unset, the page view of a marked page is recorded, as since session 208. The server's list of the marked pages is `NO_COUNT` in `site/lib/usagepath.ts`, held to the page files by `tests/test_session5155.py`.
+
+Every other page of the menu (29 on 13 November 2026) is counted in full: the page view, a changed control, a download.
+
 ## What this cannot promise
 
 - **Backups.** Supabase keeps its own backups of the database for their retention period. A backup holds whatever the tables held when it ran, which can include a day's codes and that day's salt. Reversing a code would also need the server's secret and a candidate address and user agent to test.

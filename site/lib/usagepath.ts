@@ -49,3 +49,12 @@ export function toolOf(path: string): string {
   }
   return "";
 }
+
+// Session 5155 (docs/reviews/security-faults-2026-11-13.md, row 24): the pages of the menu that carry the mark
+// data-no-usage on the whole page (<Brand noUsage>: the owner's ruling "no usage count on tool pages"). On them the
+// browser sends the page view and nothing after it. This list is the server's copy of that mark, for the setting
+// USAGE_TOOL_PAGES=off (lib/guard.ts), under which not even the page view of such a page is recorded. The match is exact: a
+// sub-page is in the list only if its own file carries the mark. tests/test_session5155.py holds the list to the page
+// files: a page that gains or loses the mark fails the suite until the list says so.
+export const NO_COUNT = ["/battery/customer", "/cost-of-power", "/cost-of-power/battery", "/cost-of-power/seller", "/impact", "/play/ev", "/severance"];
+export const noCount = (path: string) => NO_COUNT.includes(path);

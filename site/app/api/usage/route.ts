@@ -15,11 +15,11 @@
 // the page's own script sends nothing in that case), the request is another site's or a stock script's, the path is not
 // a page of this site, the server holds no secret, or the migration is not applied. The route sets no cookie.
 import { COOKIE, statusOf } from "@/lib/release";
-import { clientIp, limited, sameOrigin, scripted, typed, usageNobody, usageVisitor, usageVisitorsOff } from "@/lib/guard";
+import { clientIp, limited, sameOrigin, scripted, typed, usageNobody, usageToolPagesOff, usageVisitor, usageVisitorsOff } from "@/lib/guard";
 import { readSalt } from "@/lib/chat/limits";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
-import { IN_REVIEW, cleanPath, isEvent, toolOf } from "@/lib/usagepath";
+import { IN_REVIEW, cleanPath, isEvent, noCount, toolOf } from "@/lib/usagepath";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,6 +49,8 @@ export async function POST(req: Request) {
   const path = cleanPath(body.path);
   const secret = readSalt(), token = process.env.INTERNAL_COSTS_TOKEN ?? "", ip = clientIp(req);
   if (!path || !secret || token.length < 24 || ip === "unknown") return done();
+  // session 5155 (row 24): with USAGE_TOOL_PAGES=off nothing is recorded for a page that carries the no-count mark
+  if (usageToolPagesOff() && noCount(path)) return done();
   if (!(await limited(req, "usage", 600, 3600)).ok) return done();
   // a visitor who asked for a page in review was shown the in-review page: the count says so, under the page's path
   const opened = statusOf(path) === "live" || (await internalOk(cookieOf(req, COOKIE)));
