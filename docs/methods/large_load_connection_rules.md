@@ -84,3 +84,23 @@ The steps written (8):
 A range (the load ramp) and a frequency (the open seasons) are written with their words and no duration. The orders on
 reconsideration were read: the Energy Association of Pennsylvania's petition was withdrawn, and the order of 16 July
 2026 closed the docket, so the model stands as adopted.
+
+## Chain 227: Utah's rule R746-318 (session 3888)
+
+The Public Service Commission of Utah's rule R746-318, "Large Scale Electric Requirements", implements S.B. 132 of 2025
+(Utah Code Title 54 Chapter 26, whose own steps chain 212 wrote in session 3783). It was read from the Commission's
+filing of 31 October 2025 at rulemaking Docket 25-R318-01, which prints the rule's full text and its date of enactment,
+1 January 2026; the docket lists the Commission's notice of that effective date. The Office of Administrative Rules'
+portal, where the code itself is published, is built by script and names no address for a rule (session 3878), so the
+Commission's own filing is the copy read. The rows are under grid PACE with Rocky Mountain Power (PacifiCorp), Utah's
+qualified electric utility, as in the statute's rows.
+
+The steps written (5):
+- the executed contract filed with the Commission within 15 days;
+- a redacted copy served on the utility the same day, where the utility is not a party;
+- the Commission's approval or disapproval within 60 days;
+- 90 days for a registered generation provider to remedy a notice of deficiency;
+- a limited and expedited review of a closed private generation contract for a load reaching 100 MW within five years.
+
+The rule prints the filing window as "15 days" where the statute prints "15 business days"; each is kept as printed, in
+its own document's rows. A same-day step prints no number and has no duration.
