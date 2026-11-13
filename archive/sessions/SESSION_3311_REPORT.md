@@ -74,3 +74,16 @@ Energy Research Warehouse (ERW). Chain 232 (`queue/done/232-day-14-november-oldl
 
 - One dry run of 12 November on the stack with the model (USD 0.0264 headlines + USD 0.0061 summary, `ERW_SPEND_CAP_USD=2`, the ledger off as earlier dry runs ran it; `runs/periodicals_dryrun/s3321/`). Every fix carries into the model's issue: the subject "ERW Daily | SpaceX plans data center projects in Arizona and Texas", the first line, the opening's passed-over move, Brent as the market row, "Storage dispatched", "JPT", no repeated parties, "the 4 largest moves" with the unchanged line. The model's summary names Brent's reason from the oil story. No new fault.
 
+## Sessions 3322 to 3324
+
+- Not used as separate sessions: the stored Digest of 13 November does not exist before the 14:00 UTC run, and the remaining open rows are the owner's. The step is the first of the next file.
+
+## Session 3325: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c232.md`.
+
+## Session 3326: the next file, the queue
+
+- `queue/next/242-day-15-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest against the stack, row 10's landing and clean-up, the stored W46 Roundup, the lab path's step 04 under a memory condition.
+- Then `chain_queue.py next`.
+
