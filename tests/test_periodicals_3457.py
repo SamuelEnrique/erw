@@ -573,6 +573,52 @@ class Row172TheTopicFilterReadsTheV2Issues(unittest.TestCase):
                          [("SpaceX plans data center projects", "datacenter power"), ("OPG to revise SMR timeline", "nuclear")])
 
 
+class Row173NextWeekSaysTheWeekAhead(unittest.TestCase):
+    """Row 173: "No dated events held this week: ... dated in the week ahead." under "Next week" (the stack's W46)."""
+
+    def test_the_line(self):
+        import roundup
+        self.assertEqual(roundup.NO_NEXT_WEEK, "No event of the week ahead is held: the warehouse and the policy monitor hold no "
+                                               "filing, auction, hearing, data release or project milestone dated in it.")
+        self.assertNotIn("this week", roundup.NO_NEXT_WEEK)
+
+
+class Row174AStorysMoveBesideItsOwnDay(unittest.TestCase):
+    """Row 174: W46's "Oil settles $3 higher on attacks on Saudi energy sites" (Reuters, 2026-11-12 01:52 UTC: the settle
+    of 11 November) was set beside the week's Brent closes (+0.30), not the story's day (+1.98)."""
+
+    def fact(self):
+        import pandas as pd
+        s = pd.DataFrame({"ts_utc": pd.to_datetime(["2026-11-04", "2026-11-05", "2026-11-06", "2026-11-09", "2026-11-10", "2026-11-11"], utc=True),
+                          "value": [91.84, 97.96, 97.83, 91.03, 90.16, 92.14], "unit": "USD/bbl"})
+        return {"label": "Brent crude", "a": s.iloc[-1], "b": s.iloc[0], "ref": "[5]", "s": s}
+
+    def test_the_story_day(self):
+        import roundup
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-12T01:52:00Z"),
+                         "the warehouse's Brent crude close is 92.14 USD/bbl on 2026-11-11, against 90.16 on 2026-11-10 [5]")
+        # a Sunday story reads Friday's close
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-08T12:00:00Z"),
+                         "the warehouse's Brent crude close is 97.83 USD/bbl on 2026-11-06, against 97.96 on 2026-11-05 [5]")
+
+    def test_the_week_when_the_day_is_not_held(self):
+        import roundup
+        week = "the warehouse's Brent crude close is 92.14 USD/bbl on 2026-11-11, against 91.84 on 2026-11-04 [5]"
+        self.assertEqual(roundup.bench_words(self.fact()), week)
+        self.assertEqual(roundup.bench_words(self.fact(), "2026-11-25T12:00:00Z"), week)
+        f = self.fact()
+        f.pop("s")
+        self.assertEqual(roundup.bench_words(f, "2026-11-12T01:52:00Z"), week)
+
+    def test_the_evidence_line_passes_the_story_time(self):
+        import roundup
+        r = {"cluster_id": "o", "titles": ["Oil settles $3 higher on attacks on Saudi energy sites, Strait of Hormuz disruptions"],
+             "why": "", "parties": "", "mw": "", "price": "$3", "n": 1, "links": [("Reuters", "https://example.org/o")], "sector": "oil",
+             "first": "2026-11-12T01:52:00Z"}
+        gap = roundup.evidence_gap(r, r["titles"][0], None, None, self.fact())
+        self.assertIn("close is 92.14 USD/bbl on 2026-11-11, against 90.16 on 2026-11-10 [5]", gap)
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
