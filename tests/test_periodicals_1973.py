@@ -340,6 +340,20 @@ class Row91AMoverIsNotAnItem(unittest.TestCase):
         self.assertEqual(len(out), 2)
 
 
+class Row95TheWeeklySubjectHasNoOutletFigure(unittest.TestCase):
+    """Row 95: the Roundup's subject with no move to lead carries the headline's clause with no figure."""
+
+    def test_w46(self):
+        import roundup
+        self.assertEqual(roundup.subject_line(None, "SpaceX Plans $74 Billion Data Center Projects in Arizona, Texas"),
+                         "ERW Weekly | SpaceX Plans Data Center Projects in Arizona, Texas")
+        self.assertEqual(roundup.subject_line(None, "$74 Billion"), "ERW Weekly | the week's energy news")
+
+    def test_a_cut_does_not_split_a_name(self):
+        out = brief.subject_clause("Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act")
+        self.assertEqual(out, "Gingerah Energy refers data centre complex with battery")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

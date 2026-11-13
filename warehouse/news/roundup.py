@@ -1136,7 +1136,10 @@ def subject_line(op, first_head):
         # move is the subject's one verified metric, chain 131) and cut at a word with no "..."
         clause = head_clause(brief.money_style(brief.nodash(str(first_head or ""))).rstrip("."), SUBJECT_MAX - len(lead) - 2)
         return f"{lead}; {clause}" if clause else lead
-    return f"ERW Weekly | {head}"
+    # session 1990 (faults file row 95): with no move to lead, the headline's clause still carries no figure (chain 131: a
+    # figure in the subject only when it is a warehouse table's), as the Digest's subject since row 89
+    clause = brief.subject_clause(first_head) if first_head else ""
+    return f"ERW Weekly | {clause or 'the week' + chr(39) + 's energy news'}"
 
 
 SUBJECT_MAX = 90

@@ -2019,7 +2019,14 @@ def subject_clause(head):
     t = roundup.head_clause(money_style(nodash(str(head or ""))).rstrip("."), SUBJECT_CLAUSE_MAX + 20)
     t = NO_IN_VERB.sub(lambda m: m.group(1) + " ", t)
     if len(t) > SUBJECT_CLAUSE_MAX:
+        full = t
         t = roundup.head_clause(t, SUBJECT_CLAUSE_MAX)
+        # a cut inside a name ("... battery in Western" of "Western Australia") goes back to before the name
+        rest = full[len(t):].split()
+        while t and rest and re.match(r"[A-Z]", rest[0]) and re.search(r"\b[A-Z][\w'.-]*$", t):
+            t = re.sub(r"\s*\b[A-Z][\w'.-]*$", "", t)
+            rest = ["X"]   # one name is taken back, then the tail is tidied
+        t = roundup.CLAUSE_TAIL.sub("", t).strip(" ,;:")
     return t
 
 
