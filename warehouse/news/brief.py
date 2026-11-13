@@ -948,6 +948,7 @@ def numbers_summary(client, model, lines, log):
         resp = client.messages.create(**kwargs)
         usages.append(resp.usage)
         text = nodash(json.loads(next(b.text for b in resp.content if b.type == "text"))["summary"]).strip()
+        text = re.sub(r"\bunchanged at 0(?:\.0+)?%", "unchanged", text)   # session 1975 (row 80): "unchanged at 0.0%"
         bad = chat_ask.unverified(text, [pool]) + summary_check(text)   # session 1447 (fault 38): one number a clause
         if not bad:
             log(f"  numbers summary: attempt {attempt} passed the literal check")
@@ -1013,6 +1014,21 @@ PRICE_WORDS = {"Henry Hub natural gas": ("henry hub", "natural gas price", "gas 
                "Brent crude": ("brent", "oil price", "crude price"),
                "ERCOT": ("ercot",), "CAISO": ("caiso",), "NYISO": ("nyiso",), "MISO": ("miso",),
                "SPP": ("southwest power pool", " spp "), "ISO-NE": ("iso-ne", "iso new england", "new england")}
+# session 1975 (faults file row 80): a headline that moves oil or crude names the crude benchmarks ("Oil settles USD 3
+# higher on attacks on Saudi energy sites", 12 November, top 2), the verb right after the noun ("Saudi oil production
+# surges" is output, not a price)
+CRUDE_MOVE = re.compile(r"\b(?:oil|crude)(?: prices?| futures)? (?:settles?|settled|rises?|rose|falls?|fell|jumps?|jumped|slips?|"
+                        r"slipped|climbs?|climbed|drops?|dropped|gains?|gained|surges?|surged|tumbles?|tumbled|slides?|slid|sinks?|sank)\b")
+
+
+def names_price(label, text):
+    """Session 1975: whether `text` (a story's title and why line, lower case, padded with spaces) names the price."""
+    words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    if any(w in text for w in words):
+        return True
+    return label in ("WTI Cushing crude", "Brent crude") and bool(CRUDE_MOVE.search(text))
+
+
 NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a license"),
             ("JKM, the Japan-Korea LNG marker", "not held: its source asks for a license"))
 US48 = "eia930:US48"
@@ -1098,7 +1114,7 @@ def price_named(label, clusters):
         return False
     for r in clusters.to_dict("records"):
         text = f" {str((r.get('titles') or [''])[0])} {r.get('why') or ''} ".lower()
-        if any(w in text for w in words):
+        if names_price(label, text):
             return True
     return False
 
@@ -1112,7 +1128,7 @@ def price_reason(label, clusters):
     for r in clusters.to_dict("records"):
         title = str((r.get("titles") or [""])[0])
         text = f" {title} {r.get('why') or ''} ".lower()
-        if any(w in text for w in words):
+        if names_price(label, text):
             why = why_line(r.get("why") or "", title)
             # session 1465 (chain 150, fault 43): a price's reason names something (a party, a place, a date, a quantity
             # or a rule the title does not), whatever its share of the title's words: "Commodity price movement driven
@@ -1934,7 +1950,8 @@ def best_price(cands, skip_key):
     """The market price of the numbers block: the candidates in opening_number's order of consequence, the opening's own
     metric left out; a candidate with a percent first."""
     pool = [c for c in cands if str(c["key"]).replace(" ", "_") != skip_key and c.get("pct") is not None]
-    pool.sort(key=lambda c: (-((2 if c.get("reason") else 0) + (1 if cand_kind(c) == "fuel" else 0)), -abs(float(c["pct"])), c["label"]))
+    # session 1975 (faults file row 80): a price that did not move ("up 0.00 USD/MMBtu (0.0%)") comes after every move
+    pool.sort(key=lambda c: (abs(float(c["pct"])) < 0.05, -((2 if c.get("reason") or c.get("named") else 0) + (1 if cand_kind(c) == "fuel" else 0)), -abs(float(c["pct"])), c["label"]))
     return pool[0] if pool else None
 
 

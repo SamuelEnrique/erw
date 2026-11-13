@@ -56,5 +56,27 @@ class Row79TheOpeningDoesNotDenyAMove(unittest.TestCase):
         self.assertEqual((op["kind"], op["cand"]["key"]), ("mover", "SPP"))
 
 
+class Row80TheMarketRowMoved(unittest.TestCase):
+    """Row 80: the market row is not a price that did not move; an oil headline that settles names the crude benchmarks."""
+
+    def test_a_zero_move_comes_last(self):
+        self.assertEqual(brief.best_price([HH, BRENT, SPP], "story:s")["key"], "Brent crude")
+        self.assertEqual(brief.best_price([HH], "story:s")["key"], "Henry Hub natural gas")   # alone, it is still the row
+
+    def test_an_oil_headline_names_brent_and_wti(self):
+        t = " oil settles $3 higher on attacks on saudi energy sites, strait of hormuz disruptions  ".lower()
+        self.assertTrue(brief.names_price("Brent crude", t))
+        self.assertTrue(brief.names_price("WTI Cushing crude", " oil jumps after trump says us doesn't need deal with iran "))
+        self.assertFalse(brief.names_price("Henry Hub natural gas", t))
+        self.assertFalse(brief.names_price("Brent crude", " saudi oil production surges to one of highest levels in years "))
+        frame = pd.DataFrame([{"titles": ["Oil settles $3 higher on attacks on Saudi energy sites"], "why": ""}])
+        self.assertTrue(brief.price_named("Brent crude", frame))
+
+    def test_a_named_move_leads_the_row(self):
+        named = dict(BRENT, named=True)
+        spp_named = dict(SPP)
+        self.assertEqual(brief.best_price([HH, spp_named, named], "story:s")["key"], "Brent crude")
+
+
 if __name__ == "__main__":
     unittest.main()
