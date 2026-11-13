@@ -38,7 +38,8 @@ import sys
 import time
 
 RAN = re.compile(r"^Ran (\d+) tests? in ([\d.]+)s")
-VERDICT = re.compile(r"^(OK|FAILED)(?: \((.*)\))?\s*$")
+# a module of pytest-style functions alone runs 0 unittest tests, and unittest says "NO TESTS RAN" (Python 3.12 on): a pass
+VERDICT = re.compile(r"^(OK|FAILED|NO TESTS RAN)(?: \((.*)\))?\s*$")
 PEAK = re.compile(r"^suite_batches: peak MB (\d+)")
 COUNTS = ("failures", "errors", "skipped", "expected failures", "unexpected successes")
 PATTERN = "test*.py"   # unittest discover's default

@@ -103,6 +103,8 @@ class ThePlan(unittest.TestCase):
         fail = SB.summary(5, 1.0, dict.fromkeys(SB.COUNTS, 0) | {"failures": 1, "errors": 2})
         self.assertEqual(fail[-1], "FAILED (failures=1, errors=2)")
         self.assertIsNone(SB.parse(["....", "Traceback (most recent call last):", "MemoryError"]))
+        # a pytest-style module alone (tests/test_merge_sources.py): 0 tests, "NO TESTS RAN", a pass
+        self.assertEqual(SB.parse(["", "Ran 0 tests in 0.000s", "", "NO TESTS RAN", "suite_batches: peak MB 93"])[:2], (0, 0.0))
 
     def test_the_alone_file_takes_names_in_any_form(self):
         tmp = tempfile.mkdtemp()
