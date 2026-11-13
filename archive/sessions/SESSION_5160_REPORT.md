@@ -2,7 +2,7 @@
 
 13 November 2026, unattended, `portable-laptop` window P2. Branch `wip/5150-security`, worktree `erw-p2-5150`. Model spend USD 0. Pulls: one read-only transaction on the database (counts only). Nothing built, nothing landed, no warehouse data written.
 
-Clock: precheck 19:32 UTC, the tests by 19:38 UTC. Inside the long end of 1:00.
+Clock: precheck 19:32 UTC, the tests by 19:35 UTC. Inside the long end of 1:00.
 
 ## Read these first
 
