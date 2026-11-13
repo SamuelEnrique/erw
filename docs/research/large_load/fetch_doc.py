@@ -185,11 +185,89 @@ def html_text(raw: bytes, charset: str | None):
     return text.strip() + "\n", p.links
 
 
+def office_text(raw: bytes):
+    """A .docx or .xlsx answer as text, read in memory from its XML (nothing is extracted to disk; a member over 50 MB
+    uncompressed is refused). A .docx's pages are split at Word's own page marks (its last rendered page breaks and
+    hard page breaks), so a page number is Word's last layout of the file. Each .xlsx sheet is one page, a row a line."""
+    import io
+    import re as _re
+    import xml.etree.ElementTree as ET
+    import zipfile
+    z = zipfile.ZipFile(io.BytesIO(raw))
+    names = z.namelist()
+
+    def member(name):
+        info = z.getinfo(name)
+        if info.file_size > 50_000_000:
+            raise ValueError(f"{name} is {info.file_size} bytes uncompressed")
+        return z.read(name)
+
+    FF, NL, TAB = chr(12), chr(10), chr(9)
+    W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    if "word/document.xml" in names:
+        root = ET.fromstring(member("word/document.xml"))
+        out = []
+        for para in root.iter(W + "p"):
+            line = []
+            for el in para.iter():
+                if el.tag == W + "lastRenderedPageBreak" or (el.tag == W + "br" and el.get(W + "type") == "page"):
+                    line.append(FF)
+                elif el.tag == W + "t" and el.text:
+                    line.append(el.text)
+                elif el.tag == W + "tab":
+                    line.append(" ")
+            out.append("".join(line))
+        text = NL.join(out)
+        while NL + FF in text or FF + NL in text:
+            text = text.replace(NL + FF, FF).replace(FF + NL, FF)
+        return "docx", text
+    if "xl/workbook.xml" in names:
+        S = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+        shared = []
+        if "xl/sharedStrings.xml" in names:
+            for si in ET.fromstring(member("xl/sharedStrings.xml")).iter(S + "si"):
+                shared.append("".join(t.text or "" for t in si.iter(S + "t")))
+        pages = []
+        sheets = sorted(n for n in names if n.startswith("xl/worksheets/sheet") and n.endswith(".xml"))
+        for name in sheets:
+            lines = []
+            for row in ET.fromstring(member(name)).iter(S + "row"):
+                cells = []
+                for c in row.iter(S + "c"):
+                    v = c.find(S + "v")
+                    if v is None or v.text is None:
+                        isv = c.find(S + "is")
+                        cells.append("".join(t.text or "" for t in isv.iter(S + "t")) if isv is not None else "")
+                    elif c.get("t") == "s":
+                        cells.append(shared[int(v.text)] if v.text.isdigit() and int(v.text) < len(shared) else v.text)
+                    else:
+                        cells.append(v.text)
+                lines.append(TAB.join(cells))
+            pages.append("[" + name + "]" + NL + NL.join(lines))
+        return "xlsx", FF.join(pages)
+    raise ValueError("a zip file that is neither .docx nor .xlsx")
+
+
 def fetch(url: str) -> dict:
     d = os.path.join(CACHE, key(url))
     meta_path = os.path.join(d, "meta.json")
     if os.path.exists(meta_path):
         meta = json.load(open(meta_path, encoding="utf-8"))
+        saved = os.path.join(d, "original.html")
+        if meta.get("kind") == "html" and os.path.exists(saved):
+            raw = open(saved, "rb").read()
+            if raw[:2] == b"PK":
+                # an office file the first reader kept as a page (before session 5300 read .docx): read again from the
+                # saved bytes, with no new request
+                os.replace(saved, os.path.join(d, "original.zip"))
+                try:
+                    kind, text = office_text(raw)
+                    meta.update(kind=kind, pages=text.count(chr(12)) + 1, status="ok", reread_from_saved=True)
+                    meta.pop("reason", None)
+                    open(os.path.join(d, "text.txt"), "w", encoding="utf-8").write(text)
+                except Exception as e:
+                    meta.update(status="no_text", reason=f"office file not readable: {type(e).__name__}: {e}")
+                json.dump(meta, open(meta_path, "w", encoding="utf-8"), indent=1)
         meta["cached"] = True
         return meta
     host = host_of(url)
@@ -213,7 +291,8 @@ def fetch(url: str) -> dict:
     except Exception as e:
         return {"url": url, "status": "error", "reason": f"{type(e).__name__}: {e}", "robots": verdict}
     os.makedirs(d, exist_ok=True)
-    is_pdf = raw[:5] == b"%PDF-" or "pdf" in ctype.lower()
+    is_pdf = raw[:5] == b"%PDF-" or ("pdf" in ctype.lower() and raw[:2] != b"PK")
+    is_office = raw[:2] == b"PK" and not is_pdf
     meta = {
         "url": url,
         "final_url": final,
@@ -239,6 +318,19 @@ def fetch(url: str) -> dict:
         if len(t.strip()) < 200:
             meta["status"] = "no_text"
             meta["reason"] = "the PDF has no text layer pdftotext can read (a scan?)"
+    elif is_office:
+        open(os.path.join(d, "original.zip"), "wb").write(raw)
+        try:
+            kind, text = office_text(raw)
+            meta["kind"] = kind
+            open(os.path.join(d, "text.txt"), "w", encoding="utf-8").write(text)
+            meta["pages"] = text.count(chr(12)) + 1
+            if len(text.strip()) < 100:
+                meta["status"] = "no_text"
+                meta["reason"] = "the office file holds almost no text"
+        except Exception as e:  # a file the reader cannot open is recorded, never guessed at
+            meta["status"] = "no_text"
+            meta["reason"] = f"office file not readable: {type(e).__name__}: {e}"
     else:
         open(os.path.join(d, "original.html"), "wb").write(raw)
         text, links = html_text(raw, charset)
