@@ -718,13 +718,31 @@ def row_passes(r, table):
     return conf >= ROW_CONFIDENCE and any(str(r.get(f, "")).strip() for f in ROW_FIELDS[table])
 
 
-def floor_rows(df, table, n=ROW_MAX):
+def floor_rows(df, table, n=ROW_MAX, keep=None):
     """(rows to print, how many more pass the floor, how many fall under it): the rows that pass, US rows first, each
-    group in the frame's own order, at most n."""
+    group in the frame's own order, at most n. Session 3462 (faults file row 161): the row whose `event_id` is `keep`
+    (the five's deal of the week) is always among them, in place of the last row otherwise shown."""
     recs = df.to_dict("records")
     ok = [r for r in recs if row_passes(r, table)]
     ok = [r for r in ok if row_is_us(r)] + [r for r in ok if not row_is_us(r)]
-    return ok[:n], max(0, len(ok) - n), len(recs) - len(ok)
+    shown = ok[:n]
+    if keep and n and not any(r.get("event_id") == keep for r in shown):
+        pinned = [r for r in ok[n:] if r.get("event_id") == keep]
+        shown = shown[:n - len(pinned)] + pinned
+    return shown, max(0, len(ok) - len(shown)), len(recs) - len(ok)
+
+
+def deal_of_week_id(dw):
+    """Session 3462 (row 161): the event id of the five's deal of the week among the week's deals `dw`, by the five's own
+    rule (the Deals table's floor, then the most US dollars, else the most MW, the earlier on a tie); None when none."""
+    ok = dw[[row_passes(r, "energy_deals") for r in dw.to_dict("records")]] if len(dw) else dw
+    if ok.empty:
+        return None
+    for col in ("dollars", "mw"):
+        v = pd.to_numeric(ok[col], errors="coerce")
+        if v.notna().any():
+            return ok.assign(_v=v).sort_values(["_v", "event_date"], ascending=[False, True]).iloc[0]["event_id"]
+    return None
 
 
 def floor_note(table, what, shown, rest, under):
@@ -1018,7 +1036,10 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         cw["_m"] = pd.to_numeric(cw["capacity_mw"] if "capacity_mw" in cw.columns else cw["mw"], errors="coerce")
         # session 1446 (fault 29): the week's largest load is a row with an operator or a site; a row with neither is
         # a figure with no subject ("1,000 MW, operator not stated, site not stated, Newport")
-        named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("")
+        # session 3462 (faults file row 162): a developer names the facility as the table below names it (row 150: "CDC
+        # (developer)"); W46's five passed over a 1,400 MW load the table showed with its developer
+        dev = cw["developer"].astype(str).str.strip().replace("nan", "") if "developer" in cw.columns else pd.Series("", index=cw.index)
+        named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("") | dev.ne("")
         unnamed = cw[~named]   # session 3334 (faults file row 118): kept to say how many larger ones the row leaves out
         cw = cw[named]
         # session 1474 (fault 52): and with the datacenter table's own floor (W45: 702 MW at confidence 0.55, "not stated"
@@ -1031,14 +1052,19 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             # session 1473 (fault 51): a part the row does not state is left out of the sentence ("702 MW, Google, site not
             # stated, Cheyenne" was the W45 dry run's); the row has an operator or a site (session 1446)
             parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
-            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
+            if not parts[0]:   # session 3462 (row 162): the developer stands in, said to be one, as in the table
+                parts[0] = dc_operator(r) if dc_operator(r) != "not stated" else ""
+            country = str(r.get("country") or "").strip()
+            place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip(),
+                                          country if country.lower() not in US_NAMES | {"nan"} else "") if x)
             words = ", ".join(x for x in (*parts, place) if x)
             # session 3334 (faults file row 118): W44's row said 52 MW above a table of 10,400, 700 and 520 MW loads that
             # name no operator or site; the row says how many larger ones it leaves out, and why
             big = unnamed[unnamed["_m"] > float(r["_m"])]
             big = big[[row_passes(x, "datacenter_projects") for x in big.to_dict("records")]] if len(big) else big
             if len(big):
-                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week name no operator or site; "
+                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week "
+                          f"{'names' if len(big) == 1 else 'name'} no operator, developer or site; "   # 3462, row 162
                           f"{'it is' if len(big) == 1 else 'they are'} in the table below)")
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
@@ -2013,7 +2039,8 @@ def main(argv=None):
         else:
             dw = deals[(pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") >= start)
                        & (pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") < cut)].sort_values("event_date")
-            shown_d, rest_d, under_d = floor_rows(dw, "energy_deals")   # session 2702, rulings item 11
+            # session 2702, rulings item 11; session 3462 (row 161): the five's deal of the week is in the table
+            shown_d, rest_d, under_d = floor_rows(dw, "energy_deals", keep=deal_of_week_id(dw))
             if dw.empty:
                 L.append("- no deal in `energy_deals` is dated this week.")
             elif not shown_d:

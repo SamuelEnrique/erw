@@ -303,5 +303,80 @@ class Row160TheNoChartLineSaysWhy(unittest.TestCase):
             self.assertEqual(daily_chart.OMITTED, "error")
 
 
+def five(deals=None, dcs=None):
+    import pandas as pd
+    from unittest import mock
+    import roundup
+    with tempfile.TemporaryDirectory() as d, \
+            mock.patch.object(roundup, "read_table", lambda n: {"energy_deals": deals, "datacenter_projects": dcs}.get(n)), \
+            mock.patch.object(roundup, "ANALYSIS_DIR", d):
+        return roundup.five_numbers("2026-W46", pd.Timestamp("2026-11-09", tz="UTC"), pd.Timestamp("2026-11-13T18:40", tz="UTC"), {},
+                                    lambda m: None)
+
+
+def deal(i, day, dollars="", mw="", buyer="A Corp", country="", conf="0.9"):
+    return {"event_id": f"deal:{i}", "event_date": f"{day}T12:00:00Z", "deal_type": "acquisition", "buyer": buyer, "seller": "B Corp",
+            "asset": "an asset", "mw": mw, "dollars": dollars, "confidence": conf, "country": country, "state": "TX" if not country else "",
+            "status": "closed", "story_urls": "https://example.org/a"}
+
+
+class Row161TheDealOfTheWeekIsInTheTable(unittest.TestCase):
+    """Row 161: the stack's W46 named "USD 2.6 billion, Aramco, HUMAIN AI" as the deal of the week, and the Deals table
+    below (US first, at most 15) left it out."""
+
+    def test_the_kept_row_replaces_the_last_shown(self):
+        import pandas as pd
+        import roundup
+        rows = [deal(i, "2026-11-11", dollars="1000000") for i in range(16)] + [deal("aramco", "2026-11-13", dollars="2600000000",
+                                                                                      buyer="Aramco", country="Saudi Arabia")]
+        dw = pd.DataFrame(rows)
+        self.assertEqual(roundup.deal_of_week_id(dw), "deal:aramco")
+        shown, rest, under = roundup.floor_rows(dw, "energy_deals", keep="deal:aramco")
+        self.assertEqual(len(shown), roundup.ROW_MAX)
+        self.assertEqual(shown[-1]["event_id"], "deal:aramco")
+        self.assertEqual((rest, under), (2, 0))
+        shown0, rest0, _ = roundup.floor_rows(dw, "energy_deals")
+        self.assertNotIn("deal:aramco", [r["event_id"] for r in shown0])   # the old cut, which row 161 is about
+        self.assertEqual(rest0, 2)
+
+    def test_a_kept_row_already_shown_changes_nothing(self):
+        import pandas as pd
+        import roundup
+        dw = pd.DataFrame([deal(1, "2026-11-11", dollars="5"), deal(2, "2026-11-12", dollars="9")])
+        self.assertEqual(roundup.deal_of_week_id(dw), "deal:2")
+        self.assertEqual([r["event_id"] for r in roundup.floor_rows(dw, "energy_deals", keep="deal:2")[0]], ["deal:1", "deal:2"])
+        self.assertIsNone(roundup.deal_of_week_id(dw.iloc[0:0]))
+
+    def test_the_five_and_the_table_name_one_deal(self):
+        import pandas as pd
+        rows = [deal(i, "2026-11-11", dollars="1000000") for i in range(16)] + [deal("aramco", "2026-11-13", dollars="2600000000",
+                                                                                      buyer="Aramco", country="Saudi Arabia")]
+        L = five(deals=pd.DataFrame(rows))
+        self.assertIn("`energy_deals` deal:aramco", "\n".join(L))
+
+
+class Row162TheFivesLoadNamesItsDeveloper(unittest.TestCase):
+    """Row 162: W46's five printed "20 MW, Syntys (1 larger load of the week name no operator or site; it is in the table
+    below)" above a table showing that load as "CDC (developer)", 1,400 MW, Kemps Creek, Australia."""
+
+    DCS = [{"entity_id": "datacenter:kemps", "first_story_at": "2026-11-12T10:00:00Z", "capacity_mw": "1400", "mw": "1400", "operator": "",
+            "developer": "CDC", "site_name": "", "city": "Kemps Creek", "state": "", "country": "Australia", "confidence": "0.9"},
+           {"entity_id": "datacenter:syntys", "first_story_at": "2026-11-13T10:00:00Z", "capacity_mw": "20", "mw": "20", "operator": "Syntys",
+            "developer": "", "site_name": "", "city": "", "state": "", "country": "Qatar", "confidence": "0.9"}]
+
+    def load(self, rows):
+        import pandas as pd
+        return next(x for x in five(dcs=pd.DataFrame(rows)) if x.startswith("- **Largest new datacenter load"))
+
+    def test_the_developer_names_the_load(self):
+        self.assertEqual(self.load(self.DCS), "- **Largest new datacenter load first reported this week:** 1,400 MW, CDC (developer), "
+                                              "Kemps Creek, Australia.")
+
+    def test_one_larger_unnamed_load_names_nothing(self):
+        rows = [dict(self.DCS[0], developer=""), self.DCS[1]]
+        self.assertEqual(self.load(rows), "- **Largest new datacenter load first reported this week:** 20 MW, Syntys, Qatar (1 larger "
+                                          "load of the week names no operator, developer or site; it is in the table below).")
+
+
 if __name__ == "__main__":
     unittest.main()
