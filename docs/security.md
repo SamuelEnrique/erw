@@ -87,7 +87,7 @@ The other 114 Python packages of the venv carry no advisory known to pip-audit o
 
 ## The list of 13 November 2026 (chains 234 and 237, window P2 of the personal laptop)
 
-Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (26 rows). That file keeps each row's state from here on; this section keeps what changed in the site.
+Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (32 rows after the fresh pass of sessions 5159 to 5162; none open, and its section "Where the list stands" counts them by state). That file keeps each row's state from here on; this section keeps what changed in the site.
 
 | Rows | What changed | Where | State |
 |---|---|---|---|

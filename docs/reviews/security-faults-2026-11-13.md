@@ -4,7 +4,20 @@ Energy Research Warehouse (ERW). Roadmap item 7: every open item of the security
 
 States: **fixed** (on this chain's stack, with its test; live once the stack lands), **closed** (fixed and live), **ruling** (Samuel's, with the default this chain acts on), **open** (a session of this chain takes it), **noted** (nothing to do until something else happens), **not a fault** (checked, with the evidence).
 
-The stacks: `wip/5100-security` (rows 1, landed at `b1ea7427a` on 13 November 2026 as landing row 18), then `wip/5150-security` (chain 237, cut from `origin/main` after that landing). The landing rows are in `docs/state/landing_request_portable.md`.
+The stacks: `wip/5100-security` (row 1, landed at `b1ea7427a` on 13 November 2026 as landing row 18), then `wip/5150-security` (chain 237, cut from `origin/main` after that landing; asked for as landing row 23). The landing rows are in `docs/state/landing_request_portable.md`. A third branch, `wip/5157-retire-link`, is in no landing row: it lands on Samuel's word (rows 3 and 4).
+
+## Where the list stands (session 5163, 13 November 2026, after the fresh pass)
+
+32 rows. **None is open**: nothing is left that a session can close without a ruling.
+
+| State | Rows | Count |
+|---|---|---:|
+| closed (fixed and live) | 1 | 1 |
+| fixed on `wip/5150-security`, live once landing row 23 lands | 2, 15, 16, 17, 18, 19, 20, 21, 27, and row 8's `certifi` | 10 |
+| ruling (Samuel's, each with the default written in its row) | 3, 4, 5, 6, 7, 9, 10, 11, 12, 22, 23, 24, 26, and row 8's four major versions and gridstatus 0.37.0 | 13 |
+| noted (nothing to do until something else happens) | 13, 14, 25, 28, 29, 30, 31, 32 | 8 |
+
+Three of the rulings are built and one step away: rows 3 and 4 (land `wip/5157-retire-link`), row 23 (set `USAGE_VISITORS=off`), row 24 (set `USAGE_TOOL_PAGES=off`). The others are a look or a dashboard setting (rows 6, 12), a choice of method (rows 7, 10, 11, 22), versions (rows 8, 9), the token's rotation after row 3 (row 5), and one line in another window's file (row 26).
 
 ## Row 1 first: a visitor could read a page in review
 
