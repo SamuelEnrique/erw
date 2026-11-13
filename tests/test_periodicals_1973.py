@@ -630,7 +630,7 @@ class Row118TheLoadRowSaysWhatItLeavesOut(unittest.TestCase):
                                      {}, lambda *a: None, {}, None)
         row = next(ln for ln in L if "datacenter load" in ln)
         self.assertEqual(row, "- **Largest new datacenter load first reported this week:** 52 MW, Vyoma, Chennai (2 larger loads of the "
-                              "week name no operator or site; they are in the table below).")
+                              "week name no operator, developer or site; they are in the table below).")   # session 3462: row 162
         import check_roundup as cr
         self.assertEqual(cr.FIVE_LOAD_V.search(row).group(1), "52")
 
