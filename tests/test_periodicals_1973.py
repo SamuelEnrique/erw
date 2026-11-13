@@ -552,6 +552,25 @@ class Row110AGasRallyNamesHenryHub(unittest.TestCase):
         self.assertIn("op = opening_number(picked, clusters)", src)
 
 
+class Rows111To113The11NovemberDryRun(unittest.TestCase):
+    """Rows 111 to 113, from the dry run of 11 November on the stack (session 3332)."""
+
+    def test_111_and_112_the_rigzone_row(self):
+        r = rec("m", "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter Deals", sector="deal",
+                price="$12.6 billion", links=[("Rigzone", "https://example.org/r")])
+        line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
+        self.assertIn("Deals in total, USA: USD 12.6 billion (Rigzone, 2026-11-11)", line)
+        self.assertNotIn("Rigzone; Rigzone", line)
+        one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
+        self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
+
+    def test_113_saudi(self):
+        self.assertTrue(brief.party_in_head("Saudi Arabia", "Saudi Oil Production Surges to One of Highest Levels in Years"))
+        self.assertFalse(brief.party_in_head("United Kingdom", "United Airlines buys fuel"))
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "Saudi Arabia; OPEC"},
+                                      "Saudi Oil Production Surges to One of Highest Levels in Years"), "Also named: OPEC. ")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

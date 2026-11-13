@@ -909,6 +909,10 @@ def detail(r, head=""):
     return ("; ".join(bits) + ". ") if bits else ""
 
 
+COMMON_FIRST = {"united", "the", "new", "north", "south", "west", "east", "great", "federal", "national", "state",
+                "department", "american", "general", "energy", "power", "royal", "central", "first"}
+
+
 def party_in_head(party, head):
     """Session 3313 (row 84, refined): whether the headline already names a party: the name itself, or its initials as a
     word ("DOE" for the Department of Energy, "US" for the United States); a party that names no one ("unnamed
@@ -920,6 +924,12 @@ def party_in_head(party, head):
         return True
     initials = "".join(w[0] for w in re.findall(r"[A-Za-z][\w'-]*", party) if w[0].isupper())
     if len(initials) >= 2 and re.search(rf"\b{initials}\b", h):
+        return True
+    # session 3332 (faults file row 113): a name's distinctive first word ("Saudi" of Saudi Arabia, "Ontario" of Ontario
+    # Power Generation); a common first word ("United", "New", "Department") names no one by itself
+    words = party.split()
+    if (len(words) > 1 and len(words[0]) >= 4 and words[0][0].isupper() and words[0].lower() not in COMMON_FIRST
+            and re.search(rf"\b{re.escape(words[0])}\b", h)):
         return True
     if initials == "DOE" or party.lower() == "department of energy":
         return bool(re.search(r"\bDOE\b|\bEnergy Department\b", h))
@@ -2132,6 +2142,7 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
                "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
 
 
+TOTAL_OF_DEALS = re.compile(r"\btotal(?:s|ed|ing)?\b|\bin [\w-]+(?: [\w-]+)? deals\b", re.I)   # session 3332, row 112
 DISPATCHED = re.compile(r"\b(?:dispatch(?:ed|es|ing)?|discharg(?:e|ed|es|ing)|delivered)\b", re.I)   # session 1977, row 82
 
 
@@ -2157,10 +2168,17 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
             # session 1977 (faults file row 82): "Sunrun and Tesla dispatched more than 580 MW from 140,000 home batteries"
             # is power dispatched, not storage capacity built
             noun = "Storage dispatched" if str(r.get("sector")) == "storage" else "Power dispatched"
+        if field != "mw" and TOTAL_OF_DEALS.search(f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}"):
+            # session 3332 (faults file row 112): "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter
+            # Deals" is a quarter's total, not one deal's value
+            noun = "Deals in total"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
-        line = (f"- **{label}.** {noun}{place}: {fig} ({story_who(r)}; {outlet_of(r)}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
+        who, outlet = story_who(r), outlet_of(r)
+        # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice
+        by = outlet if who == outlet else f"{who}; {outlet}"
+        line = (f"- **{label}.** {noun}{place}: {fig} ({by}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
                 "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
         return line, f"story {r.get(field + '_id') or r['cluster_id']} ({field})"   # row 107: the story the figure came from
     return f"- **{label}.** No story of the day states {what}.", ""
