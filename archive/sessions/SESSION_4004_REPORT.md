@@ -15,7 +15,11 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - **The second start (12:09) took the lock at once** (`080bc12b`):
   - the suite: 8,716 tests OK, 382 skipped;
   - `npm ci`, the build and serve passed;
-  - (check-values, the hand checks and the landing: written when they end).
+  - **check-values failed with two new failures, both from the hold of `policy_actions`** (`cv_diff`: 3 failures, 1 known, 2 new):
+    - **`/policy?view=week`, `event_count|policy_actions|since|2026-10-14`: the page showed "0" where the live set holds 151. This is a real fault.** The count carries an `event_count|` key, and `Num`'s `heldBy` read a table from `event|` and `entity|` keys but not from `event_count|`. So the held table's count was drawn from its empty held rows as a number, where it should have said "license needed".
+    - **`/policy`'s floor:** 0 checked numbers and 1 held mark against a floor of 10. This was expected: the row says `/policy` loses `policy_actions` and `policy_reads`.
+  - The hand checks passed: check-routes, check-cross-checks and check-csp.
+  - **Not landed.** The fix is small and plainly correct, so it was made on the licenses stack in `wip/w2-land-b` (session 4005), which holds rows 1 to 4. That branch is gated in place of this one.
 
 ## While it ran
 
