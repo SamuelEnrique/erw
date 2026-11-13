@@ -18,6 +18,54 @@
    "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
    "read": "2026-11-13",
    "request": 71
+  },
+  "co_sutt_renewable": {
+   "title": "Colorado Department of Revenue, Sales & Use Tax Topics: Renewable Energy Components (October 2026), C.R.S. 39-26-724",
+   "url": "https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Renewable_Energy_Components_Oct_2026.pdf",
+   "read": "2026-11-13",
+   "request": 154
+  },
+  "wa_rev_40_2432a": {
+   "title": "Washington Department of Revenue, Form REV 40 2432A (RCW 82.08.962, 82.12.962)",
+   "url": "https://dor.wa.gov/sites/default/files/2022-02/40-2432A.pdf",
+   "read": "2026-11-13",
+   "request": 156
+  },
+  "ny_tax_1115": {
+   "title": "New York Tax Law 1115(a)(12)",
+   "url": "https://www.nysenate.gov/legislation/laws/TAX/1115",
+   "read": "2026-11-13",
+   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+  },
+  "nj_su6": {
+   "title": "New Jersey Division of Taxation, Tax Topic Bulletin S&U-6 (rev. 6/24), N.J.S.A. 54:32B-8.33",
+   "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su6.pdf",
+   "read": "2026-11-13",
+   "request": 159
+  },
+  "ct_cert140": {
+   "title": "Connecticut DRS, CERT-140 (2007 Conn. Pub. Acts 242, s. 68)",
+   "url": "https://portal.ct.gov/-/media/drs/forms/1-2018/certificates/cert140pdf.pdf",
+   "read": "2026-11-13",
+   "request": 160
+  },
+  "ri_44_18_30": {
+   "title": "Rhode Island General Laws 44-18-30(57)",
+   "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+   "read": "2026-11-13",
+   "request": 151
+  },
+  "md_tg_11_230": {
+   "title": "Maryland Code, Tax-General 11-230",
+   "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-230&enactments=false",
+   "read": "2026-11-13",
+   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+  },
+  "ky_tam_21_01": {
+   "title": "Kentucky Department of Revenue, KY-TAM-21-01, Solar Power (22 April 2021)",
+   "url": "https://revenue.ky.gov/DOR Training Materials/KY TAM 21-01 Solar Power FINAL.pdf",
+   "read": "2026-11-13",
+   "request": 153
   }
  },
  "states": {
@@ -72,6 +120,206 @@
     "subdivision": "57-39.2-04.2(1)(c)(2)",
     "quote": "c. \"Power plant\" means: [...] (2) A wind-powered electrical generating facility, on which construction is completed before January 1, 2017, [...] (3) Any other type of electrical power generating facility excluding the types of power plants identified in paragraphs 1 and 2 which has a capacity of one hundred kilowatts or more and produces electricity for resale or for consumption in a business activity. [...] 2. Sales of production or environmental upgrade equipment that is delivered on or after January 1, 2007, and used exclusively in power plants [...] are exempt from the tax imposed by this chapter. 3. Sales of tangible personal property, other than production or environmental upgrade equipment, which is used in the construction of new power plants [...] are exempt from the tax imposed by this chapter.",
     "note": "A wind facility is a power plant of this section only if its construction was completed before 1 January 2017, and paragraph (3) excludes the wind type: a new wind plant has no exemption here."
+   }
+  },
+  "co": {
+   "utility_pv": {
+    "exempt_pct": 36.76,
+    "cite": "co_sutt_renewable",
+    "tip": "Colorado exempts components used to produce electricity from a renewable source from the state's 2.9 percent sales and use tax, not from city or county taxes unless adopted locally (C.R.S. 39-26-724): the state's part of the rate, 36.76 percent of the tax. Energy storage is not exempt.",
+    "quote": "the exemption does not apply to any city or county sales tax administered by the Department, unless the city or county has adopted the exemption by ordinance or resolution"
+   },
+   "land_based_wind": {
+    "exempt_pct": 36.76,
+    "cite": "co_sutt_renewable",
+    "tip": "Colorado exempts components used to produce electricity from a renewable source from the state's 2.9 percent sales and use tax, not from city or county taxes unless adopted locally (C.R.S. 39-26-724): the state's part of the rate, 36.76 percent of the tax. Energy storage is not exempt.",
+    "quote": "the exemption does not apply to any city or county sales tax administered by the Department, unless the city or county has adopted the exemption by ordinance or resolution"
+   }
+  },
+  "wa": {
+   "utility_pv": {
+    "exempt_pct": 50,
+    "cite": "wa_rev_40_2432a",
+    "tip": "Washington refunds 50 percent of the sales and use tax on wind and on solar over 500 kW, 75 percent with prevailing wages and 100 percent under a project labor agreement, each certified by Labor and Industries, for purchases through 2029 (RCW 82.08.962): 50 percent.",
+    "quote": "From January 1, 2020 through December 31, 2029, the exemption is equal to 50 percent of the total sales or use tax paid"
+   },
+   "land_based_wind": {
+    "exempt_pct": 50,
+    "cite": "wa_rev_40_2432a",
+    "tip": "Washington refunds 50 percent of the sales and use tax on wind and on solar over 500 kW, 75 percent with prevailing wages and 100 percent under a project labor agreement, each certified by Labor and Industries, for purchases through 2029 (RCW 82.08.962): 50 percent.",
+    "quote": "From January 1, 2020 through December 31, 2029, the exemption is equal to 50 percent of the total sales or use tax paid"
+   }
+  },
+  "ny": {
+   "land_based_wind": {
+    "exempt_pct": 100,
+    "cite": "ny_tax_1115",
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+   },
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "ny_tax_1115",
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+   },
+   "natural_gas": {
+    "exempt_pct": 100,
+    "cite": "ny_tax_1115",
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+   },
+   "geothermal": {
+    "exempt_pct": 100,
+    "cite": "ny_tax_1115",
+    "tip": "New York exempts machinery and equipment used directly and predominantly to produce electricity for sale (Tax Law 1115(a)(12)): 100 percent, an upper bound of the exemption, as materials that become real property are not machinery.",
+    "quote": "parts with a useful life of one year or less ... tools or supplies used in connection with such machinery or equipment"
+   }
+  },
+  "nj": {
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "nj_su6",
+    "tip": "New Jersey exempts solar energy devices and systems, storage of solar energy included (N.J.S.A. 54:32B-8.33): 100 percent.",
+    "quote": "Solar Energy Devices: Solar energy devices or systems designed to provide heating or cooling, or electrical or mechanical power by collecting and transferring solar-generated energy and including mechanical or chemical devices for storing solar generated energy are exempt."
+   }
+  },
+  "ct": {
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "ct_cert140",
+    "tip": "Connecticut exempts solar electricity generating systems, their equipment and installation (2007 Conn. Pub. Acts 242, s. 68; CERT-140): 100 percent.",
+    "quote": "This certificate may only be used for purchases exempt under 2007 Conn. Pub. Acts 242, §68."
+   }
+  },
+  "ri": {
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "ri_44_18_30",
+    "tip": "Rhode Island exempts renewable energy products, PV modules, inverters, racks and wind turbines among them (General Laws 44-18-30(57)): 100 percent.",
+    "quote": "solar photovoltaic modules or panels, or any module or panel that generates electricity from light [...] wind turbines"
+   },
+   "land_based_wind": {
+    "exempt_pct": 100,
+    "cite": "ri_44_18_30",
+    "tip": "Rhode Island exempts renewable energy products, PV modules, inverters, racks and wind turbines among them (General Laws 44-18-30(57)): 100 percent.",
+    "quote": "solar photovoltaic modules or panels, or any module or panel that generates electricity from light [...] wind turbines"
+   }
+  },
+  "md": {
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "md_tg_11_230",
+    "tip": "Maryland exempts solar energy equipment, including equipment supplying the grid (Tax-General 11-230): 100 percent.",
+    "quote": "The sales and use tax does not apply to a sale of geothermal equipment, residential wind energy equipment, or solar energy equipment. [...] generate electricity to be used in a structure or supplied to the electric grid,"
+   }
+  },
+  "ky": {
+   "utility_pv": {
+    "exempt_pct": 67.2,
+    "cite": "ky_tam_21_01",
+    "tip": "Kentucky treats a solar plant's generating machinery as machinery for new and expanded industry, exempt (KRS 139.480(10), KY-TAM-21-01); batteries, communication equipment and substation materials are taxable. The tool holds the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases; mounting, trackers and DC items are exempt too, so the tax shown is an upper bound.",
+    "quote": "Components of the commercial operation for the generation of electricity through solar power meet the definition of \"manufacturing\" for purposes of Kentucky sales and use taxes."
+   }
+  },
+  "fl": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Florida: the industrial machinery exemptions do not apply to machinery bought by electric utility companies (Statutes 212.08(5)(c)); no exemption for solar, wind or gas generating equipment was read: 0."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Florida: the industrial machinery exemptions do not apply to machinery bought by electric utility companies (Statutes 212.08(5)(c)); no exemption for solar, wind or gas generating equipment was read: 0."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Florida: the industrial machinery exemptions do not apply to machinery bought by electric utility companies (Statutes 212.08(5)(c)); no exemption for solar, wind or gas generating equipment was read: 0."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "Florida: the industrial machinery exemptions do not apply to machinery bought by electric utility companies (Statutes 212.08(5)(c)); no exemption for solar, wind or gas generating equipment was read: 0."
+   }
+  },
+  "nc": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "North Carolina: no exemption for machinery used to generate electricity in G.S. 105-164.13 (mill machinery is exempt only for manufacturing industries): 0."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "North Carolina: no exemption for machinery used to generate electricity in G.S. 105-164.13 (mill machinery is exempt only for manufacturing industries): 0."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "North Carolina: no exemption for machinery used to generate electricity in G.S. 105-164.13 (mill machinery is exempt only for manufacturing industries): 0."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "North Carolina: no exemption for machinery used to generate electricity in G.S. 105-164.13 (mill machinery is exempt only for manufacturing industries): 0."
+   }
+  },
+  "me": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Maine: no exemption for generating equipment; the production machinery exemption covers tangible personal property, and the old solar and community wind exemptions are repealed (36 M.R.S. 1760): 0."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Maine: no exemption for generating equipment; the production machinery exemption covers tangible personal property, and the old solar and community wind exemptions are repealed (36 M.R.S. 1760): 0."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Maine: no exemption for generating equipment; the production machinery exemption covers tangible personal property, and the old solar and community wind exemptions are repealed (36 M.R.S. 1760): 0."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "Maine: no exemption for generating equipment; the production machinery exemption covers tangible personal property, and the old solar and community wind exemptions are repealed (36 M.R.S. 1760): 0."
+   }
+  },
+  "hi": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Hawaii: no exemption for energy equipment; contracting is taxed at 4 percent plus the county surcharge and incorporated materials at 0.5 percent (Tax Facts 99-3, HRS 237): the state's rate is the tool's, before that split."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Hawaii: no exemption for energy equipment; contracting is taxed at 4 percent plus the county surcharge and incorporated materials at 0.5 percent (Tax Facts 99-3, HRS 237): the state's rate is the tool's, before that split."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Hawaii: no exemption for energy equipment; contracting is taxed at 4 percent plus the county surcharge and incorporated materials at 0.5 percent (Tax Facts 99-3, HRS 237): the state's rate is the tool's, before that split."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "Hawaii: no exemption for energy equipment; contracting is taxed at 4 percent plus the county surcharge and incorporated materials at 0.5 percent (Tax Facts 99-3, HRS 237): the state's rate is the tool's, before that split."
+   }
+  },
+  "il": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Illinois: the manufacturing machinery exemption does not include machinery generating electricity for sale (86 Ill. Adm. Code 130.330(k)); a High Impact Business designation (20 ILCS 655/5.5) may exempt building materials, at the state's discretion: 0."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Illinois: the manufacturing machinery exemption does not include machinery generating electricity for sale (86 Ill. Adm. Code 130.330(k)); a High Impact Business designation (20 ILCS 655/5.5) may exempt building materials, at the state's discretion: 0."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Illinois: the manufacturing machinery exemption does not include machinery generating electricity for sale (86 Ill. Adm. Code 130.330(k)); a High Impact Business designation (20 ILCS 655/5.5) may exempt building materials, at the state's discretion: 0."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "Illinois: the manufacturing machinery exemption does not include machinery generating electricity for sale (86 Ill. Adm. Code 130.330(k)); a High Impact Business designation (20 ILCS 655/5.5) may exempt building materials, at the state's discretion: 0."
+   }
+  },
+  "va": {
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Virginia exempts machinery generating energy from sunlight or wind until 30 June 2027 (Code 58.1-609.3(2)); a build in 2027 is exempt only in its first half: 0 held, type the share bought before July 2027."
+   },
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Virginia exempts machinery generating energy from sunlight or wind until 30 June 2027 (Code 58.1-609.3(2)); a build in 2027 is exempt only in its first half: 0 held, type the share bought before July 2027."
    }
   }
  }
