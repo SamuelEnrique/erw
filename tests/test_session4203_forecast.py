@@ -54,6 +54,9 @@ class TheParameters(unittest.TestCase):
         for st, v in d["states"].items():
             for r in v["rules"]:
                 self.assertIn(r["cite"], d["sources"], r["id"])
+                if r["kind"] == "note":  # session 4296: a reading that holds no figure gives its words and source, its tip
+                    self.assertGreater(len(r["tip"]), 60, r["id"])
+                    continue
                 self.assertGreater(len(r["quote"]), 60, r["id"])
                 self.assertTrue(d["sources"][r["cite"]]["url"].startswith("https://"), r["id"])
 

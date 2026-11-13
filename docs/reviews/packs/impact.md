@@ -46,7 +46,7 @@
 | Sales tax | State rate plus population-weighted local rate, midyear 2026, on JEDI's taxable share | Tax Foundation (CC BY-NC 4.0); JEDI's "Sales Tax (Materials & Equipment Purchases)" line |
 | Sales tax exemption | The statute where read (Minnesota wind, Iowa wind and solar equipment, North Dakota's power plants), else 0 and "before exemptions" | `sales_exemptions.json`, each quoted |
 | Income tax | Each job a single filer at the phase's average wage, 2026 brackets held in real terms | Tax Foundation 2026 (`income_tax.json`) |
-| Property tax | The statute where read: MN, SD, ND, NE, IA, KS, OR, WY, FL, AZ, NC, MI, VT, WI, NV, MD, VA; else the reader's rate; else none | `property_rules.json`, each rule quoted with its section |
+| Property tax | Every state and DC: the statute or revenue guidance where a figure is fixed (a value per MW, an assessment ratio, a capacity or production tax, an exemption), a cited statewide levy where published, else the reader's levy or rate; where none could be read, a note saying why | `property_rules.json`, each rule quoted, its citation in the hover | `property_rules.json`, each rule quoted with its section |
 | Gas plant fuel | Heat rate 6,266 Btu/kWh, capacity factor 0.65, in-state share 0, Henry Hub 2025 mean USD 3.5267/MMBtu | EIA case 5; JEDI gas model; `eia_steo_forecasts` `NGHHUUS` (`gas.json`) |
 
 ## 4. The cross-checks
