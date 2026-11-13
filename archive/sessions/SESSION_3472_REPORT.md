@@ -70,3 +70,23 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - Every open row of the faults file is the owner's (39, 65, 109, rulings item 13) or the data machine's (61, 77, 129). The newest stored issues have been read against the stack: 12 and 13 November, W45, and every earlier issue.
 - The stack merges with `origin/main` with no conflict (`git merge-tree`); `test-digest-numbers.mjs` passes. The faults have converged on the stored issues; the next readings are W46 as stored (Sunday) and the 16 November Digest (Monday).
 - No new row in these sessions.
+
+## Session 3486: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c254.md` (its name free on main and every branch).
+- Row 11 holds rows 161 to 179 at `9ced6f322`. The faults file and both method notes carry rows 173 to 179.
+
+## Decisions made without you
+
+- 258 for the next file: the highest number in any ref was 257. 247, which chain 252 passed over, has since been taken by another machine.
+- The merge conflict on row 11 (the desk's partial landing beside this chain's new head) was resolved by keeping the desk's state cell and adding the head that waits.
+- The stack's build was dropped once row 152 passed the desk's build. The memory wait was stopped.
+- A rule letting the first direction word decide whether a story names a move (for "Rebound ... After ... Rout") was tried and reverted: row 104's own case "swing higher then lower" ends on its last word.
+- Pinned tests changed with their rows: 14 block rows of `test_periodicals_1973.py` (177) and one sentence of `test_session1897.py` (179).
+
+## For Samuel's ruling
+
+- The 13 November Digest on `wip/red-daily-2026-11-13`. Default: another machine lands it.
+- A story opening's figure printed twice and carrying no key. Default: kept.
+- The fun fact's source wording ("US$3/barrel"). Default: kept.
+- As before: the 13 November chart record, subscribers with topics, the US48 UTC day, EIA's Veterans Day closes, rows 39, 65 and 109, and rulings item 13.
