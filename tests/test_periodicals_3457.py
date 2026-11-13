@@ -670,6 +670,40 @@ class Row177TheCountryIsUS(unittest.TestCase):
         self.assertTrue(brief.same_topic(a, b))
 
 
+class Row178TheRoundupsPolicyTitlesInTheMoneyStyle(unittest.TestCase):
+    """Row 178: "- Energy Department Closes $480 Million Loan ... (DOE news release, released 2026-11-10)." under Also this
+    week (the stack's W46), where the Digest's policy lines say "USD 480 million" (row 86)."""
+
+    ACT = {"title": "Energy Department Closes $480 Million Loan to Expand American Energy Production", "agency": "DOE",
+           "action_type": "press_release", "event_date": "2026-11-10", "why": "", "source_url": "https://example.org/d"}
+
+    def test_the_also_line(self):
+        import roundup
+        self.assertTrue(roundup.also_policy_line(self.ACT).startswith("- Energy Department Closes USD 480 million Loan"),
+                        roundup.also_policy_line(self.ACT))
+
+    def test_the_stand_in_words(self):
+        import roundup
+        self.assertTrue(roundup.policy_words(self.ACT).startswith("Energy Department Closes USD 480 million Loan"))
+
+
+class Row179NextWeeksEffectiveDate(unittest.TestCase):
+    """Row 179: "- **16 November 2026**: Partial Repeal of the Carbon Pollution Standards ... (EPA): the final rule is effective
+    on November 16, 2026." (the stack's W46): the day twice, in two forms."""
+
+    def test_the_clause(self):
+        import pandas as pd
+        import roundup
+        day = pd.Timestamp("2026-11-16")
+        self.assertEqual(roundup.deadline_words("The final rule is effective on November 16, 2026.", day), "the final rule takes effect")
+        self.assertEqual(roundup.deadline_words("This rule takes effect on November 16, 2026.", day), "this rule takes effect")
+        # another day, or words after the date: the sentence as written
+        self.assertEqual(roundup.deadline_words("The final rule is effective on December 3, 2026.", day),
+                         "the final rule is effective on December 3, 2026")
+        self.assertEqual(roundup.deadline_words("The rule is effective November 16, 2026, except for section 3.", day),
+                         "the rule is effective November 16, 2026, except for section 3")
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""

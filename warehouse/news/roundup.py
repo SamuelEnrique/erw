@@ -139,8 +139,8 @@ def policy_pick(start, cut):
 
 def policy_words(top):
     """The policy stand-in in words: the title as policy_of_the_week writes it, the agency, the kind and the date."""
-    return (f"{tidy_title(policy_title(top['title']))} ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
-            f"{dated(top)}), the Policy of the Week below")
+    return (f"{brief.money_style(tidy_title(policy_title(top['title'])))} ({top['agency']} "   # 3480, row 178
+            f"{TYPE_LABEL.get(top['action_type'], top['action_type'])}, {dated(top)}), the Policy of the Week below")
 
 
 def policy_of_the_week(start, cut, log):
@@ -158,7 +158,8 @@ def policy_of_the_week(start, cut, log):
     top = w.iloc[0]
     r = rd.get(top["event_id"], {})
     # session 470 (roundup audit fix 9): a long title as its subject, "docket" once, one date said for what it is
-    L = [f"**{policy_title(top['title'])}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
+    # session 3480 (faults file row 178): the title's sums in the issue's money style, as the Digest's policy lines (row 86)
+    L = [f"**{brief.money_style(policy_title(top['title']))}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
          f"{dated(top)}" + (f"; {dockets(top['docket'])}" if top["docket"] else "") + ")", ""]
     # session 577: brief.why_line, so a read without a final stop does not run into its link
     L.append(brief.why_line(r.get("plain_read") or top["why"], top["title"]) + f" [Source]({top['source_url']})")
@@ -186,7 +187,7 @@ def also_policy_line(x):
     (brief.why_line) and the source. Session 1882 (faults file row 72, row 46's fault in the policy section): a why line
     that failed left "(...):  [source](...)", a colon introducing nothing and a double space; the line now closes on its
     bracket with a stop and the source follows as its own sentence."""
-    head = (f"- {tidy_title(policy_title(x['title']))} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
+    head = (f"- {brief.money_style(tidy_title(policy_title(x['title'])))} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "   # 3480, row 178
             f"{dated(x)})")
     why = brief.why_line(x.get("why", ""), x["title"]).strip()
     return f"{head}: {why} [source]({x['source_url']})" if why else f"{head}. [Source]({x['source_url']})"
@@ -1916,7 +1917,16 @@ def deadline_words(sent, day):
         what = what[0].lower() + what[1:] if len(what) > 1 and what[1].islower() else what
         return (f"{what} due" + (f" {clock_words(clock)}" if clock else "")
                 + (f" (docket {docket.group(1)})" if docket else ""))
+    # session 3480 (faults file row 179): "The final rule is effective on November 16, 2026" under the bold "16 November
+    # 2026" said the day twice and in another form; a rule effective on the item's day "takes effect"
+    m = EFFECTIVE.match(s)
+    if m and m.group("when").strip(" ,") == date:
+        what = m.group("what").strip()
+        return (what[0].lower() + what[1:] if len(what) > 1 and what[1].islower() else what) + " takes effect"
     return s[0].lower() + s[1:] if len(s) > 1 and s[1].islower() else s
+
+
+EFFECTIVE = re.compile(r"^(?P<what>.+?) (?:is|are|becomes|will be|will become|takes|take) effect(?:ive)? (?:on )?(?P<when>.+)$", re.I)
 
 
 def event_kind(sentence):
