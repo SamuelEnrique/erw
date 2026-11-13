@@ -899,10 +899,26 @@ def detail(r, head=""):
     elif r["parties"]:
         # session 1979 (faults file row 84): with no figure, a party the headline names is not printed again ("parties:
         # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence
-        low = str(head or "").lower()
-        rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and p.strip().lower() not in low]
+        rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and not party_in_head(p.strip(), head)]
         return f"Also named: {', '.join(rest)}. " if rest else ""
     return ("; ".join(bits) + ". ") if bits else ""
+
+
+def party_in_head(party, head):
+    """Session 3313 (row 84, refined): whether the headline already names a party: the name itself, or its initials as a
+    word ("DOE" for the Department of Energy, "US" for the United States); a party that names no one ("unnamed
+    hyperscaler", "undisclosed buyer") counts as named, so it is never printed as one."""
+    low, h = party.lower(), str(head or "")
+    if low.startswith(("unnamed", "undisclosed", "an unnamed", "a unnamed")) or low in h.lower():
+        return True
+    if len(low) > 4 and low.endswith("s") and re.search(rf"\b{re.escape(low[:-1])}\b", h.lower()):   # "Houthis", "Houthi attacks"
+        return True
+    initials = "".join(w[0] for w in re.findall(r"[A-Za-z][\w'-]*", party) if w[0].isupper())
+    if len(initials) >= 2 and re.search(rf"\b{initials}\b", h):
+        return True
+    if initials == "DOE" or party.lower() == "department of energy":
+        return bool(re.search(r"\bDOE\b|\bEnergy Department\b", h))
+    return False
 
 
 def mean2(values):

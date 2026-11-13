@@ -43,7 +43,8 @@ class TheRule(unittest.TestCase):
         out = brief.why_line(why, head)
         self.assertEqual(out, "")
         # the figures line prints no USD 750 billion again: the headline holds it
-        self.assertEqual(brief.detail({"mw": "", "price": "$750 Billion", "parties": "Anthropic"}, head), "parties: Anthropic. ")
+        # session 3313 (row 84): and no party the headline names (Anthropic) either
+        self.assertEqual(brief.detail({"mw": "", "price": "$750 Billion", "parties": "Anthropic"}, head), "")
 
     def test_every_adjective_of_the_list_is_named(self):
         for adj in brief.WHY_ADJECTIVES:
@@ -149,7 +150,9 @@ class WhereTheRuleLives(unittest.TestCase):
         self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])") + src.count("sector_line(r, heads[r['cluster_id']])"), 3)
         self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
         self.assertNotIn("why_line(r['why'])", src)
-        self.assertIn("why_line(r['why'], r['title'])", inspect.getsource(brief.policy_actions_lines))
+        # session 1980 (faults file row 85): the policy line is written by brief.policy_line, which policy_actions_lines calls
+        self.assertIn("policy_line(r, kinds)", inspect.getsource(brief.policy_actions_lines))
+        self.assertIn('why_line(r["why"], r["title"])', inspect.getsource(brief.policy_line))
         rsrc = inspect.getsource(roundup)
         self.assertNotIn("why_line(r['why'])", rsrc)
         self.assertGreaterEqual(rsrc.count("why_line(r['why'], heads[r['cluster_id']])"), 2)

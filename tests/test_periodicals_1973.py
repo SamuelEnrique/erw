@@ -494,6 +494,22 @@ class Rows100To103W45OnTheStack(unittest.TestCase):
         self.assertIn("Apterra's loan for Calibrant Energy's solar and storage projects", roundup.finance_words(loan))
 
 
+class Row105AGatedPointerGoes(unittest.TestCase):
+    """Row 105: in an email, a link to a page in review whose words only point is dropped with its clause."""
+
+    def test_the_lines(self):
+        import email_digest as ed
+        g = lambda s: ed.gate_links(s, {})   # no page live
+        self.assertEqual(g("Table `t`, series `s`: [the table and its download](/data#t)."), "Table `t`, series `s`.")
+        self.assertEqual(g("No top story of the day names this measure. [How the chart is chosen](/data/methods/x)."),
+                         "No top story of the day names this measure.")
+        self.assertEqual(g("Template `w`; every template's latest run is on [/research](/research)."), "Template `w`.")
+        self.assertEqual(g("Table: `energy_deals` (13 deals shown; [the whole table](/data#energy_deals)). Extracted."),
+                         "Table: `energy_deals` (13 deals shown). Extracted.")
+        self.assertEqual(g("See [the deals tracker](/deals) for more."), "See the deals tracker for more.")
+        self.assertEqual(ed.gate_links("[How the chart is chosen](/x).", {"/x": "live"}), "[How the chart is chosen](/x).")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
