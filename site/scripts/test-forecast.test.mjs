@@ -223,7 +223,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "nc"), own: 0.7, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "vt"), own: 1.4, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "mi"), iaval: true }, { ...F.defaults(P, "utility_pv", "mi"), iaval: true, optrate: 2000, life: 30 }],
     [{ ...F.defaults(P, "utility_pv", "nv"), iaval: true, own: 1.1, ownyears: 30 }, { ...F.defaults(P, "geothermal", "nv"), iaval: true, own: 1.1, ownyears: 30 }],
-    [{ ...F.defaults(P, "utility_pv", "va"), own: 0.8, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "va"), mw: 160, own: 0.8, ownyears: 30 }],
+    [{ ...F.defaults(P, "utility_pv", "va"), mw: 100, own: 0.8, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "va"), mw: 160, own: 0.8, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
