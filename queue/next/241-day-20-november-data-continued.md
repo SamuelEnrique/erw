@@ -20,15 +20,21 @@ Read first: chain 227's note `docs/state/note_<its day>_data_c227.md`, chain 226
 
 ## Session 3905: the next file, the ground, chain 227's first unfinished step
 
-Long end 1:00. The next file. Memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py` from the main checkout, `scripts/freeze.py status`; `scripts/suite_gate.py --ref origin/main` (main green or not, the first line of the report). Then chain 227's first unfinished step, from its note's "What waits" (session 3904 writes them here).
+Long end 1:00. The next file. Memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py` from the main checkout, `scripts/freeze.py status`; `scripts/suite_gate.py --ref origin/main` (main green or not, the first line of the report). Then chain 227's first unfinished step, from its note's "What waits" (written below by chain 227's session 3904).
 
 ## Sessions 3906 to 3909: chain 227's other unfinished steps
 
-Long end 1:30 each. Session 3904 writes them here from chain 227's note. Where chain 227 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 227 on 13 November at about 20:00 UTC from its note (`docs/state/note_2026-11-13_data_c227.md`). Chain 227 read the runs of 13 November and fixed six faults that stopped them, each landed with its test: the board's refresh (`page_keep` keeps Henry Hub and the spreads together), the Grid tool's replication (each grid's demand in the hour shown), the rollups' `Derived from:` line, test 314's paused grid in the live set's window, and (by the second window) the Digest's restated demand note. The run of 14 November is the first with all of them. In this order; a run not yet in is carried, not waited for over 20 minutes:
 
-## Session 3910: the runs of 14 November
+- **3905's step: the daily run of 14 November** (the 14:00 UTC dispatch): `board_tests` ok (the board's spark rows and Henry Hub kept or taken together, `runs/daily_board.out` in the run's artifact `daily-prices-log`), **the daily commit on main through the guard** (refused on 7 to 13 November), `package tests` ok, the health summaries of 12, 13 and 14 November on main and their "Stale on main" line. A refusal is read from the job's log (GitHub's API serves it with the repository's token, `actions/jobs/<id>/logs`) and fixed at its cause.
+- **3906: the data machine's run of 14 November** (17:00 UTC): its page files on main through the guard (13 November's were refused for test 314 and landed by chain 227 after the fix), every `dm_` step ok or skipped by its schedule, and `dm_test_battery_dispatch` (test 178: the battery note's twelve months against the export's rollover into October 2026; a ruling, left put back).
+- **3907: check-values on the Digest of 14 November,** and `/digest` with today's issue on main; the Digests the refused commits lost (9, 10, 11 and 13 November) left as the owner rules.
+- **3908: the gate's two failures that are main's own** since 13 November: `/policy`'s floor (0 checked numbers and 1 held by a license since the policy tables were held, window 3's session 4102) and whether window 3 or the landing desk changed it; the known-failures list (`runs/c147/main_known_fails.txt`) read again.
+- **3909: the hunt** (`check.py --tables warehouse/output` after the daily commit's tables move; 185 of 185 reproduced on 13 November), the cards and do-files, and the records.
 
-Long end 1:30. The daily run (14:00 UTC dispatch), the board, the data machine's run (17:00 UTC) and the Digest of 14 November: each job's row in `erw_health` over `SUPABASE_DB_URL`, each failed step opened with its first error line, a fault of this repository's code fixed with its test on the chain's branch. A run not yet in when the session opens is carried, not waited for over 20 minutes.
+## Session 3910: the runs of 15 November
+
+Long end 1:30. The daily run (a Saturday: no Digest), the board and the data machine's run of 15 November: each job's row in `erw_health` over `SUPABASE_DB_URL`, each failed step opened with its first error line, a fault of this repository's code fixed with its test on the chain's branch. A run not yet in when the session opens is carried, not waited for over 20 minutes.
 
 ## Sessions 3911 to 3914: the siting gaps a public US source can close
 
