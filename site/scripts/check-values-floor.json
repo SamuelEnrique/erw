@@ -168,6 +168,8 @@
     "/storage?tab=owners": 0,
     "/impact?tech=utility_pv&state=mn&bstate=sd": 10,
     "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca": 10,
-    "/impact?state=ia&iaval=1&levy=30&bstate=ne": 10
+    "/impact?state=ia&iaval=1&levy=30&bstate=ne": 10,
+    "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd": 10,
+    "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25": 10
   }
 }

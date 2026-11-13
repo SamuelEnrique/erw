@@ -4,6 +4,7 @@
 // shared SeriesChart (components/tool/SeriesChart.tsx) draws it, with its Chart | Table toggle; the page hands it the
 // values (JEDI's per-MW lines times the reader's project, lib/impact.ts). The hover names the state and its three parts.
 import { SeriesChart } from "@/components/tool/SeriesChart";
+import { Tip } from "@/components/tool/ToolPage";
 
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
@@ -25,7 +26,9 @@ export function StateChart({ id, unit, categories, keys, onsite, supply, induced
         { name: "Induced", color: "var(--color-muted)", values: induced },
       ]}
       says={(i) => `${categories[i]}: ${one(onsite[i] + supply[i] + induced[i])} ${unit} (on site ${one(onsite[i])}, supply chain ${one(supply[i])}, induced ${one(induced[i])})`}
-      note="The ten states with the most construction job-years, yours, and the five with the fewest: JEDI's per-MW construction jobs in each state, times your project's size, cost and local content. Every state is in the table below."
+      // fault 19 (session 4253): the chart's words as a tip, not a line under it (explanations only as hover tips, the owner's
+      // tool rules)
+      tip={<Tip id={`${id}-tip`} label="the same project in other states">The ten states with the most construction job-years, the scenario&apos;s own and the five with the fewest: JEDI&apos;s per-MW construction jobs in each state, scaled by the scenario&apos;s spending and local content. The chart&apos;s table holds them.</Tip>}
     />
   );
 }

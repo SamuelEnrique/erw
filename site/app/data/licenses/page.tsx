@@ -96,7 +96,7 @@ export default function Licenses() {
           ))}
         </ul>
         <p className="mt-2 max-w-3xl text-xs text-muted">
-          ISO-NE&apos;s page names info@iso-ne.com for permission; a draft to it, of 12 October 2026, is{" "}
+          ISO-NE&apos;s page names info@iso-ne.com for permission; a draft to it, of 12 October 2026 and brought up to date on 13 November 2026, is{" "}
           <a href={repo("docs/reviews/isone-permission-email.md")}>here</a>, also not sent.
         </p>
       </Section>

@@ -135,7 +135,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 405: the interconnection explorer (the default, CAISO in positions; ERCOT in MW over a window; SPP; a held queue)
   "/explore/interconnection", "/explore/interconnection?queue=ercot&measure=mw&from=2018&to=2025", "/explore/interconnection?queue=spp",
   "/explore/interconnection?queue=nyiso",
-  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne",
+  "/impact", "/impact?tech=utility_pv&state=mn&bstate=sd", "/impact?tech=natural_gas&state=tx&instate=50&btech=geothermal&bstate=ca", "/impact?state=ia&iaval=1&levy=30&bstate=ne", "/impact?tech=utility_pv&state=or&iaval=1&btech=utility_pv&bstate=nd", "/impact?tech=utility_pv&state=mi&iaval=1&bstate=vt&bown=1.4&bownyears=25",
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=spp&asset=wind",  // session 145: MISO is blank on the page, so the fourth view is SPP's wind
   // session 38: today's level's price range
   "/play/ev",  // session 3276: the EV game's four figures at the defaults (ev|US|...)

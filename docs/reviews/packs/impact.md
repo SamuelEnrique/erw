@@ -1,158 +1,166 @@
 # Review pack: What a project does for a state
 
-- **Address:** `/impact` (production `https://erw-flame.vercel.app/impact`, opened after `https://erw-flame.vercel.app/internal/open`). The economic impact tool, tool 17 of the platform.
-- **Status:** in review, like every page (`site/lib/release.ts`); in the Economics menu under its own line (`site/lib/pages.ts`). A visitor sees the in-review page; the review needs the internal view.
-- **Written from:** branch `wip/345-impact` (sessions 345 to 347, 20 October 2026, the third machine), not yet on `main`. The old laptop lands it (`docs/state/review_2026-10-20_third.md`).
-- **Numbers:** read from `warehouse/output/nlr_jedi_multipliers.csv` on 20 October 2026, the same rows Supabase holds (5,562; the loader's match line). The default case is land-based wind in Texas.
+- **Address:** `/impact` (production `https://erw-flame.vercel.app/impact`, opened after `https://erw-flame.vercel.app/internal/open`). The economic forecasting tool, tool 17 of the platform, in the menu as "Local impact" (the name is a ruling, question 1 of part 9).
+- **Status:** in review, like every page (`site/lib/release.ts`); a visitor sees the in-review page, the review needs the internal view.
+- **Written from:** branch `wip/4250-forecast` (chain 239 and 240, lab-desktop window 4, sessions 4200 to 4259, 13 November 2026). Row 1 of `docs/state/landing_request_desktop_w4.md` landed at `71f8442ed`; rows 2 to 4 wait, and row 4 lands them all.
+- **This pack replaces** the pack of sessions 345 to 347 (the snapshot tool on the same address, commit `098a87ca2`): that tool's model, JEDI's per-MW figures, is step 1 here and its method stays in `docs/methods/economic_impact.md`. The forecast's own method is `docs/methods/forecast.md` (internal, never on the page).
+- **Numbers:** computed on 13 November 2026 with `site/lib/forecast.ts` from the parameter files in `site/data/forecast/` and the rows of `nlr_jedi_multipliers` (`tests/fixtures/forecast/jedi_rows.json`, the live rows of those states). The default case is land-based wind in Texas.
 
 ## 1. What it is for, and for whom
 
-- **The question:** what building and running a power plant does for the economy of the state it is built in: how many jobs, how much in wages (earnings) and how much in goods and services (output), while it is built and each year it runs; and what the state's taxes on it are.
-- **For whom:** a state or county official weighing a project, a developer preparing the local case for one, a journalist checking a claim of "thousands of jobs", a student of input-output models.
-- **What it gives:** job-years of construction, jobs in each year of operation, earnings and output in the model's dollars, split into on site, supply chain and induced; the swing of each lever; the same project's construction jobs in every state.
-- **Default case:** land-based wind in Texas at JEDI's default project (300 MW), cost and local shares: 1,026.68 job-years while it is built and 67.10 jobs in each year it runs; USD 63.46 million of construction earnings (2017 dollars). Texas is 12th of 51 for this project's construction jobs.
-- **What it is:** NLR's own JEDI models, read for every state by their own formulas, times the reader's project. Gross effects of an input-output model.
-- **What it is not:** a net effect, a forecast of hiring, a fiscal note, or advice. No sentence on the page says whether to build.
-- **Three questions on the page:** "How many jobs?", "What does it pay the state?", "What matters most?" (the battery page's layout, session 208).
+- **The question:** what one generating project brings the state it is built in, year by year from the first construction year to the last operating year: jobs (on site, supply chain, induced), earnings and output, and the state's and counties' taxes on it (property, sales and use, income, severance), with each stream's total and present value.
+- **For whom:** a county or state official weighing a project, a developer preparing the local case, a journalist checking a claim, a student of input-output models.
+- **What it gives:** two scenarios, A and B, side by side; jobs and taxes by year as charts (hover gives each year) and as a table; the same scenario in every other state; downloads of the run as CSV, a Python script and a Stata do-file that recompute both scenarios and print the tool's totals beside their own.
+- **Default case:** land-based wind in Texas, 200 MW at USD 1,482.19 per kW (EIA's cost for Texas, in 2025 dollars), built in 2027, 25 operating years: 515.13 construction job-years, 44.74 jobs in each operating year, USD 41.05 million of construction earnings and USD 3.65 million a year of operating earnings (2025 dollars). Sales and use tax USD 19.92 million, before Texas's manufacturing exemption (no share held, its field says so); no property tax rule held; Texas taxes no wages.
+- **What it is not:** a net effect, a forecast of hiring, a fiscal note or advice. No sentence on the page says whether to build; nothing on the page explains except the hover tips.
 
 ## 2. The model, step by step
 
-1. **The workbooks come in.** Four of NLR's JEDI workbooks, the current public release of each, kept as they came in `warehouse/raw/nlr_jedi/` (`pull()` in `warehouse/connectors/jedi_multipliers.py`; nine requests of a ceiling of twelve, logged in `runs/s345/requests.csv`).
-2. **Each workbook is computed from its constants** (`fresh()` in `warehouse/connectors/jedi_recalc.py`, pycel in `.venv-jedi`): every formula cell is emptied and computed again, and the saved project's 30 summary figures must come back exactly before anything is written (`run()`).
-3. **Excel's functions pycel lacks** are written out from Excel's definitions (`ispmt()`, `ipmt()`, `ppmt()`, `median()`, `exp()` in `jedi_recalc.py`), and the sheets' own names are resolved (`local_names()`).
-4. **Every location of the model's own list** is set as Project Location and the workbook computed again (`run()`), with the PV model's System Application set to its own Utility option (`MODELS["utility_pv"]["settings"]`). Each total must be the sum of its three lines (`identity()`); a location whose answer is an Excel error is kept as that (`errors`).
-5. **Per MW** (`rows_for()` in `jedi_multipliers.py`): each summary line divided by the default project's MW; the project's MW and each phase's local share become rows of their own.
-6. **The table is written and checked** (`main()`; `warehouse/validate/erw_validate.py`; `warehouse/metadata/build_coverage.py --only`), then loaded (`warehouse/supabase/load.py --only`), drafted to Redivis (`warehouse/redivis/upload.py --tables`) and archived (`warehouse/archive/archive.py write --tables`), each under the data lock.
-7. **The tax rules** are the /severance page's rules as a table, and seven rows that say no property-tax rule is held (`severance_rows()`, `property_rows()` in `warehouse/derived/impact_tax_rules.py`).
-8. **The page reads** the 27 rows of the reader's technology and state, every state's construction jobs, and the state's tax rules (`Impact()` in `site/app/impact/page.tsx`).
-9. **The reader's project** (`stat()` and `factor()` in `site/lib/impact.ts`): JEDI's per-MW figure times MW, times the local content's percent of JEDI's shares, and for construction times the capital cost's percent of JEDI's default.
-10. **Every figure is checked** (`site/scripts/check-values.mjs`, family `impact|`): the script reads the same rows itself and recomputes each figure with the page's own `stat()`; JEDI's per-MW figures and shares are `series|` keys read directly.
+1. **JEDI's per-MW effects** for the technology and state are read from `nlr_jedi_multipliers` (`Impact()` in `site/app/impact/page.tsx`; the table's own method in `docs/methods/economic_impact.md`).
+2. **JEDI's default cost per MW in each state** is computed by JEDI's own formulas, without a warehouse write (`warehouse/forecast/jedi_costs.py`, written to `site/data/forecast/jedi_costs.json`), so that construction effects scale with the reader's spending: E = e / C times the spending in JEDI's dollars times the local content (`run()` in `site/lib/forecast.ts`).
+3. **The defaults** (EIA's capital cost by state, construction time and life; LBNL's capacity factors and loading ratios; Tax Foundation's rates; the statutes' rules) are set by `defaults()` in `site/lib/forecast.ts` from the files `warehouse/forecast/eia_capex.py` and `warehouse/forecast/params.py` wrote.
+4. **Dollars**: every input and output in 2025 dollars by the GDP deflator as EIA's STEO carries it (`deflator.json`; the conversion inside `run()`).
+5. **Each year** (`run()`): construction effects spread evenly over the construction years; operating effects each year, MW (DC for PV) times JEDI's per-MW figure times local content times the operating spending share.
+6. **Property tax** by the state's rule where a statute is read (`propertyTax()` in `site/lib/forecast.ts`, the rules quoted in `site/data/forecast/property_rules.json`), else the reader's own rate, else no figure.
+7. **Sales and use tax** on construction spending, JEDI's taxable share times the rate times one less the exemption (`run()`; `jedi_taxable.json`, `sales_tax.json`, `sales_exemptions.json`).
+8. **State income tax** on each job as a single filer (`incomeTax()`; `income_tax.json`), and **severance** on a gas plant's in-state fuel through `/severance`'s own rules (`compute` in `site/lib/severance.ts`, passed to `run()`).
+9. **Present values** at the real discount rate, and the sums (`run()`; `stat()` reads any figure by its key).
+10. **The page** (`site/app/impact/Forecast.tsx`): the left box (`Panel`, fields and tips from `FIELDS` in `site/lib/forecastui.ts`), A and B (`Compare`), the years (`Years`), the other states (`OtherStates`), the downloads (`site/lib/forecastfiles.ts`: `csvOf`, `pythonOf`, `stataOf`).
+11. **Every figure is checked**: each is a `Num` keyed `forecast|<inputs>|<figure>` (`inputsKey()`), and `site/scripts/check-values.mjs` recomputes it with `run()` from its own read of the table and the files.
 
 ## 3. Every assumption
 
 | Assumption | Default | Source |
 |---|---|---|
-| Technology | Land-based wind | The first of the four JEDI models held; any of the four may be picked |
-| State | Texas | One of the three states whose tax rules are held; any of 51 or the nation may be picked |
-| Project size | JEDI's default project: 300 MW wind, 100 MW (DC) solar, 500 MW gas, 12.23 MW geothermal | Each workbook's saved project (`project_mw` rows, `SummaryResults!C4`, `C6`, `Summary Results!B7`) |
-| Capital cost | 100 percent of JEDI's default | The workbook's own cost for its default project, in its dollar year |
-| Local content | 100 percent of JEDI's shares (Texas wind: 0.22 of construction spending, 0.23 of direct operating cost) | JEDI's default share of each cost line (`local_share` rows, JEDI's local spending over the phase's cost) |
-| Life | None: JEDI states no plant life | The page adds up the operating years only when the reader gives one (Samuel's question 3) |
-| Abatement | Off, and it applies nothing | No property-tax statute is held (`impact_tax_rules`, `no_rule_held`) |
-| Multipliers | Each state's own, from IMPLAN | The workbook's `Multipliers` sheet: wind 2016, PV 2019, gas 2014, geothermal 2014 (its note says 2012) state data |
-| Dollars | Each model's own year: wind 2017, the others 2010 | The workbook's Money Value; nothing is converted |
-| Utility-scale solar | The PV model with its System Application set to Utility | The model's own option and its own utility defaults (the workbook is saved with residential systems) |
-| One FTE | 2,080 hours in a year | JEDI's notes under its summary |
-| Proportional levers | Every effect proportional to spending | JEDI's input-output arithmetic; the local content's single factor is the page's one approximation |
-| Severance | Not computed for a plant | A plant produces no oil or gas (`x_applies_to` of every severance row) |
+| Technology and state | Land-based wind, Texas | The page's own choice, as the snapshot tool's |
+| MW | Wind 200, PV 150 (AC), gas 1,227, geothermal 50 | EIA, capital cost study for AEO2025, cases 13, 16, 5 and 11 |
+| Capital cost | EIA's overnight cost in the state, 2023 dollars raised to 2025; several cities averaged; else EIA's base case | EIA study, Appendix A tables 1-13, 1-16, 1-5, 1-11 (`eia_capex.json`) |
+| First construction year | 2027 | The first full year after 13 November 2026; a choice, no source |
+| Construction years | Wind 1, PV 1, gas 2, geothermal 2 | EIA's plant construction time, rounded up to whole years |
+| Operating years | Wind 25, PV 35, gas 40, geothermal 40 | EIA's operating life |
+| Local content, operating spending | 100 percent of JEDI's defaults | JEDI's own shares and O&M; the cross-check (part 4) shows when a reader should move them |
+| Construction profile | Even over the construction years | JEDI states a total, not a profile; the tool's assumption, said in the tip |
+| Dollars | 2025, by the GDP implicit price deflator | BEA's index as EIA STEO carries it, series `GDPDIUS` (`deflator.json`) |
+| Discount rate | 7 percent real | OMB Circular A-94 (December 2025), section 8.b(1); the tip names Appendix C's 2.0 percent |
+| Capacity factor, PV loading ratio | The state's median plant (3 or more), else the national median | `lbnl_wind_capacity_factors`, `lbnl_solar_projects`, placed by `eia860_plants_annual` (`capacity_factors.json`) |
+| Sales tax | State rate plus population-weighted local rate, midyear 2026, on JEDI's taxable share | Tax Foundation (CC BY-NC 4.0); JEDI's "Sales Tax (Materials & Equipment Purchases)" line |
+| Sales tax exemption | The statute where read (Minnesota wind, Iowa wind and solar equipment, North Dakota's power plants), else 0 and "before exemptions" | `sales_exemptions.json`, each quoted |
+| Income tax | Each job a single filer at the phase's average wage, 2026 brackets held in real terms | Tax Foundation 2026 (`income_tax.json`) |
+| Property tax | The statute where read: MN, SD, ND, NE, IA, KS, OR, WY, FL, AZ; else the reader's rate; else none | `property_rules.json`, each rule quoted with its section |
+| Gas plant fuel | Heat rate 6,266 Btu/kWh, capacity factor 0.65, in-state share 0, Henry Hub 2025 mean USD 3.5267/MMBtu | EIA case 5; JEDI gas model; `eia_steo_forecasts` `NGHHUUS` (`gas.json`) |
 
 ## 4. The cross-checks
 
 | What was compared | With what | Result |
 |---|---|---|
-| Wind's saved project (Connecticut), 30 summary figures, computed from the constants | The figures the workbook saved | Equal to one part in a billion, every one |
-| PV's saved project (Arizona, residential), 30 figures | The saved figures | Equal, every one |
-| Gas's saved project (Wyoming), 30 figures | The saved figures | Equal, every one |
-| Geothermal's saved project (Idaho), 30 figures | The saved figures | Equal, every one |
-| Each location's total, both phases, three measures | Its on site, supply chain and induced lines | Equal at every one of 206 locations (`identity()`; `tests/test_session345.py` on the table) |
-| `ISPMT`, `IPMT` (two), `PPMT` (two) as written | Excel's documented examples (-64,814.81; -66.67; -292.45; -75.62; -27,598.05) | Equal to the cent |
-| A first version that only changed the location | The per-location sum | It gave every state Connecticut's supply chain and induced jobs; the check now stops it |
-| The national row of each model | Every state's | Larger for every model (all spending counted as local) |
-| The table's 5,562 rows | Supabase's rows | Equal (the loader's match line, 20 October) |
-| The table's 5,562 rows | Redivis's draft, `count(*)` | Equal |
-| The tax rules' 42 held rows | `site/data/severance_rules.json`'s rules and Louisiana's two oil variants | Equal (`tests/test_session346.py`) |
-| The page's figures at four addresses | check-values' own read and the page's `stat()` | See the session 347 report's checks |
+| Jayhawk Wind, Kansas, 2019 study (JEDI, the project's own spending), construction jobs | The model at the study's MW and cost | 517 against 634: 0.82 (supply chain 0.96, induced 1.07, onsite 0.40) |
+| Jayhawk, operating jobs a year | The same | 34 against 43: 0.79 (onsite 0.98) |
+| Jayhawk, construction earnings and output (2019 dollars) | The same | 0.75 and 0.80 |
+| Ohio utility solar, Ohio University 2020, low scenario, construction jobs | The model at 2.5 GW DC and its cost | 19,835 against 18,039: 1.10 (direct 1.16) |
+| Ohio, operating jobs a year | The same | 733 against 207: 3.54 (JEDI's 2010 PV O&M; the operating spending input added in answer) |
+| Glendive Wind, Montana, NextEra's 2024 summary | The model at 800 MW and USD 1 billion | "Approx. 400" against 1,730 total and 272 onsite: the headline does not say what it counts |
+| Indiana's first 1,000 MW of wind, NREL 2014, construction jobs | The model at the projects' cost | 4,537 against "more than 4,400": 1.03 |
+| Indiana, operating jobs a year | The same | 232 against "approximately 260": 0.89 |
+| Rush Creek, Colorado, NREL 2019, construction jobs | The model at 600 MW and USD 1,164/kW (2018) | 1,523 against 2,970: 0.51; 0.71 without Vestas's 830 Colorado factory jobs |
+| Rush Creek, operating jobs a year | The same | 123 against "approximately 180": 0.69 |
+| Minnesota's wind production tax, Lincoln County, fiscal 2024 (Center for Rural Affairs) | The statute's USD 1.20 per MWh | USD 1.189 per MWh: within 1 percent |
+| Every figure on five `/impact` addresses, tables by year included | check-values' own recomputation | 785 of 785 (13 November, after Arizona) |
+| The Python and Stata downloads | The tool's totals for both scenarios | The Python script equal to 1e-6 in the node tests (Florida and Wyoming pairs included); the do-file prints both side by side (not run: no Stata on this machine) |
+
+The studies, their requests and the reasons for each gap are in `docs/methods/forecast.md`, section 9, and `docs/reviews/forecast-crosscheck-2026-11-13.json` (`site/scripts/forecast-crosscheck.mjs`).
 
 ## 5. The edge cases tested
 
 | Case | What the page does |
 |---|---|
-| Battery storage | Listed, greyed and not selectable: "not modeled: NLR publishes no JEDI model for it"; an address asking for it says so in the status line and shows wind |
-| Natural gas in the District of Columbia or Hawaii | JEDI's own answer is `#DIV/0!`: no figure, and a line that says why |
-| A size, cost, share or life outside its bounds | Brought inside them, with a line saying what was typed and what is used |
-| A state with no tax rules held (any but TX, LA, NM) | "No rule is held, so no tax figure is shown" |
-| The United States (national) | Every figure national; the state chart and rank are not drawn |
-| No life given | The life column says "no life given"; the life lever shows five years of operation |
-| The abatement scenario on | Says it applies nothing, as no rule is held |
+| A technology JEDI gives no figure for in a state (gas in DC or Hawaii) | No figure, and a line saying JEDI gives none |
+| A state with no property tax rule | "Not held" unless the reader types a rate and the years of its fall; the taxes' total then leaves property out and says so |
+| Kansas's ten-year exemption | USD 0 for ten years, then not held unless the reader types a rate (fault 15 fixed the trim that lost the years) |
+| Oregon's fee in lieu, 20 years in a 35-year life | Drawn for its 20 years; the life's total names the years held (fault 17) |
+| Wyoming's wind excise | From the fourth operating year, MWh shown in the table (fault 20), added to the reader's own rate |
+| Florida and Arizona | Only on the reader's own rate: 20 percent of the base through 2037 or 2040, all of it after |
+| Geothermal | No capacity factor held: no production tax, no MWh; capacity taxes only (fault 2 fixed the Python file) |
+| A scenario in other states | Each state resolved from its own defaults, not the scenario's state's (fault 14) |
+| An input out of range | No figure for that scenario and a line saying an input is out of range |
+| A planned project picked from EIA-860M | Its technology, MW, state, county and year filled in; every field still editable |
+
+The 20 faults found in the readings, each fixed with a test or ruled, are in `docs/reviews/forecast-faults-2026-11-13.md`.
 
 ## 6. What the model cannot see, ranked
 
-1. **The counterfactual.** Gross effects: nothing displaced, no other plant's jobs lost to the power this one sells.
-2. **Today's costs.** JEDI's default costs are of 2010 to 2017 projects; every effect is proportional to spending, so a more expensive build today counts more. The capital cost lever is the reader's way to say so.
-3. **Tight markets.** Workers and materials are always there at today's prices; a state at full employment would see wages rise or work leave.
-4. **Property tax.** No statute held; the tax a plant pays its county is the largest it pays, and the page states none.
-5. **Who owns it.** Profits leave the state when the owners are elsewhere; JEDI counts wages and local purchases, and sets the saved projects' debt and equity payments local share to 0.
-6. **Scale.** Per MW of the default project: a much larger or smaller plant is not that project scaled (geothermal's economies of scale most of all).
-7. **The line-by-line local content.** The page scales every line of a phase by one factor; JEDI would apply the reader's share line by line.
-8. **Batteries.** No JEDI model.
+1. **The counterfactual.** Gross effects of an input-output model: nothing displaced, no other plant's jobs lost.
+2. **Negotiated abatements.** Texas chapter 312, Louisiana's ITEP, New Mexico's industrial revenue bonds, payments in lieu agreed with a county: no statute rate to hold. The reader's rate is the place for one.
+3. **County levies.** None held in any state; Iowa's valuation and every state without a rule need the reader's levy or rate (data request row 5 asks for Texas's).
+4. **The project's own spending plan.** JEDI's default local shares; the cross-check's largest gaps (Rush Creek, Jayhawk's onsite jobs) are in-state factories and developers' plans.
+5. **Today's operating costs for PV.** JEDI's 2010 O&M gives 3.5 times a 2018 study's operating jobs; the operating spending input corrects it.
+6. **Federal taxes and credits**, the owner's corporate income or franchise tax, and Arizona's deduction of federal credits from its taxable cost.
+7. **Output over the life.** Capacity factor constant: no degradation, repowering or decommissioning.
+8. **Where workers live.** Income tax counts every job in the state, as a single filer.
 
 ## 7. The ten hardest questions
 
-### 1. A developer says 3,000 construction jobs. The page says about 1,000 job-years. Who is right?
-Both may be: a job-year is one full-time job for a year. 3,000 people on a site for four months each is 1,000 job-years. The page counts as JEDI counts.
+### 1. The developer says 3,000 construction jobs and the page says 515 job-years. Who is right?
+Both may be: a job-year is one full-time job for a year. The page counts as JEDI counts; Glendive's headline (part 4) is an example of a count that does not say what it counts.
 
-### 2. These are gross effects. What would the net be?
-Lower, by what the land, money and workers would have done otherwise. JEDI does not estimate it; no number is offered.
+### 2. Why does Texas show no property tax, the largest tax a plant pays?
+Texas taxes plants at local rates under negotiated abatements; no statewide rule with a rate exists to hold. A reader with a rate types it.
 
-### 3. JEDI's costs are years old. Are the jobs too low?
-At today's higher costs JEDI would count more, in proportion. Set the capital cost above 100 to see it; the multipliers themselves move slowly.
+### 3. Why is the sales tax for Texas so large?
+It is before Texas's manufacturing exemption, which the Comptroller applies to generating equipment; the statute could not be read as text and no share is held. The field says it is an upper bound (ruling 7 of the note).
 
-### 4. Why is Texas 12th and Maine first for a wind farm?
-Each state's own businesses supply a different share of what the plant buys. JEDI's Maine multipliers keep more of the supply chain and induced spending in the state.
+### 4. Why do the studies differ from the model by as much as half?
+Each study used the developer's own spending and local shares; the model uses JEDI's defaults. Where a study used the projects' own costs (Indiana), it agrees within 3 percent.
 
-### 5. The national row is three times any state's. Is that double counting?
-No: nationally, spending anywhere in the country is local, so more of it stays in. It is the national effect, not a sum of states.
+### 5. Is a 7 percent discount rate right for a county's revenue?
+It is OMB's base case for constant-dollar benefit-cost analysis; the tip names Appendix C's 2.0 percent, and the rate is an input.
 
-### 6. Why is there no battery?
-NLR publishes no JEDI model for battery storage, and the ERW does not make one up.
+### 6. Why are taxes flat in real terms when statutes set nominal rates?
+Every flow is in 2025 dollars; a nominal statute rate (USD per MWh) loses value with inflation, which the tool does not forecast. That is why Virginia's indexed revenue share is not held (ruling 10).
 
-### 7. Why no property tax, the tax that matters most?
-The ERW holds no statute for it in any of the three states; the chain allowed no request. Question 2 below asks to pull them.
+### 7. Why does Florida's exemption need the reader's rate?
+The statute exempts 80 percent of the value but sets no rate; the county's millage is not held. The tool applies the reader's rate to the remaining 20 percent.
 
-### 8. How can the page change a workbook's state without Excel?
-pycel evaluates the workbook's own formulas. The proof is that the saved project, computed from the constants, gives back all 30 of its saved figures exactly, in all four models.
+### 8. Can the earnings be checked against BLS wages?
+Not on this machine: www.bls.gov and api.bls.gov refuse automated reads (ruling 3). JEDI's earnings stand.
 
-### 9. Is the local content lever exact?
-No: it scales a phase's lines by one factor where JEDI applies a share to each line. At 100 percent it is exact; away from 100 it is the page's approximation, said in its hover and the method.
+### 9. Why are some states' sales tax rates from a think tank, not the states?
+Tax Foundation's table is the one 50-state compilation; it is CC BY-NC (ruling 4: used with attribution while the ERW sells nothing).
 
-### 10. Are the four technologies comparable?
-Per MW, in each model's own dollars and with each model's own default project; wind is 2017 dollars and the others 2010. A comparison should deflate first; the page converts nothing.
+### 10. Can the result be reproduced without the site?
+Yes: the Python and Stata downloads carry every parameter of both scenarios and the table's rows, recompute every year, and print the tool's totals beside their own.
 
 ## 8. What Samuel's Stata run must reproduce
 
-No do-file of this page is written yet. The table's Stata reader (`/api/download?table=nlr_jedi_multipliers&as=do`) loads the rows; the default case's figures follow from them:
+The page's Stata button writes `erw_local_impact_run.do` for the two scenarios on screen; it holds the JEDI rows and every parameter, so no other file is needed:
 
 ```stata
-* the table, as the page's download gives it (the reader keeps the "#" lines)
-do nlr_jedi_multipliers.do
-keep if strpos(entity, "nlr_jedi:land_based_wind:tx:") == 1
-* the default project's MW (300)
-list value if variable == "project_mw"
-* 1,026.68 job-years built; 67.10 jobs each year; USD 63.46 million of construction earnings (2017 dollars)
-display 3.42226 * 300
-display 0.223679 * 300
-display 211542.557943 * 300
+* the default page (A: Texas wind; B: as A until changed), downloaded from /impact's Downloads
+do erw_local_impact_run.do
+* it ends by printing, for each scenario, "tool" and "do-file" side by side:
+* jobs, earnings, property, sales, income, severance and the present value of taxes
+* for the default A: jobs 1,633.52 over the life; sales USD 19,915,038; income 0; property not held
 ```
 
-The same in Python, from the table's CSV: `value * 300` on the rows `nlr_jedi:land_based_wind:tx:construction:total` (jobs, earnings) and `...:operations:total` (jobs).
+The same in Python: `python erw_local_impact_run.py`, which prints each total beside the tool's and "same" when they agree to one part in a million. The do-file was written and its arithmetic mirrored in the node tests, but not run: Stata is not on this machine.
 
 ## 9. Questions only Samuel can answer
 
-1. **The tax rules' terms.** The Texas Comptroller's, the Louisiana Legislature's and Department of Revenue's, and New Mexico's Taxation and Revenue Department's pages were never read for their terms, so `impact_tax_rules` is "not settled" and not offered for download. (a) a session reads them, one request each; (b) rule the tables public as state law; (c) keep them held.
-2. **Pull the property-tax statutes?** Texas Tax Code chapters 312 and 313, Louisiana's Industrial Tax Exemption Program rules and New Mexico's Industrial Revenue Bond Act are named by the chain prompt and held nowhere. (a) a data session with a ceiling reads each from the state's own statute page; (b) leave the question as "no rule held".
-3. **A default life?** JEDI states none. (a) the generator page's cited lives (Lazard: wind 30, solar 35 years) for those two, none for gas and geothermal; (b) keep no default.
-4. **Severance on a gas plant's fuel?** JEDI's gas model holds a "fuel produced locally" share (0 in its saved project). (a) a scenario: the in-state share of the fuel, the heat rate and capacity factor, the well-head price and the state's rate; (b) no: severance is the wells' tax.
-5. **Utility-scale solar as the PV model's Utility option.** (a) keep; (b) show the saved residential project instead; (c) both, as two technologies.
-6. **The wind release.** NLR offers a Beta W10.30.20 as a program, not a workbook; the page reads the workbook W9.14.18. (a) keep; (b) ask JEDI support for the beta's workbook.
-7. **One dollar year?** (a) keep each model's own; (b) deflate all to one year by a named index.
-8. **The local content lever.** (a) keep the one-factor approximation; (b) a data session computes JEDI at a few shares line by line, exactly.
-9. **More models?** NLR also publishes coal, conventional hydro, CSP, marine, petroleum, transmission line, offshore and distributed wind models. (a) add the transmission line and offshore wind; (b) others; (c) none.
-10. **IMPLAN.** The multipliers inside the workbooks are IMPLAN's; the table holds JEDI's results per MW, not the multipliers. (a) public as NLR's notice allows; (b) ask NLR whether results by state may be republished.
+1. **The page's name.** (a) "Local impact" (the menu since session 4200); (b) another plain noun.
+2. **Tax Foundation's CC BY-NC tables.** (a) used with attribution while the ERW sells nothing; (b) replaced by statutes before any paid product.
+3. **BLS and BEA.** (a) leave as is (JEDI's earnings, STEO's deflator); (b) a BEA API key for its own deflator; (c) a manual BLS download.
+4. **Texas's sales tax exemption share.** (a) 0, an upper bound, as now; (b) a share read from a Comptroller ruling.
+5. **Iowa's solar exemption and racking and wiring.** (a) it does not reach them (67.2 percent exempt); (b) it does.
+6. **Kansas's exemption** assumed granted by the Board of Tax Appeals. (a) assumed; (b) off by default.
+7. **Oregon's fee.** (a) USD 7,000 per MW, the statute's maximum; (b) the range's middle.
+8. **Virginia's revenue share** with a price forecast. (a) left out; (b) held with STEO's price path.
+9. **Illinois and Ohio,** whose statute sites refuse this machine. (a) no rule held; (b) a person reads them and a session types the rules.
+10. **The shared chart's year labels for long lives** (fault 13). (a) left as they are; (b) thinned in `SeriesChart`, which moves every page.
+11. **The old method note.** `docs/methods/economic_impact.md` describes the snapshot page; (a) keep it as the table's method; (b) fold it into `forecast.md`.
 
 ## Where every number comes from
 
-- **Every jobs, earnings and output figure, every project MW and local share:** `nlr_jedi_multipliers` (`warehouse/connectors/jedi_multipliers.py`, from `jedi_recalc.py`'s files), read on the page from Supabase and checked by `check-values.mjs`.
-- **The tax rules:** `impact_tax_rules` (`warehouse/derived/impact_tax_rules.py`, from `site/data/severance_rules.json` of sessions 40 and 41).
-- **The default case in part 1:** computed from the table's CSV on 20 October 2026 (Texas wind, 300 MW: per MW 3.42226, 0.223679 and USD 211,542.56).
-- **The terms:** NLR's notice at `https://www.nlr.gov/disclaimer` (license read 65, the same page read again in session 345).
-- **The method:** `docs/methods/economic_impact.md`, sections 1 and 2.
+- **Jobs, earnings and output per MW:** `nlr_jedi_multipliers` (NLR's JEDI models, read for every state; notice at `https://www.nlr.gov/disclaimer`), read on the page from Supabase and by check-values.
+- **Parameters:** `site/data/forecast/*.json`, each with its source, request number (`runs/w4/probe.csv` of chain 239) and the date read; the statute rules quoted word for word.
+- **The default case in part 1 and part 8:** computed on 13 November 2026 by `run()` with the Texas rows of the fixture and the parameter files (`runs/w4/pack_numbers.mjs`, not in git).
+- **The cross-check:** `site/scripts/forecast-crosscheck.mjs` and `docs/methods/forecast.md`, section 9.
+- **The faults and readings:** `docs/reviews/forecast-faults-2026-11-13.md`; the session reports `archive/sessions/SESSION_4200_REPORT.md` to `SESSION_4259_REPORT.md`.
