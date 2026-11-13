@@ -19,6 +19,7 @@ Refused or blocked (not read, not retried another way):
 
 - https://www.ferc.gov/news-events/news/commissioner-changs-dissent-duke-energy-carolinas-llc-docket-nos-er26-2691-000: HTTP 403 (FERC ER26-2691, Duke Energy Carolinas pro forma NITSA large-load provisions)
 - https://ferc.gov/news-events/news/commissioner-rosners-concurrence-duke-energy-carolinas-llc-er26-2691-000-er26-2691: HTTP 403
+- https://www.sierraclub.org/environmental-law/sierra-club-wins-lower-rates-and-data-center-progress-south-carolina: blocked: the answer looks like a bot check; not retried with another agent (retried once after the certificate fix; a lead only)
 - https://www.wunc.org/2026-10-16/new-report-shows-growing-certainty-for-incoming-data-centers-in-the-carolinas: robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai; a lead only
 - https://s201.q4cdn.com/583395453/files/doc_downloads/2026/Duke-Energy-2025-Annual-Report-vFINAL.pdf: robots.txt answered 403: treated as disallow all (Duke's posted investor documents)
 - https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001326160&type=10-Q&dateb=&owner=include&count=10: robots.txt 200: DISALLOWED for all agents (the filings were reached through the Archives path instead)

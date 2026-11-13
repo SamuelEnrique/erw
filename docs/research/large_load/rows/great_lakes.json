@@ -1,0 +1,1026 @@
+{
+ "group": "great_lakes",
+ "rows": [
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "iso_region": "MISO",
+   "rule_name": "Special contracts with Google LLC (Primary Supply Agreement under Rate Schedule D11 and Clean Capacity Accelerator Agreement), Van Buren Township data center, MPSC Case No. U-22058",
+   "source_url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/10/01/mpsc-approves-dte-electric-google-data-center-and-contracts-protects-customers-from-project-cost",
+   "source_title": "MPSC news release: MPSC approves DTE Electric energy contracts for Google data center, protects other customers from the project's costs (1 October 2026)",
+   "quoted_clause": {
+    "section": "news release, first paragraph",
+    "quote": "The Michigan Public Service Commission today approved special contracts between DTE Electric Co. and Google LLC for the utility to provide electricity for a data center in Wayne County's Van Buren Township, conditioned on mandatory protections to prevent other customers from having to bear any costs associated with the project (Case No. U-22058)."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-22058",
+    "cites": [
+     {
+      "section": "news release, first paragraph",
+      "quote": "(Case No. U-22058)"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-10-01",
+    "cites": [
+     {
+      "section": "release date",
+      "quote": "October 01, 2026"
+     },
+     {
+      "section": "news release, first paragraph",
+      "quote": "The Michigan Public Service Commission today approved special contracts between DTE Electric Co. and Google LLC"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000169/dte-20260930.htm",
+      "section": "Form 10-Q for the quarter ended 30 September 2026, DTE Electric Outlook",
+      "quote": "In March 2026, DTE Electric entered into a 1.0 gigawatt data center agreement.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000169/dte-20260930.htm",
+      "section": "Form 10-Q for the quarter ended 30 September 2026, DTE Electric Outlook",
+      "quote": "DTE Electric secured MPSC approval in the fourth quarter of 2026.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "No threshold: customer-specific special contracts for a 1.0 GW data center agreement",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000169/dte-20260930.htm",
+       "section": "Form 10-Q, DTE Electric Outlook",
+       "quote": "In March 2026, DTE Electric entered into a 1.0 gigawatt data center agreement.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+       "section": "EEI Financial Conference deck, slide 8",
+       "quote": "1 GW Google agreement recently approved by MPSC; expect load to ramp up in 2028",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum billing demand of 80% of contracted electric use (the general D11 rate has 50% to 65%)",
+     "cites": [
+      {
+       "section": "news release, PSA terms",
+       "quote": "A minimum billing demand of 80%, compared to 50%-65% in the general D11 rate. This means Google will have to pay a minimum of 80% of the contracted electric use, even if its actual use is lower."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Primary supply agreement of 20 years (the general D11 rate normally requires 5 years); 20-year clean capacity acceleration agreement for the renewable and storage investments",
+     "cites": [
+      {
+       "section": "news release, PSA terms",
+       "quote": "A contract length of 20 years, compared to 5-year contracts normally required under DTE Electric's large-load D11 rate."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+       "section": "EEI Financial Conference deck, data center opportunities slide",
+       "quote": "20-year power supply agreement with minimum monthly charges; 20-year clean capacity acceleration agreement covers renewable and storage investments",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Credit and collateral requirements to cover costs if Google stops operating the data center sooner than planned (amounts not stated in the release)",
+     "cites": [
+      {
+       "section": "news release, PSA terms",
+       "quote": "Credit and collateral requirements to cover costs in the event Google were to cease operating the data center sooner than planned."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Early termination payment under which Google pays for at least 15 years of minimum monthly charges",
+     "cites": [
+      {
+       "section": "news release, PSA terms",
+       "quote": "An early termination payment requiring Google to ultimately pay for at least 15 years of minimum monthly charges, ensuring that the costs to serve the project are fully recovered from Google even if it cancels the project early."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "MPSC release of 1 October 2026; DTE Energy Form 10-Q for Q3 2026; DTE EEI Financial Conference deck of November 2026. The U-22058 application and order were not reached (MPSC e-dockets case pages are script-rendered; no document link found)."
+    },
+    "connection_timeline": {
+     "value": "Expected to begin taking service in December 2027, with maximum load by December 2028 (DTE Electric's expectation as reported by the MPSC)",
+     "cites": [
+      {
+       "section": "news release, CCAA paragraph",
+       "quote": "According to DTE Electric, the data center is expected to begin taking service in December 2027 with a maximum load achieved by December 2028."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "2.4 GW of executed agreements (Oracle 1.4 GW, Google 1.0 GW) and a further pipeline of 5 to 6 GW: about 2 GW in advanced discussions and 3 to 4 GW of other opportunities, as of DTE's EEI Financial Conference deck, 8 to 10 November 2026",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+       "section": "cover",
+       "quote": "EEI Financial Conference November 8-10, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+       "section": "slide 8",
+       "quote": "2.4 GW of executed agreements today ... 1.4 GW Oracle agreement approved and construction underway ... 1 GW Google agreement recently approved by MPSC",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+       "section": "slide 8",
+       "quote": "Strong pipeline continues to advance 5-6 GW of additional opportunities ... 2 GW in advanced discussions; targeting additional agreement by end of 2026 ... 3-4 GW of additional pipeline opportunities",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the MPSC's own news release on michigan.gov and DTE Energy's SEC filings (EDGAR)",
+   "erw_overlap": "none",
+   "notes": "Principal DTE row (holds the queue). The release is the Commission's summary and carries the MPSC disclaimer that the order is the official action; the U-22058 order and the PSA text were not read (no document link reachable without search). DTE's EEI deck (slide 8) also says 'Large load tariff moving through approval process': DTE's rate book (Section C3, sheet C-4.00, effective 27 August 2026) already refers to a 'Large Load Provision of Rate Schedule No. D11', but the D11 sheets in the rate book read on 13 November 2026 (effective 5 March 2026, Case U-21860) contain no such provision, so the large-load tariff is pending; its case number and filing date were not found (web search unavailable this session; sec.gov per-host limit reached). The base D11 terms the Commission compares against: 5-year contract for new primary installations over 1000 kW, on-peak billing demand not less than 65% of the highest summer on-peak demand, maximum demand not less than 50% of contract capacity (DTE rate book sheets D-48.02 to D-48.04).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "iso_region": "MISO",
+   "rule_name": "Special contracts with Green Chile Ventures LLC (Oracle; Primary Supply Agreement under Rate Schedule D11 and Energy Storage Agreement), Saline Township data center, MPSC Case No. U-21990",
+   "source_url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001MH71XAAT",
+   "source_title": "DTE Electric's Application for Ex Parte Approval of Special Contracts for Electric Service, Case No. U-21990, with the Direct Testimony of Neal T. Foley and Kevin L. Bilyeu (filed 31 October 2025; MPSC e-dockets copy)",
+   "quoted_clause": {
+    "page": "3",
+    "section": "Application, paragraph 6",
+    "quote": "Pursuant to the proposed PSA Special Contract, DTE Electric will provide Customer electric service under Rate Schedule D11 (\"D11\") for approximately 19 years, commencing upon Commission approval of the PSA and concluding on February 28, 2045."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-21990",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "for Approval of Special Contracts ... Case No. U-21990"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-12-18",
+    "cites": [
+     {
+      "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+      "page": "1",
+      "quote": "FOR IMMEDIATE RELEASE Dec. 18, 2025",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+      "page": "1",
+      "quote": "The Michigan Public Service Commission today conditionally approved an application from DTE Electric Co. for approval of special contracts to supply power for a Washtenaw County data center",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000174/dte2026eeipresentation11.htm",
+      "section": "EEI Financial Conference deck, slide 8",
+      "quote": "1.4 GW Oracle agreement approved and construction underway; expect load to ramp up in 2027",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "No threshold: customer-specific special contracts; contracted maximum load of approximately 1.4 GW (the MPSC release says a 1,383 MW data center)",
+     "cites": [
+      {
+       "page": "12",
+       "section": "Foley testimony, Q13",
+       "quote": "The maximum load at the facility is approximately 1.4 GW"
+      },
+      {
+       "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+       "page": "1",
+       "quote": "the 1,383- megawatt (MW) data center in Saline Township",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum billing demand of 80% of the contract capacity applicable for each billing period, applied to all three D11 demand charges (superseding D11's 65% ratchet and 50% of contract capacity floor); the minimum monthly charge rises with the contracted load ramp and is then held at the contracted capacity",
+     "cites": [
+      {
+       "page": "17",
+       "section": "Foley testimony, Q24",
+       "quote": "the Customer agrees that the minimum demand for a given billing ... period will be 80% of the contract capacity applicable for that billing period."
+      },
+      {
+       "page": "17",
+       "section": "Foley testimony, Q24",
+       "quote": "MMC will increase during the Customer's load ramp and then will be held constant ... at the contracted capacity once the max load is achieved"
+      },
+      {
+       "page": "18",
+       "section": "Foley testimony, Q25",
+       "quote": "Under the PSA, the Company will calculate all three demand charges using the"
+      },
+      {
+       "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+       "page": "1",
+       "quote": "A minimum billing demand of 80%, compared to 50-60% in the general D11 tariff.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "PSA of approximately 19 years, from Commission approval to 28 February 2045, with two optional customer renewals of ten years each; a change of rate schedule needs a request 24 months ahead and not before 24 months after the Load Ramp Completion Date. The ESA recovers each storage project's cost over 15 years from its commercial operation date",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Application, paragraph 6",
+       "quote": "for approximately 19 years, commencing upon Commission approval of the PSA and concluding on February 28, 2045."
+      },
+      {
+       "page": "15",
+       "section": "Foley testimony, Q19",
+       "quote": "The Customer has the option to extend the PSA two times, with each renewal ... effective for ten years (i.e., up to twenty total years of optional renewal)."
+      },
+      {
+       "page": "15",
+       "section": "Foley testimony, Q22",
+       "quote": "The Customer must request a rate schedule change 24 months in advance of"
+      },
+      {
+       "page": "16",
+       "section": "Foley testimony, Q22",
+       "quote": "The Customer cannot request a rate schedule change until 24 months after ... their Load Ramp Completion Date;"
+      },
+      {
+       "page": "21",
+       "section": "Foley testimony, Q34",
+       "quote": "Company to recover from the Customer the costs of each individual project within ... the portfolio over a 15-year period, starting at the Commercial Operation Date"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Parent guaranty and, as needed given the parent's credit rating, a letter of credit (PSA); the ESA also carries credit and collateral requirements",
+     "cites": [
+      {
+       "page": "20",
+       "section": "Foley testimony, Q31",
+       "quote": "The PSA includes credit and collateral requirements through a parent guaranty ... and, as necessary based on the parent's credit rating, a letter of credit designed to"
+      },
+      {
+       "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+       "page": "3",
+       "quote": "As with the primary supply agreement, the energy storage agreement includes an early termination payment and credit and collateral requirements.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination before the tenth anniversary of the Load Ramp Completion Date: minimum billing demand times the greater of the months left to that anniversary or 24 months; after it: 24 months of minimum monthly charges (designed to recover at least 10 years of minimum monthly charges)",
+     "cites": [
+      {
+       "page": "19",
+       "section": "Foley testimony, Q29",
+       "quote": "The termination payment was designed such that the Company will recover at ... least 10 years of Minimum Monthly Charges."
+      },
+      {
+       "page": "19",
+       "section": "Foley testimony, Q29",
+       "quote": "to a termination payment based on the MBD multiplied by the greater of 1) the ... number of months from the early termination date to the tenth anniversary of the ... Load Ramp Completion Date or 2) 24 months."
+      },
+      {
+       "page": "19",
+       "section": "Foley testimony, Q29",
+       "quote": "termination payment equal to 24 months of Minimum Monthly Charges."
+      },
+      {
+       "url": "https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001Xeg1uAAB",
+       "page": "2",
+       "quote": "A termination payment of up to 10 years' worth of minimum billing demand if the facility stops operating earlier than contracted to operate.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "DTE application and Foley testimony, pp. 1 to 24 of the U-21990 filing; MPSC release of 18 December 2025"
+    },
+    "connection_timeline": {
+     "value": "Load planned to begin in January 2027 and reach the maximum by December 2027; the customer may delay the ramp by up to 12 months in total, so maximum load as late as December 2028",
+     "cites": [
+      {
+       "page": "12",
+       "section": "Foley testimony, Q13",
+       "quote": "The Customer's load is planned to begin materializing in ... with max load being achieved by December 2027"
+      },
+      {
+       "page": "19",
+       "section": "Foley testimony, Q28",
+       "quote": "means that the Customer could achieve their max load as late as December 2028 if"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Special contracts with Google LLC (Primary Supply Agreement under Rate Schedule D11 and Clean Capacity Accelerator Agreement), Van Buren Township data center, MPSC Case No. U-22058"
+    }
+   },
+   "license": "public",
+   "license_basis": "the MPSC e-dockets copy of DTE Electric's filing (mi-psc.my.site.com, robots allow) and the MPSC's own news release",
+   "erw_overlap": "none",
+   "notes": "Terms are those DTE filed on 31 October 2025; the Commission approved them conditionally on 18 December 2025 (the release lists the 19-year term, 80% minimum billing demand and a termination payment of up to 10 years of minimum billing demand, matching the filing, and adds conditions: DTE bears any unrecovered cost to serve, and the data center's load is shed first in an emergency, see the U-22059 row). The U-21990 order itself was not read. The ESA (energy storage up to the customer's 1,383 MW contracted demand, 15-year cost recovery per project) is part of the same approval.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "iso_region": "MISO",
+   "rule_name": "Emergency electrical procedures, Rate Book Section C3: firm load shedding first for customers taking service after 1 October 2025 with at least 500 MW, or under the Large Load Provision of Rate Schedule No. D11 (MPSC Case No. U-22059)",
+   "source_url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+   "source_title": "MPSC news release of 27 August 2026 (item: MPSC approves DTE Electric Co. emergency procedures for data centers and other large-load customers, with modifications)",
+   "quoted_clause": {
+    "section": "DTE Electric emergency procedures item",
+    "quote": "The Commission approved changes to DTE Electric's rate book so that customers that take service from the utility after Oct. 1, 2025, with at least 500 MWs of capacity or customers that take service under DTE Electric's Large Load Provision of Rate Schedule No. D11 will now be subject to firm load shedding prior to other customers, provided that it would prevent firm load shedding for other DTE Electric customers."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-22059",
+    "cites": [
+     {
+      "section": "DTE Electric emergency procedures item",
+      "quote": "(Case No. U-22059)"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-08-27",
+    "cites": [
+     {
+      "section": "release date",
+      "quote": "August 27, 2026"
+     },
+     {
+      "section": "DTE Electric emergency procedures item",
+      "quote": "The MPSC approved, with modifications, an application from DTE Electric Co. to update its emergency electric procedures in section C3 of the utility's rate book"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "500 MW of capacity (customers taking service after 1 October 2025), or any customer on the Large Load Provision of Rate Schedule D11",
+     "cites": [
+      {
+       "section": "DTE Electric emergency procedures item",
+       "quote": "customers that take service from the utility after Oct. 1, 2025, with at least 500 MWs of capacity or customers that take service under DTE Electric's Large Load Provision of Rate Schedule No. D11"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item); the rule concerns load-shed order only"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "MPSC release of 27 August 2026 (U-22059 item)"
+    },
+    "queue_size": {
+     "value": "see row: Special contracts with Google LLC (Primary Supply Agreement under Rate Schedule D11 and Clean Capacity Accelerator Agreement), Van Buren Township data center, MPSC Case No. U-22058"
+    }
+   },
+   "license": "public",
+   "license_basis": "the MPSC's own news release on michigan.gov",
+   "erw_overlap": "none",
+   "notes": "DTE's rate book (dteenergy.com, terms allow private personal use only, so internal) prints the rule in Sections C3.2 and C3.5 (PDF pp. 45, 46 and 55; sheet C-4.00 'Effective for service rendered on and after August 27, 2026', 'Issued under authority of the Michigan Public Service Commission dated August 27, 2026 in Case No. U-22059'), so the rule is in effect from 27 August 2026 by that sheet. The 'Large Load Provision of Rate Schedule No. D11' it names is not yet in the D11 sheets (see the U-22058 row's notes).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "iso_region": "MISO",
+   "rule_name": "Rate Schedule No. D13, XL High Load Factor Rate (50 MW and up of new incremental load; not available to data centers)",
+   "source_url": "https://www.dteenergy.com/content/dam/dteenergy/deg/website/common/service-and-price/rate-cards/DTEElectricRateBook.pdf",
+   "source_title": "DTE Electric Company Rate Book for Electric Service, M.P.S.C. No. 1 - Electric, Sheets D-48.08 to D-48.10 (copy read 13 November 2026)",
+   "quoted_clause": {
+    "page": "193",
+    "section": "Sheet D-48.08, Availability of Service",
+    "quote": "Available to customers desiring service at primary, sub-transmission, or transmission voltage who contract for a specified capacity of not less than 50,000 kilowatts, which may be located at one or more sites within the Company's electric service territory."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-21163 (implementation); current prices under Case No. U-21860",
+    "cites": [
+     {
+      "page": "195",
+      "section": "Sheet D-48.10 footer",
+      "quote": "dated December 22, 2021 in Case No. U-21163"
+     },
+     {
+      "page": "193",
+      "section": "Sheet D-48.08 footer",
+      "quote": "dated February 19, 2026 in Case No. U-21860"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2022-01-21",
+    "cites": [
+     {
+      "page": "195",
+      "section": "Sheet D-48.10 footer",
+      "quote": "Effective for service rendered on and after January 21, 2022"
+     },
+     {
+      "page": "193",
+      "section": "Sheet D-48.08 footer",
+      "quote": "Effective for service rendered on and after March 5, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW (50,000 kW) of contract capacity, at one or more sites; the capacity must be new and incremental, at a load factor of at least 75%; not available for data center load",
+     "cites": [
+      {
+       "page": "193",
+       "section": "Sheet D-48.08, Availability of Service",
+       "quote": "who contract for a specified capacity of not less than 50,000 kilowatts, which may be located at one or more sites"
+      },
+      {
+       "page": "193",
+       "section": "Sheet D-48.08, Availability of Service",
+       "quote": "Service taken by the customer must be at a load factor of no less than 75% for the capacity contracted under this rate."
+      },
+      {
+       "page": "193",
+       "section": "Sheet D-48.08, Availability of Service",
+       "quote": "The rate is not available to serve the load associated with data centers."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Annual minimum charge equal to contract capacity times 75% times the hours in the year, priced at the power supply, distribution and administration charges, plus 12 months of delivery charges; any shortfall billed in the next period",
+     "cites": [
+      {
+       "page": "195",
+       "section": "Sheet D-48.10, Minimum Charge",
+       "quote": "(Contract Capacity*75%*Hours in Year) X (Power Supply Capacity charge + Power Supply Non-Capacity charge + Power Supply Transmission charge + Distribution charge + Administration charge) + Delivery charge*12 + Surcharges and Credits as applicable"
+      },
+      {
+       "page": "195",
+       "section": "Sheet D-48.10, Minimum Charge",
+       "quote": "If the total revenue collected from the customer is less than the minimum annual charge, the customer will be charged the difference in the next billing period."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum 15 years from the first service date under the rate, then month to month until mutual consent or 12 months' written notice",
+     "cites": [
+      {
+       "page": "195",
+       "section": "Sheet D-48.10, Contract Term",
+       "quote": "The minimum term under this rate is fifteen (15) years from the date initial service is provided under this rate, extending thereafter from month-to-month until terminated by mutual consent or on twelve months' written notice by either party."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "DTE rate book Sheets D-48.08 to D-48.10 (PDF pp. 193 to 195)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "DTE rate book Sheets D-48.08 to D-48.10 (PDF pp. 193 to 195); a customer failing the capacity or load factor test is moved to another rate, with no exit charge printed"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "DTE rate book Sheets D-48.08 to D-48.10 (PDF pp. 193 to 195)"
+    },
+    "connection_timeline": {
+     "value": "The incremental contracted capacity must be in service within four years of first taking service under the rate",
+     "cites": [
+      {
+       "page": "193",
+       "section": "Sheet D-48.08, Availability of Service",
+       "quote": "The required incremental contracted capacity must be in service within four years of initially taking service under this rate."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Special contracts with Google LLC (Primary Supply Agreement under Rate Schedule D11 and Clean Capacity Accelerator Agreement), Van Buren Township data center, MPSC Case No. U-22058"
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from dteenergy.com, whose terms permit download 'for private personal use' and bar public or commercial use without written permission",
+   "erw_overlap": "none",
+   "notes": "Included as a large-load schedule in force (50 MW and up) although it excludes data centers; the parent may drop it if the dataset is to hold only rules open to data centers. Prices (13 November 2026 book): power supply capacity 15.14, non-capacity 30.87, transmission 3.08 USD per MWh (sheet D-48.08).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Consumers Energy Company",
+   "state": "MI",
+   "iso_region": "MISO",
+   "rule_name": "Large Load Customer Provision of Large General Service Primary Demand Rate GPD (Sheets D-67.40, D-67.50 and D-69.00)",
+   "source_url": "https://www.consumersenergy.com/-/media/CE/Documents/rates/electric-rate-book.pdf",
+   "source_title": "Consumers Energy Company Rate Book for Electric Service, M.P.S.C. No. 14 - Electric, Rate GPD (copy read 13 November 2026)",
+   "quoted_clause": {
+    "page": "216",
+    "section": "Sheet D-67.40, Large Load Customer Provision, Availability",
+    "quote": "A Large Load Customer is defined as either (i) a customer with a load of 100 MW or more at a single site, or (ii) a customer with multiple sites, each with a load of 20 MW or greater which in total equal 100 MW or greater, owned by the same entity and located within the Company's service territory."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-21859",
+    "cites": [
+     {
+      "page": "216",
+      "section": "Sheet D-67.40 footer",
+      "quote": "Issued under authority of the Michigan Public Service Commission dated November 6, 2025 in Case No. U-21859"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-11-07",
+    "cites": [
+     {
+      "page": "216",
+      "section": "Sheet D-67.40 footer",
+      "quote": "Effective for service rendered on and after November 7, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "100 MW at a single site, or several sites of 20 MW or more each totalling 100 MW or more, owned by the same entity",
+     "cites": [
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Availability",
+       "quote": "a customer with a load of 100 MW or more at a single site, or (ii) a customer with multiple sites, each with a load of 20 MW or greater which in total equal 100 MW or greater"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly minimum billing demand of 80% of contract capacity, applied to maximum demand and on-peak billing demand, including the transmission charge, for the contract term",
+     "cites": [
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Minimum Billing Demand",
+       "quote": "The Company shall require a monthly Minimum Billing Demand of 80% of the Contract Capacity, defined as the amount of capacity reserved for the Large Load Customer."
+      },
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Minimum Billing Demand",
+       "quote": "The Minimum Billing Demand shall be applicable to the Maximum Demand and the On-Peak Billing Demand, including the Transmission Charge, for the term of the rate contract."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial term of at least 15 years from the initial service date, starting after a negotiated ramp-up period of up to 5 years; then automatic 5-year extensions unless the customer gives 4 years' written notice. One discretionary reduction of up to 10% of contract capacity on 48 months' written notice",
+     "cites": [
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Availability",
+       "quote": "A Large Load Customer must agree to a rate contract term for an initial period of a minimum of fifteen (15) years from the initial service date for billing purposes. The minimum contract term shall commence after a negotiated ramp-up period not exceeding five (5) years, as determined by the Company."
+      },
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Availability",
+       "quote": "At the conclusion of the initial contract term, the contract shall automatically renew in five-year contract extensions unless the Large Load Customer provides four (4) years advance written notice of the intention to terminate the contract."
+      },
+      {
+       "page": "217",
+       "section": "Sheet D-67.50, Contract Capacity",
+       "quote": "The Company reserves the right, at its sole discretion, to allow a one-time reduction, not to exceed 10% of Contracted Capacity, to the Contract Capacity if requested by the Large Load Customer. A minimum of 48 months advance written notice must be provided for the requested reduction."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Collateral of 50% of the Exit Fee unless the Commission approves otherwise, recalculated annually, as a standby letter of credit from a bank rated at least A- (S&P) and A3 (Moody's) for terms of at least 360 days, or cash",
+     "cites": [
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Financial Security",
+       "quote": "Unless otherwise approved by the Commission, the Large Load Customer shall provide collateral in the amount of 50% of the Exit Fee. This amount shall be recalculated annually or upon any material change to the contract term or minimum monthly charges."
+      },
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Financial Security",
+       "quote": "The Collateral Requirement may be provided to the Company in one or both of the following forms:"
+      },
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Financial Security",
+       "quote": "Such security must be issued for a minimum term of 360 days."
+      },
+      {
+       "page": "216",
+       "section": "Sheet D-67.40, Financial Security",
+       "quote": "Cash for the full Collateral Requirement."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit Fee of (minimum billing demand plus System Access Charge) times the months remaining in the contract term, applying throughout the term including the ramp-up period; a contract capacity reduction of more than 10% pays a prorated share of the Exit Fee",
+     "cites": [
+      {
+       "page": "217",
+       "section": "Sheet D-67.50, Exit Fee",
+       "quote": "The Exit Fee shall be calculated by multiplying the Minimum Billing Demand plus the System Access Charge by the number of months remaining in the rate contract term as of the date the Customer ceases to take power supply service from the Company."
+      },
+      {
+       "page": "217",
+       "section": "Sheet D-67.50, Exit Fee",
+       "quote": "The Exit Fee will apply throughout the entire contract term, including any ramp-up period, and shall be calculated based on the Minimum Billing Demand applicable at the time of exit."
+      },
+      {
+       "page": "217",
+       "section": "Sheet D-67.50, Contract Capacity",
+       "quote": "then the customer must pay a portion of the Exit Fee prorated to the percentage of the reduction in Contract Capacity unless determined otherwise by the Commission."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Consumers rate book Rate GPD Large Load Customer Provision, Sheets D-67.40, D-67.50 and D-69.00 (PDF pp. 216, 217 and 219); the provision sets a non-refundable Administrative Fee of 100,000 USD per project proposal but no study duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Consumers rate book Rate GPD Large Load Customer Provision (PDF pp. 216, 217 and 219): only the ramp-up period of up to 5 years before the minimum term is stated"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "CMS Energy Form 10-Q for Q3 2026 and CMS Q3 2026 earnings presentation (EDGAR): no large-load queue or pipeline figure; the presentation shows new load signed (about 100 MW in 2025, about 195 MW in 2026 to date, 450 MW online at a data center) 'Not inclusive of signed large load agreement'"
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from consumersenergy.com, whose terms say the contents are 'intended solely for personal, noncommercial use'",
+   "erw_overlap": "none",
+   "notes": "The provision also requires Commission approval of each Large Load Customer rate contract (Sheet D-67.40) and a written rate contract of at least fifteen years (Sheet D-69.00). Administrative Fee: 100,000 USD per project proposal, reconciled to actual cost (Sheet D-67.50). The MPSC order of 6 November 2025 in U-21859 was not read (e-docket document link not reachable without search); a public copy would make the row public. The CMS presentation's mention of a 'signed large load agreement' points to a Consumers large-load contract whose case was not found.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Wisconsin Electric Power Company (We Energies)",
+   "state": "WI",
+   "iso_region": "MISO",
+   "rule_name": "Rate Schedule VLC, Very Large Customer - Market Pricing Tariff, with Rate Schedule BRT, Bespoke Resources Tariff (Sheets 238 to 266 and following)",
+   "source_url": "https://www.we-energies.com/pdfs/etariffs/wisconsin/elecrateswi.pdf",
+   "source_title": "Wisconsin Electric Power Company, Volume 19, Electric Rates, Amendment No. 814 (Rate Schedules VLC and BRT; copy read 13 November 2026)",
+   "quoted_clause": {
+    "page": "312",
+    "section": "Sheet 238, Availability",
+    "quote": "This tariff shall be mandatory for any eligible customer whose aggregated load forecast equals or exceeds 100 MW of new electric load that does not currently exist in any Wisconsin utility's service territory."
+   },
+   "docket": {
+    "value": "PSCW Docket No. 6630-TE-113",
+    "cites": [
+     {
+      "page": "312",
+      "section": "Sheet 238 footer",
+      "quote": "PSCW Authorization: Docket No. 6630-TE-113 Order dated 5-21-2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-06-01",
+    "cites": [
+     {
+      "page": "312",
+      "section": "Sheet 238 footer",
+      "quote": "Issued: 5-29-2026 Effective: For service furnished on and after 6-1-2026 PSCW Authorization: Docket No. 6630-TE-113 Order dated 5-21-2026"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+      "section": "WEC Investor Update November 2026, slide 31",
+      "quote": "PSCW written order received May 21, 2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+      "section": "WEC Investor Update November 2026, slide 12",
+      "quote": "On the VLC tariff as of June 1, 2026",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "100 MW or more of aggregated forecast new load not now in any Wisconsin utility's territory, taking service at 24,900 volts or more; mandatory for such customers",
+     "cites": [
+      {
+       "page": "312",
+       "section": "Sheet 238, Availability",
+       "quote": "have a customer aggregated load forecast of 100 MW or greater of new electric load that does not currently exist in any Wisconsin utility's service territory, and (5) take service at a minimum of 24,900 volts"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+       "section": "slide 31",
+       "quote": "Applies to customers with 100 MW or more of forecasted new load",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Transmission billed on at least the Minimum Transmission Demand, the greater of the customer's Initial Forecasted Demand (from the ATC load interconnection forecast) or its measured demand; a minimum monthly charge of the administrative, transmission (with the Minimum Billed Demand Charge), firm service, distribution and other fixed charges, owed regardless of the power used. No percentage-of-contract minimum is printed",
+     "cites": [
+      {
+       "page": "314",
+       "section": "Sheet 240, Definitions",
+       "quote": "Minimum Transmission Demand: the greater of (a) the Customer's Initial Forecasted Demand or (b) the Customer's Measured Demand for the billing period."
+      },
+      {
+       "page": "313",
+       "section": "Sheet 239, Definitions",
+       "quote": "Initial Forecasted Demand will be defined in the VLC Service Agreement for each Customer and will be consistent with the Customer's Load Forecast that serves as the basis for the Load Interconnection Request Form submitted to ATC"
+      },
+      {
+       "page": "330",
+       "section": "Sheet 256, Minimum Monthly Charge",
+       "quote": "The minimum monthly charge will be the sum of the following to which the customer shall be obligated to pay regardless of the amount of power used during a billing period:"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "VLC Service Agreement of at least 15 years, with one-year written cancellation notice due before the MISO Planning Year (currently 1 June) of year nine; then annual renewal. Bespoke resource agreements run at least the depreciable life of a company-owned resource, or at least 20 years for wind and solar, or the resource contract's duration",
+     "cites": [
+      {
+       "page": "312",
+       "section": "Sheet 238, Term",
+       "quote": "Eligible customers shall enter into a VLC Service Agreement with a minimum term of fifteen (15) years with a one-year written cancellation notice no later than one day prior to the first day of the MISO Planning Year (currently, June 1) in year nine (9) of the VLC Service Agreement's term."
+      },
+      {
+       "page": "312",
+       "section": "Sheet 238, Term",
+       "quote": "After the minimum term of fifteen (15) years, the VLC Service Agreement shall automatically renew annually for a one-year term"
+      },
+      {
+       "page": "336",
+       "section": "Sheet 262, BRT Term",
+       "quote": "for a term of no less than the depreciable life of a Company-owned generation resource with the exception of wind or solar resources which will have a term of no less than 20 years, or the duration of the resource contract."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "VLC Security equal to the net book value of the dedicated distribution facilities plus 1.3 times 24 months of the administrative, energy market, transmission and firm service charges, reset each year; waived while the customer is rated at least A- (S&P) and A3 (Moody's) and has tangible net worth of 2.0 times or liquidity of 10 times the security. Forms: letter of credit, cash deposit or a qualifying affiliate guaranty. Under the BRT, security equal to the aggregate net book value of the subscribed bespoke resources",
+     "cites": [
+      {
+       "page": "332",
+       "section": "Sheet 258, Financial Security (a)",
+       "quote": "the net book value of all dedicated distribution facilities used to serve such customer"
+      },
+      {
+       "page": "332",
+       "section": "Sheet 258, Financial Security (a)",
+       "quote": "plus (2) 1.3x 24 months of the Administrative Charge, Energy and Operating Reserves Market Charge, Transmission Service Charge, Fleet Firm Service Charge and Market Firm Service Charge"
+      },
+      {
+       "page": "332",
+       "section": "Sheet 258, Financial Security (a)",
+       "quote": "Tangible Net Worth, net of its Commitments and Contingent Liabilities, of 2.0x the required VLC Security amount"
+      },
+      {
+       "page": "332",
+       "section": "Sheet 258, Financial Security (a)",
+       "quote": "greater than 10x the required VLC Security amount"
+      },
+      {
+       "page": "333",
+       "section": "Sheet 259, Financial Security (b)",
+       "quote": "A cash deposit to be held by the Company; or"
+      },
+      {
+       "page": "348",
+       "section": "BRT, Financial Security",
+       "quote": "amount equal to the aggregate net book value of all Bespoke Resources to which"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve another customer; for a bespoke resource terminated after commercial operation, reimburses its net book value for the customer's share (before operation, the non-recoverable costs incurred)",
+     "cites": [
+      {
+       "page": "313",
+       "section": "Sheet 239, Termination",
+       "quote": "If the customer terminates service under this tariff and the VLC Service Agreement prior to the end of the term of the VLC Service Agreement, the customer shall continue to be responsible for certain pass-through charges or, receive certain credits as more specified in this tariff."
+      },
+      {
+       "page": "323",
+       "section": "Sheet 249, Distribution Service Charge",
+       "quote": "the Customer shall be billed by the Company and pay the remaining undepreciated book balance of the dedicated distribution facilities."
+      },
+      {
+       "page": "346",
+       "section": "BRT, Termination after Commercial Operation",
+       "quote": "the customer will be obligated to reimburse the Company for the net book value of the Bespoke Resource at the time of termination of Customer's Share"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+       "section": "slide 31",
+       "quote": "Early termination: Customer pays for remaining net book value, to the extent it cannot be repurposed",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedules VLC and BRT (PDF pp. 312 to 350): the tariff ties the Initial Forecasted Demand to ATC's load interconnection request and Load Impact Study but states no study duration; WEC Investor Update November 2026"
+    },
+    "connection_timeline": {
+     "value": "Service on the tariff starts on the first day of the next MISO Planning Year (currently 1 June) after the VLC Service Agreement is signed, provided a 10-year load forecast was given by the previous 1 October; no energization timeline printed",
+     "cites": [
+      {
+       "page": "331",
+       "section": "Sheet 257, Conditions of Delivery (2)",
+       "quote": "Participants will be eligible to start on this VLC tariff beginning on the first day (currently June 1st of each year) of the next MISO Planning Year immediately after a VLC Service Agreement is executed by the Company and customer providing that a 10-year Load Forecast has been formally provided by the previous October 1."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "4.9 GW of electric demand expected to be added in 2026 to 2031, including Microsoft/SE Wisconsin 3,200 MW, Oracle 1,300 MW and 400 MW of other growth (WEC Investor Update, November 2026)",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+       "section": "cover",
+       "quote": "Investor Update: November 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000109/a112026november.htm",
+       "section": "slide 11",
+       "quote": "2026-2031 expecting to add 4.9 GW* (~60%) of electric demand *Includes Microsoft/SE WI 3,200 MW, Oracle 1,300 MW and 400 MW of additional growth.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "the tariff sheets were read only from we-energies.com, whose terms bar retransmitting or republishing any portion without prior written consent; the status, threshold, resource term, exit and queue cites are also in WEC's public SEC filing (EDGAR), so the parent may treat those fields as public",
+   "erw_overlap": "none",
+   "notes": "The PSCW's ERF and docket pages (apps.psc.wi.gov) refuse Claude's agents by robots, so the PSCW order of 21 May 2026 in 6630-TE-113 was not read. Charges (2025 dollars): Fixed Administrative Charge 213,118 USD per billing period per customer; Demand-Based Administrative Charge 305 USD per MW of Customer Maximum Demand (Sheet 245); energy at MISO pass-through, no fuel adjustment. Non-firm load above the Firm Service Level is curtailable at MISO EEA2; failure to curtail is charged at MISO Value of Lost Load (Sheets 243 and 244). Bespoke resources carry a fixed return on equity of 10.48% to 10.98% on a 57% equity ratio (Sheet 250). Oracle (Port Washington) has met its financial security obligations per the WEC deck (slide 13).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Minnesota Power (ALLETE, Inc.)",
+   "state": "MN",
+   "iso_region": "MISO",
+   "rule_name": "Electric Service Agreement with Harmony Group, LLC (Alphabet/Google) for a Hermantown data center, MPUC Docket 26-159",
+   "source_url": "https://mn.gov/puc/activities/v-l-e-c/data-centers/",
+   "source_title": "Minnesota Public Utilities Commission: Data centers and the PUC's role (list of Electric Service Agreements under review)",
+   "quoted_clause": {
+    "section": "Electric Service Agreements under review",
+    "quote": "An ESA between Minnesota Power and Harmony Group, LLC (a subsidiary of Alphabet/Google) for a data center in Hermantown, Minnesota."
+   },
+   "docket": {
+    "value": "MPUC Docket 26-159",
+    "cites": [
+     {
+      "section": "Electric Service Agreements under review",
+      "quote": "Docket 26-159"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-03-26",
+    "cites": [
+     {
+      "section": "Electric Service Agreements under review",
+      "quote": "Status: Filed on March 26, 2026."
+     },
+     {
+      "url": "https://minnesotapower.blob.core.windows.net/content/Content/Documents/Company/PressReleases/2026/PressRelease11022026.pdf",
+      "page": "2",
+      "quote": "The MPUC is still reviewing the company's electric service agreement proposed for the new data center.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "MPUC data centers page; Minnesota Power press release of 2 November 2026; Minnesota Power rate case filing letter of 2 November 2026 (Docket E015/GR-26-199). The ESA in Docket 26-159 was not read: the MPUC eDockets host answers with a security check"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as for threshold_mw"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "MPUC data centers page; Minnesota Power press release and rate case filing letter of 2 November 2026; ALLETE SEC filings not read (sec.gov per-host limit of this pass reached)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the MPUC's own web page (mn.gov) and Minnesota Power's posted press release (no terms of use found on mnpower.com)",
+   "erw_overlap": "none",
+   "notes": "The MPUC page says the comment period was open until 28 August 2026; Minnesota Power's 2 November 2026 release says the MPUC is still reviewing the ESA. The same page cites Minn. Stat. 216B.1622 and 216B.1623 (2025): utilities must propose special rates for very large customers, data centers pay for all system upgrades, and qualified large data centers pay an annual fee of 2 to 5 million USD. No Minnesota Power very large customer tariff filing was found; the 2026 rate case filing letter proposes a Sales Adjustment Mechanism for future large-customer load growth, not a large-load tariff. The MPUC's very large electric customers page (mn.gov/puc/activities/v-l-e-c/index.jsp) answered with a bot check.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Wisconsin Electric Power Company (We Energies); Wisconsin Public Service Corporation",
+   "url": "https://apps.psc.wi.gov/APPS/dockets/content/detail.aspx?id=6630&case=TE&num=113",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (the PSCW docket and ERF host)"
+  },
+  {
+   "utility": "Northern Indiana Public Service Company (NIPSCO)",
+   "url": "https://www.nipsco.com/our-site/terms-of-use",
+   "reason": "terms of use bar 'accessing or collecting data from our Website using automated or any other unauthorized means (without our prior permission)'; nipsco.com not read further"
+  },
+  {
+   "utility": "AES Ohio (and, by the same AES terms template, AES Indiana not attempted)",
+   "url": "https://www.aes-ohio.com/terms-use",
+   "reason": "terms of use bar 'using any robot, spider, bot, web crawler, or other automated devices or mechanisms to access, use, gather information or copy any portion of the Site'; aes-ohio.com not read further"
+  },
+  {
+   "utility": "Minnesota Power (ALLETE); Otter Tail Power",
+   "url": "https://mn.gov/puc/activities/v-l-e-c/index.jsp",
+   "reason": "blocked: the answer looks like a bot check (validate.perfdrive.com); not retried"
+  },
+  {
+   "utility": "Minnesota Power (ALLETE); Otter Tail Power",
+   "url": "https://efiling.web.commerce.state.mn.us/documents?doSearch=true&dockets=25-289",
+   "reason": "the MPUC eDockets host answers with a 'Security check' page (cached from an earlier request of this pass); Docket 26-159 documents were therefore not requested"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Wisconsin Public Service Corporation",
+   "searched": "WEC Energy Group Investor Update, November 2026 (EDGAR): the VLC tariff described applies to Wisconsin Electric; no WPS large-load tariff named. PSCW docket host refused by robots. wisconsinpublicservice.com not read."
+  },
+  {
+   "utility": "Northern Indiana Public Service Company (NIPSCO)",
+   "searched": "NIPSCO presentation to the IURC investigative inquiry on affordability, 24 March 2026 (in.gov, p. 9: 'GENCO MODEL TO SUPPORT DATA CENTER DEVELOPMENT'; first data center contract, Amazon, with savings estimated 'over 15 years'); IURC 2026 Annual Report; IURC Energy Affordability Report July 2026. The GenCo structure exists but no tariff sheet or IURC order with large-load terms or an approval date was read: nipsco.com refused (terms), the IURC GenCo order not located without web search, and the sec.gov per-host limit of this pass was reached before NiSource's 10-Q.",
+   "notes": "A row needs the IURC order (or a public copy of the GenCo settlement) for status and terms; in.gov copies would be internal (IN.gov terms ask written permission)."
+  },
+  {
+   "utility": "AES Indiana (Indianapolis Power & Light Company)",
+   "searched": "AES Indiana presentation to the IURC investigative inquiry on affordability, 24 March 2026 (in.gov): no large-load tariff mentioned. aesindiana.com not read (AES sites' terms bar robots, see refused)."
+  },
+  {
+   "utility": "CenterPoint Energy Indiana South (Southern Indiana Gas and Electric Company)",
+   "searched": "CenterPoint presentation to the IURC investigative inquiry, 24 March 2026 (in.gov): load growth only ('Prioritizing affordability with potential to reduce residential bills with new large load customers'); CenterPoint Energy Form 10-Q for Q3 2026 (EDGAR, cached copy): no Indiana large-load or data center tariff."
+  },
+  {
+   "utility": "AES Ohio (The Dayton Power and Light Company)",
+   "searched": "PUCO Chair French's comments to the Ohio House Select Committee on Data Centers, 27 May 2026 (search-prod.lis.state.oh.us, cached): 'the PUCO staff has recommended the creation of a data center tariff in AES Ohio's recently filed rate case'. No AES Ohio tariff text read: aes-ohio.com refused (terms), PUCO docketing bars Claude's agents.",
+   "notes": "Pending at most as a staff recommendation in the AES Ohio rate case as of 27 May 2026; outcome not found."
+  },
+  {
+   "utility": "Ohio Edison, The Cleveland Electric Illuminating Company and The Toledo Edison Company (FirstEnergy Ohio)",
+   "searched": "PUCO Chair French's comments, 27 May 2026 (cached): 'We have directed FirstEnergy to propose a data center tariff with the PUCO'. No proposal or tariff found; firstenergycorp.com terms limit use to informational purposes and its Ohio tariff books were not read; PUCO docketing bars Claude's agents.",
+   "notes": "Queue, for a future row: FirstEnergy's Large Load Adjustment presentation to PJM's Load Analysis Subcommittee, 29 September 2026, revised 9 October 2026 (https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5h---firstenergy.pdf, p. 12): 'CEI: - 4 pipeline projects - 1,020 MW', 'OE: - 11 pipeline projects - 3,844 MW - 9 under contract projects - 1,628 MW - 3 projects connected - 340 MW', 'TE: - 5 pipeline projects - 850 MW - 2 under contract project - 120 MW - 1 connected project - 220 MW'; p. 3: 'Total FE Growth Contract & Pipeline through 2035 is ~22.8 GW (Capacity)' and 'Cutoff for submittal is 50 MW or greater'. Each page is marked 'Privileged & Confidential' although posted on pjm.com."
+  },
+  {
+   "utility": "Otter Tail Power Company",
+   "searched": "MPUC data centers page (lists no Otter Tail ESA or tariff); otpco.com home page (no tariff or terms link found, not read further); MPUC eDockets host answers with a security check; Otter Tail SEC filings not read (sec.gov per-host limit of this pass reached)."
+  },
+  {
+   "utility": "Upper Peninsula Power Company and other Great Lakes utilities",
+   "searched": "Not searched beyond the MPSC rate book index (michigan.gov), which links UPPCO's and UMERC's own rate pages; no published large-load rule was met."
+  }
+ ]
+}

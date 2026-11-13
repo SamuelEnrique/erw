@@ -16,6 +16,7 @@ Energy Research Warehouse (ERW), session 5300 (portable laptop, window P4). Two 
 | pjm_east | 3 | 46 | 46 |
 | aep | 7 | 103 | 103 |
 | texas | 8 | 119 | 119 |
+| southern_florida | 5 | 80 | 80 |
 
 ## The reading check
 
@@ -32,6 +33,7 @@ Energy Research Warehouse (ERW), session 5300 (portable laptop, window P4). Two 
 | aep-01 | pass | Schedule DCT 1st Revised Sheets 223-1 to 223-8 (pp. 113 to 118) for the term and the exit fee. The study steps come from AEP Ohio's own pages (internal) and the load-study report (pp. 4 to 5). The queue comes from AEP's slides to PJM (p. 6) and the PUCO Chair's testimony. |
 | aep-06 | pass | PSO's large-load terms appear only as an open issue in AEP's 10-Q: no terms, all fields "not published". The status date "2026-01" is printed only to the month. |
 | texas-01 | pass | Oncor's Q3 2026 10-Q and its Exhibit 99.1: the 75 MW Batch Zero framework, the 50,000 USD per MW security, the conversion of cash into letters of credit, and the queue of 795 requests (293 GW data centers, 19 GW other). The docket correction (58306) is printed in the 10-Q. |
+| southern_florida-01 | pass | Georgia Power's rules (pp. 4 and 16 of the December 2024 filing), the Commission's release of 23 January 2025 for the 5 to 15 year terms, the joint statement of 26 August 2026 on termination, the 2025 annual report for the 30-day contract review, the Q1 2026 large-load report (pp. 5 to 6) for the queue. FPL's approval date (row 4) was read too, beside the sample: the order's own first pages, ORDER NO. PSC-2026-0022-S-EI, issued 22 January 2026. |
 | texas-06 | pass | EPE's amended NM filing, Exhibit MC-9 (pp. 235 to 238): 30,000 kW and 85 percent load factor, the billing demand terms, and the 20-year minimum initial term with a ramp of up to 4 years. |
 
 ## A fault in the checker, found and fixed

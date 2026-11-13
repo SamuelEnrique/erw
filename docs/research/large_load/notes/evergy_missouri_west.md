@@ -1,0 +1,19 @@
+# Evergy Missouri West, Inc. d/b/a Evergy Missouri West (MO): large-load rules
+
+Energy Research Warehouse (ERW), research pass of session 5300 (portable laptop, window P4). Method: `../README.md`.
+
+<!-- generated: start -->
+
+Group `ameren_evergy_spp`. Rows in `utilities_<date>.csv`:
+
+- **ameren_evergy_spp-05**: Evergy Missouri West Schedule LLPS, Large Load Power Service (P.S.C. MO. No. 1, Sheets 187 to 192). Status: in effect (2026-03-09). License: public. Source: https://efis.psc.mo.gov/Document/Display/866165
+  - Not published in the documents read: study_timeline, connection_timeline.
+  - Held already by window A, not repeated: threshold_mw, min_demand, contract_term, exit_fee.
+  - Overlap with window A's registries: large_load_tariffs/evergy_missouri_west_llps.yaml: threshold, minimum demand, term and exit fee are the same and not repeated. collateral repeats the held two years of Minimum Monthly Bills and adds the discount tiers and timing; no figure differs.
+  - Notes: Sheet 188 (p. 9): capacity may be cut after the first five years by the lower of 25 MW or 10 percent without charge (24 months' notice), and beyond that on 36 months' notice subject to a Capacity Reduction Fee. In November 2026 Evergy Missouri West filed a rate case with the MPSC whose request is partly offset by new large load revenues (Evergy 10-Q, quarter ended 30 September 2026); no change to Schedule LLPS was read.
+- **ameren_evergy_spp-06**: Evergy Missouri West Rules and Regulations 2.10, Service to Loads Greater than 25MW (P.S.C. MO. No. 1, Sheet R-21), with 7.11 E (Sheet R-54). Status: in effect (2026-03-09). License: public. Source: https://efis.psc.mo.gov/Document/Display/865322
+  - Not published in the documents read: min_demand, contract_term, exit_fee.
+  - Overlap with window A's registries: none: the registries do not hold Evergy Missouri West's Rules 2.10 or 7.11 E.
+  - Notes: Sheet R-21 is a 2nd Revised sheet cancelling the 1st Revised; whether 2.10 existed before this revision was not established (the redline, EFIS 865323, does not mark changes in its text). The substitute filings of 13 and 17 February 2026 (EFIS 865973, 866165) carry Schedule LLPS sheets only, so Sheets R-21 and R-54 stand as filed on 5 February 2026. 2.10 E: further queue details are posted on Evergy's website, not read.
+
+<!-- generated: end -->

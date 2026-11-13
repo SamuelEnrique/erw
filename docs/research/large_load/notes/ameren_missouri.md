@@ -1,0 +1,24 @@
+# Union Electric Company d/b/a Ameren Missouri (MO): large-load rules
+
+Energy Research Warehouse (ERW), research pass of session 5300 (portable laptop, window P4). Method: `../README.md`.
+
+<!-- generated: start -->
+
+Group `ameren_evergy_spp`. Rows in `utilities_<date>.csv`:
+
+- **ameren_evergy_spp-01**: Ameren Missouri Service Classification No. 11(M), Large Load Customer Service (LLCS), MO.P.S.C. Schedule No. 6, Sheets 61.4 to 61.19. Status: in effect (2026-01-04). License: public. Source: https://efis.psc.mo.gov/Document/Display/859644
+  - Not published in the documents read: study_timeline.
+  - Held already by window A, not repeated: threshold_mw, min_demand.
+  - Overlap with window A's registries: large_load_tariffs/ameren_missouri_llcs.yaml: threshold (75 MW) and minimum demand (80 percent) are the same and not repeated. contract_term, collateral and exit_fee repeat the held figures (ramp plus 12 years; two years of Minimum Monthly Bills; Exit Fee) and add what the yaml does not carry: the 36-month non-extension notice, the 24-month Termination Notice, the collateral discount tiers and timing, the Early Termination Fee and the Capacity Reduction Fee. No figure differs.
+  - Notes: Sheet 61.13 (p. 12) adds an Interim Capacity Adjustment: if the existing system cannot serve the load, the Company may buy market capacity under an Interim Capacity Agreement at the customer's full cost. Missouri S.B. 4 (2025): the Missouri PSC's fact sheet says the law required the PSC to adopt rates for large load customers and that Ameren Missouri and Evergy have approved large-load tariffs (https://psc.mo.gov/CMSInternetData/Community%20Outreach/Large%20Load%20Tariff%20Fact%20Sheet.pdf, p. 1); the tariff sheets themselves do not cite the law. The 2026 preferred resource plan (Ameren 10-Q, same section) forecasts total load growth of 2.9 GW by 2030, 5 GW by 2035 and 6 GW by 2045: a forecast, not a queue. Leads only (news summaries of Ameren's earnings calls, not read): 3.4 GW of construction agreements in Missouri and a further 4 GW of Missouri projects with completed interconnection studies (Q2 2026 call); Ameren's posted call transcript on s21.q4cdn.com was refused (robots answered 403). ameren.com was not read: its terms forbid bots and automated tools (see refused), so the queue details the Company posts on its website (Sheet 126) are unread. The Order Approving Tariff Revision of 19 December 2025 (EFIS 860789) was not read.
+- **ameren_evergy_spp-02**: Ameren Missouri General Rules and Regulations III.P, Planning Required for Loads Greater than 25MW (Sheets 125 and 126), with III.M (Sheet 122). Status: in effect (2026-01-04). License: public. Source: https://efis.psc.mo.gov/Document/Display/859644
+  - Not published in the documents read: min_demand, contract_term, exit_fee, connection_timeline.
+  - Overlap with window A's registries: none: the registries do not hold Ameren Missouri's General Rules III.P.
+  - Notes: Sheet 126, III.P.5: further queue details are posted on the Company's website, which was not read (ameren.com's terms forbid bots). Sheet 125 marks III.P as an addition in this filing; the same rule text appears in Evergy's Missouri rules (2.14 and 2.10) with SPP in place of MISO.
+
+Refused or blocked (not read, not retried another way):
+
+- https://s21.q4cdn.com/448935352/files/doc_financials/2026/q2/Q2-2026-Ameren-Corporation-Earnings-Call-Final-Transcript.pdf: robots.txt answered 403: treated as disallow all (Ameren's posted Q2 2026 call transcript)
+- https://www.ameren.com/: the site's terms (https://www.ameren.com/terms, read once) forbid 'any data mining, bots, spiders, automated tools or similar data gathering and extraction methods'; no other ameren.com page was read
+
+<!-- generated: end -->

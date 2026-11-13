@@ -78,6 +78,84 @@ It starts from window A's two hand-read tables and does not repeat them:
 
 The eight fields are always all present. A cite's `url` is left out when it is the row's `source_url`. `quote` is copied from the script's output exactly; an omission inside a quote is written ` ... ` and each part must still be found in the text.
 
+## The second pass: what changed in the 90 days to 13 November 2026 (`changes/<group>.json`, `changes_<date>.csv`)
+
+One entry a change: a filing, an order, a tariff taking effect, an amendment, a denial, a withdrawal, a suspension or a hearing set, from 15 August to 13 November 2026, for a utility of the list or a document of window A's `large_load_connection_rules`. Each entry is printed in the document it cites, as every value is. A change that alters a row of `utilities_<date>.csv` is also written into that row by the parent.
+
+```json
+{
+  "group": "southeast_changes",
+  "changes": [
+    {
+      "utility": "Duke Energy Florida, LLC", "state": "FL",
+      "rule_name": "the rule as the dataset or window A names it",
+      "affects": "duke-04 | large_load_tariffs/<file>.yaml | large_load_connection_rules/<file>.yaml | new",
+      "change": "filed | approved | in effect | amended | denied | withdrawn | suspended | hearing set | order issued | other",
+      "date": "YYYY-MM-DD (or YYYY-MM when the document gives only the month)",
+      "docket": "as printed, or not published",
+      "source_url": "https://...", "source_title": "the document's own title",
+      "what": "one plain sentence of what changed, in the document's own terms",
+      "cites": [{"page": "3", "section": "", "quote": "the words that state the change and its date"}],
+      "license": "public", "license_basis": "..."
+    }
+  ],
+  "no_change": [{"utility": "...", "searched": "what was read, with dates"}],
+  "refused": [{"utility": "...", "url": "...", "reason": "..."}]
+}
+```
+
+## The third pass: the states' large-load laws (`legislation/<group>.json`, `legislation_<date>.csv`)
+
+One entry a state law or bill of the 2025 and 2026 sessions that sets terms for large loads (data centers and others of roughly 20 MW and up) or tells the utilities or the commission to set them. Each entry is read in the legislature's own text or the state code, never in a summary.
+
+```json
+{
+  "group": "laws_south",
+  "laws": [
+    {
+      "state": "TX", "bill": "S.B. 6", "session": "89th Legislature, 2025 regular",
+      "title": "the bill's or act's own title",
+      "status": "introduced | passed one chamber | passed | enacted | in effect | vetoed | died",
+      "status_date": "YYYY-MM-DD", "effective_date": "YYYY-MM-DD or not published",
+      "source_url": "the legislature's or the code's own page or PDF", "source_title": "...",
+      "cites": [{"page": "1", "section": "", "quote": "the words that state the status and dates"}],
+      "threshold_mw": {"value": "75 MW", "cites": [{"page": "4", "section": "Sec. 37.0561(a)", "quote": "..."}]},
+      "requirements": [
+        {"topic": "cost allocation | minimum term | minimum bill | collateral | exit fee | interconnection study | curtailment or backup generation | disclosure | commission rulemaking | siting or tax | other",
+         "value": "what the text requires, in its own terms", "cites": [{"page": "5", "section": "...", "quote": "..."}]}
+      ],
+      "license": "public", "notes": "..."
+    }
+  ],
+  "none_found": [{"state": "...", "searched": "..."}],
+  "refused": [{"state": "...", "url": "...", "reason": "..."}]
+}
+```
+
+`threshold_mw` is `{"value": "not published", "searched": "..."}` when the text sets no size.
+
+## The hosts' terms (the license audit of session 5300)
+
+Each utility host this pass met was read once for its terms, through the reader, on 13 November 2026. A row read only from a host whose terms ask written permission, or allow personal use only, is `internal` (the owner's ruling 4 of 6 November 2026). A host whose terms bar robots is not read at all: the reader now refuses it.
+
+| Host | Terms (where read) | The clause | Effect |
+|---|---|---|---|
+| Entergy's sites | https://www.entergy.com/terms | the Site Terms bar any robot, spider, scraper or other automatic means of access | not read (refused) |
+| dominionenergy.com | https://www.dominionenergy.com/terms-and-conditions | "use spiders, robots, data mining techniques or other automated devices or programs to catalog, download or otherwise reproduce, store or distribute content" is barred | not read (refused) |
+| pplelectric.com | https://www.pplelectric.com/terms-of-use | automated means of access barred | not read (refused) |
+| Exelon's sites (ComEd, PECO, BGE, Pepco, Delmarva, ACE) | https://www.exeloncorp.com/terms-and-conditions | automated access barred | not read (refused) |
+| fpl.com | FPL's legal notice | bots and spiders barred | not read (refused) |
+| centerpointenergy.com | https://www.centerpointenergy.com/en-us/about-us/legal/terms-of-use | "Use or attempt to use any deep-link, scraper, robot, bot, spider ... without prior express written consent" is barred; content "for your personal and non-commercial use" | refused from now; `texas-02` read before the terms were read, so `internal`, to be re-read from the PUCT's copy |
+| ameren.com | Ameren's terms | bots barred | not read (refused) |
+| Southern Company's sites (georgiapower.com, alabamapower.com) | https://www.southerncompany.com/terms-and-conditions.html | "You may not reproduce, republish, transmit, distribute ... any of the Contents of the Web Sites without the prior written consent of Southern Company subsidiaries" | `internal` (`southern_florida-03`) |
+| pge.com | https://www.pge.com/en/privacy-center/disclosure.html | "Use of these materials in publications, other websites or presentations is prohibited without PG&E's prior written consent" | `internal` (`southwest_california-01`) |
+| aps.com | https://www.aps.com/en/Utility/Regulatory-and-Legal/Terms-of-Use | "for your personal, noncommercial use"; no distribution "without written permission from APS" | `internal` (no row of this pass is read only there) |
+| oncor.com | https://www.oncor.com/content/oncorwww/us/en/home/legal.html | "for personal, noncommercial, and, as applicable, educational purposes only" | `internal` (no row of this pass is read only there) |
+| AEP's sites, srpnet.com, epelectric.com, IN.gov | read by the groups (each group's `refused` list and row `license_basis`) | personal use only, or no reproduction without permission | `internal` |
+| nvenergy.com | https://www.nvenergy.com/about-nvenergy/privacy-legal | the page is built by script, and the reader saw no text | terms not read; NV Energy's posted copy of its PUCN application kept `public`, as a filing |
+
+Several of window A's registry files were read from these hosts. That is data request row 8, for Samuel's ruling.
+
 ## What is not done
 
 - No value is read from a news article, a law firm's summary or a trade press piece; these are leads only.
