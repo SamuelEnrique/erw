@@ -28,3 +28,11 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 - Over the 17 stored Digests on the stack: 20 October's Brent and WTI movers lose "Middle East tensions continue to support crude prices despite near-term weakness" (a line on support, beside falls). Nothing else changes.
 - Tests: three classes, 6 tests (failing on main). The 72 files: 1,395 passed, 20 skipped. Both method notes carry the rows.
 - **Row 11:** moved to `6047f82d1` (rows 161 to 182 wait).
+
+## Session 3493: the rest of W44, row 183
+
+- **Row 183 (new, fixed):** W44's Policy of the Week read "DOE says it intends to lend up to so Constellation can raise the output ...". The read's "up to $5 billion" lost its sum because the title gives it; `without_figures` let a sum after "up to", "about", "nearly" or "over" go and left those words (also "worth about to the seller", "plans up to of solar"). A figure after a quantity's words now stays, and the line falls back. The Policy of the Week's impact read, the ERW's own sentence under its bold title, is printed whole. No stored Digest changes.
+- The rest of W44 read whole: the five stories, both tables, the numbers, the chart of the week, Next week, the fun fact. Nothing else new. The oil-topic fold (Shell's profits with Iran's USD 130 oil) is the owner's "one sector in one region" rule, and "Bhubaneswar" with no country is the data machine's.
+- Tests: `Row183NoQuantityWordsLeftInALine` (2). The 72 files: 1,397 passed, 20 skipped.
+- **Row 11:** moved to `6a97ed35c` (rows 161 to 183 wait).
+- **Row 11 landed in part again** (desk session 4012): rows 161 to 171 (to `91cc7525c`) at `ad7f16ca6`. The desk takes `48b5fb1df` next (session 4013). The rebase conflict was resolved as before: the desk's state cell, with the head and the rows that wait (172 to 183). `origin/main` was merged into the stack as `7028d48ce` (other machines' site and requirements changes, none in this stack's files). The 72 files: 1,397 passed. Row 11 moved there.
