@@ -44,4 +44,20 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 
 ## Decisions made without you
 
+- **One gate for several requesters' stacks** (sessions 4003, 4005 and 4007).
+  - The build lock is shared with window A and window 4's builds, and one gate takes about 35 minutes.
+  - Conflicts were resolved by rule:
+    - a generated file by its generator (`package/llms.txt`'s catalogue by `scripts/build_llms.py`);
+    - a request file by main's rows.
+- **A branch its owner keeps committing to is gated as a `wip/w2-*` copy**, never pushed onto. A row is landed at its requested head, and later commits are taken only when the row allows them (reports and notes).
+- **Row 18 (the curtain's hole) went before row 17**, which had been requested a few minutes earlier.
+- **A held table's row count is held** (session 4005, landed with window 3's row 4). This is the small, plainly correct fix the gate found.
+- **The batched suite is the gate's default only below 12 GB.** The desktop and GitHub keep one process. The maths libraries run on one thread everywhere in the suite.
+- **No push between 14:00 and 16:15.** The blackout's gate (land-c) was run before 16:15 and pushed at 16:15.
+
 ## For Samuel's ruling (each with the default taken)
+
+- **`/policy`'s floor (10)**: since `policy_actions` and `policy_reads` are held, the page carries 0 checked numbers and its "license needed" marks.
+  - Default: `/policy` is in `land_check.py`'s `HELD_FLOOR_PAGES` beside session 408's ten, a pass only when the page shows "license needed".
+  - The other way: lower the floor in `site/scripts/check-values-floor.json`.
+- **The forecast's menu name "Local impact"** (window 4's row): it landed with that default, and the menu reads "Local impact in review" on every page.
