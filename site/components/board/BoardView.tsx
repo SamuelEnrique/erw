@@ -10,7 +10,7 @@
 // Session 168: before any row is clicked, the workbench's place holds a quiet empty panel (BenchPlaceholder): the same
 // box the workbench takes, docked on the right on wide screens and above the tables on narrow ones, the faint outline of
 // a chart drawn in SVG, and one line. A click on a row puts the workbench in that box, exactly as before.
-import { Fragment, useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
@@ -212,7 +212,9 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
       <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
-      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : null}</td>
+      {/* session 1883 (audit row 43): a row with no 30-day low and high says its step, as the 7-day cell does; the cell was
+          empty on every weekly, monthly and quarterly row, and its column collapsed with its header in five lines */}
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}
@@ -224,6 +226,9 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
 function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }: { file: BoardFile; group: Group; chosen: Record<string, string>; pick: (key: string, v: string) => void; open: string | null; onOpen: (id: string) => void; unfolded: boolean; fold: (open: boolean) => void }) {
   const rows = rowsOf(file, group, chosen);
   const lead = leadRow(file, group);
+  // session 1883 (audit row 42): a closed group's head prints "stale" beside its date, as the row and the top block's tile
+  // do; a stale number is never shown as current
+  const leadAge = lead ? closeAge(lead, file.built) : null;
   // session 1193: the public rows first, then one line for each grid held for a license (its count, the hold's words),
   // its rows' names behind a toggle; the held rows stay in the page, blank, as they were (lib/board.ts, heldLines)
   const { shown, held } = heldLines(rows);
@@ -233,7 +238,7 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
     <section id={group.id} className="scroll-mt-4" aria-label={group.title} data-group={group.id}>
       <GroupFold title={group.title} open={unfolded} onToggle={fold} meta={<>
         <span data-count={group.id}>{rows.length} {rows.length === 1 ? "row" : "rows"}</span>
-        {lead ? <span className="ml-4" data-lead={group.id}>{lead.label}{lead.at ? `, ${lead.at}` : ""}: <span className="font-mono text-ink" data-n={`fold|${group.id}|last`}>{fmt(lead.last!.v, lead.unit)}</span> {lead.unit}, {shortDate(lead.last!.t, lead.freq)}</span> : null}
+        {lead ? <span className="ml-4" data-lead={group.id}>{lead.label}{lead.at ? `, ${lead.at}` : ""}: <span className="font-mono text-ink" data-n={`fold|${group.id}|last`}>{fmt(lead.last!.v, lead.unit)}</span> {lead.unit}, {shortDate(lead.last!.t, lead.freq)}{leadAge?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent" title={leadAge.words} data-lead-stale={group.id}>stale</span> : null}</span> : null}
       </>}>
       {group.filters.length ? <div className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
         {group.filters.map((f) => (
@@ -247,7 +252,9 @@ function GroupTable({ file, group, chosen, pick, open, onOpen, unfolded, fold }:
           </span>
         ))}
       </div> : null}
-      <div className="overflow-x-auto">
+      {/* session 1883 (audit row 41): the box is the containing block of the held line's screen-reader words (an
+          absolutely placed sr-only span), so they are clipped by it; they widened the page to 521 px at 390 */}
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[1180px] border-collapse text-sm tabular-nums" data-dense="1">
           <thead>
             <tr className="border-b border-rule text-xs text-muted">
@@ -375,7 +382,13 @@ function TopTwelve({ file, onOpen }: { file: BoardFile; onOpen: (id: string) => 
               value={<span data-n={`top|${r.id}|last`}>{fmt(r.last.v, r.unit)}</span>}
               time={<time dateTime={r.last.t} title={closeAge(r, file.built)?.words}>{dateWords(r.last.t, r.freq)}{closeAge(r, file.built)?.stale ? " (stale)" : ""}</time>}
               moves={(["d", "w"] as const).map((k) => {
-                const m = r.moves?.[k];
+                // session 1890 (trader path, 13 November, step 13): a stale tile's moves are blank, as its row's are
+                // (MoveCell, session 1608): the word "stale" with the age's words as its title, never a number as if current
+                const age = closeAge(r, file.built);
+                if (r.moves?.[k] && age?.stale) {
+                  return { label: k === "d" ? "Day" : "Week", dir: 0, title: `Not shown: the series is stale (${age.words}).`, text: <span data-top-stale={`${r.id}|${k}`}>stale</span> };
+                }
+                const m = shownMove(r, k, file.built);
                 return {
                   label: k === "d" ? "Day" : "Week", dir: m ? m.ch : 0,
                   title: m ? `against ${fmt(m.v, r.unit)} ${r.unit} on ${dateWords(m.t, r.freq)}` : "The value this move is measured from is not held.",
@@ -464,7 +477,18 @@ export function BoardView({ file, footer, under }: { file: BoardFile; footer?: R
     if (v === dflt) q.delete(k); else q.set(k, v);
     write(q);
   }, [write]);
-  const onOpen = useCallback((id: string) => { if (file.rows.some((r) => r.id === id && r.status === "ok")) setBench({ s: id }); }, [file, setBench]);
+  // Session 1891 (trader path, 13 November, step 14): a click that opens the workbench (a tile, a headline cell, a row of
+  // a table or of the week, a spike) brings it into view and moves the focus to its heading; a tile's workbench opened
+  // 1,174 px below the first screen and nothing seemed to happen. Only a click moves: an address that holds s= as the
+  // page opens leaves the page where it is (the flag is set here alone, and taken once by the effect below).
+  const jump = useRef(false);
+  const [jumps, setJumps] = useState(0);
+  const onOpen = useCallback((id: string) => {
+    if (!file.rows.some((r) => r.id === id && r.status === "ok")) return;
+    jump.current = true;
+    setJumps((n) => n + 1);
+    setBench({ s: id });
+  }, [file, setBench]);
   // Session 240: the wall folded by group. The first group is open as the page opens and the others are closed, each
   // with its title, its count and its first number in view; a "Jump to" link opens the group it goes to, and so does
   // an address that names one (#gas). Every row stays in the page, open or closed.
@@ -474,6 +498,19 @@ export function BoardView({ file, footer, under }: { file: BoardFile; footer?: R
   useEffect(() => { const h = window.location.hash.slice(1); if (h && sections.includes(h)) fold(h, true); }, [sections, fold]);
   const allOpen = sections.every((id) => unfolded[id]);
   const openRow = bench.s ? file.rows.find((r) => r.id === bench.s) ?? null : null;
+  useEffect(() => {
+    if (!jump.current || !openRow) return;
+    jump.current = false;
+    const h = document.querySelector<HTMLElement>(`[data-workbench="${openRow.id}"] [data-bench-heading]`);
+    if (!h) return;
+    const box = h.getBoundingClientRect();
+    if (box.top < 0 || box.bottom > window.innerHeight) {
+      // no smooth scroll for a reader who asks the system for less motion
+      const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+      h.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+    }
+    h.focus({ preventScroll: true });
+  }, [jumps, openRow]);
   const tables = (
     <div className="min-w-0">
       {file.groups.map((g) => (

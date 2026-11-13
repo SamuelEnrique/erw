@@ -1088,8 +1088,9 @@ class V2RTheParts(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", return_value=reads):
             got = roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet)
         # session 1447 (fault 36): the docket's short name, the company and the first clause joined by a comma
-        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission). Comments on the EA "
-                               "are due to FERC by 5:00 p.m. Eastern Time on November 2, 2026. ([source](https://www.federalregister.gov/x))"])
+        # session 1897 (faults file row 76): one line an item, the deadline in the row's form (tests/test_session1897.py)
+        self.assertEqual(got, ["- **2 November 2026**: Northern Natural Gas Company, Notice (Federal Energy Regulatory Commission): comments on the EA "
+                               "due 17:00 Eastern. ([source](https://www.federalregister.gov/x))"])
         with mock.patch.object(roundup, "read_table", return_value=reads.iloc[1:]):
             self.assertEqual(roundup.next_week(pd.Timestamp("2026-10-27", tz="UTC"), quiet), [])
 
@@ -1484,7 +1485,8 @@ class Session1474FiveReadTheFloor(unittest.TestCase):
                              "operator": "Google", "site_name": "", "city": "Cheyenne", "state": "", "confidence": "0.55"}])
         L = self.five(deals, dcs)
         deal = next(x for x in L if x.startswith("- **Deal of the week"))
-        self.assertIn("USD 938 million, Deutsche Bank and Rabobank and Return, Germany BESS portfolio", deal)
+        # session 1882 (faults file row 66): a financing by its roles, BESS said
+        self.assertIn("USD 938 million, Deutsche Bank and Rabobank's financing of Return's Germany battery storage portfolio", deal)
         self.assertNotIn("TeraWulf", deal)
         load = next(x for x in L if x.startswith("- **Largest new datacenter load"))
         self.assertIn("passes the datacenter table's floor (1 under it)", load)
@@ -1888,7 +1890,9 @@ class Session1446TheRoundupsNumbers(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", side_effect=lambda n: empty if n == "energy_deals" else empty_dc), \
                 mock.patch.object(roundup, "ANALYSIS_DIR", tempfile.mkdtemp()):
             L = roundup.five_numbers("2026-W44", pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-02", tz="UTC"), facts, quiet, picked)
-        self.assertEqual(len(L), 5)
+        # session 1882 (faults file row 70): the five name the marks they print on their own Tables line
+        self.assertEqual(len(L), 7)
+        self.assertEqual(L[6], "Tables: [5] `eia_fuel_spot_prices` (EIA).")
         self.assertTrue(L[0].startswith("- **Price move of the week:** SPP SPPSOUTH_HUB day-ahead averaged 27.62"), L[0])
         self.assertIn("no deal in `energy_deals` is dated this week; in its place, the week's next price move: ERCOT HB_NORTH day-ahead", L[2])
         self.assertIn("states its MW; in its place, the week's next price move: Brent crude closed at 120.15", L[3])
@@ -1959,14 +1963,16 @@ class Session1447TablesAndArchive(unittest.TestCase):
         with mock.patch.object(roundup, "read_table", return_value=reads):
             out = roundup.next_week(pd.Timestamp("2026-11-02", tz="UTC"), quiet)
         self.assertEqual(len(out), 3)
-        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC)."), out[0])
+        self.assertTrue(out[0].startswith("- **2 November 2026**: A Pipeline, Notice of Availability of the EA (FERC): "), out[0])   # 1897 (row 76)
         self.assertFalse(any("B Pipeline" in x for x in out))   # the second FERC comment deadline of the same day waits
         self.assertTrue(any("C Rule (NRC)" in x for x in out))
         self.assertTrue(any("D Pipeline" in x for x in out))
 
     def test_the_weekend_line_says_scored(self):
         src = inspect.getsource(roundup.main)
-        self.assertIn('f"- no story of {wk_start:%Y-%m-%d} or "', src)
+        # session 1882 (faults file row 60): the line is roundup.weekend_empty_line, which says what is held and the newest
+        # story's time (tests/test_session1882.py); still never "no scored story was published on"
+        self.assertIn("weekend_empty_line(wk_start, newest)", src)
         self.assertNotIn("no scored story was published on", src)
 
     def test_the_summary_has_one_number_a_clause(self):

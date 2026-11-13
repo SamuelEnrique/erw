@@ -42,7 +42,8 @@ class TheCaptureRateBesideThePrice(unittest.TestCase):
         cls.check = src("site", "scripts", "check-values.mjs")
 
     def test_the_sentence_and_the_headline_carry_the_rate_with_its_key(self):
-        self.assertIn('const capKey = (what: "price" | "flat" | "rate") => `cap|${iso}|${hub.id}|${mk}|${fuel}|l12|${what}`;', self.page)
+        # session 1893: the span is "l12", with "@<the model's last month>" when the capture file's months were cut at it
+        self.assertIn('const capKey = (what: "price" | "flat" | "rate") => `cap|${iso}|${hub.id}|${mk}|${fuel}|${capSpan("l12")}|${what}`;', self.page)
         self.assertIn('const mineRate = mine && mine.flat > 0 ? Math.round((100 * mine.price) / mine.flat) : null;', self.page)
         self.assertEqual(self.page.count('a capture rate of <Num check={capKey("rate")} raw={mineRate}>'), 1)          # the summary sentence
         self.assertEqual(self.page.count('<span data-stat="cap_rate"><Num check={capKey("rate")} raw={mineRate}>'), 1)  # the headline

@@ -84,8 +84,12 @@ test("on the file: SPP's ancillary prices of 3 October and CARB's weekly credits
   const stale = held.rows.filter((r) => r.status === "ok" && b.closeAge(r, held.built)?.stale).map((r) => r.id);
   if (file.built.startsWith("2026-10-23")) {
     assert.ok(stale.includes("spp-spp-as-price-dam-regup") && stale.includes("carb-lcfs-avg"), stale.slice(0, 8).join(", "));
+    for (const r of b.topRows(held)) assert.equal(b.closeAge(r, held.built).stale, false, r.id);
   }
-  for (const r of b.topRows(held)) assert.equal(b.closeAge(r, held.built).stale, false, r.id);
+  // session 1888: whether a top row is stale on a later file is the data machine's fact, not the code's (ERCOT's
+  // day-ahead hub ended 8 November on the file of 12 November, board audit row 46); the code's part is that every
+  // top row has an age, which the tile prints with "(stale)" when it is (BoardView, session 1883's row 42)
+  for (const r of b.topRows(held)) assert.equal(typeof b.closeAge(r, held.built).stale, "boolean", r.id);
 });
 
 console.log(`${n - failed} of ${n} passed`);

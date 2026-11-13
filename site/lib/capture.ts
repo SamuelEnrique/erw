@@ -73,6 +73,22 @@ export function twelve(months: Months | undefined, near: number): Span | null {
   return f ? { ...f, from: t[0], to: t[11] } : null;
 }
 
+/** Session 1893 (session 1885's fault 1, the walk of 13 November 2026): the months of one side and fuel up to a last
+ *  month (YYYY-MM, included), so the generator page's capture figures take the months its revenue model holds. With no
+ *  last month, the months as they are. Nothing is filled or scaled: a month after the last is left out. */
+export function upTo(months: Months | undefined, last: string | null | undefined): Months | undefined {
+  if (!months || !last) return months;
+  return Object.fromEntries(Object.entries(months).filter(([m]) => m <= last));
+}
+/** Session 1893: whether any month of a hub, in either market and for either fuel, is after a last month. */
+export const after = (h: Hub, last: string) => (["rt", "da"] as Market[]).some((m) => FUELS.some((f) => Object.keys(h[m]?.[f] ?? {}).some((k) => k > last)));
+/** Session 1893: a hub with every side's months up to a last month (upTo); the same hub when nothing is after it. */
+export function cutHub(h: Hub, last: string | null | undefined): Hub {
+  if (!last || !after(h, last)) return h;
+  const side = (s: Side | undefined): Side | undefined => (s ? { ...s, ...(s.solar ? { solar: upTo(s.solar, last) } : {}), ...(s.wind ? { wind: upTo(s.wind, last) } : {}) } : s);
+  return { ...h, rt: side(h.rt), da: side(h.da) };
+}
+
 export type YearFigure = { y: string; months: number; whole: boolean; f: Figure | null };
 /** Each calendar year from its counted months: whole with twelve of them, else partial (and it holds those months only). */
 export function years(months: Months | undefined, near: number): YearFigure[] {
@@ -244,14 +260,17 @@ export function hubYears(file: CaptureFile): HubYears {
 
 /** Session 235: one figure of the capture table of /cost-of-power/seller by its check key
  *  (cap|<grid>|<hub>|<market>|<fuel>|<span>|<stat>), for scripts/check-values.mjs to recompute from the file the page
- *  reads. `span` is "l12" (the last twelve months) or a calendar year; `what` is "price" (the capture price, USD per
+ *  reads. `span` is "l12" (the last twelve months) or a calendar year, either followed by "@<YYYY-MM>" when the page cut
+ *  the months at its model's last month (session 1893); `what` is "price" (the capture price, USD per
  *  MWh), "flat" (the hub's average over the same hours) or "rate" (the capture rate, the first over the second, in
  *  whole percent, as the table writes it). Null when the figure is not held. */
 export function stat(file: CaptureFile, grid: string, hubId: string, market: string, fuel: string, span: string, what: string): number | null {
   const h = file.grids[grid]?.hubs.find((x) => x.id === hubId);
   if (!h || (market !== "rt" && market !== "da") || (fuel !== "solar" && fuel !== "wind")) return null;
-  const months = h[market]?.[fuel];
-  const f = span === "l12" ? twelve(months, file.near) : yearCell(months, span, file.near);
+  // session 1893: a span may end "@<YYYY-MM>", the generator model's last month: the figure over the months up to it (upTo)
+  const [base, last] = span.split("@");
+  const months = upTo(h[market]?.[fuel], last);
+  const f = base === "l12" ? twelve(months, file.near) : yearCell(months, base, file.near);
   if (!f) return null;
   if (what === "price") return f.price;
   if (what === "flat") return f.flat;

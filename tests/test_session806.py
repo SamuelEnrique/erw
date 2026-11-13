@@ -79,7 +79,9 @@ class TheFiveNumbers(unittest.TestCase):
         # session 1460 (chain 150, faults 28 and 29): five rows, then the Tables line that holds their keys
         self.assertEqual(len(L), 7)
         self.assertEqual(L[5], "")
-        self.assertEqual(L[6], "Tables: the deal of the week, `energy_deals` deal:1c055d98aed350fd; the datacenter load, "
+        # session 1882 (faults file row 70): the marks the five print are named first
+        self.assertEqual(L[6], "Tables: [1] `iso_dam_hub_prices`; [6] `eia930_all_demand` (EIA-930); "
+                               "the deal of the week, `energy_deals` deal:1c055d98aed350fd; the datacenter load, "
                                "`datacenter_projects` dc:a; the chart's figure, template `watch_battery_discharge_us`, "
                                "`docs/analysis/2026-W41/chart_of_the_week.json`.")
         self.assertEqual(L[0], "- **Price move of the week:** ERCOT HB_NORTH day-ahead averaged 41.94 USD/MWh over the week, against 32.82 USD/MWh "

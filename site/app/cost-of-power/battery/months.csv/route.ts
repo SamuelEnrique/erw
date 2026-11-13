@@ -5,7 +5,7 @@
 // payments as the address has them (lib/battery/finance.ts), so each month's coverage is the page's. Provenance in
 // '#' lines at the top, as in the ERW's own CSVs. The address takes the battery page's status (lib/release.ts): in
 // review, it answers a visitor as the page does.
-import { COSTS, PRODUCTS, REVIEW_TABLE, TABLE, gridOf, inputsOf, last36, monthsOf, type Inputs, type Month } from "@/lib/batterystack";
+import { COSTS, PRODUCTS, REVIEW_TABLE, TABLE, gridOf, inputsOf, last36, monthsOf, waiting, type Inputs, type Month } from "@/lib/batterystack";
 import stepsData from "@/data/battery_scenario_steps.json";
 import { debtUsd, defaultsOf, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
 import { statusOf } from "@/lib/release";
@@ -49,7 +49,9 @@ export async function GET(req: Request) {
   const head = [
     `# Energy Research Warehouse (ERW): every month of "What a battery earns", ${g.name}, ${x.dur}-hour, ${x.strat === "foresight" ? "perfect foresight" : "day-ahead schedule"}, ${x.mw} MW`,
     `# source table: ${g.review ? REVIEW_TABLE : TABLE} (warehouse/derived/battery_stack.py), derived by the ERW from ${g.name}'s public prices; read ${g.review ? "from the site's own copy" : "from the live set"} at ${now}`,
-    `# USD for ${x.mw} MW; total_usd_per_kw is the month's total per kW of rated power. A month is held when at least 90 percent of its days are solved; a day is left out, never estimated, when an hour of its energy price or of an ancillary price is not held`,
+    `# USD for ${x.mw} MW; total_usd_per_kw is the month's total per kW of rated power. A month is held when at least 90 percent of its days are solved and every one of its days is in the table, solved or left out, or a later month's are (the running month waits until it is whole, as the page's last twelve months do); a day is left out, never estimated, when an hour of its energy price or of an ancillary price is not held`,
+    // session 1892 (session 1885's fault 2): the month the headline leaves out is said in words, beside its "held: no"
+    ...ms.filter(waiting).map((r) => `# ${r.m}: ${r.daysHeld} of ${r.daysInMonth} days solved and ${r.daysOut} left out, not yet whole: not held, and outside every figure on the page, until every one of its days is in the table`),
     `# coverage: the month's revenue times twelve, less a year of fixed O&M (USD ${x.fom} per kW a year), over a year of debt payments (USD ${x.ds}): scenario A's as the address has them; blank for a month not held`,
     `# method: /data/methods/battery_earns_algorithm (sections 3 to 5); the page: /cost-of-power/battery`,
   ];

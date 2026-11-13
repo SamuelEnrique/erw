@@ -52,6 +52,25 @@ DAM = re.compile(r"^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \| (\S+) \| ([^|]+?) 
 PRICE = re.compile(r"^-?\d+\.\d{2}$")
 RT = re.compile(r"\*\*Highest real-time price of the week:\*\* (-?[\d.]+) USD/MWh at (\S+) \(([A-Z-]+)\), interval starting "
                 r"[^(]+\((\d{4}-\d\d-\d\d \d\d:\d\d) UTC\), (\w+) \[(\d+)\]")
+# session 1895 (faults file row 71): since then the line names the interval in the grid's zone and in UTC, with no source
+# id ("the 15-minute interval starting 2026-11-03 17:45 Central (23:45 UTC) [4]", the UTC date only when it is not the
+# local one; "2026-11-03 23:45 UTC [4]" for a grid with no zone held), and the variable is on the Tables line
+RT_V2 = re.compile(r"\*\*Highest real-time price of the week:\*\* (-?[\d.]+) USD/MWh at (\S+) \(([A-Z-]+)\), the [^,\[]*? starting "
+                   r"(\d{4}-\d\d-\d\d) (\d\d:\d\d) (?:[A-Z][a-z]+(?: [A-Z][a-z]+)? \((?:(\d{4}-\d\d-\d\d) )?(\d\d:\d\d) UTC\)|UTC) "
+                   r"\[(\d+)\]")
+RT_VAR = re.compile(r"highest real-time price is variable `([a-z0-9_]+)`")
+
+
+def rt_line(text):
+    """(value, node, ISO, 'YYYY-MM-DD HH:MM' UTC, variable, mark) of the real-time line, in either form; None if absent."""
+    m = RT.search(text)
+    if m:
+        return m.groups()
+    m, var = RT_V2.search(text), RT_VAR.search(text)
+    if not m or not var:
+        return None
+    v, node, iso, ld, lt, ud, ut, ref = m.groups()
+    return v, node, iso, f"{ud or ld} {ut or lt}", var.group(1), ref
 FUEL = re.compile(r"^\| (Henry Hub natural gas|WTI Cushing crude|Brent crude) \| (-?[\d.]+) \S+ on (\d{4}-\d\d-\d\d) \| "
                   r"(-?[\d.]+) on (\d{4}-\d\d-\d\d) \| ([+-][\d.]+) \(([+-][\d.]+)%\)", re.M)
 US48 = re.compile(r"\*\*US48 peak demand of the week:\*\* ([\d,]+) MW in the hour starting (\d{4}-\d\d-\d\d \d\d:\d\d) UTC")
@@ -348,9 +367,9 @@ def checks(label, md):
             want = f"{Decimal(this.strip()) - Decimal(before.strip()):+}"
             out.append((f"rdp_change|{iso}|{node}", change.strip(),
                         lambda src, w=want, c=change.strip(): (("ok" if w == c else "FAIL"), w)))
-    m = RT.search(text)
+    m = rt_line(text)   # session 1895 (row 71): either form
     if m:
-        v, node, iso, ts, variable, ref = m.groups()
+        v, node, iso, ts, variable, ref = m
         table, t = refs.get(ref), datetime.strptime(ts, "%Y-%m-%d %H:%M").strftime("%Y-%m-%dT%H:%M:00Z")
         entity = f"{ISO_RT[iso]}:{node}"
 

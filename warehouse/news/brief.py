@@ -1211,9 +1211,9 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
         elif h["pause"]:  # session 470 (digest audit fix 12): why the grid is absent, not "not in the warehouse"
             cell = paused
         else:
-            cell = f"not in the warehouse ({h['n1']} of {h['x1']} hours)"
+            cell = f"{h['n1']} of {h['x1']} hours held, no daily mean"   # session 1882 (faults file row 71)
         if not h["held"]:
-            prev = f"{h['m0']}" if h["m0"] is not None else ("" if h["pause"] else f"not in the warehouse ({h['n0']} of {h['x0']} hours)")
+            prev = f"{h['m0']}" if h["m0"] is not None else ("" if h["pause"] else f"{h['n0']} of {h['x0']} hours held, no daily mean")
         if h["m1"] is not None and h["m0"] is not None and not h["held"]:
             mv = day_move(h["m1"], day, h["m0"], before)
             chg = f"{mv['ch']:+.2f}" + (f" ({mv['pct']:+.1f}%)" if mv["pct"] is not None else "")
