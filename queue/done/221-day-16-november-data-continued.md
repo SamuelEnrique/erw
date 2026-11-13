@@ -25,7 +25,14 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3841 to 3845: chain 218's other unfinished steps
 
-Long end 1:30 each. In chain 218's order, from its note. Where chain 218 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 218's session 3839 from its note (`docs/state/note_2026-11-13_data_c218.md`); chain 218's branch: landed at f9c87c4b6 (task/c218-data2, run 43367136387; snapshots c218-land2-before and c218-land2-after, 0 differences). Chain 218 ran in the small hours of 13 November, so every read of that day's runs falls to this chain. In this order; a run not yet run when its session comes is carried to the next file, not waited for over 20 minutes.
+
+- **3840's first unfinished step: the daily run of 13 November** (the 14:00 UTC dispatch), the first with every fix of 12 November (the two coverage stops, NYISO's late stamps, test 402's rule, the guard's subtest names, check-values' Digest keys). Its "daily run" ok, its commit on main through the guard by itself, `nyiso` ok, the health summary's "Stale on main" line gone. A refusal is read by its named test and fixed at its cause.
+- **3841: the board.** The run of 12 November put the board back (`board_tests` failed, the log on GitHub's runner). Read the run of 13 November's `board_tests` row; if it fails again, reproduce here (the board's builder and tests 132 and 240 on the day's tables) and fix the cause with its test.
+- **3842: the data machine's run of 13 November** (17:00 UTC), the first with chain 215's two fixes: its page files on main without a session's help, `dm_test_replication ok`, `dm_analysis_figures` and the outages' two daily steps ok.
+- **3843: check-values on the Digest of 13 November:** the issue's every key known and matching (chains 216 and 218 taught the script the demand and story keys and the writer's story rule); a new key named and taught, with its rule.
+- **3844: the hunt again** (`check.py` after the daily commit's tables moved; a draft whose last full year has a newer year held computed again with `--replace`).
+- **3845: the records:** the guard's red branches and the task branches of 12 and 13 November listed for the owner (chain 218's note), the rulings carried.
 
 ## Sessions 3846 to 3849: the siting gaps a public US source can close
 
