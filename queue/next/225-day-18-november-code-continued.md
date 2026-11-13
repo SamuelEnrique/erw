@@ -28,7 +28,11 @@ Long end 1:30 each. One step a session, in chain 224's order, as session 1957 li
 
 ### Unfinished steps (written by session 1957 of chain 224)
 
-(To be filled by session 1957: one line a step, in chain 224's order, with the exact commands where the step was a landing.)
+Chain 224 ran every session (1944 to 1957; 1948 to 1956 were checks, one report). It did not land: `grep MemFree /proc/meminfo` read about 0.9 GB each time it looked.
+
+1. (Session 1958) The landing of `wip/1905-revert`, unless the desktop has landed row 9 of `docs/state/landing_request_oldlaptop.md` (then only its clean-up): with 2 GB or more free, `origin/main` merged into the branch and pushed, then `.venv\Scripts\python.exe scripts/land_check.py --ref <the merge> --task 1958-revert --port 3958 --keep-worktree`, every printed command its own command; the snapshots; row 9 marked landed; `wip/1905-revert` deleted on origin; `erw-1905` and `erw-land-77e8916a` removed. Under 2 GB, row 9 stays, said so.
+2. (Session 1959) Once the revert is on main and 2 GB or more is free: the lab's path, step 04 (`/datacenters?view=grids`, internal view, 1280 and 390), walked on the local build, its new reading written beside session 1904's in `docs/reviews/lab-path.md`.
+3. (Session 1960) Once the revert is on main: the five tools' table's line "After chains 217 and 219" checked on main, and a line after chains 220 to 224 (no row changed state); `build_tables.py --check` (expected: only the site's two files differ, the local news tables).
 
 ## Sessions 1964 to 1968: the faults files' open rows
 
@@ -36,7 +40,12 @@ Long end 1:30 each. One fault a session, in this order: `docs/reviews/deals-faul
 
 ### Open faults (written by session 1957 of chain 224)
 
-(To be filled by session 1957: every faults file's rows whose state is open, one a line, in the files' order; the owner's rows named, not to be decided here.)
+Rebuilt by session 1957 from the files on main: no row open in any of them.
+
+- Deals, datacenter, policy, companies, attention faults files: every row `fixed`, `not a fault`, `data machine` or `ruling` (the owner's: deals 3, datacenter 4, policy 1, companies 1, attention 2).
+- Periodicals: every row fixed or `ruling` (five the owner's, rows 39 and 65 among them).
+- Board audit: five rows `data machine`, one `not a fault`.
+- Trader, lab and On.Energy paths, sessions 1885 and 1904: the data machine's rows, and the lab's fault 2 the owner's (datacenter row 4).
 
 ## Session 1969: the records and the clean-up
 
