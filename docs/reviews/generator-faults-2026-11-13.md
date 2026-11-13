@@ -24,3 +24,7 @@ No broken text ("NaN", "undefined", "null%", "license needed%"). Nothing scrolls
 | Replication | `replication/generator/replicate.py` from the public CSV, 13 of 13; the do-file never run (no Stata on this laptop) |
 | Cross-check table | `docs/methods/crosschecks/generator.md`, current |
 | Decisions block | `GENERATOR_DECISIONS` on the page and the note's section 13, word for word (`tests/test_session463.py`) |
+
+## The wider read (session 5008)
+
+Session 5004's build, internal view, 1280 and 390: every grid (ERCOT, CAISO, NYISO, SPP, ISO-NE) with every technology (solar, wind, battery, gas peaker), 40 views. No console error, no broken text, nothing scrolls sideways at 390. Five views draw no checked figure (NYISO's solar, battery and peaker; ISO-NE's battery and peaker): each says why above its first section ("No month of ... is held for ...", NYISO's solar adding that EIA-930 itemizes no solar generation for New York) or in its summary ("ISO-NE holds no twelve months of battery in a row"). Not a fault.

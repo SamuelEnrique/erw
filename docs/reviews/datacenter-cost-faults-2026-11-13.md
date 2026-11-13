@@ -24,3 +24,7 @@ No broken text. Nothing scrolls sideways at 390. The default headline (USD 34.07
 | Replication | `replication/datacenter/replicate.py` from the public CSV, 14 of 14; the do-file never run (no Stata on this laptop) |
 | Cross-check table | `docs/methods/crosschecks/datacenter.md`, current |
 | Decisions block | `DATACENTER_DECISIONS` on the page and the note's section 12, word for word |
+
+## The wider read (session 5008)
+
+Session 5004's build (which holds row 1's fix), internal view, 1280 and 390: each of the seven grids (ERCOT, CAISO, PJM, NYISO, ISO-NE, MISO, SPP) in the load view and the grids view, and the all-grids view, 30 views; and the load turned off in 100 hours a year. No console error, no broken text, nothing scrolls sideways at 390, a checked figure on every view. `check-values` restricted to `/cost-of-power` and `/research`: 2,873 of 2,873 values match Supabase.
