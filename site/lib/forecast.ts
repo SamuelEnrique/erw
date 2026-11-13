@@ -64,6 +64,8 @@ export type PropertyRule = {
   default_levy?: number; levy_words?: string;
   /** session 4293: the hover words of the rule with its citation, and the reader's own rate's words where it acts on one */
   tip?: string; own_tip?: string;
+  /** the local option's switch and its rate, their hover words */
+  option_tip?: string; rate_tip?: string;
 };
 
 /** The reader's project: one scenario. Percent fields are percents (7 is 7 percent); null is "not given". */
