@@ -159,6 +159,18 @@ class TheRun(unittest.TestCase):
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
+    def test_verbose_names_each_test_as_unittest_v_does(self):
+        # session 4006: the batches' skipped tests were compared by name with discover -v (382 and 382 on 98f666c8b)
+        tmp = tempfile.mkdtemp()
+        try:
+            make(tmp)
+            c, out = run([RUNNER, "--batch", "1", "--verbose", "test_a_pass"], tmp)
+            self.assertEqual(c, 0, out)
+            self.assertIn("test_one (test_a_pass.A.test_one) ... ok", out)
+            self.assertIn("test_skipped (test_a_pass.A.test_skipped) ... skipped 'not here'", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
     def test_profile_writes_each_modules_peak(self):
         tmp = tempfile.mkdtemp()
         try:
