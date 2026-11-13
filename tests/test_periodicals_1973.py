@@ -998,5 +998,31 @@ class Row149AStoryAfterTheCloseIsNoReason(unittest.TestCase):
         self.assertIn("Strong feedgas demand", brief.price_reason("Henry Hub natural gas", cl, 3.5))
 
 
+class Row150TheRoundupsTablesSayWhatTheyHold(unittest.TestCase):
+    """Row 150 (session 3445): the stack's W46 printed "Kemps Creek" (Australia held), "not stated" as the operator of a row
+    whose developer is CDC, and a blank deal type."""
+
+    def test_the_place_names_a_country_not_the_us(self):
+        import roundup
+        self.assertEqual(roundup.dc_place({"city": "Kemps Creek", "county": "", "state": "", "country": "Australia"}),
+                         "Kemps Creek, Australia")
+        self.assertEqual(roundup.dc_place({"city": "", "county": "Lowndes County", "state": "AL", "country": "United States"}),
+                         "Lowndes County, AL")
+        self.assertEqual(roundup.dc_place({"city": "Milwaukee", "county": "", "state": ""}), "Milwaukee")
+        self.assertEqual(roundup.dc_place({"city": "", "county": "", "state": "", "country": ""}), "not stated")
+
+    def test_the_developer_stands_in_for_the_operator(self):
+        import roundup
+        self.assertEqual(roundup.dc_operator({"operator": "", "developer": "CDC"}), "CDC (developer)")
+        self.assertEqual(roundup.dc_operator({"operator": "Lambda", "developer": "CDC"}), "Lambda")
+        self.assertEqual(roundup.dc_operator({"operator": "", "developer": ""}), "not stated")
+        self.assertEqual(roundup.dc_operator({}), "not stated")
+
+    def test_a_deal_with_no_type(self):
+        import inspect
+        import roundup
+        self.assertIn("{kind or 'not stated'}", inspect.getsource(roundup))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -712,6 +712,26 @@ def row_is_us(r):
     return (str(r.get("country", "")).strip().lower() in US_NAMES) or (str(r.get("state", "")).strip().upper() in US_STATES)
 
 
+def dc_place(r):
+    """Session 3445 (faults file row 150): a facility's place as the table holds it, its country named when it is not
+    the United States ("Kemps Creek, Australia", not "Kemps Creek" in a table read as US first)."""
+    country = str(r.get("country") or "").strip()
+    parts = [str(r.get(k) or "").strip() for k in ("city", "county", "state")]
+    if country and country.lower() not in US_NAMES:
+        parts.append(country)
+    return ", ".join(x for x in parts if x and x.lower() != "nan") or "not stated"
+
+
+def dc_operator(r):
+    """Session 3445 (faults file row 150): the operator; with none held, the developer the table holds, said to be one
+    ("CDC (developer)", not "not stated" beside a row that names CDC)."""
+    op = str(r.get("operator") or "").strip()
+    dev = str(r.get("developer") or "").strip()
+    if op and op.lower() != "nan":
+        return op
+    return f"{dev} (developer)" if dev and dev.lower() != "nan" else "not stated"
+
+
 def row_passes(r, table):
     """The floor: confidence ROW_CONFIDENCE or more and one of the table's ROW_FIELDS stated."""
     try:
@@ -2001,7 +2021,8 @@ def main(argv=None):
                 for r in shown_d:
                     first = r["story_urls"].split(";")[0]
                     kind, buyer, seller = deal_cells(r)   # session 1882 (row 67): no "other", a financing by its roles
-                    L.append(f"| {r['event_date'][:10]} | {kind} | {buyer} | "
+                    # session 3445 (faults file row 150): a deal with no type says so, as every other empty cell does
+                    L.append(f"| {r['event_date'][:10]} | {kind or 'not stated'} | {buyer} | "
                              f"{seller} | {asset_words(r['asset']) or 'not stated'} | {num(r['mw'])} | "
                              f"{usd_cell(r['dollars'])} | {r['status'] or 'not stated'} | [1]({first}) |")   # session 1476 (fault 54)
                 L.append("")
@@ -2024,9 +2045,8 @@ def main(argv=None):
             else:
                 L += ["| First reported | Operator | Site | Place | MW | Status | Story |", "|---|---|---|---|---|---|---|"]
                 for r in shown_c:
-                    place = ", ".join(x for x in (r["city"], r["county"], r["state"]) if x) or "not stated"
-                    L.append(f"| {r['first_story_at'][:10]} | {r['operator'] or 'not stated'} | "
-                             f"{r['site_name'] or 'not stated'} | {place} | {num(r['mw'])} | "
+                    L.append(f"| {r['first_story_at'][:10]} | {dc_operator(r)} | "
+                             f"{r['site_name'] or 'not stated'} | {dc_place(r)} | {num(r['mw'])} | "
                              f"{(r['project_status'] or 'not stated').replace('_', ' ')} | "
                              f"[1]({r['story_urls'].split(';')[0]}) |")
                 L.append("")
