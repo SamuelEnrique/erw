@@ -54,7 +54,7 @@ const EXEMPT_WORDS: Record<string, string> = {
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option" && !r.adds_to_property);
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option" && r.kind !== "own_exempt" && !r.adds_to_property);
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -103,7 +103,9 @@ export const FIELDS: FieldDef[] = [
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
     // agreement), the rate covers those years, not "no statute"
-    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "own_exempt")
+      ? "Florida exempts 80 percent of a renewable energy device's assessed value through 2037 (Statutes 196.182): a rate typed here is the reader's own, applied to the remaining 20 percent of the capital cost until 2037 and to all of it after, as the value falls. Land and other real property are not exempt; the tool applies the 80 percent to the whole capital cost."
+      : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.adds_to_property)
       ? "The state's excise on production is held; the property tax on the plant is not: a rate typed here is the reader's own, added to the excise, applied to the capital cost as it falls."
       : (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
       ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."

@@ -119,7 +119,11 @@ def property_tax(d, i):
     if used:
         return total
     if x["own"] is not None and x["ownyears"]:
-        return spend * max(0.0, 1 - i / x["ownyears"]) * x["own"] / 100
+        taxed = 1.0
+        for r in d["property"]:
+            if r["kind"] == "own_exempt" and x["start"] + x["build"] + i <= r.get("until_year", 9999):
+                taxed = 1 - r["exempt_share"]  # Florida's device exemption, through 2037
+        return spend * max(0.0, 1 - i / x["ownyears"]) * taxed * x["own"] / 100
     return None
 
 
@@ -223,7 +227,9 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
     if (parts.length) out.push(`replace property = ${parts.join(" + ")} if !build`);
     else {
       if (exemptYears !== null) out.push(`replace property = 0 if !build & i < ${exemptYears}`);
-      if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
+      const fx = d.property.find((rl) => rl.kind === "own_exempt");
+      const taxedShare = fx ? `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)` : "1";
+      if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${taxedShare} * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
     }
     out.push(`gen double severance = ${d.severance_per_mcf === null ? "." : `cond(build, ., ${xi.mw} * 8760 * ${xi.cf} * ${xi.heat} / 1000 / (${d.btu_per_cf} / 1000) * ${xi.instate} / 100 * ${d.severance_per_mcf})`}`,
       `gen double disc = 1 / (1 + ${xi.rate} / 100) ^ (year - ${xi.start})`,

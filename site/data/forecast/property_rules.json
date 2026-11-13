@@ -73,6 +73,18 @@
    "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
    "read": "2026-11-13",
    "request": 81
+  },
+  "fl_196_182": {
+   "title": "Florida Statutes 2025, section 196.182, Exemption of renewable energy source devices",
+   "url": "https://www.flsenate.gov/Laws/Statutes/2025/196.182",
+   "read": "2026-11-13",
+   "request": 83
+  },
+  "fl_193_624": {
+   "title": "Florida Statutes 2025, section 193.624, Assessment of renewable energy source devices (the definition)",
+   "url": "https://www.flsenate.gov/Laws/Statutes/2025/193.624",
+   "read": "2026-11-13",
+   "request": 84
   }
  },
  "states": {
@@ -338,6 +350,27 @@
      "quote": "39-22-103. Imposition. There is levied an excise tax upon the privilege of producing electricity from wind resources in this state. [...] The tax shall be imposed on each megawatt hour of electricity produced from wind resources at the point of interconnection with an electric transmission line. 39-22-104. Taxation rate. The tax rate shall be one dollar ($1.00) on each megawatt hour, or portion thereof, which is produced in this state.",
      "quote2": "39-22-105. (b) Electricity produced from a wind turbine shall not be subject to the tax imposed under this chapter until the date three (3) years after the turbine first produced electricity for sale.",
      "not_modeled": "An excise on production, in addition to the property tax on the plant, which no rule here holds: the reader's own property tax rate, if typed, is added to it. MWh at the point of interconnection are taken as the plant's MWh. The three years are counted as the first three operating years."
+    }
+   ]
+  },
+  "fl": {
+   "name": "Florida",
+   "rules": [
+    {
+     "id": "fl_device_exemption",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind",
+      "geothermal"
+     ],
+     "kind": "own_exempt",
+     "exempt_share": 0.8,
+     "until_year": 2037,
+     "cite": "fl_196_182",
+     "quote": "196.182 Exemption of renewable energy source devices. (1) Eighty percent of the assessed value of a renewable energy source device, as defined in s. 193.624, that is considered tangible personal property is exempt from ad valorem taxation if the renewable energy source device: (a) Is installed on real property on or after January 1, 2018; [...] (4) This section expires December 31, 2037.",
+     "cite2": "fl_193_624",
+     "quote2": "the term \"renewable energy source device\" means any of the following equipment that collects, transmits, stores, or uses solar energy, wind energy, or energy derived from geothermal deposits or biogas [...]: (a) Solar energy collectors, photovoltaic modules, and inverters. [...] (i) Pipes, ducts, wiring, structural supports, refrigerant handling systems, and other components used as integral parts of such systems [...] (j) Windmills and wind turbines. (k) Wind-driven generators.",
+     "not_modeled": "No rate is in the statute: the exemption acts on the reader's own rate, applied to the remaining 20 percent of the base through 2037 and to all of it after (the section expires 31 December 2037). The tool applies the 80 percent to the whole capital cost; land and any other real property improvement are not exempt. The fiscally constrained counties' projects filed by 2017 (subsection 2) are not modeled."
     }
    ]
   }

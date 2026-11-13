@@ -34,7 +34,7 @@ export function params(): Params {
     id: r.id, technologies: r.technologies, kind: r.kind, usd_per_mw_year: r.usd_per_mw_year, usd_per_mwh: r.usd_per_mwh, min_mw: r.min_mw,
     tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires,
     years: r.years, usd_per_mw_min: r.usd_per_mw_min, usd_per_mw_max: r.usd_per_mw_max, default_usd_per_mw: r.default_usd_per_mw,
-    exempt_years: r.exempt_years, adds_to_property: r.adds_to_property })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
+    exempt_years: r.exempt_years, adds_to_property: r.adds_to_property, exempt_share: r.exempt_share, until_year: r.until_year })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
   return {
     jediCosts: { technologies: slimJc } as Params["jediCosts"],
     eiaCapex: { technologies: slimEc } as unknown as Params["eiaCapex"],

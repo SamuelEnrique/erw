@@ -219,6 +219,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "land_based_wind", "ks") }, { ...F.defaults(P, "utility_pv", "ks"), own: 0.8, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "or"), iaval: true, optrate: 6200 }, { ...F.defaults(P, "utility_pv", "or"), iaval: true, own: 1, ownyears: 30 }],
     [{ ...F.defaults(P, "land_based_wind", "wy") }, { ...F.defaults(P, "land_based_wind", "wy"), own: 1.1, ownyears: 20 }],
+    [{ ...F.defaults(P, "utility_pv", "fl"), own: 1, ownyears: 30 }, { ...F.defaults(P, "land_based_wind", "fl"), own: 1.2, ownyears: 25, start: 2030 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -349,4 +350,14 @@ test("a production tax applied is reported whatever its rule's id (fault 20)", (
   assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "mn"), mw: 100 }, ROWS, P).property.production, true);
   assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "ne"), mw: 100 }, ROWS, P).property.production, false);
   assert.equal(F.run(F.defaults(P, "land_based_wind", "tx"), ROWS, P).property.production, false);
+});
+
+test("Florida's device exemption: the reader's own rate on 20 percent of the base through 2037, all of it after", () => {
+  const fl = { ...F.defaults(P, "utility_pv", "fl"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1.5, ownyears: 30 };
+  // the first operating year is 2028
+  near(F.propertyTax(P, fl, 0).tax, 150e6 * 1 * 0.2 * 0.015);
+  near(F.propertyTax(P, fl, 9).tax, 150e6 * (1 - 9 / 30) * 0.2 * 0.015, 1e-12, "2037, the last exempt year");
+  near(F.propertyTax(P, fl, 10).tax, 150e6 * (1 - 10 / 30) * 0.015, 1e-12, "2038, the section expired");
+  assert.equal(F.propertyTax(P, { ...fl, own: null }, 0).tax, null, "no rate given, no figure");
+  near(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "fl"), mw: 100, capex: 1500, own: 1.5, ownyears: 30 }, 0).tax, 150e6 * 0.015, 1e-12, "gas is not a renewable device");
 });
