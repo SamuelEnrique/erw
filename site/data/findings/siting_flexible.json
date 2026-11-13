@@ -142,7 +142,7 @@
   "ercot_4cp_intervals",
   "texas_transmission_matrix"
  ],
- "computed_at": "2026-11-13T18:50:22Z",
+ "computed_at": "2026-11-12T18:04:10Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/siting.md",
  "downloads": {
   "csv": "siting_flexible.csv",
@@ -158,7 +158,7 @@
  "statistics": {
   "session": 361,
   "round": {
-   "name": "the findings library's cards as computed by 2026-11-13",
+   "name": "the findings library's cards as computed by 2026-11-12",
    "claims_tested": 26,
    "claims_passing": 14,
    "alpha": 0.05,
