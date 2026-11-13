@@ -1,0 +1,53 @@
+ERW Daily Digest, 2026-11-13
+
+13 November 2026. Data through 11:01 ET, 16:01 UTC.
+
+ERW's weekday brief of energy news for the 17 hours to 2026-11-13 16:01 UTC (the window opened 2026-11-12 22:56 UTC): 172 scored stories.
+
+A further 49 stories of the window are held but not scored yet, so this issue does not rank them.
+
+
+The opening number
+
+1,200 MW: Centrus and Oklo finalise fuel agreements for up to five Aurora powerhouses at 1,200 MW Ohio campus, as World Nuclear News reported on 2026-11-13 (ranked 1 of the day's top ten). The day's largest move, SPP SPPSOUTH_HUB day-ahead up 57.5%, is one hub's and no story names it, so a reported figure leads; it is the outlet's, not a warehouse table's.
+
+The numbers
+
+- Market price. Brent crude: 92.14 USD/bbl on 2026-11-11, up 1.98 USD/bbl (2.2%) from 90.16 USD/bbl on 2026-11-10 [1]. Status: observed, EIA's spot close of the trading day 2026-11-11, the newest EIA had published.
+- Physical. US48 demand peaked at 491,749 MW in the hour starting 2026-11-12 23:00 UTC [2]; the same weekday a year before (2025-11-13) is not held, so no change is shown. Status: observed, EIA-930 hourly demand.
+- Project or capacity. Generation capacity, Australia: 1,000 MW (AirTrunk, European Energy Australia; Data Center Dynamics, 2026-11-13) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+- Policy, capital or reliability. Capital raised: USD 1.5 billion (Rowan; Data Center Dynamics, 2026-11-13) [3]. Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.
+Tables: [1] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt); [2] eia930_all_demand (eia:electricity/rto/region-data); balancing authority us48; [3] news_stories; story news:1ecbfe013f5d7862 (mw); story news:b0b8aad4f1f1f030 (price).
+
+What moved
+
+1. Centrus and Oklo finalise fuel agreements for up to five Aurora powerhouses at 1,200 MW Ohio campus
+   One outlet has reported it so far.
+   World Nuclear News: https://www.world-nuclear-news.org/articles/centrus-oklo-deal-secures-fuel-for-ohio-reactor-deployment
+2. AirTrunk signs 1,000 MW energy deal with European Energy Australia for solar, wind and BESS
+   AirTrunk commits to purchasing 1GW from new solar, wind and battery projects. One outlet has reported it so far.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/airtrunk-signs-1gw-energy-deal-with-european-energy-australia/
+3. Rowan secures USD 1.5 billion in financing for data center build-out
+   One outlet has reported it so far.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/rowan-secures-15bn-in-financing-for-data-center-build-out/
+
+ERW's Chart of the Day
+
+No chart is shown today: no candidate passed the chart's rules (the run log says why).
+  Measure: SPP SPPSOUTH_HUB day-ahead; Value: 32.58 USD/MWh; Change: up 57.5%; Period: 2026-11-12 against 2026-11-11; Table: iso_dam_hub_prices
+  Measure: CAISO TH_SP15_GEN-APND day-ahead; Value: 37.50 USD/MWh; Change: up 9.2%; Period: 2026-11-12 against 2026-11-11; Table: iso_dam_hub_prices
+  Measure: ERCOT HB_NORTH day-ahead; Value: 38.93 USD/MWh; Change: down 3.5%; Period: 2026-11-12 against 2026-11-11; Table: iso_dam_hub_prices
+
+More on the site: the rest of the top ten, the sectors, AI and power, and the numbers in full: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-11-13.md
+
+ERW's Fun Fact
+
+In 2001, nuclear made 51.5% of the electricity generated in Illinois; in 2025 it made 50.9%.
+Sources: state_generation_mix_monthly (Energy Research Warehouse (ERW), derived).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-11-13.md
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Corrections: https://github.com/SamuelEnrique/erw/issues
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
