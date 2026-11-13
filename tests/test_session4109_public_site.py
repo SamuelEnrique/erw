@@ -169,5 +169,24 @@ class HeldGridFiles(unittest.TestCase):
         self.assertEqual(sorted(files - known), [], "a held grid's prices in a file the site serves by address")
 
 
+class TheListForTheRuling(unittest.TestCase):
+    """Session 4174: scripts/held_public_files.py lists the held grids' public files for the owner's ruling and deletes nothing."""
+
+    def test_it_lists_the_fixtures_files_and_has_no_way_to_delete(self):
+        import importlib.util, subprocess
+        spec = importlib.util.spec_from_file_location("held_public_files", os.path.join(ROOT, "scripts", "held_public_files.py"))
+        m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+        if not subprocess.run(["git", "ls-files", "site/public"], cwd=ROOT, capture_output=True, text=True).stdout:
+            self.skipTest("not a git checkout")
+        listed, _ = m.files()
+        with open(os.path.join(ROOT, "tests", "fixtures", "chain229_held_grid_public_files.txt"), encoding="utf-8") as f:
+            known = {ln.strip() for ln in f if ln.strip()}
+        self.assertEqual(set(listed) - known, set())
+        with open(os.path.join(ROOT, "scripts", "held_public_files.py"), encoding="utf-8") as f:
+            src = f.read()
+        for call in ("os.remove", "os.unlink", "shutil.rmtree", "unlink(", "git rm"):
+            self.assertNotIn(call, src)
+
+
 if __name__ == "__main__":
     unittest.main()
