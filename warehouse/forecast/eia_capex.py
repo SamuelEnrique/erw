@@ -53,6 +53,28 @@ def num(s):
     return -float(s.strip("()")) if s.startswith("(") else float(s)
 
 
+CASES = {"land_based_wind": 13, "utility_pv": 16, "natural_gas": 5, "geothermal": 11}
+
+
+def case_facts(lines, n):
+    """The case's own Plant Construction Time (months) and Operating Life (years), from its cost table: the case's
+    section begins at its second "CASE n." heading (the first is the table of contents) and ends at the next case's."""
+    heads = [i for i, l in enumerate(lines) if re.match(rf"^\s*CASE {n}\.\s", l)]
+    if len(heads) < 2:
+        return None
+    start = heads[1]
+    end = next((i for i, l in enumerate(lines[start + 1:], start + 1) if re.match(r"^\s*CASE \d+\.\s", l)), len(lines))
+    got = {}
+    for l in lines[start:end]:
+        m = re.match(r"^\s*Plant Construction Time\s+months\s+(\d+)\s*$", l)
+        if m and "construction_months" not in got:
+            got["construction_months"] = int(m.group(1))
+        m = re.match(r"^\s*Operating Life\s+years\s+(\d+)\s*$", l)
+        if m and "operating_life_years" not in got:
+            got["operating_life_years"] = int(m.group(1))
+    return got if len(got) == 2 else None
+
+
 def read(text):
     lines = text.splitlines()
     out, problems = {}, []
@@ -81,7 +103,12 @@ def read(text):
         na = sorted({STATES[m.group(1)] for l in lines[start + 1:i] for m in [NA.match(l.strip())] if m})
         if len(states) + len(na) < 45 or (tech != "geothermal" and len(states) < 45):
             problems.append(f"{tech}: {len(states)} states with a cost and {len(na)} N/A read from Table {table}")
+        facts = case_facts(lines, CASES[tech])
+        if not facts:
+            problems.append(f"{tech}: case {CASES[tech]}'s construction time and operating life not found")
+            facts = {}
         out[tech] = {"table": f"Appendix A, Table {table}, Location Adjustment for {words}", "base_usd_per_kw": base,
+                     "case": CASES[tech], **facts,
                      "case_mw": mw, "basis": basis, "dollar_year": 2023, "states": dict(sorted(states.items())),
                      "not_given": [s for s in na if s not in states]}
     return out, problems

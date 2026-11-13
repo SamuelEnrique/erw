@@ -3,12 +3,15 @@
  "source": "U.S. Energy Information Administration (Sargent & Lundy), Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies, SL-018001 Final Rev A (6 December 2023), released 10 January 2024 for AEO2025",
  "source_url": "https://www.eia.gov/analysis/studies/powerplants/capitalcost/pdf/capital_cost_AEO2025.pdf",
  "read": "2026-11-13, chain 239 session 4200 (runs/w4/probe.csv request 21)",
- "written_at": "2026-11-13T10:31:06Z",
+ "written_at": "2026-11-13T10:40:35Z",
  "written_by": "warehouse/forecast/eia_capex.py",
  "technologies": {
   "land_based_wind": {
    "table": "Appendix A, Table 1-13, Location Adjustment for Onshore Wind - Large Plant Footprint: Great Plains Region",
    "base_usd_per_kw": 1489,
+   "case": 13,
+   "construction_months": 9,
+   "operating_life_years": 25,
    "case_mw": 200,
    "basis": "kW net (AC)",
    "dollar_year": 2023,
@@ -618,6 +621,9 @@
   "utility_pv": {
    "table": "Appendix A, Table 1-16, Location Adjustment for Solar PV w/ Single Axis Tracking",
    "base_usd_per_kw": 1502,
+   "case": 16,
+   "construction_months": 12,
+   "operating_life_years": 35,
    "case_mw": 150,
    "basis": "kW AC (150 MWAC)",
    "dollar_year": 2023,
@@ -1227,6 +1233,9 @@
   "natural_gas": {
    "table": "Appendix A, Table 1-5, Location Adjustment for Combined-Cycle 2x2x1",
    "base_usd_per_kw": 868,
+   "case": 5,
+   "construction_months": 24,
+   "operating_life_years": 40,
    "case_mw": 1227,
    "basis": "kW net",
    "dollar_year": 2023,
@@ -1836,6 +1845,9 @@
   "geothermal": {
    "table": "Appendix A, Table 1-11, Location Adjustment for Geothermal",
    "base_usd_per_kw": 3963,
+   "case": 11,
+   "construction_months": 18,
+   "operating_life_years": 40,
    "case_mw": 50,
    "basis": "kW net (binary cycle, 50 MW net)",
    "dollar_year": 2023,
