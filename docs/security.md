@@ -84,3 +84,84 @@ The counts are recording: `site_usage_daily` holds days from 10 October 2026 to 
 
 The other 114 Python packages of the venv carry no advisory known to pip-audit on 6 November.
 
+
+## The list of 13 November 2026 (chains 234 and 237, window P2 of the personal laptop)
+
+Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (26 rows). That file keeps each row's state from here on; this section keeps what changed in the site.
+
+| Rows | What changed | Where | State |
+|---|---|---|---|
+| 1 | A page in review answered a visitor at its transport addresses (`<page>.segments/...segment.rsc`); the curtain now runs on them and answers 404 without the internal cookie | `site/proxy.ts`, session 5101 | **closed**: landed at `b1ea7427a` on 13 November 2026; `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app` exit 0 after the deploy (8 pages, 32 addresses) |
+| 2 | `site/scripts/test-usage.mjs`, the proof of the guards, failed unseen: no test ran it. It passes again and the suite runs it | `site/lib/usagepath.ts`, `tests/test_session5102.py` | fixed on `wip/5150-security` |
+| 15 | `/internal/lock` clears nothing at a request the browser marks cross-site | `site/app/internal/lock/route.ts` | fixed on `wip/5150-security` |
+| 16, 17, 18 | Four more limits per address, each counted by the guard (the database across instances, this instance's memory as the floor): `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour | the four route handlers | fixed on `wip/5150-security` |
+| 19 | A standing test reads every route handler (41): a body is never read without a cap, every POST asks the guard and names its origin, a GET that asks the database with the visitor's words is limited. The sign-up form refuses a request that says it is over 8 kB | `tests/test_session5102.py` (`EveryRoute`) | fixed on `wip/5150-security` |
+| 20 | A standing scan of the source, nothing built: no `NEXT_PUBLIC_` variable, no client file names `process.env`, no module a client file imports (at any depth) names a secret or is marked `server-only`, no literal shaped like a key. `site/lib/finder.ts` now carries the marker | `tests/test_session5102.py` (`NoSecretReachesABrowser`) | fixed on `wip/5150-security`; row 26 (the battery page's read, window P1's file) waits |
+| 21 | The headers and the enforced policy are read from `site/next.config.ts` itself, without a build | `tests/test_session5102.py` (`TheHeaders`) | fixed on `wip/5150-security` |
+
+**Item 3 above (H3, the one look), read on 13 November 2026 by session 5151.** Migration 034 is in force: the anon key holds no insert on `site_api_calls`, `game_plays`, `game_scores` or `subscribers` and cannot execute `site_ask_admit`. Since 21 October those tables hold 24 `site_ask` ledger rows and one counted visitor (3 questions), all on 6 November, and 2 game plays on 28 October: some server holding the service key wrote them. Which server, a read cannot say. The look is now one question asked on production in the internal view: the question counter refuses every question when the database refuses its call, so an answer says `SUPABASE_SERVICE_KEY` is on the host (`tests/test_session5151.py` pins the three lines this rests on). Vercel's settings page says the same.
+
+The limits per address as they stand on `wip/5150-security` (bucket, limit, window): `subscribe` 5 an hour, `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour, beside the ones session 177 set on the routes that spend or write.
+
+## Dependency audit, 13 November 2026 (session 5152, chain 237)
+
+`npm audit --package-lock-only` on the site's lockfile, and `pip-audit` 2.10.1 (installed into a folder of its own under `runs/`, not into the venv) on the code machine's `.venv` (`--path`, 123 packages) and on `requirements-py314.txt` itself (`-r`, `--no-deps`, 121 pins). The venv and the file agree: the venv was made again from the file since 6 November, so `cryptography` 50.0.2 and `setuptools` 84.1.0 are in it and carry no advisory.
+
+| Package | Where | Advisory | State |
+|---|---|---|---|
+| `minimatch` 10.2.6, under `@typescript-eslint/typescript-estree` (seven findings, one advisory) | the linter, a developer's machine only | GHSA-g3hv-75wg-m249 (denial of service by a crafted pattern), moderate; fixed in 11.0.1 | **open: Samuel**, as L9: `typescript-estree` asks for `minimatch ^10.2.2` up to its newest release (8.72.2), so no minor step closes it. `npm audit fix` was tried on the lockfile alone: it moved the linter's packages from 8.70.1 to 8.72.2 and closed nothing, so the lockfile is left as it was. Nothing on `next`, `react` or any package the site ships |
+| `certifi` 2026.7.22 | the machines' Python: every HTTPS request a connector makes | PYSEC-2026-4320 (GHSA-6q48-6c7w-9gw2): the bundle trusts a root whose intermediates' keys are compromised; fixed in 2026.10.18 | **closed in the file, session 5152**: `requirements-py314.txt` pins 2026.10.18 (the bundle of roots alone changes); a venv made from the file takes it. This machine's venv is shared by three windows and was not changed by the session. The runner's resolving install is held at `certifi~=2025.1` by gridstatus 0.36.0 (below) |
+| `filelock` 3.32.7 | the machines' Python (under `virtualenv` and gridstatus; no code of the ERW imports it) | 13 advisories in its reader and writer lock; fixed in 4.0.9 and 4.2.1 | **open: Samuel** (M7): a major version, and `virtualenv` 20 and gridstatus 0.36.0 both ask for `filelock<4` |
+| `soupsieve` 2.10 | the machines' Python (under `beautifulsoup4`; two connectors select with it) | 3 advisories (a selector with descendant combinators takes polynomial time on a deeply nested page); fixed in 3.0.2 and 4.0.0 | **open: Samuel** (M7): a major version; `beautifulsoup4` allows it (`soupsieve>=1.6.1`) |
+| `pillow` 12.3.0 | the machines' Python (the charts' pictures) | 42 advisories (39 on 6 November), every one fixed in 13.0.0 | **open: Samuel** (M7), unchanged |
+| `virtualenv` 20.39.1 | the machines' Python (tooling, used by no run) | 19 advisories, fixed in 21.7.11 to 21.14.9 | **open: Samuel** (M7), unchanged |
+
+**What changed for M7 since 6 November: gridstatus 0.37.0 is on PyPI.** Its pins are `lxml<7,>=6.1.0`, `cryptography<51,>=50.0.0` and `certifi>=2025.1` (read from its metadata on 13 November; 0.36.0 pinned `lxml~=5.3`, `cryptography<47`, `certifi~=2025.1`, `setuptools<79`, `filelock<4`, `virtualenv<21`). With it the runner's resolving install (`requirements.txt`, where the daily run runs) could leave the old `lxml`, `cryptography` and `certifi` behind. It is a new minor version of the package under every grid connector: a session tries it on a branch with the daily run's tests and a dry run of the connectors, on Samuel's word (item 5's choice (a), now possible for the runner too).
+
+## The policy's inline scripts, read on 13 November 2026 (session 5153, row 22 of the list)
+
+The enforced policy says `script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com`. The word `'unsafe-inline'` is there for the framework: every page carries inline scripts Next writes itself (the data of the page it rendered). What a stricter rule would cost, from Next 16.4.5's own guide (`node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md`):
+
+| Choice | What it takes | What it costs |
+|---|---|---|
+| (a) a nonce on each request | the proxy draws a nonce and writes the policy with it | every page is rendered on each request: no prerendered page, no page regenerated on a clock, no page cached at the host. Of the site's 104 pages, 28 are rendered on each request today; 39 are regenerated on a clock (the home page and `/storage` among them), and the rule that the home page is never cached with a failed read in it rests on that |
+| (b) keep the word | nothing | an injected inline script would run. The guards against one are the ones below |
+| (c) hashes written at build time (`experimental.sri`) | one line of configuration, a build, `check-csp.mjs` on every page | experimental in this version; it covers script files, and whether the framework's inline data passes without the word is only known on a build |
+
+**The guards that stand today, each with a test** (`tests/test_session5153.py`): the site's own source writes no script element, no `eval`, no `document.write`; the one script it adds is the chart library, with its integrity hash; markup reaches a page at 14 places and every one goes through the renderer of `site/lib/markdown.ts`, which escapes raw HTML and refuses a link that is not a plain address; the policy names no `'unsafe-eval'`, no other host for scripts than cdnjs, `object-src 'none'` and `base-uri 'self'`.
+
+The default is (b). (c) needs a window that builds.
+
+## The usage counts and "no identifier", 13 November 2026 (session 5154, row 23 of the list)
+
+The roadmap's item 7 is done when the counts run "with no cookie and no identifier". The first half holds and is pinned (`tests/test_session5154.py`): the route sets no cookie, the browser side keeps nothing and sends a path without its query, and of an earlier day the database keeps numbers only. The second half is Samuel's to read: for the UTC day in progress the database holds a code that stands for one browser (a keyed hash hashed again under a random salt of the day, both deleted when the day is over). Choice: (a) as today, the roadmap's words read as "no identifier kept in the browser and none that outlives the day"; or (b) `USAGE_VISITORS=off` in the host's environment, built by session 5154: no value stands for a visitor at all, events are counted as before, and the `visitors` numbers count pages. The method note says both ([`docs/methods/usage_counts.md`](methods/usage_counts.md), "Counting with no code at all"). The default is (a); nothing changes until the variable is set.
+
+## The usage counts and the pages the ruling allows, 13 November 2026 (session 5155, row 24 of the list)
+
+The ruling is one line, "no usage count on tool pages" (12 October 2026, `docs/roadmap.md`). It was made when the question was open for three pages: the cost of power, the battery and the generator. What the code does today, read page by page from the menu's own list (`runs/s5155/pages.out` of the session's worktree):
+
+| Pages | What is counted |
+|---|---|
+| 7 that carry the mark `<Brand noUsage>`: `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact`, `/play/ev` | the page view, and nothing a reader does after it |
+| The other 29 pages of the menu (`/storage`, `/grid`, `/datacenters`, `/deals`, `/policy`, `/companies`, `/board`, `/map`, `/ask` and the rest; the news and About pages among them) | the page view, a changed control (the fact, never its name or value), a download |
+| A page in review asked for by a visitor | the page view, under the name "In review (not opened)" |
+
+No tool sends a count of its own: "scenario compared" is an event nothing sends.
+
+Choice: (a) as today, the ruling read as "nothing a reader does on those tool pages is counted". (b) `USAGE_TOOL_PAGES=off` in the host's environment, built by session 5155: the server records nothing for the seven marked pages, the page view included. (c) the mark on every page of the menu's groups Economics, Grid, Infrastructure, Analysis and Games, 23 more pages: a session's work in the tools' own files. The default is (a); nothing changes until the variable is set. What is counted and how is in [`docs/methods/usage_counts.md`](methods/usage_counts.md).
+
+## The guards on new tables and functions, and sign-ups, read on 13 November 2026 (session 5156, rows 7 and 12 of the list)
+
+Reads only: the catalog in a read-only transaction, `verify_rls.py --catalog`, and one GET of the public auth settings with the anon key. The outputs are in `runs/s5156/` of the session's worktree (not in git).
+
+| What | Result |
+|---|---|
+| The default privileges (M6) | unchanged: what `postgres` or `supabase_admin` creates in `public` is granted to `anon` and `authenticated` (tables `arwdDxtm`, sequences `rwU`, functions `X`) |
+| The `ensure_rls` event trigger | enabled, on `CREATE TABLE`, `CREATE TABLE AS` and `SELECT INTO` |
+| The tables of `public` | 25, row-level security on for all 25; the anon key holds `INSERT`, `UPDATE` or `DELETE` on none; no write policy names `anon`, `authenticated` or `public` |
+| `verify_rls.py --catalog` | exit 0, 0 mismatches |
+| Sign-ups in Supabase Auth (L8) | `disable_signup` false, the email provider on, `mailer_autoconfirm` false: unchanged since 20 October |
+
+**What the guards did not cover, and now do.** The trigger turns row-level security on for a new table; nothing did the like for a new function, which the default privileges hand to the anon key. On 13 November the anon key may execute 23 functions of `public`. Every one asks for a credential in its own arguments: a token as its first argument, checked before anything else (19), the address's own signed token (the two subscription functions), a run's one-time key (one), and the trigger's own function, which Postgres refuses to call directly. `verify_rls.py --catalog` now has a step 6: the functions the anon key may execute are compared with a list in the script (`ANON_FUNCTIONS`), and one that is not listed fails the run until it is revoked or listed with what it asks for. A session that adds a function adds it to the list, as it adds a table to `EXPECTED`. The verifier is run by sessions; no scheduled job runs it.
+
+Item 4 above (M6) and item 8 (L8) stand as they are, with the same choices.

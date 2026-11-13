@@ -47,6 +47,9 @@ export async function POST(req: Request) {
   const back = (state: string) => NextResponse.redirect(new URL(`/subscribe?state=${state}`, req.url), 303);
   if (!sameOrigin(req) || scripted(req)) return back("invalid");
   if (!(await limited(req, "subscribe", 5, 3600)).ok) return back("busy");
+  // session 5102 (docs/reviews/security-faults-2026-11-13.md, row 19): the form is an address and a few boxes, well
+  // under 1 kB; a request that says it is larger than 8 kB is not read (a browser always says how large a form is)
+  if (Number(req.headers.get("content-length") ?? 0) > 8000) return back("invalid");
   let form: FormData;
   try {
     form = await req.formData();
