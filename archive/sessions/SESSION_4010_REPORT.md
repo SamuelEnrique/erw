@@ -12,7 +12,20 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 ## The gate
 
-- (written when it ends)
+- **The first gate** (`ccbc42704`, 17:15 to 17:47 UTC):
+  - the suite (8,822 OK), the build and the hand checks passed;
+  - **check-values still failed `/digest/2026-11-12`'s demand line, with no revision note on the page.** Not landed.
+- **Why the note was missing, found under node with the site's alias loader** (`node --import ./scripts/alias-register.mjs`, on the 12 November issue):
+  - `digestRevisions` returned the revision (488,341 MW) and `digestMarkdown` built the note.
+  - The news index's hold (21 October) then rewrote the story sections by their lines' places in the issue as written. "What moved" begins exactly where the notes were inserted, so its splice began on the notes and removed them.
+  - **That predates this chain.** Any revised figure in an issue whose story sections are held lost its note. The 21 October issue kept its fuel note only because its sections fall differently.
+- **The fix** (`site/lib/digest.ts`):
+  - The notes go in after the hold, at the same place. The hold changes only lines after "The numbers", and the chart step reads its shift from `out.length`.
+  - One note per key: the demand line is printed twice under one key.
+  - Under node: the 12 November page shows its note once, and the 21 October note is as before. `tsc --noEmit` reports 0 errors.
+  - Test 4010 (3 tests); the digest tests pass.
+- **The second gate:** `943295956` (land-f with the fix), from 17:51 UTC.
+- (its result and the landing: written when they come)
 
 ## Decisions made without you
 
