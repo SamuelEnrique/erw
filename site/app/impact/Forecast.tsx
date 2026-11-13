@@ -13,7 +13,7 @@ import { Num } from "@/components/Num";
 import { TECHS, stateName } from "@/lib/impact";
 import { compute, type Rules } from "@/lib/severance";
 import { displayOf, inputsKey, jobsText, run, stat, unpack, usdText, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
-import { FIELDS, GROUPS, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
+import { FIELDS, GROUPS, STATE_LIST, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
 import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
 import { StateChart } from "./StateChart";
@@ -58,7 +58,7 @@ function Body({ P, jedi, rules, planned }: { P: Params; jedi: Packed; rules: Rul
       <div className="min-w-0 space-y-8">
         <Compare x={x} r={r} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
         <Years x={x[s.view]} r={r[s.view]} view={s.view} />
-        <OtherStates P={P} jedi={jedi} x={x[s.view]} view={s.view} />
+        <OtherStates P={P} jedi={jedi} x={x[s.view]} v={s[s.view]} view={s.view} sev={sev} />
         <Downloads P={P} x={x} r={r} jedi={jedi} />
       </div>
     </div>
@@ -334,11 +334,14 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
 }
 
 // ---- the same project in other states (session 347's third question, kept) ---------------------------------------------
-function OtherStates({ P, jedi, x, view }: { P: Params; jedi: Packed; x: Inputs; view: View }) {
-  // the scenario's own inputs in every state JEDI gives a figure for: construction job-years, by effect, most first
+function OtherStates({ P, jedi, x, v, view, sev }: { P: Params; jedi: Packed; x: Inputs; v: Values; view: View; sev: (s: string, v: number, p: number) => number | null }) {
+  // fault 14 (session 4222): the scenario in every state JEDI gives a figure for, from the scenario's values as the reader
+  // set them and each state's own defaults for the rest (its capital cost, capacity factor, tax rates and exemptions); a
+  // first version carried the scenario's own state's defaults everywhere (Minnesota's wind exemption gave every state none)
   const per = Object.keys(jedi).filter((k) => k.startsWith(`${x.tech}:`) && !k.endsWith(":us")).map((k) => {
     const st = k.split(":")[1];
-    const res = run({ ...x, state: st }, unpack(jedi, x.tech, st), P);
+    const ix = STATE_LIST.findIndex(([s]) => s === st);
+    const res = run(resolve(P, { ...v, state: ix, proj: NaN }), unpack(jedi, x.tech, st), P, sev);
     return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes, prop: res.property.held };
   }).filter((v) => v.ok).sort((a, b) => b.c.total - a.c.total);
   if (per.length < 2) return null;
@@ -348,7 +351,7 @@ function OtherStates({ P, jedi, x, view }: { P: Params; jedi: Packed; x: Inputs;
   const byTax = taxSorted.filter((v, i) => i < 10 || i >= taxSorted.length - 5 || v.k === x.state);
   return (
     <section data-state-chart={view}>
-      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="states" label="other states">The same size, capital cost, local content and years in each state, with that state&apos;s JEDI multipliers and JEDI&apos;s default cost there: construction job-years. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length}.` : ""} The ten states with the most, the scenario&apos;s own and the five with the fewest; the chart&apos;s table holds them.</Tip></h2>
+      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="states" label="other states">The scenario in each state: every input the scenario sets, and each state&apos;s own default for the rest (its capital cost, capacity factor, tax rates and exemptions), with that state&apos;s JEDI multipliers and JEDI&apos;s default cost there: construction job-years. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length}.` : ""} The ten states with the most, the scenario&apos;s own and the five with the fewest; the chart&apos;s table holds them.</Tip></h2>
       <StateChart id={`states-${view}`} unit="job-years" highlight={x.state}
         categories={shown.map((v) => v.name)} keys={shown.map((v) => v.k)}
         onsite={shown.map((v) => v.c.onsite)} supply={shown.map((v) => v.c.supply_chain)} induced={shown.map((v) => v.c.induced)} />
@@ -357,8 +360,9 @@ function OtherStates({ P, jedi, x, view }: { P: Params; jedi: Packed; x: Inputs;
           fmt={(v) => usd(v).replace(/^USD /, "")}
           categories={byTax.map((v) => ({ label: v.name, sub: v.k === x.state ? "yours" : undefined }))}
           series={[{ name: "Taxes, present value", color: "var(--color-accent)", values: byTax.map((v) => v.taxes) }]}
+          saysOnCard
           says={(i) => `${byTax[i].name}: ${usd(byTax[i].taxes)}${byTax[i].prop ? " (a property tax statute is held)" : " (no property tax rule held: sales and income tax only)"}`}
-          tip={<Tip id={`state-taxes-${view}`} label="taxes in other states">The scenario&apos;s property, sales and use, income and severance taxes in each state, discounted at its rate, with that state&apos;s rules and rates and the scenario&apos;s own capital cost, size and years. A state without a held property tax statute shows its sales and income taxes only, so the bars are not like for like there: the hover says which. The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
+          tip={<Tip id={`state-taxes-${view}`} label="taxes in other states">The scenario&apos;s property, sales and use, income and severance taxes in each state, discounted at its rate: every input the scenario sets, and each state&apos;s own rules, rates, exemptions and default cost for the rest. A state without a held property tax statute shows its sales and income taxes only, so the bars are not like for like there: the hover says which. The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
       </div>
     </section>
   );

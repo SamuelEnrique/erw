@@ -26,9 +26,15 @@ class TheReaders(unittest.TestCase):
         self.assertIn('...(hasValue ? ["Taxable value"] : [])', self.page)
         self.assertIn('(r.property.rule ?? "").includes("production")', self.page)
 
+    def test_14_each_state_takes_its_own_defaults(self):
+        # fault 14: the other states' runs resolve the scenario's values (NaN where not set) in each state
+        self.assertIn("const res = run(resolve(P, { ...v, state: ix, proj: NaN }), unpack(jedi, x.tech, st), P, sev);", self.page)
+        self.assertNotIn("run({ ...x, state: st }", self.page)
+
     def test_the_siting_analyst_sees_the_taxes_in_other_states_and_what_they_hold(self):
         self.assertIn('title="Taxes, present value, in other states"', self.page)
         self.assertIn("no property tax rule held: sales and income tax only", self.page)
+        self.assertRegex(self.page, r"saysOnCard\s+says=\{\(i\) => `\$\{byTax\[i\]\.name\}", "the hover says which states count a property tax")
 
 
 if __name__ == "__main__":
