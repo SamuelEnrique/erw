@@ -22,3 +22,22 @@ Energy Research Warehouse (ERW). Chain 260 (`queue/done/260-day-23-november-oldl
 - The built pages (`/digest`, `/roundup` at 1280 and 390, chain 228's mandate) need a build in `erw-3457` with MemFree at 2.5 GB or more. MemFree sits near 2.1 GB, and a bounded wait runs.
 - The faults file's rows 151 to 185 each have the table's seven cells (`runs/s3509_cells.py`).
 - **A dry run with the model was tried and stopped before any call:** writing `api_cost_ledger` needs the data lock, which only the data machine takes (`warehouse/llm.py`). Nothing was sent and nothing spent. The model-text rows (153, 157, 158, 165, 175, 180, 183) are tested on stored model headlines and lines instead.
+
+## Sessions 3510 to 3518: the page read stopped by memory
+
+- The bounded memory wait for the stack's site build (`runs/s3473_memwait.sh`) was stopped by Claude Code at about 21:25 UTC because the machine ran critically low on memory (MemFree about 1.9 GB). It is not started again, and the build and the read of `/digest` and `/roundup` at 1280 and 390 are not done on this machine. Row 152, the stack's only site change, passed the desk's build when it landed.
+- **Row 11 landed further:** rows 172 to 177 (to `48b5fb1df`) at `8d44ea156` (the desk's session 4013). Rows 151 to 177 are now on main, and the desk's session 4014 gates `6047f82d1` (rows 178 to 182). Rows 183 to 185 wait at `f2ebae979`.
+- Every other step waits on issues not yet written (the W46 Roundup on Sunday 15 November at 23:00 UTC, the 16 November Digest on Monday) or on the red branch. No new row; no heavy run while memory is short.
+
+## Session 3519: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c260.md` (its name free on main and every branch).
+
+## Decisions made without you
+
+- The memory wait, stopped by Claude Code for low memory, was not started again. The build and page read are left to the desk's gate.
+- A dry run with the model was not pursued once the ledger asked for the data lock. The one file it touched before refusing (`warehouse/metadata/sources.csv` in the worktree) was checked out again.
+
+## For Samuel's ruling
+
+- As in chain 258's note.
