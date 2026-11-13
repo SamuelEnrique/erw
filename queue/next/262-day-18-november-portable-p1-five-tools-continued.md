@@ -12,13 +12,21 @@ Read first: the newest note of window P1 (`docs/state/note_*_portable_p1*.md`), 
 
 ## Session 5440: the next file, the ground
 
-Long end 1:00. The next file first (same machine line, sessions 5460 upward, at least 14 sessions), committed alone and pushed. Then precheck, `git fetch`, memory and disk free, and which steps below now hold.
+Long end 1:00. Precheck, `git fetch`, memory and disk free, and which steps below now hold. Only if one holds: the next file (same machine line, sessions 5460 upward, at least 14 sessions), committed alone and pushed; if none holds, the chain closes as the last paragraph of its steps says.
 
 ## Sessions 5441 to 5457: chain 261's unfinished steps
 
 ### Unfinished steps (written by chain 261's last session)
 
-(Not yet written: until it is, they are chain 261's seven steps, in its file, less those chain 261's reports close.)
+Chain 261 ran sessions 5420 to 5426; its note: `docs/state/note_2026-11-13_portable_p1_c261.md`. What it could do without others is done: the reads (61 pages), the accessibility read (no page breaks a rule), the published counterparts the held sources give, the stack's code read. What is left waits on others. In order:
+
+1. **Landing row 25** (`wip/5072-read` at `c44ca2f59`, holds row 24). If landed: every `wip/5072-*` branch an ancestor of `origin/main` deleted on origin, the worktrees `erw-p1-5070` and `erw-p1-req` removed (their ignored `runs/` kept first), the faults rows read on main; then `site/scripts/a11y-axe.mjs` and the read of battery row 11's sentence (ERCOT's 8-hour day-ahead case) and Grid row 4's "EST" (MISO's page) on production, where they now are. If not: `origin/main` merged into `wip/5072-read` when main has moved, the stack's tests run, row 25's head moved.
+2. **A local build of the stack** only with about 3 GB free and the owner's word (Claude Code stopped chain 243's build for memory).
+3. **Window A's rows** (`docs/state/data_requests_five_tools.md`, 1 to 4), each when done: the page read again; battery row 10 and datacenter row 4 closed when the price years are built; `python replication/grid/replicate.py` run whole when the Grid's files are rewritten.
+4. **The owner's rulings** of chain 243's note, applied where he has ruled, each with a test.
+5. **A do-file run in Stata**: its printed lines set beside its Python mirror's (`tests/test_session5074.py`).
+
+**When none of the five holds at session 5440** (row 25 not landed and main not moved since `176ea7e7b`, nothing from window A, no ruling, no Stata run, too little memory), the chain closes at once: a one-line report, **no next file** (an empty chain is the failure the owner named on 13 November; a further file would be another), and the window says what it waits on. A person's prompt, or the landing, starts the next chain.
 
 ## Session 5458: the note
 
