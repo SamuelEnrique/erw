@@ -16,7 +16,17 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
   - the build passed;
   - check-values passed. `/policy`'s floor was accepted as a license hold's; `/digest` was a note;
   - check-routes, check-cross-checks and check-csp passed.
-- (the push at 16:15: written then)
+- **The landing at 16:15:**
+  - Freeze none; no task branch in flight. Snapshot `before-15c54b48` at 16:15:21, then the push to `task/4008-landing` at 16:15:26.
+  - Run 43460893494: GitHub ran the suite again because main had moved. It merged at 16:34 (`f06f7f3d2`); the deploy succeeded at 16:35.
+  - Snapshot after: **0 differences**.
+- **Landed with it, land-c and land-d together:**
+  - window 3's row 6 (rows 1 to 5 within it);
+  - window 4's rows 2 and 3, and row 4 to `a544dbc19`;
+  - the old laptop's row 10 to `a898be5be`, which is the whole row;
+  - this window's sessions 4003 to 4006.
+- **The marks:** `bcf7ab0cf`, with snapshots before and after: 0 differences.
+- **Window 4 moved row 4 again at 16:15** (`ea34a1ea8`, Wisconsin). Land-e (`96489ad29`, land-d with it) is in session 4009's gate.
 
 ## Decisions made without you
 

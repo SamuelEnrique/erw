@@ -26,10 +26,13 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | desktop w3 4 (licenses, rows 1 to 3 within it) | `wip/4150-licenses`, with the desk's fix of a held count | `71f8442ed` | the menu's rename on 25 pages, expected |
 | desktop w4 1 (the forecast, `/impact`) | `wip/4200-forecast` | `71f8442ed` | the same |
 | old laptop 10, in part | `wip/1973-periodicals` to `88893595d` | `71f8442ed` | the same |
+| desktop w3 6 (licenses, rows 1 to 5 within it) | `wip/4166-licenses` | `f06f7f3d2` (pushed at 16:15) | 0 differences |
+| desktop w4 2 and 3, and 4 to `a544dbc19` | `wip/4250-forecast` | `f06f7f3d2` | 0 differences |
+| old laptop 10, the rest (to `a898be5be`) | `wip/1973-periodicals` | `f06f7f3d2` | 0 differences |
 
 ## Rows that wait, and why
 
-- **The old laptop's row 10, from `88893595d` to its newest head** (`1831d3fe5` at 13:41): the next gate, after the 14:00 to 16:15 blackout. The old laptop keeps stacking on the same branch.
+- **Window 4's row 4 from `a544dbc19` to `ea34a1ea8`** (Wisconsin, moved at 16:15): in session 4009's gate (`wip/w2-land-e`).
 
 ## The fallback's results
 
