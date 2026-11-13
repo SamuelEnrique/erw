@@ -62,3 +62,13 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, for Samuel:** the Digest's US48 day is the UTC day. Its highest hour is its last (23:00 UTC, 18:00 Eastern) on 9 of the 70 days from 1 September, and its first (00:00 UTC, the evening before) on 12, so the US evening peak is split across two issues. Default: the UTC day stays (a method change, not a reader's fault in the words).
 - Tests: `Row159TheReasonADayIsNotHeld` (2), `Row160TheNoChartLineSaysWhy` (2). The 65 files naming `brief`, `roundup`, `digest.ts` or `daily_chart`: 1,238 passed, 20 skipped.
 - **Row 11:** moved to `e547f598f`.
+
+## Session 3462: the email of 13 November; a W46 dry run, rows 161 and 162
+
+- **The stored email** (`docs/digest/email/2026-11-13-daily.txt`): nothing new beyond the issue's own faults. It prints What moved's first three items by design (session 2703, `numbered(..., 3)`). Its two links go to `docs/digest/2026-11-13.md` on main, which is not there while the issue sits on `wip/red-daily-2026-11-13`, so a reader's click finds nothing until that branch lands (for Samuel).
+- **A partial W46 dry run on the stack** (`--no-model`, the daily run's own `news_stories`, `energy_deals` and `datacenter_projects`, cut at 18:40 UTC; `runs/periodicals_dryrun/s3462/`). The worktree's tracked tables were swapped in for the run and checked out again after.
+- **Row 161 (new, fixed):** the five named "USD 2.6 billion, Aramco, HUMAIN AI" as the deal of the week, and the Deals table below (US first, at most 15) left it out: it was the 16th of 19. The five's deal is now always in the table.
+- **Row 162 (new, fixed):** the five printed "20 MW, Syntys (1 larger load of the week name no operator or site ...)" above a table that names that larger load "CDC (developer)", 1,400 MW, Kemps Creek, Australia. A developer now names the load in the five as in the table, a non-US country follows the place, and one load "names": "1,400 MW, CDC (developer), Kemps Creek, Australia." Row 118's pinned words follow.
+- **Seen, the data machine's:** the Deals table holds Sempra's stake sale twice. The 11-13 row is KKR and CPP buying, closed; the 11-12 row is reversed (Sempra as buyer, "rumored"). MN8 Energy and FlexGen also read as buyer and seller of a supply contract. Both are the extraction's (row 77's file).
+- Tests: `Row161TheDealOfTheWeekIsInTheTable` (3), `Row162TheFivesLoadNamesItsDeveloper` (2). The 65 files: 1,243 passed, 20 skipped. `check_roundup.py --dir`: 15 ok, 0 failed.
+- **Row 11:** moved to `1385e767b`.
