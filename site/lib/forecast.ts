@@ -334,3 +334,24 @@ export function stat(r: Result, figure: string): number | null {
   if (p[0] === "year") return pick(r.years.find((y) => y.year === Number(p[1])), p[2]);
   return null;
 }
+
+// ---- the rows packed for the browser (lib/forecastdata.ts sends them; the page unpacks a scenario's) -----------------
+const PHASES: Phase[] = ["construction", "operations"];
+/** the order of a packed technology and state: phase, then effect, then measure */
+export const PACK = PHASES.flatMap((p) => EFFECTS.flatMap((e) => MEASURES.map((m) => [p, e, m] as const)));
+export type Packed = Record<string, number[]>;  // "<tech>:<state>" -> 24 numbers
+export function pack(rows: Row[]): Packed {
+  const at = new Map(rows.map((r) => [`${r.entity}|${r.variable}`, Number(r.value)]));
+  const out: Packed = {};
+  const keys = new Set(rows.map((r) => r.entity.split(":").slice(1, 3).join(":")));
+  for (const k of keys) {
+    const v = PACK.map(([p, e, m]) => at.get(`nlr_jedi:${k}:${p}:${e}|${m}`) ?? NaN);
+    if (v.every(Number.isFinite)) out[k] = v;
+  }
+  return out;
+}
+export function unpack(p: Packed, tech: TechKey, state: string): Row[] {
+  const v = p[`${tech}:${state}`];
+  if (!v) return [];
+  return PACK.map(([ph, e, m], i) => ({ entity: `nlr_jedi:${tech}:${state}:${ph}:${e}`, variable: m, ts_utc: "", value: v[i] }));
+}
