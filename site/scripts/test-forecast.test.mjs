@@ -544,3 +544,10 @@ test("session 4299: the states' own 2026 income tax where they changed it after 
   const sc = (y) => P.income.states.sc.brackets.reduce((t, b, k, a) => t + Math.max(0, Math.min(y, a[k + 1]?.over_usd ?? Infinity) - b.over_usd) * b.rate, 0);
   near(sc(40000), 0.0521 * 40000 - 966, 1e-9);
 });
+
+test("fault 23: every property rule's words open with its state's name (the hover's letter leads them)", () => {
+  for (const [s, v] of Object.entries(P.property.states)) for (const r of v.rules) {
+    const name = v.name;
+    assert.ok(r.tip.startsWith(name + ":") || r.tip.startsWith(name.split(" ")[0]) || (s === "dc" && r.tip.startsWith("District of Columbia")), `${s} ${r.id}: ${r.tip.slice(0, 30)}`);
+  }
+});

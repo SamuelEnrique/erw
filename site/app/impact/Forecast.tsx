@@ -210,7 +210,8 @@ const LINES: Line[] = [
   { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held, else the reader's own rate where typed; land is not included.",
     tipFor: (x, P) => (["a", "b"] as View[]).map((p) => {
       const rules = (P.property.states[x[p].state]?.rules ?? []).filter((r) => r.technologies.includes(x[p].tech) && r.tip);
-      return `${p.toUpperCase()}, ${stateName(x[p].state)}: ${rules.length ? rules.map((r) => r.tip).join(" ") : "no statute is held for this technology; the reader's own rate, where typed."}`;
+      // fault 23: each rule's words open with its state's name, so the scenario's letter alone leads them
+      return `${p.toUpperCase()}: ${rules.length ? rules.map((r) => r.tip).join(" ") : `${stateName(x[p].state)}: no statute is held for this technology; the reader's own rate, where typed.`}`;
     }).join(" "), figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },

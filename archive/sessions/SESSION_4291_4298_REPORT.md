@@ -25,3 +25,10 @@ The owner's instruction of 13 November: every state and DC covered so the tool a
 - Value at cost where no depreciation is read [held, an upper bound] or no figure until a schedule is read.
 - Tennessee's 12.5 percent in later years [held constant].
 - New York's opt-out or payment in lieu as a switch [not a switch; the tip names them].
+
+## Session 4299: income tax, the read, fault 23, row 7
+
+- **Income tax**: the states' own 2026 figures replace Tax Foundation's February table where a state changed them after it: Georgia (flat 4.99 percent, USD 15,000), Utah (4.45), South Carolina (1.99 and 5.21 percent, USD 15,000), West Virginia (2026 SB 392's cut), cited in each state's `official` field and applied by `params.py` from `warehouse/forecast/income_official.json`; tested. Louisiana's 2026 indexed deduction was not found: the table's stands.
+- **Built and read** under the build lock (waited 20:10 to 21:36 for window 2's `w2-s4012` to `w2-s4014`; `origin/main` merged; built 21:37): check-values 1,092 of 1,092 on seven addresses (a seventh, `/impact?state=il&levy=80&bstate=wv`: Illinois wind USD 2,967,255 the first year, 200 MW x 579,600 x 0.96 x 0.3333 x 0.08); Illinois beside West Virginia, California beside Alabama, Texas beside New York read at 1280 and 390: no sideways scroll, no console error.
+- **Fault 23** found in that read: the property row's hover named the state twice ("A, California: California: ..."); fixed (the letter alone leads the rule's words), tested, rebuilt under the same lock, read again, check-values 1,092 of 1,092. The Killingly appendix (Connecticut Siting Council) answered a 404 page.
+- **Related tests** after the merge: 2,222 passed, 56 skipped, 0 failed; node 44 of 44.
