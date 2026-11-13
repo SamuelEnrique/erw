@@ -13,7 +13,7 @@ import { Num } from "@/components/Num";
 import { TECHS, stateName } from "@/lib/impact";
 import { compute, type Rules } from "@/lib/severance";
 import { displayOf, inputsKey, jobsText, run, stat, unpack, usdText, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
-import { FIELDS, GROUPS, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
+import { FIELDS, GROUPS, STATE_LIST, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
 import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
 import { StateChart } from "./StateChart";
@@ -58,7 +58,7 @@ function Body({ P, jedi, rules, planned }: { P: Params; jedi: Packed; rules: Rul
       <div className="min-w-0 space-y-8">
         <Compare x={x} r={r} names={{ a: projectOf(planned, s.a, x.a), b: projectOf(planned, s.b, x.b) }} />
         <Years x={x[s.view]} r={r[s.view]} view={s.view} />
-        <OtherStates P={P} jedi={jedi} x={x[s.view]} view={s.view} />
+        <OtherStates P={P} jedi={jedi} x={x[s.view]} v={s[s.view]} view={s.view} sev={sev} />
         <Downloads P={P} x={x} r={r} jedi={jedi} />
       </div>
     </div>
@@ -205,7 +205,9 @@ const LINES: Line[] = [
   { key: "ojobs", label: "Operating jobs, each year", tip: "Full-time jobs in each year the plant runs, all three effects. JEDI's per-MW operating figures; for solar, JEDI's 2010 operating costs give an upper reading.", figure: "o:jobs:total", fmt: jobs },
   { key: "cearn", label: "Construction earnings", tip: "Wages, salaries and benefits of those jobs over the build, in 2025 dollars.", figure: "c:earnings:total", fmt: usd },
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
-  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
+  { key: "cout", label: "Construction output", tip: "The value of all the goods and services produced in the state because of the build: JEDI's widest measure, in 2025 dollars.", figure: "c:output:total", fmt: usd },
+  { key: "oout", label: "Operating output, each year", tip: "The same measure for each year the plant runs.", figure: "o:output:total", fmt: usd },
+  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa; Kansas exempts the first ten years and holds no rule after; Oregon solar by county agreement), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
   { key: "sales", label: "Sales and use tax", tip: "On the taxable share of the construction spending at the state and average local rate, spread over the build.", figure: "sum:sales", fmt: usd,
@@ -267,15 +269,16 @@ function Compare({ x, r, names }: { x: Record<View, Inputs>; r: Record<View, Res
 
 // ---- the scenario in view, by year -----------------------------------------------------------------------------------
 function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
-  const [open, setOpen] = useState(false);  // the table by year: drawn only when opened (a 40-year life is 42 rows)
+  const [open, setOpen] = useState(false);  // fault 18: the fold's state only; its rows are always drawn, so check-values reads them
   if (!r.ok) return <p className="text-sm text-muted">Scenario {view.toUpperCase()} has no figure: {r.why}.</p>;
   const cats = r.years.map((y) => ({ label: String(y.year), sub: y.phase === "construction" ? "build" : undefined }));
   const val = (f: (i: number) => number | null) => r.years.map((_, i) => f(i));
   // fault 9: a tax held for the scenario is 0 in the years it does not fall (sales after the build, property during it);
-  // a tax not held at all is left out of the chart, not drawn as "not held" in every year
-  const prop = val((i) => r.years[i].property ?? 0), sales = val((i) => r.years[i].sales ?? 0), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance ?? 0);
+  // a tax not held at all is left out of the chart, not drawn as "not held" in every year; fault 17: a property tax held
+  // for some years (an agreement, an exemption) is drawn for them
+  const prop = val((i) => (r.years[i].phase === "construction" ? 0 : r.years[i].property)), sales = val((i) => r.years[i].sales ?? 0), inc = val((i) => r.years[i].income), sev = val((i) => r.years[i].severance ?? 0);
   const taxSeries = [
-    ...(r.property.held ? [{ name: "Property", color: "var(--color-year-1)", values: prop }] : []),
+    ...(r.years.some((y) => y.property !== null) ? [{ name: "Property", color: "var(--color-year-1)", values: prop }] : []),
     ...(r.sales.held ? [{ name: "Sales and use", color: "var(--color-year-2)", values: sales }] : []),
     { name: "Income", color: "var(--color-year-3)", values: inc },
     ...(r.severance.held ? [{ name: "Severance", color: "var(--color-year-4)", values: sev }] : []),
@@ -284,6 +287,10 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   const say = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): property ${y.property === null ? "not held" : usd(y.property)}, sales ${y.sales === null ? "none" : usd(y.sales)}, income ${usd(y.income)}${x.tech === "natural_gas" ? `, severance ${y.severance === null ? "not held" : usd(y.severance)}` : ""}`; };
   const jobsSays = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): ${jobs(y.jobs.total)} jobs (on site ${jobs(y.jobs.onsite)}, supply chain ${jobs(y.jobs.supply_chain)}, induced ${jobs(y.jobs.induced)})`; };
   const key = inputsKey(x);
+  // session 4220 (the county assessor's read): the year's MWh where a production tax rests on it, the taxable value
+  // where a valuation or the reader's own rate taxes one
+  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.held && (r.property.rule ?? "").includes("production");
+  const hasValue = r.years.some((y) => y.value !== null);
   return (
     <section data-years={view}>
       <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} by year</h2>
@@ -302,16 +309,16 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
           tip={<Tip id={`jobs-${view}`} label="jobs by year">Full-time jobs each year: the build&apos;s job-years spread evenly over its years, then each operating year&apos;s.</Tip>} />
         <details className="border-t border-rule" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)} data-year-table={view}>
           <summary className="cursor-pointer py-2 text-sm font-semibold">Every year</summary>
-          {open ? (
+          {(
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] border-collapse text-left text-xs tabular-nums">
                 <caption className="sr-only">Scenario {view.toUpperCase()} by year</caption>
-                <thead><tr className="border-b border-rule">{["Year", "Phase", "Jobs", "Earnings", "Property tax", "Sales tax", "Income tax", "Severance"].map((h) => <th key={h} scope="col" className="px-2 py-1 font-semibold">{h}</th>)}</tr></thead>
+                <thead><tr className="border-b border-rule">{["Year", "Phase", "Jobs", "Earnings", ...(hasMwh ? ["MWh"] : []), ...(hasValue ? ["Taxable value"] : []), "Property tax", "Sales tax", "Income tax", "Severance"].map((h) => <th key={h} scope="col" className="px-2 py-1 font-semibold">{h}</th>)}</tr></thead>
                 <tbody>
                   {r.years.map((y) => (
                     <tr key={y.year} className="border-b border-rule">
                       <td className="px-2 py-1">{y.year}</td><td className="px-2 py-1">{y.phase}</td>
-                      {(["jobs", "earnings", "property", "sales", "income", "severance"] as const).map((sname) => {
+                      {(["jobs", "earnings", ...(hasMwh ? ["mwh"] : []), ...(hasValue ? ["value"] : []), "property", "sales", "income", "severance"] as const).map((sname) => {
                         const v = stat(r, `year:${y.year}:${sname}`);
                         return <td key={sname} className="px-2 py-1 text-right">{v === null ? <span className="text-muted">-</span> : <Num check={`${key}|year:${y.year}:${sname}`} raw={v}>{displayOf(`year:${y.year}:${sname}`, v)}</Num>}</td>;
                       })}
@@ -320,7 +327,7 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
                 </tbody>
               </table>
             </div>
-          ) : null}
+          )}
         </details>
       </div>
     </section>
@@ -328,22 +335,36 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
 }
 
 // ---- the same project in other states (session 347's third question, kept) ---------------------------------------------
-function OtherStates({ P, jedi, x, view }: { P: Params; jedi: Packed; x: Inputs; view: View }) {
-  // the scenario's own inputs in every state JEDI gives a figure for: construction job-years, by effect, most first
+function OtherStates({ P, jedi, x, v, view, sev }: { P: Params; jedi: Packed; x: Inputs; v: Values; view: View; sev: (s: string, v: number, p: number) => number | null }) {
+  // fault 14 (session 4222): the scenario in every state JEDI gives a figure for, from the scenario's values as the reader
+  // set them and each state's own defaults for the rest (its capital cost, capacity factor, tax rates and exemptions); a
+  // first version carried the scenario's own state's defaults everywhere (Minnesota's wind exemption gave every state none)
   const per = Object.keys(jedi).filter((k) => k.startsWith(`${x.tech}:`) && !k.endsWith(":us")).map((k) => {
     const st = k.split(":")[1];
-    const res = run({ ...x, state: st }, unpack(jedi, x.tech, st), P);
-    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs };
+    const ix = STATE_LIST.findIndex(([s]) => s === st);
+    const res = run(resolve(P, { ...v, state: ix, proj: NaN }), unpack(jedi, x.tech, st), P, sev);
+    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes, prop: res.property.held };
   }).filter((v) => v.ok).sort((a, b) => b.c.total - a.c.total);
   if (per.length < 2) return null;
   const shown = per.filter((v, i) => i < 10 || i >= per.length - 5 || v.k === x.state);
   const rank = per.findIndex((v) => v.k === x.state) + 1;
+  const taxSorted = [...per].sort((a, b) => b.taxes - a.taxes);
+  const byTax = taxSorted.filter((v, i) => i < 10 || i >= taxSorted.length - 5 || v.k === x.state);
   return (
     <section data-state-chart={view}>
-      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="states" label="other states">The same size, capital cost, local content and years in each state, with that state&apos;s JEDI multipliers and JEDI&apos;s default cost there: construction job-years. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length}.` : ""} The ten states with the most, the scenario&apos;s own and the five with the fewest; the chart&apos;s table holds them.</Tip></h2>
+      <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="states" label="other states">The scenario in each state: every input the scenario sets, and each state&apos;s own default for the rest (its capital cost, capacity factor, tax rates and exemptions), with that state&apos;s JEDI multipliers and JEDI&apos;s default cost there: construction job-years. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length}.` : ""} The ten states with the most, the scenario&apos;s own and the five with the fewest; the chart&apos;s table holds them.</Tip></h2>
       <StateChart id={`states-${view}`} unit="job-years" highlight={x.state}
         categories={shown.map((v) => v.name)} keys={shown.map((v) => v.k)}
         onsite={shown.map((v) => v.c.onsite)} supply={shown.map((v) => v.c.supply_chain)} induced={shown.map((v) => v.c.induced)} />
+      <div className="mt-6" data-state-taxes={view}>
+        <SeriesChart id={`state-taxes-${view}`} title="Taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
+          fmt={(v) => usd(v).replace(/^USD /, "")}
+          categories={byTax.map((v) => ({ label: v.name, sub: v.k === x.state ? "yours" : undefined }))}
+          series={[{ name: "Taxes, present value", color: "var(--color-accent)", values: byTax.map((v) => v.taxes) }]}
+          saysOnCard
+          says={(i) => `${byTax[i].name}: ${usd(byTax[i].taxes)}${byTax[i].prop ? " (a property tax statute is held)" : " (no property tax rule held: sales and income tax only)"}`}
+          tip={<Tip id={`state-taxes-${view}`} label="taxes in other states">The scenario&apos;s property, sales and use, income and severance taxes in each state, discounted at its rate: every input the scenario sets, and each state&apos;s own rules, rates, exemptions and default cost for the rest. A state without a held property tax statute shows its sales and income taxes only, so the bars are not like for like there: the hover says which. The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
+      </div>
     </section>
   );
 }

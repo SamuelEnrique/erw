@@ -42,7 +42,11 @@ export type IncomeState = {
   standard_deduction_single: number | null; personal_exemption_single: number | null; personal_credit_single: number | null;
 };
 export type PropertyRule = {
-  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation";
+  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option";
+  /** capacity_option (session 4225, Oregon's solar fee in lieu by county agreement): the statute's range and the default */
+  usd_per_mw_min?: number; usd_per_mw_max?: number; default_usd_per_mw?: number;
+  /** exempt_years: the operating years exempt (session 4223, Kansas) */
+  years?: number;
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
   tiers?: { min_mw_exclusive?: number; min_mw_ac_exclusive?: number; max_mw?: number; usd_per_mwh: number }[];
   schedule_pct?: number[]; then_pct?: number; requires?: string;
@@ -72,8 +76,10 @@ export type Inputs = {
   taxable: number | null;
   /** exemption from sales tax on that share, percent */
   exempt: number;
-  /** Iowa wind: the county's special valuation (427B.26) applies */
+  /** a local option applies: Iowa wind's special valuation by ordinance (427B.26), Oregon solar's fee in lieu by agreement */
   iaval: boolean;
+  /** the local option's rate, USD per MW a year (Oregon's fee in lieu); null where none applies */
+  optrate: number | null;
   /** local levy, USD per 1,000 of taxable value (Iowa's valuation) */
   levy: number | null;
   /** the reader's own property tax: effective rate, percent of capital cost, falling straight to 0 over `ownyears` */
@@ -87,6 +93,9 @@ export type Year = {
   year: number; phase: Phase;
   jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number>;
   property: number | null; sales: number | null; income: number; severance: number | null;
+  /** session 4220: the year's MWh (operations, where a capacity factor is held) and the taxable value a valuation or the
+   *  reader's own rate taxes (null where the tax is not on a value) */
+  mwh: number | null; value: number | null;
 };
 export type Result = {
   ok: boolean; why?: string;
@@ -142,7 +151,9 @@ export function defaults(P: Params, tech: TechKey, state: string): Inputs {
     start: DEFAULT_START, build: Math.ceil(e.construction_months / 12), life: e.operating_life_years,
     local: 100, om: 100, rate: 7, cf: round(cfDefault(P, tech, state).value, 4), ilr: tech === "utility_pv" ? round(ilrDefault(P, state).value, 4) : 1,
     sales: st ? round((st.state_rate + st.avg_local_rate) * 100, 4) : 0, taxable: share === null || share === undefined ? null : round(share * 100, 4),
-    exempt: P.exemptions?.states[state]?.[tech]?.exempt_pct ?? 0, iaval: false, levy: null, own: null, ownyears: null,
+    exempt: P.exemptions?.states[state]?.[tech]?.exempt_pct ?? 0, iaval: false,
+    optrate: P.property.states[state]?.rules.find((r) => r.kind === "capacity_option" && r.technologies.includes(tech))?.default_usd_per_mw ?? null,
+    levy: null, own: null, ownyears: null,
     heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4),
   };
 }
@@ -176,12 +187,12 @@ function tierRate(r: PropertyRule, mw: number): number {
   return 0;
 }
 /** The property tax of operating year i (0 is the first), or null when no rule or input gives one */
-export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | null; rule: string | null } {
+export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | null; rule: string | null; value?: number | null } {
   const rules = propertyRules(P, x);
   const mwh = x.mw * 8760 * x.cf;
   const spend = x.capex * x.mw * 1000;
   if (rules.length) {
-    let tax = 0, used: string[] = [];
+    let tax = 0, value: number | null = null, used: string[] = [];
     for (const r of rules) {
       if (r.min_mw !== undefined && x.mw < r.min_mw) continue;
       if (r.kind === "capacity") { tax += x.mw * (r.usd_per_mw_year ?? 0); used.push(r.id); }
@@ -190,18 +201,30 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         const rate = tierRate(r, x.mw);
         if (rate > 0 && Number.isFinite(mwh)) { tax += mwh * rate; used.push(r.id); }
       }
+      else if (r.kind === "capacity_option") {
+        // a county's agreement (off by default): the reader's rate within the statute's range, for the agreement's years
+        if (!x.iaval || x.optrate === null) continue;
+        if (i >= (r.years ?? Infinity)) return { tax: null, rule: r.id, value: null };
+        const rate = Math.min(r.usd_per_mw_max ?? Infinity, Math.max(r.usd_per_mw_min ?? 0, x.optrate));
+        tax += x.mw * rate; used.push(r.id);
+      }
+      else if (r.kind === "exempt_years") {
+        // exempt for its first years (0, a figure the statute gives); after them no rule is held: the reader's own rate, if any
+        if (i < (r.years ?? 0)) return { tax: 0, rule: r.id, value: null };
+      }
       else if (r.kind === "valuation") {
         if (!x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
         const pct = i < (r.schedule_pct ?? []).length ? r.schedule_pct![i] : (r.then_pct ?? 0);
-        tax += spend * (pct / 100) * (x.levy / 1000); used.push(r.id);
+        value = spend * (pct / 100);
+        tax += value * (x.levy / 1000); used.push(r.id);
       }
     }
-    if (used.length) return { tax, rule: used.join("+") };
+    if (used.length) return { tax, rule: used.join("+"), value };
   }
   if (x.own !== null && x.ownyears !== null && x.ownyears > 0) {
     const share = Math.max(0, 1 - i / x.ownyears);
-    return { tax: spend * share * (x.own / 100), rule: "own" };
+    return { tax: spend * share * (x.own / 100), rule: "own", value: spend * share };
   }
   return { tax: null, rule: null };
 }
@@ -248,19 +271,21 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   } else sevNote = "a wind, solar or geothermal plant burns no gas";
   const st = P.income.states[x.state];
   const years: Year[] = [];
-  let propRule: string | null = null, propHeld = false;
+  let propRule: string | null = null, propHeld = false, propGap = false;
   for (let i = 0; i < x.build; i++) {
     const f = 1 / x.build;
     const jobs = scale(c.jobs, f), earnings = scale(c.earnings, f), output = scale(c.output, f);
     years.push({ year: x.start + i, phase: "construction", jobs, earnings, output, property: null,
-      sales: salesTotal === null ? null : salesTotal * f, income: jobs.total > 0 ? jobs.total * incomeTax(st, earnings.total / jobs.total) : 0, severance: null });
+      sales: salesTotal === null ? null : salesTotal * f, income: jobs.total > 0 ? jobs.total * incomeTax(st, earnings.total / jobs.total) : 0, severance: null,
+      mwh: null, value: null });
   }
   for (let i = 0; i < x.life; i++) {
     const p = propertyTax(P, x, i);
-    if (p.tax !== null) { propHeld = true; propRule = p.rule; }
+    if (p.tax !== null) { propHeld = true; propRule = p.rule; } else propGap = true;
     years.push({ year: x.start + x.build + i, phase: "operations", jobs: { ...o.jobs }, earnings: { ...o.earnings }, output: { ...o.output },
       property: p.tax, sales: null, income: o.jobs.total > 0 ? o.jobs.total * incomeTax(st, o.earnings.total / o.jobs.total) : 0,
-      severance: x.tech === "natural_gas" ? sevYear : null });
+      severance: x.tech === "natural_gas" ? sevYear : null,
+      mwh: Number.isFinite(x.cf) ? x.mw * 8760 * x.cf : null, value: p.value ?? null });
   }
   const disc = (t: number) => 1 / (1 + x.rate / 100) ** (t - x.start);
   const sum = (f: (y: Year) => number | null, pv: boolean) => {
@@ -270,22 +295,26 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   };
   const sums: Streams = {
     jobs: sum((y) => y.jobs.total, false)!, earnings: sum((y) => y.earnings.total, false)!, output: sum((y) => y.output.total, false)!,
-    property: propHeld ? sum((y) => y.property, false) : null, sales: sum((y) => y.sales, false), income: sum((y) => y.income, false)!,
+    // a life with some years not held (Kansas after its exemption) has no total: a sum of the held years would read as the life's
+    property: propHeld && !propGap ? sum((y) => y.property, false) : null, sales: sum((y) => y.sales, false), income: sum((y) => y.income, false)!,
     severance: sevYear === null ? null : sum((y) => y.severance, false),
   };
   const pvS = {
     jobs: sums.jobs, earnings: sum((y) => y.earnings.total, true)!, output: sum((y) => y.output.total, true)!,
-    property: propHeld ? sum((y) => y.property, true) : null, sales: sum((y) => y.sales, true), income: sum((y) => y.income, true)!,
+    property: propHeld && !propGap ? sum((y) => y.property, true) : null, sales: sum((y) => y.sales, true), income: sum((y) => y.income, true)!,
     severance: sevYear === null ? null : sum((y) => y.severance, true),
   };
   const taxes = (pvS.property ?? 0) + (pvS.sales ?? 0) + pvS.income + (pvS.severance ?? 0);
   const rules = propertyRules(P, x);
-  const propNote = propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
+  const exempt = rules.find((r) => r.kind === "exempt_years") ?? (x.iaval ? rules.find((r) => r.kind === "capacity_option") : undefined);
+  const propNote = propHeld && propGap && exempt ? `exempt for its first ${exempt.years} years; no rule held after them (the reader's own rate fills them)`
+    : propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
     : rules.some((r) => r.kind === "valuation") ? (x.iaval ? "the local levy is not given" : "the county's special valuation is off and no other rule is held")
+    : rules.some((r) => r.kind === "capacity_option") ? "the county's agreement is off and no other rule is held"
     : "no rule held for this state and technology";
   return {
     ok: true, years, sums, pv: { ...pvS, taxes }, construction: c, operations: o,
-    property: { held: propHeld, rule: propRule, note: propNote },
+    property: { held: propHeld && !propGap, rule: propRule, note: propNote },
     severance: { held: sevYear !== null, note: sevNote },
     sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
   };
@@ -298,7 +327,7 @@ function scale(r: Record<Effect, number>, f: number): Record<Effect, number> {
 // A figure's key is forecast|<every input of its scenario, in KEY_ORDER, "-" for not given>|<figure>, so that
 // scripts/check-values.mjs recomputes it from its own read of the JEDI rows and the parameter files, with nothing else.
 export const KEY_ORDER: (keyof Inputs)[] = ["tech", "state", "mw", "capex", "start", "build", "life", "local", "om", "rate", "cf", "ilr", "sales", "taxable",
-  "exempt", "iaval", "levy", "own", "ownyears", "heat", "instate", "gasprice"];
+  "exempt", "iaval", "levy", "own", "ownyears", "heat", "instate", "gasprice", "optrate"];
 export function inputsKey(x: Inputs): string {
   return ["forecast", ...KEY_ORDER.map((k) => { const v = x[k]; return v === null ? "-" : typeof v === "boolean" ? (v ? "1" : "0") : String(v); })].join("|");
 }
@@ -333,6 +362,7 @@ export function stat(r: Result, figure: string): number | null {
   const pick = (y: Year | undefined, s: string): number | null => {
     if (!y) return null;
     if (s === "jobs" || s === "earnings" || s === "output") return y[s].total;
+    if (s === "mwh" || s === "value") return y[s];
     const v = (y as unknown as Record<string, number | null>)[s];
     return v === undefined ? null : v;
   };
@@ -396,5 +426,6 @@ export const jobsText = (v: number) => v.toLocaleString("en-US", { maximumFracti
 export function displayOf(figure: string, v: number): string {
   const p = figure.split(":");
   const isJobs = p[1] === "jobs" || p[2] === "jobs";
+  if (p[2] === "mwh") return Math.round(v).toLocaleString("en-US");  // session 4220: MWh, whole
   return isJobs ? jobsText(v) : usdText(v);
 }

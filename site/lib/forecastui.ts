@@ -39,13 +39,16 @@ const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigit
 const EXEMPT_WORDS: Record<string, string> = {
   "mn:land_based_wind": "Minnesota Statutes 297A.68, subd. 12, exempts wind energy conversion systems used as an electric power source and the materials to build them: 100 percent.",
   "ia:land_based_wind": "Iowa Code 423.3(54) exempts wind energy conversion property and the materials to build it: 100 percent.",
+  "tx:land_based_wind": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:utility_pv": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:natural_gas": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
 
 /** fault 7: a statute's capacity or production tax is held for this technology and state (Iowa's valuation is optional, so
  *  the reader's own rate stays offered there) */
 export const statuteHeld = (t: TechKey, s: string, P: Params) =>
-  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation");
+  (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind !== "valuation" && r.kind !== "exempt_years" && r.kind !== "capacity_option");
 
 export const FIELDS: FieldDef[] = [
   { key: "tech", label: "Technology", unit: "", min: 0, max: TECHS.length - 1, whole: true, group: "project",
@@ -79,15 +82,24 @@ export const FIELDS: FieldDef[] = [
     source: (t) => t === "geothermal" ? "JEDI's geothermal model holds no sales tax line: no share is held." : "JEDI's own base for sales tax, its materials and equipment purchases, as a share of its cost before tax." },
   { key: "exempt", label: "Sales tax exemption", unit: "% of the tax", min: 0, max: 100, whole: false, group: "taxes",
     source: (t, s, P) => (EXEMPT_WORDS[`${s}:${t}`] ?? (P.exemptions?.states[s]?.[t] ? "The state's statute exempts these purchases." : "No exemption of this state for this technology has been read: 0, so the sales tax is before exemptions.")) },
-  { key: "iaval", label: "Special valuation by county ordinance", unit: "", min: 0, max: 1, whole: true, group: "taxes",
+  { key: "iaval", label: "Local option by ordinance or agreement", unit: "", min: 0, max: 1, whole: true, group: "taxes",
     options: () => [{ value: 0, label: "No" }, { value: 1, label: "Yes" }],
-    applies: (t, s) => s === "ia" && t === "land_based_wind",
-    source: () => "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh." },
+    applies: (t, s) => (s === "ia" && t === "land_based_wind") || (s === "or" && t === "utility_pv"),
+    source: (_t, s) => (s === "or"
+      ? "Oregon (2015 c.571, notes to ORS 307.175): a county and a solar project outside any city may agree to exempt it and take a fee in lieu, USD 5,500 to 7,000 per MW of nameplate a year, for up to 20 years; agreements end with projects exempt by 2 January 2028."
+      : "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh.") },
+  { key: "optrate", label: "Fee in lieu", unit: "USD per MW a year", min: 0, max: 20000, whole: false, group: "taxes", nullable: true,
+    applies: (t, s) => s === "or" && t === "utility_pv",
+    source: () => "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range." },
   { key: "levy", label: "Local levy", unit: "USD per 1,000", min: 0, max: 200, whole: false, group: "taxes", nullable: true,
     applies: (t, s) => s === "ia" && t === "land_based_wind",
     source: () => "No statewide figure is held: the county's consolidated levy, in dollars per 1,000 of taxable value." },
   { key: "own", label: "Property tax, effective rate", unit: "% of cost", min: 0, max: 10, whole: false, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
-    source: () => "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls." },
+    // fault 16: where a statute is held but leaves years or the choice open (Iowa's valuation, Kansas's exemption, Oregon's
+    // agreement), the rate covers those years, not "no statute"
+    source: (t, s, P) => ((P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))
+      ? "The state's statute leaves some years or cases open (without the local option, or after an exemption or an agreement ends): a rate typed here is the reader's own for those years, applied to the capital cost as it falls."
+      : "No statute is held for this state and technology: a rate typed here is the reader's own, applied to the capital cost as it falls.") },
   { key: "ownyears", label: "Taxable value falls to 0 over", unit: "years", min: 1, max: 60, whole: true, group: "taxes", nullable: true, applies: (t, s, P) => !statuteHeld(t, s, P),
     source: () => "The reader's own: the years over which the taxable value falls in a straight line." },
   { key: "cf", label: "Capacity factor", unit: "ratio", min: 0.01, max: 1, whole: false, group: "output",

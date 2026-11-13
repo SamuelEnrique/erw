@@ -32,7 +32,8 @@ export function params(): Params {
   const prop = property.states as unknown as Params["property"]["states"];
   const slimProp = Object.fromEntries(Object.entries(prop).map(([s, v]) => [s, { name: v.name, rules: v.rules.map((r) => ({
     id: r.id, technologies: r.technologies, kind: r.kind, usd_per_mw_year: r.usd_per_mw_year, usd_per_mwh: r.usd_per_mwh, min_mw: r.min_mw,
-    tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires })) }]));
+    tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires,
+    years: r.years, usd_per_mw_min: r.usd_per_mw_min, usd_per_mw_max: r.usd_per_mw_max, default_usd_per_mw: r.default_usd_per_mw })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
   return {
     jediCosts: { technologies: slimJc } as Params["jediCosts"],
     eiaCapex: { technologies: slimEc } as unknown as Params["eiaCapex"],

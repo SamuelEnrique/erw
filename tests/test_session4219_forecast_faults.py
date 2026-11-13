@@ -30,12 +30,21 @@ class TheFaults(unittest.TestCase):
         for key in ("own", "ownyears"):
             line = next(l for l in self.ui.splitlines() if l.strip().startswith(f'{{ key: "{key}",'))
             self.assertIn("applies: (t, s, P) => !statuteHeld(t, s, P)", line, key)
-        self.assertRegex(self.ui, r'statuteHeld = \(t: TechKey, s: string, P: Params\) =>\s*\n\s*\(P\.property\.states\[s\]\?\.rules \?\? \[\]\)\.some\(\(r\) => r\.technologies\.includes\(t\) && r\.kind !== "valuation"\)')
+        held = self.ui[self.ui.index("export const statuteHeld"):]
+        held = held[:held.index(";\n")]
+        self.assertIn("(P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t)", held)
+        # the kinds that leave years or the choice to the reader keep the own rate offered: Iowa's optional valuation,
+        # Kansas's exemption (session 4223, for the years after it), Oregon's agreement (session 4225)
+        for kind in ("valuation", "exempt_years", "capacity_option"):
+            self.assertIn(f'r.kind !== "{kind}"', held, kind)
 
     def test_9_a_tax_not_held_is_left_out_of_the_chart_and_an_empty_year_is_zero(self):
-        self.assertIn('...(r.property.held ? [{ name: "Property"', self.page)
+        # fault 17: a property tax held for some years is drawn (not only one held for every year)
+        self.assertIn('...(r.years.some((y) => y.property !== null) ? [{ name: "Property"', self.page)
         self.assertIn('...(r.sales.held ? [{ name: "Sales and use"', self.page)
         self.assertIn("r.years[i].sales ?? 0", self.page)
+        # an operating year with no rule (after an exemption or agreement) stays null: the chart says "not held" for it
+        self.assertIn('(r.years[i].phase === "construction" ? 0 : r.years[i].property)', self.page)
 
     def test_10_the_chart_does_not_write_its_unit_twice(self):
         self.assertIn('const short = (v: number) => usd(v).replace(/^USD /, "");', self.page)
@@ -48,7 +57,31 @@ class TheFaults(unittest.TestCase):
 
     def test_12_a_charts_words_are_a_tip_not_part_of_its_title(self):
         self.assertNotRegex(self.page, r'tip="[^"]')
-        self.assertEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
+        # every chart's tip is a Tip (two charts by year, and since session 4221 the taxes in other states)
+        self.assertGreaterEqual(len(re.findall(r"tip=\{<Tip id=", self.page)), 2)
+        self.assertEqual(len(re.findall(r"(?<![\w-])tip=", self.page)), len(re.findall(r"tip=\{<Tip id=", self.page)))
+    def test_18_the_table_by_year_is_always_drawn_so_its_figures_are_checked(self):
+        # its rows were drawn only when the fold was opened, so the page as served (what check-values reads) had none
+        self.assertNotIn("{open ? (", self.page)
+        self.assertIn("fault 18: the fold's state only; its rows are always drawn", self.page)
+
+
+class Fault15(unittest.TestCase):
+    def test_15_the_trimmed_parameters_keep_every_field_of_a_rule(self):
+        # the browser's parameters are trimmed by name (lib/forecastdata.ts); a field of PropertyRule left out of the trim
+        # is undefined in the page while the node tests (the full files) pass: Kansas's years were
+        src = read(SITE, "lib", "forecast.ts")
+        block = src[src.index("export type PropertyRule = {"):]
+        block = block[len("export type PropertyRule = {"):block.index("};")]
+        block = re.sub(r"/\*.*?\*/", "", block, flags=re.S)  # comments
+        block = re.sub(r"\{[^{}]*\}", "", block)  # nested types (a tier's own fields come with r.tiers)
+        keys = set(re.findall(r"\b([a-z_]+)\??:", block))
+        self.assertIn("years", keys)
+        data = read(SITE, "lib", "forecastdata.ts")
+        trim = data[data.index("rules: v.rules.map((r) => ({"):]
+        trim = trim[:trim.index("})) }]));") + 1]
+        for k in sorted(keys):
+            self.assertRegex(trim, rf"\b{k}:", k)
 
 
 if __name__ == "__main__":
