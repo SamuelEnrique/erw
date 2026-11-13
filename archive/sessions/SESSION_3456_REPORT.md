@@ -82,3 +82,14 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Row 164 (new, fixed):** the stored 12 and 13 November issues both print "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)". Policy actions are dated by day and read from the window's first whole day, so an action of the day the window opens is in two issues. An action whose link an issue of the last week printed is now left out.
 - Tests: `Row163AGasForwardsTitleIsGass` (1), `Row164APolicyActionIsPrintedOnce` (3). The 65 files: 1,247 passed, 20 skipped.
 - **Row 11:** moved to `86e19d969`.
+
+## Session 3464: every stored Digest on the stack, rows 165 to 167
+
+- The 17 stored Digests on main (25 September to 12 November), each as a dry run on the stack at its own window's end (`runs/s3464_batch.py`, outputs in `runs/periodicals_dryrun/s3464/`), scanned for the new rows' classes.
+- **Row 164's reach:** besides 12 to 13 November, the stored issues of 9, 14 and 23 October each repeat one policy action from the issue before.
+- **Row 165 (new, fixed):** the stack's subject of 14 October read "Taiwan Commits Up to to Alaska LNG Megaproject": the figure was taken out and its quantity words were left. The same removal left "of" after a capacity and a lower-case first letter after "A 500 MW deal ...", and never took out a percent ("with 30% of output", since `\b` cannot follow "%"). All four are fixed in `roundup.head_clause`.
+- **Row 166 (new, fixed):** "Morgan Stanley: Global Fuel Market Will Stay Tight Through Mid-2027 (power prices)". "fuel market" is now oil's under a power tag.
+- **Row 167 (new, fixed):** "nearly USD 1 billion; Parties: US Energy Department." opened an item's line in lower case. The figures line now opens with a capital.
+- Left as they are: "French Power Prices Exceed EUR 100 ..." and "Japan Power Price at Four-Year High ..." are power price stories rightly tagged. The charts of the batch are today's candidates, not those days', so they were not read.
+- Tests: three classes, 4 tests. The 65 files: 1,251 passed, 20 skipped. The method notes carry rows 165 to 167.
+- **Row 11:** moved to `fce6e0cfd`.
