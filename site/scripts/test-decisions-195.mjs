@@ -111,7 +111,10 @@ const SIZES = [1, 7.5, 33, 50, 100, 137, 200, 250.5, 1000, 5000];
   let r = twelve([27, 0]);
   check(!r.ms.at(-1).held && r.l[11].m === "2026-09" && r.l[0].m === "2025-10", "27 of 31 days: the month is not held; the window ends September 2026");
   r = twelve([28, 0]);
-  check(r.ms.at(-1).held && !r.ms.at(-1).whole && r.l[11].m === "2026-09" && r.w.to === "2026-09", "28 of 31 days: the month is held and not whole; the window still ends September 2026 (before session 195 it ended October)");
+  // session 1892 (session 1885's fault 2): a month at 90 percent that is not whole, newer than every whole month, is held
+  // nowhere (lib/batterystack.ts, settle), so the chart and the income table take the headline's months; until then it was
+  // held here and outside the window only
+  check(!r.ms.at(-1).held && !r.ms.at(-1).whole && B.waiting(r.ms.at(-1)) && r.l[11].m === "2026-09" && r.w.to === "2026-09", "28 of 31 days: the month is not whole, so not held (session 1892); the window still ends September 2026 (before session 195 it ended October)");
   r = twelve([30, 0]);
   check(r.l[11].m === "2026-09", "30 of 31 days: still September");
   r = twelve([31, 0]);

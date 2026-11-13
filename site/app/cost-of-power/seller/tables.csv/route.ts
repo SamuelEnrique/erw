@@ -31,7 +31,7 @@ export async function GET(req: Request) {
   } catch (e) {
     return text(`the model could not be read: ${e instanceof Error ? e.message : String(e)}`, 503);
   }
-  const { x, g, hub, cg, iso, cap, mk, other, why, yearRows, pair, hf, batt, plantTotal, both, snap, sizeLabel, st, fuel, bmw, dur, pairSpan, plantName } = M;
+  const { x, g, hub, cg, iso, cap, mk, other, why, yearRows, capCut, capHubs, capHub, pair, hf, batt, plantTotal, both, snap, sizeLabel, st, fuel, bmw, dur, pairSpan, plantName } = M;
   if (licenseHeldGrid(iso)) return text(`${LICENSE_NEEDED}: ${licenseGridTitle(iso)}`, 403);
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   const f = (v: number | null | undefined, d: number) => (v === null || v === undefined || !Number.isFinite(v) ? "" : v.toFixed(d));
@@ -42,12 +42,14 @@ export async function GET(req: Request) {
     `# battery_beside: both rows are priced at ${g.at}, ${g.name}'s main hub, whatever hub is chosen (the battery page prices there)`,
     `# a capture price is the generation-weighted price the grid's whole fleet received by the hour, not one site's; premium is that less the flat average of every hour; pct is the premium as a percent of the flat average; hours are the hours counted`,
     `# method: /data/methods/generator_earns_algorithm (sections 4.5 to 4.7, 4.11, 4.16 and 4.17 as the page drew them until session 212); the page: /cost-of-power/seller`,
+    // session 1893 (session 1885's fault 1): the capture figures over the model's months, as the page draws them
+    ...(capCut ? [`# capture_last_twelve and capture_by_year take the capture file's months up to ${capCut}, the last month of the model's last twelve months, so they are over the revenue's months; capture_hub_year is the file's every month`] : []),
     "table,row,column,value,note",
   ];
   const put = (table: string, row: string, column: string, value: unknown, note = "") => lines.push([table, row, column, value, note].map(cell).join(","));
 
   // 1. the capture price at every hub and zone of the grid, last twelve months, both markets
-  for (const h of cg.hubs) {
+  for (const h of capHubs) {
     for (const m of [mk, other] as Market[]) for (const fu of FUELS) {
       const c = cap(h, fu, m);
       const col = `${fu}_${MARKETS[m].toLowerCase().replace(/[ -]/g, "_")}`;
@@ -66,7 +68,7 @@ export async function GET(req: Request) {
         const c = r[fu];
         const col = `${fu}_${MARKETS[m].toLowerCase().replace(/[ -]/g, "_")}`;
         const note = r.partial ? `${r.months} of 12 months counted: a partial year` : "";
-        if (!c) { put("capture_by_year", r.label, `${col}_price`, "", r.label === "Last 12 months" ? why(hub, fu, m) : `No month of ${r.label} holds at least ${Math.round(NEAR * 100)} percent of its hours with both a price and the grid's ${fu} generation.`); continue; }
+        if (!c) { put("capture_by_year", r.label, `${col}_price`, "", r.label === "Last 12 months" ? why(capHub, fu, m) : `No month of ${r.label} holds at least ${Math.round(NEAR * 100)} percent of its hours with both a price and the grid's ${fu} generation.`); continue; }
         put("capture_by_year", r.label, `${col}_price`, f(c.price, 4), note);
         put("capture_by_year", r.label, `${col}_flat`, f(c.flat, 4), note);
         put("capture_by_year", r.label, `${col}_premium`, f(c.premium, 4), note);

@@ -11,7 +11,7 @@ import hubsJson from "@/data/seller/hubs/index.json";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";
 import {
-  FUELS, MARKETS, ORDER, combined, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, twelve, whyNoYear, whyNot, yearCell, years as captureYears,
+  FUELS, MARKETS, ORDER, after, combined, cutHub, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, twelve, whyNoYear, whyNot, yearCell, years as captureYears,
   type CaptureFile, type Fuel, type Hub, type Market,
 } from "@/lib/capture";
 import {
@@ -183,23 +183,40 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const ys = years(ms1);
   const line = sentence({ grid: iso, asset: x.asset }, s, atHub ? at : undefined);
 
+  // Session 1893 (session 1885's fault 1, the walk of 13 November 2026): the headline mixed two twelve-month windows.
+  // Revenue and debt coverage said "Oct 2025 to Sep 2026" (the model's months, merchant_snapshot.json) while the capture
+  // card said "real time, Nov 2025 to Oct 2026" (capture.json holds October whole, the model does not), the capture chart
+  // "2026, 10 months" beside the revenue chart's 9, and the PPA results table held both windows. The capture file holds
+  // months, so its figures can be taken over the model's: where it holds a month after the model's last twelve months'
+  // last month, every capture figure on the page (the card, the summary sentence, the results table's capture row, the
+  // chart and the table of every hub, tables.csv) takes the capture file's months up to that month (lib/capture.ts,
+  // cutHub), and each figure's check key ends "@<that month>" so check-values recomputes the same months. Where the
+  // capture file ends first, nothing is cut, and the card names both windows (capWords).
+  const capCut = fuel && s.twelve && cg.hubs.some((h) => after(h, s.twelve!.to)) ? s.twelve.to : null;
+  const capHubs = cg.hubs.map((h) => cutHub(h, capCut));
+  const capHub = capHubs.find((h) => h.id === hub.id) ?? hub;
+  /** A capture figure's check-key span: "l12" or a year, with the model's last month when the months were cut. */
+  const capSpan = (span: string) => (capCut ? `${span}@${capCut}` : span);
+
   // (a) the capture price: the market shown first is real time where the hub holds it, else day-ahead
   const cap = (h: Hub, f: Fuel, m: Market) => twelve(h[m]?.[f], NEAR);
   const has = (h: Hub, m: Market) => FUELS.some((f) => Object.keys(h[m]?.[f] ?? {}).length > 0);
   const whole12 = (h: Hub, m: Market) => FUELS.some((f) => cap(h, f, m) !== null);
   const marketOf = (h: Hub): Market => (whole12(h, "rt") ? "rt" : whole12(h, "da") ? "da" : has(h, "rt") || !has(h, "da") ? "rt" : "da");
-  const mk: Market = marketOf(hub);
+  const mk: Market = marketOf(capHub);
   const other: Market = mk === "rt" ? "da" : "rt";
   const why = (h: Hub, f: Fuel, m: Market) => `${hubName(h.id)}, ${MARKETS[m].toLowerCase()}, ${f}. ${whyNot(h[m], f, NEAR)}${iso === "nyiso" && f === "solar" ? " EIA-930 itemizes no solar generation for New York." : ""}`;
-  const mine = fuel ? cap(hub, fuel, mk) : null;
+  const mine = fuel ? cap(capHub, fuel, mk) : null;
+  // session 1893: the card's window, and the revenue's beside it in words when the two still differ
+  const capWords = mine ? `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}${s.twelve && (mine.from !== s.twelve.from || mine.to !== s.twelve.to) ? `; the revenue's twelve months are ${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` : ""}` : "";
   const yearRows = (m: Market): PremiumRow[] => {
-    const by = Object.fromEntries(FUELS.map((f) => [f, captureYears(hub[m]?.[f], NEAR)])) as Record<Fuel, ReturnType<typeof captureYears>>;
+    const by = Object.fromEntries(FUELS.map((f) => [f, captureYears(capHub[m]?.[f], NEAR)])) as Record<Fuel, ReturnType<typeof captureYears>>;
     const labels = [...new Set(FUELS.flatMap((f) => by[f].map((y) => y.y)))].sort();
     const rows: PremiumRow[] = labels.map((y) => {
       const so = by.solar.find((r) => r.y === y), wi = by.wind.find((r) => r.y === y);
       return { label: y, partial: !(so?.whole ?? wi?.whole), months: (so ?? wi)!.months, solar: so?.f ?? null, wind: wi?.f ?? null };
     });
-    const l12 = { solar: cap(hub, "solar", m), wind: cap(hub, "wind", m) };
+    const l12 = { solar: cap(capHub, "solar", m), wind: cap(capHub, "wind", m) };
     if (l12.solar || l12.wind) rows.push({ label: "Last 12 months", partial: false, months: 12, solar: l12.solar, wind: l12.wind });
     return rows;
   };
@@ -216,9 +233,9 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const capView = ((): CapView => {
     if (fuel) {
       const all = new Set<string>();
-      for (const h of cg.hubs) for (const k of Object.keys(h[marketOf(h)]?.[fuel] ?? {})) if (yearCell(h[marketOf(h)]?.[fuel], k.slice(0, 4), NEAR)) all.add(k.slice(0, 4));
+      for (const h of capHubs) for (const k of Object.keys(h[marketOf(h)]?.[fuel] ?? {})) if (yearCell(h[marketOf(h)]?.[fuel], k.slice(0, 4), NEAR)) all.add(k.slice(0, 4));
       const ysOf = [...all].sort();
-      const rows: CapRow[] = cg.hubs.map((h) => {
+      const rows: CapRow[] = capHubs.map((h) => {
         const m = marketOf(h), t = cap(h, fuel, m);
         const cells = ysOf.map((y) => { const c = yearCell(h[m]?.[fuel], y, NEAR); return c ? { price: c.price, flat: c.flat, rate: rateOf(c.price, c.flat), months: c.months, partial: !c.whole } : null; });
         return { id: h.id, name: hubName(h.id), chosen: h.id === hub.id, market: m,
@@ -254,7 +271,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
 
   // (b) the contract's twelve months (session 145; since session 212 the contract is two scenario assumptions, priced
   // on the model's energy of the last twelve months: lib/seller/finance.ts, Contract)
-  const window = fuel ? captureTwelve(hub[mk]?.[fuel], NEAR) : null;
+  const window = fuel ? captureTwelve(capHub[mk]?.[fuel], NEAR) : null;
   const energy = window && window.every((m) => ms1.find((r) => r.m === m)?.held) ? window.reduce((e, m) => e + ms1.find((r) => r.m === m)!.energy, 0) : null;
   const plant = mine && energy !== null ? { energy, price: mine.price } : null;
 
@@ -374,10 +391,10 @@ export async function modelOf(q: Record<string, string | undefined>) {
       : s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
     twelveWhy, money,
     capture: fuel
-      ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}` } : null
+      ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: capWords } : null
       : s.twelve && s.twelve.capture !== null && s.twelve.rate !== null ? { price: s.twelve.capture, flat: s.twelve.flat, ratio: s.twelve.rate, words: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` } : null,
     captureLabel: fuel ? "Capture price and rate" : peaker ? "Price while running, and rate" : "Price while selling, and rate",
-    captureWhy: fuel ? why(hub, fuel, mk) : twelveWhy,
+    captureWhy: fuel ? why(capHub, fuel, mk) : twelveWhy,
     lowest: sm.worst[0] ? { month: longMonth(sm.worst[0].m), usd: sm.worst[0].revenue, months: sm.n } : null,
     contract: fuel ? "energy" : "toll",
     battery: pair ? { withIt: Math.round(pair.pair), without: Math.round(pair.plant), words: `${pairSpan}, a ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery, priced at ${g.at}` } : null,
@@ -414,7 +431,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
   return {
     clampedWords,
     q, snap, open, iso, asked, costsOf, A, x, scenarioParams, g, a, cg, hub, mainHub, he, atHub, at, key, k, D, sizeLabel, fuel, peaker, money, bmw, dur, strat,
-    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
+    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capCut, capHubs, capHub, capSpan, capWords, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
     pyWs, pyRead: pyRead?.ok ?? false, pyOffered: !!pyConfig, win,
     node, nodeOffered, nodeWhy, nodeReadWhy, nbAsked, shape,
