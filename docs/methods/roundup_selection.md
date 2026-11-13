@@ -61,4 +61,4 @@ The weekend's stories, the five stories of the week, the deals and datacenter ta
 - The policy titles are in the issue's money style (row 178).
 - Next week: a rule effective on the item's day "takes effect" (row 179).
 - What the evidence does not establish names a figure only when the printed headline or why line states it (row 180); the opening's reason follows rows 181 and 182.
-- The Policy of the Week's impact read is printed whole, its figures kept (row 183).
+- The Policy of the Week's impact read keeps its figures (its first sentence, as before; row 183).

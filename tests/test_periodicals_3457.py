@@ -779,7 +779,7 @@ class Row183NoQuantityWordsLeftInALine(unittest.TestCase):
                          "Utility will add a battery near Phoenix by 2027.")
         self.assertNotIn("up to so", brief.why_line(self.READ, self.TITLE))
 
-    def test_the_policy_of_the_week_prints_its_read_whole(self):
+    def test_the_policy_of_the_week_keeps_its_reads_figures(self):
         import pandas as pd
         from unittest import mock
         import roundup
