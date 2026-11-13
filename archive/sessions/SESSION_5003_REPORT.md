@@ -1,6 +1,6 @@
 # Session 5003 report: the datacenter tool, and the owner's ruling on the foreseen load applied
 
-Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:20 to 10:50 UTC. Opus 5.5. Model spend USD 0.
+Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:12 to 10:22 UTC. Opus 5.5. Model spend USD 0.
 
 - Branch `wip/5000-datacenter`, cut from `wip/5000-generator`.
 - Read on session 5001's build at 1280 and 390: 249 keys, no error, no sideways scroll.

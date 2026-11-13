@@ -1,6 +1,6 @@
 # Session 5004 report: Automated Analysis (Research, /research)
 
-Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:50 to 11:30 UTC. Opus 5.5. Model spend USD 0.
+Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:22 to 10:30 UTC. Opus 5.5. Model spend USD 0.
 
 - Branch `wip/5000-analysis`, cut from `wip/5000-datacenter`.
 - Faults file `docs/reviews/analysis-faults-2026-11-13.md`: 5 rows (4 fixed, 1 the old laptop's).

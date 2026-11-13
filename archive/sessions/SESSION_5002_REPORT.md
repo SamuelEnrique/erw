@@ -1,6 +1,6 @@
 # Session 5002 report: the generator tool
 
-Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:10 to 10:20 UTC. Opus 5.5. Model spend USD 0.
+Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:05 to 10:12 UTC. Opus 5.5. Model spend USD 0.
 
 - Branch `wip/5000-generator`, cut from `wip/5000-battery` at `abbcdeb7`.
 - Read on session 5001's build at 1280 and 390, internal view: 180 keys, no error, no sideways scroll, no broken text.

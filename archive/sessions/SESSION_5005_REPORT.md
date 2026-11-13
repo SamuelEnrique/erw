@@ -1,6 +1,6 @@
 # Session 5005 report: the Grid tool
 
-Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 11:30 to 11:50 UTC. Opus 5.5. Model spend USD 0.
+Energy Research Warehouse (ERW). Chain 233, portable laptop window P1, 13 November 2026, about 10:30 to 10:36 UTC. Opus 5.5. Model spend USD 0.
 
 - Branch `wip/5000-grid`, cut from `wip/5000-analysis`.
 - Read on the builds of sessions 5001 and 5004: six views at 1280 and 390, no error, no sideways scroll. `/network` and `/ask` resolve into `/grid`: the one page has stood since session 299.

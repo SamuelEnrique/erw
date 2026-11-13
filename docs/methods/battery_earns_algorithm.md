@@ -166,7 +166,7 @@ Rows: energy; ancillary services; each product; capacity (words only, never a nu
 
 **For CAISO, since session 257: the line beside its market monitor.** CAISO's storage awards are not held, so the line sets the model beside a published report: "In 2025, for a 4-hour battery on the day-ahead schedule, this model takes USD 42.31 per kW from energy and USD 42.25 from regulation; CAISO's market monitor reports that real batteries in its area with a full year of operation earned about USD 35 per kW from energy and USD 9 from regulation" (figures as the table stood on 13 October 2026), with the report cited: CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, section 1.3.3, Tables 1.7 and 1.8. The model's two figures are computed, not typed: the sum of `r(m, energy)`, and of `r(m, regup)` plus `r(m, regdn)`, over the twelve held months of 2025 for the 4-hour day-ahead battery at SP15, divided by 1,000 (`year_kw:2025:energy` and `year_kw:2025:regup+regdn`, under the key of that case, `bs|grid=caiso&dur=4&strat=dayahead&...`; no figure unless all twelve months are held). The line does not follow the reader's strategy or duration: it is the one case the market monitor's own model and the fleet's figures are set beside in [the method note](battery_stack.md), "CAISO beside its market monitor". When the reader's battery is another, the page reads that case's months from the same table. The published 35 and 9 are a constant of `site/lib/batterystack.ts` (`FLEET_BESIDE`), held to the method note by `tests/test_session257.py`.
 
-### 4.7 With your contract (computed in the browser, never sent)
+### 4.7 With your contract (computed in the browser, never sent): gone from the page since session 208 (a scenario's assumptions)
 
 **Not on the page since session 208.** The contract is scenario A's and B's two assumptions, share and price (11.1, "The contract"), in the address like the others; the formulas below are those of sessions 67 to 207, kept as the record. The headline's coverage with a contract in A is 11.1's `(C + (1 - share_c) x R - fom) / debt`, the same arithmetic as the second line below, and carries no check key.
 
@@ -180,17 +180,17 @@ The reader types a share (percent), a price (USD per kW-month) and an end month.
 
 The contracted share earns nothing from the market. **The end month changes no number**: it only words the last row's label.
 
-### 4.8 Other grids
+### 4.8 Other grids: gone from the page since session 208 (one line under the grid picker)
 
 Words only. No number. **Since session 208 the table is one line under the grid picker** (`BatteryForm.tsx`, `data-other-grids`): PJM's prices are licensed and not held; NYISO and SPP are built and in review; ISO-NE's and MISO's reserve prices are held, not shown (license needed); their energy prices are on the seller tab.
 
-### 4.9 Every month (folded)
+### 4.9 Every month (folded): since session 208 the CSV download "Every month"
 
 **Since session 208 the fold is gone and the rows are a download**: `/cost-of-power/battery/months.csv` with the page's own parameters (`grid`, `dur`, `strat`, `mw`) and scenario A's, served by `site/app/cost-of-power/battery/months.csv/route.ts` from the same read as the page (`read.ts`) and the same library, with the provenance in `#` lines (the source table, when it was read, the fixed O&M and debt payments the coverage column uses, the 90 percent rule). Columns: month, held, energy, ancillary and total in USD for the size, total per kW, coverage (the formula below, blank for a month not held), days held, days in the month, days left out, days left out for a missing ancillary price, and each product's USD. The address takes the page's status: in review it answers the internal view alone (the proxy never sees a path with an extension, so the route applies `statusOf` itself).
 
 For each month the table holds, newest first: energy, ancillary and total (`month:<m>:<s>`: `r(m, s)`, scaled); **coverage**: `(r(m, total) x 12 x MW - fom x 1000 x MW) / ds`, the month's revenue less a month of fixed O&M over a month of debt payments, shown only for a held month; days held of days in the month; days left out. Beneath: the days left out in all (`out`), and how many for a missing ancillary price.
 
-### 4.10 Stress days (folded, ERCOT only)
+### 4.10 Stress days (folded, ERCOT only): gone from the page since session 208 (the table is public)
 
 **Not on the page since session 208.** The page no longer reads `battery_stack_stress_daily`; the table is public and the page links its download (`/api/download?table=battery_stack_stress_daily`) under the CSV line. The figures below are those the fold drew until then.
 
@@ -198,7 +198,7 @@ For each month the table holds, newest first: energy, ancillary and total (`mont
 
 From `battery_stack_stress_daily`: for Winter Storm Uri (7 to 24 February 2021), Winter Storm Elliott (19 to 29 December 2022) and the 2023 heat (1 August to 10 September 2023), over the solved days inside the window: the count of days, energy, ancillary and total summed and scaled (`stress:<event>:<s>`), and the best single day's total with its date (`stress:<event>:best`).
 
-### 4.11 What this model cannot see (folded)
+### 4.11 What this model cannot see (folded): since session 208 one sentence under the income table, the rest here
 
 <a id="cannot-see"></a>
 
