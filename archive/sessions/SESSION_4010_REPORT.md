@@ -25,7 +25,15 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
   - Under node: the 12 November page shows its note once, and the 21 October note is as before. `tsc --noEmit` reports 0 errors.
   - Test 4010 (3 tests); the digest tests pass.
 - **The second gate:** started at 17:51 UTC on `943295956` (land-f with the fix). It waited for the lock behind window A's `c227-gate2`. Meanwhile window 4 asked for row 5 (`wip/4250-forecast` at `2fc4d9ac8`; to `279dd3121` only a report), which was merged in before the gate took the lock: `3b1aae438`. The forecast's tests, 4010 and 2207 pass, and `build_llms.py --check` exits 0.
-- (its result and the landing: written when they come)
+- **The second gate passed every step** (`b80a5b676`, main merged after the lock at 18:15 UTC):
+  - the suite: 8,832 tests OK;
+  - **check-values passed, with the demand line a note:** "revised: page shows "488,034" as the issue printed it, its note says 488341";
+  - check-routes, check-cross-checks and check-csp passed.
+- **The landing:**
+  - Snapshot `before-b80a5b67`, then the push to `task/4010-landing` at 18:47.
+  - Run 43485988796 merged at 19:13 (`b5e925530`); the deploy succeeded at 19:14.
+  - Snapshot after: **0 differences**.
+  - Window 4's row 5 was marked landed on main as `7eee197ab` (0 differences).
 
 ## Decisions made without you
 
