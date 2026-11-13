@@ -36,6 +36,8 @@ When written: 587 wind PPAs executed 1996 to March 2025 (62,327 MW, median 51.0 
 
 Each file's copyright notice: "This work is openly licensed via CC BY 4.0" (Copyright The Regents of the University of California, through Lawrence Berkeley National Laboratory). Berkeley Lab's verdict in `license_verdicts.csv` (read 14) rests on the same statement in the Queued Up file.
 
+Chain 229, session 4107 (13 November 2026): Berkeley Lab's verdict now rests on read 1711, the Queued Up 2026 edition page's CC BY 4.0 notice, cut by code; the files' own notices are as above. Verdict unchanged.
+
 ## Cross-checks (sessions 915 and 918)
 
 - Wind: the PPAs and their megawatts counted by execution year equal LBNL's "Wind PPA Average" sheet in 24 of 24 year groups (1996-99 to 2025). The rows' MW-weighted average is a little above LBNL's generation-weighted one (2015: 38.0 against 37.4; 2024: 71.6 against 70.0).

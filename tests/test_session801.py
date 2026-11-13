@@ -100,9 +100,9 @@ class TheRule(unittest.TestCase):
 
     def test_the_detail_keeps_what_the_headline_does_not_give(self):
         r = {"mw": "8200", "price": "$12.5 billion", "parties": "CFE"}
-        self.assertEqual(brief.detail(r, "Mexico set to approve 60 projects, 8,200 MW"), "USD 12.5 billion; parties: CFE. ")
-        self.assertEqual(brief.detail(r, "Mexico set to approve 60 projects"), "8,200 MW; USD 12.5 billion; parties: CFE. ")
-        self.assertEqual(brief.detail(r), "8,200 MW; USD 12.5 billion; parties: CFE. ")
+        self.assertEqual(brief.detail(r, "Mexico set to approve 60 projects, 8,200 MW"), "USD 12.5 billion; Parties: CFE. ")
+        self.assertEqual(brief.detail(r, "Mexico set to approve 60 projects"), "8,200 MW; USD 12.5 billion; Parties: CFE. ")
+        self.assertEqual(brief.detail(r), "8,200 MW; USD 12.5 billion; Parties: CFE. ")
 
 
 class TheTwentySavedItems(unittest.TestCase):

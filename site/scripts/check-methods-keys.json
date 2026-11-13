@@ -1664,36 +1664,6 @@
    "series|nlr_jedi_multipliers|nlr_jedi:land_based_wind:tx:construction:onsite|jobs|2017-01-01T00:00:00Z",
    "series|nlr_jedi_multipliers|nlr_jedi:land_based_wind:tx:construction:spending|local_share|2017-01-01T00:00:00Z"
   ],
-  "/impact?tech=geothermal&state=us&life=25": [
-   "impact|geothermal|us|jedi|100|100|25|construction:total:jobs",
-   "impact|geothermal|us|jedi|100|100|25|life:total:jobs",
-   "impact|geothermal|us|jedi|100|100|25|operations:total:jobs",
-   "impact|geothermal|us|jedi|100|100|25|swing:mw:construction:jobs",
-   "series|nlr_jedi_multipliers|nlr_jedi:geothermal:us:all:project|project_mw|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:geothermal:us:construction:onsite|jobs|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:geothermal:us:construction:spending|local_share|2010-01-01T00:00:00Z"
-  ],
-  "/impact?tech=natural_gas&state=nm&capex=120&local=80": [
-   "impact|natural_gas|nm|jedi|120|80|-|construction:total:jobs",
-   "impact|natural_gas|nm|jedi|120|80|-|operations:total:jobs",
-   "impact|natural_gas|nm|jedi|120|80|-|state:fl:construction:total:jobs",
-   "impact|natural_gas|nm|jedi|120|80|-|state_rank:construction:jobs",
-   "impact|natural_gas|nm|jedi|120|80|-|swing:mw:construction:jobs",
-   "series|nlr_jedi_multipliers|nlr_jedi:natural_gas:nm:all:project|project_mw|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:natural_gas:nm:construction:onsite|jobs|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:natural_gas:nm:construction:spending|local_share|2010-01-01T00:00:00Z"
-  ],
-  "/impact?tech=utility_pv&state=la&mw=200&life=30": [
-   "impact|utility_pv|la|200|100|100|30|construction:total:jobs",
-   "impact|utility_pv|la|200|100|100|30|life:total:jobs",
-   "impact|utility_pv|la|200|100|100|30|operations:total:jobs",
-   "impact|utility_pv|la|200|100|100|30|state:ms:construction:total:jobs",
-   "impact|utility_pv|la|200|100|100|30|state_rank:construction:jobs",
-   "impact|utility_pv|la|200|100|100|30|swing:mw:construction:jobs",
-   "series|nlr_jedi_multipliers|nlr_jedi:utility_pv:la:all:project|project_mw|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:utility_pv:la:construction:onsite|jobs|2010-01-01T00:00:00Z",
-   "series|nlr_jedi_multipliers|nlr_jedi:utility_pv:la:construction:spending|local_share|2010-01-01T00:00:00Z"
-  ],
   "/learn/bill": [
    "bill|CA|share|2026-09-01T00:00:00+00:00",
    "bill|CA|total",

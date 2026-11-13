@@ -41,6 +41,9 @@ export function heldBy(check: string): { table: string; title: string } | null {
   let table = "";
   if (head.startsWith("series")) table = p[1] ?? "";
   else if (head === "event" || head === "entity") table = p[1] ?? "";   // session 329: entity|<table>|<id>|<field>
+  // session 4005: the count of a table's rows (event_count|<table>|all or |since|<day>, the policy page and its week view)
+  // names its table second as event| does; without this a held table's count printed the empty held rows' "0"
+  else if (head === "event_count") table = p[1] ?? "";
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   if (!table) return null;
   return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;

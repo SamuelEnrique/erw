@@ -44,7 +44,8 @@ class TheRule(unittest.TestCase):
     def test_both_rules_are_in_the_checker_and_join_the_text_test(self):
         self.assertEqual(len(rule_lines()), 2)
         with open(CV, encoding="utf-8") as f:
-            self.assertIn("|| chartOk || dcWhole || dcOne;", f.read())
+            # session 4219 (chain 239): the forecast's own text rule joins after them
+            self.assertRegex(f.read(), r"\|\| chartOk \|\| dcWhole \|\| dcOne( \|\| forecastOk)?;")
 
     def test_the_page_writes_as_the_rules_read(self):
         with open(PAGE, encoding="utf-8") as f:

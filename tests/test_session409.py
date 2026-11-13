@@ -85,7 +85,9 @@ console.log(JSON.stringify({ battery: of("/cost-of-power/battery"), policy: of("
 """)
         self.assertEqual(out["battery"], ["battery_earns_algorithm", "battery_stack"])
         self.assertEqual(out["policy"], ["policy_monitor"])      # a constant of lib/policyweek.ts, METHOD.href
-        self.assertEqual(out["impact"], ["economic_impact"])     # a constant of lib/impact.ts
+        # session 4213 (chain 239): /impact is the forecast, whose note (docs/methods/forecast.md) is internal and never
+        # linked from the page (the owner's tool rules), so the page names no note
+        self.assertEqual(out["impact"], [])
         self.assertEqual(out["grid"], "/grid")
         self.assertEqual(out["emissions"], "/grid")
         self.assertEqual(out["home"], [])

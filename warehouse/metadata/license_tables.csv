@@ -58,7 +58,7 @@ cbs_netherlands_electricity_monthly,Statistics Netherlands (CBS),the source regi
 cea_india_psp_annual,Central Electricity Authority (India),the source registry
 ceb_srilanka_electricity_annual,"Ceylon Electricity Board, Sri Lanka (CEB)",the source registry
 cec_total_system_generation_annual,California Energy Commission (CEC),the source registry
-cence_costarica_generation_monthly,"Centro Nacional de Control de Energia (CENCE, ICE)",the source registry
+cence_costarica_generation_monthly,"Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)",the source registry
 censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the source registry
 census_bps_state_annual,Census Bureau,the source registry
 census_c30_construction_monthly,Census Bureau,the source registry
@@ -638,7 +638,7 @@ uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
 utility_large_load_tariffs,"the state commissions (filed tariffs), read into the ERW's registry",the source registry
 utility_service_territories,EIA,the source registry
-vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia (VMME), Paraguay",the source registry
+vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia, Paraguay (VMME)",the source registry
 wapa_energy_sales_annual,Western Area Power Administration (WAPA),the source registry
 wb_commodity_prices_monthly,World Bank,the source registry
 wb_electricity_access_annual,World Bank,the source registry
