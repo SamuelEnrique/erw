@@ -20,11 +20,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from verify_quotes import FIELDS, load_doc, norm  # noqa: E402
 
 
-def around(quote: str, pages: dict, width: int = 300) -> str:
+def around(quote: str, pages: dict, width: int = 300, page=None) -> str:
     part = re.split(r"\s*(?:\.\.\.|\u2026)\s*", quote)[0]
     q = norm(part)[:80]
+    want = [int(n) for n in re.findall(r"\d+", str(page or ""))][:1]
     for name in ("text.txt", "layout.txt"):
-        for i, text in enumerate(pages.get(name) or [], 1):
+        pg = list(enumerate(pages.get(name) or [], 1))
+        # the cited page first: a filing may print the same sheet twice (a clean and a marked copy)
+        pg.sort(key=lambda x: 0 if want and x[0] == want[0] else 1)
+        for i, text in pg:
             t = norm(text)
             k = t.find(q)
             if k >= 0:
@@ -64,7 +68,7 @@ def main() -> int:
                 url = c.get("url") or src
                 doc = load_doc(url)
                 print(f"   cite p.{c.get('page')} {c.get('section') or ''}: \"{c.get('quote')}\"")
-                print("   in place: " + (around(c.get("quote") or "", doc[1]) if doc else "[uncached]"))
+                print("   in place: " + (around(c.get("quote") or "", doc[1], page=c.get("page")) if doc else "[uncached]"))
     return 0
 
 

@@ -28,26 +28,37 @@ def slug(s: str) -> str:
     return s[:60] or "unknown"
 
 
+def slug_for(name: str, given: str = "") -> str:
+    """The notes file's slug: the row's own notes_slug, else notes_slugs.json's entry for the name, else the name's."""
+    if given:
+        return given
+    try:
+        table = json.load(open(os.path.join(HERE, "notes_slugs.json"), encoding="utf-8"))
+    except FileNotFoundError:
+        table = {}
+    return table.get(name) or slug(name)
+
+
 def main() -> int:
     notes = {}
     for fp in sorted(glob.glob(os.path.join(HERE, "rows", "*.json"))):
         data = json.load(open(fp, encoding="utf-8"))
         group = data.get("group") or os.path.basename(fp)[:-5]
         for i, r in enumerate(data.get("rows") or [], 1):
-            s = r.get("notes_slug") or slug(r.get("utility", ""))
+            s = slug_for(r.get("utility", ""), r.get("notes_slug") or "")
             n = notes.setdefault(s, {"utility": r.get("utility"), "state": set(), "group": group, "rows": [],
                                      "none": [], "refused": []})
             n["state"].add(r.get("state", ""))
             n["rows"].append((f"{group}-{i:02d}", r))
         for nf in data.get("none_found") or []:
-            s = nf.get("notes_slug") or slug(nf.get("utility", ""))
+            s = slug_for(nf.get("utility", ""), nf.get("notes_slug") or "")
             n = notes.setdefault(s, {"utility": nf.get("utility"), "state": set(), "group": group, "rows": [],
                                      "none": [], "refused": []})
             n["none"].append(nf)
         for rf in data.get("refused") or []:
             u = rf.get("utility")
             if u:
-                s = rf.get("notes_slug") or slug(u)
+                s = slug_for(u, rf.get("notes_slug") or "")
                 if s in notes:
                     notes[s]["refused"].append(rf)
     os.makedirs(os.path.join(HERE, "notes"), exist_ok=True)

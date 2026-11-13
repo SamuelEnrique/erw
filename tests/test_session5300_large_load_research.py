@@ -26,8 +26,21 @@ FIELDS = ("threshold_mw", "min_demand", "contract_term", "collateral", "exit_fee
           "connection_timeline", "queue_size")
 STATUSES = {"proposed", "approved", "in effect"}
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-WHERE = re.compile(r"(p\. ?\S|section|sheet|leaf|rule|article|\u00a7|\bpart\b|paragraph|schedule|appendix|exhibit|"
-                   r"attachment|item|table|slide|the document)", re.I)
+MONTH_OR_DATE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")  # a status date the document states only to the month
+# One cite as build_csv.py writes it: an optional other document's address and read date, then the place (a page,
+# a section or heading), then the words in quotes. "the document" is what build_csv.py writes when neither a page
+# nor a section was given: a value's cite must name one.
+CITE = re.compile(r'^(?:(?P<url>https?://\S+) \(read [^)]*\) )?(?P<where>[^"]+?): "')
+
+
+def placed(cite):
+    """Every cite in a field (joined by ' | ') names a page or a section and quotes words."""
+    parts = re.split(r'(?<=") \| (?=(?:https?://|p\. |[^"]+?: "))', cite)
+    for part in parts:
+        m = CITE.match(part)
+        if not m or m.group("where").strip() in ("", "the document"):
+            return False
+    return True
 
 
 def csv_files():
@@ -68,13 +81,13 @@ class LargeLoadResearch(unittest.TestCase):
                 if valued(v):
                     cite = r[f + "_cite"]
                     self.assertIn('"', cite, f"{r['row_id']} {f}: a value without quoted words")
-                    self.assertRegex(cite, WHERE, f"{r['row_id']} {f}: a value without a page or section")
+                    self.assertTrue(placed(cite), f"{r['row_id']} {f}: a cite without a page or section: {cite[:200]}")
 
     def test_status_is_one_of_three_and_dated_or_not_published(self):
         for r in self.rows:
             self.assertIn(r["status"], STATUSES, r["row_id"])
             sd = r["status_date"]
-            self.assertTrue(DATE.match(sd) or sd == "not published", f"{r['row_id']} status_date {sd}")
+            self.assertTrue(MONTH_OR_DATE.match(sd) or sd == "not published", f"{r['row_id']} status_date {sd}")
             self.assertIn('"', r["status_cite"], f"{r['row_id']}: the status has no quoted words")
 
     def test_a_held_pointer_names_a_registry_file_that_exists(self):
@@ -104,7 +117,8 @@ class LargeLoadResearch(unittest.TestCase):
     def test_the_csv_holds_every_checked_row(self):
         n = 0
         for fp in glob.glob(os.path.join(FOLDER, "rows", "*.json")):
-            n += len(json.load(open(fp, encoding="utf-8")).get("rows") or [])
+            with open(fp, encoding="utf-8") as fh:
+                n += len(json.load(fh).get("rows") or [])
         self.assertEqual(n, len(self.rows))
 
     def test_row_ids_are_unique(self):
@@ -117,7 +131,8 @@ class NoDash(unittest.TestCase):
         for path in glob.glob(os.path.join(FOLDER, "**", "*"), recursive=True):
             if os.path.isdir(path) or not path.endswith((".csv", ".md", ".json", ".py")):
                 continue
-            text = open(path, encoding="utf-8").read()
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
             self.assertNotIn("\u2014", text, path)
             self.assertNotIn("\u2013", text, path)
 

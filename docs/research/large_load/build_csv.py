@@ -37,6 +37,17 @@ def slug(s: str) -> str:
     return s[:60] or "unknown"
 
 
+def slug_for(name: str, given: str = "") -> str:
+    """The notes file's slug: the row's own notes_slug, else notes_slugs.json's entry for the name, else the name's."""
+    if given:
+        return given
+    try:
+        table = json.load(open(os.path.join(HERE, "notes_slugs.json"), encoding="utf-8"))
+    except FileNotFoundError:
+        table = {}
+    return table.get(name) or slug(name)
+
+
 def cite_text(c: dict, src: str) -> str:
     where = []
     if c.get("page") not in (None, ""):
@@ -93,7 +104,7 @@ def main() -> int:
                 "license": r.get("license", ""),
                 "license_basis": r.get("license_basis", ""),
                 "erw_overlap": r.get("erw_overlap", "") or "none",
-                "notes_file": f"notes/{r.get('notes_slug') or slug(r.get('utility', ''))}.md",
+                "notes_file": f"notes/{slug_for(r.get('utility', ''), r.get('notes_slug') or '')}.md",
                 "notes": r.get("notes", ""),
             }
             for f in FIELDS:

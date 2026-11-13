@@ -95,9 +95,24 @@ def wait_host(host: str) -> None:
         f.write(str(time.time()))
 
 
+def _context():
+    """Certificates are verified by Windows' own verifier where truststore is installed (session 5300: Python's bundled
+    store lacked the issuers of the Texas, Florida and Nevada commissions' certificates, which Windows completes from
+    the certificate's own issuer link). Verification is never turned off: a name mismatch still fails."""
+    try:
+        import ssl
+        import truststore
+        return truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    except ImportError:
+        return None
+
+
+CTX = _context()
+
+
 def get(url: str, timeout: int = 60):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
-    return urllib.request.urlopen(req, timeout=timeout)
+    return urllib.request.urlopen(req, timeout=timeout, context=CTX)
 
 
 def robots_verdict(url: str) -> tuple[bool, str]:
