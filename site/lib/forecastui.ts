@@ -39,6 +39,9 @@ const n = (v: number, d = 0) => v.toLocaleString("en-US", { maximumFractionDigit
 const EXEMPT_WORDS: Record<string, string> = {
   "mn:land_based_wind": "Minnesota Statutes 297A.68, subd. 12, exempts wind energy conversion systems used as an electric power source and the materials to build them: 100 percent.",
   "ia:land_based_wind": "Iowa Code 423.3(54) exempts wind energy conversion property and the materials to build it: 100 percent.",
+  "tx:land_based_wind": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:utility_pv": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
+  "tx:natural_gas": "Texas: the Comptroller applies the manufacturing exemption (Tax Code 151.318) to equipment that generates electricity, such as wind turbines and solar modules, but not to every item of a facility (its letter rulings); the exempt share is not held, so the default is 0 and this sales tax is an upper bound before that exemption.",
   "ia:utility_pv": "Iowa Code 423.3(90) exempts solar energy equipment, equipment primarily used to collect and convert solar radiation or carry it to a point of use: the modules and inverters, 67.2 percent of the tax on JEDI's materials and equipment. Racking and wiring are not named.",
 };
 
