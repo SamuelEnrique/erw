@@ -191,3 +191,17 @@ test("a state JEDI does not cover, or an input out of range, gives no figure", (
   assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "tx"), mw: 0 }, ROWS, P).ok, false);
   assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "tx"), build: 0 }, ROWS, P).ok, false);
 });
+
+test("a check key carries every input and gives the figure back", () => {
+  const x = { ...F.defaults(P, "land_based_wind", "ia"), iaval: true, levy: 31.5, own: null };
+  const k = F.inputsKey(x);
+  const back = F.parseKey(`${k}|pv:taxes`);
+  assert.deepEqual(back.x, x); assert.equal(back.figure, "pv:taxes");
+  const r = F.run(x, ROWS, P);
+  assert.equal(F.stat(r, "pv:taxes"), r.pv.taxes);
+  assert.equal(F.stat(r, "c:jobs:total"), r.construction.jobs.total);
+  assert.equal(F.stat(r, "y1:property"), r.years.find((y) => y.phase === "operations").property);
+  assert.equal(F.stat(r, `year:${x.start}:sales`), r.years[0].sales);
+  assert.equal(F.stat(r, "nonsense"), null);
+  assert.equal(F.parseKey("impact|x"), null);
+});

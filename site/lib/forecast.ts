@@ -287,3 +287,50 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
 function scale(r: Record<Effect, number>, f: number): Record<Effect, number> {
   return { onsite: r.onsite * f, supply_chain: r.supply_chain * f, induced: r.induced * f, total: r.total * f };
 }
+
+// ---- check keys (section 11) -----------------------------------------------------------------------------------------
+// A figure's key is forecast|<every input of its scenario, in KEY_ORDER, "-" for not given>|<figure>, so that
+// scripts/check-values.mjs recomputes it from its own read of the JEDI rows and the parameter files, with nothing else.
+export const KEY_ORDER: (keyof Inputs)[] = ["tech", "state", "mw", "capex", "start", "build", "life", "local", "om", "rate", "cf", "ilr", "sales", "taxable",
+  "exempt", "iaval", "levy", "own", "ownyears", "heat", "instate", "gasprice"];
+export function inputsKey(x: Inputs): string {
+  return ["forecast", ...KEY_ORDER.map((k) => { const v = x[k]; return v === null ? "-" : typeof v === "boolean" ? (v ? "1" : "0") : String(v); })].join("|");
+}
+export function parseKey(key: string): { x: Inputs; figure: string } | null {
+  const p = key.split("|");
+  if (p[0] !== "forecast" || p.length !== KEY_ORDER.length + 2) return null;
+  const x: Record<string, unknown> = {};
+  KEY_ORDER.forEach((k, i) => {
+    const v = p[i + 1];
+    x[k] = k === "tech" || k === "state" ? v : k === "iaval" ? v === "1" : v === "-" ? null : Number(v);
+  });
+  return { x: x as Inputs, figure: p[p.length - 1] };
+}
+/** One figure of a run, by its name:
+ *   c:<measure>:<effect>, o:<measure>:<effect>   construction (over the build) and each operating year (JEDI's lines)
+ *   sum:<stream>, pv:<stream>, pv:taxes            over the whole life, and its present value
+ *   y1:<stream>                                     the first operating year (property, severance, income)
+ *   year:<yyyy>:<stream>                            one year of the table (jobs, earnings, output, property, sales, income, severance) */
+export function stat(r: Result, figure: string): number | null {
+  if (!r.ok) return null;
+  const p = figure.split(":");
+  if (p[0] === "c" || p[0] === "o") {
+    const g = p[0] === "c" ? r.construction : r.operations;
+    const v = g[p[1] as Measure]?.[p[2] as Effect];
+    return v === undefined ? null : v;
+  }
+  if (p[0] === "sum" || p[0] === "pv") {
+    const g = p[0] === "sum" ? r.sums : r.pv;
+    const v = (g as Record<string, number | null>)[p[1]];
+    return v === undefined ? null : v;
+  }
+  const pick = (y: Year | undefined, s: string): number | null => {
+    if (!y) return null;
+    if (s === "jobs" || s === "earnings" || s === "output") return y[s].total;
+    const v = (y as unknown as Record<string, number | null>)[s];
+    return v === undefined ? null : v;
+  };
+  if (p[0] === "y1") return pick(r.years.find((y) => y.phase === "operations"), p[1]);
+  if (p[0] === "year") return pick(r.years.find((y) => y.year === Number(p[1])), p[2]);
+  return null;
+}
