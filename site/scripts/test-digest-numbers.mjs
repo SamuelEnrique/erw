@@ -436,4 +436,27 @@ test("a stored Roundup holds a held grid's prices (session 1989, faults file row
   assert.ok(!D.holdRoundupGrids(w39, new Date("2026-11-13T00:00:00Z")).includes("521.36"));
 });
 
+test("session 3457 (row 152): the Digest's real-time line in row 71's form, the variable read from the Tables line", () => {
+  const rtOld = "**Highest real-time price, yesterday:** 192.89 USD/MWh at N.Y.C. (NYISO), interval starting 2026-10-19 08:00 local (2026-10-19 12:00 UTC), PT15M \\`lmp_rtm_15m_mean\\` (a 15-minute mean of 5-minute prices) [4].".replaceAll("\\`", "`");
+  const tablesOld = "real-time tables read: iso_rtm_hub_prices; [5]";
+  const at = (line, tablesTail) => MD.replace(rtOld, line).replace(tablesOld, tablesTail);
+  const tail = (v) => `real-time tables read: nyiso_rtm_zone_prices; yesterday's highest real-time price is variable \`${v}\`; [5]`;
+  // the same date in the grid's zone and in UTC
+  const same = at("**Highest real-time price, yesterday:** 192.89 USD/MWh at N.Y.C. (NYISO), the 15-minute interval starting 2026-10-19 08:00 Eastern (12:00 UTC) [4], NYISO's real-time locational marginal price (a 15-minute mean of 5-minute prices).", tail("lmp_rtm_15m_mean"));
+  assert.ok(MD !== same && same.includes("Eastern (12:00 UTC)") && same.includes("is variable `lmp_rtm_15m_mean`"));
+  assert.ok(keys(D.digestFigures(same, "2026-10-20", CHART, BEFORE)).includes("digest_rt|nyiso_rtm_zone_prices|N.Y.C.|lmp_rtm_15m_mean|2026-10-19T12:00:00Z"));
+  // the UTC date written because it is the next day (13 November 2026's line)
+  const next = at("**Highest real-time price, yesterday:** 153.90 USD/MWh at HB_SOUTH (ERCOT), the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00 UTC) [4], ERCOT's real-time settlement point price.", tail("spp_rtm")).replace("[4] `nyiso_rtm_zone_prices`", "[4] `iso_rtm_hub_prices`");
+  const f = D.digestFigures(next, "2026-11-13", CHART, BEFORE).find((x) => x.key.startsWith("digest_rt|"));
+  assert.equal(f.key, "digest_rt|iso_rtm_hub_prices|HB_SOUTH|spp_rtm|2026-11-13T01:00:00Z");
+  assert.equal(f.raw, "153.90");
+  // a grid with no zone held: UTC alone
+  const utc = at("**Highest real-time price, yesterday:** 192.89 USD/MWh at N.Y.C. (NYISO), the 15-minute interval starting 2026-10-19 12:00 UTC [4], NYISO's real-time price.", tail("lmp_rtm_15m_mean"));
+  assert.ok(keys(D.digestFigures(utc, "2026-10-20", CHART, BEFORE)).includes("digest_rt|nyiso_rtm_zone_prices|N.Y.C.|lmp_rtm_15m_mean|2026-10-19T12:00:00Z"));
+  // with no variable on the Tables line the new form gives no key (nothing to trace), and the old form still reads
+  const none = at("**Highest real-time price, yesterday:** 192.89 USD/MWh at N.Y.C. (NYISO), the 15-minute interval starting 2026-10-19 08:00 Eastern (12:00 UTC) [4], NYISO's real-time price.", "real-time tables read: nyiso_rtm_zone_prices; [5]");
+  assert.ok(!keys(D.digestFigures(none, "2026-10-20", CHART, BEFORE)).some((k) => k.startsWith("digest_rt|")));
+  assert.ok(keys(D.digestFigures(MD, "2026-10-20", CHART, BEFORE)).includes("digest_rt|nyiso_rtm_zone_prices|N.Y.C.|lmp_rtm_15m_mean|2026-10-19T12:00:00Z"));
+});
+
 console.log(`${n} passed`);

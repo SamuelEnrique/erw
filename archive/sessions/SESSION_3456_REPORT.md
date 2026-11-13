@@ -135,3 +135,33 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - Searched for any other reader of the sector label that reads lower case only: none (`scripts/periodicals_counts.py` reads any case).
 - Tests: `Row172TheTopicFilterReadsTheV2Issues` (4), failing on main. The 72 files (adding those naming `topics`): 1,378 passed, 20 skipped. The method notes carry rows 169 to 172.
 - **Row 11:** moved to `95189fdf8`.
+
+## Session 3470: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c252.md` (the name was free on main and every branch). It covers chain 251 too, which wrote none.
+- Row 11 of `docs/state/landing_request_oldlaptop.md` holds rows 151 to 172. The faults file and both method notes carry them.
+- `npm ci` ran in the worktree (session 3469) for a build, but MemFree fell to about 2.2 GB after it, under the 2.5 GB the rule asks. The build waits for the next session that finds the memory.
+
+## Decisions made without you
+
+- The next file is queue number 254, not 247. Chains 246 and 248 passed over 247 as taken, though no ref holds it now.
+- Chain 251's empty unfinished list was rebuilt from its report and branch, under chain 219's rule.
+- `scripts/sync.py --tables` restored eight tables to this machine (local working files, no data lock, as its header says), so the dry runs matched the stored issues. `policy_actions.csv` and `policy_reads.csv` were copied into the worktree (ignored files).
+- The stored issue was read from `wip/red-daily-2026-11-13`, its inputs taken from that commit. The worktree's tracked `energy_deals.csv` and `datacenter_projects.csv` were swapped in for one dry run, then checked out again.
+- Pinned tests that held a fault were changed with their row: `tests/fixtures/periodicals/why_lines.json`'s Dominion item (158), row 118's words in `test_periodicals_1973.py` (162), the call counts in `test_session577.py` and `test_session801.py` (169), and `RT_LINE` in `test_periodicals.py` (152).
+- No dry run with the model: the rows on model text were tested on the stored headlines and lines, at no spend.
+- Left as they are: the watch fact's unit given once (session 119's form, eight pages), the text email's three items and its Google News outlets with no address (by design), and W39's Title Case subject cut.
+
+## For Samuel's ruling
+
+- The 13 November Digest on `wip/red-daily-2026-11-13` (not on main; its email's links lead nowhere until it lands). Default: another machine lands it after fixing `test_session3703`, as on 12 November.
+- The chart record of 13 November, which describes a chart the issue says it did not show (row 151). Default: kept.
+- Subscribers with topics and v2 issues (row 172). Default: none known, nothing re-sent.
+- The US48 day as the UTC day. Default: kept.
+- EIA's Veterans Day closes, for the data machine to check.
+- Rows 39, 65 and 109, and rulings item 13, as before.
+
+## Session 3471: the next file, the queue
+
+- `queue/next/254-day-21-november-oldlaptop-periodicals-continued.md` now lists what this chain did not finish (`87a3bd16e`): the stack's build when memory allows, the stored W46 Roundup, the 13 November issue's landing and the first issue after it, and row 11's clean-up once it lands.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
