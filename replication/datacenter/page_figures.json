@@ -74,14 +74,14 @@
   {
    "name": "hours of the hourly window",
    "key": "dc|...|co2:window:hours",
-   "page": 10151,
+   "page": 10094,
    "tolerance": 0,
    "field": "window_hours"
   },
   {
    "name": "a flat load's own hours over the window, kg CO2 per MWh",
    "key": "dc|...|co2:window:flat",
-   "page": 309.54,
+   "page": 308.93,
    "tolerance": 0.005,
    "field": "window_kg_mwh",
    "read": "session 1523: the page's own code (site/lib/datacenter/answers.ts, readAnswers) on the public carbon file's rows (site/scripts/datacenter-window-on-file.mjs): 309.8429 over the 10,160 hours 2025-08-26T16:00Z to 2026-10-27T23:00Z. Session 1491 read 311.68 from a local build reading the live set, whose 430-day window moves each day (the method note's \"The carbon file goes stale too\"); on 6 November 2026 at 12:40 UTC the live set gave 309.5511 over 10,108 hours"
