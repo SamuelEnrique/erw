@@ -98,7 +98,8 @@ WRONG_TOKEN = "verify-rls-wrong-token-0000000000000000"
 # functions the anon key may execute are listed here, each with the credential it asks for in its own arguments, and
 # --catalog fails on one that is not listed: revoke its execute right, or list it once it is known to ask for one.
 # A function whose first argument is p_token checks it against the internal token (or the thesis tool's) before
-# anything else; the three that do not take p_token first are named with what they ask instead.
+# anything else; the three that do not take p_token first are named with what they ask instead. Session 5170:
+# tests/test_session5170.py reads each one's newest definition in the migrations and holds that opening.
 ANON_FUNCTIONS = {
     "analysis_request": "p_token", "analysis_request_card": "p_token", "analysis_requests_list": "p_token",
     "internal_ask_spend": "p_token", "internal_costs": "p_token", "internal_eqr_contracts": "p_token",

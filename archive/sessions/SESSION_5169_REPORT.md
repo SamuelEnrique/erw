@@ -2,7 +2,7 @@
 
 13 November 2026, unattended, `portable-laptop` window P2. Branches `wip/5166-security` (this report, the tests) and `wip/5157-retire-link` (one test corrected). Model spend USD 0. No pull. Nothing built, nothing landed, no warehouse data written.
 
-Clock: precheck 20:11 UTC, the tests by 20:20 UTC. Inside the long end of 1:00.
+Clock: precheck 20:11 UTC, the tests by 20:14 UTC. Inside the long end of 1:00.
 
 ## Read these first
 
