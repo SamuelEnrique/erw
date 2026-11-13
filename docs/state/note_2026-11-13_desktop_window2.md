@@ -29,10 +29,11 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | desktop w3 6 (licenses, rows 1 to 5 within it) | `wip/4166-licenses` | `f06f7f3d2` (pushed at 16:15) | 0 differences |
 | desktop w4 2 and 3, and 4 to `a544dbc19` | `wip/4250-forecast` | `f06f7f3d2` | 0 differences |
 | old laptop 10, the rest (to `a898be5be`) | `wip/1973-periodicals` | `f06f7f3d2` | 0 differences |
+| desktop w4 4, the rest (to `ea34a1ea8`) | `wip/4250-forecast` | `8f7995482` | 0 differences |
 
 ## Rows that wait, and why
 
-- **Window 4's row 4 from `a544dbc19` to `ea34a1ea8`** (Wisconsin, moved at 16:15): in session 4009's gate (`wip/w2-land-e`).
+- **Window 4's branch past `ea34a1ea8`** (`93a66d4ee`, code): waits for a new row.
 
 ## The fallback's results
 
