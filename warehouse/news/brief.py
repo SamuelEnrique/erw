@@ -546,7 +546,7 @@ def source_text(src, url, licensed=None):
 # news_stories; "California State Portal | CA.gov", 46): the name an issue prints drops a " Homepage" tail and keeps the
 # last part of a "Portal | site" title
 OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - International Energy Agency": "IEA",   # 3312: row 102
-                "ft.com": "Financial Times"}   # session 3352 (row 133): the paper's name, as its other links give it
+                "ft.com": "Financial Times", "wsj.com": "WSJ"}   # session 3352 (rows 133, 134): the paper's name, as its other links give it
 
 
 def outlet_name(src):
@@ -886,6 +886,8 @@ def why_line(text, head=""):
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
     t = re.sub(r"\b([Aa])n? (USD|CAD|EUR|GBP|AUD)\b",
                lambda m: m.group(1) + ("n " if m.group(2) == "AUD" else " ") + m.group(2), t)
+    # session 3353 (faults file row 135): an acronym said letter by letter from a vowel sound takes "an" ("a LNG expansion")
+    t = re.sub(r"\b([Aa]) (LNG|SMR|NRC|EIA|IEA|EV)\b", lambda m: m.group(1) + "n " + m.group(2), t)
     if head:
         m = sentence_end(t)
         if m:

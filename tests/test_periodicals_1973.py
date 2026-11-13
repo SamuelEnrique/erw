@@ -752,6 +752,16 @@ class Rows131To133W41OnTheStack(unittest.TestCase):
         self.assertEqual(brief.outlet_name("ft.com"), "Financial Times")
 
 
+class Rows134And135W40OnTheStack(unittest.TestCase):
+    def test_134_wsj(self):
+        self.assertEqual(brief.outlet_name("wsj.com"), "WSJ")
+
+    def test_135_an_lng(self):
+        out = brief.why_line("A final investment decision on a LNG expansion adds Pacific export supply.", "Shell Greenlights Project")
+        self.assertIn("on an LNG expansion", out)
+        self.assertIn("a FERC order", brief.why_line("Utilities wait on a FERC order for Texas.", "Grid rules"))
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
