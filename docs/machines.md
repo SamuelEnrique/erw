@@ -214,6 +214,14 @@ above says otherwise, this section is the newer one.
   shows "license needed"; check-routes, check-cross-checks, check-csp), and the server stopped by PID. One line a step
   in `runs/land_check/<sha>.txt`. It ends by printing the snapshot, push and compare commands; it never pushes, never
   takes a snapshot and never deletes a branch. Exit 0 every step passed, 1 one failed or the site is frozen, 2 bad input.
+- **The gate on an 8 GB machine** (session 4000). The suite runs with the maths libraries on one thread
+  (`OPENBLAS_NUM_THREADS=1` and its kin): numpy's OpenBLAS otherwise commits a buffer a thread at import, about 610 MB a
+  process on the desktop's 20 threads, in the suite and in every Python child a test starts. On a machine with under
+  12 GB, `land_check.py` runs the suite through `scripts/suite_batches.py`, at most 40 modules a process, in discover's
+  order, with unittest's own closing lines (`--suite-batch N` sets the size, 0 one process; `scripts/suite_alone.txt`
+  names modules run alone); a batch that dies is run again one module a process, and a module that still dies is named
+  as a failing test. `python scripts/suite_gate.py --ref <commit> --batch 40` is the same for the guard's runner, and
+  `python scripts/suite_batches.py --profile <csv>` writes every module's peak memory, run alone.
 - **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
   11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
   the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
