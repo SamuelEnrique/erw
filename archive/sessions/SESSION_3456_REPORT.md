@@ -54,3 +54,11 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Row 158 (new, fixed):** "AirTrunk commits to purchasing 1GW ..." under "AirTrunk signs 1,000 MW energy deal ..." is the headline's figure again in another unit, and the rule compared numbers as written. A capacity in the headline's other unit is now read as the headline's figure, in the why line and the figures line. Session 801's pinned Dominion item ("3,500 MW" under "... 3.5GW of BESS ...") had the same fault; its fixture now pins "".
 - Tests: `Row157TheSubjectEndsOnAWholePhrase` (3), `Row158OneCapacityInTwoUnitsIsOneFigure` (3). The 62 files: 1,212 passed, 20 skipped.
 - **Row 11:** moved to `486a48f0e`.
+
+## Session 3461: rows 159 and 160
+
+- **Row 159 (new, fixed):** "the same weekday a year before (2025-11-13) and a week before (2026-11-05) are not held: the hourly table's window does not reach them." The table starts on 26 August, so its window reaches 5 November; 5 to 8 November is a gap from the machines' pause. The reason is now read from the table: "the hourly table starts on 2026-08-26 and holds no hour of 2026-11-05."
+- **Row 160 (new, fixed):** "No chart is shown today: no candidate passed the chart's rules (the run log says why)." This points to a log no reader can open, and on 13 November the sentence was false (row 151). `daily_chart.section` now records why it gave nothing, and the line says "no candidate passed the chart's rules" or "the chart chosen by its rules could not be drawn".
+- **Seen, for Samuel:** the Digest's US48 day is the UTC day. Its highest hour is its last (23:00 UTC, 18:00 Eastern) on 9 of the 70 days from 1 September, and its first (00:00 UTC, the evening before) on 12, so the US evening peak is split across two issues. Default: the UTC day stays (a method change, not a reader's fault in the words).
+- Tests: `Row159TheReasonADayIsNotHeld` (2), `Row160TheNoChartLineSaysWhy` (2). The 65 files naming `brief`, `roundup`, `digest.ts` or `daily_chart`: 1,238 passed, 20 skipped.
+- **Row 11:** moved to `e547f598f`.
