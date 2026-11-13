@@ -1,0 +1,2141 @@
+{
+ "_about": "Session 5202: the keys of questions_platform.yaml as computed from the live set by scripts/ask_eval/platform_questions.py, not a run.",
+ "computed_at_utc": "2026-11-13T19:10:36Z",
+ "source": "nrdylqzasarkjjsqturo catalogue, series, entities and events views, anon key",
+ "keys": {
+  "pw01": {
+   "expected": [
+    49421.9167
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_demand"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia930_all_demand, eia930:ERCO, demand_mw: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+  },
+  "pw02": {
+   "expected": [
+    95268.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_demand"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia930_all_demand, eia930:PJM, demand_mw: the maximum of the 168 hourly rows of the local week (America/New_York); checked whole"
+  },
+  "pw03": {
+   "expected": [
+    445876.5417
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_demand"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia930_all_demand, eia930:US48, demand_mw: the mean of the 24 hourly rows of the UTC day; checked whole"
+  },
+  "pw04": {
+   "expected": [
+    20488706.25
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia_retail_sales_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia_retail_sales_monthly, eia:retail_sales:TX:RES, retail_sales: the 2026-07 row"
+  },
+  "pw05": {
+   "expected": [
+    20984447.83
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia_retail_sales_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia_retail_sales_monthly, eia:retail_sales:CA:ALL, retail_sales: the 2026-06 row"
+  },
+  "pw06": {
+   "expected": [
+    27.22
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia930_demand_growth"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia930_demand_growth, eia930:ERCO, avg_demand_growth_since_2019_pct: the 2025 row"
+  },
+  "pw07": {
+   "expected": [
+    83597.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "grid_peak_vs_capacity",
+    "grid_stress_yearly",
+    "ai_power_regions"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "grid_peak_vs_capacity, grid_peak_vs_capacity:ercot, peak_demand_mw: the 2025 row (in_live_set review)"
+  },
+  "pw08": {
+   "expected": [
+    342.6282
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "carbon_intensity_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "carbon_intensity_monthly, eia930:PJM, intensity_generation: the 2026-09 row"
+  },
+  "pw09": {
+   "expected": [
+    11.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "caiso_grid_emergencies"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "power",
+   "kind": "figure",
+   "note": "caiso_grid_emergencies (events): the count of rows with event_type flex_alert and event_date in 2022"
+  },
+  "pw10": {
+   "expected": [
+    13465.7083
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_generation"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "figure",
+   "note": "eia930_all_generation, eia930:PJM, net_generation_coal_mw: the mean of the 24 hourly rows of the local day (America/New_York); checked whole"
+  },
+  "pw11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "2010|August"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "outside",
+   "note": "no table of the live set reaches 2010 for ERCOT's demand (eia930's history begins in 2018): not in the warehouse, the period named, no figure"
+  },
+  "pw12": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "retail"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "not_live",
+   "note": "eia_retail_electricity_prices is a table of the record, not loaded into the live set (in_live_set no): the answer says so and states no figure"
+  },
+  "pw13": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "2028|forecast|projection"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "outside",
+   "note": "the warehouse holds what happened, and day-ahead demand forecasts of the hours ahead, never a forecast of 2028: not in the warehouse, no figure"
+  },
+  "pr01": {
+   "expected": [
+    41.9229
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_dam_hub_prices",
+    "iso_trader_daily",
+    "price_board_latest",
+    "price_board_spreads",
+    "ercot_hub_prices_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+  },
+  "pr02": {
+   "expected": [
+    33.0535
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_rtm_hub_prices",
+    "iso_trader_daily",
+    "price_board_latest"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "iso_rtm_hub_prices, caiso:TH_SP15_GEN-APND, lmp_rtm_15m_mean: the mean of the 96 15-minute rows of the local day (America/Los_Angeles); checked whole"
+  },
+  "pr03": {
+   "expected": [
+    164.32
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_dam_hub_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "iso_dam_hub_prices, spp:SPPNORTH_HUB, lmp_dam: the maximum of the 168 hourly rows of the local week (America/Chicago); checked whole"
+  },
+  "pr04": {
+   "expected": [
+    39.5037
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly",
+    "cost_of_power_carbon"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted: the 2026-09 row"
+  },
+  "pr05": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"
+   ],
+   "tables": [
+    "cost_of_power_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "partial",
+   "note": "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, the 2026-10 row (da_simple_mean; session 5202 keyed its figure, and the chat's first answer said the row was not October's): da_hours says 48 of 744 hours on 2026-11-13; the answer says the month is not whole (the row's figure, said so, or a refusal that says so)"
+  },
+  "pr06": {
+   "expected": [
+    37.8052
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "price_board_peak_offpeak"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "price_board_peak_offpeak, ercot:HB_HUBAVG, da_year_peak_mean: the 2025 row"
+  },
+  "pr07": {
+   "expected": [
+    0.8244
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "ercot_as_prices_monthly",
+    "ercot_as_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "ercot_as_prices_monthly, ercot:RRS, mcpc_dam_mean: the 2026-08 row (in_live_set review)"
+  },
+  "pr08": {
+   "expected": [
+    13.9743
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "price_board_spreads",
+    "iso_trader_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "price_board_spreads, ercot:HB_HUBAVG, implied_heat_rate: the 2026-11-10 row (the day-ahead daily mean over Henry Hub, the board's own)"
+  },
+  "pr09": {
+   "expected": [
+    2724.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_peak_premium_annual"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "ercot_peak_premium_annual, ercot:HB_WEST, n_negative: the 2025 row"
+  },
+  "pr10": {
+   "expected": [
+    -6.7381
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_dam_hub_prices",
+    "iso_trader_daily",
+    "price_board_latest"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "figure",
+   "note": "iso_dam_hub_prices, lmp_dam: the mean of the 24 hourly rows of the local day (America/Los_Angeles) at caiso:TH_SP15_GEN-APND less the same at caiso:TH_NP15_GEN-APND; a negative key is SP15 lower (the grader's rule sign_in_words)"
+  },
+  "pr11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "NYISO",
+    "license needed"
+   ],
+   "tables": [
+    "nyiso_dam_zone_prices"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "prices",
+   "kind": "hold",
+   "note": "nyiso_dam_zone_prices is NYISO's own and held for a license: NYISO named, the hold's words, no figure"
+  },
+  "pr12": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "paused"
+   ],
+   "tables": [
+    "iso_dam_hub_prices"
+   ],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "pause",
+   "note": "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026): the pause's word and no figure"
+  },
+  "pr13": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "PJM"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "outside",
+   "note": "the live set holds no PJM energy price: not in the warehouse, PJM named, no figure"
+  },
+  "pr14": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "isone_rtm_zone_prices"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "prices",
+   "kind": "hold",
+   "note": "ISO-NE's prices are held for a license (by grid): the hold's words and no figure"
+  },
+  "ga01": {
+   "expected": [
+    3.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices",
+    "price_board_spreads"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:henry_hub, spot_price: the 2026-11-10 row"
+  },
+  "ga02": {
+   "expected": [
+    2.9877
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:henry_hub, spot_price: the mean of the trading days' rows of 2026-10 (at least 20)"
+  },
+  "ga03": {
+   "expected": [
+    9.86
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:henry_hub, spot_price: the maximum of the trading days' rows of 2025 (at least 240)"
+  },
+  "ga04": {
+   "expected": [
+    882.629
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_sector_energy_consumption_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "eia_sector_energy_consumption_monthly, eia:NNICBUS (natural gas consumed by the industrial sector), energy_consumption: the 2026-06 row"
+  },
+  "ga05": {
+   "expected": [
+    15.5042
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "price_board_spreads"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "price_board_spreads, caiso:TH_SP15_GEN-APND, spark_spread_7: the 2026-11-10 row (the board's own)"
+  },
+  "ga06": {
+   "expected": [
+    32128543.5
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "state_generation_mix_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "state_generation_mix_monthly, eia:TX, net_generation_natural_gas_mwh: the 2026-07 row"
+  },
+  "ga07": {
+   "expected": [
+    26986.9583
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_generation"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "eia930_all_generation, eia930:ERCO, net_generation_natural_gas_mw: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+  },
+  "ga08": {
+   "expected": [
+    6645.0735
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "figure",
+   "note": "merchant_revenue_monthly, ercot:HB_HUBAVG, peaker_revenue_per_mw: the 2026-08 row"
+  },
+  "ga09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "LNG"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "not_live",
+   "note": "eia_lng_exports_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "ga10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "Railroad Commission|RRC|lease"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "not_live",
+   "note": "rrc_lease_production_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "ga11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "TTF"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "outside",
+   "note": "the warehouse holds one gas price, Henry Hub: not in the warehouse, TTF named, no figure"
+  },
+  "ga12": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "storage"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "gas",
+   "kind": "outside",
+   "note": "no table holds natural gas storage inventories: not in the warehouse, the thing named, no figure"
+  },
+  "oi01": {
+   "expected": [
+    89.62
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:wti_cushing, spot_price: the 2026-11-10 row"
+  },
+  "oi02": {
+   "expected": [
+    123.9273
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:brent, spot_price: the mean of the trading days' rows of 2026-10 (at least 20)"
+  },
+  "oi03": {
+   "expected": [
+    0.54
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "price_board_spreads",
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "figure",
+   "note": "price_board_spreads, erw:brent_minus_wti, brent_minus_wti: the 2026-11-10 row (the board's own difference)"
+  },
+  "oi04": {
+   "expected": [
+    -36.98
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_fuel_spot_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "figure",
+   "note": "eia_fuel_spot_prices, eia:wti_cushing, spot_price: the minimum of the trading days' rows of 2020 (a negative price, 20 April 2020: the table's values are real)"
+  },
+  "oi05": {
+   "expected": [
+    735.971
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "eia_sector_energy_consumption_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "figure",
+   "note": "eia_sector_energy_consumption_monthly, eia:PAICBUS (petroleum consumed by the industrial sector), energy_consumption: the 2026-05 row"
+  },
+  "oi06": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "impact_tax_rules"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "oil",
+   "kind": "hold",
+   "note": "impact_tax_rules is held whole for a license (session 5251 found it so; session 5202 had keyed the rate): the hold's words and no rate"
+  },
+  "oi07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "import"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "not_live",
+   "note": "eia_crude_imports_by_country is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "oi08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "stock"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "not_live",
+   "note": "eia_petroleum_stocks_weekly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "oi09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "gasoline|retail"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "not_live",
+   "note": "eia_retail_fuel_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "oi10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "diesel|product"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "not_live",
+   "note": "eia_product_spot_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "oi11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "OPEC"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "oil",
+   "kind": "outside",
+   "note": "no table holds OPEC's production: not in the warehouse, OPEC named, no figure"
+  },
+  "nu01": {
+   "expected": [
+    30680.4167
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_generation"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "figure",
+   "note": "eia930_all_generation, eia930:PJM, net_generation_nuclear_mw: the mean of the 24 hourly rows of the local day (America/New_York); checked whole"
+  },
+  "nu02": {
+   "expected": [
+    82580.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia930_all_generation"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "figure",
+   "note": "eia930_all_generation, eia930:US48, net_generation_nuclear_mw: the maximum of the 168 hourly rows of the UTC week; checked whole"
+  },
+  "nu03": {
+   "expected": [
+    8610224.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "state_generation_mix_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "figure",
+   "note": "state_generation_mix_monthly, eia:IL, net_generation_nuclear_mwh: the 2026-07 row"
+  },
+  "nu04": {
+   "expected": [
+    97670262.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "state_generation_mix_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "figure",
+   "note": "state_generation_mix_monthly, eia:IL, net_generation_nuclear_mwh: the sum of the 12 monthly rows of 2025"
+  },
+  "nu05": {
+   "expected": [
+    35447.4
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "grid_stress_yearly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "figure",
+   "note": "grid_stress_yearly, iso:pjm, capacity_nuclear_mw: the 2025 row (in_live_set review)"
+  },
+  "nu06": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "uranium|U3O8"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "outside",
+   "note": "no table holds a uranium price: not in the warehouse, uranium named, no figure"
+  },
+  "nu07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "outage|reactor"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "outside",
+   "note": "no table holds reactor status or outages: not in the warehouse, the thing named, no figure"
+  },
+  "nu08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "generator|860M"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "not_live",
+   "note": "eia860m_operating_generators is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "re01": {
+   "expected": [
+    163494.642
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "iso_curtailment_monthly",
+    "caiso_curtailment_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "iso_curtailment_monthly, caiso:ISO, curtailed_solar_mwh: the 2026-09 row"
+  },
+  "re02": {
+   "expected": [
+    1173159.05
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "iso_curtailment_monthly",
+    "spp_curtailment_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "iso_curtailment_monthly, spp:SPP, curtailed_wind_mwh: the 2026-10 row"
+  },
+  "re03": {
+   "expected": [
+    127650.76
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_wind_solar_hsl_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "ercot_wind_solar_hsl_daily, ercot:system, wind_generation_mwh: the 2026-11-10 row"
+  },
+  "re04": {
+   "expected": [
+    39.6727
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, solar_capture_price: the 2026-08 row"
+  },
+  "re05": {
+   "expected": [
+    66963.0112
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "merchant_revenue_monthly, spp:SPPNORTH_HUB, wind_revenue_per_mw: the sum of the 12 monthly rows of 2025"
+  },
+  "re06": {
+   "expected": [
+    68.74
+   ],
+   "tolerance": 0.01,
+   "text": [
+    "2022"
+   ],
+   "tables": [
+    "generation_mix_records"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "generation_mix_records, iso:ercot, wind_share_max_pct: the one row (in_live_set review); the year of its stamp in the text"
+  },
+  "re07": {
+   "expected": [
+    6584092.37
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "state_generation_mix_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "state_generation_mix_monthly, eia:CA, net_generation_solar_mwh: the 2026-06 row"
+  },
+  "re08": {
+   "expected": [
+    130135820.25
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "state_generation_mix_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "state_generation_mix_monthly, eia:TX, net_generation_wind_mwh: the sum of the 12 monthly rows of 2025"
+  },
+  "re09": {
+   "expected": [
+    40.1497
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "clean_energy_summary"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "figure",
+   "note": "clean_energy_summary, iso:ercot, carbon_free_share_pct: the 2026-09 row (in_live_set review)"
+  },
+  "re10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "rooftop|distributed"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "outside",
+   "note": "no table holds rooftop or distributed solar installations: not in the warehouse, the thing named, no figure"
+  },
+  "re11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "REC|certificate"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "outside",
+   "note": "no table holds renewable energy certificate prices: not in the warehouse, the thing named, no figure"
+  },
+  "st01": {
+   "expected": [
+    19194.6
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_buildout_monthly, iso:ercot, battery_operating_mw: the 2026-09 row"
+  },
+  "st02": {
+   "expected": [
+    59726.3
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_buildout_monthly, iso:caiso, battery_operating_mwh: the 2026-09 row"
+  },
+  "st03": {
+   "expected": [
+    56120.7
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_buildout_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_buildout_monthly, us:total, battery_operating_mw: the 2026-09 row"
+  },
+  "st04": {
+   "expected": [
+    6.8686
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "battery_stack_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the 2026-09 row over 1,000 (the tool's value_usd_per_kw)"
+  },
+  "st05": {
+   "expected": [
+    43645.25
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_daily_cycle"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_daily_cycle, caiso:ISO, mwh_discharged: the 2026-11-10 row"
+  },
+  "st06": {
+   "expected": [
+    7682.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "caiso_battery_storage"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "caiso_battery_storage, caiso:ISO, batteries_mw: the maximum of the 288 5-minute rows of the local day (America/Los_Angeles); checked whole"
+  },
+  "st07": {
+   "expected": [
+    267.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "storage_capacity"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_capacity (entities): the count of rows with status operating and state TX"
+  },
+  "st08": {
+   "expected": [
+    23298.6
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "storage_capacity"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "storage_capacity (entities): the sum of capacity_mw over the rows with status under_construction"
+  },
+  "st09": {
+   "expected": [
+    53372.6944
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "merchant_revenue_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "figure",
+   "note": "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, battery_4h_revenue_per_mw: the sum of the 12 monthly rows of 2025"
+  },
+  "st10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "lithium"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "outside",
+   "note": "no table holds a lithium price: not in the warehouse, lithium named, no figure"
+  },
+  "st11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "PJM"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "storage",
+   "kind": "outside",
+   "note": "the battery tables hold ERCOT's hub average and CAISO's SP15 only, and the live set holds no PJM price: not in the warehouse, PJM named, no figure"
+  },
+  "tx01": {
+   "expected": [
+    4981715.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ba_supply_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "ba_supply_monthly, eia930:CISO, net_import_balance_mwh: the 2026-08 row, its 31 days held (a balancing authority's rows hold up to three measures of net imports: the question names the one; ERCOT's August holds 27 of its 31 days and is not asked)"
+  },
+  "tx02": {
+   "expected": [
+    8.2943
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "ba_supply_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "ba_supply_monthly, eia930:CISO, net_import_total_interchange_share_pct: the 2026-08 row (the measure named in the question)"
+  },
+  "tx03": {
+   "expected": [
+    224863.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ba_supply_monthly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "ba_supply_monthly, eia930:CISO-BPAT (the pair), net_import_mwh: the 2026-08 row"
+  },
+  "tx04": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"
+   ],
+   "tables": [
+    "node_basis_summary"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "partial",
+   "note": "node_basis_summary, ercot:HB_HUBAVG, the 2026-10 row (dam_all_basis_p50, in_live_set review): dam_all_days says 20 of 31 days on 2026-11-13; the answer says the month is not whole (the row's figure, said so, or a refusal that says so)"
+  },
+  "tx05": {
+   "expected": [
+    1.519
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_dam_hub_prices",
+    "iso_trader_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "iso_dam_hub_prices, spp_dam: the mean of the 168 hourly rows of the local week (America/Chicago) at ercot:HB_WEST less the same at ercot:HB_NORTH; a negative key is West lower"
+  },
+  "tx06": {
+   "expected": [
+    43.5
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "interconnection_durations_summary"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "interconnection_durations_summary, lbnl_durations:ercot, median_months: the 2024 row (in_live_set review)"
+  },
+  "tx07": {
+   "expected": [
+    5593.64
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "iso_queue_statistics"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "figure",
+   "note": "iso_queue_statistics, ercot:queue_2019, mw_operating: the 2019 row (in_live_set review)"
+  },
+  "tx08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "interchange"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "not_live",
+   "note": "eia930_all_interchange (hourly interchange by pair) is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "tx09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "network|link"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "not_live",
+   "note": "grid_network_links is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "tx10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "CRR|congestion revenue"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "transmission",
+   "kind": "outside",
+   "note": "no table holds congestion revenue right auctions: not in the warehouse, the thing named, no figure"
+  },
+  "pj01": {
+   "expected": [
+    308487.96
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "ercot_interconnection_queue (entities): the sum of capacity_mw over the rows with status active"
+  },
+  "pj02": {
+   "expected": [
+    73847.7334
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "caiso_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "caiso_interconnection_queue (entities): the sum of capacity_mw over the rows with status active"
+  },
+  "pj03": {
+   "expected": [
+    625.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "spp_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "spp_interconnection_queue (entities): the count of the rows with status active"
+  },
+  "pj04": {
+   "expected": [
+    118354.39
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "ercot_interconnection_queue (entities): the sum of capacity_mw over the rows with status active and fuel_technology 'Other - Battery Energy Storage'"
+  },
+  "pj05": {
+   "expected": [
+    1765.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "caiso_interconnection_queue"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "caiso_interconnection_queue (entities): the count of the rows with status withdrawn"
+  },
+  "pj06": {
+   "expected": [
+    61.4
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "interconnection_durations_summary"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "interconnection_durations_summary, lbnl_durations:us, median_months: the 2024 row (in_live_set review)"
+  },
+  "pj07": {
+   "expected": [
+    2626.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "eia860m_retired_generators"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "figure",
+   "note": "eia860m_retired_generators (entities): the sum of capacity_mw over the rows with technology 'Conventional Steam Coal' and status_date in 2025"
+  },
+  "pj08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "isone_interconnection_queue"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "projects",
+   "kind": "hold",
+   "note": "isone_interconnection_queue is ISO-NE's own and held for a license: the hold's words and no figure"
+  },
+  "pj09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "paused"
+   ],
+   "tables": [
+    "miso_interconnection_queue"
+   ],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "pause",
+   "note": "miso_interconnection_queue is MISO's own: MISO is paused while its terms are reviewed: the pause's word and no figure"
+  },
+  "pj10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "cost"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "projects",
+   "kind": "outside",
+   "note": "no table holds construction costs of generators: not in the warehouse, the thing named, no figure"
+  },
+  "de01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "deals",
+   "kind": "hold",
+   "note": "energy_deals is held whole for a license: the hold's words and no figure"
+  },
+  "de02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "deals",
+   "kind": "hold",
+   "note": "energy_deals is held whole for a license: the hold's words and no figure"
+  },
+  "de03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "deals",
+   "kind": "hold",
+   "note": "energy_deals is held whole for a license: the hold's words and no figure"
+  },
+  "de04": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "deals",
+   "kind": "hold",
+   "note": "energy_deals is held whole for a license: the hold's words and no figure"
+  },
+  "de05": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "energy_deals"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "deals",
+   "kind": "hold",
+   "note": "energy_deals is held whole for a license: the hold's words and no figure"
+  },
+  "de06": {
+   "expected": [
+    568.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "energy_companies"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "deals",
+   "kind": "figure",
+   "note": "energy_companies (entities, model-extracted): the count of its rows"
+  },
+  "de07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "share price|stock|equity"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "deals",
+   "kind": "outside",
+   "note": "no table holds share prices: not in the warehouse, the thing named, no figure"
+  },
+  "de08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "EQR|Electric Quarterly|contract"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "deals",
+   "kind": "outside",
+   "note": "the FERC EQR tables are internal and not in the catalogue a visitor's chat reads: not in the warehouse, the thing named, no figure"
+  },
+  "po01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "policy_actions"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "policy",
+   "kind": "hold",
+   "note": "policy_actions is held whole for a license (session 5251 found it so; session 5202 had keyed the count): the hold's words and no count"
+  },
+  "po02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "policy_actions"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "policy",
+   "kind": "hold",
+   "note": "policy_actions is held whole for a license: the hold's words and no count"
+  },
+  "po03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "impact_tax_rules"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "policy",
+   "kind": "hold",
+   "note": "impact_tax_rules is held whole for a license: the hold's words and no rate"
+  },
+  "po04": {
+   "expected": [
+    58.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "flex_alert_effects",
+    "flex_alert_model"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "policy",
+   "kind": "figure",
+   "note": "flex_alert_effects, eia930:CISO, year_hours: the 2022 row (the yearly summary's count of alert hours; the reduction itself is held as a negative figure and is not keyed)"
+  },
+  "po05": {
+   "expected": [
+    8.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "ercot_grid_notices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "policy",
+   "kind": "figure",
+   "note": "ercot_grid_notices (events, in_live_set review): the count of rows with event_type conservation_appeal and event_date in 2023"
+  },
+  "po06": {
+   "expected": [
+    41.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "caiso_grid_emergencies",
+    "caiso_reliability_daily"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "policy",
+   "kind": "figure",
+   "note": "caiso_grid_emergencies (events): the count of rows with event_type stage3 (the table begins in 1998)"
+  },
+  "po07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Redivis|live set|not loaded|not available here|cannot read|can't read",
+    "allowance|auction|carbon"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "policy",
+   "kind": "not_live",
+   "note": "carb_auction_allowance_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+  },
+  "po08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "RGGI"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "policy",
+   "kind": "outside",
+   "note": "the RGGI table is internal and not in the catalogue a visitor's chat reads: not in the warehouse, RGGI named, no figure"
+  },
+  "po09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "credit|45Y"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "policy",
+   "kind": "outside",
+   "note": "no table holds federal tax credit values (the impact tax table holds state severance and property rules): not in the warehouse, the thing named, no figure"
+  },
+  "po10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "portfolio standard|RPS|standard"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "policy",
+   "kind": "outside",
+   "note": "no table holds state renewable portfolio standards: not in the warehouse, the thing named, no figure"
+  },
+  "dc01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "datacenter_facilities"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "hold",
+   "note": "datacenter_facilities is held whole for a license: the hold's words and no figure"
+  },
+  "dc02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "license needed"
+   ],
+   "tables": [
+    "datacenter_projects"
+   ],
+   "refuse": true,
+   "hold": true,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "hold",
+   "note": "datacenter_projects is held whole for a license: the hold's words and no figure"
+  },
+  "dc03": {
+   "expected": [
+    8927.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_large_load_status"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "ercot_large_load_status, ercot:large_load, approved_to_energize_mw: the 2026-06-19 row (in_live_set review)"
+  },
+  "dc04": {
+   "expected": [
+    3675.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ercot_large_load_status"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "ercot_large_load_status, ercot:large_load, observed_simultaneous_peak_mw: the 2026-06-19 row"
+  },
+  "dc05": {
+   "expected": [
+    27.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "large_load_public"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "large_load_public (events, model-extracted): the count of rows with status '4 signed service agreement'"
+  },
+  "dc06": {
+   "expected": [
+    276135276.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "ai_power_regions"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "ai_power_regions, iso:ercot, flat_1gw_cost_usd: the one row"
+  },
+  "dc07": {
+   "expected": [
+    7.7655
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "attention_index_weekly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "attention_index_weekly (model-extracted), attention:datacenters:US, attention_index: the row of the week of 2026-11-02"
+  },
+  "dc08": {
+   "expected": [
+    16.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "friction_index_weekly"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "friction_index_weekly (model-extracted), attention:datacenters:US, opposition_stories: the row of the week of 2026-11-02"
+  },
+  "dc09": {
+   "expected": [
+    56.9423
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "cost_of_power_monthly",
+    "cost_of_power_carbon"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "figure",
+   "note": "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, rt_load_weighted: the 2026-08 row"
+  },
+  "dc10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "GPU|chip|accelerator"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "datacenters",
+   "kind": "outside",
+   "note": "no table holds chip shipments: not in the warehouse, the thing named, no figure"
+  },
+  "gp01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "6 November|November 6|2026-11-06|6 Nov"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "gap",
+   "note": "eia930_all_demand, eia930:ERCO, demand_mw: the local day (America/Chicago): 0 of 24 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+  },
+  "gp02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "7 November|November 7|2026-11-07|7 Nov"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "gap",
+   "note": "iso_rtm_hub_prices, caiso:TH_SP15_GEN-APND, lmp_rtm_15m_mean: the local day (America/Los_Angeles): 0 of 96 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+  },
+  "gp03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "6 November|November 6|2026-11-06|6 Nov"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "renewables",
+   "kind": "gap",
+   "note": "ercot_wind_solar_hsl_daily, ercot:system, wind_generation_mwh: the daily row: 0 of 1 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+  },
+  "pt01": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"
+   ],
+   "tables": [
+    "eia930_all_demand"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "power",
+   "kind": "partial",
+   "note": "eia930_all_demand, eia930:ERCO, demand_mw: the local week (America/Chicago): 72 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+  },
+  "pt02": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"
+   ],
+   "tables": [
+    "iso_dam_hub_prices"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "prices",
+   "kind": "partial",
+   "note": "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the local week (America/Chicago): 120 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+  },
+  "pt03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"
+   ],
+   "tables": [
+    "eia930_all_generation"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "nuclear",
+   "kind": "partial",
+   "note": "eia930_all_generation, eia930:US48, net_generation_nuclear_mw: the UTC week: 72 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+  }
+ }
+}

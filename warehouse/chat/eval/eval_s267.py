@@ -63,6 +63,14 @@ RULES_2223 = ("refusal_no_table", "table_by_evidence")
 #                       declined, decreased, negative, minus, discount, behind, short of, loss). A positive figure is
 #                       never met by a negative one, and a magnitude with no such word in its sentence is not met.
 RULES_5201 = RULES_2223 + ("sign_in_words",)
+# Session 5251 (chain 238): one rule more, for a question of a grid whose rows are held for a license (the platform
+# set's pr11, NYISO's Zone J). The loop is built to answer it with the hold's words, the grid named, and the same figure
+# for each public grid (docs/methods/ask.md, "A held grid", session 1112, the owner's ruling of 12 October 2026). Such an
+# answer states figures, and a hold key counted any figure as the held grid's.
+#   hold_public_grids   a hold key is also met when every figure the answer states is a figure of a held answer's
+#                       public_grids in its own record (a tool result with held true), so none is the held grid's. A
+#                       figure the record does not place among the public grids' is not met: the key stays wrong.
+RULES_5251 = RULES_5201 + ("hold_public_grids",)
 DOWN_WORDS = re.compile(r"\b(less|lower|below|under|fewer|cheaper|smaller|down|fell|fall|falls|dropped|drop|declined|decline|decreased|decrease|"
                         r"negative|minus|discount|behind|short of|loss|lost)\b", re.I)
 
@@ -113,6 +121,17 @@ def results_of(body, table):
                 outs.append(out)
                 break
     return outs
+
+
+def public_figures(body):
+    """Session 5251, the rule hold_public_grids: the figures of the public grids in the held answers of a record (each
+    tool result with held true carries the same query's figure for each public grid, and never the held grid's)."""
+    found = []
+    for t in body.get("trace") or []:
+        out = t.get("out") if isinstance(t, dict) else None
+        if isinstance(out, dict) and out.get("held") is True and not (t.get("is_error") or t.get("isError")):
+            found += figures_in({"public_grids": out.get("public_grids")})
+    return [v for v, _ in found]
 
 
 def sentences_with(text):

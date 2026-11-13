@@ -77,7 +77,12 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         "trader": {"questions": os.path.join(HERE, "questions_trader.yaml"), "run": os.path.join(HERE, "eval_s3280_loop_trader_run.json"),
                    "grades": os.path.join(HERE, "eval_s3280_loop_trader_grades.json")},
         "investor": {"questions": os.path.join(HERE, "questions_investor.yaml"), "run": os.path.join(HERE, "eval_s3281_loop_investor_run.json"),
-                     "grades": os.path.join(HERE, "eval_s3281_loop_investor_grades.json")}}
+                     "grades": os.path.join(HERE, "eval_s3281_loop_investor_grades.json")},
+        # sessions 5202 and 5251 (chains 235 and 238): 134 questions across the whole platform (scripts/ask_eval/platform_questions.py
+        # computes its keys and writes the file), asked through the site's own loop with no build (eval_site.py, which names its
+        # run by session; this is its first asking)
+        "platform": {"questions": os.path.join(HERE, "questions_platform.yaml"), "run": os.path.join(HERE, "eval_s5251_site_platform_run.json"),
+                     "grades": os.path.join(HERE, "eval_s5251_site_platform_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -218,13 +223,30 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
-def hold_answer(q, a):
+def hold_answer(q, a, rules=()):
     """Session 2224: a question of a table held whole (hold: true in the set) is right as a refusal or as an answer, when
-    the answer carries the hold's words and states no figure (as session 1112's held-grid answer is graded)."""
+    the answer carries the hold's words and states no figure (as session 1112's held-grid answer is graded). Session 5251,
+    under the rule hold_public_grids (eval_s267.py RULES_5251): or states only figures of the public grids, as the loop
+    is built to answer a held grid's question: each a figure of a held answer's public_grids in the answer's own record."""
     ans = (a.get("answer") or "").lower()
     written = G.numbers(a.get("answer") or "")
-    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in written)
-    return all(t.lower() in ans for t in q["text"]) and not figure
+    figures = [(v, dec) for v, dec in written if dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100)]
+    if not all(t.lower() in ans for t in q["text"]):
+        return False
+    if not figures:
+        return True
+    if "hold_public_grids" not in rules:
+        return False
+    public = G.public_figures(a)
+    return bool(public) and all(any(abs(p - v) < 1e-9 or (dec >= 1 and abs(round(p, dec) - v) < 10 ** -(dec + 3)) for p in public) for v, dec in figures)
+
+
+def partial_grade(q, a):
+    """Session 5251: the grade of a key of kind partial (grade_set). `partial` is whether the answer carries one of the
+    words that say the window is not whole (the key's text entry, its parts joined by "|")."""
+    ans = (a.get("answer") or "").lower()
+    said = any(p.strip().lower() in ans for t in q["text"] for p in t.split("|") if p.strip())
+    return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "partial": said, "ok": said}
 
 
 def first_sentence(text):
@@ -252,7 +274,12 @@ def grade_set(which, rules=()):
         if a is None:
             continue
         g = G.grade(q, a, rules)
-        if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a):   # the set's loader keeps the YAML's word
+        if q.get("kind") == "partial":
+            # session 5251 (questions_platform.yaml): a window the live set holds in part. Right when the answer says so in
+            # one of the key's words, whether it then gives the figure of the steps held or refuses; a figure given as the
+            # window's own, with no such word, is wrong. Nothing else of the answer is graded
+            g = partial_grade(q, a)
+        if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a, rules):   # the set's loader keeps the YAML's word
             g["hold_answer"] = True
             g["ok"] = True
         if g.get("text") is False:

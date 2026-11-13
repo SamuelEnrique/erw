@@ -28,7 +28,9 @@ class TheRefusals(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
 
     def test_the_classes_on_the_runs(self):
-        rows = mod().refusals()
+        # session 5251 (chain 238): the platform set's runs through the site's loop come one a session, with refusals of their own
+        # (tests/test_session5251_ask.py holds them); the counts below are the other sets'
+        rows = [r for r in mod().refusals() if "the platform set" not in r["run"]]
         by = {}
         for r in rows:
             by.setdefault(r["class"], []).append(r)

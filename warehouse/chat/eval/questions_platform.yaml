@@ -1,0 +1,1889 @@
+# Energy Research Warehouse (ERW): 134 questions for the AI chat over the warehouse across the whole platform, sessions 5202 and 5251
+# (chains 235 and 238, 13 November 2026): power, prices, gas, oil, nuclear, renewables, storage, transmission, projects, deals, policy and datacenters.
+# 79 have an answer in the live set (kind figure); 14 ask of a table or a grid held for a license (hold: the hold's words, no
+# figure); 2 of MISO's own rows (pause); 11 of a table of the record that is not loaded into the live set the chat reads
+# (not_live: the answer says so); 20 of something no table holds (outside: "not in the warehouse", the missing thing named);
+# 3 of a day a held series lacks (gap: "not in the warehouse", the day named); 5 of a window held in part (partial: the answer
+# says the window is not whole, in any of the text entry's words).
+# Every expected number was computed before any model call from the live set (Supabase, the anon key, reads only) on 2026-11-13 by
+# scripts/ask_eval/platform_questions.py, which writes this file; each note names the table, the entity or filter, the variable and
+# the aggregation. tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with "|" is met by any one of its parts; count: true asks
+# the figure apart from a clock time. A refusal key has no figure; hold: true marks a held table, whose answer carries the hold's words.
+today: '2026-11-13'
+questions:
+- id: pw01
+  sector: power
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's average hourly demand on 10 November 2026 (Central time), in MW?"
+  expected: [49421.9167]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:ERCO, demand_mw: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+- id: pw02
+  sector: power
+  kind: figure
+  grid: PJM
+  via: general
+  question: "What was the highest hourly demand in PJM in the week of Monday 19 to Sunday 25 October 2026 (Eastern time), in MW?"
+  expected: [95268.0]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:PJM, demand_mw: the maximum of the 168 hourly rows of the local week (America/New_York); checked whole"
+- id: pw03
+  sector: power
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the average hourly electricity demand of the Lower 48 states on 10 November 2026 (the UTC day), in MW?"
+  expected: [445876.5417]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:US48, demand_mw: the mean of the 24 hourly rows of the UTC day; checked whole"
+- id: pw04
+  sector: power
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity was sold to residential customers in Texas in July 2026, in MWh?"
+  expected: [20488706.25]
+  tolerance: 0.5
+  text: []
+  tables: ["eia_retail_sales_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_retail_sales_monthly, eia:retail_sales:TX:RES, retail_sales: the 2026-07 row"
+- id: pw05
+  sector: power
+  kind: figure
+  grid: none
+  via: general
+  question: "What were total retail electricity sales in California, all sectors, in June 2026, in MWh?"
+  expected: [20984447.83]
+  tolerance: 0.5
+  text: []
+  tables: ["eia_retail_sales_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_retail_sales_monthly, eia:retail_sales:CA:ALL, retail_sales: the 2026-06 row"
+- id: pw06
+  sector: power
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "By how much had ERCOT's average demand in 2025 grown since 2019, in percent?"
+  expected: [27.22]
+  tolerance: 0.01
+  text: []
+  tables: ["eia930_demand_growth"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_demand_growth, eia930:ERCO, avg_demand_growth_since_2019_pct: the 2025 row"
+- id: pw07
+  sector: power
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's peak demand in 2025, in MW?"
+  expected: [83597.0]
+  tolerance: 0.5
+  text: []
+  tables: ["grid_peak_vs_capacity", "grid_stress_yearly", "ai_power_regions"]
+  refuse: false
+  hold: false
+  count: false
+  note: "grid_peak_vs_capacity, grid_peak_vs_capacity:ercot, peak_demand_mw: the 2025 row (in_live_set review)"
+- id: pw08
+  sector: power
+  kind: figure
+  grid: PJM
+  via: general
+  question: "What was the carbon intensity of PJM's generation in September 2026, in kg of CO2 per MWh?"
+  expected: [342.6282]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "carbon_intensity_monthly, eia930:PJM, intensity_generation: the 2026-09 row"
+- id: pw09
+  sector: power
+  kind: figure
+  grid: none
+  via: general
+  question: "How many Flex Alerts did the California ISO call in 2022?"
+  expected: [11.0]
+  tolerance: 0.01
+  text: []
+  tables: ["caiso_grid_emergencies"]
+  refuse: false
+  hold: false
+  count: true
+  note: "caiso_grid_emergencies (events): the count of rows with event_type flex_alert and event_date in 2022"
+- id: pw10
+  sector: power
+  kind: figure
+  grid: PJM
+  via: general
+  question: "What was PJM's average hourly generation from coal on 10 November 2026 (Eastern time), in MW?"
+  expected: [13465.7083]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_generation"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_generation, eia930:PJM, net_generation_coal_mw: the mean of the 24 hourly rows of the local day (America/New_York); checked whole"
+- id: pw11
+  sector: power
+  kind: outside
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's peak demand in August 2010, in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "2010|August"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table of the live set reaches 2010 for ERCOT's demand (eia930's history begins in 2018): not in the warehouse, the period named, no figure"
+- id: pw12
+  sector: power
+  kind: not_live
+  grid: none
+  via: general
+  question: "What was the average residential retail electricity price in California in August 2026, in cents per kWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "retail"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_retail_electricity_prices is a table of the record, not loaded into the live set (in_live_set no): the answer says so and states no figure"
+- id: pw13
+  sector: power
+  kind: outside
+  grid: ERCOT
+  via: general
+  question: "What will ERCOT's peak demand be in the summer of 2028, in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "2028|forecast|projection"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the warehouse holds what happened, and day-ahead demand forecasts of the hours ahead, never a forecast of 2028: not in the warehouse, no figure"
+- id: pr01
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the average hourly day-ahead price at ERCOT's hub average (HB_HUBAVG) on 10 November 2026 (Central time), in USD per MWh?"
+  expected: [41.9229]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices", "iso_trader_daily", "price_board_latest", "price_board_spreads", "ercot_hub_prices_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+- id: pr02
+  sector: prices
+  kind: figure
+  grid: CAISO
+  via: grid
+  question: "What was the average real-time price at CAISO's SP15 hub on 10 November 2026 (Pacific time), over its 15-minute intervals, in USD per MWh?"
+  expected: [33.0535]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, caiso:TH_SP15_GEN-APND, lmp_rtm_15m_mean: the mean of the 96 15-minute rows of the local day (America/Los_Angeles); checked whole"
+- id: pr03
+  sector: prices
+  kind: figure
+  grid: SPP
+  via: grid
+  question: "What was the highest hourly day-ahead price at SPP's North hub in the week of Monday 19 to Sunday 25 October 2026 (Central time), in USD per MWh?"
+  expected: [164.32]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, spp:SPPNORTH_HUB, lmp_dam: the maximum of the 168 hourly rows of the local week (America/Chicago); checked whole"
+- id: pr04
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the load-weighted real-time price at ERCOT's hub average in September 2026, in USD per MWh?"
+  expected: [39.5037]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly", "cost_of_power_carbon"]
+  refuse: false
+  hold: false
+  count: false
+  note: "cost_of_power_monthly, ercot:HB_HUBAVG, rt_load_weighted: the 2026-09 row"
+- id: pr05
+  sector: prices
+  kind: partial
+  grid: CAISO
+  via: general
+  question: "What was the simple average day-ahead price at CAISO's SP15 hub in October 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, the 2026-10 row (da_simple_mean; session 5202 keyed its figure, and the chat's first answer said the row was not October's): da_hours says 48 of 744 hours on 2026-11-13; the answer says the month is not whole (the row's figure, said so, or a refusal that says so)"
+- id: pr06
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the average on-peak day-ahead price at ERCOT's hub average over calendar year 2025, in USD per MWh?"
+  expected: [37.8052]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_peak_offpeak"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_peak_offpeak, ercot:HB_HUBAVG, da_year_peak_mean: the 2025 row"
+- id: pr07
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: grid
+  question: "What was the mean day-ahead clearing price of ERCOT's Responsive Reserve Service (RRS) in August 2026, in USD per MW per hour?"
+  expected: [0.8244]
+  tolerance: 0.01
+  text: []
+  tables: ["ercot_as_prices_monthly", "ercot_as_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_as_prices_monthly, ercot:RRS, mcpc_dam_mean: the 2026-08 row (in_live_set review)"
+- id: pr08
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the implied heat rate at ERCOT's hub average on 10 November 2026, in MMBtu per MWh?"
+  expected: [13.9743]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads", "iso_trader_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_spreads, ercot:HB_HUBAVG, implied_heat_rate: the 2026-11-10 row (the day-ahead daily mean over Henry Hub, the board's own)"
+- id: pr09
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: grid
+  question: "How many real-time settlement intervals at ERCOT's West hub (HB_WEST) had a negative price in 2025?"
+  expected: [2724.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_peak_premium_annual"]
+  refuse: false
+  hold: false
+  count: true
+  note: "ercot_peak_premium_annual, ercot:HB_WEST, n_negative: the 2025 row"
+- id: pr10
+  sector: prices
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How much higher or lower was the average hourly day-ahead price at CAISO's SP15 hub than at its NP15 hub on 10 November 2026 (Pacific time), in USD per MWh?"
+  expected: [-6.7381]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices", "iso_trader_daily", "price_board_latest"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, lmp_dam: the mean of the 24 hourly rows of the local day (America/Los_Angeles) at caiso:TH_SP15_GEN-APND less the same at caiso:TH_NP15_GEN-APND; a negative key is SP15 lower (the grader's rule sign_in_words)"
+- id: pr11
+  sector: prices
+  kind: hold
+  grid: NYISO
+  via: grid
+  question: "What was the average day-ahead price in NYISO's Zone J (New York City) on 10 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["NYISO", "license needed"]
+  tables: ["nyiso_dam_zone_prices"]
+  refuse: true
+  hold: true
+  count: false
+  note: "nyiso_dam_zone_prices is NYISO's own and held for a license: NYISO named, the hold's words, no figure"
+- id: pr12
+  sector: prices
+  kind: pause
+  grid: MISO
+  via: grid
+  question: "What was the average day-ahead price at MISO's Indiana hub on 10 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: true
+  hold: false
+  count: false
+  note: "MISO's own rows: MISO is paused while its terms are reviewed (since 4 October 2026): the pause's word and no figure"
+- id: pr13
+  sector: prices
+  kind: outside
+  grid: PJM
+  via: general
+  question: "What was the average day-ahead price at PJM's Western Hub in October 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "PJM"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the live set holds no PJM energy price: not in the warehouse, PJM named, no figure"
+- id: pr14
+  sector: prices
+  kind: hold
+  grid: ISO-NE
+  via: general
+  question: "What was the average real-time price at ISO New England's Internal Hub on 10 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["isone_rtm_zone_prices"]
+  refuse: true
+  hold: true
+  count: false
+  note: "ISO-NE's prices are held for a license (by grid): the hold's words and no figure"
+- id: ga01
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the Henry Hub natural gas spot price on 10 November 2026, in USD per MMBtu?"
+  expected: [3.0]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices", "price_board_spreads"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:henry_hub, spot_price: the 2026-11-10 row"
+- id: ga02
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the average Henry Hub spot price over the trading days of October 2026, in USD per MMBtu?"
+  expected: [2.9877]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:henry_hub, spot_price: the mean of the trading days' rows of 2026-10 (at least 20)"
+- id: ga03
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the highest daily Henry Hub spot price in 2025, in USD per MMBtu?"
+  expected: [9.86]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:henry_hub, spot_price: the maximum of the trading days' rows of 2025 (at least 240)"
+- id: ga04
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "How much natural gas did the US industrial sector consume in June 2026, in trillion Btu?"
+  expected: [882.629]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_sector_energy_consumption_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_sector_energy_consumption_monthly, eia:NNICBUS (natural gas consumed by the industrial sector), energy_consumption: the 2026-06 row"
+- id: ga05
+  sector: gas
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "What was the spark spread at CAISO's SP15 hub on 10 November 2026, at a heat rate of 7.0 MMBtu per MWh against Henry Hub gas, in USD per MWh?"
+  expected: [15.5042]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_spreads, caiso:TH_SP15_GEN-APND, spark_spread_7: the 2026-11-10 row (the board's own)"
+- id: ga06
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity did Texas generate from natural gas in July 2026, in MWh?"
+  expected: [32128543.5]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_generation_mix_monthly, eia:TX, net_generation_natural_gas_mwh: the 2026-07 row"
+- id: ga07
+  sector: gas
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's average hourly generation from natural gas on 10 November 2026 (Central time), in MW?"
+  expected: [26986.9583]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_generation"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_generation, eia930:ERCO, net_generation_natural_gas_mw: the mean of the 24 hourly rows of the local day (America/Chicago); checked whole"
+- id: ga08
+  sector: gas
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "On the generator page's rule, how much margin over fuel did a gas peaker at ERCOT's hub average earn in August 2026, in USD per MW?"
+  expected: [6645.0735]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "merchant_revenue_monthly, ercot:HB_HUBAVG, peaker_revenue_per_mw: the 2026-08 row"
+- id: ga09
+  sector: gas
+  kind: not_live
+  grid: none
+  via: general
+  question: "How much LNG did the United States export to Japan in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "LNG"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_lng_exports_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: ga10
+  sector: gas
+  kind: not_live
+  grid: none
+  via: general
+  question: "How much natural gas did Texas leases produce in May 2026, per the Railroad Commission's lease data?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "Railroad Commission|RRC|lease"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "rrc_lease_production_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: ga11
+  sector: gas
+  kind: outside
+  grid: none
+  via: general
+  question: "What was the Dutch TTF natural gas price on 10 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "TTF"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the warehouse holds one gas price, Henry Hub: not in the warehouse, TTF named, no figure"
+- id: ga12
+  sector: gas
+  kind: outside
+  grid: none
+  via: general
+  question: "How much working gas was in US underground storage in the week ending 31 October 2026, in Bcf?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "storage"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds natural gas storage inventories: not in the warehouse, the thing named, no figure"
+- id: oi01
+  sector: oil
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the WTI crude oil spot price at Cushing on 10 November 2026, in USD per barrel?"
+  expected: [89.62]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:wti_cushing, spot_price: the 2026-11-10 row"
+- id: oi02
+  sector: oil
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the average Brent crude spot price over the trading days of October 2026, in USD per barrel?"
+  expected: [123.9273]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:brent, spot_price: the mean of the trading days' rows of 2026-10 (at least 20)"
+- id: oi03
+  sector: oil
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the spread of Brent over WTI on 10 November 2026, in USD per barrel?"
+  expected: [0.54]
+  tolerance: 0.01
+  text: []
+  tables: ["price_board_spreads", "eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "price_board_spreads, erw:brent_minus_wti, brent_minus_wti: the 2026-11-10 row (the board's own difference)"
+- id: oi04
+  sector: oil
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the lowest daily WTI spot price in 2020, in USD per barrel?"
+  expected: [-36.98]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:wti_cushing, spot_price: the minimum of the trading days' rows of 2020 (a negative price, 20 April 2020: the table's values are real)"
+- id: oi05
+  sector: oil
+  kind: figure
+  grid: none
+  via: general
+  question: "How much petroleum did the US industrial sector consume in May 2026, in trillion Btu?"
+  expected: [735.971]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_sector_energy_consumption_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_sector_energy_consumption_monthly, eia:PAICBUS (petroleum consumed by the industrial sector), energy_consumption: the 2026-05 row"
+- id: oi06
+  sector: oil
+  kind: hold
+  grid: none
+  via: general
+  question: "What is the rate of Texas's oil production tax, as the warehouse records it?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["impact_tax_rules"]
+  refuse: true
+  hold: true
+  count: false
+  note: "impact_tax_rules is held whole for a license (session 5251 found it so; session 5202 had keyed the rate): the hold's words and no rate"
+- id: oi07
+  sector: oil
+  kind: not_live
+  grid: none
+  via: general
+  question: "How much crude oil did the United States import from Canada in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "import"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_crude_imports_by_country is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: oi08
+  sector: oil
+  kind: not_live
+  grid: none
+  via: general
+  question: "What were US commercial crude oil stocks in the week ending 6 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "stock"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_petroleum_stocks_weekly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: oi09
+  sector: oil
+  kind: not_live
+  grid: none
+  via: general
+  question: "What was the US average retail price of regular gasoline in the week of 9 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "gasoline|retail"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_retail_fuel_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: oi10
+  sector: oil
+  kind: not_live
+  grid: none
+  via: general
+  question: "What was the New York Harbor ultra-low sulfur diesel spot price on 10 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "diesel|product"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_product_spot_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: oi11
+  sector: oil
+  kind: outside
+  grid: none
+  via: general
+  question: "How many barrels a day did OPEC produce in October 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "OPEC"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds OPEC's production: not in the warehouse, OPEC named, no figure"
+- id: nu01
+  sector: nuclear
+  kind: figure
+  grid: PJM
+  via: general
+  question: "What was PJM's average hourly nuclear generation on 10 November 2026 (Eastern time), in MW?"
+  expected: [30680.4167]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_generation"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_generation, eia930:PJM, net_generation_nuclear_mw: the mean of the 24 hourly rows of the local day (America/New_York); checked whole"
+- id: nu02
+  sector: nuclear
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the highest hourly nuclear generation in the Lower 48 states in the week of Monday 19 to Sunday 25 October 2026 (UTC), in MW?"
+  expected: [82580.0]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_generation"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_generation, eia930:US48, net_generation_nuclear_mw: the maximum of the 168 hourly rows of the UTC week; checked whole"
+- id: nu03
+  sector: nuclear
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity did Illinois generate from nuclear power in July 2026, in MWh?"
+  expected: [8610224.0]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_generation_mix_monthly, eia:IL, net_generation_nuclear_mwh: the 2026-07 row"
+- id: nu04
+  sector: nuclear
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity did Illinois generate from nuclear power over calendar year 2025, the twelve months summed, in MWh?"
+  expected: [97670262.0]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_generation_mix_monthly, eia:IL, net_generation_nuclear_mwh: the sum of the 12 monthly rows of 2025"
+- id: nu05
+  sector: nuclear
+  kind: figure
+  grid: PJM
+  via: general
+  question: "How much nuclear capacity did PJM have in 2025, in MW, in the warehouse's yearly grid stress table?"
+  expected: [35447.4]
+  tolerance: 0.5
+  text: []
+  tables: ["grid_stress_yearly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "grid_stress_yearly, iso:pjm, capacity_nuclear_mw: the 2025 row (in_live_set review)"
+- id: nu06
+  sector: nuclear
+  kind: outside
+  grid: none
+  via: general
+  question: "What was the spot price of uranium (U3O8) in October 2026, in USD per pound?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "uranium|U3O8"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds a uranium price: not in the warehouse, uranium named, no figure"
+- id: nu07
+  sector: nuclear
+  kind: outside
+  grid: none
+  via: general
+  question: "Which US nuclear reactors were in a refueling outage on 10 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "outage|reactor"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds reactor status or outages: not in the warehouse, the thing named, no figure"
+- id: nu08
+  sector: nuclear
+  kind: not_live
+  grid: none
+  via: general
+  question: "What is the nameplate capacity of Vogtle Unit 4 in EIA's generator inventory, in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "generator|860M"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia860m_operating_generators is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: re01
+  sector: renewables
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How much solar generation did the California ISO curtail in September 2026, in MWh?"
+  expected: [163494.642]
+  tolerance: 0.5
+  text: []
+  tables: ["iso_curtailment_monthly", "caiso_curtailment_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_curtailment_monthly, caiso:ISO, curtailed_solar_mwh: the 2026-09 row"
+- id: re02
+  sector: renewables
+  kind: figure
+  grid: SPP
+  via: general
+  question: "How much wind generation did SPP curtail in October 2026, in MWh?"
+  expected: [1173159.05]
+  tolerance: 0.5
+  text: []
+  tables: ["iso_curtailment_monthly", "spp_curtailment_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_curtailment_monthly, spp:SPP, curtailed_wind_mwh: the 2026-10 row"
+- id: re03
+  sector: renewables
+  kind: figure
+  grid: ERCOT
+  via: grid
+  question: "How much electricity did wind generate in ERCOT on 10 November 2026, in MWh?"
+  expected: [127650.76]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_wind_solar_hsl_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_wind_solar_hsl_daily, ercot:system, wind_generation_mwh: the 2026-11-10 row"
+- id: re04
+  sector: renewables
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "What was the solar capture price at CAISO's SP15 hub in August 2026, in USD per MWh?"
+  expected: [39.6727]
+  tolerance: 0.01
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, solar_capture_price: the 2026-08 row"
+- id: re05
+  sector: renewables
+  kind: figure
+  grid: SPP
+  via: grid
+  question: "Over calendar year 2025, how much revenue did wind earn per MW at SPP's North hub, the twelve monthly revenues summed, in USD per MW?"
+  expected: [66963.0112]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "merchant_revenue_monthly, spp:SPPNORTH_HUB, wind_revenue_per_mw: the sum of the 12 monthly rows of 2025"
+- id: re06
+  sector: renewables
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What is the highest share of ERCOT's generation that wind has reached in any hour on record, in percent, and in which year?"
+  expected: [68.74]
+  tolerance: 0.01
+  text: ["2022"]
+  tables: ["generation_mix_records"]
+  refuse: false
+  hold: false
+  count: false
+  note: "generation_mix_records, iso:ercot, wind_share_max_pct: the one row (in_live_set review); the year of its stamp in the text"
+- id: re07
+  sector: renewables
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity did California generate from solar in June 2026, in MWh?"
+  expected: [6584092.37]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_generation_mix_monthly, eia:CA, net_generation_solar_mwh: the 2026-06 row"
+- id: re08
+  sector: renewables
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity did Texas generate from wind over calendar year 2025, the twelve months summed, in MWh?"
+  expected: [130135820.25]
+  tolerance: 0.5
+  text: []
+  tables: ["state_generation_mix_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_generation_mix_monthly, eia:TX, net_generation_wind_mwh: the sum of the 12 monthly rows of 2025"
+- id: re09
+  sector: renewables
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What share of ERCOT's generation was carbon-free in September 2026, in percent?"
+  expected: [40.1497]
+  tolerance: 0.01
+  text: []
+  tables: ["clean_energy_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "clean_energy_summary, iso:ercot, carbon_free_share_pct: the 2026-09 row (in_live_set review)"
+- id: re10
+  sector: renewables
+  kind: outside
+  grid: none
+  via: general
+  question: "How much rooftop solar capacity was installed in Arizona in 2025, in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "rooftop|distributed"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds rooftop or distributed solar installations: not in the warehouse, the thing named, no figure"
+- id: re11
+  sector: renewables
+  kind: outside
+  grid: none
+  via: general
+  question: "What did a Texas renewable energy certificate (REC) trade for in October 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "REC|certificate"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds renewable energy certificate prices: not in the warehouse, the thing named, no figure"
+- id: st01
+  sector: storage
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "How many MW of batteries were operating in ERCOT in September 2026?"
+  expected: [19194.6]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_buildout_monthly, iso:ercot, battery_operating_mw: the 2026-09 row"
+- id: st02
+  sector: storage
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How many MWh of battery energy capacity were operating in CAISO in September 2026?"
+  expected: [59726.3]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_buildout_monthly, iso:caiso, battery_operating_mwh: the 2026-09 row"
+- id: st03
+  sector: storage
+  kind: figure
+  grid: none
+  via: general
+  question: "How many MW of batteries were operating in the United States in total in September 2026?"
+  expected: [56120.7]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_buildout_monthly, us:total, battery_operating_mw: the 2026-09 row"
+- id: st04
+  sector: storage
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "On the battery page, how much did a 4-hour battery with perfect foresight earn in total at ERCOT's hub average in September 2026, in USD per kW?"
+  expected: [6.8686]
+  tolerance: 0.01
+  text: []
+  tables: ["battery_stack_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "battery_stack_monthly, ercot:HB_HUBAVG, foresight_4h_revenue_total_usd_per_mw: the 2026-09 row over 1,000 (the tool's value_usd_per_kw)"
+- id: st05
+  sector: storage
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How much energy did CAISO's batteries discharge on 10 November 2026, in MWh?"
+  expected: [43645.25]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_daily_cycle"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_daily_cycle, caiso:ISO, mwh_discharged: the 2026-11-10 row"
+- id: st06
+  sector: storage
+  kind: figure
+  grid: CAISO
+  via: grid
+  question: "What was the highest 5-minute battery discharge on CAISO's grid on 10 November 2026 (Pacific time), in MW?"
+  expected: [7682.0]
+  tolerance: 0.5
+  text: []
+  tables: ["caiso_battery_storage"]
+  refuse: false
+  hold: false
+  count: false
+  note: "caiso_battery_storage, caiso:ISO, batteries_mw: the maximum of the 288 5-minute rows of the local day (America/Los_Angeles); checked whole"
+- id: st07
+  sector: storage
+  kind: figure
+  grid: none
+  via: general
+  question: "How many operating battery storage units does the warehouse's storage capacity table list in Texas?"
+  expected: [267.0]
+  tolerance: 0.01
+  text: []
+  tables: ["storage_capacity"]
+  refuse: false
+  hold: false
+  count: true
+  note: "storage_capacity (entities): the count of rows with status operating and state TX"
+- id: st08
+  sector: storage
+  kind: figure
+  grid: none
+  via: general
+  question: "How many MW of battery storage are under construction in the United States, in the warehouse's storage capacity table?"
+  expected: [23298.6]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_capacity"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_capacity (entities): the sum of capacity_mw over the rows with status under_construction"
+- id: st09
+  sector: storage
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "Over calendar year 2025, how much did a 4-hour battery at CAISO's SP15 hub earn per MW on the generator page's rule, the twelve monthly revenues summed, in USD per MW?"
+  expected: [53372.6944]
+  tolerance: 0.5
+  text: []
+  tables: ["merchant_revenue_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "merchant_revenue_monthly, caiso:TH_SP15_GEN-APND, battery_4h_revenue_per_mw: the sum of the 12 monthly rows of 2025"
+- id: st10
+  sector: storage
+  kind: outside
+  grid: none
+  via: general
+  question: "What was the price of lithium carbonate in October 2026, in USD per tonne?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "lithium"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds a lithium price: not in the warehouse, lithium named, no figure"
+- id: st11
+  sector: storage
+  kind: outside
+  grid: PJM
+  via: general
+  question: "How much revenue did a 4-hour battery earn in PJM in August 2026, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "PJM"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the battery tables hold ERCOT's hub average and CAISO's SP15 only, and the live set holds no PJM price: not in the warehouse, PJM named, no figure"
+- id: tx01
+  sector: transmission
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "Measured as its demand less its own generation (the balance), how much electricity did the California ISO import on net in August 2026, in MWh?"
+  expected: [4981715.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ba_supply_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ba_supply_monthly, eia930:CISO, net_import_balance_mwh: the 2026-08 row, its 31 days held (a balancing authority's rows hold up to three measures of net imports: the question names the one; ERCOT's August holds 27 of its 31 days and is not asked)"
+- id: tx02
+  sector: transmission
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "By the California ISO's own reported total interchange, what share of its demand was met by net imports in August 2026, in percent?"
+  expected: [8.2943]
+  tolerance: 0.01
+  text: []
+  tables: ["ba_supply_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ba_supply_monthly, eia930:CISO, net_import_total_interchange_share_pct: the 2026-08 row (the measure named in the question)"
+- id: tx03
+  sector: transmission
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How much electricity did the California ISO import on net from the Bonneville Power Administration in August 2026, in MWh?"
+  expected: [224863.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ba_supply_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ba_supply_monthly, eia930:CISO-BPAT (the pair), net_import_mwh: the 2026-08 row"
+- id: tx04
+  sector: transmission
+  kind: partial
+  grid: ERCOT
+  via: grid
+  question: "What was the median day-ahead basis of all of ERCOT's settlement points to the hub average in October 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["node_basis_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "node_basis_summary, ercot:HB_HUBAVG, the 2026-10 row (dam_all_basis_p50, in_live_set review): dam_all_days says 20 of 31 days on 2026-11-13; the answer says the month is not whole (the row's figure, said so, or a refusal that says so)"
+- id: tx05
+  sector: transmission
+  kind: figure
+  grid: ERCOT
+  via: grid
+  question: "How much higher or lower was the average hourly day-ahead price at ERCOT's West hub than at its North hub in the week of Monday 19 to Sunday 25 October 2026 (Central time), in USD per MWh?"
+  expected: [1.519]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices", "iso_trader_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, spp_dam: the mean of the 168 hourly rows of the local week (America/Chicago) at ercot:HB_WEST less the same at ercot:HB_NORTH; a negative key is West lower"
+- id: tx06
+  sector: transmission
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "For ERCOT projects that reached operation in 2024, what was the median time from interconnection request to operation, in months?"
+  expected: [43.5]
+  tolerance: 0.01
+  text: []
+  tables: ["interconnection_durations_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "interconnection_durations_summary, lbnl_durations:ercot, median_months: the 2024 row (in_live_set review)"
+- id: tx07
+  sector: transmission
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "Of the capacity that entered ERCOT's interconnection queue in 2019, how many MW are now operating?"
+  expected: [5593.64]
+  tolerance: 0.5
+  text: []
+  tables: ["iso_queue_statistics"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_queue_statistics, ercot:queue_2019, mw_operating: the 2019 row (in_live_set review)"
+- id: tx08
+  sector: transmission
+  kind: not_live
+  grid: CAISO
+  via: general
+  question: "How many MW flowed from the Bonneville Power Administration into the California ISO in the hour beginning 18:00 UTC on 10 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "interchange"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia930_all_interchange (hourly interchange by pair) is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: tx09
+  sector: transmission
+  kind: not_live
+  grid: none
+  via: general
+  question: "In the warehouse's grid network table, what was the latest flow on the link between ERCOT and SPP, in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "network|link"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "grid_network_links is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: tx10
+  sector: transmission
+  kind: outside
+  grid: none
+  via: general
+  question: "How much revenue did ERCOT's congestion revenue right (CRR) auctions raise in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "CRR|congestion revenue"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds congestion revenue right auctions: not in the warehouse, the thing named, no figure"
+- id: pj01
+  sector: projects
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "How many MW of projects are active in ERCOT's interconnection queue?"
+  expected: [308487.96]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_interconnection_queue (entities): the sum of capacity_mw over the rows with status active"
+- id: pj02
+  sector: projects
+  kind: figure
+  grid: CAISO
+  via: grid
+  question: "How many MW of projects are active in CAISO's interconnection queue?"
+  expected: [73847.7334]
+  tolerance: 0.5
+  text: []
+  tables: ["caiso_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: false
+  note: "caiso_interconnection_queue (entities): the sum of capacity_mw over the rows with status active"
+- id: pj03
+  sector: projects
+  kind: figure
+  grid: SPP
+  via: general
+  question: "How many projects are active in SPP's interconnection queue?"
+  expected: [625.0]
+  tolerance: 0.01
+  text: []
+  tables: ["spp_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: true
+  note: "spp_interconnection_queue (entities): the count of the rows with status active"
+- id: pj04
+  sector: projects
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "How many MW of battery energy storage projects are active in ERCOT's interconnection queue?"
+  expected: [118354.39]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_interconnection_queue (entities): the sum of capacity_mw over the rows with status active and fuel_technology 'Other - Battery Energy Storage'"
+- id: pj05
+  sector: projects
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "How many projects in CAISO's interconnection queue have been withdrawn?"
+  expected: [1765.0]
+  tolerance: 0.5
+  text: []
+  tables: ["caiso_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: true
+  note: "caiso_interconnection_queue (entities): the count of the rows with status withdrawn"
+- id: pj06
+  sector: projects
+  kind: figure
+  grid: none
+  via: general
+  question: "Across the United States, what was the median time from interconnection request to operation for projects that reached operation in 2024, in months?"
+  expected: [61.4]
+  tolerance: 0.01
+  text: []
+  tables: ["interconnection_durations_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "interconnection_durations_summary, lbnl_durations:us, median_months: the 2024 row (in_live_set review)"
+- id: pj07
+  sector: projects
+  kind: figure
+  grid: none
+  via: general
+  question: "How many MW of conventional steam coal generators retired in 2025, in the warehouse's table of retired generators?"
+  expected: [2626.0]
+  tolerance: 0.5
+  text: []
+  tables: ["eia860m_retired_generators"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia860m_retired_generators (entities): the sum of capacity_mw over the rows with technology 'Conventional Steam Coal' and status_date in 2025"
+- id: pj08
+  sector: projects
+  kind: hold
+  grid: ISO-NE
+  via: general
+  question: "How many MW of projects are active in ISO New England's interconnection queue?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["isone_interconnection_queue"]
+  refuse: true
+  hold: true
+  count: false
+  note: "isone_interconnection_queue is ISO-NE's own and held for a license: the hold's words and no figure"
+- id: pj09
+  sector: projects
+  kind: pause
+  grid: MISO
+  via: general
+  question: "How many MW of projects are active in MISO's interconnection queue?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: ["miso_interconnection_queue"]
+  refuse: true
+  hold: false
+  count: false
+  note: "miso_interconnection_queue is MISO's own: MISO is paused while its terms are reviewed: the pause's word and no figure"
+- id: pj10
+  sector: projects
+  kind: outside
+  grid: none
+  via: general
+  question: "What does it cost to build a new combined-cycle gas plant, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "cost"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds construction costs of generators: not in the warehouse, the thing named, no figure"
+- id: de01
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "What was the average disclosed price of the solar power purchase agreements signed in 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: de02
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "Which energy deal announced in October 2026 was the largest by MW, and how many MW was it?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: de03
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "How many energy deals were announced in October 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: de04
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "What was the total disclosed value of the energy acquisitions announced in 2026, in USD?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: de05
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "Who are the buyer and the seller of the largest nuclear power purchase agreement in the deal tracker?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: de06
+  sector: deals
+  kind: figure
+  grid: none
+  via: general
+  question: "How many companies does the warehouse's energy companies table list?"
+  expected: [568.0]
+  tolerance: 0.01
+  text: []
+  tables: ["energy_companies"]
+  refuse: false
+  hold: false
+  count: true
+  note: "energy_companies (entities, model-extracted): the count of its rows"
+- id: de07
+  sector: deals
+  kind: outside
+  grid: none
+  via: general
+  question: "What was NextEra Energy's share price at the close on 10 November 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "share price|stock|equity"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds share prices: not in the warehouse, the thing named, no figure"
+- id: de08
+  sector: deals
+  kind: outside
+  grid: none
+  via: general
+  question: "At what price per MWh did Constellation sell power under its long-term contracts in the second quarter of 2026, per its FERC Electric Quarterly Report?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "EQR|Electric Quarterly|contract"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the FERC EQR tables are internal and not in the catalogue a visitor's chat reads: not in the warehouse, the thing named, no figure"
+- id: po01
+  sector: policy
+  kind: hold
+  grid: none
+  via: general
+  question: "How many policy actions does the warehouse's policy table record for October 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["policy_actions"]
+  refuse: true
+  hold: true
+  count: false
+  note: "policy_actions is held whole for a license (session 5251 found it so; session 5202 had keyed the count): the hold's words and no count"
+- id: po02
+  sector: policy
+  kind: hold
+  grid: none
+  via: general
+  question: "How many FERC actions does the warehouse's policy table record for October 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["policy_actions"]
+  refuse: true
+  hold: true
+  count: false
+  note: "policy_actions is held whole for a license: the hold's words and no count"
+- id: po03
+  sector: policy
+  kind: hold
+  grid: none
+  via: general
+  question: "What is the rate of Texas's natural gas production tax, as the warehouse records it?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["impact_tax_rules"]
+  refuse: true
+  hold: true
+  count: false
+  note: "impact_tax_rules is held whole for a license: the hold's words and no rate"
+- id: po04
+  sector: policy
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "In the warehouse's Flex Alert model, how many hours of 2022 were under a California Flex Alert?"
+  expected: [58.0]
+  tolerance: 0.01
+  text: []
+  tables: ["flex_alert_effects", "flex_alert_model"]
+  refuse: false
+  hold: false
+  count: true
+  note: "flex_alert_effects, eia930:CISO, year_hours: the 2022 row (the yearly summary's count of alert hours; the reduction itself is held as a negative figure and is not keyed)"
+- id: po05
+  sector: policy
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "How many conservation appeals did ERCOT issue in 2023, in the warehouse's table of ERCOT's grid notices?"
+  expected: [8.0]
+  tolerance: 0.01
+  text: []
+  tables: ["ercot_grid_notices"]
+  refuse: false
+  hold: false
+  count: true
+  note: "ercot_grid_notices (events, in_live_set review): the count of rows with event_type conservation_appeal and event_date in 2023"
+- id: po06
+  sector: policy
+  kind: figure
+  grid: none
+  via: general
+  question: "How many Stage 3 emergency notices has the California ISO issued since 1998, in the warehouse's table of its grid emergencies?"
+  expected: [41.0]
+  tolerance: 0.01
+  text: []
+  tables: ["caiso_grid_emergencies", "caiso_reliability_daily"]
+  refuse: false
+  hold: false
+  count: true
+  note: "caiso_grid_emergencies (events): the count of rows with event_type stage3 (the table begins in 1998)"
+- id: po07
+  sector: policy
+  kind: not_live
+  grid: none
+  via: general
+  question: "What did a California carbon allowance clear at in the August 2026 auction, in USD per allowance?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "allowance|auction|carbon"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "carb_auction_allowance_prices is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: po08
+  sector: policy
+  kind: outside
+  grid: none
+  via: general
+  question: "What was the clearing price of the RGGI allowance auction in September 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "RGGI"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the RGGI table is internal and not in the catalogue a visitor's chat reads: not in the warehouse, RGGI named, no figure"
+- id: po09
+  sector: policy
+  kind: outside
+  grid: none
+  via: general
+  question: "What is the value of the federal clean electricity production tax credit (45Y) in 2026, in cents per kWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "credit|45Y"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds federal tax credit values (the impact tax table holds state severance and property rules): not in the warehouse, the thing named, no figure"
+- id: po10
+  sector: policy
+  kind: outside
+  grid: none
+  via: general
+  question: "What share of electricity must come from renewables in New York by 2030 under its renewable portfolio standard?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "portfolio standard|RPS|standard"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds state renewable portfolio standards: not in the warehouse, the thing named, no figure"
+- id: dc01
+  sector: datacenters
+  kind: hold
+  grid: none
+  via: general
+  question: "How many MW of datacenter capacity does the datacenter tracker list in Virginia?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["datacenter_facilities"]
+  refuse: true
+  hold: true
+  count: false
+  note: "datacenter_facilities is held whole for a license: the hold's words and no figure"
+- id: dc02
+  sector: datacenters
+  kind: hold
+  grid: none
+  via: general
+  question: "How many datacenter projects has Microsoft announced, in the datacenter tracker?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["datacenter_projects"]
+  refuse: true
+  hold: true
+  count: false
+  note: "datacenter_projects is held whole for a license: the hold's words and no figure"
+- id: dc03
+  sector: datacenters
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "As of ERCOT's large load report of 19 June 2026, how many MW of large loads were approved to energize?"
+  expected: [8927.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_large_load_status"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_large_load_status, ercot:large_load, approved_to_energize_mw: the 2026-06-19 row (in_live_set review)"
+- id: dc04
+  sector: datacenters
+  kind: figure
+  grid: ERCOT
+  via: grid
+  question: "As of ERCOT's large load report of 19 June 2026, what was the observed simultaneous peak of its large loads, in MW?"
+  expected: [3675.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ercot_large_load_status"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ercot_large_load_status, ercot:large_load, observed_simultaneous_peak_mw: the 2026-06-19 row"
+- id: dc05
+  sector: datacenters
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the public large-load statements the warehouse records are at the stage of a signed service agreement?"
+  expected: [27.0]
+  tolerance: 0.01
+  text: []
+  tables: ["large_load_public"]
+  refuse: false
+  hold: false
+  count: true
+  note: "large_load_public (events, model-extracted): the count of rows with status '4 signed service agreement'"
+- id: dc06
+  sector: datacenters
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "In the warehouse's comparison of regions for AI power, what would a flat 1 GW load have paid for a year of power in ERCOT, in USD?"
+  expected: [276135276.0]
+  tolerance: 0.5
+  text: []
+  tables: ["ai_power_regions"]
+  refuse: false
+  hold: false
+  count: false
+  note: "ai_power_regions, iso:ercot, flat_1gw_cost_usd: the one row"
+- id: dc07
+  sector: datacenters
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the datacenter attention index for the United States in the week of 2 November 2026, in percent?"
+  expected: [7.7655]
+  tolerance: 0.01
+  text: []
+  tables: ["attention_index_weekly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "attention_index_weekly (model-extracted), attention:datacenters:US, attention_index: the row of the week of 2026-11-02"
+- id: dc08
+  sector: datacenters
+  kind: figure
+  grid: none
+  via: general
+  question: "How many stories of opposition to datacenters did the warehouse count for the United States in the week of 2 November 2026?"
+  expected: [16.0]
+  tolerance: 0.01
+  text: []
+  tables: ["friction_index_weekly"]
+  refuse: false
+  hold: false
+  count: true
+  note: "friction_index_weekly (model-extracted), attention:datacenters:US, opposition_stories: the row of the week of 2026-11-02"
+- id: dc09
+  sector: datacenters
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "On the datacenter page's measure, what was the load-weighted real-time price at CAISO's SP15 hub in August 2026, in USD per MWh?"
+  expected: [56.9423]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly", "cost_of_power_carbon"]
+  refuse: false
+  hold: false
+  count: false
+  note: "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, rt_load_weighted: the 2026-08 row"
+- id: dc10
+  sector: datacenters
+  kind: outside
+  grid: none
+  via: general
+  question: "How many AI accelerator chips (GPUs) were shipped to US datacenters in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "GPU|chip|accelerator"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table holds chip shipments: not in the warehouse, the thing named, no figure"
+- id: gp01
+  sector: power
+  kind: gap
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's average hourly demand on 6 November 2026 (Central time), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "6 November|November 6|2026-11-06|6 Nov"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:ERCO, demand_mw: the local day (America/Chicago): 0 of 24 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+- id: gp02
+  sector: prices
+  kind: gap
+  grid: CAISO
+  via: grid
+  question: "What was the average real-time price at CAISO's SP15 hub on 7 November 2026 (Pacific time), over its 15-minute intervals, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "7 November|November 7|2026-11-07|7 Nov"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, caiso:TH_SP15_GEN-APND, lmp_rtm_15m_mean: the local day (America/Los_Angeles): 0 of 96 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+- id: gp03
+  sector: renewables
+  kind: gap
+  grid: ERCOT
+  via: general
+  question: "How much electricity did wind generate in ERCOT on 6 November 2026, in MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "6 November|November 6|2026-11-06|6 Nov"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "ercot_wind_solar_hsl_daily, ercot:system, wind_generation_mwh: the daily row: 0 of 1 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+- id: pt01
+  sector: power
+  kind: partial
+  grid: ERCOT
+  via: general
+  question: "What was the highest hourly demand in ERCOT in the week of Monday 2 to Sunday 8 November 2026 (Central time), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:ERCO, demand_mw: the local week (America/Chicago): 72 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: pt02
+  sector: prices
+  kind: partial
+  grid: ERCOT
+  via: general
+  question: "What was the average hourly day-ahead price at ERCOT's hub average (HB_HUBAVG) in the week of Monday 2 to Sunday 8 November 2026 (Central time), in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_HUBAVG, spp_dam: the local week (America/Chicago): 120 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: pt03
+  sector: nuclear
+  kind: partial
+  grid: none
+  via: general
+  question: "What was the average hourly nuclear generation in the Lower 48 states in the week of Monday 2 to Sunday 8 November 2026 (UTC), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["eia930_all_generation"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_generation, eia930:US48, net_generation_nuclear_mw: the UTC week: 72 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
