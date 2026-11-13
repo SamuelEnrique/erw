@@ -41,3 +41,9 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - **Row 175 (new, fixed):** the stack's 28 September printed "adds export volume at an US LNG project". The scorer wrote "a major US LNG project"; the cleaner took out "major" and chose the article by the spelling of "US". A word in capitals said from "U" now takes "a". Six stored scorer lines have that shape.
 - Tests: `Row175AUSProject` (1), failing on main. The 72 files: 1,383 passed, 20 skipped. The Digest's method note carries the row.
 - **Row 11:** moved to `ad894d3e8` (rows 161 to 175 wait).
+
+## Session 3478: row 176
+
+- **Row 176 (new, fixed):** the stack's 28 September printed "[bloomberg.com] (via Google News)" beside "[Bloomberg.com]" in every other item. The feed names some stories by their address (jpt.spe.org 50 stored, hartenergy.com 22, bloomberg.com 20, nyiso.com 29, partners.wsj.com 15); rows 133 and 134 had named only ft.com and wsj.com. An outlet named by its address, or a subdomain of it, now reads as its other links name it. An address not listed stays as written.
+- Tests: `Row176AnOutletByItsName` (2). The 72 files: 1,385 passed, 20 skipped. The Digest's method note carries the row.
+- **Row 11:** moved to `7ce9062d0` (rows 161 to 176 wait).
