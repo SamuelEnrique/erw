@@ -75,7 +75,8 @@ class TheGuideAgainstTheModel(unittest.TestCase):
     def test_it_is_one_page_and_says_how_to_open_the_internal_view(self):
         text = src("docs", "battery_game_demo.md")
         self.assertLess(len(text.split()), 800)                               # one page
-        self.assertIn("/internal/unlock?token=", text)
+        self.assertIn("/internal/open", text)                                 # session 5157: the form; the link with the token in its address is retired
+        self.assertNotIn("unlock?token=", text)
         self.assertNotIn(chr(0x2014), text)
         for heading in ("## Minute 0 to 2", "## Minute 2 to 5", "## If something goes wrong"):
             self.assertIn(heading, text)

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 
 // Session 177: the internal view's door without a token in any address (docs/release-gate.md). A form that POSTs the
-// token in the request's body to /internal/unlock, which sets the same two cookies the link sets. The old link,
-// /internal/unlock?token=<INTERNAL_COSTS_TOKEN>, works exactly as it did. This page holds no secret and says nothing
+// token in the request's body to /internal/unlock, which sets the internal view's two cookies. The old link, with the
+// token in its address, is retired (session 5157): this form is the one door. This page holds no secret and says nothing
 // about what the internal view opens; it is not indexed and never cached (next.config.ts gives every /internal address
 // those headers). Its referrer policy is same-origin, not no-referrer as the other internal addresses: under
 // no-referrer a browser posts a form with "Origin: null", which the route could not tell from another site's form.

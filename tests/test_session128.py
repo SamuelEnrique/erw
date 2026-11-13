@@ -161,7 +161,9 @@ class TheRouteTheLedgerAndTheDatabase(unittest.TestCase):
         p = src("site", "app", "internal", "ask", "page.tsx")
         # session 177: the internal view's cookie opens the page as well (so the token need not travel in an address);
         # without the token and without the cookie it is still 404, and the database is still asked with the server's token
-        self.assertIn("if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();", p)
+        # session 5157: the old link is retired; the cookie alone opens the page, and no token is read from the address
+        self.assertIn("if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();", p)
+        self.assertNotIn("sp.token", p)
         self.assertIn('rpc<Spend>("internal_ask_spend", { p_token: want })', p)
         self.assertIn("robots: { index: false, follow: false }", p)
         self.assertNotIn("/internal/ask", src("site", "lib", "audience.ts"))

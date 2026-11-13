@@ -14,8 +14,8 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 
 // Session 62: the flagship analysis, a draft, internal only. "Where the next gigawatts for AI can come from": one row of
 // measures per ISO region (ai_power_regions, warehouse/derived/ai_power_regions.py; methods in
-// docs/reports/ai_gigawatts_methods.md). Not in the nav, not indexed, gated by the internal token as
-// /reports/draft/shape-premium: /reports/draft/ai-gigawatts?token=<INTERNAL_COSTS_TOKEN>, else 404. Every number is a row of
+// docs/reports/ai_gigawatts_methods.md). Not in the nav, not indexed, behind the internal view as
+// /reports/draft/shape-premium: the internal cookie opens it (the cookie alone since session 5157), else 404. Every number is a row of
 // ai_power_regions (series|...) or a ratio or difference of two (calc|...), and scripts/check-values.mjs recomputes each.
 // The prose names regions from the data (the cheapest, the cleanest, the fastest), so it stays true when the table is
 // rebuilt. Charts: plain SVG, Stanford palette (cardinal for the measure, Palo Alto green for the best region).
@@ -72,12 +72,11 @@ function Bars({ items, unit, best, fmt }: { items: { label: string; v: number }[
   );
 }
 
-export default async function AiGigawatts({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const token = typeof sp.token === "string" ? sp.token : "";
+export default async function AiGigawatts() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  // session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages, so no address needs the token
-  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it, as the /internal pages, so no address needs the token
+  // session 5157 (docs/security.md, H1 and L5): the cookie alone opens it; a token in the address opens nothing.
+  if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   const all = await series(T, {});
   const get = (r: string, v: string): V | undefined => {

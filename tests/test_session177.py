@@ -268,10 +268,14 @@ class Site(unittest.TestCase):
     def test_the_unlock_keeps_its_link_and_gains_a_form(self):
         r = src("site", "app", "internal", "unlock", "route.ts")
         get, post = r.split("export async function POST")
-        # the old link, word for word as session 67 wrote it
-        self.assertIn('const given = req.nextUrl.searchParams.get("token");', get)
-        self.assertIn("if (!token || !given || given !== token) return new NextResponse(\"Not found\", { status: 404", get)
-        self.assertIn("res.cookies.set(COOKIE, await digest(token), { httpOnly: true, secure, sameSite: \"lax\", path: \"/\", maxAge: MAX_AGE });", get)
+        # session 5157: the old link is retired (it stood here word for word as session 67 wrote it until then). A GET
+        # reads no token from the address, compares nothing, sets no cookie and answers the 404 a wrong token always got
+        self.assertIn("export async function GET() {", get)
+        self.assertNotIn("searchParams", get)
+        self.assertNotIn("cookies.set", get)
+        self.assertNotIn("!==", get)
+        self.assertNotIn("process.env", get)
+        self.assertIn('return new NextResponse("Not found", { status: 404, headers: { "X-Robots-Tag": "noindex", "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" } });', get)
         # the form: the token from the body, never from the address; the same two cookies; a right token is never limited
         self.assertNotIn("searchParams", post)
         self.assertIn('form.get("token")', post)
@@ -299,7 +303,10 @@ class Site(unittest.TestCase):
     def test_the_internal_pages_open_with_the_cookie(self):
         for page, fn in (("costs", "internal_costs"), ("ask", "internal_ask_spend"), ("usage", "internal_usage")):
             text = src("site", "app", "internal", page, "page.tsx")
-            self.assertIn("token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value))", text, page)
+            # session 5157 (the link's retirement, H1 and L5): the cookie alone; until then "token !== want && !(await internalOk(...))"
+            self.assertIn("if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();", text, page)
+            self.assertNotIn("token !== want", text, page)
+            self.assertNotIn("searchParams", text, page)
             self.assertIn(f'"{fn}", {{ p_token: want }}', text, page)
             self.assertIn("robots: { index: false, follow: false }", text)
 

@@ -30,18 +30,13 @@ export function readSummary(): Summary | null {
   return fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, "utf8")) as Summary) : null;
 }
 
-/** The internal token check shared by the finder's page and its download: a token of 24 characters or more, equal. */
-export function tokenOk(token: string | null | undefined): boolean {
-  const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  return want.length >= 24 && token === want;
-}
-
 /** Session 371 (docs/security.md, S2): the finder, its download and the lease loader open with the internal view's
- * cookie as well, as /internal/costs, /internal/ask and /internal/usage do since session 177, so no address needs the
- * token and the pages stop writing it into their own links. An address with ?token= opens them as before. */
-export async function internalOpen(token: string | null | undefined, cookie: string | undefined): Promise<boolean> {
+ * cookie, as /internal/costs, /internal/ask and /internal/usage do since session 177, so no address needs the token.
+ * Session 5157 (H1 and L5): the cookie alone opens them. A token in the address opens nothing, is read by none of the
+ * three, and is written into no link (the comparison with === that stood here is gone with it). */
+export async function internalOpen(cookie: string | undefined): Promise<boolean> {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  return want.length >= 24 && (tokenOk(token) || (await cookieOpens(cookie, want)));
+  return want.length >= 24 && (await cookieOpens(cookie, want));
 }
 
 export const RULE_NAMES: Record<string, string> = {

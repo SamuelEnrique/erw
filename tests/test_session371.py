@@ -77,25 +77,33 @@ class ConstantTime(unittest.TestCase):
 
 class TokenOutOfAddresses(unittest.TestCase):
     def test_s2_pages_open_with_the_cookie(self):
-        gate = "if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();"
+        # session 5157 (the link's retirement, H1 and L5): the cookie alone opens them; until then a token in the address did too
+        gate = "if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();"
         for page in ("shape-premium", "ai-gigawatts"):
             self.assertIn(gate, src("site", "app", "reports", "draft", page, "page.tsx"), page)
         fin = src("site", "lib", "finder.ts")
-        self.assertIn("export async function internalOpen(", fin)
-        self.assertIn("(tokenOk(token) || (await cookieOpens(cookie, want)))", fin)
-        self.assertIn("internalOpen(token, (await cookies()).get(COOKIE)?.value)", src("site", "app", "severance", "lease", "real", "page.tsx"))
-        self.assertIn("internalOpen(token, (await cookies()).get(COOKIE)?.value)", src("site", "app", "severance", "finder", "page.tsx"))
-        self.assertIn('internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value)',
-                      src("site", "app", "severance", "finder", "download", "route.ts"))
+        self.assertIn("export async function internalOpen(cookie: string | undefined): Promise<boolean> {", fin)
+        self.assertIn("return want.length >= 24 && (await cookieOpens(cookie, want));", fin)
+        self.assertNotIn("tokenOk", fin)
+        self.assertNotIn("token === want", fin)
+        self.assertIn("internalOpen((await cookies()).get(COOKIE)?.value)", src("site", "app", "severance", "lease", "real", "page.tsx"))
+        self.assertIn("internalOpen((await cookies()).get(COOKIE)?.value)", src("site", "app", "severance", "finder", "page.tsx"))
+        down = src("site", "app", "severance", "finder", "download", "route.ts")
+        self.assertIn("internalOpen((await cookies()).get(COOKIE)?.value)", down)
+        self.assertNotIn("searchParams", down)
 
     def test_s2_no_link_carries_the_token_unless_it_came_in(self):
+        # session 5157 (the link's retirement): no link and no form carries the token at all (until then an address that
+        # brought the token kept it: `const q = token ? ... : ""` and a hidden input under the same condition)
         page = src("site", "app", "severance", "finder", "page.tsx")
-        self.assertIn('const q = token ? `token=${encodeURIComponent(token)}&` : "";', page)
-        self.assertIn('{token ? <input type="hidden" name="token" value={token} /> : null}', page)
         real = src("site", "app", "severance", "lease", "real", "page.tsx")
-        self.assertIn('{token ? <input type="hidden" name="token" value={token} /> : null}', real)
         for t in (page, real):
-            self.assertEqual(t.count('name="token" value={token}'), t.count('{token ? <input type="hidden" name="token" value={token} /> : null}'))
+            self.assertNotIn('name="token"', t)
+            self.assertNotIn("token=", t)
+            self.assertNotIn('one("token")', t)
+            self.assertNotIn("sp.token", t)
+        self.assertIn('<a href="/severance/finder/download">Download every flag (CSV)</a>', page)
+        self.assertIn('<Link href="/severance/finder" prefetch={false}>', real)
 
     def test_s2_check_values_reads_the_drafts_with_the_cookie(self):
         cv = src("site", "scripts", "check-values.mjs")

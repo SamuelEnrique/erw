@@ -70,14 +70,16 @@ class Internal(unittest.TestCase):
 
     def test_pages_behind_the_token(self):
         page = src("site", "app", "severance", "finder", "page.tsx")
-        # session 371 (docs/security.md, S2): the token in the address, or the internal view's cookie
-        self.assertIn("if (!(await internalOpen(token, (await cookies()).get(COOKIE)?.value))) notFound();", page)
+        # session 371 (docs/security.md, S2): the internal view's cookie; session 5157 (the link's retirement): the cookie
+        # alone, the token in the address no longer
+        self.assertIn("if (!(await internalOpen((await cookies()).get(COOKIE)?.value))) notFound();", page)
         self.assertIn("robots: { index: false, follow: false }", page)
         self.assertIn('export const dynamic = "force-dynamic"', page)
         route = src("site", "app", "severance", "finder", "download", "route.ts")
-        self.assertIn('if (!(await internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });', route)
+        self.assertIn('if (!(await internalOpen((await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });', route)
         lib = src("site", "lib", "finder.ts")
-        self.assertIn('want.length >= 24 && token === want', lib)
+        self.assertIn('return want.length >= 24 && (await cookieOpens(cookie, want));', lib)
+        self.assertNotIn('token === want', lib)
         real = src("site", "app", "severance", "lease", "real", "page.tsx")
         self.assertIn('.find((r) => r[0] === county)', real)  # the county from the index, never a path from the query
         self.assertNotIn("severance/finder", src("site", "lib", "pages.ts"))  # not in the public nav

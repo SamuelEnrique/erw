@@ -10,9 +10,9 @@ import { COOKIE } from "@/lib/release";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
-  // session 371 (docs/security.md, S2): the internal view's cookie opens it too; ?token= as before
-  if (!(await internalOpen(new URL(req.url).searchParams.get("token"), (await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });
+export async function GET() {
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it; session 5157: the cookie alone
+  if (!(await internalOpen((await cookies()).get(COOKIE)?.value))) return new Response("Not found", { status: 404 });
   const f = `${outDir()}/${FLAGS}`;
   if (!fs.existsSync(f)) return new Response("The finder's flags are not on this server", { status: 404 });
   return new Response(zlib.gunzipSync(fs.readFileSync(f)), {

@@ -14,7 +14,7 @@ import { LICENSE_NEEDED, licenseHeldRow } from "@/lib/license";
 import { monthsOf, stats, type Row } from "@/lib/shapepremium";
 
 // Session 48 (fallback): the first deep-dive report, a draft, internal only. Not in the nav, not indexed, and gated by
-// the internal token, as /internal/costs: /reports/draft/shape-premium?token=<INTERNAL_COSTS_TOKEN>; it answers 404
+// the internal view, as /internal/costs: the internal cookie opens it (the cookie alone since session 5157); it answers 404
 // otherwise. Every number is read from cost_of_power_monthly or cost_of_power_hourly_profile (Supabase) and carries a
 // check key that scripts/check-values.mjs recomputes: a table row (series|...), a period statistic (shape|..., by
 // lib/shapepremium.ts) or a ratio or difference of two (calc|...).
@@ -113,12 +113,11 @@ function Profile({ label, cells }: { label: string; cells: { h: number; v: numbe
   );
 }
 
-export default async function ShapePremium({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const token = typeof sp.token === "string" ? sp.token : "";
+export default async function ShapePremium() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  // session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages, so no address needs the token
-  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
+  // session 371 (docs/security.md, S2): the internal view's cookie opens it, as the /internal pages, so no address needs the token
+  // session 5157 (docs/security.md, H1 and L5): the cookie alone opens it; a token in the address opens nothing.
+  if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   // session 383: from 21 October 2026 a hub whose grid needs a license (lib/license.ts) is not read; the report compares the others
   const OPEN = HUBS.filter((h) => !licenseHeldRow(M, h.e)), HELD = HUBS.filter((h) => licenseHeldRow(M, h.e));

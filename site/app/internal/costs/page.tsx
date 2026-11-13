@@ -7,9 +7,9 @@ import { internalOk } from "@/lib/thesis/server";
 import { Section } from "@/components/Section";
 import { rpc } from "@/lib/supabase";
 
-// Session 30 (Part B1): the Anthropic API spend of the ERW, internal. No nav link, not indexed, and gated by a token:
-// /internal/costs?token=<INTERNAL_COSTS_TOKEN>. The page answers 404 unless the token equals the server's
-// INTERNAL_COSTS_TOKEN, and the database answers nothing unless it equals the secret apply.py wrote (migration 010).
+// Session 30 (Part B1): the Anthropic API spend of the ERW, internal. No nav link, not indexed, and behind the internal
+// view: the page answers 404 unless the browser holds the internal cookie (until session 5157 a token in the address
+// opened it too), and the database answers nothing unless the server's token equals the secret apply.py wrote (migration 010).
 // Rows: api_cost_ledger (warehouse/llm.py: the daily run and sessions) and site_api_calls (the site's /ask).
 export const metadata: Metadata = { title: "Costs (internal)", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -79,13 +79,11 @@ function Table({ rows, label }: { rows: ReturnType<typeof group>; label: string 
   );
 }
 
-export default async function Costs({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const token = typeof sp.token === "string" ? sp.token : "";
+export default async function Costs() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  // session 177: the internal view's cookie opens the page as well, so the token need not travel in an address
-  // (/internal/open). The old address, with ?token=, works as it did.
-  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
+  // session 177: the internal view's cookie opens the page, so the token need not travel in an address (/internal/open).
+  // session 5157 (docs/security.md, H1 and L5): the cookie alone opens it; a token in the address opens nothing.
+  if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   let calls: Call[];
   try {

@@ -6,8 +6,9 @@
 // What it asks, and what must be true:
 //   1. every answer carries the security headers (next.config.ts), and every /internal address is never cached,
 //      never indexed and sends no referrer;
-//   2. the internal view opens from the form (POST /internal/unlock, the token in the body) with the same two cookies
-//      as the old link, which still works; a wrong token, another site's form and a filled trap open nothing;
+//   2. the internal view opens from the form (POST /internal/unlock, the token in the body) with its two cookies; the
+//      old link is retired (session 5157) and opens nothing; a wrong token, another site's form and a filled trap
+//      open nothing;
 //   3. /internal/costs, /internal/ask and /internal/usage open with the cookie and no token in the address, and
 //      answer 404 without it;
 //   4. the routes that spend or write refuse another site's page, a stock command-line client and a body of the
@@ -87,9 +88,11 @@ if (!token || token.length < 24) {
   ok(nulled.status === 303 && cookiesOf(nulled).length === 2, "the form: 'Origin: null' with the browser's same-origin word opens", `HTTP ${nulled.status}`);
   const nullOnly = await ask("/internal/unlock", { method: "POST", headers: { ...FORM, Origin: "null" }, body: form({ token }) });
   ok(nullOnly.status === 404 && cookiesOf(nullOnly).length === 0, "the form: 'Origin: null' alone gets 404", `HTTP ${nullOnly.status}`);
+  // session 5157: the old link is retired. A token in the address opens nothing and sets no cookie, the right one
+  // included. (Run this against a local build: against production the request would write the token into the host's
+  // request log, docs/security.md S3.)
   const old = await ask(`/internal/unlock?token=${encodeURIComponent(token)}`);
-  const oldSet = cookiesOf(old);
-  ok(old.status === 303 && oldSet.some((c) => c.startsWith("erw_internal=")) && oldSet.join("|") === set.join("|"), "the old link works as it did, with the same two cookies");
+  ok(old.status === 404 && cookiesOf(old).length === 0, "the old link is retired: the right token in the address gets 404 and no cookie", `HTTP ${old.status}, ${cookiesOf(old).length} cookies`);
   ok((await ask("/internal/unlock?token=not-the-token-0000000000000000")).status === 404 && (await ask("/internal/unlock")).status === 404, "the old link: a wrong or missing token is 404, as before");
   const cookie = set.join("; ");
 

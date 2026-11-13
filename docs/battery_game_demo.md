@@ -1,7 +1,7 @@
 # The battery game: a five-minute demonstration
 
 The game is in review. On the machine you will show it from, open the internal view first:
-`https://erw-flame.vercel.app/internal/unlock?token=<your internal token>`, then `https://erw-flame.vercel.app/play/battery`.
+`https://erw-flame.vercel.app/internal/open` (paste your internal token into the form), then `https://erw-flame.vercel.app/play/battery`.
 
 **Say this first:** you own a home battery; a real day of Texas power prices goes past in ninety seconds; buy when power is cheap, sell when it is dear; then the page shows what a battery that knew every price would have made.
 

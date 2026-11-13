@@ -90,7 +90,8 @@ class ReportPage(unittest.TestCase):
     def test_gated_unindexed_not_in_nav(self):
         page = open(os.path.join(SITE, "app", "reports", "draft", "shape-premium", "page.tsx"), encoding="utf-8").read()
         # session 371 (docs/security.md, S2): the internal view's cookie opens it too, as the /internal pages
-        self.assertIn('if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();', page)
+        # session 5157 (the link's retirement): the cookie alone; a token in the address opens nothing
+        self.assertIn('if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();', page)
         self.assertIn("robots: { index: false, follow: false }", page)
         self.assertNotIn("/reports", open(os.path.join(SITE, "lib", "pages.ts"), encoding="utf-8").read())
         self.assertNotIn(chr(0x2014), page)

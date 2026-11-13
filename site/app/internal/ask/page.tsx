@@ -9,8 +9,8 @@ import { rpc } from "@/lib/supabase";
 import { readLimits, readSalt } from "@/lib/chat/limits";
 
 // Session 128: what the question-answering tools spend, by day, against their ceilings. Internal: no nav link, not
-// indexed, and gated by a token exactly as /internal/costs is: /internal/ask?token=<INTERNAL_COSTS_TOKEN>. The page
-// answers 404 unless the token equals the server's, and the database answers nothing unless it equals the secret
+// indexed, and behind the internal view exactly as /internal/costs is: the page answers 404 unless the browser holds
+// the internal cookie (session 5157), and the database answers nothing unless the server's token equals the secret
 // apply.py wrote (migration 023, internal_ask_spend). Rows: site_api_calls, the site's own model calls.
 export const metadata: Metadata = { title: "Ask: spend (internal)", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -21,13 +21,11 @@ type Spend = { today: string; days: Day[]; costliest: { day: string; step: strin
 const usd = (v: number) => v.toFixed(4);
 const STEP: Record<string, string> = { site_ask: "The general chat", site_ask_ercot: "Ask ERCOT" };
 
-export default async function AskSpend({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const token = typeof sp.token === "string" ? sp.token : "";
+export default async function AskSpend() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  // session 177: the internal view's cookie opens the page as well, so the token need not travel in an address
-  // (/internal/open). The old address, with ?token=, works as it did.
-  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
+  // session 177: the internal view's cookie opens the page, so the token need not travel in an address (/internal/open).
+  // session 5157 (docs/security.md, H1 and L5): the cookie alone opens it; a token in the address opens nothing.
+  if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   let s: Spend;
   try {

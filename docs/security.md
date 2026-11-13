@@ -23,7 +23,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 
 | # | Item | State | Commit or proof |
 |---|---|---|---|
-| H1 | The internal token travels in addresses | **open: Samuel** (the old link's retirement and the token's rotation); the scripts' part closed | session 301 (`52174f26`): every check script opens the internal view by the form; S2 below closes the five pages that still needed the token |
+| H1 | The internal token travels in addresses | the link's retirement **closed by session 5157** (on the day this branch lands); **open: Samuel** for the token's rotation | session 301 (`52174f26`): every check script opens the internal view by the form; S2 below closes the five pages that still needed the token; session 5157: `GET /internal/unlock` answers 404 whatever its address carries, and no page, route or link of the site reads or writes a token in an address (`tests/test_session5157.py`) |
 | H2 | Next.js advisories | closed | session 177: `next` and `eslint-config-next` 16.3.8; `npm audit` of 20 October: no advisory on `next` (above) |
 | H3 | The anon key could write the cost ledger | closed | site side session 301 (`52174f26`); migration 034 applied (catalog read of 20 October above). One look remains for Samuel: item 3 below |
 | M1 | The same for the game's tables, the subscribers and the question counter | closed | with H3 |
@@ -38,7 +38,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 | L2 | Same-origin on the internal routes | closed | session 177 |
 | L3 | `/terms` on the address | closed | session 177 |
 | L4 | The internal cookie is a fixed digest for 90 days | **open: Samuel** | item 6 below |
-| L5 | The old link compares the token with `!==` | **open: Samuel**, with H1 | goes with the link's retirement (H1): the link's code is pinned word for word by `tests/test_session177.py` until then. The pages' `?token=` checks (`token !== want`) go with it |
+| L5 | The old link compares the token with `!==` | **closed by session 5157**, with the link's retirement (H1) | the link's comparison, the pages' `token !== want` and the finder's `token === want` are gone; the token is compared in one place, the form's door, in constant time (`sameSecret`), and as a digest by the cookie (`cookieOpens`). `tests/test_session5157.py` fails on a plain comparison of the token anywhere in the site |
 | L6 | The anon key's `UPDATE` on four sequences | closed | migration 034, applied (catalog read above) |
 | L7 | `search_path = public` on the lock and scheduler functions | **open: Samuel** | item 7 below |
 | L8 | Sign-ups enabled in Supabase Auth | **open: Samuel** | item 8 below |
@@ -54,7 +54,7 @@ Every read below is a read: nothing was written to the database, to Supabase Aut
 
 ## What needs Samuel, with the choice
 
-1. **H1, the old link.** Use `/internal/open` once on production. If it opens the internal view: (a) retire the GET of `site/app/internal/unlock/route.ts` and the `token !== want` branches of `/internal/costs`, `/internal/ask`, `/internal/usage`, the two drafts and the severance pages (a session's work once you say so; L5 goes with it), or (b) keep the link until the review phase ends. Nothing in the site or its checks needs the link any more (S2).
+1. **H1, the old link. Done by session 5157 (choice (a)), on the day its branch `wip/5157-retire-link` lands; what follows is the choice as it stood.** Use `/internal/open` once on production. If it opens the internal view: (a) retire the GET of `site/app/internal/unlock/route.ts` and the `token !== want` branches of `/internal/costs`, `/internal/ask`, `/internal/usage`, the two drafts and the severance pages (a session's work once you say so; L5 goes with it), or (b) keep the link until the review phase ends. Nothing in the site or its checks needs the link any more (S2).
 2. **H1, the rotation.** After (a): a new `INTERNAL_COSTS_TOKEN` in Vercel, `.env`, `site/.env.local`, and `erw_private.settings` (the one statement of `apply.py`, by hand; the full run stops at migration 014). Every reviewer unlocks again. Choice: rotate now, or after the link is retired (the review's order).
 3. **H3, one look.** Migration 034 is in the database, so the site's writes (the cost ledger, the game, the sign-up, the question counter) succeed only with `SUPABASE_SERVICE_KEY` in the Vercel project's environment. Look that the key is there (Vercel, the project, Settings, Environment Variables; server side, no `NEXT_PUBLIC_`). A read cannot prove it: the newest rows are a game play on 14 October and a subscriber on 14 October, and the ledger's newest row (20 October 04:30 UTC) may be a scheduled job's.
 4. **M6, the default privileges.** Choice: (a) a migration with the review's three `alter default privileges ... revoke` statements (for role `postgres`; the catalog shows the same defaults for `supabase_admin`, which the review's statements do not cover), after which every new table, sequence and function needs its own grant (a missing grant fails closed and is seen at once); or (b) keep relying on the `ensure_rls` event trigger, migration 028's sweep and `verify_rls.py --catalog`, as today.

@@ -9,7 +9,7 @@ import { internalOk } from "@/lib/thesis/server";
 
 // Session 177: how the site's tools are used, as counts (docs/methods/usage_counts.md). Internal: no nav link, not
 // indexed, and behind the internal view exactly as /internal/costs is: the page answers 404 unless the browser holds
-// the internal cookie (or the address carries ?token=<INTERNAL_COSTS_TOKEN>, as the older internal pages take it), and
+// the internal cookie (the cookie alone since session 5157: a token in the address opens nothing), and
 // the database answers nothing unless the token equals the secret apply.py wrote (internal_usage, migration 028).
 // What comes back is counts: no hash, no address. A line of "*" is a total over that column.
 export const metadata: Metadata = { title: "Usage (internal)", robots: { index: false, follow: false } };
@@ -61,11 +61,10 @@ function Counts({ rows, label, visitors }: { rows: ReturnType<typeof by>; label:
   );
 }
 
-export default async function UsagePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const sp = await searchParams;
-  const token = typeof sp.token === "string" ? sp.token : "";
+export default async function UsagePage() {
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
+  // session 5157 (docs/security.md, H1 and L5): the cookie alone opens it; a token in the address opens nothing.
+  if (want.length < 24 || !(await internalOk((await cookies()).get(COOKIE)?.value))) notFound();
 
   let u: Usage;
   try {
