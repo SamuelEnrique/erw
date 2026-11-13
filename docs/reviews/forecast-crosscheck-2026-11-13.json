@@ -244,6 +244,136 @@
      "ratio": 0.6857433333333333
     }
    ]
+  },
+  {
+   "id": "wyoming_gas",
+   "title": "Estimated Economic Development Impacts from New Generation and Transmission in Wyoming and Colorado, NREL/TP-6A20-57411 (Lantz, Tegen and others, March 2013): the 225 MW gas plant, Wyoming's share",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57411.pdf",
+   "request": 107,
+   "method": "JEDI Natural Gas with IMPLAN 2008 state multipliers and the Wyoming Infrastructure Authority's local shares (24 percent of construction and 39 percent of O&M spending in Wyoming, Table C3); jobs averaged over a three-year build (the cumulative figure is three times the average); dollar year not stated, taken as 2012",
+   "inputs": {
+    "tech": "natural_gas",
+    "state": "wy",
+    "mw": 225,
+    "capex_2025_usd_per_kw": 1721.6255020367664,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Table 6 (annual average over three years, Wyoming, gas): project development and onsite labor 103, turbine, power generation and equipment supply chain 47, induced 40, total 191; Table 7 (Wyoming, gas): onsite 11, supply chain 16, induced 9, total 36; Table 2: Wyoming sales/use tax revenue, gas, $10,200 thousand (6 percent on capital goods and materials)",
+   "cost_words": "Table 1: installed cost $280 million; a natural gas-fired generation facility with a nameplate capacity of 225 MW",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 573,
+     "model": 551.4398124447497,
+     "ratio": 0.9623731456278354
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 309,
+     "model": 234.48194613754615,
+     "ratio": 0.7588412496360717
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 141,
+     "model": 216.82170775341285,
+     "ratio": 1.537742608180233
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 120,
+     "model": 100.13615855379065,
+     "ratio": 0.8344679879482554
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 36,
+     "model": 30.91005,
+     "ratio": 0.8586125
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 11,
+     "model": 11.3958,
+     "ratio": 1.0359818181818181
+    },
+    {
+     "figure": "sales:total",
+     "published": 10200000,
+     "model": 9143971.144,
+     "ratio": 0.8964677592156862
+    }
+   ]
+  },
+  {
+   "id": "wyoming_wind",
+   "title": "The same study: the 900 MW wind plant, Wyoming's share (turbines made in Colorado)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57411.pdf",
+   "request": 107,
+   "method": "JEDI Wind with IMPLAN 2008 multipliers; turbines, blades and nacelles from Colorado (0 percent of turbine spending in Wyoming, 18 percent of all construction spending, Table C1); a 48.5 percent capacity factor for the generation tax; dollar year taken as 2012",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "wy",
+    "mw": 900,
+    "capex_2025_usd_per_kw": 2075.173596205031,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Table 6 (Wyoming, wind): onsite 151, supply chain 569, induced 112, total 832 a year over three years; Table 7 (Wyoming, wind): onsite 41, supply chain 121, induced 55, total 217; Table 2: Wyoming sales/use tax, wind, $74,200 thousand; Table 3: generation tax, wind, $3,800 thousand a year (the $1/MWh tax at a 48.5 percent net capacity factor)",
+   "cost_words": "Table 1: installed cost $1,350 million; a 900-MW wind power plant",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2496,
+     "model": 2573.537437304881,
+     "ratio": 1.0310646784074042
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 453,
+     "model": 476.2058108824144,
+     "ratio": 1.0512269555903189
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1707,
+     "model": 1647.9265889542185,
+     "ratio": 0.9653934323106143
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 336,
+     "model": 449.4050374682482,
+     "ratio": 1.3375149924650245
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 217,
+     "model": 151.083,
+     "ratio": 0.6962350230414747
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 41,
+     "model": 40.7997,
+     "ratio": 0.9951146341463415
+    },
+    {
+     "figure": "sales:total",
+     "published": 74200000,
+     "model": 59615054.73000001,
+     "ratio": 0.803437395283019
+    },
+    {
+     "figure": "property:year4",
+     "published": 3800000,
+     "model": 3823740,
+     "ratio": 1.0062473684210527
+    }
+   ]
   }
  ]
 }

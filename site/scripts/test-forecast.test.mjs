@@ -222,6 +222,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "fl"), own: 1, ownyears: 30 }, { ...F.defaults(P, "land_based_wind", "fl"), own: 1.2, ownyears: 25, start: 2030 }],
     [{ ...F.defaults(P, "utility_pv", "nc"), own: 0.7, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "vt"), own: 1.4, ownyears: 25 }],
     [{ ...F.defaults(P, "utility_pv", "mi"), iaval: true }, { ...F.defaults(P, "utility_pv", "mi"), iaval: true, optrate: 2000, life: 30 }],
+    [{ ...F.defaults(P, "utility_pv", "nv"), iaval: true, own: 1.1, ownyears: 30 }, { ...F.defaults(P, "geothermal", "nv"), iaval: true, own: 1.1, ownyears: 30 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -402,4 +403,14 @@ test("Wisconsin's payments to the municipality and county, USD 5,000 per MW a ye
   near(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "wi"), mw: 50 }, 30).tax, 250000, 1e-12, "every operating year");
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "wi"), mw: 0.5 }, 0).tax, null, "under 1 MW: no rule held");
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "wi"), mw: 500 }, 0).tax, null, "gas: no rule held");
+});
+
+test("Nevada's abatement: off by default; where approved 55 percent off the reader's own rate for 20 years from the first construction year", () => {
+  const nv = { ...F.defaults(P, "utility_pv", "nv"), mw: 100, capex: 1500, start: 2027, build: 1, own: 1, ownyears: 30 };
+  near(F.propertyTax(P, nv, 0).tax, 150e6 * 0.01, 1e-12, "off: the whole rate");
+  const on = { ...nv, iaval: true };
+  near(F.propertyTax(P, on, 0).tax, 150e6 * 0.45 * 0.01);
+  near(F.propertyTax(P, on, 18).tax, 150e6 * (1 - 18 / 30) * 0.45 * 0.01, 1e-12, "the 20th year from 2027");
+  near(F.propertyTax(P, on, 19).tax, 150e6 * (1 - 19 / 30) * 0.01, 1e-12, "after the 20 years");
+  assert.equal(F.propertyTax(P, { ...on, own: null }, 0).tax, null, "no rate, no figure");
 });

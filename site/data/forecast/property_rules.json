@@ -133,6 +133,12 @@
    "url": "https://docs.legis.wisconsin.gov/document/statutes/70.112",
    "read": "2026-11-13",
    "request": 103
+  },
+  "nv_701a": {
+   "title": "Nevada Revised Statutes chapter 701A, Energy-related tax incentives (NRS 701A.360 to 701A.370, partial abatement for renewable energy facilities)",
+   "url": "https://www.leg.state.nv.us/NRS/NRS-701A.html",
+   "read": "2026-11-13",
+   "request": 105
   }
  },
  "states": {
@@ -520,6 +526,27 @@
      "cite2": "wi_70_112",
      "quote2": "70.112(4)(a) All special property assessed under ss. 76.01 to 76.26 and property of any light, heat, and power company taxed under s. 76.28, car line company, and electric cooperative association that is used and useful in the operation of the business of such company or association.",
      "not_modeled": "Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); \"baseload\" is not read, so no gas rule is held."
+    }
+   ]
+  },
+  "nv": {
+   "name": "Nevada",
+   "rules": [
+    {
+     "id": "nv_renewable_abatement",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind",
+      "geothermal"
+     ],
+     "kind": "own_exempt",
+     "exempt_share": 0.55,
+     "years": 20,
+     "requires": "option",
+     "cite": "nv_701a",
+     "quote": "NRS 701A.370 1. If the Director approves an application for a partial abatement pursuant to NRS 701A.300 to 701A.390, inclusive, of: (a) Property taxes imposed pursuant to chapter 361 of NRS, the partial abatement must: (1) Be for a duration of the 20 fiscal years immediately following the date of approval of the application; (2) Be equal to 55 percent of the taxes on real and personal property payable by the facility each year; and (3) Not apply during any period in which the facility is receiving another abatement or exemption from property taxes imposed pursuant to chapter 361 of NRS, other than any partial abatement provided pursuant to NRS 361.4722.",
+     "quote2": "NRS 701A.365 (the version effective through June 30, 2032) 2. [...] If the board of county commissioners does not approve or deny the application within 30 days after the board receives from the Director a copy of the application, the application shall be deemed approved.",
+     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled."
     }
    ]
   }
