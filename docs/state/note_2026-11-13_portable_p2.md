@@ -76,6 +76,12 @@ These tests are on `main` (or will be, with landing rows 23 and 27). Each fails 
 
 One that does not fail any more: marking `site/app/cost-of-power/battery/read.ts` `server-only` (row 26) passes since session 5186; the copy of the test on `main` until this window's next landing still fails on it, so land that line after landing row 27's newest head.
 
+## What is left undone (session 5188, the last of chain 259)
+
+- **The scan of the whole git history did not finish.** Started at 19:37 UTC, it read for 93 minutes; Claude Code stopped it at about 21:10 UTC because the machine was critically short of memory (0.9 GB free, three windows). It wrote no result. It was not started again. The tree as it stands is clean (15,264 files, session 5161); the last full scan of the history is session 177's of 10 October. It wants a machine with memory to spare (the desktop): `python scripts/scan_git_secrets.py --repo . --out runs/<session>/git_secrets.csv --env .env`, more than 90 minutes.
+- **Row 27 of the list is fixed and not live**: the policy's `connect-src` is in landing row 27 (`wip/5166-security`), at the desk. When it lands: the row becomes closed in the list, and one GET of `/` on production should show `connect-src 'self' https://<the project>.supabase.co` and not `https://*.supabase.co`.
+- **This window's range of session numbers (5100 to 5199) is used up to 5188 and no chain file waits.** A further chain needs a new range from Samuel.
+
 ## For the next session of this window
 
 - Chain 234's design and browser tools are on this laptop at the user level (session 5100's report). No run of them was needed by a chain that does not build.
