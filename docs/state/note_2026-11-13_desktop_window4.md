@@ -27,7 +27,7 @@ Energy Research Warehouse (ERW). Sessions 4200 to 4229, 4248 and 4249, about 10:
 ## Sources missing, refused or paid
 
 - **BLS** (QCEW, CPI): www.bls.gov and api.bls.gov refuse automated reads. **BEA's own tables**: its flat files are disallowed by robots and its API needs a key (the GDP deflator is read through EIA's STEO instead).
-- **Statutes not readable**: Illinois (www.ilga.gov failed certificate verification; not bypassed), Ohio (codes.ohio.gov disallows all paths), Texas (statutes.capitol.texas.gov builds its pages by script), Wyoming (only third-party copies found).
+- **Statutes not readable**: Illinois (www.ilga.gov answers "Access Denied" to automated reads, its certificate valid), Ohio (codes.ohio.gov disallows all paths), Texas (statutes.capitol.texas.gov builds its pages by script), Wyoming (only third-party copies found).
 - **The Lincoln Institute's 50-state property tax study** (effective rates on industrial property): its host disallows automated reads.
 - **County levies**: none held in any state (data request row 5 asks window A for Texas's rates by taxing unit).
 - **Tax Foundation's tables** are CC BY-NC 4.0: may be public as the ERW is today, need permission if the ERW sells anything.
