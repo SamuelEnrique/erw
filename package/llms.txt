@@ -775,7 +775,7 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-13T11:58:26Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-13T10:38:48Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-13T12:29:48Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-13T10:38:48Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
 648 tables: 479 public, 169 held. Spans and rows move daily: erw.coverage() gives today's.
 
@@ -1455,7 +1455,7 @@ The tools' pages, Economics:
 - /supply (Supply and trade): Is the market tighter or looser than last week, last year and normal for the season: gas storage, crude and product stocks, production, refining, trade, fuel burned for power and positioning, each against its five-year range.
 - /contracts (Power contracts): Where bilateral power contracts are being signed: seller, buyer, product, term, price as filed and delivery point, by the quarter of signing, from the contracts sellers file with FERC.
 - /severance (Severance tax): State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited; and, on the Lease tab, the same calculator for every well and month of a lease file, computed in the browser: nothing is sent.
-- /impact (Economic impact): How many jobs, how much in wages and output a wind, solar, gas or geothermal plant brings to the state it is built in, while it is built and each year it runs, from NLR's JEDI models read for every state; and what the ERW holds of the state's taxes on it.
+- /impact (Local impact): Jobs, earnings and state and local taxes of a wind, solar, gas or geothermal plant, year by year from its construction to the end of its operation, with their present value: two scenarios side by side.
 
 The tools' pages, Infrastructure Economics:
 - /cost-of-power/battery (What a battery earns): What a grid battery of your size and duration earned in ERCOT and CAISO from energy and ancillary services together, by year and by stream, and whether it covers its debt, with and without a contract.
