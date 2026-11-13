@@ -15,6 +15,8 @@ own process whose exit code is read (never piped), and writes one line a step:
         --lock-as WHO         the build lock's holder name (default land-<sha8>); a lock already held by WHO is used
                               and left held, so a session holding it under its own name passes that name
         --keep-worktree       leave the clean worktree in place at the end (default: removed; it holds no branch)
+        --suite-batch N       the suite at most N modules a process (session 4000); 0 one process; default: 40 on a
+                              machine with under 12 GB of memory, else one process
 
 The steps, in order:
 
@@ -27,6 +29,9 @@ The steps, in order:
     build_lock      python scripts/buildlock.py acquire <who> (it waits); released at the end whatever happened
     worktree        git worktree add --detach <main>-land-<sha8> <sha>: a clean copy, no warehouse/output, no .env
     suite           python -m unittest discover -s tests in the clean copy, ERW_LOCK_EXEMPT=1, with every key
+                    (session 4000: on a machine with under 12 GB, or with --suite-batch N, the same tests through
+                    scripts/suite_batches.py, at most N modules a process, so an 8 GB laptop can run the gate;
+                    --suite-batch 0 is always one process)
                     (Supabase, Anthropic, tokens, secrets) taken out of its environment, as on GitHub's runner
     npm_ci          npm ci in the clean copy's site/, after site/.env.local is copied in (never printed)
     build           npm run build, stopped after --build-min minutes; a log holding "statement timeout" is built once
@@ -76,6 +81,9 @@ STEPS = ["freeze", "main_merged", "task_branches", "db_probe", "build_lock", "wo
 CHECK_VALUES_TRIES = 3
 STALE_TASK_HOURS = 48   # session 589: a task/ branch quiet this long is left over, not in flight
 SUITE_MIN = 60
+# session 4000 (roadmap item 1): below this much memory the suite runs in batches of AUTO_BATCH modules a process
+SUITE_BATCH_BELOW_MB = 12 * 1024
+AUTO_BATCH = 40
 NPM_CI_MIN = 20
 CHECK_MIN = 45
 # Session 408's list: the ten pages whose figures the license holds of 21 October replace with "license needed", so
@@ -123,6 +131,17 @@ class Ops:
                 os.killpg(pid, signal.SIGKILL)
             except OSError:
                 pass
+
+    def total_mb(self):
+        """This machine's physical memory in MB (0 when it cannot be read): scripts/suite_batches.py's reading."""
+        sys.path.insert(0, HERE)
+        try:
+            import suite_batches
+            return suite_batches.total_mb()
+        except Exception:
+            return 0
+        finally:
+            sys.path.remove(HERE)
 
     def output(self, argv, cwd):
         """A short git command's (exit code, stdout)."""
@@ -378,14 +397,32 @@ class Gate:
             return "pass", c, self.wt
         return "fail", c, "git worktree add failed"
 
+    def suite_batch(self):
+        """Session 4000: modules a process for the suite, 0 for one process. --suite-batch decides when given; else a
+        machine with under SUITE_BATCH_BELOW_MB of memory runs batches of AUTO_BATCH (an Ops that cannot say, 0)."""
+        given = getattr(self.a, "suite_batch", None)
+        if given is not None:
+            return max(0, given)
+        mb = getattr(self.ops, "total_mb", lambda: 0)()
+        return AUTO_BATCH if 0 < mb < SUITE_BATCH_BELOW_MB else 0
+
     def s_suite(self):
         self.beat()
-        c = self.run("suite", [self.py, "-m", "unittest", "discover", "-s", "tests"], self.wt,
-                     env=suite_env(os.environ), timeout=SUITE_MIN * 60)
+        n = self.suite_batch()
+        runner = os.path.join(self.root, "scripts", "suite_batches.py")
+        if n and self.ops.exists(runner):
+            argv = [self.py, runner, "--batch", str(n)]
+            alone = os.path.join(self.root, "scripts", "suite_alone.txt")
+            if self.ops.exists(alone):
+                argv += ["--alone", alone]
+        else:
+            n, argv = 0, [self.py, "-m", "unittest", "discover", "-s", "tests"]
+        c = self.run("suite", argv, self.wt, env=suite_env(os.environ), timeout=SUITE_MIN * 60)
         if c is None:
             return "fail", None, f"stopped after {SUITE_MIN} minutes"
         tail = [x for x in self.ops.read(self.log("suite")).splitlines() if x.startswith(("Ran ", "OK", "FAILED"))]
-        return ("pass" if c == 0 else "fail"), c, "; ".join(tail[-2:])
+        how = f"; in batches of {n} modules (scripts/suite_batches.py)" if n else ""
+        return ("pass" if c == 0 else "fail"), c, "; ".join(tail[-2:]) + how
 
     def s_ask_replay(self):
         script = os.path.join(self.wt, "warehouse", "chat", "eval", "replay.py")
@@ -574,6 +611,9 @@ def parse(argv=None):
     ap.add_argument("--lock-as", default=None)
     ap.add_argument("--worktree", default=None)
     ap.add_argument("--keep-worktree", action="store_true")
+    ap.add_argument("--suite-batch", type=int, default=None,
+                    help="modules a process for the suite (scripts/suite_batches.py); 0 one process; default: "
+                         f"{AUTO_BATCH} on a machine with under {SUITE_BATCH_BELOW_MB // 1024} GB, else one process")
     return ap.parse_args(argv)
 
 
