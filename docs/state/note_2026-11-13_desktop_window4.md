@@ -1,6 +1,6 @@
 # Note: lab-desktop window 4, 13 November 2026 (chain 239, the forecast tool, Local impact)
 
-Energy Research Warehouse (ERW). Sessions 4200 to 4227 so far, from about 10:00 UTC. Model spend USD 0. Reports: `archive/sessions/SESSION_4200_REPORT.md` to `SESSION_4225_4226_REPORT.md`. Faults: `docs/reviews/forecast-faults-2026-11-13.md`. Method (internal, never on the page): `docs/methods/forecast.md`.
+Energy Research Warehouse (ERW). Sessions 4200 to 4229, 4248 and 4249, about 10:00 to 13:45 UTC (the plan's work was done by session 4229; 4230 to 4247 were not needed). Model spend USD 0. Reports: `archive/sessions/SESSION_4200_REPORT.md` to `SESSION_4248_4249_REPORT.md`. Faults: `docs/reviews/forecast-faults-2026-11-13.md`. Method (internal, never on the page): `docs/methods/forecast.md`.
 
 ## What the tool does
 
@@ -15,13 +15,14 @@ Energy Research Warehouse (ERW). Sessions 4200 to 4227 so far, from about 10:00 
 - **Jayhawk Wind, Kansas** (2019 study): the model gives 0.82 of its construction jobs (supply chain 0.96, induced 1.07, onsite 0.40: the developer's own in-state spending) and 0.79 of its operating jobs.
 - **Ohio utility solar** (Ohio University, 2020): 1.10 of its construction jobs, 1.16 of its direct jobs, but 3.5 times its operating jobs: JEDI's 2010 PV operating costs. The page's "operating spending" input lets a reader correct it.
 - **Glendive Wind, Montana** (NextEra's summary of a 2024 study): its "approx. 400" construction jobs sit nearer the model's onsite figure (272) than its total (1,730); the summary does not say which it counts.
-- check-values: every figure on the four `/impact` addresses matches its recomputation (78 of 78 at the last read).
+- **A tax check**: Minnesota's 2024 wind production tax in Lincoln County, USD 1.189 per MWh, is the statute's USD 1.20 within 1 percent; the state's fleet implies a capacity factor near 0.31 against the tool's new-plant default 0.42 (an input).
+- check-values: every figure on the four `/impact` addresses, the tables by year included, matches its recomputation (633 of 633 at the last read, 13:38 UTC).
 
 ## What waits in which landing row (`docs/state/landing_request_desktop_w4.md`, on main)
 
 - **Row 1** `wip/4200-forecast` at `1a1008073`: the tool, its model, parameters, tests, check-values and menu.
 - **Row 2** `wip/4220-forecast` at `52dc1001a`: the three readers' additions, Kansas, faults 14 and 15. Holds row 1.
-- **Row 3** `wip/4225-forecast` at `b485a6eee` (fault 17's fix after it, to be read on a build): Oregon, fault 16. Holds rows 1 and 2. Landing row 3 lands all three.
+- **Row 3** `wip/4225-forecast` at `925e9e481`: Oregon, faults 16 to 18. Holds rows 1 and 2. Landing row 3 lands all three. Later commits on it are reports and notes only.
 
 ## Sources missing, refused or paid
 
