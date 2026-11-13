@@ -1,0 +1,32 @@
+# Session 3847 (chain 221): read from the New York Department of Public Service's Electronic Tariff System
+# (ets.dps.ny.gov), the Commission's own copy of the filed tariff, not the utility's site (www.nyseg.com reset the
+# connection at its robots file, session 2937, and is not asked again). Robots and terms as in
+# niagara_mohawk_sc3a_over_60kv.yaml (session 3846): no robots file on the tariff host, and the DPS's Disclaimer sets no
+# condition on reuse. The system served the whole effective PSC No. 120 as one PDF (657 pages, 47,338,008 bytes, sha256
+# 2520f1675c998cdb...), kept on this machine at runs/license_reads/s3847/nyseg_psc120.pdf. Pages are the PDF's, each one
+# leaf. The document_url is the system's listing of PSC No. 120's effective leaves; the PDF's own address there is a
+# per-request token. NYSEG is EIA utility 13511, the utility with the most industrial sales among those billing in the
+# county of the tab's DUNWOD and MILLWD rows. S.C. 7-4 is the class's transmission voltage (115,000 volts and above,
+# Leaf 211), the one a 100 MW load connects at. The delivery demand charge is printed as one figure ("On-Peak Service"),
+# so it is written as demand_charge. Supply is the customer's choice of an ESCO or NYSEG's market-priced service, so no
+# energy charge is written; the Non-Bypassable and RAM charges are on statements, not this leaf, and are not written.
+# The customer charge is printed "$ 5,900 .00" in the PDF's text layer; the figure is $5,900.00.
+utility: New York State Electric & Gas Corporation (NYSEG)
+eia_id: 13511
+state: NY
+grid: NYISO
+sector: customers with a billing demand of 500 kW or more (Service Classification No. 7)
+schedule: Service Classification No. 7, Large General Service with Time-of-Use Metering, S.C. 7-4 Transmission
+tariff_sheet: PSC No. 120 Electricity, Leaf No. 215, Revision 31 (S.C. 7-4 charges); Leaf No. 211, Revision 1 (applicability and voltages)
+effective: 2026-06-01
+voltage: {text: "Transmission Service at 115,000 Volts and above.", page: 461}
+commission: New York State Public Service Commission
+docket: Case 25-E-0375 (Leaf 215, issued in compliance with the Order of 14 May 2026)
+document: New York State Electric & Gas Corporation, PSC No. 120 Electricity, the effective tariff as served by the Department of Public Service's Electronic Tariff System
+document_url: https://ets.dps.ny.gov/ets_web/search/searchShortcutEffective.cfm?companyID=3569018&serviceType=ELECTRIC&psc_num=120
+retrieved_at: 2026-11-13T05:41:14Z
+license: public
+figures:
+  - {variable: min_demand_mw, value: 0.5, printed: "for any customer with a billing demand equal to or greater than 500 KW during any two of the previous twelve months", page: 461}
+  - {variable: fixed_charge, value: 5900, printed: "S.C. 7-4 TRANSMISSION ... Customer Charge $ 5,900 .00", page: 465}
+  - {variable: demand_charge, value: 2.07, printed: "Demand Charge On-Peak Service $2.07", page: 465}
