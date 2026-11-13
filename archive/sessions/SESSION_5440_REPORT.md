@@ -1,6 +1,6 @@
 # Session 5440 report: chain 262, the ground: rows 24 and 25 landed in part
 
-Energy Research Warehouse (ERW). Chain 262 (`queue/done/262-day-18-november-portable-p1-five-tools-continued.md`), portable laptop window P1, 13 November 2026, about 21:30 to 21:40 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read`.
+Energy Research Warehouse (ERW). Chain 262 (`queue/done/262-day-18-november-portable-p1-five-tools-continued.md`), portable laptop window P1, 13 November 2026, about 21:29 to 21:36 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-read`.
 
 - Taken by name; `chain_queue.py next --file` refused the window's mark (exit 2); the move made by hand (`862a378c3`).
 - Precheck passed (exit 0). Memory 0.5 GB free.
