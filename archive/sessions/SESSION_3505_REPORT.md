@@ -15,3 +15,8 @@ Energy Research Warehouse (ERW). Chain 260 (`queue/done/260-day-23-november-oldl
 - **3506, the stored W46 Roundup:** not written (Sunday 15 November, 23:00 UTC). Skipped.
 - **3507, the red branch and the 16 November Digest:** not landed; not written (Monday). Skipped.
 - **3508, row 11's clean-up:** row 11 has landed only in part. Skipped.
+
+## Session 3509: a wider regression run; the page read waits on memory
+
+- Every test file naming the news, email, chart, digest, roundup or topics code (88 files, `runs/s3509_wide.txt`), on the stack at `f2ebae979`: 1,610 passed, 30 skipped, 0 failed. Row 11's tests cell says so.
+- The built pages (`/digest`, `/roundup` at 1280 and 390, chain 228's mandate) need a build in `erw-3457` with MemFree at 2.5 GB or more. MemFree sits near 2.1 GB, and a bounded wait runs.
