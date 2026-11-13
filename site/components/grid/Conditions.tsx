@@ -10,6 +10,7 @@ import { count } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
+import { zoneWords } from "@/lib/gridtool";  // session 5403: MISO's hours named "EST", not "GMT-5"
 
 // Session 237: this file holds what app/grid/page.tsx ("Grid conditions", sessions 15 to 118) drew. The Grid tool is the
 // page at /grid now (lib/gridtool.ts); its Now view draws one region's block (GridYesterday) and its Mix view the table
@@ -49,7 +50,7 @@ const fuelOf = (variable: string) => {
 const H = 3_600_000;
 const iso = (t: number) => new Date(t).toISOString().replace(/\.\d{3}Z$/, "Z");
 const hhmm = (t: number, tz: string) =>
-  new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short" }).format(new Date(t));
+  zoneWords(new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short" }).format(new Date(t)), tz);
 
 /** Why a day of a table is not in it: the run history's gap or failure for it, else that no run has loaded it. */
 function reason(table: string, dayStr: string): string {

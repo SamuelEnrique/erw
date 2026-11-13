@@ -39,9 +39,25 @@ def rel(path):
 
 
 def code(text):
-    """The text without its comments (a comment may name what the code must not do)."""
-    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-    return "\n".join(re.sub(r"(^|\s)//.*$", "", line) for line in text.splitlines())
+    """The text without its comments (a comment may name what the code must not do). Session 5169: line by line. A
+    comment of several lines is one whose first line BEGINS with its opening mark; until then every "/*" up to the next
+    "*/" was taken out wherever it stood, and a slash and a star inside a string (an address like "/:path*" beside
+    another) took real code out with it: 1,500 characters of site/next.config.ts, 2,900 of components/svgchart.tsx and
+    280 of lib/thesis/server.ts were never read. Read now, they hold nothing the tests forbid."""
+    out, inside = [], False
+    for line in text.splitlines():
+        s = line.strip()
+        if inside:
+            inside = "*/" not in s
+            continue
+        if s.startswith(("/*", "{/*")):
+            if "*/" not in s:
+                inside = True
+                continue
+            line = line.split("*/", 1)[1]
+        line = re.sub(r"\{/\*.*?\*/\}", "", line)                 # a comment inside one line of markup
+        out.append(re.sub(r"(^|\s)//.*$", "", line))
+    return "\n".join(out)
 
 
 # The renderers of site/lib/markdown.ts and what is built on them: each escapes raw HTML and refuses an unsafe link.

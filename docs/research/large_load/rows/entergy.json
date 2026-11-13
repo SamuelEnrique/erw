@@ -1,0 +1,756 @@
+{
+ "group": "entergy",
+ "rows": [
+  {
+   "utility": "Entergy Louisiana, LLC",
+   "state": "LA",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "Docket U-37882: certification for Evest LLC (Meta) under the Lightning Directive, with Rider 1 to the Electric Service Agreement under Schedule LLHLFPS-L",
+   "source_url": "https://www.all4energy.org/wp-content/uploads/2026/08/2026-07-31-U-37882-AAE-UCS-Testimony-Exhibits-Edward-Burgess.pdf",
+   "source_title": "LPSC Docket No. U-37882, Direct Testimony and Exhibits of Edward Burgess, Public Version (31 July 2026), with ELL discovery responses as exhibits",
+   "quoted_clause": {
+    "page": "11",
+    "quote": "which establishes the customer-specific billing terms and Minimum Monthly Charges"
+   },
+   "docket": {
+    "value": "U-37882",
+    "cites": [
+     {
+      "url": "https://lpsc.louisiana.gov/docs/minutes/April_15_2026_Minutes.pdf",
+      "page": "6",
+      "quote": "I move that the Commission direct the Administrative Hearings Division to establish a procedural schedule in LPSC Docket No. U-37882",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-03-26",
+    "cites": [
+     {
+      "url": "https://lpsc.louisiana.gov/docs/minutes/April_15_2026_Minutes.pdf",
+      "page": "5",
+      "quote": "Entergy filed its request for certification of generation and transmission in this docket on March 26 pursuant to the Commission’s Lightning Directive.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://lpsc.louisiana.gov/docs/minutes/April_15_2026_Minutes.pdf",
+      "page": "6",
+      "quote": "provides for Commission consideration of the requested relief at the December 16, 2026 Business and Executive Session.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/entergy_louisiana_llhlfps_l.yaml",
+     "cites": [
+      {
+       "page": "11",
+       "quote": "Load High Load Factor Power Service Rate Schedule Rate Schedule LLHLFPS-L"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "ELL's application and witness Beauchamp's direct testimony (its Table 4) were not readable: the LPSC e-docket's document list answered HTTP 500. Only an intervenor's testimony states this term (see notes); not written as a value."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "ELL's application and witness Beauchamp's direct testimony (its Table 4) were not readable: the LPSC e-docket's document list answered HTTP 500. Only an intervenor's testimony states this term (see notes); not written as a value."
+    },
+    "collateral": {
+     "value": "Credit Default Security acquired no later than the service commencement date, initial term 3 to 5 years, then extended or replaced to keep continuous coverage (ELL's discovery response STAFF 1-92, reproduced as an exhibit); the other security instruments and amounts are not public",
+     "cites": [
+      {
+       "page": "103",
+       "quote": "ELL anticipates that the initial term for the CDS will range from 3 to 5 years"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "ELL's application and witness Beauchamp's direct testimony (its Table 4) were not readable: the LPSC e-docket's document list answered HTTP 500. Only an intervenor's testimony states this term (see notes); not written as a value."
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Burgess testimony and exhibits (128 pages) for load or engineering study durations; the LPSC procedural item (April 15, 2026 minutes) sets the Commission vote, not a load study"
+    },
+    "connection_timeline": {
+     "value": "service commencement expected in 2028 (ELL discovery response); the Commissioning Period dates are redacted",
+     "cites": [
+      {
+       "page": "103",
+       "quote": "The Credit Default Security (“CDS”) will be acquired no later than the service commencement date, which is expected in 2028."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "LPSC minutes of 17 December 2025, 25 February 2026, 15 April 2026; LPSC technical conference transcript of 7 May 2026; Entergy Corporation 8-K exhibit 99.1 of Q1 2026 on sec.gov (no pipeline figure in the release text). Entergy's investor pages and slides are on hosts this reader may not use (see refused)"
+    }
+   },
+   "license": "public",
+   "license_basis": "public version of testimony filed in LPSC Docket U-37882, the copy posted by the filing party (Alliance for Affordable Energy); status from the LPSC's own minutes",
+   "erw_overlap": "large_load_tariffs/entergy_louisiana_llhlfps_l.yaml: the customer takes service under LLHLFPS-L (held); this row adds the customer-specific ESA and Rider 1 terms proposed in U-37882. Window A's three Entergy files were read from entergylouisiana.com and entergytexas.com, which the Entergy Corporation Site Terms cover and which bar any robot, spider or scraper (see refused): a license basis for window A to check.",
+   "notes": "Values are the AAE/UCS witness's summary of ELL witness Beauchamp's Table 4 (Beauchamp Direct at 18-19, HSPM/AEO) and ELL's discovery response STAFF 1-92 reproduced as an exhibit (p. 103); ELL's own application and testimony were not found on a readable host (the LPSC e-docket's document list loads by a request that answered HTTP 500). The proposal is seven CCCTs of about 5.3 GW plus three BESS (Burgess p. 10). Burgess cites the application as dated March 25, 2026; the LPSC minutes say filed March 26 and Entergy's investor page says March 27. The Sierra Club's Glick testimony (sierraclub.org) was refused. News lead only: Entergy's Q3 2026 call reportedly cited a 7 to 12 GW data center pipeline company-wide (not read in a primary document). Secondhand, kept here and not written as values (session 5300, window A's rule for intervenor quotes): the AAE/UCS witness's summary of ELL's Table 4 (testimony p. 38): \"A 20-year initial term with 3-year non-renewal notice\", \"A minimum monthly charge intended to cover the full incremental cost to serve during the contract\", \"An early termination fee intended to pay all unrecovered costs\"; and (pp. 47 to 48) the Meta Guaranty and the Credit Default Security on a schedule in Appendix E of the ESA. The source is the intervenor's own posted copy of its LPSC filing, not the commission's host.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Entergy Louisiana, LLC",
+   "state": "LA",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "Docket U-37425: settlement customer protection conditions for the Laidley LLC (Meta) ESA served under Schedule LLHLFPS-L",
+   "source_url": "https://lpscpubvalence.lpsc.louisiana.gov/portal/PSC/ViewFile?fileId=dR%2FMp4tV%2FxU%3D",
+   "source_title": "LPSC Docket U-37425, notice of settlement with Exhibit A, Final Stipulated Settlement Term Sheet (Public Version)",
+   "quoted_clause": {
+    "page": "18",
+    "quote": "IV. Customer Protection Conditions A. The LPSC Staff and ELL acknowledge the following:"
+   },
+   "docket": {
+    "value": "U-37425",
+    "cites": [
+     {
+      "url": "https://lpsc.louisiana.gov/docs/minutes/August-20-2025-Minutes.pdf",
+      "page": "2",
+      "quote": "U-37425 - Entergy Louisiana, LLC, ex parte. In re: Application for approval of generation and transmission resources in connection with service to a single customer for a project in North Louisiana.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-08-20",
+    "cites": [
+     {
+      "url": "https://lpsc.louisiana.gov/docs/minutes/August-20-2025-Minutes.pdf",
+      "page": "3",
+      "quote": "the Commission voted to accept the Settlement Agreement filed into the record on August 7, 2025. The motion passed 4:1.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/entergy_louisiana_llhlfps_l.yaml",
+     "cites": [
+      {
+       "url": "https://ieefa.org/sites/default/files/2025-04/U-37425%20--%20Kunkel%20Direct%20Testimony%20%28as%20filed%29%20PUBLIC%20VERSION_0.pdf",
+       "page": "11",
+       "quote": "that sets the terms by which the data center will receive service under ELL’s Large Load High Load Factor Power Service (LLHLFPSL) rate schedule.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum Monthly Charges in the ESA, with a true-up the settlement requires ELL to implement prudently (amounts not public)",
+     "cites": [
+      {
+       "page": "19",
+       "quote": "2. ELL will prudently implement the true up of Minimum Monthly Charges for the Customer; and"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "The settlement term sheet (pp. 18 to 20) states no term, and the ESA was not filed for approval. Only an intervenor's testimony states the term as first filed (see notes); not written as a value."
+    },
+    "collateral": {
+     "value": "Parent Guaranty agreements and other collateral security, including Credit Insurance (amounts not public)",
+     "cites": [
+      {
+       "page": "19",
+       "quote": "3. ELL will ensure that all Parent Guaranty agreements are obtained and fully executed timely and prudently enforce its rights with respect to the Parent Guaranty agreements and other collateral security, including but not limited to the Credit"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Early Termination Fee (amount not public); ELL files for approval of its use after receipt",
+     "cites": [
+      {
+       "page": "19",
+       "quote": "2. In the event of early termination, following receipt of the Early Termination Fee, ELL will make a filing with the Commission for approval of the manner in which ELL proposes to utilize the Early Termination Fee."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "settlement term sheet pp. 1 to 40 (its 90-day study is of losing the customer's computing load after approval, not a connection study)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "settlement term sheet and monitoring plan pp. 1 to 40; Kunkel testimony (load and dates redacted)"
+    },
+    "queue_size": {
+     "value": "see row: Docket U-37882: certification for Evest LLC (Meta) under the Lightning Directive, with Rider 1 to the Electric Service Agreement under Schedule LLHLFPS-L"
+    }
+   },
+   "license": "public",
+   "license_basis": "the LPSC's e-docket copy of the settlement and the LPSC's minutes; contract term from the public version of intervenor testimony filed in U-37425 (IEEFA's posted copy)",
+   "erw_overlap": "large_load_tariffs/entergy_louisiana_llhlfps_l.yaml: the ESA takes service under LLHLFPS-L (held); this row adds the settlement's customer protections.",
+   "notes": "The settlement states that ELL did not seek approval of the ESA and Related Agreements (term sheet p. 18). Kunkel's 15-year term and minimum-charge description are of the ESA filed with the October 2024 application; the testimony says the ESA was being renegotiated after Laidley increased its load. The term sheet also records compliance with the Industrial Load Rule (Rule 3, General Order R-34860 of 29 July 2019). The same customer's parent (Meta) is behind Evest LLC in U-37882. Secondhand, kept here and not written as values (session 5300): IEEFA witness Kunkel's direct testimony (https://ieefa.org/sites/default/files/2025-04/U-37425%20--%20Kunkel%20Direct%20Testimony%20%28as%20filed%29%20PUBLIC%20VERSION_0.pdf copy, p. 11): \"The ESA is a 15-year agreement with up to three 5-year extensions (i.e. up to 30 years in total)\", and the minimum monthly charges described as designed to recover the annual revenue requirements of the new infrastructure.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Louisiana PSC jurisdictional electric utilities (Entergy Louisiana, LLC; Cleco Power LLC; others)",
+   "state": "LA",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "LPSC Lightning Amendment to General Order 10-14-2024 (R-34247): waiver of market-based procurement for capacity serving a new or expanding load with a qualifying ESA",
+   "source_url": "https://www.lpsc.louisiana.gov/docs/minutes/Dec_17_2025_Min.pdf",
+   "source_title": "Louisiana Public Service Commission, Minutes of December 17, 2025 B&E",
+   "quoted_clause": {
+    "page": "7",
+    "quote": "1. The requirements of General Order 10-14-2024 (R-34247) are considered waived for a proposed capacity addition where the following factors are demonstrated and proven in the certification proceeding:"
+   },
+   "docket": {
+    "value": "General Order 10-14-2024 (R-34247), amendment by directive",
+    "cites": [
+     {
+      "page": "7",
+      "quote": "1. The requirements of General Order 10-14-2024 (R-34247) are considered waived"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-12-17",
+    "cites": [
+     {
+      "page": "7",
+      "quote": "Commissioner Coussan made the above directive, with Chairman Francis, Vice Chairman Skrmetta, and Commissioner Campbell concurring, and Commission Lewis opposing. The directive passed 4:1."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "directive text, minutes pp. 6 to 7: no size threshold; it applies to a new or expanding load with a signed ESA"
+    },
+    "min_demand": {
+     "value": "the ESA must ensure fixed revenue over its term covering at least one-half of the fixed revenue requirement of the requested capacity",
+     "cites": [
+      {
+       "page": "7",
+       "quote": "e. The ESA ensures a level of fixed revenue over the term of the ESA that will cover at least one-half of the fixed revenue requirement associated with the requested capacity during the term of the customer ESA."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "ESA term of at least 15 years, with an option to renew",
+     "cites": [
+      {
+       "page": "7",
+       "quote": "d. The ESA has a term of at least 15 years, with an option to renew; and"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "directive text, minutes pp. 6 to 7"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "directive text, minutes pp. 6 to 7"
+    },
+    "study_timeline": {
+     "value": "regulatory review, not a load study: Commission vote targeted within 8 months of an application; the utility must contact the Executive Counsel at least 60 days before filing",
+     "cites": [
+      {
+       "page": "7",
+       "quote": "with the objective of the Commission being able to vote within 8 months of an application."
+      },
+      {
+       "page": "7",
+       "quote": "Any utility seeking to take advantage of this regulatory pathway shall communicate with the Executive Counsel at least 60 days prior to any filing made at the Commission."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "qualifying ESA requests an initial in-service date within five years of the certification application",
+     "cites": [
+      {
+       "page": "7",
+       "quote": "with a new or expanding load with a requested initial in-service date within five years of the certification application;"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "a statewide directive; no queue figure in the minutes"
+    }
+   },
+   "license": "public",
+   "license_basis": "the LPSC's own published minutes",
+   "erw_overlap": "",
+   "notes": "Statewide: applies to every LPSC-jurisdictional utility that seeks certification of capacity under it (Entergy Louisiana used it in U-37882; Cleco Power is LPSC-jurisdictional). Entergy New Orleans is regulated by the New Orleans City Council, not the LPSC. Commissioner Lewis's companion directive for a large-load rulemaking was deferred (minutes p. 8). Leads only, not verified in a primary document: an August 19, 2026 letter (Most & Associates for the Alliance for Affordable Energy) asked the LPSC to withdraw the directive, and a lawsuit against it was reported on November 9, 2026.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Louisiana PSC jurisdictional electric utilities (Entergy Louisiana, LLC; Cleco Power LLC; others)",
+   "state": "LA",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "LPSC Large Load Additions Non-Binding Guidelines (filings for a large load customer above 100 MW)",
+   "source_url": "https://lpsc.louisiana.gov/docs/general/Non-Binding_Guidelines_for_Potential_Large_Load_Customers.pdf",
+   "source_title": "Large Load Additions Non-Binding Guidelines (LPSC)",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "Large Load Additions Non-Binding Guidelines"
+   },
+   "docket": {
+    "value": "Undocketed directive; comment repository docket X-37921",
+    "cites": [
+     {
+      "url": "https://www.lpsc.louisiana.gov/docs/minutes/Feb_25_2026_Minutes.pdf",
+      "page": "6",
+      "quote": "Undocketed - Directive to Staff regarding non-binding guidelines related to large load customers.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://lpsc.louisiana.gov/docs/general/Undocketed-Technical-Conference-5-7-26.pdf",
+      "page": "3",
+      "quote": "filed is X-37921. That will be in the Bulletin tomorrow.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-02-25",
+    "cites": [
+     {
+      "url": "https://www.lpsc.louisiana.gov/docs/minutes/Feb_25_2026_Minutes.pdf",
+      "page": "6",
+      "quote": "As such, this Commission directs Staff to provide a copy of the guidelines to each jurisdictional electric utility, as well as post a copy on the Commission’s website",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "above 100 MW (a customer or group of related customers, per Staff)",
+     "cites": [
+      {
+       "url": "https://www.lpsc.louisiana.gov/docs/minutes/Feb_25_2026_Minutes.pdf",
+       "page": "6",
+       "quote": "In any filing concerning the addition of a large load customer (which Staff considers to be a customer, or group of related customers, in excess of 100 MW)",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "rates and financial terms to recover the full incremental revenue requirement of the generation, transmission and ancillary assets needed (no percent stated)",
+     "cites": [
+      {
+       "page": "2",
+       "quote": "Recover the full incremental revenue requirement of all generation and transmission and ancillary assets needed to serve the load"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "contract terms to align with asset lives (no years stated)",
+     "cites": [
+      {
+       "page": "2",
+       "quote": "Contract terms align with asset lives"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "adequate financial security, including corporate guarantees (no amount stated)",
+     "cites": [
+      {
+       "page": "2",
+       "quote": "Adequate financial security (including corporate guarantees) is in place to prevent"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "other customers not to be impacted by an early termination (no fee stated)",
+     "cites": [
+      {
+       "page": "2",
+       "quote": "Ensure that other customers will not be impacted from an early termination"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "guidelines pp. 1 to 4"
+    },
+    "connection_timeline": {
+     "value": "load ramp schedule with enforceable milestones; upgrade timelines consistent with the load ramp (no durations stated)",
+     "cites": [
+      {
+       "page": "3",
+       "quote": "The utility needs to demonstrate that the load ramp schedule: • Is coordinated with resource and transmission availability • Includes enforceable milestones"
+      },
+      {
+       "page": "2",
+       "quote": "Upgrade timelines are consistent with the load ramp"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "statewide guidelines; no queue figure"
+    }
+   },
+   "license": "public",
+   "license_basis": "the LPSC's own published guidelines, minutes and transcript",
+   "erw_overlap": "",
+   "notes": "Non-binding: the guidelines' note says failure to address the concerns is a risk on the utility (p. 1). A technical conference on them was held May 7, 2026 (LPSC transcript). The page numbers are the PDF's own order as the reader printed it; the guidelines text runs pp. 1 to 3.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "Docket 25-055-P: special rate contract (Agreement for Electric Service) with Altitude Capital, LLC (Google), West Memphis data center",
+   "source_url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_83_1.pdf",
+   "source_title": "Arkansas PSC Docket No. 25-055-P, Order No. 11 (29 January 2026)",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "(Agreement or SRC) between Entergy Arkansas, LLC (EAL or the Company) and Altitude"
+   },
+   "docket": {
+    "value": "25-055-P",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "DOCKET NO. 25-055-P ORDER NO. 11"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-12-04",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "On December 4, 2025, the Arkansas Public Service Commission (Commission)"
+     },
+     {
+      "page": "1",
+      "quote": "issued Order No. 9, approving, without modification, the Agreement for Electric Service"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "a single-customer special rate contract; Order No. 11 pp. 1 to 11 and the application page 6 re-filed unredacted (doc. 88) state no size threshold"
+    },
+    "min_demand": {
+     "value": "Monthly Minimum Bill payments in Table 4 of the Agreement (amounts HSPI); the application asked to defer $83 million in minimum demand payments",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "The Commission also ordered EAL to file a proposed ratemaking for the Monthly Minimum Bill payments (included in Table 4 of the Agreement)"
+      },
+      {
+       "url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_88_1.pdf",
+       "page": "2",
+       "quote": "minimum demand payments to a regulatory liability and amortize these",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Order No. 11; doc. 16 (Palmer direct, redacted: refers to the SRC's Initial Term without years); doc. 86 (Hunt pp. 3 to 7 unredacted)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Order No. 11; docs. 16, 86 and 88 (the Agreement is filed under seal)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Order No. 11; docs. 16, 86 and 88"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Order No. 11; docs. 16, 86 and 88"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Order No. 11; doc. 16 (ramp-up schedule referred to Ms. Dalrymple, redacted)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "APSC docket 25-055-P documents read; Entergy's investor material is on hosts this reader may not use (see refused)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Arkansas PSC's e-filing copies",
+   "erw_overlap": "",
+   "notes": "Order No. 11 (p. 10) sets recommendations for future special rate contracts supported by a shared resource: terms not filed entirely under seal; total facility cost, customer contribution amounts and nature, full ratemaking treatment, term of years and any opt-out provisions disclosed in the application. Doc. 88 is EAL's 16 October 2026 re-filing of application page 6 with redactions removed; the $83 million figure is the requested deferral, not a monthly minimum. The Agreement supports Arkansas Cypress Solar (600 MW PV, 350 MW BESS). An amended agreement is pending (next row). Arkansas has no data center tariff schedule on EAL's filed tariff (APSC complete tariff, last updated 27 October 2026, searched).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "Docket 25-055-P: Amended and Restated Agreement for Electric Service with Altitude Capital, LLC (Google), higher maximum demand and faster ramp",
+   "source_url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_91_1.pdf",
+   "source_title": "Arkansas PSC Docket No. 25-055-P, Amended and Restated Direct Testimony of Crystal K. Elbe for Entergy Arkansas (19 October 2026), redacted",
+   "quoted_clause": {
+    "page": "3",
+    "quote": "The Amended Agreement provides an increase in the maximum demand to be provided to the Customer and accelerates the pace of the Customer’s ramp."
+   },
+   "docket": {
+    "value": "25-055-P",
+    "cites": [
+     {
+      "url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_94_1.pdf",
+      "page": "1",
+      "quote": "2. In Order Nos. 9 and 11 in this docket, the APSC approved a longterm special rate contract (“Agreement”) between EAL and Altitude Capital, LLC (for purposes of this filing, “Google”)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-10-19",
+    "cites": [
+     {
+      "url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_94_1.pdf",
+      "page": "3",
+      "quote": "APSC FILED Time: 10/19/2026 4:24:18 PM",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://apps.apsc.arkansas.gov/olsv2/docket_search_results.asp?CaseNumber=25-055-P",
+      "page": "1",
+      "quote": "94. Entergy Arkansas, LLC submits REDACTED Application for approval to Amend a Special Rate Contract and for All Other Related Approvals.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "a single-customer special rate contract; doc. 94 (amended application) and doc. 91 (Elbe) state no size threshold; the contract demand MW is redacted"
+    },
+    "min_demand": {
+     "value": "monthly Minimum Demand Charge, regardless of usage, set on a minimum demand that is a percent of contracted maximum demand (percent redacted)",
+     "cites": [
+      {
+       "page": "5",
+       "quote": "The Amended Agreement’s billing framework was designed around the concept of a monthly Minimum Demand Charge, regardless of usage, set to recover the incremental and allocated embedded costs of the generation infrastructure necessary to serve the Project"
+      },
+      {
+       "page": "5",
+       "quote": "Additionally, the monthly Minimum Demand Charge assumes a minimum demand of percent of the Customer’s contracted maximum demand"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "twenty-year term",
+     "cites": [
+      {
+       "page": "6",
+       "quote": "for each of the years in the Amended Agreement’s twenty-year term"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "docs. 91 and 94: the Amended Agreement and the CIAC and milestone payment amounts are filed as highly sensitive"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "docs. 91 and 94 (the ESA is under seal; the public exhibit pages are the clean energy attribute agreement)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "docs. 91 and 94"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "doc. 91 pp. 16 to 17 (the operational date is redacted); hearing set for January 4, 2027 (docket listing, Order No. 13)"
+    },
+    "queue_size": {
+     "value": "see row: Docket 25-055-P: special rate contract (Agreement for Electric Service) with Altitude Capital, LLC (Google), West Memphis data center"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Arkansas PSC's e-filing copies",
+   "erw_overlap": "",
+   "notes": "The amendment adds two BESS (Driver 250 MW, Jones Mill 100 MW) to the resources Google supports (Elbe p. 7). The application is filed under the APSC's promotional practice rules and Ark. Code Ann. 23-4-1309 (doc. 94 p. 6). Hearing: docket listing, Order No. 13: The public evidentiary hearing on EAL's Application is scheduled to begin at 9:30 a.m. on January 4, 2027.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "iso_region": "MISO (MISO South)",
+   "rule_name": "Rate Schedule No. 69, Large Power High Load Density Service (LPHLDS), for cryptocurrency mining and similar operations",
+   "source_url": "https://apps.apsc.arkansas.gov/olsv2/viewdoc/tariffs.asp?document=1_elec_1.PDF",
+   "source_title": "Entergy Arkansas, LLC complete electric tariff as filed with the Arkansas PSC (last updated 27 October 2026), Rate Schedule No. 69",
+   "quoted_clause": {
+    "page": "342",
+    "quote": "are hosting or directly engaged in cryptocurrency mining operations (or any similar operations that may be identified under a different name)"
+   },
+   "docket": {
+    "value": "22-032-TF (sheets 69.2 to 69.6); 23-070-TF (sheet 69.1, 1st Revised)",
+    "cites": [
+     {
+      "page": "343",
+      "quote": "Ark. Public Serv. Comm.---APPROVED---11/04/2022 Docket: 22-032-TF Order No.- 7"
+     },
+     {
+      "page": "342",
+      "quote": "Ark. Public Serv. Comm.---APPROVED---12/21/2023 Docket: 23-070-TF Order No.- 4"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2022-11-04",
+    "cites": [
+     {
+      "page": "343",
+      "quote": "Ark. Public Serv. Comm.---APPROVED---11/04/2022 Docket: 22-032-TF Order No.- 7"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no MW threshold: availability at EAL's discretion for cryptocurrency mining and similar operations; Billing kW not less than 100 kW",
+     "cites": [
+      {
+       "page": "342",
+       "quote": "For power service to customers who, in EAL’s sole discretion in weighing and evaluating the relevant characteristics, are hosting or directly engaged in cryptocurrency mining operations"
+      },
+      {
+       "page": "345",
+       "quote": "3. In either case the Billing kW will not be less than 100 kW"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "monthly minimum: Customer Charge $315.21 plus $6.36 per kW of the highest kW in the twelve months ending with the current month; firm (non-interruptible) demand capped at 10 percent of contracted demand",
+     "cites": [
+      {
+       "page": "344",
+       "quote": "Demand Charge per kW: Highest kW established in the twelve months ending with the current month:"
+      },
+      {
+       "page": "344",
+       "quote": "$6.36"
+      },
+      {
+       "page": "343",
+       "quote": "must be an amount equal to or less than 10% of the customer’s contracted demand as stated in the Agreement for Electric Service"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not less than one year",
+     "cites": [
+      {
+       "page": "347",
+       "quote": "Not less than one year."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "security deposit of three months of average estimated bill (cash, bond or ILOC); CIAC under Rate Schedule No. 60; surety bond or ILOC equal to MISO Schedule 28 Value of Lost Load times interruptible kVA times four hours",
+     "cites": [
+      {
+       "page": "347",
+       "quote": "1) A security deposit equal to three (3) months of an average estimated bill. Security deposits may be made in the form of cash, bond, or Irrevocable Letter of Credit (ILOC)."
+      },
+      {
+       "page": "347",
+       "quote": "2) Contribution in Aid of Construction (CIAC) as defined in Rate Schedule No. 60, Extension of Facilities (EOFP)."
+      },
+      {
+       "page": "347",
+       "quote": "3) Surety Bond or ILOC in an amount equal to the Value of Lost Load per MISO Schedule 28 multiplied by the maximum amount of kVa specified in the AES minus the Firm Contract Demand multiplied by four (4) hours"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rate Schedule No. 69 sheets 69.1 to 69.6 and the LPHLDS Agreement for Interruptible Service form (Policy Schedule 13.25): no exit fee; the monthly minimum continues as long as service is provided"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule No. 69 sheets 69.1 to 69.6"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule No. 69 sheets 69.1 to 69.6"
+    },
+    "queue_size": {
+     "value": "see row: Docket 25-055-P: special rate contract (Agreement for Electric Service) with Altitude Capital, LLC (Google), West Memphis data center"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Arkansas PSC's filed tariff copy",
+   "erw_overlap": "",
+   "notes": "A cryptocurrency mining schedule with mandatory interruptible service, not a data center schedule; kept as EAL's only high load density schedule. The sheets print the APSC approval stamp; their Effective field is blank, so the date given is the approval stamp of sheets 69.2 to 69.6. Rates on sheet 69.2: Firm Contract Demand $16.96 per kW, Option A Nonfirm $11.64, Option B Nonfirm $9.70 (p. 343).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "url": "https://www.entergy.com/terms",
+   "reason": "read once: the Entergy Corporation and subsidiaries Site Terms cover every Entergy website and bar any robot, spider, scraper or other automatic means of access, so entergy.com, entergylouisiana.com, entergyarkansas.com, entergymississippi.com, entergytexas.com, entergyneworleans.com, entergynewsroom.com and investors.entergy.com were not read for values (investors.entergy.com's regulatory page had been read once, before the terms, and was used only for docket leads)",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://s201.q4cdn.com/714390239/files/doc_downloads/2026/03/27/E-LA-investment-to-support-customer-expansion.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (Entergy's filing highlights and investor slides host)",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://www.sierraclub.org/sites/default/files/2026-08/u-37882-public-direct-testimony-of-devi-glick.pdf",
+   "reason": "robots.txt not readable (SSL certificate verify failed); not read",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000065984&type=8-K&dateb=&owner=include&count=40",
+   "reason": "robots.txt disallows the path for this reader and Anthropic's agents",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://lpscpubvalence.lpsc.louisiana.gov/portal/PSC/Docket_Documents?docketId=32146",
+   "reason": "HTTP 500 (the LPSC e-docket's document list loads by a request the reader cannot make); ELL's U-37882 application and testimony therefore not found",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://lpscpubvalence.lpsc.louisiana.gov/portal/PSC/ViewFile?fileId=0pN26I9YYZw%3d",
+   "reason": "HTTP 500 (U-37425 joint motion; the notice of settlement with the same term sheet was read instead)",
+   "utility": "Entergy Louisiana, LLC"
+  },
+  {
+   "url": "https://www.cleco.com/privacy-policy",
+   "reason": "HTTP 403 (cleco.com; its terms of use and tariff book not read)",
+   "utility": "Cleco Power LLC"
+  },
+  {
+   "url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_15_1.pdf",
+   "reason": "no text layer (a one-page scan); the October 2026 unredacted re-filings (docs. 86, 88) were read instead",
+   "utility": "Entergy Arkansas, LLC"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Entergy Mississippi, LLC",
+   "searched": "web searches for an MPSC large-load or data center tariff, docket or order for Entergy Mississippi (2025 to 2026); none found. Leads only (news, not verified): the Amazon service agreements proceeded under 2024 S.B. 2001 (Second Extraordinary Session) without MPSC approval of the contract; Entergy Mississippi's own site is barred by the Entergy Site Terms"
+  },
+  {
+   "utility": "Entergy Texas, Inc.",
+   "searched": "web searches for an Entergy Texas large-load tariff or PUCT docket under S.B. 6 (2025); none found. Window A's PUCT Project 58000 proposal (large_load_connection_rules/puct_project_58000_proposal.yaml) applies to ERCOT TSPs and DSPs, and Entergy Texas is outside ERCOT; Schedule LIPS is held (large_load_tariffs/entergy_texas_lips.yaml). Entergy Texas dockets on Entergy's regulatory page in 2025 to 2026 (TCRF, DCRF, GCRR, Legend and Lone Star, Cypress to Legend line) are not large-load rules"
+  },
+  {
+   "utility": "Entergy New Orleans, LLC",
+   "searched": "web searches for a New Orleans City Council large-load or data center rule or Entergy New Orleans schedule (2025 to 2026); none found (a Council statement on data centers of January 28, 2026 is a lead, not read); the LPSC rows above do not apply to the Council's jurisdiction"
+  },
+  {
+   "utility": "Cleco Power LLC",
+   "searched": "web searches for a Cleco large-load schedule, ESA or LPSC docket (2025 to 2026); none found in a primary document. The statewide LPSC Lightning Amendment and Non-Binding Guidelines rows apply to Cleco. Lead only (news and Louisiana Economic Development release): Cleco will serve Applied Digital's 300 MW Delta Forge 1 campus in Rapides Parish with a proposed 756 MW gas plant; no LPSC docket found. cleco.com answered HTTP 403"
+  }
+ ]
+}
