@@ -1,0 +1,35 @@
+# Session 4003 report: one gate for P1's five rows, the old laptop's row 10 and this window's own work; the licenses row prepared
+
+Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 November 2026 from 11:10 UTC. Opus 5.5. Model spend: USD 0.
+
+## The requests read at the session's start (11:10 UTC), in order of request
+
+- `landing_request_portable.md`, P1's stack (each branch holds the one before, checked with `git merge-base --is-ancestor`):
+  - row 17, `wip/5000-battery` (10:09);
+  - rows 19 to 22, `wip/5000-generator`, `wip/5000-datacenter`, `wip/5000-analysis` and `wip/5000-grid` (10:36; row 22's head moved to `7f01f500d` at 10:52).
+- `landing_request_oldlaptop.md` row 10, `wip/1973-periodicals` (10:43). The row names `813c3708a`; the branch is now `5f5aea071`, the same stack.
+- `landing_request_desktop_w3.md` row 1, `wip/4100-licenses` (10:55): `c21ab94fa` "or its one later commit, this file's", which is `74e156067`. The branch has since gone on to `017ac3e1d` (sessions 4107 to 4109), which was not requested.
+
+## The combined gate: `wip/w2-land-a`
+
+- **Built from `origin/main`** by merging `wip/5000-grid`, `wip/1973-periodicals` and `wip/w2-4000` (this window's sessions 4000 to 4002). All three merged with no conflict.
+- **Before the gate,** the tests both stacks touch were run on the merged tree: periodicals, periodicals_1973, 4000, 5001, 579, 402, 470, 802, 178, 462, 2206 and 1907. 361 passed, 3 skipped.
+- **The gate:** task `4003-landing`, port 5004; it took the lock at 11:16 UTC.
+- (the gate's result and the landing: written when they end)
+
+## The licenses row, prepared
+
+- **`wip/w2-4100-licenses`** is `74e156067` with `origin/main` merged (`07d56cd15`).
+- **Checks run on it:**
+  - its five tests (4101, 205, 207, 275, 378): 53 passed;
+  - `licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check` and `check_spec.py`: all exit 0.
+- **Its gate runs alone after this one,** because it holds four more tables "license needed", and check-values' floors may move with them.
+
+## Decisions made without you
+
+- **Three requesters' stacks in one gate.** The build lock is shared with window A, and a gate takes about 35 minutes. If the gate fails on one stack, that stack is taken out and the rest gated again.
+- **The licenses row is landed at its requested head (`74e156067`), not the branch's newest.** Later commits wait for a later row.
+
+## For Samuel's ruling
+
+- None.
