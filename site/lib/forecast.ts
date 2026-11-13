@@ -87,6 +87,9 @@ export type Year = {
   year: number; phase: Phase;
   jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number>;
   property: number | null; sales: number | null; income: number; severance: number | null;
+  /** session 4220: the year's MWh (operations, where a capacity factor is held) and the taxable value a valuation or the
+   *  reader's own rate taxes (null where the tax is not on a value) */
+  mwh: number | null; value: number | null;
 };
 export type Result = {
   ok: boolean; why?: string;
@@ -176,12 +179,12 @@ function tierRate(r: PropertyRule, mw: number): number {
   return 0;
 }
 /** The property tax of operating year i (0 is the first), or null when no rule or input gives one */
-export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | null; rule: string | null } {
+export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | null; rule: string | null; value?: number | null } {
   const rules = propertyRules(P, x);
   const mwh = x.mw * 8760 * x.cf;
   const spend = x.capex * x.mw * 1000;
   if (rules.length) {
-    let tax = 0, used: string[] = [];
+    let tax = 0, value: number | null = null, used: string[] = [];
     for (const r of rules) {
       if (r.min_mw !== undefined && x.mw < r.min_mw) continue;
       if (r.kind === "capacity") { tax += x.mw * (r.usd_per_mw_year ?? 0); used.push(r.id); }
@@ -194,14 +197,15 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         if (!x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
         const pct = i < (r.schedule_pct ?? []).length ? r.schedule_pct![i] : (r.then_pct ?? 0);
-        tax += spend * (pct / 100) * (x.levy / 1000); used.push(r.id);
+        value = spend * (pct / 100);
+        tax += value * (x.levy / 1000); used.push(r.id);
       }
     }
-    if (used.length) return { tax, rule: used.join("+") };
+    if (used.length) return { tax, rule: used.join("+"), value };
   }
   if (x.own !== null && x.ownyears !== null && x.ownyears > 0) {
     const share = Math.max(0, 1 - i / x.ownyears);
-    return { tax: spend * share * (x.own / 100), rule: "own" };
+    return { tax: spend * share * (x.own / 100), rule: "own", value: spend * share };
   }
   return { tax: null, rule: null };
 }
@@ -253,14 +257,16 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     const f = 1 / x.build;
     const jobs = scale(c.jobs, f), earnings = scale(c.earnings, f), output = scale(c.output, f);
     years.push({ year: x.start + i, phase: "construction", jobs, earnings, output, property: null,
-      sales: salesTotal === null ? null : salesTotal * f, income: jobs.total > 0 ? jobs.total * incomeTax(st, earnings.total / jobs.total) : 0, severance: null });
+      sales: salesTotal === null ? null : salesTotal * f, income: jobs.total > 0 ? jobs.total * incomeTax(st, earnings.total / jobs.total) : 0, severance: null,
+      mwh: null, value: null });
   }
   for (let i = 0; i < x.life; i++) {
     const p = propertyTax(P, x, i);
     if (p.tax !== null) { propHeld = true; propRule = p.rule; }
     years.push({ year: x.start + x.build + i, phase: "operations", jobs: { ...o.jobs }, earnings: { ...o.earnings }, output: { ...o.output },
       property: p.tax, sales: null, income: o.jobs.total > 0 ? o.jobs.total * incomeTax(st, o.earnings.total / o.jobs.total) : 0,
-      severance: x.tech === "natural_gas" ? sevYear : null });
+      severance: x.tech === "natural_gas" ? sevYear : null,
+      mwh: Number.isFinite(x.cf) ? x.mw * 8760 * x.cf : null, value: p.value ?? null });
   }
   const disc = (t: number) => 1 / (1 + x.rate / 100) ** (t - x.start);
   const sum = (f: (y: Year) => number | null, pv: boolean) => {
@@ -333,6 +339,7 @@ export function stat(r: Result, figure: string): number | null {
   const pick = (y: Year | undefined, s: string): number | null => {
     if (!y) return null;
     if (s === "jobs" || s === "earnings" || s === "output") return y[s].total;
+    if (s === "mwh" || s === "value") return y[s];
     const v = (y as unknown as Record<string, number | null>)[s];
     return v === undefined ? null : v;
   };
@@ -396,5 +403,6 @@ export const jobsText = (v: number) => v.toLocaleString("en-US", { maximumFracti
 export function displayOf(figure: string, v: number): string {
   const p = figure.split(":");
   const isJobs = p[1] === "jobs" || p[2] === "jobs";
+  if (p[2] === "mwh") return Math.round(v).toLocaleString("en-US");  // session 4220: MWh, whole
   return isJobs ? jobsText(v) : usdText(v);
 }

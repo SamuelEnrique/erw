@@ -205,6 +205,8 @@ const LINES: Line[] = [
   { key: "ojobs", label: "Operating jobs, each year", tip: "Full-time jobs in each year the plant runs, all three effects. JEDI's per-MW operating figures; for solar, JEDI's 2010 operating costs give an upper reading.", figure: "o:jobs:total", fmt: jobs },
   { key: "cearn", label: "Construction earnings", tip: "Wages, salaries and benefits of those jobs over the build, in 2025 dollars.", figure: "c:earnings:total", fmt: usd },
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
+  { key: "cout", label: "Construction output", tip: "The value of all the goods and services produced in the state because of the build: JEDI's widest measure, in 2025 dollars.", figure: "c:output:total", fmt: usd },
+  { key: "oout", label: "Operating output, each year", tip: "The same measure for each year the plant runs.", figure: "o:output:total", fmt: usd },
   { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
@@ -284,6 +286,10 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
   const say = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): property ${y.property === null ? "not held" : usd(y.property)}, sales ${y.sales === null ? "none" : usd(y.sales)}, income ${usd(y.income)}${x.tech === "natural_gas" ? `, severance ${y.severance === null ? "not held" : usd(y.severance)}` : ""}`; };
   const jobsSays = (i: number) => { const y = r.years[i]; return `${y.year} (${y.phase}): ${jobs(y.jobs.total)} jobs (on site ${jobs(y.jobs.onsite)}, supply chain ${jobs(y.jobs.supply_chain)}, induced ${jobs(y.jobs.induced)})`; };
   const key = inputsKey(x);
+  // session 4220 (the county assessor's read): the year's MWh where a production tax rests on it, the taxable value
+  // where a valuation or the reader's own rate taxes one
+  const hasMwh = r.years.some((y) => y.mwh !== null) && r.property.held && (r.property.rule ?? "").includes("production");
+  const hasValue = r.years.some((y) => y.value !== null);
   return (
     <section data-years={view}>
       <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} by year</h2>
@@ -306,12 +312,12 @@ function Years({ x, r, view }: { x: Inputs; r: Result; view: View }) {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] border-collapse text-left text-xs tabular-nums">
                 <caption className="sr-only">Scenario {view.toUpperCase()} by year</caption>
-                <thead><tr className="border-b border-rule">{["Year", "Phase", "Jobs", "Earnings", "Property tax", "Sales tax", "Income tax", "Severance"].map((h) => <th key={h} scope="col" className="px-2 py-1 font-semibold">{h}</th>)}</tr></thead>
+                <thead><tr className="border-b border-rule">{["Year", "Phase", "Jobs", "Earnings", ...(hasMwh ? ["MWh"] : []), ...(hasValue ? ["Taxable value"] : []), "Property tax", "Sales tax", "Income tax", "Severance"].map((h) => <th key={h} scope="col" className="px-2 py-1 font-semibold">{h}</th>)}</tr></thead>
                 <tbody>
                   {r.years.map((y) => (
                     <tr key={y.year} className="border-b border-rule">
                       <td className="px-2 py-1">{y.year}</td><td className="px-2 py-1">{y.phase}</td>
-                      {(["jobs", "earnings", "property", "sales", "income", "severance"] as const).map((sname) => {
+                      {(["jobs", "earnings", ...(hasMwh ? ["mwh"] : []), ...(hasValue ? ["value"] : []), "property", "sales", "income", "severance"] as const).map((sname) => {
                         const v = stat(r, `year:${y.year}:${sname}`);
                         return <td key={sname} className="px-2 py-1 text-right">{v === null ? <span className="text-muted">-</span> : <Num check={`${key}|year:${y.year}:${sname}`} raw={v}>{displayOf(`year:${y.year}:${sname}`, v)}</Num>}</td>;
                       })}
@@ -333,17 +339,27 @@ function OtherStates({ P, jedi, x, view }: { P: Params; jedi: Packed; x: Inputs;
   const per = Object.keys(jedi).filter((k) => k.startsWith(`${x.tech}:`) && !k.endsWith(":us")).map((k) => {
     const st = k.split(":")[1];
     const res = run({ ...x, state: st }, unpack(jedi, x.tech, st), P);
-    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs };
+    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes, prop: res.property.held };
   }).filter((v) => v.ok).sort((a, b) => b.c.total - a.c.total);
   if (per.length < 2) return null;
   const shown = per.filter((v, i) => i < 10 || i >= per.length - 5 || v.k === x.state);
   const rank = per.findIndex((v) => v.k === x.state) + 1;
+  const taxSorted = [...per].sort((a, b) => b.taxes - a.taxes);
+  const byTax = taxSorted.filter((v, i) => i < 10 || i >= taxSorted.length - 5 || v.k === x.state);
   return (
     <section data-state-chart={view}>
       <h2 className="mb-2 text-lg font-semibold">Scenario {view.toUpperCase()} in other states<Tip id="states" label="other states">The same size, capital cost, local content and years in each state, with that state&apos;s JEDI multipliers and JEDI&apos;s default cost there: construction job-years. {rank > 0 ? `${stateName(x.state)} is ${rank} of ${per.length}.` : ""} The ten states with the most, the scenario&apos;s own and the five with the fewest; the chart&apos;s table holds them.</Tip></h2>
       <StateChart id={`states-${view}`} unit="job-years" highlight={x.state}
         categories={shown.map((v) => v.name)} keys={shown.map((v) => v.k)}
         onsite={shown.map((v) => v.c.onsite)} supply={shown.map((v) => v.c.supply_chain)} induced={shown.map((v) => v.c.induced)} />
+      <div className="mt-6" data-state-taxes={view}>
+        <SeriesChart id={`state-taxes-${view}`} title="Taxes, present value, in other states" unit="USD (2025)" kind="stacked" scale="linear"
+          fmt={(v) => usd(v).replace(/^USD /, "")}
+          categories={byTax.map((v) => ({ label: v.name, sub: v.k === x.state ? "yours" : undefined }))}
+          series={[{ name: "Taxes, present value", color: "var(--color-accent)", values: byTax.map((v) => v.taxes) }]}
+          says={(i) => `${byTax[i].name}: ${usd(byTax[i].taxes)}${byTax[i].prop ? " (a property tax statute is held)" : " (no property tax rule held: sales and income tax only)"}`}
+          tip={<Tip id={`state-taxes-${view}`} label="taxes in other states">The scenario&apos;s property, sales and use, income and severance taxes in each state, discounted at its rate, with that state&apos;s rules and rates and the scenario&apos;s own capital cost, size and years. A state without a held property tax statute shows its sales and income taxes only, so the bars are not like for like there: the hover says which. The ten states with the most, the scenario&apos;s own and the five with the fewest.</Tip>} />
+      </div>
     </section>
   );
 }

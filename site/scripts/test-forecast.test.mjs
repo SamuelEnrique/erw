@@ -278,3 +278,17 @@ test("a figure's text: jobs to one decimal under 100 and whole above, dollars sh
   assert.equal(F.displayOf("pv:taxes", 2.345e9), "USD 2.35 billion");
   assert.equal(F.displayOf("y1:property", 703600), "USD 703,600");
 });
+
+test("each operating year's MWh and taxable value (Iowa's valuation, the reader's own rate)", () => {
+  const ia = { ...F.defaults(P, "land_based_wind", "ia"), mw: 100, capex: 1500, cf: 0.4, iaval: true, levy: 30 };
+  const r = F.run(ia, ROWS, P);
+  const op = r.years.filter((y) => y.phase === "operations");
+  near(op[0].mwh, 100 * 8760 * 0.4); assert.equal(op[0].value, 0); near(op[3].value, 150e6 * 0.15);
+  assert.equal(r.years[0].mwh, null, "a construction year produces nothing");
+  near(F.stat(r, `year:${op[3].year}:value`), 150e6 * 0.15);
+  assert.equal(F.displayOf(`year:${op[3].year}:mwh`, 350400.4), "350,400");
+  const own = F.run({ ...F.defaults(P, "land_based_wind", "tx"), mw: 100, capex: 1500, own: 1, ownyears: 10 }, ROWS, P);
+  near(own.years.find((y) => y.phase === "operations").value, 150e6);
+  assert.equal(F.run({ ...F.defaults(P, "land_based_wind", "ne"), mw: 100 }, ROWS, P).years.at(-1).value, null, "a capacity tax is not on a value");
+  assert.equal(F.run(F.defaults(P, "geothermal", "ca"), ROWS, P).years.at(-1).mwh, null, "no capacity factor held");
+});
