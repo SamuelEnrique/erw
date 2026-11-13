@@ -65,3 +65,18 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 - Every open row of the faults file is the owner's or the data machine's. Every stored issue, the Digests and W39 to W45, has been read against the stack, and W46 and the 16 November Digest are not written yet.
 - The stack merges with `origin/main` with no conflict.
 - No new row in these sessions.
+
+## Session 3503: the records and the note
+
+- The note: `docs/state/note_2026-11-13_oldlaptop_c258.md` (its name free on main and every branch).
+- Row 11 holds rows 172 to 185 at `f2ebae979`. The faults file and both method notes carry rows 180 to 185.
+
+## Decisions made without you
+
+- The second rebase conflict on row 11 (the desk's landing of rows 161 to 171) was resolved as the first: the desk's state cell, with the head and the rows that wait.
+- Row 181 first passed over a correct reason ("Rising Gulf exports ... are easing crude prices"). "eases" and "easing" now count as fall words, so the reason stays.
+- Row 183 first printed the Policy of the Week's whole read. It now keeps the first sentence, as before, with its figures, so the section's length is unchanged.
+
+## For Samuel's ruling
+
+- As in chain 254's note (above under "Waiting for Samuel").
