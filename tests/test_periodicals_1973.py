@@ -610,6 +610,31 @@ class Rows115To117W44OnTheStack(unittest.TestCase):
         self.assertIn("1,253 scored stories", line)
 
 
+class Row118TheLoadRowSaysWhatItLeavesOut(unittest.TestCase):
+    """Row 118: the datacenter load row says how many larger loads of the week name no operator or site."""
+
+    def test_w44(self):
+        import tempfile
+        from unittest import mock
+        import roundup
+        dcs = pd.DataFrame([
+            {"entity_id": "dc:v", "first_story_at": "2026-10-30T10:00:00Z", "capacity_mw": "52", "mw": "52", "operator": "Vyoma", "site_name": "",
+             "city": "Chennai", "state": "", "confidence": "0.8"},
+            {"entity_id": "dc:o", "first_story_at": "2026-10-29T10:00:00Z", "capacity_mw": "10400", "mw": "10400", "operator": "", "site_name": "",
+             "city": "", "state": "OH", "confidence": "0.8"},
+            {"entity_id": "dc:l", "first_story_at": "2026-10-29T11:00:00Z", "capacity_mw": "700", "mw": "700", "operator": "", "site_name": "",
+             "city": "Lansing", "state": "MI", "confidence": "0.8"}])
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(roundup, "read_table", lambda n: dcs if n == "datacenter_projects" else None), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", d):
+            L = roundup.five_numbers("2026-W44", pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-01 23:59", tz="UTC"),
+                                     {}, lambda *a: None, {}, None)
+        row = next(ln for ln in L if "datacenter load" in ln)
+        self.assertEqual(row, "- **Largest new datacenter load first reported this week:** 52 MW, Vyoma, Chennai (2 larger loads of the "
+                              "week name no operator or site; they are in the table below).")
+        import check_roundup as cr
+        self.assertEqual(cr.FIVE_LOAD_V.search(row).group(1), "52")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

@@ -1015,6 +1015,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
         # session 1446 (fault 29): the week's largest load is a row with an operator or a site; a row with neither is
         # a figure with no subject ("1,000 MW, operator not stated, site not stated, Newport")
         named = cw["operator"].astype(str).str.strip().ne("") | cw["site_name"].astype(str).str.strip().ne("")
+        unnamed = cw[~named]   # session 3334 (faults file row 118): kept to say how many larger ones the row leaves out
         cw = cw[named]
         # session 1474 (fault 52): and with the datacenter table's own floor (W45: 702 MW at confidence 0.55, "not stated"
         # in the table below)
@@ -1028,6 +1029,13 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             parts = [str(r.get(k) or "").strip() for k in ("operator", "site_name")]
             place = ", ".join(x for x in (str(r.get("city") or "").strip(), str(r.get("state") or "").strip()) if x)
             words = ", ".join(x for x in (*parts, place) if x)
+            # session 3334 (faults file row 118): W44's row said 52 MW above a table of 10,400, 700 and 520 MW loads that
+            # name no operator or site; the row says how many larger ones it leaves out, and why
+            big = unnamed[unnamed["_m"] > float(r["_m"])]
+            big = big[[row_passes(x, "datacenter_projects") for x in big.to_dict("records")]] if len(big) else big
+            if len(big):
+                words += (f" ({len(big)} larger {'load' if len(big) == 1 else 'loads'} of the week name no operator or site; "
+                          f"{'it is' if len(big) == 1 else 'they are'} in the table below)")
             L.append(f"- **Largest new datacenter load first reported this week:** {float(r['_m']):,.0f} MW, {words}.")
             keys.append(f"the datacenter load, `datacenter_projects` {r['entity_id']}")
             picked["dc"] = {"mw": float(r["_m"]), "text": L[-1].split(":** ", 1)[1].rstrip(".")}
