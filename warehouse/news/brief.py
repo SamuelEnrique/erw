@@ -2221,6 +2221,7 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
                "nuclear": "Nuclear capacity", "renewables": "Renewable capacity", "transmission": "Transmission",
                "interconnection": "Interconnection queue", "lng": "LNG capacity", "gas": "Gas supply", "hydrogen": "Hydrogen capacity",
                "capital": "Capital raised", "deal": "Deal value", "policy": "Policy sum", "company": "Company spending",
+               "ppa": "Power contracted",   # session 3364 (faults file row 138): "Ppa, Wyoming: 702 MW"
                "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
 
 
@@ -2315,7 +2316,12 @@ def numbers_block(facts, op, recs, heads):
             if span == "week":   # session 1439 (fault 3): the year before is the data machine's (item 18)
                 line += " The same weekday a year before is not held."
         else:
-            line += f"the same weekday a year before ({d['before']:%Y-%m-%d}) is not held, so no change is shown."
+            # session 3364 (faults file row 139): neither the year before nor the week before is held, as the numbers in full
+            # say it ("... and a week before (2026-10-05) are not held"), where this row named the year only
+            wk = d["day"] - pd.Timedelta(days=7) if d.get("day") is not None else None
+            line += (f"the same weekday a year before ({d['before']:%Y-%m-%d})"
+                     + (f" and a week before ({wk:%Y-%m-%d})" if wk is not None else "") + " are not held, so no change is shown."
+                     if wk is not None else f"the same weekday a year before ({d['before']:%Y-%m-%d}) is not held, so no change is shown.")
         L.append(line + " Status: observed, EIA-930 hourly demand.")
     else:
         L.append("- **Physical.** US48 demand for yesterday is not in the warehouse.")

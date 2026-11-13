@@ -780,6 +780,22 @@ class Row137SpendingIsNotRaised(unittest.TestCase):
         self.assertIn("Capital, USA", self.row("Meta's $825 billion question"))
 
 
+class Rows138And139OctoberOnTheStack(unittest.TestCase):
+    def test_138_ppa(self):
+        r = rec("p", "Google signs 20-year PPA with AEP for 702MW Wyoming fuel cell project", sector="ppa", mw="702", parties="Google; AEP")
+        r["region"] = "Wyoming"
+        line = brief.story_row("Project or capacity", [r], ("ppa",), {}, None, "a capacity figure in MW", ("mw",))[0]
+        self.assertIn("Power contracted, Wyoming: 702 MW", line)
+
+    def test_139_neither_year_nor_week(self):
+        day = pd.Timestamp("2026-10-12", tz="UTC")
+        top = {"value": 581830.0, "ts_utc": pd.Timestamp("2026-10-12 21:00", tz="UTC")}
+        lines = brief.numbers_block({"demand": {"top": top, "day": day, "before": day - pd.Timedelta(days=364)}},
+                                    {"kind": None, "key": ""}, [], {})
+        row = next(ln for ln in lines if ln.startswith("- **Physical.**"))
+        self.assertIn("the same weekday a year before (2025-10-13) and a week before (2026-10-05) are not held, so no change is shown.", row)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
