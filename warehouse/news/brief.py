@@ -907,7 +907,7 @@ def detail(r, head=""):
         bits.append(money_style(r["price"]))  # session 470
     if r["parties"] and bits:
         # kept as written beside a figure: the Roundup reads the parties of a stored issue's item here (roundup.ISSUE_FIELDS)
-        bits.append("parties: " + r["parties"])
+        bits.append("Parties: " + r["parties"])   # session 3350 (row 130): a label in capitals; the Roundup reads either case
     elif r["parties"]:
         # session 1979 (faults file row 84): with no figure, a party the headline names is not printed again ("parties:
         # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence

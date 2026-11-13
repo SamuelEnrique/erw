@@ -1371,7 +1371,7 @@ def prior_deal(r, index, before):
 # same quantity name the item. The table is read first; an item only where no row matches.
 DIGEST_DIR = os.path.join(ROOT, "docs", "digest")
 ISSUE_HEAD = re.compile(r"^(\d+)\. \*\*(.+?)\*\*")
-ISSUE_FIELDS = re.compile(r"^\s+(.*?); parties: (.+?)\. Sources:")
+ISSUE_FIELDS = re.compile(r"^\s+(.*?); [Pp]arties: (.+?)\. Sources:")   # session 3350 (row 130): either case
 ISSUE_MW = re.compile(r"^([\d,]+(?:\.\d+)?) MW$")
 ISSUE_SUM = re.compile(r"(?:US\$|\$|USD ?)\s?[\d][\d,]*(?:\.\d+)?\s?(?:trillion|billion|million|bn|mn|tn)?$", re.I)
 

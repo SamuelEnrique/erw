@@ -144,7 +144,7 @@ class Row84NoPartyTwice(unittest.TestCase):
     def test_beside_a_figure_the_field_stays(self):
         import roundup
         out = brief.detail({"mw": "702", "price": "$4 billion", "parties": "Google; AEP"}, "Google and AEP sign a fuel-cell deal")
-        self.assertEqual(out, "702 MW; USD 4 billion; parties: Google; AEP. ")
+        self.assertEqual(out, "702 MW; USD 4 billion; Parties: Google; AEP. ")
         md = f"1. **Google and AEP sign a fuel-cell deal** (datacenter power)  \n   Why. {out}Sources: [X](https://example.org/x)\n"
         items = roundup.issue_items(md)
         self.assertEqual(len(items), 1)
