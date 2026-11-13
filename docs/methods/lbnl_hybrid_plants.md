@@ -25,6 +25,8 @@ Entities, 1,068 rows: 632 hybrid plants (86,263 MW of generators and storage: 43
 
 **Held internal.** This file's notice is the Department of Energy's contract notice only (the U.S. Government's license to publish or reproduce the dataset "for U.S. Government purposes"), without the CC BY 4.0 statement of LBNL's other data files on which Berkeley Lab's verdict (read 14) rests. The license record shows the flag stricter than the verdict; the question is Samuel's (session 979).
 
+Chain 229, session 4107 (13 November 2026): Berkeley Lab's verdict now rests on read 1711 (the Queued Up 2026 edition page's CC BY 4.0 notice) in place of read 14. This file's own verdict ("Berkeley Lab, hybrid plants file", read 167) is unchanged, and the table stays internal.
+
 ## Cross-checks (sessions 979 and 987)
 
 - Of `lbnl_solar_projects`' 160 PV+storage projects, 136 are PV+storage plants here by EIA id; of the 479 plants with both PV and battery generators in `eia860m_operating_generators`, 411 are LBNL's PV+storage plants.

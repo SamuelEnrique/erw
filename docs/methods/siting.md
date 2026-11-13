@@ -220,3 +220,7 @@ A profile sets three inputs (the load factor, the curtailment rule, whether the 
 - **Time to connect is a generator's wait**, not a load's: loads are not in Berkeley Lab's file.
 - **Carbon differs between the two measures**: the annual figure is generation in the subregion; the hourly is consumption in the balancing authority. They differ, and each says which it is.
 - **Gaps**: `docs/reviews/siting-gaps.md` lists every cell the warehouse cannot fill, with the source that would.
+
+## The cards' files (chain 229, 13 November 2026)
+
+The findings cards `siting_flexible` and `siting_gigawatt` are built from `texas_transmission_matrix`, an internal table: the Public Utility Commission of Texas's link policy (read 1689) asks for permission to copy its content. The tab draws the transmission part as "license needed" (above), but the cards' CSV files under `site/public/findings/` carry it (`siting_gigawatt.csv`'s `transmission_usd_mwh`), and the site's proxy serves a file by its address whatever the review curtain says. `tests/test_session4109_public_site.py` names the two cards as waiting for the owner's ruling and keeps `/` and `/research` from opening while they wait.

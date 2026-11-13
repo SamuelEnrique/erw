@@ -1,0 +1,30 @@
+{
+ "about": "The share of construction spending that bears sales and use tax, by technology: JEDI's own taxable base, its \"Sales Tax (Materials & Equipment Purchases)\" line, at JEDI's default project. Where the workbook computes that tax, the share is the tax over (JEDI's rate times JEDI's cost before sales tax); where it does not, the materials and equipment share of JEDI's default cost. EIA's capital costs exclude sales tax (the report's words: \"Equipment and material costs are intended to be the delivered costs inclusive of purchase price, duties, and freight, (but excluding any sales tax)\"), so the tool adds the tax on this share of the reader's capital cost (docs/methods/forecast.md, section 5). Read from the saved workbooks (runs/w4/probe.csv requests 5 to 8) by chain 239, session 4201, 13 November 2026.",
+ "source": "National Laboratory of the Rockies (NLR, formerly NREL), JEDI models, https://www.nlr.gov/analysis/jedi/models",
+ "notice": "NLR's data terms (https://www.nlr.gov/disclaimer): the user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data; credit DOE/NLR/ALLIANCE; the Data are provided as is.",
+ "technologies": {
+  "land_based_wind": {
+   "taxable_share": 0.819282,
+   "arithmetic": "22,682,269.38 / 0.0635 / 435,992,965.33 = 0.819282",
+   "cells": "DefaultData!C47 and D47 (Sales Tax (Materials & Equipment Purchases), 22,682,269.38); DefaultData!C46 and D46 (Subtotal All Costs (without sales tax), 435,992,965.33); ProjectData!B108 (Local Sales Tax Rate, 0.0635, the saved project in Connecticut)",
+   "file": "01d-jedi-land-based-wind-model-rel-w6-28-19.xlsm"
+  },
+  "natural_gas": {
+   "taxable_share": 0.605882,
+   "arithmetic": "15,147,058.82 / 0.04 / 625,000,000 = 0.605882",
+   "cells": "ProjectData!B53 (Sales Tax (Materials & Equipment Purchases), 15,147,058.82); ProjectData!B52 (Subtotal All Costs (without sales tax), 625,000,000); ProjectData!B94 (Local Sales Tax Rate, 0.04, the saved project in Wyoming)",
+   "file": "01d-jedi-ngas-model_rel-ng4-17-17.xlsm"
+  },
+  "utility_pv": {
+   "taxable_share": 0.642105,
+   "arithmetic": "the Materials & Equipment subtotal of the utility fixed-mount column: 0.105263 + 0.368421 + 0.105263 + 0.063158 = 0.642105",
+   "cells": "DefaultData!BE21 (0.642105; the column UTCSFM, Utility, fixed, runs one row below its labels in column C: BE17 to BE20 are mounting, modules, electrical and inverter, BE21 their subtotal, BE31 the total 1.0, BE32 1.03 USD/W)",
+   "file": "jedi-pv-model.xlsm",
+   "note": "JEDI's PV model computes no sales tax at its defaults: DefaultData!D59, Sales Tax Exemption (percent of local taxes), is 1 (100 percent). The share here is the base the tax would fall on where a state taxes these purchases."
+  },
+  "geothermal": {
+   "taxable_share": null,
+   "note": "JEDI's geothermal model has no sales tax line (searched for \"sales tax\" and \"taxable\" in every sheet): no taxable share is held, and the tool shows no sales tax figure for geothermal unless the reader types a share."
+  }
+ }
+}

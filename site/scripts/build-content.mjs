@@ -60,7 +60,7 @@ for (const dir of ["weekly", "roundup"]) {
 
 // Session 135: a method note that stays on the server is not bundled, so no page of the site can show it. Thesis
 // Builder's research plan and scoring rule are internal (the owner's ruling); its readers' note is docs/methods/thesis.md
-const INTERNAL_METHODS = new Set(["thesis_builder", "digest_scoring", "roundup_selection"]);   // session 1995: the periodicals' working notes are internal
+const INTERNAL_METHODS = new Set(["thesis_builder", "digest_scoring", "roundup_selection", "forecast"]);   // session 1995: the periodicals' working notes are internal; session 4201: the forecast note too (the owner's tool rules, chain 239)
 const methods = {};
 for (const f of fs.readdirSync(path.join(docs, "methods")).sort()) {
   if (f.endsWith(".md") && !INTERNAL_METHODS.has(f.replace(/\.md$/, ""))) methods[f.replace(/\.md$/, "")] = read(path.join(docs, "methods", f));

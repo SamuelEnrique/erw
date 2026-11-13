@@ -41,6 +41,8 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 META = os.path.join(ROOT, "warehouse", "metadata")
 COVERAGE, SOURCES = os.path.join(META, "coverage.csv"), os.path.join(META, "sources.csv")
 READS, VERDICTS, TABLES = (os.path.join(META, f"license_{n}.csv") for n in ("reads", "verdicts", "tables"))
+CONFIRMATIONS = os.path.join(META, "license_confirmations.csv")   # chain 229, session 4101: scripts/license_confirm.py
+STALE_DAYS = 30                                                    # a verdict read longer ago than this, not confirmed since, is stale
 DOC = os.path.join(ROOT, "docs", "licenses.md")
 HOLDS_SHOWN = os.path.join(ROOT, "docs", "licenses_holds.csv")   # session 505: site/scripts/check-holds.mjs --csv
 PUBLIC, PERMISSION, PAID, FORBIDDEN = "may be public", "needs written permission", "needs a paid license", "forbidden"
@@ -67,6 +69,9 @@ CANON = [
     # session 888: the U.S. Wind Turbine Database is a USGS data release, made with LBNL and ACP and distributed by USGS (its
     # header: USGS's public domain). PUDL's FERC Form 714 tables are left unmatched on purpose: they wait on FERC's own page
     (r"^U\.S\. Geological Survey", "U.S. Geological Survey (USGS)"),
+    # chain 229 (session 4112): two registry names that differ from the key their verdict was written under
+    (r"^Centro Nacional de Control de Energia \(CENCE, ICE\)$", "Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica)"),
+    (r"^Viceministerio de Minas y Energia \(VMME\), Paraguay$", "Viceministerio de Minas y Energia, Paraguay (VMME)"),
 ]
 # tables no rule resolves, or resolves wrongly: their publishers by hand, each with the reason
 BY_HAND = {
@@ -219,7 +224,14 @@ RULED_INTERNAL = {
                                 "points' hourly prices kept in the warehouse, not in the live set, under 500,000 rows); "
                                 "ERCOT's terms (read 2) would allow it",
 }
+# Chain 229 (session 4109): a table public by the owner's own ruling although no single publisher's page decides it. The
+# document says it is ruled public, not open; the flag is the owner's, so nothing here loosens one.
+RULED_PUBLIC = {
+    "large_load_public": "public by the owner's ruling of 14 October 2026 (session 272): the large-load statements whose document is "
+                         "public, as facts with a link and no quoted text; each row's own document is named in the row",
+}
 STATUS = os.path.join(META, "license_status.csv")
+WAITS = "waits for a ruling: the sentence allows public, the flag stays internal (never loosened by a session)"
 
 
 def erw_verdict(flag, standing):
@@ -228,7 +240,7 @@ def erw_verdict(flag, standing):
     read, a "license needed" ruling waiting for a permission, a flag and a verdict that disagree)."""
     if flag != "public":
         return "internal"
-    return "public" if standing == "agrees" else "unsettled"
+    return "public" if standing == "agrees" or standing.startswith("ruled: public") else "unsettled"
 
 
 def license_needed():
@@ -237,6 +249,29 @@ def license_needed():
     if not os.path.exists(STATUS):
         return {}
     return {r["table"]: r["from"] for r in rows(STATUS) if r["status"] == "license needed" and not r.get("permission")}
+
+
+def freshness(lines, verdicts, reads):
+    """Chain 229, session 4101. (the day the record ends, {key: latest confirmation row}, [stale tables]). A table is
+    stale when one of its read publishers' verdicts rests on a read more than STALE_DAYS before the newest read in the
+    record and no confirmation since then found its sentence on a current page (or cut it again). The day is the
+    record's own, so the document is the same whenever it is written."""
+    by_n = {r["n"]: r for r in reads}
+    asof = max((r["read_at"][:10] for r in reads if r["read_at"]), default="")
+    edge = (dt.date.fromisoformat(asof) - dt.timedelta(days=STALE_DAYS)).isoformat() if asof else ""
+    conf = {}
+    for c in rows(CONFIRMATIONS) if os.path.exists(CONFIRMATIONS) else []:
+        if c["key"] not in conf or int(c["read"]) > int(conf[c["key"]]["read"]):
+            conf[c["key"]] = c
+    def fresh(k):
+        c = conf.get(k)
+        if c and not c["sentence"].startswith("changed") and c["read_at"][:10] >= edge:
+            return True
+        n = verdicts[k]["read"]
+        day = by_n[n]["read_at"][:10] if n in by_n else ""
+        return bool(day) and day >= edge
+    stale = [x["table"] for x in lines if not x["own"] and any(not fresh(p) for p in x["pubs"] if p in verdicts and p not in OWN)]
+    return asof, conf, stale
 
 
 def write(doc=None):
@@ -267,6 +302,12 @@ def write(doc=None):
             standing = f"ruled: license needed from {needed[r['table']]}"
         if standing == "DISAGREES: the flag is stricter" and r["table"] in RULED_INTERNAL:
             standing = "ruled: kept internal"
+        if standing == "not settled" and r["table"] in RULED_PUBLIC and r["license"] == "public":
+            standing = "ruled: public by the owner's ruling"
+        # chain 229 (the owner's rule of 13 November 2026): a session never loosens a flag. A table flagged internal whose
+        # publishers' sentences allow it keeps its flag and waits for the owner's ruling, the default "stays internal".
+        if standing == "DISAGREES: the flag is stricter":
+            standing = WAITS
         lines.append(dict(table=r["table"], pubs=pubs, v=v, why=why, unread=unread, flag=r["license"], standing=standing, vc=vc, whyc=whyc, own=own, rows=r["n_rows"]))
     n_ask = sum(1 for r in reads if not r["outcome"].startswith("not asked"))
     n_read = sum(1 for r in reads if r["outcome"] == "read")
@@ -278,6 +319,7 @@ def write(doc=None):
       "(`license_reads.csv`, `license_verdicts.csv`, `license_tables.csv`) and `coverage.csv`. Do not edit this file by hand.")
     w("")
     w("- **What a verdict is.** A session read one page of each publisher, once, and took the sentence that allows or forbids redistribution. The verdict is that session's reading of the sentence. It is not legal advice, and no lawyer has read it.")
+    w("- **A verdict read again (chain 229, from 13 November 2026).** A publisher's current page is asked under a new label, its host's robots file read first, and the verdict's sentence looked for on it by code (`scripts/license_confirm.py`); a sentence no longer there is cut again, never typed. A host whose robots file refuses the ERW's reader or Anthropic's agents by name is not asked.")
     w("- **Two verdicts a publisher.** \"As the ERW is today\": an open research project that sells nothing. \"If the ERW sells anything\": the same sentence read for a commercial product. They differ where a page allows noncommercial use only.")
     w("- **Nothing was changed in `coverage.csv`.** Where its flag and the verdict differ, the table is listed below and a person rules.")
     w("- **A publisher not read has no verdict.** A table that would otherwise be public is then \"not settled\", never public by default.")
@@ -286,15 +328,16 @@ def write(doc=None):
     w("## Read these first")
     w("")
     w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; a ruling settles {count('ruled')} (session 324: "
-      f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling); disagree on {count('DISAGREES')}; "
-      f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice.")
+      f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling, and {len(RULED_PUBLIC)} public by the owner's ruling); disagree on {count('DISAGREES')}; "
+      f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice; "
+      f"{count('waits for a ruling')} flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default \"stays internal\").")
     ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
     w(f"- **The ERW's verdict (session 378): {ev['public']} public, {ev['internal']} internal, {ev['unsettled']} unsettled** "
       "(one word a table, in \"Every table\"; an unsettled table waits for a permission, a read, or a ruling).")
     w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
-    strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]
+    strict = [x for x in lines if x["standing"] in ("DISAGREES: the flag is stricter", WAITS)]
     by = {}
     # session 324: the tables flagged public whose publisher asks for permission, open or settled as "license needed"
     asks = loose + [x for x in lines if x["standing"].startswith("ruled: license needed")]
@@ -310,10 +353,14 @@ def write(doc=None):
         for p in x["whyc"]:
             byc.setdefault(p, []).append(x["table"])
     w(f"- **{len(change)} tables that may be public today would need permission if the ERW sells anything** (" + "; ".join(f"{p} {len(t)}" for p, t in sorted(byc.items(), key=lambda kv: -len(kv[1]))) + ").")
+    asof, conf, stale = freshness(lines, verdicts, reads)
+    changed = [k for k, c in conf.items() if c["sentence"].startswith("changed")]
+    w(f"- **Confirmed against the publisher's current page (chain 229, session 4101 on): {len(conf)} publishers, {len(changed)} of them with a sentence no longer on the page.** "
+      f"{len(stale)} tables rest on a verdict read more than {STALE_DAYS} days before the newest read in the record ({asof}) and not confirmed since.")
     w("")
     w("## The reads")
     w("")
-    w("One request a publisher, no second try. Times are UTC, 12 October 2026.")
+    w("One request a label, no second try: a publisher's page asked again takes a new label (chain 229). Times are UTC; the first 40 reads are of 12 October 2026, the rest dated in the record (`warehouse/metadata/license_reads.csv`).")
     w("")
     w("| # | Publisher | Address asked | Time | Answer | Bytes | Outcome |")
     w("|---|---|---|---|---|---|---|")
@@ -330,6 +377,22 @@ def write(doc=None):
         ref = f"#{n}: {cell(by_n[n]['outcome']).split(' (')[0]}" if n else "no"
         s = f"\"{cell(v['sentence'])}\"" if v["sentence"] else "none"
         w(f"| {k} | {ref} | {s} | {v['verdict']} | {v['if_commercial']} | {cell(v['contact']) or 'not named'} | {cell(v['price']) or 'none stated'} | {cell(v['note'])} |")
+    w("")
+    w("## Confirmed against the current page (chain 229)")
+    w("")
+    w("A verdict read again on the publisher's page as it stands, by `scripts/license_confirm.py`: the host's robots file read first, "
+      "one new request under a new label, and the verdict's sentence looked for word for word by code. \"On the page\" confirms the verdict; "
+      "\"changed\" means the sentence is gone and the verdict waits to be cut again; \"cut again\" means a new sentence was taken from the new page.")
+    w("")
+    if conf:
+        w("| Publisher | First read | Read now | Day | The sentence | Verdict before | Verdict now | Note |")
+        w("|---|---|---|---|---|---|---|---|")
+        for k in sorted(conf):
+            c = conf[k]
+            first = verdicts[k]["read"] if k in verdicts else ""
+            w(f"| {k} | {'#' + first if first else 'none'} | #{c['read']} | {c['read_at'][:10]} | {cell(c['sentence'])} | {c['verdict_before']} | {c['verdict_after'] or 'waits'} | {cell(c['note'])} |")
+    else:
+        w("None yet.")
     w("")
     unread_all = sorted({p for x in lines for p in x["unread"]})
     w(f"**Publishers no read of this sweep covers ({len(unread_all)}):** " + "; ".join(unread_all) + ".")
@@ -358,7 +421,7 @@ def write(doc=None):
       "in its row. The verdict is right about the clause; the flag is the table's place once permitted.")
     w("")
     for x in ruled:
-        why = RULED_INTERNAL.get(x["table"]) or f"{x['v']}, by {short(x['why'], 8)}; license needed from {needed.get(x['table'], '')}"
+        why = RULED_INTERNAL.get(x["table"]) or RULED_PUBLIC.get(x["table"]) or f"{x['v']}, by {short(x['why'], 8)}; license needed from {needed.get(x['table'], '')}"
         w(f"- `{x['table']}`: {why}.")
     w("")
     w("## Where the flag and the verdict disagree")
@@ -372,6 +435,8 @@ def write(doc=None):
         w(f"- `{x['table']}`: {x['v']}, by {short(x['why'], 8)}.{holds}")
     w("")
     w("### Flagged internal; the sentence read allows it")
+    w("")
+    w("A ruling each, the default \"stays internal\": no session loosens a flag (chain 229).")
     w("")
     for x in strict:
         w(f"- `{x['table']}`: {x['v']} ({short(x['pubs'], 4)}).")

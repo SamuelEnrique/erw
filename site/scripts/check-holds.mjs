@@ -46,11 +46,6 @@ export const KEY_TABLE = {
   // session 3178 (chain 166): Num.tsx's keys of session 2248, the datacenter page's charts, grids view and timeline
   dcchart: "datacenter_facilities", dcgrid: "datacenter_facilities", dctime: "datacenter_facilities",
 };
-// session 1898: Num.tsx's KEY_STAT_TABLE, a first word's table named by its second word (the tracker's grids view draws
-// each grid's own peak, capacity and ERCOT's margin, public, beside the held facilities); read before KEY_TABLE
-export const KEY_STAT_TABLE = {
-  "dcgrid|peak_mw": "grid_peak_vs_capacity", "dcgrid|capacity_mw": "grid_peak_vs_capacity", "dcgrid|reserve_margin": "ercot_cdr_reserve_margins",
-};
 // the grid a card's words name, as components/analysis/FindingCard.tsx and scripts/check-analysis.mjs read it
 export const GRID_WORD = [[/\bERCOT\b/i, "ercot"], [/\bCAISO\b/i, "caiso"], [/\bPJM\b/i, "pjm"], [/\bMISO\b/i, "miso"], [/\bSPP\b/i, "spp"], [/\bNYISO\b/i, "nyiso"], [/\bISO-NE\b/i, "isone"]];
 // first words whose keys are records about a table, not figures read from it
@@ -160,7 +155,7 @@ export function judgeKey(key, held, heldGrids) {
   let table = "";
   if (head.startsWith("series")) table = p[1] ?? "";
   else if (head === "event" || head === "entity") table = p[1] ?? "";
-  else if (`${head}|${p[1] ?? ""}` in KEY_STAT_TABLE) table = KEY_STAT_TABLE[`${head}|${p[1] ?? ""}`];   // session 1898
+  else if (head === "event_count") table = p[1] ?? "";   // session 4005: as Num.tsx heldBy
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   else if (head === "digest_chart") table = p[2] ?? "";
   if (table) {

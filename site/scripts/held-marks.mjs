@@ -12,6 +12,15 @@ export function heldMarks(html) {
   return (text.match(/license needed/gi) || []).length;
 }
 
+/** Session 4000: the reason a page says it has no issue today, "pending" (the Digest is written by the daily run from
+ *  14:00 UTC) or "weekend" (no weekday Digest), else null. /digest is today's issue only (session 402), so before the
+ *  daily run and at weekends it carries no checked number by design and its floor is not judged; "missed" (no issue
+ *  after the run) is not a reason and still fails the floor. */
+export function noIssueToday(html) {
+  const m = /data-digest-none="(pending|weekend)"/.exec(String(html));
+  return m ? m[1] : null;
+}
+
 /** The floor's verdict for a page: { counted, fail } where counted is the checked numbers and the held marks together. */
 export function floorVerdict(count, held, floor) {
   const counted = count + held;

@@ -83,8 +83,10 @@ export default function Licenses() {
 
       <Section title="Permission asked" id="permission">
         <p className="max-w-3xl text-sm">
-          Four letters were drafted on 20 October 2026, for Samuel Enrique to send. None had been sent when this page was written; a
+          Four letters were drafted on 20 October 2026 and brought up to date on 13 November 2026 (each publisher&apos;s contact from its own pages, the
+          exact tables and fields asked for), for Samuel Enrique to send. None had been sent when this page was written; a
           permission granted is recorded in <a href={repo("warehouse/metadata/license_status.csv")}>license_status.csv</a> and ends the hold it covers.
+          Where a publisher states a price for a license or a membership, it is in <a href={repo("docs/licenses_costs.md")}>licenses_costs.md</a>.
         </p>
         <ul className="mt-3 max-w-3xl list-disc pl-5 text-sm">
           {LETTERS.map((l) => (
@@ -102,7 +104,8 @@ export default function Licenses() {
       <Section title="Sources whose own page allows the ERW" id="permissive">
         <p className="max-w-3xl text-sm">
           <Num check="lic|verdict|both|count" raw={both.length}>{both.length}</Num> publishers&apos; sentences allow the ERW as it is (an open research
-          project that sells nothing) and would allow it if it sold anything. The ERW publishes their tables, names the publisher and the report in every
+          project that sells nothing) and would allow it if it sold anything. The ERW publishes their tables, except a table it keeps internal by its own
+          choice or until the owner rules (a session never loosens a flag), names the publisher and the report in every
           table&apos;s header and on the <Link href="/terms">terms page</Link>, and gives the credit each one asks for.
         </p>
         <ul className="mt-3 max-w-3xl list-disc pl-5 text-sm">

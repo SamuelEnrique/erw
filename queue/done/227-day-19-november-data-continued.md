@@ -21,11 +21,20 @@ Read first: chain 226's note `docs/state/note_<its day>_data_c226.md`, chain 223
 
 ## Session 3888: the next file, the ground, chain 226's first unfinished step
 
-Long end 1:00. The next file. Memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`; `scripts/suite_gate.py --ref origin/main` (main green or not, the first line of the report). Then chain 226's first unfinished step, from its note's "What waits" (session 3904 writes them here).
+Long end 1:00. The next file. Memory and disk; `git worktree list`, landed worktrees removed; `scripts/precheck.py`, `scripts/freeze.py status`; `scripts/suite_gate.py --ref origin/main` (main green or not, the first line of the report). Then chain 226's first unfinished step, from its note's "What waits" (written below by chain 226's session 3887).
 
 ## Sessions 3889 to 3893: chain 226's other unfinished steps
 
-Long end 1:30 each. Session 3904 writes them here from chain 226's note. Where chain 226 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 226's session 3887 from its note (`docs/state/note_2026-11-13_data_c226.md`) on 13 November at about 10:30 UTC, after a Claude outage stopped the window at 09:47; chain 226's branch `wip/c226-data` is landed by session 3887 through the gate (its report names the commit). Chains 221, 223 and 226 all ran in the morning of 13 November, so every read of that day's runs falls to this chain, as chain 223's file 226 listed them. In this order; a run not yet run when its session comes is carried to the next file, not waited for over 20 minutes:
+
+- **3888's step: the daily run of 13 November** (the 14:00 UTC dispatch), the first with every fix of 12 November and chain 221's cite test: its "daily run" ok, its commit on main through the guard by itself, `nyiso` ok, `package tests` ok, the health summary's "Stale on main" line gone. A refusal is read by its named test and fixed at its cause.
+- **3889: the board:** the run of 13 November's `board_tests` row; a failure reproduced here (the board's builder and tests 132 and 240) and fixed at its cause with its test.
+- **3890: the data machine's run of 13 November** (17:00 UTC): its page files on main without a session's help, every `dm_` step ok or skipped by its schedule, and the morning's two tables (`utility_large_load_tariffs` 95 rows, `large_load_connection_rules` 75) left as chains 221 and 223 wrote them.
+- **3891: check-values on the Digests of 13 and 14 November:** each issue's every key known and matching; a new key named and taught, with its rule.
+- **3892: the hunt again** (`check.py` after the daily commit's tables moved), and the 14 tables coverage does not list (session 3856's report) checked against the owner's word, if any.
+- **3893: Utah's R746-318 by its adopting order:** chain 226 found the rule published only through a script-built portal with no named address (session 3872's report); the Utah PSC's order adopting it under S.B. 132 (a docket page or an order PDF at a named address on psc.utah.gov, robots read first) is the route. Then the records and the rulings: the tab's PJM hover read; the rulings carried (chain 223's note); the branches listed for the owner.
+
+Where a run is not yet in when its session opens (the daily run before about 15:00 UTC, the data machine's after 17:30), the session takes the next section's step early and comes back to the run once it is in.
 
 ## Sessions 3894 to 3897: Utah's R746-318 and the siting gaps a public US source can close
 

@@ -31,6 +31,7 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -45,6 +46,7 @@ LICENSE = os.path.join(ROOT, "site", "data", "license_status.json")
 LEFT_OUT = os.path.join(ROOT, "site", "data", "carbon_left_out.json")
 ASK = os.path.join(ROOT, "site", "data", "grid_ask_examples.json")
 OUT_JSON = os.path.join(HERE, "page_figures.json")
+OUT_SNAPSHOT = os.path.join(HERE, "snapshot.json")   # session 5005: the snapshot the figures are of
 OUT_CSV = os.path.join(HERE, "page_figures.csv")
 OUT_HOUR = os.path.join(HERE, "snapshot_hour.csv")
 ISOS = ["ERCO", "CISO", "PJM", "MISO", "NYIS", "ISNE", "SWPP"]   # components/grid/Emissions.tsx ISOS, the network's seven
@@ -414,6 +416,10 @@ def main(argv):
     for p, t in zip(paths, texts):
         with open(p, "w", encoding="utf-8", newline="\n") as f:
             f.write(t)
+    # session 5005 (chain 233): the snapshot these figures are of, kept beside them, so that replicate.py's default run
+    # reads the same snapshot after the daily run has rewritten site/data/grid_network.json
+    if os.path.abspath(a.snapshot) != os.path.abspath(OUT_SNAPSHOT):
+        shutil.copyfile(a.snapshot, OUT_SNAPSHOT)
     figs = json.loads(texts[0])["figures"]
     by = {}
     for f in figs:
