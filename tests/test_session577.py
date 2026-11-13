@@ -109,7 +109,7 @@ class EveryWhyLineGoesThroughIt(unittest.TestCase):
         # session 1467: the by-sector and AI lines are written by sector_line(r, heads[...]), which holds the call
         main = inspect.getsource(brief.main)
         self.assertGreaterEqual(main.count("why_line(r['why'], heads[") + main.count("sector_line(r, heads["), 3)
-        self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
+        self.assertIn('why_line(r["why"], head', inspect.getsource(brief.sector_line))   # session 3465: and the cluster's MW
 
     def test_the_digest_s_policy_lines(self):
         with tempfile.TemporaryDirectory() as d:

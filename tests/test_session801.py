@@ -147,15 +147,17 @@ class WhereTheRuleLives(unittest.TestCase):
     def test_every_why_line_goes_with_its_headline(self):
         src = inspect.getsource(brief.main)
         # session 1467: two of them are sector_line(r, heads[r['cluster_id']]), which calls why_line(r["why"], head)
-        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']])") + src.count("sector_line(r, heads[r['cluster_id']])"), 3)
-        self.assertIn('why_line(r["why"], head)', inspect.getsource(brief.sector_line))
+        # session 3465 (faults file row 169): each call also passes the cluster's MW (r.get('mw')), so the count reads the
+        # call up to the headline
+        self.assertGreaterEqual(src.count("why_line(r['why'], heads[r['cluster_id']]") + src.count("sector_line(r, heads[r['cluster_id']])"), 3)
+        self.assertIn('why_line(r["why"], head', inspect.getsource(brief.sector_line))
         self.assertNotIn("why_line(r['why'])", src)
         # session 1980 (faults file row 85): the policy line is written by brief.policy_line, which policy_actions_lines calls
         self.assertIn("policy_line(r, kinds)", inspect.getsource(brief.policy_actions_lines))
         self.assertIn('why_line(r["why"], r["title"])', inspect.getsource(brief.policy_line))
         rsrc = inspect.getsource(roundup)
         self.assertNotIn("why_line(r['why'])", rsrc)
-        self.assertGreaterEqual(rsrc.count("why_line(r['why'], heads[r['cluster_id']])"), 2)
+        self.assertGreaterEqual(rsrc.count("why_line(r['why'], heads[r['cluster_id']]"), 2)
         self.assertIn('top["title"]', inspect.getsource(roundup.policy_of_the_week))
 
 
