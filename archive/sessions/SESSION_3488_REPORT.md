@@ -57,3 +57,11 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 - Nothing else new in W41. Two Canadian deals fold as one topic (Cenovus and Athabasca, Emera's Canadian Utilities deal) under the owner's "one sector in one region" rule.
 - Tests: `Row185ACapacityInAnotherForm` (2). The 72 files: 1,401 passed, 20 skipped.
 - **Row 11:** moved to `f2ebae979` (rows 172 to 185 wait).
+
+## Sessions 3497 to 3502: the periodicals, again
+
+- **W42 on the stack, read whole** (never stored: no Roundup was written that week): nothing new. "NTT to build $6.3bn data center for Anthropic in Japan - report" keeps its "- report", a news convention rather than a site tail.
+- **W44 rendered as email** (`runs/s3498_render.py`, nothing sent): rows 180 to 185 read correctly in the text part. The opening's reason is the mild weather; What mattered 1 and 3 claim no unseen sum.
+- Every open row of the faults file is the owner's or the data machine's. Every stored issue, the Digests and W39 to W45, has been read against the stack, and W46 and the 16 November Digest are not written yet.
+- The stack merges with `origin/main` with no conflict.
+- No new row in these sessions.
