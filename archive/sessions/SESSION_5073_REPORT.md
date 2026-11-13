@@ -1,6 +1,6 @@
 # Session 5073 report: chain 243, the five cross-check tables, every row sourced and explained, a test per table
 
-Energy Research Warehouse (ERW). Chain 243, portable laptop window P1, 13 November 2026, about 19:15 to 20:15 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-crosscheck` (on `wip/5072-requests`). Precheck passed (exit 0).
+Energy Research Warehouse (ERW). Chain 243, portable laptop window P1, 13 November 2026, about 19:10 to 19:24 UTC (corrected by session 5075: this line said 19:15 to 20:15). Opus 5.5. Model spend USD 0. Branch `wip/5072-crosscheck` (on `wip/5072-requests`). Precheck passed (exit 0).
 
 - **Every row sourced.** The rows of `docs/methods/crosschecks/*.md` whose published figure is "No published counterpart" had empty source and gap cells; each now names our own figure's key in `replication/<tool>/page_figures.json` (battery 14, generator 9, datacenter 12, Grid 6 rows) and "none" as its gap.
 - **Every "not explained" row explained** (seven rows):

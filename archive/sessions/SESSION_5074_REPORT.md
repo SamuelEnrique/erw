@@ -1,6 +1,6 @@
 # Session 5074 report: chain 243, the Python replication's parity with every do-file of the five tools
 
-Energy Research Warehouse (ERW). Chain 243, portable laptop window P1, 13 November 2026, about 20:15 to 21:00 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5072-parity` (on `wip/5072-crosscheck`).
+Energy Research Warehouse (ERW). Chain 243, portable laptop window P1, 13 November 2026, about 19:24 to 19:32 UTC (corrected by session 5075: this line said 20:15 to 21:00). Opus 5.5. Model spend USD 0. Branch `wip/5072-parity` (on `wip/5072-crosscheck`).
 
 - **What existed.** Each tool has a Python replication that already meets the page's figures (`replication/<tool>/replicate.py`, tests 1487, 1489, 1491, 3701, 3703), and its do-files (nine: the public `erw_2026_<tool>_replication.do` of the three decision pages, `replication/<tool>/replicate.do` of the five, and the Grid's `replicate_ask.do`) were tested for the owner's Stata rules only. Nothing tied a do-file's figures to the Python's.
 - **What is new, `tests/test_session5074.py`** (16 tests), so your Stata run confirms rather than unblocks:
