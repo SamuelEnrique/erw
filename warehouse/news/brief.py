@@ -166,7 +166,14 @@ def sector_of(lead):
         commodity = price_commodity({"titles": [str(lead.get("title") or "")]})
         if commodity in COMMODITY_SECTOR:
             return COMMODITY_SECTOR[commodity]
+        # session 3335 (faults file row 120): a title about refining or road fuels is oil's, whatever power tag it got
+        # ("U.S. Refineries Make Dramatic Shift Away From Gasoline" under Power, tagged power prices, 5 November)
+        if REFINING.search(str(lead.get("title") or "")):
+            return "oil"
     return sector
+
+
+REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
 
 
 def build_clusters(stories):

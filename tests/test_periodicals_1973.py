@@ -657,6 +657,13 @@ class Row119NoEnDashNoPublishersTail(unittest.TestCase):
         self.assertIn("Shell - Exxon talks stall over Guyana ([Reuters]", brief.also_line([x]))
 
 
+class Row120RefiningIsOil(unittest.TestCase):
+    def test_the_titles(self):
+        self.assertEqual(brief.sector_of({"sector": "power_prices", "title": "U.S. Refineries Make Dramatic Shift Away From Gasoline"}), "oil")
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "Data centers lean on diesel generators in Virginia"}), "generation")
+        self.assertEqual(brief.sector_of({"sector": "generation", "title": "APS plans extending coal use to 2038"}), "generation")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
