@@ -11,7 +11,12 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 ## The gate
 
-- (written when it ends)
+- **Every step of `land_check.py` passed** (`15c54b483`, 15:32 to 16:02 UTC; main had not moved, so the merge after the lock was a no-op):
+  - the suite: 8,822 tests OK, 382 skipped;
+  - the build passed;
+  - check-values passed. `/policy`'s floor was accepted as a license hold's; `/digest` was a note;
+  - check-routes, check-cross-checks and check-csp passed.
+- (the push at 16:15: written then)
 
 ## Decisions made without you
 
