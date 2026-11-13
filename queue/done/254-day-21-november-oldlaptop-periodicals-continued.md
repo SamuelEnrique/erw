@@ -20,7 +20,13 @@ Long end 1:00 each. One step a session, in chain 252's order, as session 3471 li
 
 ### Unfinished steps (written by session 3471 of chain 252)
 
-(Session 3471 fills this list.)
+Chain 252 ran all its sessions (3456 to 3471) and added rows 151 to 172 to a new stack, `wip/3457-periodicals` (row 11 of `docs/state/landing_request_oldlaptop.md`, head `95189fdf8`, requested; merged with main at `1f45e5525`). Row 10 landed at `f06f7f3d2`, and its worktree and branch are removed. The note is `docs/state/note_2026-11-13_oldlaptop_c252.md`. What it did not reach, in this order:
+
+1. (Session 3473) The stack's site build: row 152 changes `site/lib/digest.ts`. `npm ci` is done in `C:\Users\lossa\Documents\erw-3457\site`, with `.env` and `site/.env.local` copied in. Run `npm run build` in the foreground once MemFree is 2.5 GB or more (it was 2.1 to 2.5 GB all chain), then read `/digest/2026-11-12` on a local production server at 1280 and 390 (the real-time line, a revised figure's note) with `check-values` run twice. If memory never allows it, skip it and say so: the gate's build is the first.
+2. (Session 3474) The W46 Roundup as stored (Sunday 15 November, 23:00 UTC) read as a reader against a dry run of the same hour on the stack (`--no-model`; the worktree needs `policy_actions.csv` and `policy_reads.csv` from the main copy, restored by `scripts/sync.py --tables` first). Each new fault is a numbered row from 173. Before it is written, skip it and say so.
+3. (Session 3475) The Digest of 13 November: whether `wip/red-daily-2026-11-13` has landed (its email's links lead nowhere until it does). Once it has, the first Digest after it (Monday 16 November) read as stored against the stack's dry run, checking that its window opens at 13 November 16:01 UTC and that no 13 November headline or policy action is printed again (row 164).
+4. (Session 3476) If row 11 has landed: the clean-up. Remove the worktree `erw-3457` with its `site/.next` and `site/node_modules` (it holds untracked copies of `.env`, `site/.env.local`, `warehouse/news/facts/items/2026-11-13.json` and two ignored tables, none to keep). Delete `wip/3457-periodicals` on origin and mark row 11 landed. If not landed, skip it and say so.
+5. Rows 39, 65 and 109 and rulings item 13 stay the owner's; rows 61, 77 and 129 the data machine's. The 13 November chart record, the US48 UTC day and EIA's Veterans Day closes wait for Samuel (the note says how).
 
 ## Sessions 3479 to 3485: the periodicals, again
 
