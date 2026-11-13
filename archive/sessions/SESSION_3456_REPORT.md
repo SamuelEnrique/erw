@@ -47,3 +47,10 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Row 156 (new, fixed):** row 154 brought the Aramco item into the ten, and its figures line printed "2.6 billion", the scorer's sum with no currency (72 of 2,159 stored figures carry none, mostly percents). A sum with no unit, or no digit ("millions"), is left out.
 - Tests: four classes, 10 tests, each failing on main. The 62 files naming `brief`, `roundup` or `digest.ts`: 1,206 passed, 20 skipped. The dry run's 22 figures trace, 0 failed.
 - **Row 11:** moved to `f1a1d8211`.
+
+## Session 3460: rows 157 and 158
+
+- **Row 157 (new, fixed):** the stored subject read "ERW Daily | Centrus and Oklo finalise fuel agreements for up to five Aurora". With its figure out, the headline runs to 88 characters, and the cut at 70 fell inside "for up to five Aurora powerhouses". Row 89's rule goes back before a name only. Now a cut that drops a lower-case word inside a phrase goes back to before the phrase's preposition (a quantity's "up to" is no phrase), if four words or more remain: "ERW Daily | Centrus and Oklo finalise fuel agreements". It is in `roundup.head_clause`, which both subjects use. Of the stored issues' subjects only this one changes.
+- **Row 158 (new, fixed):** "AirTrunk commits to purchasing 1GW ..." under "AirTrunk signs 1,000 MW energy deal ..." is the headline's figure again in another unit, and the rule compared numbers as written. A capacity in the headline's other unit is now read as the headline's figure, in the why line and the figures line. Session 801's pinned Dominion item ("3,500 MW" under "... 3.5GW of BESS ...") had the same fault; its fixture now pins "".
+- Tests: `Row157TheSubjectEndsOnAWholePhrase` (3), `Row158OneCapacityInTwoUnitsIsOneFigure` (3). The 62 files: 1,212 passed, 20 skipped.
+- **Row 11:** moved to `486a48f0e`.
