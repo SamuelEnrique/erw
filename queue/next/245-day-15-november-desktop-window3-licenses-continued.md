@@ -2,7 +2,7 @@
 
 machine: lab-desktop-window3
 
-Written by session 4150 of chain 231 (`queue/done/231-day-14-november-desktop-window3-licenses-continued.md`) on 13 November 2026, as that chain's rules ask; its last session updates it with what chain 231 did not finish. It takes sessions 4166 to 4181 (at least fourteen); its first session checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Opus 5.5, high effort. The third Claude Code window on lab-desktop.
+Written by session 4150 of chain 231 (`queue/done/231-day-14-november-desktop-window3-licenses-continued.md`) on 13 November 2026, as that chain's rules ask; its session 4164 updated it with what chain 231 did not finish (13 November 2026). It takes sessions 4166 to 4181 (at least fourteen); its first session checks each is free on origin's main and on every branch, skips a taken one upward and says so. Model: Opus 5.5, high effort. The third Claude Code window on lab-desktop.
 
 ## Rules for every session
 
@@ -14,7 +14,15 @@ Long end 1:00. The next file first, committed alone and pushed. The precheck (fr
 
 ## Sessions 4167 to 4178: what chain 231 did not finish
 
-Long end 1:00 each. Filled by chain 231's last session from its note.
+Long end 1:00 each. Written by chain 231's session 4164 from its note (`docs/state/note_2026-11-13_desktop_window3_c231.md`). Chains 229 and 231 finished the sweep's reading: 162 publishers confirmed on their current pages, 26 tables not settled (each a ruling, `docs/state/unsettled_licenses_2026-11-13.md`), 24 internal tables waiting for a ruling, none disagreeing. What is left is upkeep, done on the day it is due, in this order:
+
+- **4167: the landing.** Row 5 of `docs/state/landing_request_desktop_w3.md` (`wip/4151-licenses`): landed or not, at what commit. If main has moved, the stack is merged again, the checks run (`licenses.py check`, `build_llms.py --check`, `build_tables.py --check`, `release_v1.py --check`, `check_spec.py`), and the 479 test files with tests 4101, 4109 and 5101 run; a new row is written if the head moves.
+- **4168: new tables.** Every table window A wrote since 13 November gets its publishers in `license_tables.csv` (`licenses.py tables --headers` over the data machine's headers, read only, with `CANON` taught any new spelling), then a verdict from its publisher's page, robots first, wildcards read as the convention does. The held count, the catalogue, the package record and release v1 are kept in step (chain 229's helper `erw-w3-work/sync_held.py`, its files closed before each step).
+- **4169: window A's requests.** The 27 rows of `docs/state/data_requests_licenses.md`: each done row is marked with its commit. A new table from a request (the IMF codes, a BLS connector) is registered as in 4168.
+- **4170: the two hosts that timed out.** COSIT (Iraq) and ANEEL (Brazil): one more try each on a later day, robots first. A page answered is confirmed or cut again.
+- **4171: the rulings.** Any rulings file newer than `docs/state/rulings_2026-11-06.md` is read, and each ruling on chain 229's list is applied on a branch: the held grids' public files, the three findings cards, the policy monitor, `impact_tax_rules`, the 24 waiting tables, the 26 unsettled, CFTC, the letters.
+- **4172: the public site test as main moves.** `tests/test_session4109_public_site.py` is run on the newest main: a new findings card built from a table that is not public, a new public file of a held grid, or a live table whose verdict is not public is fixed at its cause or named for a ruling.
+- **4173 to 4178: the stale clock.** From 13 December 2026 the reads of 13 November pass 30 days. If this chain runs that late, the verdicts are confirmed again in batches with `erw-w3-work/batch_confirm.py` (robots first, at most 50 requests a session, test 205's bound raised in its own style); before then these sessions are not needed and the note says so.
 
 ## Session 4179: the note
 
