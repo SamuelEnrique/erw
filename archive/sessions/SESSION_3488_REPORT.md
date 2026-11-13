@@ -80,3 +80,8 @@ Energy Research Warehouse (ERW). Chain 258 (`queue/done/258-day-22-november-oldl
 ## For Samuel's ruling
 
 - As in chain 254's note (above under "Waiting for Samuel").
+
+## Session 3504: the next file, the queue
+
+- `queue/next/260-day-23-november-oldlaptop-periodicals-continued.md` lists what this chain did not finish: the stored W46 Roundup and the 16 November Digest (both written after this file), the red branch's landing, and row 11's clean-up.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
