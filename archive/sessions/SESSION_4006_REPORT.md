@@ -9,7 +9,10 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 - **Main is green:** "the suite passed on 98f666c8b: 8783 tests" (exit 0), 28 processes, the heaviest 669 MB, 13:44 to 14:03 UTC.
 - **One thing to explain:** the batched run skipped 389 tests where the gate's single-process discover skipped 382, on 8,783 tests either way.
   - `suite_batches.py --verbose` was added, which runs each batch at unittest's verbosity 2.
-  - Discover `-v` and the batches `--verbose` are being run on two clean copies of `98f666c8b`, to name the 7 tests.
+  - **Answered:** discover `-v` and `suite_batches.py --batch 40 --verbose`, each on a clean worktree of `98f666c8b` beside the main checkout (as the gate makes it), 14:05 to 14:25 UTC.
+    - **Both ran 8,783 tests, OK, 382 skipped, with the same skipped tests by name** (`runs/w2/s4006/disc_v.skips` and `batch_v.skips` are identical).
+    - **The batches run exactly what discover runs.**
+    - The 389 came from `suite_gate.py --ref`, whose clean copy lives under the temp folder, not beside the main checkout. Seven tests skip there whatever the runner.
 
 ## The requests read (13:45 UTC), for the gate after 16:15
 
