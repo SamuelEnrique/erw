@@ -82,4 +82,5 @@ The steps written (8):
 - 14 business days to ask for a dispute's escalation.
 
 A range (the load ramp) and a frequency (the open seasons) are written with their words and no duration. The orders on
-reconsideration of 4 June and 16 July 2026 were not read; whether they change a step is the next reader's first check.
+reconsideration were read: the Energy Association of Pennsylvania's petition was withdrawn, and the order of 16 July
+2026 closed the docket, so the model stands as adopted.
