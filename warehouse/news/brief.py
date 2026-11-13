@@ -735,6 +735,34 @@ def why_check(text, head=""):
 # (as plain() takes an adjective out) and why_check names it in a raw line.
 SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
 HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+# Session 3460 (faults file row 158): one capacity in two units ("AirTrunk commits to purchasing 1GW ..." under "AirTrunk
+# signs 1,000 MW energy deal ...", 13 November 2026) is one figure: the rule of no figure the headline gives read it as two
+CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+
+
+def capacity_mw(number, unit):
+    """A capacity in MW, rounded to a thousandth: ('1', 'GW') is 1000.0, ('1,200', 'MW') is 1200.0."""
+    return round(float(str(number).replace(",", "")) * (1000 if str(unit).upper() == "GW" else 1), 3)
+
+
+def capacities_mw(text):
+    """The capacities a text states, in MW (CAPACITY)."""
+    return {capacity_mw(n, u) for n, u in CAPACITY.findall(str(text or ""))}
+
+
+def head_units(t, head):
+    """t with each capacity the headline states in the other unit written as the headline writes it ("1GW" as "1,000 MW"
+    under a headline's "1,000 MW"), so the figure check and without_figures read one figure (row 158)."""
+    forms = {}
+    for m in CAPACITY.finditer(str(head or "")):
+        forms.setdefault(capacity_mw(m.group(1), m.group(2)), (m.group(0), m.group(2).upper()))
+    if not forms:
+        return t
+
+    def one(m):
+        form = forms.get(capacity_mw(m.group(1), m.group(2)))
+        return form[0] if form and form[1] != m.group(2).upper() else m.group(0)
+    return CAPACITY.sub(one, str(t))
 
 
 def scale_against(text, head):
@@ -890,6 +918,8 @@ def why_line(text, head=""):
     short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
     t = money_style(plain(text)).strip()
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
+    if head:   # session 3460 (row 158): the headline's capacity in the other unit is the headline's figure
+        t = head_units(t, head)
     if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
         t = SCALE_WORD.sub("", t, count=1).strip()
         t = t[:1].upper() + t[1:]
@@ -930,7 +960,8 @@ def detail(r, head="", why=""):
     model), nor a sum with no unit ("2.6 billion")."""
     bits = []
     hf = figures_of(head) | figures_of(why)
-    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf:
+    given_mw = capacities_mw(f"{head} {why}")   # 3460, row 158: "1GW" in the headline gives the scored 1,000 MW
+    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf and round(float(r["mw"]), 3) not in given_mw:
         bits.append(f"{float(r['mw']):,.0f} MW")
     price = money_style(r["price"]) if r["price"] else ""
     if price and figures_of(price) and not UNITLESS.match(price) and not figures_of(price) <= hf:

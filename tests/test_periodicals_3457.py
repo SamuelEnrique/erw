@@ -227,5 +227,26 @@ class Row157TheSubjectEndsOnAWholePhrase(unittest.TestCase):
                                              "Utility firm orders turbines for up to five plants"), "Utility firm orders turbines")
 
 
+class Row158OneCapacityInTwoUnitsIsOneFigure(unittest.TestCase):
+    """Row 158: "AirTrunk commits to purchasing 1GW from new solar, wind and battery projects." under "AirTrunk signs 1,000
+    MW energy deal ...": the headline's figure again, in another unit."""
+
+    HEAD = "AirTrunk signs 1,000 MW energy deal with European Energy Australia for solar, wind and BESS"
+
+    def test_the_airtrunk_line_is_the_headlines_figure(self):
+        self.assertEqual(brief.why_line("AirTrunk commits to purchasing 1GW from new solar, wind and battery projects.", self.HEAD), "")
+
+    def test_the_units_are_read_as_one(self):
+        self.assertEqual(brief.head_units("a 1GW deal and 2 GW more", "deal of 1,000 MW"), "a 1,000 MW deal and 2 GW more")
+        self.assertEqual(brief.head_units("a 1,200 MW campus", "a 1.2 GW campus"), "a 1.2 GW campus")
+        self.assertEqual(brief.head_units("a 900 MW plant", "a 1 GW deal"), "a 900 MW plant")
+        self.assertEqual(brief.capacities_mw("1GW and 1,200 MW and 0.5 GW"), {1000.0, 1200.0, 500.0})
+
+    def test_the_figures_line_reads_the_headlines_unit(self):
+        r = item(mw="1000", parties="AirTrunk; European Energy Australia")
+        self.assertEqual(brief.detail(r, "AirTrunk signs 1GW energy deal with European Energy Australia"), "")
+        self.assertEqual(brief.detail(r, "AirTrunk signs energy deal"), "1,000 MW; Parties: AirTrunk; European Energy Australia. ")
+
+
 if __name__ == "__main__":
     unittest.main()
