@@ -59,6 +59,8 @@ Each link carries its rule and a confidence: an EIA id 1.0, a reviewed alias 0.9
 
 Every input is public in coverage. Four inputs carry "license needed" in `license_status.csv` (a publisher's own sentence asks for written permission): `energy_deals`, `datacenter_projects`, `datacenter_facilities`, `nyiso_interconnection_queue`. A link or an alias from those is `license` internal; the downloads of the company pages carry only public rows, and the directory's deal, facility and NYISO queue figures are internal figures. The tables themselves are public, as their inputs are in coverage.
 
+Chain 229, sessions 4102 and 4103 (13 November 2026): three more inputs carry "license needed": `policy_actions` (the Public Utility Commission of Texas's link policy, read 1689, asks for permission to copy its content), and through the news outlets' verdicts Electrek and Energy-Storage.news join the deciding publishers of `energy_deals` and the company tables (their pages could not be read: Electrek's robots file refuses ClaudeBot, Energy-Storage.news answers 403). The company tables were held already; their status is unchanged.
+
 ## Tracers
 
 `warehouse/derived/check_companies.py` (exit 1 on any failure; 0 on 6 November 2026 over 96,964 links):

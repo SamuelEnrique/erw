@@ -142,5 +142,32 @@ class FindingsCards(unittest.TestCase):
         self.assertNotRegex(src, r'"/research/[^"]*"\s*:\s*"live"')
 
 
+GRID_PREFIX = {"ISO-NE": "isone", "MISO": "miso", "NYISO": "nyiso", "PJM": "pjm", "SPP": "spp", "CAISO": "caiso", "ERCOT": "ercot"}
+
+
+class HeldGridFiles(unittest.TestCase):
+    """Files under site/public/ are served by address whatever the review curtain says. A grid whose own terms do not
+    allow the ERW (its verdict is not "may be public") has its prices held "license needed"; warehouse/derived/board_page.py
+    writes no new file for it, but 138 files written before the hold stay (the page-file keeper never thins a page). They
+    are listed in tests/fixtures/chain229_held_grid_public_files.txt and wait for the owner's ruling; the list only
+    shrinks, and no new file of a held grid may appear."""
+
+    def held_prefixes(self):
+        v = {r["key"]: r["verdict"] for r in rows("warehouse", "metadata", "license_verdicts.csv")}
+        return {GRID_PREFIX[g] for g in GRID_PREFIX if v.get(g) != L.PUBLIC}
+
+    def test_no_new_public_file_of_a_held_grid(self):
+        import subprocess
+        pre = self.held_prefixes()
+        self.assertTrue({"nyiso", "isone"} <= pre)
+        out = subprocess.run(["git", "ls-files", "site/public"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        if not out:
+            self.skipTest("not a git checkout")
+        files = {f for f in out if re.search(r"/(" + "|".join(sorted(pre)) + r")[-_][^/]*$", f)}
+        with open(os.path.join(ROOT, "tests", "fixtures", "chain229_held_grid_public_files.txt"), encoding="utf-8") as f:
+            known = {ln.strip() for ln in f if ln.strip()}
+        self.assertEqual(sorted(files - known), [], "a held grid's prices in a file the site serves by address")
+
+
 if __name__ == "__main__":
     unittest.main()
