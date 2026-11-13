@@ -734,6 +734,24 @@ class Row128ADescriptionIsNoName(unittest.TestCase):
         self.assertFalse(brief.party_in_head("Banco de Chile", "A loan closes"))
 
 
+class Rows131To133W41OnTheStack(unittest.TestCase):
+    def test_131_the_subject(self):
+        import roundup
+        out = roundup.subject_line({"move": {"label": "Henry Hub natural gas", "pct": 6.9}},
+                                   "Google enters massive 3.6-GW power deal with Constellation Energy")
+        self.assertEqual(out, "ERW Weekly | Henry Hub gas up 6.9% on the week; Google enters power deal")
+        self.assertNotIn("massive", brief.subject_clause("Google enters massive 3.6-GW power deal with Constellation Energy"))
+
+    def test_132_one_outlet_once(self):
+        links = [("Bloomberg.com", "https://news.google.com/rss/articles/a"), ("Bloomberg.com", "https://news.google.com/rss/articles/b"),
+                 ("WSJ", "https://news.google.com/rss/articles/c")]
+        self.assertEqual(brief.link_text(links).count("Bloomberg.com"), 1)
+        self.assertIn("[WSJ]", brief.link_text(links))
+
+    def test_133_ft(self):
+        self.assertEqual(brief.outlet_name("ft.com"), "Financial Times")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

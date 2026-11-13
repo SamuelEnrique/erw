@@ -1170,7 +1170,7 @@ def subject_line(op, first_head):
         lead = f"ERW Weekly | {label} {'up' if pct >= 0 else 'down'} {abs(pct):.1f}% on the week"
         # session 1882 (faults file row 62): the whole subject at most SUBJECT_MAX, the headline clause with no figure (the
         # move is the subject's one verified metric, chain 131) and cut at a word with no "..."
-        clause = head_clause(brief.money_style(brief.nodash(str(first_head or ""))).rstrip("."), SUBJECT_MAX - len(lead) - 2)
+        clause = head_clause(brief.money_style(brief.plain(brief.nodash(str(first_head or "")))).rstrip("."), SUBJECT_MAX - len(lead) - 2)   # row 131
         return f"{lead}; {clause}" if clause else lead
     # session 1990 (faults file row 95): with no move to lead, the headline's clause still carries no figure (chain 131: a
     # figure in the subject only when it is a warehouse table's), as the Digest's subject since row 89
@@ -1181,7 +1181,7 @@ def subject_line(op, first_head):
 SUBJECT_MAX = 90
 CLAUSE_TAIL = re.compile(r"(?:\s+(?:a|an|the|of|to|in|on|for|with|from|by|at|and|or|its|their|as|into|over))+$", re.I)
 FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.]*(?:\s(?:billion|million|trillion|thousand))?,?\s*|"
-                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*\s?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)
+                            r"(?:\b(?:a|an)\s+)?\d[\d,.]*[\s-]?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)   # 3352: "3.6-GW"
 
 
 def head_clause(head, n):

@@ -545,7 +545,8 @@ def source_text(src, url, licensed=None):
 # Session 1978 (faults file row 83): a feed's title is not the outlet's name ("JPT Homepage", 115 stories of
 # news_stories; "California State Portal | CA.gov", 46): the name an issue prints drops a " Homepage" tail and keeps the
 # last part of a "Portal | site" title
-OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - International Energy Agency": "IEA"}   # 3312: row 102
+OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - International Energy Agency": "IEA",   # 3312: row 102
+                "ft.com": "Financial Times"}   # session 3352 (row 133): the paper's name, as its other links give it
 
 
 def outlet_name(src):
@@ -559,7 +560,16 @@ def link_text(links, licensed=None):
     # session 470 (digest audit fix 7, roundup audit fix 4): a Google News address does not reach the outlet (the ingest
     # records it in url_resolved), and the reader is told where the link goes; session 803: source_text; session 807: a
     # source printed once (two stories of one cluster at one held outlet printed "POWER Magazine, POWER Magazine")
-    return ", ".join(dict.fromkeys(source_text(src, url, licensed) for src, url in links))
+    # session 3352 (faults file row 132): one outlet once, whatever its addresses ("[Bloomberg.com] (via Google News),
+    # [Bloomberg.com] (via Google News)", two Google addresses of one outlet, W41)
+    seen, out = set(), []
+    for src, url in links:
+        k = outlet_name(src).lower()
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(source_text(src, url, licensed))
+    return ", ".join(out)
 
 
 # Session 470 (digest audit fix 9): one style for a sum of money, "USD 45 billion", as docs/voice.md writes it
@@ -2156,7 +2166,8 @@ def subject_clause(head):
     Roundup's row 62 form, roundup.head_clause), cut at a word to SUBJECT_CLAUSE_MAX with no "...". "" when nothing
     readable is left."""
     import roundup   # noqa: E402  (roundup imports this module: read here, not at the top)
-    t = roundup.head_clause(money_style(nodash(str(head or ""))).rstrip("."), SUBJECT_CLAUSE_MAX + 20)
+    # session 3352 (faults file row 131): the voice's adjectives go from the subject ("Google enters massive ... deal")
+    t = roundup.head_clause(money_style(plain(nodash(str(head or "")))).rstrip("."), SUBJECT_CLAUSE_MAX + 20)
     t = NO_IN_VERB.sub(lambda m: m.group(1) + " ", t)
     if len(t) > SUBJECT_CLAUSE_MAX:
         full = t
