@@ -129,10 +129,10 @@ class TheRecord(unittest.TestCase):
             if c["verdict_after"] and c["verdict_before"]:
                 self.assertGreaterEqual(order.index(c["verdict_after"]), order.index(c["verdict_before"]), c["key"])
 
-    def test_every_session_4101_read_of_a_page_has_its_hosts_robots_read_first(self):
+    def test_every_session_41xx_read_of_a_page_has_its_hosts_robots_read_first(self):
         reads = rows("license_reads.csv")
         for r in reads:
-            if "current terms (session 41" in r["publisher"] and r["outcome"].startswith("read"):
+            if "(session 41" in r["publisher"] and "robots file" not in r["publisher"] and r["outcome"].startswith("read"):
                 host = r["url"].split("/")[2]
                 robots = [x for x in reads if x["url"] == f"https://{host}/robots.txt" and x["read_at"] <= r["read_at"]
                           and "(session 41" in x["publisher"]]

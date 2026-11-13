@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-12",
+ "written": "2026-11-13",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -49,6 +49,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -66,6 +68,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -87,6 +90,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -104,6 +109,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -125,6 +131,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -142,6 +150,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -188,6 +197,7 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -233,6 +243,7 @@
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -263,6 +274,8 @@
     "Canary Media",
     "Data Center Dynamics",
     "Data Center Frontier",
+    "Electrek",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -433,6 +446,8 @@
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
+    "Electrek",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -446,6 +461,7 @@
     "Natural Gas Intelligence",
     "OilPrice.com",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "T&D World",
@@ -501,6 +517,27 @@
    "from": "2026-10-21",
    "publishers": [
     "NYISO"
+   ]
+  },
+  "policy_action_tags": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "Public Utility Commission of Texas"
+   ]
+  },
+  "policy_actions": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "Public Utility Commission of Texas"
+   ]
+  },
+  "policy_reads": {
+   "status": "license needed",
+   "from": "2026-10-21",
+   "publishers": [
+    "Public Utility Commission of Texas"
    ]
   },
   "price_board_latest": {
@@ -1003,6 +1040,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -1020,6 +1059,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -1045,6 +1085,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -1062,6 +1104,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -1088,6 +1131,8 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Electrek",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -1105,6 +1150,7 @@
     "OilPrice.com",
     "Oracle",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "Switch",
@@ -1184,6 +1230,7 @@
     "Data Center Frontier",
     "Data Center Knowledge",
     "Digital Realty",
+    "Energy-Storage.news",
     "Equinix",
     "Financial Times",
     "Google",
@@ -1240,6 +1287,7 @@
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -1271,7 +1319,9 @@
   },
   "deal_counterparties": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "desnz_gb_regional_consumption_annual": {
    "status": "public",
@@ -2551,6 +2601,8 @@
     "Canary Media",
     "Data Center Dynamics",
     "Data Center Frontier",
+    "Electrek",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -3661,6 +3713,8 @@
     "Data Center Dynamics",
     "Data Center Frontier",
     "Data Center Knowledge",
+    "Electrek",
+    "Energy-Storage.news",
     "Financial Times",
     "Hart Energy",
     "Heatmap News",
@@ -3674,6 +3728,7 @@
     "Natural Gas Intelligence",
     "OilPrice.com",
     "POWER Magazine",
+    "Public Utility Commission of Texas",
     "Reuters",
     "Rigzone",
     "T&D World",
@@ -4009,13 +4064,21 @@
    ]
   },
   "policy_action_tags": {
-   "status": "public",
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Public Utility Commission of Texas"
+   ],
    "pages": [
     "/data"
    ]
   },
   "policy_actions": {
-   "status": "public",
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Public Utility Commission of Texas"
+   ],
    "pages": [
     "/companies",
     "/data",
@@ -4023,7 +4086,11 @@
    ]
   },
   "policy_reads": {
-   "status": "public",
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Public Utility Commission of Texas"
+   ],
    "pages": [
     "/data",
     "/policy"
@@ -4553,13 +4620,16 @@
     "nyiso_load_queue",
     "nyiso_rtm_zone_prices",
     "nyiso_zone_load_hourly",
+    "policy_action_tags",
+    "policy_actions",
+    "policy_reads",
     "price_board_latest",
     "price_board_peak_offpeak",
     "price_board_spreads",
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 487
+   "public": 485
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4800,16 +4870,17 @@
   },
   "/companies": {
    "label": "Companies",
-   "dark": "part",
+   "dark": "all",
    "license_needed": [
     "company_aliases",
     "company_directory",
     "company_links",
     "datacenter_facilities",
-    "energy_deals"
+    "energy_deals",
+    "policy_actions"
    ],
    "internal": 0,
-   "public": 1
+   "public": 0
   },
   "/deals/capital": {
    "label": "Capital flows",
@@ -4836,10 +4907,12 @@
    "label": "Policy",
    "dark": "part",
    "license_needed": [
-    "isone_interconnection_queue"
+    "isone_interconnection_queue",
+    "policy_actions",
+    "policy_reads"
    ],
    "internal": 1,
-   "public": 23
+   "public": 21
   },
   "/play/battery": {
    "label": "Home battery game",

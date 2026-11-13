@@ -104,7 +104,10 @@ def text_of(raw, content_type=""):
             t = "\n".join((p.extract_text() or "") for p in pdf.pages)
     else:
         s = raw.decode("utf-8", errors="replace")
-        if "<" in s and ">" in s:
+        if (content_type or "").startswith("text/plain"):
+            # a plain text file (a README, a robots file): a reStructuredText link `words <address>`__ keeps its words
+            t = re.sub(r"`([^`<]+?)\s*<[^>]*>`_{1,2}", r"\1", s)
+        elif "<" in s and ">" in s:
             from bs4 import BeautifulSoup
             soup = BeautifulSoup(s, "lxml")
             for tag in soup(["script", "style", "noscript", "svg"]):
@@ -127,7 +130,7 @@ def norm(s):
 def sentences(text):
     """The page's sentences: cut at a full stop, a question or an exclamation mark followed by a space and a capital,
     a digit or an opening quote."""
-    parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(])", text)
+    parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(])|\s+\*\s+(?=[A-Z])", text)   # a bullet ("* The ...") starts one too
     return [p.strip() for p in parts if len(p.strip()) > 2]
 
 
@@ -216,11 +219,19 @@ def verdict(key, n, pick, value, if_commercial, contact="", price="", note="", r
     if value not in FOUR or if_commercial not in FOUR:
         raise SystemExit(f"a verdict is one of {FOUR}")
     r = read_row(n)
-    if not r["outcome"].startswith("read"):
-        raise SystemExit(f"read {n} was not read ({r['outcome']}): no sentence can be cut from it")
-    sents = sentences(text_of(open(page_path(n, pages), "rb").read(), r["content_type"]))
-    picks = [int(p) for p in str(pick).split("+")]
-    sentence = " ".join(sents[i] for i in picks)
+    if str(pick) == "none":
+        # no page could be read (a refusal by robots, an HTTP error): no sentence, never public, and the note says so
+        if value == FOUR[0] or not note.startswith("NOT READ"):
+            raise SystemExit("a verdict with no sentence is never 'may be public', and its note begins 'NOT READ'")
+        sentence = ""
+    else:
+        if not r["outcome"].startswith("read"):
+            raise SystemExit(f"read {n} was not read ({r['outcome']}): no sentence can be cut from it")
+        sents = sentences(text_of(open(page_path(n, pages), "rb").read(), r["content_type"]))
+        picks = [int(p) for p in str(pick).split("+")]
+        sentence = sents[picks[0]]
+        for a, b in zip(picks, picks[1:]):          # passages that are not next to each other are joined with "[...]"
+            sentence += (" " if b == a + 1 else " [...] ") + sents[b]
     data = rows(VERDICTS)
     old = next((x for x in data if x["key"] == key), None)
     if old and not replace:

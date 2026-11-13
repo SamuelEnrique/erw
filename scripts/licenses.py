@@ -222,6 +222,7 @@ RULED_INTERNAL = {
                                 "ERCOT's terms (read 2) would allow it",
 }
 STATUS = os.path.join(META, "license_status.csv")
+WAITS = "waits for a ruling: the sentence allows public, the flag stays internal (never loosened by a session)"
 
 
 def erw_verdict(flag, standing):
@@ -292,6 +293,10 @@ def write(doc=None):
             standing = f"ruled: license needed from {needed[r['table']]}"
         if standing == "DISAGREES: the flag is stricter" and r["table"] in RULED_INTERNAL:
             standing = "ruled: kept internal"
+        # chain 229 (the owner's rule of 13 November 2026): a session never loosens a flag. A table flagged internal whose
+        # publishers' sentences allow it keeps its flag and waits for the owner's ruling, the default "stays internal".
+        if standing == "DISAGREES: the flag is stricter":
+            standing = WAITS
         lines.append(dict(table=r["table"], pubs=pubs, v=v, why=why, unread=unread, flag=r["license"], standing=standing, vc=vc, whyc=whyc, own=own, rows=r["n_rows"]))
     n_ask = sum(1 for r in reads if not r["outcome"].startswith("not asked"))
     n_read = sum(1 for r in reads if r["outcome"] == "read")
@@ -312,14 +317,15 @@ def write(doc=None):
     w("")
     w(f"- **{len(lines)} tables.** The flag and the verdict agree on {count('agrees')}; a ruling settles {count('ruled')} (session 324: "
       f"the \"license needed\" rows of `license_status.csv`, and {len(RULED_INTERNAL)} tables kept internal by a ruling); disagree on {count('DISAGREES')}; "
-      f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice.")
+      f"{count('not settled')} are not settled (a publisher not read); {count('internal by')} is internal by the ERW's own choice; "
+      f"{count('waits for a ruling')} flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default \"stays internal\").")
     ev = collections.Counter(erw_verdict(x["flag"], x["standing"]) for x in lines)
     w(f"- **The ERW's verdict (session 378): {ev['public']} public, {ev['internal']} internal, {ev['unsettled']} unsettled** "
       "(one word a table, in \"Every table\"; an unsettled table waits for a permission, a read, or a ruling).")
     w(f"- **{len(reads)} publishers in the record: {n_ask} requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), {n_read} pages read, {n_ask - n_read} that could not be read, "
       f"{len(reads) - n_ask} not asked (paused).**")
     loose = [x for x in lines if x["standing"] == "DISAGREES: the flag is looser"]
-    strict = [x for x in lines if x["standing"] == "DISAGREES: the flag is stricter"]
+    strict = [x for x in lines if x["standing"] in ("DISAGREES: the flag is stricter", WAITS)]
     by = {}
     # session 324: the tables flagged public whose publisher asks for permission, open or settled as "license needed"
     asks = loose + [x for x in lines if x["standing"].startswith("ruled: license needed")]
@@ -417,6 +423,8 @@ def write(doc=None):
         w(f"- `{x['table']}`: {x['v']}, by {short(x['why'], 8)}.{holds}")
     w("")
     w("### Flagged internal; the sentence read allows it")
+    w("")
+    w("A ruling each, the default \"stays internal\": no session loosens a flag (chain 229).")
     w("")
     for x in strict:
         w(f"- `{x['table']}`: {x['v']} ({short(x['pubs'], 4)}).")
