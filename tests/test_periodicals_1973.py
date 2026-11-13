@@ -818,6 +818,16 @@ class Row141APlanIsNoDeal(unittest.TestCase):
         self.assertIn("Deal value, USA", self.row("Strathcona pursues growth with a USD 12 billion deal"))
 
 
+class Rows142And143EarlyOctober(unittest.TestCase):
+    def test_142_a_price_per_share_is_no_sum(self):
+        self.assertEqual(brief.story_figure({"mw": "", "price": "C$12 Per Share"}), "")
+        self.assertEqual(brief.story_figure({"mw": "", "price": "$93.78/bbl"}), "")
+        self.assertEqual(brief.story_figure({"mw": "", "price": "$4.2 billion"}), "USD 4.2 billion")
+
+    def test_143_opec_plus(self):
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "OPEC+"}, "OPEC, Allies Hold Oil Output Steady Amid Middle East Tensions"), "")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

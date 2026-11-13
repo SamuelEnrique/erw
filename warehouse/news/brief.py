@@ -936,7 +936,7 @@ def party_in_head(party, head):
     """Session 3313 (row 84, refined): whether the headline already names a party: the name itself, or its initials as a
     word ("DOE" for the Department of Energy, "US" for the United States); a party that names no one ("unnamed
     hyperscaler", "undisclosed buyer") counts as named, so it is never printed as one."""
-    low, h = party.lower(), str(head or "")
+    low, h = party.lower().rstrip("+*. "), str(head or "")   # session 3367 (row 143): "OPEC+" is named by "OPEC"
     if low.startswith(("unnamed", "undisclosed", "an unnamed", "a unnamed")) or low in h.lower():
         return True
     # session 3349 (faults file row 128): a party that is a description, not a name ("US regulator", "a utility"): a word
@@ -2040,6 +2040,10 @@ def story_figure(r, order=("mw", "money")):
         elif what == "money":
             raw = str(r.get("price") or "")
             price = money_style(raw)
+            # session 3367 (faults file row 142): a price per share, per barrel or per unit is no structural sum ("CAD 12
+            # Per Share" was a deal's value, 7 October)
+            if re.search(r"\bper\b|/", raw, re.I):
+                continue
             if MONEY.search(raw) and re.search(r"\d", price):
                 return price
     return ""
