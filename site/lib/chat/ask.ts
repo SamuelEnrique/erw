@@ -12,6 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
+import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed } from "./refused";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -332,6 +333,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
   const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? []), ...past.flatMap((t) => t.tables)]);
+  // session 5256 (lib/chat/refused.ts): a table a tool refused to read, and a table a describe_table, query or compare did read
+  const refusedTables = new Set<string>(), readOk = new Set<string>();
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
   // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall
   // time). A call already made for this question, with the same arguments, is not made again: the model is told that
@@ -340,16 +343,24 @@ export async function ask(question: string, today = new Date().toISOString().sli
   // seven times over through the grids' chats); warehouse/chat/ask.py holds the same.
   const toolMs: { tool: string; table: string | null; ms: number; args?: unknown; repeat?: boolean }[] = [];
   const ran = new Set<string>();
+  // session 5256 (lib/chat/refused.ts): a table refused whole for this question (not in the live set, held whole), with
+  // the refusal's words. A later call that names it is not made: it is answered with a note, counted, and no record
+  const refusedWholeWords = new Map<string, string>();
   type Ran = { out: Record<string, unknown>; isError: boolean; repeat?: boolean };
   const runTool = async (name: string, input: unknown, sc: Scope): Promise<Ran> => {
     const t = Date.now(), k = callKey(name, input);   // session 2222 (chain 152): every chat, not Ask ERCOT's alone
     const repeat = k !== null && ran.has(k);
+    const again = tablesNamed(name, input).find((x) => refusedWholeWords.has(x));   // session 5256: a table already refused whole
     if (k !== null) ran.add(k);
     try {
+      if (again !== undefined) return { out: { note: refusedAgainNote(again, refusedWholeWords.get(again) ?? "") }, isError: false, repeat: true };
       if (repeat) return { out: { note: "this exact call was already made for this question and its result is above: answer from it; do not call it again" }, isError: false, repeat: true };
-      return await (profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc));
+      const got = await (profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc));
+      const whole = got.isError ? refusedWhole(got.out.error, tablesNamed(name, input)) : null;
+      if (whole) refusedWholeWords.set(whole, String(got.out.error));
+      return got;
     } finally {
-      toolMs.push({ tool: name, table: typeof (input as Record<string, unknown> | null)?.table === "string" ? String((input as Record<string, unknown>).table) : null, ms: Date.now() - t, args: input, ...(repeat ? { repeat: true } : {}) });
+      toolMs.push({ tool: name, table: typeof (input as Record<string, unknown> | null)?.table === "string" ? String((input as Record<string, unknown>).table) : null, ms: Date.now() - t, args: input, ...(repeat || again !== undefined ? { repeat: true } : {}) });
     }
   };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
@@ -436,6 +447,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const bad = unverified(draft.answer, sources);
     const units = unitMismatches(draft.answer, sources);  // session 1110
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
+    // session 5256: an answer's citation of a table a tool refused to read, and that no call read, is of a table no tool
+    // read (list_tables naming it does not make it the source of an answer); a refusal may still name what it was refused
+    if (!draft.not_in_warehouse) for (const c of draft.citations) if (refusedTables.has(c.table) && !readOk.has(c.table) && !uncited.includes(c.table)) uncited.push(c.table);
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
@@ -489,6 +503,10 @@ export async function ask(question: string, today = new Date().toISOString().sli
       else if (v && typeof v === "object") words(v); } };
     if (profile?.zone) words(out);
     if (tracing) traced.push({ tool: name, input, out, isError });
+    // session 5256: the tables this call named, refused (not in the live set, held, paused) or read
+    const named = tablesNamed(name, input);
+    if (isError && refusedRead(out.error)) for (const t of named) refusedTables.add(t);
+    if (!isError) for (const t of named) readOk.add(t);
     if (!isError && !out.held) for (const r of readsOf(name, input)) if (!readsLog.some((x) => JSON.stringify(x) === JSON.stringify(r))) readsLog.push(r);
     if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
     for (const r of readsOf(name, input)) looked.add(r.table);

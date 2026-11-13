@@ -59,6 +59,10 @@ class Scripted:
         return types.SimpleNamespace(stop_reason="end_turn", content=[types.SimpleNamespace(type="text", text=json.dumps(t["text"]))], usage=Usage(), _request_id="req_fixture")
 
 
+def no_fetch(name, *args, **kwargs):
+    raise tools.erw.ERWDataNotFound(f"{name} is not in the fixture")
+
+
 class Frames:
     """The fixture's rows as the tools' frames, the backend never asked (as tests/test_session1191.py)."""
 
@@ -66,6 +70,10 @@ class Frames:
         self.saved = dict(tools._frames), tools._backend_ready, tools.SCOPE
         self.patches = [mock.patch.object(tools.erw, "version", return_value={"backend": "fixture"}),
                         mock.patch.object(tools.erw, "cite", return_value="fixture"),
+                        # session 5256: the fixture stands for the live set, so a table with no rows in it cannot be read, as the
+                        # live set answers for a table of the record it does not hold (the scenario a_table_not_in_the_live_set)
+                        mock.patch.object(tools, "live_only", return_value=True),
+                        mock.patch.object(tools.erw, "fetch", side_effect=no_fetch),
                         mock.patch.dict(os.environ, {"ASK_HOLD": "on"})]
         for p in self.patches:
             p.start()
@@ -91,7 +99,9 @@ class Frames:
         tools._backend_ready = True
         tools._frames["_coverage"] = pd.DataFrame([{"table": c["table_name"], "source_report": c["source_report"], "license": c["license"],
                                                     "tier": c.get("tier"), "last_run": pd.NaT, "ts_min": c.get("ts_min"), "ts_max": c.get("ts_max"),
-                                                    "sector": c.get("sector"), "iso": c.get("iso"), "interval": c.get("interval")} for c in fx["catalogue"]])
+                                                    "sector": c.get("sector"), "iso": c.get("iso"), "interval": c.get("interval"),
+                                                    # session 5256: what list_tables reads besides (the new scenario lists the tables)
+                                                    "n_rows": c.get("n_rows") or 0, "derived": c.get("derived") or "no"} for c in fx["catalogue"]])
         rows = pd.DataFrame(fx["rows"])
         for t, df in rows.groupby("table_name"):
             df = df.drop(columns=["table_name"]).reset_index(drop=True)
@@ -130,9 +140,15 @@ def site_loop():
     exe = shutil.which("node")
     if not exe:
         raise unittest.SkipTest("node is not on this machine")
+    register = "./scripts/alias-register.mjs"
     if not os.path.isdir(os.path.join(SITE, "node_modules")):
-        raise unittest.SkipTest("the site's packages are not installed in this copy")
-    r = subprocess.run([exe, "--import", "./scripts/alias-register.mjs", "scripts/run-ask-turns-1300.mjs"], cwd=SITE,
+        # session 5256: a git worktree with no packages of its own reads the main checkout's, where they stand, through
+        # scripts/eval-loader.mjs (session 5202): nothing is installed, linked or copied
+        other = os.environ.get("ERW_NODE_MODULES_SITE") or os.path.join(os.path.dirname(ROOT), "erw", "site")
+        if not os.path.isdir(os.path.join(other, "node_modules")) or not os.path.exists(os.path.join(SITE, "scripts", "eval-register.mjs")):
+            raise unittest.SkipTest("the site's packages are not installed in this copy")
+        register = "./scripts/eval-register.mjs"
+    r = subprocess.run([exe, "--import", register, "scripts/run-ask-turns-1300.mjs"], cwd=SITE,
                        capture_output=True, text=True, timeout=300, encoding="utf-8")
     if r.returncode != 0 and "Unknown file extension" in r.stderr:
         raise unittest.SkipTest("this node does not read TypeScript files")
@@ -149,7 +165,25 @@ class ThePythonLoop(unittest.TestCase):
                          {"answered": "answered", "a_figure_in_no_result": "refused_unverified", "a_compare": "answered",
                           "not_in_the_warehouse": "not_in_warehouse", "a_table_cited_unread": "refused_unverified", "a_held_grid": "answered",
                           "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered",
-                          "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered"})
+                          "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered",
+                          "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse",
+                          "a_held_grids_own_table": "not_in_warehouse"})
+        # session 5260 (chain 238, the platform set's pj08): a held grid's own table of things (ISO New England's queue) is
+        # refused by name with the hold's words, as a table held whole is; its description, asked next, is not read either
+        r = got["a_held_grids_own_table"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["tool_choices"]), (2, 0, False, 3, ["auto", "auto", "none"]))
+        self.assertIn("license needed", r["answer"])
+        # session 5256: told once that a table cannot be read, a model that asks it again with other arguments is not obeyed:
+        # the two later calls are counted and not made, and the call after that turn may only write
+        r = got["a_refused_table_asked_again"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["tool_choices"]), (3, 0, False, 3, ["auto", "auto", "none"]))
+        # session 5256 (chain 238, the platform set's oi07): a table the catalogue lists and the live set does not hold. Its
+        # query is refused with words that say how to answer; a first draft that answers as an answer, with the refused table
+        # as its source, is sent back (list_tables naming a table does not make it the source of an answer), and the second,
+        # a refusal, stands: two tool calls, no read, four model calls
+        r = got["a_table_not_in_the_live_set"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"], r["why"]), (2, 0, True, 4, [], ""))
+        self.assertIn("on Redivis and not in the live set", r["answer"])
         # session 3297 (the trader set's tr15): a count past a value threshold, answered at the first draft from the tool's count
         r = got["a_threshold_count"]
         self.assertEqual((r["tool_calls"], r["reads"], r["retried"]), (1, 1, False))
