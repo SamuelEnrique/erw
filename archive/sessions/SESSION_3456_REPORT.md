@@ -111,3 +111,11 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Not a fault:** a past week's dry run reads policy reads written later, so W45's "Next week" lists "the permit was issued on November 9" from a notice of 12 November.
 - **No build:** MemFree about 2.1 GB, under 2.5.
 - **Row 11:** moved to `1f45e5525` (the merge).
+
+## Session 3467: the stack's issues as email, row 171
+
+- The stack's 13 November Digest and W46 dry runs rendered with `email_digest.render` (`runs/s3467_render.py`, nothing sent; `runs/periodicals_dryrun/s3467/`).
+- **Row 171 (new, fixed):** the plain-text email printed the chart's description, "[chart: Net generation from natural gas in Wyoming: ...] <address>", then the same sentence again on the next line. That is in 12 November's email as sent, and in every chart since session 232. The text part now gives "[chart] <address>" when the next line is the description; the HTML keeps it as alt text.
+- **By design, kept:** the text part names a Google News outlet without its address (session 803), and prints What moved's first three items (session 2703).
+- Tests: `Row171TheTextEmailNamesTheChartOnce` (2). The 66 files: 1,261 passed, 20 skipped.
+- **Row 11:** moved to `91cc7525c`.
