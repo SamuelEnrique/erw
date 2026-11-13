@@ -47,3 +47,10 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - **Row 176 (new, fixed):** the stack's 28 September printed "[bloomberg.com] (via Google News)" beside "[Bloomberg.com]" in every other item. The feed names some stories by their address (jpt.spe.org 50 stored, hartenergy.com 22, bloomberg.com 20, nyiso.com 29, partners.wsj.com 15); rows 133 and 134 had named only ft.com and wsj.com. An outlet named by its address, or a subdomain of it, now reads as its other links name it. An address not listed stays as written.
 - Tests: `Row176AnOutletByItsName` (2). The 72 files: 1,385 passed, 20 skipped. The Digest's method note carries the row.
 - **Row 11:** moved to `7ce9062d0` (rows 161 to 176 wait).
+
+## Session 3479: every stored Digest again, row 177
+
+- The 17 stored Digests ran again on the stack with rows 165 to 176 and were scanned for mechanical slips: articles, outlets named by address, doubled words, stray spaces, unstyled sums outside the publishers' titles. Clean, apart from "Wagga Wagga" (a place) and 22 October's fun fact, "from US$3/barrel". The fact is printed word for word as its source was checked, and `check_digest.py` holds the issue to that wording, so it is kept.
+- **Row 177 (new, fixed):** the block printed the country three ways: "Generation capacity, United States", "Storage dispatched, USA", "Transmission, US". These are the scorer's region as written (US 5,172, United States 794, USA 106), and the topic key read them as three regions. Both now read "US". Over the 17 issues, the block's places change, and two pairs fold as one topic: 21 October's heating oil and diesel policies, and 6 November's Lambda campus under the datacenter commentary (the owner's "one sector in one region" rule).
+- Tests: `Row177TheCountryIsUS` (2); 14 pins of `test_periodicals_1973.py` read "US". The 72 files: 1,387 passed, 20 skipped.
+- **Row 11:** moved to `48b5fb1df` (rows 161 to 177 wait).
