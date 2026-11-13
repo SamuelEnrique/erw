@@ -127,3 +127,11 @@ export function netToPage(keep: string, own: string): string {
   const head = keep.startsWith("?") ? keep : `?${keep}`;
   return out.length ? `${head}&${out.join("&")}` : head;
 }
+
+// ------------------------------------------------------------------ the zone a local hour is named in
+/** Session 5403: MISO keeps Eastern Standard Time all year (the zone Etc/GMT+5), which Intl names "GMT-5" beside the
+ * "EST" and "CST" of the other grids; a formatted local time is given MISO's own name, "EST". Every other zone is
+ * left as Intl names it. */
+export function zoneWords(formatted: string, tz: string | null | undefined): string {
+  return tz === "Etc/GMT+5" ? formatted.replace(/GMT-5$/, "EST") : formatted;
+}
