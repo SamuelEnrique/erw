@@ -6,7 +6,10 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 
 - **The whole suite on a clean copy of `origin/main` at `98f666c8b`**, after the day's four landings (`3a82aebe4`, `b1ea7427a`, `5fe21d6de`, `71f8442ed`) and window A's.
 - Run through `scripts/suite_gate.py --ref 98f666c8b --batch 40`: the guard's runner with this chain's batches, its first use end to end.
-- (the result: written when it ends)
+- **Main is green:** "the suite passed on 98f666c8b: 8783 tests" (exit 0), 28 processes, the heaviest 669 MB, 13:44 to 14:03 UTC.
+- **One thing to explain:** the batched run skipped 389 tests where the gate's single-process discover skipped 382, on 8,783 tests either way.
+  - `suite_batches.py --verbose` was added, which runs each batch at unittest's verbosity 2.
+  - Discover `-v` and the batches `--verbose` are being run on two clean copies of `98f666c8b`, to name the 7 tests.
 
 ## The requests read (13:45 UTC), for the gate after 16:15
 
