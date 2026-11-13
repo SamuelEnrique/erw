@@ -23,7 +23,21 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
 ## The gate
 
 - Gated commit `958764699` (land-b with `origin/main` merged after the lock, 12:42 UTC); `build_llms.py --check` exit 0 on it; the suite running.
-- (the rest written when it ends)
+- **The gate's result:**
+  - the suite: 8,783 tests OK, 382 skipped;
+  - `npm ci`, the build and serve passed;
+  - **check-values: one failure, `/policy`'s floor** (0 checked numbers, 1 "license needed" mark). The gate ran `land_check.py` from the main checkout, which did not yet have `/policy` in `HELD_FLOOR_PAGES`.
+  - **The week view's count no longer failed:** the fix works, and it now says "license needed".
+  - `/digest` was a note.
+  - The hand checks passed: check-routes, check-cross-checks (92) and check-csp (97 pages).
+- **The landing:**
+  - Freeze none; no task branch in flight. Snapshot `before-95876469`.
+  - `task/4005-landing`: run 43431841034. GitHub ran the suite again because main had moved. It merged at 13:38 (`71f8442ed`); the deploy succeeded at 13:40.
+  - **Snapshot after: 50 differences, all expected.** Each of the 25 pages lost the menu text "Economic impact in review" and gained "Local impact in review": the forecast row's rename, which the row said to expect.
+- **The marks:** `70d79898e`, with snapshots before and after: 0 differences.
+  - Window 3's row 4 and window 4's row 1 are landed.
+  - The old laptop's row 10 is landed in part, to `88893595d`; it now names `1831d3fe5`.
+  - Window 3's row says to pull main before its next commit, since the desk's fix is on main.
 
 ## Decisions made without you
 

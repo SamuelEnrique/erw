@@ -23,14 +23,13 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | portable 17, 19 to 22 | `wip/5000-grid` (P1's stack) | `5fe21d6de` | 0 differences |
 | old laptop 10, in part | `wip/1973-periodicals` to `5f5aea071` | `5fe21d6de` | 0 differences |
 | this window's own | `wip/w2-4000` (the 8 GB gate, the root causes, the `/digest` floor) | `5fe21d6de` | 0 differences |
+| desktop w3 4 (licenses, rows 1 to 3 within it) | `wip/4150-licenses`, with the desk's fix of a held count | `71f8442ed` | the menu's rename on 25 pages, expected |
+| desktop w4 1 (the forecast, `/impact`) | `wip/4200-forecast` | `71f8442ed` | the same |
+| old laptop 10, in part | `wip/1973-periodicals` to `88893595d` | `71f8442ed` | the same |
 
 ## Rows that wait, and why
 
-- **In the gate of session 4005** (`wip/w2-land-b`):
-  - window 3's row 4 (licenses, rows 1 to 3 within it), with the fix for a held table's count;
-  - window 4's row 1 (the forecast);
-  - the old laptop's row 10 to `88893595d`.
-- **Row 10's newer heads** (`862ce4255` and on) go in the next gate: the old laptop keeps stacking on the same branch.
+- **The old laptop's row 10, from `88893595d` to its newest head** (`1831d3fe5` at 13:41): the next gate, after the 14:00 to 16:15 blackout. The old laptop keeps stacking on the same branch.
 
 ## The fallback's results
 
