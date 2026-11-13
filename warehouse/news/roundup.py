@@ -605,7 +605,10 @@ def numbers(start, cut, log, facts=None):
                      + ("; EIA's newest close is from before this week, so this is no move of the week" if before_week else "")
                      + f" | {notes.ref('eia_fuel_spot_prices')} |")
             if facts is not None and not flags and not before_week:
-                facts.setdefault("fuel", []).append(dict(label=label, a=a, b=b, ref=notes.ref("eia_fuel_spot_prices")))
+                # session 3473 (row 174): the closes to the cut too, for the close of a story's own day (bench_words)
+                s = series[entity]
+                facts.setdefault("fuel", []).append(dict(label=label, a=a, b=b, ref=notes.ref("eia_fuel_spot_prices"),
+                                                         s=s[s["ts_utc"] <= cut]))
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
         L.append("| fuel prices | not in the warehouse | | | |")
@@ -1680,11 +1683,34 @@ def bench_of(r, facts):
     return (own or [f for f in named if f["label"] == "Brent crude"] or named)[0]
 
 
-def bench_words(f):
-    """Row 98: the week's close of a benchmark as the issue's fuel table prints it, with its mark."""
-    a, b = f["a"], f["b"]
-    return (f"the warehouse's {f['label']} close is {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d}, against "
-            f"{b['value']:.2f} on {b['ts_utc']:%Y-%m-%d} {f['ref']}")
+STORY_DAY_SLACK = 3   # session 3473 (row 174): the days a story's day's close may lie before it (a weekend, a holiday)
+
+
+def story_day_closes(f, when):
+    """Session 3473 (faults file row 174): (the close of a story's trading day, the close before it) from the week's
+    closes (f["s"]), the story's day read in Eastern time ("Oil settles $3 higher ..." at 2026-11-12 01:52 UTC is the
+    settle of 11 November); None when the series is not held or holds no close within STORY_DAY_SLACK days of it."""
+    s, t = f.get("s"), utc_ts(when)
+    if s is None or t is None or not len(s):
+        return None
+    day = t.tz_convert("America/New_York").normalize().tz_localize(None)
+    d = pd.to_datetime(s["ts_utc"], utc=True).dt.tz_localize(None).dt.normalize()
+    upto = s[d <= day]
+    if len(upto) < 2:
+        return None
+    a, b = upto.iloc[-1], upto.iloc[-2]
+    if (day - pd.Timestamp(a["ts_utc"]).tz_localize(None).normalize()).days > STORY_DAY_SLACK:
+        return None
+    return a, b
+
+
+def bench_words(f, when=None):
+    """Row 98: the week's close of a benchmark as the issue's fuel table prints it, with its mark. Session 3473 (row 174):
+    for a story with its time (`when`), the close of the story's own day against the close before it, when held: W46's
+    "Oil settles $3 higher ..." (11 November) was set beside the week's +0.30 USD/bbl, not the day's +1.98."""
+    a, b = story_day_closes(f, when) or (f["a"], f["b"])
+    return (f"the warehouse's {f['label']} close is {a['value']:.2f} {a['unit']} on {pd.Timestamp(a['ts_utc']):%Y-%m-%d}, against "
+            f"{b['value']:.2f} on {pd.Timestamp(b['ts_utc']):%Y-%m-%d} {f['ref']}")
 
 
 def evidence_gap(r, head="", deal=None, plant=None, bench=None):
@@ -1726,7 +1752,7 @@ def evidence_gap(r, head="", deal=None, plant=None, bench=None):
             gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
     elif said and bench is not None:
         # session 1993 (faults file row 98): a market move the warehouse holds: the table's close, not "not a table's"
-        gaps.append(f"the {fig} is the outlet's figure; {bench_words(bench)}")
+        gaps.append(f"the {fig} is the outlet's figure; {bench_words(bench, r.get('first'))}")   # 3473, row 174
     elif said:
         gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
     if not str(r.get("parties") or "").strip() and bench is None:   # row 98: a market move has no party to name
@@ -1903,8 +1929,10 @@ def event_kind(sentence):
     return "other"
 
 
-NO_NEXT_WEEK = ("No dated events held this week: the warehouse and the policy monitor hold no filing, auction, hearing, data "
-                "release or project milestone dated in the week ahead.")
+# Session 3473 (faults file row 173): "No dated events held this week" under "Next week" read as no event this week; the
+# line is about the week ahead, as its second half said
+NO_NEXT_WEEK = ("No event of the week ahead is held: the warehouse and the policy monitor hold no filing, auction, hearing, data "
+                "release or project milestone dated in it.")
 
 
 def week_fun_fact(start, cut, log):

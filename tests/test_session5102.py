@@ -284,8 +284,11 @@ class TheHeaders(unittest.TestCase):
     def setUpClass(cls):
         code = ('const cfg = (await import("./next.config.ts")).default;'
                 'console.log(JSON.stringify({ headers: await cfg.headers(), powered: cfg.poweredByHeader ?? null }));')
+        # session 5159 (row 27): the policy names this site's own Supabase project when SUPABASE_URL is set; these tests
+        # read the configuration without it, whatever the machine's environment holds (tests/test_session5159.py reads it with)
+        env = {k: v for k, v in os.environ.items() if k != "SUPABASE_URL"}
         r = subprocess.run([node(), "--no-warnings", "--import", "./scripts/alias-register.mjs", "--input-type=module", "-e", code],
-                           cwd=SITE, capture_output=True, text=True, timeout=120)
+                           cwd=SITE, capture_output=True, text=True, timeout=120, env=env)
         if r.returncode != 0:
             raise AssertionError(r.stderr[-2000:])
         cls.rules = json.loads(r.stdout)["headers"]

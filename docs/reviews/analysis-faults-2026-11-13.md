@@ -25,3 +25,10 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | Cross-check table | `docs/methods/crosschecks/automated_analysis.md` |
 | Decisions block | the note's "Decisions" (35 assumptions, `replication/analysis/assumptions.json`) |
 | Final form | every part made on a clock with no person (the note's "Final form"); a finding is published after the owner's approval, by ruling; whether it is final is the owner's word |
+
+## The fresh read (session 5077, chain 243)
+
+Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 November 2026 between 19:59 and 20:12 UTC) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's end address, its scroll width against the window, the exceptions it threw, the words that betray a broken value (NaN, undefined, [object Object], Infinity), its text and a picture of the window and of the whole page (four looked at: the Grid's Ask flag and Network at 1280, Gravity at 390, the battery's CAISO view at 390; the others read by their measures and text). Not on a local build: the build of `wip/5072-analysis` was stopped by Claude Code when the laptop ran low on memory (three windows on 16 GB), and the stack changes no page's code.
+
+- `/research` and the archive's newest week, `/research/2026-W45`, at both widths: no sideways scroll, no exception, no broken word.
+- **No new fault.** The week's chart of 2026-W46 is made on Sunday 15 November; this chain's dry run of it (session 5075) chose Brent's weekly mean.
