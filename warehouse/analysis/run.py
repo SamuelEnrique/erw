@@ -8,6 +8,12 @@ Energy Research Warehouse (ERW), session 23. Weekly, before the Energy Roundup (
     python warehouse/analysis/run.py --week 2026-W39
     python warehouse/analysis/run.py --no-gallery     # skip the parameter grid
     python warehouse/analysis/run.py --no-model       # the note and caption from the template's own sentences
+    python warehouse/analysis/run.py --out-dir C:/scratch/week   # session 5075: the whole weekly run, end to end, in
+                                                      # a folder outside the repository: the choice, the charts, the
+                                                      # caption, results.json, the history and the log are written
+                                                      # there; no model is called, no status row is written, nothing
+                                                      # under docs/ or warehouse/ moves (the history is read from
+                                                      # docs/analysis/history.csv and its copy grows in the folder)
     python warehouse/analysis/run.py --dry-run        # session 152: the choosing step only (steps 1 and 2): every
                                                       # candidate with its score and the reason it competes or does not,
                                                       # the pick and the runner-up, printed. No model is called and no
@@ -492,6 +498,29 @@ def gallery(mods, log):
     return index
 
 
+def use_out_dir(folder):
+    """Session 5075: every file the weekly run writes goes under `folder` (outside the repository): the week's folder,
+    the social copies, templates.json, tables.json, the gallery and the history under <folder>/docs/analysis, the
+    internal records under <folder>/analysis_internal. The history starts as a copy of docs/analysis/history.csv, so
+    the rule scores each change against the same earlier weeks as the scheduled run."""
+    global DOCS, INTERNAL, HISTORY
+    here = os.path.abspath(folder)
+    try:
+        inside = os.path.commonpath([here, ROOT]) == ROOT
+    except ValueError:   # another drive
+        inside = False
+    if inside:
+        raise ValueError(f"--out-dir must be outside the repository ({ROOT})")
+    source = os.path.join(ROOT, "docs", "analysis", "history.csv")
+    DOCS = os.path.join(here, "docs", "analysis")
+    INTERNAL = os.path.join(here, "analysis_internal")
+    HISTORY = os.path.join(DOCS, "history.csv")
+    os.makedirs(DOCS, exist_ok=True)
+    if os.path.exists(source) and not os.path.exists(HISTORY):
+        shutil.copyfile(source, HISTORY)
+    return here
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Automated Analysis")
     ap.add_argument("--week", help="ISO week YYYY-Www (default: the week that contains yesterday, UTC)")
@@ -505,15 +534,29 @@ def main(argv=None):
                          "runner-up; call no model and write nothing")
     ap.add_argument("--tables", action="store_true",
                     help="session 173: print every template's tables as one regular expression (for scripts/sync.py --tables) and stop")
+    ap.add_argument("--out-dir",
+                    help="session 5075: the whole weekly run, end to end, in this folder outside the repository: no model call, "
+                         "no status row, nothing under docs/ or warehouse/ moves")
     args = ap.parse_args(argv)
     if args.tables:
         print(tables_pattern(templates.load_all()))
         return 0
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    out_dir = None
+    if args.out_dir:
+        if args.dry_run or args.gallery_only or args.tables_only:
+            ap.error("--out-dir is the whole weekly run in a folder: not with --dry-run, --gallery-only or --tables-only")
+        try:
+            out_dir = use_out_dir(args.out_dir)
+        except ValueError as exc:
+            ap.error(str(exc))
+        args.no_model = True
     if args.dry_run:
         if args.gallery_only or args.tables_only:
             ap.error("--dry-run is the choosing step alone: not with --gallery-only or --tables-only")
         log = PrintLog()
+    elif out_dir:
+        log = ip.Log(os.path.join(out_dir, f"analysis_{run_id}.log"))
     else:
         os.makedirs(ip.LOG_DIR, exist_ok=True)
         log = ip.Log(os.path.join(ip.LOG_DIR, f"analysis_{run_id}.log"))
@@ -685,6 +728,10 @@ def main(argv=None):
         status.update(status="failed", detail=tb.strip().splitlines()[-1][:300])
     if args.dry_run:  # a dry run that failed: said above, and no status row is written
         return 1
+    if out_dir:  # session 5075: a run in a folder writes no status row
+        log(f"no status row (--out-dir {out_dir}): {status['status']}")
+        log.close()
+        return 0 if status["status"] == "ok" else 1
     ip.write_status("analysis", run_id, [status])
     log.close()
     return 0 if status["status"] == "ok" else 1
