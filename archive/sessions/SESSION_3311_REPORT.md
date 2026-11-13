@@ -65,3 +65,12 @@ Energy Research Warehouse (ERW). Chain 232 (`queue/done/232-day-14-november-oldl
 - 109 (ruling): the Roundup's fun fact repeats the week's newest Digest fact by design. Default: unchanged.
 - **Row 10**: head `a3420698d`, merges cleanly with main at `6d705563e`.
 
+## Session 3320: chain 225's records step
+
+- `docs/reviews/five-tools-read-2026-11-11.md`: a line after chains 220 to 225 and the revert's landing; each faults file's rows counted on main (121, 55 fixed, 0 open, 28 data machine, 11 ruling, 27 not a fault: unchanged). `package/tools/build_tables.py --check`: exit 1 for the site's two files only (this machine's local news tables), the package's 648 rows 0 differ, as session 1905 found.
+- The lab path's step 04 needs a fresh build of main; builds here are stopped for memory, so it stays in the next file.
+
+## Session 3321: the model path
+
+- One dry run of 12 November on the stack with the model (USD 0.0264 headlines + USD 0.0061 summary, `ERW_SPEND_CAP_USD=2`, the ledger off as earlier dry runs ran it; `runs/periodicals_dryrun/s3321/`). Every fix carries into the model's issue: the subject "ERW Daily | SpaceX plans data center projects in Arizona and Texas", the first line, the opening's passed-over move, Brent as the market row, "Storage dispatched", "JPT", no repeated parties, "the 4 largest moves" with the unchanged line. The model's summary names Brent's reason from the oil story. No new fault.
+
