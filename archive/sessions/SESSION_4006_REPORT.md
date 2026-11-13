@@ -13,6 +13,9 @@ Energy Research Warehouse (ERW). Chain 228, the desktop's second window, 13 Nove
     - **Both ran 8,783 tests, OK, 382 skipped, with the same skipped tests by name** (`runs/w2/s4006/disc_v.skips` and `batch_v.skips` are identical).
     - **The batches run exactly what discover runs.**
     - The 389 came from `suite_gate.py --ref`, whose clean copy lives under the temp folder, not beside the main checkout. Seven tests skip there whatever the runner.
+    - **The seven, named** (discover `-v` in a copy under the temp folder, 14:29 to 14:46, 8,783 OK, 389 skipped): `test_session149` (five: ISO-NE's workbooks and NYISO's saved notice), `test_session157` (the large-load tables) and `test_session705` (`lbnl_interconnection_queue`).
+    - Each skips when this machine's tables or saved pages cannot be reached. From a worktree beside the main checkout they reach the main checkout's `warehouse/output`; from the temp folder, as on GitHub's runner, they do not.
+    - Not a gap of the guard: GitHub skips them too.
 
 ## The requests read (13:45 UTC), for the gate after 16:15
 
