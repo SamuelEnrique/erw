@@ -38,7 +38,12 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-SNAPSHOT = os.path.join(ROOT, "site", "data", "grid_network.json")
+# session 5005 (chain 233): the daily run rewrites site/data/grid_network.json every day and nothing rewrote
+# page_figures.json with it, so a run with no --snapshot stopped (exit 2) the day after the figures were written.
+# figures_of_the_page.py now keeps the snapshot it read beside the figures (snapshot.json), and that copy is the
+# default; --snapshot site/data/grid_network.json sets today's snapshot beside them, as before.
+KEPT = os.path.join(HERE, "snapshot.json")
+SNAPSHOT = KEPT if os.path.exists(KEPT) else os.path.join(ROOT, "site", "data", "grid_network.json")
 TABLES = os.path.join(ROOT, "warehouse", "output")
 ISOS = ["ERCO", "CISO", "PJM", "MISO", "NYIS", "ISNE", "SWPP"]
 
@@ -465,7 +470,7 @@ def main(argv):
         return 2
     if "network" in only and snap["built"] != page["snapshot_built"]:
         print(f"the snapshot given was built {snap['built']}; page_figures.json is of the snapshot built {page['snapshot_built']}: "
-              "write it again (figures_of_the_page.py --snapshot) to set this snapshot's figures beside the page's")
+              "write it again (figures_of_the_page.py --snapshot), or run with no --snapshot to read the copy kept beside the figures (snapshot.json)")
         return 2
     rows = compare(got, ask, page, a, only, o.tables)
     print(f"The Grid tool (/grid): the snapshot built {snap['built']} (hour shown {page['hour_shown']}), the tables in {o.tables}")

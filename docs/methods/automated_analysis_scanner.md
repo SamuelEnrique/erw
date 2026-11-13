@@ -38,6 +38,13 @@ Every number below is a key of `scanner.yaml`.
    `record_stood_points` points, so a series that climbs every month (a fleet's capacity) does not flag every month.
    The new value must pass the old record by `record_min_margin_sigmas` robust standard deviations of the history
    (1.4826 times the median absolute deviation).
+   Since session 1982 (13 November 2026), when a value of the fresh window before the new one had already beaten the
+   held record, the tests above stay the fresh window's against the held history, but "the record until now"
+   (`old_record`, `old_record_date`) is that newer value, the held record is kept as `held_record` and
+   `held_record_date`, and `margin`, `margin_sigmas` and the flag's strength are measured from the record until now. The
+   Digest of 12 November 2026 said Wyoming's gas generation of August 2026 (1,060,504 MWh) broke July 2024's 765,381 MWh
+   when July 2026 (1,034,451 MWh, in the same fresh window) had broken it first (`docs/reviews/periodicals-faults-2026-11-05.md`,
+   row 87).
 2. **A negative price where there was none** (`negative`). A price series (unit `price_unit`, variable `price_variable`
    and not `price_variable_not`) whose day's lowest interval is below zero, when no interval was below zero in the
    prior `negative_prior_days` days, of which at least `negative_min_days_held` are held.

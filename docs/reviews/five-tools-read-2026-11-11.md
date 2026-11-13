@@ -17,6 +17,8 @@ Counts after chain 214 (the states in each faults file). "Fixed" is landed on ma
 
 After chains 217 and 219 (session 1905, 13 November 2026): the counts are unchanged; no row of the five faults files changed state. The two chains landed the board, the periodicals, the records and the paths' faults (`b1bc8829f`). That landing also printed the datacenter tracker's grids view's public columns (session 1898, lab path fault 2), which are datacenter row 4, the owner's ruling; session 1905 put the default back (the cells carry footnote 1) until the owner rules.
 
+After chains 220 to 225 and the landing of `wip/1905-revert` (`3a82aebe4`, the desktop's session 4000, 13 November 2026; checked by session 3320 of chain 232): the counts are unchanged; no row of the five faults files changed state (each file's rows counted on main: 121, 55 fixed, 0 open, 28 data machine, 11 ruling, 27 not a fault). The revert's landing puts the grids view's held columns back on main. `package/tools/build_tables.py --check`: the package's record, 648 rows, 0 differ; only the site's two files differ, built from this machine's local news tables, as session 1905 found.
+
 ## The three worst of each, in plain words
 
 - **Deal tracker.** Every address shows the license hold and no deal (row 1, the owner's: `energy_deals` held whole since 21 October); before the fix the held page drew zero counts as if there were no deals (fixed); the AI view's dollar list ranked acquisitions and funding rounds as power deals (fixed; the rows themselves are the data machine's, rows 9 to 13).

@@ -82,8 +82,8 @@ class TheWhyLine(unittest.TestCase):
     def test_no_figure_the_headline_gives_and_the_stop(self):
         out = brief.why_line("A 600 MW load adds demand to the grid", "Sesterce plans a 600MW campus")
         self.assertEqual(out, "A load adds demand to the grid.")
-        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"),
-                         "parties: Sesterce. ")
+        # session 1979 (faults file row 84): with no figure left to print, the party the headline names is not printed again
+        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"), "")
 
     def test_the_money_style(self):
         self.assertEqual(brief.why_line("Funds a $1.2B pipeline with an $800MM loan", "DOE"), "Funds a USD 1.2 billion pipeline with a USD 800 million loan.")
@@ -1036,10 +1036,11 @@ class V2RTheOpeningNumber(unittest.TestCase):
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
         # session 1446 (fault 34); session 1475 (fault 53): the move leads when the opening number is the move
         self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | WTI up 12.0% on the week; Six reactors eyed")
+        # session 1990 (faults file row 95): with no move to lead, the headline's clause carries no figure either
         self.assertEqual(roundup.subject_line(None, "AEP and Google advance a $4 Billion fuel-cell project"),
-                         "ERW Weekly | AEP and Google advance a USD 4 billion fuel-cell project")
+                         "ERW Weekly | AEP and Google advance a fuel-cell project")
         long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
-        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
+        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers data centre complex with battery")
         self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35
         self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
 

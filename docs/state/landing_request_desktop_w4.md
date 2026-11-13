@@ -1,0 +1,21 @@
+# Landing requests: lab-desktop window 4 (chain 239, the forecast tool, Local impact)
+
+Energy Research Warehouse (ERW). Written by chain 239 (`queue/done/239-day-13-november-desktop-window4-forecast.md`), session 4219, on 13 November 2026. Window B (the landing desk) lands each row through `scripts/land_check.py` with the task and port given, runs the commands it prints each on its own (the snapshot before, the push to `task/`, the snapshot after, the comparison), and marks the row landed with the commit. This window never runs `land_check.py`, builds only under the build lock, and writes no warehouse data.
+
+| # | Branch | Head | Task | Port | Requested (UTC) | Tests on this machine | State |
+|---:|---|---|---|---:|---|---|---|
+| 1 | `wip/4200-forecast` | `1a1008073` (or a later commit of this window: reports and notes only, or a fix recorded in this row) | `4200-forecast` | 4200 | 2026-11-13 12:12 | on `9d904954e` (`origin/main` merged at `58bec34ba`; merged again at `1a1008073`, one conflict in `site/scripts/build-content.mjs` resolved by keeping both additions to `INTERNAL_METHODS`, its tests 38 passed): the 177 test files that name the page, the menu, check-values, check-methods, build-content, `llms.txt` or the floors: 2,180 passed, 56 skipped, 6 failed, each fixed after (tests 1903 and 412 brought to the new page; test 1011 a stale `site/content/llms.json` of a build before the merge, passing after `build-content`); `node --test site/scripts/test-forecast.test.mjs` 21 of 21 (the run's Python script reproduces the tool's totals); `build_llms.py --check` exit 0; built under the build lock (11:51 to 12:03 UTC) and read at 1280 and 390 px; `check-values` on the four `/impact` addresses: 64 of 64 match. The whole suite not run whole (the gate runs it) | requested |
+
+## Row 1: what it holds
+
+Sessions 4200 to 4219, one stack. Reports: `archive/sessions/SESSION_4200_REPORT.md` to `SESSION_4217_4218_REPORT.md` (and `SESSION_4219_REPORT.md` when written).
+
+- **The page**: `/impact` becomes the forecast, "Local impact" (`site/app/impact/page.tsx`, `Forecast.tsx`): the left box in five folding groups, every default in grey with its source in a hover tip, a planned project list (EIA-860M in `energy_projects`), A and B side by side, taxes and jobs by year with hover, the table by year, the same scenario in other states, the run's CSV, Python and Stata. The page stays `review` (`site/lib/release.ts` untouched).
+- **The model**: `site/lib/forecast.ts` (pure, no imports), `site/lib/forecastui.ts`, `site/lib/forecastdata.ts`, `site/lib/forecastfiles.ts`; parameters in `site/data/forecast/` (each with its source), built by `warehouse/forecast/*.py` (code only; no table written); method note `docs/methods/forecast.md` (internal: in `INTERNAL_METHODS`, never linked).
+- **The checks**: `site/scripts/check-values.mjs` recomputes the `forecast|` keys and judges their text with the model's `displayOf`; the four `/impact` addresses of check-values and their floors (10 each) replace session 347's three; `check-methods-keys.json` loses the three old addresses.
+- **The menu**: "Economic impact" becomes "Local impact" (the name is a ruling for Samuel with that default), same place; `package/llms.txt` regenerated.
+
+## For the landing
+
+- **Snapshot differences to expect**: the menu's entry text on every page ("Economic impact in review" to "Local impact in review"); `/impact` itself is in review, so a visitor sees the in-review page as before.
+- **Tables**: none new. The page reads `nlr_jedi_multipliers` and `energy_projects` from the live set (both already there); `impact_tax_rules` stays held for review and is named in the source line as before.
