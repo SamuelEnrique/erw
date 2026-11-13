@@ -15,7 +15,7 @@
     "adjective: major"
    ],
    "expected_why": "",
-   "expected_detail": "parties: NTT; Anthropic. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -31,7 +31,7 @@
     "hollow verb: signals"
    ],
    "expected_why": "",
-   "expected_detail": "parties: Amazon. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -46,7 +46,7 @@
     "adjective: major"
    ],
    "expected_why": "North Sea gas project approval adds supply; supports energy security amid geopolitical tensions.",
-   "expected_detail": "parties: UK. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -61,7 +61,7 @@
     "adjective: major"
    ],
    "expected_why": "Direct strike on oil producer headquarters escalates Middle East conflict and supply risk.",
-   "expected_detail": "parties: Saudi Aramco; Houthis. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -76,7 +76,7 @@
     "adjective: significant"
    ],
    "expected_why": "Federal investment in grid resilience and capacity to meet growing electricity demand.",
-   "expected_detail": "parties: Department of Energy. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -92,7 +92,7 @@
     "hollow verb: signals"
    ],
    "expected_why": "",
-   "expected_detail": "3,500 MW; parties: Dominion Energy. ",
+   "expected_detail": "3,500 MW; Parties: Dominion Energy. ",
    "fallback": true
   },
   {
@@ -107,7 +107,7 @@
     "adjective: major"
    ],
    "expected_why": "Renewable capacity addition and investment in Mexico's power generation.",
-   "expected_detail": "parties: Federal Electricity Commission. ",
+   "expected_detail": "Also named: Federal Electricity Commission. ",
    "fallback": false
   },
   {
@@ -122,7 +122,7 @@
     "names nothing the headline lacks"
    ],
    "expected_why": "",
-   "expected_detail": "parties: OPEC. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -135,7 +135,7 @@
    "parties": "PJM; Engie; LS Power",
    "problems": [],
    "expected_why": "Storage and a gas uprate totaling 2.1 GW expected online by mid-2029 show the expedited track working.",
-   "expected_detail": "2,100 MW; parties: PJM; Engie; LS Power. ",
+   "expected_detail": "2,100 MW; Parties: PJM; Engie; LS Power. ",
    "fallback": false
   },
   {
@@ -148,7 +148,7 @@
    "parties": "Google; Constellation Energy; PJM Interconnection",
    "problems": [],
    "expected_why": "Customer-funded uprates at 11 PJM reactors add firm capacity by 2032 without new plants.",
-   "expected_detail": "USD 4.3 billion; parties: Google; Constellation Energy; PJM Interconnection. ",
+   "expected_detail": "USD 4.3 billion; Parties: Google; Constellation Energy; PJM Interconnection. ",
    "fallback": false
   },
   {
@@ -164,7 +164,7 @@
     "hollow verb: signaling"
    ],
    "expected_why": "",
-   "expected_detail": "parties: OPEC. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -179,7 +179,7 @@
     "figure of the headline: 600"
    ],
    "expected_why": "A load with a secured anchor customer adds sizable demand to the Finnish grid.",
-   "expected_detail": "parties: Sesterce. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -192,7 +192,7 @@
    "parties": "Iran; Houthis; Trump",
    "problems": [],
    "expected_why": "Attacks on Persian Gulf energy interests are driving volatility in crude and overseas LNG prices.",
-   "expected_detail": "parties: Iran; Houthis; Trump. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -207,7 +207,7 @@
     "names nothing the headline lacks"
    ],
    "expected_why": "",
-   "expected_detail": "parties: Iran; United States. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -220,7 +220,7 @@
    "parties": "BKV; unnamed hyperscaler",
    "problems": [],
    "expected_why": "Gigawatt-scale gas generation equipment secured with investment-grade financial backing, selling power into the DFW market.",
-   "expected_detail": "parties: BKV; unnamed hyperscaler. ",
+   "expected_detail": "",
    "fallback": false
   },
   {
@@ -235,7 +235,7 @@
     "names nothing the headline lacks"
    ],
    "expected_why": "",
-   "expected_detail": "parties: Shell. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -252,7 +252,7 @@
     "hollow verb: signals"
    ],
    "expected_why": "",
-   "expected_detail": "parties: Anthropic. ",
+   "expected_detail": "",
    "fallback": true
   },
   {
@@ -295,13 +295,15 @@
    "parties": "Toyo",
    "problems": [],
    "expected_why": "A domestic solar cell and module factory opening on Oct. 6 adds US manufacturing supply.",
-   "expected_detail": "parties: Toyo. ",
+   "expected_detail": "",
    "fallback": false
   }
  ],
  "notes": [
   "Session 1437 (chain 149): a hollow verb (signals, demonstrates, reflects, underscores, highlights) and a line that restates the headline (half or more of its content words) fail the check; a failing line prints nothing, the headline alone (rulings item 16). Three of the twenty changed: their lines said 'signals'.",
   "Session 1458 (chain 150, fault 7): a line that names nothing the headline lacks (no party, place, date, quantity or rule) and shares a quarter of its content words with the headline, or strings two clauses on a semicolon, fails; five of the twenty changed, each to the headline alone: three by the new rule on the scorer's line, two whose adjectives were cut and whose line then named nothing new.",
-  "Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check ('signaling'); one saved item's problems name it."
+  "Session 1462 (chain 150): the hollow verbs' -ing and past forms fail the check ('signaling'); one saved item's problems name it.",
+  "session 3313 (faults file row 84): expected_detail as the rule now prints it: with no figure, no party the headline names (by name, initials or singular)",
+  "session 3350 (faults file row 130): beside a figure the field reads \"Parties:\", the Roundup reading either case"
  ]
 }

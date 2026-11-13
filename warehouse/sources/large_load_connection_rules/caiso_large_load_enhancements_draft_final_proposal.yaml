@@ -1,0 +1,45 @@
+# Session 3888 (chain 227): read from the CAISO's Large Load Enhancements Draft Final Proposal of 24 September 2026 (its
+# response to FERC's Order to Show Cause in EL26-71, after the straw proposal of 11 August that session 3762 wrote), as the
+# CAISO publishes it on its stakeholder center (stakeholdercenter.caiso.com: no robots file, HTTP 404; the "Large loads"
+# process page, RecurringStakeholderProcesses/Large-loads, links it), the research file of 6 November 2026's gap 10 (the
+# draft final proposal not checked) being the lead; 71 pages, 912,994 bytes, saved under runs/license_reads/s3888/ (not in
+# git). The CAISO's site terms (license_verdicts.csv, CAISO) allow use with the CAISO credited and its notices kept. A
+# PROPOSAL: the CAISO still does not study load interconnections (the PTOs' tariffs govern); the paper's schedule puts the
+# Board of Governors' decision on 28 October 2026, and the same process page lists draft tariff language revised on 26
+# and 30 October 2026 (read: it states the monthly review below and no other clock for a connection). The Board's
+# decision and the FERC compliance filing were not read. A range (the PTOs' 60 to 90 days) and a frequency (the monthly
+# review) are written with their words and no duration, as the method's rule for Pennsylvania's model tariff (session
+# 3863) writes them. Pages are the PDF's.
+body: California Independent System Operator (CAISO)
+grid: CAISO
+utility: ""
+eia_id: ""
+state: CA
+document: CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC Docket EL26-71)
+document_date: 2026-09-24
+document_url: https://stakeholdercenter.caiso.com/InitiativeDocuments/Draft-Final-Proposal-Large-Load-Enhancements-Sep-24-26.pdf
+retrieved_at: 2026-11-13T10:36:06Z
+license: public
+steps:
+  - section: "A.1 Definition of Large Load, Proposal"
+    page: 16
+    step: a large load is defined for the CAISO tariff (proposed; the paper says the definition may shift to align with NERC's)
+    party: CAISO
+    mw: 50
+    printed: "The CAISO proposes that a potential definition could be: \"An End User located at a single site whose Point(s) of Interconnection is/are to the CAISO-Controlled Grid, and that has a peak load of 50 MW or greater.\""
+  - section: "A.3 Large Load Interconnection Study Procedures, Proposal"
+    page: 25
+    step: the PTOs complete the large load interconnection study (proposed; the CAISO's minimum standard for the PTOs)
+    party: PTOs
+    printed: "As a minimum standard, the CAISO expects the PTOs to develop consistent study procedures to be completed within 60 to 90 days, as required by the Commission."
+  - section: "A.3 Large Load Interconnection Study Procedures, Proposal, the concurrence review"
+    page: 28
+    step: the CAISO reviews out-of-cycle transmission additions or upgrades for large loads each month, within the PTOs' study period (proposed)
+    party: CAISO
+    printed: "The CAISO will review potential out-of-cycle transmission additions or upgrades to accommodate Large Loads on a monthly basis, and to fit within the 60-90 day process for PTO load interconnection studies."
+  - section: "2. Initiative Timeline and Next Steps"
+    page: 70
+    step: the Board of Governors decides on the proposal
+    party: CAISO
+    date: 2026-10-28
+    printed: "CAISO Board of Governors Decision October 28, 2026"

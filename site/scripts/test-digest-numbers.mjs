@@ -33,6 +33,7 @@ ERW's weekday brief of energy news for the 24 hours to 2026-10-20 06:55 UTC, fro
 
 - A policy story (policy): its reason. [Bloomberg](https://example.com/c)
 - Five storage projects v. ISO New England; Notice (FERC notice, policy action): a decision on 20 October. [FERC](https://www.federalregister.gov/x)
+- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE](https://www.energy.gov/x)
 
 ## AI and power
 
@@ -165,6 +166,8 @@ test("the markdown carries each figure as Num draws it, and the hold's words in 
   assert.ok(!h.includes("$45 Billion") && !h.includes("A power story") && !h.includes("An AI story") && !h.includes("A policy story"), h);
   assert.equal((h.match(/data-license-held="news_index"/g) ?? []).length, 3);
   assert.ok(/\*\*Policy\*\*\n\n- Five storage projects v\. ISO New England; Notice \(FERC notice, policy action\)/.test(h), h);
+  // session 1980 (faults file row 85): a policy action whose why line failed ends "). " and is kept too
+  assert.ok(h.includes("- Energy Department closes a USD 480 million loan (DOE news release, policy action). [DOE]"), h);
   // what follows the closing rule is kept, the chart and the fun fact are not held
   assert.ok(h.includes("[How this is made.](/about#digest)") && h.includes("10.2 million barrels") && h.includes("1,658,263</span>"));
 });
@@ -392,6 +395,45 @@ test("the chart is drawn with a hover on each point", () => {
   assert.equal(D.chartSvg(undefined, "x"), "");
   assert.equal(D.chartSvg({ x: [], series: [] }, "x"), "");
   assert.equal(D.chartSvg({ x: ["a"], series: [{ name: "s", values: [null] }] }, "x"), "");
+});
+
+test("a stored Roundup holds a held grid's prices (session 1989, faults file row 94)", () => {
+  const md = [
+    "| ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |",
+    "|---|---|---|---|---|---|",
+    "| ERCOT | HB_NORTH | 33.19 | 35.02 | -1.83 | [1] |",
+    "| NYISO | N.Y.C. | not in the warehouse (120 of 168 hours) | 40.90 | not computed | [2] |",
+    "| ISO-NE | .H.INTERNAL_HUB | 41.10 | 40.28 | +0.82 | [3] |",
+    "| Henry Hub natural gas | 2.63 USD/MMBtu on 2026-11-03 | 2.76 on 2026-10-27 | -0.13 (-4.7%) | [5] |",
+  ].join("\n");
+  const out = D.holdRoundupGrids(md, new Date("2026-11-13T00:00:00Z")).split("\n");
+  assert.equal(out[2], "| ERCOT | HB_NORTH | 33.19 | 35.02 | -1.83 | [1] |");
+  assert.equal(out[3], "| NYISO | N.Y.C. | not in the warehouse (120 of 168 hours) | license needed | not computed | [2] |");
+  assert.equal(out[4], "| ISO-NE | .H.INTERNAL_HUB | license needed | license needed | license needed | [3] |");
+  assert.equal(out[5], "| Henry Hub natural gas | 2.63 USD/MMBtu on 2026-11-03 | 2.76 on 2026-10-27 | -0.13 (-4.7%) | [5] |");
+  assert.equal(D.holdRoundupGrids(md, new Date("2026-10-01T00:00:00Z")), md);   // before the hold began
+  // session 3319 (row 108): W43's summary sentence and real-time line, both NYISO's figures
+  const w43 = [
+    "### ERW's Numbers This Week",
+    "",
+    "Day-ahead power was dearest at NYISO's N.Y.C., 47.64 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 20.15.",
+    "",
+    "**Highest real-time price of the week:** 1165.64 USD/MWh at LONGIL (NYISO), interval starting 2026-10-21 20:00 local (2026-10-22 00:00 UTC), lmp_rtm_15m_mean [4].",
+    "**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT), the 15-minute interval starting 2026-11-03 17:45 Central (23:45 UTC) [4].",
+    "",
+    "## What mattered",
+    "",
+    "NYISO's queue grew to 1,234.56 MW in a story.",
+  ].join("\n");
+  const h43 = D.holdRoundupGrids(w43, new Date("2026-11-13T00:00:00Z")).split("\n");
+  assert.equal(h43[2], "license needed: the summary of these numbers names figures of a grid held since 21 October 2026.");
+  assert.equal(h43[4], "**Highest real-time price of the week:** license needed: the week's highest interval held was NYISO's, a grid held since 21 October 2026.");
+  assert.ok(h43[5].startsWith("**Highest real-time price of the week:** 302.71 USD/MWh at HB_SOUTH (ERCOT)"));
+  assert.equal(h43[9], "NYISO's queue grew to 1,234.56 MW in a story.");   // outside the numbers section: a story's words
+  assert.ok(!h43.join("\n").includes("47.64") && !h43.join("\n").includes("1165.64"));
+  // W39's older heading, "## Numbers of the week"
+  const w39 = "## Numbers of the week\n\nThe week's highest real-time price was 521.36 USD/MWh at N.Y.C. (NYISO).";
+  assert.ok(!D.holdRoundupGrids(w39, new Date("2026-11-13T00:00:00Z")).includes("521.36"));
 });
 
 console.log(`${n} passed`);

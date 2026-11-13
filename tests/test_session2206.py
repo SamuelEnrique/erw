@@ -114,7 +114,8 @@ class TheWindowEndsAtTheRun(unittest.TestCase):
 
     def test_the_stamp_reads_both_bounds_and_the_old_form_first(self):
         line = brief.stamp_line(24, pd.Timestamp("2026-10-22T15:45:00Z"), pd.Timestamp("2026-10-23T15:45:00Z"), 212)
-        self.assertEqual(line, "ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC, from 2026-10-22 15:45 UTC, from 212 scored stories.")
+        # session 1985 (docs/reviews/periodicals-faults-2026-11-05.md row 90): no "from ... from"; the old form still first
+        self.assertEqual(line, "ERW's weekday brief of energy news for the 24 hours to 2026-10-23 15:45 UTC (the window opened 2026-10-22 15:45 UTC): 212 scored stories.")
         import re
         m = re.search(r"for the (\d+) hours to (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC", line)   # tests/test_session470.py's reader
         self.assertEqual((m.group(1), m.group(2)), ("24", "2026-10-23 15:45"))

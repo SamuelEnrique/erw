@@ -16,7 +16,7 @@
 // checkers, as the Roundup's are). A figure of a held table is drawn as Num draws one: "license needed", no data-check.
 // This file imports nothing but lib/license.ts, so scripts can read it without building the site
 // (scripts/digest-figures.mjs, scripts/test-digest-numbers.mjs).
-import { LICENSE_FROM, LICENSE_NEEDED, licenseHeldRow, licenseNeeded, licenseTitle, utcDay } from "./license";
+import { LICENSE_FROM, LICENSE_NEEDED, gridName, gridPrefix, licenseHeldGrids, licenseHeldRow, licenseNeeded, licenseTitle, utcDay } from "./license";
 
 /** A grid's label in the Digest (the row's first cell, or the real-time line's parenthesis) and its entity prefix. */
 const GRID: Record<string, string> = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", MISO: "miso", SPP: "spp", "ISO-NE": "isone", ISONE: "isone", PJM: "pjm" };
@@ -317,7 +317,8 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
       let label = "";
       for (const l of body) {
         if (/^\*\*[^*]+\*\*\s*$/.test(l)) { label = l; continue; }
-        if (/, policy action\): /.test(l)) {
+        // session 1980 (faults file row 85): a policy action whose why line failed closes on "). " since then
+        if (/, policy action\)[:.] /.test(l)) {
           if (label) { kept.push("", label, ""); label = ""; }
           kept.push(l);
         }
@@ -369,6 +370,37 @@ export function sourceTrail(html: string): string {
 
 /** The Roundup's five numbers: the row that is the opening number word for word says so instead (the markdown keeps
  *  both; scripts/check_roundup.py traces the five by their form). */
+/** Session 1989 (docs/reviews/periodicals-faults-2026-11-05.md row 94): a stored Roundup's table row of a grid held for
+ *  license on the day: each price cell reads "license needed". The Roundups of W44 and W45 printed NYISO's and ISO-NE's
+ *  weekly means (row 93, fixed in the writer since); a stored issue is not rewritten, so the page holds them, as
+ *  digestMarkdown holds a held table's figures on the Digest's page. A cell with no figure is kept as written. */
+export function holdRoundupGrids(md: string, now: Date = new Date()): string {
+  const held = new Set(licenseHeldGrids(now));
+  if (!held.size) return md;
+  // session 3319 (row 108): the held grids by the names a stored Roundup's sentences give them
+  const names = [...held].map((p) => gridName(p)).filter((n) => n && !/^[a-z]/.test(n));
+  const namesHeld = names.length ? new RegExp(`\\b(?:${names.map((n) => n.replace(/[-]/g, "\\-")).join("|")})\\b`) : null;
+  let inNumbers = false;
+  return md.split("\n").map((l) => {
+    if (/^#{2,3} /.test(l)) inNumbers = /ERW's Numbers This Week|^## Numbers of the week/.test(l);   // W39's older heading too
+    // session 3319 (row 108): the week's highest real-time price, when it was a held grid's (W43: LONGIL, NYISO)
+    const rt = /^\*\*Highest real-time price of the week:\*\* -?[\d,]+\.\d+ USD\/MWh at .+? \(([A-Z-]+)\)/.exec(l);
+    if (rt && held.has(gridPrefix(rt[1]))) {
+      return `**Highest real-time price of the week:** ${LICENSE_NEEDED}: the week's highest interval held was ${rt[1]}'s, a grid held since ${day(LICENSE_FROM)}.`;
+    }
+    // session 3319 (row 108): the numbers' summary sentence, when it names a held grid beside a price (W43: "dearest at
+    // NYISO's N.Y.C., 47.64 USD/MWh")
+    if (inNumbers && namesHeld && /^[A-Z]/.test(l) && !/^Tables?:/.test(l) && namesHeld.test(l) && /\d\.\d{2}\b/.test(l)) {
+      return `${LICENSE_NEEDED}: the summary of these numbers names figures of a grid held since ${day(LICENSE_FROM)}.`;
+    }
+    if (!l.startsWith("| ")) return l;
+    const c = l.split("|");
+    const p = gridPrefix((c[1] ?? "").trim());
+    if (!p || !held.has(p)) return l;
+    return c.map((x, i) => (i >= 3 && i < c.length - 1 && /^\s*[+-]?[\d,]+\.\d+(?: \([+-]?[\d.]+%\))?\s*$/.test(x) ? ` ${LICENSE_NEEDED} ` : x)).join("|");
+  }).join("\n");
+}
+
 export function dedupeOpening(html: string): string {
   const op = /<h2 id="the-opening-number">(?:.|\n)*?<p><strong>([^<]+?)\.?<\/strong>/.exec(html);
   if (!op) return html;

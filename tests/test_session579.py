@@ -204,7 +204,9 @@ class Gate579(unittest.TestCase):
         self.assertIsNone(f(self.held_log() + "check-values FAILED: 3 values checked\n"))
         self.assertIsNone(f(self.held_log() + "not read | /grid | slow | not judged\n"))
         self.assertIsNone(f("ok | / | k\n"))
-        self.assertEqual(len(LC.HELD_FLOOR_PAGES), 10)
+        # session 4005 added /policy (policy_actions held by the third window's licensing sweep)
+        self.assertEqual(len(LC.HELD_FLOOR_PAGES), 11)
+        self.assertIn("/policy", LC.HELD_FLOOR_PAGES)
 
     def test_db_probe_fail_stops_before_the_lock(self):
         ops = FakeOps(codes={"db_probe": [1]})

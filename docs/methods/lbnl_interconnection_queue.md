@@ -44,6 +44,8 @@ By `region`: West 8,097, PJM 7,666, MISO 5,424, Southeast 4,334, ERCOT 3,757, CA
 
 `license_verdicts.csv` records Berkeley Lab, read 14: "may be public", for public and for commercial use, with the note "NOT READ: HTTP 403 on 12 October 2026. The verdict rests on an earlier session's reading, in the table's own header: 'The Queued Up data file is licensed CC BY 4.0'." `license_tables.csv` lists the table under Berkeley Lab; `docs/licenses.md` gives "may be public", flag public, ERW verdict public. Attribute: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file.
 
+Chain 229, session 4107 (13 November 2026): Berkeley Lab's verdict now rests on a sentence cut from a page: the Queued Up 2026 edition page (read 1711, https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics, robots read 1666): "Copyright Notice: The Queued Up data file is licensed CC BY 4.0. You may use, share, or adapt the dataset as long as you attribute it to Lawrence Berkeley National Laboratory and GridTracker." Verdict unchanged: may be public, sold or not.
+
 ## Cross-checks (session 2074)
 
 - The counts above were computed from the rows, read past the header lines. `capacity_mw` equals the sum of `mw_1` to `mw_3` in 38,201 of 38,201 rows, and the `status_date` rule holds on all 27,971 dated rows.

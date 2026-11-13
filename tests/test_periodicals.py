@@ -82,8 +82,8 @@ class TheWhyLine(unittest.TestCase):
     def test_no_figure_the_headline_gives_and_the_stop(self):
         out = brief.why_line("A 600 MW load adds demand to the grid", "Sesterce plans a 600MW campus")
         self.assertEqual(out, "A load adds demand to the grid.")
-        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"),
-                         "parties: Sesterce. ")
+        # session 1979 (faults file row 84): with no figure left to print, the party the headline names is not printed again
+        self.assertEqual(brief.detail({"mw": "600", "price": "$10bn", "parties": "Sesterce"}, "Sesterce plans a 600MW campus for $10bn"), "")
 
     def test_the_money_style(self):
         self.assertEqual(brief.why_line("Funds a $1.2B pipeline with an $800MM loan", "DOE"), "Funds a USD 1.2 billion pipeline with a USD 800 million loan.")
@@ -657,7 +657,8 @@ class Item19TheFloorsCountLicenseNeeded(unittest.TestCase):
     def test_check_values_uses_them_and_land_check_counts_the_notes(self):
         with open(os.path.join(ROOT, "site", "scripts", "check-values.mjs"), encoding="utf-8") as f:
             src = f.read()
-        self.assertIn('import { floorVerdict, heldMarks } from "./held-marks.mjs";', src)
+        # session 4000 added noIssueToday (/digest before the day's issue, or at a weekend: its floor a note)
+        self.assertIn('import { floorVerdict, heldMarks, noIssueToday } from "./held-marks.mjs";', src)
         self.assertIn("const fv = floorVerdict(out.count, held, floor);", src)
         import land_check
         log = ("ok   | /map | x | page shows \"1\"\n"
@@ -853,9 +854,10 @@ class V2TheNumbersBlock(unittest.TestCase):
         self.assertIn("ERCOT HB_NORTH day-ahead", rows[0])            # the opening's own metric is not repeated
         self.assertEqual(len(DEMAND.findall(rows[1])), 1)
         # session 1439 (faults 4 to 6): the block's form, the figure once, no headline, a key to the story's row
-        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet; Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
+        # session 3332 (faults file row 111): with no party, the outlet once
+        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
         self.assertEqual(rows[2].count("600"), 1)
-        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet; Outlet, 2026-10-21) [3]."), rows[3])
+        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet, 2026-10-21) [3]."), rows[3])
         self.assertNotIn("A plans", rows[2]); self.assertNotIn("B raises", rows[3])
         self.assertNotIn("](http", "\n".join(rows[2:]))                 # no story link: the item carries it (the hard check)
         self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") and ln.endswith("[3] `news_stories`; story a (mw); story b (price).") for ln in L), [ln for ln in L if ln.startswith("Tables")])
@@ -1035,10 +1037,11 @@ class V2RTheOpeningNumber(unittest.TestCase):
         self.assertEqual(roundup.opening_lines(op)[2], "**WTI moved.** Status: calculated from observed prices (the warehouse's tables).")
         # session 1446 (fault 34); session 1475 (fault 53): the move leads when the opening number is the move
         self.assertEqual(roundup.subject_line(op, "Six reactors eyed."), "ERW Weekly | WTI up 12.0% on the week; Six reactors eyed")
+        # session 1990 (faults file row 95): with no move to lead, the headline's clause carries no figure either
         self.assertEqual(roundup.subject_line(None, "AEP and Google advance a $4 Billion fuel-cell project"),
-                         "ERW Weekly | AEP and Google advance a USD 4 billion fuel-cell project")
+                         "ERW Weekly | AEP and Google advance a fuel-cell project")
         long = "Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery in Western Australia to EPBC Act"
-        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers 1,000 MW data centre complex with 5GWh battery...")
+        self.assertEqual(roundup.subject_line(None, long), "ERW Weekly | Gingerah Energy refers data centre complex with battery")
         self.assertLessEqual(len(roundup.subject_line(op, long)), 120)   # a 70-character headline and a move of up to 35
         self.assertEqual(roundup.subject_line(None, "Six reactors eyed."), "ERW Weekly | Six reactors eyed")
 

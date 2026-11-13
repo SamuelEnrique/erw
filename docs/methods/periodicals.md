@@ -44,3 +44,17 @@ The emails (`email_digest.render`): the same order; one "Tables" line for the op
 - The Roundup is written and sent on Sundays at 23:00 UTC (`.github/workflows/roundup.yml`, migration 022); the brandbook's recommendation is Fridays 10:00 Eastern with a Thursday 18:00 Eastern cutoff: open, the owner's.
 - The recipients are the fixed `DIGEST_RECIPIENTS` only while the news index's license is held (item 2); subscribers are read only with `EMAIL_SUBSCRIBERS=1`.
 - A dry run (`--out`, `--now`) writes to its own path and never a past issue; a past issue is a record and is never rewritten (item 8); a backfill is the owner's.
+
+## Changed on 13 November 2026
+
+Chain 228 read the Digest of 12 November and the Roundups of W45 and W46 as a reader (faults file rows 79 to 99). For a reader of the issues:
+
+- The subject line of both periodicals carries the top story's headline with no figure when the opening is not a warehouse table's figure.
+- The Digest's opening says which single hub's move it passed over, instead of saying no price moved; its market row is never a price that did not move; "What moved most" lists the prices that moved and names the unchanged ones on one line.
+- An EIA close is dated by its trading day; the lag is said to run from one day to about a week.
+- Outlets are named by their names ("JPT"), and a party the headline names is not printed again.
+- The chart of the day says which story it follows only when that story names its measure, and a record's "record until now" is the highest value before it.
+- The Roundup's weekly table prints "licensed source needed" for a grid held for license, as the Digest does, and its page holds the figures the stored issues of W44 and W45 printed for NYISO and ISO-NE.
+- The Roundup's deal of the week names the outlet of its sum; a stand-in price move passes the opening's own bar; a story naming a benchmark is given the warehouse's close.
+
+Later the same day (rows 100 to 130): a Roundup opens on the week's benchmark move when any story of the week explains it, with that story's reason; a reason or a pointer is never a story of the other direction, of another gas market, or one quoting a price of its own; the five numbers say what they leave out; each list is numbered from 1; the Digest's first line says when a window holds few stories or many unscored ones; and no en dash or publisher's tail is printed from a feed's title.

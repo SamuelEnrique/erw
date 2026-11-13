@@ -1,0 +1,416 @@
+{
+ "about": "Capacity factors for the production taxes (and the gas plant's fuel): the median plant of each state with at least 3 plants, else the national median. Wind: 2025 capacity factor of plants with a commercial operation year 2019 to 2024 (lbnl_wind_capacity_factors), the plant's state from EIA-860 (eia860_plants_annual). Solar PV: 2024 capacity factor (AC) of plants with a commercial operation year 2019 to 2023 (lbnl_solar_projects), and their inverter loading ratio (DC over AC), which converts JEDI's per-MW-DC figures to the reader's MW AC.",
+ "tables": [
+  "lbnl_wind_capacity_factors",
+  "lbnl_solar_projects",
+  "eia860_plants_annual"
+ ],
+ "land_based_wind": {
+  "states": {
+   "az": {
+    "median": 0.3122,
+    "plants": 4
+   },
+   "ca": {
+    "median": 0.3904,
+    "plants": 15
+   },
+   "co": {
+    "median": 0.3915,
+    "plants": 12
+   },
+   "ia": {
+    "median": 0.4188,
+    "plants": 43
+   },
+   "il": {
+    "median": 0.3816,
+    "plants": 22
+   },
+   "in": {
+    "median": 0.3355,
+    "plants": 7
+   },
+   "ks": {
+    "median": 0.3982,
+    "plants": 18
+   },
+   "me": {
+    "median": 0.3596,
+    "plants": 3
+   },
+   "mi": {
+    "median": 0.2725,
+    "plants": 10
+   },
+   "mn": {
+    "median": 0.4197,
+    "plants": 19
+   },
+   "mo": {
+    "median": 0.3791,
+    "plants": 8
+   },
+   "mt": {
+    "median": 0.4226,
+    "plants": 6
+   },
+   "nd": {
+    "median": 0.4548,
+    "plants": 14
+   },
+   "ne": {
+    "median": 0.4177,
+    "plants": 8
+   },
+   "nm": {
+    "median": 0.3729,
+    "plants": 11
+   },
+   "ny": {
+    "median": 0.3016,
+    "plants": 11
+   },
+   "ok": {
+    "median": 0.3833,
+    "plants": 25
+   },
+   "or": {
+    "median": 0.2758,
+    "plants": 15
+   },
+   "pa": {
+    "median": 0.3317,
+    "plants": 3
+   },
+   "sd": {
+    "median": 0.46,
+    "plants": 15
+   },
+   "tx": {
+    "median": 0.3692,
+    "plants": 83
+   },
+   "wa": {
+    "median": 0.3273,
+    "plants": 4
+   },
+   "wv": {
+    "median": 0.3127,
+    "plants": 3
+   },
+   "wy": {
+    "median": 0.3724,
+    "plants": 17
+   }
+  },
+  "us": {
+   "median": 0.3832,
+   "plants": 388
+  },
+  "year": 2025,
+  "cod": "2019-2024"
+ },
+ "utility_pv": {
+  "states": {
+   "al": {
+    "median": 0.2128,
+    "plants": 3
+   },
+   "ar": {
+    "median": 0.235,
+    "plants": 9
+   },
+   "az": {
+    "median": 0.2831,
+    "plants": 14
+   },
+   "ca": {
+    "median": 0.2613,
+    "plants": 87
+   },
+   "co": {
+    "median": 0.2675,
+    "plants": 15
+   },
+   "ct": {
+    "median": 0.1997,
+    "plants": 5
+   },
+   "fl": {
+    "median": 0.2182,
+    "plants": 90
+   },
+   "ga": {
+    "median": 0.2489,
+    "plants": 32
+   },
+   "hi": {
+    "median": 0.2119,
+    "plants": 8
+   },
+   "ia": {
+    "median": 0.2206,
+    "plants": 4
+   },
+   "il": {
+    "median": 0.219,
+    "plants": 10
+   },
+   "in": {
+    "median": 0.2152,
+    "plants": 23
+   },
+   "la": {
+    "median": 0.2528,
+    "plants": 5
+   },
+   "ma": {
+    "median": 0.1972,
+    "plants": 13
+   },
+   "md": {
+    "median": 0.1931,
+    "plants": 9
+   },
+   "me": {
+    "median": 0.1755,
+    "plants": 9
+   },
+   "mi": {
+    "median": 0.2139,
+    "plants": 19
+   },
+   "mn": {
+    "median": 0.1869,
+    "plants": 5
+   },
+   "mo": {
+    "median": 0.199,
+    "plants": 4
+   },
+   "ms": {
+    "median": 0.2361,
+    "plants": 3
+   },
+   "nc": {
+    "median": 0.2116,
+    "plants": 41
+   },
+   "nj": {
+    "median": 0.1846,
+    "plants": 17
+   },
+   "nm": {
+    "median": 0.2965,
+    "plants": 16
+   },
+   "nv": {
+    "median": 0.2894,
+    "plants": 18
+   },
+   "ny": {
+    "median": 0.1692,
+    "plants": 25
+   },
+   "oh": {
+    "median": 0.2153,
+    "plants": 12
+   },
+   "or": {
+    "median": 0.2462,
+    "plants": 21
+   },
+   "pa": {
+    "median": 0.1942,
+    "plants": 13
+   },
+   "ri": {
+    "median": 0.172,
+    "plants": 18
+   },
+   "sc": {
+    "median": 0.2181,
+    "plants": 29
+   },
+   "tn": {
+    "median": 0.228,
+    "plants": 6
+   },
+   "tx": {
+    "median": 0.2242,
+    "plants": 79
+   },
+   "ut": {
+    "median": 0.2864,
+    "plants": 10
+   },
+   "va": {
+    "median": 0.2146,
+    "plants": 54
+   },
+   "wi": {
+    "median": 0.2106,
+    "plants": 23
+   }
+  },
+  "us": {
+   "median": 0.221,
+   "plants": 764
+  },
+  "year": 2024,
+  "cod": "2019-2023",
+  "basis": "AC"
+ },
+ "utility_pv_ilr": {
+  "states": {
+   "al": {
+    "median": 1.3,
+    "plants": 3
+   },
+   "ar": {
+    "median": 1.2872,
+    "plants": 9
+   },
+   "az": {
+    "median": 1.2554,
+    "plants": 14
+   },
+   "ca": {
+    "median": 1.3068,
+    "plants": 86
+   },
+   "co": {
+    "median": 1.2821,
+    "plants": 15
+   },
+   "ct": {
+    "median": 1.3319,
+    "plants": 5
+   },
+   "fl": {
+    "median": 1.344,
+    "plants": 90
+   },
+   "ga": {
+    "median": 1.4,
+    "plants": 32
+   },
+   "hi": {
+    "median": 1.305,
+    "plants": 7
+   },
+   "ia": {
+    "median": 1.2875,
+    "plants": 4
+   },
+   "il": {
+    "median": 1.3175,
+    "plants": 10
+   },
+   "in": {
+    "median": 1.3252,
+    "plants": 23
+   },
+   "la": {
+    "median": 1.49,
+    "plants": 5
+   },
+   "ma": {
+    "median": 1.4997,
+    "plants": 13
+   },
+   "md": {
+    "median": 1.3158,
+    "plants": 9
+   },
+   "me": {
+    "median": 1.4332,
+    "plants": 9
+   },
+   "mi": {
+    "median": 1.3575,
+    "plants": 19
+   },
+   "mn": {
+    "median": 1.1207,
+    "plants": 5
+   },
+   "mo": {
+    "median": 1.275,
+    "plants": 4
+   },
+   "ms": {
+    "median": 1.35,
+    "plants": 3
+   },
+   "nc": {
+    "median": 1.39,
+    "plants": 41
+   },
+   "nj": {
+    "median": 1.2667,
+    "plants": 17
+   },
+   "nm": {
+    "median": 1.28,
+    "plants": 16
+   },
+   "nv": {
+    "median": 1.3,
+    "plants": 18
+   },
+   "ny": {
+    "median": 1.3582,
+    "plants": 25
+   },
+   "oh": {
+    "median": 1.3429,
+    "plants": 12
+   },
+   "or": {
+    "median": 1.464,
+    "plants": 21
+   },
+   "pa": {
+    "median": 1.3175,
+    "plants": 13
+   },
+   "ri": {
+    "median": 1.2988,
+    "plants": 18
+   },
+   "sc": {
+    "median": 1.4006,
+    "plants": 29
+   },
+   "tn": {
+    "median": 1.3819,
+    "plants": 6
+   },
+   "tx": {
+    "median": 1.3091,
+    "plants": 78
+   },
+   "ut": {
+    "median": 1.2985,
+    "plants": 10
+   },
+   "va": {
+    "median": 1.3,
+    "plants": 54
+   },
+   "wi": {
+    "median": 1.2908,
+    "plants": 23
+   }
+  },
+  "us": {
+   "median": 1.3247,
+   "plants": 761
+  },
+  "cod": "2019-2023"
+ },
+ "written_at": "2026-11-13T10:37:25Z",
+ "written_by": "warehouse/forecast/params.py"
+}

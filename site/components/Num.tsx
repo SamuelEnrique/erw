@@ -19,13 +19,6 @@ const KEY_TABLE: Record<string, string> = {
   dcchart: "datacenter_facilities", dcgrid: "datacenter_facilities", dctime: "datacenter_facilities",
   // session 264 added ms| (the generator page's month spans of merchant_revenue_monthly); the chain's landing of 14 October maps it as mr|
 };
-// Session 1898 (lab path, fault 2 of session 1885): a first word whose figures come from more than one table names the
-// table by its second word. The tracker's grids view (dcgrid|<stat>|<grid>) draws the facilities' MW beside each grid's
-// own peak hour and capacity (grid_peak_vs_capacity, public) and ERCOT's reserve margin (ercot_cdr_reserve_margins,
-// public): under dcgrid -> datacenter_facilities alone those were held with the facilities. Read before KEY_TABLE.
-const KEY_STAT_TABLE: Record<string, string> = {
-  "dcgrid|peak_mw": "grid_peak_vs_capacity", "dcgrid|capacity_mw": "grid_peak_vs_capacity", "dcgrid|reserve_margin": "ercot_cdr_reserve_margins",
-};
 
 /** The held table (and the row's entity) a check key names, or null when the key names no table or none that is held. */
 export function heldBy(check: string): { table: string; title: string } | null {
@@ -48,7 +41,9 @@ export function heldBy(check: string): { table: string; title: string } | null {
   let table = "";
   if (head.startsWith("series")) table = p[1] ?? "";
   else if (head === "event" || head === "entity") table = p[1] ?? "";   // session 329: entity|<table>|<id>|<field>
-  else if (`${head}|${p[1] ?? ""}` in KEY_STAT_TABLE) table = KEY_STAT_TABLE[`${head}|${p[1] ?? ""}`];   // session 1898
+  // session 4005: the count of a table's rows (event_count|<table>|all or |since|<day>, the policy page and its week view)
+  // names its table second as event| does; without this a held table's count printed the empty held rows' "0"
+  else if (head === "event_count") table = p[1] ?? "";
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   if (!table) return null;
   return licenseHeldRow(table, entity ?? (head.startsWith("series") || head === "es" ? undefined : null)) ? { table, title: licenseTitle(table) } : null;
