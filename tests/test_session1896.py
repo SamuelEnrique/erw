@@ -86,6 +86,81 @@ def sources(name):
 W45 = {"template": "watch_battery_discharge_us", "title": "Batteries discharging, Lower 48", "source_line": OLD_LINE}
 
 
+EXPORTS = {"template": "watch_crude_exports", "title": "US crude oil exports", "score": 82.7,
+           "finding": "US crude oil exports: 3,675 kbbl/d in the week of 2026-10-26 to 2026-11-01, down 1,179 from 4,854 the week before. "
+                      "Of the 104 week-to-week moves before it, 18 were as large."}
+CHART75 = {"week": "2026-W45", "template": "watch_battery_discharge_us", "title": "Batteries discharging, Lower 48",
+           "finding": "Lower 48 battery discharge, daily mean of the week: 47,682.14 MWh a day in the week of 2026-10-26 to 2026-11-01.",
+           "note": "The chart shows it.", "source_line": OLD_LINE, "files": {"email": "chart_email.png"}, "headline": {},
+           "also_moved": [EXPORTS]}
+
+
+def story(title, sector="oil", why=""):
+    return {"titles": [title], "sector": sector, "why": why, "parties": ""}
+
+
+# W45's top stories as the issue printed them: oil and crude, none names exports
+W45_STORIES = [story("ConocoPhillips raises its dividend after profit beats estimates on higher oil prices"),
+               story("Brent crude falls as Middle East supply fears ease"),
+               story("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand", "deal"),
+               story("Worley signs reimbursable EPC contract for Venture Global's CP2 LNG expansion in Louisiana", "deal")]
+POINTER = "The week's stories point to US crude oil exports, whose chart is on [/research](/research) (template `watch_crude_exports`)"
+
+
+def section(stories):
+    with tempfile.TemporaryDirectory() as d:
+        os.makedirs(os.path.join(d, "2026-W45"))
+        with open(os.path.join(d, "2026-W45", "chart_of_the_week.json"), "w", encoding="utf-8") as f:
+            json.dump(CHART75, f)
+        with mock.patch.object(roundup, "ANALYSIS_DIR", d), mock.patch.object(roundup, "chart_source_line", lambda m, log: OLD_LINE), \
+                mock.patch.dict(sys.modules, {"roundup_pick": mock.Mock(chosen=lambda *a: None)}):
+            return "\n".join(roundup.chart_of_the_week("2026-W45", quiet, stories=stories))
+
+
+class Row75ThePointer(unittest.TestCase):
+    def test_w45_no_story_names_exports_no_sentence(self):
+        best, same = roundup.chart_relevance(CHART75, W45_STORIES, quiet)
+        self.assertEqual((best["template"], same), ("watch_crude_exports", False))   # the token match still ranks it
+        self.assertIsNone(roundup.measure_named(EXPORTS, W45_STORIES))
+        text = section(W45_STORIES)
+        self.assertNotIn("point to", text)
+        self.assertNotIn("watch_crude_exports", text)
+
+    def test_a_story_naming_exports_gets_the_sentence_with_its_figure(self):
+        stories = W45_STORIES + [story("OPEC cuts as US crude exports hit a record")]
+        self.assertEqual(roundup.measure_named(EXPORTS, stories), "OPEC cuts as US crude exports hit a record")
+        text = section(stories)
+        self.assertIn(POINTER + ": 3,675 kbbl/d in the week of 2026-10-26 to 2026-11-01, down 1,179 from 4,854 the week before.", text)
+        self.assertNotIn("Of the 104", text)
+
+    def test_exports_alone_or_of_another_commodity_do_not_name_it(self):
+        self.assertIsNone(roundup.measure_named(EXPORTS, [story("Japan's car exports climb")]))
+        self.assertIsNone(roundup.measure_named(EXPORTS, [story("Crude oil stocks rise")]))
+        self.assertEqual(roundup.measure_named(EXPORTS, [story("Gulf terminals ship more oil", why="Crude export volumes set a record.")]),
+                         "Gulf terminals ship more oil")
+
+    def test_a_price_series_of_the_commodity_named(self):
+        wti = {"title": "WTI crude oil", "finding": "WTI spot price at Cushing, weekly mean: 99.64 USD/bbl in the week of 2026-10-26 to 2026-11-01."}
+        self.assertTrue(roundup.measure_named(wti, [story("Oil prices rise on Middle East fears")]))
+        self.assertIsNone(roundup.measure_named(wti, [story("Henry Hub gas prices slip")]))
+        self.assertIsNone(roundup.measure_named(wti, [story("Oil majors report profits")]))
+
+    def test_plural_and_place_words(self):
+        bat = {"title": "Batteries discharging, Lower 48", "finding": "Lower 48 battery discharge, daily mean of the week: 47,682 MWh a day."}
+        self.assertTrue(roundup.measure_named(bat, [story("Battery discharge sets a record on the Texas grid", "storage")]))
+        self.assertIsNone(roundup.measure_named(bat, [story("Lower 48 gas demand rises", "gas")]))
+
+    def test_no_quantity_known_names_nothing(self):
+        self.assertIsNone(roundup.measure_named({"title": "Something else", "finding": "A thing: 3 in 2026."}, [story("Something else happens")]))
+
+    def test_the_figure_from_the_record(self):
+        self.assertEqual(roundup.measure_figure(EXPORTS), "3,675 kbbl/d in the week of 2026-10-26 to 2026-11-01, down 1,179 from 4,854 the week before")
+        self.assertEqual(roundup.measure_figure({"finding": "ERCOT operating battery storage: 19,194.6 MW in September 2026, up 990.1 from "
+                                                            "18,204.5 in August 2026. Of the 36 month-to-month moves before it, 3 were as large."}),
+                         "19,195 MW in September 2026, up 990 from 18,205 in August 2026")
+        self.assertEqual(roundup.measure_figure({"finding": "no figure"}), "")
+
+
 class Row74TheSourceLine(unittest.TestCase):
     def test_the_charted_series_publisher_and_the_erw_once(self):
         got = roundup.chart_source_line(W45, quiet, fetch=fetch, sources=sources)

@@ -211,6 +211,54 @@ def chart_relevance(m, stories, log):
     return best, best["template"] == m.get("template", "")
 
 
+# Session 1896 (row 75): what a measure counts, as a story would say it. A story names a measure when it says the measure's
+# quantity (the first of these its title or series name holds) and one more word of its title (the commodity, the
+# grid, the place): a price series of the commodity the story names, a flow or a capacity of the place it names (the
+# Digest's fault 14 rule, docs/reviews/periodicals-faults-2026-11-05.md row 14), never a shared token alone.
+MEASURE_QUANTITY = (r"\bexport", r"\bimport", r"\bstocks?\b|\binventor", r"\bdischarg", r"\bsales\b|\bsold\b", r"\bcurtail",
+                    r"\bheld (?:back|below)\b|\bhigh sustained limit\b", r"\bshoulder hours?\b", r"\bregulation\b",
+                    r"\bin operation\b|\bcapacity\b|\bbuild-?out\b", r"\bdemand\b|\bpeak load\b", r"\boutput\b|\bgeneration\b",
+                    r"\bprices?\b")
+
+
+def measure_named(c, stories):
+    """Session 1896 (row 75): the first story of the week that names the measure c ({title, finding}), or None. The measure's
+    quantity is the first MEASURE_QUANTITY pattern its title or its series name (the finding before ": ") holds; a story
+    names it when its titles or why line hold that pattern and, where the title has other content words, one of them
+    (compared on their first six letters, so "Batteries" meets "battery"). No quantity known: no story names it."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis", "findings"))
+        from daily_chart import GENERIC
+    except Exception:
+        GENERIC = set()
+    title = str(c.get("title") or "")
+    name = f"{title} {str(c.get('finding') or '').split(': ')[0]}".lower()
+    q = next((p for p in MEASURE_QUANTITY if re.search(p, name)), None)
+    if q is None:
+        return None
+    others = {w[:6] for w in re.findall(r"[a-z0-9]+", title.lower())
+              if len(w) >= 3 and not w.isdigit() and w not in GENERIC and w not in ("lower",) and not re.search(q, w)}
+    for s in stories or []:
+        titles = s.get("titles") if isinstance(s.get("titles"), list) else [s.get("title", "")]
+        text = " ".join(str(t) for t in titles + [s.get("why", "")]).lower()
+        if not re.search(q, text):
+            continue
+        if not others or others & {w[:6] for w in re.findall(r"[a-z0-9]+", text) if len(w) >= 3}:
+            return str(titles[0] if titles else "")
+    return None
+
+
+def measure_figure(c):
+    """Session 1896 (row 75): the measure's figure as its chart record states it: the finding's first sentence after the
+    series name ("3,675 kbbl/d in the week of 2026-10-26 to 2026-11-01, down 1,179 from 4,854 the week before"), styled as
+    the note is (note_style); "" when the record holds none."""
+    f = str(c.get("finding") or "")
+    if ": " not in f:
+        return ""
+    first = re.split(r"(?<=[^\d])\.\s|(?<=\d)\.\s(?=[A-Z])", f.split(": ", 1)[1])[0].strip().rstrip(".")
+    return note_style(first) if re.search(r"\d", first) else ""
+
+
 NOTE_NUMBER = re.compile(r"(?<![\w.,/-])(-?)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?![\w,/-]|\.\d)")
 
 
@@ -370,7 +418,14 @@ def chart_of_the_week(label, log, stories=None):
                  f"{', '.join(best['shared']) if best['shared'] else 'its sector'} with {best['story'][:80]!r}.")
     elif best is not None:
         # session 1446 (fault 35): one sentence; the related measure's chart is the data machine's to render (item 17)
-        L.append(f"The week's stories point to {best['title']}, whose chart is on [/research](/research) (template `{best['template']}`).")
+        # session 1896 (row 75): only when a story of the week names the measure, and then with its figure from the record
+        named, fig = measure_named(best, stories), measure_figure(best)
+        if named and fig:
+            L.append(f"The week's stories point to {best['title']}, whose chart is on [/research](/research) (template "
+                     f"`{best['template']}`): {fig}.")
+        else:
+            log(f"  chart of the week: no pointer to {best['template']} ("
+                + ("no story of the week names the measure" if not named else "its record holds no figure") + ")")
     return L
 
 
