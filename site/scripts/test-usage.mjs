@@ -165,7 +165,10 @@ await test("toolOf: the menu's own names, by the nearest parent", () => {
   assert.equal(up.toolOf("/storage/buildout"), "Storage");   // session 239: the build-out is a tab of /storage (it was "Storage build-out", a menu entry of its own)
   assert.equal(up.toolOf("/cost-of-power/battery"), "What a battery earns");
   assert.equal(up.toolOf("/cost-of-power/battery/awards"), "What a battery earns");
-  assert.equal(up.toolOf("/grid/ercot"), "ERCOT");
+  assert.equal(up.toolOf("/grid/ercot"), "The grid");   // session 5102: a grid is a view of /grid since session 237 (it was "ERCOT", a menu entry of its own)
+  // session 5102: the pages of a sub-group have their names too (they were "" from session 203, when the menu gained one)
+  assert.equal(up.toolOf("/cost-of-power/seller"), "What a generator earns");
+  assert.equal(up.toolOf("/shoulder"), "The shoulder hours");
   assert.equal(up.toolOf("/terms"), "Terms");
   assert.equal(up.toolOf("/privacy"), "");
   assert.equal(up.isEvent("tool opened") && up.isEvent("input changed") && up.isEvent("scenario compared") && up.isEvent("download"), true);

@@ -84,3 +84,19 @@ The counts are recording: `site_usage_daily` holds days from 10 October 2026 to 
 
 The other 114 Python packages of the venv carry no advisory known to pip-audit on 6 November.
 
+
+## The list of 13 November 2026 (chains 234 and 237, window P2 of the personal laptop)
+
+Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (26 rows). That file keeps each row's state from here on; this section keeps what changed in the site.
+
+| Rows | What changed | Where | State |
+|---|---|---|---|
+| 1 | A page in review answered a visitor at its transport addresses (`<page>.segments/...segment.rsc`); the curtain now runs on them and answers 404 without the internal cookie | `site/proxy.ts`, session 5101 | **closed**: landed at `b1ea7427a` on 13 November 2026; `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app` exit 0 after the deploy (8 pages, 32 addresses) |
+| 2 | `site/scripts/test-usage.mjs`, the proof of the guards, failed unseen: no test ran it. It passes again and the suite runs it | `site/lib/usagepath.ts`, `tests/test_session5102.py` | fixed on `wip/5150-security` |
+| 15 | `/internal/lock` clears nothing at a request the browser marks cross-site | `site/app/internal/lock/route.ts` | fixed on `wip/5150-security` |
+| 16, 17, 18 | Four more limits per address, each counted by the guard (the database across instances, this instance's memory as the floor): `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour | the four route handlers | fixed on `wip/5150-security` |
+| 19 | A standing test reads every route handler (41): a body is never read without a cap, every POST asks the guard and names its origin, a GET that asks the database with the visitor's words is limited. The sign-up form refuses a request that says it is over 8 kB | `tests/test_session5102.py` (`EveryRoute`) | fixed on `wip/5150-security` |
+| 20 | A standing scan of the source, nothing built: no `NEXT_PUBLIC_` variable, no client file names `process.env`, no module a client file imports (at any depth) names a secret or is marked `server-only`, no literal shaped like a key. `site/lib/finder.ts` now carries the marker | `tests/test_session5102.py` (`NoSecretReachesABrowser`) | fixed on `wip/5150-security`; row 26 (the battery page's read, window P1's file) waits |
+| 21 | The headers and the enforced policy are read from `site/next.config.ts` itself, without a build | `tests/test_session5102.py` (`TheHeaders`) | fixed on `wip/5150-security` |
+
+The limits per address as they stand on `wip/5150-security` (bucket, limit, window): `subscribe` 5 an hour, `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour, beside the ones session 177 set on the routes that spend or write.

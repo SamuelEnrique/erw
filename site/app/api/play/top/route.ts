@@ -7,13 +7,16 @@
 import { NextResponse } from "next/server";
 import { parsePreset, presetLabel } from "@/lib/battery";
 import { allowRead, clientIp, fail, leaderboard } from "@/lib/game";
+import { limited } from "@/lib/guard";
 import { levelFor } from "@/lib/levels";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
-  if (!allowRead(clientIp(req))) return fail("limit reached: 240 leaderboard reads per hour; try again later", 429);
+  // session 5102 (docs/reviews/security-faults-2026-11-13.md, row 18): the same 240 an hour, counted by the guard too
+  // (the database, across the server's instances); until then one instance's memory alone counted
+  if (!allowRead(clientIp(req)) || !(await limited(req, "play_top", 240, 3600)).ok) return fail("limit reached: 240 leaderboard reads per hour; try again later", 429);
   const q = new URL(req.url).searchParams;
   const preset = q.get("preset") ?? "";
   if (!parsePreset(preset)) return fail("preset: not one the game writes (for example easy:13.5-5-90-v5, hard:13.5-5-90-r25-d0.11-v5, or with rooftop solar hard:13.5-5-90-r25-d0.11-solar-v5)");

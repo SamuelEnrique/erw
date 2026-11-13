@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Roadmap item 7: every open item of the security
 
 States: **fixed** (on this chain's stack, with its test; live once the stack lands), **closed** (fixed and live), **ruling** (Samuel's, with the default this chain acts on), **open** (a session of this chain takes it), **noted** (nothing to do until something else happens), **not a fault** (checked, with the evidence).
 
-The stack is `wip/5100-security`; its landing row is in `docs/state/landing_request_portable.md`.
+The stacks: `wip/5100-security` (rows 1, landed at `b1ea7427a` on 13 November 2026 as landing row 18), then `wip/5150-security` (chain 237, cut from `origin/main` after that landing). The landing rows are in `docs/state/landing_request_portable.md`.
 
 ## Row 1 first: a visitor could read a page in review
 
@@ -21,14 +21,14 @@ The stack is `wip/5100-security`; its landing row is in `docs/state/landing_requ
 - **How long.** Since the release gate (session 67) on any Next version that serves these addresses; not established further.
 - **The fix** (`site/proxy.ts`, session 5101): the matcher runs on an address ending in `.rsc`; such an address takes the status of the page it stands for, and without the internal cookie answers 404. `site/lib/release.ts` is not touched.
 - **The tests.** `site/scripts/test-curtain.mjs` (8 tests: the matcher as Next compiles it, the old matcher's gap kept as a proof, the rule); `tests/test_session5101.py`.
-- **The proof still owed, after the landing's deploy:** `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app`, exit 0. A local build cannot show the fault (`next start` answers 404 at these addresses), so the gate's green says only that nothing broke.
+- **The proof after the landing's deploy** (landing row 18, `b1ea7427a`, the desktop's session 4002 on 13 November 2026): `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app`, exit 0, no page in review readable at a transport address, 8 pages, 32 addresses. A local build cannot show the fault (`next start` answers 404 at these addresses), so the gate's green says only that nothing broke.
 
 ## The list
 
 | # | Item | Severity | From | State | Test, commit or default |
 |---|---|---|---|---|---|
-| 1 | A page in review is readable at its transport addresses (above) | High | new, 13 November | **fixed**, session 5101; the deployed proof owed | `test-curtain.mjs`, `tests/test_session5101.py`, `check-curtain.mjs` |
-| 2 | `site/scripts/test-usage.mjs`, the review's own proof of the guards, fails on `origin/main` at its 14th test (`toolOf("/cost-of-power/battery")` answers nothing) | Low (a proof that cannot run) | new, 13 November | open | |
+| 1 | A page in review is readable at its transport addresses (above) | High | new, 13 November | **closed**: fixed by session 5101, landed at `b1ea7427a` (landing row 18), the deployed proof exit 0 | `test-curtain.mjs`, `tests/test_session5101.py`, `check-curtain.mjs` |
+| 2 | `site/scripts/test-usage.mjs`, the review's own proof of the guards, fails on `origin/main` at its 14th test (`toolOf("/cost-of-power/battery")` answers nothing) | Low (a proof that cannot run) | new, 13 November | **fixed**, sessions 5102 and 5150: a sub-group's pages have their names (`site/lib/usagepath.ts`), the test's `/grid/ercot` line follows session 237, and the suite now runs it | `tests/test_session5102.py` (`TheGuardsOwnProof`) |
 | 3 | The internal token travels in addresses: the old link `GET /internal/unlock?token=` still answers (H1) | High | review H1 | **ruling** | default: the link stays until Samuel has used `/internal/open` once on production; the retirement is prepared on a branch of its own, one landing away |
 | 4 | The old link compares the token with `!==` (L5) | Low | review L5 | **ruling**, with row 3 | goes with the link's retirement |
 | 5 | The token's rotation (H1) | High | review H1 | **ruling** | default: after row 3's retirement, by Samuel (Vercel, the two `.env` files, `erw_private.settings`) |
@@ -41,17 +41,18 @@ The stack is `wip/5100-security`; its landing row is in `docs/state/landing_requ
 | 12 | Sign-ups are enabled in Supabase Auth (L8) | Low | review L8 | **ruling** (a dashboard setting); read again by a session | default: (a) turn off "Allow new users to sign up" when Samuel is next in the dashboard |
 | 13 | No `robots.txt` (L11) | Low | review L11 | noted | comes with the first live page |
 | 14 | Three checks prove "a token in the address opens nothing" with the real token (S3) | Low | `docs/security.md` S3 | noted | run on a local build only until row 5 |
-| 15 | `GET /internal/lock` answers another site's request: a page elsewhere can lock a reviewer's browser (an image address is enough) | Low | new, 13 November | open | |
-| 16 | `POST /api/unsubscribe` and `GET /api/subscribe/confirm` have no limit: each request makes the database check a token | Low | new, 13 November | open | |
-| 17 | `GET /api/entity` has no limit: one database read a request, any id | Low | new, 13 November | open | |
-| 18 | `GET /api/play/top` counts its limit in one instance's memory only (M2's class) | Low | new, 13 November | open | |
-| 19 | No standing test says every route that reads a body caps it, and every route that spends or writes asks the guard | Low | the chain's prompt | open | |
-| 20 | No standing test scans the source for a server secret in a file a browser gets | Low | the chain's prompt | open | |
-| 21 | The headers are proven only against a built site (`check-security.mjs`): no test reads `next.config.ts` without a build | Low | the chain's prompt | open | |
+| 15 | `GET /internal/lock` answers another site's request: a page elsewhere can lock a reviewer's browser (an image address is enough) | Low | new, 13 November | **fixed**, sessions 5102 and 5150: a request the browser marks cross-site clears nothing | `tests/test_session5102.py` (`TheSmallDoors`) |
+| 16 | `POST /api/unsubscribe` and `GET /api/subscribe/confirm` have no limit: each request makes the database check a token | Low | new, 13 November | **fixed**, sessions 5102 and 5150: 120 an hour (unsubscribe) and 60 an hour (confirm) from one address | `tests/test_session5102.py` (`TheSmallDoors`) |
+| 17 | `GET /api/entity` has no limit: one database read a request, any id | Low | new, 13 November | **fixed**, sessions 5102 and 5150: 600 an hour from one address | `tests/test_session5102.py` (`TheSmallDoors`) |
+| 18 | `GET /api/play/top` counts its limit in one instance's memory only (M2's class) | Low | new, 13 November | **fixed**, sessions 5102 and 5150: the guard counts the same 240 an hour in the database too | `tests/test_session5102.py` (`TheSmallDoors`) |
+| 19 | No standing test says every route that reads a body caps it, and every route that spends or writes asks the guard | Low | the chain's prompt | **fixed**, sessions 5102 and 5150: the standing test reads all 41 route handlers; the sign-up form refuses a request that says it is over 8 kB | `tests/test_session5102.py` (`EveryRoute`) |
+| 20 | No standing test scans the source for a server secret in a file a browser gets | Low | the chain's prompt | **fixed**, sessions 5102 and 5150: the standing scan (no public variable, no client file names the environment, no module a client file imports names a secret, no literal shaped like a key); `site/lib/finder.ts` marked `server-only`; row 26 is what it found | `tests/test_session5102.py` (`NoSecretReachesABrowser`) |
+| 21 | The headers are proven only against a built site (`check-security.mjs`): no test reads `next.config.ts` without a build | Low | the chain's prompt | **fixed**, sessions 5102 and 5150: the headers and the enforced policy read from the config itself | `tests/test_session5102.py` (`TheHeaders`) |
 | 22 | The enforced Content-Security-Policy allows inline scripts (`script-src 'self' 'unsafe-inline'`) | Low | new, 13 November | open (read first: what a nonce would cost) | |
 | 23 | The usage count sends the database a hash that stands for one visitor for one UTC day: an identifier, for a day | Medium (against the roadmap's "no identifier") | new, 13 November | open | |
 | 24 | Whether the counts run only on the pages the ruling of 12 October allows ("no usage count on tool pages") | Medium | `docs/security.md`, "The usage counts" | open | |
 | 25 | `clientIp` takes the first entry of `X-Forwarded-For`: right on Vercel, which writes the header itself; on another host a client could choose its own limit key | Low | new, 13 November | noted | the site runs on Vercel alone |
+| 26 | `site/app/cost-of-power/battery/read.ts` reads `INTERNAL_COSTS_TOKEN` and does not carry `import "server-only"`: nothing stops a later client file from importing it (today only its page does, on the server) | Low | new, 13 November (row 20's scan) | **ruling** (the file is window P1's) | default: window P1 adds the one line in its own chain; `tests/test_session5102.py` lists the file under `UNMARKED` and fails the day it is marked, so the list is brought up to date |
 
 ## Checked on 13 November and not a fault
 

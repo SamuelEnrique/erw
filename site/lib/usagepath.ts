@@ -38,7 +38,9 @@ export function cleanPath(raw: unknown): string | null {
 }
 
 const NAMES: [string, string][] = [
-  ...GROUPS.flatMap((g) => g.pages.map((pg) => [pg.href, pg.label] as [string, string])),
+  // session 5102: a group's sub-group too (the menu's "Infrastructure Economics", the ruling of 12 October 2026); its
+  // five pages were named "" from the day the menu gained it
+  ...GROUPS.flatMap((g) => [...g.pages, ...(g.sub?.pages ?? [])].map((pg) => [pg.href, pg.label] as [string, string])),
 ].sort((a, b) => b[0].length - a[0].length);
 
 export function toolOf(path: string): string {
