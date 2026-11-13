@@ -22,6 +22,8 @@ Long end 1:00 each. One step a session, in chain 232's order, as session 3326 li
 
 (Session 3326 fills this list.)
 
+Written by session 3311, before the list above: chain 225's two steps that waited on `wip/1905-revert` are possible since it landed (`3a82aebe4`, 13 November): the lab path's step 04 (`/datacenters?view=grids`, the internal view, 1280 and 390) walked on a local build, its reading written beside session 1904's in `docs/reviews/lab-path.md`; and the five tools' table line after chains 220 to 224 in `docs/reviews/five-tools-read-2026-11-11.md` with `package/tools/build_tables.py --check`. Session 3326 keeps them in the list if chain 232 does not take them.
+
 ## Sessions 3334 to 3340: the periodicals, again
 
 Long end 1:00 each. The Daily Digest and the Weekly Roundup: every row of the faults file still open (a row whose state is `ruling` or `data machine` is skipped, said so), each fixed with a test on this chain's stack, the built page read on a local production build at 1280 and 390, every figure a check-values key traced to the warehouse; then the newest stored Digest issues and the newest Roundup read as a reader (story selection, the numbers section, charts with hover values, the writing in `docs/voice.md`'s voice), each new fault a numbered row, fixed the same way. Dry runs only (`--no-model` unless a model read is the point, under USD 2 a session): no email sent, no stored issue rewritten. When the stack is ready, its landing request row.
