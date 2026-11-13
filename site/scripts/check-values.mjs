@@ -1418,7 +1418,7 @@ async function main() {
       // session 3827 (chain 218): a Digest story's sum is shown with its currency code before the raw the page reads ("USD 2.1
       // billion" for "2.1 billion"; a non-US sum keeps its code in the raw itself)
       const storyOk = /^digest_story\|[^|]+\|[^|]+\|price$/.test(check) && (text === raw || text === `USD ${raw}`);
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || chartOk || dcWhole || dcOne || storyOk;
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
