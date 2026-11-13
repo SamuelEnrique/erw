@@ -29,6 +29,8 @@ Energy Research Warehouse (ERW), session 5300 (portable laptop, window P4). Two 
 | duke (re-read) | 5 | 73 | 73 |
 | southwest_california (re-read) | 5 | 80 | 80 |
 | **all 15 groups, checked again together** | **106** | **1,504** | **1,504** |
+| coops_public_power_2 | 6 | 43 | 43 |
+| remainder | 10 | 112 | 112 |
 
 ## The reading check
 
@@ -73,3 +75,7 @@ The printer showed the first copy of a quote in a document, not the cited page. 
 | northwest_mountain-01 | pass | Oregon PUC Order 26-443, entered 13 November 2026 (UE 463): 20 MW, 10 to 30 years, collateral to cover the Exit Fee, compliance tariffs by 24 November for 1 January 2027. |
 | duke-04 (re-read) | pass | The Florida PSC's vote sheet of 3 November 2026 (Document 07689-2026): Issue 1B, deny as filed with leave to refile, approved as modified. Written as the new status `denied`. |
 | aep-08 (re-read) | pass | The PUCT's Proposed Order in Docket 58796 and the settlement's ES-LL contract: 75 MW of computational load, 90 percent minimum demand, 18 years from the ramp, five years' notice. |
+| coops_public_power_2-01 | pass | Hoosier Energy's own article on its annual meeting of 8 April 2026: the Consumer Directed Resource Policy for loads over 50 MW, upfront payment, weekly invoicing and prepayments. |
+| coops_public_power_2-06 | pass | The City of Ames staff recommendation (p. 4) and the project page: a proposal, no terms; the 3, 6 and 25 MW figures are one customer's proposal, kept in the queue field's cite only. |
+| remainder-01 | pass | MDU's North Dakota Rate 45 (sheet 30, p. 48 of the PSC's copy in PU-26-241): 10,000 kW and 85 percent load factor, agreements of three to five years, the deposit and CIAC; the queue from MDU's Q3 2026 10-Q, figures listed, not summed. |
+| remainder-06 | pass | Tacoma Power's Schedule NLL (effective 1 April 2026, Ordinance 28993): over 8 MW and under 10 aMW. Internal (Tacoma's terms). |
