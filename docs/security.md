@@ -87,7 +87,7 @@ The other 114 Python packages of the venv carry no advisory known to pip-audit o
 
 ## The list of 13 November 2026 (chains 234 and 237, window P2 of the personal laptop)
 
-Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (32 rows after the fresh pass of sessions 5159 to 5162; none open, and its section "Where the list stands" counts them by state). That file keeps each row's state from here on; this section keeps what changed in the site.
+Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (34 rows after the fresh pass of sessions 5159 to 5162 and chain 247's reads; none open, and its section "Where the list stands" counts them by state). That file keeps each row's state from here on; this section keeps what changed in the site.
 
 | Rows | What changed | Where | State |
 |---|---|---|---|
@@ -190,5 +190,6 @@ While landing row 23 and the owner's rulings were awaited, six more parts no pas
 | 5172 | The storage buckets: the archive of every table's rows and the thesis tool's files are private and refuse the anon key; one bucket is public by design; no policy opens the objects | `verify_rls.py --catalog`, step 7 (`EXPECTED_BUCKETS`); `tests/test_session5172.py` |
 | 5173 | The scheduler and the API's reach: six scheduled jobs, each one call of the dispatcher, none holding a secret; the dispatcher, the vault and the scheduler's schema closed to the anon key; the REST API serves schema `public` alone; the GraphQL API is not enabled | `verify_rls.py --catalog`, step 8; `tests/test_session5173.py` |
 | 5174 | A signed-in user (sign-ups are on, item 8 above): on the 31 relations of `public` the role `authenticated` holds no privilege `anon` lacks; no policy and no function is for it alone; no account has ever been made. Item 8's choice (b) said so since session 371; now it is proven | `verify_rls.py --catalog`, step 9; `tests/test_session5174.py` |
+| 5175 | The repository at GitHub, through its API: public, one collaborator, no ruleset; Dependabot alerts are off (row 33 of the list, the owner's setting); what "public" means for a fault written down before its fix lands (row 34). The machine's token is a fine-grained one and is not shown the branch's protection or the security settings | the two rows; nothing a test can hold |
 
 Session 5169 also corrected a flaw in this chain's own tests: the way they dropped comments before scanning the source left 4,680 characters of three files unread. Read now, those parts hold nothing the tests forbid.
