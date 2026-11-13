@@ -18,6 +18,8 @@ This script runs a builder into a temporary folder and then takes the new build 
   3. A row the new build blanks as "paused" or "licensed" is always taken: a pause is never undone by a kept row.
   4. A row only the held file has is kept; a row only the new build has is taken.
   5. The board's hourly files follow the same rule: taken when they reach at least as far back and as far forward.
+  6. Session 3889: the board's rows computed from Henry Hub with a look-back (the spark spreads and implied heat rates)
+     and Henry Hub's own row are one set: when one of them is kept, all are kept (BOARD_TOGETHER).
 
 Nothing is filled, joined or averaged: every row on the page is one build's row, whole. The counts are printed and
 logged. Exit 0 when the files were written (even if every row was kept), 1 when the builder failed or nothing could
@@ -109,14 +111,60 @@ def mark_held(rows, kept_why, lag_days=HELD_LAG_DAYS):
     return rows
 
 
-def merge_rows(old_body, new_body, points_old, points_new, log):
+# Session 3889 (chain 227): rows the board's builder computes from another row with a look-back. A spark spread or an
+# implied heat rate takes "the day's gas price, else the newest trading day's up to 4 days before" (board_page.gas_on),
+# so a new Henry Hub day changes spread values the board already holds. On 12 and 13 November 2026 the runner kept the
+# ERCOT hub's day-ahead, spark and heat rows (its histories are shorter) and took Henry Hub's row from the new build:
+# the board's spark spread was no longer its inputs (22.2287 against 22.4387, 7 x 0.03), tests 1118 and 1139 refused
+# the board, and the whole board was put back as committed. Such a set is one build's rows: when any of its rows with a
+# value is kept as it was, every row of the set is kept as it was (a row the new build blanks on purpose is still
+# taken). The rows that combine same-day values only (the hub spreads, peak less off-peak, day-ahead less real time,
+# the cracks) agree with their inputs on every day both hold, so they are left to choose().
+BOARD_TOGETHER = (("eia-henry-hub-spot", ("-spark", "-heat")),)
+
+
+def board_together(ids):
+    """The sets of board rows that are taken or kept together (BOARD_TOGETHER): each anchor with every row id ending in
+    one of its suffixes, among these ids."""
+    sets = []
+    for anchor, suffixes in BOARD_TOGETHER:
+        members = {anchor} | {i for i in ids if i.endswith(suffixes)}
+        if len(members) > 1:
+            sets.append(members)
+    return sets
+
+
+def hold_together(decisions, old_by, new_by, sets):
+    """Session 3889: in each set, when a row with a value in the held file is kept, keep every other row of the set that
+    the held file holds with a value, unless the new build blanks it on purpose. decisions: {id: (which, why)}, changed in
+    place; a row only the held file has counts as kept. Returns the ids moved from new to old."""
+    moved = []
+    for members in sets:
+        anchors = sorted(i for i in members if i in old_by and old_by[i].get("status") == "ok"
+                         and (i not in new_by or decisions.get(i, ("new",))[0] == "old"))
+        if not anchors:
+            continue
+        for i in sorted(members):
+            if decisions.get(i, ("old",))[0] != "new" or old_by.get(i, {}).get("status") != "ok":
+                continue
+            if new_by.get(i, {}).get("status") in BLANKED_ON_PURPOSE:
+                continue
+            decisions[i] = ("old", f"kept with {anchors[0]}, which it is computed with (one build's rows together)")
+            moved.append(i)
+    return moved
+
+
+def merge_rows(old_body, new_body, points_old, points_new, log, together=None):
     old_rows, new_rows = named(old_body), named(new_body)
     old_by = {r["id"]: r for r in old_rows}
     new_by = {r["id"]: r for r in new_rows}
     order = {g["id"]: i for i, g in enumerate(new_body["groups"])}
     out, kept, taken = [], [], []
+    decisions = {r["id"]: choose(old_by.get(r["id"]), r, points_old(r["id"]), points_new(r["id"])) for r in new_rows}
+    if together:
+        hold_together(decisions, old_by, new_by, together(set(old_by) | set(new_by)))
     for r in new_rows:
-        which, why = choose(old_by.get(r["id"]), r, points_old(r["id"]), points_new(r["id"]))
+        which, why = decisions[r["id"]]
         if which == "new":
             out.append(r); taken.append(r["id"])
         else:
@@ -164,7 +212,8 @@ def board(args, log):
             old_body = dict(new_body, rows=[], sources=[])
         else:
             old_body = load(held_path)
-        rows, sources, kept, taken = merge_rows(old_body, new_body, lambda i: series_points(s_old, i), lambda i: series_points(s_new, i), log)
+        rows, sources, kept, taken = merge_rows(old_body, new_body, lambda i: series_points(s_old, i), lambda i: series_points(s_new, i), log,
+                                                together=board_together)
         kept_ids = {i for i, _ in kept}
         for d in (s_old, h_old):
             os.makedirs(d, exist_ok=True)

@@ -396,3 +396,10 @@ test("Vermont's uniform capacity tax, USD 4 per kW, with the reader's own proper
   assert.equal(F.propertyTax(P, { ...vt, mw: 0.04 }, 0).tax, null, "under 50 kW: exempt from the capacity tax, no rule held");
   assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "vt"), mw: 20 }, 0).tax, null, "wind: no rule held");
 });
+
+test("Wisconsin's payments to the municipality and county, USD 5,000 per MW a year, 1 MW at least, no gas rule", () => {
+  near(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "wi"), mw: 100 }, 0).tax, 500000);
+  near(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "wi"), mw: 50 }, 30).tax, 250000, 1e-12, "every operating year");
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "wi"), mw: 0.5 }, 0).tax, null, "under 1 MW: no rule held");
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "natural_gas", "wi"), mw: 500 }, 0).tax, null, "gas: no rule held");
+});

@@ -308,3 +308,10 @@ Read again by session 3866 at about 08:15 UTC, after chain 221's section, on `wi
 Read again by session 3882 at about 09:25 UTC, after chain 223's section (main at `2c841e04d`, chain 223 landed at `bae840210`):
 - **Time to connect, PACE (Utah):** Utah's rule R746-318 under S.B. 132 is not reached. It is published only through the Office of Administrative Rules' script-built portal, and its old static address answers 404 (session 3878). No tab row is in Utah.
 - **No other row moved.**
+## State on 13 November 2026, late morning (chain 227)
+Read again by session 3888 at about 10:45 UTC, after chain 226's section, on `wip/c227-data` (main at `a4f15b6a8`). Chain 227's session 3888, after a Claude outage stopped chain 226 at 09:47:
+- **Time to connect, PACE (Utah): the rule joined.** The Utah PSC's rule R746-318 (its filing of 31 October 2025 at rulemaking Docket 25-R318-01, enacted 1 January 2026), read from the Commission's own docket on `pscdocs.utah.gov`, gives 5 steps: the contract filed within 15 days, the Commission's decision within 60 days, 90 days to cure a notice of deficiency, a same-day service, and an expedited review of a closed private system over 100 MW. No tab row is in Utah, so no cell moved.
+- **Time to connect, CAISO: one more document.** The CAISO's Large Load Enhancements Draft Final Proposal (24 September 2026) gives 4 steps (50 MW, the PTOs' 60 to 90 days, a monthly review, the Board's decision of 28 October). None prints a single duration, so the CAISO rows' hover, which lists timed steps first, reads as before. The Board's decision and the FERC compliance filing (due 16 November) were not read.
+- **Time to connect, ERCOT:** unchanged. The Planning Guide's current Section 9 is still the 11 July 2026 version held.
+- **Time to connect, NYISO and ISO-NE:** open. Both operators' terms ask written permission; New York's Case 26-E-0045 was read at 05:49 UTC (session 3848) and states no clock.
+- **Still open:** as chain 223's section.
