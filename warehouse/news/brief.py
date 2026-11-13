@@ -1056,6 +1056,23 @@ def names_price(label, text):
     return label in ("WTI Cushing crude", "Brent crude") and bool(CRUDE_MOVE.search(text))
 
 
+# Session 3312 (faults file row 104): a story names a move only when its direction words do not contradict it. W45's
+# Brent fell 18.6% on the week and "ConocoPhillips boosts dividend ... on higher oil prices" counted as naming it
+RISE_WORDS = re.compile(r"\b(?:rise|rises|rose|rising|higher|jumps?|jumped|surges?|surged|gains?|gained|climbs?|climbed|"
+                        r"rall(?:y|ies|ied)|soars?|soared|spikes?|spiked)\b")
+FALL_WORDS = re.compile(r"\b(?:fall|falls|fell|falling|lower|drops?|dropped|slumps?|slumped|tumbles?|tumbled|slides?|slid|"
+                        r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped)\b")
+
+
+def agrees(text, pct):
+    """Row 104: False when the text speaks of the opposite direction only (a rise beside a fall, or a fall beside a rise);
+    True otherwise, and always when the move's sign is not given."""
+    if pct is None:
+        return True
+    up, down = bool(RISE_WORDS.search(text)), bool(FALL_WORDS.search(text))
+    return not ((float(pct) < 0 and up and not down) or (float(pct) > 0 and down and not up))
+
+
 NOT_HELD = (("TTF, the Dutch gas benchmark", "not held: its source asks for a license"),
             ("JKM, the Japan-Korea LNG marker", "not held: its source asks for a license"))
 US48 = "eia930:US48"
@@ -1132,7 +1149,7 @@ def day_move(newest, newest_day, prev, prev_day):
     return {"ch": round(v0 - v, 4), "pct": round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None}
 
 
-def price_named(label, clusters):
+def price_named(label, clusters, pct=None):
     """Session 1446: whether a story of the day or the week names the price (PRICE_WORDS in its title or why line),
     whatever its why line prints: a move is "named" for the opening number's choice even when the story's why line
     fails the check and no reason is printed beside the mover."""
@@ -1141,12 +1158,26 @@ def price_named(label, clusters):
         return False
     for r in clusters.to_dict("records"):
         text = f" {str((r.get('titles') or [''])[0])} {r.get('why') or ''} ".lower()
-        if names_price(label, text):
+        if names_price(label, text) and agrees(text, pct):   # row 104
             return True
     return False
 
 
-def price_reason(label, clusters):
+def price_story(label, clusters, pct=None):
+    """Session 3312 (faults file row 101): the highest-ranked story of `clusters` that names the price (names_price), as
+    " Named in the week's stories: <its title> (<its first link>)." in the money style; "" when none names it. The
+    Roundup's opening move prints it when no naming story's why line passes the check (price_reason)."""
+    if clusters is None or not len(clusters):
+        return ""
+    for r in clusters.to_dict("records"):
+        title = str((r.get("titles") or [""])[0])
+        text = f" {title} {r.get('why') or ''} ".lower()
+        if names_price(label, text) and agrees(text, pct):   # row 104
+            return f" Named in the week's stories: {money_style(nodash(title)).strip().rstrip('.')} ({link_text(list(r.get('links') or [])[:1])})."
+    return ""
+
+
+def price_reason(label, clusters, pct=None):
     """The why line of the day's highest-ranked scored story that names the price (PRICE_WORDS), with its outlet, as
     the reason beside a mover; "" when no story of the day names it (the figure then stands with no reason)."""
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
@@ -1155,7 +1186,7 @@ def price_reason(label, clusters):
     for r in clusters.to_dict("records"):
         title = str((r.get("titles") or [""])[0])
         text = f" {title} {r.get('why') or ''} ".lower()
-        if names_price(label, text):
+        if names_price(label, text) and agrees(text, pct):   # row 104
             why = why_line(r.get("why") or "", title)
             # session 1465 (chain 150, fault 43): a price's reason names something (a party, a place, a date, a quantity
             # or a rule the title does not), whatever its share of the title's words: "Commodity price movement driven
@@ -1239,7 +1270,7 @@ def mover_list(cands, clusters):
     for c in ranked:
         movers.append(f"- {c['label']}: {c['v']:.2f} {c['unit']} on {c['d']:%Y-%m-%d}, {'up' if c['ch'] >= 0 else 'down'} "
                       f"{abs(c['ch']):.2f} {c['unit']} ({abs(c['pct']):.1f}%) from {c['pv']:.2f} {c['unit']} on {c['pd']:%Y-%m-%d} {c['ref']}."
-                      + price_reason(c["key"], clusters))
+                      + price_reason(c["key"], clusters, c["pct"]))
     if not cands:
         movers.append("- no price with a day before it is held, so no move is ranked.")
     return movers
@@ -1377,8 +1408,8 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     lines += demand_lines(digest_date, log, notes, store)
     if facts is not None:   # session 2703
         for c in cands:
-            c["reason"] = price_reason(c["key"], clusters)
-            c["named"] = price_named(c["key"], clusters)   # session 1446: named, whether or not a reason prints
+            c["reason"] = price_reason(c["key"], clusters, c["pct"])
+            c["named"] = price_named(c["key"], clusters, c["pct"])   # session 1446: named, whether or not a reason prints
         facts.update(cands=cands, demand=store)
     return lines + notes.lines()
 

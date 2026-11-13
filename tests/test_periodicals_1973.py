@@ -459,6 +459,28 @@ class Rows100To103W45OnTheStack(unittest.TestCase):
         self.assertIn("Status: calculated from observed prices (the warehouse's tables). Reason, from the week's stories: Tanker traffic", line)
         self.assertNotIn("day's stories", line)
 
+    def test_101_a_failing_line_names_the_story(self):
+        import roundup
+        move = {"label": "Brent crude", "pct": -18.6, "ch": -22.32, "text": "Brent crude closed at 97.83 USD/bbl on 2026-11-06 [5]"}
+        stories = pd.DataFrame([{"titles": ["Oil prices tumble $20 in a week"], "parties": "", "why": "Oil prices fell.",
+                                 "links": [("Reuters", "https://example.org/r")]}])
+        line = roundup.opening_lines(roundup.opening_number({"moves": [move], "move": move}, stories))[2]
+        self.assertIn("Named in the week's stories: Oil prices tumble USD 20 in a week ([Reuters](https://example.org/r)).", line)
+
+    def test_104_a_story_of_higher_prices_names_no_fall(self):
+        import roundup
+        self.assertFalse(brief.agrees(" conocophillips boosts dividend on higher oil prices ", -18.6))
+        self.assertTrue(brief.agrees(" oil settles $3 higher on attacks ", 2.2))
+        self.assertTrue(brief.agrees(" oil prices swing higher then lower ", -3.0))
+        self.assertTrue(brief.agrees(" anything ", None))
+        move = {"label": "Brent crude", "pct": -18.6, "ch": -22.32, "text": "Brent crude closed at 97.83 USD/bbl on 2026-11-06 [5]"}
+        stories = pd.DataFrame([{"titles": ["ConocoPhillips boosts dividend after beating estimates on higher oil prices"], "parties": "",
+                                 "why": "", "links": [("OilPrice.com", "https://example.org/c")]}])
+        self.assertFalse(brief.price_named("Brent crude", stories, -18.6))
+        op = roundup.opening_number({"moves": [move], "move": move}, stories)
+        self.assertEqual(op["key"], "move")   # by the unnamed benchmark's bar
+        self.assertNotIn("ConocoPhillips", roundup.opening_lines(op)[2])
+
     def test_102_iea(self):
         self.assertEqual(brief.outlet_name("IEA - International Energy Agency"), "IEA")
 

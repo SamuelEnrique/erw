@@ -1097,13 +1097,15 @@ def opening_number(picked, stories=None):
     Returns {key, text, status} or None when the week holds none of them."""
     deal, dc, us48, story = (picked.get(k) for k in ("deal", "dc", "us48", "story"))
     moves = picked.get("moves") or ([picked["move"]] if picked.get("move") else [])
-    named = {m["label"]: brief.price_named(m["label"], stories) if stories is not None and len(stories) else False for m in moves}
+    named = {m["label"]: brief.price_named(m["label"], stories, m.get("pct")) if stories is not None and len(stories) else False for m in moves}
     fuel = [m for m in moves if not is_hub(m)]
     hubs = [m for m in moves if is_hub(m)]
 
     def mover(m):
         # session 3312 (faults file row 101): the move carries the naming story's line, as the Digest's mover does
-        why = brief.price_reason(m["label"], stories) if stories is not None and len(stories) else ""
+        why = brief.price_reason(m["label"], stories, m.get("pct")) if stories is not None and len(stories) else ""
+        if not why and stories is not None and len(stories):   # row 101: the naming story's title when no line passes
+            why = brief.price_story(m["label"], stories, m.get("pct"))
         return {"key": "move", "text": m["text"], "status": "calculated from observed prices (the warehouse's tables)", "move": m,
                 "reason": why.replace("from the day's stories", "from the week's stories")}
     for m in fuel:
