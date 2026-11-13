@@ -180,8 +180,9 @@ def sector_of(lead):
 
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
 _BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
-FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b)", re.I),   # 3459, row 154
-               "gas": re.compile(rf"\b(?:natural )?gas {_BALANCE}\b", re.I)}
+FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b|fuels? markets?\b)", re.I),   # 3459, row 154; 3464, row 166
+               # session 3463 (row 163): "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (12 November)
+               "gas": re.compile(rf"\b(?:(?:natural )?gas (?:{_BALANCE}|forwards?|futures)|lng {_BALANCE}|lng prices?)\b", re.I)}
 
 
 def build_clusters(stories):
@@ -374,7 +375,23 @@ def party_words(r):
     for p in str(r.get("parties") or "").split(";"):
         out |= {w.lower() for w in re.findall(r"\b(?:[A-Z][A-Za-z]+|[A-Z]{2,})\b", p)}
         out |= set(re.findall(r"[a-z]{4,}", p.lower()))
+        out |= {ini for pat, ini in AGENCY_INITIALS if pat.search(p)}   # session 3465, row 168
     return out - GENERIC_PARTY
+
+
+# Session 3465 (faults file row 168): an agency's long name is its initials, so "Department of Energy", "US Energy
+# Department" and "DOE" name one party; every word of the long names is generic (GENERIC_PARTY), so they named none, and
+# one DOE grid announcement printed twice in the stack's ten of 21 October ("DOE Announces $967 Million in Grid Resilience
+# Funding" and "Energy Department Announces New Investments to Strengthen America's Power Grid ...")
+AGENCY_INITIALS = [(re.compile(p, re.I), ini) for p, ini in (
+    (r"\b(?:department of energy|energy department)\b", "doe"),
+    (r"\benvironmental protection agency\b", "epa"),
+    (r"\bfederal energy regulatory commission\b", "ferc"),
+    (r"\bnuclear regulatory commission\b", "nrc"),
+    (r"\benergy information administration\b", "eia"),
+    (r"\binternational energy agency\b", "iea"),
+    (r"\b(?:department of the interior|interior department)\b", "doi"),
+    (r"\bbureau of ocean energy management\b", "boem"))]
 
 
 def same_event(a, b):
@@ -765,11 +782,17 @@ def head_units(t, head):
     return CAPACITY.sub(one, str(t))
 
 
-def scale_against(text, head):
+def scale_against(text, head, mw=None):
     """The scale word of a line ("gigawatt-scale") when every capacity the headline states is under 1,000 MW; "" when the
-    line has none, or the headline states no capacity or one of a gigawatt or more."""
+    line has none, or the headline states no capacity or one of a gigawatt or more. Session 3465 (faults file row 169):
+    the cluster's own scored MW (`mw`) counts as one, since a publisher's title (the issue with no model) often states none
+    ("Gigawatt-scale ..." under "AEP, Google Advance $4 Billion Fuel-Cell Project ...", a 702 MW project)."""
     m = SCALE_WORD.search(str(text or ""))
     caps = [float(v.replace(",", "")) * (1000 if u.upper() == "GW" else 1) for v, u in HEAD_MW.findall(str(head or ""))]
+    try:
+        caps += [float(mw)] if mw not in (None, "") and float(mw) > 0 else []
+    except (TypeError, ValueError):
+        pass
     if not m or not caps or max(caps) >= 1000:
         return ""
     return m.group(0).strip().lower()
@@ -908,7 +931,7 @@ def without_figures(t, head):
     return t[0].upper() + t[1:]
 
 
-def why_line(text, head=""):
+def why_line(text, head="", mw=None):
     """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
     adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
     "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
@@ -920,7 +943,7 @@ def why_line(text, head=""):
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
     if head:   # session 3460 (row 158): the headline's capacity in the other unit is the headline's figure
         t = head_units(t, head)
-    if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
+    if head and scale_against(t, head, mw):   # session 1466 (fault 44); 3465 (row 169): with the cluster's MW
         t = SCALE_WORD.sub("", t, count=1).strip()
         t = t[:1].upper() + t[1:]
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
@@ -974,7 +997,10 @@ def detail(r, head="", why=""):
         # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence
         rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and not party_in_head(p.strip(), head)]
         return f"Also named: {', '.join(rest)}. " if rest else ""
-    return ("; ".join(bits) + ". ") if bits else ""
+    line = "; ".join(bits)
+    # session 3464 (faults file row 167): the line follows a sentence, so it opens with a capital ("... projects. nearly USD 1
+    # billion; Parties: ..." on the stack's 21 October)
+    return (line[:1].upper() + line[1:] + ". ") if bits else ""
 
 
 COMMON_FIRST = {"united", "the", "new", "north", "south", "west", "east", "great", "federal", "national", "state",
@@ -1623,7 +1649,19 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     return lines + notes.lines()
 
 
-def policy_actions_lines(start, end, log, n=3):
+def printed_links(paths):
+    """Session 3463 (faults file row 164): every link the issues at `paths` printed."""
+    out = set()
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                out |= set(LINK_RE.findall(f.read()))
+        except OSError:
+            continue
+    return out
+
+
+def policy_actions_lines(start, end, log, n=3, printed=None):
     """Session 24: the policy actions of the window (policy_actions: the Federal Register and agency news) scored 5 or
     more with the news rubric, most significant first, as the Policy group's last lines. The title is the agency's own."""
     path = os.path.join(ip.OUT_DIR, "policy_actions.csv")
@@ -1636,6 +1674,11 @@ def policy_actions_lines(start, end, log, n=3):
     d = pd.to_datetime(a["event_date"], utc=True, format="ISO8601")
     # the actions are dated by day: the window's days, from the day it starts
     a = a[(d >= start.normalize()) & (d < end) & (a["significance"] != "")]
+    # session 3463 (faults file row 164): a window opens at the last issue's end, but the actions are dated by day, so an
+    # action of that day was in both issues (Long Mott's construction permit, 12 and 13 November 2026); an action whose
+    # link an earlier issue printed is left out, as a story is (`printed`: those issues' links)
+    if printed:
+        a = a[~a["source_url"].isin(printed)]
     a = a[a["significance"].astype(int) >= 5].assign(sig=lambda x: x["significance"].astype(int))
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
@@ -1808,7 +1851,8 @@ ALSO_LABEL = "Also on this topic:"
 # topic ("Also on this topic: Lambda to develop four-building data center campus in Lowndes County, Alabama" under AEP and
 # Google's Wyoming fuel cells, the dry run of 6 November); it is said to be of the sector. Either label opens the line.
 ALSO_SECTOR = "Also in {sector}:"
-ALSO_RE = re.compile(r"^Also (?:on this topic|in [a-z][a-z ]*):")
+ALSO_NOUN = {"deal": "deals", "company": "companies", "ppa": "PPAs"}   # session 3465, row 170
+ALSO_RE = re.compile(r"^Also (?:on this topic|in [A-Za-z][A-Za-z ]*):")   # 3465, row 170: "Also in LNG:", "Also in PPAs:" too
 
 
 def region_key(r):
@@ -1944,7 +1988,10 @@ def also_line(recs):
     sector = [x for x in recs if x.get("kind") == "sector"]
     out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []
     if sector:
-        label = ALSO_SECTOR.format(sector=sector_words(sector[0].get("sector")) or "this sector")
+        # session 3465 (faults file row 170): a sector named by a count noun reads as its plural ("Also in deals:", not "Also
+        # in deal:", the stack's 6 November)
+        s = str(sector[0].get("sector") or "")
+        label = ALSO_SECTOR.format(sector=ALSO_NOUN.get(s) or sector_words(s) or "this sector")
         out.append(f"{label} " + "; ".join(part(x) for x in sector) + ".")
     return " ".join(out)
 
@@ -1953,7 +2000,7 @@ def sector_line(r, head):
     """Session 1467 (chain 150, fault 46): a by-sector or AI and power line: "- headline (sector): why [Outlet](url)", or,
     when the story has no why line that passes the check, "- headline (sector). [Outlet](url)": no colon that introduces
     nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
-    why = why_line(r["why"], head)
+    why = why_line(r["why"], head, r.get("mw"))   # 3465, row 169
     link = link_text(r["links"][:1])
     lead = f"- {head} ({sector_words(r['sector'])})"
     if why:
@@ -2717,7 +2764,7 @@ def main(argv=None):
                     seen.add(r["cluster_id"])
                     pool.append(r)
         L += numbers_block(facts, op, pool, heads)
-        policy_lines = policy_actions_lines(start, now, log)
+        policy_lines = policy_actions_lines(start, now, log, printed=printed_links(earlier_issues(digest_date)))   # 3463, row 164
 
         def middle(n_moved):
             """What moved with n_moved stories, then the fold: the rest of the top ten, the sectors, AI and power, the
@@ -2725,14 +2772,14 @@ def main(argv=None):
             M = ["## What moved", ""]
             for i, r in enumerate(recs[:n_moved], 1):
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']], r.get('mw')), limitation(r)) if x),
                                 f"Sources: {link_text(r['links'])}")
             # rulings items 5 and 14: the rest folds under "More", not cut
             M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
-                w = why_line(r['why'], heads[r['cluster_id']])
+                w = why_line(r['why'], heads[r['cluster_id']], r.get('mw'))
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
                                 (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")
