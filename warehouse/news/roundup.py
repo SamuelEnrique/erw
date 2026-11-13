@@ -939,6 +939,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
 
     cap_used = []
     pol_used = []   # session 1907
+    moves_used = set()   # session 1992 (row 97): the moves a stand-in has printed
 
     def stand_in(k, why):
         """Session 1446 (fault 27): a category with no new observation is replaced by the next price move that
@@ -955,8 +956,17 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
             pol_used.append(policy)
             keys.append(f"the policy, `policy_actions` {policy['event_id']}")
             return f"{why}; in its place, policy: {policy_words(policy)}."
-        if len(moves) > k:
-            return f"{why}; in its place, the week's next price move: {moves[k]['text']}."
+        if len(moves) > 1:
+            # session 1992 (faults file row 97): the next move not yet in the five that passes the opening's own bar
+            # (brief.MATERIAL_PCT: 3% for a benchmark's close, 10% for a hub's mean) stands in; W46's "+0.3%" of Brent was
+            # offered as a week's number. Until then the k-th move stood in, a smaller one passing over a larger unused one
+            for m in moves[1:]:
+                bar = brief.MATERIAL_PCT["hub" if str(m["label"]).endswith("day-ahead") else "fuel"]
+                if id(m) not in moves_used and abs(float(m["pct"])) >= bar:
+                    moves_used.add(id(m))
+                    return f"{why}; in its place, the week's next price move: {m['text']}."
+            return (f"{why}; no other price moved {brief.MATERIAL_PCT['fuel']:.0f}% or more on the week "
+                    f"({brief.MATERIAL_PCT['hub']:.0f}% for a hub's weekly mean).")
         return f"{why}."
     # 2. the US48 peak
     if facts.get("us48"):

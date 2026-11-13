@@ -369,6 +369,34 @@ class Row96TheDealSaysWhoseSum(unittest.TestCase):
         self.assertEqual(cr.FIVE_DEAL_V.search(line).group(1), "USD 2 billion")
 
 
+class Row97TheStandInMoved(unittest.TestCase):
+    """Row 97: a stand-in price move passes the opening's bar; W46's +0.3% does not."""
+
+    def five(self, fuels):
+        import tempfile
+        from unittest import mock
+        import roundup
+        utc = "UTC"
+
+        def fuel(label, unit, v1, v0):
+            return {"label": label, "a": {"value": v1, "unit": unit, "ts_utc": pd.Timestamp("2026-11-11", tz=utc)},
+                    "b": {"value": v0, "unit": unit, "ts_utc": pd.Timestamp("2026-11-04", tz=utc)}, "ref": "[5]"}
+        dcs = pd.DataFrame([{"entity_id": "dc:x", "first_story_at": "2026-11-12T10:00:00Z", "capacity_mw": "1400", "operator": "",
+                             "site_name": "", "city": "Kemps Creek", "state": "", "confidence": "0.55"}])
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(roundup, "read_table", lambda n: dcs if n == "datacenter_projects" else None), \
+                mock.patch.object(roundup, "ANALYSIS_DIR", d):
+            L = roundup.five_numbers("2026-W46", pd.Timestamp("2026-11-09", tz=utc), pd.Timestamp("2026-11-12 22:00", tz=utc),
+                                     {"fuel": [fuel(*f) for f in fuels]}, lambda *a: None, {}, None)
+        return next(ln for ln in L if "datacenter load" in ln)
+
+    def test_w46(self):
+        row = self.five([("Henry Hub natural gas", "USD/MMBtu", 3.00, 2.63), ("WTI Cushing crude", "USD/bbl", 89.62, 91.73),
+                         ("Brent crude", "USD/bbl", 92.14, 91.84)])
+        self.assertNotIn("Brent crude closed", row)
+        self.assertNotIn("WTI Cushing crude closed", row)   # -2.3%, under the bar too
+        self.assertTrue(row.endswith("no other price moved 3% or more on the week (10% for a hub's weekly mean)."), row)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
