@@ -1875,8 +1875,23 @@ ALSO_RE = re.compile(r"^Also (?:on this topic|in [A-Za-z][A-Za-z ]*):")   # 3465
 
 def region_key(r):
     """A cluster's region as the topic key reads it: the scorer's region (a US state, a country, or "global"), lower case;
-    "" when the scorer gave none."""
-    return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    "" when the scorer gave none. Session 3479 (row 177): the country's other names are "us"."""
+    k = re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    return "us" if k in US_NAMES else k
+
+
+# Session 3479 (faults file row 177): the scorer names the country three ways ("US" 5,172 stored stories, "United States"
+# 794, "USA" 106); the block printed each as written ("Generation capacity, United States", "Storage dispatched, USA") and
+# the topic key read them as three regions
+US_NAMES = {"us", "u.s.", "u.s", "usa", "u.s.a.", "united states", "united states of america"}
+
+
+def region_words(region):
+    """A region as the issue prints it: the country's other names as "US"; "" for none or "global"."""
+    r = str(region or "").strip()
+    if not r or r.lower() == "global":
+        return ""
+    return "US" if r.lower() in US_NAMES else r
 
 
 # Session 1438 (chain 149, fault 12): a price story's topic is its commodity, whatever region the scorer gave. On
@@ -2529,8 +2544,8 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
                 noun = "Spending committed"
             elif not RAISED.search(text):
                 noun = "Capital"
-        region = str(r.get("region") or "").strip()
-        place = f", {region}" if region and region.lower() != "global" else ""
+        region = region_words(r.get("region"))   # 3479, row 177
+        place = f", {region}" if region else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
         who, outlet = story_who(r), outlet_of(r)
         # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice

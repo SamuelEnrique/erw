@@ -652,6 +652,24 @@ class Row176AnOutletByItsName(unittest.TestCase):
         self.assertEqual(brief.link_text([("hartenergy.com", "https://example.org/h")]), "[Hart Energy](https://example.org/h)")
 
 
+class Row177TheCountryIsUS(unittest.TestCase):
+    """Row 177: "Generation capacity, United States", "Storage dispatched, USA", "Transmission, US" in the block on different
+    days, and the topic key reading the three names as three regions."""
+
+    def test_the_place(self):
+        for region, words in [("United States", "US"), ("USA", "US"), ("U.S.", "US"), ("US", "US"), ("Texas", "Texas"),
+                              ("global", ""), ("", ""), ("US Midwest", "US Midwest")]:
+            self.assertEqual(brief.region_words(region), words, region)
+
+    def test_the_topic_key(self):
+        self.assertEqual(brief.region_key({"region": "United States"}), "us")
+        self.assertEqual(brief.region_key({"region": "USA"}), "us")
+        self.assertEqual(brief.region_key({"region": "Canada"}), "canada")
+        a = {"cluster_id": "a", "titles": ["A US policy story"], "sector": "policy", "region": "United States", "parties": ""}
+        b = {"cluster_id": "b", "titles": ["Another one"], "sector": "policy", "region": "US", "parties": ""}
+        self.assertTrue(brief.same_topic(a, b))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
