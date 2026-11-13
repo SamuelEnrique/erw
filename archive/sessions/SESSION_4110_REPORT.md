@@ -1,6 +1,6 @@
 # Session 4110 report: /data/licenses, the method notes, and the held grids' public files
 
-Energy Research Warehouse (ERW). Chain 229, session 11 of 50, lab-desktop third window, 13 November 2026 11:20 to 11:40 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4110-licenses` (stacked on `wip/4100-licenses`, which takes no further commit while its landing waits).
+Energy Research Warehouse (ERW). Chain 229, session 11 of 50, lab-desktop third window, 13 November 2026 11:20 to 11:25 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4110-licenses` (stacked on `wip/4100-licenses`, which takes no further commit while its landing waits).
 
 ## `/data/licenses` (the code read, nothing built)
 
