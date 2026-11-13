@@ -1,6 +1,6 @@
 # Session 4149 report: the next file, the landing row, the queue
 
-Energy Research Warehouse (ERW). Chain 229, session 18 of 50, lab-desktop third window, 13 November 2026 11:58 to 11:55 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4115-licenses`.
+Energy Research Warehouse (ERW). Chain 229, session 18 of 50, lab-desktop third window, 13 November 2026 11:52 to 11:55 UTC. Opus 5.5. Model spend USD 0. Branch `wip/4115-licenses`.
 
 ## Done
 
