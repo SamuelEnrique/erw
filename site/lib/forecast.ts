@@ -56,6 +56,8 @@ export type Inputs = {
   start: number; build: number; life: number;
   /** local content, percent of JEDI's default shares */
   local: number;
+  /** operating spending, percent of JEDI's default (JEDI's O&M costs are of 2010 to 2017; section 9) */
+  om: number;
   /** real discount rate, percent */
   rate: number;
   /** capacity factor, ratio (wind and PV: the production taxes; gas: the fuel) */
@@ -136,7 +138,7 @@ export function defaults(P: Params, tech: TechKey, state: string): Inputs {
   return {
     tech, state, mw: e.case_mw, capex: round(capexDefault(P, tech, state).usdPerKw, 2),
     start: DEFAULT_START, build: Math.ceil(e.construction_months / 12), life: e.operating_life_years,
-    local: 100, rate: 7, cf: round(cfDefault(P, tech, state).value, 4), ilr: tech === "utility_pv" ? round(ilrDefault(P, state).value, 4) : 1,
+    local: 100, om: 100, rate: 7, cf: round(cfDefault(P, tech, state).value, 4), ilr: tech === "utility_pv" ? round(ilrDefault(P, state).value, 4) : 1,
     sales: st ? round((st.state_rate + st.avg_local_rate) * 100, 4) : 0, taxable: share === null || share === undefined ? null : round(share * 100, 4),
     exempt: 0, iaval: false, levy: null, own: null, ownyears: null,
     heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4),
@@ -210,7 +212,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   const cost = jc?.states[x.state]?.cost_usd_per_mw;
   if (!cost) return { ...empty, why: "JEDI gives no figure for this technology in this state" };
   const ok = (v: number, lo: number) => Number.isFinite(v) && v >= lo;
-  if (!ok(x.mw, 0.001) || !ok(x.capex, 0) || !ok(x.build, 1) || !ok(x.life, 1) || !ok(x.local, 0) || !ok(x.rate, 0)) return { ...empty, why: "an input is out of range" };
+  if (!ok(x.mw, 0.001) || !ok(x.capex, 0) || !ok(x.build, 1) || !ok(x.life, 1) || !ok(x.local, 0) || !ok(x.om, 0) || !ok(x.rate, 0)) return { ...empty, why: "an input is out of range" };
   const yJ = jc.dollar_year;
   const toNow = to2025(P, yJ);
   const S = x.capex * x.mw * 1000;                 // the reader's spending, 2025 dollars
@@ -223,7 +225,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     if (pc === null || po === null) return { ...empty, why: `JEDI's ${e} ${m} is not held for this state` };
     const k = m === "jobs" ? 1 : toNow;
     c[m][e] = (pc / cost) * sJedi * L * k;         // section 3: proportional to spending
-    o[m][e] = po * basisMw * L * k;                // operating spending does not scale with capital cost
+    o[m][e] = po * basisMw * L * (x.om / 100) * k; // operating spending does not scale with capital cost; the reader may scale it
   }
   // sales tax (section 5)
   const salesHeld = x.taxable !== null;

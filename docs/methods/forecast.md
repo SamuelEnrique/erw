@@ -28,6 +28,7 @@ and each stream's sum and present value at the reader's discount rate (section 8
 | Construction years | ceil(EIA's plant construction time / 12): wind 1 (9 months), PV 1 (12), gas 2 (24), geothermal 2 (18) | EIA's case tables, "Plant Construction Time" |
 | Operating years | EIA's operating life: wind 25, PV 35, gas 40, geothermal 40 | EIA's case tables, "Operating Life" |
 | Local content | 100 percent of JEDI's default shares | as `/impact`'s (`economic_impact.md`, section 1) |
+| Operating spending | 100 percent of JEDI's default O&M | JEDI's own; section 9 shows JEDI's PV operating jobs at 3.5 times a 2018 study's, so the reader may scale it |
 | Discount rate (real) | 7 percent | OMB Circular A-94 (December 2025 text), section 8.b(1): constant-dollar benefit-cost analyses "should report net present value and other outcomes determined using a real discount rate of 7 percent". Its tip names the alternative: Appendix C (6 March 2026), the real 30-year Treasury rate of 2.0 percent, for cost-effectiveness analysis |
 | Capacity factor (wind, PV) | the state's median plant, else the national median | `capacity_factors.json` (section 4) |
 | PV inverter loading ratio (DC over AC) | the state's median plant, else the national median | `capacity_factors.json` |
@@ -55,7 +56,7 @@ where L is the local content (percent / 100) and S_JEDI is the spending in JEDI'
 
 The job-years and earnings are spread evenly over the construction years (JEDI states a total for the construction period, not its profile; an even spread is the tool's assumption, and the tip says so).
 
-**Operations.** Operating spending does not scale with capital cost (JEDI's O&M is its own default per MW): E_o = e_k,s(operations, effect, measure) times MW_basis times L, each operating year. MW_basis is nameplate MW, or MW_DC for PV.
+**Operations.** Operating spending does not scale with capital cost (JEDI's O&M is its own default per MW): E_o = e_k,s(operations, effect, measure) times MW_basis times L times O, each operating year, O the operating spending (percent of JEDI's default / 100). MW_basis is nameplate MW, or MW_DC for PV.
 
 **Output** is computed and downloaded but not charted (the page charts jobs, earnings and the taxes).
 

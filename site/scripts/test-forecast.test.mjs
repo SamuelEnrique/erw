@@ -70,6 +70,10 @@ test("operations: JEDI per MW times MW (DC for PV) times local content, each yea
   const r = F.run(x, ROWS, P);
   near(r.operations.jobs.total, per("utility_pv", "ca", "operations", "total", "jobs") * 130);
   near(r.operations.earnings.induced, per("utility_pv", "ca", "operations", "induced", "earnings") * 130 * toNow(2010));
+  // operating spending as a percent of JEDI's default scales the operating figures only
+  const om = F.run({ ...x, om: 45 }, ROWS, P);
+  near(om.operations.jobs.onsite, 0.45 * r.operations.jobs.onsite);
+  near(om.construction.jobs.total, r.construction.jobs.total);
   const op = r.years.filter((y) => y.phase === "operations");
   assert.equal(op.length, x.life);
   near(op[7].jobs.total, r.operations.jobs.total);
