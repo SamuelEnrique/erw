@@ -41,6 +41,8 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 META = os.path.join(ROOT, "warehouse", "metadata")
 COVERAGE, SOURCES = os.path.join(META, "coverage.csv"), os.path.join(META, "sources.csv")
 READS, VERDICTS, TABLES = (os.path.join(META, f"license_{n}.csv") for n in ("reads", "verdicts", "tables"))
+CONFIRMATIONS = os.path.join(META, "license_confirmations.csv")   # chain 229, session 4101: scripts/license_confirm.py
+STALE_DAYS = 30                                                    # a verdict read longer ago than this, not confirmed since, is stale
 DOC = os.path.join(ROOT, "docs", "licenses.md")
 HOLDS_SHOWN = os.path.join(ROOT, "docs", "licenses_holds.csv")   # session 505: site/scripts/check-holds.mjs --csv
 PUBLIC, PERMISSION, PAID, FORBIDDEN = "may be public", "needs written permission", "needs a paid license", "forbidden"
@@ -239,6 +241,29 @@ def license_needed():
     return {r["table"]: r["from"] for r in rows(STATUS) if r["status"] == "license needed" and not r.get("permission")}
 
 
+def freshness(lines, verdicts, reads):
+    """Chain 229, session 4101. (the day the record ends, {key: latest confirmation row}, [stale tables]). A table is
+    stale when one of its read publishers' verdicts rests on a read more than STALE_DAYS before the newest read in the
+    record and no confirmation since then found its sentence on a current page (or cut it again). The day is the
+    record's own, so the document is the same whenever it is written."""
+    by_n = {r["n"]: r for r in reads}
+    asof = max((r["read_at"][:10] for r in reads if r["read_at"]), default="")
+    edge = (dt.date.fromisoformat(asof) - dt.timedelta(days=STALE_DAYS)).isoformat() if asof else ""
+    conf = {}
+    for c in rows(CONFIRMATIONS) if os.path.exists(CONFIRMATIONS) else []:
+        if c["key"] not in conf or int(c["read"]) > int(conf[c["key"]]["read"]):
+            conf[c["key"]] = c
+    def fresh(k):
+        c = conf.get(k)
+        if c and not c["sentence"].startswith("changed") and c["read_at"][:10] >= edge:
+            return True
+        n = verdicts[k]["read"]
+        day = by_n[n]["read_at"][:10] if n in by_n else ""
+        return bool(day) and day >= edge
+    stale = [x["table"] for x in lines if not x["own"] and any(not fresh(p) for p in x["pubs"] if p in verdicts and p not in OWN)]
+    return asof, conf, stale
+
+
 def write(doc=None):
     cov = rows(COVERAGE)
     needed = license_needed()
@@ -310,6 +335,10 @@ def write(doc=None):
         for p in x["whyc"]:
             byc.setdefault(p, []).append(x["table"])
     w(f"- **{len(change)} tables that may be public today would need permission if the ERW sells anything** (" + "; ".join(f"{p} {len(t)}" for p, t in sorted(byc.items(), key=lambda kv: -len(kv[1]))) + ").")
+    asof, conf, stale = freshness(lines, verdicts, reads)
+    changed = [k for k, c in conf.items() if c["sentence"].startswith("changed")]
+    w(f"- **Confirmed against the publisher's current page (chain 229, session 4101 on): {len(conf)} publishers, {len(changed)} of them with a sentence no longer on the page.** "
+      f"{len(stale)} tables rest on a verdict read more than {STALE_DAYS} days before the newest read in the record ({asof}) and not confirmed since.")
     w("")
     w("## The reads")
     w("")
@@ -330,6 +359,22 @@ def write(doc=None):
         ref = f"#{n}: {cell(by_n[n]['outcome']).split(' (')[0]}" if n else "no"
         s = f"\"{cell(v['sentence'])}\"" if v["sentence"] else "none"
         w(f"| {k} | {ref} | {s} | {v['verdict']} | {v['if_commercial']} | {cell(v['contact']) or 'not named'} | {cell(v['price']) or 'none stated'} | {cell(v['note'])} |")
+    w("")
+    w("## Confirmed against the current page (chain 229)")
+    w("")
+    w("A verdict read again on the publisher's page as it stands, by `scripts/license_confirm.py`: the host's robots file read first, "
+      "one new request under a new label, and the verdict's sentence looked for word for word by code. \"On the page\" confirms the verdict; "
+      "\"changed\" means the sentence is gone and the verdict waits to be cut again; \"cut again\" means a new sentence was taken from the new page.")
+    w("")
+    if conf:
+        w("| Publisher | First read | Read now | Day | The sentence | Verdict before | Verdict now | Note |")
+        w("|---|---|---|---|---|---|---|---|")
+        for k in sorted(conf):
+            c = conf[k]
+            first = verdicts[k]["read"] if k in verdicts else ""
+            w(f"| {k} | {'#' + first if first else 'none'} | #{c['read']} | {c['read_at'][:10]} | {cell(c['sentence'])} | {c['verdict_before']} | {c['verdict_after'] or 'waits'} | {cell(c['note'])} |")
+    else:
+        w("None yet.")
     w("")
     unread_all = sorted({p for x in lines for p in x["unread"]})
     w(f"**Publishers no read of this sweep covers ({len(unread_all)}):** " + "; ".join(unread_all) + ".")
