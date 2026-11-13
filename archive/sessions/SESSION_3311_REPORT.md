@@ -56,3 +56,12 @@ Energy Research Warehouse (ERW). Chain 232 (`queue/done/232-day-14-november-oldl
 ### For Samuel's ruling
 
 - None new beyond chain 228's (W44 and W45's held prices; 12 November's chart record).
+
+## Session 3319: the emails at 390, the older Roundups' pages (rows 108, 109)
+
+- The three emails' HTML (12 November, W45, W46) read at 390 in the browser from local files: no horizontal overflow, no gated pointer left (row 105), no held figure.
+- 108: the stored W39, W40, W43 and W44 print NYISO's figures outside the day-ahead table: the real-time maximum (W43: 1,165.64 USD/MWh at LONGIL; W44: 588.05 at CAPITL) and the numbers' summary sentence (W43: "dearest at NYISO's N.Y.C., 47.64"). The page now holds both kinds of line, W39's older heading "Numbers of the week" included. Read on a local build (built at 11:22 UTC) with curl: no held figure on W40, W43, W44 or W45; W39's sentence held by the next commit (node test). `tsc --noEmit` exit 0.
+- That build was stopped by Claude Code for low memory just after it finished, and was not run again. The page reads used the finished build; the server was stopped by its port's process, the cookie file deleted, `paused.json` restored.
+- 109 (ruling): the Roundup's fun fact repeats the week's newest Digest fact by design. Default: unchanged.
+- **Row 10**: head `a3420698d`, merges cleanly with main at `6d705563e`.
+
