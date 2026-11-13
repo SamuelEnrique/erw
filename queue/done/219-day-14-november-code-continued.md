@@ -26,7 +26,13 @@ Long end 1:30 each. One step a session, in chain 217's order, as session 1901 li
 
 ### Unfinished steps (written by session 1901 of chain 217)
 
-(To be filled by session 1901: one line a step, in chain 217's order, with the exact commands where the step was a landing.)
+Chain 217 stopped after its session 1898; session 1901 never ran, so session 1902 rebuilt this list from chain 217's reports, branches and `runs/` folders:
+
+1. (Session 1902) `wip/1898-lab` pushed (committed, never pushed); the reports of sessions 1892 and 1893 and of session 1898 written from their commits and run folders.
+2. (Session 1903) The landing of the whole stack: a branch cut from `wip/1898-lab` (it holds 1883, 1882, 1884, 1894, 1896), `wip/1890-board` and `wip/1892-windows` merged in, then `origin/main`; `scripts/land_check.py --ref <head> --task 1903-stack --keep-worktree`; the tracker's grids view and `/grid` read on the gate's build at 390 and 1280 (session 1898 built nothing); every printed command its own command; the snapshots; the branches deleted once ancestors.
+3. (Session 1904) Chain 217's session 1899: the three paths walked again where a fault was fixed since session 1885's walk (trader faults 1, 2, 4, 5; lab faults 2, 3, 4).
+4. (Session 1905) Chain 217's session 1900: the records and the clean-up (`erw-1899` holds only two scratch scripts of an abandoned Digest read; `erw-land-30b5b357` is session 1888's kept gate).
+5. (Session 1906) Chain 217's note, `docs/state/note_2026-11-14_code_c217.md`.
 
 ## Sessions 1908 to 1912: the faults files' open rows
 
@@ -34,7 +40,16 @@ Long end 1:30 each. One fault a session, in this order: `docs/reviews/deals-faul
 
 ### Open faults (written by session 1901 of chain 217)
 
-(To be filled by session 1901: every faults file's rows whose state is open, one a line, in the files' order; the owner's rows named, not to be decided here.)
+Rebuilt by session 1902 from the files on `wip/1898-lab` and main:
+
+- Deals, datacenter, policy, companies, attention faults files: no row open (every row fixed, `data machine` or `ruling`).
+- Periodicals row 39: the owner's (whether a fact may name what its span only implies). Not this chain's.
+- Periodicals row 65: the owner's (why lines that name nothing their headline lacks; session 1897's count). Not this chain's.
+- Periodicals row 63, open in part: the earlier issues' items are not read, only `energy_deals`.
+- Periodicals row 68, open in part: the policy stand-in, the row's second choice, not taken.
+- Board audit rows 46 to 50: the data machine's.
+- Trader path, session 1885's walk: faults 3 and 6 the data machine's; 1, 2, 4, 5 fixed on the stack.
+- Lab path, session 1885's walk: fault 1 the data machine's; 2, 3, 4 fixed on the stack. On.Energy fault 1 is trader fault 2.
 
 ## Session 1913: the records and the clean-up
 
