@@ -160,3 +160,8 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - The US48 day as the UTC day. Default: kept.
 - EIA's Veterans Day closes, for the data machine to check.
 - Rows 39, 65 and 109, and rulings item 13, as before.
+
+## Session 3471: the next file, the queue
+
+- `queue/next/254-day-21-november-oldlaptop-periodicals-continued.md` now lists what this chain did not finish (`87a3bd16e`): the stack's build when memory allows, the stored W46 Roundup, the 13 November issue's landing and the first issue after it, and row 11's clean-up once it lands.
+- Then the queue step: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
