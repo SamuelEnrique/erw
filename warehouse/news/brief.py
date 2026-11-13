@@ -2223,6 +2223,8 @@ def main(argv=None):
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
             cost = f"{cost} + summary USD {scost:.4f}"
         recs = top10.to_dict("records")
+        for r in recs:   # session 1983 (faults file row 88): the headline as the issue prints it, which the chart's line quotes
+            r["head"] = heads.get(r["cluster_id"], "")
         op = opening_number(facts.get("cands", []), recs, previous_opening(digest_date))
         log(f"  opening number: {op['kind'] or 'none'} {op['key']}")
         newest = pd.to_datetime(s["event_date"], utc=True, format="ISO8601").max() if len(s) else None

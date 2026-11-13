@@ -232,5 +232,34 @@ class Row87TheRecordUntilNow(unittest.TestCase):
         self.assertNotIn("held_record", c)
 
 
+class Row88TheChartsStoryNamesItsMeasure(unittest.TestCase):
+    """Row 88: the chart's line ties it to a story only when the shared words name the measure; the headline quoted is the
+    one the issue printed."""
+
+    WY = {"source": "scanner", "key": "wy", "table": "eia_state_generation_monthly",
+          "series_key": "entity=eia:generation:WY:NG|variable=net_generation|freq=P1M",
+          "fact": "Net generation from natural gas in Wyoming: 1,060,504 MWh in August 2026",
+          "flag": {"rule": "record", "strength": 11.0}}
+
+    def test_a_party_named_generation_is_no_reason(self):
+        import daily_chart as dc
+        opg = {"titles": ["OPG set to revise timeline and cost of first SMR unit"], "sector": "nuclear", "why": "",
+               "parties": "Ontario Power Generation", "head": "Ontario Power Generation says first Darlington SMR unit will be late"}
+        c = dict(self.WY, _relevance=dc.relevance(self.WY, [opg]))
+        self.assertEqual(c["_relevance"][2], ["generation"])
+        words = dc.how_words(c)
+        self.assertNotIn("most related", words)
+        self.assertIn("No top story of the day names this measure.", words)
+
+    def test_a_story_of_the_place_and_fuel(self):
+        import daily_chart as dc
+        st = {"titles": ["Wyoming gas plants run flat out"], "sector": "generation", "why": "", "parties": "",
+              "head": "Wyoming's gas plants run at a record"}
+        c = dict(self.WY, _relevance=dc.relevance(self.WY, [st]))
+        words = dc.how_words(c)
+        self.assertIn("It is the candidate most related to the day's top stories: it shares", words)
+        self.assertIn("\"Wyoming's gas plants run at a record\"", words)
+
+
 if __name__ == "__main__":
     unittest.main()
