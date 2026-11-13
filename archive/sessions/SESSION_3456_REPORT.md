@@ -127,3 +127,11 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Row 162 holds:** the five's datacenter row now names the developer the table already showed. W44 reads "10,400 MW, SB Energy (developer), OH." where row 118's line said "52 MW, Vyoma, Chennai (2 larger loads ... name no operator or site)". W40, W42 and W43 name places with no country ("Pyhajoki", "Wagga Wagga", "Newport") because their rows hold none (the data machine's).
 - **Seen, kept:** W39's subject ends "TotalEnergies Announces Final Investment". The publisher's title is in Title Case (the issue with no model), so row 157's rule, which reads a lower-case word inside a phrase, has nothing to go back to. With the model, headlines are in sentence case.
 - No new row. "Also in LNG:" (W40) is now read by the email and the fold's count (row 170).
+
+## Session 3469: the email's readers, rows 170 (widened) and 172
+
+- **Row 170, widened:** on main, an item of What moved with an "Also in LNG:" or "Also in PPA:" line lost its why line and its source in the email; the also line printed in their place, since the email's reader read lower case only. Fixed by session 3465's change. The test `Row170TheEmailKeepsTheWhyBesideAnLNGAlsoLine` fails on main.
+- **Row 172 (new, fixed):** a subscriber who chose topics was sent no story from a v2 issue. `email_digest.items`, which the topic filter reads, looked only under the old headings ("## Top of the industry", "## By sector", "## The five stories of the week"), and found none of the 13 November issue's 30 items, so every topic got "No story in them made this brief". A sector in capitals ("LNG", "PPA", since row 127) was no sector either. Both headings and both cases are read now. On 13 November, nuclear finds Centrus and Oklo, Fermi's builder and the IAEA report; W46 yields 8 items.
+- Searched for any other reader of the sector label that reads lower case only: none (`scripts/periodicals_counts.py` reads any case).
+- Tests: `Row172TheTopicFilterReadsTheV2Issues` (4), failing on main. The 72 files (adding those naming `topics`): 1,378 passed, 20 skipped. The method notes carry rows 169 to 172.
+- **Row 11:** moved to `95189fdf8`.
