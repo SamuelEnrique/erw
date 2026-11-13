@@ -62,3 +62,11 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - **Row 179 (new, fixed):** Next week read "(EPA): the final rule is effective on November 16, 2026." under the bold "16 November 2026". A rule effective on the item's day now "takes effect", as row 76 wrote comment deadlines; `test_session1897.py`'s pin follows.
 - Tests: two classes, 3 tests. The 72 files: 1,390 passed, 20 skipped.
 - **Row 11:** moved to `9ced6f322` (rows 161 to 179 wait).
+
+## Sessions 3481 to 3485: the periodicals, again
+
+- **W46's filled sections, read whole** (Policy of the Week, Also this week, Next week): nothing beyond rows 178 and 179. The Federal Register's "Parties; Subject" title form is the owner's (row 72).
+- **`scripts/periodicals_counts.py` over the stack's runs of the 15 stored weekday issues:** no adjective of the list and no why line repeating its headline's figure in any. Folded items: 0 sectors over 2 in the ten. Three figures with no key: the story openings' own figures ("**702 MW**: AEP, Google Advance ..."), which the opening says are the outlet's. Keying them needs a new form in `site/lib/digest.ts`, so it goes to Samuel with "keep" as the default.
+- Every open row of the faults file is the owner's (39, 65, 109, rulings item 13) or the data machine's (61, 77, 129). The newest stored issues have been read against the stack: 12 and 13 November, W45, and every earlier issue.
+- The stack merges with `origin/main` with no conflict (`git merge-tree`); `test-digest-numbers.mjs` passes. The faults have converged on the stored issues; the next readings are W46 as stored (Sunday) and the 16 November Digest (Monday).
+- No new row in these sessions.
