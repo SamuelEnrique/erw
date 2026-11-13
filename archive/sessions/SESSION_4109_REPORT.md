@@ -7,7 +7,7 @@ Energy Research Warehouse (ERW). Chain 229, session 10 of 50, lab-desktop third 
 - **The live set:** row-level security lets the anon key read every row whose license is `public` (migration 002), whatever page reads it. The site masks only a table held "license needed" (`site/lib/license.ts`).
 - **Downloads:** `/api/download` refuses a held table and any table whose verdict is not public, before it reads a row.
 - **Release v1:** the tables marked `in_v1 = yes`.
-- **Findings cards:** their figures are computed into `site/data/findings/*.json` and into charts and CSV files under `site/public/findings/`. **`site/proxy.ts`'s matcher skips any path with a file extension**, so those files are served by address whatever the review curtain says. They are also in the public GitHub repository.
+- **Findings cards:** their figures are computed into `site/data/findings/*.json` and into charts and CSV files under `site/public/findings/`. **`site/proxy.ts`'s matcher skips any path with a file extension** (since session 5101, merged at 11:43, every extension but `.rsc`), so those files are served by address whatever the review curtain says. They are also in the public GitHub repository.
 - **`/api/analysis`** answers only the internal view.
 
 ## Found and fixed

@@ -10,7 +10,7 @@ ships it (package/src/erw/data/tables.csv: public, internal or unsettled). A tab
     release v1        the tables Redivis's version 1 holds (docs/redivis/release-v1/tables.csv, in_v1 = yes)
     findings cards    the cards' figures are computed into static files (site/data/findings/<card>.json and the charts and
                       CSV files under site/public/findings/), which the site's proxy serves by address whatever the
-                      review curtain says (site/proxy.ts's matcher skips any path with a file extension)
+                      review curtain says (site/proxy.ts's matcher skips any path with a file extension, since session 5101 except .rsc)
 
 A table held "license needed" is shown as those words, so it does not count as reaching the site through the live set.
 The findings cards built from a table that is not public when this test was written are named in CARDS_WAITING: each

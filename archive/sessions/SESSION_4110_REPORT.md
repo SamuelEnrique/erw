@@ -19,7 +19,7 @@ Energy Research Warehouse (ERW). Chain 229, session 11 of 50, lab-desktop third 
 
 - **The files:** 138 files under `site/public/` carry NYISO's or ISO-NE's prices (94 in `board/s`, 36 in `board/h`, 8 in `seller/prices`). For example, `board/h/isone-h-internal-hub.json` holds 18,720 hours of day-ahead and real-time prices.
 - **Who writes them:** `warehouse/derived/board_page.py` writes no new file for a held grid (since 20 October), but the files written before stay, re-committed by the page-file keeper (newest commit touching them: 7 November).
-- **Why it matters:** the site's proxy serves any path with a file extension past the review curtain, and the files are also in the public GitHub repository.
+- **Why it matters:** the site's proxy serves any path with a file extension past the review curtain (all but `.rsc` since session 5101's fix), and the files are also in the public GitHub repository.
 - **The test:** `tests/test_session4109_public_site.py` gains `HeldGridFiles`. The 138 files are grandfathered in `tests/fixtures/chain229_held_grid_public_files.txt`; any new public file of a held grid fails. The held grids are taken from the verdicts, so a grid granted permission drops out.
 
 ## Tests
