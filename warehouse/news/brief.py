@@ -492,7 +492,7 @@ def drop_repeated_items(lines, log):
         out += block
     n, fixed = 0, []
     for ln in out:  # the top items numbered again, 1 to n; session 806: each section's list from 1 (the Roundup has two)
-        if ln.startswith("## "):
+        if ln.startswith(("## ", "### ")):   # session 3336 (row 122): the Roundup's weekend list and its five are two lists
             n = 0
         m = re.match(r"^(\d+)\. (\*\*.*)$", ln)
         if m:

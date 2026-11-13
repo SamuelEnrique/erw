@@ -674,6 +674,16 @@ class Row121AnInvestment(unittest.TestCase):
         self.assertTrue(roundup.finance_words(loan).startswith("a loan for Calibrant Energy"))
 
 
+class Row122EachListFromOne(unittest.TestCase):
+    def test_the_weekend_and_the_five(self):
+        L = ["## More", "", "### Weekend", "", "1. **A** (oil)  ", "2. **B** (gas)  ", "", "### The five stories of the week", "",
+             "3. **C** (lng)  ", "4. **D** (deal)  "]
+        out = brief.drop_repeated_items(L, lambda _m: None)
+        self.assertIn("1. **C** (lng)  ", out)
+        self.assertIn("2. **D** (deal)  ", out)
+        self.assertIn("2. **B** (gas)  ", out)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
