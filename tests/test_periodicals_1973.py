@@ -103,13 +103,13 @@ class Row82DispatchedIsNotCapacity(unittest.TestCase):
                 sector="storage", parties="Sunrun; Tesla", mw="580", links=[("pv magazine USA", "https://example.org/v")])
         line, detail = brief.story_row("Project or capacity", [r], ("storage",), {"v": "Sunrun and Tesla dispatched more than 580 MW"},
                                        None, "a project figure", ("mw",))
-        self.assertIn("Storage dispatched, USA: 580 MW (Sunrun, Tesla; pv magazine USA, 2026-11-11)", line)
+        self.assertIn("Storage dispatched, US: 580 MW (Sunrun, Tesla; pv magazine USA, 2026-11-11)", line)
         self.assertEqual(detail, "story v (mw)")
 
     def test_a_capacity_story_keeps_its_noun(self):
         r = rec("b", "Developer files for a 300 MW battery in Arizona", sector="storage", mw="300")
         line, _ = brief.story_row("Project or capacity", [r], ("storage",), {}, None, "a project figure", ("mw",))
-        self.assertIn("Storage capacity, USA: 300 MW", line)
+        self.assertIn("Storage capacity, US: 300 MW", line)
 
 
 class Row83TheOutletsName(unittest.TestCase):
@@ -559,10 +559,10 @@ class Rows111To113The11NovemberDryRun(unittest.TestCase):
         r = rec("m", "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter Deals", sector="deal",
                 price="$12.6 billion", links=[("Rigzone", "https://example.org/r")])
         line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
-        self.assertIn("Deals in total, USA: USD 12.6 billion (Rigzone, 2026-11-11)", line)
+        self.assertIn("Deals in total, US: USD 12.6 billion (Rigzone, 2026-11-11)", line)
         self.assertNotIn("Rigzone; Rigzone", line)
         one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
-        self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
+        self.assertIn("Deal value, US", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
 
     def test_113_saudi(self):
         self.assertTrue(brief.party_in_head("Saudi Arabia", "Saudi Oil Production Surges to One of Highest Levels in Years"))
@@ -688,14 +688,14 @@ class Row123ACombinedCompanyIsNoDealValue(unittest.TestCase):
     def test_eqt(self):
         r = rec("e", "EQT, Range Resources To Combine To Form $50B Gas Giant", sector="deal", price="$50B", parties="EQT; Range Resources")
         line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
-        self.assertIn("Combined company value, USA: USD 50 billion (EQT, Range Resources;", line)
+        self.assertIn("Combined company value, US: USD 50 billion (EQT, Range Resources;", line)
         one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
-        self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
+        self.assertIn("Deal value, US", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
 
     def test_124_a_purchase_price_stays_a_deal_value(self):
         r = rec("b", "EQT to Buy Range Resources, Creating Largest US Gas Producer", sector="deal", price="$13 billion",
                 parties="EQT; Range Resources")
-        self.assertIn("Deal value, USA: USD 13 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
+        self.assertIn("Deal value, US: USD 13 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
         c = rec("c", "EQT-Range Deal Will Create $50 Billion Gas 'Champion'", sector="deal", price="$50 billion", parties="EQT")
         self.assertIn("Combined company value", brief.story_row("x", [c], ("deal",), {}, None, "a figure", ("money",))[0])
 
@@ -766,7 +766,7 @@ class Row136ABacklogIsNoDeal(unittest.TestCase):
     def test_kinder_morgan(self):
         r = rec("k", "Kinder Morgan Backlog Surges on AI Data Centers, Southeast Power Demand", sector="deal", price="$14.4 billion",
                 parties="Kinder Morgan")
-        self.assertIn("Project backlog, USA: USD 14.4 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
+        self.assertIn("Project backlog, US: USD 14.4 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
 
 
 class Row137SpendingIsNotRaised(unittest.TestCase):
@@ -775,9 +775,9 @@ class Row137SpendingIsNotRaised(unittest.TestCase):
         return brief.story_row("x", [r], ("capital",), {}, None, "a figure", ("money",))[0]
 
     def test_the_nouns(self):
-        self.assertIn("Spending committed, USA: USD 825 billion", self.row("Meta Reports $825 Billion in Future Spending Commitments"))
-        self.assertIn("Capital raised, USA", self.row("CoreWeave plans to raise at least $825 billion in a high-grade loan"))
-        self.assertIn("Capital, USA", self.row("Meta's $825 billion question"))
+        self.assertIn("Spending committed, US: USD 825 billion", self.row("Meta Reports $825 Billion in Future Spending Commitments"))
+        self.assertIn("Capital raised, US", self.row("CoreWeave plans to raise at least $825 billion in a high-grade loan"))
+        self.assertIn("Capital, US", self.row("Meta's $825 billion question"))
 
 
 class Rows138And139OctoberOnTheStack(unittest.TestCase):
@@ -813,9 +813,9 @@ class Row141APlanIsNoDeal(unittest.TestCase):
         return brief.story_row("x", [r], (sector,), {}, None, "a figure", ("money",))[0]
 
     def test_the_nouns(self):
-        self.assertIn("Investment planned, USA: USD 12 billion", self.row("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand"))
-        self.assertIn("Deal value, USA", self.row("EQT plans to buy Range Resources for USD 12 billion"))
-        self.assertIn("Deal value, USA", self.row("Strathcona pursues growth with a USD 12 billion deal"))
+        self.assertIn("Investment planned, US: USD 12 billion", self.row("EQT's Zelestra unveils a USD 12 billion plan to meet US AI demand"))
+        self.assertIn("Deal value, US", self.row("EQT plans to buy Range Resources for USD 12 billion"))
+        self.assertIn("Deal value, US", self.row("Strathcona pursues growth with a USD 12 billion deal"))
 
 
 class Rows142And143EarlyOctober(unittest.TestCase):
