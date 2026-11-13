@@ -121,6 +121,18 @@
    "url": "https://legislature.vermont.gov/statutes/section/32/215/08701",
    "read": "2026-11-13",
    "request": 99
+  },
+  "wi_79_04": {
+   "title": "Wisconsin Statutes 79.04, Payments from the public utility account",
+   "url": "https://docs.legis.wisconsin.gov/document/statutes/79.04",
+   "read": "2026-11-13",
+   "request": 102
+  },
+  "wi_70_112": {
+   "title": "Wisconsin Statutes 70.112, Property exempt from taxation (special property and gross receipts taxes or license fees)",
+   "url": "https://docs.legis.wisconsin.gov/document/statutes/70.112",
+   "read": "2026-11-13",
+   "request": 103
   }
  },
  "states": {
@@ -487,6 +499,27 @@
      "cite": "vt_32_8701",
      "quote": "(b)(1) There is assessed on any renewable energy plant in Vermont commissioned to generate solar power an annual tax of $4.00 per kW of plant capacity. [...] (3) [...] The Department of Taxes shall deposit the taxes collected under this section into the Education Fund. (c) A renewable energy plant that generates electricity from solar power shall be exempt from taxation under this section if it has a plant capacity of less than 50kW. (d) The existence of a renewable energy plant or energy storage facility subject to tax under subsection (b) of this section shall not: (1) alter the exempt status of any underlying property under section 3802 or subdivision 5401(10)(F) of this title; or (2) alter the taxation of the underlying property under chapters 121-135 of this title.",
      "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here."
+    }
+   ]
+  },
+  "wi": {
+   "name": "Wisconsin",
+   "rules": [
+    {
+     "id": "wi_utility_aid",
+     "technologies": [
+      "land_based_wind",
+      "utility_pv",
+      "geothermal"
+     ],
+     "kind": "capacity",
+     "usd_per_mw_year": 5000,
+     "min_mw": 1,
+     "cite": "wi_79_04",
+     "quote": "79.04(6)(b) Subject to pars. (c) and (d), each municipality entitled to a payment under par. (a) and each county in which such a municipality is located shall receive a payment equal to a portion of an amount that is equal to the number of megawatts that represents the production plant's name-plate capacity, multiplied by $2,000. [...] 79.04(7)(c)1. [...] if a production plant, as described in sub. (6) (a), that derives energy from an alternative energy resource is built after December 31, 2003, and has a name-plate capacity of at least one megawatt, each municipality and county in which such a production plant is located shall receive annually from the public utility account a payment in an amount that is equal to the number of megawatts that represents the production plant's name-plate capacity, multiplied by $1,000. Beginning with payments in 2024, the multiplier is $1,500.",
+     "cite2": "wi_70_112",
+     "quote2": "70.112(4)(a) All special property assessed under ss. 76.01 to 76.26 and property of any light, heat, and power company taxed under s. 76.28, car line company, and electric cooperative association that is used and useful in the operation of the business of such company or association.",
+     "not_modeled": "Payments by the state from its public utility account to the plant's municipality and county, USD 2,000 per MW shared (two thirds to a city or village and one third to its county, or one third to a town and two thirds to its county) plus USD 1,500 per MW to each: USD 5,000 per MW in all, in place of the property tax the plant does not pay. Not modeled: the caps on the shared part at USD 300 a resident of the municipality and USD 100 a resident of the county (79.04(6)(d)); the extra USD 900 per MW each for a plant on the site of an existing plant or a brownfield (7)(a); whether a given owner is taxed under s. 76.28 (79.04(6)(a)'s list of owners). A gas plant receives the shared USD 2,000 per MW and, as a baseload plant of 50 MW or more, USD 600 each (7)(b); \"baseload\" is not read, so no gas rule is held."
     }
    ]
   }
