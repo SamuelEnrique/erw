@@ -1188,6 +1188,10 @@ def head_clause(head, n):
         t = brief.fix_article(t)
     if len(t) > n:
         t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")
+        # session 3334 (faults file row 116): a cut that leaves a clause's first word or two after a comma ("EQT to Buy
+        # Range Resources, Creating", W44) goes back to the comma
+        if ", " in t and len(t.rsplit(", ", 1)[1].split()) <= 2:
+            t = t.rsplit(", ", 1)[0]
     t = CLAUSE_TAIL.sub("", t).strip(" ,;:")
     return t if len(re.findall(r"[A-Za-z]+", t)) >= 2 else ""
 
@@ -1943,7 +1947,7 @@ def main(argv=None):
         span = intro_span(start, end, cut, newest)
         missed = missed_week_line(start)   # session 2702, rulings item 10
         intro = [  # session 21: one sentence (what, the period, the story count); the method is on /about#digest
-             f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
+             f"ERW's weekly roundup of energy news for {span}, from {len(s):,} scored stories.", "",   # 3334: row 117
              *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else [])]
         # session 2704: the lines below are the fold ("More"); the page's order is assembled after the numbers
         L = ["### Weekend", ""]

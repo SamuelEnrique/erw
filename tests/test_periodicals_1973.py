@@ -589,6 +589,27 @@ class Row114AThinOrUnscoredWindow(unittest.TestCase):
         self.assertIn("): 1 scored story", line)
 
 
+class Rows115To117W44OnTheStack(unittest.TestCase):
+    """Rows 115 to 117, from W44 on the stack (session 3334)."""
+
+    def test_115_european_gas_names_no_henry_hub_move(self):
+        t = " natural gas prices hit 100 euros per mwh as eu confronts refinery closures and diesel shortage "
+        self.assertFalse(brief.names_price("Henry Hub natural gas", t))
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " henry hub gas prices slump in europe's mild weather "))
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " us natural gas prices fall on mild weather "))
+
+    def test_116_the_cut_goes_back_to_the_comma(self):
+        import roundup
+        out = roundup.head_clause("EQT to Buy Range Resources, Creating Largest US Gas Producer", 37)
+        self.assertEqual(out, "EQT to Buy Range Resources")
+
+    def test_117_thousands(self):
+        import inspect, roundup
+        self.assertIn("{len(s):,} scored stories", inspect.getsource(roundup.main))
+        line = brief.stamp_line(168, pd.Timestamp("2026-10-26T00:00Z"), pd.Timestamp("2026-11-01T23:59Z"), 1253, folder=os.path.join(ROOT, "docs", "digest"))
+        self.assertIn("1,253 scored stories", line)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

@@ -1079,9 +1079,17 @@ CRUDE_MOVE = re.compile(r"\b(?:oil|crude)(?: prices?| futures)? (?:settles?|sett
                         r"slipped|climbs?|climbed|drops?|dropped|gains?|gained|surges?|surged|tumbles?|tumbled|slides?|slid|sinks?|sank)\b")
 
 
+FOREIGN_GAS = re.compile(r"\b(?:euros?|eu|europe|european|ttf|dutch|asia|asian|jkm|japan|korea|china|uk|british|nbp|germany|"
+                         r"german)\b")   # session 3334, row 115
+
+
 def names_price(label, text):
     """Session 1975: whether `text` (a story's title and why line, lower case, padded with spaces) names the price."""
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    # session 3334 (faults file row 115): a story of another gas market names no move of Henry Hub's ("Natural gas prices
+    # hit 100 euros per MWh as EU confronts refinery closures", W44, given as the reason for Henry Hub's 12.9% fall)
+    if label == "Henry Hub natural gas" and "henry hub" not in text and FOREIGN_GAS.search(text):
+        return False
     if any(w in text for w in words):
         return True
     if label == "Henry Hub natural gas":   # session 3330 (faults file row 110): "Natural Gas Forward Rally"
@@ -1099,9 +1107,11 @@ GAS_MOVE = re.compile(r"\bnatural gas(?: prices?| futures| forwards?| forward pr
 # Session 3312 (faults file row 104): a story names a move only when its direction words do not contradict it. W45's
 # Brent fell 18.6% on the week and "ConocoPhillips boosts dividend ... on higher oil prices" counted as naming it
 RISE_WORDS = re.compile(r"\b(?:rise|rises|rose|rising|higher|jumps?|jumped|surges?|surged|gains?|gained|climbs?|climbed|"
-                        r"rall(?:y|ies|ied)|soars?|soared|spikes?|spiked)\b")
+                        r"rall(?:y|ies|ied)|soars?|soared|spikes?|spiked|"
+                        r"supports?|supported|lifts?|lifted|boosts?|boosted|rebounds?|rebounded)\b")   # 3334: W44's "support"
 FALL_WORDS = re.compile(r"\b(?:fall|falls|fell|falling|lower|drops?|dropped|slumps?|slumped|tumbles?|tumbled|slides?|slid|"
-                        r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped)\b")
+                        r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped|"
+                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated)\b")
 
 
 def agrees(text, pct):
@@ -1875,7 +1885,7 @@ def stamp_line(hours, start, now, n, folder=None):
     if since is not None and len(pd.bdate_range(since + pd.Timedelta(days=1), pd.Timestamp(f"{now:%Y-%m-%d}"))) > 1:
         gap = f", the first issue since {since.day} {since:%B}"
     return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC (the window opened "
-            f"{start:%Y-%m-%d %H:%M} UTC): {n} scored {'story' if n == 1 else 'stories'}{gap}.")   # 3333: row 114
+            f"{start:%Y-%m-%d %H:%M} UTC): {n:,} scored {'story' if n == 1 else 'stories'}{gap}.")   # 3333: row 114
 
 
 UNSCORED_MIN = 20       # session 3333 (faults file row 114): held stories the scorer has not read, said from this many
