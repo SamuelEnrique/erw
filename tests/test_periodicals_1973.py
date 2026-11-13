@@ -112,5 +112,20 @@ class Row82DispatchedIsNotCapacity(unittest.TestCase):
         self.assertIn("Storage capacity, USA: 300 MW", line)
 
 
+class Row83TheOutletsName(unittest.TestCase):
+    """Row 83: a feed's title is not printed as the outlet's name."""
+
+    def test_names(self):
+        self.assertEqual(brief.outlet_name("JPT Homepage"), "JPT")
+        self.assertEqual(brief.outlet_name("California State Portal | CA.gov"), "CA.gov")
+        self.assertEqual(brief.outlet_name("Reuters"), "Reuters")
+        links = [("JPT Homepage", "https://news.google.com/rss/articles/x"), ("Hart Energy", "https://example.org/h")]
+        self.assertEqual(brief.link_text(links), "[JPT](https://news.google.com/rss/articles/x) (via Google News), [Hart Energy](https://example.org/h)")
+        r = rec("d", "Strathcona pursues growth with a USD 2.1 billion Greenfire deal", sector="deal", parties="Strathcona; Greenfire",
+                price="$2.1 billion", links=links)
+        line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
+        self.assertIn("(Strathcona, Greenfire; JPT, 2026-11-11)", line)
+
+
 if __name__ == "__main__":
     unittest.main()

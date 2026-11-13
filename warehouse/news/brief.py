@@ -520,7 +520,20 @@ def source_text(src, url, licensed=None):
     license (licensed_outlets) is named with no link, so the item shows the outlet and the title only."""
     # Session 2701 (rulings item 15, the 24-hour default): a held outlet's item keeps its link. The hold is about
     # republishing text, and a link republishes nothing; `licensed` is kept in the signature for the callers.
-    return f"[{src}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
+    return f"[{outlet_name(src)}]({url})" + (" (via Google News)" if "news.google.com" in str(url) else "")
+
+
+# Session 1978 (faults file row 83): a feed's title is not the outlet's name ("JPT Homepage", 115 stories of
+# news_stories; "California State Portal | CA.gov", 46): the name an issue prints drops a " Homepage" tail and keeps the
+# last part of a "Portal | site" title
+OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov"}
+
+
+def outlet_name(src):
+    s = str(src or "").strip()
+    if s in OUTLET_NAMES:
+        return OUTLET_NAMES[s]
+    return re.sub(r"\s+Home ?page$", "", s, flags=re.I) or s
 
 
 def link_text(links, licensed=None):
@@ -1886,7 +1899,7 @@ def place_words(c):
 def outlet_of(r):
     """The outlet of a story's first link, named (no address: the story's link is in its item)."""
     links = list(r.get("links") or [])
-    return str(links[0][0]) if links else "its outlet"
+    return outlet_name(links[0][0]) if links else "its outlet"   # session 1978 (row 83): "JPT", not "JPT Homepage"
 
 
 def passed_words(c):
