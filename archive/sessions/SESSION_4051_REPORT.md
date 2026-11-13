@@ -5,7 +5,16 @@ Energy Research Warehouse (ERW). Chain 230, the desktop's second window, 13 Nove
 ## Land-k (portable row 28, urgent), regated
 
 - **`32ee41fb1`**: row 28 with session 4050's move of its report's table, waiting for the lock from 22:22. Window A's `c227-gate5` held it, and land-k took it at 22:53 UTC (`47cf25d5c` once main was merged; `build_llms.py --check` exit 0).
-- (the gate's result and the landing, then the row's proof `scripts/eval-tool.mjs` on the landed tree: written when they come)
+- **Every step of `land_check.py` passed** (22:53 to 23:24 UTC):
+  - the suite: 9,223 tests OK, with tests 414 and 425 now passing;
+  - the build passed;
+  - check-values, check-routes, check-cross-checks and check-csp passed.
+- **The landing:**
+  - Snapshot `before-47cf25d5`, then the push to `task/4015-landing` at 23:24.
+  - Run 43526862481 merged at 23:40 (`f44d37628`); the deploy succeeded at 23:41.
+  - Snapshot after: **0 differences**.
+- **The row's proof, on the landed tree from `site/`:** `node --import ./scripts/alias-register.mjs scripts/eval-tool.mjs query '{"table":"isone_interconnection_queue","aggregation":"count"}'` printed `"isError":true` with the error "table isone_interconnection_queue is license needed: ISO-NE: the publisher's own page asks for permission; none is recorded yet." **The chat refuses the held table.**
+- **Marked** on main as `582226a76` (0 differences).
 
 ## Land-l, stacked on land-k (`8c01f39c0`)
 
