@@ -1068,6 +1068,40 @@ def rt_label(iso, variable):
     return f"{name}'s real-time price"
 
 
+# Session 1895 (faults file row 71, the Roundup's line) and session 3457 (row 152, the Digest's): the zone a grid's local
+# time is written in, the interval's length in words, and the Tables line's words for the highest real-time price's
+# variable (lib/digest.ts, scripts/check_roundup.py and site/scripts/check-values.mjs read it there). Moved here from
+# roundup.py, which keeps its names for them.
+ZONE_WORDS = {"America/Chicago": "Central", "America/New_York": "Eastern", "America/Los_Angeles": "Pacific",
+              "America/Denver": "Mountain", "America/Phoenix": "Arizona", "EST": "Eastern Standard"}
+RT_VARIABLE_DAY = "; yesterday's highest real-time price is variable `"
+
+
+def interval_words(freq):
+    """'PT15M' as 'a 15-minute interval', 'PT1H' as 'an hourly interval', 'PT5M' as 'a 5-minute interval'."""
+    f = str(freq or "")
+    m = re.fullmatch(r"PT(\d+)M", f)
+    if m:
+        return f"a {m.group(1)}-minute interval"
+    if f == "PT1H":
+        return "an hourly interval"
+    return f"an interval of {f}" if f else "an interval of unstated length"
+
+
+def rt_when(ts, tz):
+    """Row 71: an interval's start in the grid's zone and in UTC, "2026-11-03 17:45 Central (23:45 UTC)", the UTC date
+    written only when it is not the local one ("2026-11-03 19:00 Central (2026-11-04 01:00 UTC)"); a grid with no zone
+    held is written in UTC alone ("2026-11-03 23:45 UTC")."""
+    ts = pd.Timestamp(ts)
+    ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts.tz_convert("UTC")
+    zone = ZONE_WORDS.get(tz)
+    if not zone:
+        return f"{ts:%Y-%m-%d %H:%M} UTC"
+    loc = ts.tz_convert(tz)
+    utc = f"{ts:%H:%M}" if loc.date() == ts.date() else f"{ts:%Y-%m-%d %H:%M}"
+    return f"{loc:%Y-%m-%d %H:%M} {zone} ({utc} UTC)"
+
+
 def cite_short(table):
     """The footnote's words for a table: its name and its source reports. Session 804: a table this machine does not hold
     (the section already says "not in the warehouse" for its figures) is named alone, so the footnotes never stop the
@@ -1449,11 +1483,15 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     lines += ["", "**Highest real-time price, yesterday:** "]
     if best:
         top, table, tz, iso = best
-        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), "
-                      f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
-                      f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`, {rt_label(iso, top['variable'])}"
-                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "
-                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
+        # session 3457 (faults file row 152): row 71's fix of the Roundup's line, for the Digest's. The interval in the
+        # grid's zone and in UTC, its length in words; the source id ("spp_rtm", read as SPP in an ERCOT line) and the
+        # interval code ("PT15M") on the Tables line, where lib/digest.ts reads the variable for the figure's key
+        the_interval = re.sub(r"^an? ", "the ", interval_words(top.get("freq", "")))
+        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), {the_interval} starting "
+                      f"{rt_when(top['ts_utc'], tz)} "
+                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables) + RT_VARIABLE_DAY + top['variable'] + '`')}, "
+                      f"{rt_label(iso, top['variable'])}"
+                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
     if held_parts:
