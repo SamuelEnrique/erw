@@ -1,0 +1,63 @@
+# Security: the open items, 13 November 2026 (chain 234, sessions 5101 onward)
+
+Energy Research Warehouse (ERW). Roadmap item 7: every open item of the security review closed or ruled, and the usage counts live on the pages the rulings allow with no cookie and no identifier. This file is the numbered list. Its sources: the review ([`2026-10-10-security.md`](2026-10-10-security.md), session 177), the state list ([`docs/security.md`](../security.md), sessions 371, 1501 and 1503), and a fresh read of the code on 13 November 2026 (`origin/main` at `a57b7079`): `site/proxy.ts`, `site/lib/guard.ts`, the 41 route handlers under `site/app/`, `site/next.config.ts`, `site/components/Usage.tsx`.
+
+States: **fixed** (on this chain's stack, with its test; live once the stack lands), **closed** (fixed and live), **ruling** (Samuel's, with the default this chain acts on), **open** (a session of this chain takes it), **noted** (nothing to do until something else happens), **not a fault** (checked, with the evidence).
+
+The stack is `wip/5100-security`; its landing row is in `docs/state/landing_request_portable.md`.
+
+## Row 1 first: a visitor could read a page in review
+
+- **Found** 13 November 2026, about 10:25 UTC, by session 5101, reading the proxy's matcher against Next 16.4.5's own code.
+- **The fault.** The curtain (`site/proxy.ts`) did not run on an address that ends in a file extension. Vercel serves every prerendered page as data too, at `<page>.segments/<segment>.segment.rsc`. So a visitor, with no cookie, was answered the page.
+- **The proof**, on production, as a visitor (GET only, no token; the answers are in `runs/s5101/` of the session's worktree):
+  - `/about`: 200, `X-Matched-Path: /in-review` (the curtain, as meant).
+  - `/about.segments/about/__PAGE__.segment.rsc`: 200, 35,960 bytes, `X-Matched-Path` the segment itself: the About page's text.
+  - `/about.segments/_full.segment.rsc`: 200, 38,342 bytes, the whole page as data.
+  - `/about.segments/_tree.segment.rsc`: 200, the page's route tree.
+  - `/about.rsc` and `/cost-of-power/battery.rsc`: the in-review page (not open).
+  - A browser's own prefetch (the page's address with the `RSC` and `Next-Router-Segment-Prefetch` headers): the in-review page (not open). So no visitor met this by browsing; the address has to be typed.
+- **How wide.** Every page the host prerenders. Not measured page by page (ten requests were made in all, then none). A page that is rendered on each request (`force-dynamic`: the tools with a form) may or may not answer at such an address; the fix covers both.
+- **How long.** Since the release gate (session 67) on any Next version that serves these addresses; not established further.
+- **The fix** (`site/proxy.ts`, session 5101): the matcher runs on an address ending in `.rsc`; such an address takes the status of the page it stands for, and without the internal cookie answers 404. `site/lib/release.ts` is not touched.
+- **The tests.** `site/scripts/test-curtain.mjs` (8 tests: the matcher as Next compiles it, the old matcher's gap kept as a proof, the rule); `tests/test_session5101.py`.
+- **The proof still owed, after the landing's deploy:** `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app`, exit 0. A local build cannot show the fault (`next start` answers 404 at these addresses), so the gate's green says only that nothing broke.
+
+## The list
+
+| # | Item | Severity | From | State | Test, commit or default |
+|---|---|---|---|---|---|
+| 1 | A page in review is readable at its transport addresses (above) | High | new, 13 November | **fixed**, session 5101; the deployed proof owed | `test-curtain.mjs`, `tests/test_session5101.py`, `check-curtain.mjs` |
+| 2 | `site/scripts/test-usage.mjs`, the review's own proof of the guards, fails on `origin/main` at its 14th test (`toolOf("/cost-of-power/battery")` answers nothing) | Low (a proof that cannot run) | new, 13 November | open | |
+| 3 | The internal token travels in addresses: the old link `GET /internal/unlock?token=` still answers (H1) | High | review H1 | **ruling** | default: the link stays until Samuel has used `/internal/open` once on production; the retirement is prepared on a branch of its own, one landing away |
+| 4 | The old link compares the token with `!==` (L5) | Low | review L5 | **ruling**, with row 3 | goes with the link's retirement |
+| 5 | The token's rotation (H1) | High | review H1 | **ruling** | default: after row 3's retirement, by Samuel (Vercel, the two `.env` files, `erw_private.settings`) |
+| 6 | The site's writes need `SUPABASE_SERVICE_KEY` on Vercel since migration 034 (H3, "one look") | Medium | `docs/security.md` item 3 | open (a read may now prove it) | |
+| 7 | A new table is open to the anon key until someone closes it: the default privileges (M6) | Medium | review M6 | **ruling**; the guards read again by a session | default: (b) keep the event trigger, migration 028's sweep and `verify_rls.py --catalog` |
+| 8 | Python dependencies with advisories (M7; `cryptography`, `pillow`, `virtualenv`, `lxml`) | Medium | review M7, audit of 6 November | open (the audit run again; a minor step taken, a major step ruled) | |
+| 9 | The site's dependencies (`npm audit`; the linter's chain, L9) | Low | review L9, audit of 6 November | open (the audit run again) | |
+| 10 | The internal cookie is a fixed digest for 90 days (L4) | Low | review L4 | **ruling** | default: (b) keep the fixed digest; the rotation of row 5 resets every browser at once |
+| 11 | `search_path = public` on the lock and scheduler functions (L7) | Low | review L7 | **ruling** | default: (b) leave them; none is executable by the anon key |
+| 12 | Sign-ups are enabled in Supabase Auth (L8) | Low | review L8 | **ruling** (a dashboard setting); read again by a session | default: (a) turn off "Allow new users to sign up" when Samuel is next in the dashboard |
+| 13 | No `robots.txt` (L11) | Low | review L11 | noted | comes with the first live page |
+| 14 | Three checks prove "a token in the address opens nothing" with the real token (S3) | Low | `docs/security.md` S3 | noted | run on a local build only until row 5 |
+| 15 | `GET /internal/lock` answers another site's request: a page elsewhere can lock a reviewer's browser (an image address is enough) | Low | new, 13 November | open | |
+| 16 | `POST /api/unsubscribe` and `GET /api/subscribe/confirm` have no limit: each request makes the database check a token | Low | new, 13 November | open | |
+| 17 | `GET /api/entity` has no limit: one database read a request, any id | Low | new, 13 November | open | |
+| 18 | `GET /api/play/top` counts its limit in one instance's memory only (M2's class) | Low | new, 13 November | open | |
+| 19 | No standing test says every route that reads a body caps it, and every route that spends or writes asks the guard | Low | the chain's prompt | open | |
+| 20 | No standing test scans the source for a server secret in a file a browser gets | Low | the chain's prompt | open | |
+| 21 | The headers are proven only against a built site (`check-security.mjs`): no test reads `next.config.ts` without a build | Low | the chain's prompt | open | |
+| 22 | The enforced Content-Security-Policy allows inline scripts (`script-src 'self' 'unsafe-inline'`) | Low | new, 13 November | open (read first: what a nonce would cost) | |
+| 23 | The usage count sends the database a hash that stands for one visitor for one UTC day: an identifier, for a day | Medium (against the roadmap's "no identifier") | new, 13 November | open | |
+| 24 | Whether the counts run only on the pages the ruling of 12 October allows ("no usage count on tool pages") | Medium | `docs/security.md`, "The usage counts" | open | |
+| 25 | `clientIp` takes the first entry of `X-Forwarded-For`: right on Vercel, which writes the header itself; on another host a client could choose its own limit key | Low | new, 13 November | noted | the site runs on Vercel alone |
+
+## Checked on 13 November and not a fault
+
+- **`<page>.rsc` on production**: the in-review page (above).
+- **A browser's prefetch of a page in review**: the in-review page (above).
+- **The CSV routes** (`/cost-of-power/months.csv`, `/cost-of-power/battery/months.csv`, `/cost-of-power/seller/*.csv`, `/cost-of-power/tables.csv`, `/learn/problems/<set>/data.csv`) and `/llms.txt`: the proxy never sees them, and each applies its page's status itself (`statusOf` and the internal view, read in the source).
+- **The download routes without an extension** (`/board/rows`, `/companies/rows` and their `python` and `stata` forms, `/map/card`, `/resources/layer/<name>`, `/resources/overlay/*`): the proxy sees them; a visitor is answered the in-review page.
+- **`/api/thesis/pitchbook`**: reads its body no further than 400 KB, limited to 60 an hour, the run's one-time key the credential.
+- **`/internal/unlock` (the form's door)**: same-origin, body at most 2,000 characters, constant-time comparison, nothing of the token logged or sent back.
