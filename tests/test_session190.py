@@ -207,7 +207,8 @@ class TheNote(unittest.TestCase):
         lib, builder, reader = src("site", "lib", "datacenter.ts"), src("warehouse", "derived", "datacenter_page.py"), src("warehouse", "derived", "price_compare.py")
         for words in ("export const NEAR = 0.95;", "export const PRIOR_DAYS = 30;", "if (g < span30 || prior.length < NEAR * span30) { out.push(null); continue; }",
                       "return Math.min(held, Math.max(1, Math.round(q * held)));", "export const shedBudget = (x: Flex, hours: number) => Math.round(shedShare(x) * hours);",
-                      "const k = Math.min(held.length, Math.round(x.run === \"hours\" ? (x.n * held.length) / p.length : (x.pct / 100) * held.length));",
+                      # session 5003: the foreseen load takes the rule's budget (the owner's ruling of 12 October 2026)
+                      "const k = Math.min(held.length, shedBudget(x, p.length));",
                       "return sorted.length ? sorted[Math.max(0, Math.ceil(0.1 * sorted.length) - 1)] : null;", "const to = (lastTwelve(ms)?.[11] ?? done[done.length - 1]).m, from = prev(to, 35);",
                       "export const gpuHour = (perMwh: number, gpuKw: number, pue: number) => (perMwh * gpuKw * pue) / 1000;"):
             self.assertIn(words, lib)
