@@ -21,3 +21,16 @@ Energy Research Warehouse (ERW). Chain 254 (`queue/done/254-day-21-november-oldl
 - Tests: `Row173NextWeekSaysTheWeekAhead` (1), `Row174AStorysMoveBesideItsOwnDay` (3). The 72 files: 1,382 passed, 20 skipped. The Roundup's method note carries both rows.
 - **Row 11:** moved to `66e8ea25a`, now chains 252 and 254.
 - **Row 11 landed in part** while this session ran: rows 151 to 160 (to `e547f598f`) at `f71fda27e` (desktop window 2's session 4011, 0 snapshot differences). The desk's session 4012 takes the newer head. The rebase conflict on the row was resolved by keeping the desk's state cell and adding the head that waits. `origin/main` was merged into the stack again as `3c8f5cab7` (docs and queue files only), and row 11 moved there: rows 161 to 174 wait.
+- **The build step is closed:** row 152, the stack's one site change (`site/lib/digest.ts`), is among rows 151 to 160, and those passed the desk's `land_check.py` with its build (session 4011). Rows 161 to 174 change no site file. The memory wait was stopped. `site/node_modules` in the worktree goes with it at the clean-up.
+
+## Session 3474: the stored W46 Roundup
+
+- Not written yet: the Roundup of W46 is written on Sunday 15 November at 23:00 UTC, and it is Friday evening. Skipped; the next file carries it.
+
+## Session 3475: the 13 November issue's landing
+
+- `wip/red-daily-2026-11-13` (`7423bf708`) has not landed: `docs/digest/2026-11-13.md` is not on main. The first issue after it (Monday 16 November) is not written either. Skipped; the next file carries both.
+
+## Session 3476: row 11's clean-up
+
+- Row 11 has landed only in part (rows 151 to 160), so the worktree `erw-3457` and `wip/3457-periodicals` stay. Skipped.
