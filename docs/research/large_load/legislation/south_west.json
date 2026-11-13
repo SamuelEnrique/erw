@@ -1,0 +1,928 @@
+{
+ "group": "laws_south_west",
+ "laws": [
+  {
+   "state": "TX",
+   "bill": "S.B. 6",
+   "session": "89th Legislature, 2025 regular",
+   "title": "relating to the planning for, interconnection and operation of, and costs related to providing service for certain electrical loads and to the generation of electric power by a water supply or sewer service corporation",
+   "status": "passed",
+   "status_date": "2025-05-29",
+   "effective_date": "",
+   "source_url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB00006F.pdf",
+   "source_title": "S.B. No. 6, enrolled (89th Legislature, Regular Session)",
+   "cites": [
+    {
+     "page": "14",
+     "section": "Senate and House certificates",
+     "quote": "the Senate concurred in House amendments on May 29, 2025"
+    },
+    {
+     "page": "13",
+     "section": "SECTION 8",
+     "quote": "This Act takes effect immediately if it receives ... a vote of two-thirds of all the members elected to each house, as ... Act takes effect September 1, 2025."
+    }
+   ],
+   "threshold_mw": {
+    "value": "75 MW at a single site (new or expanded interconnection in the ERCOT power region), unless the PUCT finds a lower threshold necessary",
+    "cites": [
+     {
+      "page": "2",
+      "section": "Utilities Code Sec. 37.0561(c)",
+      "quote": "new or expanded interconnection where the total load at a single ... The commission shall establish a ... demand threshold of 75 megawatts unless the commission determines ... that a lower threshold is necessary to accomplish the purposes"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "commission rulemaking",
+     "value": "The PUCT by rule sets standards for interconnecting large load customers in the ERCOT power region (Utilities Code Sec. 37.0561(b))",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Sec. 37.0561(b)",
+       "quote": "The commission by rule shall establish standards for ... interconnecting large load customers in the ERCOT power region in a ... minimizing the potential for stranded infrastructure costs and"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "The PUCT by rule ensures that a large load customer under the Sec. 37.0561 standards contributes to the interconnecting utility's costs to interconnect it; a cooperative or municipal utility without customer choice passes those reasonable costs through to the customer (Sec. 35.004(c-1), (c-2))",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 35.004(c-1)",
+       "quote": "The commission by rule shall ensure that a large load ... contributes to the recovery of the interconnecting electric"
+      },
+      {
+       "page": "1",
+       "section": "Sec. 35.004(c-2)",
+       "quote": "that has not adopted customer choice shall pass through to a large"
+      }
+     ]
+    },
+    {
+     "topic": "disclosure",
+     "value": "Each large load customer discloses to the interconnecting utility whether it is pursuing a substantially similar request for electric service in Texas; interconnected large loads disclose their on-site backup generating facilities (generation that cannot export and can serve at least 50 percent of on-site demand)",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Sec. 37.0561(d)",
+       "quote": "is pursuing a substantially similar request for electric service in"
+      },
+      {
+       "page": "3",
+       "section": "Sec. 37.0561(e)",
+       "quote": "information about the customer ... aggregate, can serve at least 50 percent of on-site demand"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "ERCOT may, after deploying all available market services except frequency responsive services, direct the utility to require the large load customer to deploy its on-site backup generation or curtail load during an energy emergency",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Sec. 37.0561(e)",
+       "quote": "backup generating facilities may be directed to either deploy the ... customer to either deploy the customer ... facilities or curtail load"
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "A flat study fee of at least $100,000 for initial transmission screening studies; an additional fee for a request for more capacity; the unused part is credited toward later obligations at the same site",
+     "cites": [
+      {
+       "page": "4",
+       "section": "Sec. 37.0561(f)",
+       "quote": "The standards must set a flat study fee of at least ... $100,000 to be paid to the interconnecting electric utility or ... studies for large loads subject to Subsection (c)"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "Site control: the standards include a method for the customer to demonstrate site control through ownership, lease or another legal interest acceptable to the PUCT",
+     "cites": [
+      {
+       "page": "4",
+       "section": "Sec. 37.0561(g)",
+       "quote": "customer subject to Subsection (c) to demonstrate site control for"
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "Uniform financial commitment requirements for transmission built to serve the customer, which may include security on a dollar per megawatt basis set by the PUCT, contribution in aid of construction, or prepayment security; the per-MW security is refunded as the customer meets load ramp milestones, withdraws capacity, or capacity is reallocated",
+     "cites": [
+      {
+       "page": "4",
+       "section": "Sec. 37.0561(h)",
+       "quote": "The standards must include uniform financial commitment ... security provided on a dollar per megawatt basis"
+      },
+      {
+       "page": "5",
+       "section": "Sec. 37.0561(h)(2), (i)",
+       "quote": "contribution in aid of construction ... load ramp milestones and sustains operations for a prescribed"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "Each utility serving a transmission-voltage customer interconnected after December 31, 2025 develops a protocol, with equipment installed before interconnection, to allow the load to be curtailed during firm load shed (Sec. 39.170(a)); ERCOT develops a competitively procured demand reduction service for large load customers of at least 75 MW, with at least 24 hours' notice (Sec. 39.170(b))",
+     "cites": [
+      {
+       "page": "9",
+       "section": "Sec. 39.170(a)",
+       "quote": "customer is interconnected, to allow the load to be curtailed"
+      },
+      {
+       "page": "10",
+       "section": "Sec. 39.170(a), (b)",
+       "quote": "interconnected after December 31, 2025, that is not ... demand reductions from large load customers with a demand of at ... least 75 megawatts to be deployed in the event of an anticipated"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "Co-location: a net metering arrangement between a stand-alone generation resource registered as of September 1, 2025 and a new large load requires notice to ERCOT; ERCOT studies it within 120 days of receiving all information and the PUCT approves, denies or conditions it within 60 days of the study (Sec. 39.169)",
+     "cites": [
+      {
+       "page": "7",
+       "section": "Sec. 39.169(a)",
+       "quote": "metering arrangement between an operating facility registered with"
+      },
+      {
+       "page": "8",
+       "section": "Sec. 39.169(d)",
+       "quote": "later than the 120th day after the independent organization ... later than the 60th day after the date the commission receives the"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "The PUCT evaluates whether the four coincident peak method of charging wholesale transmission costs ensures all loads contribute appropriately, and amends its rules by December 31, 2026",
+     "cites": [
+      {
+       "page": "12",
+       "section": "SECTION 6(a)",
+       "quote": "whether the current four coincident peak"
+      },
+      {
+       "page": "13",
+       "section": "SECTION 6(c)",
+       "quote": "31, 2026, the commission shall amend commission rules to ensure"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Status is 'passed' because the document read prints only the chambers' certificates (Senate passed March 19, 2025; House passed with amendments May 27, 2025; Senate concurred May 29, 2025); its Governor's approval line is blank. The bill's history page (capitol.texas.gov/BillLookup/) and the Legislative Reference Library are refused by robots, and the statutes site (statutes.capitol.texas.gov) is built by script, so the Governor's action and the effective date were not read. FOR THE PARENT'S RULING: capitol.texas.gov's robots file says 'Disallow: /TLODOCS/' (upper case); the reader matched case-sensitively and allowed the lower-case path /tlodocs/ it was given, and the server answered. If the parent reads that rule as covering /tlodocs/, this entry should be dropped or re-read from another official copy. The PUCT's implementing rules (Project No. 58000 proposal, held in large_load_connection_rules/puct_project_58000_proposal.yaml; 16 TAC 25.194, Project No. 58481) were not read here. No 2026 follow-up: the Texas Legislature holds no regular session in 2026. effective_date as the reading group wrote it: 'immediately on a two-thirds vote of all members elected to each house, otherwise 2025-09-01 (SECTION 8; the vote and the Governor's approval are not printed in the document read)'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "UT",
+   "bill": "S.B. 132",
+   "session": "2025 General Session",
+   "title": "Electric Utility Amendments",
+   "status": "passed",
+   "status_date": "",
+   "effective_date": "2025-05-07",
+   "source_url": "https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf",
+   "source_title": "S.B. 132 Electric Utility Amendments, 2025 General Session, Enrolled Copy",
+   "cites": [
+    {
+     "page": "21",
+     "section": "Section 22. Effective Date",
+     "quote": "This bill takes effect on May 7, 2025."
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "2025 GENERAL SESSION"
+    }
+   ],
+   "threshold_mw": {
+    "value": "100 MW: new service expected to reach a cumulative demand of 100 MW or more, or added service of 100 MW or more, within five years of the requested start date",
+    "cites": [
+     {
+      "page": "5",
+      "section": "54-26-101(12)",
+      "quote": "(a) new electric service that is expected to reach a cumulative demand of 100 megawatts ... or greater within five years of the requested initial start date; or ... by 100 megawatts or greater within five years of the requested start date for the"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "The Public Service Commission approves a large load contract if the customer bears all just and reasonable incremental costs of the requested service and existing ratepayers bear none of the costs of serving it",
+     "cites": [
+      {
+       "page": "10",
+       "section": "54-26-302(2)",
+       "quote": "(b) the large load customer bears all just and reasonable incremental costs attributable to ... (c) existing ratepayers do not bear costs justly and reasonably attributable to providing"
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "The commission approves or disapproves a large load contract application within 60 days and may make rules to expedite that review",
+     "cites": [
+      {
+       "page": "11",
+       "section": "54-26-302(4), (5)",
+       "quote": "within 60 days after the day on which a person files the application ... The commission may establish rules to expedite the review of applications for approval"
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "The utility acknowledges a large-scale service request, notifies missing information within 15 business days of beginning to process it, and completes an evaluation (steps and clocks held in window A's registry)",
+     "cites": [
+      {
+       "page": "7",
+       "section": "54-26-202(1)",
+       "quote": "(b) notify the customer of any missing information within 15 business days after ... (c) complete an evaluation as soon as reasonably practicable after beginning the study"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "Alternative service: a large load customer may contract with a large-scale generation provider if the utility misses the evaluation clock or no contract is agreed; a utility that does not agree terms has no duty to serve the customer",
+     "cites": [
+      {
+       "page": "11",
+       "section": "54-26-401(2)(b), 54-26-402(1)",
+       "quote": "(i) has no right or duty to serve the large load customer ... A large load customer may enter into a large load contract with a large-scale generation"
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "The commission investigates a large load flexible tariff for a qualified electric utility and adopts one if it finds the tariff in the public interest",
+     "cites": [
+      {
+       "page": "17",
+       "section": "54-26-701(1)",
+       "quote": "(a) investigate a large load flexible tariff for a qualified electric utility; and"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Window A's registry holds this law's steps and clocks: large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml (and the PSC rule under it, utah_psc_r746_318_large_scale_electric.yaml); this entry is its law row for the third pass. The enrolled copy prints no Governor's action, so status is 'passed' with the effective date the bill states; the bill's status page was not read (the network failed late in this pass). No 2026 amendment found: the Utah Code page for Chapter 54-26 (le.utah.gov/xcode/Title54/Chapter26/54-26.html, read 13 November 2026) names only the version C54-26_2025050720250507 (no 2026 version); its text is built by script, so this is a note, not a cite.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "AL",
+   "bill": "SB 270 (Act 2026-610 as window A's registry names it)",
+   "session": "2026 Regular Session",
+   "title": "Relating to utilities; to add Section 37-4-22.1 to the Code of Alabama 1975; to provide specific considerations for the Public Service Commission's review and approval of retail electric service contracts between a utility and a large load data center customer",
+   "status": "passed",
+   "status_date": "2026-04-08",
+   "effective_date": "2026-10-01",
+   "source_url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2026RS/SB270-enr.pdf",
+   "source_title": "SB270 Enrolled, An Act (Alabama Legislature, 2026 Regular Session)",
+   "cites": [
+    {
+     "page": "5",
+     "section": "certificates",
+     "quote": "Amended and passed: 08-Apr-26"
+    },
+    {
+     "page": "5",
+     "section": "certificates",
+     "quote": "Senate concurred in House amendment 08-Apr-26"
+    },
+    {
+     "page": "4",
+     "section": "Section 2",
+     "quote": "This act shall become effective on October ... 1, 2026"
+    }
+   ],
+   "threshold_mw": {
+    "value": "150 MW expected total peak demand at one or more contiguous parcels, for a data processing center under Section 40-9B-3 operating solely for data processing",
+    "cites": [
+     {
+      "page": "2",
+      "section": "37-4-22.1(a)(2)",
+      "quote": "an expected total peak demand of 150 megawatts or greater at"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "A contract with a large load data center customer is consistent with the public interest where the PSC finds its pricing and terms are expected to recover the incremental costs of serving the customer from the customer and to promote positive benefits to other retail customers",
+     "cites": [
+      {
+       "page": "3",
+       "section": "37-4-22.1(b)",
+       "quote": "(1) Provide for the recovery of the incremental costs ... of retail electric service to the large load data center ... (2) Promote positive benefits to other retail electric"
+      }
+     ]
+    },
+    {
+     "topic": "minimum term",
+     "value": "The contract's terms and conditions address matters such as minimum term for contract length, upfront payments, security and collateral, and minimum payment (no figure printed)",
+     "cites": [
+      {
+       "page": "3",
+       "section": "37-4-22.1(a)(3)",
+       "quote": "matters such as minimum term for contract length, upfront ... payments, security and collateral, and minimum payment"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Window A's registry holds this law: large_load_tariffs/alabama_act_2026_610_data_centers.yaml. The enrolled copy read prints the legislative certificates (Senate passed 12-Mar-26; House amended and passed, and Senate concurred, 08-Apr-26) but not the Governor's approval or the Act number; 'Act 2026-610' is the registry's, not read in this pass, so status is 'passed'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "ID",
+   "bill": "H 911 (Idaho Code 61-335)",
+   "session": "2026 Regular Session (68th Legislature, second regular session)",
+   "title": "PUBLIC UTILITIES: Adds to existing law to provide for new large loads (Idaho Code 61-335, New large load and ratepayer protection)",
+   "status": "in effect",
+   "status_date": "2026-04-10",
+   "effective_date": "2026-07-01",
+   "source_url": "https://legislature.idaho.gov/statutesrules/idstat/Title61/T61CH3/SECT61-335",
+   "source_title": "Idaho Statutes, Section 61-335",
+   "cites": [
+    {
+     "url": "https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/",
+     "page": "1",
+     "section": "bill history",
+     "quote": "Reported Signed by Governor on April 10, 2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/",
+     "page": "1",
+     "section": "bill history",
+     "quote": "Session Law Chapter 335",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/",
+     "page": "1",
+     "section": "bill history",
+     "quote": "Effective: 07/01/2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "page": "1",
+     "section": "History",
+     "quote": "[61-335, added 2026, ch. 335, sec. 1, p. 1315.]"
+    }
+   ],
+   "threshold_mw": {
+    "value": "50 MW: an increase of 50 MW or more in a service entrance's cumulative power requirement in any consecutive 60-month period, under a service contract entered into on or after July 1, 2026",
+    "cites": [
+     {
+      "page": "1",
+      "section": "61-335(1)(c)",
+      "quote": "Results in an increase in a cumulative power requirement of such service entrance of fifty (50) megawatts or more in any consecutive sixty (60) month period"
+     },
+     {
+      "page": "1",
+      "section": "61-335(1)(c)(ii)",
+      "quote": "Is subject to a service contract with a public utility that was entered into on or after July 1, 2026."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "commission rulemaking",
+     "value": "A public utility serves a new large load only under a commission-approved service contract, filed with a no harm test; the commission approves or denies it within 270 days",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(2)",
+       "quote": "A public utility shall provide service to a new large load only pursuant to a commission-approved service contract."
+      },
+      {
+       "page": "1",
+       "section": "61-335(3), (4)",
+       "quote": "Such filing shall include a no harm test ... The commission shall review and approve or deny a new large load service contract within two hundred seventy (270) days of receiving such filing by the public utility."
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "The new large load funds its full cost of service, including its share of generation, transmission, substation and distribution investments needed only because of it; the commission reviews the contract's rates in each general rate case",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(4)(b)",
+       "quote": "The new large load is responsible for funding its full cost of service, including its share of generation, transmission, substation, and distribution infrastructure investments"
+      },
+      {
+       "page": "1",
+       "section": "61-335(7)(a)",
+       "quote": "In each general rate case filed by a public utility, the commission shall review the rates, charges, and cost recovery mechanisms applicable to an approved service contract"
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "Approval is conditioned on financial security, in a form and amount the commission approves, reasonably sufficient to protect the utility and its other customers from stranded or unrecoverable costs",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(6)",
+       "quote": "Approval of a service contract shall be conditioned on the new large load furnishing financial security, in a form and amount approved by the commission"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "A new large load may not change its status by artifice, such as splitting its load among service entrances",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(5)",
+       "quote": "A new large load shall not change its status as such by means of artifice"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The dataset's row northwest_mountain-06 cites the same statute page. The 2026 legislation list (legislature.idaho.gov/sessioninfo/2026/legislation/) also names H0865, S1368 and H0756 ('PUC, new large load(s), ratepayer protection, new'); only H0911 shows a session law chapter (Ch. 335); the others' fate was not read. Status 'in effect': the bill page prints the Governor's signature (April 10, 2026) and 'Effective: 07/01/2026'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "OR",
+   "bill": "H.B. 3546 (Oregon Laws 2025, chapter 323)",
+   "session": "2025 Regular Session (83rd Legislative Assembly)",
+   "title": "Relating to large energy use facilities; and declaring an emergency.",
+   "status": "in effect",
+   "status_date": "2025-06-16",
+   "effective_date": "2025-06-16",
+   "source_url": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2025orLaw0323.pdf",
+   "source_title": "Oregon Laws 2025, Chapter 323 (HB 3546)",
+   "cites": [
+    {
+     "page": "2",
+     "section": "approval line",
+     "quote": "Approved by the Governor June 16, 2025"
+    },
+    {
+     "page": "2",
+     "section": "approval line",
+     "quote": "Effective date June 16, 2025"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "CHAPTER 323"
+    }
+   ],
+   "threshold_mw": {
+    "value": "20 MW: a facility that uses or is able to use 20 MW or more and is primarily engaged in a service under NAICS code 518210",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Section 2(1)(d)",
+      "quote": "means a facility that uses or is able to use 20 megawatts or more and is primarily engaged in providing a service described under code 518210"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "The Public Utility Commission provides a separate classification of service with its own tariff schedule for large energy use facilities; the tariff allocates the class's costs to the class, or directly assigns a facility's costs to it, and mitigates the risk of shifting costs to other classes",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 2(2)",
+       "quote": "The Public Utility Commission shall provide for a classification of service under ORS 757.230 for retail electricity consumers that are large energy use facilities."
+      },
+      {
+       "page": "1",
+       "section": "Section 2(2)(a)(A)",
+       "quote": "Allocate the costs of serving the class of retail electricity consumers that are large energy use facilities to the class in a manner that is equal or proportional to the costs of serving the class"
+      }
+     ]
+    },
+    {
+     "topic": "minimum term",
+     "value": "The contract with a large energy use facility is for 10 years or longer",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 5(1)(b)(A)(ii)",
+       "quote": "Specify the duration of the contract and be for a duration for 10 years or longer"
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "The contract obligates the customer to pay a minimum amount or percentage, set by the commission, based on its projected electricity usage, for the contract's duration",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 5(1)(b)(A)(iv)",
+       "quote": "Obligate the retail electricity consumer to pay a minimum amount or percentage, as determined by the commission"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "The contract may include a charge for excess demand in addition to the tariff schedule",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Section 5(1)(b)(B)",
+       "quote": "May include a charge for excess demand for the electricity services the electric company is contracted to provide"
+      }
+     ]
+    },
+    {
+     "topic": "disclosure",
+     "value": "The commission reports by September 1 of each even-numbered year on load trends from large energy use facilities (repealed January 2, 2035)",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Section 7",
+       "quote": "No later than September 1 of each even-numbered year, the Public Utility Commission shall submit a report"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The enrolled bill on OLIS (olis.oregonlegislature.gov/liz/2025R1/Downloads/MeasureDocument/HB3546/Enrolled) prints the same text and the chambers' passage (House April 22 and June 5, 2025; Senate June 3, 2025); the OLIS overview page names Chapter 323. Section 3 (no duty to use the class until the PUC approves a tariff) is repealed January 2, 2028.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "FL",
+   "bill": "CS/CS/SB 484 (Chapter 2026-65, Laws of Florida)",
+   "session": "2026 Regular Session",
+   "title": "An act relating to data centers",
+   "status": "in effect",
+   "status_date": "2026-05-07",
+   "effective_date": "2026-07-01",
+   "source_url": "https://www.flsenate.gov/Session/Bill/2026/484/BillText/er/PDF",
+   "source_title": "CS for CS for SB 484, 2nd Engrossed, Enrolled (2026 Legislature)",
+   "cites": [
+    {
+     "url": "https://www.flsenate.gov/Session/Bill/2026/484",
+     "page": "1",
+     "section": "Bill History",
+     "quote": "5/7/2026 Approved by Governor",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.flsenate.gov/Session/Bill/2026/484",
+     "page": "1",
+     "section": "Last Action",
+     "quote": "Chapter No. 2026-65",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.flsenate.gov/Session/Bill/2026/484",
+     "page": "1",
+     "section": "",
+     "quote": "Effective Date: 7/1/2026 except as otherwise provided",
+     "date_read": "2026-11-13"
+    },
+    {
+     "page": "12",
+     "section": "Section 8",
+     "quote": "becoming a law, this act shall take effect July 1, 2026"
+    }
+   ],
+   "threshold_mw": {
+    "value": "50 MW anticipated monthly peak load (highest 15-minute average) at a single location; colocated customers at one location count together; loads at multiple locations are not aggregated",
+    "cites": [
+     {
+      "page": "6",
+      "section": "s. 366.043(2)(d)",
+      "quote": "means a customer with an ... anticipated monthly peak load of 50 megawatts or more ... calculated as the highest average load over a 15-minute interval"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "Public utility tariffs must reasonably ensure each large load customer bears its own full cost of service (connection, incremental transmission and generation, other infrastructure, O&M) and that the risk of nonpayment is not borne by the general body of ratepayers",
+     "cites": [
+      {
+       "page": "7",
+       "section": "s. 366.043(3)(a)",
+       "quote": "reasonably ensure that each large load customer bears its own ... full cost of service and that such cost is not shifted to the ... of such costs may not be borne by the general body of"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "A customer may not split a load at a single location into smaller connections to avoid the large load class; a public utility may not knowingly serve a large load customer that is a foreign entity",
+     "cites": [
+      {
+       "page": "7",
+       "section": "s. 366.043(4)",
+       "quote": "(4) A customer may not separate an electrical load at a ... single location into multiple smaller connections to avoid being"
+      },
+      {
+       "page": "8",
+       "section": "s. 366.043(7)",
+       "quote": "(7) A public utility may not knowingly provide electric"
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "The PSC may approve tariffs with contributions in aid of construction, demand charges including minimum demand charges, incremental generation charges, financial guarantees, minimum load factors, take-or-pay provisions, and minimum contract periods with early termination fees",
+     "cites": [
+      {
+       "page": "7",
+       "section": "s. 366.043(5)",
+       "quote": "(b) Demand charges, including minimum demand charges ... (d) Financial guarantees ... (e) Minimum load factors ... (f) Take-or-pay provisions or similar provisions requiring"
+      },
+      {
+       "page": "8",
+       "section": "s. 366.043(5)(g)",
+       "quote": "(g) Minimum period of service contract requirements, ... including early termination fees or other fees for violation of"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "No tariff, contract term or utility policy may hinder curtailment or interruption of a large load customer's service to ensure grid stability, limit outages or ensure public safety",
+     "cites": [
+      {
+       "page": "8",
+       "section": "s. 366.043(6)",
+       "quote": "may not prevent or otherwise hinder the curtailment or"
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "Each public utility files a complying large load tariff for PSC approval by October 1, 2026",
+     "cites": [
+      {
+       "page": "8",
+       "section": "s. 366.043(8)",
+       "quote": "(8) No later than October 1, 2026, each public utility ... shall file, for commission approval, a tariff that complies with"
+      }
+     ]
+    },
+    {
+     "topic": "siting or tax",
+     "value": "Local governments keep their planning and land development authority over large load customers; a large load customer is not an electric substation under s. 163.3208 (s. 163.326, effective on becoming law)",
+     "cites": [
+      {
+       "page": "3",
+       "section": "s. 163.326(2)",
+       "quote": "(2) Local governments shall maintain the authority to ... respect to large load customers. A large load customer may not ... be considered an electric substation for the purposes of s."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The Florida Senate's 2026 bill search for 'large load' lists HB 1007 (Data Centers) and HB 1517 as companions laid on the table or died, each pointing to CS/CS/SB 484 (Ch. 2026-65). The Act also adds data center water provisions (s. 373.262) and an OPPAGA study (Section 7), not read for this pass. The tariffs the PSC is reviewing are the filings s. 366.043(8) requires. effective_date as the reading group wrote it: '2026-07-01 (Sections 1 and 4 and Section 8 on becoming law)'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "SC",
+   "bill": "H. 3309 (Act No. 41 of 2025, South Carolina Energy Security Act)",
+   "session": "126th General Assembly, 2025",
+   "title": "AN ACT TO AMEND THE SOUTH CAROLINA CODE OF LAWS BY ENACTING THE \"SOUTH CAROLINA ENERGY SECURITY ACT\"",
+   "status": "in effect",
+   "status_date": "2025-05-12",
+   "effective_date": "2025-05-12",
+   "source_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3309.htm",
+   "source_title": "H 3309, 126th Session (2025-2026), bill page with history and ratified text (A41, R60, H3309)",
+   "cites": [
+    {
+     "page": "1",
+     "section": "summary",
+     "quote": "Governor's Action: May 12, 2025, Signed"
+    },
+    {
+     "page": "1",
+     "section": "history",
+     "quote": "Effective date 05/12/25"
+    },
+    {
+     "page": "1",
+     "section": "history",
+     "quote": "Act No. 41"
+    },
+    {
+     "page": "1",
+     "section": "text",
+     "quote": "(A41, R60, H3309)"
+    }
+   ],
+   "threshold_mw": {
+    "value": "50 MW at one point of delivery for a 'transformational customer' (with 500 new employees, $100,000,000 investment and a Department of Commerce designation); an existing customer above 20 MW contract demand signing a contract of five years or more is a 'qualifying customer'",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Section 58-43-10(8)(a)",
+      "quote": "(a) 50 megawatts at one point of delivery;"
+     },
+     {
+      "page": "1",
+      "section": "Section 58-43-10(5)(a)",
+      "quote": "an existing commercial or industrial customer with a combined firm and interruptible contract demand greater than 20 megawatts that agrees to a new or extended electric service contract with a term of five years or more"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "minimum term",
+     "value": "Economic development agreements with qualifying or transformational customers are for a term not exceeding ten years",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 58-43-20(C)",
+       "quote": "The agreement with the customer must be for a term not exceeding ten years"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "Rates for transformational customers may not be lower than 25 percent below the utility's marginal cost (qualifying customers: not below marginal cost); the commission finds measures were taken to avoid cross-customer class subsidization, and decides within sixty days",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 58-43-20(C)",
+       "quote": "rates for transformational customers may not be lower than twenty-five percent less than the electrical utility's marginal cost of providing service to the customer"
+      },
+      {
+       "page": "1",
+       "section": "Section 58-43-20(D)(2)(c)",
+       "quote": "measures have been taken to avoid or reduce cross-customer class-subsidization"
+      },
+      {
+       "page": "1",
+       "section": "Section 58-43-20(D)",
+       "quote": "The commission must either approve or deny an application pursuant to this section within sixty days."
+      }
+     ]
+    },
+    {
+     "topic": "exit fee",
+     "value": "A qualifying or transformational customer that leaves the state or ends operations during the ten-year contract reimburses the difference between standard rates and the rates it paid",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 58-43-20(H)",
+       "quote": "such customer must reimburse the electrical utility and its customers the difference between standard rates and the rates paid during the term of the agreement"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Section 36 of Act 41 adds Chapter 43 of Title 58 (economic development project rates and terms). The Act's text read prints no 'data center' or 'large load' term; it is entered because its transformational customer class sets rate floors, a term limit and an exit reimbursement for loads of 50 MW and up. No 2026 South Carolina act was searched for (search budget spent).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "VA",
+   "bill": "2026 Acts of Assembly, chapters 377 and 378 (Code of Virginia 56-596.7)",
+   "session": "2026 Regular Session",
+   "title": "Electric demand flexibility programs; high energy demand customers; reporting requirements",
+   "status": "enacted",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://law.lis.virginia.gov/vacode/title56/chapter23/section56-596.7/",
+   "source_title": "Code of Virginia, 56-596.7. Electric demand flexibility programs; high energy demand customers; reporting requirements",
+   "cites": [
+    {
+     "page": "1",
+     "section": "history",
+     "quote": "2026, cc. 377, 378."
+    }
+   ],
+   "threshold_mw": {
+    "value": "25 MW contracted or measured demand with an anticipated or measured average annual load factor of 75 percent or more (contracted defense facilities excluded)",
+    "cites": [
+     {
+      "page": "1",
+      "section": "56-596.7(A)",
+      "quote": "means a retail electric service customer that has a contracted or measured electric demand of 25 megawatts or greater and an anticipated or measured average annual electric load factor of 75 percent or greater"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "curtailment or backup generation",
+     "value": "By January 15, 2027 each Phase I and Phase II Utility petitions for a voluntary demand flexibility program for high energy demand customers; the SCC issues a final order by November 30, 2027 and sets a demand flexibility standard; carbon-emitting generating resources are ineligible",
+     "cites": [
+      {
+       "page": "1",
+       "section": "56-596.7(B)(1)",
+       "quote": "By January 15, 2027, each Phase I and Phase II Utility shall file a petition with the Commission for approval of a voluntary demand flexibility program that applies to high energy demand customers"
+      },
+      {
+       "page": "1",
+       "section": "56-596.7(B)(1)",
+       "quote": "The Commission shall issue a final order on such petitions no later than November 30, 2027."
+      },
+      {
+       "page": "1",
+       "section": "56-596.7(B)(2)",
+       "quote": "provide that carbon-emitting generating resources will be ineligible for participation in the demand flexibility program"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "By January 1, 2029 each cooperative serving a high energy demand customer establishes a voluntary demand flexibility program",
+     "cites": [
+      {
+       "page": "1",
+       "section": "56-596.7(C)(1)",
+       "quote": "By January 1, 2029, each cooperative that serves one or more high energy demand customers shall establish a voluntary demand flexibility program"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "Program incentives may not unreasonably shift costs onto other retail customers; they may include procedures for accelerated interconnection of participating customers",
+     "cites": [
+      {
+       "page": "1",
+       "section": "56-596.7(D)",
+       "quote": "without unreasonably shifting or imposing any costs of program participation or administration onto other retail electric service customers of the utility"
+      },
+      {
+       "page": "1",
+       "section": "56-596.7(D)",
+       "quote": "Such incentives may also include open and transparent procedures for accelerated interconnection to service by participating high energy demand customers"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Found through the Code of Virginia's 2026 Updates list for Title 56 (law.lis.virginia.gov/vacodeupdates/title56/). The bill numbers behind chapters 377 and 378 and their approval dates were not read: the LIS bill pages (lis.virginia.gov) are built by script and the legacy LIS has no 2026 session; the Code page prints the year only, so status_date is '2026' and the effective date is not printed. The prompt's lead, S.B. 503 of 2026, was not confirmed. The 2026 uncodified acts list names chapter 591 (HB 323, waste heat from data centers, a work group) and other utility items, none setting large-load terms. Code of Virginia 56-585.1 as published carries no data center or large-load term and no 2025 or 2026 chapter in its history line, so no 2025 Virginia act is entered. The Virginia SCC host is paused and was not asked. status_date as the reading group wrote it: '2026'.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "none_found": [
+  {
+   "state": "NC",
+   "searched": "General Statutes Chapter 62 section list (ncleg.gov/Laws/GeneralStatuteSections/Chapter62, read 13 November 2026): no section on large loads or data centers (the nearest is 62-159.2, direct renewable procurement for large customers, not a 2025 or 2026 act); the ncleg.gov bill text search returned only its form"
+  },
+  {
+   "state": "CO",
+   "searched": "leg.colorado.gov bill search with 'data center' (the page ignored the term and listed 2026 bills signed June 4, 2026, none on data centers or large loads); not searched further"
+  },
+  {
+   "state": "KY",
+   "searched": "the 2026 regular session Senate bill index (apps.legislature.ky.gov/record/26rs/bills_S.html and /26RS/) answered HTTP 404; nothing read"
+  },
+  {
+   "state": "GA",
+   "searched": "not read: the General Assembly site (legis.ga.gov) is built by script and no web search was left to find S.B. 34's document address; the lead (S.B. 34 of 2025) is unconfirmed"
+  },
+  {
+   "state": "LA, AR, MS, TN, AZ, NM, WY",
+   "searched": "not searched: the session's web search budget was spent before this pass began, and the network failed (DNS) at about 21:42 UTC; no legislature page of these states was read"
+  }
+ ],
+ "refused": [
+  {
+   "state": "TX",
+   "url": "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB6",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"
+  },
+  {
+   "state": "TX",
+   "url": "https://lrl.texas.gov/legis/billSearch/BillDetails.cfm?legSession=89-0&billtypeDetail=SB&billNumberDetail=6",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai"
+  },
+  {
+   "state": "CA",
+   "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB57",
+   "reason": "robots.txt answered 403: treated as disallow all (S.B. 57 of 2025 not read; no other official host of California bill text known to the reader)"
+  },
+  {
+   "state": "OK",
+   "url": "https://www.oscn.net/applications/oscn/index.asp?ftdb=STOKST17&level=1",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"
+  },
+  {
+   "state": "OK",
+   "url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=SB480&Session=2500",
+   "reason": "robots.txt not readable (connection timed out); not read (the bill number was a guess, not a lead)"
+  },
+  {
+   "state": "WA",
+   "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=80.28",
+   "reason": "robots.txt not readable (getaddrinfo failed: the network's DNS failed at about 21:42 UTC); not read"
+  },
+  {
+   "state": "NV",
+   "url": "https://www.leg.state.nv.us/NRS/NRS-704.html",
+   "reason": "robots.txt not readable (getaddrinfo failed: DNS failure); not read"
+  },
+  {
+   "state": "MT",
+   "url": "https://leg.mt.gov/bills/mca/title_0690/chapter_0030/parts_index.html",
+   "reason": "robots.txt not readable (getaddrinfo failed: DNS failure); not read"
+  }
+ ]
+}
