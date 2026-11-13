@@ -22,7 +22,7 @@ Energy Research Warehouse (ERW). Chain 229 (`queue/done/229-day-13-november-desk
   - 47 are settled by a ruling: 45 "license needed" (flag public, sentence asks permission, owner's ruling of 12 October) and 2 kept internal;
   - 0 disagree;
   - 71 are not settled;
-  - 1 is internal by the ERW's own choice.
+  - 2 are internal by the ERW's own choice (this line said 1 until session 4148 corrected it).
   - ERW verdict: 476 public, 115 internal, 57 unsettled.
 - **This chain's counts** (`erw-w3-work/ground.py`):
   - **No verdict: 85 tables** with at least one publisher never read (19 of them flagged public). The document counts 71 because it lists a table only when the read publishers would allow it.
