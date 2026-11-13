@@ -46,5 +46,16 @@ class Fault16(unittest.TestCase):
         self.assertIn("(P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t))", own)
 
 
+class Fault19(unittest.TestCase):
+    def test_19_no_chart_on_the_page_carries_a_visible_note(self):
+        # explanations only as hover tips (the owner's tool rules): the states chart's sentence under it became a tip
+        for name in ("StateChart.tsx", "Forecast.tsx"):
+            with open(os.path.join(ROOT, "site", "app", "impact", name), encoding="utf-8") as f:
+                src = f.read()
+            self.assertNotRegex(src, r"\bnote=", name)
+        with open(os.path.join(ROOT, "site", "app", "impact", "StateChart.tsx"), encoding="utf-8") as f:
+            self.assertIn("tip={<Tip id=", f.read())
+
+
 if __name__ == "__main__":
     unittest.main()
