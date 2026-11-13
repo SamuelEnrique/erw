@@ -104,3 +104,14 @@ The steps written (5):
 
 The rule prints the filing window as "15 days" where the statute prints "15 business days"; each is kept as printed, in
 its own document's rows. A same-day step prints no number and has no duration.
+
+## Chain 227: the CAISO's draft final proposal (session 3888)
+
+The CAISO's Large Load Enhancements Draft Final Proposal of 24 September 2026, the step after the straw proposal of 11
+August (session 3762), on the same stakeholder center. It keeps the 50 MW definition (which it says may shift to align
+with NERC's), keeps the PTOs' study procedures within 60 to 90 days as its minimum standard, adds a monthly review by
+the CAISO of out-of-cycle transmission additions for large loads, and puts the Board of Governors' decision on 28 October
+2026. The steps written (4). The range and the monthly review are written with their words and no duration, as
+Pennsylvania's are; the straw proposal's row written in session 3762 carries the range's upper end, 90 days, as its
+duration, and is left as it was written. The draft tariff language of 30 October 2026 was read and states no other
+clock for a connection. The Board's decision and the FERC compliance filing were not read.
