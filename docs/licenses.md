@@ -13,11 +13,11 @@ Energy Research Warehouse (ERW), session 205, 12 October 2026. Written by `scrip
 
 - **648 tables.** The flag and the verdict agree on 544; a ruling settles 52 (session 324: the "license needed" rows of `license_status.csv`, and 2 tables kept internal by a ruling, and 1 public by the owner's ruling); disagree on 0; 26 are not settled (a publisher not read); 2 is internal by the ERW's own choice; 24 flagged internal wait for the owner's ruling, the sentence read allowing them (chain 229: never loosened by a session, the default "stays internal").
 - **The ERW's verdict (session 378): 479 public, 115 internal, 54 unsettled** (one word a table, in "Every table"; an unsettled table waits for a permission, a read, or a ruling).
-- **1901 publishers in the record: 1898 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 524 pages read, 1374 that could not be read, 3 not asked (paused).**
+- **1958 publishers in the record: 1955 requests (each sweep under its own ceiling: session 205, 40; sessions 307 and 308, one each; session 311, 60; session 388, 16 with its robots files; sessions 484, 493 and 496, one each), 573 pages read, 1382 that could not be read, 3 not asked (paused).**
 - **49 tables are flagged public where a publisher's sentence asks for permission or a license** (49 of them settled as "license needed"). By the publisher that decides it (a table can be under several): NYISO 34; ISO-NE 30; MISO 27; Bloomberg 7; Data Center Dynamics 7; Data Center Frontier 7; Energy-Storage.news 7; Financial Times 7; Hart Energy 7; Heatmap News 7; Latitude Media 7; Natural Gas Intelligence 7; OilPrice.com 7; POWER Magazine 7; Public Utility Commission of Texas 7; Reuters 7; Utility Dive 7; WSJ 7; Data Center Knowledge 6; ANS Nuclear Newswire 5; Amazon Web Services 5; Canary Media 5; Digital Realty 5; Electrek 5; Equinix 5; Google 5; JPT 5; LNG Prime 5; Meta 5; Microsoft 5; Oracle 5; Rigzone 5; Switch 5; Vantage Data Centers 5; pv magazine USA 5; Louisiana Department of Revenue 1; CivicPlus 1; Hydrogen Insight 1; T&D World 1.
 - **24 tables are flagged internal where the sentence read allows them:** `csp_latvia_electricity_monthly`, `econtrol_austria_electricity_monthly`, `ferc714_area_demand_2006`, `ferc714_area_demand_2007`, `ferc714_area_demand_2008`, `ferc714_area_demand_2009`, `ferc714_area_demand_2010`, `ferc714_area_demand_2011`, `ferc714_area_demand_2012`, `ferc714_area_demand_2013`, `ferc714_area_demand_2014`, `ferc714_area_demand_2015`, `ferc714_area_demand_2016`, `ferc714_area_demand_2017`, `ferc714_area_demand_2018`, `ferc714_area_demand_2019`, `ferc714_area_demand_2020`, `ferc714_area_demand_2021`, `ferc714_area_demand_2022`, `ferc714_area_demand_2023`, `ferc714_area_demand_2024`, `ferc714_area_demand_2025`, `ferc714_respondents`, `svk_sweden_production_hourly`.
 - **17 tables that may be public today would need permission if the ERW sells anything** (SPP 8; Canada Energy Regulator (CER) 2; Alberta Electric System Operator (AESO), Canada 1; California Energy Commission (CEC) 1; E-Control (Energie-Control Austria) 1; IMF 1; IMF PortWatch 1; Red Electrica (REE) 1; RRC 1).
-- **Confirmed against the publisher's current page (chain 229, session 4101 on): 81 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
+- **Confirmed against the publisher's current page (chain 229, session 4101 on): 109 publishers, 0 of them with a sentence no longer on the page.** 36 tables rest on a verdict read more than 30 days before the newest read in the record (2026-11-13) and not confirmed since.
 
 ## The reads
 
@@ -1926,6 +1926,63 @@ One request a label, no second try: a publisher's page asked again takes a new l
 | 1899 | Berkeley Lab, Tracking the Sun on OEDI, current terms (session 4157) | https://data.openei.org/submissions/3 | 12:16:57 | 200 | 78947 | read |
 | 1900 | Bundesnetzagentur (SMARD), current terms (session 4157) | https://www.smard.de/en/datennutzung | 12:16:57 | 200 | 23089 | read |
 | 1901 | Bureau of National Statistics of Kazakhstan, current terms (session 4157) | https://stat.gov.kz/en/description/ | 12:16:58 | 200 | 39312 | read |
+| 1902 | California Energy Commission (CEC), www.energy.ca.gov's robots file (session 4158) | https://www.energy.ca.gov/robots.txt | 12:18:47 | 200 | 2141 | read |
+| 1903 | Canada Energy Regulator (CER), Open Government Licence - Canada, open.canada.ca's robots file (session 4158) | https://open.canada.ca/robots.txt | 12:18:47 | 200 | 2567 | read |
+| 1904 | Census and Statistics Department, Hong Kong (C&SD), data.gov.hk's robots file (session 4158) | https://data.gov.hk/robots.txt | 12:18:48 | 404 | 2505 | not read: HTTP 404 |
+| 1905 | CenterPoint Energy Houston Electric, LLC, www.centerpointenergy.com's robots file (session 4158) | https://www.centerpointenergy.com/robots.txt | 12:18:48 | 200 | 123 | read |
+| 1906 | Central Bureau of Statistics Curacao (CBS), www.cbs.cw's robots file (session 4158) | https://www.cbs.cw/robots.txt | 12:18:49 | 200 | 212 | read |
+| 1907 | Central Electricity Authority (India), cea.nic.in's robots file (session 4158) | https://cea.nic.in/robots.txt | 12:18:50 | 200 | 23 | read |
+| 1908 | Central Statistical Office of Saint Lucia (CSO), stats.gov.lc's robots file (session 4158) | https://stats.gov.lc/robots.txt | 12:18:52 | 200 | 170 | read |
+| 1909 | Central Statistical Organization, Iraq (COSIT), cosit.gov.iq's robots file (session 4158) | https://cosit.gov.iq/robots.txt | 12:18:53 | 200 | 865 | read |
+| 1910 | Central Statistics Office, Ireland (CSO), www.cso.ie's robots file (session 4158) | https://www.cso.ie/robots.txt | 12:19:23 | 404 | 36182 | not read: HTTP 404 |
+| 1911 | Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica), apps.grupoice.com's robots file (session 4158) | https://apps.grupoice.com/robots.txt | 12:19:24 | 404 | 196 | not read: HTTP 404 |
+| 1912 | Cook Islands Statistics Office, stats.gov.ck's robots file (session 4158) | https://stats.gov.ck/robots.txt | 12:19:25 | 200 | 297 | read |
+| 1913 | Czech Statistical Office (CZSO), csu.gov.cz's robots file (session 4158) | https://csu.gov.cz/robots.txt | 12:19:26 | 200 | 680 | read |
+| 1914 | Department for the Economy (Northern Ireland), www.economy-ni.gov.uk's robots file (session 4158) | https://www.economy-ni.gov.uk/robots.txt | 12:19:27 | 200 | 2501 | read |
+| 1915 | Department of Statistics Malaysia (DOSM), data.gov.my's robots file (session 4158) | https://data.gov.my/robots.txt | 12:19:27 | 200 | 114 | read |
+| 1916 | EDF SA (EDF Systemes Energetiques Insulaires), opendata.edf.fr's robots file (session 4158) | https://opendata.edf.fr/robots.txt | 12:19:28 | 200 | 123 | read |
+| 1917 | Economics and Statistics Office, Cayman Islands (ESO), www.eso.ky's robots file (session 4158) | https://www.eso.ky/robots.txt | 12:19:28 | 200 | 24 | read |
+| 1918 | Egyptian Electricity Holding Company (EEHC), www.eehc.gov.eg's robots file (session 4158) | https://www.eehc.gov.eg/robots.txt | 12:19:28 | 404 | 1245 | not read: HTTP 404 |
+| 1919 | Electricity Authority (New Zealand), www.ea.govt.nz's robots file (session 4158) | https://www.ea.govt.nz/robots.txt | 12:19:29 | 200 | 54 | read |
+| 1920 | Electricity Market Operator of Georgia (ESCO), esco.ge's robots file (session 4158) | https://esco.ge/robots.txt | 12:19:30 | 404 | 1303 | not read: HTTP 404 |
+| 1921 | Electricity and Water Authority, Kingdom of Bahrain (EWA), www.ewa.bh's robots file (session 4158) | https://www.ewa.bh/robots.txt | 12:19:32 | 200 | 180 | read |
+| 1922 | Elexon Limited (BMRS), www.elexon.co.uk's robots file (session 4158) | https://www.elexon.co.uk/robots.txt | 12:19:32 | 200 | 588 | read |
+| 1923 | Ember, ember-energy.org's robots file (session 4158) | https://ember-energy.org/robots.txt | 12:19:32 | 200 | 282 | read |
+| 1924 | Empresa de Pesquisa Energetica (EPE), www.epe.gov.br's robots file (session 4158) | https://www.epe.gov.br/robots.txt | 12:19:34 | 200 | 535 | read |
+| 1925 | Enercal, www.enercal.nc's robots file (session 4158) | https://www.enercal.nc/robots.txt | 12:19:34 | 200 | 14 | read |
+| 1926 | Energinet (Energi Data Service), www.energidataservice.dk's robots file (session 4158) | https://www.energidataservice.dk/robots.txt | 12:19:39 | 404 | 0 | not read: HTTP 404 |
+| 1927 | Energy Regulation Board, Zambia (ERB), www.erb.org.zm's robots file (session 4158) | https://www.erb.org.zm/robots.txt | 12:19:40 | 200 | 115 | read |
+| 1928 | Energy and Petroleum Regulatory Authority, Kenya (EPRA), www.epra.go.ke's robots file (session 4158) | https://www.epra.go.ke/robots.txt | 12:19:42 | 200 | 2027 | read |
+| 1929 | Eswatini Electricity Company (EEC), www.eec.co.sz's robots file (session 4158) | https://www.eec.co.sz/robots.txt | 12:19:43 | 404 | 24656 | not read: HTTP 404 |
+| 1930 | California Energy Commission (CEC), current terms (session 4158) | https://www.energy.ca.gov/conditions-of-use | 12:20:03 | 200 | 53404 | read |
+| 1931 | California Public Advocates Office (.gov), current terms (session 4158) | https://www.cpuc.ca.gov/about-cpuc/conditions-of-use | 12:20:03 | 200 | 68897 | read |
+| 1932 | Canada Energy Regulator (CER), Open Government Licence - Canada, current terms (session 4158) | https://open.canada.ca/data/api/action/package_search?q=%22throughput%20and%20capacity%22%20pipeline&rows=50 | 12:20:03 | 200 | 48416 | read |
+| 1933 | Census and Statistics Department, Hong Kong (C&SD), current terms (session 4158) | https://data.gov.hk/en/terms-and-conditions | 12:20:04 | 200 | 39948 | read |
+| 1934 | CenterPoint Energy Houston Electric, LLC, current terms (session 4158) | https://www.centerpointenergy.com/en-us/about-us/legal/terms-of-use | 12:20:04 | 200 | 365023 | read |
+| 1935 | Central Bureau of Statistics Curacao (CBS), current terms (session 4158) | https://www.cbs.cw/disclaimer | 12:20:05 | 200 | 84863 | read |
+| 1936 | Central Electricity Authority (India), current terms (session 4158) | https://cea.nic.in/api/websitepolicy/pdf/view/en/2 | 12:20:05 | 200 | 118988 | read |
+| 1937 | Central Statistical Office of Saint Lucia (CSO), current terms (session 4158) | https://stats.gov.lc/terms-and-conditions/open-licence-agreement/ | 12:20:07 | 200 | 151278 | read |
+| 1938 | Central Statistical Organization, Iraq (COSIT), current terms (session 4158) | https://cosit.gov.iq/ar/ | 12:20:07 | no request |  | not read: ReadTimeout |
+| 1939 | Central Statistics Office, Ireland (CSO), current terms (session 4158) | https://www.cso.ie/en/aboutus/whoweare/copyrightpolicy/ | 12:21:08 | 200 | 33660 | read |
+| 1940 | Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica), current terms (session 4158) | https://apps.grupoice.com/CenceWeb/data/servicios/json/ParametrosServicioWeb?nombreConsulta=EnergiaMensualOficial | 12:21:09 | 200 | 1098 | read |
+| 1941 | Cook Islands Statistics Office, current terms (session 4158) | https://stats.gov.ck/ | 12:21:14 | 200 | 418983 | read |
+| 1942 | Czech Statistical Office (CZSO), current terms (session 4158) | https://csu.gov.cz/conditions_for_use_and_further_dissemination | 12:21:16 | 200 | 62443 | read |
+| 1943 | Department for the Economy (Northern Ireland), current terms (session 4158) | https://www.economy-ni.gov.uk/articles/crown-copyright-economy | 12:21:17 | 200 | 34218 | read |
+| 1944 | Department of Statistics Malaysia (DOSM), current terms (session 4158) | https://data.gov.my/data-catalogue/electricity_supply | 12:21:17 | 200 | 91408 | read |
+| 1945 | EDF SA (EDF Systemes Energetiques Insulaires), current terms (session 4158) | https://opendata.edf.fr/data-fair/api/v1/datasets/production-annuelle-delectricite-par-filiere | 12:21:18 | 200 | 10828 | read |
+| 1946 | Economics and Statistics Office, Cayman Islands (ESO), current terms (session 4158) | https://www.eso.ky/ | 12:21:18 | 200 | 63395 | read |
+| 1947 | Egyptian Electricity Holding Company (EEHC), current terms (session 4158) | https://www.eehc.gov.eg/CMSEehc/en/company-info/annual-report-2022-2023/ | 12:21:19 | 200 | 38257 | read |
+| 1948 | Electricity Authority (New Zealand), current terms (session 4158) | https://www.ea.govt.nz/copyright-disclaimer-transparency/ | 12:21:19 | 200 | 202352 | read |
+| 1949 | Electricity Market Operator of Georgia (ESCO), current terms (session 4158) | https://esco.ge/en | 12:21:19 | 200 | 83506 | read |
+| 1950 | Electricity and Water Authority, Kingdom of Bahrain (EWA), current terms (session 4158) | https://www.ewa.bh/en/terms-of-use | 12:21:21 | 200 | 73033 | read |
+| 1951 | Elexon Limited (BMRS), current terms (session 4158) | https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-bmrs-data/ | 12:21:22 | 200 | 191520 | read |
+| 1952 | Ember, current terms (session 4158) | https://ember-energy.org/data/yearly-electricity-data/ | 12:21:23 | 200 | 96359 | read |
+| 1953 | Empresa de Pesquisa Energetica (EPE), current terms (session 4158) | https://www.epe.gov.br/pt/publicacoes-dados-abertos/dados-abertos/dados-do-anuario-estatistico-de-energia-eletrica | 12:21:24 | 200 | 82379 | read |
+| 1954 | Enercal, current terms (session 4158) | https://www.enercal.nc/mentions-legales/ | 12:21:25 | 200 | 101494 | read |
+| 1955 | Energinet (Energi Data Service), current terms (session 4158) | https://www.energidataservice.dk/terms-and-conditions | 12:21:27 | 200 | 22385 | read |
+| 1956 | Energy Regulation Board, Zambia (ERB), current terms (session 4158) | https://www.erb.org.zm/ | 12:21:28 | 200 | 104560 | read |
+| 1957 | Energy and Petroleum Regulatory Authority, Kenya (EPRA), current terms (session 4158) | https://www.epra.go.ke/sites/default/files/2026-09/Energy%20%26%20Petroleum%20Statistics%20Report%202026.pdf | 12:21:30 | 200 | 4410843 | read |
+| 1958 | Eswatini Electricity Company (EEC), current terms (session 4158) | https://www.eec.co.sz/terms/ | 12:21:33 | 200 | 29176 | read |
 
 ## The publishers: the sentence and the verdict
 
@@ -2237,20 +2294,48 @@ A verdict read again on the publisher's page as it stands, by `scripts/license_c
 | Bureau of Ocean Energy Management (BOEM) | #86 | #1847 | 2026-11-13 | on the page | may be public | may be public |  |
 | CAISO | #3 | #1669 | 2026-11-13 | on the page | may be public | may be public |  |
 | CARB | #10 | #1742 | 2026-11-13 | on the page | may be public | may be public |  |
+| California Energy Commission (CEC) | #264 | #1930 | 2026-11-13 | on the page | may be public | may be public |  |
+| California Public Advocates Office (.gov) | #50 | #1931 | 2026-11-13 | on the page | may be public | may be public |  |
 | California Public Utilities Commission | #50 | #1680 | 2026-11-13 | on the page | may be public | may be public |  |
 | California State Portal | CA.gov | #51 | #1852 | 2026-11-13 | on the page | may be public | may be public |  |
 | Canada Energy Regulator (CER) | #96 | #1853 | 2026-11-13 | on the page | may be public | may be public |  |
+| Canada Energy Regulator (CER), Open Government Licence - Canada | #321 | #1932 | 2026-11-13 | on the page | may be public | may be public |  |
 | Canary Media | #52 | #1836 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Census Bureau | #17 | #1679 | 2026-11-13 | on the page | may be public | may be public |  |
+| Census and Statistics Department, Hong Kong (C&SD) | #564 | #1933 | 2026-11-13 | on the page | may be public | may be public |  |
+| CenterPoint Energy Houston Electric, LLC | #53 | #1934 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Central Bureau of Statistics Curacao (CBS) | #1162 | #1935 | 2026-11-13 | on the page | may be public | may be public |  |
+| Central Electricity Authority (India) | #546 | #1936 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Central Statistical Office of Saint Lucia (CSO) | #852 | #1937 | 2026-11-13 | on the page | may be public | may be public |  |
+| Central Statistics Office, Ireland (CSO) | #528 | #1939 | 2026-11-13 | on the page | may be public | may be public |  |
+| Centro Nacional de Control de Energia (CENCE, ICE, Costa Rica) | #678 | #1940 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | CivicPlus | #81 | #1854 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Cook Islands Statistics Office | #1175 | #1941 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Czech Statistical Office (CZSO) | #1617 | #1942 | 2026-11-13 | on the page | may be public | may be public |  |
 | DOE newsroom | #54 | #1676 | 2026-11-13 | on the page | may be public | may be public |  |
 | Data Center Frontier | #22 | #1747 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Data Center Knowledge | #23 | #1753 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Department for the Economy (Northern Ireland) | #1013 | #1943 | 2026-11-13 | on the page | may be public | may be public |  |
+| Department of Statistics Malaysia (DOSM) | #551 | #1944 | 2026-11-13 | on the page | may be public | may be public |  |
 | Digital Realty | #33 | #1755 | 2026-11-13 | no sentence quoted | needs written permission | needs written permission |  |
+| EDF SA (EDF Systemes Energetiques Insulaires) | #1333 | #1945 | 2026-11-13 | on the page | may be public | may be public |  |
 | EIA | #1 | #1667 | 2026-11-13 | on the page | may be public | may be public |  |
 | EPA | #55 | #1678 | 2026-11-13 | on the page | may be public | may be public |  |
 | ERCOT | #2 | #1668 | 2026-11-13 | on the page | may be public | may be public |  |
+| Economics and Statistics Office, Cayman Islands (ESO) | #1283 | #1946 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Egyptian Electricity Holding Company (EEHC) | #789 | #1947 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Electricity Authority (New Zealand) | #450 | #1948 | 2026-11-13 | on the page | may be public | may be public |  |
+| Electricity Market Operator of Georgia (ESCO) | #782 | #1949 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Electricity and Water Authority, Kingdom of Bahrain (EWA) | #816 | #1950 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Elexon Limited (BMRS) | #306 | #1951 | 2026-11-13 | on the page | may be public | may be public |  |
+| Ember | #133 | #1952 | 2026-11-13 | on the page | may be public | may be public |  |
+| Empresa de Pesquisa Energetica (EPE) | #809 | #1953 | 2026-11-13 | on the page | may be public | may be public |  |
+| Enercal | #1211 | #1954 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Energinet (Energi Data Service) | #356 | #1955 | 2026-11-13 | on the page | may be public | may be public |  |
+| Energy Regulation Board, Zambia (ERB) | #765 | #1956 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
+| Energy and Petroleum Regulatory Authority, Kenya (EPRA) | #576 | #1957 | 2026-11-13 | on the page | may be public | may be public |  |
 | Energy-Charts.info (Fraunhofer ISE) | #442 | #1841 | 2026-11-13 | on the page | may be public | may be public |  |
+| Eswatini Electricity Company (EEC) | #1053 | #1958 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
 | Eurostat (Statistical Office of the European Union) | #280 | #1673 | 2026-11-13 | on the page | may be public | may be public |  |
 | FRB | #41 | #1743 | 2026-11-13 | on the page | may be public | may be public |  |
 | Google | #35 | #1756 | 2026-11-13 | on the page | needs written permission | needs written permission |  |
