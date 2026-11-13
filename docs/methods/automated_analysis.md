@@ -1,6 +1,6 @@
 # Automated Analysis: method
 
-Platform tool 26, built in session 23. A library of chart templates runs on the Energy Research Warehouse (ERW) every week. A fixed rule, not a model, scores each result against its own history and picks the chart of the week, which the Energy Roundup and its email carry. The code is in `warehouse/analysis/`; its output is in `docs/analysis/` and on the site's `/analysis`.
+Platform tool 26, built in session 23. A library of chart templates runs on the Energy Research Warehouse (ERW) every week. A fixed rule, not a model, scores each result against its own history and picks the chart of the week, which the Energy Roundup and its email carry. The code is in `warehouse/analysis/`; its output is in `docs/analysis/` and on the site's `/research` (Research since session 238; `/analysis` redirects there).
 
 ## Templates
 
@@ -93,6 +93,19 @@ The ten templates read 8 of the public tables. A measure on the watch list needs
 
 On the runner, templates whose inputs are not restored skip with their reason. The ERCOT yearly history tables are not on the runner, so there `peak_premium_block` and `negative_price_hours` use the live tables only.
 
+## Final form: what runs by itself, and what waits for a person (session 5004)
+
+Roadmap item 2 asks for "Automated Analysis in its final form" ("fully automatic, on its schedule", the chain prompt of 13 November 2026). What runs with no person, read from the workflows and the data machine's registrations on 13 November 2026:
+
+| Part of the page | What makes it | Clock | Last made, as held on 13 November 2026 |
+|---|---|---|---|
+| This week's chart and the week's results by the rule | `warehouse/analysis/run.py` in `.github/workflows/roundup.yml` | Sundays 23:00 UTC (started by pg_cron, the workflow's own schedule the fallback) | `docs/analysis/2026-W45/` |
+| Today's chart (the Digest's chart of the day) | `warehouse/analysis/findings/daily_chart.py`, from the scanner's rows | the daily run | `docs/digest/charts/2026-11-12.json` |
+| The scanner's findings and the weekly hunt | `warehouse/analysis/findings/`, the data machine's `register_weekly_hunt.ps1` (Saturdays) and `register_findings_worker.ps1` (at log-on and start-up) | weekly and on the data machine's start | the findings library's cards |
+| The archive | the two above, listed by the page at build | every build | 13 daily, 6 weekly charts |
+
+What waits for a person, by ruling, and stays so: a deeper finding is published only after Samuel approves it at `/internal/findings`, having run its Stata first, and nothing is posted to LinkedIn (the owner's rulings of 12 October 2026, night). A reader's own request ("Ask for an analysis", "Or choose a finding and its inputs") is run by the data machine's worker, with no person. No step of the page is made by hand. Whether this is the final form is the owner's word.
+
 ## Replication (session 3701)
 
 Roadmap item 2 asks for a replication a reader can run. `replication/analysis/` is Research's, in the form of the three decision tools' packages (`replication/battery/`, `generator/`, `datacenter/`). It reads only what `/research` offers for download and this folder's own files:
@@ -182,3 +195,17 @@ The rule's own choices, each made by the session named and kept since (the secti
 7. A chart that holds its headline rings it and labels it; a chart that does not shows no mark. (session 533)
 8. An internal template never leaves the warehouse's machines. (session 23)
 9. A callout whose words name a grid held under its publisher's terms prints "license needed"; the card stays. (session 315; ruling 6a of the Research pack)
+
+## Sign-off
+
+Session 5004 (chain 233, 13 November 2026) added this block, which the note lacked; the three economics notes and the Grid tool's have one. Signing this note accepts, as the tool's rules:
+- the templates and the engine as described above;
+- the rule since session 119 for the week's most notable real change;
+- the decisions of the section "Decisions", at their defaults;
+- the final form as the section "Final form" lists it, with the findings published only after your approval.
+
+It leaves open what `automated_analysis_findings.md` leaves open in its own sign-off block. `automated_analysis_scanner.md` (the daily scanner) has no sign-off block; this signature covers it as the section "Final form" names it.
+
+- Signed off by:
+- Date:
+- Items left open, ruled, and how:
