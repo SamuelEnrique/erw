@@ -17,3 +17,9 @@ Energy Research Warehouse (ERW). Chain 249 (`queue/done/249-day-16-november-desk
 ## For Samuel's ruling
 
 - As chain 229's note lists them.
+
+## After the session
+
+- **13:02 UTC:** the background wait for session 4183 (a poll of `origin/main` for a landing or a request change, until 13:22) was stopped by Claude Code because the machine was critically low on memory. It is not started again unasked.
+- **A foreground check at 13:02:** no landing of row 6, no change to the request files.
+- **Session 4183** takes up the chain when this window is resumed. The heavy test runs (479 files, about 7 minutes) are left out until memory allows.
