@@ -203,5 +203,29 @@ class Row156NoSumWithoutAUnit(unittest.TestCase):
         self.assertEqual(brief.detail(item(price="50%", parties="X"), "A deal"), "50%; Parties: X. ")
 
 
+class Row157TheSubjectEndsOnAWholePhrase(unittest.TestCase):
+    """Row 157: "ERW Daily | Centrus and Oklo finalise fuel agreements for up to five Aurora" (13 November 2026), a cut
+    inside "for up to five Aurora powerhouses"."""
+
+    def test_the_centrus_subject(self):
+        head = "Centrus and Oklo finalise fuel agreements for up to five Aurora powerhouses at 1,200 MW Ohio campus"
+        self.assertEqual(brief.subject_clause(head), "Centrus and Oklo finalise fuel agreements")
+
+    def test_a_clause_that_fits_or_a_cut_before_a_phrase_is_unchanged(self):
+        self.assertEqual(brief.subject_clause("SpaceX plans USD 74 billion in data center projects in Arizona and Texas"),
+                         "SpaceX plans data center projects in Arizona and Texas")
+        import roundup
+        self.assertEqual(roundup.phrase_back("Utility files rate case", "Utility files rate case in Ohio"), "Utility files rate case")
+        self.assertEqual(roundup.phrase_back("Utility files rate case for its Ohio", "Utility files rate case for its Ohio grid"),
+                         "Utility files rate case")
+        # too little left: the cut stays
+        self.assertEqual(roundup.phrase_back("Plant in Ohio adds big", "Plant in Ohio adds big turbines"), "Plant in Ohio adds big")
+
+    def test_a_quantity_is_no_phrase(self):
+        import roundup
+        self.assertEqual(roundup.phrase_back("Utility firm orders turbines for up to five",
+                                             "Utility firm orders turbines for up to five plants"), "Utility firm orders turbines")
+
+
 if __name__ == "__main__":
     unittest.main()

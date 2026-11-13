@@ -1188,6 +1188,31 @@ FIGURE_IN_HEAD = re.compile(r"(?:\b(?:a|an)\s+)?(?:USD|CAD|AUD|EUR|GBP)\s\d[\d,.
                             r"(?:\b(?:a|an)\s+)?\d[\d,.]*[\s-]?(?:MW|GW|kW|MWh|GWh|TWh|kV|bcf/d|bcf|mtpa|percent|%)\b,?\s*", re.I)   # 3352: "3.6-GW"
 
 
+# Session 3460 (faults file row 157): a cut inside a phrase leaves it without its noun ("ERW Daily | Centrus and Oklo
+# finalise fuel agreements for up to five Aurora", 13 November 2026, of "... for up to five Aurora powerhouses at Ohio
+# campus"). Such a cut goes back to before the phrase's preposition; a quantity's "up to", "more than", "at least" is no
+# phrase of its own.
+PHRASE_START = re.compile(r"\s(?:for|at|in|with|to|of|on|from|by|after|over|into|near|across|amid|under|as|via)\b", re.I)
+QUANTITY = re.compile(r"\b(?:up to|more than|less than|fewer than|as many as|as much as|at least|at most)\b", re.I)
+PHRASE_MIN_WORDS = 4
+
+
+def phrase_back(t, full):
+    """t, a cut of full at a word: when the first word cut off is a lower-case word inside a phrase (not a preposition,
+    which would begin the next phrase), t back to before its last preposition, if PHRASE_MIN_WORDS words or more are left;
+    else t as it is. A cut before a name is the caller's (subject_clause)."""
+    rest = full[len(t):].split()
+    first = rest[0].strip(",;:") if rest else ""
+    if not first or not first[:1].islower() or PHRASE_START.fullmatch(" " + first):
+        return t
+    masked = QUANTITY.sub(lambda m: "#" * len(m.group(0)), t)
+    starts = [m.start() for m in PHRASE_START.finditer(masked)]
+    if not starts:
+        return t
+    back = t[:starts[-1]].rstrip(" ,;:")
+    return back if len(back.split()) >= PHRASE_MIN_WORDS else t
+
+
 def head_clause(head, n):
     """Session 1882 (row 62): a headline as the subject's second clause: its figures taken out (a sum, a capacity; the
     article before the first figure kept as "a"), then cut at a word to n characters with no ellipsis, a trailing article,
@@ -1202,11 +1227,13 @@ def head_clause(head, n):
     if had:
         t = brief.fix_article(t)
     if len(t) > n:
+        full = t
         t = t[:n + 1].rsplit(" ", 1)[0].rstrip(",;:")
         # session 3334 (faults file row 116): a cut that leaves a clause's first word or two after a comma ("EQT to Buy
         # Range Resources, Creating", W44) goes back to the comma
         if ", " in t and len(t.rsplit(", ", 1)[1].split()) <= 2:
             t = t.rsplit(", ", 1)[0]
+        t = phrase_back(t, full)
     t = CLAUSE_TAIL.sub("", t).strip(" ,;:")
     return t if len(re.findall(r"[A-Za-z]+", t)) >= 2 else ""
 
