@@ -33,6 +33,25 @@ Never recorded, in a table or in a log: the IP address, the user agent string, t
 
 So what is kept of an earlier day is counts. The codes are gone, and the salt that made them is gone. Because the salt was random and not derived, it cannot be computed again from anything the database or the site keeps. Two days' codes for the same browser share nothing, and "the same browser on two days" is counted as two browser-days: the site cannot tell.
 
+## Counting with no code at all
+
+The daily code is deleted when its day is over, yet for that day it stands for one browser: an identifier, for a day. The server can be told to make none. With `USAGE_VISITORS=off` in the server's environment (session 5154, row 23 of `docs/reviews/security-faults-2026-11-13.md`):
+
+- Step 2 above is not taken. The address and the user agent are not read for the count.
+- In the code's place the server sends `HMAC-SHA256(key = ASK_VISITOR_SALT, "erw-usage-nobody\n" + path)`: one value a page, the same for every visitor, so it says nothing of who asked.
+- The database counts the events exactly as before. Its `visitors` numbers then count pages, not people: 1 for a page's line, and for a day the number of pages that were opened. `/internal/usage` shows them as it shows any number; read them as that.
+- The limit of 600 counts an hour from one address still holds (`site/lib/guard.ts`, `limited`). It keeps its own keyed hash of the address for the window of the limit, as every limit of the site does, in a table apart from the counts.
+
+Unset, or any other word, the daily code is made as described above. That is the state since session 177 and the default.
+
+## The pages that carry the no-count mark
+
+The owner's ruling of 12 October 2026 is "no usage count on tool pages". Seven pages of the menu carry the mark on the whole page (`<Brand noUsage>`, which writes `data-no-usage`): `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact` and `/play/ev`. On them the browser sends the page view and nothing after it: no "input changed", no "download".
+
+With `USAGE_TOOL_PAGES=off` in the server's environment (session 5155, row 24 of `docs/reviews/security-faults-2026-11-13.md`) the server records nothing for those seven pages, the page view included. The browser still sends the page view (it cannot read the server's setting); the server answers it as it answers every count and keeps nothing. Unset, the page view of a marked page is recorded, as since session 208. The server's list of the marked pages is `NO_COUNT` in `site/lib/usagepath.ts`, held to the page files by `tests/test_session5155.py`.
+
+Every other page of the menu (29 on 13 November 2026) is counted in full: the page view, a changed control, a download.
+
 ## What this cannot promise
 
 - **Backups.** Supabase keeps its own backups of the database for their retention period. A backup holds whatever the tables held when it ran, which can include a day's codes and that day's salt. Reversing a code would also need the server's secret and a candidate address and user agent to test.

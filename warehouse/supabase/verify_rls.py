@@ -24,6 +24,8 @@ What is checked, and what a mismatch is:
   5. With --catalog: every table in schema public has row-level security enabled and is in EXPECTED (a table added
      later must be added to the list here, as public or blocked, before this passes again), and a blocked table
      has no select policy for anon.
+  6. With --catalog (session 5156): every function of schema public the anon key may execute is in ANON_FUNCTIONS,
+     with the credential it asks for (the default privileges give a new function to the anon key).
 
 Exit 0 when everything matches, 1 on any mismatch, 2 when the key or the address is not set. Never prints a key.
 """
@@ -91,6 +93,25 @@ TOKEN_FUNCTIONS = (("internal_costs", {}), ("internal_ask_spend", {}), ("interna
 PROOF_TABLE = "site_api_calls"
 WRONG_TOKEN = "verify-rls-wrong-token-0000000000000000"
 
+# Session 5156 (docs/reviews/security-faults-2026-11-13.md, row 7; the review's M6). The default privileges of schema
+# public give every NEW function to the anon key, and no trigger covers a function as ensure_rls covers a table. So the
+# functions the anon key may execute are listed here, each with the credential it asks for in its own arguments, and
+# --catalog fails on one that is not listed: revoke its execute right, or list it once it is known to ask for one.
+# A function whose first argument is p_token checks it against the internal token (or the thesis tool's) before
+# anything else; the three that do not take p_token first are named with what they ask instead.
+ANON_FUNCTIONS = {
+    "analysis_request": "p_token", "analysis_request_card": "p_token", "analysis_requests_list": "p_token",
+    "internal_ask_spend": "p_token", "internal_costs": "p_token", "internal_eqr_contracts": "p_token",
+    "internal_eqr_summary": "p_token", "internal_usage": "p_token",
+    "scanner_draft_file": "p_token", "scanner_draft_set_state": "p_token", "scanner_drafts_list": "p_token",
+    "site_rate_admit": "p_token", "site_usage_record": "p_token",
+    "thesis_get": "p_token", "thesis_list": "p_token", "thesis_provider_accept": "p_token",
+    "thesis_provider_results": "p_token", "thesis_submit": "p_token", "thesis_submit_forced": "p_token",
+    "subscribe_confirm": "the address's own signed token (migration 007)",
+    "subscribe_unsubscribe": "the address's own signed token (migration 007)",
+    "thesis_pitchbook_accept": "the run's one-time key",
+    "rls_auto_enable": "an event trigger's function (Supabase's ensure_rls): Postgres refuses a direct call",
+}
 
 def env(name):
     v = os.environ.get(name)
@@ -266,6 +287,35 @@ def check_catalog(db_url, before_028=False, out=print):
     return bad
 
 
+def check_functions(db_url, out=print):
+    """Session 5156: the functions of schema public the anon key may execute, against ANON_FUNCTIONS. Read-only."""
+    import psycopg
+    bad = 0
+    with psycopg.connect(db_url, autocommit=False) as conn:
+        conn.execute("set transaction read only")
+        rows = conn.execute(
+            "select p.proname, pg_get_function_identity_arguments(p.oid) "
+            "from pg_proc p join pg_namespace n on n.oid = p.pronamespace "
+            "where n.nspname = 'public' and p.prokind = 'f' and has_function_privilege('anon', p.oid, 'execute') "
+            "and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e') order by 1").fetchall()
+        conn.rollback()
+    out("6. the catalog: every function of schema public the anon key may execute")
+    found = set()
+    for name, args in rows:
+        found.add(name)
+        want = ANON_FUNCTIONS.get(name)
+        problem = ""
+        if want is None:
+            problem = "not in ANON_FUNCTIONS (revoke execute from anon, or list it with the credential it asks for)"
+        elif want == "p_token" and not (args or "").startswith("p_token text"):
+            problem = "listed as asking p_token, but p_token is not its first argument"
+        bad += 1 if problem else 0
+        out(f"   {name:26s} {(want or '?')[:60]}{'  MISMATCH: ' + problem if problem else ''}")
+    for name in sorted(set(ANON_FUNCTIONS) - found):
+        out(f"   {name:26s} listed, and the anon key may not execute it (or it is absent): nothing open, the list can lose it")
+    return bad
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Verify what the anon key can read (read-only)")
     ap.add_argument("--catalog", action="store_true", help="also read the catalog over SUPABASE_DB_URL")
@@ -283,6 +333,7 @@ def main(argv=None):
             print("--catalog needs SUPABASE_DB_URL: the catalog was not read", file=sys.stderr)
             return 2
         bad += check_catalog(db_url, args.before_028)
+        bad += check_functions(db_url)
     print(f"{'PASS' if bad == 0 else 'FAIL'}: {bad} mismatch(es)")
     return 0 if bad == 0 else 1
 
