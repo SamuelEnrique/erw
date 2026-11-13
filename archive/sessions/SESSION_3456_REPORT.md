@@ -29,3 +29,12 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Seen, not a fault of this code:** Henry Hub's and WTI's closes of 11 November (Veterans Day) equal 10 November's to the cent, so the issue prints them "Unchanged"; EIA held no close for either on Veterans Day 2025. The connector fills nothing (no `ffill` in `eia_fuels.py`), so the rows are EIA's as published; for the data machine to check against EIA's raw file.
 - **Seen, kept:** the watch fact gives its unit once ("412,568,374 MWh ..., up 18,149,509 from 394,418,865 a year earlier"), the form `warehouse/analysis/run.finding` has used since session 119, pinned by tests and printed in eight Automated Analysis pages.
 - **Row 11** of `docs/state/landing_request_oldlaptop.md`: `wip/3457-periodicals` at `f9da2109f`, requested (cut from main at `42bb28b1a`).
+
+## Session 3458: the real-time line, row 152
+
+- **Row 152 (new, fixed):** the stored issue's real-time line read "interval starting 2026-11-12 19:00 local (2026-11-13 01:00 UTC), PT15M `spp_rtm`, ERCOT's real-time settlement point price [4]". That is row 71's fault, fixed in the Roundup by session 1895 and left in the Digest. "local" names no zone, "PT15M" is an ISO 8601 code, and `spp_rtm` reads as SPP the grid operator. Now: "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00 UTC) [4], ERCOT's real-time settlement point price.", with the variable on the Tables line.
+- `rt_when`, `interval_words` and `ZONE_WORDS` move from `roundup.py` to `brief.py`; `roundup.py` keeps its names for them. `site/lib/digest.ts` reads the variable from the Tables line and both forms of the line, so the stored issues keep their keys. `tests/test_periodicals.py`'s `RT_LINE` reads the new form.
+- Tests: `Row152TheRealTimeLineInWords` (4) and a node test (`test-digest-numbers.mjs`, 17 passed). The 62 files naming `brief`, `roundup` or `digest.ts`: 1,196 passed, 20 skipped.
+- The stack's dry run of 13 November: 22 figures ok, 0 failed (`digest-figures.mjs --dir`, then `check_digest.py --figures`), the new line's `digest_rt|iso_rtm_hub_prices|HB_SOUTH|spp_rtm|2026-11-13T01:00:00Z` among them.
+- **No build yet:** MemFree 2.45 GB, under the 2.5 GB this machine's rule asks. Row 11 says so.
+- **Row 11:** moved to `1590a900d`.
