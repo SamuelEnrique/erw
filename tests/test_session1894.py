@@ -129,7 +129,8 @@ class Row63TheRanking(unittest.TestCase):
         with open(roundup.__file__, encoding="utf-8") as f:
             src = f.read()
         self.assertIn("deal_ix = deal_index(read_table(\"energy_deals\"))", src)
-        self.assertIn("brief.one_per_topic(first_reports_first(clusters, steps), WHAT_MATTERED_N, log, \"what mattered\")", src)
+        self.assertIn("clusters = first_reports_first(clusters, steps)", src)
+        self.assertIn("brief.one_per_topic(clusters, WHAT_MATTERED_N, log, \"what mattered\")", src)   # test_session802's pin
         self.assertIn("evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id'])", src)   # session 1895 adds the plant
 
 

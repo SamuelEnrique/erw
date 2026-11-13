@@ -1464,7 +1464,8 @@ def main(argv=None):
             if d is not None:
                 steps[r["cluster_id"]] = d
         log(f"  steps in deals held before the week: {len(steps)}")
-        mattered, m_folded = brief.one_per_topic(first_reports_first(clusters, steps), WHAT_MATTERED_N, log, "what mattered")
+        clusters = first_reports_first(clusters, steps)
+        mattered, m_folded = brief.one_per_topic(clusters, WHAT_MATTERED_N, log, "what mattered")
         taken = set(mattered["cluster_id"]) | m_folded
         wk_c = (brief.one_per_event(brief.not_shown_before(brief.build_clusters(wk_s), prev, log, "the previous Roundup"), log)
                 if len(wk_s) else clusters.head(0))
