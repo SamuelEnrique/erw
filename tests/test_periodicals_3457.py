@@ -463,5 +463,29 @@ class Row167TheFiguresLineOpensWithACapital(unittest.TestCase):
         self.assertEqual(brief.detail(item(mw="580", parties="Sunrun; Tesla"), "VPP dispatch"), "580 MW; Parties: Sunrun; Tesla. ")
 
 
+class Row168AnAgencysNameIsItsInitials(unittest.TestCase):
+    """Row 168: "DOE Announces $967 Million in Grid Resilience Funding" (Department of Energy) and "Energy Department
+    Announces New Investments to Strengthen America's Power Grid and Lower Electricity Costs" (US Energy Department), one
+    announcement, two items of the stack's ten of 21 October."""
+
+    A = {"parties": "Department of Energy", "titles": ["DOE Announces $967 Million in Grid Resilience Funding"], "sector": "transmission",
+         "region": "USA"}
+    B = {"parties": "US Energy Department", "sector": "policy", "region": "global",
+         "titles": ["Energy Department Announces New Investments to Strengthen America's Power Grid and Lower Electricity Costs"]}
+
+    def test_the_long_names_are_the_initials(self):
+        self.assertEqual(brief.party_words(self.A), {"doe"})
+        self.assertIn("doe", brief.party_words(self.B))
+        self.assertIn("doe", brief.party_words({"parties": "U.S. Department of Energy"}))
+        self.assertIn("ferc", brief.party_words({"parties": "Federal Energy Regulatory Commission"}))
+        self.assertEqual(brief.party_words({"parties": "Energy Transfer"}), {"transfer"})
+
+    def test_one_announcement_is_one_topic(self):
+        self.assertTrue(brief.same_topic(self.A, self.B))
+        other = {"parties": "DOE", "titles": ["Energy Department Designates Helium as Critical Material"], "sector": "policy",
+                 "region": "United States"}
+        self.assertFalse(brief.same_topic(self.A, other))
+
+
 if __name__ == "__main__":
     unittest.main()

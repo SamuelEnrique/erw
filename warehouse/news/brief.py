@@ -375,7 +375,23 @@ def party_words(r):
     for p in str(r.get("parties") or "").split(";"):
         out |= {w.lower() for w in re.findall(r"\b(?:[A-Z][A-Za-z]+|[A-Z]{2,})\b", p)}
         out |= set(re.findall(r"[a-z]{4,}", p.lower()))
+        out |= {ini for pat, ini in AGENCY_INITIALS if pat.search(p)}   # session 3465, row 168
     return out - GENERIC_PARTY
+
+
+# Session 3465 (faults file row 168): an agency's long name is its initials, so "Department of Energy", "US Energy
+# Department" and "DOE" name one party; every word of the long names is generic (GENERIC_PARTY), so they named none, and
+# one DOE grid announcement printed twice in the stack's ten of 21 October ("DOE Announces $967 Million in Grid Resilience
+# Funding" and "Energy Department Announces New Investments to Strengthen America's Power Grid ...")
+AGENCY_INITIALS = [(re.compile(p, re.I), ini) for p, ini in (
+    (r"\b(?:department of energy|energy department)\b", "doe"),
+    (r"\benvironmental protection agency\b", "epa"),
+    (r"\bfederal energy regulatory commission\b", "ferc"),
+    (r"\bnuclear regulatory commission\b", "nrc"),
+    (r"\benergy information administration\b", "eia"),
+    (r"\binternational energy agency\b", "iea"),
+    (r"\b(?:department of the interior|interior department)\b", "doi"),
+    (r"\bbureau of ocean energy management\b", "boem"))]
 
 
 def same_event(a, b):
