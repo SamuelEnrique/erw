@@ -1,0 +1,203 @@
+{
+ "_about": "eval_s5256_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 7,
+ "right": 7,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.2657,
+ "questions": [
+  {
+   "id": "pw12",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.23409430000000003,
+   "seconds": 11.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "ga09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.024112800000000004,
+   "seconds": 4.9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "oi07",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0864307,
+   "seconds": 5.6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "oi09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.11355110000000002,
+   "seconds": 13.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "tx07",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 11,
+   "retried": false,
+   "cost_usd": 0.2016312,
+   "seconds": 25.5,
+   "expected": [
+    9451.88
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 11
+  },
+  {
+   "id": "tx09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.07680320000000002,
+   "seconds": 5.5,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "po07",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.0766886,
+   "seconds": 15.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "not_live": {
+   "asked": 6,
+   "right": 6
+  },
+  "figure": {
+   "asked": 1,
+   "right": 1
+  }
+ },
+ "by_sector": {
+  "power": {
+   "asked": 1,
+   "right": 1
+  },
+  "gas": {
+   "asked": 1,
+   "right": 1
+  },
+  "oil": {
+   "asked": 2,
+   "right": 2
+  },
+  "transmission": {
+   "asked": 2,
+   "right": 2
+  },
+  "policy": {
+   "asked": 1,
+   "right": 1
+  }
+ }
+}

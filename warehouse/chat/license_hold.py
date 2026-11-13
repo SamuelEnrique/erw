@@ -114,6 +114,25 @@ def held_whole(table, now=None):
     return license_needed(table, now) and not by_grid(table)
 
 
+def own_grid(table, now=None):
+    """Session 5260 (chain 238), as site/lib/chat/heldrows.ts ownGrid: the held grid whose own table this is ("isone" for
+    isone_interconnection_queue), or "": a table held by grid whose name begins with the prefix of a grid that decides
+    it. Every row of such a table is held, so the tools refuse it by name."""
+    if not license_needed(table, now) or not by_grid(table):
+        return ""
+    for p in publishers(table):
+        g = GRID_PREFIX.get(p, "")
+        if g and table.lower().startswith(g + "_"):
+            return g
+    return ""
+
+
+def held_rows_words(table):
+    """As heldrows.ts heldRowsWords: the refusal of a read of a shared table that matched only a held grid's rows."""
+    return (f"the rows of {table} that match are a held grid's own and are {LICENSE_NEEDED}: {title(table)}. State no figure of them: answer with "
+            f"not_in_warehouse true and say that they are \"{LICENSE_NEEDED}\"")
+
+
 def scope_grid(scope):
     if not scope:
         return ""
