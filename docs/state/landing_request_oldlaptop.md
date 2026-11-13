@@ -12,6 +12,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 6 | `wip/1627-board` | `eb471805b` | `1600-1627-board` | 3600 | 2026-11-06 | every test file naming the board's code and every `test_board_16*` (336 run, 1 failure, the same, below); the whole suite not run here | landed at 6331a953a (row 8's branch, merged with main; chain 164, session 3016) |
 | 7 | `wip/1633-board` | `a60601ae6` | `1600-1633-board` | 3600 | 2026-11-06 | every test file naming the board's code and every `test_board_16*` (338 run, 1 failure, the same, below); the whole suite not run here | landed at 6331a953a (row 8's branch, merged with main; chain 164, session 3016) |
 | 8 | `wip/1639-board` | `74e72ae26` | `1611-1639-board` | 3600 | 2026-11-06 | merged with `origin/main` after the landing of rows 1 and 2 (the conflicts in `tests/test_session166.py` and `tests/test_session247.py` resolved, the builder's `held = ls.held_grids()` lines four as main's `test_session207` asks); every test file naming the board's code and every `test_board_16*`: 338 run, 1 failure (the same, below); the whole suite not run here | landed at 6331a953a (row 8's branch, merged with main; chain 164, session 3016) |
+| 9 | `wip/1905-revert` | `77e8916a0` | `1944-revert` | 3944 | 2026-11-13 | the gate's suite failed for memory twice (session 1916 at `2e599ff77`: 6 failures, 3 errors; session 1930 at `77e8916a0`: 8 failures, 2 errors, every one a `MemoryError`, a commitment-limit exit or a PowerShell timeout); the failed modules run alone at `77e8916a0` (1898, 1315, 157_refresh, 3701, 381, 422, 582): 76 run, OK, 2 skipped (`runs/s1944/failed_modules.out`) | requested |
 
 ## Row 1: what it holds
 
@@ -63,6 +64,13 @@ Chain 167's sessions 1624 to 1626: `cp4_price` in the builder, a row of the cost
 ## Row 7: what it adds to row 6
 
 Chain 167's sessions 1628 to 1632: the rows' CSV carries the week's and month's peak and hours above 100, 250 and 1,000 (eight columns inside the figures' span); `holdRows` drops `basis` and `heat_ref`, and the builder writes a row with no value without them, so a row with no figure prints its words and no digit; `boardFileChecks` catches a kept `basis`. Once row 7 is an ancestor of main, `wip/1600-board` to `wip/1633-board` can be deleted on origin.
+
+
+## Row 9: what it holds (chain 224, session 1944)
+
+Chain 219's session 1905, merged with main three times since: the grids view's public columns held again until the owner rules (datacenter faults row 4, state `ruling`). Five files against main: `site/components/Num.tsx` and `site/scripts/check-holds.mjs` (the held columns back), `tests/test_session1898.py`, `docs/reviews/lab-path.md`, `docs/reviews/five-tools-read-2026-11-11.md`.
+
+The old laptop does not try this gate a third time: two chains' windows (220 and 222) were lost during or just after it, with about 0.6 to 1.0 GB of memory free. The lander: `origin/main` merged into the branch, then `python scripts/land_check.py --ref <the merge> --task 1944-revert --port 3944 --keep-worktree`, each printed command its own command with its exit read, the snapshots before and after, not between 14:00 and 16:15 UTC. Once it is an ancestor of main, `wip/1905-revert` can be deleted on origin, and the old laptop removes its worktrees `erw-1905` and `erw-land-77e8916a`.
 
 ## Known on this machine
 
