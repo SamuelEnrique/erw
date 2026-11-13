@@ -853,9 +853,10 @@ class V2TheNumbersBlock(unittest.TestCase):
         self.assertIn("ERCOT HB_NORTH day-ahead", rows[0])            # the opening's own metric is not repeated
         self.assertEqual(len(DEMAND.findall(rows[1])), 1)
         # session 1439 (faults 4 to 6): the block's form, the figure once, no headline, a key to the story's row
-        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet; Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
+        # session 3332 (faults file row 111): with no party, the outlet once
+        self.assertTrue(rows[2].startswith("- **Project or capacity.** Gas supply: 600 MW (Outlet, 2026-10-21) [3]. Change: first report"), rows[2])
         self.assertEqual(rows[2].count("600"), 1)
-        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet; Outlet, 2026-10-21) [3]."), rows[3])
+        self.assertTrue(rows[3].startswith("- **Policy, capital or reliability.** Capital raised: USD 3 billion (Outlet, 2026-10-21) [3]."), rows[3])
         self.assertNotIn("A plans", rows[2]); self.assertNotIn("B raises", rows[3])
         self.assertNotIn("](http", "\n".join(rows[2:]))                 # no story link: the item carries it (the hard check)
         self.assertTrue(any(ln.startswith("Tables: [1] `iso_dam_hub_prices`; [2] `eia930_all_demand`") and ln.endswith("[3] `news_stories`; story a (mw); story b (price).") for ln in L), [ln for ln in L if ln.startswith("Tables")])

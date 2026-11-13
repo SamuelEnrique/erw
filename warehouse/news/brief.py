@@ -909,6 +909,10 @@ def detail(r, head=""):
     return ("; ".join(bits) + ". ") if bits else ""
 
 
+COMMON_FIRST = {"united", "the", "new", "north", "south", "west", "east", "great", "federal", "national", "state",
+                "department", "american", "general", "energy", "power", "royal", "central", "first"}
+
+
 def party_in_head(party, head):
     """Session 3313 (row 84, refined): whether the headline already names a party: the name itself, or its initials as a
     word ("DOE" for the Department of Energy, "US" for the United States); a party that names no one ("unnamed
@@ -920,6 +924,12 @@ def party_in_head(party, head):
         return True
     initials = "".join(w[0] for w in re.findall(r"[A-Za-z][\w'-]*", party) if w[0].isupper())
     if len(initials) >= 2 and re.search(rf"\b{initials}\b", h):
+        return True
+    # session 3332 (faults file row 113): a name's distinctive first word ("Saudi" of Saudi Arabia, "Ontario" of Ontario
+    # Power Generation); a common first word ("United", "New", "Department") names no one by itself
+    words = party.split()
+    if (len(words) > 1 and len(words[0]) >= 4 and words[0][0].isupper() and words[0].lower() not in COMMON_FIRST
+            and re.search(rf"\b{re.escape(words[0])}\b", h)):
         return True
     if initials == "DOE" or party.lower() == "department of energy":
         return bool(re.search(r"\bDOE\b|\bEnergy Department\b", h))
@@ -1069,20 +1079,39 @@ CRUDE_MOVE = re.compile(r"\b(?:oil|crude)(?: prices?| futures)? (?:settles?|sett
                         r"slipped|climbs?|climbed|drops?|dropped|gains?|gained|surges?|surged|tumbles?|tumbled|slides?|slid|sinks?|sank)\b")
 
 
+FOREIGN_GAS = re.compile(r"\b(?:euros?|eu|europe|european|ttf|dutch|asia|asian|jkm|japan|korea|china|uk|british|nbp|germany|"
+                         r"german)\b")   # session 3334, row 115
+
+
 def names_price(label, text):
     """Session 1975: whether `text` (a story's title and why line, lower case, padded with spaces) names the price."""
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
+    # session 3334 (faults file row 115): a story of another gas market names no move of Henry Hub's ("Natural gas prices
+    # hit 100 euros per MWh as EU confronts refinery closures", W44, given as the reason for Henry Hub's 12.9% fall)
+    if label == "Henry Hub natural gas" and "henry hub" not in text and FOREIGN_GAS.search(text):
+        return False
     if any(w in text for w in words):
         return True
+    if label == "Henry Hub natural gas":   # session 3330 (faults file row 110): "Natural Gas Forward Rally"
+        return bool(GAS_MOVE.search(text))
     return label in ("WTI Cushing crude", "Brent crude") and bool(CRUDE_MOVE.search(text))
+
+
+# Session 3330 (faults file row 110): a headline that moves US natural gas names Henry Hub ("Record LNG Demand Ignites
+# Natural Gas Forward Rally", 11 November), as CRUDE_MOVE does for the crudes; "gas" alone is not read (a gas plant)
+GAS_MOVE = re.compile(r"\bnatural gas(?: prices?| futures| forwards?| forward prices)? (?:rall(?:y|ies|ied)|settles?|settled|"
+                      r"rises?|rose|falls?|fell|jumps?|jumped|slips?|slipped|climbs?|climbed|drops?|dropped|surges?|surged|"
+                      r"tumbles?|tumbled|slides?|slid|sinks?|sank|soars?|soared|plunges?|plunged)\b")
 
 
 # Session 3312 (faults file row 104): a story names a move only when its direction words do not contradict it. W45's
 # Brent fell 18.6% on the week and "ConocoPhillips boosts dividend ... on higher oil prices" counted as naming it
 RISE_WORDS = re.compile(r"\b(?:rise|rises|rose|rising|higher|jumps?|jumped|surges?|surged|gains?|gained|climbs?|climbed|"
-                        r"rall(?:y|ies|ied)|soars?|soared|spikes?|spiked)\b")
+                        r"rall(?:y|ies|ied)|soars?|soared|spikes?|spiked|"
+                        r"supports?|supported|lifts?|lifted|boosts?|boosted|rebounds?|rebounded)\b")   # 3334: W44's "support"
 FALL_WORDS = re.compile(r"\b(?:fall|falls|fell|falling|lower|drops?|dropped|slumps?|slumped|tumbles?|tumbled|slides?|slid|"
-                        r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped)\b")
+                        r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped|"
+                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated)\b")
 
 
 def agrees(text, pct):
@@ -1856,7 +1885,32 @@ def stamp_line(hours, start, now, n, folder=None):
     if since is not None and len(pd.bdate_range(since + pd.Timedelta(days=1), pd.Timestamp(f"{now:%Y-%m-%d}"))) > 1:
         gap = f", the first issue since {since.day} {since:%B}"
     return (f"ERW's weekday brief of energy news for the {hours} hours to {now:%Y-%m-%d %H:%M} UTC (the window opened "
-            f"{start:%Y-%m-%d %H:%M} UTC): {n} scored stories{gap}.")
+            f"{start:%Y-%m-%d %H:%M} UTC): {n:,} scored {'story' if n == 1 else 'stories'}{gap}.")   # 3333: row 114
+
+
+UNSCORED_MIN = 20       # session 3333 (faults file row 114): held stories the scorer has not read, said from this many
+THIN_WINDOW = 50        # and a window holding fewer stories than this, said
+
+
+def held_lines(df, start, now, hours):
+    """Session 3333 (faults file row 114): the window as the warehouse holds it, when a reader would misread the issue
+    without it: stories held but not scored (the scorer's cap, or a run that stopped), when they are UNSCORED_MIN or more
+    and a tenth of the window; and a window that holds fewer than THIN_WINDOW stories (6 to 10 November 2026 held 3 in 96
+    hours, where a weekday brings several hundred). [] otherwise. Counts only; no cause is claimed."""
+    try:
+        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
+        inside = df[(when >= start) & (when <= now)]
+    except (KeyError, ValueError, TypeError):
+        return []
+    held = len(inside)
+    unscored = int((inside["scored_at"] == "").sum()) if "scored_at" in inside else 0
+    out = []
+    if held < THIN_WINDOW:
+        out.append(f"The warehouse holds {held} {'story' if held == 1 else 'stories'} of these {hours} hours, where a weekday "
+                   "usually brings several hundred.")
+    if unscored >= UNSCORED_MIN and unscored * 10 >= held:
+        out.append(f"A further {unscored:,} stories of the window are held but not scored yet, so this issue does not rank them.")
+    return (out + [""]) if out else []
 
 
 def previous_issue_day(digest_date, folder=None):
@@ -2123,6 +2177,7 @@ SECTOR_NOUN = {"datacenter_power": "Datacenter load", "generation": "Generation 
                "grid_conditions": "Reliability", "geopolitics": "Supply at risk", "oil": "Oil supply"}
 
 
+TOTAL_OF_DEALS = re.compile(r"\btotal(?:s|ed|ing)?\b|\bin [\w-]+(?: [\w-]+)? deals\b", re.I)   # session 3332, row 112
 DISPATCHED = re.compile(r"\b(?:dispatch(?:ed|es|ing)?|discharg(?:e|ed|es|ing)|delivered)\b", re.I)   # session 1977, row 82
 
 
@@ -2148,10 +2203,17 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
             # session 1977 (faults file row 82): "Sunrun and Tesla dispatched more than 580 MW from 140,000 home batteries"
             # is power dispatched, not storage capacity built
             noun = "Storage dispatched" if str(r.get("sector")) == "storage" else "Power dispatched"
+        if field != "mw" and TOTAL_OF_DEALS.search(f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}"):
+            # session 3332 (faults file row 112): "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter
+            # Deals" is a quarter's total, not one deal's value
+            noun = "Deals in total"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
-        line = (f"- **{label}.** {noun}{place}: {fig} ({story_who(r)}; {outlet_of(r)}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
+        who, outlet = story_who(r), outlet_of(r)
+        # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice
+        by = outlet if who == outlet else f"{who}; {outlet}"
+        line = (f"- **{label}.** {noun}{place}: {fig} ({by}, {pd.Timestamp(r['first']):%Y-%m-%d}){ref}. "
                 "Change: first report, no earlier figure held. Status: the outlet's figure, not a table's.")
         return line, f"story {r.get(field + '_id') or r['cluster_id']} ({field})"   # row 107: the story the figure came from
     return f"- **{label}.** No story of the day states {what}.", ""
@@ -2356,6 +2418,7 @@ def main(argv=None):
         L = masthead_lines(digest_date, now, op, newest) + [
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              stamp_line(hours, start, now, len(s)), "",
+             *held_lines(df, start, now, hours),   # session 3333 (faults file row 114): a thin or unscored window, said
              *([NO_MODEL_LINE, ""] if args.no_model else [])]
         L += opening_lines(op, heads)
         # session 1439 (fault 5): the story rows read the whole issue's items in rank (the top ten, then the sections,

@@ -528,6 +528,88 @@ class Row107TheKeyNamesTheFiguresStory(unittest.TestCase):
         self.assertEqual(detail, "story news:f3e7 (price)")
 
 
+class Row110AGasRallyNamesHenryHub(unittest.TestCase):
+    """Row 110: a natural gas headline that rallies names Henry Hub, and the Roundup asks the week's stories, not only the
+    printed ones."""
+
+    def test_the_words(self):
+        t = " record lng demand ignites natural gas forward rally, but will it last? "
+        self.assertTrue(brief.names_price("Henry Hub natural gas", t))
+        self.assertFalse(brief.names_price("Henry Hub natural gas", " gas plant rises in texas "))
+        self.assertFalse(brief.names_price("Brent crude", t))
+
+    def test_the_w46_opening(self):
+        import roundup
+        hh = {"label": "Henry Hub natural gas", "pct": 14.1, "ch": 0.37,
+              "text": "Henry Hub natural gas closed at 3.00 USD/MMBtu on 2026-11-11, against 2.63 USD/MMBtu on 2026-11-04 (+0.37 USD/MMBtu, +14.1%) [5]"}
+        week = pd.DataFrame([{"titles": ["Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?"], "parties": "",
+                              "why": "Strong feedgas demand from LNG and production outages are pushing natural gas prices higher across the US and Canada.",
+                              "links": [("Natural Gas Intelligence", "https://example.org/n")]}])
+        op = roundup.opening_number({"moves": [hh], "move": hh, "deal": {"usd": 2e9, "text": "USD 2 billion, Strathcona, Greenfire"}}, week)
+        self.assertEqual(op["key"], "move")
+        self.assertIn("Reason, from the week's stories: Strong feedgas demand", roundup.opening_lines(op)[2])
+        src = open(os.path.join(ROOT, "warehouse", "news", "roundup.py"), encoding="utf-8").read()
+        self.assertIn("op = opening_number(picked, clusters)", src)
+
+
+class Rows111To113The11NovemberDryRun(unittest.TestCase):
+    """Rows 111 to 113, from the dry run of 11 November on the stack (session 3332)."""
+
+    def test_111_and_112_the_rigzone_row(self):
+        r = rec("m", "US Oil and Gas M&A Activity Accelerates With $12.6 Billion in Third-Quarter Deals", sector="deal",
+                price="$12.6 billion", links=[("Rigzone", "https://example.org/r")])
+        line, _ = brief.story_row("Policy, capital or reliability", [r], ("deal",), {}, None, "a figure", ("money",))
+        self.assertIn("Deals in total, USA: USD 12.6 billion (Rigzone, 2026-11-11)", line)
+        self.assertNotIn("Rigzone; Rigzone", line)
+        one = rec("d", "Strathcona pursues growth with a USD 2.1 billion deal", sector="deal", price="$2.1 billion", parties="Strathcona")
+        self.assertIn("Deal value, USA", brief.story_row("x", [one], ("deal",), {}, None, "a figure", ("money",))[0])
+
+    def test_113_saudi(self):
+        self.assertTrue(brief.party_in_head("Saudi Arabia", "Saudi Oil Production Surges to One of Highest Levels in Years"))
+        self.assertFalse(brief.party_in_head("United Kingdom", "United Airlines buys fuel"))
+        self.assertEqual(brief.detail({"mw": "", "price": "", "parties": "Saudi Arabia; OPEC"},
+                                      "Saudi Oil Production Surges to One of Highest Levels in Years"), "Also named: OPEC. ")
+
+
+class Row114AThinOrUnscoredWindow(unittest.TestCase):
+    """Row 114: a window that holds few stories, or many unscored ones, is said; '1 scored story'."""
+
+    def frame(self, n_scored, n_unscored, day="2026-11-10T12:00:00Z"):
+        rows = [{"event_date": day, "scored_at": "2026-11-10T13:00:00Z"}] * n_scored + [{"event_date": day, "scored_at": ""}] * n_unscored
+        return pd.DataFrame(rows)
+
+    def test_the_lines(self):
+        start, now = pd.Timestamp("2026-11-06T22:56Z"), pd.Timestamp("2026-11-10T22:56Z")
+        self.assertEqual(brief.held_lines(self.frame(1, 2), start, now, 96),
+                         ["The warehouse holds 3 stories of these 96 hours, where a weekday usually brings several hundred.", ""])
+        self.assertEqual(brief.held_lines(self.frame(400, 234), start, now, 96),
+                         ["A further 234 stories of the window are held but not scored yet, so this issue does not rank them.", ""])
+        self.assertEqual(brief.held_lines(self.frame(400, 5), start, now, 96), [])
+        line = brief.stamp_line(96, start, now, 1, folder=os.path.join(ROOT, "docs", "digest"))
+        self.assertIn("): 1 scored story", line)
+
+
+class Rows115To117W44OnTheStack(unittest.TestCase):
+    """Rows 115 to 117, from W44 on the stack (session 3334)."""
+
+    def test_115_european_gas_names_no_henry_hub_move(self):
+        t = " natural gas prices hit 100 euros per mwh as eu confronts refinery closures and diesel shortage "
+        self.assertFalse(brief.names_price("Henry Hub natural gas", t))
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " henry hub gas prices slump in europe's mild weather "))
+        self.assertTrue(brief.names_price("Henry Hub natural gas", " us natural gas prices fall on mild weather "))
+
+    def test_116_the_cut_goes_back_to_the_comma(self):
+        import roundup
+        out = roundup.head_clause("EQT to Buy Range Resources, Creating Largest US Gas Producer", 37)
+        self.assertEqual(out, "EQT to Buy Range Resources")
+
+    def test_117_thousands(self):
+        import inspect, roundup
+        self.assertIn("{len(s):,} scored stories", inspect.getsource(roundup.main))
+        line = brief.stamp_line(168, pd.Timestamp("2026-10-26T00:00Z"), pd.Timestamp("2026-11-01T23:59Z"), 1253, folder=os.path.join(ROOT, "docs", "digest"))
+        self.assertIn("1,253 scored stories", line)
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
