@@ -793,6 +793,25 @@ class Row183NoQuantityWordsLeftInALine(unittest.TestCase):
         self.assertTrue(any(ln.startswith("DOE says it intends to lend up to USD 5 billion so Constellation can raise") for ln in L), L)
 
 
+class Row184NoSiteTailOnAPublishersTitle(unittest.TestCase):
+    """Row 184: "AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana - Company Announcement"
+    (W43 on the stack, with no model): the feed's tail kept in the headline; row 119 took it off the also lines only."""
+
+    def test_the_tail(self):
+        self.assertEqual(brief.tail_off("AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana - Company "
+                                        "Announcement", "World Nuclear News"),
+                         "AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana")
+        self.assertEqual(brief.tail_off("Shell sells stake - Company Announcement - FT.com", "ft.com"), "Shell sells stake")
+        self.assertEqual(brief.tail_off("Oil rises - Reuters", "Reuters"), "Oil rises")
+        self.assertEqual(brief.tail_off("Coal-to-gas switch - a primer", "Utility Dive"), "Coal-to-gas switch - a primer")
+
+    def test_the_headlines_with_no_model(self):
+        import pandas as pd
+        c = pd.DataFrame([{"cluster_id": "a", "titles": ["AEP Partners with Amazon in Indiana - Company Announcement"],
+                           "links": [("World Nuclear News", "https://example.org/a")]}])
+        self.assertEqual(brief.own_titles(c), {"a": "AEP Partners with Amazon in Indiana"})
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""

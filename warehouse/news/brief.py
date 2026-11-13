@@ -309,10 +309,26 @@ NO_MODEL_LINE = ("Today's headlines are the publishers' own titles, and the writ
                  "the day's model budget was reached.")
 
 
+def tail_off(title, source=""):
+    """A title with the publisher's own tail taken off ("... in Indiana - Company Announcement", "... - FT.com", "... |
+    Reuters"): a tail of one or two parts after a dash or a bar that names an address, an announcement or the outlet.
+    Session 3335 (faults file row 119) for the also line; session 3495 (row 184) for the headlines of an issue with no
+    model too."""
+    t = str(title or "")
+    outlet = outlet_name(source).lower()
+    tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", t)
+    if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
+                 or (outlet and outlet in tail.group(0).lower())):
+        return t[:tail.start()].rstrip()
+    return t
+
+
 def own_titles(clusters):
     """{cluster_id: the lead story's own title}, for an issue written without the model. Nothing is rewritten: the
-    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline."""
-    return {r["cluster_id"]: nodash(str(r["titles"][0]).strip()) for r in clusters.to_dict("records")}
+    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline, and (session
+    3495, row 184) its site tail off ("... in Indiana - Company Announcement")."""
+    return {r["cluster_id"]: tail_off(nodash(str(r["titles"][0]).strip()), (list(r.get("links") or []) or [("", "")])[0][0])
+            for r in clusters.to_dict("records")}
 
 
 def norm_headline(h):
@@ -2031,11 +2047,7 @@ def also_line(recs):
         title = money_style(nodash(x["title"]).strip())
         # session 3335 (faults file row 119): the publisher's own tail ("... Projects - Company Announcement - FT.com")
         # goes, as why_fallback takes it off: the outlet is named in the brackets after it
-        outlet = outlet_name((x.get("links") or [("", "")])[0][0]).lower()
-        tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", title)
-        if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
-                     or (outlet and outlet in tail.group(0).lower())):
-            title = title[:tail.start()].rstrip()
+        title = tail_off(title, (x.get("links") or [("", "")])[0][0])
         return f"{title.rstrip('.')} ({link_text(x['links'])})" if x.get("links") else title
     topic = [part(x) for x in recs if x.get("kind") != "sector"]
     sector = [x for x in recs if x.get("kind") == "sector"]
