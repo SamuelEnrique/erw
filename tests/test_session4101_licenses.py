@@ -134,7 +134,7 @@ class TheRecord(unittest.TestCase):
         for r in reads:
             if "(session 41" in r["publisher"] and "robots file" not in r["publisher"] and r["outcome"].startswith("read"):
                 host = r["url"].split("/")[2]
-                robots = [x for x in reads if x["url"] == f"https://{host}/robots.txt" and x["read_at"] <= r["read_at"]
+                robots = [x for x in reads if f"https://{host}/robots.txt" in (x["url"], x["final_url"]) and x["read_at"] <= r["read_at"]
                           and "(session 41" in x["publisher"]]
                 self.assertTrue(robots, f"{r['publisher']}: no robots read of {host} before it")
 
