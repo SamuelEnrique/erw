@@ -254,7 +254,13 @@ test("every Digest the site holds has its numbers read: a key for each figure, a
       .filter((l) => /^\| (ERCOT|CAISO|NYISO|MISO|SPP|ISO-NE) \|/.test(l) || l.startsWith("**Highest real-time") || /^- (Henry Hub|WTI|Brent)[^:(\[]*: /.test(l));
     // session 804: a mover line ("- Brent crude: ... down 2.10 USD/bbl (1.7%) from ...") is not a fuel line
     assert.equal(sec.filter((l) => l.startsWith("- ") && !/, (up|down) /.test(l)).length, 3, `${f}: the three fuel lines`);
-    for (const l of sec) assert.ok(!/(?<![\dA-Z.])\d+\.\d{2}(?= |$)(?! UTC)/.test(l.replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/g, "")), `${f}: a bare figure in ${l}`);
+    // session 3808 (chain 216): a fuel mover line ranked among the five largest moves (2026-11-12: "- Brent crude: 92.14 USD/bbl
+    // on 2026-11-11, up 1.98 USD/bbl (2.2%) from 90.16 USD/bbl ...") keys its two table figures, the newest and the previous
+    // close (lib/digest.ts, session 804); its change and percent are the difference of the two, no table's figure, and are
+    // set aside here as they are for a hub's mover line, which this filter never reads; and so is the table's last cell, the
+    // change of the day-before column (session 804: "| 38.24 | +2.10 (+5.5%) |"), the first issue with it being 2026-11-12's
+    const unchange = (l) => l.replace(/, (up|down) [\d,.]+ \S+ \([\d.]+%\) from /, ", from ").replace(/\| [+-][\d,.]+ \([+-][\d.]+%\) \|$/, "| |");
+    for (const l of sec) assert.ok(!/(?<![\dA-Z.])\d+\.\d{2}(?= |$)(?! UTC)/.test(unchange(l).replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/g, "")), `${f}: a bare figure in ${l}`);
   }
 });
 
