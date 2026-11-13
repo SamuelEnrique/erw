@@ -397,6 +397,34 @@ class Row97TheStandInMoved(unittest.TestCase):
         self.assertTrue(row.endswith("no other price moved 3% or more on the week (10% for a hub's weekly mean)."), row)
 
 
+class Row98AMarketMoveTheWarehouseHolds(unittest.TestCase):
+    """Row 98: a story that names a benchmark is told the warehouse's close, and no party is asked of a market move."""
+
+    FACTS = {"fuel": [
+        {"label": lbl, "a": {"value": a, "unit": u, "ts_utc": pd.Timestamp("2026-11-11", tz="UTC")},
+         "b": {"value": b, "unit": u, "ts_utc": pd.Timestamp("2026-11-04", tz="UTC")}, "ref": "[5]"}
+        for lbl, u, a, b in (("Henry Hub natural gas", "USD/MMBtu", 3.00, 2.63), ("WTI Cushing crude", "USD/bbl", 89.62, 91.73),
+                             ("Brent crude", "USD/bbl", 92.14, 91.84))]}
+
+    def test_the_oil_story(self):
+        import roundup
+        r = {"cluster_id": "o", "titles": ["Oil settles $3 higher on attacks on Saudi energy sites, Strait of Hormuz disruptions"],
+             "why": "Attacks on Saudi Arabian oil infrastructure and Strait of Hormuz transit risk trigger price move.", "parties": "",
+             "mw": "", "price": "$3", "n": 1, "links": [("Reuters", "https://example.org/o")], "sector": "oil"}
+        b = roundup.bench_of(r, self.FACTS)
+        self.assertEqual(b["label"], "Brent crude")
+        gap = roundup.evidence_gap(r, r["titles"][0], None, None, b)
+        self.assertIn("the warehouse's Brent crude close is 92.14 USD/bbl on 2026-11-11, against 91.84 on 2026-11-04 [5]", gap)
+        self.assertNotIn("not a warehouse table's", gap)
+        self.assertNotIn("no party is named", gap)
+
+    def test_a_story_naming_no_benchmark(self):
+        import roundup
+        r = {"titles": ["Repsol takes final investment decision on a hydrogen project"], "why": ""}
+        self.assertIsNone(roundup.bench_of(r, self.FACTS))
+        self.assertEqual(roundup.bench_of({"titles": ["WTI slips as stocks build"], "why": ""}, self.FACTS)["label"], "WTI Cushing crude")
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 

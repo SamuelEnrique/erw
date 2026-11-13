@@ -1579,7 +1579,26 @@ def more_why(r, heads, steps):
     return " ".join(x for x in (why, step_line(d) if d is not None else "") if x)
 
 
-def evidence_gap(r, head="", deal=None, plant=None):
+def bench_of(r, facts):
+    """Session 1993 (faults file row 98): the benchmark a story names (brief.names_price on its title and why line), as
+    the week's fuel table holds it (facts["fuel"]: the newest close and the close a week before), or None. A crude story
+    that names neither crude takes Brent."""
+    text = f" {' '.join(str(t) for t in (r.get('titles') or []))} {r.get('why') or ''} ".lower()
+    named = [f for f in (facts or {}).get("fuel", []) if brief.names_price(f["label"], text)]
+    if not named:
+        return None
+    own = [f for f in named if f["label"].split()[0].lower() in text]
+    return (own or [f for f in named if f["label"] == "Brent crude"] or named)[0]
+
+
+def bench_words(f):
+    """Row 98: the week's close of a benchmark as the issue's fuel table prints it, with its mark."""
+    a, b = f["a"], f["b"]
+    return (f"the warehouse's {f['label']} close is {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d}, against "
+            f"{b['value']:.2f} on {b['ts_utc']:%Y-%m-%d} {f['ref']}")
+
+
+def evidence_gap(r, head="", deal=None, plant=None, bench=None):
     """What the evidence does not establish, from the record alone (session 1446, faults 30 and 31): the scored fields
     that are empty (no party named; no capacity or sum stated), a figure the headline states that is the outlet's and
     not a table's (a scored figure the headline does not hold is not claimed: "1GWh of storage" was printed as 1,000 MW),
@@ -1616,9 +1635,12 @@ def evidence_gap(r, head="", deal=None, plant=None):
         gaps.append(plant_words(plant, mw_fig))
         if said and not mw_fig:
             gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
+    elif said and bench is not None:
+        # session 1993 (faults file row 98): a market move the warehouse holds: the table's close, not "not a table's"
+        gaps.append(f"the {fig} is the outlet's figure; {bench_words(bench)}")
     elif said:
         gaps.append(f"the {fig} is the outlet's figure, not a warehouse table's")
-    if not str(r.get("parties") or "").strip():
+    if not str(r.get("parties") or "").strip() and bench is None:   # row 98: a market move has no party to name
         gaps.append("no party is named")
     if not fig and plant is None:
         gaps.append("no capacity or sum is stated")
@@ -2017,7 +2039,7 @@ def main(argv=None):
         for i, r in enumerate(recs, 1):
             W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
-                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']))) if x),
+                                  " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
                                   f"Sources: {link_text(r['links'])}")
         nxt = next_week(end, log)
         tables_to = max(facts["reach"]) if facts.get("reach") else None   # session 1882 (row 59)
