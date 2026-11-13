@@ -210,7 +210,7 @@
    "title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)",
    "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 180
   },
   "ca_boe_lta26034": {
    "title": "California State Board of Equalization, Letter to Assessors No. 2026/034 (SB 710, Revenue and Taxation Code 73)",
@@ -264,25 +264,25 @@
    "title": "South Carolina Code 12-43-220, Classification of property for assessment",
    "url": "https://www.scstatehouse.gov/code/t12c043.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 176
   },
   "sc_12_23_10": {
    "title": "South Carolina Code 12-23-10, Electric power excise tax",
    "url": "https://www.scstatehouse.gov/code/t12c023.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 177
   },
   "tx_comptroller_valuing": {
    "title": "Texas Comptroller, Valuing Property (Tax Code 23.01)",
    "url": "https://comptroller.texas.gov/taxes/property-tax/valuing-property.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 178
   },
   "oh_lsc_hb96": {
    "title": "Ohio Legislative Service Commission, Final Analysis of H.B. 96 (136th General Assembly), public utilities (R.C. 5727.111)",
    "url": "https://lsc.ohio.gov/assets/legislation/136/hb96/en0/files/hb96-puc-bill-analysis-as-enacted-136th-general-assembly.pdf",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 179
   },
   "ny_rptl_487": {
    "title": "New York Real Property Tax Law 487, Exemption from taxation for certain energy systems",

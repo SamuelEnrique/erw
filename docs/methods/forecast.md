@@ -88,7 +88,7 @@ Each tax is charged for whole operating years, from the first (the statutes' fir
 
 ### Every state and DC (session 4296)
 
-Chain 257 (13 November 2026, the owner's instruction that the tool answer for any US project): eight subagents read, without writing anything, the statutes, revenue departments' and assessors' guidance of the 33 states and DC not yet held (and re-read four held states), each returning rows with the quoted clause, the URL and the date; official sources only (a statute site behind LexisNexis or refusing robots was replaced by the state's own PDF code, revenue department publications or legislative research office summaries, cited as such), robots files read first, crawl delays slept. This chain merged the rows, spot-checked 27 documents across 20 jurisdictions itself (requests 124 to 169 of `runs/w4/probe.csv`; every figure checked matched; New York's statute page answered this chain's reader with HTTP 403 and was not retried, so New York rests on the subagent's read), and encoded each state in `property_rules.json` and `sales_exemptions.json` with its citation in the hover. Where a reading fixes no figure (a negotiated payment in lieu, a discretionary abatement, an income approach, a class not stated, a site that refuses), the state holds a `note`: its words and citation in the hover and the reader's own rate offered.
+Chain 257 (13 November 2026, the owner's instruction that the tool answer for any US project): eight subagents read, without writing anything, the statutes, revenue departments' and assessors' guidance of the 33 states and DC not yet held (and re-read four held states), each returning rows with the quoted clause, the URL and the date; official sources only (a statute site behind LexisNexis or refusing robots was replaced by the state's own PDF code, revenue department publications or legislative research office summaries, cited as such), robots files read first, crawl delays slept. This chain merged the rows, spot-checked 32 documents across 22 jurisdictions itself (requests 124 to 180 of `runs/w4/probe.csv`, the last five in session 4300; every figure checked matched; New York's statute page answered this chain's reader with HTTP 403 and was not retried, so New York rests on the subagent's read), and encoded each state in `property_rules.json` and `sales_exemptions.json` with its citation in the hover. Where a reading fixes no figure (a negotiated payment in lieu, a discretionary abatement, an income approach, a class not stated, a site that refuses), the state holds a `note`: its words and citation in the hover and the reader's own rate offered.
 
 Two rule kinds were generalized: the valuation (a statutory value per MW, an assessment ratio, a depreciation schedule, a cited statewide levy as the default) and the own-rate exemption (operating years, a construction deadline). **Where no depreciation schedule was read, the value is held at the capital cost: an upper bound**, said in each such state's hover (a ruling). A cited statewide levy is the default only where a state publishes one (California's constitutional 1 percent, Washington's 2025 average, Georgia's 2025 county averages, West Virginia's 2022 average, Kentucky's statutory machinery rate); elsewhere the levy is the reader's.
 
@@ -98,7 +98,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Alabama | wind/solar/gas/geothermal: none held (a note) | none read (0) | al_dor_assessment (subagent) |
 | Arkansas | wind/solar/gas/geothermal: none held (a note) | none read (0) | ar_none (subagent) |
 | Arizona | solar/wind/geothermal: 80 percent exempt on the reader's rate | none read (0) | az_42_14155 (request 86) |
-| California | wind/solar/gas/geothermal: the capital cost, levy 10 per 1,000 | none read (0) | ca_boe_pub306 (subagent) |
+| California | wind/solar/gas/geothermal: the capital cost, levy 10 per 1,000 | none read (0) | ca_boe_pub306 (request 180) |
 | Colorado | wind/solar/gas/geothermal: none held (a note) | wind 36.76; solar 36.76 | co_sb21_020 (subagent) |
 | Connecticut | wind/solar/gas/geothermal: none held (a note) | solar 100 | ct_olr_2023_r_0214 (subagent) |
 | District of Columbia | solar: 100 percent exempt on the reader's rate; wind/gas/geothermal: none held (a note) | none read (0) | dc_fp31_2026 (request 166) |
@@ -129,15 +129,15 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | New Mexico | wind/solar/gas/geothermal: the capital cost, assessed at 33.33 percent, the reader's levy | none read (0) | nm_trd_general (request 165) |
 | Nevada | solar/wind/geothermal: 55 percent exempt on the reader's rate | none read (0) | nv_701a (request 105) |
 | New York | solar/wind: 100 percent exempt on the reader's rate, 15 operating years; gas/geothermal: none held (a note) | geothermal 100; wind 100; gas 100; solar 100 | ny_rptl_487 (subagent) |
-| Ohio | wind/solar/gas/geothermal: the capital cost, assessed at 7.0 percent, the reader's levy | none read (0) | oh_lsc_hb96 (subagent) |
+| Ohio | wind/solar/gas/geothermal: the capital cost, assessed at 7.0 percent, the reader's levy | none read (0) | oh_lsc_hb96 (request 179) |
 | Oklahoma | wind/solar/gas/geothermal: none held (a note) | none read (0) | ok_none (subagent) |
 | Oregon | solar: USD 5,500 to 7,000 per MW by local option | none read (0) | or_2015_c571 (request 68) |
 | Pennsylvania | wind: USD 0 per MW a year; solar/gas/geothermal: none held (a note) | none read (0) | pa_53_8811 (request 167) |
 | Rhode Island | solar/wind/geothermal: USD 5,000 per MW a year; gas: none held (a note) | wind 100; solar 100 | ri_44_5_3 (request 150) |
-| South Carolina | wind/solar/gas/geothermal: the capital cost, assessed at 10.5 percent, the reader's levy; wind/solar/gas/geothermal: USD 0.5 per MWh | none read (0) | sc_12_23_10, sc_12_43_220 (subagent) |
+| South Carolina | wind/solar/gas/geothermal: the capital cost, assessed at 10.5 percent, the reader's levy; wind/solar/gas/geothermal: USD 0.5 per MWh | none read (0) | sc_12_23_10, sc_12_43_220 (request 176, request 177) |
 | South Dakota | wind/solar: USD 3,000 per MW a year; wind: USD 0.45 per MWh; solar: USD 0.9 per MWh | none read (0) | sd_10_35_18, sd_10_35_19_1 (request 39, request 42) |
 | Tennessee | solar: the capital cost, assessed at 55.0 percent, schedule 12.5 to 12.5 percent, the reader's levy; wind/gas/geothermal: the capital cost, assessed at 55.0 percent, the reader's levy | none read (0) | tn_el_sol, tn_glossary (request 163, request 168) |
-| Texas | wind/solar/gas/geothermal: the capital cost, the reader's levy | none read (0) | tx_comptroller_valuing (subagent) |
+| Texas | wind/solar/gas/geothermal: the capital cost, the reader's levy | none read (0) | tx_comptroller_valuing (request 178) |
 | Utah | wind/solar/gas/geothermal: none held (a note) | none read (0) | ut_centrally_assessed (subagent) |
 | Virginia | solar: exempt 80, 70, 60 percent by years, on the reader's rate | wind 0; solar 0 | va_58_1_3660 (request 117) |
 | Vermont | solar: USD 4,000 per MW a year | none read (0) | vt_32_8701 (request 99) |
