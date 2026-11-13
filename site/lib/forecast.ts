@@ -183,7 +183,11 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     for (const r of rules) {
       if (r.min_mw !== undefined && x.mw < r.min_mw) continue;
       if (r.kind === "capacity") { tax += x.mw * (r.usd_per_mw_year ?? 0); used.push(r.id); }
-      else if (r.kind === "production") { const rate = tierRate(r, x.mw); if (rate > 0) { tax += mwh * rate; used.push(r.id); } }
+      else if (r.kind === "production") {
+        // a scenario with no capacity factor (geothermal) has no production tax: the Python and Stata files do the same
+        const rate = tierRate(r, x.mw);
+        if (rate > 0 && Number.isFinite(mwh)) { tax += mwh * rate; used.push(r.id); }
+      }
       else if (r.kind === "valuation") {
         if (!x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };

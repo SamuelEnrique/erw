@@ -235,3 +235,12 @@ test("the run's Python script recomputes every total of the tool", async () => {
     assert.ok(!doFile.includes("undefined") && !doFile.includes("NaN"), "no undefined or NaN written into the do-file");
   }
 });
+
+test("property tax: North Dakota's generation taxes, wind and the other sources", () => {
+  const w = F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "nd"), mw: 100, cf: 0.45 }, 0).tax;
+  near(w, 100 * 2500 + 100 * 8760 * 0.45 * 0.5);
+  const pv = F.propertyTax(P, { ...F.defaults(P, "utility_pv", "nd"), mw: 50, cf: 0.2 }, 0).tax;
+  near(pv, 50 * 500 + 50 * 8760 * 0.2 * 1.0);
+  const geo = F.propertyTax(P, { ...F.defaults(P, "geothermal", "nd"), mw: 20 }, 0).tax;
+  near(geo, 20 * 500, 1e-12, "geothermal: the capacity tax only (no capacity factor held)");
+});

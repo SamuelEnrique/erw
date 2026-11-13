@@ -174,7 +174,7 @@ const LINES: Line[] = [
   { key: "ojobs", label: "Operating jobs, each year", tip: "Full-time jobs in each year the plant runs, all three effects. JEDI's per-MW operating figures; for solar, JEDI's 2010 operating costs give an upper reading.", figure: "o:jobs:total", fmt: jobs },
   { key: "cearn", label: "Construction earnings", tip: "Wages, salaries and benefits of those jobs over the build, in 2025 dollars.", figure: "c:earnings:total", fmt: usd },
   { key: "oearn", label: "Operating earnings, each year", tip: "Wages, salaries and benefits of the operating jobs each year, in 2025 dollars.", figure: "o:earnings:total", fmt: usd },
-  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, Nebraska, Iowa), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
+  { key: "prop1", label: "Property tax, first operating year", tip: "From the state's statute where one is held (Minnesota, South Dakota, North Dakota, Nebraska, Iowa), or the reader's own rate. Land is not included.", figure: "y1:property", fmt: usd,
     why: (r) => (r.property.held ? null : r.property.note) },
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
   { key: "sales", label: "Sales and use tax", tip: "On the taxable share of the construction spending at the state and average local rate, spread over the build.", figure: "sum:sales", fmt: usd,

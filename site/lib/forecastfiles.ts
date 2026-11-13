@@ -192,7 +192,7 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       else if (rl.kind === "production") {
         let rate = rl.usd_per_mwh ?? 0;
         if (rl.usd_per_mwh === undefined) for (const t of rl.tiers ?? []) { const lo = t.min_mw_exclusive ?? t.min_mw_ac_exclusive ?? 0; if (xi.mw > lo && (t.max_mw === undefined || xi.mw <= t.max_mw)) { rate = t.usd_per_mwh; break; } }
-        if (rate > 0) parts.push(`${mwh} * ${rate}`);
+        if (rate > 0 && Number.isFinite(xi.cf)) parts.push(`${mwh} * ${rate}`);  // geothermal holds no capacity factor
       } else if (rl.kind === "valuation" && xi.iaval && xi.levy !== null) {
         const s = rl.schedule_pct ?? [];
         valuation = `${spend} * cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct}) / 100 * ${xi.levy} / 1000`;
