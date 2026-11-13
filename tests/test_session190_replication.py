@@ -722,7 +722,10 @@ def second_foreseen(pay, c):
                     w[y][order[full]] -= part
                     w[y][order[23 - full]] += part
             continue
-        k = min(len(held), js_round(c["n"] * len(held) / len(p) if c["run"] == "hours" else c["pct"] / 100 * len(held)))
+        # session 5003 (the owner's ruling of 12 October 2026): the rule's budget for the year, as second_rule's, never
+        # more than the hours held; until then a year held in part took the same share of its hours
+        q = min(1.0, c["n"] / 8760) if c["run"] == "hours" else min(1.0, c["pct"] / 100)
+        k = min(len(held), js_round(q * len(p)))
         for i in sorted(held, key=lambda i: (-p[i], i))[:k]:
             w[y][i] = 0.0
     return w
@@ -847,8 +850,8 @@ class TheNotesExampleOnItsOwnFiles(unittest.TestCase):
         for t in (rule_twelve, seen_twelve):
             self.assertEqual((t[0]["m"], t[-1]["m"]), WINDOW)
         rule, seen = second_span(rule_twelve), second_span(seen_twelve)
-        self.assertEqual((js_two(rule["flat"]), js_two(rule["per"]), rule["down"], js_two(seen["per"]), seen["down"]), ("33.73", "31.46", 100, "29.72", 109))
-        self.assertEqual(js_round(100 * (rule["flat"] - rule["per"]) / (seen["flat"] - seen["per"])), 57)
+        self.assertEqual((js_two(rule["flat"]), js_two(rule["per"]), rule["down"], js_two(seen["per"]), seen["down"]), ("33.73", "31.46", 100, "29.29", 133))   # session 5003: the foreseen load takes the rule's budget (29.72 and 109 before)
+        self.assertEqual(js_round(100 * (rule["flat"] - rule["per"]) / (seen["flat"] - seen["per"])), 51)   # session 5003 (57 before)
         note = src("docs", "methods", "datacenter_pays_algorithm.md")
         self.assertIn(f"The page shows USD {js_two(rule['per'])} per MWh, {js_two(rule['flat'] - rule['per'])} less than a flat load, and USD {js_two(seen['per'])} "
                       f"\"if perfectly foreseen\" ({js_two(seen['flat'] - seen['per'])} less).", note)
