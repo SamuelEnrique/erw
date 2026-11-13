@@ -701,6 +701,7 @@ def five_numbers(label, start, cut, facts, log, picked=None, capacity=None):
                                        f"{f['b']['value']:.2f} {f['a']['unit']} on {f['b']['ts_utc']:%Y-%m-%d} ({mv['ch']:+.2f} {f['a']['unit']}, "
                                        f"{mv['pct']:+.1f}%) {f['ref']}"))
     picked = {} if picked is None else picked   # session 2704: what the opening number chooses from
+    capacity = capacity if capacity is not None else picked.get("capacity")   # session 1895 (row 68), as main passes it
     moves.sort(key=lambda m: -abs(m["pct"]))
     picked["moves"] = moves   # session 1446: every move, for the opening number's choice and the stand-ins below
     if moves:
@@ -1573,7 +1574,8 @@ def main(argv=None):
                 plants[r["cluster_id"]] = p
         log(f"  plants named and listed in eia860m_planned_generators: {len(plants)}")
         cap = next(({"plant": plants[r["cluster_id"]], "rec": r} for r in shown.to_dict("records") if r["cluster_id"] in plants), None)
-        five = five_numbers(label, start, cut, facts, log, picked, cap)   # session 806, kept; session 2704: what the opening reads
+        picked["capacity"] = cap   # session 1895 (row 68): the five's first stand-in, before a second price
+        five = five_numbers(label, start, cut, facts, log, picked)   # session 806, kept; session 2704: what the opening reads
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6

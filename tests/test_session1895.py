@@ -124,7 +124,8 @@ class Row64TheLimitation(unittest.TestCase):
             src = f.read()
         self.assertIn("plant_ix = plant_index(read_table(\"eia860m_planned_generators\"))", src)
         self.assertIn("plants.get(r['cluster_id'])", src)
-        self.assertIn("five = five_numbers(label, start, cut, facts, log, picked, cap)", src)
+        self.assertIn("picked[\"capacity\"] = cap", src)
+        self.assertIn("five = five_numbers(label, start, cut, facts, log, picked)", src)
 
 
 class Row68TheCapacityStandIn(unittest.TestCase):
