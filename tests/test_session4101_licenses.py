@@ -36,6 +36,27 @@ def rows(name):
         return list(csv.DictReader(f))
 
 
+class Wildcards(unittest.TestCase):
+    """Session 4161: urllib's parser reads "*" and "$" literally; the confirmation tool reads them as the convention does."""
+
+    def test_a_star_rule_refuses_every_path_below_the_root(self):
+        lines = ["User-agent: *", "Disallow: /*/", "Disallow: /fmtemp/"]
+        self.assertFalse(C.wildcard_allows(lines, "ERW-connector", "/taxes/"))
+        self.assertFalse(C.wildcard_allows(lines, "ClaudeBot", "/about/policies/privacy.php"))
+        self.assertTrue(C.wildcard_allows(lines, "ERW-connector", "/index.html"))
+
+    def test_the_longest_rule_wins_and_allow_wins_a_tie(self):
+        lines = ["User-agent: *", "Disallow: /data/", "Allow: /data/terms$", "Allow: /x", "Disallow: /x"]
+        self.assertTrue(C.wildcard_allows(lines, "ERW-connector", "/data/terms"))
+        self.assertFalse(C.wildcard_allows(lines, "ERW-connector", "/data/terms/more"))
+        self.assertTrue(C.wildcard_allows(lines, "ERW-connector", "/x"))
+
+    def test_a_group_naming_the_agent_replaces_the_star_group(self):
+        lines = ["User-agent: *", "Disallow:", "", "User-agent: ClaudeBot", "User-agent: GPTBot", "Disallow: /"]
+        self.assertTrue(C.wildcard_allows(lines, "ERW-connector", "/terms"))
+        self.assertFalse(C.wildcard_allows(lines, "ClaudeBot", "/terms"))
+
+
 class Pieces(unittest.TestCase):
     def test_a_sentence_joined_with_an_ellipsis_in_brackets_is_found_piece_by_piece(self):
         s = "Permission is granted to copy the data. [...] Write to the office at 1 Main Street for anything else."
