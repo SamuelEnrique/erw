@@ -2262,6 +2262,9 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
             # session 3337 (faults file row 123): "EQT, Range Resources To Combine To Form $50B Gas Giant" states the
             # combined company's size, not the deal's (USD 13 billion in energy_deals)
             noun = "Combined company value"
+        elif field != "mw" and re.search(r"\bbacklogs?\b", f"{(r.get('titles') or [''])[0]} {(heads or {}).get(r['cluster_id'], '')}", re.I):
+            # session 3354 (faults file row 136): "Kinder Morgan Backlog Surges ..." states a company's backlog, not a deal
+            noun = "Project backlog"
         region = str(r.get("region") or "").strip()
         place = f", {region}" if region and region.lower() != "global" else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""

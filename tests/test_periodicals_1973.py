@@ -762,6 +762,13 @@ class Rows134And135W40OnTheStack(unittest.TestCase):
         self.assertIn("a FERC order", brief.why_line("Utilities wait on a FERC order for Texas.", "Grid rules"))
 
 
+class Row136ABacklogIsNoDeal(unittest.TestCase):
+    def test_kinder_morgan(self):
+        r = rec("k", "Kinder Morgan Backlog Surges on AI Data Centers, Southeast Power Demand", sector="deal", price="$14.4 billion",
+                parties="Kinder Morgan")
+        self.assertIn("Project backlog, USA: USD 14.4 billion", brief.story_row("x", [r], ("deal",), {}, None, "a figure", ("money",))[0])
+
+
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
     """Row 93: a grid held for license prints no weekly mean in the Roundup's table, and its real-time table is not read."""
 
