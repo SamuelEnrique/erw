@@ -48,3 +48,16 @@ Energy Research Warehouse (ERW). Chain 244 (`queue/done/244-day-16-november-oldl
 - 137: "Capital raised: USD 825 billion" from "Meta Reports $825 Billion in Future Spending Commitments" reads "Spending committed"; a raise, a round, a loan keeps "Capital raised"; else "Capital".
 - The 60 importing test files OK (1,137 tests). Row 10's head moved with them.
 
+## Session 3356: every figure of the latest dry runs traced
+
+- The Digests of 22, 23, 27, 28 and 29 October on the stack: `check_digest.py` 149 ok, 0 failed (3 "not here": fun facts those days never had). W40 to W42: `check_roundup.py` 48 ok, 0 failed.
+
+## Session 3357: the note
+
+- `docs/state/note_2026-11-13_oldlaptop_c244.md`.
+
+## Session 3358: the next file, the queue
+
+- `queue/next/246-day-17-november-oldlaptop-periodicals-continued.md` filled: the stored 13 November Digest first, row 10, the stored W46, the stored October Digests against the stack.
+- Then `chain_queue.py next`.
+
