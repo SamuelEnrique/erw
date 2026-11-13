@@ -414,3 +414,12 @@ test("Nevada's abatement: off by default; where approved 55 percent off the read
   near(F.propertyTax(P, on, 19).tax, 150e6 * (1 - 19 / 30) * 0.01, 1e-12, "after the 20 years");
   assert.equal(F.propertyTax(P, { ...on, own: null }, 0).tax, null, "no rate, no figure");
 });
+
+test("Maryland: counties tax 50 percent of generating equipment's value, every technology, on the reader's own rate", () => {
+  for (const t of ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]) {
+    const md = { ...F.defaults(P, t, "md"), mw: 100, capex: 1500, own: 1.2, ownyears: 25 };
+    near(F.propertyTax(P, md, 0).tax, 150e6 * 0.5 * 0.012, 1e-12, t);
+    near(F.propertyTax(P, md, 10).tax, 150e6 * (1 - 10 / 25) * 0.5 * 0.012, 1e-12, t + ", year 11");
+  }
+  assert.equal(F.propertyTax(P, { ...F.defaults(P, "utility_pv", "md"), own: null }, 0).tax, null, "no rate, no figure");
+});
