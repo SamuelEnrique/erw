@@ -60,7 +60,7 @@ The scanner's flags and the watch list, most related to the day's top stories fi
 - No en dash from a publisher's title (row 119); a refining or road-fuel title is oil's and a gas price title with a verb is gas's, whatever power tag the scorer gave (rows 120 and 125); sector codes print as "LNG", "PPA" (row 127).
 - The emails drop a gated pointer link with its clause (row 105).
 
-## 8. What changed on the evening of 13 November 2026 (chain 252, rows 151 to 170)
+## 8. What changed on the evening of 13 November 2026 (chain 252, rows 151 to 172)
 
 - The chart of the day: a monthly watch card's month ("2026-08") is read as its first day, and the section's lines are written before its picture and record, so a chart that cannot be written leaves nothing behind (row 151: on 13 November the issue said no chart was shown beside the chart's committed record). The no-chart line says why, "no candidate passed the chart's rules" or "the chart chosen by its rules could not be drawn", with no pointer to the run log (row 160).
 - The real-time line names the interval in words and in the grid's zone, "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00 UTC)"; the variable is on the Tables line (row 152, the Roundup's row 71 for the Digest).
@@ -74,3 +74,4 @@ The scanner's flags and the watch list, most related to the day's top stories fi
 - The subject's figure goes with its quantity words ("up to", "nearly") and a capacity with its "of"; a percent is a figure; the clause keeps the headline's capital (row 165, in `roundup.head_clause`, which both subjects use).
 - An agency's long name counts as its initials when two clusters are read for one topic or one event ("Department of Energy" is DOE; row 168).
 - A scale word ("gigawatt-scale") is read against the cluster's scored MW as well as the headline's (row 169); a sector named by a count noun reads as its plural in an also line ("Also in deals:"), and the also line's readers read capitals (row 170).
+- The emails: the plain text names the chart once (row 171). A subscriber's topics read the v2 issue's sections and a sector in capitals; until then a subscriber with topics was sent no story from a v2 issue (row 172), and an "Also in LNG:" line took its item's why line and source in the email (row 170).
