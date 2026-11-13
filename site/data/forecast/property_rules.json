@@ -1,0 +1,76 @@
+{
+ "version": "2026-11-13",
+ "note": "The forecast tool's property tax rules for a generating project, each read from the state's own statute page on 13 November 2026 by chain 239 (lab-desktop window 4), with the statute's words quoted. A state not here has no rule held: the tool shows no property tax figure there unless the reader types one. Land under a project is not modeled anywhere (docs/methods/forecast.md, section 4). Request numbers are the rows of runs/w4/probe.csv on lab-desktop (the request log of chain 239).",
+ "sources": {
+  "mn_272_029": {"title": "Minnesota Statutes 2026, section 272.029, Wind energy production tax", "url": "https://www.revisor.mn.gov/statutes/cite/272.029", "read": "2026-11-13", "request": 34},
+  "mn_272_0295": {"title": "Minnesota Statutes 2026, section 272.0295, Solar energy production tax", "url": "https://www.revisor.mn.gov/statutes/cite/272.0295", "read": "2026-11-13", "request": 35},
+  "ia_427b_26": {"title": "Iowa Code 2026, section 427B.26, Special valuation of wind energy conversion property", "url": "https://www.legis.iowa.gov/docs/code/427B.26.pdf", "read": "2026-11-13", "request": 36},
+  "ne_77_6203": {"title": "Nebraska Revised Statutes 77-6203, Nameplate capacity tax", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-6203", "read": "2026-11-13", "request": 38},
+  "sd_10_35_16": {"title": "South Dakota Codified Laws 10-35-16, Definition of terms", "url": "https://sdlegislature.gov/api/Statutes/10-35-16.html", "read": "2026-11-13", "request": 40},
+  "sd_10_35_17": {"title": "South Dakota Codified Laws 10-35-17, Alternative annual tax on wind farm property and solar facilities", "url": "https://sdlegislature.gov/api/Statutes/10-35-17.html", "read": "2026-11-13", "request": 41},
+  "sd_10_35_18": {"title": "South Dakota Codified Laws 10-35-18, Annual tax based on nameplate capacity of wind farm or solar facility", "url": "https://sdlegislature.gov/api/Statutes/10-35-18.html", "read": "2026-11-13", "request": 39},
+  "sd_10_35_19_1": {"title": "South Dakota Codified Laws 10-35-19.1, Annual tax on electricity produced by wind farm after March 31, 2015 or by solar facility", "url": "https://sdlegislature.gov/api/Statutes/10-35-19.1.html", "read": "2026-11-13", "request": 42}
+ },
+ "states": {
+  "mn": {
+   "name": "Minnesota",
+   "rules": [
+    {"id": "mn_wind_production", "technologies": ["land_based_wind"], "kind": "production",
+     "tiers": [{"min_mw_exclusive": 12, "usd_per_mwh": 1.2}, {"min_mw_exclusive": 2, "max_mw": 12, "usd_per_mwh": 0.36}, {"min_mw_exclusive": 0.25, "max_mw": 2, "usd_per_mwh": 0.12}],
+     "cite": "mn_272_029",
+     "quote": "(1) for a large scale wind energy conversion system, .12 cents per kilowatt-hour of electricity produced by the system; (2) for a medium scale wind energy conversion system, .036 cents per kilowatt-hour of electricity produced by the system; and (3) for a small scale wind energy conversion system of two megawatts or less, but greater than .25 megawatts capacity, .012 cents per kilowatt-hour of electricity produced by the system.",
+     "quote2": "\"large scale wind energy conversion system\" means a wind energy conversion system of more than 12 megawatts, as measured by the nameplate capacity of the system",
+     "arithmetic": ".12 cents per kWh is USD 1.20 per MWh; .036 cents is USD 0.36; .012 cents is USD 0.12",
+     "not_modeled": "The combination of systems within five miles built within 12 months under common ownership (subd. 2(b)); the exemption of systems owned by a political subdivision (subd. 3(b)); the wind and solar equipment's own exemption from the general property tax (section 272.02, not read by this chain)."},
+    {"id": "mn_solar_production", "technologies": ["utility_pv"], "kind": "production",
+     "tiers": [{"min_mw_ac_exclusive": 1, "usd_per_mwh": 1.2}],
+     "cite": "mn_272_0295",
+     "quote": "(a) For a solar energy generating system with a capacity exceeding one megawatt alternating current, the tax is $1.20 per megawatt-hour. (b) A solar energy generating system with a capacity of one megawatt alternating current or less is exempt from the tax imposed under this section.",
+     "not_modeled": "The combination of systems built within 12 months as a single development (subd. 2(b))."}
+   ]
+  },
+  "sd": {
+   "name": "South Dakota",
+   "in_lieu": {"cite": "sd_10_35_17", "quote": "The alternative taxes imposed by §§ 10-35-18, 10-35-19, and 10-35-19.1, are in lieu of all taxes levied by the state, counties, municipalities, school districts, or other political subdivisions of the state on the personal and real property of the company which is used or intended for use as a renewable facility, but are not in lieu of the retail sales and service tax imposed by chapter 10-45, the use tax imposed by chapter 10-46, or any other tax."},
+   "rules": [
+    {"id": "sd_capacity", "technologies": ["land_based_wind", "utility_pv"], "kind": "capacity", "usd_per_mw_year": 3000, "min_mw": 5,
+     "cite": "sd_10_35_18",
+     "quote": "Any company owning or holding under lease, or otherwise, real or personal property used, or intended for use, as a wind farm producing power for the first time after June 30, 2007, or a solar facility, shall pay an annual tax equal to three dollars multiplied by the nameplate capacity of the renewable facility.",
+     "cite2": "sd_10_35_16",
+     "quote2": "\"Nameplate capacity,\" the number of kilowatts a renewable facility can produce, as assigned to the power units in the renewable facility by the manufacturer and determined by the secretary; [...] \"Wind farm,\" all real or personal property used or constructed for the purpose of producing electricity for commercial purposes utilizing the wind as an energy source and with a nameplate capacity of at least five thousand kilowatts.",
+     "arithmetic": "three dollars a kilowatt is USD 3,000 a MW; a wind farm or solar facility is at least 5,000 kW (5 MW)",
+     "not_modeled": "The proration of the first year (the tax begins the first calendar year the facility has gross receipts): the tool charges whole operating years."},
+    {"id": "sd_wind_production", "technologies": ["land_based_wind"], "kind": "production", "usd_per_mwh": 0.45, "min_mw": 5,
+     "cite": "sd_10_35_19_1",
+     "quote": "Any company owning or holding under lease, or otherwise, real or personal property used, or intended for use, as a wind farm producing power for the first time after March 31, 2015, shall pay an annual tax of $.00045 per kilowatt hour of electricity produced by the wind farm.",
+     "arithmetic": "USD 0.00045 per kWh is USD 0.45 per MWh"},
+    {"id": "sd_solar_production", "technologies": ["utility_pv"], "kind": "production", "usd_per_mwh": 0.9, "min_mw": 5,
+     "cite": "sd_10_35_19_1",
+     "quote": "Any company owning or holding under lease, or otherwise, real or personal property used, or intended for use, as a solar facility, shall pay an annual tax of $.00090 per kilowatt hour of electricity produced by the solar facility.",
+     "arithmetic": "USD 0.00090 per kWh is USD 0.90 per MWh"}
+   ]
+  },
+  "ne": {
+   "name": "Nebraska",
+   "rules": [
+    {"id": "ne_nameplate", "technologies": ["land_based_wind", "utility_pv"], "kind": "capacity", "usd_per_mw_year": 3518,
+     "cite": "ne_77_6203",
+     "quote": "(1)(a) The owner of a renewable energy generation facility annually shall pay a nameplate capacity tax equal to the total nameplate capacity of the commissioned renewable energy generation facility multiplied by a tax rate of three thousand five hundred eighteen dollars per megawatt.",
+     "exempt_owners": "(2) No tax shall be imposed on a renewable energy generation facility or energy storage resource: (a) Owned or operated by the federal government, the State of Nebraska, a public power district, a public power and irrigation district, an individual municipality, a registered group of municipalities, an electric membership association, or a cooperative",
+     "not_modeled": "Which technologies are a renewable energy generation facility is defined in section 77-6201, not read by this chain: the tool applies the rule to wind and solar and not to geothermal until it is read. Whether the tax replaces the property tax on the equipment is not stated in 77-6203 (not read elsewhere): the tool computes no other property tax in Nebraska. The proration of the first year."}
+   ]
+  },
+  "ia": {
+   "name": "Iowa",
+   "rules": [
+    {"id": "ia_wind_valuation", "technologies": ["land_based_wind"], "kind": "valuation", "basis": "net acquisition cost",
+     "schedule_pct": [0, 5, 10, 15, 20, 25, 30], "then_pct": 30, "requires": "local_rate",
+     "cite": "ia_427b_26",
+     "quote": "a. For the first assessment year, at zero percent of the net acquisition cost. b. For the second through sixth assessment years, at a percent of the net acquisition cost which rate increases by five percentage points each assessment year. c. For the seventh and succeeding assessment years, at thirty percent of the net acquisition cost.",
+     "quote2": "A city council or county board of supervisors may provide by ordinance for the special valuation of wind energy conversion property as provided in subsection 2.",
+     "optional": "The special valuation applies only where the county or city has enacted the ordinance, so the tool offers it as a choice (on by default only when the reader says so; see docs/methods/forecast.md, section 4).",
+     "not_modeled": "The local levy: no statewide figure is held, so the tax needs the reader's levy rate (dollars per 1,000 of taxable value). The excess cost adjustment in the net acquisition cost."}
+   ]
+  }
+ }
+}
