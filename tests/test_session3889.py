@@ -158,5 +158,35 @@ class TheNetworksDemand(unittest.TestCase):
         self.assertEqual([f["check"] for f in figs if abs(self.mine[f["check"]] - f["raw"]) > 1e-9], [])
 
 
+class TheRollupsAreDerived(unittest.TestCase):
+    """Session 3888: datacenter_tracker_rollups' header names its input on a "Derived from:" line, which
+    build_coverage.py reads for coverage's derived column. Without it the table read as derived "no" with no run log,
+    and the package's provenance test (test_fetch_types_and_provenance) refused it in the daily run of 13 November
+    2026. Where datacenter_projects is on this machine the builder is run into a temporary folder and its header read."""
+
+    def coverage(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+        import build_coverage
+        return build_coverage
+
+    def test_the_builder_writes_the_line(self):
+        with open(os.path.join(ROOT, "warehouse", "derived", "datacenter_tracker_rollups.py"), encoding="utf-8") as f:
+            self.assertIn('"Derived from: datacenter_projects"', f.read())
+        self.assertEqual(self.coverage().derived_from(["# Derived from: datacenter_projects"]), ["datacenter_projects"])
+
+    def test_the_written_header_is_read_as_derived(self):
+        import subprocess
+        import tempfile
+        if not os.path.exists(os.path.join(ROOT, "warehouse", "output", "datacenter_projects.csv")):
+            raise unittest.SkipTest("datacenter_projects is not on this machine")
+        with tempfile.TemporaryDirectory() as d:
+            p = subprocess.run([sys.executable, os.path.join(ROOT, "warehouse", "derived", "datacenter_tracker_rollups.py"),
+                                "--out", d], capture_output=True, text=True, cwd=ROOT, timeout=300)
+            self.assertEqual(p.returncode, 0, p.stderr[-500:])
+            with open(os.path.join(d, "datacenter_tracker_rollups.csv"), encoding="utf-8") as f:
+                header = [ln for ln in f if ln.startswith("#")]
+        self.assertEqual(self.coverage().derived_from(header), ["datacenter_projects"])
+
+
 if __name__ == "__main__":
     unittest.main()
