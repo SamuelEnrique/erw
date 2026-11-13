@@ -49,3 +49,11 @@ Energy Research Warehouse (ERW). Chain 251 (`queue/done/251-day-19-november-oldl
 - The order is right by its rule: Milwaukee's row holds no state, so neither row counts as US. That gap, and Microsoft's pledge extracted as the Forest County Potawatomi Community's facility, are the extraction's, so they belong to the data machine (noted in row 150).
 - Tests: `Row150TheRoundupsTablesSayWhatTheyHold` (3). The 24 files importing `roundup`: 612 passed.
 - **Row 10:** pushed at `9dea67903`, the head moved; merges with `origin/main` with no conflict.
+
+## Session 3446: the stack's issues as email
+
+- The stack's 12 November Digest and W46 dry runs rendered with `email_digest.render` (`runs/s3446_render.py`, nothing sent; `--preview` sends, so it was not used). Output in `runs/periodicals_dryrun/s3446/`.
+- One fault, this chain's own: row 148's status read "the newest EIA had published, the same close the last issue printed (no newer close is held)". When the close is the last issue's, the first clause now goes; row 148 and the method note say so. The 24 files importing `brief`: 606 passed.
+- Re-seen, not new: the fold link and the footer go to GitHub, because every page is in review (row 20, the owner's).
+- The site's parser (`lib/digest.ts`) and `/about` read none of the new sentences, so no site file changes. `/about`'s "a reason only when a scored story of the day names that price" stays true under row 149.
+- **Row 10:** pushed at `a898be5be`, the head moved; merges with `origin/main` with no conflict.
