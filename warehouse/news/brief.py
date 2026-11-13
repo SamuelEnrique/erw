@@ -1229,7 +1229,8 @@ def price_story(label, clusters, pct=None):
     for r in clusters.to_dict("records"):
         title = str((r.get("titles") or [""])[0])
         text = f" {title} {r.get('why') or ''} ".lower()
-        if names_price(label, text) and agrees(text, pct):   # row 104
+        # row 126: a title with a price of its own ("Oil Prices Climb Above $106", beside WTI's 108.21) is passed over
+        if names_price(label, text) and agrees(text, pct) and not MONEY.search(title):   # row 104
             return f" Named in the week's stories: {money_style(nodash(title)).strip().rstrip('.')} ({link_text(list(r.get('links') or [])[:1])})."
     return ""
 
@@ -1249,6 +1250,10 @@ def price_reason(label, clusters, pct=None):
             # or a rule the title does not), whatever its share of the title's words: "Commodity price movement driven
             # by fundamentals, impacts market sentiment and producer economics." beside Henry Hub named nothing
             if not why or not new_things(why, title):
+                continue
+            # session 3348 (faults file row 126): a line with prices of its own ("Brent near USD 106.80 and WTI USD 93.78")
+            # contradicts the close it would explain (WTI at 108.21 the same week); the next naming story is tried
+            if MONEY.search(why):
                 continue
             return f" Reason, from the day's stories: {why} ({link_text(list(r.get('links') or [])[:1])})"
     return ""
@@ -1792,7 +1797,7 @@ def also_line(recs):
     sector = [x for x in recs if x.get("kind") == "sector"]
     out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []
     if sector:
-        label = ALSO_SECTOR.format(sector=str(sector[0].get("sector") or "this sector").replace("_", " "))
+        label = ALSO_SECTOR.format(sector=sector_words(sector[0].get("sector")) or "this sector")
         out.append(f"{label} " + "; ".join(part(x) for x in sector) + ".")
     return " ".join(out)
 
@@ -1803,10 +1808,19 @@ def sector_line(r, head):
     nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
     why = why_line(r["why"], head)
     link = link_text(r["links"][:1])
-    lead = f"- {head} ({r['sector'].replace('_', ' ')})"
+    lead = f"- {head} ({sector_words(r['sector'])})"
     if why:
         return f"{lead}: " + " ".join(x for x in (why, link) if x)
     return f"{lead}." + (f" {link}" if link else "")
+
+
+SECTOR_WORDS = {"lng": "LNG", "ppa": "PPA"}   # session 3348 (faults file row 127): "(lng, 3 stories)", "(ppa, 4 stories)"
+
+
+def sector_words(sector):
+    """A sector's tag as an item line prints it: its words, an acronym in capitals."""
+    s = str(sector or "")
+    return SECTOR_WORDS.get(s, s.replace("_", " "))
 
 
 def item_lines(r, head, why, sources):
@@ -2461,7 +2475,7 @@ def main(argv=None):
             numbers in full (session 1444: built again when the fold's count asks for another story)."""
             M = ["## What moved", ""]
             for i, r in enumerate(recs[:n_moved], 1):
-                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
                                 " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
                                 f"Sources: {link_text(r['links'])}")
             # rulings items 5 and 14: the rest folds under "More", not cut
@@ -2469,7 +2483,7 @@ def main(argv=None):
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
-                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ",
+                M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
                                 (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
                                 f"Sources: {link_text(r['links'])}")
             M += ["", "### By sector", ""]

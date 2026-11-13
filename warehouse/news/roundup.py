@@ -1962,13 +1962,13 @@ def main(argv=None):
         if weekend.empty:
             L.append(weekend_empty_line(wk_start, newest))   # session 1882 (row 60)
         for i, r in enumerate(weekend.to_dict("records"), 1):
-            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")  # 470, 577, 801, 802; 1894
         L += ["", "### The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
-            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            L += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   more_why(r, heads, steps), f"Sources: {link_text(r['links'])}")   # session 1894 (row 63)
 
@@ -2058,7 +2058,7 @@ def main(argv=None):
         if not recs:
             W.append("- no scored story of the week to rank.")
         for i, r in enumerate(recs, 1):
-            W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+            W += brief.item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({brief.sector_words(r['sector'])}, {r['n']} "
                                   f"{'story' if r['n'] == 1 else 'stories'})  ",
                                   " ".join(x for x in (brief.why_line(r['why'], heads[r['cluster_id']]), evidence_gap(r, heads[r['cluster_id']], steps.get(r['cluster_id']), plants.get(r['cluster_id']), bench_of(r, facts))) if x),
                                   f"Sources: {link_text(r['links'])}")

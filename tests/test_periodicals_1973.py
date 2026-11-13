@@ -462,10 +462,10 @@ class Rows100To103W45OnTheStack(unittest.TestCase):
     def test_101_a_failing_line_names_the_story(self):
         import roundup
         move = {"label": "Brent crude", "pct": -18.6, "ch": -22.32, "text": "Brent crude closed at 97.83 USD/bbl on 2026-11-06 [5]"}
-        stories = pd.DataFrame([{"titles": ["Oil prices tumble $20 in a week"], "parties": "", "why": "Oil prices fell.",
+        stories = pd.DataFrame([{"titles": ["Oil prices tumble as Gulf tankers return"], "parties": "", "why": "Oil prices fell.",
                                  "links": [("Reuters", "https://example.org/r")]}])
         line = roundup.opening_lines(roundup.opening_number({"moves": [move], "move": move}, stories))[2]
-        self.assertIn("Named in the week's stories: Oil prices tumble USD 20 in a week ([Reuters](https://example.org/r)).", line)
+        self.assertIn("Named in the week's stories: Oil prices tumble as Gulf tankers return ([Reuters](https://example.org/r)).", line)
 
     def test_104_a_story_of_higher_prices_names_no_fall(self):
         import roundup
@@ -706,6 +706,23 @@ class Row125EuropeanGasIsGas(unittest.TestCase):
                   "European gas touches €100 for first time since 2022 energy crisis"):
             self.assertEqual(brief.sector_of({"sector": "power_prices", "title": t}), "gas", t)
         self.assertEqual(brief.sector_of({"sector": "generation", "title": "Gas plant hits full output in Texas"}), "generation")
+
+
+class Rows126And127W42OnTheStack(unittest.TestCase):
+    def test_126_a_reason_with_its_own_prices_is_passed_over(self):
+        c = pd.DataFrame([
+            {"titles": ["Oil climbs as Middle East risk outweighs Russian supply"], "why": "Brent near $106.80 and WTI $93.78 show Middle East risk outweighing Russian supply.",
+             "links": [("Rigzone", "https://example.org/a")]},
+            {"titles": ["Oil climbs as Houthi attacks close the Red Sea to tankers"], "why": "Houthi forces struck two tankers near Hodeidah on 14 October.",
+             "links": [("Reuters", "https://example.org/b")]}])
+        out = brief.price_reason("WTI Cushing crude", c, 9.6)
+        self.assertNotIn("93.78", out)
+        self.assertIn("Houthi forces struck two tankers", out)
+
+    def test_127_the_tags(self):
+        self.assertEqual(brief.sector_words("lng"), "LNG")
+        self.assertEqual(brief.sector_words("ppa"), "PPA")
+        self.assertEqual(brief.sector_words("datacenter_power"), "datacenter power")
 
 
 class Row93TheRoundupHoldsTheHeldGrids(unittest.TestCase):
