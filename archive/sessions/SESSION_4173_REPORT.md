@@ -6,7 +6,7 @@ Energy Research Warehouse (ERW). Chain 245, session 8 of 16, lab-desktop third w
   - the sentence confirmed on ISO-NE's current page (read 1672);
   - info@iso-ne.com, the address that page names for permission, with Participant Support's number;
   - the stated use;
-  - the 32 tables ISO-NE's data feed, with an appendix of their exact fields read from the data machine's files (read only); the news items in `news_index` named apart;
+  - the 32 tables that carry ISO-NE's data, with an appendix of their exact fields read from the data machine's files (read only); the news items in `news_index` named apart;
   - the session 205 draft kept below it word for word.
   - Nothing sent.
 - **`/data/licenses`'s line on ISO-NE's draft** now says it was brought up to date (`site/app/data/licenses/page.tsx`).
