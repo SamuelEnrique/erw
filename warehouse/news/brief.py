@@ -574,10 +574,24 @@ OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - Internation
                 "ft.com": "Financial Times", "wsj.com": "WSJ"}   # session 3352 (rows 133, 134): the paper's name, as its other links give it
 
 
+# Session 3478 (faults file row 176): an outlet the feed names by its address is named as its other links name it
+# ("[bloomberg.com]" beside "[Bloomberg.com]", the stack's 28 September), a subdomain by its domain ("ep.ft.com",
+# "partners.wsj.com", "lei.bloomberg.com")
+DOMAIN_NAMES = {"bloomberg.com": "Bloomberg.com", "ft.com": "Financial Times", "wsj.com": "WSJ", "reuters.com": "Reuters",
+                "hartenergy.com": "Hart Energy", "hydrogeninsight.com": "Hydrogen Insight", "jpt.spe.org": "JPT",
+                "nyiso.com": "NYISO", "caiso.com": "CAISO", "ercot.com": "ERCOT", "misoenergy.org": "MISO", "cpuc.ca.gov": "CPUC"}
+
+
 def outlet_name(src):
     s = str(src or "").strip()
     if s in OUTLET_NAMES:
         return OUTLET_NAMES[s]
+    if re.fullmatch(r"[a-z0-9-]+(?:\.[a-z0-9-]+)+", s):   # session 3478 (row 176): an address, then its domains, longest first
+        parts = s.split(".")
+        for k in range(len(parts) - 1):
+            name = DOMAIN_NAMES.get(".".join(parts[k:]))
+            if name:
+                return name
     return re.sub(r"\s+Home ?page$", "", s, flags=re.I) or s
 
 

@@ -635,6 +635,23 @@ class Row175AUSProject(unittest.TestCase):
         self.assertTrue(brief.an_word("uncertain"))
 
 
+class Row176AnOutletByItsName(unittest.TestCase):
+    """Row 176: "[bloomberg.com] (via Google News)" (the stack's 28 September) beside "[Bloomberg.com]" elsewhere: an outlet
+    the feed named by its address."""
+
+    def test_the_names(self):
+        for src, name in [("bloomberg.com", "Bloomberg.com"), ("lei.bloomberg.com", "Bloomberg.com"), ("ep.ft.com", "Financial Times"),
+                          ("partners.wsj.com", "WSJ"), ("hartenergy.com", "Hart Energy"), ("jpt.spe.org", "JPT"), ("nyiso.com", "NYISO"),
+                          ("cdn.misoenergy.org", "MISO"), ("ia.cpuc.ca.gov", "CPUC"), ("example.com", "example.com"),
+                          ("Bloomberg.com", "Bloomberg.com"), ("JPT Homepage", "JPT")]:
+            self.assertEqual(brief.outlet_name(src), name, src)
+
+    def test_one_outlet_once(self):
+        links = [("Bloomberg.com", "https://news.google.com/a"), ("bloomberg.com", "https://news.google.com/b"), ("Reuters", "https://example.org/r")]
+        self.assertEqual(brief.link_text(links), "[Bloomberg.com](https://news.google.com/a) (via Google News), [Reuters](https://example.org/r)")
+        self.assertEqual(brief.link_text([("hartenergy.com", "https://example.org/h")]), "[Hart Energy](https://example.org/h)")
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
