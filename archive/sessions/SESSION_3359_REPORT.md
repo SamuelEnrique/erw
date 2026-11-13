@@ -27,3 +27,9 @@ Energy Research Warehouse (ERW). Chain 246 (`queue/done/246-day-17-november-oldl
 - MemFree 2.7 GB: a foreground build of `wip/1973-periodicals` at `6ff16cb25`. The first try failed writing `/data/methods/interconnection_agreements` ("UNKNOWN: unknown error, write"), a page this branch does not touch; the retry passed (exit 0). Served with the internal cookie and read with curl: the stored Roundups W39, W40, W43, W44 and W45 show no held figure (row 108 complete). Server stopped by its port, the cookie file deleted, `paused.json` restored.
 - **Row 10**: head moved with the row's state; its tests and build recorded in its cell.
 
+## Session 3367: the stored Digests of 7, 8, 9 and 12 October against the stack, rows 142 and 143
+
+- 142: "Deal value, Canada: CAD 12 Per Share" (7 October): a sum per share, per barrel or per unit is no structural figure.
+- 143: "Also named: OPEC+." under "OPEC, Allies Hold ...": a party's trailing "+" is read off.
+- 8, 9 and 12 October: nothing new. The 60 importing test files OK (1,143 tests). Row 10's head moved with them.
+
