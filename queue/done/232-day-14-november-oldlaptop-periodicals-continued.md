@@ -20,7 +20,14 @@ Long end 1:00 each. One step a session, in chain 228's order, as session 1999 li
 
 ### Unfinished steps (written by session 1999 of chain 228)
 
-(Session 1999 fills this list.)
+Chain 228 ran every session (1972 to 1999) and fixed rows 79 to 99 of the periodicals' faults file on `wip/1973-periodicals` (row 10 of `docs/state/landing_request_oldlaptop.md`, requested). What it did not reach, in this order:
+
+1. (Session 3312) The W45 dry run on the stack (`runs/periodicals_dryrun/s1973/roundup/2026-W45-stack-nomodel.md`, 399 stories) read in full as a reader; chain 228 read W46's in full and W45's only through the stored issue and row 93. Each new fault a numbered row (from 100), fixed on a stack cut from `wip/1973-periodicals` (or from main once row 10 has landed).
+2. (Session 3313) The emails: `warehouse/news/email_digest.py`'s render of a dry-run Digest and Roundup on the stack (text and HTML, `--out` only, nothing sent), read at 390 and 1280 as a reader reads an inbox; the subject lines of rows 89 and 95 and the held cells of row 93 checked in the email too.
+3. (Session 3314) The no-model path: with `--no-model` the Digest's opening prints the publisher's title with its sum unstyled ("SpaceX Plans $74 Billion Data Center Projects ..."); decide whether the opening's quoted title takes the money style (row 86's rule for printed titles) and say so.
+4. (Session 3315) If row 10 has landed: the first Digest written after the landing and the Roundup of W46 (written Sunday 15 November 23:00 UTC) read as stored, each fix of rows 79 to 99 checked in print; if not landed, the same on a dry run of the newest day, said so.
+5. (Session 3316) If row 10 has landed: its clean-up (the worktree `erw-1973` removed with its `.next` and `node_modules`, `wip/1973-periodicals` deleted on origin, row 10 marked landed); else skipped, said so.
+6. Row 65 and row 39 stay the owner's; the W44 and W45 held prices and the 12 November chart's record wait for Samuel's ruling (`docs/state/note_2026-11-13_oldlaptop.md`).
 
 ## Sessions 3318 to 3324: the periodicals, again
 

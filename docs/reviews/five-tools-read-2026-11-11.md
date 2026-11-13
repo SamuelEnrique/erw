@@ -15,6 +15,8 @@ Counts after chain 214 (the states in each faults file). "Fixed" is landed on ma
 | Attention and friction indices (`/attention`) | `attention-faults-2026-11-11.md` | 24 | 11 | 0 | 7 | 2 | 4 |
 | **All five** | | **121** | **55** | **0** | **28** | **11** | **27** |
 
+After chains 217 and 219 (session 1905, 13 November 2026): the counts are unchanged; no row of the five faults files changed state. The two chains landed the board, the periodicals, the records and the paths' faults (`b1bc8829f`). That landing also printed the datacenter tracker's grids view's public columns (session 1898, lab path fault 2), which are datacenter row 4, the owner's ruling; session 1905 put the default back (the cells carry footnote 1) until the owner rules.
+
 ## The three worst of each, in plain words
 
 - **Deal tracker.** Every address shows the license hold and no deal (row 1, the owner's: `energy_deals` held whole since 21 October); before the fix the held page drew zero counts as if there were no deals (fixed); the AI view's dollar list ranked acquisitions and funding rounds as power deals (fixed; the rows themselves are the data machine's, rows 9 to 13).
