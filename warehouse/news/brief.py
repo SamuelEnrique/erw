@@ -181,7 +181,8 @@ def sector_of(lead):
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
 _BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
 FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b)", re.I),   # 3459, row 154
-               "gas": re.compile(rf"\b(?:natural )?gas {_BALANCE}\b", re.I)}
+               # session 3463 (row 163): "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (12 November)
+               "gas": re.compile(rf"\b(?:(?:natural )?gas (?:{_BALANCE}|forwards?|futures)|lng {_BALANCE}|lng prices?)\b", re.I)}
 
 
 def build_clusters(stories):
@@ -1623,7 +1624,19 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     return lines + notes.lines()
 
 
-def policy_actions_lines(start, end, log, n=3):
+def printed_links(paths):
+    """Session 3463 (faults file row 164): every link the issues at `paths` printed."""
+    out = set()
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                out |= set(LINK_RE.findall(f.read()))
+        except OSError:
+            continue
+    return out
+
+
+def policy_actions_lines(start, end, log, n=3, printed=None):
     """Session 24: the policy actions of the window (policy_actions: the Federal Register and agency news) scored 5 or
     more with the news rubric, most significant first, as the Policy group's last lines. The title is the agency's own."""
     path = os.path.join(ip.OUT_DIR, "policy_actions.csv")
@@ -1636,6 +1649,11 @@ def policy_actions_lines(start, end, log, n=3):
     d = pd.to_datetime(a["event_date"], utc=True, format="ISO8601")
     # the actions are dated by day: the window's days, from the day it starts
     a = a[(d >= start.normalize()) & (d < end) & (a["significance"] != "")]
+    # session 3463 (faults file row 164): a window opens at the last issue's end, but the actions are dated by day, so an
+    # action of that day was in both issues (Long Mott's construction permit, 12 and 13 November 2026); an action whose
+    # link an earlier issue printed is left out, as a story is (`printed`: those issues' links)
+    if printed:
+        a = a[~a["source_url"].isin(printed)]
     a = a[a["significance"].astype(int) >= 5].assign(sig=lambda x: x["significance"].astype(int))
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
@@ -2717,7 +2735,7 @@ def main(argv=None):
                     seen.add(r["cluster_id"])
                     pool.append(r)
         L += numbers_block(facts, op, pool, heads)
-        policy_lines = policy_actions_lines(start, now, log)
+        policy_lines = policy_actions_lines(start, now, log, printed=printed_links(earlier_issues(digest_date)))   # 3463, row 164
 
         def middle(n_moved):
             """What moved with n_moved stories, then the fold: the rest of the top ten, the sectors, AI and power, the

@@ -378,5 +378,54 @@ class Row162TheFivesLoadNamesItsDeveloper(unittest.TestCase):
                                           "load of the week names no operator, developer or site; it is in the table below).")
 
 
+class Row163AGasForwardsTitleIsGass(unittest.TestCase):
+    """Row 163: "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (power prices) under Power, the stack's
+    dry run of 12 November."""
+
+    def test_the_gas_market_titles(self):
+        for title, sector in [("Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?", "gas"),
+                              ("Natural gas futures slip on mild forecasts", "gas"),
+                              ("LNG prices climb in Asia", "gas"),
+                              ("Gas-fired plants set output records", "power_prices"),
+                              ("LNG Canada starts up its second train", "power_prices")]:
+            self.assertEqual(brief.sector_of({"sector": "power_prices", "title": title}), sector, title)
+
+
+class Row164APolicyActionIsPrintedOnce(unittest.TestCase):
+    """Row 164: "Long Mott Energy, LLC; Long Mott Generating Station; Construction Permit (NRC notice, policy action)" was in
+    the issues of 12 and 13 November: the actions are dated by day, and the window's first day is the last issue's last."""
+
+    COLS = "event_date,title,agency,action_type,significance,why,source_url\n"
+    ROWS = ("2026-11-12,Long Mott Energy; Construction Permit,NRC,notice,8,The permit authorizes building.,https://www.federalregister.gov/a\n"
+            "2026-11-13,A new rule,EPA,rule,7,The rule sets limits.,https://www.federalregister.gov/b\n")
+
+    def lines(self, printed):
+        import pandas as pd
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "policy_actions.csv"), "w", encoding="utf-8") as f:
+                f.write("# test\n" + self.COLS + self.ROWS)
+            with mock.patch.object(brief.ip, "OUT_DIR", d):
+                return brief.policy_actions_lines(pd.Timestamp("2026-11-12T22:56Z"), pd.Timestamp("2026-11-13T16:01Z"), lambda m: None,
+                                                  printed=printed)
+
+    def test_an_action_the_last_issue_printed_is_left_out(self):
+        got = self.lines({"https://www.federalregister.gov/a"})
+        self.assertEqual(len(got), 1)
+        self.assertIn("A new rule", got[0])
+        self.assertEqual(len(self.lines(set())), 2)
+
+    def test_the_links_of_earlier_issues(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "2026-11-12.md")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("- Long Mott (NRC notice, policy action): x. [NRC](https://www.federalregister.gov/a)\n")
+            self.assertEqual(brief.printed_links([p, os.path.join(d, "missing.md")]), {"https://www.federalregister.gov/a"})
+
+    def test_the_issue_passes_the_earlier_issues(self):
+        import inspect
+        self.assertIn("printed=printed_links(earlier_issues(digest_date))", inspect.getsource(brief.main))
+
+
 if __name__ == "__main__":
     unittest.main()
