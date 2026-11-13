@@ -533,6 +533,46 @@ class Row170TheEmailKeepsTheWhyBesideAnLNGAlsoLine(unittest.TestCase):
                                 "   Also in LNG: Another LNG story (Reuters)."])
 
 
+class Row172TheTopicFilterReadsTheV2Issues(unittest.TestCase):
+    """Row 172: a subscriber with topics was sent no story from a v2 issue: the filter (`email_digest.items`) read the old
+    headings only, and a sector in capitals ("LNG") was no sector."""
+
+    MD = ["# ERW Daily Digest, 2026-11-13", "", "## What moved", "",
+          "1. **Centrus and Oklo finalise fuel agreements** (nuclear)  ", "   One outlet. Sources: [World Nuclear News](https://example.org/n)",
+          "", "## More", "", "### The rest of the top ten", "", "1. **Venture Global seeks approval** (LNG)  ",
+          "   Sources: [LNG Prime](https://example.org/l)", "", "### By sector", "", "**Oil and gas**", "",
+          "- Canada to invest in Woodfibre LNG (LNG): Public capital. [Reuters](https://example.org/r)", "",
+          "### AI and power", "", "- Nscale brings two data centers online (datacenter power). [DCD](https://example.org/d)", ""]
+
+    def test_the_items(self):
+        import email_digest
+        got = [(x["head"], x["sector"]) for x in email_digest.items(self.MD, "daily")]
+        self.assertEqual(got, [("Centrus and Oklo finalise fuel agreements", "nuclear"), ("Venture Global seeks approval", "LNG"),
+                               ("Canada to invest in Woodfibre LNG", "LNG"), ("Nscale brings two data centers online", "datacenter power")])
+
+    def test_a_subscribers_topics(self):
+        import email_digest
+        keep, note = email_digest.filtered(self.MD, "daily", ["gas_lng"])
+        self.assertEqual([k["head"] for k in keep], ["Venture Global seeks approval", "Canada to invest in Woodfibre LNG"])
+        self.assertTrue(note.startswith("Your topics: Gas and LNG. These are the highest-ranked stories in them"), note)
+        keep, _ = email_digest.filtered(self.MD, "daily", ["nuclear"])
+        self.assertEqual([k["head"] for k in keep], ["Centrus and Oklo finalise fuel agreements"])
+
+    def test_the_topic_of_a_sector_in_capitals(self):
+        import topics
+        self.assertEqual(topics.topic_of("LNG"), "gas_lng")
+        self.assertEqual(topics.topic_of("PPA"), "deals_capital")
+        self.assertEqual(topics.topic_of("datacenter power"), "datacenters_ai")
+
+    def test_the_roundups_v2_headings(self):
+        import email_digest
+        md = ["# ERW Weekly Roundup, 2026-W46", "", "## What mattered", "", "1. **SpaceX plans data center projects** (datacenter power, 3 stories)  ",
+              "   Sources: [Bloomberg](https://example.org/b)", "", "## More", "", "### The five stories of the week", "",
+              "1. **OPG to revise SMR timeline** (nuclear, 4 stories)  ", "   Sources: [WNN](https://example.org/w)", ""]
+        self.assertEqual([(x["head"], x["sector"]) for x in email_digest.items(md, "roundup")],
+                         [("SpaceX plans data center projects", "datacenter power"), ("OPG to revise SMR timeline", "nuclear")])
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""
