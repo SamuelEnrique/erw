@@ -111,3 +111,19 @@ Energy Research Warehouse (ERW). Chain 252 (`queue/done/252-day-20-november-oldl
 - **Not a fault:** a past week's dry run reads policy reads written later, so W45's "Next week" lists "the permit was issued on November 9" from a notice of 12 November.
 - **No build:** MemFree about 2.1 GB, under 2.5.
 - **Row 11:** moved to `1f45e5525` (the merge).
+
+## Session 3467: the stack's issues as email, row 171
+
+- The stack's 13 November Digest and W46 dry runs rendered with `email_digest.render` (`runs/s3467_render.py`, nothing sent; `runs/periodicals_dryrun/s3467/`).
+- **Row 171 (new, fixed):** the plain-text email printed the chart's description, "[chart: Net generation from natural gas in Wyoming: ...] <address>", then the same sentence again on the next line. That is in 12 November's email as sent, and in every chart since session 232. The text part now gives "[chart] <address>" when the next line is the description; the HTML keeps it as alt text.
+- **By design, kept:** the text part names a Google News outlet without its address (session 803), and prints What moved's first three items (session 2703).
+- Tests: `Row171TheTextEmailNamesTheChartOnce` (2). The 66 files: 1,261 passed, 20 skipped.
+- **Row 11:** moved to `91cc7525c`.
+
+## Session 3468: every stored Roundup week on the stack
+
+- W39 to W44 as dry runs on the stack (`--no-model`, main's tables; `runs/periodicals_dryrun/s3468/`), with W45 (session 3466) and W46 (session 3462), scanned for rows 161, 162 and 165.
+- **Row 161 holds:** in all eight weeks the five's deal of the week is in the Deals table. The stored issues before W45 were written by the old code, which had no deal-of-the-week line.
+- **Row 162 holds:** the five's datacenter row now names the developer the table already showed. W44 reads "10,400 MW, SB Energy (developer), OH." where row 118's line said "52 MW, Vyoma, Chennai (2 larger loads ... name no operator or site)". W40, W42 and W43 name places with no country ("Pyhajoki", "Wagga Wagga", "Newport") because their rows hold none (the data machine's).
+- **Seen, kept:** W39's subject ends "TotalEnergies Announces Final Investment". The publisher's title is in Title Case (the issue with no model), so row 157's rule, which reads a lower-case word inside a phrase, has nothing to go back to. With the model, headlines are in sentence case.
+- No new row. "Also in LNG:" (W40) is now read by the email and the fold's count (row 170).
