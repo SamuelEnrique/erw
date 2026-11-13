@@ -22,7 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 FIELDS = ("threshold_mw", "min_demand", "contract_term", "collateral", "exit_fee", "study_timeline",
           "connection_timeline", "queue_size")
-STATUSES = ("proposed", "approved", "in effect")
+STATUSES = ("proposed", "approved", "in effect", "denied", "withdrawn")  # session 5301: a commission may reject a proposal
 EM, EN = chr(0x2014), chr(0x2013)
 
 
@@ -61,6 +61,14 @@ RESTRICTED = {
     "aeptexas.com": "AEP's legal notice (personal use only)",
     "kentuckypower.com": "AEP's legal notice (personal use only)",
     "in.gov": "IN.gov's statewide terms (written permission)",
+    "portlandgeneral.com": "PGE's legal notices (personal or noncommercial use), per the northwest group's reading",
+    "rockymountainpower.net": "PacifiCorp's terms (no use unless permitted in writing)",
+    "pacificpower.net": "PacifiCorp's terms (no use unless permitted in writing)",
+    "basinelectric.com": "Basin Electric's terms (no reproduction without written consent)",
+    "chelanpud.org": "Chelan PUD's terms, per the northwest group's reading",
+    "northwesternenergy.com": "NorthWestern Energy's terms, per the northwest group's reading",
+    "blackhillsenergy.com": "Black Hills Energy's terms, per the northwest group's reading",
+    "oppd.com": "OPPD's terms (personal, non-commercial use)",
 }
 
 
@@ -73,17 +81,51 @@ def restricted(url: str):
     return None
 
 
-def license_audit(row: dict) -> str | None:
-    """The reason a public row must be internal: a value whose every cite is a restricted host's document."""
+def restricted_fields(row: dict) -> dict:
+    """The fields whose every cite is a restricted host's document, with the host's terms."""
     src = row.get("source_url", "")
+    out = {}
     for f in FIELDS:
         v = (row.get("fields") or {}).get(f) or {}
         cites = v.get("cites") or []
         if cites and not marker(v.get("value", "")):
             whys = [restricted(c.get("url") or src) for c in cites]
             if all(whys):
-                return f"{f} rests only on a host whose terms ask permission: {whys[0]}"
+                out[f] = whys[0]
+    return out
+
+
+def license_audit(row: dict) -> str | None:
+    """The reason a public row must be internal (session 5301): its main document is a restricted host's, or every
+    valued field rests only on restricted hosts. A row with only some such fields stays public and names them in
+    internal_fields, for window A to leave out of a public copy."""
+    src = row.get("source_url", "")
+    why = restricted(src)
+    if why:
+        return f"its main document is on a host whose terms ask permission: {why}"
+    rf = restricted_fields(row)
+    valued = [f for f in FIELDS if not marker(((row.get("fields") or {}).get(f) or {}).get("value", ""))]
+    if valued and set(valued) <= set(rf):
+        return "every value rests only on hosts whose terms ask permission: " + "; ".join(sorted(set(rf.values())))
     return None
+
+
+def apply_audit(row: dict) -> str | None:
+    """Set license and internal_fields in place; return what changed, for the log."""
+    note = None
+    why = license_audit(row)
+    if why and row.get("license") == "public":
+        row["license"] = "internal"
+        row["license_basis"] = (row.get("license_basis", "").rstrip() + " Made internal by the license audit: " + why
+                                + ".").strip()
+        note = "internal: " + why
+    rf = restricted_fields(row)
+    if row.get("license") == "public" and rf:
+        row["internal_fields"] = sorted(rf)
+        note = (note or "") + f" internal_fields {sorted(rf)}"
+    else:
+        row.pop("internal_fields", None)
+    return note
 
 
 def marker(v: str) -> bool:
@@ -155,12 +197,9 @@ def main() -> int:
             st["date"] = m.group(1) if m else ""
             r["notes"] = (r.get("notes", "").rstrip() + f" Status date as the reading group wrote it: '{date}'.").strip()
             print(f"status date normalized: {r.get('utility', '')[:40]} | '{date}' -> '{st['date']}'")
-        why = license_audit(r)
-        if why and r.get("license") == "public":
-            r["license"] = "internal"
-            r["license_basis"] = (r.get("license_basis", "").rstrip() + " Made internal by merge_group.py's license audit: "
-                                  + why + ".").strip()
-            print(f"internal by the license audit: {r.get('utility', '')[:50]} | {r.get('rule_name', '')[:50]}")
+        note = apply_audit(r)
+        if note:
+            print(f"license audit: {r.get('utility', '')[:50]} | {note}")
     bad = 0
     for i, r in enumerate(rows):
         # a queue figure a holding company states for several utilities sits on one row of the group (session 5300)

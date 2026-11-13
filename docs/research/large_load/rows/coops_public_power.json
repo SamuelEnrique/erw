@@ -194,7 +194,11 @@
    "license_basis": "the rule, status and queue fields are cited to Basin's SEC prospectus (public); the study and connection timelines and two status cites are read only from basinelectric.com, whose terms of use state \"Any reproduction and distribution of any and all material on this websites without the express written consent of Basin Electric Power Cooperative is strictly prohibited\": treat those fields as internal",
    "erw_overlap": "none (window A holds no registry file for Basin Electric)",
    "notes": "Basin's Q3 2026 10-Q: projected capital expenditures exclude loads that qualify as large loads under the program, and the member peak forecast is exclusive of large loads. The onboarding one-pager also lists Phase A requirements (new load application, NDA, ownership and control disclosure, initial financial screening), Decision Point 1 (MOU, study prefunding agreement, $50K non-refundable application fee) and Decision Point 2 (board authorization, definitive agreements, final financial screening). A newer one-pager version on basinmembers.com (\"One-Pager-2-26\") is behind the members-only login and was not read. Lead, outside 2025 to 2026: FERC rejected Basin's proposed cryptocurrency and large load (over 75 MW) rate schedules in 2024 (news reports only; FERC order not read). Basin's NextEra MOU on a 1,450 MW combined-cycle plant in Mercer County is in the prospectus (MD&A, Large Load Commercial Program).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "internal_fields": [
+    "connection_timeline",
+    "study_timeline"
+   ]
   },
   {
    "utility": "Old Dominion Electric Cooperative",
