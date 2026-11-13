@@ -72,7 +72,11 @@ def case_facts(lines, n):
         m = re.match(r"^\s*Operating Life\s+years\s+(\d+)\s*$", l)
         if m and "operating_life_years" not in got:
             got["operating_life_years"] = int(m.group(1))
-    return got if len(got) == 2 else None
+        m = re.match(r"^\s*Net Plant Heat Rate, Higher Heating Value \(HHV\) Basis\s+Btu/kWh\s+([\d,]+)\s*$", l)
+        if m and "heat_rate_btu_per_kwh_hhv" not in got:
+            got["heat_rate_btu_per_kwh_hhv"] = int(m.group(1).replace(",", ""))
+    need = {"construction_months", "operating_life_years"}
+    return got if need <= set(got) else None
 
 
 def read(text):

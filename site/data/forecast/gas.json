@@ -1,0 +1,38 @@
+{
+ "about": "The gas plant's fuel (docs/methods/forecast.md, section 7): EIA's combined-cycle heat rate, JEDI's default capacity factor, the 2025 Henry Hub price and EIA's heat content of gas delivered to electric power.",
+ "heat_rate_btu_per_kwh": 6266,
+ "heat_rate_source": "EIA capital cost study for AEO2025, case 5 (CC 2x2x1), Net Plant Heat Rate, HHV basis (site/data/forecast/eia_capex.json)",
+ "capacity_factor": 0.65,
+ "capacity_factor_source": {
+  "value": 0.65,
+  "cells": "ProjectData, Capacity Factor (Percentage), 0.65 (SummaryResults!C5 of the saved project)",
+  "file": "01d-jedi-ngas-model_rel-ng4-17-17.xlsm"
+ },
+ "price_usd_per_mmbtu": 3.5267,
+ "price_source": "EIA Short-Term Energy Outlook, series NGHHUUS (Henry Hub spot, USD/MMBtu), the mean of its 12 history months of 2025, from eia_steo_forecasts",
+ "price_months": {
+  "2025-01": 4.13,
+  "2025-02": 4.19,
+  "2025-03": 4.12,
+  "2025-04": 3.42,
+  "2025-05": 3.12,
+  "2025-06": 3.02,
+  "2025-07": 3.2,
+  "2025-08": 2.91,
+  "2025-09": 2.97,
+  "2025-10": 3.19,
+  "2025-11": 3.79,
+  "2025-12": 4.26
+ },
+ "btu_per_cf": 1034,
+ "btu_per_cf_source": {
+  "btu_per_cf": 1034,
+  "year": 2024,
+  "series": "Electric Power",
+  "url": "https://www.eia.gov/dnav/ng/ng_cons_heat_dcu_nus_a.htm",
+  "read": "2026-11-13, chain 239 session 4202 (runs/w4/probe.csv request 43)",
+  "words": "Heat Content of Natural Gas Consumed (Btu per Cubic Foot), U.S., Electric Power, 2024: 1,034"
+ },
+ "written_at": "2026-11-13T10:45:00Z",
+ "written_by": "warehouse/forecast/params.py"
+}

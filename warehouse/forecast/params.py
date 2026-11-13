@@ -9,6 +9,7 @@ Nothing is filled: a state the source does not give is absent from the file, and
     .venv\\Scripts\\python.exe warehouse/forecast/params.py sales <Tax Foundation 2026 sales tax rates page, html>
     .venv\\Scripts\\python.exe warehouse/forecast/params.py income <Tax Foundation 2026 income tax rates page, html>
     .venv\\Scripts\\python.exe warehouse/forecast/params.py cf [warehouse/output folder]
+    .venv\\Scripts\\python.exe warehouse/forecast/params.py gas [warehouse/output folder]    (after eia_capex.py)
 
 Exit 0 written, 1 the source did not read as expected (nothing written), 2 bad input.
 """
@@ -231,9 +232,38 @@ def cf(folder):
     }, None
 
 
+# ---- the gas plant's fuel ------------------------------------------------------------------------------------------
+HEAT_CONTENT = {"btu_per_cf": 1034, "year": 2024, "series": "Electric Power", "url": "https://www.eia.gov/dnav/ng/ng_cons_heat_dcu_nus_a.htm",
+                "read": "2026-11-13, chain 239 session 4202 (runs/w4/probe.csv request 43)",
+                "words": "Heat Content of Natural Gas Consumed (Btu per Cubic Foot), U.S., Electric Power, 2024: 1,034"}
+JEDI_GAS_CF = {"value": 0.65, "cells": "ProjectData, Capacity Factor (Percentage), 0.65 (SummaryResults!C5 of the saved project)",
+               "file": "01d-jedi-ngas-model_rel-ng4-17-17.xlsm"}
+
+
+def gas(folder):
+    capex = json.load(open(os.path.join(DATA, "eia_capex.json"), encoding="utf-8"))["technologies"]["natural_gas"]
+    hr = capex.get("heat_rate_btu_per_kwh_hhv")
+    hh = [r for r in rows(os.path.join(folder, "eia_steo_forecasts.csv"))
+          if r["entity"] == "eia_steo:NGHHUUS" and r["ts_utc"].startswith("2025-") and r["x_kind"] == "history"]
+    if len(hh) != 12 or not hr:
+        return None, f"gas: {len(hh)} history months of 2025 for NGHHUUS, heat rate {hr}"
+    price = sum(float(r["value"]) for r in hh) / 12
+    return {
+        "about": "The gas plant's fuel (docs/methods/forecast.md, section 7): EIA's combined-cycle heat rate, JEDI's default "
+                 "capacity factor, the 2025 Henry Hub price and EIA's heat content of gas delivered to electric power.",
+        "heat_rate_btu_per_kwh": hr,
+        "heat_rate_source": "EIA capital cost study for AEO2025, case 5 (CC 2x2x1), Net Plant Heat Rate, HHV basis (site/data/forecast/eia_capex.json)",
+        "capacity_factor": JEDI_GAS_CF["value"], "capacity_factor_source": JEDI_GAS_CF,
+        "price_usd_per_mmbtu": round(price, 4),
+        "price_source": "EIA Short-Term Energy Outlook, series NGHHUUS (Henry Hub spot, USD/MMBtu), the mean of its 12 history months of 2025, from eia_steo_forecasts",
+        "price_months": {r["ts_utc"][:7]: float(r["value"]) for r in hh},
+        "btu_per_cf": HEAT_CONTENT["btu_per_cf"], "btu_per_cf_source": HEAT_CONTENT,
+    }, None
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    if not argv or argv[0] not in ("deflator", "sales", "income", "cf"):
+    if not argv or argv[0] not in ("deflator", "sales", "income", "cf", "gas"):
         print(__doc__, file=sys.stderr)
         return 2
     kind = argv[0]
@@ -241,11 +271,11 @@ def main(argv=None):
     if not os.path.exists(arg):
         print(f"params: {arg} does not exist", file=sys.stderr)
         return 2
-    doc, err = {"deflator": deflator, "sales": sales, "income": income, "cf": cf}[kind](arg)
+    doc, err = {"deflator": deflator, "sales": sales, "income": income, "cf": cf, "gas": gas}[kind](arg)
     if err:
         print("params:", err, file=sys.stderr)
         return 1
-    name = {"deflator": "deflator.json", "sales": "sales_tax.json", "income": "income_tax.json", "cf": "capacity_factors.json"}[kind]
+    name = {"deflator": "deflator.json", "sales": "sales_tax.json", "income": "income_tax.json", "cf": "capacity_factors.json", "gas": "gas.json"}[kind]
     write(name, doc)
     print(f"params: {kind} written to site/data/forecast/{name}")
     return 0
