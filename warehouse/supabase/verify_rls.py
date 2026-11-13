@@ -33,6 +33,8 @@ What is checked, and what a mismatch is:
      cron, vault, erw_private, storage or extensions is refused); the anon role holds no usage on cron, vault or
      erw_private and cannot execute the dispatcher; each scheduled job is one call of the dispatcher and holds no
      text shaped like a key.
+  9. With --catalog (session 5174): a signed-in user (the role authenticated: sign-ups are on) holds no privilege,
+     policy or function of schema public that the anon key does not.
 
 Exit 0 when everything matches, 1 on any mismatch, 2 when the key or the address is not set. Never prints a key.
 """
@@ -449,6 +451,46 @@ def check_surface(db_url, origin, key, out=print, reader=schema_read):
     return bad
 
 
+def check_signed_in(db_url, out=print):
+    """Session 5174: sign-ups are on in Supabase Auth (the review's L8), so anyone may mint a token of the role
+    `authenticated`. Every other step proves what the anon key may do; this proves a signed-in user may do no more:
+    no privilege on a relation of schema public that anon lacks, no policy that names authenticated (or every role)
+    and not anon, no function authenticated may execute that anon may not. Read-only."""
+    import psycopg
+    privs = ["select", "insert", "update", "delete", "truncate", "references", "trigger", "usage"]
+    bad = 0
+    with psycopg.connect(db_url, autocommit=False) as conn:
+        conn.execute("set transaction read only")
+        relations = conn.execute(
+            "select c.relname, array(select p from unnest(%s::text[]) p where case when c.relkind = 'S' then p in ('select', 'update', 'usage') "
+            "       and has_sequence_privilege('authenticated', c.oid, p) and not has_sequence_privilege('anon', c.oid, p) "
+            "       else p <> 'usage' and has_table_privilege('authenticated', c.oid, p) and not has_table_privilege('anon', c.oid, p) end) "
+            "from pg_class c join pg_namespace n on n.oid = c.relnamespace "
+            "where n.nspname = 'public' and c.relkind in ('r', 'p', 'v', 'm', 'S') order by 1", (privs,)).fetchall()
+        policies = conn.execute(
+            "select schemaname || '.' || tablename, policyname, cmd, roles::text from pg_policies where schemaname in ('public', 'storage') "
+            "and (roles && array['authenticated', 'public']::name[]) and not (roles && array['anon']::name[]) order by 1, 2").fetchall()
+        functions = conn.execute(
+            "select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.prokind = 'f' "
+            "and has_function_privilege('authenticated', p.oid, 'execute') and not has_function_privilege('anon', p.oid, 'execute') "
+            "and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e') order by 1").fetchall()
+        conn.rollback()
+    out("9. a signed-in user (sign-ups are on) against the anon key")
+    more = [(name, extra) for name, extra in relations if extra]
+    for name, extra in more:
+        bad += 1
+        out(f"   {name:26s} MISMATCH: authenticated holds {', '.join(extra)} and anon does not")
+    for table, name, cmd, roles in policies:
+        bad += 1
+        out(f"   {table:26s} MISMATCH: the policy {name} ({cmd}) names {roles} and not anon")
+    for (name,) in functions:
+        bad += 1
+        out(f"   {name:26s} MISMATCH: authenticated may execute it and anon may not")
+    out(f"   {len(relations)} relations of schema public: authenticated holds more than anon on {len(more)}; "
+        f"policies for authenticated alone: {len(policies)}; functions for authenticated alone: {len(functions)}")
+    return bad
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Verify what the anon key can read (read-only)")
     ap.add_argument("--catalog", action="store_true", help="also read the catalog over SUPABASE_DB_URL")
@@ -469,6 +511,7 @@ def main(argv=None):
         bad += check_functions(db_url)
         bad += check_storage(db_url, f"{u.scheme}://{u.netloc}", key)
         bad += check_surface(db_url, f"{u.scheme}://{u.netloc}", key)
+        bad += check_signed_in(db_url)
     print(f"{'PASS' if bad == 0 else 'FAIL'}: {bad} mismatch(es)")
     return 0 if bad == 0 else 1
 
