@@ -301,9 +301,13 @@ export function digestMarkdown(md: string, date: string, chart: { table: string;
       const r = revisions[f.key];
       const who = f.part === "fuel" ? "EIA" : "The publisher";
       const when = /\|(\d{4}-\d{2}-\d{2})(?:T|$)/.exec(f.key.slice(f.key.lastIndexOf("|")))?.[1] ?? "";
-      const what = f.label ?? `${currentTable(f.table)} ${f.entity}`;
-      const words = `${who} revised the ${what} ${f.part === "fuel" ? "close" : "price"}${when ? ` for ${day(when)}` : ""} after this issue was written: `
-        + `the warehouse now holds ${shownTwo(r.value)}${f.unit}; the issue printed ${f.text}${f.unit} and keeps it as its record.`;
+      // session 4009: US48 demand's peak hour is a revised figure too, said in whole MW
+      const demand = f.part === "demand";
+      const what = demand ? "US48 demand" : f.label ?? `${currentTable(f.table)} ${f.entity}`;
+      const noun = f.part === "fuel" ? "close" : demand ? "peak hour" : "price";
+      const held = demand ? Math.round(r.value).toLocaleString("en-US") : shownTwo(r.value);
+      const words = `${who} revised the ${what} ${noun}${when ? ` for ${day(when)}` : ""} after this issue was written: `
+        + `the warehouse now holds ${held}${f.unit}; the issue printed ${f.text}${f.unit} and keeps it as its record.`;
       return token(`<span data-revised="${esc(f.key)}" data-revised-value="${r.value}" data-revised-printed="${esc(f.raw)}" class="text-muted">${esc(words)}</span>`);
     });
     out.splice(num.end, 0, "", ...notes.flatMap((n, i) => (i ? ["", n] : [n])));
