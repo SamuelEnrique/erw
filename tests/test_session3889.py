@@ -99,5 +99,94 @@ class TheSetIsOneBuild(unittest.TestCase):
         self.assertEqual(sets, [{"eia-henry-hub-spot", "ercot-hb-hubavg-spark", "nyiso-n-y-c-heat"}])
 
 
+class TheNetworksDemand(unittest.TestCase):
+    """The Grid tool's replication (replication/grid/replicate.py network) draws each grid's demand in the hour shown as
+    the page's demandAt does: on 13 November 2026 the daily run's snapshot held demand at the hour shown, the page drew
+    six demand figures the replication did not, test 3703 failed in the push guard and the daily commit was refused.
+    Here the committed snapshot is given demand at its hour shown, both ways the page keys it, and every figure of the
+    page's own code (node) must be in the replication and agree."""
+
+    @classmethod
+    def setUpClass(cls):
+        import importlib.util
+        import json
+        import shutil
+        import tempfile
+        snap_path = os.path.join(ROOT, "site", "data", "grid_network.json")
+        if not os.path.exists(snap_path) or shutil.which("node") is None:
+            raise unittest.SkipTest("the snapshot or node is not here")
+        rep = os.path.join(ROOT, "replication", "grid")
+
+        def module(name, file):
+            spec = importlib.util.spec_from_file_location(name, os.path.join(rep, file))
+            m = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(m)
+            return m
+        cls.r, cls.b = module("replicate_grid_3889", "replicate.py"), module("figures_grid_3889", "figures_of_the_page.py")
+        with open(os.path.join(rep, "assumptions.json"), encoding="utf-8") as f:
+            cls.a = json.load(f)
+        with open(snap_path, encoding="utf-8") as f:
+            snap = json.load(f)
+        hour = cls.r.network(snap, {}, cls.a)[0]
+        for n in snap["nodes"]:
+            if n["id"] in ("ERCO", "PJM"):        # the daily run's way: the node's demand at the hour shown
+                n.update(demand_mw=50000.5, demand_ts=hour, demand_src=None)
+                n.pop("demand_recent", None)
+            elif n["id"] == "CISO":               # the hourly refresh's way: its recent demand, keyed netsnap|
+                n.update(demand_src="hourly", demand_recent={hour: 25000.0}, demand_ts=hour, demand_mw=25000.0)
+        cls.tmp = tempfile.mkdtemp(prefix="erw3889_")
+        cls.path = os.path.join(cls.tmp, "grid_network.json")
+        with open(cls.path, "w", encoding="utf-8") as f:
+            json.dump(snap, f)
+        cls.hour = hour
+        cls.page = cls.b.network_group(cls.path, os.path.join(ROOT, "no-tables-here"))
+        cls.mine = cls.r.network(snap, {}, cls.a)[3]
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_the_page_draws_the_demand_both_ways(self):
+        checks = {f["check"] for f in self.page["figures"]}
+        self.assertIn(f"series|eia930_all_demand|eia930:ERCO|demand_mw|{self.hour}", checks)
+        self.assertIn(f"netsnap|CISO|demand_mw|{self.hour}", checks)
+
+    def test_every_figure_of_the_page_is_replicated_and_agrees(self):
+        figs = [f for f in self.page["figures"] if f["tab"] in ("network", "gravity")]
+        self.assertEqual([f["check"] for f in figs if f["check"] not in self.mine], [])
+        self.assertEqual([f["check"] for f in figs if abs(self.mine[f["check"]] - f["raw"]) > 1e-9], [])
+
+
+class TheRollupsAreDerived(unittest.TestCase):
+    """Session 3888: datacenter_tracker_rollups' header names its input on a "Derived from:" line, which
+    build_coverage.py reads for coverage's derived column. Without it the table read as derived "no" with no run log,
+    and the package's provenance test (test_fetch_types_and_provenance) refused it in the daily run of 13 November
+    2026. Where datacenter_projects is on this machine the builder is run into a temporary folder and its header read."""
+
+    def coverage(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+        import build_coverage
+        return build_coverage
+
+    def test_the_builder_writes_the_line(self):
+        with open(os.path.join(ROOT, "warehouse", "derived", "datacenter_tracker_rollups.py"), encoding="utf-8") as f:
+            self.assertIn('"Derived from: datacenter_projects"', f.read())
+        self.assertEqual(self.coverage().derived_from(["# Derived from: datacenter_projects"]), ["datacenter_projects"])
+
+    def test_the_written_header_is_read_as_derived(self):
+        import subprocess
+        import tempfile
+        if not os.path.exists(os.path.join(ROOT, "warehouse", "output", "datacenter_projects.csv")):
+            raise unittest.SkipTest("datacenter_projects is not on this machine")
+        with tempfile.TemporaryDirectory() as d:
+            p = subprocess.run([sys.executable, os.path.join(ROOT, "warehouse", "derived", "datacenter_tracker_rollups.py"),
+                                "--out", d], capture_output=True, text=True, cwd=ROOT, timeout=300)
+            self.assertEqual(p.returncode, 0, p.stderr[-500:])
+            with open(os.path.join(d, "datacenter_tracker_rollups.csv"), encoding="utf-8") as f:
+                header = [ln for ln in f if ln.startswith("#")]
+        self.assertEqual(self.coverage().derived_from(header), ["datacenter_projects"])
+
+
 if __name__ == "__main__":
     unittest.main()
