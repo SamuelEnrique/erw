@@ -4,6 +4,12 @@
 # A deck describing the batch study framework (PGRR145 and NPRR1325, "Batch Zero") then before the Board; the Planning
 # Guide's own clocks are in ercot_planning_guide_section_9.yaml. ERCOT's terms: "raw data provided in public portions of
 # this website may be used, reproduced, and redistributed in compilations, charts, and analyses" (licenses.md #2).
+# Session 3949 (chain 272; data request row 17, change operators_federal-02): ERCOT's Batch Zero Update of 11 September 2026
+# (https://www.ercot.com/files/docs/2026/09/11/14-Batch-Zero-Update.pdf, read by window P4's research pass on 13 November 2026)
+# says ERCOT gave the TSPs a provisional Batch Zero classification on 3 September 2026 (PGRR 145 had set 7 August for the final
+# one): 204 projects (66.4 GW) as base load and 158 (127.9 GW) as studied load; the eligibility verification report is due to
+# the PUCT by 10 December 2026. Not written as steps: the deck is a status update, and the PUCT's exception order behind it
+# (Project 59142) sits on the PUCT's host, held for its link policy.
 body: Electric Reliability Council of Texas (ERCOT)
 grid: ERCOT
 utility: ""
