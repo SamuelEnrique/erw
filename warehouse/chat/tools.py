@@ -43,6 +43,7 @@ import erw  # noqa: E402
 
 sys.path.insert(0, HERE)
 import license_hold as hold  # noqa: E402  (session 1191: the site's license hold, with ASK_HOLD=on)
+import window  # noqa: E402  (session 5267: whether a bounded window of a series is whole)
 
 AGGREGATIONS = ["latest", "mean", "median", "min", "max", "percentile", "count", "sum"]
 TIME_GROUPS = ["year", "month", "day", "hour"]
@@ -101,7 +102,7 @@ TOOLS = [
     },
     {
         "name": "query",
-        "description": "Compute one aggregation over one table, optionally filtered by entity, variable, time range and column values, and optionally grouped. Returns a small result table (at most 60 rows), the number of rows it was computed from, and the table's citation. Series times are interval starts in UTC. min and max also return when (and for which entity) the extreme occurred.",
+        "description": "Compute one aggregation over one table, optionally filtered by entity, variable, time range and column values, and optionally grouped. Returns a small result table (at most 60 rows), the number of rows it was computed from, and the table's citation. Series times are interval starts in UTC. min and max also return when (and for which entity) the extreme occurred. With both start and end, a series result also says under window whether the window is whole: the steps held, the steps the window has at the table's step, and the runs of steps missing.",
         "input_schema": {
             "type": "object",
             "properties": QUERY_PROPS,
@@ -489,7 +490,9 @@ def describe_table(table):
 
 # ---------------------------------------------------------------------- query
 
-def _select(df, shape, entity, variable, start, end, where, tz="UTC"):
+def _select(df, shape, entity, variable, start, end, where, tz="UTC", bounds=None):
+    """`bounds`, when a dict is given, receives the window's bounds as the UTC instants the rows were kept by
+    ("ge", "lt"; session 5267, for window.window_of)."""
     keep = pd.Series(True, index=df.index)
     if entity:
         if shape == "series":
@@ -528,6 +531,8 @@ def _select(df, shape, entity, variable, start, end, where, tz="UTC"):
                          if b.tzinfo is None else b).tz_convert("UTC")
                 except Exception:
                     raise ToolError(f"unknown time zone {tz!r}; use an IANA name such as America/Chicago")
+                if bounds is not None:
+                    bounds[op] = b
                 keep &= (t >= b) if op == "ge" else (t < b)
     for col, val in (where or {}).items():
         if col not in df.columns:
@@ -667,7 +672,8 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             return held_answer(dict(table=table, aggregation=aggregation, entity=entity, variable=variable, start=start, end=end, where=where,
                                     percentile=percentile, value_column=value_column, group_by=group_by, tz=tz, threshold=threshold), grid)
     shape = _shape(df)
-    sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
+    bounds = {}
+    sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC", bounds)
     idcol = "entity" if "entity" in sel.columns else "entity_id" if "entity_id" in sel.columns else None   # session 5260: a thing's id
     if held_on and idcol and len(sel):
         # session 1191, as the site's read: MISO's own rows are left out, and a read that held only MISO's rows is refused
@@ -699,6 +705,7 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             raise ToolError(f"column {vcol!r} is not numeric")
         df = df.assign(**{vcol: num})
         sel = sel.assign(**{vcol: num.loc[sel.index]})
+    in_window = sel         # session 5267: the rows of the window, before a threshold keeps some of them
     thr = None
     if threshold is not None:
         v = pd.to_numeric(sel[vcol], errors="coerce")
@@ -718,6 +725,17 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
            "rows_matched": int(len(sel))}
     if thr is not None:
         out["threshold"] = thr
+    if shape == "series" and start and end and "ge" in bounds and "lt" in bounds:
+        # session 5267 (warehouse/chat/window.py, as the site's lib/chat/window.ts): a window bounded by a start and an end
+        # says whether it is whole: the steps held, the steps the window has at the table's step, the runs missing. From
+        # the rows already selected; the steps are the table's own (its freq values), as the site's are the catalogue's
+        by = {f"{e}|{v_}": [int(t.value // 10 ** 9) for t in g["ts_utc"]] for (e, v_), g in in_window.groupby(["entity", "variable"])}
+        if not by:
+            by = {f"{entity or '*'}|{variable or '*'}": []}     # no row in the window: none of its steps is held for these filters
+        steps = sorted({str(f) for f in df["freq"].dropna().unique() if str(f)}) if "freq" in df else []
+        w = window.window_of(int(bounds["ge"].value // 10 ** 9), int(bounds["lt"].value // 10 ** 9), steps, by)
+        if w:
+            out["window"] = w
     if shape == "series" and len(sel):
         out["units"] = sorted(sel["unit"].unique())
         out["variables"] = sorted(sel["variable"].unique())[:10]

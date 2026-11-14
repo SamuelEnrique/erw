@@ -1,5 +1,5 @@
 {
- "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time). Session 2221 (chain 152) added a_per_kw_question, over the twelve monthly rows of battery_stack_monthly behind session 320's b01 (tests/fixtures/session1109/battery_reads.json, read from there): the question asked in USD per kW is answered with the tool's own value_usd_per_kw (81.4022), so the number check passes it at the first draft; extra became a list. Session 2222 (chain 152) added a_repeated_call: the model asks the same sum twice; the second call is answered with the repeat note and read from nothing, it is counted, and the turn of only repeats makes the next model call one that may not read (tool_choice none), in both loops alike. Session 2225 (chain 152) added a_table_held_whole (a query of energy_deals, held whole for a license: the tool refuses it by name with the hold's words and no figure, and the answer says license needed) and misos_pause (a query of MISO's rows of cost_of_power_monthly: the pause's words, no figure, a refusal), so the scripted turns cover every kind of answer the rule names. Session 5256 (chain 238) added a_table_not_in_the_live_set (the platform set's oi07): the table is listed, its query is refused because the live set does not hold it, a first draft answers as an answer with the refused table as its source and is sent back, and the second is a refusal. And a_refused_table_asked_again: told the table cannot be read, the model asks it twice more with other arguments; neither call is made (a note, counted, no record), and the call after that turn may only write. Session 5260 (chain 238) added a_held_grids_own_table (the platform set's pj08): a held grid's own table of things is refused by name, and asked again as a description it is not read either (a table refused whole is not asked again).",
+ "_about": "Session 1300 (chain 093): scripted model turns for the general chat, run through both loops (warehouse/chat/ask.py and site/lib/chat/ask.ts) over the rows of tests/fixtures/session1112/held_reads.json, by tests/test_session1300.py and site/scripts/test-ask-1300.mjs. Each turn is what the model returns: tool calls, or the answer as JSON text. The figures are the fixture's rows (cost_of_power_monthly, January 2026, rt_load_weighted: ERCOT's hub average 54.481, CAISO SP15 32.694), and the wrong ones are written wrong on purpose. Session 1317 added the scenario a_series, over the twelve yearly rows of ercot_peak_premium_annual recorded from the live set in tests/fixtures/session143/tool_reads.json (named under extra, read from there at run time). Session 2221 (chain 152) added a_per_kw_question, over the twelve monthly rows of battery_stack_monthly behind session 320's b01 (tests/fixtures/session1109/battery_reads.json, read from there): the question asked in USD per kW is answered with the tool's own value_usd_per_kw (81.4022), so the number check passes it at the first draft; extra became a list. Session 2222 (chain 152) added a_repeated_call: the model asks the same sum twice; the second call is answered with the repeat note and read from nothing, it is counted, and the turn of only repeats makes the next model call one that may not read (tool_choice none), in both loops alike. Session 2225 (chain 152) added a_table_held_whole (a query of energy_deals, held whole for a license: the tool refuses it by name with the hold's words and no figure, and the answer says license needed) and misos_pause (a query of MISO's rows of cost_of_power_monthly: the pause's words, no figure, a refusal), so the scripted turns cover every kind of answer the rule names. Session 5256 (chain 238) added a_table_not_in_the_live_set (the platform set's oi07): the table is listed, its query is refused because the live set does not hold it, a first draft answers as an answer with the refused table as its source and is sent back, and the second is a refusal. And a_refused_table_asked_again: told the table cannot be read, the model asks it twice more with other arguments; neither call is made (a note, counted, no record), and the call after that turn may only write. Session 5260 (chain 238) added a_held_grids_own_table (the platform set's pj08): a held grid's own table of things is refused by name, and asked again as a description it is not read either (a table refused whole is not asked again). Session 5272 (chain 256) added a turn of a third kind, {\"cut\": true}: the model's reply stops at its output limit with a thinking block and no text (stop_reason max_tokens). Two scenarios hold what both loops do with it: an_answer_cut_off_then_written (the reply is dropped, the model is told once and its next call may only write: the answer stands) and an_answer_cut_off_twice (the question ends in the cut-off's own words, with no figure and no error). Session 5276 added a_refusal_without_its_words: a refusal that is right and carries none of the fixed words (\"not in the warehouse\", \"license needed\", \"paused\"), as gp02's of 14 November 2026: both loops put the fixed sentence before it and change nothing else.",
  "today": "2026-10-23",
  "scenarios": [
   {
@@ -586,6 +586,106 @@
      "text": {
       "answer": "Not in the warehouse for a reader: ISO New England's interconnection queue is held for a license (license needed), so no figure of it can be given.",
       "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_cut_off_then_written",
+   "question": "What was ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "cut": true
+    },
+    {
+     "text": {
+      "answer": "ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_cut_off_twice",
+   "question": "What was ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "cut": true
+    },
+    {
+     "cut": true
+    }
+   ]
+  },
+  {
+   "id": "a_refusal_without_its_words",
+   "question": "What was ERCOT's hub average real-time load-weighted price in January 1990?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "1990-01-01",
+        "end": "1990-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "The warehouse does not hold this figure. The table cost_of_power_monthly holds no row for that month, so there is nothing to average.",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
       "not_in_warehouse": true
      }
     }

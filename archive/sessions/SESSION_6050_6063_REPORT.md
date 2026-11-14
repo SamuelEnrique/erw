@@ -2,7 +2,7 @@
 
 14 November 2026, from about 11:06 UTC. Chain file `queue/done/274-day-17-november-oldlaptop-forecast-continued.md`. Model spend under the owner's key: USD 0 so far (no model call by any tool). Read-only subagents are counted under each session.
 
-## Session 6050 (about 11:06 to 11:25 UTC): the next file, the ground
+## Session 6050 (about 11:06 to 11:10 UTC): the next file, the ground
 
 - **The list was empty**: chain 273 stopped during its session 6036 or 6037 (its last commit is the report of session 6036, `e8a358fbd`); its four readers ended with it and wrote nothing (`runs/s6037/readers/` is empty). Rebuilt from `archive/sessions/SESSION_6036_6049_REPORT.md`, which had rebuilt chain 271's list:
   1. The 25 states with a sales tax whose exemption on generating equipment is "none read (0)" (AL, AR, CA, DC, GA, ID, IN, KS, LA, MA, MI, MS, MO, NM, NV, OH, OK, PA, SC, TN, UT, VT, WV, WI, WY): read, encoded in `sales_exemptions.json` with a test where a figure is read, on `wip/6000-forecast` (landing row 12).
@@ -17,7 +17,7 @@
 - **The W46 Roundup**: not yet (newest `docs/roundup/2026-W45.md`); the newest Digest on main is 12 November. File 300 waits.
 - **Readers sent** (session 6051's step): four read-only subagents, groups A (AL AR GA LA MS MO), B (SC TN WV PA VT MA DC), C (IN MI OH WI KS OK), D (CA NV UT ID WY NM), one brief (`runs/s6050/readers/BRIEF.md`), each writing its rows to `runs/s6050/readers/group_<x>.json` as it goes.
 
-## Session 6051 (about 11:25 to 12:20 UTC): the 25 states' sales tax exemptions
+## Session 6051 (about 11:10 to 11:26 UTC): the 25 states' sales tax exemptions
 
 - **Readers**: four, about 160 page requests in all (each over the brief's 25, said so). Hosts refused, not worked around: tn.gov and publications.tnsosfiles.com (403), mass.gov (403, letter rulings), code.dccouncil.gov (robots), rules.sos.ga.gov (robots), codes.ohio.gov and oscn.net (robots: Ohio read in a bill's reprint of the existing text, Oklahoma in the Senate's compilation), leginfo.legislature.ca.gov (403 on robots: California read at CDTFA), michigan.gov (403).
 - **Spot-check by the session**: eleven quotes found word for word on their pages (KS, WV, MA, MI, SC, CA, WI, VT, PA, IN, OH; `runs/s6050/spot.py`), Missouri 144.030.2(46) read directly, New Mexico's final act (Laws 2024, chapter 67) and the Governor's message read directly: the partial veto struck sections 16 to 22 only, so section 39 (geothermal) stands. Two quotes corrected to the page's words before writing (Kansas, Vermont); Utah's URL taken from the reader's file.
@@ -25,7 +25,7 @@
 - **Tests**: `site/scripts/test-forecast.test.mjs` 52 passed, 0 failed; `tests/test_session409.py`, `test_session4203_forecast.py`, `test_session4221_forecast_readers.py` 21 passed. Not built here (rule).
 - **Landing row 12** moved to `0ce94ef84`; it had landed to `53dcfa64b` (land-c, `f359090f9`).
 
-## Session 6052 (about 12:20 to 12:50 UTC): the wind and gas machinery shares
+## Session 6052 (about 11:26 to 11:29 UTC): the wind and gas machinery shares
 
 - The list's remaining step (file 300) waits for Sunday's Roundup, so the session took the open item session 6051 left: the generating machinery's share of JEDI's wind and gas purchases.
 - nlr.gov's robots file allows all. The two workbooks downloaded to `runs/s6052/jedi/`; their sha256 equal `jedi_costs.json`'s (wind `e6e434c4...`, gas `80d5d7ea...`). Read with openpyxl, cached values only, no macro run.
@@ -33,9 +33,33 @@
 - **Gas** (ProjectData): the base is facility and equipment 375,000,000 + spare parts 3,676,471 = 378,676,471; times 0.04 it equals 15,147,058.82. Held: power generation equipment 220,588,235, 58.3 percent.
 - Applied to the twelve states (KS WV MA MI SC VT PA IN OH MO WI, and CA at 43.6 percent of the tax: wind 29.2, gas 25.4) on `wip/6000-forecast` (`0527caeeb`, pushed); method note and test brought along. Tests: node 52 passed; python 21 passed. Landing row 12 moved to `0527caeeb`.
 
-## Session 6053 (from about 12:55 UTC): a second read of the states left unsettled
+## Session 6053 (about 11:29 to 11:42 UTC): a second read of the states left unsettled
 
 - Two read-only readers sent (`runs/s6053/readers/BRIEF2.md`): group E (GA, MS, AR, TN), group F (OK, ID, WY; Nevada and New Mexico gas; Kentucky wind and gas), each told to use an official source the first read did not, and never to retry a host that refused.
+- **Settled**: Georgia (Letter Ruling LR SUT-2015-16: the machinery exemption's manufacturer includes NAICS 22111, electric power generation) and Mississippi (Administrative Code 35.IV.7.03.202: manufacturing "includes ... the generation of electricity"; 7.03.101: machinery at 1.5 percent rather than 7, held as 5.5 of 7.06 points of the tax on the machinery). **Read as none**: Idaho (the production exemption excludes utilities delivering through wires) and Nevada gas (only the discretionary abatement of NRS 360.750). Four quotes spot-checked on their pages (`runs/s6053/spot.py`).
+- **Still unsettled**: Arkansas (the revenue opinions host disallows ClaudeBot, the courts' host 403), Tennessee (capitol.tn.gov disallows all but search engines; tn.gov 403), Oklahoma (oklegislature.gov and oscn.net disallow all; Packet M silent), Wyoming (no Department text read), New Mexico gas, Kentucky wind (an inference from KY-TAM-21-01, not held) and gas. All stay 0 with their reason.
+- **Written** on `wip/6000-forecast` (`2c0c87d8f`, pushed): Georgia solar 67.2, wind 66.9, gas 58.3; Mississippi solar 52.4, wind 52.1, gas 45.4; geothermal 0 in both; Idaho and Nevada gas tips with quotes; test; method note. Tests: node 52 passed, python 21 passed. Landing row 12 moved to `2c0c87d8f`.
+
+## Session 6054 (about 11:43 to 11:53 UTC): the cross-check's fourth search
+
+- One read-only reader, about 31 requests, for Plains and Southwest solar and gas studies not yet listed. Refusals honoured: the Texas Comptroller's host (403 at robots), the Texas commission's document site (402).
+- None usable: Eagle Eye Solar, Arizona (a November 2023 draft, one county, storage included, the solar's cost not printed apart: excluded as Yuma County's was); Flickertail Solar, North Dakota (direct jobs only); Entergy Texas's Legend and Lone Star (no jobs); nothing for the Southwest's utilities' gas units. Recorded in the method note's section 9 on `wip/6000-forecast` (`4a9ec60bf`, pushed); landing row 12 moved. Rows: `runs/s6054/studies.json`.
+
+## Sessions 6055 to 6060: no step left
+
+- The list's one remaining step (file 300) waits for the W46 Roundup (Sunday 15 November, 23:00 UTC); every open item of the forecast tool this machine can do without a ruling or a refusing host was taken in sessions 6051 to 6054. The forecast faults file (`docs/reviews/forecast-faults-2026-11-13.md`) has no open row. `/impact`'s check keys carry every input, the exemption included, so the gate checks the new defaults with no new key. These six numbers are left unused.
+
+## Session 6061 (about 11:55 UTC): the records
+
+- `docs/methods/forecast.md` was brought up to date with each group (section 4's table for the 25 states, section 5's paragraph, section 9's fourth search). No faults file was touched: the exemptions were open reads, not fault rows.
+
+## Session 6062 (about 11:57 UTC): the note
+
+- `docs/state/note_2026-11-14_oldlaptop_c274.md` (name checked free on origin's main and every branch): what landed, what waits in rows 12 and 13, rulings 30 to 33 with defaults, the states still unsettled.
+
+## Session 6063 (about 12:00 UTC): the next file, the queue
+
+- File 275's unfinished steps written and pushed. No W46 Roundup and no 16 November Digest yet, so the queue step took file 275 by name (`f8115cd5d`, pushed); chain 275 runs next.
 
 ## Decisions made without you
 
@@ -43,6 +67,7 @@
 - The readers write their rows to `runs/` as they go (not only at the end), so a window that ends does not lose them a third time.
 - One rule for an exemption that reaches only the generating machinery (a manufacturing or utility machinery route): solar holds the modules and inverters, 67.2 percent of JEDI's taxable purchases (Kentucky's and Iowa's reading), times the share of the rate exempted; wind, gas and geothermal hold 0 with the exemption named and the tax called an upper bound, as no machinery share of JEDI's wind or gas purchases is held. The tax shown errs high, as the property tax held at cost does.
 - Held at 0, as earlier states were: a discretionary abatement (Alabama, Nevada, as Illinois), an exemption ending 30 June 2027 when the default build starts in 2027 (Utah, as Virginia), a regulated utility's only (Louisiana), a government buyer's only (New Mexico wind and solar), and every state not settled from an official page.
+- Sessions 6052 to 6054 took open items of the same tool (as chain 271 did) rather than idle until the Roundup; sessions 6055 to 6060 were left unused once none remained, rather than spent on reads that the rules forbid repeating.
 - New states appended after the held ones in `sales_exemptions.json`, not sorted, so the diff only adds.
 
 ## For Samuel's ruling (default in brackets)

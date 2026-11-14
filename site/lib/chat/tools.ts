@@ -18,6 +18,7 @@ import { addLocalTimes, zoneOfEntity } from "./plaintime";
 import { notLiveWords } from "./refused";
 import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
+import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -732,6 +733,16 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (thrField) out.threshold = thrField;
   if (newest) out.newest = newest;
   if (week) out.week = week;
+  // session 5267 (lib/chat/window.ts): a window bounded by a start and an end says whether it is whole, from the rows
+  // already read and the steps the catalogue lists for the table: the steps held, the steps the window has, the runs
+  // missing. No request is added and none is changed. The rows are those in the window before a threshold keeps some
+  if (shape === "series" && !family && a.day === undefined && a.start && a.end) {
+    const by: Record<string, string[]> = {};
+    for (const r of all) if (r.t) (by[`${r.entity}|${r.variable}`] ??= []).push(r.t);
+    if (!all.length) by[`${a.entity ?? "*"}|${a.variable ?? "*"}`] = [];   // no row in the window: none of its steps is held for these filters
+    const w = windowOf(parseTime(a.start, btz), parseTime(a.end, btz), (c.interval ?? "").split(";").filter(Boolean), by);
+    if (w) out.window = w;
+  }
   if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
   if (shape === "series" && rows.length) {
     const vars = Array.from(new Set(rows.map((r) => r.variable!))).sort();

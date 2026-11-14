@@ -37,7 +37,7 @@ class TheRefusals(unittest.TestCase):
         # session 3282: the call limit's first refusal, iv14 asked again (twelve calls, the durations table never listed)
         self.assertEqual(sorted(by), ["held", "lacks", "limit", "pause"])   # session 2224 (chain 152): the twenty's four questions of tables held whole
         self.assertEqual(len(by["held"]), 14)   # session 2968 (chain 157): the weekly twenty's l01 to l04 again; session 3281: iv01 to iv05
-        self.assertEqual(len(by["pause"]), 11)   # session 3769 (chain 211): the thirty's g10 again; session 2221 (chain 152): the Python loop's g10; session 2968: its g10 and l10; session 3280: tr20
+        self.assertEqual(len(by["pause"]), 12)   # session 5275 (chain 256): the trader's tr20 through the site's loop, 11 before. Session 3769 (chain 211): the thirty's g10 again; session 2221 (chain 152): the Python loop's g10; session 2968: its g10 and l10; session 3280: tr20
         self.assertEqual(len(by["limit"]), 1)
         inv, again = "session 3281, Python loop, the investor's twenty", "session 3282, Python loop, the investor's iv13 to iv15 again"
         self.assertEqual(sorted((r["run"], r["id"]) for r in rows if r["right"] is False),

@@ -2,7 +2,7 @@
 
 machine: samueloldlaptop
 
-Written first by session 6050 of chain 274 (`queue/done/274-day-17-november-oldlaptop-forecast-continued.md`) on 14 November 2026 at about 11:15 UTC, as that chain's rules ask; to be updated by its session 6063 with what chain 274 did not finish. The first queue number free on origin's main and every branch was 275 (272 is the data machine's, 300 the periodicals hold). It takes sessions 6064 to 6077, fourteen numbers after chain 274's last (6063); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written (checked 6050 to 6095). Session 6064 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5. Only one Claude Code window runs on this machine.
+Written first by session 6050 of chain 274 (`queue/done/274-day-17-november-oldlaptop-forecast-continued.md`) on 14 November 2026 at about 11:08 UTC, as that chain's rules ask; to be updated by its session 6063 with what chain 274 did not finish. The first queue number free on origin's main and every branch was 275 (272 is the data machine's, 300 the periodicals hold). It takes sessions 6064 to 6077, fourteen numbers after chain 274's last (6063); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written (checked 6050 to 6095). Session 6064 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5. Only one Claude Code window runs on this machine.
 
 ## The goal
 
@@ -22,7 +22,12 @@ One step a session, from the list below. Pushed after every group; a landing req
 
 ### Unfinished steps (to be written by session 6063 of chain 274)
 
-- (to be written)
+Written by session 6063 (14 November, about 12:00 UTC):
+
+- Chain 274 finished its list: the 25 states' sales tax exemptions, the wind and gas machinery shares from JEDI's workbooks, Georgia and Mississippi settled by a second read, and a fourth study search (none usable). All on `wip/6000-forecast` to `4a9ec60bf`, landing row 12. Note: `docs/state/note_2026-11-14_oldlaptop_c274.md`; report: `archive/sessions/SESSION_6050_6063_REPORT.md`.
+- Still unsettled, each 0 with its reason: Arkansas, Oklahoma, Tennessee, Wyoming, New Mexico gas, Kentucky wind and gas. Read again only from an official source not yet tried (the hosts that refused are listed in the report); never retry a refusing host.
+- Waiting for Samuel: rulings 30 to 33 (this chain) and 21 to 29; nothing waits on them.
+- The periodicals file `queue/next/300-day-26-november-oldlaptop-periodicals-continued.md` once the W46 Roundup (Sunday 15 November, 23:00 UTC) and the 16 November Digest exist: taken by name at once, by session 6064 if they exist by then.
 
 ## Session 6075: the records
 
