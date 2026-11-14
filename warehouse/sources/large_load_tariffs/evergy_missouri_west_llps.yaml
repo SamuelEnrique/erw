@@ -3,6 +3,9 @@
 # substitute compliance filing (JE-2026-0105), saved under runs/license_reads/s3760/ (not in git). Pages are the PDF's pages; the
 # tariff's own sheet numbers are in tariff_sheet and each term. Approved by the Commission's Order Approving Tariffs of
 # 25 February 2026 (efis.psc.mo.gov/Document/Display/866561), not read in this session.
+# Session 3937 (chain 267; data request row 12 of docs/state/data_requests_large_load.md): the collateral's exemptions
+# for a creditworthy customer added from the same filing, as window P4's research pass read it on 13 November 2026
+# (row ameren_evergy_spp-05, every cite matched); no figure changed.
 utility: Evergy Missouri West, Inc. d/b/a Evergy Missouri West
 eia_id: 12698
 state: MO
@@ -21,7 +24,7 @@ retrieved_at: 2026-11-12T10:50:13Z
 license: public
 terms:
   min_bill: {text: "Minimum Demand shall be 80% of the annual Contract Capacity. Billing Demand shall be the higher of: (a) the Monthly Maximum Demand in the current month or (b) the Minimum Demand. (second Sheet 187)", page: 8}
-  collateral: {text: "The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum Monthly Bills (Sheet 190)", page: 11}
+  collateral: {text: "The Company will require Schedule LLPS Customers to provide collateral in an amount equal to two (2) years of Minimum Monthly Bills (Sheet 190); a customer meeting the credit rating and liquidity tests will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million (down to twenty-five (25) percent, not to exceed $75 million); The Collateral Requirement must be provided at the time of executing the LLPS Service Agreement (Sheet 191, p. 12)", page: 11}
   exit_fee: {text: "an Exit Fee equal to the nominal value of the Minimum Monthly Bill times the number of months remaining in the Term or Extension Term, or for twelve (12) months, whichever is greater; with less than thirty-six (36) months' notice, an Early Termination Fee of the Exit Fee plus two (2) times the Minimum Monthly Bill times the months short (Sheet 189)", page: 10}
   ramp: {text: "During the transitional load ramp period, the Customer's maximum load may be lower than seventy-five megawatts (75 MW). (Sheet 187)", page: 7}
   term: {text: "transitional load ramp period plus twelve (12) years; extends for periods of five years unless thirty-six (36) months' written notice (Sheet 187)", page: 7}
