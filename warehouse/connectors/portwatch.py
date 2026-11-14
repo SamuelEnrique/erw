@@ -50,6 +50,10 @@ COUNT_VARS = [f"n_{k}" for k in KINDS] + ["n_total"]
 CAP_VARS = [f"capacity_{k}" for k in KINDS] + ["capacity"]
 PAGE_SIZE = 1000
 STALE_DAYS = 10
+# Session 3967 (chain 278): the layer is ArcGIS Online's, whose quota is counted per minute across every reader of it.
+# On 14 November 2026 the daily run's third page answered HTTP 429 ("API calls quota exceeded") four times inside 30
+# seconds (the shared waits of 5, 10 and 15 seconds). Waits of 20, 40 and 60 seconds put the retries in later minutes.
+RETRY_WAIT = 20
 
 
 def fetch(portid, log):
@@ -66,7 +70,7 @@ def fetch(portid, log):
             if "error" in j:
                 raise RuntimeError(f"PortWatch error {j['error']}")
             return r, j
-        r, j = ip.with_retries(f"PortWatch {portid} offset {offset}", call, log)
+        r, j = ip.with_retries(f"PortWatch {portid} offset {offset}", call, log, wait=RETRY_WAIT)
         got = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         feats = [f["attributes"] for f in j.get("features", [])]
         for f in feats:

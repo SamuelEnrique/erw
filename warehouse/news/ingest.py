@@ -124,6 +124,41 @@ def fold_dashes(name):
     return (name or "").replace(chr(0x2013), "-").replace(chr(0x2014), "-")
 
 
+SHADOW = "news_scores_shadow"
+
+
+def fold_shadow_sources(log, run_id):
+    """Session 3967 (chain 278): the shadow scores' stored outlet names folded as the stories' are (fold_dashes).
+
+    news_scores_shadow copies each story's outlet name into its source column. The shadow scorer expired on 6 October
+    2026 (warehouse/config/shadow.yaml), so nothing writes that table again, and after session 3940 joined the registry's
+    two IEA rows its 15 rows naming 'IEA <en dash> International Energy Agency' named no registered source: the daily run
+    of 14 November stopped at the coverage step ("sources [...] are not in sources.csv; cannot set its license"). This
+    step runs every day before coverage; it writes only the rows whose name changes, and nothing once none does."""
+    path = os.path.join(ip.OUT_DIR, SHADOW + ".csv")
+    if not os.path.exists(path):
+        return 0
+    head = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            head.append(line[2:].rstrip("\n") if line.startswith("# ") else line[1:].rstrip("\n"))
+    df = pd.read_csv(path, skiprows=len(head), dtype=str, keep_default_na=False, na_values=[])
+    folded = df["source"].map(fold_dashes)
+    changed = folded != df["source"]
+    n = int(changed.sum())
+    if not n:
+        return 0
+    head = [h for h in head if not h.startswith("File holds ")]
+    note = (f"Session 3967: {n} stored rows' outlet names folded (an en or em dash to a hyphen) by "
+            f"warehouse/news/ingest.py, run {run_id}; the scores are unchanged.")
+    ip.write_csv(df[changed].assign(source=folded[changed]), SHADOW, head + [note], log, cols=list(df.columns),
+                 key=["event_id"], time_col="event_date")
+    log(f"  {SHADOW}: {n} stored rows' outlet names folded")
+    return n
+
+
 def canonical(url):
     parts = urlsplit(url.strip())
     q = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not TRACKING.match(k)]
@@ -726,6 +761,7 @@ def main(argv=None):
     else:
         log("  no new stories; file unchanged")
         print(f"{NAME}.csv: no new stories")
+    fold_shadow_sources(log, run_id)
     # every outlet present in the stored table is registered (not only this run's)
     outlets = sorted({fold_dashes(o) for o in ip.read_series(path, NEWS_COLS)["source"]}) if os.path.exists(path) else []
     feed_of = {}
