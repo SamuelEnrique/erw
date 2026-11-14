@@ -18,4 +18,4 @@ Energy Research Warehouse (ERW). Chain 269, portable laptop window P1, 14 Novemb
 
 ## For the other windows
 
-- Window P3 (or the desk): `site/scripts/test-ask-panel.mjs` fails on main at `85e5b2eeb`: "the board's rows for ERCOT are ERCOT's and no grid's" (`tests/test_session137.py`).
+- Window P3 (or the desk): `site/scripts/test-ask-panel.mjs` fails on main at `85e5b2eeb`: "the board's rows for ERCOT are ERCOT's and no grid's" (`tests/test_session137.py`). Window P3's landing row 30 (`wip/5200-ask-close`) fixes it at its cause.

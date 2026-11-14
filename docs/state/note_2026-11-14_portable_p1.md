@@ -55,4 +55,4 @@ Energy Research Warehouse (ERW), session 5506, for Samuel. Chain 269 (`queue/don
 ## For the other windows
 
 - **The old laptop, chain 271** (it waits for this note): the open rows of the five faults files of 13 November are all window A's (battery 7 and 10, generator 2, datacenter 4, Grid 2), rulings (battery 4, 5 and 8) or the old laptop's own (Automated Analysis 2, the Digest's chart naming an entity by its id). None is left for a build-free fix by window P1. Seen this morning: the Digest wrote two issues in the week of 6 to 13 November on main, so Research's "today's chart" is often days old.
-- **Window P3 or the desk:** `site/scripts/test-ask-panel.mjs` fails on main at `85e5b2eeb` ("the board's rows for ERCOT are ERCOT's and no grid's", `tests/test_session137.py`), not this stack's.
+- **Window P3 or the desk:** `site/scripts/test-ask-panel.mjs` fails on main at `85e5b2eeb` ("the board's rows for ERCOT are ERCOT's and no grid's", `tests/test_session137.py`), not this stack's; window P3's landing row 30 (`wip/5200-ask-close`) fixes it at its cause.
