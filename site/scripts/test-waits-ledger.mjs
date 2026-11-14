@@ -150,8 +150,14 @@ if (L && L.error === null) {
     ok(g.asked.length >= 1 && g.sessions.length >= 1, `${g.id}: asked somewhere`);
     for (const x of [...g.asked, ...g.restated]) {
       const lines = fs.readFileSync(path.join(repo, ...x.path.split("/")), "utf-8").replace(/\r\n/g, "\n").split("\n");
-      const at = (lines[x.line - 1] ?? "").replace(/^\s*([-*+]|\d+[.)])\s+/, "");
-      ok(at.length > 0 && x.md.startsWith(at.slice(0, 40)), `${g.id}: session ${x.session}'s line ${x.line} holds its words`);
+      const raw = lines[x.line - 1] ?? "";
+      const at = raw.replace(/^\s*([-*+]|\d+[.)])\s+/, "");
+      // session 4053: a table's row is an item said with the table's column names (items() in build-waits.mjs: "**Table:**
+      // ..."), so it cannot begin with the row's own words; it holds its first cell. A table inside a ruling section
+      // (session 5251's report, 13 November) failed this check on every row before
+      const first = /^\s*\|/.test(raw) ? (raw.trim().replace(/^\|/, "").split(/(?<!\\)\|/).map((c) => c.trim()).find(Boolean) ?? "") : null;
+      ok(first !== null ? first.length > 0 && x.md.includes(first) : at.length > 0 && x.md.startsWith(at.slice(0, 40)),
+        `${g.id}: session ${x.session}'s line ${x.line} holds its words`);
     }
   }
   const restatedOnly = new Set(L.groups.flatMap((g) => g.restated.map((x) => `${x.session}:${x.line}`)).filter((k) => !counted.has(k)));
