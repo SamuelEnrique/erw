@@ -16,16 +16,17 @@ Energy Research Warehouse (ERW). Chain 267, the last session, data machine (lab-
 | land-d | old laptop 13 | `d34df4cb6` |
 | land-e | portable 32; chain 267 | `dfcf2f864` |
 | land-f | old laptop 12 (part); chain 267 | `b5209eaed` |
-| land-g | old laptop 12 (part, `4a9ec60bf`); chain 267 | PENDING_G |
-| land-h | old laptop 12 (part, `83c597550`); the note and reports | PENDING_H |
+| land-g | old laptop 12 (part, `4a9ec60bf`); chain 267 | `06ec6465d` (run 43595432681) |
+| land-h | old laptop 12 (to `83c597550`, so landed); the note and reports | `510840e9e` (run 43597431705) |
 
 ## The marks
 
-- Landing requests and the other windows' data request rows marked on main in one commit after land-g (PENDING_MARKS).
+- **`3c5ab58fc`:** portable rows 31 and 32 landed, old laptop row 12 in part; 48 data request rows (five tools, large load, forecast, licenses) marked done with `06ec6465d` or with what stops them. Snapshots `before-marks-3944` and `after-marks-3944`: 0 differences.
+- **Row 12 landed** at `510840e9e` (its head `83c597550`), marked with the queue step's push.
 
 ## The queue
 
-- PENDING_QUEUE
+- **`chain_queue.py next`** takes `272-day-22-november-data-continued.md` (the dry run named it, 0 more waiting; 277 and 300 are the old laptop's). Pushed with row 12's mark and snapshots; then chain 272 runs, its session 3945 first.
 
 ## Decisions made without you
 
