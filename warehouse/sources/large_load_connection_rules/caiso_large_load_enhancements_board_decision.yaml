@@ -27,13 +27,13 @@ steps:
     party: CAISO
     date: 2026-10-28
     printed: "Moved, that the ISO Board of Governors approves the proposed large loads enhancements, as described in the memorandum dated October 22, 2026"
-  - section: "Memorandum of 22 October 2026, Discussion and Analysis"
+  - section: "Memorandum of 22 October 2026, Discussion and Analysis, the definition"
     page: 3
     step: a large load is defined for the CAISO tariff as approved by the Board
     party: CAISO
     mw: 50
     printed: "Management first proposes to define large loads as end users behind points of interconnection with peak load of 50 MW or greater and interconnecting to the transmission system, namely the ISO controlled grid."
-  - section: "Memorandum of 22 October 2026, Discussion and Analysis"
+  - section: "Memorandum of 22 October 2026, Discussion and Analysis, the concurrence review"
     page: 3
     step: the CAISO reviews out-of-cycle transmission additions or upgrades for large loads each month, within the PTOs' study period, as approved by the Board
     party: CAISO
