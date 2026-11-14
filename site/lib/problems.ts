@@ -108,7 +108,11 @@ async function setA(): Promise<Built> {
       ["ERCOT: ", gE, " from gas of ", tE, " in all: ", calc("pct", gE, tE, "%"), "."], ["CAISO: ", gC, " from gas of ", tC, " in all: ", calc("pct", gC, tC, "%"), "."]],
     why: "The fuel that runs most often sets both the price and the emissions of a grid's power.",
   };
-  const st = await series(S, { entities: [E, "caiso:ISO"], variable: "mwh_discharged", since: iso(Date.now() - 10 * DAY) });
+  // session 4051: 45 days, not 10: "the latest day both are held" must survive a gap in either grid. The live set lacked
+  // 5 to 8 November 2026 of EIA-930, and at midnight on 14 November the 10-day window lost 4 November, the last day both
+  // grids held, so the find gave undefined and every build of the page printed an error
+  const LOOK = 45 * DAY;
+  const st = await series(S, { entities: [E, "caiso:ISO"], variable: "mwh_discharged", since: iso(Date.now() - LOOK) });
   const sd = [...new Set(st.map((r) => day(r.ts_utc)))].sort().reverse().find((d) => st.some((r) => r.entity === E && day(r.ts_utc) === d) && st.some((r) => r.entity === "caiso:ISO" && day(r.ts_utc) === d))!;
   const bE = row(S, st.find((r) => r.entity === E && day(r.ts_utc) === sd)!, "MWh"), bC = row(S, st.find((r) => r.entity === "caiso:ISO" && day(r.ts_utc) === sd)!, "MWh");
   const q3: Question = {
@@ -120,7 +124,7 @@ async function setA(): Promise<Built> {
       ["Divide: ", bC, " / ", bE, " = ", calc("ratio", bC, bE, "times"), "."]],
     why: "Batteries move solar power from midday into the evening peak; how much they discharge shows how far that shift has gone.",
   };
-  const ci = await series(C, { entities: [E, CA], variable: "intensity_generation", since: iso(Date.now() - 10 * DAY) });
+  const ci = await series(C, { entities: [E, CA], variable: "intensity_generation", since: iso(Date.now() - LOOK) });
   const cd = [...new Set(ci.map((r) => day(r.ts_utc)))].sort().reverse().find((d) => ci.some((r) => r.entity === E && day(r.ts_utc) === d) && ci.some((r) => r.entity === CA && day(r.ts_utc) === d))!;
   const iE = row(C, ci.find((r) => r.entity === E && day(r.ts_utc) === cd)!, "kg CO2/MWh"), iC = row(C, ci.find((r) => r.entity === CA && day(r.ts_utc) === cd)!, "kg CO2/MWh");
   const q4: Question = {
@@ -432,7 +436,9 @@ async function setD(): Promise<Built> {
       ["Cash: (", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "."], ["Times the fleet's homes: ", fleet, "."]],
     why: "The price spread between hours is a battery's whole business, and a home battery's share of it is small: what matters is scale.",
   };
-  const held = [...new Set((await series(SPOT, { entity: "eia:wti_cushing", variable: "spot_price", since: iso(Date.now() - 75 * DAY) })).map((r) => r.ts_utc.slice(0, 7)))].sort();
+  // session 4051: 400 days, not 75: the Texas gas question below needs a held month that has a certified price, and at
+  // midnight on 14 November 2026 the 75-day window lost 31 August, the last such month, so the month was undefined
+  const held = [...new Set((await series(SPOT, { entity: "eia:wti_cushing", variable: "spot_price", since: iso(Date.now() - 400 * DAY) })).map((r) => r.ts_utc.slice(0, 7)))].sort();
   const mo = held.at(-2)!;  // the latest complete month: a later month has begun
   const wti = await spotMean("eia:wti_cushing", mo, "USD/bbl");
   const tx = sev("TX", "oil", 1000, mo, wti), la = sev("LA", "oil", 1000, mo, wti), nm = sev("NM", "oil", 1000, mo, wti);
