@@ -7,7 +7,8 @@
   "refusal_no_table",
   "table_by_evidence",
   "sign_in_words",
-  "hold_public_grids"
+  "hold_public_grids",
+  "hold_public_table"
  ],
  "cost_usd": 1.6504,
  "questions": [

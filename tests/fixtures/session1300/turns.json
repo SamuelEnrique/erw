@@ -690,6 +690,102 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_refusal_with_a_figure",
+   "_note": "Session 6106 (chain 280, the platform set's pw13 of 14 November 2026): a refusal that goes on to state a fetched figure of something else is sent back once (rule 3: a refusal states no numbers); the second draft, a refusal with no figure, stands.",
+   "question": "What will ERCOT's hub average real-time load-weighted price be in January 2028?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. It holds no forecast of January 2028. The only figure I found is a past one: 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": true
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. It holds what happened and no forecast, so there is no price for January 2028.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_after_a_held_table",
+   "_note": "Session 6106 (chain 280, the platform set's pj08 of 14 November 2026): an answer written after a table was refused as license needed, and that says so in other words, is given the fixed words by the loop, before the model's own, which are not changed.",
+   "question": "What was the average disclosed solar PPA price in 2026, and ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "energy_deals",
+        "aggregation": "mean",
+        "value_column": "price_value",
+        "where": {
+         "technology": "solar"
+        },
+        "start": "2026-01-01",
+        "end": "2027-01-01"
+       }
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "The deals table is held because it needs a license, so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    }
+   ]
   }
  ],
  "extra": [

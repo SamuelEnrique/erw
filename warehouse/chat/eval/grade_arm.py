@@ -38,7 +38,7 @@ def grade(run_name, which="platform", how="5251", here=HERE):
     if S.sessions_of(which, here) and os.path.basename(run_name) in {os.path.basename(S.files(s, which, here)["run"]) for s in S.sessions_of(which, here)}:
         raise SystemExit(f"{run_name} is one of the set's own runs: eval_site.py grades it")
     run_path, grades_path = os.path.join(here, run_name), os.path.join(here, run_name[:-len("_run.json")] + "_grades.json")
-    rules = {"none": (), "2223": E.G.RULES_2223, "5201": E.G.RULES_5201, "5251": E.G.RULES_5251}[how]
+    rules = {"none": (), "2223": E.G.RULES_2223, "5201": E.G.RULES_5201, "5251": E.G.RULES_5251, "6107": E.G.RULES_6107}[how]
     qs = E.questions(E.SETS[which]["questions"])
     sys.path.insert(0, os.path.dirname(HERE))
     import license_hold

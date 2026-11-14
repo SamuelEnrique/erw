@@ -62,3 +62,66 @@ export function withRefusalWords(answer: string): string {
   const low = answer.toLowerCase();
   return REFUSAL_WORDS.some((w) => low.includes(w)) ? answer : `${REFUSAL_FIRST} ${answer.trim()}`.trim();
 }
+
+// Session 6106 (chain 280): a refusal states no figure, and a held table is said to be held. The whole platform set
+// asked once more on 14 November 2026 (134 questions, docs/reviews/ask-eval-2026-11-13.md) had two answers not right:
+//
+//   pw13  asked ERCOT's peak demand of the summer of 2028, the chat refused rightly ("Not in the warehouse. It holds no
+//         forecast") and went on: "The only peak figure I found is a past one: ERCOT's 2025 peak demand was 83,597 MW".
+//         The figure was fetched and cited, and rule 3 says a refusal states no numbers: a reader of a refusal must not
+//         be left with a figure that answers another question. Of the 124 refusals in the stored runs of this loop it
+//         is the only one that states a figure. A draft that refuses and states a figure is sent back once, as a draft
+//         with an untraced number is (refusalFigures; a number the question itself holds is the asker's).
+//   pj08  asked the MW active in ISO New England's queue, the chat was refused ISO-NE's own table (license needed), said
+//         so in its own words ("is held because it needs a license") and answered from Berkeley Lab's public table. The
+//         license file allows that table; the hold's fixed words were missing. An answer written after a table was
+//         refused as license needed, and that does not carry the words, is given them by the loop (withHoldWords),
+//         nothing of the model's changed: as a refusal is given its words (session 5276).
+//
+// For the general chat only, as withRefusalWords. The same in warehouse/chat/ask.py (refusal_figures, with_hold_words).
+export const HOLD_WORDS = "license needed";
+/** What a draft that refuses and states a figure is sent back with (ask.py REFUSAL_FIGURE). */
+export function refusalFigureProblem(figures: string[]): string {
+  return `a refusal that states a figure (${figures.join(", ")}): rule 3 says a refusal states no numbers. Remove it, or, if a tool result holds what the question asks for, answer the question with not_in_warehouse false`;
+}
+
+const FIGURE = /(?<![A-Za-z_\d.])(-?)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?!\d)/g;   // ask.ts NUM, kept here so this module imports nothing
+const namesDigits = (text: string, at: number) => at >= 2 && text[at - 1] === "-" && /[A-Za-z]/.test(text[at - 2]);
+
+/** The figures a refusal states, as written: a number with decimals, or a whole number of 1,000 or more that is not a
+ * year (1900 to 2100), as the evaluation's grader tells a figure in a refusal. A number the question holds, a name's
+ * digits (EIA-930) and a list marker are not figures of the answer. */
+export function refusalFigures(answer: string, question = ""): string[] {
+  const text = (answer ?? "").replace(/−/g, "-");
+  const asked = new Set<number>();
+  const q = (question ?? "").replace(/−/g, "-");
+  for (const m of q.matchAll(FIGURE)) {
+    if (!namesDigits(q, (m.index ?? 0) + m[1].length)) asked.add(parseFloat(m[2].replace(/,/g, "") + (m[3] ?? "")));
+  }
+  const marks = new Set(Array.from(text.matchAll(/^\s*(\d+)[.)]\s/gm)).map((m) => parseFloat(m[1])));
+  const out: string[] = [];
+  for (const m of text.matchAll(FIGURE)) {
+    const whole = m[2], frac = m[3] ?? "";
+    if (namesDigits(text, (m.index ?? 0) + m[1].length)) continue;
+    const v = parseFloat(whole.replace(/,/g, "") + frac);
+    if (asked.has(v) || marks.has(v)) continue;
+    if (frac || (v >= 1000 && !(v >= 1900 && v <= 2100))) {
+      const s = whole + frac;
+      if (!out.includes(s)) out.push(s);
+    }
+  }
+  return out;
+}
+
+/** The tables a tool refused as license needed, from the loop's record of the tables refused whole and the words. */
+export function heldTables(refusedWords: Map<string, string> | Record<string, string>): string[] {
+  const entries = refusedWords instanceof Map ? Array.from(refusedWords.entries()) : Object.entries(refusedWords ?? {});
+  return entries.filter(([t, w]) => typeof w === "string" && w.startsWith(`table ${t} is ${HOLD_WORDS}`)).map(([t]) => t).sort();
+}
+
+/** An answer written after a table was refused as license needed: as it is when it carries the words, else a fixed
+ * sentence that names the table before it. */
+export function withHoldWords(answer: string, held: string[]): string {
+  if (!held.length || (answer ?? "").toLowerCase().includes(HOLD_WORDS)) return answer;
+  return `${held.join(", ")}: ${HOLD_WORDS}, so no figure of ${held.length === 1 ? "it" : "them"} is given here. ${(answer ?? "").trim()}`.trim();
+}

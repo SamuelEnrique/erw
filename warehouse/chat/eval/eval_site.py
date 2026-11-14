@@ -7,7 +7,7 @@ key the machine holds; a visitor's chat is the site's loop (site/lib/chat/ask.ts
 which reads the catalogue and the rows a visitor's key reads. This runner asks through that one:
 
     python warehouse/chat/eval/eval_site.py --session 5251 --set platform --cap 2 [--slice a|b] [--only pw01,pw02] [--first 20]
-                                            [--no-ask] [--rules 5251|5201|2223|none] [--no-ledger] [--dry-run] [--day-cap 20]
+                                            [--no-ask] [--rules 6107|5251|5201|2223|none] [--no-ledger] [--dry-run] [--day-cap 20]
 
   questions  the set's YAML (eval_s1113.py SETS) as {"questions": [{id, grid, via, question}]}, written to
              runs/ask_eval/<set>_questions.json (runs/ is not in git); a key is never sent to the asking
@@ -335,10 +335,10 @@ def main(argv):
             return 0
     if not sessions_of(which):
         raise SystemExit(f"no run of the set {which} to grade")
-    how = val("--rules", "5251")
-    rules = {"none": (), "2223": E.G.RULES_2223, "5201": E.G.RULES_5201, "5251": E.G.RULES_5251}.get(how)
+    how = val("--rules", "6107")   # session 6107: and hold_public_table (eval_s267.py RULES_6107)
+    rules = {"none": (), "2223": E.G.RULES_2223, "5201": E.G.RULES_5201, "5251": E.G.RULES_5251, "6107": E.G.RULES_6107}.get(how)
     if rules is None:
-        raise SystemExit("--rules is one of 5251, 5201, 2223, none")
+        raise SystemExit("--rules is one of 6107, 5251, 5201, 2223, none")
     rows = grade_all(E, which, qs, rules)
     total = sum(float(spent(files(s, which)["run"])[0]) for s in sessions_of(which))
     print(f"the set over its runs ({', '.join(sessions_of(which))}): right {sum(1 for r in rows if r['ok'])} of {len(rows)} asked, of {len(qs)}; USD {total:.4f}")

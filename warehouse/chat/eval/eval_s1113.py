@@ -86,7 +86,11 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # computes its keys and writes the file), asked through the site's own loop with no build (eval_site.py, which names its
         # run by session; this is its first asking)
         "platform": {"questions": os.path.join(HERE, "questions_platform.yaml"), "run": os.path.join(HERE, "eval_s5251_site_platform_run.json"),
-                     "grades": os.path.join(HERE, "eval_s5251_site_platform_grades.json")}}
+                     "grades": os.path.join(HERE, "eval_s5251_site_platform_grades.json")},
+        # session 6111 (chain 280): the tables that landed in the week of 9 November 2026 (scripts/ask_eval/newtables_questions.py
+        # computes its keys from the tables' own files: the live set does not hold them yet); its runs are named by session
+        "newtables": {"questions": os.path.join(HERE, "questions_newtables.yaml"), "run": os.path.join(HERE, "eval_s6111_loop_newtables_run.json"),
+                      "grades": os.path.join(HERE, "eval_s6111_loop_newtables_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -294,6 +298,22 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
+OWN_TABLE = re.compile(r"^(isone|nyiso|miso)_")   # a held or paused grid's own table, by its name (as eval_site.py)
+
+
+def table_held(table):
+    """Session 6107: whether a table is held whole: license needed today in the license file both loops read
+    (warehouse/chat/license_hold.py) and not held by grid or by row, or a held or paused grid's own by its name. A table
+    held by grid or by row is read without the held rows (the tools leave them out), so a result of it that was not
+    refused holds public rows alone."""
+    chat = os.path.dirname(HERE)
+    if chat not in sys.path:
+        sys.path.insert(0, chat)
+    import license_hold
+    whole = license_hold.license_needed(table) and not license_hold.by_grid(table) and not license_hold.by_row(table)
+    return bool(OWN_TABLE.match(table)) or whole
+
+
 def hold_answer(q, a, rules=()):
     """Session 2224: a question of a table held whole (hold: true in the set) is right as a refusal or as an answer, when
     the answer carries the hold's words and states no figure (as session 1112's held-grid answer is graded). Session 5251,
@@ -306,9 +326,13 @@ def hold_answer(q, a, rules=()):
         return False
     if not figures:
         return True
-    if "hold_public_grids" not in rules:
+    if "hold_public_grids" not in rules and "hold_public_table" not in rules:
         return False
-    public = G.public_figures(a)
+    public = G.public_figures(a) if "hold_public_grids" in rules else []
+    if "hold_public_table" in rules:
+        # session 6107 (eval_s267.py RULES_6107): or figures of a table the license file does not hold, read in the
+        # answer's own record: another publisher's public table (Berkeley Lab's queue for ISO New England's, pj08)
+        public = public + G.public_table_figures(a, table_held)
     return bool(public) and all(any(abs(p - v) < 1e-9 or (dec >= 1 and abs(round(p, dec) - v) < 10 ** -(dec + 3)) for p in public) for v, dec in figures)
 
 
@@ -318,6 +342,17 @@ def partial_grade(q, a):
     ans = (a.get("answer") or "").lower()
     said = any(p.strip().lower() in ans for t in q["text"] for p in t.split("|") if p.strip())
     return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "partial": said, "ok": said}
+
+
+def unstated_grade(q, a):
+    """Session 6111: the grade of a key of kind unstated (grade_set). `text` is whether the answer carries one of the
+    words that say the thing is not stated (the key's text entry, its parts joined by "|"); `no_figure` as a refusal's
+    is graded (eval_s267.py grade: no number with decimals, no whole number of 1,000 or more that is not a year), and a
+    number followed by MW, GW or kW is a figure whatever its size."""
+    text = a.get("answer") or ""
+    said = any(p.strip().lower() in text.lower() for t in q["text"] for p in t.split("|") if p.strip())
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in G.numbers(text)) or bool(re.search(r"\d\s*(MW|GW|kW)\b", text))
+    return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "no_figure": not figure, "ok": said and not figure}
 
 
 def first_sentence(text):
@@ -350,6 +385,11 @@ def grade_set(which, rules=()):
             # one of the key's words, whether it then gives the figure of the steps held or refuses; a figure given as the
             # window's own, with no such word, is wrong. Nothing else of the answer is graded
             g = partial_grade(q, a)
+        if q.get("kind") == "unstated":
+            # session 6111 (questions_newtables.yaml): the table has the row and its cell says the documents read do not
+            # state the thing ("not published"). Right when the answer says so in one of the key's words and gives no
+            # figure, whether it is written as a refusal or as an answer
+            g = unstated_grade(q, a)
         if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a, rules):   # the set's loader keeps the YAML's word
             g["hold_answer"] = True
             g["ok"] = True

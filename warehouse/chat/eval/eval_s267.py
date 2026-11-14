@@ -71,6 +71,16 @@ RULES_5201 = RULES_2223 + ("sign_in_words",)
 #                       public_grids in its own record (a tool result with held true), so none is the held grid's. A
 #                       figure the record does not place among the public grids' is not met: the key stays wrong.
 RULES_5251 = RULES_5201 + ("hold_public_grids",)
+# Session 6107 (chain 280): one rule more, for a question of a held grid answered from another publisher's public table
+# (the platform set's pj08, ISO New England's queue, as asked on 14 November 2026: ISO-NE's own table refused as license
+# needed, and the MW of Berkeley Lab's public table given, named as Berkeley Lab's and said not to be ISO-NE's own list).
+# The license file holds ISO-NE's own tables and does not hold Berkeley Lab's (docs/reviews/ask-eval-2026-11-13.md, the
+# owner's open ruling 9 of 14 November, whose default is "as the file says"). Until the owner rules otherwise such an
+# answer is the file's, and the key (the hold's words, no figure) counted its figure as the held table's.
+#   hold_public_table   a hold key is also met when the answer carries the hold's words and every figure it states is a
+#                       figure of a result, in its own record, of a table that is not held (not license needed in the
+#                       license file, and not a held or paused grid's own). A figure no such result holds is not met.
+RULES_6107 = RULES_5251 + ("hold_public_table",)
 DOWN_WORDS = re.compile(r"\b(less|lower|below|under|fewer|cheaper|smaller|down|fell|fall|falls|dropped|drop|declined|decline|decreased|decrease|"
                         r"negative|minus|discount|behind|short of|loss|lost)\b", re.I)
 
@@ -131,6 +141,23 @@ def public_figures(body):
         out = t.get("out") if isinstance(t, dict) else None
         if isinstance(out, dict) and out.get("held") is True and not (t.get("is_error") or t.get("isError")):
             found += figures_in({"public_grids": out.get("public_grids")})
+    return [v for v, _ in found]
+
+
+def public_table_figures(body, held):
+    """Session 6107, the rule hold_public_table: the figures of the tool results, in an answer's own record, that read
+    only tables that are not held. `held(table)` says whether a table is held (license needed, or a held or paused
+    grid's own). A result that names no table (list_tables, a note) gives none."""
+    found = []
+    for t in body.get("trace") or []:
+        if not isinstance(t, dict) or t.get("is_error") or t.get("isError"):
+            continue
+        inp, out = t.get("input") or {}, t.get("out")
+        if not isinstance(inp, dict) or not isinstance(out, dict):
+            continue
+        named = [x["table"] for x in (inp, inp.get("a"), inp.get("b")) if isinstance(x, dict) and isinstance(x.get("table"), str)]
+        if named and not any(held(n) for n in named):
+            found += figures_in(out)
     return [v for v, _ in found]
 
 

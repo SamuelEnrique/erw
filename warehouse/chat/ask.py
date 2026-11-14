@@ -362,6 +362,62 @@ def with_refusal_words(answer):
     return answer if any(w in low for w in REFUSAL_WORDS) else f"{REFUSAL_FIRST} {(answer or '').strip()}".strip()
 
 
+# Session 6106 (chain 280): a refusal states no figure, and a held table is said to be held. The whole platform set asked
+# once more on 14 November 2026 (134 questions, docs/reviews/ask-eval-2026-11-13.md) had two answers not right:
+#
+#   pw13  asked ERCOT's peak demand of the summer of 2028, the chat refused rightly ("Not in the warehouse. It holds no
+#         forecast") and went on: "The only peak figure I found is a past one: ERCOT's 2025 peak demand was 83,597 MW".
+#         The figure was fetched and cited, and rule 3 says a refusal states no numbers: a reader of a refusal must not
+#         be left with a figure that answers another question. Of the 124 refusals in the stored runs of the site's
+#         loop it is the only one that states a figure. A draft that refuses and states a figure is sent back once, as a
+#         draft with an untraced number is (refusal_figures; a number the question itself holds is the asker's).
+#   pj08  asked the MW active in ISO New England's queue, the chat was refused ISO-NE's own table (license needed), said
+#         so in its own words ("is held because it needs a license") and answered from Berkeley Lab's public table. The
+#         license file allows that table; the hold's fixed words were missing. An answer written after a table was
+#         refused as license needed, and that does not carry the words, is given them by the loop (with_hold_words),
+#         nothing of the model's changed: as a refusal is given its words (session 5276).
+#
+# For the general chat only, as with_refusal_words. The same in site/lib/chat/refused.ts (refusalFigures, withHoldWords).
+REFUSAL_FIGURE = ("a refusal that states a figure ({figures}): rule 3 says a refusal states no numbers. Remove it, or, if a tool result holds "
+                  "what the question asks for, answer the question with not_in_warehouse false")
+HOLD_WORDS = "license needed"
+
+
+def refusal_figures(answer, question=""):
+    """The figures a refusal states, as written: a number with decimals, or a whole number of 1,000 or more that is not
+    a year (1900 to 2100), as the evaluation's grader tells a figure in a refusal (eval_s267.py grade). A number the
+    question holds, a name's digits (EIA-930) and a list marker are not figures of the answer."""
+    text = (answer or "").replace("−", "-")
+    asked = {abs(v) for v, _ in numbers(question or "")}
+    marks = list_markers(text)
+    out = []
+    for m in NUM.finditer(text):
+        whole, frac = m.group(2), m.group(3) or ""
+        if is_name(text, m.start(2)):
+            continue
+        v = float(whole.replace(",", "") + frac)
+        if v in asked or v in marks:
+            continue
+        if frac or (v >= 1000 and not 1900 <= v <= 2100):
+            s = whole + frac
+            if s not in out:
+                out.append(s)
+    return out
+
+
+def held_tables(refused_words):
+    """The tables a tool refused as license needed, from the loop's record of the tables refused whole and the words."""
+    return sorted(t for t, w in (refused_words or {}).items() if isinstance(w, str) and w.startswith(f"table {t} is {HOLD_WORDS}"))
+
+
+def with_hold_words(answer, held):
+    """An answer written after a table was refused as license needed: as it is when it carries the words, else a fixed
+    sentence that names the table before it."""
+    if not held or HOLD_WORDS in (answer or "").lower():
+        return answer
+    return f"{', '.join(held)}: {HOLD_WORDS}, so no figure of {'it' if len(held) == 1 else 'them'} is given here. {(answer or '').strip()}".strip()
+
+
 def reads_of(name, args):
     """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
     def one(a):
@@ -638,11 +694,19 @@ class Asker:
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             more = self.extra_problems(draft, results)
+            if draft.get("not_in_warehouse") and type(self) is Asker:
+                # session 6106: a refusal states no figure (the question's own numbers are the asker's)
+                figures = refusal_figures(draft["answer"], question)
+                if figures:
+                    more = list(more) + [REFUSAL_FIGURE.format(figures=", ".join(figures))]
             if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 if draft.get("not_in_warehouse") and type(self) is Asker:
                     final = dict(draft, answer=with_refusal_words(draft["answer"]))   # session 5276: its fixed words, by the loop
+                elif type(self) is Asker:
+                    # session 6106: an answer written after a table was refused as license needed says so in the fixed words
+                    final = dict(draft, answer=with_hold_words(draft["answer"], held_tables(refused_whole_words)))
                 break
             attempts += 1
             if attempts == 1:

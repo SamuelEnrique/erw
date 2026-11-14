@@ -4,14 +4,14 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 
 | Class | Refusals | Graded right |
 |---|---|---|
-| MISO's pause | 19 | 19 of 19 graded |
-| a license hold | 61 | 61 of 61 graded |
+| MISO's pause | 20 | 20 of 20 graded |
+| a license hold | 65 | 65 of 65 graded |
 | a table not in the live set | 40 | 39 of 40 graded |
 | the call limit | 3 | 2 of 3 graded |
-| the warehouse lacks the figure | 46 | 39 of 46 graded |
-| rows read, then refused | 10 | 9 of 10 graded |
+| the warehouse lacks the figure | 51 | 44 of 51 graded |
+| rows read, then refused | 11 | 10 of 11 graded |
 
-In all: 179 refusals.
+In all: 190 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -194,3 +194,14 @@ In all: 179 refusals.
 | session 6106, the site's loop, the platform set | gp01 | 6 | rows read, then refused | right |
 | session 6106, the site's loop, the platform set | gp02 | 7 | rows read, then refused | right |
 | session 6106, the site's loop, the platform set | gp03 | 12 | the call limit | right |
+| session 6107, the site's loop, the platform set | pw11 | 1 | the warehouse lacks the figure | right |
+| session 6107, the site's loop, the platform set | pw13 | 1 | the warehouse lacks the figure | right |
+| session 6107, the site's loop, the platform set | ga11 | 10 | rows read, then refused | right |
+| session 6107, the site's loop, the platform set | nu07 | 2 | the warehouse lacks the figure | right |
+| session 6107, the site's loop, the platform set | st11 | 6 | the warehouse lacks the figure | right |
+| session 6107, the site's loop, the platform set | pj09 | 1 | MISO's pause | right |
+| session 6107, the site's loop, the platform set | pj10 | 4 | a license hold | right |
+| session 6107, the site's loop, the platform set | de01 | 4 | a license hold | right |
+| session 6107, the site's loop, the platform set | de08 | 1 | the warehouse lacks the figure | right |
+| session 6107, the site's loop, the platform set | po09 | 7 | a license hold | right |
+| session 6107, the site's loop, the platform set | dc01 | 5 | a license hold | right |

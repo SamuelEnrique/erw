@@ -173,7 +173,21 @@ class ThePythonLoop(unittest.TestCase):
                           "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse",
                           "a_held_grids_own_table": "not_in_warehouse",
                           "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified",
-                          "a_refusal_without_its_words": "not_in_warehouse"})
+                          "a_refusal_without_its_words": "not_in_warehouse",
+                          "a_refusal_with_a_figure": "not_in_warehouse", "an_answer_after_a_held_table": "answered"})
+        # session 6106 (chain 280, the platform set's pw13 of 14 November 2026): a refusal that goes on to state a figure
+        # (one that was fetched, of something the question did not ask) is sent back once, as rule 3 says a refusal states
+        # no numbers; the second draft, a refusal with no figure, stands. One query, one read, three model calls
+        r = got["a_refusal_with_a_figure"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"], r["why"]), (1, 1, True, 3, [], ""))
+        self.assertEqual(r["answer"], "Not in the warehouse. It holds what happened and no forecast, so there is no price for January 2028.")
+        self.assertNotIn("54.481", r["answer"])
+        # session 6106 (the platform set's pj08 of the same day): an answer written after a table was refused as license
+        # needed, which says so in other words, is given the fixed words by the loop, before the model's own
+        r = got["an_answer_after_a_held_table"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"]), (2, 1, False, 3, ["cost_of_power_monthly"]))
+        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. The deals table is held because it needs a license, "
+                                      "so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).")
         # session 5276 (chain 256, the platform set's gp02 of 14 November 2026): a refusal that is right and carries none of
         # the fixed words is given the first by the loop, before the model's own sentence, which is not changed; a refusal
         # that has them is as the model wrote it

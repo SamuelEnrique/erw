@@ -12,7 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
-import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withRefusalWords } from "./refused";
+import { heldTables, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withHoldWords, withRefusalWords } from "./refused";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -463,6 +463,12 @@ export async function ask(question: string, today = new Date().toISOString().sli
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
+    // session 6106: a refusal of the general chat states no figure (lib/chat/refused.ts refusalFigures; the question's own
+    // numbers are the asker's)
+    if (!profile && draft.not_in_warehouse) {
+      const figures = refusalFigures(draft.answer, question);
+      if (figures.length) more.push(refusalFigureProblem(figures));
+    }
     clock.add("writing", "check", Date.now() - tCheck);
     const ok = !bad.length && !units.length && !uncited.length && !noCite && !more.length;
     return { ok, bad, units, uncited, noCite, more };
@@ -473,6 +479,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
     // session 5276: a refusal of the general chat carries its fixed words (lib/chat/refused.ts withRefusalWords)
     if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };
+    // session 6106: an answer written after a table was refused as license needed says so in the fixed words
+    else if (!profile) draft = { ...draft, answer: withHoldWords(draft.answer, heldTables(refusedWholeWords)) };
     const answer = plain(nodash(draft.answer));
     // session 28: each citation's tier is the warehouse's, whatever the model copied
     const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
