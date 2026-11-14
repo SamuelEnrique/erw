@@ -52,3 +52,9 @@ Energy Research Warehouse (ERW). Chain 263 (`queue/done/263-day-24-november-oldl
 ## For Samuel's ruling
 
 - As in chain 260's note, and the two items of `docs/state/note_2026-11-14_oldlaptop.md` (the revision windows; a time gate for queue files).
+
+## Session 3536: the next file; the queue step, and 266 returned
+
+- `queue/next/266-day-25-november-oldlaptop-periodicals-continued.md` lists what this chain did not finish (`988d3bdad`).
+- **The queue step was run** (exit 0) and took 266, the only file for this machine. **It was returned to `queue/next/` at once and not run.** Every step in it reads an issue written after Sunday 15 November, 23:00 UTC, and it was 00:35 UTC on Saturday. Running it would carry the same steps into a file 268, which the next queue step would hand straight back: a loop of empty chains. The chain stops here with 266 waiting. To start it after the Roundup is written: `.venv\Scripts\python.exe scripts\chain_queue.py next`.
+- The machine is signed off duty.
