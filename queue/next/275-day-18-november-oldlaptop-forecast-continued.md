@@ -2,7 +2,7 @@
 
 machine: samueloldlaptop
 
-Written first by session 6050 of chain 274 (`queue/done/274-day-17-november-oldlaptop-forecast-continued.md`) on 14 November 2026 at about 11:15 UTC, as that chain's rules ask; to be updated by its session 6063 with what chain 274 did not finish. The first queue number free on origin's main and every branch was 275 (272 is the data machine's, 300 the periodicals hold). It takes sessions 6064 to 6077, fourteen numbers after chain 274's last (6063); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written (checked 6050 to 6095). Session 6064 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5. Only one Claude Code window runs on this machine.
+Written first by session 6050 of chain 274 (`queue/done/274-day-17-november-oldlaptop-forecast-continued.md`) on 14 November 2026 at about 11:08 UTC, as that chain's rules ask; to be updated by its session 6063 with what chain 274 did not finish. The first queue number free on origin's main and every branch was 275 (272 is the data machine's, 300 the periodicals hold). It takes sessions 6064 to 6077, fourteen numbers after chain 274's last (6063); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written (checked 6050 to 6095). Session 6064 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5. Only one Claude Code window runs on this machine.
 
 ## The goal
 
