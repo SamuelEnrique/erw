@@ -30,7 +30,16 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3946 to 3950: chain 267's other unfinished steps
 
-Long end 1:30 each. Session 3944 writes them here from chain 267's note. Where chain 267 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 267's session 3944 on 14 November 2026 at about 11:40 UTC from its note (`docs/state/note_2026-11-14_data_c267.md`). Chain 267 landed six gates of the laptops' rows and its own work (land-a to land-f), took every data request it could do without a run, a key or a ruling, and left these, in this order; a run not yet in is waiting and skipped:
+
+- **The daily run of 14 November** (14:00 UTC, run of `daily prices`): `board_tests`, **the daily commit through the guard** (13 November's was refused on test 3703, which passes on current main since chain 227's replication fix), `package tests`, the health summaries of 12 to 14 November and their "Stale on main" line. The first run with chain 267's code: `eia930_daily_total_interchange` fills November and December 2025 from the six-month file on the runner too; the board writes no file for a held grid's spark rows; the news ingest folds the IEA outlet's en dash (224 stored stories rewritten); `ercot_as_prices` stays skipped (ruling 2), so ERCOT's battery stack stops at October with 31 October left out and counted.
+- **The data machine's run of 14 November** (17:00 UTC): its page files through the guard, every `dm_` step, `dm_test_battery_dispatch` (test 178; the ruling its row names).
+- **Check-values on the Digest of 14 November** and `/digest` with that issue on main.
+- **The runs of 15 and 16 November** (Saturday, Sunday; the Roundup on the 16th; the data machine's Sunday run is the first `noaa_grid_weather` run with the bucket address, and its stations still end 2026-10-26: find why the Local Climatological Data tail does not move).
+- **The hunt** after the daily commit's tables move (`check.py --tables` with an absolute path), the cards and do-files.
+- **The data requests chain 267 could not finish:** large-load rows 14 (PG&E's Rule 30 re-cited to the CPUC's Decision 25-07-039) and 17 (FERC's acceptance of PJM's definition, the PUCT's Batch Zero order, the PA PUC's closed date, Utah's amendments); forecast row 4 (`forecast_parameters`, a new table) and row 2 (JEDI's construction cost: the recalculation is on no machine since window 4's `runs/w4/` went with its worktree; the workbooks downloaded again and a pycel environment); five-tools row 3 (the Grid replication's gravity group is not computed by `replicate.py` and the do-file: window P1's code first); the licenses file's rows 13 to 27 (the feeds and the CFTC page refused by robots files naming Anthropic's agents, the seven header license lines, the robots wildcard reading).
+- **The siting gaps:** the CAISO's FERC compliance filing (due 16 November) once filed.
+- **The Ask weekly run** (USD 4) on or after 19 November.
 
 ## Session 3951: the runs of the days since chain 267's last reading
 
