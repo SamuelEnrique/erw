@@ -1,0 +1,601 @@
+{
+ "group": "midwest_changes",
+ "changes": [
+  {
+   "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
+   "state": "MO",
+   "rule_name": "Empire District Electric (Liberty) Missouri Large Load tariff, Schedule TS-LL (Transmission Service Large Load), MO PSC Case ET-2026-0184",
+   "affects": "ameren_evergy_spp-11",
+   "change": "filed",
+   "date": "2026-09-11",
+   "docket": "MO PSC File No. ET-2026-0184 (tariff tracking JE-2027-0036)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/890082",
+   "source_title": "Application, Request for Variance, and Request for Expedited Treatment, File No. ET-2026-0184 (Missouri PSC EFIS)",
+   "what": "Liberty filed its application and tariff sheets for Schedule TS-LL, required for new facilities with expected monthly maximum demand of 25 MW or more (or existing premises adding at least 25 MW), with Electric Service Agreements of a minimum 15-year Fixed Term plus an optional Load Ramp Term and Minimum Monthly Bill, Exit Fee and Credit Support provisions, and asked for a Commission order by 31 January 2027.",
+   "cites": [
+    {
+     "page": "9",
+     "section": "Certificate of Service",
+     "quote": "I hereby certify that the above document was filed in EFIS on this 11th day of September, 2026"
+    },
+    {
+     "page": "6",
+     "section": "III. Request for approval of Schedule TS-LL",
+     "quote": "with Liberty for a minimum 15-year Fixed Term with an optional additional Load Ramp Term, and includes robust Minimum Monthly Bill, Exit Fee, and Credit Support provisions"
+    },
+    {
+     "page": "7",
+     "section": "VI. Motion for expedited treatment",
+     "quote": "Liberty respectfully requests the Commission issue an order approving this Application by January 31, 2027."
+    },
+    {
+     "url": "https://efis.psc.mo.gov/Document/Display/890101",
+     "page": "3",
+     "section": "Schedule TS-LL, Availability (CLEAN Tariffs Combined, JE-2027-0036)",
+     "quote": "A qualifying retail customer shall have a monthly maximum demand reasonably expected to be equal to or greater than twenty-five megawatts (25 MW)",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://efis.psc.mo.gov/Document/Display/890101",
+     "page": "3",
+     "section": "Schedule TS-LL sheet footer",
+     "quote": "DATE EFFECTIVE October 11, 2026",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copies of Liberty's application and filed tariff sheets",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
+   "state": "MO",
+   "rule_name": "Empire District Electric (Liberty) Missouri Large Load tariff, Schedule TS-LL (Transmission Service Large Load), MO PSC Case ET-2026-0184",
+   "affects": "ameren_evergy_spp-11",
+   "change": "suspended",
+   "date": "2026-09-14",
+   "docket": "MO PSC File No. ET-2026-0184 (tariff tracking JE-2027-0036)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/890247",
+   "source_title": "Order Directing Notice, a Staff Pleading, Setting an Intervention Deadline, and Suspending Tariff, File No. ET-2026-0184 (Missouri PSC EFIS)",
+   "what": "The Commission suspended Liberty's proposed large load tariff sheets, which bore an effective date of 11 October 2026, for 120 days, from 11 October 2026 to 8 February 2027, and set 12 October 2026 as the intervention deadline.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "order heading",
+     "quote": "Issue Date: September 14, 2026"
+    },
+    {
+     "page": "1",
+     "section": "order body",
+     "quote": "Liberty's large load tariff bears an effective date of October 11, 2026. Therefore, the Commission will suspend the tariff 120 days so that it has sufficient time to examine Liberty's application."
+    },
+    {
+     "page": "2",
+     "section": "ordered paragraph 5",
+     "quote": "Liberty's proposed tariff sheets, filed under Tracking No. JE-2027-0036, are suspended for 120 days from October 11, 2026, to February 8, 2027."
+    },
+    {
+     "page": "2",
+     "section": "ordered paragraph 3",
+     "quote": "Any application to intervene shall be filed no later than October 12, 2026."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the Commission's order",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
+   "state": "MO",
+   "rule_name": "Empire District Electric (Liberty) Missouri Large Load tariff, Schedule TS-LL (Transmission Service Large Load), MO PSC Case ET-2026-0184",
+   "affects": "ameren_evergy_spp-11",
+   "change": "hearing set",
+   "date": "2026-11-13",
+   "docket": "MO PSC Case No. ET-2026-0184",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/897993",
+   "source_title": "Order Setting Evidentiary Hearing Date and Directing a Proposed Procedural Schedule, Case No. ET-2026-0184 (Missouri PSC EFIS)",
+   "what": "The Commission set the evidentiary hearing on Liberty's large load tariff application for 29 to 31 March 2027, with 1 April 2027 as an overflow day, and directed Staff to file a proposed procedural schedule by 20 November 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "order heading",
+     "quote": "Issue Date: November 13, 2026"
+    },
+    {
+     "page": "1",
+     "section": "order body",
+     "quote": "Commission will set March 29-31, 2027, for the evidentiary hearing in this matter"
+    },
+    {
+     "page": "1",
+     "section": "ordered paragraph 1",
+     "quote": "Staff must file a proposed procedural schedule as discussed in the body of this order no later than November 20, 2026."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the Commission's order",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)",
+   "state": "KS",
+   "rule_name": "Evergy Kansas Central and Evergy Kansas Metro LLPS Customer Affordability Enhancement Plan (application to the KCC, October 2026)",
+   "affects": "ameren_evergy_spp-08",
+   "change": "filed",
+   "date": "2026-10",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
+   "source_title": "Evergy, Inc., Evergy Kansas Central, Inc. and Evergy Metro, Inc. Form 10-Q for the quarter ended September 30, 2026",
+   "what": "Evergy Kansas Central and Evergy Metro applied to the KCC for a Customer Affordability Enhancement Plan that supplements the existing LLPS rate plan, would apply to newly signed LLPS customers, and further distinguishes the cost responsibility of future large load customers; they asked for an order in February 2027.",
+   "cites": [
+    {
+     "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+     "quote": "In October 2026, Evergy Kansas Central and Evergy Metro filed an application with the KCC requesting approval of a Customer Affordability Enhancement Plan that supplements the existing LLPS rate plan and would apply to newly signed LLPS customers."
+    },
+    {
+     "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+     "quote": "The proposed plan preserves the existing LLPS rate plan as the governing framework for qualifying large load customers and further distinguishes the cost responsibility of future large load customers."
+    },
+    {
+     "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+     "quote": "Evergy Kansas Central and Evergy Metro requested expedited treatment of the application and that the KCC issue an order in February 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "Evergy's Form 10-Q on SEC EDGAR; the KCC's docket system (kcc-connect.kcc.ks.gov) gave a bot check in the first pass and the KCC's 2026 news release list carries no release on the plan",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Oklahoma Gas and Electric Company (OG&E)",
+   "state": "OK",
+   "rule_name": "OG&E proposed XLPL tariff and terms and conditions of service for extra large load customers (Oklahoma)",
+   "affects": "ameren_evergy_spp-10",
+   "change": "hearing set",
+   "date": "2026-10",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1021635/000102163526000036/oge-20260930.htm",
+   "source_title": "OGE Energy Corp. and Oklahoma Gas and Electric Company Form 10-Q for the quarter ended September 30, 2026",
+   "what": "OG&E moved in September 2026 to amend the procedural schedule and order briefing in its XLPL tariff case (a framework for large load customers of 75 MW or higher); the OCC approved the motion in October 2026 and a hearing is scheduled for 12 January 2027.",
+   "cites": [
+    {
+     "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+     "quote": "In September 2026, OG&E filed a motion to amend the procedural schedule and order briefing, and in October 2026, the OCC approved OG&E's motion. A hearing is scheduled for January 12, 2027."
+    },
+    {
+     "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+     "quote": "this tariff would establish a framework to serve large load customers (75 MWs or higher)"
+    }
+   ],
+   "license": "public",
+   "license_basis": "OGE Energy's and OG&E's Form 10-Q on SEC EDGAR",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Oklahoma Gas and Electric Company (OG&E)",
+   "state": "OK",
+   "rule_name": "OG&E special contract with Google (Oklahoma) and preapproval of two capacity purchase agreements",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-09-09",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1021635/000102163526000036/oge-20260930.htm",
+   "source_title": "OGE Energy Corp. and Oklahoma Gas and Electric Company Form 10-Q for the quarter ended September 30, 2026",
+   "what": "A non-contested settlement on OG&E's application for a special contract with Google (long-term commitments, minimum billing demand and energy charges, funding of upfront costs) was reached on 9 September 2026 among OG&E, the Oklahoma Attorney General, the Public Utility Division and Google, and the ALJ recommended approval; no Commission order is reported.",
+   "cites": [
+    {
+     "section": "Oklahoma Google Special Contract",
+     "quote": "In May 2026, OG&E filed an application requesting approval of a special contract with Google and preapproval of two CPAs."
+    },
+    {
+     "section": "Oklahoma Google Special Contract",
+     "quote": "On September 9, 2026, a non-contested settlement agreement was reached between OG&E, the Oklahoma Attorney General, the Public Utility Division and Google. At the hearing on the merits, the ALJ recommended approval of the special contract and the two CPAs."
+    }
+   ],
+   "license": "public",
+   "license_basis": "OGE Energy's and OG&E's Form 10-Q on SEC EDGAR",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "rule_name": "Emergency electrical procedures, Rate Book Section C3: firm load shedding first for customers taking service after 1 October 2025 with at least 500 MW",
+   "affects": "great_lakes-03",
+   "change": "approved",
+   "date": "2026-08-27",
+   "docket": "MPSC Case No. U-22059",
+   "source_url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+   "source_title": "MPSC news release of 27 August 2026 (item: DTE Electric emergency electric procedures)",
+   "what": "The MPSC approved, with modifications, DTE Electric's update of rate book Section C3 so that customers taking service after 1 October 2025 with at least 500 MW, or under the Large Load Provision of Rate Schedule No. D11, are subject to firm load shedding before other customers.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "release date",
+     "quote": "August 27, 2026"
+    },
+    {
+     "page": "1",
+     "section": "DTE Electric emergency procedures item",
+     "quote": "The MPSC approved, with modifications, an application from DTE Electric Co. to update its emergency electric procedures in section C3 of the utility’s rate book"
+    },
+    {
+     "page": "1",
+     "section": "DTE Electric emergency procedures item",
+     "quote": "customers that take service from the utility after Oct. 1, 2025, with at least 500 MWs of capacity or customers that take service under DTE Electric’s Large Load Provision of Rate Schedule No. D11 will now be subject to firm load shedding prior to other customers"
+    },
+    {
+     "page": "1",
+     "section": "DTE Electric emergency procedures item",
+     "quote": "(Case No. U-22059)"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the MPSC's own news release on michigan.gov",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "state": "MI",
+   "rule_name": "Special contracts with Google LLC (Primary Supply Agreement under Rate Schedule D11 and Clean Capacity Accelerator Agreement), Van Buren Township data center",
+   "affects": "great_lakes-01",
+   "change": "approved",
+   "date": "2026-10-01",
+   "docket": "MPSC Case No. U-22058",
+   "source_url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/10/01/mpsc-approves-dte-electric-google-data-center-and-contracts-protects-customers-from-project-cost",
+   "source_title": "MPSC approves DTE Electric energy contracts for Google data center, protects other customers from the project's costs (MPSC news release, 1 October 2026)",
+   "what": "The MPSC approved, with conditions, DTE Electric's primary supply agreement and clean capacity accelerator agreement with Google, with a 20-year contract and an 80 percent minimum billing demand (against 5-year contracts and 50 to 65 percent under the general D11 rate).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "release date",
+     "quote": "October 01, 2026"
+    },
+    {
+     "page": "1",
+     "section": "first paragraph",
+     "quote": "The Michigan Public Service Commission today approved special contracts between DTE Electric Co. and Google LLC for the utility to provide electricity for a data center in Wayne County’s Van Buren Township, conditioned on mandatory protections to prevent other customers from having to bear any costs associated with the project (Case No. U-22058)."
+    },
+    {
+     "page": "1",
+     "section": "PSA terms",
+     "quote": "A contract length of 20 years, compared to 5-year contracts normally required under DTE Electric’s large-load D11 rate."
+    },
+    {
+     "page": "1",
+     "section": "PSA terms",
+     "quote": "A minimum billing demand of 80%, compared to 50%-65% in the general D11 rate."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the MPSC's own news release on michigan.gov",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Wisconsin Electric Power Company (We Energies)",
+   "state": "WI",
+   "rule_name": "Rate Schedule VLC, Very Large Customer - Market Pricing Tariff, with Rate Schedule BRT, Bespoke Resources Tariff",
+   "affects": "great_lakes-06",
+   "change": "other",
+   "date": "2026-11-05",
+   "docket": "PSCW Docket 5-UR-112 (We Energies rate case)",
+   "source_url": "https://psc.wi.gov/Documents/PressReleases/11.06.2026PressRelease.PDF",
+   "source_title": "Public Service Commission Cuts We Energies, WPS Rate Case Requests (PSCW press release, 6 November 2026)",
+   "what": "At its 5 November 2026 open meeting on We Energies' rate case, the PSCW made further modifications to accounting practices and gave itself tools to review and adjust future treatment so that non-data-center customers are protected, building on the VLC and Bespoke Resources tariff decision of April 2026; the written final order was not yet posted.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "release heading",
+     "quote": "FOR IMMEDIATE RELEASE November 6, 2026"
+    },
+    {
+     "page": "1",
+     "section": "body",
+     "quote": "Prior to the November 5th open meeting, the commissioners independently reviewed the records in full"
+    },
+    {
+     "page": "2",
+     "section": "body",
+     "quote": "This rate case proceeding furthers the Commission’s work to protect existing customers from data centers by making additional modifications to accounting practices and equipping the PSC with tools to review and make future adjustments to protect nondata center customers."
+    },
+    {
+     "page": "3",
+     "section": "Background on We Energies Rate Case Application",
+     "quote": "All documents related to this proceeding are available under Docket 5-UR-112 on the PSC’s Electronic Records Filing (ERF) System. The Commission’s Final Order will be posted to ERF in the coming weeks once it’s available."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PSCW's own press release on psc.wi.gov (it states it is an overview of preliminary oral decisions, not the order)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Wisconsin Power and Light Company (Alliant Energy)",
+   "state": "WI",
+   "rule_name": "Large load tariff for customers of 100 MW or more (filed with the PSC of Wisconsin, September 2026), proposed",
+   "affects": "xcel_plains-06",
+   "change": "filed",
+   "date": "2026-09",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+   "source_title": "Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company Form 10-Q for the quarter ended September 30, 2026",
+   "what": "WPL filed with the PSCW a large load tariff for customers of 100 MW or greater, as the PSCW directed in its June 2026 ICR approval, requiring a 15-year initial service term, minimum demand commitments, termination charges, customer reimbursement obligations and credit support; a decision is expected in the first half of 2027.",
+   "cites": [
+    {
+     "section": "Rate Matters, Large Load Tariff",
+     "quote": "the PSCW directed WPL to file a large load tariff applicable to all customers with demand requirements of 100 MW or greater"
+    },
+    {
+     "section": "Rate Matters, Large Load Tariff",
+     "quote": "In September 2026, WPL filed an application with the PSCW for approval of a large load tariff."
+    },
+    {
+     "section": "Rate Matters, Large Load Tariff",
+     "quote": "The proposed tariff would require qualifying customers to commit to an initial service term of 15 years and includes minimum demand commitments, termination charges, customer reimbursement obligations and credit support requirements."
+    },
+    {
+     "section": "Rate Matters, Large Load Tariff",
+     "quote": "A decision from the PSCW is currently expected in the first half of 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "WPL's SEC filing (EDGAR); the PSCW's ERF (apps.psc.wi.gov) disallows Claude's agents",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Interstate Power and Light Company (Alliant Energy)",
+   "state": "IA",
+   "rule_name": "Individual customer rate (ICR) tariff and the IUC-approved ICRs for data centers",
+   "affects": "xcel_plains-08",
+   "change": "filed",
+   "date": "2026-10",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000047/lnt-20260930.htm",
+   "source_title": "Alliant Energy Corporation, Interstate Power and Light Company and Wisconsin Power and Light Company Form 10-Q for the quarter ended September 30, 2026",
+   "what": "IPL asked the IUC to approve a further ICR, for a data center expected to be built in its territory (the 10-Q also reports an April 2026 electric service agreement with a data center customer for about 370 MW of contracted peak demand); an IUC decision is expected in the first quarter of 2027.",
+   "cites": [
+    {
+     "section": "Growing Customer Demand",
+     "quote": "In October 2026, IPL filed a request with the IUC for approval of an ICR for a data center expected to be constructed in its service territory. A decision from the IUC is currently expected in the first quarter of 2027."
+    },
+    {
+     "section": "Growing Customer Demand",
+     "quote": "This electric service agreement includes contracted peak demand of approximately 370 MW."
+    }
+   ],
+   "license": "public",
+   "license_basis": "IPL's SEC filing (EDGAR); the IUC's EFS (efs.iowa.gov) disallows all robots",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Service Company of Colorado (Xcel Energy)",
+   "state": "CO",
+   "rule_name": "Large Load Tariff: Schedule TL, Transmission Large Service, with Schedule CTT (Advice Letter No. 2018-Electric), proposed",
+   "affects": "xcel_plains-03",
+   "change": "hearing set",
+   "date": "2026-10-21",
+   "docket": "Colorado PUC Proceeding No. 26AL-0137E",
+   "source_url": "https://puc.colorado.gov/electric-rate-cases",
+   "source_title": "Colorado PUC, Electric Rate Cases page (Xcel Large Load Tariff, Proceeding Number 26AL-0137E milestones)",
+   "what": "The Commission's milestone table for the Large Load Tariff proceeding schedules answer testimony on 19 August 2026, public comment hearings on 25 August and 20 October 2026, rebuttal and cross-answer testimony on 23 September 2026, stipulations by 5 October 2026 and the evidentiary hearing on 21, 22, 26, 27 and 28 October 2026; the Commission decision is listed as TBD (the page gives scheduled dates, it does not say the hearing was held). Also held in large_load_tariffs/xcel_colorado_schedule_tl.yaml.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Xcel Large Load Tariff",
+     "quote": "Proceeding Number 26AL-0137E"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "SCHEDULED COMPLETION DATE"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "Answer Testimony ... Aug. 19, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "Sep. 23, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "Oct. 5, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "Oct. 21, 22, 26, 27, and 28, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Milestones",
+     "quote": "Commission Decision Final ruling on all issues presented in the proceeding. TBD"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Colorado PUC's own web page (copy cached by the first pass on 13 November 2026; no new request)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "state": "CO, NM, WY, NE",
+   "rule_name": "High Impact Load Tariff and pro forma agreement (HILT)",
+   "affects": "coops_public_power-01",
+   "change": "other",
+   "date": "2026-09",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1637880/000163788026000052/tris-20260930.htm",
+   "source_title": "Tri-State Generation and Transmission Association, Inc. Form 10-Q for the quarter ended September 30, 2026",
+   "what": "After FERC accepted the HILT in August 2026 (day not printed, so it may fall before 15 August), Tri-State opened its first review cycle for proposed high impact load projects in September 2026 and is reviewing applications for seven projects with about five gigawatts of potential incremental load by 2034.",
+   "cites": [
+    {
+     "section": "MD&A, Recent Developments",
+     "quote": "August 2026, FERC accepted Tri-State's tariff and pro forma agreement."
+    },
+    {
+     "section": "MD&A, Recent Developments",
+     "quote": "In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects."
+    },
+    {
+     "section": "MD&A, Recent Developments",
+     "quote": "Tri-State has received and is reviewing applications for seven projects with approximately five gigawatts of potential incremental load by 2034"
+    }
+   ],
+   "license": "public",
+   "license_basis": "Tri-State's SEC filing (EDGAR); tristate.coop not read (its terms bar robots)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Northern Indiana Public Service Company (NIPSCO)",
+   "state": "IN",
+   "rule_name": "NIPSCO and GenCo data center contracts served from Pool Resource Assets (special contracts with GenCo power purchase agreements, IURC)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-10",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1111711/000111171126000100/nix-20260930.htm",
+   "source_title": "NiSource Inc. Form 10-Q for the quarter ended September 30, 2026",
+   "what": "NIPSCO signed a contract with Microsoft, to be submitted to the IURC with a related GenCo power purchase agreement, for capacity and electricity to a data center with a capacity commitment rising to 788 MW from 2031 and an initial term of 20 years after energization, with specified minimum capacity charges.",
+   "cites": [
+    {
+     "section": "Data Center Contracts and Strategy, Microsoft Contract",
+     "quote": "In October 2026, NIPSCO entered into an agreement with Microsoft, which will be submitted to the IURC for approval, under which NIPSCO will provide capacity and electricity services to Microsoft’s data center facility to be located in NIPSCO’s service territory pursuant to a capacity commitment beginning in 2028 and increases to 788 MW commencing in 2031"
+    },
+    {
+     "section": "Data Center Contracts and Strategy, Microsoft Contract",
+     "quote": "The initial term of the Microsoft Contract ends 20 years after the initial energization of Microsoft’s data center."
+    },
+    {
+     "section": "Data Center Contracts and Strategy, Microsoft Contract",
+     "quote": "In addition, NIPSCO will enter into a PPA with GenCo in connection with the Microsoft Contract, which will be submitted to the IURC for approval."
+    }
+   ],
+   "license": "public",
+   "license_basis": "NiSource's SEC filing (EDGAR); nipsco.com not read (its terms bar automated access)",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "no_change": [
+  {
+   "utility": "Union Electric Company d/b/a Ameren Missouri (Service Classification No. 11(M) LLCS; General Rules III.P)",
+   "searched": "Ameren Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): 2.8 GW of electric service agreements signed in 2026 under the large primary service tariff approved in 2025 and a preferred resource plan filed with the MoPSC in September 2026, no change to the LLCS sheets; the Missouri PSC's page 'Utility Tariffs for Large Load Customers' (read 13 November 2026). Lead only (search result, not read): Ameren Missouri's rate case ER-2026-0291, filed 26 June 2026 (before the window), carries direct testimony on 'Large Load Tariff Updates'; its later filings were not read."
+  },
+  {
+   "utility": "Evergy Metro, Inc. d/b/a Evergy Missouri Metro and Evergy Missouri West, Inc. (Schedule LLPS; Rules 2.14 and 2.10)",
+   "searched": "Evergy Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): ESAs for about 2,600 MW signed in 2026 under the LLPS rate plans; Evergy Missouri West filed a general rate case with the MPSC in November 2026 whose request is partly offset by new large load revenues, with no change to Schedule LLPS stated; the Missouri PSC's large-load page (13 November 2026)."
+  },
+  {
+   "utility": "Public Service Company of Oklahoma (proposed large load terms in the Large Power and Light tariff)",
+   "searched": "AEP Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): a hearing was held and an OCC order is expected in Q4 2026, with all large load tariff issues open; no OCC order or ALJ report read. The OCC's 2026 Commission Meetings page lists agendas for 19 August to 3 November 2026; the agendas could not be read (the reader's DNS lookup for oklahoma.gov failed, see refused). Leads not verified in a primary: cause PUD-2025-000075 and an ALJ report of 21 August 2026 recommending approval of the large load tariff (news reports only)."
+  },
+  {
+   "utility": "Indiana Michigan Power Company (Indiana, Tariff I.P. large load terms)",
+   "searched": "I&M Indiana tariff book of 28 October 2026 (cached, internal): no large-load sheet effective in the window (latest is 1st Revised Sheet 21.7, 24 June 2026); AEP Form 10-Q Q3 2026: I&M's MYRP base rate filing of August 2026 (day not printed) proposes to freeze base rates 'with limited exceptions primarily related to large load customers', no change to the large-load terms stated; IURC weekly orders for the conference of 12 November 2026 (Cause 46301 GRS 3 is a generation resource submittal, read, not a large-load matter)."
+  },
+  {
+   "utility": "Duke Energy Indiana, LLC",
+   "searched": "Duke Energy Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): its IURC matters (ECR 45, coal ash, Cayuga CC GCT) include no large-load tariff or order."
+  },
+  {
+   "utility": "Northern States Power Company, a Minnesota corporation (Xcel Energy), very large customer tariff (MPUC Docket 25-289) and the Echo Zone (Google) ESA (Docket 26-170)",
+   "searched": "NSP-Minnesota and Xcel Energy Forms 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copies): the ESA and Clean Energy Accelerator Charge request filed in April 2026, decision expected early 2027; no 25-289 compliance or other large-load order in the window reported; the MPUC data centers page (cached): the Docket 26-170 comment period ran to 8 September 2026. The MPUC news page answered with a bot check (see refused); eDockets not requested."
+  },
+  {
+   "utility": "All Minnesota public utilities (Minn. Stat. 216B.1622 very large customer class)",
+   "searched": "No primary read in the window: the MPUC's very large electric customers page gave a bot check in the first pass and its news page gave one in this pass (see refused); the orders due by 15 December 2026 were not found."
+  },
+  {
+   "utility": "Minnesota Power (ALLETE, Inc.), ESA with Harmony Group, LLC (MPUC Docket 26-159)",
+   "searched": "MPUC data centers page (cached): filed 26 March 2026, comment period open until 28 August 2026; Minnesota Power's press release of 2 November 2026 (cached): 'The MPUC is still reviewing the company's electric service agreement proposed for the new data center.' No decision in the window."
+  },
+  {
+   "utility": "Northern States Power Company, a Wisconsin corporation (Xcel Energy)",
+   "searched": "Xcel Energy Form 10-Q Q3 2026 (EDGAR, cached copy): proposed tariff filed in Q2 2026, PSCW decision expected early 2027; PSCW press releases list (6 August to 6 November 2026): no NSP-Wisconsin large load item."
+  },
+  {
+   "utility": "Wisconsin Public Service Corporation",
+   "searched": "PSCW press release of 6 November 2026 (rate case 6690-UR-129 decided at the 5 November open meeting; no WPS large load tariff named)."
+  },
+  {
+   "utility": "Consumers Energy Company (Large Load Customer Provision of Rate GPD)",
+   "searched": "CMS Energy Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): no large-load tariff or contract item; the MPSC's sitemap list of news releases from 6 August to 5 November 2026, and the releases of 10 September, 15 October (two) and 5 November 2026: no Consumers large-load item."
+  },
+  {
+   "utility": "DTE Electric Company (amendments to Rate D11, the large load tariff for service over 100 MW, MPSC Case U-22061)",
+   "searched": "The case is named on Earthjustice's page (a lead, read 13 November 2026), with intervenor testimony of 4 August 2026, before the window; the MPSC case page on mi-psc.my.site.com renders only by script (no text, see refused); the MPSC's news releases of 6 August to 5 November 2026 carry no U-22061 item; DTE Form 10-Q Q3 2026 and EEI deck (cached) name no order."
+  },
+  {
+   "utility": "Basin Electric Power Cooperative (Large Load Commercial Program)",
+   "searched": "Basin Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): the program is unchanged; large loads are excluded from the capital expenditure forecast."
+  },
+  {
+   "utility": "MidAmerican Energy Company",
+   "searched": "Berkshire Hathaway Energy and MidAmerican combined Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy): only the July 2026 Iowa natural gas rate request; no large-load or data center tariff."
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co. (ND, SD; not in the dataset)",
+   "searched": "MDU Resources Form 10-Q for the quarter ended 30 September 2026 (EDGAR, cached copy) and the ND PSC case index for PU-26-235 (cached): Montana-Dakota serves data centers under individual electric service agreements filed under its High Density Contracted Demand Response Rate 45 (ND); in the window the ESA case PU-26-235 (Applied Digital, 430 MW per the 10-Q) drew Roughrider Electric Cooperative's protest and request for hearing (filed 8 September 2026) and an Order on Protection of Information (9 September 2026), and the SDPUC hearing on the Leola ESA (up to 50 MW) is scheduled for November 2026. These are single-contract proceedings; no change to Rate 45 itself was read. Rate 45 is a lead for a new row."
+  },
+  {
+   "utility": "Evergy Kansas Central and Evergy Kansas Metro (LLPS rate plan, KCC 25-EKME-315-TAR)",
+   "searched": "KCC 2026 news release list (read 13 November 2026: no release on large load in the window); Evergy Form 10-Q Q3 2026 (the Affordability Enhancement Plan entry above is the only change)."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Northern States Power Company (Minnesota); Minnesota Power; all Minnesota utilities (216B.1622)",
+   "url": "https://mn.gov/puc/about-us/news/index.jsp",
+   "reason": "blocked: the answer looks like a bot check (validate.perfdrive.com); not retried with another agent"
+  },
+  {
+   "utility": "Northern States Power Company (Minnesota); Minnesota Power",
+   "url": "https://content.govdelivery.com/accounts/MNPUBUC/bulletins",
+   "reason": "HTTP 404 (looked for a list of the MPUC's bulletins)"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma",
+   "url": "https://www.psoklahoma.com/lib/docs/ratesandtariffs/Oklahoma/PSO_Tariff_Package_Complete_Aug_2026.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma; Oklahoma Gas and Electric Company",
+   "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/ajls/jls-courts/court-clerk/meetings/2026/2026-08-19-special-meeting-agenda1.pdf",
+   "reason": "robots.txt not readable (URLError: getaddrinfo failed); not read"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma; Oklahoma Gas and Electric Company",
+   "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/ajls/jls-courts/court-clerk/meetings/2026/2026-08-27-regular-meeting-agenda.pdf",
+   "reason": "robots.txt not readable (URLError: getaddrinfo failed); not read"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma; Oklahoma Gas and Electric Company",
+   "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/ajls/jls-courts/court-clerk/meetings/2026/2026-09-01-special-meeting-agenda.pdf",
+   "reason": "robots.txt not readable (URLError: getaddrinfo failed); not read"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma; Oklahoma Gas and Electric Company",
+   "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/ajls/jls-courts/court-clerk/meetings/2026/2026-09-08-special-meeting-agenda.pdf",
+   "reason": "the request did not complete (the run was stopped after it hung); not cached, not read"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma; Oklahoma Gas and Electric Company",
+   "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/ajls/jls-courts/court-clerk/meetings/2026/2026-10-01-amended-special-meeting-agenda.pdf",
+   "reason": "robots.txt not readable (URLError: getaddrinfo failed); not read; the other OCC agendas of 14 September to 3 November 2026 were not requested"
+  },
+  {
+   "utility": "DTE Electric Company",
+   "url": "https://mi-psc.my.site.com/s/case/500cs00001bI7YMAA0/in-the-matter-of-the-application-of-dte-electric-company-for-approval-of-amendments-to-rate-d11-and-related-relief",
+   "reason": "robots allow, but the page renders only by script: the reader saw no text (MPSC Case U-22061)"
+  }
+ ],
+ "dropped_duplicates": [
+  {
+   "what": "The MPSC approved amendments to I&M's Tariff LP for large load customers of 50 MW or more (15-year term with up to a 5-year ramp, 90 percent minimum billing demand, 65 percent minimum energy, more upf",
+   "duplicate_of": "east_changes 19"
+  },
+  {
+   "what": "The amended Tariff LP large load sheets issued under the MPSC's order of 27 August 2026 took effect for service on and after 18 September 2026.",
+   "duplicate_of": "east_changes 20"
+  }
+ ]
+}

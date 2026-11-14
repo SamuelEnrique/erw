@@ -132,7 +132,8 @@
    "license_basis": "copy of the NCUC filing posted by an intervenor (the Southern Environmental Law Center), as window A used it; the 10-Q from SEC EDGAR",
    "erw_overlap": "large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml: threshold and min_demand held unchanged. contract_term: window A holds the minimum term; this adds the automatic one-year extension and the 24-month notice. collateral: window A holds the Dedicated Facilities CIAC and the network upgrade letter of credit; this adds the ratable reduction and the security equal to termination liquidated damages (cash, letter of credit or parent guarantee). exit_fee is not in window A's file. Status unchanged: proposed, no NCUC order found as of 13 November 2026.",
    "notes": "Read again through the reader on 13 November 2026 (window A's copy was 12 November). No NCUC order on the settlement was found by search; the NCUC portal bars Claude's agents, so the docket itself was not read. Exhibit 1 also sets a Reliability Provision (p. 24): each ESA includes interruptibility of 95% of contract load for up to 50 hours a year for the load ramp period plus one year, or the alternative the exhibit lists. The 10-Q (same section) says: Electric service agreements entered into prior to June 1, 2026, already include similar retail customer protections. Queue leads, not values (news only): Duke's Q3 2026 earnings call coverage (Utility Dive, Earnings Whispers, 5 to 6 November 2026) reports a 15.4 GW late-stage large-load pipeline of which 7.8 GW is signed electric service agreements, company-wide, not Carolinas-only; WUNC (16 October 2026, robots bar Claude) reports Duke's Fall 2026 semiannual large-load report. FERC accepted Duke Energy Carolinas' large-load revisions to its pro forma NITSA in ER26-2691 (lead: a 75% floor for 15 years per mgrid and Utility Dive); ferc.gov answered 403 to the reader, so no row is written for it. South Carolina: see the row 'Generic docket on large load additions (SC PSC Docket 2026-138-E)'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "duke-01"
   },
   {
    "utility": "Duke Energy Progress, LLC",
@@ -264,7 +265,8 @@
    "license_basis": "copy of the NCUC filing posted by an intervenor (the Southern Environmental Law Center); the 10-Q from SEC EDGAR",
    "erw_overlap": "large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml holds DEC's leaf of the same tariff and writes no DEP row ('no Progress row is written until its own leaf is read'). This row rests on the settlement's own words that the Exhibit 1 tariff is to apply to both DEC and DEP (p. 7); for window A to decide whether that is enough without a DEP leaf.",
    "notes": "Exhibit 1's footer reads 'NCUC Docket No. E-7, Sub 1329' (DEC); no separate DEP leaf or DEP Schedule HLF sheet was found on an allowed host (duke-energy.com and the NCUC portal are refused). The settlement (p. 6) records the Commission's 14 August 2026 Order Requesting Comments in E-2, Sub 1380. DEP's South Carolina side: see the row 'Generic docket on large load additions (SC PSC Docket 2026-138-E)'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "duke-02"
   },
   {
    "utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC",
@@ -343,7 +345,8 @@
    "license_basis": "the South Carolina Public Service Commission's own press release",
    "erw_overlap": "none",
    "notes": "A comment docket, not a rule: kept so that the South Carolina side's status is on record; drop it if the dataset holds rules only. Leads (news and party releases, not read as values): the docket follows commitments in Duke's 2025 South Carolina rate case settlements; S&P Global reports the SC PSC voted on 20 November 2025 to approve a separate large-load stipulation between DEP and consumer and environmental groups (Docket 2025-154-E). No Duke South Carolina large-load tariff filing was found. sierraclub.org (SSL error on robots) was not read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "duke-03"
   },
   {
    "utility": "Duke Energy Florida, LLC",
@@ -556,7 +559,8 @@
    "license_basis": "the Florida PSC's docket copy (floridapsc.com)",
    "erw_overlap": "none",
    "notes": "Status: denied on 3 November 2026, from the Commission's own vote sheet (Document 07689-2026, Item 3). The vote sheet marks Issue 1B (staff's recommendation to deny DEF's proposed tariff as filed, on two grounds: it leaves out customers who meet the statutory definition but do not request firm service, and DEF has not shown that service on GSD-1 and GSDT-1 with the proposed protections reasonably ensures each large-load customer bears its own full cost of service) 'APPROVED' 'AS modified by oral modification'. The oral modification (Document 07601-2026, staff e-mail of 29 October 2026 attached to the vote sheet) changes the last sentence from 'should be permitted to re-file' to 'DEF must' file 'tariff provisions for Commission approval covering all customers who meet the statutory definition and a proposed large load rate schedule with adequate cost support'. Issues 1A, 1C, 1D, 1E, 1, 2, 3 and 4 are marked MOOT; Issue 5 (keep the docket open for refiled tariffs) is APPROVED. The vote sheet does not print the vote count (news reports 5 to 0). No final order was in the docket's filing list (the Commission's docket index at pscweb.floridapsc.com, read 13 November 2026, latest entry 9 November 2026), so the order's date and any refiling deadline are not yet published. The rule is no longer pending: the field values above describe the tariff as filed and denied. Staff's post-hearing recommendation is Document 07477-2026 (22 October 2026). The petition replaces DEF's earlier petition of 5 September 2025 (Docket 20250113-EI, withdrawn 20 April 2026, LLCP at 100 MW); it was filed under Florida SB 484 (Chapter 2026-65). Customers would have taken service on GSD-1 or GSDT-1 until a large load rate schedule was approved (Sheet 4.132, 13.08). www.psc.state.fl.us, which failed on a certificate check on this machine earlier, read normally on the retry (Document 03579-2026, a hearing transcript, not used).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "duke-04"
   },
   {
    "utility": "Duke Energy Ohio, Inc.",
@@ -679,7 +683,8 @@
    "license_basis": "the PUCO's own bulletin; the queue figure from a document PJM publishes (the utility's submittal to PJM's Load Analysis Subcommittee)",
    "erw_overlap": "none",
    "notes": "Only the existence and status of the application could be read: its text is on the PUCO's docketing system, whose robots file bars Claude's agents, and no other allowed copy was found. Leads, not values: EEI's 'Large Load Projects and Tariffs (October 2026)' list and a GitHub tracker say PUCO staff filed comments in October 2026 and no decision has issued; a news item says Duke Energy Ohio filed a large-load development tariff proposal in December 2025 (not confirmed in a primary document). The PJM slides' tables are read from the text layer (layout.txt shows the rows and labels); the columns on pp. 6 and 7 are years, then Duke Energy Ohio, Duke Energy Kentucky and the zone total, and the capacity table comes before the demand table (demand is capacity times a 70% utilization factor for Ohio data centers, p. 5). The slides carry the word INTERNAL but are posted publicly by PJM. Status date as the reading group wrote it: 'not published'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "duke-05"
   }
  ],
  "refused": [

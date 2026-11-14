@@ -1,0 +1,800 @@
+{
+ "rows": [
+  {
+   "row_id": "great_lakes-07",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "proposed 2026-03-26: the MPUC page prints 'Status: Filed on March 26, 2026.' for the Minnesota Power and Harmony Group ESA; Minnesota Power's release of 2 November 2026 (p.2) says the MPUC is still reviewing it."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "'Docket 26-159' closes the Minnesota Power entry on the MPUC page (the next entry, Xcel and Echo Zone, closes with 'Docket 26-170'), so the docket belongs to this ESA."
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-01",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "P.L. 2026, c.32 approved July 7, 2026; Section 2: 'This act shall take effect immediately.' The status describes the statute; the utility tariffs it requires are not yet filed (Section 1c: within 180 days of the BPU order)."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "BPU RFI notice p.1: 'Docket No. EO26080463', issued pursuant to P.L. 2026, c.32."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Section 1b(1) of the enacted section (numbered 31 in the Fourth Reprint, outside the deleted bracket): 'minimum megawatt size designation, which shall not be greater than 50 megawatts', with the aggregation sentence."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Section 1d(1): 'pay for at least 85 percent of the 4[service] electricity supply4 it requests for a period of 10 years from when service commences or as otherwise determined in the board's standards' ('new' struck by the 4[ ]4 bracket, 'electricity supply' inserted). Value matches."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "The 10-year period is the guarantee and security period of Section 1d(1) and 1d(2); the value says so and that no contract term is otherwise printed."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Section 1d(2) words match the value."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Section 1d(2): 'authorize the board to approve a stranded cost recovery mechanism applicable exclusively to the large data center customer class'; no exit fee printed."
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-02",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "2026-09-21 is the title-slide date of the PJM deck, not an effective date, and the January 2026 PSE&G method document (p.4) already says 'these agreements are underway'. The JSON status note explains this, but build_csv.py does not carry status notes, so the CSV shows 'in effect' / '2026-09-21' as if it were an effective date. The undated New York practice rows (northeast-04, -06, -08) were given a status date of 'not published' for the same situation.",
+     "page": "pseg-documentation.pdf p.4; 20260929-item-5l---pseg.pdf p.1",
+     "words": "'As noted in the data center load adjustment document, these agreements are underway.' / title slide '09/21/2026'"
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Deck p.4: '($10,000 fee for 26kV less than 20MW)'; in the layout text '69kV or Higher' sits between the Capacity Review and the FAR/TEA columns, with the 26kV ESO/RA path below."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Deck p.4: 'Eligible refunds are tied to performance milestones on revenue over a 10-year term.'"
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Deck p.4 figures ($25,000; $10,000; ~$400K - $1M+; full cost of construction, typically $40M+; 26kV deposit based on construction cost) and the January 2026 document p.4 'Customers must deposit a non-refundable fee.' match."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Deck p.4: 'Serves as a deposit if project continues or actual study costs are retained.'; January 2026 p.4: non-refundable Capacity Review fee."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "January 2026 document p.5: '2000 MW in Capacity Review (19 customer requests)' and '3600 MW in potential leads (31 unique site inquiries)', beyond the load submitted to PJM."
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-03",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Order Instituting Proceeding 'Issued and Effective February 12, 2026'; the proceeding is pending (whitepaper due within a year, p.11), so 'proposed' with that date is fair."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.1: 'CASE 26-E-0045'."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "DPS report p.3, Risk Management: words match."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "DPS report p.3: 'costs already incurred are retained from deposits and unspent funds are returned to the customer.'"
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "DPS report p.2: SIS about 6 to 12 months, Facility Study about 6 to 15 months (lower-complexity), local TO process 1 to 6 months. (The ~4 month detailed engineering studies are left out, not misstated.)"
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "DPS report p.2: 'approximately 42 to 80 months depending on project complexity.'"
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "DPS report p.1: 'As of September 2026, there are nearly 14 gigawatts ... with over 8 gigawatts entering in 2025 alone.'"
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-04",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "in effect, date not published (current JSON and CSV); Appendix A p.13: 'Central Hudson has mechanisms in place ... largely implemented through contract provisions.'"
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Appendix A p.6 heading: Case 26-E-0045."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Appendix A p.10 (Character of Service) and p.6 (inventory of connections greater than 10 MW)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Appendix A p.8 (2f) and p.12 (5a): words match, including non-refundable funds where projected revenues are insufficient."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Appendix A p.15 (7e): cancellation 'due to actions of the customer', costs retained from the deposit, unspent funds returned."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Appendix A p.8: 'impact studies have generally taken approximately four to six months to complete' (projects not subject to the NYISO process)."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "wrong",
+     "detail": "The figures are right (p.6), but the value now says 'as reported in Appendix B of the DPS report'. Central Hudson's report is Appendix A (title page p.5 'Appendix A Central Hudson Gas & Electric'; the row's own cite says 'Appendix A, 1b'). Appendix B is Con Edison and O&R.",
+     "corrected_value": "4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the DPS); as reported in Appendix A of the DPS report, which prints no as-of date",
+     "page": "5 and 6",
+     "words": "'Appendix A Central Hudson Gas & Electric' (p.5); 'Since 2022, Central Hudson has received applications for four projects requiring a grid connection greater than 10 MW, for a total requested peak load of approximately 290 MW.' (p.6)"
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-06",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "in effect, date not published; Appendix B p.18 Executive Summary describes existing practices as continuing."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Appendix B p.18: Case 26-E-0045."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Appendix B p.23 (2b, ORU) and p.28 finding: SC 9 over 1,000 kW at primary or transmission voltage, SC 22 industrial; projects meeting NYISO thresholds go to NYISO (p.21)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Appendix B pp.24-25 (2c/2f, ORU) and pp.30-31 (5b, ORU): fees, study costs, deposits, facilities and upgrades; 100% of facilities and upgrades needed exclusively for its interconnection."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Appendix B p.33 (7d). The 7d answer carries no CECONY/ORU label in the consolidated report (as with 7a 'Both CECONY and ORU' and 7b), so 'stated for both companies' is a fair reading."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Appendix B p.21 (ORU 1a), repeated pp.24 and 26: SIS 4 to 8 months, Facilities Study 6 to 12 months under the local process."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "Appendix B p.21 (ORU 1b): five projects, ~236 MW, four in design pending the IA, one cancelled; Appendix B is the right appendix and prints no as-of date ('information available as of today', p.18)."
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-08",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "in effect, date not published; Appendix F p.119 finding on existing tariff structures."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Appendix F p.110: Case 26-E-0045."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Appendix F p.118 (SC 7-4, SC 7-2, RG&E SC 8) and p.125 (Large Load Project Tracker thresholds; the tracker covers NYISO projects only)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Appendix F p.117 (2f): Bond, Letter of Credit, Parent Guarantee or cash; customer-specific facilities funded 100 percent by the customer, with prepayment."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Appendix F p.124 (7e) and p.122 (5e): words match."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Appendix F p.116 (2d) and p.114 (2a): SIS 8 to 12 months; Facility Study about 11 months (low complexity); agreement 3 to 6 months; non-NYISO 1 to 6 months; cost estimates expire after 6 months."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "Appendix F p.116: 'Project execution: approximately 3 to 5 years, depending on scope.' (listed after agreement negotiation for NYISO-jurisdictional projects)."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "wrong",
+     "detail": "The figures are right (p.110), but the value now says 'as reported in Appendix B of the DPS report'. NYSEG and RG&E's report is Appendix F (title page p.109; the row's own cite says 'Appendix F, 1b').",
+     "corrected_value": "36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service, the rest in study; as reported in Appendix F of the DPS report, which prints no as-of date",
+     "page": "109 and 110",
+     "words": "'Appendix F New York State Electric & Gas Corporation / Rochester Gas and Electric Corporation' (p.109); 'NYSEG and RG&E have received a total of 36 large (10 MW+) load projects.' (p.110)"
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-09",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Appendix C p.57 (3.3): 'the LIPA Board of Trustees approved Tariff modifications, effective January 1, 2026, requiring execution of an Interconnection Agreement for customers taking service at or above 23 kV.'"
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Appendix C pp.46-47 (Large Load Facilities of 20 MW or greater, Performance Requirements), p.54 (review thresholds 1.5, 20, 40 MW), p.48 (40 MW or greater to transmission), p.57 (23 kV)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Appendix C pp.51-52: words match. Not misstated, but incomplete: p.71 also prints 'Eligible Customers shall provide financial security in the form of an irrevocable Letter of Credit acceptable to LIPA.', which the value could add."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Appendix C p.50 table (~3 months, ~6-9 months, ~180 days) and p.51 ('can extend well beyond one year')."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "Appendix C p.50: agreement, construction and energization rows are 'Project-specific'; 2.5: no single set of stated timelines."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "wrong",
+     "detail": "The figures are right (p.37; the ~10 MW to 300 MW range is in Table 2, p.40), but the value now says 'as reported in Appendix B of the DPS report'. LIPA/PSEG LI's report is Appendix C (title page p.36; the row's own cite says 'Appendix C, Executive Summary').",
+     "corrected_value": "8 large load requests over 10 MW since 2022, 5 active and 3 cancelled (peak loads about 10 MW to 300 MW); as reported in Appendix C of the DPS report, which prints no as-of date",
+     "page": "36, 37 and 40",
+     "words": "'Appendix C Long Island Power Authority / PSEG LI' (p.36); 'Five projects remain active while three have been cancelled' (p.37); 'Total 8 5 3 ... ~10 MW to 300 MW' (Table 2, p.40)"
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "wrong",
+     "detail": "Written 'not published' ('no exit or termination charge printed'), but Appendix C section 7.5 'Treatment of Cancelled Projects' (p.72) states the cancellation cost terms. The other rows read from the same report (northeast-03, -04, -06, -08) record this kind of cancellation treatment in exit_fee, with 'no exit fee printed'.",
+     "corrected_value": "no exit fee printed; on cancellation the customer is generally responsible for study costs incurred on its behalf; costs already incurred for engineering, planning, procurement or construction are typically not refundable; unused deposits or advance payments may be returned under the applicable agreement; transmission-connected customers remain responsible for costs created by their request, including transmission upgrades already initiated",
+     "page": "72",
+     "words": "'Customers are generally responsible for study costs incurred on their behalf, including engineering reviews, system impact studies, and facilities studies completed prior to withdrawal.' ... 'Costs already incurred for completed engineering, planning, procurement, or construction activities are typically not refundable.' ... 'For transmission-connected projects, customers remain responsible for the costs created by their interconnection request, including study costs and any transmission upgrades already initiated as a result of the project.'"
+    }
+   ]
+  },
+  {
+   "row_id": "northeast-10",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "E.O. 658 page 'Date: 09/08/2026'; Section 15: 'effective upon the date signed'."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "DPU letter p.4: 'file its respective company specific informational filing in docket D.P.U. 26-DC'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "E.O. 658 Section 13 (over 25 MW peak, or a 25 MW addition, built or expanded after the effective date); DPU letter p.2 items 1 and 2 (loads over 25 MW; data centers over 1 MW)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "E.O. 658 Section 4 ('should direct ... fees, deposits, or other requirements') and DPU letter p.3 item 3; the value says no figure exists yet."
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power-01",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "The words support 'FERC accepted ... August 2026'. But the same 10-Q says Tri-State began its first review cycle under the tariff in September 2026 and is reviewing seven applications, which reads as a tariff in operation, while the README defines 'approved' as 'not yet in effect or with no sheet yet'. No effective date is printed: either keep 'approved' and say it means accepted by FERC, or use 'in effect' with the date not published.",
+     "page": "MD&A, Recent Developments",
+     "words": "'August 2026, FERC accepted Tri-State's tariff and pro forma agreement. In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects.'"
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "10-Q MD&A: the first review cycle began in September 2026; results 'expected in the first half of 2027'. The value says the tariff's own durations are not published."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "10-Q MD&A: 'seven projects with approximately five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects'; the 10-Q is signed November 6, 2026."
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power-02",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "News brief: 'The large load commercial program opened to applications on June 13.' (2025; board adoption June 2025)."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "One-pager: Phase A 1-6 Months; Phase B (load interconnection and transmission service studies, power supply and generator interconnection studies) 6-18 Months."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "One-pager: Phase C, project implementation, after Decision Point 2 (final investment decision, definitive agreements): '60+ Months'."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "Prospectus Risk Factors ('thousands of megawatts') and MD&A (NextEra application in 2025). The 424B3's own '90 days after' reference to August 4, 2026 dates it 6 May 2026."
+    },
+    {
+     "field": "collateral",
+     "verdict": "unclear",
+     "detail": "Written 'not published', with the $50K fee noted under 'searched'. The one-pager plainly prints a $50K non-refundable application fee and a study prefunding agreement as Decision Point 1 requirements. northeast-02 records a non-refundable $25,000 / $10,000 Capacity Review fee under collateral, so the dataset is not consistent on whether such fees count. Either record them here or move PSE&G's fee out of collateral.",
+     "corrected_value": "no security amount printed; Decision Point 1 requires a Funding Agreement to prefund required studies and document drafting and a $50K non-refundable Large Load application fee",
+     "page": "1 (onboarding procedures one-pager)",
+     "words": "'Funding Agreement to prefund required studies and document drafting' / '$50K non-refundable Large Load application fee'"
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power-03",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "10-K: market-based rates elected for five customers in 2025; FERC authority for both formula and market-based rates. 'in effect' with the date not published is supported."
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power-04",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Schedule LL p.1 'Effective September 15, 2026'; IID page: Board approved Schedule LL on September 15, 2026."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Schedule LL p.2 Applicability: 20 MW or more and load factor greater than 80%; expansions included; aggregation at IID's discretion."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Schedule LL pp.5-6: 85% Minimum Energy Charge, 85% Minimum Demand Charge, Minimum Renewable Compliance Cost Charge."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Schedule LL pp.4-5: not less than fifteen (15) years; service continues after; sixty (60) months written notice to terminate or modify."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Schedule LL p.4 (Service Deposit, in cash), pp.8-10 (Collateral Requirement up to 60 months of exposure, accepted forms, A3/A- guaranty, kept for the full service period); queue process p.12 (50% Facilities Commitment Deposit) and p.9 (tiered Draw Fund Deposit)."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Schedule LL p.5 Exit Fee: words match."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "unclear",
+     "detail": "Each quoted figure is printed, but the queue process contradicts itself and the value gives only one side: sections 7.2.1 and 7.3 say best efforts within ninety (90) Business Days, while section 7.6 'Study Schedule and Delay' (p.15) targets completion of Phase I and of Phase II within ninety (90) Calendar Days. The value should carry both (and the 120 Business Day cluster study figure, p.14, if cluster studies are in scope).",
+     "corrected_value": "completeness notice within 10 Business Days of the Stage 1 submission; Feasibility Assessment targeted within 30 Business Days; Phase I Study Authorization targeted within 20 Business Days of the Queue Position; Phase I and Phase II reports: best efforts within 90 Business Days of the respective Study Authorization (sections 7.2.1, 7.3), while section 7.6 targets completion of each phase within 90 Calendar Days once its prerequisites are met; Cluster Study reports best efforts within 120 Business Days; 30 Business Days for the applicant to advance after the Phase I report",
+     "page": "queue process pp.11, 14, 15",
+     "words": "'IID will target completion of Phase I within ninety (90) Calendar Days after the Phase I Study Authorization is effective, IID has accepted all required data and models, and sufficient study funding is available. IID will target completion of Phase II within ninety (90) Calendar Days after the Applicant satisfies the Phase II advancement requirements' (p.15)"
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power_2-01",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "2026-04-08 is the date the annual meeting convened, not an adoption or effective date (the JSON note says so: 'the post prints no adoption or effective date'). build_csv.py drops status notes, so the CSV shows 'in effect' / '2026-04-08' as if it were an effective date. In line with the undated New York practice rows, the status date would be 'not published' (the policy was in place by 8 April 2026).",
+     "page": "article text",
+     "words": "'The 2026 Hoosier Energy Annual Meeting convened on April 8'"
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "'the Consumer Directed Resource Policy, which applies to all loads greater than 50 megawatts.'"
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "'We require them to pay for that upfront.' and 'invoiced every seven days on their energy consumption ... coupled with robust prepayments.'"
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power_2-03",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "PPEC page: 'The Buckeye Power Board approved the new data center rate schedule in March 2026.'"
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power_2-04",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "in effect, date not published; the page directs requests of two megawatts or greater to the program and its agreements."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Page: 'two megawatts or greater'; request form p.1: 'greater than 2 MW'. Both are given."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "ESA p.5, section 10: 'This Agreement shall remain in effect until terminated.'"
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "ESA pp.3-4 section 7; CDA p.2 section 5.1; RSA p.2 section 4. (RSA section 4 also lets the Cooperative adjust the deposit for project complexity, so 'capped at $1,000,000' is the stated default.)"
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "ESA p.4 section 8 and p.5 section 10: words match."
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power_2-05",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "in effect, date not published; the page describes the program as operating."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "'a new large load (25 megawatts (MW) or greater)'."
+    }
+   ]
+  },
+  {
+   "row_id": "coops_public_power_2-06",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Staff report of July 14, 2026: a staff recommendation (item 10); the City's page records no adopted electric change. 'proposed' with that date is fair."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "unclear",
+     "detail": "The MW figures are printed, but 'one proposal' reads as a count of the queue. The documents describe only the Lightedge proposal; they do not say it is the only request, and the staff report (p.5) speaks of 'other, larger data centers'. Better to state it as the one proposal the documents describe.",
+     "corrected_value": "the Lightedge co-location data center proposal on City property (the only project the documents describe; no count of requests printed): 3 MW first phase, 6 MW second phase, 25 MW at full build-out over an estimated 10 years",
+     "page": "staff report p.5; Data Center Development Updates page",
+     "words": "'Should the City Council desire to move ahead with the Lightedge project and not other, larger data centers at this time' (staff report p.5)"
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-01",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Rate 45 sheets p.48: 'Service rendered on and after July 1, 2023', Case PU-22-194; listed as presently on file in PU-26-241 (pp.5-6)."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.48 'PU-22-194'; p.1 'PU-26-241 Filed 06/30/2026'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.48 Availability: at least 10,000 kW per month at a single delivery point and an expected minimum load factor of 85%."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.48 Billing and Availability: words match (the 'service requirements' also include interruptibility; not misstated)."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.48 term 2: 'minimum term of three years but not exceed five years.'"
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.49 term 3.d (deposit) and p.50 term 10 (CIAC): words match."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "unclear",
+     "detail": "The value says the figures are given 'as MDU Resources' Form 10-Q ... states it', but the 10-Q does not place the additional 350 MW at Ellendale (it says 'in the Company's service territory'), does not call the 180 MW 'the first agreement', and gives 280 MW as 'A total of 280 MW of Applied Digital's data center load', not 'of which' the Ellendale agreements. The Ellendale location of the 350 MW is supported elsewhere (the PU-24-332 order: APLD-ELN-02 raised from 225 MW to 350 MW; the other 180 MW agreement in Case PU-22-371; MDU's presentation of 27 August 2025, p.9: 'All contracted Ellendale data center load (530 MWs)'), so cite those or follow the 10-Q's words.",
+     "corrected_value": "as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital's data center near Ellendale ND, served since March 2023, 180 MW at full capacity; an NDPSC-approved agreement to serve an additional 350 MW of Applied Digital load in MDU's service territory; a total of 280 MW of Applied Digital's load currently online; Applied Digital, Center ND, 430 MW under an agreement announced June 2026, pending NDPSC approval, scheduled for the third quarter of 2027; a data center near Leola SD, up to 50 MW, agreement pending at the SDPUC",
+     "page": "10-Q MD&A, electric distribution",
+     "words": "'The NDPSC approved an electric service agreement to serve an additional 350 MW of data center load with Applied Digital in the Company's service territory. The third HPC building at Ellendale is scheduled to begin ramping in January 2027. A total of 280 MW of Applied Digital's data center load is currently online.'"
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-02",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "SD sheet p.1: 'Service rendered on and after September 1, 2024'."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "SD sheet p.1: 'EL23-020'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "SD sheet p.1 Availability: same words as ND."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "SD sheet p.1 Billing and Availability: words match."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "SD sheet p.1 term 2: three to five years."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "SD sheet p.2 term 3.d and p.3 term 10: words match."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-03",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Order of February 5, 2025 (pp.2-3): 'MDU's amendment to the Electric Service Agreement with APLD-ELN-02 LLC is APPROVED.'"
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Order heading 'Case No. PU-24-332'; original agreement 'approved by the Commission on May 23, 2024, in Case No. PU-23-322'."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Order p.3: 'extends the expiration date of the ESA to August 31, 2030'."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "MDU presentation of 27 August 2025, p.9: 'All contracted Ellendale data center load (530 MWs) is expected to be online by the end of 2027'; 10-Q: third HPC building at Ellendale to begin ramping January 2027."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-05",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "VLL p.30 'Effective: April 1, 2026' (Ordinance No. 28993); p.29 sheet effective January 1, 2024 (Ordinance No. 28911); the note explains both."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.30 'Ordinance No. 28993'; p.29 'Ordinance No. 28911'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.29 A (10 aMW new, or growth of 10 aMW in 12 months) and B.1 (Contract Demand not less than 10 MW)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.30 C.1(c) and C.1(d), p.31 D.1: words match (billing demand follows D 'unless otherwise specified in the Contract')."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-06",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "NLL p.26 'Effective: April 1, 2026', Ordinance No. 28993."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.26 'Ordinance No. 28993' (p.27, which carries the delivery and customer charges, is still an Ordinance No. 28911 sheet effective January 1, 2024)."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.26 A and B.1: words match."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "wrong",
+     "detail": "The parenthetical puts delivery inside the Minimum Charge: 'Minimum Charge equal to the Demand Charge ($8.48 per kW of Billing Demand, plus delivery $9.81 per kW)'. The schedule's Minimum Charge is item 1(c) of the Power Service Charges and is only 'The Demand Charge' ($8.48 per kW of Billing Demand). Delivery ($9.81 per kW of Billing Demand) is a separate item, C.2, as is the Customer Charge ($5,928.25 per month, C.3); the words do not add them to the Minimum Charge.",
+     "corrected_value": "Power Service Minimum Charge: the Demand Charge, $8.48 per kW of Billing Demand (Delivery is billed separately at $9.81 per kW of Billing Demand, plus a Customer Charge of $5,928.25 per month); Billing Demand the highest of the month's measured demand, 60 percent of the highest measured demand of the preceding 11 months, or 60 percent of the highest Contract Demand of the preceding 11 months; Contract Demand Overrun at Excess MW x 300% x Demand Charge",
+     "page": "26 and 27",
+     "words": "'(b) Demand: All kilowatts of Billing Demand delivered at $8.48 per kW. (c) Minimum Charge: The Demand Charge.' (p.26); '2. Delivery: All kilowatts of Billing Demand delivered at $9.81 per kW. 3. Customer Charge: ... $5,928.25 per month.' (p.27)"
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.26 A: may move to Schedule CP 'after a period of ten consecutive years from the beginning of service if applicable requirements are met'; the agreement's own term is not printed."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-08",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Policy 5.B (p.21): effective as of the signature date; 5.E (p.23): 'Date: 07/17/2026'."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "5.B: authorized by the CEO/General Manager; no docket."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Policy p.4 and p.9 2.A ('aggregate anticipated billing demand ... greater than 2.5 MVA', any continuous five-year period; 'For loads exceeding 10 MVA, enhanced review'); web page: Power Supply Review at 10 aMVA or greater. (The web page says '2.5 MVA or greater' where the policy says 'greater than'; the value follows the policy.)"
+    },
+    {
+     "field": "min_demand",
+     "verdict": "wrong",
+     "detail": "The Demand Credit part is right (Appendix C, p.26). The Capacity Reservation Fee part is not: Appendix B's formula is Reservation Fee = Reservation Demand Rate x (Anticipated Demand - max(2.5 MVA, Available Capacity)), so the fee falls on the Anticipated Demand above the greater of 2.5 MVA and the Available Capacity, not simply on 'the reserved demand above 2.5 MVA'. In the text layer the formula's letters are math-italic glyphs (each run repeats its first letter), but the run lengths of the max's second term, 18 and 16, match 'Available Capacity', which Appendix A uses in the same max(2.5 MVA, ...) expression and defines as 'existing usable capacity available on the relevant system component prior to the upgrade'.",
+     "corrected_value": "no minimum bill in the policy; the refund of Eligible Dollars through annual Demand Credits over 120 months is full only when average annual billed demand is at least 90 percent of Anticipated Demand, otherwise prorated; a monthly Capacity Reservation Fee, where it applies, equals the Reservation Demand Rate (70 percent of the Demand Charge in the applicable large load rate schedule, or in the applicable transmission rate schedule at transmission voltage) times Anticipated Demand less the greater of 2.5 MVA and Available Capacity",
+     "page": "24 and 25 (Appendices A and B)",
+     "words": "'Reservation Fee = Reservation Demand Rate * (Anticipated Demand - max(2.5 MVA, Available Capacity)' (p.25, printed in math-italic glyphs); 'Available Capacity = existing usable capacity available on the relevant system component prior to the upgrade' (p.24)"
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Policy p.12 2.E.3 and the Connecting Large Loads page (up-front refundable deposit, refunded over ten years; a larger deposit possible above 10 aMVA): words match."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Policy p.12 2.E.3, p.21 5.A and p.27 Appendix C Election Period: words match."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Policy p.10 (Feasibility Review about 2 weeks; SIS about 1-4 months) and the web page (1-2 months, $5,000; 3-8 months, $10,000 minimum; Power Supply Review two to three months in parallel; less than 1 month); the value notes that the two differ."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-09",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Schedule 37 p.18: 'Effective Date: January 1, 2010', in the 2026 rate book."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.18: 'Res. No. 5470 (2009)'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.17 (1)(b): ten average megawatts or more in any consecutive twelve-month period (a BPA New Large Single Load, also not committed before September 1, 1979)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.17 (4)(d): 'A periodic fixed fee to cover non-variable or minimum costs.'; rates are set in the Customer Contract."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.17 (4)(d): the right to collect contributions in aid of construction; no security terms printed."
+    }
+   ]
+  },
+  {
+   "row_id": "remainder-10",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Ordinance 2788 p.34: effective with the first billing cycle of June 2026; adopted May 5, 2026."
+    },
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.1: 'ORDINANCE NO. 2788'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.16 5.B (10 MW to under 75 MW, own power supply, transmission voltage) and p.15 5.A (General Service Transmission, not to exceed 75 MW). 'bundled' is not printed, but 5.A carries a Power Cost Recovery Charge, so the description is fair."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.16 5.B Billed Demand (80 percent ratchet), Minimum Bill (in the Supplemental Agreement) and the 12-month / 3-month rule: words match."
+    }
+   ]
+  }
+ ]
+}

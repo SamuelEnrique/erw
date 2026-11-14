@@ -221,7 +221,8 @@
    "license_basis": "Schedule DCT's sheets, the DCT web page and the load study letter were read only on aepohio.com, whose AEP legal notice (aep.com/terms, read 13 November 2026) allows copying for personal use only; PUCO's docket copy sits behind a reCAPTCHA and was not tried. The queue cites (pjm.com, the Ohio legislature's copy of the PUCO Chair's testimony, the Florida PSC's copy of the PUCO order) are public. The PUCO Opinion and Order of 9 July 2025 is now read from a public commission copy (next row), which prints the same threshold, minimum demand, term, ramp floors, collateral and exit-fee timing.",
    "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml: threshold, min_demand and collateral held with the same values (same November 2026 tariff book). contract_term adds the four-year ramp cap and the three-year notice to the held term (Load Ramp Period plus 8 years); exit_fee, study_timeline, connection_timeline and queue_size are new.",
    "notes": "2026 change: the 1st Revised sheets (effective 28 August 2026) add Interim Procedures from the 5 August 2026 Finding and Order in 26-113-EL-ATA: no less than 180 days' advance written notice to return to or start on SSO, with a separate procurement at the customer's cost (Sheet 223-5, PDF p. 117). AEP company-wide pipeline (public, SEC Form 8-K Exhibit 99.1, 28 October 2026, https://www.sec.gov/Archives/edgar/data/4904/000000490426000069/a3q20268kpressreleaseex991.htm): 'With 15 gigawatts (GW) of new load commitments signed during the third quarter, AEP’s incremental contracted load is expected to grow to 84 GW by 2031. Projects are only included as incremental contracted load if backed by fully executed electric service agreements or letters of agreement.' (not stated per company). AEP 10-Q for Q3 2026 (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm): OHTCo, OPCo and a customer signed agreements in August 2026 for three 765 kV lines to support 'a proposed 10.4 GW data center campus in Piketon, Ohio'. Leads, not verified: OMAEG's appeal of the DCT order is Supreme Court of Ohio Case No. 2025-1458 (news and OMA releases); the court's docket was refused (robots not readable). AEP Ohio's February 2026 Update, the Stipulation and the Opinion and Order sit on dis.puc.state.oh.us (reCAPTCHA, not tried); the February 2026 Update reportedly also gives 12,219 MW signed before the tariff (news, unverified).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "aep-01"
   },
   {
    "utility": "Ohio Power Company (AEP Ohio)",
@@ -366,7 +367,8 @@
    "license_basis": "The Florida PSC's docket copy (Walmart's motion with the PUCO order as Exhibit D).",
    "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml (internal, the tariff sheets on aepohio.com): the order prints the same 25 MW threshold, 85 percent minimum, Load Ramp Period plus eight years, 50/65/80/90 percent ramp floors and 50 percent collateral; this public commission-hosted copy can serve as the public source for them.",
    "notes": "The order's summary is a two-column comparison of the 10/10 and 10/23 Stipulations; every quote here is from the 10/23 (adopted) column or the Commission's own findings. The order also directs AEP Ohio 'to cease its temporary service moratorium, consistent with this Order' (para. 158) and records that the moratorium in central Ohio began in March 2023 (para. 45).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "aep-02"
   },
   {
    "utility": "Indiana Michigan Power Company",
@@ -400,8 +402,8 @@
     "date": "2025-02-19",
     "cites": [
      {
-      "page": "85",
-      "section": "Sheet 21.3",
+      "page": "88",
+      "section": "Sheet 21.3 footer (the same footer is on First Revised Sheet No. 21, p. 85)",
       "quote": "EFFECTIVE FOR ELECTRIC SERVICE RENDERED ON AND AFTER FEBRUARY 19, 2025"
      },
      {
@@ -480,8 +482,9 @@
    "license": "internal",
    "license_basis": "The one new value (the 1st Revised Sheet 21.7) was read only in I&M's own tariff book on indianamichiganpower.com, whose AEP legal notice allows personal use only; the held fields come from the registry's public file (the IURC order of 19 February 2025). The queue cite (pjm.com) is public.",
    "erw_overlap": "large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml: collateral wording differs. The registry's text (the order's Attachment A, PDF p. 73) prints no due date; 1st Revised Sheet 21.7, effective 24 June 2026 under IURC 30-Day Filing No. 50910, adds 'within 10 business days of contract signing' (the 24-times multiplier is unchanged). Sheets 21.3 to 21.6 in the 28 October 2026 book print the same 70/150 MW threshold, 12-year term with 42 months' notice, 80 percent minimum and exit fee as the registry.",
-   "notes": "Lead (2026-11-06 research file): the collateral due-date change came from a settlement in IURC Cause No. 46301 (I&M legal notice); not read. AEP's 10-Q for Q3 2026 says I&M's August 2026 MYRP filing proposes to freeze base rates 'with limited exceptions primarily related to large load customers' (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm); no change to the large-load terms is stated there.",
-   "date_read": "2026-11-13"
+   "notes": "Lead (2026-11-06 research file): the collateral due-date change came from a settlement in IURC Cause No. 46301 (I&M legal notice); not read. AEP's 10-Q for Q3 2026 says I&M's August 2026 MYRP filing proposes to freeze base rates 'with limited exceptions primarily related to large load customers' (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm); no change to the large-load terms is stated there. Session 5304 (audit, A-19): the status cite moved from p. 85 (Sheet 21) to p. 88 (Sheet 21.3).",
+   "date_read": "2026-11-13",
+   "row_id": "aep-03"
   },
   {
    "utility": "Indiana Michigan Power Company",
@@ -516,8 +519,8 @@
     "date": "2026-09-18",
     "cites": [
      {
-      "page": "4",
-      "section": "Sheet D-39.00",
+      "page": "96",
+      "section": "Sheet D-39.00First Revised Sheet D-39.00 footer (also printed on the index sheet, p. 4)",
       "quote": "EFFECTIVE FOR SERVICE RENDERED ON AND AFTER SEPTEMBER 18, 2026"
      },
      {
@@ -669,8 +672,9 @@
    "license": "internal",
    "license_basis": "The tariff sheets were read only in I&M's Michigan tariff book on indianamichiganpower.com (AEP legal notice: personal use only). The MPSC's release of 27 August 2026 on michigan.gov is public and alone supports the 50 MW threshold, the 15-year term with a five-year ramp, the 90 percent minimum demand and 65 percent minimum energy, the order date and the case number.",
    "erw_overlap": "",
-   "notes": "The MPSC release says the amendments require '4 years of notice if the customer plans to reduce capacity more than 10%', but the sheet prints at least 48 months for a one-time reduction of up to 10% and at least 60 months for a reduction beyond 10% (Sheet D-39.10): a discrepancy for review. The release also states that I&M must propose a standalone large-load rate in its next general rate case, model six cost allocation and rate designs, and make an ex parte filing before each new customer takes service. The MPSC order itself (e-dockets) was not found in a readable form; ADMS order document 27364 is a different case (U-21682).",
-   "date_read": "2026-11-13"
+   "notes": "The MPSC release says the amendments require '4 years of notice if the customer plans to reduce capacity more than 10%', but the sheet prints at least 48 months for a one-time reduction of up to 10% and at least 60 months for a reduction beyond 10% (Sheet D-39.10): a discrepancy for review. The release also states that I&M must propose a standalone large-load rate in its next general rate case, model six cost allocation and rate designs, and make an ex parte filing before each new customer takes service. The MPSC order itself (e-dockets) was not found in a readable form; ADMS order document 27364 is a different case (U-21682). Session 5302: the status cite moved from p. 4 (the tariff's index sheet) to p. 96 (the large load sheet itself), as the east changes group found.",
+   "date_read": "2026-11-13",
+   "row_id": "aep-04"
   },
   {
    "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
@@ -688,8 +692,8 @@
     "value": "P.S.C. W.Va. Case No. 24-0854-E-42T (order of 28 August 2025, under which Sheets 14-3 and 14-4 were issued)",
     "cites": [
      {
-      "page": "2",
-      "section": "Sheet 14-3",
+      "page": "70",
+      "section": "Original Sheet No. 14-3 footer",
       "quote": "Issued Pursuant to P.S.C. West Virginia Case No. 24-0854-E-42T Order Dated August 28, 2025"
      }
     ]
@@ -699,8 +703,8 @@
     "date": "2025-09-29",
     "cites": [
      {
-      "page": "44",
-      "section": "Sheet 14-3",
+      "page": "70",
+      "section": "Original Sheet No. 14-3 footer",
       "quote": "Effective: Service rendered on or after September 29, 2025"
      }
     ]
@@ -757,7 +761,7 @@
      ]
     },
     "exit_fee": {
-     "value": "Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee equal to the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance, over an Exit Fee Period of one to five years",
+     "value": "Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee: for the first year of the Exit Fee Period, the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance; for any remaining years, the same less the customer's estimated reduction in allocated PJM LSE OATT transmission charges to the Company (West Virginia jurisdictional basis); Exit Fee Period of one to five years",
      "cites": [
       {
        "page": "71",
@@ -773,6 +777,11 @@
        "page": "71",
        "section": "Sheet 14-4",
        "quote": "The Exit Fee Period shall not be less than one year and shall not exceed five years."
+      },
+      {
+       "page": "71",
+       "section": "Sheet 14-4",
+       "quote": "for any remaining years of the Exit Fee Period, the Exit Fee shall be calculated in the same manner as the first year, minus the Large Load Customer's estimated reduction in allocated PJM LSE OATT transmission charges"
       }
      ]
     },
@@ -817,8 +826,9 @@
    "license": "internal",
    "license_basis": "Read only in the tariff posted on appalachianpower.com (AEP legal notice: personal use only); the West Virginia PSC's docket copy was not found. The queue cite (pjm.com) is public.",
    "erw_overlap": "",
-   "notes": "The sheets apply to both companies (Tariff No. 16 for APCo, No. 21 for Wheeling Power), so Wheeling Power's large-load rule is this row. Leads, not verified: the terms came from APCo and Wheeling's July 2024 application in Case No. 24-0611-E-T-PW (revisions to Schedules LCP and IP, per a legal notice) and a January 2025 settlement with Google and the manufacturers' group (WV Public Broadcasting, 22 January 2025: 100 MW, 12 years, 80 percent); the PSC order in that case was not found. Cardinal News (31 July 2026) quotes APCo testimony to the Virginia SCC that it has contracted 'more than double' 540 MW of data center load in West Virginia (news, unverified). Two older APCo West Virginia tariff files answered HTTP 404.",
-   "date_read": "2026-11-13"
+   "notes": "The sheets apply to both companies (Tariff No. 16 for APCo, No. 21 for Wheeling Power), so Wheeling Power's large-load rule is this row. Leads, not verified: the terms came from APCo and Wheeling's July 2024 application in Case No. 24-0611-E-T-PW (revisions to Schedules LCP and IP, per a legal notice) and a January 2025 settlement with Google and the manufacturers' group (WV Public Broadcasting, 22 January 2025: 100 MW, 12 years, 80 percent); the PSC order in that case was not found. Cardinal News (31 July 2026) quotes APCo testimony to the Virginia SCC that it has contracted 'more than double' 540 MW of data center load in West Virginia (news, unverified). Two older APCo West Virginia tariff files answered HTTP 404. Corrected by the independent audit of session 5304 (A-01): status was 'in effect 2025-09-29'. Corrected by the independent audit of session 5304 (A-02): docket was 'P.S.C. W.Va. Case No. 24-0854-E-42T (order of 28 August 2025, under which Sheets 14-3 and 14-4 were issued)'. Corrected by the independent audit of session 5304 (A-03): exit_fee was 'Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee equal to the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance, over an Exit Fee Period of one to five years'.",
+   "date_read": "2026-11-13",
+   "row_id": "aep-05"
   },
   {
    "utility": "Kentucky Power Company",
@@ -864,8 +874,8 @@
       "quote": "Applicable on and after March 18, 2025"
      },
      {
-      "page": "5",
-      "section": "Sheet 8-3",
+      "page": "63",
+      "section": "Sheet 8-3 footer (the same footer is on other sheets, among them p. 5)",
       "quote": "DATE EFFECTIVE: Services Rendered On And After March 1, 2026"
      }
     ]
@@ -978,8 +988,9 @@
    "license": "public",
    "license_basis": "The Kentucky PSC's tariff library copy and its order vault; the queue cites (pjm.com, SEC EDGAR) are public.",
    "erw_overlap": "",
-   "notes": "The 28 February 2026 rate case order (Case No. 2025-00257, 225 pages) was searched for 150 MW, large load, data center and TeraWulf with no match: the large-load terms carried into P.S.C. KY. No. 14 unchanged in substance from the 2024-00305 approval. The 10-Q says KPCo plans to file for approval of the TeraWulf agreement and related generation in Q4 2026.",
-   "date_read": "2026-11-13"
+   "notes": "The 28 February 2026 rate case order (Case No. 2025-00257, 225 pages) was searched for 150 MW, large load, data center and TeraWulf with no match: the large-load terms carried into P.S.C. KY. No. 14 unchanged in substance from the 2024-00305 approval. The 10-Q says KPCo plans to file for approval of the TeraWulf agreement and related generation in Q4 2026. Session 5304 (audit, A-20): a status cite moved from p. 5 (another sheet) to p. 63 (Sheet 8-3).",
+   "date_read": "2026-11-13",
+   "row_id": "aep-06"
   },
   {
    "utility": "Public Service Company of Oklahoma",
@@ -1056,7 +1067,8 @@
    "license_basis": "AEP's Form 10-Q on SEC EDGAR.",
    "erw_overlap": "",
    "notes": "Leads, not verified: the rate case is OCC Cause No. PUD-2025-000075 (OKCFox; that page's robots bar Claude's agents, so it was not read), the ALJ's report was filed 21 August 2026 and recommended approval of the large-load tariff proposal (Tulsa Flyer, 24 August 2026), and the class would cover customers over 75 MW (Tulsa Flyer) while LBNL's August 2026 brief says the proposed Large Power and Light tariff applies above 10 MW; a Southwest Ledger item cites PSO testimony in PUD 2025-000064 that 11 customers of 50 MW or more are under letters of agreement or contracts. Oklahoma's Data Center Customer Ratepayer Protection Act of 2026 (17 O.S. 900 to 906) defines a large load customer at 75 MW or more added after 1 July 2026 (OCC page, read). The OCC order is expected in Q4 2026: status may change soon.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "aep-07"
   },
   {
    "utility": "Southwestern Electric Power Company (SWEPCO), Texas",
@@ -1225,7 +1237,8 @@
    "license_basis": "The PUCT's interchange copies (Docket No. 58796, items 103 and 109); the filing list and AEP's Form 10-Q are public too.",
    "erw_overlap": "",
    "notes": "Status as of 13 November 2026: unanimous settlement filed 15 September 2026 (SWEPCO, Commission Staff, TIEC, OPUC, CARD, Eastman); SOAH remanded the case on 5 October 2026; the PUCT's Proposed Order of 28 October 2026 would approve the tariff with the ES-LL Contract effective on the order date, exceptions due 12 November 2026; no final order in the filing list (109 items, last item 28 October 2026). The settlement revised the Applicability, Ramp Period, Initial Contract Term, Minimum Billing Demand and Minimum Billing Energy sections (Proposed Order, Findings of Fact 35 to 41); the as-filed terms are in Ms. Gage's HSPM exhibit and were not read. Attachment A's text is an OCR copy ('Tenn' for Term, 'ill' for in), quoted as printed. The 10-Q (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm) listed SWEPCo-Texas as pending at 30 September 2026; the City of Mount Vernon's Resolution No. 26-03 (https://mccmeetingspublic.blob.core.usgovcloudapi.net/mtvernontx-meet-4db9bfac3fa0468681008ac335b01f69/ITEM-Attachment-001-30c895bed00e4a838b4485d8fbe45950.pdf) denied the tariff at the municipal level and the appeals were consolidated into this docket (Proposed Order, Finding of Fact 19).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "aep-08"
   }
  ],
  "refused": [

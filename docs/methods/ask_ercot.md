@@ -275,6 +275,14 @@ Three things session 156 left open.
 - Only Ask ERCOT's answers are rewritten. The general chat and the other grids' panels show answers as before; their
   tool results carry the same local words beside each time, where the entity names one of the seven grids.
 
+## A hub spread is its hubs' grids' (session 5264, 14 November 2026)
+
+- **The rule.** From the price board this tool reads ERCOT's rows and the rows that belong to no grid (natural gas, oil, Treasury yields). Another grid's row is never read.
+- **What went wrong.** The board gained a group of hub spreads on 6 November 2026 (session 1606): one hub's price less another's, within a grid and across two. Those rows are marked with a scope and with no grid. The tool took a row with no grid mark for a row of no grid, so it could read CAISO's NP15 less SP15, SPP's North hub less South hub, and the spreads between an ERCOT hub and another grid's.
+- **Now.** A hub spread belongs to the grids of its two hubs. The tool reads ERCOT's own six (North less Houston, West less North, South less Houston, day-ahead and real time). It does not read another grid's spread, and it does not read a spread across two grids: that figure and ERCOT's price together state the other grid's price. A spread whose hubs the board does not name is read by no grid's tool.
+- **Where a spread across grids is.** On the price board itself, which shows every public grid.
+- Held by `site/scripts/test-ask-panel.mjs` (its ninth test) and `tests/test_session5264_ask.py`.
+
 ## Limits
 
 The tool has a spending ceiling for the day and for the month and a number of questions per visitor per day. When one is reached it answers with a plain message and your question is not sent to the model. They are described in [the limits note](/data/methods/ask_limits).

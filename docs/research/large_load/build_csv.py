@@ -86,7 +86,7 @@ def main() -> int:
             dk = r.get("docket") or {}
             qc = r.get("quoted_clause") or {}
             rec = {
-                "row_id": f"{group}-{i:02d}",
+                "row_id": r.get("row_id") or f"{group}-{i:02d}",
                 "group": group,
                 "utility": r.get("utility", ""),
                 "state": r.get("state", ""),
@@ -106,7 +106,8 @@ def main() -> int:
                 "license_basis": r.get("license_basis", ""),
                 "erw_overlap": r.get("erw_overlap", "") or "none",
                 "notes_file": f"notes/{slug_for(r.get('utility', ''), r.get('notes_slug') or '')}.md",
-                "notes": r.get("notes", ""),
+                # a note kept on the status (why a date is missing, what a status means) reaches the CSV (session 5304)
+                "notes": ((f"Status: {st['note']} " if isinstance(st, dict) and st.get("note") else "") + r.get("notes", "")).strip(),
             }
             for f in FIELDS:
                 v = (r.get("fields") or {}).get(f) or {}
