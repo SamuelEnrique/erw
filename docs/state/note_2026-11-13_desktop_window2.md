@@ -59,12 +59,11 @@ Finished at session 4049 (22:05 UTC); the landing desk goes on as chain 230 (`qu
 
 - **(a) The 8 GB gate:** above.
 - **(b) Root causes:** every failed scheduled run of 30 October to 12 November is written in `queue/summary/`. Two are open:
-  - the board's spark spread (window A's session 3873);
+  - the board's spark spread, since fixed by window A's session 3889 (`989e2c927`);
   - in part, the 8 November ledger refusal.
-- **(b) continued (session 4053):** 13 November's six failures are in `queue/summary/2026-11-13-root-causes.md`. Three are open, for window A and the data machine:
-  - the board's spark spread (chain 226, session 3873);
-  - `datacenter_tracker_rollups`' provenance: no run log, and not marked derived (package test `test_fetch_types_and_provenance`);
-  - test 314 with MISO paused: its hub price rows age out, and the grids' table list loses them.
+- **(b) continued (sessions 4053 and 4054):** 13 November's six failures are in `queue/summary/2026-11-13-root-causes.md`.
+  - The board's spark spread, the replication and the rollups' provenance were fixed by window A's session 3889.
+  - **One is open, the data machine's:** test 314 with MISO paused. Its hub price rows age out, and the grids' table list loses them.
 - **(c) Main green:**
   - the gates' suites passed on main merged: 8,633 tests at 09:34 and 8,640 at 10:19;
   - the `/digest` floor fixed;
