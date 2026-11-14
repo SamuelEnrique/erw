@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`queue/done/228-day-13-november-desktop-window2-landings.md`), lab-desktop's second Claude Code window, unattended from 09:25 UTC. Opus 5.5. Model spend: USD 0.
 
-Finished at session 4049 (22:05 UTC); the landing desk goes on as chain 230 (`queue/next/230-day-13-november-desktop-window2-landings-continued.md`).
+Finished at session 4049 (22:05 UTC); the landing desk goes on as chain 230 (`queue/next/230-day-13-november-desktop-window2-landings-continued.md`). Chain 230 added: portable row 28 (urgent, the chat's hold by grid) landed at `f44d37628` at 23:40 UTC (0 differences), after its report's table was moved out of its ruling section (tests 414 and 425); the chat's tool refuses `isone_interconnection_queue` on the landed tree. Then rows 25, 26 and 27 (and 11 and window 4's 7 in part) at `719a7f66d` (01:21 UTC, 14 November, 0 differences), with the desk's fix of the problem sets' lookbacks: from 00:00 UTC on 14 November every build printed errors on two problem-set pages and failed check-routes, for every window's landing.
 
 ## Read these first
 

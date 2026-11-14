@@ -131,7 +131,8 @@ def property_tax(d, i):
                     and (r.get("requires") != "option" or x["iaval"]) and (r.get("years") is None or x["build"] + i < r["years"])
                     and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])
                     and (r.get("op_years") is None or i < r["op_years"])
-                    and (r.get("built_before") is None or x["start"] + x["build"] <= r["built_before"])):
+                    and (r.get("built_before") is None or x["start"] + x["build"] <= r["built_before"])
+                    and (r.get("min_mw") is None or mw >= r["min_mw"])):
                 share = r.get("exempt_share", 0.0)
                 if r.get("exempt_steps"):  # Virginia's 80, 70 and 60 percent by years in service
                     share = next(st["share"] for st in r["exempt_steps"] if st.get("until") is None or i < st["until"])
@@ -247,7 +248,7 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       const fx = d.property.find((rl) => rl.kind === "own_exempt");
       // Nevada's abatement only with the option on, for its years from the first construction year
       const fxOn = fx && (fx.requires !== "option" || xi.iaval) && (fx.above_mw === undefined || xi.mw > fx.above_mw) && (fx.below_mw === undefined || xi.mw < fx.below_mw)
-        && (fx.built_before === undefined || xi.start + xi.build <= fx.built_before);
+        && (fx.built_before === undefined || xi.start + xi.build <= fx.built_before) && (fx.min_mw === undefined || xi.mw >= fx.min_mw);
       const steps = (st: { until?: number; share: number }[]): string => st.length === 1 || st[0].until === undefined ? `${1 - st[0].share}` : `cond(i < ${st[0].until}, ${1 - st[0].share}, ${steps(st.slice(1))})`;
       const taxedShare = !fx || !fxOn ? "1"
         : fx.exempt_steps ? steps(fx.exempt_steps)
