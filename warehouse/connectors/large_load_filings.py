@@ -52,6 +52,53 @@ CHECK_WORDS = [b"recaptcha", b"captcha", b"no robots or crawlers", b"are you a r
                b"just a moment", b"i'm not a robot"]
 
 
+
+def wildcard_allows(lines, agent, path):
+    """Session 3940 (licenses request 27): the robots rules read as the usual convention reads them, "*" any run of
+    characters and a final "$" the end of the path (urllib.robotparser reads both literally, so the Texas Comptroller's
+    "Disallow: /*/" looked like it allowed /taxes/). The group for the agent's own name if there is one, else "*"; the
+    longest matching rule wins, Allow on a tie. A copy of scripts/license_confirm.py's, as connectors keep their own."""
+    groups, cur, last_was_agent = [], None, False
+    for ln in lines:
+        ln = ln.split("#", 1)[0]
+        if ":" not in ln:
+            continue
+        k, v = ln.split(":", 1)
+        k, v = k.strip().lower(), v.strip()
+        if k == "user-agent":
+            if not last_was_agent:
+                cur = {"agents": [], "rules": []}
+                groups.append(cur)
+            cur["agents"].append(v.lower())
+            last_was_agent = True
+        elif k in ("allow", "disallow") and cur is not None:
+            cur["rules"].append((k, v))
+            last_was_agent = False
+        else:
+            last_was_agent = False
+    a = agent.lower()
+    mine = [g for g in groups if any(x != "*" and a.startswith(x) for x in g["agents"])]
+    use = mine or [g for g in groups if "*" in g["agents"]]
+    best = None
+    for g in use:
+        for kind, pat in g["rules"]:
+            if not pat:
+                continue
+            rx = "^" + re.escape(pat).replace(r"\*", ".*")
+            if rx.endswith(r"\$"):
+                rx = rx[:-2] + "$"
+            if re.match(rx, path):
+                key = (len(pat), kind == "allow")
+                if best is None or key > best[0]:
+                    best = (key, kind)
+    return best is None or best[1] == "allow"
+
+
+def url_path(url):
+    from urllib.parse import urlsplit
+    p = urlsplit(url)
+    return (p.path or "/") + (("?" + p.query) if p.query else "")
+
 def host_of(url):
     m = re.match(r"^https?://([^/:]+)", url or "", flags=re.I)
     return m.group(1).lower() if m else ""
@@ -87,9 +134,11 @@ def robots_says(base, url):
     if not re.search(r"(?im)^\s*(user-agent|disallow|allow)\s*:", text):
         return True, "the saved answer is not a robots file (nothing is disallowed)"
     rp = urllib.robotparser.RobotFileParser()
-    rp.parse(text.lstrip("﻿").splitlines())
+    lines = text.lstrip("﻿").splitlines()
+    rp.parse(lines)
     for agent in (UA, "ERW", "*") + ASKED_BY:
-        if not rp.can_fetch(agent, url):
+        # session 3940: the stricter of the standard library's reading and the wildcard reading
+        if not rp.can_fetch(agent, url) or not wildcard_allows(lines, agent, url_path(url)):
             return False, f"robots.txt of {host} disallows this address for '{agent}'"
     return True, "robots.txt allows it"
 

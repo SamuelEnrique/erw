@@ -85,6 +85,9 @@ def main():
             except Exception as exc:       # the schedule is a convenience: the rule stands when the page cannot be read, and the file says so
                 item["read"] = f"the standing rule alone: the page could not be read ({str(exc)[:80]})"
         else:
+            # session 3940 (licenses request 13): the CFTC's page is never requested, only linked: www.cftc.gov's robots file
+            # refuses ClaudeBot and anthropic-ai by name (read 1716, 13 November 2026). cftc_cot.py reads another host,
+            # publicreporting.cftc.gov, whose robots file names no Anthropic agent (read 14 November 2026)
             item["read"] = "the standing rule alone: the CFTC's page lists no dates in its text. A federal holiday in the week can move the release"
         reports.append(item)
         print(f"{r['id']}: {item['read']}")

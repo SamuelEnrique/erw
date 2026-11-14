@@ -33,5 +33,24 @@ class TheDeflator(unittest.TestCase):
         self.assertIn(erw_validate.REVISIONS_KEPT, src)
 
 
+
+class TheForecastParameters(unittest.TestCase):
+    """Request 4: forecast_tool_parameters from the forecast tool's committed files, each value as the file holds it."""
+
+    def test_the_rows(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+        import json
+        import forecast_tool_parameters as fp
+        d, capex, taxable, gas = fp.build()
+        self.assertFalse(d.duplicated(["entity", "variable"]).any())
+        wind = d[(d.entity == "forecast:eia_capex:land_based_wind:us") & (d.variable == "overnight_cost")].iloc[0]
+        self.assertEqual(wind.value, float(capex["technologies"]["land_based_wind"]["base_usd_per_kw"]))
+        self.assertEqual(wind.unit, "USD/kW")
+        hr = d[(d.entity == "forecast:gas:natural_gas:us") & (d.variable == "heat_rate")].iloc[0]
+        self.assertAlmostEqual(hr.value, gas["heat_rate_btu_per_kwh"] / 1000.0)
+        self.assertNotIn("forecast:jedi_taxable:geothermal:us", set(d.entity))   # JEDI's geothermal model has no sales tax line
+        self.assertEqual(set(d.unit) - {"USD/kW", "month", "MW", "year", "MMBtu/MWh", "ratio", "USD/MMBtu", "Btu/ft3"}, set())
+
+
 if __name__ == "__main__":
     unittest.main()

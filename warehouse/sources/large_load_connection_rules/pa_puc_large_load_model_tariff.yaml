@@ -10,6 +10,10 @@
 # review on 4 June and withdrawn on 16 July 2026, which closed the docket, so the model stands as adopted. Pages are the PDF's. Pennsylvania's
 # EDCs are in PJM, so grid is PJM. The load ramp period is printed as a range (three to five years) and the open seasons as a
 # frequency (twice a year), so neither has a duration.
+# Session 3937 (chain 267; data request row 17, change east_changes-08): the Commission's docket page records the case closed
+# on 28 October 2026 ('Case Closed - No active tasks exist for this Case', Daily Actions of 10/28/2026); the last order before
+# it was the Opinion and Order of 16 July 2026 on the petition for reconsideration. The model's terms are unchanged (window
+# P4's research pass, 13 November 2026).
 body: Pennsylvania Public Utility Commission (Final Order adopting the Large Load Customer Model Tariff)
 grid: PJM
 utility: ""
