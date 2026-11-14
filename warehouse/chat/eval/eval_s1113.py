@@ -98,7 +98,11 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # session 6165 (chain 282): twelve questions about other tables of the record a visitor's chat cannot read
         # (scripts/ask_eval/unlisted_questions.py): each key a refusal with no figure; asked through the site's loop
         "unlisted": {"questions": os.path.join(HERE, "questions_unlisted.yaml"), "run": os.path.join(HERE, "eval_s6165_site_unlisted_run.json"),
-                     "grades": os.path.join(HERE, "eval_s6165_site_unlisted_grades.json")}}
+                     "grades": os.path.join(HERE, "eval_s6165_site_unlisted_grades.json")},
+        # session 6191 (chain 283): a held-out set written after the fixes of chains 280 to 282 and asked once before
+        # anything is changed for it (scripts/ask_eval/heldout_questions.py: other hubs, days, months and tables)
+        "heldout": {"questions": os.path.join(HERE, "questions_heldout.yaml"), "run": os.path.join(HERE, "eval_s6191_site_heldout_run.json"),
+                    "grades": os.path.join(HERE, "eval_s6191_site_heldout_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
