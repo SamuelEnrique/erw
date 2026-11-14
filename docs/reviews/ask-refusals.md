@@ -4,14 +4,14 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 
 | Class | Refusals | Graded right |
 |---|---|---|
-| MISO's pause | 14 | 14 of 14 graded |
-| a license hold | 34 | 34 of 34 graded |
-| a table not in the live set | 23 | 23 of 23 graded |
+| MISO's pause | 16 | 16 of 16 graded |
+| a license hold | 42 | 42 of 42 graded |
+| a table not in the live set | 28 | 28 of 28 graded |
 | the call limit | 2 | 1 of 2 graded |
-| the warehouse lacks the figure | 31 | 24 of 31 graded |
-| rows read, then refused | 7 | 6 of 7 graded |
+| the warehouse lacks the figure | 34 | 27 of 34 graded |
+| rows read, then refused | 8 | 7 of 8 graded |
 
-In all: 111 refusals.
+In all: 130 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -126,3 +126,22 @@ In all: 111 refusals.
 | session 5273, the site's loop, the platform set | gp01 | 8 | rows read, then refused | right |
 | session 5273, the site's loop, the platform set | gp02 | 4 | rows read, then refused | wrong |
 | session 5273, the site's loop, the platform set | gp03 | 11 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | pw11 | 5 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | pw12 | 3 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | pr11 | 5 | a license hold | right |
+| session 5274, the site's loop, the platform set | pr12 | 4 | MISO's pause | right |
+| session 5274, the site's loop, the platform set | pr13 | 5 | the warehouse lacks the figure | right |
+| session 5274, the site's loop, the platform set | ga09 | 3 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | ga11 | 3 | the warehouse lacks the figure | right |
+| session 5274, the site's loop, the platform set | oi06 | 4 | a license hold | right |
+| session 5274, the site's loop, the platform set | oi07 | 4 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | oi11 | 5 | a license hold | right |
+| session 5274, the site's loop, the platform set | nu06 | 6 | a license hold | right |
+| session 5274, the site's loop, the platform set | re10 | 1 | the warehouse lacks the figure | right |
+| session 5274, the site's loop, the platform set | st10 | 5 | rows read, then refused | right |
+| session 5274, the site's loop, the platform set | tx08 | 5 | a table not in the live set | right |
+| session 5274, the site's loop, the platform set | tx10 | 5 | a license hold | right |
+| session 5274, the site's loop, the platform set | pj08 | 3 | a license hold | right |
+| session 5274, the site's loop, the platform set | pj09 | 5 | MISO's pause | right |
+| session 5274, the site's loop, the platform set | de01 | 3 | a license hold | right |
+| session 5274, the site's loop, the platform set | dc01 | 7 | a license hold | right |
