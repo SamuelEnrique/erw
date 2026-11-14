@@ -275,7 +275,7 @@ eia_state_capacity_annual,none,,2671,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:0
 eia_state_generation_monthly,none,,759,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,201076,eia:electricity/electric-power-operational-data,2026-11-12T21:47:31Z,pass,public,power,no,source
 eia_state_source_disposition_annual,none,,52,P1Y,1990-01-01T00:00:00Z,2024-01-01T00:00:00Z,37738,eia:electricity/state-electricity-profiles/source-disposition,2026-10-21T21:48:14Z,pass,public,power,no,source
 eia_state_to_state_capacity,none,,173,P1Y,1990-01-01T00:00:00Z,2025-01-01T00:00:00Z,19311,eia:state_to_state_capacity,2026-10-23T21:24:19Z,pass,public,gas,no,source
-eia_steo_forecasts,none,,53,P1M,2020-01-01T00:00:00Z,2027-12-01T00:00:00Z,5088,eia:steo,2026-10-21T18:32:37Z,pass,public,power;gas,no,source
+eia_steo_forecasts,none,,54,P1M;P1Y,2009-01-01T00:00:00Z,2027-12-01T00:00:00Z,10195,eia:steo,2026-11-14T10:59:23Z,pass,public,power;gas,no,source
 eia_uranium_facilities,none,,24,snapshot,2026-10-23T12:52:16Z,2026-10-23T12:52:16Z,24,eia:uranium_production_quarterly,2026-10-23T12:55:03Z,pass,public,uranium,no,source
 eia_uranium_marketing_annual,none,,31,P1Y,2003-01-01T00:00:00Z,2025-01-01T00:00:00Z,763,eia:uranium_marketing_annual,2026-10-23T07:01:36Z,pass,public,power;uranium,no,source
 eia_uranium_production_quarterly,none,,144,P1Y;P3M,2000-01-01T00:00:00Z,2026-04-01T00:00:00Z,171,eia:uranium_production_quarterly,2026-10-23T12:54:55Z,pass,public,uranium,no,source
@@ -441,8 +441,8 @@ hub_price_comparison,hub,,31,P1M;P1Y,2025-10-01T00:00:00Z,2026-09-01T00:00:00Z,5
 ieso_generation_fuel_hourly,ieso,,8,PT1H,2020-01-01T05:00:00Z,2026-10-23T04:00:00Z,371781,ieso:gen_output_by_fuel_hourly,2026-10-24T02:01:32Z,pass,public,power,no,source
 ieso_ontario_demand_hourly,ieso,,1,PT1H,2025-01-01T05:00:00Z,2026-10-23T05:00:00Z,31680,ieso:demand,2026-10-23T20:06:39Z,pass,public,power,no,source
 ilr_luxembourg_electricity,ilr,,15,P1M;P1Y,2017-01-01T00:00:00Z,2026-06-01T00:00:00Z,668,ilr:donnees-statistiques-electricite,2026-10-24T09:51:43Z,pass,public,power,no,source
-imf_commodity_prices,imf,,5,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,470,imf:pcps,2026-11-12T22:16:45Z,pass,public,uranium;metals,no,source
-impact_tax_rules,none,,10,event,1951-09-01T00:00:00Z,2026-10-20T00:00:00Z,49,10 outlets,2026-10-20T08:33:45Z,pass,public,power;oil;gas,no,source
+imf_commodity_prices,imf,,8,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,752,imf:pcps,2026-11-14T10:45:40Z,pass,public,uranium;metals,no,source
+impact_tax_rules,none,,11,event,1951-09-01T00:00:00Z,2026-11-14T00:00:00Z,130,11 outlets,2026-11-14T11:02:47Z,pass,public,power;oil;gas,no,source
 ine_es_dwellings_electricity_2021,ine,,58626,P1Y,2021-01-01T00:00:00Z,2021-01-01T00:00:00Z,58626,ine_es:jaxi_tpx_59531,2026-10-25T23:50:36Z,pass,public,power,no,source
 inseed_togo_electricity_annual,inseed,,12,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,55,inseed_tg:annuaire_2024_ch25,2026-10-24T21:13:20Z,pass,internal,power,no,source
 instat_madagascar_electricity_monthly,instat,,7,P1M,2024-07-01T00:00:00Z,2026-06-01T00:00:00Z,168,instat_mg:tbe63_table21,2026-10-24T20:42:03Z,pass,internal,power,no,source
@@ -606,6 +606,7 @@ statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T
 statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:30:19Z,pass,public,oil;products,no,source
 statcan_power_disposition_annual,statcan,,229,P1Y,2005-01-01T00:00:00Z,2025-01-01T00:00:00Z,3909,statcan:25-10-0021-01,2026-10-24T11:47:29Z,pass,public,power,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-11-12T21:54:30Z,pass,public,power,yes,derived
+state_large_load_laws,none,,1,event,2025-03-25T00:00:00Z,2026-11-14T00:00:00Z,27,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
 statec_lu_electricity_generation_annual,statec,,19,P1Y,1928-01-01T00:00:00Z,2024-01-01T00:00:00Z,942,statec:lustat_df_a4203,2026-10-26T00:13:26Z,pass,public,power,no,source
 statec_lu_electricity_trade_annual,statec,,10,P1Y,1933-01-01T00:00:00Z,2024-01-01T00:00:00Z,584,statec:lustat_df_a4208,2026-10-26T00:19:29Z,pass,public,power,no,source
 statec_lu_power_capacity_annual,statec,,14,P1Y,1960-01-01T00:00:00Z,2024-01-01T00:00:00Z,951,statec:lustat_df_a4201,2026-10-26T01:56:17Z,pass,public,power,no,source
@@ -636,6 +637,8 @@ usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:
 usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,33421,usgs:nwis_daily_values,2026-10-23T23:00:29Z,pass,public,power,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
+utility_large_load_rule_changes,none,,1,event,2026-08-18T00:00:00Z,2026-11-13T00:00:00Z,94,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
+utility_large_load_rules,none,,1,event,2010-01-01T00:00:00Z,2026-11-13T00:00:00Z,100,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_tariffs,utility,,27,,2009-01-01T00:00:00Z,2027-01-01T00:00:00Z,95,filed:large_load_tariffs,2026-11-13T05:46:50Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source

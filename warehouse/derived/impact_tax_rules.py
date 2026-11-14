@@ -34,6 +34,13 @@ import iso_prices as ip  # noqa: E402
 
 NAME = "impact_tax_rules"
 RULES = os.path.join(ROOT, "site", "data", "severance_rules.json")
+# session 3938 (chain 267; request 3 of docs/state/data_requests_forecast.md): the forecast tool's property tax rules,
+# each read from a state's statute or tax agency page with its words quoted (lab-desktop window 4 and the old laptop's
+# forecast chains), into the warehouse's record beside the severance rules; the file is the record, nothing read again
+PROPERTY_FILE = os.path.join(ROOT, "site", "data", "forecast", "property_rules.json")
+PROPERTY_SOURCE = "forecast:property_rules"
+QUOTE_KEYS = {"cite", "cite2", "cite3", "quote", "quote2", "quote3", "tip", "own_tip", "option_tip", "rate_tip", "id", "kind",
+              "technologies", "basis", "not_modeled"}
 READ_ON = "2026-09-30"          # sessions 40 and 41 read the pages as text on this day (the file's own note)
 CHECKED_ON = "2026-10-20"       # the day this session searched the repository for a property-tax statute
 METHOD_URL = "https://erw-flame.vercel.app/data/methods/economic_impact"
@@ -135,6 +142,33 @@ def property_rows():
     return out
 
 
+def property_file_rows(pr):
+    """One row per rule of site/data/forecast/property_rules.json: its words, its statute's address, its figures as the
+    file holds them (x_detail); event_date the day the statute was read."""
+    src = pr["sources"]
+    out = []
+    for st, s in pr["states"].items():
+        for r in s["rules"]:
+            cite = src.get(r.get("cite"), {})
+            read = cite.get("read", "")
+            detail = {k: v for k, v in r.items() if k not in QUOTE_KEYS}
+            extra = [src[r[c]]["url"] for c in ("cite2", "cite3") if r.get(c) in src]
+            out.append(dict(
+                event_id=f"erw_tax:{st}:{r['id']}", event_date=read if DATE.match(read) else pr["version"], event_type="property_tax_rule",
+                parties=s["name"], entity_ids="", mw="", price="", currency="", status="held", source=PROPERTY_SOURCE,
+                source_url=cite.get("url", ""), x_state=st.upper(), x_tax="property", x_product=";".join(r.get("technologies", [])),
+                x_rule=r["id"], x_rule_name=cite.get("title", ""), x_kind=text(r.get("kind")), x_basis=text(r.get("basis")), x_rate="",
+                x_per_unit="", x_unit="", x_effective_text="",
+                x_date_kind=("the day the statute or agency page was read" if DATE.match(read) else f"the file's version ({pr['version']})"),
+                x_who="", x_what=text(r.get("tip")), x_how_long="", x_quote=text(r.get("quote")), x_quote2=text(r.get("quote2")),
+                x_code_section=cite.get("title", ""), x_code_quote=text(r.get("quote3")), x_code_url=" ".join(extra),
+                x_detail=text(detail) if detail else "", x_applies_to=";".join(r.get("technologies", [])),
+                x_note=(f"As site/data/forecast/property_rules.json holds it (version {pr['version']}); "
+                        f"read {read or 'on a day the file does not give'}" + (f", request {cite['request']}" if cite.get("request") else "")
+                        + ("; not modeled by the forecast: " + text(r["not_modeled"]) if r.get("not_modeled") else ""))))
+    return out
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -142,12 +176,15 @@ def main():
     results = []
     try:
         d = json.load(open(RULES, encoding="utf-8"))
-        rows = severance_rows(d) + property_rows()
+        pr = json.load(open(PROPERTY_FILE, encoding="utf-8"))
+        rows = severance_rows(d) + property_rows() + property_file_rows(pr)
         df = pd.DataFrame(rows)
         if df.event_id.duplicated().any():
             raise RuntimeError(f"an event_id is given twice: {df.event_id[df.event_id.duplicated()].tolist()[:3]}")
         cols = COLS + X_COLS
-        cites = sorted({(r["source"], r["parties"] or "the ERW", r["source_url"]) for r in rows})
+        # the forecast's property rules are one source (each row's own address in source_url), not listed address by address here
+        cites = sorted({(r["source"], r["parties"] or "the ERW", r["source_url"]) for r in rows if r["source"] != PROPERTY_SOURCE})
+        cites.append((PROPERTY_SOURCE, "US state legislatures and tax agencies", "each row's source_url"))
         header = [
             "Energy Research Warehouse (ERW): the tax rules of the economic impact tool, one row per rule, each with its citation (session 346)",
             "Shape: events (docs/datastandard.md v0). event_id erw_tax:<state>:<rule>; event_date the effective date the citation gives, "
@@ -155,7 +192,10 @@ def main():
             f"Read from: site/data/severance_rules.json version {d['version']} (sessions 40 and 41: every rate cites a page whose text states it, "
             f"read as text on {READ_ON}); no page was read again and no request was made",
             f"Property tax: no statute held for TX, LA or NM (searched {CHECKED_ON}); "
-            + "; ".join(f"{STATE_NAME[s]}: " + ", ".join(n for _, n in r) for s, r in PROPERTY.items()) + ": each a no_rule_held row",
+            + "; ".join(f"{STATE_NAME[s]}: " + ", ".join(n for _, n in r) for s, r in PROPERTY.items()) + ": each a no_rule_held row (session 346, 20 October 2026)",
+            f"Property tax, the forecast's rules (session 3938): site/data/forecast/property_rules.json version {pr['version']}, "
+            f"{sum(len(s['rules']) for s in pr['states'].values())} rules of {len(pr['states'])} states and DC, each with its statute's or agency's "
+            f"words and address (source {PROPERTY_SOURCE}, each row's source_url); no page was read again",
             "Sources: " + "; ".join(f"{s} ({p}) {u}" for s, p, u in cites),
             "License: public. State statutes and the agencies' own pages, as the /severance page cites them; their publishers' "
             "terms are not read (docs/licenses.md lists the table as not settled until they are)",
@@ -165,7 +205,11 @@ def main():
         ip.write_snapshot(df[cols], NAME, header, log, cols)
         regs = {}
         for s, p, u in cites:
-            if s == "erw:impact_tax_rules":
+            if s == PROPERTY_SOURCE:
+                regs[s] = dict(source=s, publisher="US state legislatures and tax agencies, as the forecast tool's property rules cite them",
+                               report="The forecast tool's property tax rules (site/data/forecast/property_rules.json)", report_url=METHOD_URL,
+                               document_list="", license="public", tables=[NAME])
+            elif s == "erw:impact_tax_rules":
                 regs[s] = dict(source=s, publisher="Energy Research Warehouse (ERW)",
                                report="The ERW's record that it holds no property-tax rule (session 346)", report_url=METHOD_URL,
                                document_list=METHOD_URL, license="public", tables=[NAME])

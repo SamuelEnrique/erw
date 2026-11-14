@@ -442,7 +442,7 @@ ieso_generation_fuel_hourly,"Independent Electricity System Operator (IESO), Ont
 ieso_ontario_demand_hourly,"Independent Electricity System Operator (IESO), Ontario",the source registry
 ilr_luxembourg_electricity,Institut Luxembourgeois de Regulation (ILR),the source registry
 imf_commodity_prices,IMF,the source registry
-impact_tax_rules,Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts,the source registry
+impact_tax_rules,"Louisiana Department of Revenue; Louisiana State Legislature; New Mexico Taxation and Revenue Department; Texas Comptroller of Public Accounts; US state legislatures and tax agencies, as the forecast tool's property rules cite them",the source registry
 ine_es_dwellings_electricity_2021,"Instituto Nacional de Estadistica (INE), Spain",the source registry
 inseed_togo_electricity_annual,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",the source registry
 instat_madagascar_electricity_monthly,"Institut National de la Statistique (INSTAT), Madagascar",the source registry
@@ -606,6 +606,7 @@ statcan_oil_gas_supply_monthly,Statistics Canada,the source registry
 statcan_petroleum_products_monthly,Statistics Canada,the source registry
 statcan_power_disposition_annual,Statistics Canada,the source registry
 state_generation_mix_monthly,EIA,the source registry and the tables its header derives it from: eia_state_generation_monthly
+state_large_load_laws,"US utilities, state commissions and legislatures, read by the ERW's research pass",the source registry
 statec_lu_electricity_generation_annual,STATEC (Luxembourg),the source registry
 statec_lu_electricity_trade_annual,STATEC (Luxembourg),the source registry
 statec_lu_power_capacity_annual,STATEC (Luxembourg),the source registry
@@ -636,6 +637,8 @@ usgs_mcs_critical_minerals,U.S. Geological Survey (USGS),the source registry
 usgs_streamflow_daily,U.S. Geological Survey (USGS),the source registry
 uspvdb_solar_facilities,U.S. Geological Survey (USGS),the source registry
 uswtdb_wind_turbines,U.S. Geological Survey (USGS),the source registry
+utility_large_load_rule_changes,"US utilities, state commissions and legislatures, read by the ERW's research pass",the source registry
+utility_large_load_rules,"US utilities, state commissions and legislatures, read by the ERW's research pass",the source registry
 utility_large_load_tariffs,"the state commissions (filed tariffs), read into the ERW's registry",the source registry
 utility_service_territories,EIA,the source registry
 vmme_paraguay_electricity_annual,"Viceministerio de Minas y Energia, Paraguay (VMME)",the source registry
