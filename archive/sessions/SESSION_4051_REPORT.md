@@ -36,7 +36,16 @@ Energy Research Warehouse (ERW). Chain 230, the desktop's second window, 13 Nove
   - The live set answers both pages' tables now. `cost_of_power_monthly` has September 2026 whole and October not (48 of 744 hours), and the hourly profile holds every month to October, all retrieved on 4 October.
   - An empty read gives exactly these errors (the month of an empty list, the `.value` of an absent row).
 - **Run again** as `task/4051-landing-b`, the same commit, at 00:16 UTC, after snapshot `before-56a46041-b`.
-- (its result: written when it comes)
+- **The second run failed the same way** (run 43533062834, 00:31 UTC). So the cause was not the runner.
+- **Reproduced here** with `problemSet()` under node against the live set, at 00:33 UTC on 14 November. Both sets threw, and `site/lib/problems.ts` is the same on main, **so every build from midnight failed these two pages, on main and for every window's landing.**
+  - **Set A** ("know your grid") looks for "the latest day both ERCOT and CAISO are held" in the last 10 days (lines 111 and 123). The live set lacks 5 to 8 November of EIA-930, so at midnight the window lost 4 November, the last day both held. The `find` returned `undefined`, and `row()` read `.value` of it.
+  - **Set D** ("storage and taxes") reads WTI's months over 75 days and needs one with a certified Texas gas price. At midnight the window lost 31 August, the last such month, so the month was `undefined`.
+- **The fix, small and plainly correct, on land-l:**
+  - lookbacks of 45 days (both set A windows) and 400 days (set D's months). "Latest" means what it meant;
+  - test 4051;
+  - under node both sets build with 5 questions each; `tsc` 0 errors; the 14 problem-set test files pass.
+  - Commit `2d32f6de4`, regated from 00:35 UTC.
+- (the regate's result and the landing: written when they come)
 
 ## Decisions made without you
 
