@@ -1,0 +1,509 @@
+{
+ "_about": "eval_s5258_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 20,
+ "right": 20,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.8408,
+ "questions": [
+  {
+   "id": "ga10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.10266420000000001,
+   "seconds": 8.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ga12",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.10524700000000001,
+   "seconds": 9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "oi02",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0320753,
+   "seconds": 5.3,
+   "expected": [
+    123.9273
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "oi04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.09150730000000001,
+   "seconds": 7.2,
+   "expected": [
+    -36.98
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "oi06",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0761009,
+   "seconds": 4.9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "oi08",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0346663,
+   "seconds": 11.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "oi10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0329103,
+   "seconds": 7.5,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "nu02",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1391286,
+   "seconds": 17.5,
+   "expected": [
+    82580.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "nu04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1247149,
+   "seconds": 19.1,
+   "expected": [
+    97670262.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "nu06",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.088963,
+   "seconds": 4.6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "nu08",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.1522794,
+   "seconds": 21.1,
+   "expected": [
+    1114.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  },
+  {
+   "id": "re02",
+   "via": "general",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.12968590000000002,
+   "seconds": 15.9,
+   "expected": [
+    1173159.05
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "re04",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.1100425,
+   "seconds": 10.3,
+   "expected": [
+    39.6727
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "re06",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.11395240000000001,
+   "seconds": 9.4,
+   "expected": [
+    68.74
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "re08",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0760818,
+   "seconds": 5.9,
+   "expected": [
+    130135820.25
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "re10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1801701,
+   "seconds": 14.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "st02",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1356391,
+   "seconds": 14.7,
+   "expected": [
+    59726.3
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "st04",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.050357900000000004,
+   "seconds": 11,
+   "expected": [
+    6.8686
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "st06",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0353178,
+   "seconds": 7.2,
+   "expected": [
+    7682.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "st08",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.029303700000000002,
+   "seconds": 5.6,
+   "expected": [
+    23298.6
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "not_live": {
+   "asked": 3,
+   "right": 3
+  },
+  "outside": {
+   "asked": 3,
+   "right": 3
+  },
+  "figure": {
+   "asked": 13,
+   "right": 13
+  },
+  "hold": {
+   "asked": 1,
+   "right": 1
+  }
+ },
+ "by_sector": {
+  "gas": {
+   "asked": 2,
+   "right": 2
+  },
+  "oil": {
+   "asked": 5,
+   "right": 5
+  },
+  "nuclear": {
+   "asked": 4,
+   "right": 4
+  },
+  "renewables": {
+   "asked": 5,
+   "right": 5
+  },
+  "storage": {
+   "asked": 4,
+   "right": 4
+  }
+ }
+}

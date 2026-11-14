@@ -1,0 +1,317 @@
+{
+ "_about": "eval_s5255_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 12,
+ "right": 12,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.5731,
+ "questions": [
+  {
+   "id": "de05",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 11,
+   "retried": false,
+   "cost_usd": 0.17551830000000002,
+   "seconds": 20.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 10
+  },
+  {
+   "id": "de07",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0721585,
+   "seconds": 3.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "po01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.051999300000000005,
+   "seconds": 7.8,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "po03",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.1125253,
+   "seconds": 6.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "po05",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.21054420000000001,
+   "seconds": 31.3,
+   "expected": [
+    8.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "po07",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.0853444,
+   "seconds": 17.9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "po09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 11,
+   "retried": false,
+   "cost_usd": 0.20400079999999998,
+   "seconds": 21.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 11
+  },
+  {
+   "id": "dc01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.19291299999999997,
+   "seconds": 23.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "dc03",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.10460919999999999,
+   "seconds": 8.8,
+   "expected": [
+    8927.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "dc05",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 11,
+   "retried": false,
+   "cost_usd": 0.18105380000000001,
+   "seconds": 15.8,
+   "expected": [
+    27.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 10
+  },
+  {
+   "id": "dc07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.15240630000000002,
+   "seconds": 15.4,
+   "expected": [
+    7.7655
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "dc09",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0300234,
+   "seconds": 5.2,
+   "expected": [
+    56.9423
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "hold": {
+   "asked": 4,
+   "right": 4
+  },
+  "outside": {
+   "asked": 2,
+   "right": 2
+  },
+  "figure": {
+   "asked": 5,
+   "right": 5
+  },
+  "not_live": {
+   "asked": 1,
+   "right": 1
+  }
+ },
+ "by_sector": {
+  "deals": {
+   "asked": 2,
+   "right": 2
+  },
+  "policy": {
+   "asked": 5,
+   "right": 5
+  },
+  "datacenters": {
+   "asked": 5,
+   "right": 5
+  }
+ }
+}

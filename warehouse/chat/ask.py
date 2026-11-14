@@ -308,6 +308,36 @@ def clean_turns(raw):
     return out
 
 
+# Session 5256 (chain 238), as site/lib/chat/refused.ts refusedRead: a tool's error that refuses the table itself (not in
+# the live set, held for a license, MISO's pause), told from any other tool error. An answer's citation of a table refused
+# and never read is a citation of a table no tool read: list_tables naming it does not make it the source of an answer.
+REFUSED_READ = re.compile(r"is not in this site's live set|license needed|MISO is paused")
+
+
+def refused_read(error):
+    return isinstance(error, str) and bool(REFUSED_READ.search(error))
+
+
+def tables_named(name, args):
+    """As refused.ts tablesNamed: the tables a call names (a query's or a description's own, a compare's two)."""
+    a = args if isinstance(args, dict) else {}
+    one = lambda x: [x["table"]] if isinstance(x, dict) and isinstance(x.get("table"), str) else []  # noqa: E731
+    return one(a) if name in ("query", "describe_table") else one(a.get("a")) + one(a.get("b")) if name == "compare" else []
+
+
+def refused_whole(error, tables):
+    """As refused.ts refusedWhole: the table a tool's error refuses whole, among those the call named (not in the live
+    set, or held whole for a license). None for any other error: MISO's pause and a held grid refuse rows, not the table."""
+    if not isinstance(error, str):
+        return None
+    return next((t for t in tables if error.startswith(f"table {t} is not in this site's live set") or error.startswith(f"table {t} is license needed")), None)
+
+
+def refused_again_note(table, words):
+    """As refused.ts refusedAgainNote: what a later call that names a table already refused whole is answered with."""
+    return f"table {table} was already refused for this question and no call can read it: do not ask it again. {words}"
+
+
 def reads_of(name, args):
     """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
     def one(a):
@@ -450,6 +480,8 @@ class Asker:
         messages = [{"role": "user", "content": first}]
         usage = {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "requests": 0}
         calls, sources, tables_read = [], [question] + given, set(self.known_tables(history) if history else ())
+        refused_tables, read_ok = set(), set()   # session 5256: the tables a tool refused to read, and those a call did read
+        refused_whole_words = {}                 # session 5256: a table refused whole for this question, with the refusal's words
         seconds_first = None
         results = []  # session 92: every tool result, in order, for a profile's checks and its record
         # session 2222 (chain 152): the calls made so far by their key, and whether the next model call may read. The site's
@@ -485,6 +517,12 @@ class Asker:
                     key = call_key(b.name, b.input)
                     if len(calls) >= MAX_TOOL_CALLS:
                         out, err = {"error": f"tool call limit ({MAX_TOOL_CALLS}) reached; answer now"}, True
+                    elif any(t in refused_whole_words for t in tables_named(b.name, b.input)):
+                        # session 5256: a table refused whole is not asked again, whatever the call: a note, counted, no record
+                        ran.add(key)
+                        again = next(t for t in tables_named(b.name, b.input) if t in refused_whole_words)
+                        out, err = {"note": refused_again_note(again, refused_whole_words[again])}, False
+                        calls.append({"tool": b.name, "input": b.input, "is_error": False, "result_chars": 0, "repeat": True})
                     elif key in ran:
                         # session 2222: nothing is read; the note is no source and no record, and the call is counted
                         out, err = {"note": REPEAT_NOTE}, False
@@ -504,6 +542,15 @@ class Asker:
                         for key in ("table",):
                             if isinstance(out, dict) and out.get(key):
                                 tables_read.add(out[key])
+                        # session 5256: the tables this call named, refused (not in the live set, held, paused) or read
+                        named = tables_named(b.name, b.input)
+                        if err and refused_read(out.get("error") if isinstance(out, dict) else None):
+                            refused_tables.update(named)
+                        whole = refused_whole(out.get("error") if isinstance(out, dict) else None, named) if err else None
+                        if whole:
+                            refused_whole_words[whole] = out["error"]
+                        if not err:
+                            read_ok.update(named)
                         if isinstance(out, dict):
                             for sub in ("a", "b"):
                                 if isinstance(out.get(sub), dict) and out[sub].get("table"):
@@ -530,7 +577,10 @@ class Asker:
             bad = unverified(draft["answer"], sources)
             units = unit_mismatches(draft["answer"], sources)   # session 1110
             cited = [c["table"] for c in draft.get("citations", [])]
-            uncited_tables = [t for t in cited if t not in tables_read]
+            # session 5256: an answer's citation of a table refused and never read is of a table no tool read; a refusal
+            # may still name what it was refused
+            uncited_tables = [t for t in cited if t not in tables_read
+                              or (not draft.get("not_in_warehouse") and t in refused_tables and t not in read_ok)]
             # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())

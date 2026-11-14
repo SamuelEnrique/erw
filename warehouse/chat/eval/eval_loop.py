@@ -18,7 +18,8 @@ Energy Research Warehouse (ERW). One command, three steps, each into files of it
            for the first ten questions, then the dearest so far, at least USD 0.30) must stay
            under --cap (the reserve one question at the dearest cost seen, the costs being exact here).
   grade    eval_s1113.py's grade (now, under the hold, if ruled), written to eval_s<N>_loop_grades.json; since session 2223
-           under eval_s267.py's RULES_2223 (session 320's ruling 3) unless --rules none.
+           under eval_s267.py's RULES_2223 (session 320's ruling 3) unless --rules none; since session 5201 under RULES_5201
+           (the same and sign_in_words) unless --rules 2223 or --rules none.
 
 The run file has the shape of eval_s1113_run.json (so replay.py, refusals.py and history.py read it through runs.json),
 with "loop": "python" on every record and each trace entry carrying isError beside is_error (the site's key, which
@@ -167,7 +168,10 @@ def main(argv):
         run = read_json(F["run"])
     # session 2223: a grading from this session on is made under session 320's ruling 3 (eval_s267.py RULES_2223: a refusal
     # graded on refusing and stating no figure, a key's table met by the record's own evidence); --rules none for the old way
-    rules = () if "--rules" in argv and argv[argv.index("--rules") + 1] == "none" else E.G.RULES_2223
+    # session 5201 (chain 235): and under RULES_5201 (the 2223 rules and sign_in_words: a negative difference written as
+    # its magnitude with the direction in words); --rules 2223 grades as sessions 2223 to 5200 did
+    how = argv[argv.index("--rules") + 1] if "--rules" in argv else "5201"
+    rules = () if how == "none" else E.G.RULES_2223 if how == "2223" else E.G.RULES_5201
     if which == "s320":
         E.GRADES = F["grades"]
         doc = E.grade(run, keys_doc, rules)

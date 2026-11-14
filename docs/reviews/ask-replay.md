@@ -27,5 +27,16 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/replay.p
 | session 3297, Python loop, the investor's iv14 again and iv18 to iv20 | 4 | 4 | 0 | 0 |
 | session 3769, Python loop | 30 | 30 | 0 | 0 |
 | session 3769, Python loop, the board's five | 5 | 5 | 0 | 0 |
+| session 5251, the site's loop, the platform set | 14 | 14 | 0 | 0 |
+| session 5252, the site's loop, the platform set | 14 | 14 | 0 | 0 |
+| session 5253, the site's loop, the platform set | 18 | 17 | 0 | 0 |
+| session 5254, the site's loop, the platform set | 17 | 17 | 0 | 0 |
+| session 5255, the site's loop, the platform set | 12 | 12 | 0 | 0 |
+| session 5256, the site's loop, the platform set | 7 | 7 | 0 | 0 |
+| session 5257, the site's loop, the platform set | 15 | 15 | 0 | 0 |
+| session 5258, the site's loop, the platform set | 20 | 20 | 0 | 0 |
+| session 5259, the site's loop, the platform set | 19 | 18 | 0 | 0 |
+| session 5260, the site's loop, the platform set | 12 | 12 | 0 | 0 |
+| session 5261, the site's loop, the platform set | 8 | 8 | 0 | 0 |
 
-In all: 433 answers, 0 would now be sent back.
+In all: 589 answers, 0 would now be sent back.

@@ -55,6 +55,24 @@ def matches(expected, written, tolerance):
 #                       answer's own record (trace): the table holds the figure, as the record shows (t06, f05, f06, f07
 #                       of session 1114's thirty stated the right figure from another table that holds it)
 RULES_2223 = ("refusal_no_table", "table_by_evidence")
+# Session 5201 (chain 235): one rule more, for the second thirty's f09. Its key holds a difference as a negative figure
+# (ERCOT less CAISO: -3369.6241) and the answer, right to the cent, wrote the sign in words ("3,369.62 USD/MW less at
+# ERCOT"). The grading of 23 October counted it wrong.
+#   sign_in_words       a negative expected figure is also met by its magnitude when the sentence that states it holds
+#                       a word of the direction (less, lower, below, under, fewer, cheaper, smaller, down, fell, dropped,
+#                       declined, decreased, negative, minus, discount, behind, short of, loss). A positive figure is
+#                       never met by a negative one, and a magnitude with no such word in its sentence is not met.
+RULES_5201 = RULES_2223 + ("sign_in_words",)
+# Session 5251 (chain 238): one rule more, for a question of a grid whose rows are held for a license (the platform
+# set's pr11, NYISO's Zone J). The loop is built to answer it with the hold's words, the grid named, and the same figure
+# for each public grid (docs/methods/ask.md, "A held grid", session 1112, the owner's ruling of 12 October 2026). Such an
+# answer states figures, and a hold key counted any figure as the held grid's.
+#   hold_public_grids   a hold key is also met when every figure the answer states is a figure of a held answer's
+#                       public_grids in its own record (a tool result with held true), so none is the held grid's. A
+#                       figure the record does not place among the public grids' is not met: the key stays wrong.
+RULES_5251 = RULES_5201 + ("hold_public_grids",)
+DOWN_WORDS = re.compile(r"\b(less|lower|below|under|fewer|cheaper|smaller|down|fell|fall|falls|dropped|drop|declined|decline|decreased|decrease|"
+                        r"negative|minus|discount|behind|short of|loss|lost)\b", re.I)
 
 
 NOT_FIGURES = {"rows_matched", "n", "n_groups", "rows_in_live_set", "n_tables", "limit", "rows", "months", "days", "hours", "n_hours"}
@@ -105,6 +123,41 @@ def results_of(body, table):
     return outs
 
 
+def public_figures(body):
+    """Session 5251, the rule hold_public_grids: the figures of the public grids in the held answers of a record (each
+    tool result with held true carries the same query's figure for each public grid, and never the held grid's)."""
+    found = []
+    for t in body.get("trace") or []:
+        out = t.get("out") if isinstance(t, dict) else None
+        if isinstance(out, dict) and out.get("held") is True and not (t.get("is_error") or t.get("isError")):
+            found += figures_in({"public_grids": out.get("public_grids")})
+    return [v for v, _ in found]
+
+
+def sentences_with(text):
+    """(start, end) of each sentence of a text: a full stop, question or exclamation mark followed by a space or the end
+    closes one (a decimal point is followed by a digit, so it does not)."""
+    spans, at = [], 0
+    for m in re.finditer(r"[.!?](?=\s|$)", text):
+        spans.append((at, m.end()))
+        at = m.end()
+    if at < len(text):
+        spans.append((at, len(text)))
+    return spans
+
+
+def said_in_words(expected, text, tolerance):
+    """Session 5201, the rule sign_in_words: a negative expected figure written as its magnitude in a sentence that holds
+    a word of the direction."""
+    if expected >= 0:
+        return False
+    for a, b in sentences_with(text or ""):
+        part = text[a:b]
+        if DOWN_WORDS.search(part) and matches(-expected, [(v, d) for v, d in numbers(part) if v >= 0], tolerance):
+            return True
+    return False
+
+
 def table_holds(q, body, table):
     """Session 2223: every expected figure of the key is a figure of a tool result that read `table`, in the answer's own
     record (within the key's tolerance, or equal once rounded as the result writes it)."""
@@ -127,7 +180,8 @@ def grade(q, body, rules=()):
     if q["refuse"] and "refusal_no_table" in rules:
         table = None
     g = {
-        "number": all(matches(e, written, q["tolerance"]) for e in q["expected"]) if q["expected"] else None,
+        "number": all(matches(e, written, q["tolerance"]) or ("sign_in_words" in rules and said_in_words(e, ans, q["tolerance"]))
+                      for e in q["expected"]) if q["expected"] else None,
         "text": all(t.lower() in ans.lower() for t in q["text"]) if q["text"] else None,
         "table": table,
         "cited": (bool(cits) and all(c.get("source_report") and c.get("data_version") for c in cits)) if not q["refuse"] else None,
