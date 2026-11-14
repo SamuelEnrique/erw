@@ -32,7 +32,15 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3978 to 3982: chain 278's other unfinished steps
 
-Long end 1:30 each. Session 3976 writes them here from chain 278's note. Where chain 278 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 278's session 3976 on 14 November 2026 at about 21:00 UTC from its note (`docs/state/note_2026-11-14_data_c278.md`). Chain 278 landed four gates (a to d; d's merge in session 3976's report) and fixed four faults of the runs of 14 November; no daily commit has reached main since 12 November. It left these, in this order; a run not yet in is waiting and skipped:
+
+- **The daily run of 15 November** (Sunday, 14:00 UTC): the first with all four fixes (the shadow table's fold, PortWatch's waits, the rollups kept internal in `build_coverage.py`'s `INTERNAL_OVER_PUBLIC`, gate b to d). Its coverage step, `board_tests`, **the daily commit through the guard**, `package tests`, the health summary and its "Stale on main" line. If coverage stops again, the next table named is this chain's to fix the same day.
+- **The Energy Roundup of 15 November** (Sunday) and **the Digest of 16 November** (Monday), with check-values on `/digest`. Chain 272's file had the days one off: 14 November 2026 is a Saturday.
+- **The data machine's run of 15 November** (17:00 UTC): the first with tests 5074 (Datacenter, Analysis) and 5502 in its replication group. Expected: the datacenter group put back (its figures move daily, test 5502 holds the signature pack's figures of 14 November; a ruling in the note) and `dm_commit` landing the other groups. Its Sunday weekly steps: `noaa_grid_weather`'s stations still end 2026-10-26 (find why the Local Climatological Data tail does not move). `dm_live_set` skipped on 14 November ("the database gate is closed, 8.95 s"): read again.
+- **`wip/red-dm-2026-11-14`** (the refused data machine commit `a7a17d360`): nothing to land from it once the run of 15 November commits; delete it then.
+- **The hunt** once the tables move (`check.py --tables` with an absolute path, `check_cards.py`, `check_do.py`; 185 of 185 on 14 November).
+- **The CAISO's FERC compliance filing** (due 16 November) for the siting gaps; **the Ask weekly run** (USD 4) on or after 19 November.
+- **Two `Derived from:` lines that parse as one name** (`datacenter_facilities`' and `ercot_node_transmission`'s headers run their method or report text into the line with commas): seen by chain 278's check, not yet a stop; look before they become one.
 
 ## Session 3983: the runs of the days since chain 278's last reading
 
