@@ -24,9 +24,15 @@ The precheck; then the next file (the first queue number free on origin's main a
 
 One step a session, from the list below. Pushed after every step; a landing request row after each stack is ready.
 
-### Unfinished steps (to be written by session 6218 of chain 283)
+### Unfinished steps (written by session 6192 of chain 283, 14 November 2026, about 22:15 UTC)
 
-- (to be written)
+**Before anything: the owner's Anthropic API key reached its usage limit on 14 November 2026 at about 21:55 UTC** ("You will regain access on 2026-12-01 at 00:00 UTC"). No asking is possible from this machine's key until the owner raises the limit or the month turns. **This file is not to be taken until then**: chain 283 did not take it, and every step below needs the model. Session 6220 first asks one question with a cap of USD 0.40 (`eval_site.py --set heldout --only h30`); if the API refuses, it writes one line in its report, takes no next file and stops. **A day's evaluation spend across chains is USD 20 in all unless the owner has said otherwise** (chain 283's ruling 2): the four chains of 14 November spent USD 48 under caps that renewed with each chain. Read first: `docs/state/note_2026-11-14_oldlaptop_c283.md`.
+
+1. **The held-out set's ten questions not asked** (h31 to h40: four outside the warehouse, a missing day, five windows held in part) and h30, which ended in the API's error: check the keys (`heldout_questions.py --check`; the week of 12 to 18 October leaves the live set's 35 days on about 16 November, so its questions may need another week, decided before the asking), then ask (about USD 1). Score the set whole by class. No fix before the set is whole.
+2. **The read's fix, asked** (session 6192: a read of more than one page in the order of the time and the rows' own ids): h19 again, and six new questions that sum, average or take the extreme of more than 1,000 rows of a table of things or of a series across entities, keyed from the rows read directly and by id (about USD 0.70). The Python tool reads a table whole: any question where the two loops' tools differ with no model is a fault to find first, with `eval-tool.mjs` and `tools.py`, at no cost.
+3. **Every other fault the held-out set shows**, each read, classed and fixed in both loops with a test, its class asked again.
+4. **A table of a two-word name the site cannot read**, the two faults of form left, the day a new table loads: as chain 282's list had them (`queue/done/283-day-17-november-oldlaptop-ask-continued.md`).
+5. **The records:** the scores into `docs/methods/ask.md` and the review file; landing row 14 moved, or a new row if 14 has landed.
 
 ## Session 6246: the method note
 

@@ -1,6 +1,6 @@
-# Session 3967 report: the daily run of 14 November, two faults fixed
+# Session 3967 report: the runs of 14 November, four faults fixed
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:54 to 16:17 UTC. Opus 5.5. Model spend USD 0. No request to a publisher. `erw_health` read over `SUPABASE_DB_URL` (`runs/c278/daily_now.py`).
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:54 to 16:17 and 18:34 to 20:57 UTC. Opus 5.5. Model spend USD 0. No request to a publisher. `erw_health` read over `SUPABASE_DB_URL` (`runs/c278/daily_now.py`).
 
 ## The daily run of 14 November (run 43602537759, dispatched 14:00 UTC)
 
@@ -25,13 +25,33 @@ Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 Novem
 
 - **Both fixes ride in gate b** (`wip/c278-land-b`, started 16:04 UTC).
 - **A second daily run today:** dispatched once gate b lands and the data machine's own run (17:00 UTC) has let go of the data lock, which both share; otherwise tomorrow's 14:00 run is the first with the fixes.
-- **The data machine's run of 14 November** (17:00 UTC): waiting.
+- **The data machine's run of 14 November** (17:00 UTC): read below (added at 18:40 UTC).
+
+## The data machine's run of 14 November (17:00 to 18:34 UTC)
+
+- **Every step ok or expected** (`runs/data_machine_status.txt`) but three: `dm_carb_lcfs` skipped (CARB 61 days old), `dm_live_set` skipped ("the database gate is closed (8.95 s, 1000 rows of iso_dam_hub_prices): nothing loaded"), `dm_test_battery_dispatch` failed (test 178, waiting on its ruling, put back as committed). `dm_test_replication` passed: gate b's replication files hold.
+- **`dm_commit` refused** at 18:34 by the push guard: "2 failing tests: test_session5074.Datacenter.test_the_hourly_window_as_the_do_file_counts_it, test_session5502.TheExpectedValues.test_each_quoted_figure_is_the_page_s". The commit `a7a17d360` (253 files) went to `wip/red-dm-2026-11-14`; main untouched.
+- **Why:** the datacenter refresh moved its figures. The carbon file holds 10,160 hourly rows, but prices and intensity are both held in only 10,094 of them (the page's window was 10,151): the carbon tables run past the prices' last hour, since no daily commit has landed since 12 November. Test 5074 holds the two counts equal; test 5502 holds the signature pack's quoted figures (written 14 November) to `replication/datacenter/page_figures.json`, so any daily move refuses the commit.
+- **Fault 3, fixed:** the replication group (`warehouse/run_data_machine.sh`, session 3206's rule: a refresh that moves a recorded figure is put back whole) did not run tests 5074 and 5502, which landed today, so the guard refused the whole commit, every other group's files with it. They join the group (5074's Datacenter and Analysis classes, 5502); test 3206 follows (3 passed; the three joined: 12 tests OK). Gate c started 18:40 UTC.
+- **The daily re-run** dispatched at 18:36 UTC (`once=1`, HTTP 204) once the data machine let go of the lock. Gate c landed at `de84b0f51` at 19:30 UTC (snapshots before-5b77e7e9 and after-5b77e7e9, 0 differences).
+
+## The daily re-run (run 43627589770, 18:36 to 20:50 UTC)
+
+- **38 rows:** PortWatch passed this time (no failure row; the fix of gate b); `ercot_as_prices` and `carb_lcfs` skipped as before.
+- **The shadow fix held:** coverage went past `news_scores_shadow`.
+- **`daily run` failed at 20:50** at the next check of the same step: "datacenter_tracker_rollups: license internal, but its inputs make it public".
+- **Fault 4, fixed:** the rollups aggregate `datacenter_projects` (tier public, its rows held on the site as "license needed" since 21 October). Session 3775 registered them internal for that reason; session 3888 (13 November) named the input on a `Derived from:` line, and the license rule (Decision 23) then asked for public. Today's runs were the first to reach that check with both. `build_coverage.py` now names the table in `INTERNAL_OVER_PUBLIC` (the reverse of session 272's `PUBLIC_SELECTIONS`): kept internal, the stricter tier, until the hold is settled. Any other table still takes its inputs' license both ways. Test `tests/test_session3967_coverage.py` (6); with tests 272, 2236, 2247 and 3889: 38 passed. A check of every derived table on this machine against coverage's licenses: 0 mismatches.
+- **No third run today:** it would cross 00:00 UTC, where the rolling windows have failed before. The run of 15 November (14:00 UTC) is the first with all four fixes.
 
 ## Decisions made without you
 
 - **The fold sits in the news ingest,** which runs every day, not in the expired shadow scorer.
-- **The re-run waits for the data machine's run** rather than taking the lock from it.
+- **The re-run waited for the data machine's run** rather than taking the lock from it.
+- **The new tests joined the data machine's group** rather than being changed: their checks stand, and a refresh they refuse is put back instead of blocking the other groups.
+- **The rollups kept internal by name** rather than turned public: public would put aggregates of held rows where a visitor's reads reach.
+- **No third daily run today** (midnight).
 
 ## For Samuel's ruling
 
-- None.
+- **The signature pack's datacenter figures and the daily refresh.** Test 5502 holds the pack's quoted datacenter figures (written 14 November) to files the data machine refreshes daily (the datacenter is the one daily tool, test 5074's `DAILY`). From now on the datacenter group will be put back every day its figures move, so the datacenter's files stay as of 14 November on main until the pack follows them or test 5502 reads the datacenter's figures as of their day. Default: put back daily (the pack's figures stand); window P1 or you to choose.
+- **`datacenter_tracker_rollups`' tier.** Internal by name over a public input (the site's hold on `datacenter_projects`). Default: internal until that hold is settled; then public, as its input.
