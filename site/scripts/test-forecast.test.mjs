@@ -508,7 +508,7 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("natural_gas", "ca", {}), 150e6 * 0.01);
   near(T("utility_pv", "wa", {}), 150e6 * 0.96 * 8.96 / 1000);
   near(T("land_based_wind", "wa", {}, 30), 150e6 * 0.15 * 8.96 / 1000, 1e-12, "Washington: the floor");
-  near(T("natural_gas", "wa", {}), 150e6 * 8.96 / 1000, 1e-12, "Washington gas: at cost");
+  near(T("natural_gas", "wa", {}), 150e6 * 0.925 * 8.96 / 1000, 1e-12, "Washington gas: column 7.5 (session 6001; at cost before)");
   near(T("land_based_wind", "ga", {}), 150e6 * 0.95 * 0.4 * 24.712 / 1000);
   near(T("land_based_wind", "ga", {}, 20), 150e6 * 0.15 * 0.4 * 24.712 / 1000, 1e-12, "Georgia: the residual");
   // Tennessee: 55 percent; solar valued at 12.5 percent of installed cost
@@ -570,4 +570,45 @@ test("session 4301: Vermont's wind education tax, Iowa's generation tax, Nevada'
   near(F.propertyTax(P, b("utility_pv", "nv", { iaval: true, own: 1, ownyears: 30, mw: 8, capex: 18750 }), 0).tax, 150e6 * 0.01, 1e-12, "under 10 MW: no abatement");
   assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 100);
   assert.equal(F.defaults(P, "utility_pv", "az").exempt, 0);
+});
+
+test("session 6000: Montana's 19-year life confirmed against the Department of Revenue's PDF by word position", () => {
+  // page 27 of the 2026 schedules, the percent good column under economic life 19, read by word position (runs/s6000/mt_col.py)
+  const pdf19 = [97, 93, 89, 85, 81, 77, 72, 68, 63, 57, 52, 47, 42, 37, 33, 29, 25, 23, 21, 20];
+  for (const id of ["mt_class14", "mt_class13"]) {
+    const r = P.property.states.mt.rules.find((x) => x.id === id);
+    assert.deepEqual(r.schedule_pct, pdf19, id);
+    assert.equal(r.then_pct, 15, `${id}: 15 percent after the 20th year`);
+  }
+  assert.match(P.property.sources.mt_pp_dep_2026.checked, /Renewable Energy Generation 87 \(11\) 19/);
+  // a hand-worked year: a 100 MW gas plant at USD 1,500 per kW, class fourteen (3 percent), levy 600 mills, its 8th year (68 percent)
+  const x = { ...F.defaults(P, "natural_gas", "mt"), mw: 100, capex: 1500, start: 2027, build: 1, levy: 600 };
+  // plus Montana's electrical energy producers' license tax, USD 0.20 per MWh, at the gas default capacity factor (0.65)
+  assert.equal(x.cf, 0.65);
+  near(F.propertyTax(P, x, 7).tax, 150e6 * 0.68 * 0.03 * 0.6 + 100 * 8760 * 0.65 * 0.2, 1e-12, "1,836,000 + 113,880 = 1,949,880");
+});
+
+test("session 6001: Washington's gas plant by column 7.5, its geothermal plant at cost; California's wind fixtures by Table 4's 17-year column", () => {
+  const b = (t, s, o = {}) => ({ ...F.defaults(P, t, s), mw: 100, capex: 1500, start: 2027, build: 1, cf: 0.3, ...o });
+  const T = (t, s, i, o) => F.propertyTax(P, b(t, s, o), i).tax;
+  // Washington, 'Steam & Gas fired (fixed equipment)', Trend I column 7.5 (21 years), levy USD 8.96 per 1,000:
+  // age 1: 150,000,000 x 0.925 x 0.00896 = 1,243,200; age 5 (the trend lifts it): 0.859; age 33: 0.153; then the 15 percent minimum
+  near(T("natural_gas", "wa", 0), 1243200, 1e-12, "age 1");
+  near(T("natural_gas", "wa", 4), 150e6 * 0.859 * 0.00896, 1e-12, "age 5");
+  near(T("natural_gas", "wa", 32), 150e6 * 0.153 * 0.00896, 1e-12, "age 33");
+  near(T("natural_gas", "wa", 40), 150e6 * 0.15 * 0.00896, 1e-12, "the minimum");
+  near(T("geothermal", "wa", 10), 150e6 * 0.00896, 1e-12, "geothermal: at cost, no column names it");
+  // California wind, AH 581 Table 4 (2026), 17-year column, 1 percent: age 1 96 percent, age 10 53, age 27 1, held after
+  near(T("land_based_wind", "ca", 0), 150e6 * 0.96 * 0.01, 1e-12, "150,000,000 x 0.96 x 0.01 = 1,440,000");
+  near(T("land_based_wind", "ca", 9), 150e6 * 0.53 * 0.01);
+  near(T("land_based_wind", "ca", 26), 150e6 * 0.01 * 0.01, 1e-12, "age 27");
+  near(T("land_based_wind", "ca", 29), 150e6 * 0.01 * 0.01, 1e-12, "the last factor held");
+  near(T("utility_pv", "ca", 9), 150e6 * 0.01, 1e-12, "solar: at cost, no life assigned");
+  near(T("natural_gas", "ca", 9), 150e6 * 0.01, 1e-12, "gas: at cost");
+  const wind = P.property.states.ca.rules.find((r) => r.id === "ca_wind_fixtures");
+  assert.match(wind.tip, /2017\/020/); assert.match(wind.tip, /Table 4/);
+  for (const id of ["wa_gas_property", "wa_geothermal_property", "ca_wind_fixtures", "ca_prop13"]) {
+    const r = [...P.property.states.wa.rules, ...P.property.states.ca.rules].find((x) => x.id === id);
+    for (const k of ["cite", "cite2", "cite3"]) if (r[k]) assert.ok(P.property.sources[r[k]], `${id} ${k}`);
+  }
 });
