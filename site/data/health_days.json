@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-12T15:55Z",
+ "written": "2026-11-14T15:57Z",
  "green_days": 0,
- "counted_to": "2026-11-11",
+ "counted_to": "2026-11-13",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3224,6 +3224,128 @@
     }
    ],
    "stale": []
+  },
+  "2026-11-13": {
+   "rows": 701,
+   "failed": 6,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 20,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 4,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 20,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 55,
+     "skipped": 3,
+     "retried": 1,
+     "failed": 2,
+     "runs": 61
+    },
+    "local:lab-desktop": {
+     "ok": 17,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 17
+    },
+    "local:portable-laptop": {
+     "ok": 12,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 12
+    },
+    "local:samueloldlaptop": {
+     "ok": 4,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 4
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-13T15:20",
+     "workflow": "daily prices",
+     "step": "board_tests",
+     "reason": "the board's tests refused the run's board; put back as committed (runs/daily_board_tests.out)"
+    },
+    {
+     "at": "2026-11-13T16:57",
+     "workflow": "daily prices",
+     "step": "commit",
+     "reason": "push to main refused: 1 failing tests: test_session3703.TheNetwork.test_every_network_figure_agrees_with_the_pages_code"
+    },
+    {
+     "at": "2026-11-13T17:04",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_fetch_types_and_provenance[datacenter_tracker_rollups] - assert (\"the datacenter tracker's rollups by grid, state and operator (platform tool 4)\" and '20261113T1"
+    },
+    {
+     "at": "2026-11-13T17:15",
+     "workflow": "daily prices",
+     "step": "health summary commit",
+     "reason": "push to main refused: 1 failing tests: test_session3703.TheNetwork.test_every_network_figure_agrees_with_the_pages_code"
+    },
+    {
+     "at": "2026-11-13T19:19",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_dispatch",
+     "reason": "its tests exited 1 (tests.test_session178); the group was put back as committed"
+    },
+    {
+     "at": "2026-11-13T19:46",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "push to main refused: 1 failing tests: test_session314.TheGridsTablesByRule.test_the_rule_found_every_hand_listed_table_that_holds_the_grids_rows"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-13T15:15",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-13T15:19",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 60 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-13T17:56",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 60 days old (limit 28)"
+    }
+   ]
   }
  }
 }
