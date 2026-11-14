@@ -445,6 +445,12 @@
    "url": "https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download",
    "read": "2026-11-13",
    "request": 194
+  },
+  "wa_valuation_2026": {
+   "title": "Washington Department of Revenue, 2026 Personal and Industrial Property Valuation Guidelines and their embedded 2026 valuation tables (Trend II table, column RG: utility-scale solar and wind generation)",
+   "url": "https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx",
+   "read": "2026-11-13",
+   "request": 195
   }
  },
  "states": {
@@ -1313,10 +1319,51 @@
    "name": "Washington",
    "rules": [
     {
+     "id": "wa_renewable_property",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind"
+     ],
+     "kind": "valuation",
+     "assessment_ratio": 1.0,
+     "schedule_pct": [
+      96,
+      92.3,
+      89.4,
+      90.9,
+      87.7,
+      82,
+      75.7,
+      72.2,
+      68.2,
+      62.9,
+      58,
+      54.4,
+      49.4,
+      45.8,
+      41.7,
+      38.1,
+      34.1,
+      30.1,
+      26.5,
+      23.4,
+      20.6,
+      18.2,
+      15.6
+     ],
+     "then_pct": 15,
+     "cite": "wa_dor_levy",
+     "tip": "Washington: ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). Utility-scale solar and wind of 1 MW or more fall by the Department's 2026 table, column RG (0.96 at age 1 to 0.15 from age 24), whose factors include a price trend (applied here to constant dollars); the cost less tax credits is not modeled. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
+     "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
+     "default_levy": 8.96,
+     "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's.",
+     "min_mw": 1,
+     "cite2": "wa_valuation_2026",
+     "quote2": "Renewable Energy, two trend columns, one for utility-scale solar and wind generation (Trend RG) and one for utility-scale battery storage (trend RS) are included in the attached tables. These tables apply to renewable energy production that has at least 1 megawatt of nameplate capacity. The original cost reported to the county should be less any tax credits [...] Percent Good Indicators -- For January 1, 2026 Valuation [...] RG (4) [...] 1 2025 [...] 0.96"
+    },
+    {
      "id": "wa_property",
      "technologies": [
-      "land_based_wind",
-      "utility_pv",
       "natural_gas",
       "geothermal"
      ],
@@ -1327,7 +1374,7 @@
      ],
      "then_pct": 100,
      "cite": "wa_dor_levy",
-     "tip": "Washington: ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
+     "tip": "Washington: a gas or geothermal plant pays ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
      "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
      "default_levy": 8.96,
      "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's."

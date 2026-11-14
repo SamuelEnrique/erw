@@ -506,7 +506,9 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "ky", {}), 150e6 * 0.15 / 100);
   // California 1 percent; Washington USD 8.96 per 1,000; Georgia 40 percent at 24.712 mills
   near(T("natural_gas", "ca", {}), 150e6 * 0.01);
-  near(T("utility_pv", "wa", {}), 150e6 * 8.96 / 1000);
+  near(T("utility_pv", "wa", {}), 150e6 * 0.96 * 8.96 / 1000);
+  near(T("land_based_wind", "wa", {}, 30), 150e6 * 0.15 * 8.96 / 1000, 1e-12, "Washington: the floor");
+  near(T("natural_gas", "wa", {}), 150e6 * 8.96 / 1000, 1e-12, "Washington gas: at cost");
   near(T("land_based_wind", "ga", {}), 150e6 * 0.95 * 0.4 * 24.712 / 1000);
   near(T("land_based_wind", "ga", {}, 20), 150e6 * 0.15 * 0.4 * 24.712 / 1000, 1e-12, "Georgia: the residual");
   // Tennessee: 55 percent; solar valued at 12.5 percent of installed cost
