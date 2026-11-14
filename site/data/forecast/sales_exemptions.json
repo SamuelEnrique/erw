@@ -186,6 +186,18 @@
    "url": "https://www.legis.la.gov/legis/Law.aspx?d=101918",
    "read": "2026-11-14",
    "read_by": "subagent of session 6051 (WebFetch), not spot-checked"
+  },
+  "nlr_jedi_wind_defaultdata": {
+   "title": "NLR (formerly NREL) JEDI land-based wind model rel. W6.28.19, DefaultData rows 18 to 47 (cached values; sha256 e6e434c4..., the file of jedi_costs.json)",
+   "url": "https://www.nlr.gov/docs/libraries/analysis/01d-jedi-land-based-wind-model-rel-w6-28-19.xlsm?sfvrsn=e1d95728_2",
+   "read": "2026-11-14",
+   "read_by": "session 6052"
+  },
+  "nlr_jedi_ngas_projectdata": {
+   "title": "NLR (formerly NREL) JEDI natural gas model rel. NG4.17.17, ProjectData rows 34 to 53 (cached values; sha256 80d5d7ea..., the file of jedi_costs.json)",
+   "url": "https://www.nlr.gov/docs/libraries/analysis/01d-jedi-ngas-model_rel-ng4-17-17.xlsm?sfvrsn=d9ff898_2",
+   "read": "2026-11-14",
+   "read_by": "session 6052"
   }
  },
  "states": {
@@ -468,10 +480,11 @@
   },
   "ks": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "ks_79_3606",
-    "tip": "Kansas exempts machinery and equipment used as an integral or essential part of an integrated production operation, electricity power generation among them (Statutes 79-3606(kk)); buildings and real property materials are taxed: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Industrial manufacturing or processing operations include, by way of illustration but not of limitation, the fabrication of automobiles, airplanes, machinery or transportation equipment, the fabrication of metal, plastic, wood or paper products, electricity power generation, water treatment, petroleum refining"
+    "tip": "Kansas exempts machinery and equipment used as an integral or essential part of an integrated production operation, electricity power generation among them (Statutes 79-3606(kk)); buildings and real property materials are taxed; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "Industrial manufacturing or processing operations include, by way of illustration but not of limitation, the fabrication of automobiles, airplanes, machinery or transportation equipment, the fabrication of metal, plastic, wood or paper products, electricity power generation, water treatment, petroleum refining",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -480,10 +493,11 @@
     "quote": "Industrial manufacturing or processing operations include, by way of illustration but not of limitation, the fabrication of automobiles, airplanes, machinery or transportation equipment, the fabrication of metal, plastic, wood or paper products, electricity power generation, water treatment, petroleum refining"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "ks_79_3606",
-    "tip": "Kansas exempts machinery and equipment used as an integral or essential part of an integrated production operation, electricity power generation among them (Statutes 79-3606(kk)); buildings and real property materials are taxed: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Industrial manufacturing or processing operations include, by way of illustration but not of limitation, the fabrication of automobiles, airplanes, machinery or transportation equipment, the fabrication of metal, plastic, wood or paper products, electricity power generation, water treatment, petroleum refining"
+    "tip": "Kansas exempts machinery and equipment used as an integral or essential part of an integrated production operation, electricity power generation among them (Statutes 79-3606(kk)); buildings and real property materials are taxed; JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "Industrial manufacturing or processing operations include, by way of illustration but not of limitation, the fabrication of automobiles, airplanes, machinery or transportation equipment, the fabrication of metal, plastic, wood or paper products, electricity power generation, water treatment, petroleum refining",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -494,10 +508,11 @@
   },
   "wv": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "wv_11_15_9",
-    "tip": "West Virginia exempts machinery, supplies and materials directly used or consumed in the generation or production of electric power, by refund or a direct pay permit (Code 11-15-9(b)(2)): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "generation or production or selling electric power"
+    "tip": "West Virginia exempts machinery, supplies and materials directly used or consumed in the generation or production of electric power, by refund or a direct pay permit (Code 11-15-9(b)(2)); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "generation or production or selling electric power",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -506,10 +521,11 @@
     "quote": "generation or production or selling electric power"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "wv_11_15_9",
-    "tip": "West Virginia exempts machinery, supplies and materials directly used or consumed in the generation or production of electric power, by refund or a direct pay permit (Code 11-15-9(b)(2)): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "generation or production or selling electric power"
+    "tip": "West Virginia exempts machinery, supplies and materials directly used or consumed in the generation or production of electric power, by refund or a direct pay permit (Code 11-15-9(b)(2)); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "generation or production or selling electric power",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -520,10 +536,11 @@
   },
   "ma": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "ma_64h_6",
-    "tip": "Massachusetts exempts machinery used directly and exclusively in furnishing electricity delivered through lines (General Laws c. 64H, s. 6(s)); the solar and wind exemption of s. 6(dd) is a home's: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "in the furnishing of gas, water, steam or electricity when delivered to consumers through mains, lines or pipes"
+    "tip": "Massachusetts exempts machinery used directly and exclusively in furnishing electricity delivered through lines (General Laws c. 64H, s. 6(s)); the solar and wind exemption of s. 6(dd) is a home's; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "in the furnishing of gas, water, steam or electricity when delivered to consumers through mains, lines or pipes",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -532,10 +549,11 @@
     "quote": "in the furnishing of gas, water, steam or electricity when delivered to consumers through mains, lines or pipes"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "ma_64h_6",
-    "tip": "Massachusetts exempts machinery used directly and exclusively in furnishing electricity delivered through lines (General Laws c. 64H, s. 6(s)); the solar and wind exemption of s. 6(dd) is a home's: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "in the furnishing of gas, water, steam or electricity when delivered to consumers through mains, lines or pipes"
+    "tip": "Massachusetts exempts machinery used directly and exclusively in furnishing electricity delivered through lines (General Laws c. 64H, s. 6(s)); the solar and wind exemption of s. 6(dd) is a home's; JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "in the furnishing of gas, water, steam or electricity when delivered to consumers through mains, lines or pipes",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -546,10 +564,11 @@
   },
   "mi": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "mi_205_54t",
-    "tip": "Michigan's industrial processing exemption reaches property used to produce electricity, which the Act counts as tangible personal property (MCL 205.54t, 205.51a(r)), apportioned by exempt use: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "includes electricity, water, gas, steam, and prewritten computer software"
+    "tip": "Michigan's industrial processing exemption reaches property used to produce electricity, which the Act counts as tangible personal property (MCL 205.54t, 205.51a(r)), apportioned by exempt use; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "includes electricity, water, gas, steam, and prewritten computer software",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -558,10 +577,11 @@
     "quote": "includes electricity, water, gas, steam, and prewritten computer software"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "mi_205_54t",
-    "tip": "Michigan's industrial processing exemption reaches property used to produce electricity, which the Act counts as tangible personal property (MCL 205.54t, 205.51a(r)), apportioned by exempt use: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "includes electricity, water, gas, steam, and prewritten computer software"
+    "tip": "Michigan's industrial processing exemption reaches property used to produce electricity, which the Act counts as tangible personal property (MCL 205.54t, 205.51a(r)), apportioned by exempt use; JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "includes electricity, water, gas, steam, and prewritten computer software",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -572,10 +592,11 @@
   },
   "sc": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "sc_il06_3",
-    "tip": "South Carolina exempts machines used in manufacturing (Code 12-36-2120(17)), and its regulation names machines used for the generation of electricity (Regulation 117-302.5): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Machines used for the generation of electricity, such as boilers, engines, condensers, generators, and transformers and their attachments."
+    "tip": "South Carolina exempts machines used in manufacturing (Code 12-36-2120(17)), and its regulation names machines used for the generation of electricity (Regulation 117-302.5); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "Machines used for the generation of electricity, such as boilers, engines, condensers, generators, and transformers and their attachments.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -584,10 +605,11 @@
     "quote": "Machines used for the generation of electricity, such as boilers, engines, condensers, generators, and transformers and their attachments."
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "sc_il06_3",
-    "tip": "South Carolina exempts machines used in manufacturing (Code 12-36-2120(17)), and its regulation names machines used for the generation of electricity (Regulation 117-302.5): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Machines used for the generation of electricity, such as boilers, engines, condensers, generators, and transformers and their attachments."
+    "tip": "South Carolina exempts machines used in manufacturing (Code 12-36-2120(17)), and its regulation names machines used for the generation of electricity (Regulation 117-302.5); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "Machines used for the generation of electricity, such as boilers, engines, condensers, generators, and transformers and their attachments.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -598,10 +620,11 @@
   },
   "vt": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "vt_fs1182",
-    "tip": "Vermont applies its manufacturing exemption (32 V.S.A. 9741(14)) to the machinery and equipment of generation facilities that sell their electricity (FS-1182, January 2025): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "are available for some machinery, equipment, monitoring devices, and supplies purchased and used by renewable energy generation facilities."
+    "tip": "Vermont applies its manufacturing exemption (32 V.S.A. 9741(14)) to the machinery and equipment of generation facilities that sell their electricity (FS-1182, January 2025); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "are available for some machinery, equipment, monitoring devices, and supplies purchased and used by renewable energy generation facilities.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -610,10 +633,11 @@
     "quote": "are available for some machinery, equipment, monitoring devices, and supplies purchased and used by renewable energy generation facilities."
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "vt_fs1182",
-    "tip": "Vermont applies its manufacturing exemption (32 V.S.A. 9741(14)) to the machinery and equipment of generation facilities that sell their electricity (FS-1182, January 2025): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "are available for some machinery, equipment, monitoring devices, and supplies purchased and used by renewable energy generation facilities."
+    "tip": "Vermont applies its manufacturing exemption (32 V.S.A. 9741(14)) to the machinery and equipment of generation facilities that sell their electricity (FS-1182, January 2025); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "are available for some machinery, equipment, monitoring devices, and supplies purchased and used by renewable energy generation facilities.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -624,10 +648,11 @@
   },
   "pa": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "pa_sut_10_001",
-    "tip": "Pennsylvania excludes the machinery, equipment, parts and supplies used directly in generating electricity for sale, generation being manufacturing (72 P.S. 7201(k)(8); Letter Ruling SUT-10-001, a utility-scale solar plant): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "taxpayer may purchase exempt from sales tax all machinery, equipment, parts and supplies starting with that used in the initial stage of the photovoltaic process, and ending at the final production stage, where the electricity is acceptable to the public utility purchaser."
+    "tip": "Pennsylvania excludes the machinery, equipment, parts and supplies used directly in generating electricity for sale, generation being manufacturing (72 P.S. 7201(k)(8); Letter Ruling SUT-10-001, a utility-scale solar plant); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "taxpayer may purchase exempt from sales tax all machinery, equipment, parts and supplies starting with that used in the initial stage of the photovoltaic process, and ending at the final production stage, where the electricity is acceptable to the public utility purchaser.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -636,10 +661,11 @@
     "quote": "taxpayer may purchase exempt from sales tax all machinery, equipment, parts and supplies starting with that used in the initial stage of the photovoltaic process, and ending at the final production stage, where the electricity is acceptable to the public utility purchaser."
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "pa_sut_10_001",
-    "tip": "Pennsylvania excludes the machinery, equipment, parts and supplies used directly in generating electricity for sale, generation being manufacturing (72 P.S. 7201(k)(8); Letter Ruling SUT-10-001, a utility-scale solar plant): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "taxpayer may purchase exempt from sales tax all machinery, equipment, parts and supplies starting with that used in the initial stage of the photovoltaic process, and ending at the final production stage, where the electricity is acceptable to the public utility purchaser."
+    "tip": "Pennsylvania excludes the machinery, equipment, parts and supplies used directly in generating electricity for sale, generation being manufacturing (72 P.S. 7201(k)(8); Letter Ruling SUT-10-001, a utility-scale solar plant); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "taxpayer may purchase exempt from sales tax all machinery, equipment, parts and supplies starting with that used in the initial stage of the photovoltaic process, and ending at the final production stage, where the electricity is acceptable to the public utility purchaser.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -650,10 +676,11 @@
   },
   "in": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "in_sib51",
-    "tip": "Indiana exempts a utility's production plant (Information Bulletin 51) and an independent producer's direct production machinery under the manufacturing exemption (Bulletin 64): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Property purchased that constitutes \"production plant\" or \"power production\" expenses as classified pursuant to the \"Uniform System of Accounts,\" which was adopted and prescribed for the utility by the Indiana Utility Regulatory Commission, are exempt from sales and use tax."
+    "tip": "Indiana exempts a utility's production plant (Information Bulletin 51) and an independent producer's direct production machinery under the manufacturing exemption (Bulletin 64); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "Property purchased that constitutes \"production plant\" or \"power production\" expenses as classified pursuant to the \"Uniform System of Accounts,\" which was adopted and prescribed for the utility by the Indiana Utility Regulatory Commission, are exempt from sales and use tax.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -662,10 +689,11 @@
     "quote": "Property purchased that constitutes \"production plant\" or \"power production\" expenses as classified pursuant to the \"Uniform System of Accounts,\" which was adopted and prescribed for the utility by the Indiana Utility Regulatory Commission, are exempt from sales and use tax."
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "in_sib51",
-    "tip": "Indiana exempts a utility's production plant (Information Bulletin 51) and an independent producer's direct production machinery under the manufacturing exemption (Bulletin 64): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Property purchased that constitutes \"production plant\" or \"power production\" expenses as classified pursuant to the \"Uniform System of Accounts,\" which was adopted and prescribed for the utility by the Indiana Utility Regulatory Commission, are exempt from sales and use tax."
+    "tip": "Indiana exempts a utility's production plant (Information Bulletin 51) and an independent producer's direct production machinery under the manufacturing exemption (Bulletin 64); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "Property purchased that constitutes \"production plant\" or \"power production\" expenses as classified pursuant to the \"Uniform System of Accounts,\" which was adopted and prescribed for the utility by the Indiana Utility Regulatory Commission, are exempt from sales and use tax.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -676,10 +704,11 @@
   },
   "oh": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "oh_5739_02_b40",
-    "tip": "Ohio exempts property and services sold to a provider of electricity and used directly and primarily in generating electricity for others (Revised Code 5739.02(B)(40)): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Sales of tangible personal property and services to a provider of electricity used or consumed directly and primarily in generating, transmitting, or distributing electricity for use by others"
+    "tip": "Ohio exempts property and services sold to a provider of electricity and used directly and primarily in generating electricity for others (Revised Code 5739.02(B)(40)); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "Sales of tangible personal property and services to a provider of electricity used or consumed directly and primarily in generating, transmitting, or distributing electricity for use by others",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 67.2132,
@@ -688,10 +717,11 @@
     "quote": "Sales of tangible personal property and services to a provider of electricity used or consumed directly and primarily in generating, transmitting, or distributing electricity for use by others"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "oh_5739_02_b40",
-    "tip": "Ohio exempts property and services sold to a provider of electricity and used directly and primarily in generating electricity for others (Revised Code 5739.02(B)(40)): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "Sales of tangible personal property and services to a provider of electricity used or consumed directly and primarily in generating, transmitting, or distributing electricity for use by others"
+    "tip": "Ohio exempts property and services sold to a provider of electricity and used directly and primarily in generating electricity for others (Revised Code 5739.02(B)(40)); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "Sales of tangible personal property and services to a provider of electricity used or consumed directly and primarily in generating, transmitting, or distributing electricity for use by others",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -702,9 +732,10 @@
   },
   "mo": {
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 66.9358,
     "cite": "mo_144_030",
-    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share."
+    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "utility_pv": {
     "exempt_pct": 100,
@@ -713,9 +744,10 @@
     "quote": "(46) All purchases by a company of solar photovoltaic energy systems, components used to construct a solar photovoltaic energy system, and all purchases of materials and supplies used directly to construct or make improvements to such systems, provided that such systems: (a) Are sold or leased to an end user; or (b) Are used to produce, collect and transmit electricity for resale or retail."
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "mo_144_030",
-    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share."
+    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -731,14 +763,16 @@
     "quote": "whose power source is wind energy, direct radiant energy received from the sun, or gas generated from anaerobic digestion of animal manure and other agricultural waste, if the product produces at least 200 watts of alternating current"
    },
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 80.9942,
     "cite": "wi_77_54_56",
-    "tip": "Wisconsin exempts a wind powered product producing at least 200 watts of alternating current, the turbine with its blades and tower, not the concrete foundations (Statutes 77.54(56); Publication 207): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share."
+    "tip": "Wisconsin exempts a wind powered product producing at least 200 watts of alternating current, the turbine with its blades and tower, not the concrete foundations (Statutes 77.54(56); Publication 207); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers, and the tool holds the turbines, blades and towers the statute names, (193,738,619 + 45,356,867 + 50,216,532) / 357,201,093 = 81.0 percent; the balance of plant materials are taxed.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 58.2524,
     "cite": "wi_77_54_56",
-    "tip": "Wisconsin exempts machines and processing equipment used exclusively and directly in manufacturing, which reaches producing electricity (Statutes 77.54(6)(am); Publication 203): the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share."
+    "tip": "Wisconsin exempts machines and processing equipment used exclusively and directly in manufacturing, which reaches producing electricity (Statutes 77.54(6)(am); Publication 203); JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
@@ -754,16 +788,18 @@
     "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power."
    },
    "land_based_wind": {
-    "exempt_pct": 0,
+    "exempt_pct": 29.1871,
     "cite": "ca_reg_1525_4",
-    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power."
+    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases, times 43.6 percent of the tax: 29.2 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata"
    },
    "natural_gas": {
-    "exempt_pct": 0,
+    "exempt_pct": 25.4008,
     "cite": "ca_reg_1525_4",
-    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax: the share of JEDI's purchases that is generating machinery is not held for this technology, so 0 is held and the tax shown is an upper bound before this exemption; type the share.",
-    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power."
+    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax; JEDI's taxable purchases are its facility and equipment and spare parts (their sum times its 4 percent equals its sales tax line), and the tool holds its power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent of JEDI's taxable purchases, times 43.6 percent of the tax: 25.4 percent; plant equipment and general facilities are not counted, so the tax shown is an upper bound.",
+    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata"
    },
    "geothermal": {
     "exempt_pct": 0,
