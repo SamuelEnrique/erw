@@ -36,6 +36,9 @@
 ## Session 6053 (from about 12:55 UTC): a second read of the states left unsettled
 
 - Two read-only readers sent (`runs/s6053/readers/BRIEF2.md`): group E (GA, MS, AR, TN), group F (OK, ID, WY; Nevada and New Mexico gas; Kentucky wind and gas), each told to use an official source the first read did not, and never to retry a host that refused.
+- **Settled**: Georgia (Letter Ruling LR SUT-2015-16: the machinery exemption's manufacturer includes NAICS 22111, electric power generation) and Mississippi (Administrative Code 35.IV.7.03.202: manufacturing "includes ... the generation of electricity"; 7.03.101: machinery at 1.5 percent rather than 7, held as 5.5 of 7.06 points of the tax on the machinery). **Read as none**: Idaho (the production exemption excludes utilities delivering through wires) and Nevada gas (only the discretionary abatement of NRS 360.750). Four quotes spot-checked on their pages (`runs/s6053/spot.py`).
+- **Still unsettled**: Arkansas (the revenue opinions host disallows ClaudeBot, the courts' host 403), Tennessee (capitol.tn.gov disallows all but search engines; tn.gov 403), Oklahoma (oklegislature.gov and oscn.net disallow all; Packet M silent), Wyoming (no Department text read), New Mexico gas, Kentucky wind (an inference from KY-TAM-21-01, not held) and gas. All stay 0 with their reason.
+- **Written** on `wip/6000-forecast` (`2c0c87d8f`, pushed): Georgia solar 67.2, wind 66.9, gas 58.3; Mississippi solar 52.4, wind 52.1, gas 45.4; geothermal 0 in both; Idaho and Nevada gas tips with quotes; test; method note. Tests: node 52 passed, python 21 passed. Landing row 12 moved to `2c0c87d8f`.
 
 ## Decisions made without you
 
