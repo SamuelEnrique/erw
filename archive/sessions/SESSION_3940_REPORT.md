@@ -9,6 +9,13 @@ Energy Research Warehouse (ERW). Chain 267, data machine (lab-desktop), 14 Novem
 - **Not done:** the files already in `site/public/` stay, and the page keeper still keeps them; removing them is the owner's ruling (`docs/reviews/held-public-files-2026-11-13.md`).
 - **Request 28 marked done** with this commit when the chain's branch lands.
 
+## Licenses request 1 (done in the same session, 11:12 to 11:16 UTC)
+
+- **An en or em dash in a news outlet's name is written as a hyphen** (`warehouse/news/ingest.py` `fold_dashes`): new stories, and stored rows, which the next run writes again folded (224 in `news_stories`, 198 in `news_index` carry "IEA" with an en dash); `index.py` folds too.
+- **The registry's two IEA rows are one** (`sources.csv`, first seen 2026-09-25 kept); the citations and the release list rebuilt without the dash. `docs/coverage.md` keeps it until the next run rewrites the news tables.
+- **`ingest.py`'s literal em dash** (in a replace) written as `chr(0x2014)`.
+- Test 3940 gains two tests; the news test files: 269 passed.
+
 ## Decisions made without you
 
 - **One "licensed" row a held grid in the spark group,** in place of three, as the reserves group has one.
