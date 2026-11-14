@@ -91,3 +91,15 @@ Written by session 5201 from the stored runs, the grades and the tests on `origi
 The second thirty's newest asking (`eval_s1133_s1114_run.json`, t01 to t08 on 23 October, t09 to p10 on 6 November) regraded under `RULES_5201`: **30 of 30** (`eval_s5201_regrade_s1133_grades.json`), from 28 as stored and 29 under the 2223 rules. Over the five stored sets that carry their keys in a set file, f09 is the only answer the new rule turns, and no answer right before is wrong after. `eval_loop.py` grades under `RULES_5201` from this session on (`--rules 2223` for the old way).
 
 What the rule does not settle: t09's answer read 744 hourly rows where a monthly table holds the figure in 12. That is the table choice class, measured on the widened set (`docs/reviews/ask-eval-2026-11-13.md`), not tuned here to one question.
+
+## Found after the table: the panel read other grids' hub spreads (session 5264, 14 November 2026)
+
+Not a row of the table above (no stored answer shows it). Found by window P1 on 13 November 2026 as a failing test on main: `tests/test_session137.py`, in the Ask panel's own script, `site/scripts/test-ask-panel.mjs`.
+
+| What | State | Held by |
+|---|---|---|
+| The panel's page tool (`site/lib/chat/panel.ts` `boardRows`) took a board row with no grid tag for a row of no grid. The hub spreads of session 1606 (6 November 2026) carry a scope and no grid tag: ERCOT's panel could read CAISO's NP15 less SP15, SPP's North less South, and four spreads across two grids | fixed: session 5264, a hub spread is of its two hubs' grids (`gridsOf`); a panel reads a row only when every grid it is of is its own; a spread whose hubs cannot be told is read by none | the script's ninth test; `tests/test_session5264_ask.py` |
+
+- **Eight rows of 1,313** were read that should not have been: four of another grid alone, four across two grids. All are of public grids (ERCOT, CAISO, SPP): no held grid's figure was reachable this way, since the board holds no spread of a held grid.
+- **Who could reach it.** A question to Ask ERCOT, on a page in review. The general chat does not read the board's file.
+- **When the script first failed is not established.** The rows were added on 6 November and the failure was found on 13 November. The script's first test held the rule as the tag alone, the gap included, so only its search test could show it: a search returns twelve rows at most, and a spread across grids had to be among them.

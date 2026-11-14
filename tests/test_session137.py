@@ -147,7 +147,7 @@ class Sources(unittest.TestCase):
             self.skipTest("node or the site's packages are not here")
         r = subprocess.run([node, "--import", "./scripts/alias-register.mjs", "scripts/test-ask-panel.mjs"], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=120)
         self.assertEqual(r.returncode, 0, r.stdout[-800:] + r.stderr[-800:])
-        self.assertIn("8 tests pass", r.stdout)
+        self.assertIn("9 tests pass", r.stdout)     # session 5264: the ninth, a hub spread is of its two hubs' grids
 
 
 class Ceilings(unittest.TestCase):
