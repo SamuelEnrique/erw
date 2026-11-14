@@ -170,7 +170,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (the metadata and the answer; not in git)",
             f"Source: {SOURCE} Central Statistical Bureau of Latvia, Official Statistics Portal, table ENB010m, {PAGE}",
             f"  access: {TABLE_URL} (the metadata by GET and one JSON-stat query by POST)",
-            "License: internal (no licence text read: the portal's pages carry none, and stat.gov.lv refused the reader).",
+            "License: internal until the owner rules: the CSB's media page allows reproduction with the CSB quoted as source (licenses read 1771; session 3940).",
         ]
         ip.write_snapshot(t, NAME, head, log, cols)
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))

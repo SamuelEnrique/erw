@@ -165,7 +165,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} International Renewable Energy Agency, IRENASTAT (PxWeb), {TABLE_URL}",
             "  access: the table's metadata (GET) and one JSON query (POST) to the same address",
-            "License: not settled (IRENA's terms of use are on www.irena.org, which answered the ERW's reader with a challenge).",
+            "License: internal: IRENA's terms need written permission (\"IRENA - International Renewable Energy Agency. All Rights Reserved.\", licenses read 342; the verdict of session 2139; session 3940).",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))
