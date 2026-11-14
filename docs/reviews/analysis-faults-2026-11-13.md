@@ -42,3 +42,4 @@ Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deplo
 - `/research` at both widths: no sideways scroll, no exception, no broken word; axe at 390: 0 rules broken.
 - Against the done line: the method note is linked, each card downloads its CSV, do-file and Python file, the week's chart is 2026-W45 (W46 is made on Sunday 15 November), today's chart is the Digest's of 12 November.
 - **Row 7, new**, fixed in session 5501.
+- **The last fresh read (session 5505):** the week's page `/research/2026-W45` at both widths: no sideways scroll, no exception. No new fault.

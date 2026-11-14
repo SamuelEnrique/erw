@@ -48,3 +48,4 @@ Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deplo
 - Against the done line: the method note, the replication (CSV, do-file, Python mirror), "Checked against: 8 published figures" and the decisions block (closed, row 3) are on the face. Unsigned.
 - The "Price years" default is still 33.73 beside the headline's 34.07 (row 4, the data machine's).
 - **Row 5, new**, fixed in session 5501.
+- **The last fresh read (session 5505):** CAISO's load view and ERCOT's hours view (`run=hours`), at both widths: no sideways scroll, no exception. "USD 68.547301 per kW of four-peak demand" is the Commission's rate as filed. No new fault.

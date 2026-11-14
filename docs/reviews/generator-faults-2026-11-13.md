@@ -47,3 +47,4 @@ Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deplo
 - Against the done line: the method notes are linked, the replication (CSV, do-file, Python mirror), "Checked against: 34 published figures" and the decisions block (closed, row 3) are on the face. Unsigned.
 - The plant with a battery beside it reads "Nov 2025 to Oct 2026" beside the model's "Oct 2025 to Sep 2026": the hybrid file was built on 12 November and the model on 4 October (row 2, data request row 2); each says its months.
 - **Row 4, new**, fixed in session 5501.
+- **The last fresh read (session 5505):** ERCOT's wind and gas peaker, at both widths: no sideways scroll, no exception. The source line names EIA-930's workbook by its file name (`20261109T173953.668221Z_00004_ERCO.xlsx`): the provenance, by design. No new fault.
