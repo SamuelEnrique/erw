@@ -87,5 +87,24 @@ class TheOutletNames(unittest.TestCase):
         self.assertEqual(names.count("IEA - International Energy Agency"), 1)
 
 
+
+class TheRefusingHosts(unittest.TestCase):
+    """Requests 13, 14, 15 and 23 to 26 of docs/state/data_requests_licenses.md: no feed on a host whose robots file
+    refuses Anthropic's agents by name, and the CFTC's page only linked, never requested."""
+    REFUSED = ("heatmap.news", "datacenterdynamics.com", "oilprice.com", "ans.org", "pv-magazine-usa.com")
+
+    def test_no_refused_feed(self):
+        import yaml
+        with open(os.path.join(ROOT, "warehouse", "news", "feeds.yaml"), encoding="utf-8") as f:
+            feeds = yaml.safe_load(f)["feeds"]
+        hosts = [f["url"] for f in feeds]
+        self.assertEqual([u for u in hosts if any(h in u for h in self.REFUSED)], [])
+        self.assertIn("https://www.utilitydive.com/feeds/news/", hosts)
+
+    def test_the_cftc_page_is_not_requested(self):
+        src = open(os.path.join(ROOT, "warehouse", "connectors", "release_schedule.py"), encoding="utf-8").read()
+        self.assertIn('if r["publisher"] == "EIA":', src)
+
+
 if __name__ == "__main__":
     unittest.main()
