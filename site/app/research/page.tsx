@@ -20,6 +20,10 @@ import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf
 import { ChartOfWeekView } from "./view";
 import { figureText } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them
 
+// Session 5503 (chain 269): what makes each chart, and when, in the words of the method note's "Final form"
+const TODAY_NOTE = "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date.";
+const WEEK_NOTE = "Chosen and drawn by code every Sunday at 23:00 UTC, by the rule in the method note: the week's most notable real change among the measures. No person chooses it.";
+
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Research" };
 
@@ -130,7 +134,9 @@ export default async function ResearchPage() {
             <RequestForm catalogue={catalogue} listOnly />
           </ToolSection>
 
-          <ToolSection title="Today's chart" id="today">
+          {/* session 5503 (chain 269): the final form on its default (chain 243's ruling 5), said where it runs: each chart's
+              maker and clock, as docs/methods/automated_analysis.md "Final form" lists them; no person chooses either */}
+          <ToolSection title="Today's chart" id="today" note={TODAY_NOTE}>
             {today ? (
               <figure className="lead-chart" data-today-chart={today.date}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -159,7 +165,7 @@ export default async function ResearchPage() {
             )}
           </ToolSection>
 
-          <ToolSection title={week ? `This week's chart, ${week}` : "This week's chart"} id="week">
+          <ToolSection title={week ? `This week's chart, ${week}` : "This week's chart"} id="week" note={WEEK_NOTE}>
             {wk?.card ? (
               <figure className="lead-chart" data-week-chart={wk.week} data-week-card={wk.card.card_id}>
                 <div>

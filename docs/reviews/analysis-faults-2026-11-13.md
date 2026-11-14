@@ -26,7 +26,7 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | Replication | `replication/analysis/replicate.py`: 66 of 66 computed figures inside the tolerance, 10 license needed, 2 not in a download; the do-file never run |
 | Cross-check table | `docs/methods/crosschecks/automated_analysis.md` |
 | Decisions block | the note's "Decisions" (35 assumptions, `replication/analysis/assumptions.json`) |
-| Final form | every part made on a clock with no person (the note's "Final form"); a finding is published after the owner's approval, by ruling; whether it is final is the owner's word |
+| Final form | every part made on a clock with no person (the note's "Final form"); a finding is published after the owner's approval, by ruling; whether it is final is the owner's word. Since session 5503 built as final on the default of chain 243's ruling 5: each chart says on the page what makes it and when |
 
 ## The fresh read (session 5077, chain 243)
 
