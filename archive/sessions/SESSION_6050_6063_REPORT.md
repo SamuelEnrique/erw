@@ -25,6 +25,14 @@
 - **Tests**: `site/scripts/test-forecast.test.mjs` 52 passed, 0 failed; `tests/test_session409.py`, `test_session4203_forecast.py`, `test_session4221_forecast_readers.py` 21 passed. Not built here (rule).
 - **Landing row 12** moved to `0ce94ef84`; it had landed to `53dcfa64b` (land-c, `f359090f9`).
 
+## Session 6052 (about 12:20 to 12:50 UTC): the wind and gas machinery shares
+
+- The list's remaining step (file 300) waits for Sunday's Roundup, so the session took the open item session 6051 left: the generating machinery's share of JEDI's wind and gas purchases.
+- nlr.gov's robots file allows all. The two workbooks downloaded to `runs/s6052/jedi/`; their sha256 equal `jedi_costs.json`'s (wind `e6e434c4...`, gas `80d5d7ea...`). Read with openpyxl, cached values only, no macro run.
+- **Wind** (DefaultData): the taxable base is balance of plant materials 67,889,074 + turbines 193,738,619 + blades 45,356,867 + towers 50,216,532 = 357,201,093; times 0.0635 it equals JEDI's sales tax line, 22,682,269.38. Held: turbines and blades, 66.9 percent; Wisconsin, whose statute names the tower, 81.0.
+- **Gas** (ProjectData): the base is facility and equipment 375,000,000 + spare parts 3,676,471 = 378,676,471; times 0.04 it equals 15,147,058.82. Held: power generation equipment 220,588,235, 58.3 percent.
+- Applied to the twelve states (KS WV MA MI SC VT PA IN OH MO WI, and CA at 43.6 percent of the tax: wind 29.2, gas 25.4) on `wip/6000-forecast` (`0527caeeb`, pushed); method note and test brought along. Tests: node 52 passed; python 21 passed. Landing row 12 moved to `0527caeeb`.
+
 ## Decisions made without you
 
 - The empty list rebuilt by session 6050, as the chain's rules ask of a chain that stopped early.
@@ -37,4 +45,5 @@
 
 - 30. New York holds 100 percent for a machinery-only exemption (Tax Law 1115(a)(12), "an upper bound of the exemption"), while the 25 states read today hold the machinery share (solar) or 0 (wind, gas): one rule for both? [New York kept as it is until ruled; nothing waits on it]
 - 31. Wisconsin's solar exemption read as reaching the mounting and trackers (Publication 207), 83.6 percent, not the electrical materials. [as written]
+- 33. The machinery held for wind is the turbines and blades, not the towers (as solar's mounting); for gas, JEDI's power generation equipment, not its plant equipment (84.5 percent with it). [as written: the tax shown errs high]
 - 32. Missouri's machinery exemption and California's 3.9375 points also reach foundations or special purpose buildings; the tool does not count them. [not counted: the tax shown is an upper bound]
