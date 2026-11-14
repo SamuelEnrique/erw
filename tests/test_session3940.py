@@ -87,5 +87,69 @@ class TheOutletNames(unittest.TestCase):
         self.assertEqual(names.count("IEA - International Energy Agency"), 1)
 
 
+
+class TheRefusingHosts(unittest.TestCase):
+    """Requests 13, 14, 15 and 23 to 26 of docs/state/data_requests_licenses.md: no feed on a host whose robots file
+    refuses Anthropic's agents by name, and the CFTC's page only linked, never requested."""
+    REFUSED = ("heatmap.news", "datacenterdynamics.com", "oilprice.com", "ans.org", "pv-magazine-usa.com")
+
+    def test_no_refused_feed(self):
+        import yaml
+        with open(os.path.join(ROOT, "warehouse", "news", "feeds.yaml"), encoding="utf-8") as f:
+            feeds = yaml.safe_load(f)["feeds"]
+        hosts = [f["url"] for f in feeds]
+        self.assertEqual([u for u in hosts if any(h in u for h in self.REFUSED)], [])
+        self.assertIn("https://www.utilitydive.com/feeds/news/", hosts)
+
+    def test_the_cftc_page_is_not_requested(self):
+        src = open(os.path.join(ROOT, "warehouse", "connectors", "release_schedule.py"), encoding="utf-8").read()
+        self.assertIn('if r["publisher"] == "EIA":', src)
+
+
+
+class TheWildcardReading(unittest.TestCase):
+    """Request 27: each of the three fetchers reads a robots file's "*" and "$" as the convention does and keeps the
+    stricter of that and urllib.robotparser's answer. The Texas Comptroller's "Disallow: /*/" (read 2038) refuses /taxes/."""
+    LINES = ["User-agent: *", "Disallow: /*/", "Allow: /$"]
+
+    def mods(self):
+        import importlib
+        for sub in (("warehouse", "connectors"), ("warehouse", "thesis")):
+            d = os.path.join(ROOT, *sub)
+            if d not in sys.path:
+                sys.path.insert(0, d)
+        return [importlib.import_module(n) for n in ("eia_ba_boundaries", "large_load_filings")] + [self.series()]
+
+    def series(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("thesis_series_3940", os.path.join(ROOT, "warehouse", "thesis", "series.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        return m
+
+    def test_the_comptrollers_rule(self):
+        for m in self.mods():
+            self.assertFalse(m.wildcard_allows(self.LINES, "*", "/taxes/"), m.__name__)
+            self.assertTrue(m.wildcard_allows(self.LINES, "*", "/"), m.__name__)
+            self.assertTrue(m.wildcard_allows(["User-agent: *", "Disallow:"], "*", "/a/b"), m.__name__)
+            self.assertEqual(m.url_path("https://x.example/a/b?c=1"), "/a/b?c=1")
+
+    def test_the_answer_does_not_rest_on_the_python(self):
+        # urllib.robotparser reads "*" literally on the runner's Python 3.12 and as a wildcard on 3.14 (this machine):
+        # the wildcard reading gives the same refusal on both
+        for m in self.mods():
+            self.assertFalse(m.wildcard_allows(["User-agent: *", "Disallow: /*/"], "ClaudeBot", "/taxes/"), m.__name__)
+
+    def test_the_saved_file_check_refuses(self):
+        import tempfile
+        m = self.mods()[0]
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+            f.write(chr(10).join(self.LINES))
+        try:
+            self.assertFalse(m.robots_allows(f.name, "https://comptroller.texas.gov/taxes/"))
+        finally:
+            os.remove(f.name)
+
+
 if __name__ == "__main__":
     unittest.main()

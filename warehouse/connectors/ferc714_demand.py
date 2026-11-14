@@ -113,7 +113,7 @@ def main(argv=None):
                 f"Source: {SOURCE} Catalyst Cooperative, PUDL: FERC Form 714 hourly planning area demand (core table, stable release), {PAGE}",
                 f"  access: {DEMAND} and {RESPONDENTS}",
                 "  original: Federal Energy Regulatory Commission (FERC), Form 714 Annual Electric Balancing Authority Area and Planning Area Report, Part III Schedule 2a",
-                f"License: {LICENSE} (PUDL's data CC-BY-4.0: cite Catalyst Cooperative, PUDL; FERC's filings a U.S. government work; FERC's own terms page unread, HTTP 403: a person rules on public).",
+                f"License: {LICENSE} (PUDL's data CC-BY-4.0, read in PUDL's README, licenses read 1688: cite Catalyst Cooperative, PUDL; FERC's filings a U.S. government work; FERC's own terms page unread, HTTP 403: the flag waits for the owner's ruling; session 3940).",
             ]
             ip.write_snapshot(s[ip.SERIES_COLS], name, header, log, ip.SERIES_COLS)
             results.append(dict(table=name, market="all", status="ok", detail=f"{len(s):,} rows, {per.size} respondents"))

@@ -157,7 +157,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} the U.S. Drought Monitor's data services (National Drought Mitigation Center, USDA, NOAA), {PAGE}",
             f"  access: {API}?aoi=<the 48 states' FIPS>&startdate=...&enddate=...&statisticsType=1 ({len(urls)} spans)",
-            f"License: not settled (the Monitor's Permission page not yet read, session 2061); the Monitor asks credit: {CREDIT}",
+            f"License: public: the Monitor's Permission page is read and the data may be public with credit (licenses read 255; session 3940); the Monitor asks credit: {CREDIT}",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))

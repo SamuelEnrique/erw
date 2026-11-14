@@ -158,7 +158,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} Svenska kraftnat, Mimer, Produktionsstatistik (area SN0, Hela Sverige), {PAGE}",
             "  access: https://mimer.svk.se/ProductionConsumption/DownloadText?...&ConstraintAreaId=SN0&ProductionSortId=<type>, one a type",
-            "License: internal until the licenses' round reads Svenska kraftnat's terms. Source: Svenska kraftnat.",
+            "License: internal until the owner rules: Svenska kraftnat's Data Service is CC BY 4.0 (licenses read 1770; docs/licenses.md, waiting for a ruling; session 3940). Source: Svenska kraftnat.",
         ]
         ip.write_snapshot(s, TABLE, head, log, cols)
         results.append(dict(table=TABLE, market="all", status="ok", detail=f"{len(s)} rows"))

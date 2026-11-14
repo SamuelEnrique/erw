@@ -90,9 +90,10 @@ class TheCommittedRegistry(unittest.TestCase):
         # session 3888 (chain 227): the Utah PSC's rule R746-318 under S.B. 132 (5 steps, PACE), from its filing at 25-R318-01,
         # and the CAISO's Large Load Enhancements Draft Final Proposal of 24 September 2026 (4 steps, one a stated date)
         # session 3927 (chain 267): the CAISO Board's decision of 28 October 2026 approving it (3 steps, one a stated date)
-        self.assertEqual(len(d), 87)
+        # session 3937 (chain 267): FERC's order in ER26-3515 accepting PJM's Large Load definition (2 steps, one a stated date)
+        self.assertEqual(len(d), 89)
         self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "PACE", "PJM", "SPP"])
-        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 6)
+        self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 7)
         pclr = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_6_1_1"].iloc[0]
         self.assertEqual(pclr["x_duration"], "")                 # no faster path's duration is stated
         sec = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_3_1_2_a_ii"].iloc[0]

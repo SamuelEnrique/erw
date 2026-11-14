@@ -171,7 +171,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
             f"Source: {SOURCE} E-Control, Elektrizitaetsstatistik, Downloadbereich, Zeitreihen mit monatlichen Daten, {PAGE}",
             f"  access: {URL}",
-            "License: internal (\"Copyright 2026 © E-Control\"; no reuse statement read).",
+            "License: internal until the owner rules: E-Control asks to be named as the data source (licenses read 1772; it may be public as the ERW is today; session 3940).",
         ]
         ip.write_snapshot(t, NAME, head, log, cols)
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))

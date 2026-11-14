@@ -203,7 +203,7 @@ def main(argv=None):
             f"Raw files: warehouse/raw/{CONNECTOR}/{SAVED} (the metadata and the answer; not in git)",
             f"Source: {SOURCE} State Statistical Office of North Macedonia, MakStat, Energy, Monthly energy statistics, {PAGE}",
             f"  access: {TABLE_URL} (the metadata by GET and one JSON-stat query by POST)",
-            "License: internal until the licenses' round reads the State Statistical Office's terms. Source: State Statistical Office of North Macedonia.",
+            "License: internal: the State Statistical Office's terms are read and need written permission (\"© State Statistical Office\", licenses read 1780; session 3940). Source: State Statistical Office of North Macedonia.",
         ]
         ip.write_snapshot(t, NAME, head, log, cols)
         results.append(dict(table=NAME, market="all", status="ok", detail=f"{len(t)} rows"))
