@@ -452,6 +452,36 @@
    "url": "https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx",
    "read": "2026-11-13",
    "request": 195
+  },
+  "wa_valuation_2026_gas": {
+   "title": "Washington Department of Revenue, 2026 Personal and Industrial Property Valuation Guidelines: the index ('Electrical Generating' and 'Power & Generation M&E': Steam & Gas fired (fixed equipment), 7.5) and the embedded Trend I table, column 7.5 (21-year life)",
+   "url": "https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; column 7.5 and the index line read again by this chain from the embedded workbook (runs/s6000/wa_col.py)"
+  },
+  "ca_ah581_2026": {
+   "title": "California State Board of Equalization, Assessors' Handbook Section 581 tables for the 2026 lien date, Table 4: Machinery and Equipment Percent Good Factors (individual properties, average service life, 5.5 percent rate of return)",
+   "url": "https://boe.ca.gov/meetings/pdf/2025/ah58126.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; the 17-, 20-, 25- and 30-year columns read again by this chain (page 4)"
+  },
+  "ca_lta_2017_020": {
+   "title": "California State Board of Equalization, Letter To Assessors No. 2017/020, Guidelines for the Assessment of Wind Energy Properties (June 2017), Percent Good",
+   "url": "https://boe.ca.gov/proptaxes/pdf/lta17020.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; the sentence read again by this chain"
+  },
+  "ca_rule_905": {
+   "title": "California State Board of Equalization, Property Tax Rule 905, Assessment of Electric Generation Facilities (amended 28 June 2022)",
+   "url": "https://boe.ca.gov/proptaxes/pdf/rules/Rule905Effective2022.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
+  },
+  "ca_sam_2016": {
+   "title": "California State Board of Equalization, State Assessment Manual (March 2016), chapter 2, State-Assessed Property and Article XIII A",
+   "url": "https://boe.ca.gov/proptaxes/pdf/SAM_2016.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
   }
  },
  "states": {
@@ -1294,25 +1324,72 @@
    "name": "California",
    "rules": [
     {
+     "id": "ca_wind_fixtures",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "valuation",
+     "assessment_ratio": 1.0,
+     "cite": "ca_boe_pub306",
+     "quote": "Proposition 13, passed by California voters in 1978, imposed a property tax rate of one percent of the property's full cash value, with limited exceptions. [...] Proposition 13 generally limits annual increases in the base year value to a maximum of two percent",
+     "default_levy": 10,
+     "levy_words": "California: the constitutional rate, 1 percent of value (article XIII A): USD 10 per 1,000. County averages with voter-approved debt ran from 1.000 to 1.248 percent in 2024-25 (Board of Equalization, Publication 306): type your county's.",
+     "schedule_pct": [
+      96,
+      91,
+      87,
+      82,
+      77,
+      72,
+      68,
+      63,
+      58,
+      53,
+      48,
+      43,
+      38,
+      34,
+      30,
+      26,
+      23,
+      19,
+      16,
+      14,
+      12,
+      10,
+      9,
+      7,
+      5,
+      3,
+      1
+     ],
+     "then_pct": 1,
+     "cite2": "ca_lta_2017_020",
+     "quote2": "The appraiser should annually develop the percent good factors using an Iowa R2 curve with a 17-year average service life. [...] The Iowa R2 curve with an average service life of 17 years reflects industry's and the assessors' assumption of a total economic life of 30 years for an average wind energy property.",
+     "cite3": "ca_ah581_2026",
+     "quote3": "TABLE 4: MACHINERY AND EQUIPMENT PERCENT GOOD FACTORS. Individual Properties - Average Service Life - 5.5% Rate of Return [...] 17: 96 91 87 82 77 72 68 63 58 53 48 43 38 34 30 26 23 19 16 14 12 10 9 7 5 3 1 [...] No minimum percent good factor is intended in this table.",
+     "tip": "California: property is taxed at 1 percent of value plus voter-approved debt rates (Constitution article XIII A, Board of Equalization Publication 306). A locally assessed wind plant's turbines are fixtures enrolled each year at the lower of their base year value (cost, rising at most 2 percent a year) and market value (Assessors' Handbook 504). The Board's wind guidelines set market value's percent good on an Iowa R2 curve with a 17-year average service life (Letter To Assessors 2017/020); the Board publishes no R2 table, so its Assessors' Handbook 581 Table 4 for 2026, 17-year column (an R3 curve: 96 percent at age 1 to 1 percent at age 27, no minimum), stands in for it, the last factor held after age 27. A plant the Board assesses is not modeled.",
+     "not_modeled": "A plant of 50 MW or more owned or used by an electrical corporation or another state assessee is assessed by the Board each year at market value, outside article XIII A (Rule 905; State Assessment Manual, chapter 2); personal property is assessed yearly; neither is modeled. The solar exclusion applies only to systems qualifying before 1 January 2027."
+    },
+    {
      "id": "ca_prop13",
      "technologies": [
-      "land_based_wind",
       "utility_pv",
       "natural_gas",
       "geothermal"
      ],
      "kind": "valuation",
      "assessment_ratio": 1.0,
+     "cite": "ca_boe_pub306",
+     "quote": "Proposition 13, passed by California voters in 1978, imposed a property tax rate of one percent of the property's full cash value, with limited exceptions. [...] Proposition 13 generally limits annual increases in the base year value to a maximum of two percent",
+     "default_levy": 10,
+     "levy_words": "California: the constitutional rate, 1 percent of value (article XIII A): USD 10 per 1,000. County averages with voter-approved debt ran from 1.000 to 1.248 percent in 2024-25 (Board of Equalization, Publication 306): type your county's.",
      "schedule_pct": [
       100
      ],
      "then_pct": 100,
-     "cite": "ca_boe_pub306",
-     "tip": "California: property is taxed at 1 percent of its base year value plus voter-approved debt rates (Constitution article XIII A, as Board of Equalization Publication 306 states it); the value is held at the capital cost in constant dollars (the base year value rises at most 2 percent a year). The solar new construction exclusion (Revenue and Taxation Code 73) is inoperative from 1 January 2027 (SB 710, Letter to Assessors 2026/034).",
-     "quote": "Proposition 13, passed by California voters in 1978, imposed a property tax rate of one percent of the property's full cash value, with limited exceptions. [...] Proposition 13 generally limits annual increases in the base year value to a maximum of two percent",
-     "default_levy": 10,
-     "levy_words": "California: the constitutional rate, 1 percent of value (article XIII A): USD 10 per 1,000. County averages with voter-approved debt ran from 1.000 to 1.248 percent in 2024-25 (Board of Equalization, Publication 306): type your county's.",
-     "not_modeled": "Plants of companies the Board assesses (those selling electricity) are valued by the Board, not at cost; personal property is assessed yearly; neither is modeled. The solar exclusion applies only to systems qualifying before 1 January 2027."
+     "tip": "California: property is taxed at 1 percent of its base year value plus voter-approved debt rates (Constitution article XIII A, as Board of Equalization Publication 306 states it); the value is held at the capital cost in constant dollars (the base year value rises at most 2 percent a year). Fixtures are enrolled at the lower of that value and market value (Assessors' Handbook 504), but no Board document assigns a service life to solar, gas or geothermal generating equipment (Handbook 581's Table 4 is by life, not by equipment), so no fall in market value is held: an upper bound. The solar new construction exclusion (Revenue and Taxation Code 73) is inoperative from 1 January 2027 (SB 710, Letter to Assessors 2026/034). A plant the Board assesses (50 MW or more of an electrical corporation, Rule 905) is valued yearly at market and is not modeled.",
+     "not_modeled": "A plant of 50 MW or more owned or used by an electrical corporation or another state assessee is assessed by the Board each year at market value, outside article XIII A (Rule 905; State Assessment Manual, chapter 2); personal property is assessed yearly; neither is modeled. The solar exclusion applies only to systems qualifying before 1 January 2027."
     }
    ]
   },
@@ -1363,22 +1440,72 @@
      "quote2": "Renewable Energy, two trend columns, one for utility-scale solar and wind generation (Trend RG) and one for utility-scale battery storage (trend RS) are included in the attached tables. These tables apply to renewable energy production that has at least 1 megawatt of nameplate capacity. The original cost reported to the county should be less any tax credits [...] Percent Good Indicators -- For January 1, 2026 Valuation [...] RG (4) [...] 1 2025 [...] 0.96"
     },
     {
-     "id": "wa_property",
+     "id": "wa_gas_property",
      "technologies": [
-      "natural_gas",
+      "natural_gas"
+     ],
+     "kind": "valuation",
+     "assessment_ratio": 1.0,
+     "cite": "wa_dor_levy",
+     "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
+     "default_levy": 8.96,
+     "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's.",
+     "schedule_pct": [
+      92.5,
+      88.2,
+      84.7,
+      83.8,
+      85.9,
+      83.6,
+      78.7,
+      74.8,
+      70.8,
+      66.3,
+      61.3,
+      57.4,
+      53.7,
+      50.6,
+      48.0,
+      45.2,
+      42.1,
+      40.2,
+      38.4,
+      37.0,
+      35.7,
+      34.6,
+      32.6,
+      30.5,
+      28.4,
+      26.5,
+      24.5,
+      22.7,
+      21.0,
+      19.4,
+      17.9,
+      16.6,
+      15.3
+     ],
+     "then_pct": 15,
+     "cite2": "wa_valuation_2026_gas",
+     "quote2": "Use Trend I from Combined Table unless Trend II, Trend III, Supplemental A, or Supplemental B indicated. [...] Power & Generation M&E [...] Steam & Gas fired (fixed equipment) 7.5 [...] 0.075 21 0.925 0.882 0.847 [...] 0.166 0.153 0.15",
+     "tip": "Washington: a gas plant pays ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). Its value falls by the Department's 2026 guidelines for 'Steam & Gas fired (fixed equipment)', Trend I column 7.5, a 21-year life: 0.925 at age 1 to 0.153 at age 33, then the 15 percent minimum. The factors include a price trend (1.000 at age 1 to 1.547 at age 15), applied here to constant dollars as column RG is. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held."
+    },
+    {
+     "id": "wa_geothermal_property",
+     "technologies": [
       "geothermal"
      ],
      "kind": "valuation",
      "assessment_ratio": 1.0,
+     "cite": "wa_dor_levy",
+     "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
+     "default_levy": 8.96,
+     "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's.",
      "schedule_pct": [
       100
      ],
      "then_pct": 100,
-     "cite": "wa_dor_levy",
-     "tip": "Washington: a gas or geothermal plant pays ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
-     "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
-     "default_levy": 8.96,
-     "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's."
+     "tip": "Washington: a geothermal plant pays ordinary property tax at local levy rates (chapter 84.12 RCW, as the Department of Revenue states it). The Department's 2026 guidelines name no geothermal equipment (their index sends unlisted assets to a flow chart printed as an image); the nearest listed class, steam and gas fired plant (column 7.5), is not the Department's assignment. The value is held at the capital cost, without depreciation: an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held."
     }
    ]
   },
