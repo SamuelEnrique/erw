@@ -22,7 +22,10 @@ One step a session, from the list below. Pushed after every group; a landing req
 
 ### Unfinished steps (to be written by session 6077 of chain 275)
 
-- (to be written)
+Written by session 6077 (14 November, about 12:07 UTC):
+
+- The forecast tool's reads are done as far as this machine can go: row 12 (`wip/6000-forecast`, `83c597550`) waits for its landing. Arkansas, Oklahoma, Tennessee and Wyoming stay unsettled behind refusing hosts (never retried); read again only an official source not yet tried. Notes: `docs/state/note_2026-11-14_oldlaptop_c274.md` and `_c275.md`.
+- The periodicals file `queue/next/300-day-26-november-oldlaptop-periodicals-continued.md` once the W46 Roundup (Sunday 15 November, 23:00 UTC) and the 16 November Digest exist: taken by name at once. Until then each session checks for them, for row 12's landing (mark it, remove the worktree, delete the remote branch) and for Samuel's rulings on 21 to 33.
 
 ## Session 6089: the records
 
