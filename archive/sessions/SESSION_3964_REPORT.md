@@ -1,6 +1,6 @@
 # Session 3964 report: the week's runs, taken early; this chain's gate
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:29 to 14:33 UTC. Opus 5.5. Model spend USD 0. GitHub's API: 15 requests of 30. `erw_health` read over `SUPABASE_DB_URL` (`runs/c227/health_week.py 3`).
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:29 to 14:32 UTC. Opus 5.5. Model spend USD 0. GitHub's API: 15 requests of 30. `erw_health` read over `SUPABASE_DB_URL` (`runs/c227/health_week.py 3`).
 
 Taken early under the no-waiting rule (session 3974's step); the runs of 14 November are read again by session 3967 once in.
 

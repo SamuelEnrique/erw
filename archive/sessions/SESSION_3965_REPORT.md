@@ -1,6 +1,6 @@
 # Session 3965 report: the BLS indexes' route read again (licenses requests 11 and 12)
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:36 to 14:42 UTC. Opus 5.5. Model spend USD 0. Requests: 1 (api.bls.gov's robots file, in a call of its own), listed in `runs/c278/s3963/probe.csv`.
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:32 to 14:34 UTC. Opus 5.5. Model spend USD 0. Requests: 1 (api.bls.gov's robots file, in a call of its own), listed in `runs/c278/s3963/probe.csv`.
 
 Taken early under the no-waiting rule (sessions 3968 to 3971's step): chain 272's other steps wait for the runs of 14 to 16 November; gate a runs its suite.
 
