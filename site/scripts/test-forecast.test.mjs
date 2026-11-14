@@ -370,6 +370,8 @@ test("sales tax: the 25 states read by session 6051, the generating machinery's 
   assert.equal(F.defaults(P, "utility_pv", "ut").exempt, 0, "Utah's exemption ends 30 June 2027");
   for (const s of ["al", "ar", "ca", "dc", "ga", "id", "in", "ks", "la", "ma", "mi", "mo", "ms", "nm", "nv", "oh", "ok", "pa", "sc", "tn", "ut", "vt", "wi", "wv", "wy"])
     for (const t of ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]) assert.ok(P.exemptions.states[s][t].tip, `${s} ${t}: a tip says what was read`);
+  assert.ok(P.exemptions.states.ky.land_based_wind.tip && P.exemptions.states.ky.natural_gas.tip, "Kentucky wind and gas: what was read (session 6065)");
+  assert.equal(F.defaults(P, "natural_gas", "nm").exempt, 0);
 });
 
 test("Wyoming's wind excise: USD 1 a MWh from the fourth operating year, the reader's own property tax added", () => {

@@ -222,6 +222,18 @@
    "url": "https://www.leg.state.nv.us/NRS/NRS-360.html",
    "read": "2026-11-14",
    "read_by": "subagent of session 6053 (WebFetch), the quote spot-checked on the page by session 6053"
+  },
+  "nm_trd_ter_2023": {
+   "title": "New Mexico Taxation and Revenue Department, 2023 Tax Expenditure Report: the Advanced Energy gross receipts and compensating tax deduction (Statutes 7-9-114)",
+   "url": "https://www.nmlegis.gov/handouts/RSTP%20112023%20Item%201%20Tax%20&%20Rev%202023%20Tax%20Expenditure%20Report.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6065 (WebFetch), the quote spot-checked on the page by session 6065"
+  },
+  "ky_51a301": {
+   "title": "Kentucky Department of Revenue, Form 51A301 (1-21), the application for a sales and use tax refund on an alternative fuel, gasification or renewable energy facility's construction",
+   "url": "https://revenue.ky.gov/Forms/51A301(1-21).pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6065 (WebFetch), read again by session 6065"
   }
  },
  "states": {
@@ -382,6 +394,15 @@
     "cite": "ky_tam_21_01",
     "tip": "Kentucky treats a solar plant's generating machinery as machinery for new and expanded industry, exempt (KRS 139.480(10), KY-TAM-21-01); batteries, communication equipment and substation materials are taxable. The tool holds the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases; mounting, trackers and DC items are exempt too, so the tax shown is an upper bound.",
     "quote": "Components of the commercial operation for the generation of electricity through solar power meet the definition of \"manufacturing\" for purposes of Kentucky sales and use taxes."
+   },
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "cite": "ky_51a301",
+    "tip": "Kentucky: no Department text applies its solar ruling (KY-TAM-21-01, machinery for new and expanded industry) to a wind plant; a refund of the tax on an approved renewable energy facility's construction is by application (Form 51A301): 0 held."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Kentucky: no Department text applies the machinery exemption for new and expanded industry to a gas plant, and the construction refund (Form 51A301) names alternative fuel, gasification and renewable facilities only: 0 held."
    }
   },
   "fl": {
@@ -851,7 +872,9 @@
    },
    "natural_gas": {
     "exempt_pct": 0,
-    "tip": "New Mexico (gross receipts tax): no deduction for a gas-fired plant's construction was read: 0."
+    "cite": "nm_trd_ter_2023",
+    "tip": "New Mexico: the advanced energy deduction (Statutes 7-9-114) reached solar, geothermal, recycled energy and coal plants begun before 31 December 2015, never gas, and is repealed from 1 July 2023; no deduction for a gas plant's construction was read: 0.",
+    "quote": "A qualified generating facility is one that begins construction before December 31, 2015 and is: (1) solar thermal electric, (2) solar photovoltaic electric, (3) geothermal electric, (4) a recycled energy project, or (5) new or repowered coal-based electric."
    }
   },
   "ut": {
