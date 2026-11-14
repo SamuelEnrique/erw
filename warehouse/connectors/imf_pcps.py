@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""IMF primary commodity prices, monthly: uranium, lithium, cobalt, nickel and copper (session 132, approved pull).
+"""IMF primary commodity prices, monthly: uranium, lithium, cobalt, nickel and copper (session 132, approved pull); since
+session 3939, Australian coal, EU natural gas and Asian LNG (FRED's copies retired, read from the IMF).
 
 Energy Research Warehouse (ERW) connector. One series table, warehouse/output/imf_commodity_prices.csv, from the
 International Monetary Fund's Primary Commodity Price System (PCPS), read from the IMF's own data service
@@ -52,6 +53,12 @@ SERIES = {
     "PCOBA": ("Cobalt", "USD/t"),
     "PNICK": ("Nickel", "USD/t"),
     "PCOPP": ("Copper", "USD/t"),
+    # session 3939 (chain 267): FRED's PCOALAUUSDM, PNGASEUUSDM and PNGASJPUSDM read from their primary source, the IMF
+    # (request rows 8 to 10 of docs/state/data_requests_licenses.md); names and units as the IMF's own structure gives them
+    # (dataflow IMF.RES/PCPS, read 14 November 2026: "US dollars per metric tonne", "... per million metric British thermal units of gas")
+    "PCOALAU": ("Coal, Australia", "USD/t"),
+    "PNGASEU": ("Natural gas, EU", "USD/MMBtu"),
+    "PNGASJP": ("LNG, Asia", "USD/MMBtu"),
 }
 API = "https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/PCPS/+/G001." + "+".join(SERIES) + f".USD.M?c[TIME_PERIOD]=ge:{START}"
 PAGE = "https://www.imf.org/en/Research/commodity-prices"

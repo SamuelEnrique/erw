@@ -1,0 +1,1536 @@
+{
+ "_about": "Session 5267 (chain 256): made windows of a series and what warehouse/chat/window.py window_of answers for each. site/lib/chat/window.ts windowOf is held to the same answers (site/scripts/test-ask-window.test.mjs; tests/test_session5267_ask.py). Written by a script from the Python function and read by a person before it was committed; a change of either function that changes an answer fails both tests.",
+ "cases": [
+  {
+   "name": "an hourly UTC day, whole",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "steps_held": 24,
+    "steps_in_window": 24,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T23:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "an hourly local day (Central), whole",
+   "start": "2026-11-10T06:00:00Z",
+   "end": "2026-11-11T06:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z",
+     "2026-11-11T00:00:00Z",
+     "2026-11-11T01:00:00Z",
+     "2026-11-11T02:00:00Z",
+     "2026-11-11T03:00:00Z",
+     "2026-11-11T04:00:00Z",
+     "2026-11-11T05:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T06:00:00Z",
+    "until": "2026-11-11T06:00:00Z",
+    "step": "PT1H",
+    "steps_held": 24,
+    "steps_in_window": 24,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T06:00:00Z",
+    "last_held": "2026-11-11T05:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "an hourly day with two runs missing",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "steps_held": 19,
+    "steps_in_window": 24,
+    "steps_missing": 5,
+    "whole": false,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T21:00:00Z",
+    "missing": [
+     {
+      "from": "2026-11-10T05:00:00Z",
+      "until": "2026-11-10T08:00:00Z",
+      "steps": 3
+     },
+     {
+      "from": "2026-11-10T22:00:00Z",
+      "until": "2026-11-11T00:00:00Z",
+      "steps": 2
+     }
+    ],
+    "missing_runs": 2,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "an hourly day with its first hours missing",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "steps_held": 21,
+    "steps_in_window": 24,
+    "steps_missing": 3,
+    "whole": false,
+    "first_held": "2026-11-10T03:00:00Z",
+    "last_held": "2026-11-10T23:00:00Z",
+    "missing": [
+     {
+      "from": "2026-11-10T00:00:00Z",
+      "until": "2026-11-10T03:00:00Z",
+      "steps": 3
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "an hourly day, no row held, the series named",
+   "start": "2026-11-06T06:00:00Z",
+   "end": "2026-11-07T06:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": []
+   },
+   "window": {
+    "from": "2026-11-06T06:00:00Z",
+    "until": "2026-11-07T06:00:00Z",
+    "step": "PT1H",
+    "steps_held": 0,
+    "steps_in_window": 24,
+    "steps_missing": 24,
+    "whole": false,
+    "first_held": null,
+    "last_held": null,
+    "missing": [
+     {
+      "from": "2026-11-06T06:00:00Z",
+      "until": "2026-11-07T06:00:00Z",
+      "steps": 24
+     }
+    ],
+    "missing_runs": 1,
+    "note": "no step of the window is held for these filters: steps_in_window steps, none of them in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it"
+   }
+  },
+  {
+   "name": "a week of hours held for three of its seven days",
+   "start": "2026-11-02T06:00:00Z",
+   "end": "2026-11-09T06:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-02T06:00:00Z",
+     "2026-11-02T07:00:00Z",
+     "2026-11-02T08:00:00Z",
+     "2026-11-02T09:00:00Z",
+     "2026-11-02T10:00:00Z",
+     "2026-11-02T11:00:00Z",
+     "2026-11-02T12:00:00Z",
+     "2026-11-02T13:00:00Z",
+     "2026-11-02T14:00:00Z",
+     "2026-11-02T15:00:00Z",
+     "2026-11-02T16:00:00Z",
+     "2026-11-02T17:00:00Z",
+     "2026-11-02T18:00:00Z",
+     "2026-11-02T19:00:00Z",
+     "2026-11-02T20:00:00Z",
+     "2026-11-02T21:00:00Z",
+     "2026-11-02T22:00:00Z",
+     "2026-11-02T23:00:00Z",
+     "2026-11-03T00:00:00Z",
+     "2026-11-03T01:00:00Z",
+     "2026-11-03T02:00:00Z",
+     "2026-11-03T03:00:00Z",
+     "2026-11-03T04:00:00Z",
+     "2026-11-03T05:00:00Z",
+     "2026-11-03T06:00:00Z",
+     "2026-11-03T07:00:00Z",
+     "2026-11-03T08:00:00Z",
+     "2026-11-03T09:00:00Z",
+     "2026-11-03T10:00:00Z",
+     "2026-11-03T11:00:00Z",
+     "2026-11-03T12:00:00Z",
+     "2026-11-03T13:00:00Z",
+     "2026-11-03T14:00:00Z",
+     "2026-11-03T15:00:00Z",
+     "2026-11-03T16:00:00Z",
+     "2026-11-03T17:00:00Z",
+     "2026-11-03T18:00:00Z",
+     "2026-11-03T19:00:00Z",
+     "2026-11-03T20:00:00Z",
+     "2026-11-03T21:00:00Z",
+     "2026-11-03T22:00:00Z",
+     "2026-11-03T23:00:00Z",
+     "2026-11-04T00:00:00Z",
+     "2026-11-04T01:00:00Z",
+     "2026-11-04T02:00:00Z",
+     "2026-11-04T03:00:00Z",
+     "2026-11-04T04:00:00Z",
+     "2026-11-04T05:00:00Z",
+     "2026-11-04T06:00:00Z",
+     "2026-11-04T07:00:00Z",
+     "2026-11-04T08:00:00Z",
+     "2026-11-04T09:00:00Z",
+     "2026-11-04T10:00:00Z",
+     "2026-11-04T11:00:00Z",
+     "2026-11-04T12:00:00Z",
+     "2026-11-04T13:00:00Z",
+     "2026-11-04T14:00:00Z",
+     "2026-11-04T15:00:00Z",
+     "2026-11-04T16:00:00Z",
+     "2026-11-04T17:00:00Z",
+     "2026-11-04T18:00:00Z",
+     "2026-11-04T19:00:00Z",
+     "2026-11-04T20:00:00Z",
+     "2026-11-04T21:00:00Z",
+     "2026-11-04T22:00:00Z",
+     "2026-11-04T23:00:00Z",
+     "2026-11-05T00:00:00Z",
+     "2026-11-05T01:00:00Z",
+     "2026-11-05T02:00:00Z",
+     "2026-11-05T03:00:00Z",
+     "2026-11-05T04:00:00Z",
+     "2026-11-05T05:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-02T06:00:00Z",
+    "until": "2026-11-09T06:00:00Z",
+    "step": "PT1H",
+    "steps_held": 72,
+    "steps_in_window": 168,
+    "steps_missing": 96,
+    "whole": false,
+    "first_held": "2026-11-02T06:00:00Z",
+    "last_held": "2026-11-05T05:00:00Z",
+    "missing": [
+     {
+      "from": "2026-11-05T06:00:00Z",
+      "until": "2026-11-09T06:00:00Z",
+      "steps": 96
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a day of 15-minute steps, whole",
+   "start": "2026-11-10T06:00:00Z",
+   "end": "2026-11-11T06:00:00Z",
+   "steps": [
+    "PT15M"
+   ],
+   "series": {
+    "ercot:HB_WEST|spp_rtm": [
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T06:15:00Z",
+     "2026-11-10T06:30:00Z",
+     "2026-11-10T06:45:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T07:15:00Z",
+     "2026-11-10T07:30:00Z",
+     "2026-11-10T07:45:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T08:15:00Z",
+     "2026-11-10T08:30:00Z",
+     "2026-11-10T08:45:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T09:15:00Z",
+     "2026-11-10T09:30:00Z",
+     "2026-11-10T09:45:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T10:15:00Z",
+     "2026-11-10T10:30:00Z",
+     "2026-11-10T10:45:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T11:15:00Z",
+     "2026-11-10T11:30:00Z",
+     "2026-11-10T11:45:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T12:15:00Z",
+     "2026-11-10T12:30:00Z",
+     "2026-11-10T12:45:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T13:15:00Z",
+     "2026-11-10T13:30:00Z",
+     "2026-11-10T13:45:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T14:15:00Z",
+     "2026-11-10T14:30:00Z",
+     "2026-11-10T14:45:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T15:15:00Z",
+     "2026-11-10T15:30:00Z",
+     "2026-11-10T15:45:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T16:15:00Z",
+     "2026-11-10T16:30:00Z",
+     "2026-11-10T16:45:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T17:15:00Z",
+     "2026-11-10T17:30:00Z",
+     "2026-11-10T17:45:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T18:15:00Z",
+     "2026-11-10T18:30:00Z",
+     "2026-11-10T18:45:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T19:15:00Z",
+     "2026-11-10T19:30:00Z",
+     "2026-11-10T19:45:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T20:15:00Z",
+     "2026-11-10T20:30:00Z",
+     "2026-11-10T20:45:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T21:15:00Z",
+     "2026-11-10T21:30:00Z",
+     "2026-11-10T21:45:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T22:15:00Z",
+     "2026-11-10T22:30:00Z",
+     "2026-11-10T22:45:00Z",
+     "2026-11-10T23:00:00Z",
+     "2026-11-10T23:15:00Z",
+     "2026-11-10T23:30:00Z",
+     "2026-11-10T23:45:00Z",
+     "2026-11-11T00:00:00Z",
+     "2026-11-11T00:15:00Z",
+     "2026-11-11T00:30:00Z",
+     "2026-11-11T00:45:00Z",
+     "2026-11-11T01:00:00Z",
+     "2026-11-11T01:15:00Z",
+     "2026-11-11T01:30:00Z",
+     "2026-11-11T01:45:00Z",
+     "2026-11-11T02:00:00Z",
+     "2026-11-11T02:15:00Z",
+     "2026-11-11T02:30:00Z",
+     "2026-11-11T02:45:00Z",
+     "2026-11-11T03:00:00Z",
+     "2026-11-11T03:15:00Z",
+     "2026-11-11T03:30:00Z",
+     "2026-11-11T03:45:00Z",
+     "2026-11-11T04:00:00Z",
+     "2026-11-11T04:15:00Z",
+     "2026-11-11T04:30:00Z",
+     "2026-11-11T04:45:00Z",
+     "2026-11-11T05:00:00Z",
+     "2026-11-11T05:15:00Z",
+     "2026-11-11T05:30:00Z",
+     "2026-11-11T05:45:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T06:00:00Z",
+    "until": "2026-11-11T06:00:00Z",
+    "step": "PT15M",
+    "steps_held": 96,
+    "steps_in_window": 96,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T06:00:00Z",
+    "last_held": "2026-11-11T05:45:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "an hour of 5-minute steps, one missing",
+   "start": "2026-11-10T08:00:00Z",
+   "end": "2026-11-10T09:00:00Z",
+   "steps": [
+    "PT5M"
+   ],
+   "series": {
+    "caiso:SP15|lmp_rtm_5min": [
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T08:05:00Z",
+     "2026-11-10T08:10:00Z",
+     "2026-11-10T08:15:00Z",
+     "2026-11-10T08:25:00Z",
+     "2026-11-10T08:30:00Z",
+     "2026-11-10T08:35:00Z",
+     "2026-11-10T08:40:00Z",
+     "2026-11-10T08:45:00Z",
+     "2026-11-10T08:50:00Z",
+     "2026-11-10T08:55:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T08:00:00Z",
+    "until": "2026-11-10T09:00:00Z",
+    "step": "PT5M",
+    "steps_held": 11,
+    "steps_in_window": 12,
+    "steps_missing": 1,
+    "whole": false,
+    "first_held": "2026-11-10T08:00:00Z",
+    "last_held": "2026-11-10T08:55:00Z",
+    "missing": [
+     {
+      "from": "2026-11-10T08:20:00Z",
+      "until": "2026-11-10T08:25:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of two steps, the rows five minutes apart",
+   "start": "2026-11-10T08:00:00Z",
+   "end": "2026-11-10T10:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "caiso:SP15|lmp_rtm_5min": [
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T08:05:00Z",
+     "2026-11-10T08:10:00Z",
+     "2026-11-10T08:15:00Z",
+     "2026-11-10T08:20:00Z",
+     "2026-11-10T08:25:00Z",
+     "2026-11-10T08:30:00Z",
+     "2026-11-10T08:35:00Z",
+     "2026-11-10T08:40:00Z",
+     "2026-11-10T08:45:00Z",
+     "2026-11-10T08:50:00Z",
+     "2026-11-10T08:55:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T09:05:00Z",
+     "2026-11-10T09:10:00Z",
+     "2026-11-10T09:15:00Z",
+     "2026-11-10T09:20:00Z",
+     "2026-11-10T09:25:00Z",
+     "2026-11-10T09:30:00Z",
+     "2026-11-10T09:35:00Z",
+     "2026-11-10T09:40:00Z",
+     "2026-11-10T09:45:00Z",
+     "2026-11-10T09:50:00Z",
+     "2026-11-10T09:55:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T08:00:00Z",
+    "until": "2026-11-10T10:00:00Z",
+    "step": "PT5M",
+    "steps_held": 24,
+    "steps_in_window": 24,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T08:00:00Z",
+    "last_held": "2026-11-10T09:55:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "a table of two steps, the rows fifteen minutes apart, one missing",
+   "start": "2026-11-10T08:00:00Z",
+   "end": "2026-11-10T10:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "ercot:HB_WEST|spp_rtm": [
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T08:15:00Z",
+     "2026-11-10T08:30:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T09:15:00Z",
+     "2026-11-10T09:30:00Z",
+     "2026-11-10T09:45:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T08:00:00Z",
+    "until": "2026-11-10T10:00:00Z",
+    "step": "PT15M",
+    "steps_held": 7,
+    "steps_in_window": 8,
+    "steps_missing": 1,
+    "whole": false,
+    "first_held": "2026-11-10T08:00:00Z",
+    "last_held": "2026-11-10T09:45:00Z",
+    "missing": [
+     {
+      "from": "2026-11-10T08:45:00Z",
+      "until": "2026-11-10T09:00:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of two steps and one row: the step is not told",
+   "start": "2026-11-10T08:00:00Z",
+   "end": "2026-11-10T10:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "x|y": [
+     "2026-11-10T08:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T08:00:00Z",
+    "until": "2026-11-10T10:00:00Z",
+    "step": null,
+    "steps_held": 1,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": "2026-11-10T08:00:00Z",
+    "last_held": "2026-11-10T08:00:00Z",
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a table of two steps and no row: none held, the step not told",
+   "start": "2026-11-10T08:00:00Z",
+   "end": "2026-11-10T10:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-11-10T08:00:00Z",
+    "until": "2026-11-10T10:00:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": false,
+    "first_held": null,
+    "last_held": null,
+    "note": "no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it"
+   }
+  },
+  {
+   "name": "a missing local day of a table of two steps, no row (SP15 real time)",
+   "start": "2026-11-07T08:00:00Z",
+   "end": "2026-11-08T08:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "caiso:TH_SP15_GEN-APND|lmp_rtm_15m_mean": []
+   },
+   "window": {
+    "from": "2026-11-07T08:00:00Z",
+    "until": "2026-11-08T08:00:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": false,
+    "first_held": null,
+    "last_held": null,
+    "note": "no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it"
+   }
+  },
+  {
+   "name": "a table of two steps, no row, a window shorter than one of them: not told",
+   "start": "2026-11-10T08:10:00Z",
+   "end": "2026-11-10T08:40:00Z",
+   "steps": [
+    "PT1H",
+    "PT5M"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-11-10T08:10:00Z",
+    "until": "2026-11-10T08:40:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": null,
+    "last_held": null,
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a table of hours and weeks and no row: not told",
+   "start": "2026-11-02T00:00:00Z",
+   "end": "2026-11-09T00:00:00Z",
+   "steps": [
+    "PT1H",
+    "P1W"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-11-02T00:00:00Z",
+    "until": "2026-11-09T00:00:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": null,
+    "last_held": null,
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a table of days, a week with two days missing",
+   "start": "2026-10-19T00:00:00Z",
+   "end": "2026-10-26T00:00:00Z",
+   "steps": [
+    "P1D"
+   ],
+   "series": {
+    "ercot:system|wind_hsl": [
+     "2026-10-19T00:00:00Z",
+     "2026-10-20T00:00:00Z",
+     "2026-10-23T00:00:00Z",
+     "2026-10-24T00:00:00Z",
+     "2026-10-25T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-10-19T00:00:00Z",
+    "until": "2026-10-26T00:00:00Z",
+    "step": "P1D",
+    "steps_held": 5,
+    "steps_in_window": 7,
+    "steps_missing": 2,
+    "whole": false,
+    "first_held": "2026-10-19T00:00:00Z",
+    "last_held": "2026-10-25T00:00:00Z",
+    "missing": [
+     {
+      "from": "2026-10-21T00:00:00Z",
+      "until": "2026-10-23T00:00:00Z",
+      "steps": 2
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of months, a year whole",
+   "start": "2025-01-01T00:00:00Z",
+   "end": "2026-01-01T00:00:00Z",
+   "steps": [
+    "P1M"
+   ],
+   "series": {
+    "x|y": [
+     "2025-01-01T00:00:00Z",
+     "2025-02-01T00:00:00Z",
+     "2025-03-01T00:00:00Z",
+     "2025-04-01T00:00:00Z",
+     "2025-05-01T00:00:00Z",
+     "2025-06-01T00:00:00Z",
+     "2025-07-01T00:00:00Z",
+     "2025-08-01T00:00:00Z",
+     "2025-09-01T00:00:00Z",
+     "2025-10-01T00:00:00Z",
+     "2025-11-01T00:00:00Z",
+     "2025-12-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2025-01-01T00:00:00Z",
+    "until": "2026-01-01T00:00:00Z",
+    "step": "P1M",
+    "steps_held": 12,
+    "steps_in_window": 12,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2025-01-01T00:00:00Z",
+    "last_held": "2025-12-01T00:00:00Z",
+    "note": "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)"
+   }
+  },
+  {
+   "name": "a table of months, February missing",
+   "start": "2025-01-01T00:00:00Z",
+   "end": "2026-01-01T00:00:00Z",
+   "steps": [
+    "P1M"
+   ],
+   "series": {
+    "x|y": [
+     "2025-01-01T00:00:00Z",
+     "2025-03-01T00:00:00Z",
+     "2025-04-01T00:00:00Z",
+     "2025-05-01T00:00:00Z",
+     "2025-06-01T00:00:00Z",
+     "2025-07-01T00:00:00Z",
+     "2025-08-01T00:00:00Z",
+     "2025-09-01T00:00:00Z",
+     "2025-10-01T00:00:00Z",
+     "2025-11-01T00:00:00Z",
+     "2025-12-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2025-01-01T00:00:00Z",
+    "until": "2026-01-01T00:00:00Z",
+    "step": "P1M",
+    "steps_held": 11,
+    "steps_in_window": 12,
+    "steps_missing": 1,
+    "whole": false,
+    "first_held": "2025-01-01T00:00:00Z",
+    "last_held": "2025-12-01T00:00:00Z",
+    "missing": [
+     {
+      "from": "2025-02-01T00:00:00Z",
+      "until": "2025-03-01T00:00:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of months, the window from mid month",
+   "start": "2026-08-15T00:00:00Z",
+   "end": "2026-11-01T00:00:00Z",
+   "steps": [
+    "P1M"
+   ],
+   "series": {
+    "x|y": [
+     "2026-09-01T00:00:00Z",
+     "2026-10-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-08-15T00:00:00Z",
+    "until": "2026-11-01T00:00:00Z",
+    "step": "P1M",
+    "steps_held": 2,
+    "steps_in_window": 2,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-09-01T00:00:00Z",
+    "last_held": "2026-10-01T00:00:00Z",
+    "note": "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)"
+   }
+  },
+  {
+   "name": "a table of months, the one month asked, held",
+   "start": "2026-08-01T00:00:00Z",
+   "end": "2026-09-01T00:00:00Z",
+   "steps": [
+    "P1M"
+   ],
+   "series": {
+    "eia930:CISO-BPAT|net_import_mwh": [
+     "2026-08-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-08-01T00:00:00Z",
+    "until": "2026-09-01T00:00:00Z",
+    "step": "P1M",
+    "steps_held": 1,
+    "steps_in_window": 1,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-08-01T00:00:00Z",
+    "last_held": "2026-08-01T00:00:00Z",
+    "note": "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)"
+   }
+  },
+  {
+   "name": "a table of years, 2021 missing",
+   "start": "2019-01-01T00:00:00Z",
+   "end": "2025-01-01T00:00:00Z",
+   "steps": [
+    "P1Y"
+   ],
+   "series": {
+    "x|y": [
+     "2019-01-01T00:00:00Z",
+     "2020-01-01T00:00:00Z",
+     "2022-01-01T00:00:00Z",
+     "2023-01-01T00:00:00Z",
+     "2024-01-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2019-01-01T00:00:00Z",
+    "until": "2025-01-01T00:00:00Z",
+    "step": "P1Y",
+    "steps_held": 5,
+    "steps_in_window": 6,
+    "steps_missing": 1,
+    "whole": false,
+    "first_held": "2019-01-01T00:00:00Z",
+    "last_held": "2024-01-01T00:00:00Z",
+    "missing": [
+     {
+      "from": "2021-01-01T00:00:00Z",
+      "until": "2022-01-01T00:00:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of weeks, the grid from its first row, one week missing",
+   "start": "2026-09-28T00:00:00Z",
+   "end": "2026-11-02T00:00:00Z",
+   "steps": [
+    "P1W"
+   ],
+   "series": {
+    "x|y": [
+     "2026-10-02T00:00:00Z",
+     "2026-10-09T00:00:00Z",
+     "2026-10-23T00:00:00Z",
+     "2026-10-30T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-09-28T00:00:00Z",
+    "until": "2026-11-02T00:00:00Z",
+    "step": "P1W",
+    "steps_held": 4,
+    "steps_in_window": 5,
+    "steps_missing": 1,
+    "whole": false,
+    "first_held": "2026-10-02T00:00:00Z",
+    "last_held": "2026-10-30T00:00:00Z",
+    "missing": [
+     {
+      "from": "2026-10-16T00:00:00Z",
+      "until": "2026-10-23T00:00:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 1,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "a table of weeks and no row: not told",
+   "start": "2026-09-28T00:00:00Z",
+   "end": "2026-11-02T00:00:00Z",
+   "steps": [
+    "P1W"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-09-28T00:00:00Z",
+    "until": "2026-11-02T00:00:00Z",
+    "step": "P1W",
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": null,
+    "last_held": null,
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a table of days and months, the rows a day apart",
+   "start": "2026-10-19T00:00:00Z",
+   "end": "2026-10-26T00:00:00Z",
+   "steps": [
+    "P1D",
+    "P1M"
+   ],
+   "series": {
+    "x|y": [
+     "2026-10-19T00:00:00Z",
+     "2026-10-20T00:00:00Z",
+     "2026-10-21T00:00:00Z",
+     "2026-10-22T00:00:00Z",
+     "2026-10-23T00:00:00Z",
+     "2026-10-24T00:00:00Z",
+     "2026-10-25T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-10-19T00:00:00Z",
+    "until": "2026-10-26T00:00:00Z",
+    "step": "P1D",
+    "steps_held": 7,
+    "steps_in_window": 7,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-10-19T00:00:00Z",
+    "last_held": "2026-10-25T00:00:00Z",
+    "note": "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)"
+   }
+  },
+  {
+   "name": "a table of days and months, the rows a month apart",
+   "start": "2026-01-01T00:00:00Z",
+   "end": "2026-07-01T00:00:00Z",
+   "steps": [
+    "P1D",
+    "P1M"
+   ],
+   "series": {
+    "x|y": [
+     "2026-01-01T00:00:00Z",
+     "2026-02-01T00:00:00Z",
+     "2026-03-01T00:00:00Z",
+     "2026-04-01T00:00:00Z",
+     "2026-05-01T00:00:00Z",
+     "2026-06-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-01-01T00:00:00Z",
+    "until": "2026-07-01T00:00:00Z",
+    "step": "P1M",
+    "steps_held": 6,
+    "steps_in_window": 6,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-01-01T00:00:00Z",
+    "last_held": "2026-06-01T00:00:00Z",
+    "note": "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)"
+   }
+  },
+  {
+   "name": "two series, both whole",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_NORTH|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ],
+    "ercot:HB_WEST|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "series": 2,
+    "steps_held": {
+     "least": 24,
+     "most": 24
+    },
+    "steps_in_window": 24,
+    "whole": true,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T23:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it. more than one series matched: steps_held gives the least and the most rows any one of them holds in the window. For the steps a series is missing, ask it alone (one entity, one variable)"
+   }
+  },
+  {
+   "name": "two series, one short",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_NORTH|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ],
+    "ercot:HB_WEST|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T07:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T09:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T11:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T13:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T15:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "series": 2,
+    "steps_held": {
+     "least": 20,
+     "most": 24
+    },
+    "steps_in_window": 24,
+    "whole": false,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T23:00:00Z",
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window. more than one series matched: steps_held gives the least and the most rows any one of them holds in the window. For the steps a series is missing, ask it alone (one entity, one variable)"
+   }
+  },
+  {
+   "name": "a row off the hour: not told",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-10T06:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:30:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-10T06:00:00Z",
+    "step": "PT1H",
+    "steps_held": 6,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T05:30:00Z",
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a window shorter than the step",
+   "start": "2026-11-10T00:10:00Z",
+   "end": "2026-11-10T00:40:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": []
+   },
+   "window": {
+    "from": "2026-11-10T00:10:00Z",
+    "until": "2026-11-10T00:40:00Z",
+    "step": "PT1H",
+    "steps_held": 0,
+    "steps_in_window": 0,
+    "steps_missing": 0,
+    "whole": null,
+    "first_held": null,
+    "last_held": null,
+    "note": "the window has no step of the table inside it (it is shorter than the table's step, or starts and ends between two steps)"
+   }
+  },
+  {
+   "name": "a local day of 25 hours (the clocks go back)",
+   "start": "2026-11-01T05:00:00Z",
+   "end": "2026-11-02T06:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-01T05:00:00Z",
+     "2026-11-01T06:00:00Z",
+     "2026-11-01T07:00:00Z",
+     "2026-11-01T08:00:00Z",
+     "2026-11-01T09:00:00Z",
+     "2026-11-01T10:00:00Z",
+     "2026-11-01T11:00:00Z",
+     "2026-11-01T12:00:00Z",
+     "2026-11-01T13:00:00Z",
+     "2026-11-01T14:00:00Z",
+     "2026-11-01T15:00:00Z",
+     "2026-11-01T16:00:00Z",
+     "2026-11-01T17:00:00Z",
+     "2026-11-01T18:00:00Z",
+     "2026-11-01T19:00:00Z",
+     "2026-11-01T20:00:00Z",
+     "2026-11-01T21:00:00Z",
+     "2026-11-01T22:00:00Z",
+     "2026-11-01T23:00:00Z",
+     "2026-11-02T00:00:00Z",
+     "2026-11-02T01:00:00Z",
+     "2026-11-02T02:00:00Z",
+     "2026-11-02T03:00:00Z",
+     "2026-11-02T04:00:00Z",
+     "2026-11-02T05:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-01T05:00:00Z",
+    "until": "2026-11-02T06:00:00Z",
+    "step": "PT1H",
+    "steps_held": 25,
+    "steps_in_window": 25,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-01T05:00:00Z",
+    "last_held": "2026-11-02T05:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "a window that starts and ends on the half hour",
+   "start": "2026-11-10T00:30:00Z",
+   "end": "2026-11-10T03:30:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:30:00Z",
+    "until": "2026-11-10T03:30:00Z",
+    "step": "PT1H",
+    "steps_held": 3,
+    "steps_in_window": 3,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T01:00:00Z",
+    "last_held": "2026-11-10T03:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "a time given twice is one step",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-10T03:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-10T03:00:00Z",
+    "step": "PT1H",
+    "steps_held": 3,
+    "steps_in_window": 3,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T02:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "times outside the window are not counted",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-10T03:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-09T22:00:00Z",
+     "2026-11-09T23:00:00Z",
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T03:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T05:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-10T03:00:00Z",
+    "step": "PT1H",
+    "steps_held": 3,
+    "steps_in_window": 3,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T02:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "times with an offset and with none are UTC instants",
+   "start": "2026-11-10T00:00:00+00:00",
+   "end": "2026-11-10T03:00:00",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00+00:00",
+     "2026-11-10T01:00:00",
+     "2026-11-09T20:00:00-06:00"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-10T03:00:00Z",
+    "step": "PT1H",
+    "steps_held": 3,
+    "steps_in_window": 3,
+    "steps_missing": 0,
+    "whole": true,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T02:00:00Z",
+    "note": "the window holds every step it has: steps_held of steps_in_window at the table's step. No count and no regrouping is needed to check it"
+   }
+  },
+  {
+   "name": "a step this does not read",
+   "start": "2026-01-01T00:00:00Z",
+   "end": "2027-01-01T00:00:00Z",
+   "steps": [
+    "P3M"
+   ],
+   "series": {
+    "x|y": [
+     "2026-01-01T00:00:00Z",
+     "2026-04-01T00:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-01-01T00:00:00Z",
+    "until": "2027-01-01T00:00:00Z",
+    "step": "P3M",
+    "steps_held": 2,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": "2026-01-01T00:00:00Z",
+    "last_held": "2026-04-01T00:00:00Z",
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "no step known",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-10T03:00:00Z",
+   "steps": [],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T01:00:00Z",
+     "2026-11-10T02:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-10T03:00:00Z",
+    "step": null,
+    "steps_held": 3,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T02:00:00Z",
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "more runs missing than are shown",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {
+    "ercot:HB_HUBAVG|lmp_dam": [
+     "2026-11-10T00:00:00Z",
+     "2026-11-10T02:00:00Z",
+     "2026-11-10T04:00:00Z",
+     "2026-11-10T06:00:00Z",
+     "2026-11-10T08:00:00Z",
+     "2026-11-10T10:00:00Z",
+     "2026-11-10T12:00:00Z",
+     "2026-11-10T14:00:00Z",
+     "2026-11-10T16:00:00Z",
+     "2026-11-10T17:00:00Z",
+     "2026-11-10T18:00:00Z",
+     "2026-11-10T19:00:00Z",
+     "2026-11-10T20:00:00Z",
+     "2026-11-10T21:00:00Z",
+     "2026-11-10T22:00:00Z",
+     "2026-11-10T23:00:00Z"
+    ]
+   },
+   "window": {
+    "from": "2026-11-10T00:00:00Z",
+    "until": "2026-11-11T00:00:00Z",
+    "step": "PT1H",
+    "steps_held": 16,
+    "steps_in_window": 24,
+    "steps_missing": 8,
+    "whole": false,
+    "first_held": "2026-11-10T00:00:00Z",
+    "last_held": "2026-11-10T23:00:00Z",
+    "missing": [
+     {
+      "from": "2026-11-10T01:00:00Z",
+      "until": "2026-11-10T02:00:00Z",
+      "steps": 1
+     },
+     {
+      "from": "2026-11-10T03:00:00Z",
+      "until": "2026-11-10T04:00:00Z",
+      "steps": 1
+     },
+     {
+      "from": "2026-11-10T05:00:00Z",
+      "until": "2026-11-10T06:00:00Z",
+      "steps": 1
+     },
+     {
+      "from": "2026-11-10T07:00:00Z",
+      "until": "2026-11-10T08:00:00Z",
+      "steps": 1
+     },
+     {
+      "from": "2026-11-10T09:00:00Z",
+      "until": "2026-11-10T10:00:00Z",
+      "steps": 1
+     },
+     {
+      "from": "2026-11-10T11:00:00Z",
+      "until": "2026-11-10T12:00:00Z",
+      "steps": 1
+     }
+    ],
+    "missing_runs": 8,
+    "note": "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window"
+   }
+  },
+  {
+   "name": "no series",
+   "start": "2026-11-10T00:00:00Z",
+   "end": "2026-11-11T00:00:00Z",
+   "steps": [
+    "PT1H"
+   ],
+   "series": {},
+   "window": null
+  }
+ ]
+}

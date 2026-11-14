@@ -5,7 +5,8 @@
 //   node --test site/scripts/test-eval-ask-site-loop.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { GRID_SLUG, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
+import fs from "node:fs";
+import { GRID_SLUG, askedUnder, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
 import { bare } from "./eval-loader.mjs";
 
 test("dotenv reads KEY=value lines, drops quotes and leaves comments", () => {
@@ -53,6 +54,57 @@ test("an error is a record with no answer and no cost, never a guess", () => {
   assert.equal(rec.cost_usd, 0);
   assert.deepEqual(rec.trace, []);
   assert.match(rec.error, /ledger/);
+});
+
+// Session 5269. On 14 November 2026 gp01 ended in "stop_reason max_tokens" after eight model calls: its record said USD 0
+// and the ledger held USD 0.3132, so the run's own cost, which the cap is counted on, was short by a question.
+test("an error after model calls were made is recorded at what the loop had counted, and the cap counts it", () => {
+  const q = { id: "gp01", grid: "none", via: "general", question: "?" };
+  const meter = { cost_usd: 0.3132, tool_calls: 7, usage: { input: 16, output: 17002, cache_write: 0, cache_read: 250000, requests: 8 }, stop: "max_tokens",
+    trace: [{ tool: "query", input: { table: "eia930_all_demand" }, out: { rows_matched: 0 }, isError: false }] };
+  const rec = recordOf(q, null, "t", "Error: stop_reason max_tokens", meter);
+  assert.equal(rec.status, "error");
+  assert.equal(rec.answer, null);
+  assert.equal(rec.cost_usd, 0.3132);
+  assert.equal(rec.tool_calls, 7);
+  assert.equal(rec.usage.requests, 8);
+  assert.equal(rec.stopped_at, "max_tokens");
+  assert.deepEqual(rec.trace.map((t) => [t.tool, t.is_error]), [["query", false]]);
+  assert.ok(Math.abs(costOf({ questions: [{ id: "a", cost_usd: 0.1 }, rec] }) - 0.4132) < 1e-9);
+  // an error before any model call (no key, a refused ledger row at the first call) has an empty meter: no cost, as before
+  assert.equal(recordOf(q, null, "t", "Error: x", {}).cost_usd, 0);
+  // an answer that came back is its own count: the meter is not read, and it gains no field
+  const ok = recordOf(q, { status: "answered", answer: "a", cost_usd: 0.05, tool_calls: 3, trace: [] }, "t", null, { cost_usd: 9, tool_calls: 99, stop: "end_turn" });
+  assert.deepEqual([ok.cost_usd, ok.tool_calls, "stopped_at" in ok], [0.05, 3, false]);
+  // the loop writes the meter after every model call, and the runner hands it one
+  const loop = fs.readFileSync(new URL("../lib/chat/ask.ts", import.meta.url), "utf8");
+  assert.ok(loop.includes("if (opts.meter) Object.assign(opts.meter, { cost_usd: spent, tool_calls: calls, usage: { ...usage }, stop: resp.stop_reason, ...(tracing ? { trace: traced } : {}) });"));
+  const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
+  assert.ok(runner.includes('questionId: crypto.randomBytes(16).toString("hex"), meter });'));
+  assert.ok(runner.includes("recordOf(q, r, at, error, meter)"));
+});
+
+// Session 5271: an asking at another effort than the spec's (ASK_WRITER_EFFORT, the loop's own switch) says so in every record
+test("a record says what it was asked under: the effort, the output limit, the thinking switch when set", () => {
+  const spec = { effort: "high", max_tokens: 16000, system: "You answer.\n\nRules:\n1. One.\n2. Two.\n\n# Briefing\n\n1. a numbered line of the briefing is not a rule\n" };
+  assert.deepEqual(askedUnder({}, spec), { effort: "high", max_tokens: 16000, rules: 2 });
+  assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "medium" }, spec), { effort: "medium", max_tokens: 16000, rules: 2 });
+  assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "low", ASK_THINKING: "between_tools" }, spec), { effort: "low", max_tokens: 16000, rules: 2, thinking: "between_tools" });
+  assert.equal(askedUnder({}, { effort: "high", max_tokens: 16000 }).rules, 0);
+  assert.equal(askedUnder({}, JSON.parse(fs.readFileSync(new URL("../lib/chat/spec.json", import.meta.url), "utf8"))).rules, 11);   // the prompt as it stands
+  const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
+  assert.ok(runner.includes("const rec = { ...recordOf(q, r, at, error, meter), asked_under: under };"));
+  // the effort the record names is the one the loop sends: the same switch, read the same way
+  const loop = fs.readFileSync(new URL("../lib/chat/ask.ts", import.meta.url), "utf8");
+  assert.ok(loop.includes("return env.ASK_WRITER_EFFORT || own;"));
+});
+
+// Session 5272: the loop no longer throws on a reply cut off at the output limit; an answer that had one says so
+test("an answer written after a reply was cut off keeps the count of cut-offs in its record", () => {
+  const q = { id: "po05", grid: "none", via: "general", question: "?" };
+  assert.equal(recordOf(q, { status: "answered", answer: "8", cost_usd: 0.2, tool_calls: 3, cut_off: 1, trace: [] }, "t", null).cut_off, 1);
+  assert.equal(recordOf(q, { status: "refused_unverified", answer: "No answer was written", cost_usd: 0.4, tool_calls: 3, cut_off: 2, trace: [] }, "t", null).cut_off, 2);
+  assert.equal("cut_off" in recordOf(q, { status: "answered", answer: "8", cost_usd: 0.1, tool_calls: 3, trace: [] }, "t", null), false);
 });
 
 test("every grid a set may name has a slug", () => {

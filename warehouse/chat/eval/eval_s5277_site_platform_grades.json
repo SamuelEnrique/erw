@@ -1,0 +1,627 @@
+{
+ "_about": "eval_s5277_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 24,
+ "right": 24,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.588,
+ "questions": [
+  {
+   "id": "pw01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0986058,
+   "seconds": 6.8,
+   "expected": [
+    49421.9167
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "pw04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.027833500000000004,
+   "seconds": 7.1,
+   "expected": [
+    20488706.25
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "pr01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.0296489,
+   "seconds": 6.6,
+   "expected": [
+    41.9229
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "pr07",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0200889,
+   "seconds": 4.4,
+   "expected": [
+    0.8244
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "ga01",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0271442,
+   "seconds": 5.6,
+   "expected": [
+    3.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "ga05",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1364326,
+   "seconds": 13,
+   "expected": [
+    15.5042
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "oi01",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0270494,
+   "seconds": 5.2,
+   "expected": [
+    89.62
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "oi03",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.09206080000000001,
+   "seconds": 7.3,
+   "expected": [
+    0.54
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "nu01",
+   "via": "general",
+   "grid": "PJM",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.1072653,
+   "seconds": 9.2,
+   "expected": [
+    30680.4167
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "nu04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.018432900000000002,
+   "seconds": 3.6,
+   "expected": [
+    97670262.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "re02",
+   "via": "general",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.09499270000000001,
+   "seconds": 10.6,
+   "expected": [
+    1173159.05
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "re05",
+   "via": "grid",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.08119100000000001,
+   "seconds": 11,
+   "expected": [
+    66963.0112
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "st01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.018492,
+   "seconds": 3.7,
+   "expected": [
+    19194.6
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "st05",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.027824600000000005,
+   "seconds": 5.6,
+   "expected": [
+    43645.25
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tx02",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.12849400000000002,
+   "seconds": 11.3,
+   "expected": [
+    8.2943
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "tx05",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0615633,
+   "seconds": 8.1,
+   "expected": [
+    1.519
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "pj01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0335225,
+   "seconds": 6.8,
+   "expected": [
+    308487.96
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "pj05",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.034281700000000005,
+   "seconds": 6.9,
+   "expected": [
+    1765.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "de06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.023423,
+   "seconds": 5.1,
+   "expected": [
+    568.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "po04",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.1579457,
+   "seconds": 16,
+   "expected": [
+    58.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "po06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0520142,
+   "seconds": 10.4,
+   "expected": [
+    41.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "dc03",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.10420450000000002,
+   "seconds": 8.1,
+   "expected": [
+    8927.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "dc07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.1094675,
+   "seconds": 8.8,
+   "expected": [
+    7.7655
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "gp02",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0760512,
+   "seconds": 14.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "figure": {
+   "asked": 23,
+   "right": 23
+  },
+  "gap": {
+   "asked": 1,
+   "right": 1
+  }
+ },
+ "by_sector": {
+  "power": {
+   "asked": 2,
+   "right": 2
+  },
+  "prices": {
+   "asked": 3,
+   "right": 3
+  },
+  "gas": {
+   "asked": 2,
+   "right": 2
+  },
+  "oil": {
+   "asked": 2,
+   "right": 2
+  },
+  "nuclear": {
+   "asked": 2,
+   "right": 2
+  },
+  "renewables": {
+   "asked": 2,
+   "right": 2
+  },
+  "storage": {
+   "asked": 2,
+   "right": 2
+  },
+  "transmission": {
+   "asked": 2,
+   "right": 2
+  },
+  "projects": {
+   "asked": 2,
+   "right": 2
+  },
+  "deals": {
+   "asked": 1,
+   "right": 1
+  },
+  "policy": {
+   "asked": 2,
+   "right": 2
+  },
+  "datacenters": {
+   "asked": 2,
+   "right": 2
+  }
+ }
+}

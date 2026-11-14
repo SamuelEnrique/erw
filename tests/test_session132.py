@@ -139,7 +139,9 @@ class OtherConnectors(unittest.TestCase):
             body = json.load(f)
         t, empty = imf_pcps.parse(body, *STAMP)
         self.assertEqual(empty, 0)
-        self.assertEqual(set(t["entity"]), {f"imf:PCPS:{c}" for c in imf_pcps.SERIES})
+        # session 3939: the fixture holds session 132's five; SERIES has three more since (FRED's copies read from the IMF)
+        self.assertEqual(set(t["entity"]), {f"imf:PCPS:{c}" for c in ("PURAN", "PLITH", "PCOBA", "PNICK", "PCOPP")})
+        self.assertTrue({"PURAN", "PLITH", "PCOBA", "PNICK", "PCOPP", "PCOALAU", "PNGASEU", "PNGASJP"} <= set(imf_pcps.SERIES))
         self.assertEqual(len(t), 40)                               # five commodities, January to August 2026
         ds = body["data"]["dataSets"][0]["series"]
         ind = [v["id"] for v in body["data"]["structures"][0]["dimensions"]["series"][1]["values"]]

@@ -1,0 +1,255 @@
+{
+ "_about": "eval_s5270_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 9,
+ "right": 9,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.3941,
+ "questions": [
+  {
+   "id": "pw09",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1512782,
+   "seconds": 17.9,
+   "expected": [
+    11.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "pr09",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.09223160000000001,
+   "seconds": 13.1,
+   "expected": [
+    2724.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "ga08",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.11524720000000001,
+   "seconds": 13.6,
+   "expected": [
+    6645.0735
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "re01",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.10506470000000001,
+   "seconds": 16.1,
+   "expected": [
+    163494.642
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "tx01",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.145604,
+   "seconds": 15,
+   "expected": [
+    4981715.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "tx03",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1482483,
+   "seconds": 14.8,
+   "expected": [
+    224863.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "tx06",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1363648,
+   "seconds": 14.2,
+   "expected": [
+    43.5
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "tx07",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.1242242,
+   "seconds": 15.7,
+   "expected": [
+    9451.88
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "pj07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 10,
+   "retried": false,
+   "cost_usd": 0.1076762,
+   "seconds": 19.7,
+   "expected": [
+    2626.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 10
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "figure": {
+   "asked": 9,
+   "right": 9
+  }
+ },
+ "by_sector": {
+  "power": {
+   "asked": 1,
+   "right": 1
+  },
+  "prices": {
+   "asked": 1,
+   "right": 1
+  },
+  "gas": {
+   "asked": 1,
+   "right": 1
+  },
+  "renewables": {
+   "asked": 1,
+   "right": 1
+  },
+  "transmission": {
+   "asked": 4,
+   "right": 4
+  },
+  "projects": {
+   "asked": 1,
+   "right": 1
+  }
+ }
+}

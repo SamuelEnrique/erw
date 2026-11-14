@@ -297,7 +297,7 @@ class TheGeneralChatIsAsItWas(unittest.TestCase):
         self.assertNotIn("series", rec)
         self.assertNotIn("followups", rec)
         self.assertEqual(c.requests[0]["output_config"]["format"]["schema"], ask.ANSWER_SCHEMA)
-        self.assertEqual(c.requests[0]["output_config"]["effort"], "high")
+        self.assertEqual(c.requests[0]["output_config"]["effort"], ask.EFFORT)   # session 5276: the general chat's own (medium since then; it was pinned "high" here)
 
 
 class TheEvaluationSet(unittest.TestCase):

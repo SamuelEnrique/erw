@@ -106,9 +106,14 @@ await test("tool calls read together return what the same calls return one after
   assert.deepEqual(again.reverse(), one);
   // and what the live set returned when it was recorded; session 168 adds the local words beside each time (lib/chat/plaintime.ts),
   // which the recording, made before, does not hold: they are set apart and checked on their own
-  const local = JSON.stringify(one, (k, v) => (k.endsWith("_local") ? undefined : v));
+  // session 5267: the same for the window field of a bounded query (lib/chat/window.ts)
+  const local = JSON.stringify(one, (k, v) => (k.endsWith("_local") || k === "window" ? undefined : v));
   assert.deepEqual(JSON.parse(local), FIX.results);
   assert.deepEqual([one[0].out.time_span.first_local, one[0].out.time_span.last_local], ["1 September 2026", "30 September 2026"]);
+  // session 5267: the window of the two bounded calls, from the recorded rows: September's thirty days, and the one month;
+  // the call with no start and no end carries none
+  const win = (r) => r.out.window && [r.out.window.step, r.out.window.steps_held, r.out.window.steps_in_window, r.out.window.whole];
+  assert.deepEqual(one.map(win), [["P1D", 30, 30, true], undefined, ["P1M", 1, 1, true]]);
   assert.ok(one.every((r) => !r.isError));
 });
 

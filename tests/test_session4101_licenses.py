@@ -28,6 +28,10 @@ UNREAD_PUBLIC_KNOWN = {
     "ferc714_forecast_growth", "ferc714_planning_area_forecasts", "impact_tax_rules", "large_load_connection_rules",
     "large_load_public", "large_load_rule_reads", "large_load_rules", "policy_action_tags", "policy_actions", "policy_reads",
     "usace_nid_dams", "utility_large_load_tariffs",
+    # session 3937 (chain 267): the large-load research pass's three tables, public row by row under the owner's ruling 4
+    # of 6 November 2026 as utility_large_load_tariffs is (each written row a commission's copy, a filed tariff book, an SEC
+    # filing, a grid operator's posted document or a legislature's text; rows whose only host asks permission not written)
+    "state_large_load_laws", "utility_large_load_rule_changes", "utility_large_load_rules",
 }
 
 
