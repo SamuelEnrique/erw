@@ -469,7 +469,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-09",
+    "date": "",
     "cites": [
      {
       "page": "13",
@@ -553,7 +553,7 @@
      "searched": "Appendix A pp.5 to 16: six steps named with no stage durations; no interconnection over 10 MW completed in the last 24 months (p.11)"
     },
     "queue_size": {
-     "value": "4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the DPS, figures as of September 2026)",
+     "value": "4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the DPS); as reported in Appendix B of the DPS report, which prints no as-of date",
      "cites": [
       {
        "page": "6",
@@ -566,7 +566,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse)",
    "erw_overlap": "none (window A holds no Central Hudson file)",
-   "notes": "Three of the four applications were received since December 2025 and three are outside the NYISO queue (p.7). Central Hudson supports large-load tariffs with minimum contract terms, collateral and minimum monthly billing (pp.11 and 16; Joint Utilities' comments of 13 May 2026, not read). Supply above 300 kW is billed at the hourly NYISO Zone G day-ahead price (p.14).",
+   "notes": "Three of the four applications were received since December 2025 and three are outside the NYISO queue (p.7). Central Hudson supports large-load tariffs with minimum contract terms, collateral and minimum monthly billing (pp.11 and 16; Joint Utilities' comments of 13 May 2026, not read). Supply above 300 kW is billed at the hourly NYISO Zone G day-ahead price (p.14). Corrected by the independent audit of session 5304 (A-05): the status date '2026-09' was an inference; Appendix B of the DPS report is undated (it answers the DPS Staff request of 25 August 2026 with 'information available as of today'), so the date is not published. Corrected by the independent audit of session 5304 (A-06): the queue figure's 'as of September 2026' was not printed in its source; was '4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the DPS, figures as of September 2026)'.",
    "date_read": "2026-11-13",
    "row_id": "northeast-04"
   },
@@ -593,7 +593,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-09",
+    "date": "",
     "cites": [
      {
       "page": "18",
@@ -665,6 +665,11 @@
        "page": "30",
        "section": "Appendix B, 5a",
        "quote": "Those customers are required to pay an Excess Facilities Amount"
+      },
+      {
+       "page": "20",
+       "section": "Appendix B",
+       "quote": "If the customer is required to pay a cost pursuant to the Electric Tariff, an invoice is generated and must be paid in full before any Company field work."
       }
      ]
     },
@@ -679,12 +684,17 @@
      ]
     },
     "study_timeline": {
-     "value": "distribution: target of 30 days for major project service determinations and feeder concurrence studies (averages 35 and 32 days); transmission: no stated stage timelines (NYISO process)",
+     "value": "distribution: for more standard requests for service, a target of 30 days for major project load service determinations and feeder concurrence studies (averages 35 and 32 days); large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed; transmission: no stated stage timelines (NYISO process)",
      "cites": [
       {
        "page": "25",
        "section": "Appendix B, 2e",
-       "quote": "the target completion time for both major project load service determinations and feeder concurrence studies is 30 days"
+       "quote": "For more standard requests for service, the target completion time for both major project load service determinations and feeder concurrence studies is 30 days."
+      },
+      {
+       "page": "25",
+       "section": "Appendix B, 2e",
+       "quote": "However, large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed."
       },
       {
        "page": "25",
@@ -703,7 +713,7 @@
      "searched": "Appendix B pp.17 to 35: no time to energize printed (no stated stage timelines)"
     },
     "queue_size": {
-     "value": "distribution: 48 large load projects proposed 2022 to present, about 864 MW (12 cancelled, 1 complete, 31 in design, 4 in construction); transmission: 3 projects totaling about 1,216 MW (1,000 MW, 200 MW, and a 16.5 MW project withdrawn); figures as of September 2026",
+     "value": "distribution: 48 large load projects proposed 2022 to present, about 864 MW (12 cancelled, 1 complete, 31 in design, 4 in construction); transmission: 3 projects totaling about 1,216 MW (1,000 MW, 200 MW, and a 16.5 MW project withdrawn); as reported in Appendix B of the DPS report, which prints no as-of date",
      "cites": [
       {
        "page": "21",
@@ -726,7 +736,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); coned.com is barred for this reader and was not asked",
    "erw_overlap": "large_load_tariffs/con_edison_sc9_rate_ii.yaml holds SC 9 Rate II, the class the report names for large commercial loads; no field here repeats or contradicts it",
-   "notes": "Of the 48 distribution projects, 8 are data centers; the two active transmission projects (about 1,200 MW) are data centers (p.27). Con Edison and O&R's comments (13 May 2026, quoted in the report pp.18 to 19) ask the Commission to allow a separate large-load class, minimum billing at the higher of actual demand or a share of requested service, and security: proposals, not rules.",
+   "notes": "Of the 48 distribution projects, 8 are data centers; the two active transmission projects (about 1,200 MW) are data centers (p.27). Con Edison and O&R's comments (13 May 2026, quoted in the report pp.18 to 19) ask the Commission to allow a separate large-load class, minimum billing at the higher of actual demand or a share of requested service, and security: proposals, not rules. Corrected by the independent audit of session 5304 (A-04): study_timeline was 'distribution: target of 30 days for major project service determinations and feeder concurrence studies (averages 35 and 32 days); transmission: no stated stage timelines (NYISO process)'. Corrected by the independent audit of session 5304 (A-04): study_timeline was 'distribution: for more standard requests for service, a target of 30 days for major project load service determinations and feeder concurrence studies (averages 35 and 32 days); large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed; transmission: no stated stage timelines (NYISO process)'. Corrected by the independent audit of session 5304 (A-04): study_timeline was 'distribution: for more standard requests for service, a target of 30 days for major project load service determinations and feeder concurrence studies (averages 35 and 32 days); large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed; transmission: no stated stage timelines (NYISO process)'. Corrected by the independent audit of session 5304 (A-04): study_timeline was 'distribution: for more standard requests for service, a target of 30 days for major project load service determinations and feeder concurrence studies (averages 35 and 32 days); large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed; transmission: no stated stage timelines (NYISO process)'. Corrected by the independent audit of session 5304 (A-05): the status date '2026-09' was an inference; Appendix B of the DPS report is undated (it answers the DPS Staff request of 25 August 2026 with 'information available as of today'), so the date is not published. Corrected by the independent audit of session 5304 (A-06): the queue figure's 'as of September 2026' was not printed in its source; was 'distribution: 48 large load projects proposed 2022 to present, about 864 MW (12 cancelled, 1 complete, 31 in design, 4 in construction); transmission: 3 project'. Corrected by the independent audit of session 5304 (A-08): collateral was 'transmission: security posted after the Facilities Study identifies the costs; distribution: where construction cost attributable to the new service exceeds $2M, CIAC of the lesser of the cost above $2M or the cost less five times estimated annual Pure Base Revenue; Rider Y: an Excess Facilities Amount for high load-density service; any tariff cost must be paid in full before Company field work'.",
    "date_read": "2026-11-13",
    "row_id": "northeast-05"
   },
@@ -753,7 +763,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-09",
+    "date": "",
     "cites": [
      {
       "page": "18",
@@ -837,7 +847,7 @@
      "searched": "Appendix B: 'There are no stated stage timelines at this time' for O&R (p.25)"
     },
     "queue_size": {
-     "value": "5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in design pending the Interconnection Agreement, 1 cancelled); figures as of September 2026",
+     "value": "5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in design pending the Interconnection Agreement, 1 cancelled); as reported in Appendix B of the DPS report, which prints no as-of date",
      "cites": [
       {
        "page": "21",
@@ -850,7 +860,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse)",
    "erw_overlap": "none (window A holds no O&R file)",
-   "notes": "O&R's queue: four proposed data centers (one cancelled) and one pharmaceutical developer (p.27). O&R's New Jersey affiliate, Rockland Electric, is under the New Jersey statute's row.",
+   "notes": "O&R's queue: four proposed data centers (one cancelled) and one pharmaceutical developer (p.27). O&R's New Jersey affiliate, Rockland Electric, is under the New Jersey statute's row. Corrected by the independent audit of session 5304 (A-05): the status date '2026-09' was an inference; Appendix B of the DPS report is undated (it answers the DPS Staff request of 25 August 2026 with 'information available as of today'), so the date is not published. Corrected by the independent audit of session 5304 (A-06): the queue figure's 'as of September 2026' was not printed in its source; was '5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in design pending the Interconnection Agreeme'.",
    "date_read": "2026-11-13",
    "row_id": "northeast-06"
   },
@@ -877,7 +887,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-09",
+    "date": "",
     "cites": [
      {
       "page": "90",
@@ -991,7 +1001,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); National Grid's own site is closed to this reader by its terms (session 2937)",
    "erw_overlap": "large_load_tariffs/niagara_mohawk_sc3a_over_60kv.yaml holds SC 3A (over 2,000 kW; one-year term, 90 days' notice), the general large class; the report does not name SC 3A, so its term is not written here",
-   "notes": "The appendix's own summary (p.82) gives different counts: 'approximately 54 large load projects representing roughly 7,228 MW of requested demand, including 34 prospective projects'; the section 2.2 table (p.84: 55, 7,792.2 MW; 20 in the queue, 2,992.2 MW; 35 prospective, 4,800 MW) is written. In the NYISO queue: 10 data center projects of 1,620 MW, 5 manufacturing of 1,177 MW, 11 other of 195 MW (p.92). Attrition: 25 NYISO requests since 2022 with National Grid as Connecting Transmission Owner, 5 withdrawn (p.98). National Grid's comments propose 100 percent upfront CIAC for sole-use facilities, an end to revenue assurance for them, mandatory long-term take-or-pay agreements, minimum demand charges, minimum terms, exit fees, collateral and a dedicated large-load class (p.96): proposals, not rules. The report cites National Grid's posted timelines PDF (nationalgridus.com, not read).",
+   "notes": "The appendix's own summary (p.82) gives different counts: 'approximately 54 large load projects representing roughly 7,228 MW of requested demand, including 34 prospective projects'; the section 2.2 table (p.84: 55, 7,792.2 MW; 20 in the queue, 2,992.2 MW; 35 prospective, 4,800 MW) is written. In the NYISO queue: 10 data center projects of 1,620 MW, 5 manufacturing of 1,177 MW, 11 other of 195 MW (p.92). Attrition: 25 NYISO requests since 2022 with National Grid as Connecting Transmission Owner, 5 withdrawn (p.98). National Grid's comments propose 100 percent upfront CIAC for sole-use facilities, an end to revenue assurance for them, mandatory long-term take-or-pay agreements, minimum demand charges, minimum terms, exit fees, collateral and a dedicated large-load class (p.96): proposals, not rules. The report cites National Grid's posted timelines PDF (nationalgridus.com, not read). Corrected by the independent audit of session 5304 (A-05): the status date '2026-09' was an inference; Appendix B of the DPS report is undated (it answers the DPS Staff request of 25 August 2026 with 'information available as of today'), so the date is not published.",
    "date_read": "2026-11-13",
    "row_id": "northeast-07"
   },
@@ -1018,7 +1028,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-09",
+    "date": "",
     "cites": [
      {
       "page": "119",
@@ -1128,7 +1138,7 @@
      ]
     },
     "queue_size": {
-     "value": "36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service, the rest in study (figures as of September 2026)",
+     "value": "36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service, the rest in study; as reported in Appendix B of the DPS report, which prints no as-of date",
      "cites": [
       {
        "page": "110",
@@ -1141,7 +1151,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); nyseg.com reset the connection at its robots file (session 2937) and was not asked",
    "erw_overlap": "large_load_tariffs/nyseg_sc7_4_transmission.yaml holds SC 7-4, which the report names as the likely class for a transmission-voltage large load; no field here repeats or contradicts it",
-   "notes": "One applicant serves a 60 MW load with on-site generation under NYISO's Behind the Meter: Net Generation program; customers able to self-supply 15 percent or more of load take the standby rate (p.112). The 42 to 80 month pathway in the report's Appendix E (p.106) is the New York Power Authority's, not NYSEG's and RG&E's, so it is not written here.",
+   "notes": "One applicant serves a 60 MW load with on-site generation under NYISO's Behind the Meter: Net Generation program; customers able to self-supply 15 percent or more of load take the standby rate (p.112). The 42 to 80 month pathway in the report's Appendix E (p.106) is the New York Power Authority's, not NYSEG's and RG&E's, so it is not written here. Corrected by the independent audit of session 5304 (A-05): the status date '2026-09' was an inference; Appendix B of the DPS report is undated (it answers the DPS Staff request of 25 August 2026 with 'information available as of today'), so the date is not published. Corrected by the independent audit of session 5304 (A-06): the queue figure's 'as of September 2026' was not printed in its source; was '36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service, the rest in study (figures as of Sept'.",
    "date_read": "2026-11-13",
    "row_id": "northeast-08"
   },
@@ -1261,7 +1271,7 @@
      ]
     },
     "queue_size": {
-     "value": "8 large load requests over 10 MW since 2022, 5 active and 3 cancelled (peak loads about 10 MW to 300 MW); figures as of September 2026",
+     "value": "8 large load requests over 10 MW since 2022, 5 active and 3 cancelled (peak loads about 10 MW to 300 MW); as reported in Appendix B of the DPS report, which prints no as-of date",
      "cites": [
       {
        "page": "37",
@@ -1274,7 +1284,7 @@
    "license": "public",
    "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); LIPA's own site allows personal, non-commercial use only (session 3849) and was not read",
    "erw_overlap": "none (window A holds no LIPA file; session 3849 found LIPA's tariff absent from the DPS tariff system)",
-   "notes": "The 10 MW figure is the report's, 'used for reporting purposes only' (p.54). The LIPA tariff sheets and the Performance Requirements document were not read (LIPA's site terms). PSEG Long Island's comments of 4 November 2026 in Case 26-E-0045 address the GEIS draft scope only.",
+   "notes": "The 10 MW figure is the report's, 'used for reporting purposes only' (p.54). The LIPA tariff sheets and the Performance Requirements document were not read (LIPA's site terms). PSEG Long Island's comments of 4 November 2026 in Case 26-E-0045 address the GEIS draft scope only. Corrected by the independent audit of session 5304 (A-06): the queue figure's 'as of September 2026' was not printed in its source; was '8 large load requests over 10 MW since 2022, 5 active and 3 cancelled (peak loads about 10 MW to 300 MW); figures as of September 2026'.",
    "date_read": "2026-11-13",
    "row_id": "northeast-09"
   },

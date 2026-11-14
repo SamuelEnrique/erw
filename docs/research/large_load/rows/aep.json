@@ -692,8 +692,8 @@
     "value": "P.S.C. W.Va. Case No. 24-0854-E-42T (order of 28 August 2025, under which Sheets 14-3 and 14-4 were issued)",
     "cites": [
      {
-      "page": "2",
-      "section": "Sheet 14-3",
+      "page": "70",
+      "section": "Original Sheet No. 14-3 footer",
       "quote": "Issued Pursuant to P.S.C. West Virginia Case No. 24-0854-E-42T Order Dated August 28, 2025"
      }
     ]
@@ -703,8 +703,8 @@
     "date": "2025-09-29",
     "cites": [
      {
-      "page": "44",
-      "section": "Sheet 14-3",
+      "page": "70",
+      "section": "Original Sheet No. 14-3 footer",
       "quote": "Effective: Service rendered on or after September 29, 2025"
      }
     ]
@@ -761,7 +761,7 @@
      ]
     },
     "exit_fee": {
-     "value": "Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee equal to the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance, over an Exit Fee Period of one to five years",
+     "value": "Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee: for the first year of the Exit Fee Period, the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance; for any remaining years, the same less the customer's estimated reduction in allocated PJM LSE OATT transmission charges to the Company (West Virginia jurisdictional basis); Exit Fee Period of one to five years",
      "cites": [
       {
        "page": "71",
@@ -777,6 +777,11 @@
        "page": "71",
        "section": "Sheet 14-4",
        "quote": "The Exit Fee Period shall not be less than one year and shall not exceed five years."
+      },
+      {
+       "page": "71",
+       "section": "Sheet 14-4",
+       "quote": "for any remaining years of the Exit Fee Period, the Exit Fee shall be calculated in the same manner as the first year, minus the Large Load Customer's estimated reduction in allocated PJM LSE OATT transmission charges"
       }
      ]
     },
@@ -821,7 +826,7 @@
    "license": "internal",
    "license_basis": "Read only in the tariff posted on appalachianpower.com (AEP legal notice: personal use only); the West Virginia PSC's docket copy was not found. The queue cite (pjm.com) is public.",
    "erw_overlap": "",
-   "notes": "The sheets apply to both companies (Tariff No. 16 for APCo, No. 21 for Wheeling Power), so Wheeling Power's large-load rule is this row. Leads, not verified: the terms came from APCo and Wheeling's July 2024 application in Case No. 24-0611-E-T-PW (revisions to Schedules LCP and IP, per a legal notice) and a January 2025 settlement with Google and the manufacturers' group (WV Public Broadcasting, 22 January 2025: 100 MW, 12 years, 80 percent); the PSC order in that case was not found. Cardinal News (31 July 2026) quotes APCo testimony to the Virginia SCC that it has contracted 'more than double' 540 MW of data center load in West Virginia (news, unverified). Two older APCo West Virginia tariff files answered HTTP 404.",
+   "notes": "The sheets apply to both companies (Tariff No. 16 for APCo, No. 21 for Wheeling Power), so Wheeling Power's large-load rule is this row. Leads, not verified: the terms came from APCo and Wheeling's July 2024 application in Case No. 24-0611-E-T-PW (revisions to Schedules LCP and IP, per a legal notice) and a January 2025 settlement with Google and the manufacturers' group (WV Public Broadcasting, 22 January 2025: 100 MW, 12 years, 80 percent); the PSC order in that case was not found. Cardinal News (31 July 2026) quotes APCo testimony to the Virginia SCC that it has contracted 'more than double' 540 MW of data center load in West Virginia (news, unverified). Two older APCo West Virginia tariff files answered HTTP 404. Corrected by the independent audit of session 5304 (A-01): status was 'in effect 2025-09-29'. Corrected by the independent audit of session 5304 (A-02): docket was 'P.S.C. W.Va. Case No. 24-0854-E-42T (order of 28 August 2025, under which Sheets 14-3 and 14-4 were issued)'. Corrected by the independent audit of session 5304 (A-03): exit_fee was 'Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee equal to the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance, over an Exit Fee Period of one to five years'.",
    "date_read": "2026-11-13",
    "row_id": "aep-05"
   },
