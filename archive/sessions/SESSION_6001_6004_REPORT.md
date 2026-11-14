@@ -1,6 +1,6 @@
 # Sessions 6001 to 6004 report: the states held at cost, the cross-checks (chain 270, samueloldlaptop)
 
-14 November 2026, about 02:00 to 04:30 UTC. Branch `wip/6000-forecast`. Model spend under the owner's key: USD 0 (no model call by any tool). Six read-only subagents (sent by session 6000) returned their rows in their messages; one wrote a temporary text extract to the session's scratchpad (outside the repository), said so.
+14 November 2026, about 08:45 to 09:05 UTC. Branch `wip/6000-forecast`. Model spend under the owner's key: USD 0 (no model call by any tool). Six read-only subagents (sent by session 6000) returned their rows in their messages; one wrote a temporary text extract to the session's scratchpad (outside the repository), said so.
 
 ## What the readers found and what was encoded
 
@@ -54,5 +54,5 @@
 
 ## Next
 
-- P1's close-out note (portable laptop) not on main at 04:30 UTC: the five tools' faults wait. The W46 Roundup does not exist yet.
+- P1's close-out note (portable laptop) not on main at 09:03 UTC (chain 269 runs on `wip/5500-closeout`): the five tools' faults wait. The W46 Roundup does not exist yet.
 - Row 12 moved to this head.
