@@ -4,15 +4,15 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 
 | Class | Refusals | Graded right |
 |---|---|---|
-| MISO's pause | 25 | 25 of 25 graded |
-| a license hold | 126 | 125 of 126 graded |
-| a table not in the live set | 62 | 61 of 62 graded |
+| MISO's pause | 26 | 26 of 26 graded |
+| a license hold | 128 | 127 of 128 graded |
+| a table not in the live set | 64 | 63 of 64 graded |
 | the call limit | 14 | 13 of 14 graded |
 | the warehouse lacks the figure | 137 | 130 of 137 graded |
 | rows read, then refused | 29 | 28 of 29 graded |
 | the number check's refusal | 1 | 0 of 1 graded |
 
-In all: 394 refusals.
+In all: 399 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -410,3 +410,8 @@ In all: 394 refusals.
 | session 6169, Python loop over the tables' files, the new tables' set | lw10 | 4 | the warehouse lacks the figure | right |
 | session 6169, Python loop over the tables' files, the new tables' set | lw11 | 4 | the warehouse lacks the figure | right |
 | session 6170, Python loop over the tables' files, the new tables' set | rs03 | 4 | the warehouse lacks the figure | right |
+| session 6192, the site's loop, the heldout set | h25 | 1 | a license hold | right |
+| session 6192, the site's loop, the heldout set | h26 | 3 | a license hold | right |
+| session 6192, the site's loop, the heldout set | h27 | 6 | MISO's pause | right |
+| session 6192, the site's loop, the heldout set | h28 | 3 | a table not in the live set | right |
+| session 6192, the site's loop, the heldout set | h29 | 3 | a table not in the live set | right |

@@ -565,7 +565,13 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (shape === "series" && a.day === THIS_WEEK) sel.push("freq");   // session 161: the step, to say whether a day of the week is whole
   if (shape === "entities") sel.push("id:entity_id");
   // a read by a date column is in the order of the rows' own ids, so that a read of more than one page holds each row once
-  const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast`;
+  // session 6192 (chain 283): and a read by the time column is in the order of the time and then of the rows' own ids. By
+  // the time alone the order was not whole: the rows of a queue's snapshot share one status date, a page was cut anywhere
+  // among them, and a read of more than one page held a row twice and missed another. Found by the held-out set's h19 on
+  // 14 November 2026: SPP's 2,058 withdrawn requests summed to 419,388.735 MW, the same on every asking, where the rows
+  // sum to 419,636.335 (the Python tool's figure, which reads the table whole). A count was right and a sum was not
+  const ids = { series: "entity.asc,variable.asc", entities: "entity_id.asc", events: "event_id.asc" }[shape];
+  const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast,${ids}`;
   const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order, ...scopeFilter(scope, a.table, shape, columns) };
   if (a.entity && shape !== "series") {
     q.or = shape === "entities" ? `(entity_id.eq.${quote(a.entity)},name.eq.${quote(a.entity)})` : `(source.eq.${quote(a.entity)})`;

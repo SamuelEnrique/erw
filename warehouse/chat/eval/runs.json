@@ -1162,6 +1162,20 @@
     "what": "the new tables' set asked whole once more through the Python loop over the tables' own files, on the chat as chains 280 to 282 left it (twelve rules), the last three; the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6160_6189_REPORT.md`"
    }
+  },
+  {
+   "file": "eval_s6192_site_heldout_run.json",
+   "grades": "eval_s6192_site_heldout_grades.json",
+   "right": "ok",
+   "label": "session 6192, the site's loop, the heldout set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_heldout.yaml`",
+    "what": "questions of the heldout set asked in session 6192 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6192's report"
+   }
   }
  ],
  "left_out": {
@@ -1188,6 +1202,7 @@
   "keys_platform.json": "the keys of questions_platform.yaml, written by scripts/ask_eval/platform_questions.py, not a run",
   "eval_s5272_site_platform_ten_rules_run.json": "session 5272: an arm of a measure, not a run of the set: twelve questions of the platform set asked at effort medium under a prompt of ten rules (rule 11 taken out for the asking), to tell the rule's effect from the effort's; graded by grade_arm.py; docs/reviews/ask-eval-2026-11-13.md",
   "eval_s5272_site_platform_ten_rules_grades.json": "the grades of that arm, written by grade_arm.py",
-  "keys_newtables.json": "the keys of questions_newtables.yaml, written by scripts/ask_eval/newtables_questions.py from the tables' own files, not a run"
+  "keys_newtables.json": "the keys of questions_newtables.yaml, written by scripts/ask_eval/newtables_questions.py from the tables' own files, not a run",
+  "keys_heldout.json": "the keys of questions_heldout.yaml, written by scripts/ask_eval/heldout_questions.py from the live set before the set was asked, not a run"
  }
 }
