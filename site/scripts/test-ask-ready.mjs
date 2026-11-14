@@ -78,7 +78,7 @@ await test("every recorded call returns, from the recorded reads, what it return
   for (const c of FIX.calls) {
     const r = await runTool(c.name, c.input, profile.scope);
     // session 168: the local words beside each time (lib/chat/plaintime.ts) are newer than the recording and are set apart
-    assert.deepEqual(JSON.parse(JSON.stringify(r, (k, v) => (k.endsWith("_local") ? undefined : v))), CALL[c.id].recorded, c.id);
+    assert.deepEqual(JSON.parse(JSON.stringify(r, (k, v) => (k.endsWith("_local") || k === "window" ? undefined : v))), CALL[c.id].recorded, c.id);   // session 5267: and the window field (lib/chat/window.ts)
   }
 });
 
