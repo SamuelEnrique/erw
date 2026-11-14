@@ -3202,7 +3202,9 @@
   },
   "forecast_tool_parameters": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "frb_treasury_yields": {
    "status": "public",
@@ -4669,7 +4671,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 487
+   "public": 488
   },
   "/data/faults": {
    "label": "Known faults in source data",

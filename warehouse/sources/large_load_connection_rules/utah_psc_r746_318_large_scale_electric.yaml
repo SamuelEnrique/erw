@@ -12,6 +12,10 @@
 # statute's steps; this file holds the rule's own, as printed: the rule gives the filing window as "15 days" where the
 # statute (54-26-301(8)) prints "15 business days", and both are kept as printed. The qualified electric utility in Utah
 # is Rocky Mountain Power (PacifiCorp), as in the statute's file; the rule names none. Pages are the PDF's.
+# Session 3949 (chain 272; data request row 17, change west_changes-19): amendments to R746-318 are under comment (the PSC's
+# Notice of Additional Comment Period of 22 July 2026); Rocky Mountain Power's reply of 4 September 2026 proposes an isolation
+# declaration within seven business days of complete documentation and site verification. No Commission action after 22 July
+# 2026 on the docket page when read (13 November 2026): the rule's steps below stand as adopted.
 body: Public Service Commission of Utah (Utah Admin. Code R746-318, under S.B. 132 of 2025)
 grid: PACE
 utility: PacifiCorp (Rocky Mountain Power)

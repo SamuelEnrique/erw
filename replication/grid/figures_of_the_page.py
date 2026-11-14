@@ -157,8 +157,11 @@ def generation_week(snapshot, tables_dir):
     return {b: [at.get((f"eia930:{b}", h)) for h in snap["hours"]] for b in ISOS + ["US48"]}
 
 
-def network_group(snapshot, tables_dir):
-    gen = generation_week(snapshot, tables_dir)
+def network_group(snapshot, tables_dir, gen=None):
+    """gen, optional: {BA: [MW per hour of the snapshot, or None]} given directly (session 3962: test 3703 passes the
+    committed file's own generation figures); without it, read from the tables given."""
+    if gen is None:
+        gen = generation_week(snapshot, tables_dir)
     with tempfile.TemporaryDirectory() as d:
         argv = ["node", "--no-warnings", os.path.join(HERE, "network_figures.mjs"), snapshot]
         if gen:

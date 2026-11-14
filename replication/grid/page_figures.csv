@@ -1,110 +1,125 @@
 group,check,name,page_text,raw,tolerance,held
-network,net|lag|2026-11-03T23:00:00Z|2026-11-05T23:09:35Z,hours from the hour shown to the snapshot's refresh,,48,0.5,0
-network,net|export|ERCO|2026-11-03T23:00:00Z,"ERCO: net export over its reporting ties, MW (negative: a net import)",,-219,0.5,0
-network,net|ties|ERCO|2026-11-03T23:00:00Z,ERCO: ties reporting,,2,0.5,0
-network,net|export|CISO|2026-11-03T23:00:00Z,"CISO: net export over its reporting ties, MW (negative: a net import)",,-2172,0.5,0
-network,net|ties|CISO|2026-11-03T23:00:00Z,CISO: ties reporting,,11,0.5,0
-network,net|export|PJM|2026-11-03T23:00:00Z,"PJM: net export over its reporting ties, MW (negative: a net import)",,2554,0.5,0
-network,net|ties|PJM|2026-11-03T23:00:00Z,PJM: ties reporting,,7,0.5,0
-network,net|export|MISO|2026-11-03T23:00:00Z,"MISO: net export over its reporting ties, MW (negative: a net import)",,-3761,0.5,0
-network,net|ties|MISO|2026-11-03T23:00:00Z,MISO: ties reporting,,10,0.5,0
-network,net|export|NYIS|2026-11-03T23:00:00Z,"NYIS: net export over its reporting ties, MW (negative: a net import)",,-2231,0.5,0
-network,net|ties|NYIS|2026-11-03T23:00:00Z,NYIS: ties reporting,,4,0.5,0
-network,net|export|ISNE|2026-11-03T23:00:00Z,"ISNE: net export over its reporting ties, MW (negative: a net import)",,-547,0.5,0
-network,net|ties|ISNE|2026-11-03T23:00:00Z,ISNE: ties reporting,,3,0.5,0
-network,net|export|SWPP|2026-11-03T23:00:00Z,"SWPP: net export over its reporting ties, MW (negative: a net import)",,571,0.5,0
-network,net|ties|SWPP|2026-11-03T23:00:00Z,SWPP: ties reporting,,11,0.5,0
-gravity,net|topexport|2026-11-03T23:00:00Z,"the largest net export of any balancing authority, MW (SRP)",,2634,0.5,0
-network,net|tie|ERCO|SWPP|2026-11-03T23:00:00Z,"ERCO: its tie with SWPP, MW signed from ERCO's side",,-219,0.5,0
-network,net|tie|ERCO|CEN|2026-11-03T23:00:00Z,"ERCO: its tie with CEN, MW signed from ERCO's side",,0,0.5,0
-network,net|import|ERCO|2026-11-03T23:00:00Z,"ERCO: net import over its reporting ties, MW",,219,0.5,0
-gravity,net|maxflow|ERCO|2026-11-03T23:00:00Z,"ERCO: the largest flow on its ties, MW, either way",,219,0.5,0
-network,net|tie|CISO|LDWP|2026-11-03T23:00:00Z,"CISO: its tie with LDWP, MW signed from CISO's side",,-809,0.5,0
-network,net|tie|CISO|AZPS|2026-11-03T23:00:00Z,"CISO: its tie with AZPS, MW signed from CISO's side",,-519,0.5,0
-network,net|tie|CISO|BPAT|2026-11-03T23:00:00Z,"CISO: its tie with BPAT, MW signed from CISO's side",,-495,0.5,0
-network,net|tie|CISO|IID|2026-11-03T23:00:00Z,"CISO: its tie with IID, MW signed from CISO's side",,-384,0.5,0
-network,net|tie|CISO|TIDC|2026-11-03T23:00:00Z,"CISO: its tie with TIDC, MW signed from CISO's side",,331,0.5,0
-network,net|tie|CISO|SRP|2026-11-03T23:00:00Z,"CISO: its tie with SRP, MW signed from CISO's side",,-253,0.5,0
-network,net|tie|CISO|BANC|2026-11-03T23:00:00Z,"CISO: its tie with BANC, MW signed from CISO's side",,-144,0.5,0
-network,net|tie|CISO|NEVP|2026-11-03T23:00:00Z,"CISO: its tie with NEVP, MW signed from CISO's side",,73,0.5,0
-network,net|tie|CISO|WALC|2026-11-03T23:00:00Z,"CISO: its tie with WALC, MW signed from CISO's side",,37,0.5,0
-network,net|tie|CISO|PACW|2026-11-03T23:00:00Z,"CISO: its tie with PACW, MW signed from CISO's side",,-20,0.5,0
-network,net|tie|CISO|CEN|2026-11-03T23:00:00Z,"CISO: its tie with CEN, MW signed from CISO's side",,11,0.5,0
-network,net|import|CISO|2026-11-03T23:00:00Z,"CISO: net import over its reporting ties, MW",,2172,0.5,0
-gravity,net|maxflow|CISO|2026-11-03T23:00:00Z,"CISO: the largest flow on its ties, MW, either way",,809,0.5,0
-network,net|tie|PJM|MISO|2026-11-03T23:00:00Z,"PJM: its tie with MISO, MW signed from PJM's side",,2933,0.5,0
-network,net|tie|PJM|NYIS|2026-11-03T23:00:00Z,"PJM: its tie with NYIS, MW signed from PJM's side",,1636,0.5,0
-network,net|tie|PJM|CPLE|2026-11-03T23:00:00Z,"PJM: its tie with CPLE, MW signed from PJM's side",,-873,0.5,0
-network,net|tie|PJM|TVA|2026-11-03T23:00:00Z,"PJM: its tie with TVA, MW signed from PJM's side",,-805,0.5,0
-network,net|tie|PJM|LGEE|2026-11-03T23:00:00Z,"PJM: its tie with LGEE, MW signed from PJM's side",,-246,0.5,0
-network,net|tie|PJM|CPLW|2026-11-03T23:00:00Z,"PJM: its tie with CPLW, MW signed from PJM's side",,-49,0.5,0
-network,net|tie|PJM|DUK|2026-11-03T23:00:00Z,"PJM: its tie with DUK, MW signed from PJM's side",,-42,0.5,0
-network,net|export|PJM|2026-11-03T23:00:00Z,"PJM: net export over its reporting ties, MW",,2554,0.5,0
-gravity,net|maxflow|PJM|2026-11-03T23:00:00Z,"PJM: the largest flow on its ties, MW, either way",,2933,0.5,0
-network,net|tie|MISO|PJM|2026-11-03T23:00:00Z,"MISO: its tie with PJM, MW signed from MISO's side",,-2933,0.5,0
-network,net|tie|MISO|TVA|2026-11-03T23:00:00Z,"MISO: its tie with TVA, MW signed from MISO's side",,1802,0.5,0
-network,net|tie|MISO|MHEB|2026-11-03T23:00:00Z,"MISO: its tie with MHEB, MW signed from MISO's side",,-1431,0.5,0
-network,net|tie|MISO|AECI|2026-11-03T23:00:00Z,"MISO: its tie with AECI, MW signed from MISO's side",,-835,0.5,0
-network,net|tie|MISO|IESO|2026-11-03T23:00:00Z,"MISO: its tie with IESO, MW signed from MISO's side",,-653,0.5,0
-network,net|tie|MISO|LGEE|2026-11-03T23:00:00Z,"MISO: its tie with LGEE, MW signed from MISO's side",,360,0.5,0
-network,net|tie|MISO|SPA|2026-11-03T23:00:00Z,"MISO: its tie with SPA, MW signed from MISO's side",,-213,0.5,0
-network,net|tie|MISO|SOCO|2026-11-03T23:00:00Z,"MISO: its tie with SOCO, MW signed from MISO's side",,103,0.5,0
-network,net|tie|MISO|SWPP|2026-11-03T23:00:00Z,"MISO: its tie with SWPP, MW signed from MISO's side",,83,0.5,0
-network,net|tie|MISO|SIKE|2026-11-03T23:00:00Z,"MISO: its tie with SIKE, MW signed from MISO's side",,-44,0.5,0
-network,net|import|MISO|2026-11-03T23:00:00Z,"MISO: net import over its reporting ties, MW",,3761,0.5,0
-gravity,net|maxflow|MISO|2026-11-03T23:00:00Z,"MISO: the largest flow on its ties, MW, either way",,2933,0.5,0
-network,net|tie|NYIS|PJM|2026-11-03T23:00:00Z,"NYIS: its tie with PJM, MW signed from NYIS's side",,-1636,0.5,0
-network,net|tie|NYIS|HQT|2026-11-03T23:00:00Z,"NYIS: its tie with HQT, MW signed from NYIS's side",,-1234,0.5,0
-network,net|tie|NYIS|ISNE|2026-11-03T23:00:00Z,"NYIS: its tie with ISNE, MW signed from NYIS's side",,563,0.5,0
-network,net|tie|NYIS|IESO|2026-11-03T23:00:00Z,"NYIS: its tie with IESO, MW signed from NYIS's side",,76,0.5,0
-network,net|import|NYIS|2026-11-03T23:00:00Z,"NYIS: net import over its reporting ties, MW",,2231,0.5,0
-gravity,net|maxflow|NYIS|2026-11-03T23:00:00Z,"NYIS: the largest flow on its ties, MW, either way",,1636,0.5,0
-network,net|tie|ISNE|NYIS|2026-11-03T23:00:00Z,"ISNE: its tie with NYIS, MW signed from ISNE's side",,-563,0.5,0
-network,net|tie|ISNE|NBSO|2026-11-03T23:00:00Z,"ISNE: its tie with NBSO, MW signed from ISNE's side",,16,0.5,0
-network,net|tie|ISNE|HQT|2026-11-03T23:00:00Z,"ISNE: its tie with HQT, MW signed from ISNE's side",,0,0.5,0
-network,net|import|ISNE|2026-11-03T23:00:00Z,"ISNE: net import over its reporting ties, MW",,547,0.5,0
-gravity,net|maxflow|ISNE|2026-11-03T23:00:00Z,"ISNE: the largest flow on its ties, MW, either way",,563,0.5,0
-network,net|tie|SWPP|SPA|2026-11-03T23:00:00Z,"SWPP: its tie with SPA, MW signed from SWPP's side",,-474,0.5,0
-network,net|tie|SWPP|PSCO|2026-11-03T23:00:00Z,"SWPP: its tie with PSCO, MW signed from SWPP's side",,368,0.5,0
-network,net|tie|SWPP|AECI|2026-11-03T23:00:00Z,"SWPP: its tie with AECI, MW signed from SWPP's side",,271,0.5,0
-network,net|tie|SWPP|ERCO|2026-11-03T23:00:00Z,"SWPP: its tie with ERCO, MW signed from SWPP's side",,219,0.5,0
-network,net|tie|SWPP|BHBA|2026-11-03T23:00:00Z,"SWPP: its tie with BHBA, MW signed from SWPP's side",,204,0.5,0
-network,net|tie|SWPP|MISO|2026-11-03T23:00:00Z,"SWPP: its tie with MISO, MW signed from SWPP's side",,-83,0.5,0
-network,net|tie|SWPP|SIKE|2026-11-03T23:00:00Z,"SWPP: its tie with SIKE, MW signed from SWPP's side",,83,0.5,0
-network,net|tie|SWPP|SPC|2026-11-03T23:00:00Z,"SWPP: its tie with SPC, MW signed from SWPP's side",,-54,0.5,0
-network,net|tie|SWPP|WAUW|2026-11-03T23:00:00Z,"SWPP: its tie with WAUW, MW signed from SWPP's side",,37,0.5,0
-network,net|tie|SWPP|EPE|2026-11-03T23:00:00Z,"SWPP: its tie with EPE, MW signed from SWPP's side",,0,0.5,0
-network,net|tie|SWPP|PNM|2026-11-03T23:00:00Z,"SWPP: its tie with PNM, MW signed from SWPP's side",,0,0.5,0
-network,net|export|SWPP|2026-11-03T23:00:00Z,"SWPP: net export over its reporting ties, MW",,571,0.5,0
-gravity,net|maxflow|SWPP|2026-11-03T23:00:00Z,"SWPP: the largest flow on its ties, MW, either way",,474,0.5,0
-gravity,net|import|CISO|2026-11-03T23:00:00Z,"CISO: net import over its reporting ties, MW (negative: a net export)",,2172,0.5,0
-gravity,net|import|SWPP|2026-11-03T23:00:00Z,"SWPP: net import over its reporting ties, MW (negative: a net export)",,-571,0.5,0
-gravity,net|import|MISO|2026-11-03T23:00:00Z,"MISO: net import over its reporting ties, MW (negative: a net export)",,3761,0.5,0
-gravity,net|import|ISNE|2026-11-03T23:00:00Z,"ISNE: net import over its reporting ties, MW (negative: a net export)",,547,0.5,0
-gravity,net|import|NYIS|2026-11-03T23:00:00Z,"NYIS: net import over its reporting ties, MW (negative: a net export)",,2231,0.5,0
-gravity,net|import|PJM|2026-11-03T23:00:00Z,"PJM: net import over its reporting ties, MW (negative: a net export)",,-2554,0.5,0
-gravity,net|import|ERCO|2026-11-03T23:00:00Z,"ERCO: net import over its reporting ties, MW (negative: a net export)",,219,0.5,0
-carbon,series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-11-02T23:00:00Z,"ERCO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,286.922,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-11-02T23:00:00Z,"CISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,128.9306,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-10-30T23:00:00Z,"PJM: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,310.7712,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-11-02T23:00:00Z,"MISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,387.7906,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-11-02T23:00:00Z,"NYIS: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,217.4895,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-11-02T23:00:00Z,"ISNE: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,214.723,0.005,0
-carbon,series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-10-31T23:00:00Z,"SWPP: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,552.5791,0.005,0
+network,net|lag|2026-11-09T23:00:00Z|2026-11-12T21:46:53Z,hours from the hour shown to the snapshot's refresh,,71,0.5,0
+network,net|export|ERCO|2026-11-09T23:00:00Z,"ERCO: net export over its reporting ties, MW (negative: a net import)",,-168,0.5,0
+network,net|ties|ERCO|2026-11-09T23:00:00Z,ERCO: ties reporting,,2,0.5,0
+network,net|export|CISO|2026-11-09T23:00:00Z,"CISO: net export over its reporting ties, MW (negative: a net import)",,-109,0.5,0
+network,net|ties|CISO|2026-11-09T23:00:00Z,CISO: ties reporting,,11,0.5,0
+network,net|export|PJM|2026-11-09T23:00:00Z,"PJM: net export over its reporting ties, MW (negative: a net import)",,1767,0.5,0
+network,net|ties|PJM|2026-11-09T23:00:00Z,PJM: ties reporting,,7,0.5,0
+network,net|export|MISO|2026-11-09T23:00:00Z,"MISO: net export over its reporting ties, MW (negative: a net import)",,-4007,0.5,0
+network,net|ties|MISO|2026-11-09T23:00:00Z,MISO: ties reporting,,10,0.5,0
+network,net|export|NYIS|2026-11-09T23:00:00Z,"NYIS: net export over its reporting ties, MW (negative: a net import)",,-1603,0.5,0
+network,net|ties|NYIS|2026-11-09T23:00:00Z,NYIS: ties reporting,,4,0.5,0
+network,net|export|ISNE|2026-11-09T23:00:00Z,"ISNE: net export over its reporting ties, MW (negative: a net import)",,-685,0.5,0
+network,net|ties|ISNE|2026-11-09T23:00:00Z,ISNE: ties reporting,,3,0.5,0
+network,net|export|SWPP|2026-11-09T23:00:00Z,"SWPP: net export over its reporting ties, MW (negative: a net import)",,-421,0.5,0
+network,net|ties|SWPP|2026-11-09T23:00:00Z,SWPP: ties reporting,,11,0.5,0
+gravity,net|topexport|2026-11-09T23:00:00Z,"the largest net export of any balancing authority, MW (SRP)",,3058,0.5,0
+network,net|tie|ERCO|SWPP|2026-11-09T23:00:00Z,"ERCO: its tie with SWPP, MW signed from ERCO's side",,-168,0.5,0
+network,net|tie|ERCO|CEN|2026-11-09T23:00:00Z,"ERCO: its tie with CEN, MW signed from ERCO's side",,0,0.5,0
+network,net|import|ERCO|2026-11-09T23:00:00Z,"ERCO: net import over its reporting ties, MW",,168,0.5,0
+gravity,net|maxflow|ERCO|2026-11-09T23:00:00Z,"ERCO: the largest flow on its ties, MW, either way",,168,0.5,0
+network,net|tie|CISO|NEVP|2026-11-09T23:00:00Z,"CISO: its tie with NEVP, MW signed from CISO's side",,-894,0.5,0
+network,net|tie|CISO|LDWP|2026-11-09T23:00:00Z,"CISO: its tie with LDWP, MW signed from CISO's side",,821,0.5,0
+network,net|tie|CISO|TIDC|2026-11-09T23:00:00Z,"CISO: its tie with TIDC, MW signed from CISO's side",,514,0.5,0
+network,net|tie|CISO|AZPS|2026-11-09T23:00:00Z,"CISO: its tie with AZPS, MW signed from CISO's side",,-487,0.5,0
+network,net|tie|CISO|IID|2026-11-09T23:00:00Z,"CISO: its tie with IID, MW signed from CISO's side",,-419,0.5,0
+network,net|tie|CISO|BPAT|2026-11-09T23:00:00Z,"CISO: its tie with BPAT, MW signed from CISO's side",,325,0.5,0
+network,net|tie|CISO|SRP|2026-11-09T23:00:00Z,"CISO: its tie with SRP, MW signed from CISO's side",,-213,0.5,0
+network,net|tie|CISO|BANC|2026-11-09T23:00:00Z,"CISO: its tie with BANC, MW signed from CISO's side",,124,0.5,0
+network,net|tie|CISO|WALC|2026-11-09T23:00:00Z,"CISO: its tie with WALC, MW signed from CISO's side",,106,0.5,0
+network,net|tie|CISO|CEN|2026-11-09T23:00:00Z,"CISO: its tie with CEN, MW signed from CISO's side",,15,0.5,0
+network,net|tie|CISO|PACW|2026-11-09T23:00:00Z,"CISO: its tie with PACW, MW signed from CISO's side",,-1,0.5,0
+network,net|import|CISO|2026-11-09T23:00:00Z,"CISO: net import over its reporting ties, MW",,109,0.5,0
+gravity,net|maxflow|CISO|2026-11-09T23:00:00Z,"CISO: the largest flow on its ties, MW, either way",,894,0.5,0
+network,net|tie|PJM|MISO|2026-11-09T23:00:00Z,"PJM: its tie with MISO, MW signed from PJM's side",,2633,0.5,0
+network,net|tie|PJM|NYIS|2026-11-09T23:00:00Z,"PJM: its tie with NYIS, MW signed from PJM's side",,1671,0.5,0
+network,net|tie|PJM|CPLE|2026-11-09T23:00:00Z,"PJM: its tie with CPLE, MW signed from PJM's side",,-1403,0.5,0
+network,net|tie|PJM|TVA|2026-11-09T23:00:00Z,"PJM: its tie with TVA, MW signed from PJM's side",,-824,0.5,0
+network,net|tie|PJM|LGEE|2026-11-09T23:00:00Z,"PJM: its tie with LGEE, MW signed from PJM's side",,-142,0.5,0
+network,net|tie|PJM|CPLW|2026-11-09T23:00:00Z,"PJM: its tie with CPLW, MW signed from PJM's side",,-131,0.5,0
+network,net|tie|PJM|DUK|2026-11-09T23:00:00Z,"PJM: its tie with DUK, MW signed from PJM's side",,-37,0.5,0
+network,net|export|PJM|2026-11-09T23:00:00Z,"PJM: net export over its reporting ties, MW",,1767,0.5,0
+gravity,net|maxflow|PJM|2026-11-09T23:00:00Z,"PJM: the largest flow on its ties, MW, either way",,2633,0.5,0
+network,net|tie|MISO|PJM|2026-11-09T23:00:00Z,"MISO: its tie with PJM, MW signed from MISO's side",,-2633,0.5,0
+network,net|tie|MISO|MHEB|2026-11-09T23:00:00Z,"MISO: its tie with MHEB, MW signed from MISO's side",,-1489,0.5,0
+network,net|tie|MISO|TVA|2026-11-09T23:00:00Z,"MISO: its tie with TVA, MW signed from MISO's side",,1308,0.5,0
+network,net|tie|MISO|AECI|2026-11-09T23:00:00Z,"MISO: its tie with AECI, MW signed from MISO's side",,-905,0.5,0
+network,net|tie|MISO|SWPP|2026-11-09T23:00:00Z,"MISO: its tie with SWPP, MW signed from MISO's side",,321,0.5,0
+network,net|tie|MISO|IESO|2026-11-09T23:00:00Z,"MISO: its tie with IESO, MW signed from MISO's side",,-315,0.5,0
+network,net|tie|MISO|SPA|2026-11-09T23:00:00Z,"MISO: its tie with SPA, MW signed from MISO's side",,-250,0.5,0
+network,net|tie|MISO|LGEE|2026-11-09T23:00:00Z,"MISO: its tie with LGEE, MW signed from MISO's side",,170,0.5,0
+network,net|tie|MISO|SOCO|2026-11-09T23:00:00Z,"MISO: its tie with SOCO, MW signed from MISO's side",,-157,0.5,0
+network,net|tie|MISO|SIKE|2026-11-09T23:00:00Z,"MISO: its tie with SIKE, MW signed from MISO's side",,-57,0.5,0
+network,net|import|MISO|2026-11-09T23:00:00Z,"MISO: net import over its reporting ties, MW",,4007,0.5,0
+gravity,net|maxflow|MISO|2026-11-09T23:00:00Z,"MISO: the largest flow on its ties, MW, either way",,2633,0.5,0
+network,net|tie|NYIS|PJM|2026-11-09T23:00:00Z,"NYIS: its tie with PJM, MW signed from NYIS's side",,-1671,0.5,0
+network,net|tie|NYIS|HQT|2026-11-09T23:00:00Z,"NYIS: its tie with HQT, MW signed from NYIS's side",,-1044,0.5,0
+network,net|tie|NYIS|IESO|2026-11-09T23:00:00Z,"NYIS: its tie with IESO, MW signed from NYIS's side",,612,0.5,0
+network,net|tie|NYIS|ISNE|2026-11-09T23:00:00Z,"NYIS: its tie with ISNE, MW signed from NYIS's side",,500,0.5,0
+network,net|import|NYIS|2026-11-09T23:00:00Z,"NYIS: net import over its reporting ties, MW",,1603,0.5,0
+gravity,net|maxflow|NYIS|2026-11-09T23:00:00Z,"NYIS: the largest flow on its ties, MW, either way",,1671,0.5,0
+network,net|tie|ISNE|NYIS|2026-11-09T23:00:00Z,"ISNE: its tie with NYIS, MW signed from ISNE's side",,-500,0.5,0
+network,net|tie|ISNE|NBSO|2026-11-09T23:00:00Z,"ISNE: its tie with NBSO, MW signed from ISNE's side",,-184,0.5,0
+network,net|tie|ISNE|HQT|2026-11-09T23:00:00Z,"ISNE: its tie with HQT, MW signed from ISNE's side",,-1,0.5,0
+network,net|import|ISNE|2026-11-09T23:00:00Z,"ISNE: net import over its reporting ties, MW",,685,0.5,0
+gravity,net|maxflow|ISNE|2026-11-09T23:00:00Z,"ISNE: the largest flow on its ties, MW, either way",,500,0.5,0
+network,net|tie|SWPP|MISO|2026-11-09T23:00:00Z,"SWPP: its tie with MISO, MW signed from SWPP's side",,-321,0.5,0
+network,net|tie|SWPP|ERCO|2026-11-09T23:00:00Z,"SWPP: its tie with ERCO, MW signed from SWPP's side",,168,0.5,0
+network,net|tie|SWPP|WAUW|2026-11-09T23:00:00Z,"SWPP: its tie with WAUW, MW signed from SWPP's side",,-141,0.5,0
+network,net|tie|SWPP|SPA|2026-11-09T23:00:00Z,"SWPP: its tie with SPA, MW signed from SWPP's side",,-126,0.5,0
+network,net|tie|SWPP|SIKE|2026-11-09T23:00:00Z,"SWPP: its tie with SIKE, MW signed from SWPP's side",,95,0.5,0
+network,net|tie|SWPP|AECI|2026-11-09T23:00:00Z,"SWPP: its tie with AECI, MW signed from SWPP's side",,-69,0.5,0
+network,net|tie|SWPP|SPC|2026-11-09T23:00:00Z,"SWPP: its tie with SPC, MW signed from SWPP's side",,-48,0.5,0
+network,net|tie|SWPP|BHBA|2026-11-09T23:00:00Z,"SWPP: its tie with BHBA, MW signed from SWPP's side",,21,0.5,0
+network,net|tie|SWPP|EPE|2026-11-09T23:00:00Z,"SWPP: its tie with EPE, MW signed from SWPP's side",,0,0.5,0
+network,net|tie|SWPP|PNM|2026-11-09T23:00:00Z,"SWPP: its tie with PNM, MW signed from SWPP's side",,0,0.5,0
+network,net|tie|SWPP|PSCO|2026-11-09T23:00:00Z,"SWPP: its tie with PSCO, MW signed from SWPP's side",,0,0.5,0
+network,net|import|SWPP|2026-11-09T23:00:00Z,"SWPP: net import over its reporting ties, MW",,421,0.5,0
+gravity,net|maxflow|SWPP|2026-11-09T23:00:00Z,"SWPP: the largest flow on its ties, MW, either way",,321,0.5,0
+gravity,series|eia930_all_generation|eia930:US48|net_generation_mw|2026-11-09T23:00:00Z,"US48: net generation, MW (the shape's scale)",,483505,0.5,0
+gravity,series|eia930_all_generation|eia930:CISO|net_generation_mw|2026-11-09T23:00:00Z,"CISO: net generation, MW",,25644,0.5,0
+gravity,net|import|CISO|2026-11-09T23:00:00Z,"CISO: net import over its reporting ties, MW (negative: a net export)",,109,0.5,0
+gravity,calc|pct|net~import~CISO~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:CISO~net_generation_mw~2026-11-09T23:00:00Z,"CISO: net import, percent of its net generation",,0.4250506941194821,0.005,0
+gravity,series|eia930_all_generation|eia930:SWPP|net_generation_mw|2026-11-09T23:00:00Z,"SWPP: net generation, MW",,32180,0.5,0
+gravity,net|import|SWPP|2026-11-09T23:00:00Z,"SWPP: net import over its reporting ties, MW (negative: a net export)",,421,0.5,0
+gravity,calc|pct|net~import~SWPP~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:SWPP~net_generation_mw~2026-11-09T23:00:00Z,"SWPP: net import, percent of its net generation",,1.3082660037290244,0.005,0
+gravity,series|eia930_all_generation|eia930:MISO|net_generation_mw|2026-11-09T23:00:00Z,"MISO: net generation, MW",,73508,0.5,0
+gravity,net|import|MISO|2026-11-09T23:00:00Z,"MISO: net import over its reporting ties, MW (negative: a net export)",,4007,0.5,0
+gravity,calc|pct|net~import~MISO~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:MISO~net_generation_mw~2026-11-09T23:00:00Z,"MISO: net import, percent of its net generation",,5.451107362463949,0.005,0
+gravity,series|eia930_all_generation|eia930:ISNE|net_generation_mw|2026-11-09T23:00:00Z,"ISNE: net generation, MW",,14046,0.5,0
+gravity,net|import|ISNE|2026-11-09T23:00:00Z,"ISNE: net import over its reporting ties, MW (negative: a net export)",,685,0.5,0
+gravity,calc|pct|net~import~ISNE~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:ISNE~net_generation_mw~2026-11-09T23:00:00Z,"ISNE: net import, percent of its net generation",,4.876833262138687,0.005,0
+gravity,series|eia930_all_generation|eia930:NYIS|net_generation_mw|2026-11-09T23:00:00Z,"NYIS: net generation, MW",,16474,0.5,0
+gravity,net|import|NYIS|2026-11-09T23:00:00Z,"NYIS: net import over its reporting ties, MW (negative: a net export)",,1603,0.5,0
+gravity,calc|pct|net~import~NYIS~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:NYIS~net_generation_mw~2026-11-09T23:00:00Z,"NYIS: net import, percent of its net generation",,9.730484399660071,0.005,0
+gravity,series|eia930_all_generation|eia930:PJM|net_generation_mw|2026-11-09T23:00:00Z,"PJM: net generation, MW",,98631,0.5,0
+gravity,net|import|PJM|2026-11-09T23:00:00Z,"PJM: net import over its reporting ties, MW (negative: a net export)",,-1767,0.5,0
+gravity,calc|pct|net~import~PJM~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:PJM~net_generation_mw~2026-11-09T23:00:00Z,"PJM: net import, percent of its net generation",,-1.7915259908142471,0.005,0
+gravity,series|eia930_all_generation|eia930:ERCO|net_generation_mw|2026-11-09T23:00:00Z,"ERCO: net generation, MW",,52334,0.5,0
+gravity,net|import|ERCO|2026-11-09T23:00:00Z,"ERCO: net import over its reporting ties, MW (negative: a net export)",,168,0.5,0
+gravity,calc|pct|net~import~ERCO~2026-11-09T23:00:00Z|series~eia930_all_generation~eia930:ERCO~net_generation_mw~2026-11-09T23:00:00Z,"ERCO: net import, percent of its net generation",,0.3210150189169565,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:ERCO|intensity_generation|2026-11-10T23:00:00Z,"ERCO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,399.7048,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:CISO|intensity_generation|2026-11-09T23:00:00Z,"CISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,142.9728,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:PJM|intensity_generation|2026-11-10T23:00:00Z,"PJM: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,347.2061,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:MISO|intensity_generation|2026-11-10T23:00:00Z,"MISO: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,498.6605,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:NYIS|intensity_generation|2026-11-10T23:00:00Z,"NYIS: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,218.7737,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:ISNE|intensity_generation|2026-11-10T23:00:00Z,"ISNE: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,234.6021,0.005,0
+carbon,series|carbon_intensity_hourly|eia930:SWPP|intensity_generation|2026-11-10T23:00:00Z,"SWPP: carbon intensity of its generation, kg CO2 per MWh (the network's sphere color)",,553.3065,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2018-08-01T00:00:00Z,"ERCO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,460.4669,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-08-01T00:00:00Z,"ERCO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,326.6858,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:ERCO|intensity_generation|2026-10-01T00:00:00Z,"ERCO: carbon intensity of its generation, its last month held (2026-10), kg CO2 per MWh",,315.553,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2018-08-01T00:00:00Z,"CISO: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,213.5147,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-08-01T00:00:00Z,"CISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,172.5591,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:CISO|intensity_generation|2026-07-01T00:00:00Z,"CISO: carbon intensity of its generation, its last month held (2026-07), kg CO2 per MWh",,127.3126,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2018-10-01T00:00:00Z,"PJM: carbon intensity of its generation, its first month held (2018-10), kg CO2 per MWh",,373.4665,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2026-07-01T00:00:00Z,"PJM: carbon intensity of its generation, its last month held (2026-07), kg CO2 per MWh",,368.2207,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:PJM|intensity_generation|2026-09-01T00:00:00Z,"PJM: carbon intensity of its generation, its last month held (2026-09), kg CO2 per MWh",,342.6282,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2018-09-01T00:00:00Z,"MISO: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",,595.9164,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-08-01T00:00:00Z,"MISO: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,478.3676,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:MISO|intensity_generation|2026-10-01T00:00:00Z,"MISO: carbon intensity of its generation, its last month held (2026-10), kg CO2 per MWh",,421.2511,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2018-08-01T00:00:00Z,"NYIS: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,255.4985,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-08-01T00:00:00Z,"NYIS: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,279.8354,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:NYIS|intensity_generation|2026-10-01T00:00:00Z,"NYIS: carbon intensity of its generation, its last month held (2026-10), kg CO2 per MWh",,217.1601,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2018-08-01T00:00:00Z,"ISNE: carbon intensity of its generation, its first month held (2018-08), kg CO2 per MWh",,251.5063,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:ISNE|intensity_generation|2026-08-01T00:00:00Z,"ISNE: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,244.3533,0.005,0
 carbon,series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2018-09-01T00:00:00Z,"SWPP: carbon intensity of its generation, its first month held (2018-09), kg CO2 per MWh",,550.4692,0.005,0
-carbon,series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2026-08-01T00:00:00Z,"SWPP: carbon intensity of its generation, its last month held (2026-08), kg CO2 per MWh",,466.9008,0.005,0
+carbon,series|carbon_intensity_monthly|eia930:SWPP|intensity_generation|2026-10-01T00:00:00Z,"SWPP: carbon intensity of its generation, its last month held (2026-10), kg CO2 per MWh",,391.1464,0.005,0
 ask,ask|s302:q01|0|0,"ercot: s302:q01, source 1, figure 1: What was the average real-time on-peak price at ERCOT's hub average (HB_HUBAVG) over calendar year 2024?",31.57,31.57,0.005,0
 ask,ask|s302:q02|0|0,"ercot: s302:q02, source 1, figure 1: What was the load-weighted real-time price at ERCOT's HB_HUBAVG in July 2025?",34.18,34.18,0.005,0
 ask,ask|s302:q03|0|0,"ercot: s302:q03, source 1, figure 1: What was wind's capture rate at ERCOT's HB_HUBAVG in March 2024?",72.5,72.5,0.05,0
