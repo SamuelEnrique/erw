@@ -52,7 +52,12 @@ PRICE = re.compile(r"^ES(RC|CM|IC|TC)U_[A-Z]{2,3}$")
 SHARE = re.compile(r"^[A-Z]{2}EPSHR_US$")
 OTHER = {"NGHHUUS"}
 UNITS = {"cents per kilowatthour": ("USD/kWh", 0.01), "cents per kilowatt hour": ("USD/kWh", 0.01), "cents/kwh": ("USD/kWh", 0.01), "dollars per million btu": ("USD/MMBtu", 1.0),
-         "$/mmbtu": ("USD/MMBtu", 1.0), "fraction": ("ratio", 1.0), "percent": ("ratio", 0.01), "percentage": ("ratio", 0.01), "%": ("ratio", 0.01)}
+         "$/mmbtu": ("USD/MMBtu", 1.0), "fraction": ("ratio", 1.0), "percent": ("ratio", 0.01), "percentage": ("ratio", 0.01), "%": ("ratio", 0.01),
+         "index, 2017 = 100": ("index", 1.0)}
+# session 3938 (chain 267; request 1 of docs/state/data_requests_forecast.md): the GDP implicit price deflator, annual, from
+# 2009, which the forecast tool needs to put JEDI's dollars of 2010 and 2017 in the reader's year. EIA carries BEA's NIPA
+# Table 1.1.9 line in the STEO (BEA's own files are closed to this reader: its robots file and its key)
+ANNUAL, ANNUAL_FIRST = ["GDPDIUS"], "2009"
 KEY = ["entity", "variable", "ts_utc", "vintage"]
 X_COLS = ["x_kind", "x_units_published"]
 
@@ -91,6 +96,21 @@ def rows(data, release, url, retrieved):
     if len(t) and t.duplicated(KEY).any():
         raise RuntimeError("an (entity, variable, ts_utc, vintage) is given twice")
     return t
+
+
+def rows_annual(data, release, url, retrieved):
+    """The annual series' rows: ts_utc the year's first day, freq P1Y; a year from the release's own on is forecast."""
+    out = []
+    for r in data:
+        v = pd.to_numeric(r.get("value"), errors="coerce")
+        if pd.isna(v):
+            continue
+        unit, factor = unit_of(r.get("unit", ""))
+        out.append(dict(entity=f"eia_steo:{r['seriesId']}", variable="value", ts_utc=f"{r['period']}-01-01T00:00:00Z", value=float(v) * factor,
+                        unit=unit, freq="P1Y", geo="US", market="", node=r.get("seriesDescription", r.get("seriesName", "")), source=SOURCE,
+                        source_url=url, retrieved_at=retrieved, vintage=f"{release.isoformat()}T00:00:00Z",
+                        x_kind="forecast" if int(r["period"]) >= release.year else "history", x_units_published=r.get("unit", "")))
+    return pd.DataFrame(out)
 
 
 def main(argv=None):
@@ -139,6 +159,10 @@ def main(argv=None):
             offset += len(resp["data"])
             if offset >= int(resp["total"]) or not resp["data"]:
                 break
+        r = get(API + "data/", {"api_key": key, "frequency": "annual", "data[]": "value", "facets[seriesId][]": ANNUAL,
+                                "start": ANNUAL_FIRST, "length": 5000})
+        resp = r.json()["response"]
+        frames.append(rows_annual(resp["data"], release, ip.redact(r.url), retrieved))
         s = pd.concat(frames, ignore_index=True)
         if s.duplicated(KEY).any():
             raise RuntimeError("a row on two pages")
@@ -146,7 +170,10 @@ def main(argv=None):
         header = [
             f"Energy Research Warehouse (ERW): EIA Short-Term Energy Outlook of {release.isoformat()}, retail electricity prices, Henry Hub and the generation mix, monthly (session 491)",
             "Shape: series (docs/datastandard.md v0), each release kept: the key is (entity, variable, ts_utc, vintage), vintage the release's date (docs/datastandard.md rule 5). entity eia_steo:<seriesId>; variable value; ts_utc the month's first day; freq P1M; x_kind forecast or history.",
-            f"FORECASTS from {release.year}-{release.month:02d} on, EIA's; earlier months are EIA's history. Units: cents/kWh as USD/kWh (nominal), USD/MMBtu, shares as ratios. Series {len(series)}; months from {args.start}. Nothing is filled.",
+            f"FORECASTS from {release.year}-{release.month:02d} on, EIA's; earlier months are EIA's history. Units: cents/kWh as USD/kWh (nominal), USD/MMBtu, shares as ratios. Series {len(series)}; months from {args.start}; and, annual from {ANNUAL_FIRST} (freq P1Y, a year from the release's own on forecast), {', '.join(ANNUAL)} (the GDP implicit price deflator, index 2017 = 100, session 3938). Nothing is filled.",
+            # session 3938: decision 77's words, so the validator keys the table by vintage too; without them the second
+            # release on 10 November 2026 was refused as 10,176 duplicate (entity, variable, ts_utc) keys
+            "Revisions: kept, one row per vintage (each STEO release's own figures; vintage the release's date).",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_steo.py; {asked[0]} requests of {CEILING}",
             f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
             f"Raw files: warehouse/raw/{CONNECTOR}/ (not in git)",
