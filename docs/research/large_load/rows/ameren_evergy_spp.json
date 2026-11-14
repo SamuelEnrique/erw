@@ -1,0 +1,1252 @@
+{
+ "group": "ameren_evergy_spp",
+ "rows": [
+  {
+   "utility": "Union Electric Company d/b/a Ameren Missouri",
+   "state": "MO",
+   "iso_region": "MISO",
+   "rule_name": "Ameren Missouri Service Classification No. 11(M), Large Load Customer Service (LLCS), MO.P.S.C. Schedule No. 6, Sheets 61.4 to 61.19",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/859644",
+   "source_title": "Ameren Missouri's compliance tariff sheets for Large Load Customer Service, issued 5 December 2025, effective 4 January 2026 (Missouri PSC EFIS document 859644, tariff tracking JE-2026-0076)",
+   "quoted_clause": {
+    "page": "6",
+    "section": "Sheet 61.7, 1. Rate Application",
+    "quote": "Service under this rate is required for (i) any new facility beginning service after the effective date of the tariff sheets for Large Load Customer Service"
+   },
+   "docket": {
+    "value": "Missouri PSC ET-2025-0184 (tariff tracking JE-2026-0076)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/102265",
+      "section": "EFIS tariff record JE-2026-0076",
+      "quote": "Related Submission No. ET-2025-0184",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-01-04",
+    "cites": [
+     {
+      "page": "2",
+      "section": "Cover letter",
+      "quote": "The tariff sheets are being issued December 5, 2025, to become effective on and after January 4, 2026"
+     },
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/102265",
+      "section": "EFIS tariff record JE-2026-0076",
+      "quote": "Current Status Approved (1/4/2026)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/ameren_missouri_llcs.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/ameren_missouri_llcs.yaml"
+    },
+    "contract_term": {
+     "value": "Up to five years of optional Load Ramp plus a twelve-year Term (held); the Term begins on the date permanent service begins or as the LLCS Service Agreement sets out; automatic five-year Extension Terms unless either party gives at least 36 months' written notice before the end of the Term or Extension Term; termination before the end of the Term needs a Termination Notice at least 24 months before the Termination Date",
+     "cites": [
+      {
+       "page": "9",
+       "section": "Sheet 61.10, 9. Service Term",
+       "quote": "The Term shall commence on the date permanent service begins, or as set forth in the LLCS Service Agreement."
+      },
+      {
+       "page": "9",
+       "section": "Sheet 61.10, 9. Service Term",
+       "quote": "the LLCS Service Agreement will automatically extend for periods of five years (\"Extension Term\") at the end of the Term or any Extension Term, unless either party to the LLCS Service Agreement provides at least thirty-six (36) months' written notice to the other party prior to the end of the Term or any Extension Term"
+      },
+      {
+       "page": "11",
+       "section": "Sheet 61.12, 13. Termination",
+       "quote": "the customer must deliver a written notice (a \"Termination Notice\") to Ameren Missouri not less than twenty-four (24) months prior to the effective date of the termination specified in the Termination Notice"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Two years of Minimum Monthly Bills (held); a customer that, with any Guarantor, meets credit rating and liquidity tests is exempt from 60, 50, 40 or 25 percent of it, those discounts capped at $175 million, $150 million, $125 million and $75 million; provided at the time of executing the LLCS Service Agreement; the Company considers reductions annually once the customer has been at peak load for at least three years",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Sheet 61.15, 17. Customer Creditworthiness (3)",
+       "quote": "will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million"
+      },
+      {
+       "page": "15",
+       "section": "Sheet 61.16, 17 (4)",
+       "quote": "will be exempt from fifty (50) percent of the Collateral Requirement, with the fifty (50) percent discount not to exceed $150 million"
+      },
+      {
+       "page": "15",
+       "section": "Sheet 61.16, 17 (5)",
+       "quote": "will be exempt from forty (40) percent of the Collateral Requirement, with the forty (40) percent discount not to exceed $125 million"
+      },
+      {
+       "page": "15",
+       "section": "Sheet 61.16, 17 (6)",
+       "quote": "will be exempt from twenty-five (25) percent of the Collateral Requirement, with the twenty-five (25) percent discount not to exceed $75 million"
+      },
+      {
+       "page": "16",
+       "section": "Sheet 61.17, 17 (8) and (10)",
+       "quote": "The Collateral Requirement must be provided at the time of executing the LLCS Service Agreement."
+      },
+      {
+       "page": "16",
+       "section": "Sheet 61.17, 17 (10)",
+       "quote": "after the customer has achieved their peak load for at least three (3) years, annually consider reducing the customer's collateral obligation"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit Fee during and after the Ramp Period (held); in addition an Early Termination Fee of two times the Minimum Monthly Bill times the months short of the 24 months' notice; capacity may be cut by up to 20 percent in total without charge on 24 months' notice, and beyond that after the first five years of the Term on 24 months' notice subject to a Capacity Reduction Fee",
+     "cites": [
+      {
+       "page": "11",
+       "section": "Sheet 61.12, 13. Termination",
+       "quote": "An additional fee shall apply if the customer seeks to terminate with less than twenty-four (24)-months' notice (the \"Early Termination Fee\")."
+      },
+      {
+       "page": "12",
+       "section": "Sheet 61.13, 13. Termination (Cont'd.)",
+       "quote": "the applicable Minimum Monthly Bill times the number of months less than the twenty-four (24)-months' notice required for termination."
+      },
+      {
+       "page": "10",
+       "section": "Sheet 61.11, 12. Permissible Capacity Reduction",
+       "quote": "by up to twenty (20) percent of the Contract Capacity (\"Permissible Capacity Reduction\"), in total, without charge for such reduction. To do so, the customer must provide the Company at least twenty-four (24)-months' prior written notice."
+      },
+      {
+       "page": "10",
+       "section": "Sheet 61.11, 12. Permissible Capacity Reduction",
+       "quote": "with the effective date of any such reduction occurring at any time after the first five (5) years of the Term by giving the Company at least twenty-four (24) months' written notice prior to the beginning of the year for which the reduction is sought, subject to payment of a Capacity Reduction Fee."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Sheets 61.4 to 61.19 of EFIS 859644: no study duration. The study and queue process for loads above 25 MW is General Rules III.P (Sheets 125 and 126 of the same filing), its own row; capacity reinstated after a reduction goes through that process (Sheet 61.12, p. 11)."
+    },
+    "connection_timeline": {
+     "value": "No time to energize published. The customer pays all distribution and transmission facilities installed to extend service (other than MISO network upgrades), and construction begins only after the customer completes payment or arranges installments and executes all required agreements; the Term begins on the date permanent service begins or as the LLCS Service Agreement sets out",
+     "cites": [
+      {
+       "page": "34",
+       "section": "Sheet 122, General Rules III.M",
+       "quote": "such customer shall pay all costs of distribution or transmission facilities"
+      },
+      {
+       "page": "34",
+       "section": "Sheet 122, General Rules III.M",
+       "quote": "Such a customer must complete payment for the extension or make suitable arrangements for installment payments and execute all required agreements associated with the requested extensions as a condition for any construction to commence."
+      },
+      {
+       "page": "9",
+       "section": "Sheet 61.10, 9. Service Term",
+       "quote": "The Term shall commence on the date permanent service begins, or as set forth in the LLCS Service Agreement."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "2.8 GW of demand under electric service agreements Ameren Missouri executed with large load customers in 2026, expected to begin materializing in the second half of 2027 and to reach full capacity in 2030 (Form 10-Q for the quarter ended 30 September 2026, filed 6 November 2026)",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1002910/000100291026000032/aee-20260930.htm",
+       "section": "Ameren Form 10-Q, quarter ended 30 September 2026, Note 2 Rate and Regulatory Matters",
+       "quote": "In 2026, Ameren Missouri executed electric service agreements with large load customers under its modified large primary service tariff that was approved in 2025, representing 2.8 gigawatts of demand that is expected to begin materializing in the second half of 2027 and to reach full capacity in 2030.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record; the queue figure from Ameren's Form 10-Q on SEC EDGAR",
+   "erw_overlap": "large_load_tariffs/ameren_missouri_llcs.yaml: threshold (75 MW) and minimum demand (80 percent) are the same and not repeated. contract_term, collateral and exit_fee repeat the held figures (ramp plus 12 years; two years of Minimum Monthly Bills; Exit Fee) and add what the yaml does not carry: the 36-month non-extension notice, the 24-month Termination Notice, the collateral discount tiers and timing, the Early Termination Fee and the Capacity Reduction Fee. No figure differs.",
+   "notes": "Sheet 61.13 (p. 12) adds an Interim Capacity Adjustment: if the existing system cannot serve the load, the Company may buy market capacity under an Interim Capacity Agreement at the customer's full cost. Missouri S.B. 4 (2025): the Missouri PSC's fact sheet says the law required the PSC to adopt rates for large load customers and that Ameren Missouri and Evergy have approved large-load tariffs (https://psc.mo.gov/CMSInternetData/Community%20Outreach/Large%20Load%20Tariff%20Fact%20Sheet.pdf, p. 1); the tariff sheets themselves do not cite the law. The 2026 preferred resource plan (Ameren 10-Q, same section) forecasts total load growth of 2.9 GW by 2030, 5 GW by 2035 and 6 GW by 2045: a forecast, not a queue. Leads only (news summaries of Ameren's earnings calls, not read): 3.4 GW of construction agreements in Missouri and a further 4 GW of Missouri projects with completed interconnection studies (Q2 2026 call); Ameren's posted call transcript on s21.q4cdn.com was refused (robots answered 403). ameren.com was not read: its terms forbid bots and automated tools (see refused), so the queue details the Company posts on its website (Sheet 126) are unread. The Order Approving Tariff Revision of 19 December 2025 (EFIS 860789) was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Union Electric Company d/b/a Ameren Missouri",
+   "state": "MO",
+   "iso_region": "MISO",
+   "rule_name": "Ameren Missouri General Rules and Regulations III.P, Planning Required for Loads Greater than 25MW (Sheets 125 and 126), with III.M (Sheet 122)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/859644",
+   "source_title": "Ameren Missouri's compliance tariff sheets for Large Load Customer Service, issued 5 December 2025, effective 4 January 2026 (Missouri PSC EFIS document 859644), General Rules and Regulations Sheets 122, 125 and 126",
+   "quoted_clause": {
+    "page": "37",
+    "section": "Sheet 125, III.P.1",
+    "quote": "Customers, or prospective Customers seeking service for loads expected to be greater than 25 megawatts(MW) shall be subject to an initial evaluation and study by the Company prior to receiving service."
+   },
+   "docket": {
+    "value": "Missouri PSC ET-2025-0184 (tariff tracking JE-2026-0076)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/102265",
+      "section": "EFIS tariff record JE-2026-0076",
+      "quote": "Related Submission No. ET-2025-0184",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-01-04",
+    "cites": [
+     {
+      "page": "2",
+      "section": "Cover letter, list of filed sheets",
+      "quote": "2nd Revised Sheet No. 125 2nd Revised Sheet No. 126"
+     },
+     {
+      "page": "2",
+      "section": "Cover letter",
+      "quote": "The tariff sheets are being issued December 5, 2025, to become effective on and after January 4, 2026"
+     },
+     {
+      "page": "37",
+      "section": "Sheet 125 legend (III.P marked as an addition)",
+      "quote": "*Indicates Reissue. **Indicates Addition."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Loads expected to be greater than 25 MW",
+     "cites": [
+      {
+       "page": "37",
+       "section": "Sheet 125, III.P.1",
+       "quote": "seeking service for loads expected to be greater than 25 megawatts(MW) shall be subject to an initial evaluation and study by the Company prior to receiving service"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Sheets 125 and 126 (pp. 37 and 38): the rule sets no minimum bill; loads of 75 MW or more take the LLCS (its own row)."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Sheets 125 and 126 (pp. 37 and 38): a Letter of Agreement is required but no term is printed."
+    },
+    "collateral": {
+     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be given queue priority and may not need a deposit",
+     "cites": [
+      {
+       "page": "37",
+       "section": "Sheet 125, III.P.2",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "37",
+       "section": "Sheet 125, III.P.2",
+       "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
+      },
+      {
+       "page": "37",
+       "section": "Sheet 125, III.P.2.a",
+       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Sheets 125 and 126 (pp. 37 and 38): no exit or termination charge."
+    },
+    "study_timeline": {
+     "value": "No study duration published. Customers are queued by the date they gave the required information and deposit; the Company works on advanced study and scoping for up to four projects at a time; once an initial project agreement is complete the details go to MISO for review; completed plans are valid for six months",
+     "cites": [
+      {
+       "page": "37",
+       "section": "Sheet 125, III.P.2",
+       "quote": "These Customers shall be placed in a queue based on the date on which they provided the required information and deposit."
+      },
+      {
+       "page": "38",
+       "section": "Sheet 126, III.P.3",
+       "quote": "The Company will work on advanced study and scoping for up to four (4) projects at a time."
+      },
+      {
+       "page": "38",
+       "section": "Sheet 126, III.P.3",
+       "quote": "Once an initial project agreement is complete, the Company will send necessary details to the Midcontinent Indpendent System Operator"
+      },
+      {
+       "page": "38",
+       "section": "Sheet 126, III.P.3",
+       "quote": "Completed plans shall be valid for six months."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Sheets 122, 125 and 126 (pp. 34, 37 and 38): Sheet 126 says customers failing to complete the agreements \"within the timeframe allowed may be returned to the queue\" but prints no timeframe; Sheet 122 makes payment and signed agreements a condition for construction to commence (see the LLCS row)."
+    },
+    "queue_size": {
+     "value": "see row: Ameren Missouri Service Classification No. 11(M), Large Load Customer Service (LLCS), MO.P.S.C. Schedule No. 6, Sheets 61.4 to 61.19"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
+   "erw_overlap": "none: the registries do not hold Ameren Missouri's General Rules III.P.",
+   "notes": "Sheet 126, III.P.5: further queue details are posted on the Company's website, which was not read (ameren.com's terms forbid bots). Sheet 125 marks III.P as an addition in this filing; the same rule text appears in Evergy's Missouri rules (2.14 and 2.10) with SPP in place of MISO.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Metro, Inc. d/b/a Evergy Missouri Metro",
+   "state": "MO",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Missouri Metro Schedule LLPS, Large Load Power Service (P.S.C. MO. No. 7, Sheets 76 to 82)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/865318",
+   "source_title": "Evergy Missouri Metro's compliance tariff sheets (Revision), issued 5 February 2026, effective 9 March 2026 (Missouri PSC EFIS document 865318, tariff tracking JE-2026-0104)",
+   "quoted_clause": {
+    "page": "20",
+    "section": "Sheet 76, Applicability",
+    "quote": "Service under this schedule is required for"
+   },
+   "docket": {
+    "value": "Missouri PSC EO-2025-0154 (tariff tracking JE-2026-0104)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103109",
+      "section": "EFIS tariff record JE-2026-0104",
+      "quote": "Related Submission No. EO-2025-0154",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-03-09",
+    "cites": [
+     {
+      "page": "20",
+      "section": "Sheet 76 footer",
+      "quote": "Effective: March 9, 2026"
+     },
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103109",
+      "section": "EFIS tariff record JE-2026-0104",
+      "quote": "Current Status Approved (3/9/2026)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/evergy_missouri_metro_llps.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/evergy_missouri_metro_llps.yaml"
+    },
+    "contract_term": {
+     "value": "held: large_load_tariffs/evergy_missouri_metro_llps.yaml"
+    },
+    "collateral": {
+     "value": "Two years of Minimum Monthly Bills (held); a customer that, with any Guarantor, meets credit rating and liquidity tests is exempt from 60, 50, 40 or 25 percent of it, those discounts capped at $175 million, $150 million, $125 million and $75 million; provided at the time of executing the LLPS Service Agreement",
+     "cites": [
+      {
+       "page": "24",
+       "section": "Sheet 80, creditworthiness",
+       "quote": "will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million"
+      },
+      {
+       "page": "24",
+       "section": "Sheet 80, creditworthiness",
+       "quote": "percent of the Collateral Requirement, with the twenty-five (25) percent discount not to exceed $75 million"
+      },
+      {
+       "page": "25",
+       "section": "Sheet 81",
+       "quote": "The Collateral Requirement must be provided at the time of executing the LLPS Service Agreement."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "held: large_load_tariffs/evergy_missouri_metro_llps.yaml"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 76 to 82 (EFIS 865318 pp. 20 to 26): no study duration. The study and queue process is Rules and Regulations 2.14 (Sheet 1.09D, EFIS 865314), its own row."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 76 to 82 (EFIS 865318 pp. 20 to 26): no time to energize. The construction condition for substation and transmission extensions is Rules 9.11(E) (Sheet 1.30H), on the Rules 2.14 row."
+    },
+    "queue_size": {
+     "value": "see row: Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
+   "erw_overlap": "large_load_tariffs/evergy_missouri_metro_llps.yaml: threshold, minimum demand, term and exit fee are the same and not repeated. collateral repeats the held two years of Minimum Monthly Bills and adds the discount tiers and timing; no figure differs.",
+   "notes": "Sheet 78 (p. 22): capacity may be cut after the first five years by the lower of 25 MW or 10 percent without charge (24 months' notice), and beyond that on 36 months' notice subject to a Capacity Reduction Fee. The Evergy pipeline figure (Evergy Companies, Kansas and Missouri together) is on the Kansas LLPS row. The EO-2025-0154 docket closed on 13 March 2026 (EFIS docket sheet, item 228, Notice Closing Case). evergy.com not requested (bot check reported earlier).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Metro, Inc. d/b/a Evergy Missouri Metro",
+   "state": "MO",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Missouri Metro Rules and Regulations 2.14, Service to Loads Greater than 25MW (P.S.C. MO. No. 2, Sheet 1.09D), with 9.11(E) (Sheet 1.30H)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/865314",
+   "source_title": "Evergy Missouri Metro's Rules and Regulations sheets, Book 2 (clean), issued 5 February 2026, effective 9 March 2026 (Missouri PSC EFIS document 865314, tariff tracking JE-2026-0103)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Sheet 1.09D, 2.14 A",
+    "quote": "Customers, or prospective Customers seeking service for loads expected to be greater than 25 megawatts (MW) shall be subject to an initial evaluation and study by the Company prior to receiving service."
+   },
+   "docket": {
+    "value": "Missouri PSC EO-2025-0154 (tariff tracking JE-2026-0103)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103108",
+      "section": "EFIS tariff record JE-2026-0103",
+      "quote": "Related Submission No. EO-2025-0154",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-03-09",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Sheet 1.09D footer",
+      "quote": "Effective: March 9, 2026"
+     },
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103108",
+      "section": "EFIS tariff record JE-2026-0103",
+      "quote": "Current Status Approved (3/9/2026)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Loads expected to be greater than 25 MW",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 A",
+       "quote": "seeking service for loads expected to be greater than 25 megawatts (MW) shall be subject to an initial evaluation and study by the Company prior to receiving service"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Sheets 1.09D and 1.30H (EFIS 865314 pp. 1 and 2): no minimum bill; loads of 75 MW or more take Schedule LLPS (its own row)."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Sheets 1.09D and 1.30H (EFIS 865314 pp. 1 and 2): a Letter of Agreement is required but no term is printed."
+    },
+    "collateral": {
+     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 B",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 B",
+       "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
+      },
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 B.1",
+       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+      },
+      {
+       "page": "2",
+       "section": "Sheet 1.30H, 9.11 (E)",
+       "quote": "any Customer requesting service with substation or transmission facilities shall pay all costs associated with such extensions. These costs do not include any resulting Network Upgrade costs for facilities classified as transmission under the Southwest Power Pool Open Access Transmission Tariff."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Sheets 1.09D and 1.30H (EFIS 865314 pp. 1 and 2): no exit or termination charge."
+    },
+    "study_timeline": {
+     "value": "No study duration published. Customers are queued by the date they gave the required information and deposit; the Company works on advanced study and scoping for up to four projects at a time; once an Initial Projects Agreement is complete the details go to SPP for review; completed plans are valid for six months",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 B",
+       "quote": "These Customers shall be placed in a queue based on the date on which they provided the required information and deposit."
+      },
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 C",
+       "quote": "The Company will work on advanced study and scoping for up to four (4) projects at a time."
+      },
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 C",
+       "quote": "Once an Initial Projects Agreement is complete, the Company will send necessary details to the Southwest Power Pool (\"SPP\") for its review. Completed plans shall be valid for six months."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No time to energize published. Construction of a substation or transmission extension begins only after the customer completes payment or arranges installments and executes the extension agreements and any Service Agreements the rate schedule requires; customers failing to complete the agreements within the timeframe allowed may be returned to the queue (no timeframe printed)",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Sheet 1.30H, 9.11 (E)",
+       "quote": "Customers requesting service through substation or transmission facilities must complete payment for the extension or make suitable arrangements for installment payments, execute all required agreements associated with the requested extensions, and execute any Service Agreements required by the applicable rate schedule as a condition for any construction to commence."
+      },
+      {
+       "page": "1",
+       "section": "Sheet 1.09D, 2.14 D",
+       "quote": "Customers failing to complete these agreements within the timeframe allowed may be returned to the queue."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
+   "erw_overlap": "none: the registries do not hold Evergy Missouri Metro's Rules 2.14 or 9.11(E).",
+   "notes": "Sheet 1.09D is an original sheet (new on 9 March 2026). 2.14 E: further queue details are posted on Evergy's website, not read (evergy.com gave a bot check to earlier readers; not requested).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Missouri West, Inc. d/b/a Evergy Missouri West",
+   "state": "MO",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Missouri West Schedule LLPS, Large Load Power Service (P.S.C. MO. No. 1, Sheets 187 to 192)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/866165",
+   "source_title": "Evergy Missouri West's substitute Schedule LLPS tariff sheets for its compliance filing, 17 February 2026, effective 9 March 2026 (Missouri PSC EFIS document 866165, tariff tracking JE-2026-0105)",
+   "quoted_clause": {
+    "page": "7",
+    "section": "Sheet 187, Applicability",
+    "quote": "Service under this schedule is required for"
+   },
+   "docket": {
+    "value": "Missouri PSC EO-2025-0154 (tariff tracking JE-2026-0105)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103110",
+      "section": "EFIS tariff record JE-2026-0105",
+      "quote": "Related Submission No. EO-2025-0154",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-03-09",
+    "cites": [
+     {
+      "page": "7",
+      "section": "Sheet 187 footer",
+      "quote": "Effective: March 9, 2026"
+     },
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103110",
+      "section": "EFIS tariff record JE-2026-0105",
+      "quote": "Current Status Approved (3/9/2026)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/evergy_missouri_west_llps.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/evergy_missouri_west_llps.yaml"
+    },
+    "contract_term": {
+     "value": "held: large_load_tariffs/evergy_missouri_west_llps.yaml"
+    },
+    "collateral": {
+     "value": "Two years of Minimum Monthly Bills (held); a customer that, with any Guarantor, meets credit rating and liquidity tests is exempt from 60, 50, 40 or 25 percent of it, those discounts capped at $175 million, $150 million, $125 million and $75 million; provided at the time of executing the LLPS Service Agreement",
+     "cites": [
+      {
+       "page": "11",
+       "section": "Sheet 190, creditworthiness",
+       "quote": "will be exempt from sixty (60) percent of the Collateral Requirement, with the sixty (60) percent discount not to exceed $175 million"
+      },
+      {
+       "page": "11",
+       "section": "Sheet 190, creditworthiness",
+       "quote": "percent of the Collateral Requirement, with the twenty-five (25) percent discount not to exceed $75 million"
+      },
+      {
+       "page": "12",
+       "section": "Sheet 191",
+       "quote": "The Collateral Requirement must be provided at the time of executing the LLPS Service Agreement."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "held: large_load_tariffs/evergy_missouri_west_llps.yaml"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 187 to 192 (EFIS 866165 pp. 7 to 13): no study duration. The study and queue process is Rules and Regulations 2.10 (Sheet R-21, EFIS 865322), its own row."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule LLPS Sheets 187 to 192 (EFIS 866165 pp. 7 to 13): no time to energize. The construction condition for substation and transmission extensions is Rules 7.11 E (Sheet R-54), on the Rules 2.10 row."
+    },
+    "queue_size": {
+     "value": "see row: Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
+   "erw_overlap": "large_load_tariffs/evergy_missouri_west_llps.yaml: threshold, minimum demand, term and exit fee are the same and not repeated. collateral repeats the held two years of Minimum Monthly Bills and adds the discount tiers and timing; no figure differs.",
+   "notes": "Sheet 188 (p. 9): capacity may be cut after the first five years by the lower of 25 MW or 10 percent without charge (24 months' notice), and beyond that on 36 months' notice subject to a Capacity Reduction Fee. In November 2026 Evergy Missouri West filed a rate case with the MPSC whose request is partly offset by new large load revenues (Evergy 10-Q, quarter ended 30 September 2026); no change to Schedule LLPS was read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Missouri West, Inc. d/b/a Evergy Missouri West",
+   "state": "MO",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Missouri West Rules and Regulations 2.10, Service to Loads Greater than 25MW (P.S.C. MO. No. 1, Sheet R-21), with 7.11 E (Sheet R-54)",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/865322",
+   "source_title": "Evergy Missouri West's compliance tariff sheets (Revision), issued 5 February 2026, effective 9 March 2026 (Missouri PSC EFIS document 865322, tariff tracking JE-2026-0105), Rules and Regulations Sheets R-21 and R-54",
+   "quoted_clause": {
+    "page": "39",
+    "section": "Sheet R-21, 2.10 A",
+    "quote": "Customers, or prospective Customers seeking service for loads expected to be greater than 25 megawatts (MW) shall be subject to an initial evaluation and study by the Company prior to receiving service."
+   },
+   "docket": {
+    "value": "Missouri PSC EO-2025-0154 (tariff tracking JE-2026-0105)",
+    "cites": [
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103110",
+      "section": "EFIS tariff record JE-2026-0105",
+      "quote": "Related Submission No. EO-2025-0154",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-03-09",
+    "cites": [
+     {
+      "page": "39",
+      "section": "Sheet R-21 footer",
+      "quote": "Effective: March 9, 2026"
+     },
+     {
+      "url": "https://efis.psc.mo.gov/Tariff/Display/103110",
+      "section": "EFIS tariff record JE-2026-0105",
+      "quote": "Current Status Approved (3/9/2026)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Loads expected to be greater than 25 MW",
+     "cites": [
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 A",
+       "quote": "seeking service for loads expected to be greater than 25 megawatts (MW) shall be subject to an initial evaluation and study by the Company prior to receiving service"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Sheets R-21 and R-54 (EFIS 865322 pp. 39 and 40): no minimum bill; loads of 75 MW or more take Schedule LLPS (its own row)."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Sheets R-21 and R-54 (EFIS 865322 pp. 39 and 40): a Letter of Agreement is required but no term is printed."
+    },
+    "collateral": {
+     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+     "cites": [
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 B",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 B",
+       "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
+      },
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 B.a",
+       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+      },
+      {
+       "page": "40",
+       "section": "Sheet R-54, 7.11 E",
+       "quote": "any Customer requesting service with substation or transmission facilities shall pay all costs associated with such extensions. These costs do not include any resulting Network Upgrade costs for facilities classified as transmission under the Southwest Power Pool Open Access Transmission Tariff."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Sheets R-21 and R-54 (EFIS 865322 pp. 39 and 40): no exit or termination charge."
+    },
+    "study_timeline": {
+     "value": "No study duration published. Customers are queued by the date they gave the required information and deposit; the Company works on advanced study and scoping for up to four projects at a time; once an Initial Projects Agreement is complete the details go to SPP for review; completed plans are valid for six months",
+     "cites": [
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 B",
+       "quote": "These Customers shall be placed in a queue based on the date on which they provided the required information and deposit."
+      },
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 C",
+       "quote": "The Company will work on advanced study and scoping for up to four (4) projects at a time."
+      },
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 C",
+       "quote": "Once an Initial Projects Agreement is complete, the Company will send necessary details to the Southwest Power Pool (\"SPP\") for its review. Completed plans shall be valid for six months."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No time to energize published. Construction of a substation or transmission extension begins only after the customer completes payment or arranges installments and executes the extension agreements and any Service Agreements the rate schedule requires; customers failing to complete the agreements within the timeframe allowed may be returned to the queue (no timeframe printed)",
+     "cites": [
+      {
+       "page": "40",
+       "section": "Sheet R-54, 7.11 E",
+       "quote": "Customers requesting service through substation or transmission facilities must complete payment for the extension or make suitable arrangements for installment payments, execute all required agreements associated with the requested extensions, and execute any Service Agreements required by the applicable rate schedule as a condition for any construction to commence."
+      },
+      {
+       "page": "39",
+       "section": "Sheet R-21, 2.10 D",
+       "quote": "Customers failing to complete these agreements within the timeframe allowed may be returned to the queue."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
+   "erw_overlap": "none: the registries do not hold Evergy Missouri West's Rules 2.10 or 7.11 E.",
+   "notes": "Sheet R-21 is a 2nd Revised sheet cancelling the 1st Revised; whether 2.10 existed before this revision was not established (the redline, EFIS 865323, does not mark changes in its text). The substitute filings of 13 and 17 February 2026 (EFIS 865973, 866165) carry Schedule LLPS sheets only, so Sheets R-21 and R-54 stand as filed on 5 February 2026. 2.10 E: further queue details are posted on Evergy's website, not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)",
+   "state": "KS",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR",
+   "source_url": "https://www.kcc.ks.gov/images/PDFs/legislative-reports/2026%20Utilities%20%20Common%20Carriers%20Report.pdf",
+   "source_title": "Kansas Corporation Commission, 2026 Utilities and Common Carriers Report (report to the Legislature), section on the LLPS tariff docket",
+   "quoted_clause": {
+    "page": "16",
+    "section": "Evergy Kansas Metro and Evergy Kansas Central, LLPS Tariff Docket (25-315 Docket)",
+    "quote": "A new tariffed offering called the LLPS rate."
+   },
+   "docket": {
+    "value": "KCC 25-EKME-315-TAR",
+    "cites": [
+     {
+      "page": "16",
+      "quote": "the Commission reviewed Evergy's Large Load Power Service (LLPS) tariff, in Docket No. 25-EKME-315-TAR."
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-11-06",
+    "cites": [
+     {
+      "page": "17",
+      "quote": "6, 2025, the Commission approved the LLPS Tariff and Unanimous Settlement Agreement."
+     },
+     {
+      "url": "https://www.kcc.ks.gov/images/PDFs/presentations-and-legislative-testimony/2026_Senate%20Utilities%20Committee%20Update_15Jan.pdf",
+      "page": "8",
+      "section": "KCC Utilities Division slides to the Senate Utilities Committee, 15 January 2026",
+      "quote": "D. Commission approved the Settlement on November 6, 2025.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.kcc.ks.gov/news-11-6-25",
+      "section": "KCC news release of 6 November 2025",
+      "quote": "Today, the Kansas Corporation Commission approved a unanimous settlement agreement creating a Large Load Power Service (LLPS) rate plan",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "75 MW: a new customer with a peak load of 75 MW or greater, or an existing customer expanding by 75 MW or greater",
+     "cites": [
+      {
+       "page": "16",
+       "quote": "The rate would apply to any new customer with a peak load of 75 MW or greater, or an existing customer with an expansion of 75 MW or greater."
+      },
+      {
+       "url": "https://www.kcc.ks.gov/news-11-6-25",
+       "section": "KCC news release of 6 November 2025",
+       "quote": "The new LLPS rates will apply to any new facility beginning service with a peak load forecast at 75 megawatts (75 MW) or more, or an existing customer expecting to expand by 75 MW.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum monthly bill based on 80 percent of contract demand, whatever the actual usage",
+     "cites": [
+      {
+       "page": "17",
+       "quote": "Customers pay a minimum monthly bill that is based on 80% of their contract demand, regardless of their actual monthly usage."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "12 years plus an optional load ramp of up to five years (up to 17 years in all); then automatic five-year extensions",
+     "cites": [
+      {
+       "page": "16",
+       "quote": "Customers will be required to sign a 12-year contract, plus an optional load ramp period of up to five years, for a total contract length of up to"
+      },
+      {
+       "page": "17",
+       "quote": "17-years. Thereafter, the contract automatically extends for five years at a time."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Two years of Minimum Monthly Bills, as calculated by Evergy, under creditworthiness standards",
+     "cites": [
+      {
+       "page": "17",
+       "quote": "Schedule LLPS customers are required to provide collateral in an amount equal to two (2) years of Minimum Monthly Bills, as calculated by Evergy."
+      },
+      {
+       "url": "https://www.kcc.ks.gov/images/PDFs/presentations-and-legislative-testimony/2026_Senate%20Utilities%20Committee%20Update_15Jan.pdf",
+       "page": "11",
+       "section": "KCC Utilities Division slides, 15 January 2026",
+       "quote": "Collateral requirements of up to 2 years of Minimum Bills.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "36 months' advance notice to terminate early, and an exit fee of the Minimum Monthly Bill times the months remaining in the term, or 12 months, whichever is greater; with less than 36 months' notice, the exit fee plus two times the Minimum Monthly Bill times the months short of 36. Capacity may be reduced by the lower of 25 MW or 10 percent of contract capacity",
+     "cites": [
+      {
+       "page": "17",
+       "quote": "If the customer terminates service early, they are required to provide 36-months advance notice, and pay an exit fee equal to the nominal value of the minimum monthly bill times the number of months remaining in the contract term, or 12-months, whichever is greater."
+      },
+      {
+       "page": "17",
+       "quote": "the Exit Fee plus two (2) times the nominal value of the Minimum Monthly Bill times the number of months less than the thirty-six (36) months' notice required for termination."
+      },
+      {
+       "page": "17",
+       "quote": "Customers taking LLPS service can reduce their service under the tariff rate by 25 MW or up to 10 percent of the total capacity of the contract, whichever is lower."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "KCC 2026 Utilities and Common Carriers Report pp. 16 and 17; KCC Utilities Division slides of 15 January 2026 pp. 8 to 18; KCC news release of 6 November 2025. The slides (p. 9) point to a large load queue in Section 2.07B of Evergy's General Terms and Conditions and quote its community interest priority clause, with no study duration; the Kansas tariff sheets and GT&C (evergy.com) and the KCC order (kcc-connect, bot check) were not read."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "The same three KCC documents: no time to energize or construction milestone. The news release says upgrades needed solely to serve the new or expanded customer are directly assigned to it, and network upgrades are directed by SPP."
+    },
+    "queue_size": {
+     "value": "Evergy Companies, Kansas and Missouri together: electric service agreements signed in 2026 with large load customers for data centers, projected peak steady-state load of approximately 2,600 MW (three new projects and the expansion of two earlier projects), service commenced or expected to commence 2026 to 2028 (Form 10-Q for the quarter ended 30 September 2026, filed 5 November 2026). On 5 November 2026 Evergy also announced three amendments to signed ESAs expected to add about 250 MW and a letter of intent with Digital Realty for a 1.4 GW expansion",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
+       "section": "Evergy Form 10-Q, quarter ended 30 September 2026, Large Load Customers",
+       "quote": "In 2026, the Evergy Companies signed electric service agreements (ESAs) with multiple large load customers to serve data centers with a projected peak steady state load of approximately 2,600 MWs. The ESAs relate to three new projects and the expansion of two separate projects previously announced.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
+       "section": "Evergy Form 10-Q, quarter ended 30 September 2026, Large Load Customers",
+       "quote": "The service of these large load customers, inclusive of an optional transitional load period not to exceed five years, has commenced or is expected to commence at dates ranging from 2026 to 2028.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1711269/000119312526448521/d193466dex991.htm",
+       "section": "Evergy third quarter 2026 earnings release, Exhibit 99.1 to Form 8-K of 5 November 2026",
+       "quote": "the signing of three amendments to previously signed electric service agreements that, in total, are expected to drive ~250 megawatts of incremental load",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1711269/000119312526448521/d193466dex991.htm",
+       "section": "Evergy third quarter 2026 earnings release",
+       "quote": "a letter of intent signed with Digital Realty for a 1.4 gigawatt expansion",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Kansas Corporation Commission's own report, slides and news release on kcc.ks.gov; the queue figure from Evergy's filings on SEC EDGAR",
+   "erw_overlap": "none: the registries hold Evergy's Missouri LLPS schedules only, not the Kansas one.",
+   "notes": "Rates (KCC report p. 17, from the settlement): Evergy Kansas Central LLPS customer charge $386.67 per month, demand charges $22.985/kW summer and $20.817/kW winter, energy $0.00872/kWh, Grid charges $0.248/kW substation and $0.156/kW transmission; Evergy Kansas Metro customer charge $751.02, demand $21.174/kW summer and $19.174/kW winter, energy $0.01000/kWh, Grid $0.200/kW substation and $0.126/kW transmission (for window A's tariff table, not one of this row's fields). The application of 11 February 2025 proposed the rate for customers over 100 MW (report p. 16); the settlement lowered it to 75 MW. Settlement filed 18 August 2025, hearing 8 October 2025 (slides p. 8). The slides (p. 18) say LLPS applies only in the Evergy Kansas Central and Evergy Kansas Metro service territories (Evergy Kansas South lies within Evergy Kansas Central's). The tariff's effective date was not read in a primary document (CURB's newsletter, another party, is a lead only), so the status is approved with the order date. Evergy 10-Q table: remaining contractual minimum consideration for large load contracts $8.9 billion (Evergy), weighted average remaining term 15 years, as of 30 September 2026. Refused: the KCC order on kcc-connect.kcc.ks.gov (bot check); evergy.com not requested.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Evergy Kansas Central, Inc. and Evergy Metro, Inc. (Evergy Kansas Metro)",
+   "state": "KS",
+   "iso_region": "SPP",
+   "rule_name": "Evergy Kansas Central and Evergy Kansas Metro LLPS Customer Affordability Enhancement Plan (application to the KCC, October 2026)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
+   "source_title": "Evergy, Inc. Form 10-Q for the quarter ended 30 September 2026, filed 5 November 2026 (SEC EDGAR), Note on regulatory matters, KCC Proceedings",
+   "quoted_clause": {
+    "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+    "quote": "In October 2026, Evergy Kansas Central and Evergy Metro filed an application with the KCC requesting approval of a Customer Affordability Enhancement Plan that supplements the existing LLPS rate plan and would apply to newly signed LLPS customers."
+   },
+   "docket": {
+    "value": "not published",
+    "cites": []
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-10",
+    "cites": [
+     {
+      "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+      "quote": "In October 2026, Evergy Kansas Central and Evergy Metro filed an application with the KCC requesting approval of a Customer Affordability Enhancement Plan"
+     },
+     {
+      "section": "Large Load Power Service Customer Affordability Enhancement Plan",
+      "quote": "Evergy Kansas Central and Evergy Metro requested expedited treatment of the application and that the KCC issue an order in February 2027."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Evergy 10-Q (quarter ended 30 September 2026), KCC Proceedings: the plan would apply to newly signed LLPS customers; no threshold of its own is printed. The KCC filing itself (kcc-connect) was not read."
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: no figure."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: no figure."
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: no figure."
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: no figure."
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: nothing on studies."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Evergy 10-Q, KCC Proceedings: nothing on connection."
+    },
+    "queue_size": {
+     "value": "see row: Evergy Kansas Central and Evergy Kansas Metro Large Load Power Service (LLPS) rate plan, KCC Docket 25-EKME-315-TAR"
+    }
+   },
+   "license": "public",
+   "license_basis": "Evergy's Form 10-Q on SEC EDGAR",
+   "erw_overlap": "none",
+   "notes": "The 10-Q says the plan preserves the existing LLPS rate plan as the governing framework and further distinguishes the cost responsibility of future large load customers. The docket number and the application were not found: the KCC's docket system (kcc-connect.kcc.ks.gov) answers with a bot check, and the web search budget of this pass ran out before the KCC's news pages could be searched further. The filing date is given only to the month.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Ameren Illinois Company d/b/a Ameren Illinois",
+   "state": "IL",
+   "iso_region": "MISO",
+   "rule_name": "Ameren Illinois revisions to terms and conditions for large electric customers, ICC Docket 26-0625",
+   "source_url": "https://icc.illinois.gov/docket/list/suspension-cases",
+   "source_title": "Illinois Commerce Commission, Upcoming Suspension End Dates (docket list), read 13 November 2026",
+   "quoted_clause": {
+    "section": "Docket 26-0625",
+    "quote": "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July 10, 2026)."
+   },
+   "docket": {
+    "value": "ICC 26-0625 (P2026-0625)",
+    "cites": [
+     {
+      "section": "Docket 26-0625",
+      "quote": "Complete docket number: P2026-0625"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-07-10",
+    "cites": [
+     {
+      "section": "Docket 26-0625",
+      "quote": "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July 10, 2026)."
+     },
+     {
+      "section": "Docket 26-0625",
+      "quote": "Suspension Ends: December 6, 2026 Resuspension Ends: June 6, 2027"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "ICC Upcoming Suspension End Dates list (docket 26-0625 entry: 'large electric customers', no size). The docket page (icc.illinois.gov/docket/P2026-0625) asks robots to stop and shows a captcha: not read. ameren.com not read (terms forbid bots)."
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Ameren Form 10-Q for the quarter ended 30 September 2026 (SEC EDGAR): no Ameren Illinois large load figure (the 2.8 GW is Ameren Missouri's). A figure of 850 MW of Illinois construction agreements appears only in news summaries of Ameren's Q1 2026 call: a lead."
+    }
+   },
+   "license": "public",
+   "license_basis": "the Illinois Commerce Commission's own docket list",
+   "erw_overlap": "none",
+   "notes": "Case type in the ICC list: Rate General Increase (9-201); case status Initial; docket opened 19 August 2026. Whether these revised terms are a data-center style large-load rule could not be confirmed: the tariff sheets and the ICC's suspension order were not read (the docket page carries 'Please, no robots or crawlers beyond this point' and a captcha). A later pass with permission to read the ICC's docket, or Ameren's filed tariff from another public copy, is needed.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Oklahoma Gas and Electric Company (OG&E)",
+   "state": "OK",
+   "iso_region": "SPP",
+   "rule_name": "OG&E proposed XLPL tariff and terms and conditions of service for extra large load customers (Oklahoma)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1021635/000102163526000036/oge-20260930.htm",
+   "source_title": "OGE Energy Corp. and OG&E combined Form 10-Q for the quarter ended 30 September 2026, filed 28 October 2026 (SEC EDGAR), OCC Proceedings, Oklahoma Large Load Tariff",
+   "quoted_clause": {
+    "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+    "quote": "in June 2026, OG&E filed an application requesting approval of its new proposed XLPL tariff and terms and conditions of service for extra large load customers"
+   },
+   "docket": {
+    "value": "not published",
+    "cites": []
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-06",
+    "cites": [
+     {
+      "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+      "quote": "in June 2026, OG&E filed an application requesting approval of its new proposed XLPL tariff and terms and conditions of service for extra large load customers"
+     },
+     {
+      "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+      "quote": "A hearing is scheduled for January 12, 2027."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "75 MW or higher",
+     "cites": [
+      {
+       "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+       "quote": "this tariff would establish a framework to serve large load customers (75 MWs or higher)"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum billing demand and energy charges are part of the proposal; no figure published in the document read",
+     "cites": [
+      {
+       "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+       "quote": "include provisions such as long-term contract commitments, minimum billing demand and energy charges, funding of upfront costs, a customer protection charge that addresses any potential adverse rate impact to other customer classes, and a customer affordability charge that would be credited to residential customers through a regulatory liability"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Long-term contract commitments are part of the proposal; no term published in the document read",
+     "cites": [
+      {
+       "section": "OCC Proceedings, Oklahoma Large Load Tariff",
+       "quote": "include provisions such as long-term contract commitments"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "OGE/OG&E Form 10-Q, quarter ended 30 September 2026, OCC Proceedings: 'funding of upfront costs' is listed, but no collateral or security term. The OCC application was not read (its cause number was not found)."
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "As for collateral."
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "As for collateral."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "As for collateral."
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "OGE/OG&E Form 10-Q, quarter ended 30 September 2026 (no large load pipeline figure); OGE's 8-K of 28 October 2026 not readable as a listing. No integrated resource plan was read."
+    }
+   },
+   "license": "public",
+   "license_basis": "OGE Energy's and OG&E's Form 10-Q on SEC EDGAR",
+   "erw_overlap": "none",
+   "notes": "Separately, in May 2026 OG&E applied to the OCC for a special contract with Google (a single-customer contract, not a rule) with long-term commitments and minimum billing demand; a non-contested settlement was reached on 9 September 2026 and the ALJ recommended approval (same 10-Q). Arkansas: the 10-Q's APSC proceedings list no OG&E large-load tariff, only the two Google-related capacity purchase agreements (APSC Staff recommended denial on 15 October 2026). The 10-Q also reports the FERC show cause proceeding of June 2026 on SPP's integration of large and co-located loads, responses due 20 November 2026. The OCC's case system was not searched (web search budget exhausted): the cause number and the application wait.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "The Empire District Electric Company d/b/a Liberty (Empire Electric)",
+   "state": "MO",
+   "iso_region": "SPP",
+   "rule_name": "Empire District Electric (Liberty) Missouri Large Load tariff, MO PSC Case ET-2026-0184",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1174169/000117416926000055/a2026q3-exhibit992xmda.htm",
+   "source_title": "Algonquin Power & Utilities Corp. Management Discussion and Analysis for the third quarter of 2026, Exhibit 99.2 to Form 6-K filed 6 November 2026 (SEC EDGAR)",
+   "quoted_clause": {
+    "section": "Regulatory proceedings table, Empire Electric, Missouri",
+    "quote": "On September 11, 2026, Empire Electric filed a Large Load tariff with the Missouri Public Service Commission, as required by Missouri Senate Bill 4."
+   },
+   "docket": {
+    "value": "MO PSC ET-2026-0184",
+    "cites": [
+     {
+      "url": "https://psc.mo.gov/General/Utility_Tariffs_for_Large_Load_Customers",
+      "section": "Missouri PSC page, Utility Tariffs for Large Load Customers in Missouri",
+      "quote": "Submit Comment in Liberty Case ET-2026-0184",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-09-11",
+    "cites": [
+     {
+      "section": "Regulatory proceedings table, Empire Electric, Missouri",
+      "quote": "On September 11, 2026, Empire Electric filed a Large Load tariff with the Missouri Public Service Commission, as required by Missouri Senate Bill 4."
+     },
+     {
+      "url": "https://psc.mo.gov/General/Utility_Tariffs_for_Large_Load_Customers",
+      "section": "Missouri PSC page, Utility Tariffs for Large Load Customers in Missouri",
+      "quote": "Liberty Utilities' large load tariff case is currently in progress.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Algonquin Q3 2026 MD&A and earnings release (Form 6-K of 6 November 2026); Missouri PSC large load page and fact sheet. The filing in ET-2026-0184 was not read: EFIS's case search is a posted form the reader cannot submit, and the case's EFIS address was not found (web search budget exhausted)."
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "As for threshold_mw."
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Algonquin Q3 2026 MD&A and earnings release: no large load pipeline figure for Empire."
+    }
+   },
+   "license": "public",
+   "license_basis": "Algonquin's filing on SEC EDGAR and the Missouri PSC's own page",
+   "erw_overlap": "none",
+   "notes": "The MD&A says the proposed tariff is intended to support economic development and large-load investment while requiring large-load customers to pay their representative cost of service. Missouri S.B. 4 is the law the filing implements (MD&A quote above; the PSC fact sheet says the law required the PSC to adopt rates for large load customers). Empire in Kansas, Oklahoma and Arkansas: no large-load rule found (the MD&A lists only the Missouri filing). Waits: the ET-2026-0184 tariff sheets from EFIS once the case address is known.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Evergy Kansas Central and Evergy Kansas Metro",
+   "url": "https://kcc-connect.kcc.ks.gov/s/order/a1Jcr000005QVvlEAG/251859",
+   "reason": "the answer looks like a bot check; not retried with another agent (the KCC order approving the LLPS settlement)"
+  },
+  {
+   "utility": "Ameren Illinois Company",
+   "url": "https://icc.illinois.gov/docket/P2026-0625",
+   "reason": "the answer looks like a bot check: the page says 'Please, no robots or crawlers beyond this point' and shows a captcha; not retried"
+  },
+  {
+   "utility": "Union Electric Company d/b/a Ameren Missouri",
+   "url": "https://s21.q4cdn.com/448935352/files/doc_financials/2026/q2/Q2-2026-Ameren-Corporation-Earnings-Call-Final-Transcript.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (Ameren's posted Q2 2026 call transcript)"
+  },
+  {
+   "utility": "Ameren Missouri and Ameren Illinois",
+   "url": "https://www.ameren.com/",
+   "reason": "the site's terms (https://www.ameren.com/terms, read once) forbid 'any data mining, bots, spiders, automated tools or similar data gathering and extraction methods'; no other ameren.com page was read"
+  },
+  {
+   "utility": "Evergy (all companies)",
+   "url": "https://www.evergy.com/",
+   "reason": "not requested this pass: bot check answered to earlier readers (final, per the brief); the Kansas LLPS sheet and the GT&C Section 2.07B are unread"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Kansas City Board of Public Utilities (KS, SPP)",
+   "searched": "Not searched in depth: the web search budget of this pass was exhausted before BPU's rates could be looked for; no document read."
+  },
+  {
+   "utility": "Oklahoma Gas and Electric Company in Arkansas (APSC)",
+   "searched": "OGE/OG&E Form 10-Q for the quarter ended 30 September 2026, APSC Proceedings: no large-load tariff, only Google-related capacity purchase agreements. The APSC docket system was not searched."
+  },
+  {
+   "utility": "The Empire District Electric Company (Liberty) in Kansas, Oklahoma and Arkansas",
+   "searched": "Algonquin's Q3 2026 MD&A (regulatory proceedings table lists only the Missouri large load tariff) and earnings release; the KCC's 2026 news release list (a Liberty rate case hearing of May 2026, not read). The OCC and APSC were not searched."
+  }
+ ]
+}

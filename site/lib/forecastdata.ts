@@ -32,9 +32,12 @@ export function params(): Params {
   const prop = property.states as unknown as Params["property"]["states"];
   const slimProp = Object.fromEntries(Object.entries(prop).map(([s, v]) => [s, { name: v.name, rules: v.rules.map((r) => ({
     id: r.id, technologies: r.technologies, kind: r.kind, usd_per_mw_year: r.usd_per_mw_year, usd_per_mwh: r.usd_per_mwh, min_mw: r.min_mw,
-    tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires,
+    tiers: r.tiers, schedule_pct: r.schedule_pct, then_pct: r.then_pct, requires: r.requires, default_levy: r.default_levy, levy_words: r.levy_words, tip: r.tip, own_tip: r.own_tip, option_tip: r.option_tip, rate_tip: r.rate_tip,
+    assessment_ratio: r.assessment_ratio, depr_pct_per_year: r.depr_pct_per_year, floor_pct: r.floor_pct, usd_per_mw_value: r.usd_per_mw_value,
+    op_years: r.op_years, built_before: r.built_before,
     years: r.years, usd_per_mw_min: r.usd_per_mw_min, usd_per_mw_max: r.usd_per_mw_max, default_usd_per_mw: r.default_usd_per_mw,
-    exempt_years: r.exempt_years, adds_to_property: r.adds_to_property, exempt_share: r.exempt_share, until_year: r.until_year })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
+    exempt_years: r.exempt_years, adds_to_property: r.adds_to_property, exempt_share: r.exempt_share, until_year: r.until_year,
+    above_mw: r.above_mw, below_mw: r.below_mw, exempt_steps: r.exempt_steps })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
   return {
     jediCosts: { technologies: slimJc } as Params["jediCosts"],
     eiaCapex: { technologies: slimEc } as unknown as Params["eiaCapex"],
@@ -45,7 +48,7 @@ export function params(): Params {
     property: { states: slimProp } as Params["property"],
     taxable: { technologies: Object.fromEntries(Object.entries(taxable.technologies).map(([t, v]) => [t, { taxable_share: v.taxable_share }])) } as Params["taxable"],
     gas: { heat_rate_btu_per_kwh: gas.heat_rate_btu_per_kwh, capacity_factor: gas.capacity_factor, price_usd_per_mmbtu: gas.price_usd_per_mmbtu, btu_per_cf: gas.btu_per_cf },
-    exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct }]))])) } as Params["exemptions"],
+    exemptions: { states: Object.fromEntries(Object.entries(exemptions.states).map(([s, v]) => [s, Object.fromEntries(Object.entries(v).map(([t, e]) => [t, { exempt_pct: e.exempt_pct, tip: (e as { tip?: string }).tip }]))])) } as Params["exemptions"],
   };
 }
 

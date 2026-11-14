@@ -35,8 +35,10 @@ class TheFaults(unittest.TestCase):
         self.assertIn("(P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t)", held)
         # the kinds that leave years or the choice to the reader keep the own rate offered: Iowa's optional valuation,
         # Kansas's exemption (session 4223, for the years after it), Oregon's agreement (session 4225)
-        for kind in ("valuation", "exempt_years", "capacity_option"):
+        for kind in ("exempt_years", "capacity_option"):
             self.assertIn(f'r.kind !== "{kind}"', held, kind)
+        # session 4291: only an optional valuation (Iowa's ordinance) keeps the own rate; a state's own assessment is a statute
+        self.assertIn('!(r.kind === "valuation" && r.requires === "option")', held)
 
     def test_9_a_tax_not_held_is_left_out_of_the_chart_and_an_empty_year_is_zero(self):
         # fault 17: a property tax held for some years is drawn (not only one held for every year)

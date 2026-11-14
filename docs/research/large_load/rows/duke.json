@@ -1,0 +1,747 @@
+{
+ "group": "duke",
+ "rows": [
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "state": "NC",
+   "iso_region": "DUK (Duke Energy Carolinas balancing authority), no RTO",
+   "rule_name": "Large Load Tariff (LLT), with Schedule HLF: Exhibit 1 to the Agreement and Stipulation of Settlement on Large Load Tariff of 6 October 2026",
+   "source_url": "https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf",
+   "source_title": "Duke Energy Carolinas, LLC's and Duke Energy Progress, LLC's Agreement and Stipulation of Settlement on Large Load Tariff, Docket Nos. E-7, Sub 1329 and E-2, Sub 1380 (copy of the filing posted by the Southern Environmental Law Center)",
+   "quoted_clause": {
+    "page": "22",
+    "section": "Exhibit 1, Applicability",
+    "quote": "This tariff applies to all letter agreements (LA) and electric service agreements (ESA) executed on and after June 1, 2026, for Large Load Customers."
+   },
+   "docket": {
+    "value": "NCUC E-7, Sub 1329 (and E-2, Sub 1380)",
+    "cites": [
+     {
+      "page": "3",
+      "quote": "DOCKET NO. E-7, SUB 1329 DOCKET NO. E-2, SUB 1380"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-10-06",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "This, the 6th day of October, 2026."
+     },
+     {
+      "page": "22",
+      "section": "Exhibit 1 footer",
+      "quote": "Effective for service rendered on and after January 1, 2027 NCUC Docket No. E-7, Sub 1329, Order dated"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1326160/000132616026000051/duk-20260930.htm",
+      "section": "Form 10-Q for the quarter ended 30 September 2026, Regulatory Matters",
+      "quote": "On October 6, 2026, Duke Energy Carolinas and Duke Energy Progress filed an additional settlement agreement with the NCUC regarding large-load customer tariffs.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml"
+    },
+    "contract_term": {
+     "value": "Below 100 MW: the greater of 10 years and 5 years plus the load ramp period; 100 MW or more: the greater of 15 years and 10 years plus the load ramp period. After the term, automatic one-year extensions unless the customer gives written notice at least 24 months before termination",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Exhibit 1, Contract Term",
+       "quote": "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years and (b) 10 years plus the load ramp period."
+      },
+      {
+       "page": "23",
+       "section": "Exhibit 1, Contract Term Extensions",
+       "quote": "At the expiration of the contract term, ESAs will be automatically extended for one-year terms unless the customer notifies the Company in writing of its intent to terminate the contract at least 24 months in advance of such termination."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Dedicated Facilities: advance funds equal to the estimated total cost as CIAC within 60 days of the LA. Transmission Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA, reduced ratably once a year after three consecutive billing months at 75% of full contract demand. Security equal to the liquidated damages for early termination, in cash, letter of credit or parent guarantee, or a combination, as the Company requires",
+     "cites": [
+      {
+       "page": "22",
+       "section": "Exhibit 1, Dedicated Facilities",
+       "quote": "The customer will provide advanced funds equal to the estimated total cost of Dedicated"
+      },
+      {
+       "page": "22",
+       "section": "Exhibit 1, Transmission Network Upgrades",
+       "quote": "The customer will provide a deposit in the form of a letter of credit equal to the estimated total cost of transmission network upgrades necessary to serve the customer load (“Network Upgrades”) within 60 days of execution of the ESA."
+      },
+      {
+       "page": "22",
+       "section": "Exhibit 1, Transmission Network Upgrades",
+       "quote": "After the customer meets or exceeds an actual monthly billing demand of 75% of full contract demand for three (3) consecutive billing months, the letter of credit required to cover and secure the costs of the Network Updates will be reduced once per year on a ratable basis over the remaining term of the ESA."
+      },
+      {
+       "page": "24",
+       "section": "Exhibit 1, Security Requirements",
+       "quote": "Security Requirements: The customer must provide security equal to the applicable liquidated damages for early termination in the form of cash, letter of credit or parent guarantee, or a combination thereof, as required by the Company in its discretion."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Liquidated damages for early termination: 100% of minimum billing demand charges at annual contract demand and Extra Facilities Charges during the notification period, plus the net present value of remaining Extra Facilities Charges, plus 25% of remaining minimum billing demand charges after the notification period. Notification period: below 250 MW 24 months; 250 to 499 MW 36 months; 500 MW or more 48 months. After the 6th anniversary of service, a one-time reduction of up to 20% (no more than 200 MW) without liquidated damages. On early termination the Company draws the network upgrade letter of credit for the remaining net book value",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Exhibit 1, Liquidated Damages for Early Termination",
+       "quote": "Liquidated damages for early termination arising from customer notification and/or customer default will be equal to (1) 100% of minimum billing demand charges at the customer’s annual contract demand and Extra Facilities Charges during the applicable notification period, plus (2) the net present value of remaining Extra Facilities Charges under the remaining term of the contract after expiration of the notification period, plus (3) 25% of remaining minimum billing demand charges at the customer’s annual contract demand under the remaining term of the contract after expiration of the notification period."
+      },
+      {
+       "page": "23",
+       "section": "Exhibit 1, Notification Period",
+       "quote": "o Below 250 MW: 24 months o Between 250 MW and 499 MW: 36 months o 500 MW or more: 48 months"
+      },
+      {
+       "page": "23",
+       "section": "Exhibit 1, Liquidated Damages for Contract Reduction",
+       "quote": "After the 6th anniversary of initial provision of service, the customer may provide notice to reduce contract demand by up to 20% but no greater than 200 MW, one time, without incurring liquidated damages."
+      },
+      {
+       "page": "22",
+       "section": "Exhibit 1, Transmission Network Upgrades",
+       "quote": "In the event of early termination pursuant to the terms of the ESA, the Company will draw on the letter of credit to recover the remaining net book value, as of the date of termination, of Network Upgrades as CIAC."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Settlement pp. 1 to 25, Exhibit 1 (Large Load Tariff) pp. 22 to 24: no load or engineering study duration or deadline; the only deadlines are the 60-day CIAC and letter of credit deadlines (collateral)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Settlement pp. 1 to 25 and Exhibit 1 pp. 22 to 24: no time to energize or construction milestone; Exhibit 1 sets an interruptibility condition for the load ramp period plus one year (notes), not a timeline"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Duke Energy Form 10-Q for the quarters ended 30 June and 30 September 2026 (sec.gov): no MW or GW figure for the large-load pipeline; the settlement; Duke's Fall 2026 semiannual large-load report (NCUC Docket E-100, Sub 207) is on the NCUC portal (bars Claude's agents) and Duke's investor documents on s201.q4cdn.com refused (robots 403)"
+    }
+   },
+   "license": "public",
+   "license_basis": "copy of the NCUC filing posted by an intervenor (the Southern Environmental Law Center), as window A used it; the 10-Q from SEC EDGAR",
+   "erw_overlap": "large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml: threshold and min_demand held unchanged. contract_term: window A holds the minimum term; this adds the automatic one-year extension and the 24-month notice. collateral: window A holds the Dedicated Facilities CIAC and the network upgrade letter of credit; this adds the ratable reduction and the security equal to termination liquidated damages (cash, letter of credit or parent guarantee). exit_fee is not in window A's file. Status unchanged: proposed, no NCUC order found as of 13 November 2026.",
+   "notes": "Read again through the reader on 13 November 2026 (window A's copy was 12 November). No NCUC order on the settlement was found by search; the NCUC portal bars Claude's agents, so the docket itself was not read. Exhibit 1 also sets a Reliability Provision (p. 24): each ESA includes interruptibility of 95% of contract load for up to 50 hours a year for the load ramp period plus one year, or the alternative the exhibit lists. The 10-Q (same section) says: Electric service agreements entered into prior to June 1, 2026, already include similar retail customer protections. Queue leads, not values (news only): Duke's Q3 2026 earnings call coverage (Utility Dive, Earnings Whispers, 5 to 6 November 2026) reports a 15.4 GW late-stage large-load pipeline of which 7.8 GW is signed electric service agreements, company-wide, not Carolinas-only; WUNC (16 October 2026, robots bar Claude) reports Duke's Fall 2026 semiannual large-load report. FERC accepted Duke Energy Carolinas' large-load revisions to its pro forma NITSA in ER26-2691 (lead: a 75% floor for 15 years per mgrid and Utility Dive); ferc.gov answered 403 to the reader, so no row is written for it. South Carolina: see the row 'Generic docket on large load additions (SC PSC Docket 2026-138-E)'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Duke Energy Progress, LLC",
+   "state": "NC",
+   "iso_region": "CPLE and CPLW (Duke Energy Progress balancing authorities), no RTO",
+   "rule_name": "Large Load Tariff (LLT), proposed for Duke Energy Progress by the same settlement of 6 October 2026 (Exhibit 1 is captioned for DEC; no DEP leaf printed)",
+   "source_url": "https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf",
+   "source_title": "Duke Energy Carolinas, LLC's and Duke Energy Progress, LLC's Agreement and Stipulation of Settlement on Large Load Tariff, Docket Nos. E-7, Sub 1329 and E-2, Sub 1380 (copy of the filing posted by the Southern Environmental Law Center)",
+   "quoted_clause": {
+    "page": "7",
+    "section": "II. Settlement Terms, A. Large Load Tariff, 1",
+    "quote": "support the Commission’s approval of the Large Load Tariff to be applicable to both DEC and DEP"
+   },
+   "docket": {
+    "value": "NCUC E-2, Sub 1380 (with E-7, Sub 1329)",
+    "cites": [
+     {
+      "page": "3",
+      "quote": "DOCKET NO. E-7, SUB 1329 DOCKET NO. E-2, SUB 1380"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-10-06",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "This, the 6th day of October, 2026."
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1326160/000132616026000051/duk-20260930.htm",
+      "section": "Form 10-Q for the quarter ended 30 September 2026, Regulatory Matters",
+      "quote": "On October 6, 2026, Duke Energy Carolinas and Duke Energy Progress filed an additional settlement agreement with the NCUC regarding large-load customer tariffs.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Total contract demand of 50 MW or more with an expected 12-month rolling average load factor of 80% or more, or 150 MW or more at any load factor (single premises, or premises within one mile)",
+     "cites": [
+      {
+       "page": "22",
+       "section": "Exhibit 1, Applicability",
+       "quote": "Large Load Customers are defined as customers served at either a single premises, or at multiple premises within one mile of each other, and meet the demand and load factor criteria of either (a) a total contract demand of 50 MW or more and an expected 12-month rolling average load factor of 80% of more, or (b) a total contract demand of 150 MW or more and any load factor."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Billing demand not less than 75% of contract demand for all demand charges in Schedule HLF, from when contract demand is in effect; customers with ESAs executed on or after 1 June 2026 take service on HLF or a future large load rate schedule",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Exhibit 1, Minimum Billing Demand",
+       "quote": "Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF. This provision shall apply as soon as contract demand is in effect."
+      },
+      {
+       "page": "9",
+       "section": "II.B.3, Applicable Rate Schedule",
+       "quote": "all large load tariff customers with ESAs executed on or after June 1, 2026, will take service on HLF or a future large load rate schedule."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Below 100 MW: the greater of 10 years and 5 years plus the load ramp period; 100 MW or more: the greater of 15 years and 10 years plus the load ramp period. Automatic one-year extensions unless the customer gives written notice at least 24 months before termination",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Exhibit 1, Contract Term",
+       "quote": "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years and (b) 10 years plus the load ramp period."
+      },
+      {
+       "page": "23",
+       "section": "Exhibit 1, Contract Term Extensions",
+       "quote": "At the expiration of the contract term, ESAs will be automatically extended for one-year terms unless the customer notifies the Company in writing of its intent to terminate the contract at least 24 months in advance of such termination."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Dedicated Facilities: advance funds equal to the estimated total cost as CIAC within 60 days of the LA. Transmission Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA. Security equal to the liquidated damages for early termination, in cash, letter of credit or parent guarantee, or a combination",
+     "cites": [
+      {
+       "page": "22",
+       "section": "Exhibit 1, Dedicated Facilities",
+       "quote": "Facilities as a contribution in aid of construction (CIAC), within 60 days of execution of the LA."
+      },
+      {
+       "page": "22",
+       "section": "Exhibit 1, Transmission Network Upgrades",
+       "quote": "The customer will provide a deposit in the form of a letter of credit equal to the estimated total cost of transmission network upgrades necessary to serve the customer load (“Network Upgrades”) within 60 days of execution of the ESA."
+      },
+      {
+       "page": "24",
+       "section": "Exhibit 1, Security Requirements",
+       "quote": "Security Requirements: The customer must provide security equal to the applicable liquidated damages for early termination in the form of cash, letter of credit or parent guarantee, or a combination thereof, as required by the Company in its discretion."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Liquidated damages for early termination: 100% of minimum billing demand charges and Extra Facilities Charges during the notification period, plus the net present value of remaining Extra Facilities Charges, plus 25% of remaining minimum billing demand charges after the notification period. Notification period: below 250 MW 24 months; 250 to 499 MW 36 months; 500 MW or more 48 months",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Exhibit 1, Liquidated Damages for Early Termination",
+       "quote": "Liquidated damages for early termination arising from customer notification and/or customer default will be equal to (1) 100% of minimum billing demand charges at the customer’s annual contract demand and Extra Facilities Charges during the applicable notification period, plus (2) the net present value of remaining Extra Facilities Charges under the remaining term of the contract after expiration of the notification period, plus (3) 25% of remaining minimum billing demand charges at the customer’s annual contract demand under the remaining term of the contract after expiration of the notification period."
+      },
+      {
+       "page": "23",
+       "section": "Exhibit 1, Notification Period",
+       "quote": "o Below 250 MW: 24 months o Between 250 MW and 499 MW: 36 months o 500 MW or more: 48 months"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Settlement pp. 1 to 25 and Exhibit 1 pp. 22 to 24"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Settlement pp. 1 to 25 and Exhibit 1 pp. 22 to 24"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "the documents read for this row print no large-load queue or pipeline; also searched: Duke Energy Form 10-Q for the quarters ended 30 June and 30 September 2026 (sec.gov), no MW or GW figure; Duke's semiannual large-load report (NCUC Docket E-100, Sub 207) and Duke's investor documents are on refused hosts"
+    }
+   },
+   "license": "public",
+   "license_basis": "copy of the NCUC filing posted by an intervenor (the Southern Environmental Law Center); the 10-Q from SEC EDGAR",
+   "erw_overlap": "large_load_tariffs/duke_energy_carolinas_large_load_tariff.yaml holds DEC's leaf of the same tariff and writes no DEP row ('no Progress row is written until its own leaf is read'). This row rests on the settlement's own words that the Exhibit 1 tariff is to apply to both DEC and DEP (p. 7); for window A to decide whether that is enough without a DEP leaf.",
+   "notes": "Exhibit 1's footer reads 'NCUC Docket No. E-7, Sub 1329' (DEC); no separate DEP leaf or DEP Schedule HLF sheet was found on an allowed host (duke-energy.com and the NCUC portal are refused). The settlement (p. 6) records the Commission's 14 August 2026 Order Requesting Comments in E-2, Sub 1380. DEP's South Carolina side: see the row 'Generic docket on large load additions (SC PSC Docket 2026-138-E)'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC",
+   "state": "SC",
+   "iso_region": "DUK, CPLE and CPLW (Duke balancing authorities), no RTO",
+   "rule_name": "Generic docket on large load additions (SC PSC Docket 2026-138-E): petition for comments, no tariff proposed",
+   "source_url": "https://psc.sc.gov/sites/psc/files/Documents/PINs/2026-2027%20PINs/PIN--Docket%20No.%202026-138-E.pdf",
+   "source_title": "South Carolina Public Service Commission Receives Petition to Establish a Generic Docket for the Purpose of Receiving Comments Addressing Large Load Additions (press release, 6 July 2026)",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "In their Petition, the Companies request that the PSC receive written comments concerning issues associated with new large load (50 megawatts or greater) additions, including existing rate schedules, service regulations, line extension policies, and interconnection rules"
+   },
+   "docket": {
+    "value": "SC PSC 2026-138-E",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "More information about this matter can be found on the Commission’s Docket Management System under Docket No. 2026-138-E."
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-05-27",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "On May 27, 2026, Duke Energy Carolinas, LLC, and Duke Energy Progress, LLC (collectively, the “Companies”), filed a Petition with the Public Service Commission to Establish a Generic Docket for the Purpose of Receiving Comments Addressing Large Load Additions."
+     },
+     {
+      "page": "1",
+      "quote": "On June 17th, the Public Service Commission issued Order No. 2026-362, which clarifies the procedural schedule for this matter."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW or greater (the size of load the comment docket addresses; not a tariff threshold)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "new large load (50 megawatts or greater) additions"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026 (lists 'minimum contract period and contract demand for billing purposes' as a comment topic only); the petition, Order No. 2026-362 and the comments on dms.psc.sc.gov were not found by search"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026 (topic only)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026 (lists 'collateral requirements' as a topic only)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026 (lists 'exit policies and restrictions on customer capacity reduction' as a topic only)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PSC press release of 6 July 2026"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "the documents read for this row print no large-load queue or pipeline; also searched: Duke Energy Form 10-Q for the quarters ended 30 June and 30 September 2026 (sec.gov), no MW or GW figure; Duke's semiannual large-load report (NCUC Docket E-100, Sub 207) and Duke's investor documents are on refused hosts"
+    }
+   },
+   "license": "public",
+   "license_basis": "the South Carolina Public Service Commission's own press release",
+   "erw_overlap": "none",
+   "notes": "A comment docket, not a rule: kept so that the South Carolina side's status is on record; drop it if the dataset holds rules only. Leads (news and party releases, not read as values): the docket follows commitments in Duke's 2025 South Carolina rate case settlements; S&P Global reports the SC PSC voted on 20 November 2025 to approve a separate large-load stipulation between DEP and consumer and environmental groups (Docket 2025-154-E). No Duke South Carolina large-load tariff filing was found. sierraclub.org (SSL error on robots) was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Duke Energy Florida, LLC",
+   "state": "FL",
+   "iso_region": "FPC (Duke Energy Florida balancing authority), no RTO",
+   "rule_name": "Large Load Customer Policy (Tariff Section IV, Part XIII, Sheets 4.130 to 4.132) and Large Load Customer Agreement (Sheets 7.510 to 7.530), with revised CIAC tariff",
+   "source_url": "https://www.floridapsc.com/library/filings/2026/02327-2026/02327-2026.pdf",
+   "source_title": "Petition for Limited Proceeding to Approve Large Load Tariff by Duke Energy Florida, LLC, with Appendices A and B (tariffs) and testimony, Document No. 02327-2026, filed 22 April 2026",
+   "quoted_clause": {
+    "page": "48",
+    "section": "Appendix B, Sheet 4.130, 13.01 General",
+    "quote": "This policy applies to any individual Customer, for either a new or expanded facility, with an aggregate Peak Contract Demand forecast reasonably expected to be equal to or in excess of a Monthly Maximum Demand of fifty thousand (50,000) kilowatts of firm (i.e., not Interruptible or Curtailable) load, at a single location including co-located load, any time during the Minimum Term."
+   },
+   "docket": {
+    "value": "FPSC 20260064-EI",
+    "cites": [
+     {
+      "url": "https://www.floridapsc.com/library/Orders/2026/05355-2026.pdf",
+      "page": "1",
+      "quote": "DOCKET NO. 20260064-EI ORDER NO. PSC-2026-0286-PCO-EI ISSUED: August 21, 2026",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "denied",
+    "date": "2026-11-03",
+    "cites": [
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07689-2026/07689-2026.pdf",
+      "page": "1",
+      "section": "Vote sheet, Item 3",
+      "quote": "VOTE SHEET November 3, 2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07689-2026/07689-2026.pdf",
+      "page": "1",
+      "section": "Vote sheet, Item 3",
+      "quote": "FILED 11/3/2026 DOCUMENT NO. 07689-2026 FPSC - COMMISSION CLERK",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07689-2026/07689-2026.pdf",
+      "page": "2",
+      "section": "Vote sheet, Issue 1B",
+      "quote": "Recommendation: Staff recommends that the Commission deny DEF’s proposed tariff as filed, with leave to refile, on two grounds.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07689-2026/07689-2026.pdf",
+      "page": "2",
+      "section": "Vote sheet, Issue 1B, Commission action",
+      "quote": "AS modified by oral",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07689-2026/07689-2026.pdf",
+      "page": "2",
+      "section": "Vote sheet, Issue 1B, Commission action",
+      "quote": "APPROVED",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07601-2026/07601-2026.pdf",
+      "page": "1",
+      "section": "Oral modification to Issue 1B, page 10",
+      "quote": "tariff provisions for Commission approval covering all customers who meet the statutory definition and a proposed large load rate schedule with adequate cost support.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "1",
+      "section": "filing (history)",
+      "quote": "FILED 4/22/2026 DOCUMENT NO. 02327-2026 FPSC - COMMISSION CLERK"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW: Peak Contract Demand forecast at or above a Monthly Maximum Demand of 50,000 kW of firm load at a single location, including co-located load; sites on the system as of 31 December 2025 not subject to the added requirements",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.01 General",
+       "quote": "This policy applies to any individual Customer, for either a new or expanded facility, with an aggregate Peak Contract Demand forecast reasonably expected to be equal to or in excess of a Monthly Maximum Demand of fifty thousand (50,000) kilowatts of firm (i.e., not Interruptible or Curtailable) load, at a single location including co-located load, any time during the Minimum Term."
+      },
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.01 General",
+       "quote": "This policy will not impose any additional requirement for customer sites that otherwise meet the Peak Contract Demand requirements and exist on the Company’s system as of December 31, 2025."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum Demand between 75% and 85% of annual Contract Capacity (contract capacity may be phased in tranches); a Minimum Billing Energy Volume at a projected load factor of no lower than 60%; Billing Demand the higher of the month's maximum demand, 90% of Grid Demand (highest in the last 12 months) or the Minimum Demand. The customer has no more than the Load Ramp Period to reach its first contract demand",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.03",
+       "quote": "Minimum Demand: Minimum Demand shall be between 75% and 85% of the annual Contract Capacity, excluding temporary, construction, bridging and/or commissioning power as agreed to by the Customer and Company."
+      },
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.03",
+       "quote": "This minimum volume will be based on the Minimum Demand calculation above assuming a projected load factor, no lower than 60%, as agreed upon."
+      },
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.03",
+       "quote": "Billing Demand: Billing Demand shall be the higher of: (a) the Monthly Maximum Demand in the current month, (b) 90% of the Grid Demand, or (c) the Minimum Demand."
+      },
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.03",
+       "quote": "Customer will have no more than the Load Ramp Period to reach its first contract demand amount, at which time the minimum monthly bill will be the sum of the following:"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum Term 20 years from permanent service, which may include a Load Ramp Period; termination after service begins needs written notice no later than two years before the termination date",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.02 Term",
+       "quote": "Minimum Term shall be for a period of twenty (20) years, commencing on the date when permanent service is received. This term may include a transitional load period (“Load Ramp Period”)."
+      },
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.05 Early Termination",
+       "quote": "Once the Customer begins taking service, the Customer shall provide written notice to the Company, no later than two years prior to the requested date of termination of service."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Security Amount equal to a Security Percentage of the applicable termination payment, set by credit review, revised annually; at least 10% where the termination obligation exceeds 100 million USD; in a standby irrevocable letter of credit or cash, a parent guarantee reducing the percentage. CIAC: 100% of the estimated cost to extend service paid in advance, refunded over up to five years as base revenues are collected",
+     "cites": [
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.04 Security Requirements",
+       "quote": "The security amount to be provided is a percentage (“Security Percentage”) of the applicable termination payment (“Security Amount”)."
+      },
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.04 Security Requirements",
+       "quote": "All Customers, regardless of credit health, will be assigned a Security Percentage of at least 10% if the Termination Payment Obligation or Termination Fee exceeds $100M."
+      },
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.04 Security Requirements",
+       "quote": "Customers may provide a parent guarantee from the ultimate parent or corporate affiliate of the Customer, substantially in the form provided as an attachment to the LLCA in order to reduce the Security Percentage."
+      },
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.04 Security Requirements",
+       "quote": "b. Cash for the full Security Amount."
+      },
+      {
+       "page": "50",
+       "section": "Appendix B, Sheet 4.132, 13.07 CIAC",
+       "quote": "Company requires Customer to pay 100% of the total estimated costs to extend service in advance. Those payments are refunded over a period of up to five years, less CIAC that would normally be paid by Customer, as base revenues are collected."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination before full load ramp: the Company's actual costs incurred (Termination Payment Obligation). Termination before the end of the term: a Termination Fee of three years of Minimum Monthly Bills plus the net book value of new facilities, less any unrefunded refundable CIAC",
+     "cites": [
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.05 Early Termination",
+       "quote": "If Customer terminates the LLCA before reaching full load ramp, the Customer must pay Company its actual costs incurred to provide service (“Termination Payment Obligation”)."
+      },
+      {
+       "page": "49",
+       "section": "Appendix B, Sheet 4.131, 13.05 Early Termination",
+       "quote": "The Termination Fee is equal to three years of Minimum Monthly Bills plus the net book value of new facilities referenced in section 13.07 below less any refundable portion of the upfront CIAC payment, which has not yet been refunded."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Study duration not published. A non-refundable system impact study fee of 150,000 USD (150,000 USD more for updates); the customer must enter an LLCA or a reimbursement agreement within three months of receiving the system impact study",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Appendix B, Sheet 4.130, 13.01 General",
+       "quote": "Such Customer shall also pay a non-refundable system impact study fee of $150,000 to support the Company’s initial analysis and engineering costs to determine the investments and upgrades necessary to serve the Customer’s proposed load. Customer shall pay an additional $150,000 for any necessary updates. Customer shall enter into an LLCA or a reimbursement agreement within three months of receipt of the system impact study."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No fixed timeline: service dates follow the customer-requested load ramp in the LLCA, which the Company does not guarantee; service does not begin until the Company has capacity for the Contract Capacity",
+     "cites": [
+      {
+       "page": "53",
+       "section": "Appendix B, Sheet 7.511 (LLCA), paragraph 3c",
+       "quote": "Company will work diligently to meet Customer’s requested timelines but does not guarantee such timelines can be met."
+      },
+      {
+       "page": "50",
+       "section": "Appendix B, Sheet 4.132, 13.06 Special Terms",
+       "quote": "service to Customers shall not commence until the Company has sufficient capacity to meet the Customer’s Contract Capacity requirements"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "DEF petition, tariffs and testimony (Document 02327-2026, 158 pp.): no count or MW of large-load requests; the large-load customer contract documents in the docket are confidential (Order PSC-2026-0308-CFO-EI)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)",
+   "erw_overlap": "none",
+   "notes": "Status: denied on 3 November 2026, from the Commission's own vote sheet (Document 07689-2026, Item 3). The vote sheet marks Issue 1B (staff's recommendation to deny DEF's proposed tariff as filed, on two grounds: it leaves out customers who meet the statutory definition but do not request firm service, and DEF has not shown that service on GSD-1 and GSDT-1 with the proposed protections reasonably ensures each large-load customer bears its own full cost of service) 'APPROVED' 'AS modified by oral modification'. The oral modification (Document 07601-2026, staff e-mail of 29 October 2026 attached to the vote sheet) changes the last sentence from 'should be permitted to re-file' to 'DEF must' file 'tariff provisions for Commission approval covering all customers who meet the statutory definition and a proposed large load rate schedule with adequate cost support'. Issues 1A, 1C, 1D, 1E, 1, 2, 3 and 4 are marked MOOT; Issue 5 (keep the docket open for refiled tariffs) is APPROVED. The vote sheet does not print the vote count (news reports 5 to 0). No final order was in the docket's filing list (the Commission's docket index at pscweb.floridapsc.com, read 13 November 2026, latest entry 9 November 2026), so the order's date and any refiling deadline are not yet published. The rule is no longer pending: the field values above describe the tariff as filed and denied. Staff's post-hearing recommendation is Document 07477-2026 (22 October 2026). The petition replaces DEF's earlier petition of 5 September 2025 (Docket 20250113-EI, withdrawn 20 April 2026, LLCP at 100 MW); it was filed under Florida SB 484 (Chapter 2026-65). Customers would have taken service on GSD-1 or GSDT-1 until a large load rate schedule was approved (Sheet 4.132, 13.08). www.psc.state.fl.us, which failed on a certificate check on this machine earlier, read normally on the retry (Document 03579-2026, a hearing transcript, not used).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Duke Energy Ohio, Inc.",
+   "state": "OH",
+   "iso_region": "PJM (DEOK zone)",
+   "rule_name": "Data Center Tariff (Rate DC), application in PUCO Case No. 26-0755-EL-ATA",
+   "source_url": "https://content.govdelivery.com/accounts/OHPUC/bulletins/420cf8c",
+   "source_title": "Public Utilities Commission of Ohio bulletin 'Keeping cool', 30 July 2026, item 'Duke files data center tariff application'",
+   "quoted_clause": {
+    "section": "Duke files data center tariff application",
+    "quote": "Duke Energy Ohio has recently filed an application for approval of a new service and tariffs for serving data center load in Case No. 26-0755-EL-ATA."
+   },
+   "docket": {
+    "value": "PUCO 26-0755-EL-ATA",
+    "cites": [
+     {
+      "section": "Duke files data center tariff application",
+      "quote": "Duke Energy Ohio has recently filed an application for approval of a new service and tariffs for serving data center load in Case No. 26-0755-EL-ATA."
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "",
+    "cites": [
+     {
+      "section": "bulletin header",
+      "quote": "Public Utilities Commission of Ohio sent this bulletin at 07/30/2026 10:00 AM EDT"
+     },
+     {
+      "section": "Duke files data center tariff application",
+      "quote": "Duke Energy Ohio has recently filed an application for approval of a new service and tariffs for serving data center load in Case No. 26-0755-EL-ATA."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; the application itself is on dis.puc.state.oh.us, whose robots file bars Claude's agents (refused)"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PUCO bulletin of 30 July 2026; application refused (dis.puc.state.oh.us robots)"
+    },
+    "queue_size": {
+     "value": "Large load submittal to PJM for the 2027 load forecast (29 September 2026), capacity in MW: Duke Energy Ohio 231 (2027) rising to 1,330 (2032 to 2047), of which firm Electric Service Obligation (ESO) 231 (2027) and 250 (2028 on), the rest data center deals without an ESO/ESA after probability discounting; Duke Energy Kentucky 30 (2027) to 48 (one manufacturing load). A forecast submittal, not a queue list",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "1",
+       "quote": "Large Load Submittal for Duke Energy Ohio and Kentucky",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "2",
+       "quote": "Duke Energy Ohio will have multiple data center submittals when Kentucky has just 1 manufacturing load.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "5",
+       "quote": "Duke applied discounting factors for all deals that did not have an ESO/ESA.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "6",
+       "quote": "Firm Electric Service Obligation (ESO) - Duke Energy Ohio Other Firm Agreements - Duke Energy Kentucky Total Firm",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "6",
+       "quote": "2028 250 37 287",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "7",
+       "quote": "Firm Total Duke Energy Ohio Total Duke Energy Kentucky Total Zone Submittal",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "7",
+       "quote": "2027 231 30 261",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5k---duke.pdf",
+       "page": "7",
+       "quote": "2032-2047 1,330 48 1,378",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the PUCO's own bulletin; the queue figure from a document PJM publishes (the utility's submittal to PJM's Load Analysis Subcommittee)",
+   "erw_overlap": "none",
+   "notes": "Only the existence and status of the application could be read: its text is on the PUCO's docketing system, whose robots file bars Claude's agents, and no other allowed copy was found. Leads, not values: EEI's 'Large Load Projects and Tariffs (October 2026)' list and a GitHub tracker say PUCO staff filed comments in October 2026 and no decision has issued; a news item says Duke Energy Ohio filed a large-load development tariff proposal in December 2025 (not confirmed in a primary document). The PJM slides' tables are read from the text layer (layout.txt shows the rows and labels); the columns on pp. 6 and 7 are years, then Duke Energy Ohio, Duke Energy Kentucky and the zone total, and the capacity table comes before the demand table (demand is capacity times a 70% utilization factor for Ohio data centers, p. 5). The slides carry the word INTERNAL but are posted publicly by PJM. Status date as the reading group wrote it: 'not published'.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Duke Energy Ohio, Inc.",
+   "url": "https://dis.puc.state.oh.us/DocumentRecord.aspx?DocID=f76ce99e-dd9f-4505-a1e5-92de37b2ab55",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (Duke Energy Ohio's Rate DC application, Case 26-0755-EL-ATA)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "url": "https://www.ferc.gov/news-events/news/commissioner-changs-dissent-duke-energy-carolinas-llc-docket-nos-er26-2691-000",
+   "reason": "HTTP 403 (FERC ER26-2691, Duke Energy Carolinas pro forma NITSA large-load provisions)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "url": "https://ferc.gov/news-events/news/commissioner-rosners-concurrence-duke-energy-carolinas-llc-er26-2691-000-er26-2691",
+   "reason": "HTTP 403"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC (SC)",
+   "url": "https://www.sierraclub.org/environmental-law/sierra-club-wins-lower-rates-and-data-center-progress-south-carolina",
+   "reason": "blocked: the answer looks like a bot check; not retried with another agent (retried once after the certificate fix; a lead only)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "url": "https://www.wunc.org/2026-10-16/new-report-shows-growing-certainty-for-incoming-data-centers-in-the-carolinas",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai; a lead only"
+  },
+  {
+   "utility": "Duke Energy Florida, LLC",
+   "url": "https://floridaphoenix.com/2026/11/03/florida-public-service-commission-rejects-duke-energys-data-center-plan/",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai; a lead only"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "url": "https://s201.q4cdn.com/583395453/files/doc_downloads/2026/Duke-Energy-2025-Annual-Report-vFINAL.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (Duke's posted investor documents)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001326160&type=10-Q&dateb=&owner=include&count=10",
+   "reason": "robots.txt 200: DISALLOWED for all agents (the filings were reached through the Archives path instead)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC",
+   "url": "https://www.duke-energy.com/",
+   "reason": "not requested this pass: answered 403 to earlier readers (final, per the brief)"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC and Duke Energy Progress, LLC",
+   "url": "https://starw1.ncuc.gov/",
+   "reason": "not requested this pass: the NCUC portal's robots file bars Claude's agents (final, per the brief)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Duke Energy Indiana, LLC (IN, MISO)",
+   "searched": "Web searches for a Duke Energy Indiana large-load tariff, rider, settlement or IURC order of 2025 or 2026 (none found; the IURC's approved large-load settlement is Indiana Michigan Power's, not Duke's). Read: Duke Energy's presentation to the IURC of 24 March 2026 (secure.in.gov, internal), which lists 'Deposits', 'Minimum Bills', 'Long Term Contracts' and 'Exit Fees' as protections with no figures or tariff; IURC order on reconsideration in Cause 46319 (28 October 2026, a DSM plan, not large load). The IURC's e-docket was not searched directly. misoenergy.org not requested (paused)."
+  },
+  {
+   "utility": "Duke Energy Kentucky, Inc. (KY, PJM)",
+   "searched": "Web searches of psc.ky.gov for a Duke Energy Kentucky large-load or data center tariff or case (none found). Read: KY PSC orders in Cases 2025-00359 (DSM) and 2025-00258 (net metering) and tariff filing TFS2026-00029 (DSM rider), none about large loads; PJM's large load submittal of 29 September 2026 says Duke Energy Kentucky has one manufacturing large load (30 to 48 MW). Not read: Case 2026-00012 (an economic development special contract, a single customer, not a rule) and the 2026 integrated resource plan (Case 2026-00167)."
+  }
+ ]
+}

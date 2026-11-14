@@ -1,0 +1,822 @@
+{
+ "group": "southern_florida",
+ "rows": [
+  {
+   "utility": "Georgia Power Company",
+   "state": "GA",
+   "iso_region": "SOCO (Southern Company balancing authority, SERC; no RTO)",
+   "rule_name": "Rules and Regulations for Electric Service A1, D13 and D14 (customers of 100 MW or more) and the Large Load Contract Review Process (Docket 44280)",
+   "source_url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/220667/101841",
+   "source_title": "Request for Approval of Revisions to Georgia Power Company's Rules and Regulations, Docket No. 44280 (11 December 2024, with the revised Rules pages 1.10, 1.40 and 1.41)",
+   "quoted_clause": {
+    "page": "16",
+    "section": "D13",
+    "quote": "13. As a condition of serving or preparing to serve a customer or prospective customer with an expected peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land, the Company may require and call upon those performance and credit provisions it deems appropriate"
+   },
+   "docket": {
+    "value": "44280",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Request for Approval of Revisions to Georgia Power Company's Rules and Regulations, Docket No. 44280."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-02-01",
+    "cites": [
+     {
+      "page": "16",
+      "section": "D, page footer",
+      "quote": "Paragraphs 13 and 14 added February 1, 2025"
+     },
+     {
+      "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228126/109297",
+      "page": "1",
+      "quote": "January 28, 2025, Order Approving Revisions to Georgia Power's Rules and Regulations, and April 17, 2025, Order on Georgia Power Company's Revision to Rules and Regulations Tariff Compliance Filing in Docket No. 44280",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/georgia_power_rules_100mw.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/georgia_power_rules_100mw.yaml"
+    },
+    "contract_term": {
+     "value": "Longer contract lengths, from 5-year to 15-year contracts (the Commission's news release of 23 January 2025); the Rules pages print no term figure (A1: \"a longer term of contract\")",
+     "cites": [
+      {
+       "url": "https://psc.ga.gov/site/assets/files/8617/media_advisory_data_centers_rule_1-23-2025.pdf",
+       "page": "1",
+       "quote": "The new rule also allows for longer contract lengths (from 5-year contracts to 15-year contracts) and minimum billing requirements for high-load customers.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "4",
+       "section": "A1 (revised)",
+       "quote": "including, without limitation, minimum billing requirements and a longer term of contract"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "held: large_load_tariffs/georgia_power_rules_100mw.yaml"
+    },
+    "exit_fee": {
+     "value": "D14 as held (on termination the customer may be required to pay the costs the Company incurred to serve it); added by the Staff and Company joint statement of 26 August 2026: the Company files a letter with the Commission within 15 days of receiving a termination notice, and will not seek to recover from Non-Large Load customers any Incremental Cost Revenue Deficiency for the remaining term, that deficiency being reduced by the termination payments collected or owed",
+     "cites": [
+      {
+       "page": "16",
+       "section": "D14",
+       "quote": "may be required by the Company, upon termination of its contract for electric service, to pay any costs the Company incurred in serving or preparing to serve the customer"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228126/109297",
+       "page": "1-2",
+       "quote": "should the termination provision of the Large Load contracts be utilized by a Large Load customer prior to completion of the initial term of the contract, the Company will ... provide a letter to the Commission within 15 days of the Company's receipt of termination notification from the Large Load customer.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228126/109297",
+       "page": "2",
+       "quote": "it shall not seek to recover from Non-Large Load customers any Incremental Cost Revenue Deficiency associated with serving Large Load Data Center Customers during the remaining term for which the contract would have been in place but for early termination.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228126/109297",
+       "page": "2",
+       "quote": "Any such Incremental Cost Revenue Deficiency will be reduced by the termination payments collected by or owed to the Company pursuant to the terms of the Large Load Data Center contracts",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "No load or engineering study duration published; the Commission's review step: each new data center contract is provided to the PSC at least 30 days before execution",
+     "cites": [
+      {
+       "url": "https://psc.ga.gov/site/downloads/annual_reports/2025_GAPSC_Annual_Report.pdf",
+       "page": "18",
+       "quote": "Georgia Power also must provide the PSC all new contracts with data centers at least 30 days before execution.",
+       "date_read": "2026-11-13"
+      }
+     ],
+     "searched": "Rules pages 1.10, 1.40, 1.41 (Dec 2024 filing); joint statement of 26 Aug 2026; PSC 2025 Annual Report; Staff testimony of 30 May 2025 (Docket 44280)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rules pages (Dec 2024 filing, pp. 1 to 18); joint statement of 26 Aug 2026 (pp. 1 to 3); Q1 2026 Quarterly Large Load Economic Development Report (construction status by project, no energization timeline rule); PSC 2025 Annual Report"
+    },
+    "queue_size": {
+     "value": "Committed large load (Contracts for Electric Service plus Requests for Service): 12,400 MW across 31 customers as of 31 March 2026, plus 3,200 MW of commitments added in April 2026 not included; large load economic development pipeline 73,100 MW of a 76,200 MW total pipeline through the mid-2030s; near term (winter 2028/2029) large load pipeline 23,600 MW (Q1 2026 report filed 15 May 2026, Docket 55378)",
+     "cites": [
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "5",
+       "quote": "As of March 31, 2026, the portfolio of large load customers committed to receiving service from Georgia Power has grown by 500 MW, reaching a total of 12,400 MW",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "5",
+       "quote": "across 31 customers",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "5",
+       "quote": "As of March 31, 2026, the total pipeline of economic development projects through the mid-2030s has increased by 7,100 MW to 76,200 MW. Of this, 73,100 MW represents large load economic development projects.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "5",
+       "quote": "There were commitments added totaling 3,200 MW in April of 2026 that are not included in these values, which will be included in the second quarter report.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "6",
+       "quote": "For the near-term (winter of 2028/2029), the large load economic development pipeline has increased by 2,100 MW to 23,600 MW.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107887",
+       "page": "1",
+       "quote": "Quarterly Large Load Economic Development Report; Docket No. 55378",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Georgia PSC's docket copies (services.psc.ga.gov) and the Commission's own publications (psc.ga.gov news release and 2025 Annual Report)",
+   "erw_overlap": "large_load_tariffs/georgia_power_rules_100mw.yaml holds threshold (100 MW), min_bill, collateral and exit_fee (D14 text) from the same December 2024 filing, effective 2025-02-01; this row adds contract_term (Commission release), the 26 August 2026 joint statement on termination, the 30-day contract review and the queue. large_load_tariffs/georgia_power_tou_sc_15.yaml (Monthly Access Charge option, 100 MW, term three years or as the CES specifies) is the schedule these customers take and is not repeated here.",
+   "notes": "The Commission's orders of 28 January 2025 (document 221165) and 17 April 2025 (document 222325, which sets the minimum bill framework) are served as .docx files that the reader cannot turn into text, and the April order's PDF copy (222325/103476) is a scan with no text layer: their wording (minimum bill at the higher of tariffed rates or the minimum bill, liability for minimum bills over the remaining term) is not cited. The 26 August 2026 joint statement says Staff had reviewed six prior Large Load contracts and did not object to the seventh (filed 27 July 2026, reported in news as OpenAI, 3,200 MW); it promises a semi-annual Large Load Data Center report and a public summary of each contract filed. An intervenor brief (GIPL and Southface, 16 Dec 2025, Docket 56298/56310, document 224874) says the contracts carry a two-year termination notice and minimum bills for two years after termination, citing hearing testimony: a party's characterization, lead only. The Q2 2026 and Q3 2026 pipeline reports were not found; Southern Company's investor files (s27.q4cdn.com) were refused by robots; the PSC facts site gave a bot check. The 2025 certification stipulation (Docket 56298/56310, document 224772) sets a minimum large load revenue forecast and a load flexibility collaboration, not connection terms. Lead (news only): a Nuclear Uprate tariff NU-1 filed 21 September 2026 in Docket 44280 for Google's subscription; not a connection rule, not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Alabama Power Company",
+   "state": "AL",
+   "iso_region": "SOCO (Southern Company balancing authority, SERC; no RTO)",
+   "rule_name": "Alabama PSC generic proceeding on contracts between Alabama Power and large load data center customers (Docket 33709)",
+   "source_url": "https://psc.alabama.gov/wp-content/uploads/2026/08/JULY-7-2026-COMMISSION-MEETING-MINUTES.pdf",
+   "source_title": "Minutes of a Meeting of the Alabama Public Service Commission held July 7, 2026",
+   "quoted_clause": {
+    "page": "15",
+    "section": "Docket 33709, Recommended",
+    "quote": "Initiating a generic proceeding to develop procedures for the review and approval of contracts for electric service between Alabama Power and large load data center customers as defined by Act 610."
+   },
+   "docket": {
+    "value": "33709",
+    "cites": [
+     {
+      "page": "14",
+      "quote": "DOCKET 33709, Alabama law (Ala. Code"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-07-07",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "was held on Tuesday, July 7, 2026"
+     },
+     {
+      "page": "15",
+      "quote": "This generic proceeding would seek public comments on a proposed process for consideration of such contracts, which includes:"
+     },
+     {
+      "page": "15",
+      "quote": "Upon being motioned by Commissioner Oden for discussion and seconded by Commissioner Almond, the Commissioners voted unanimously to accept the recommendations."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/alabama_act_2026_610_data_centers.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/alabama_act_2026_610_data_centers.yaml"
+    },
+    "contract_term": {
+     "value": "held: large_load_tariffs/alabama_act_2026_610_data_centers.yaml"
+    },
+    "collateral": {
+     "value": "held: large_load_tariffs/alabama_act_2026_610_data_centers.yaml"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "July 7, 2026 minutes, Docket 33709 item (pp. 14 to 15); Act 2026-610 as held"
+    },
+    "study_timeline": {
+     "value": "not published (the proposed process names a designated review period with no figure)",
+     "cites": [
+      {
+       "page": "15",
+       "quote": "3) a designated review period;"
+      }
+     ],
+     "searched": "July 7, 2026 minutes pp. 14 to 15; the Docket 33709 page on psc.alabama.gov (HTTP 404)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "July 7, 2026 minutes pp. 14 to 15"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "July 7, 2026 minutes; Rate HLF; Alabama Power Rules and Regulations; Southern Company investor files (s27.q4cdn.com refused by robots) and SEC EDGAR filing list (robots disallowed). News reports Southern Company's earnings calls citing new Alabama Power large load contracts (about 3 GW in Q2 2026, about 2 GW more in Q3 2026): leads only"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Alabama PSC's own minutes (psc.alabama.gov)",
+   "erw_overlap": "large_load_tariffs/alabama_act_2026_610_data_centers.yaml holds the Act's 150 MW threshold and the contract matters (minimum term, upfront payments, security and collateral, minimum payment, no figures); this row is the PSC's procedure under it, not held.",
+   "notes": "Status waits: news reports (abc3340, Alabama Reflector, Inside Climate News, SELC's release of 6 October 2026) say the PSC adopted final procedures on 6 October 2026: a vote within 90 days of a petition, deemed approved if the PSC does not act, a public petition with a contract summary, the full contract to the PSC and the Attorney General, no public hearing; and that Alabama Power had agreed on an interim basis to extend review from 10 to 45 days. The order itself was not found: the Docket 33709 page on psc.alabama.gov and psc.alabama.gov/?p=47744 answered 404. The October 2026 minutes were not yet found.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Alabama Power Company",
+   "state": "AL",
+   "iso_region": "SOCO (Southern Company balancing authority, SERC; no RTO)",
+   "rule_name": "Rate HLF, High Load Factor Industrial Power (terms negotiated for loads of more than 27,000 kW)",
+   "source_url": "https://www.alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/hlf.pdf",
+   "source_title": "Rate HLF, High Load Factor Industrial Power, Fourteenth Revision, effective January 2006 billings (kWh charges as adjusted for January 2025 billings)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Applicability",
+    "quote": "The Company reserves the right to negotiate the terms, conditions and arrangements for supplying loads of more than 27,000 kW of capacity subject to the approval of the Alabama Public Service Commission."
+   },
+   "docket": {
+    "value": "24860 (Alabama PSC order of 7 December 1998)",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "By order of the Alabama Public Service Commission dated December 7, 1998 in Docket # 24860."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2006-01-01",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Effective date",
+      "quote": "January, 2006 Billings"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "27 MW (loads of more than 27,000 kW: terms, conditions and arrangements negotiated subject to PSC approval); the schedule itself applies from 3,000 kW at about 90 percent annual load factor",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "Applicable to high load factor industrial power service requiring 3,000 kW or greater and having a demonstrable annual load factor of approximately ninety percent (90%) or greater."
+      },
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "supplying loads of more than 27,000 kW of capacity subject to the approval of the Alabama Public Service Commission"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Billing capacity no less than the greatest of 90 percent of the maximum capacity of the previous 11 months, 90 percent of contracted capacity, or 3,000 kW",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Determination of billing capacity",
+       "quote": "such capacity shall be no less than ninety percent (90%) of the measured maximum capacity requirements established during the previous eleven (11) months ... or less than ninety percent (90%) of the contracted capacity or 3,000 kW, whichever is greatest."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum 10 years for new Consumers (initial service or any major addition), not less than 1 year for others; thereafter until terminated on 1 year written notice by either party",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Term of contract",
+       "quote": "Service under this rate shall be for a minimum period of ten (10) years for new Consumers (initial service or any major addition thereto) and not less than one (1) year for other Consumers. After the initial term (whichever is applicable), service hereunder shall continue until terminated by one (1) year written notice by either party to the other."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Rate HLF pp. 1 to 3; Alabama Power Rules and Regulations (APCRulesRegulations.pdf, 55 pp.: only the general deposit or financial security rule for all customers, nothing specific to large loads)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rate HLF pp. 1 to 3 (no termination charge; 1 year notice after the initial term)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate HLF pp. 1 to 3; Alabama Power Rules and Regulations"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rate HLF pp. 1 to 3; Alabama Power Rules and Regulations"
+    },
+    "queue_size": {
+     "value": "see row: Alabama PSC generic proceeding on contracts between Alabama Power and large load data center customers (Docket 33709)"
+    }
+   },
+   "license": "internal",
+   "license_basis": "Alabama Power's filed tariff (Rate HLF, by order of the Alabama PSC, Docket 24860) as the utility publishes it; note that Southern Company's website terms (southerncompany.com/terms-and-conditions.html, which alabamapower.com links) ask prior written consent to reproduce site contents and do not mention automated access; window A labeled alabama_power_lpl.yaml from the same host public Session 5300's license audit: the sheet was read only on alabamapower.com, and Southern Company's Terms and Conditions (https://www.southerncompany.com/terms-and-conditions.html, read 2026-11-13) say 'You may not reproduce, republish, transmit, distribute ... any of the Contents of the Web Sites without the prior written consent of Southern Company subsidiaries': internal under the owner's ruling 4 of 6 November until a commission copy is read or permission is on record.",
+   "erw_overlap": "none: large_load_tariffs/alabama_power_lpl.yaml (Rate LPL) and alabama_act_2026_610_data_centers.yaml are other rules; Rate HLF is not held.",
+   "notes": "A general high load factor schedule, included because it is the published tariff clause reserving negotiated terms for loads above 27 MW; the character of service clause also says the Company need not serve loads over 20,000 kVa except from transmission of 115 kV or higher. Alabama Power's Rate FCR (Flexible Contract Rate), under which news reports say data center contracts filed before 1 October 2026 were reviewed (Dotier, Alabama ADC Holdings, Woostor; contract length, minimum bill and pricing redacted), was not found: alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/FCR.pdf answered 404.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Florida Power & Light Company",
+   "state": "FL",
+   "iso_region": "FPL balancing authority (FRCC; no RTO)",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Contract Service, and the LLCS Service Agreement (2025 rate settlement, Docket 20250011-EI)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/0000753308/000075330825000047/exhibit99tonee-fpl8xkdated.htm",
+   "source_title": "2025 Stipulation and Settlement Agreement, Docket No. 20250011-EI, dated August 20, 2025 (Exhibit 99 to the Form 8-K of NextEra Energy and Florida Power & Light Company)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Paragraph 6",
+    "quote": "FPL's Large Load Contract Service Tariffs LLCS-1, LLCS-2, and LLCS Service Agreement tariffs (\"LLCS Tariffs\") shall be approved as filed, with the following modifications:"
+   },
+   "docket": {
+    "value": "20250011-EI",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Docket No. 20250011-EI"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-01-22",
+    "cites": [
+     {
+      "url": "https://floridapsc.com/pscfiles/library/filings/2026/00628-2026/00628-2026.pdf",
+      "page": "2",
+      "quote": "ORDER NO. PSC-2026-0022-S-EI ISSUED: January 22, 2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://floridapsc.com/pscfiles/library/filings/2026/00628-2026/00628-2026.pdf",
+      "page": "3",
+      "quote": "FINAL ORDER APROVING 2025 STIPULATION AND SETTLEMENT AGREEMENT",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.floridapsc.com/library/filings/2026/02414-2026/02414-2026.pdf",
+      "page": "2",
+      "quote": "conference on November 20, 2025, we unanimously approved the 2025 SSA as being in the public interest and establishing rates that are fair, just, and reasonable.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW of new or incremental load with a load factor of 85 percent or higher",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Paragraph 6(a)",
+       "quote": "The LLCS Tariffs shall apply to any customer with new or incremental load of 50 MW or more and a load factor of 85% or higher."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum take-or-pay demand charge 70 percent (the settlement's change from the filed 90 percent): demand charges on the greater of 70 percent of Contract Demand or the highest billing Demand of the past 11 months; the minimum bill also carries the Incremental Generation Charge in full, on the Load Ramp Demand during the Load Ramp Period and on the Contract Demand after it",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Paragraph 6(b)",
+       "quote": "The minimum take-or-pay demand charge for the LLCS Tariffs shall be 70%."
+      },
+      {
+       "url": "https://www.floridapsc.com/pscfiles/library/filings/2025/14197-2025/14197-2025.pdf",
+       "page": "24",
+       "quote": "This means the LLCS customer is obligated to pay the higher of 70% of their contracted demand or their highest demand over the prior 11 months.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.floridapsc.com/pscfiles/library/filings/2025/14197-2025/14197-2025.pdf",
+       "page": "24",
+       "quote": "This customer is still obligated to pay 100% of the IGC and 70% of the demand-based charges under the LLCS Tariffs.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951 (LLCS-1, clean, as corrected)",
+       "quote": "Customer will have no more than the Load Ramp Period to reach full contract demand",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951 (as filed)",
+       "quote": "Demand greater than (a) 90% of the Customer's Contract Demand or (b) the Customer's highest previously established monthly billing Demand during the past 11 months",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951",
+       "quote": "and (v) an Incremental Generation Charge based on the Customer's Contract Demand.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum term not less than 20 years from the In-Service Date, including the Load Ramp Period; customer notice at least two years before terminating service (as filed, approved with the settlement's modifications, which do not change the term)",
+     "cites": [
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951, Term of Service",
+       "quote": "Minimum Term: Not less than 20 years from the In-Service Date, including the Load Ramp Period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951, Notice and Termination",
+       "quote": "Customer must provide notice at least two years in advance of terminating service.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Performance security: counterparties rated BBB or better, a parent guaranty equal to the present value of five years of incremental generation charge revenues (parent liquidity above five years of the obligation, reviewed annually); rated below BBB, a letter of credit or surety bond equal to the present value of ten years; unrated, FPL's internal credit review, five or ten years",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Paragraph 6(e)(i)",
+       "quote": "For counterparties rated BBB or better by a nationally recognized rating agency, a parent guaranty equal to the present value of five years of incremental generation charge revenues."
+      },
+      {
+       "page": "1",
+       "section": "Paragraph 6(e)(ii)",
+       "quote": "For counterparties rated less than BBB by a nationally recognized rating agency, a letter of credit or surety bond equal to the present value of ten years of incremental generation charge revenues."
+      },
+      {
+       "page": "1",
+       "section": "Paragraph 6(e)(iii)",
+       "quote": "will be subject to five or ten years of collateral requirements per above, based on FPL's final internal credit worthiness assessment."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Early termination charges equivalent to 100 percent of the Incremental Generation Charge for the remaining term of the LLCS Service Agreement, as FPL's witness describes the tariff (settlement rebuttal testimony, 3 October 2025); the tariff sheet with the charge (8.952) was not read",
+     "cites": [
+      {
+       "url": "https://floridapsc.com/library/filings/2025/03218-2025/03218-2025.pdf",
+       "page": "6",
+       "section": "Original Sheet No. 8.951",
+       "quote": "provided, however, the Customer may be subject to charges for early termination as provided below.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.floridapsc.com/pscfiles/library/filings/2025/14197-2025/14197-2025.pdf",
+       "page": "24",
+       "quote": "the LLCS tariff requires exit fees for early termination that are equivalent to payment of 100% of the IGC for the remaining term of the LLCS Service Agreement.",
+       "date_read": "2026-11-13"
+      }
+     ],
+     "searched": "the settlement (Paragraph 6); FPL's errata of 29 April 2025 (sheets 8.951 and 8.954 only); FPL's settlement rebuttal testimony (document 14197-2025); FPL's own tariff book not read (fpl.com: NextEra's terms bar bots and crawlers)"
+    },
+    "study_timeline": {
+     "value": "Engineering and system impact studies (System Studies) required; after FPL provides the study, the customer has six months to execute the Construction and Operating Agreement and pay any CIAC, with one 3-month extension per study on request (9 months total); no capacity guaranteed until the LLCS Service Agreement is executed and deposits paid; no study duration printed",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Paragraph 6(f)(i)",
+       "quote": "The customer will have six months to execute the Construction and Operating Agreement and pay the CIAC"
+      },
+      {
+       "page": "1",
+       "section": "Paragraph 6(f)(ii)",
+       "quote": "Customer is entitled, upon request, to one 3-month extension per study (9 months total) to execute the Construction and Operating Agreement."
+      },
+      {
+       "page": "1",
+       "section": "Paragraph 6(f)(iii)",
+       "quote": "The customer is not guaranteed capacity until the LLCS Service Agreement is executed and all deposits are paid."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "Set per project: the System Study package carries a milestone schedule based on durations, not dates; no duration printed",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Paragraph 6(f)(v)",
+       "quote": "The System Study package includes a milestone schedule based on durations and not specific dates."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center accounts and 2 projected data center accounts (large load, LLCS) expected to begin service in 2028",
+     "cites": [
+      {
+       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
+       "page": "7",
+       "quote": "The two projected data center customer accounts were based on discussions with potential large power users and FPL's assessment that customers with significant load requirements are highly likely to begin service on FPL's system in 2028.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
+       "page": "5",
+       "quote": "The referenced large load customers refer to customers served under Rate Schedules LLCS-1 and LLCS-2.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
+       "page": "1",
+       "quote": "FILED 7/14/2026 DOCUMENT NO. 04335-2026",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the settlement as filed with the SEC (a public filing of FPL and NextEra) and the Florida PSC's docket copies (floridapsc.com); FPL's own site (fpl.com) was not used: NextEra's terms bar bots, spiders and crawlers",
+   "erw_overlap": "none: no FPL file in large_load_tariffs or large_load_connection_rules.",
+   "notes": "The final order itself (document 00561-2026) did not finish downloading on two tries of about ten minutes each, so its text (and any effective date it states) is not cited; status cites its issued date and title from the e-service bounce copy (00628-2026), which reproduces the order's first pages. The Commission granted in part and denied in part a motion for reconsideration on 27 April 2026 (Order PSC-2026-0117-FOF-EI) and an appeal of the final order is reported stayed. Leads (news, not read in a primary document): FPL's tariff book lists the LLCS Service Agreement effective 1 January 2026 (fpl.com, barred); LLCS-1 is reported to be capped at about 3 GW near FPL's 500 kV system; FPL told the PSC around 1 October 2026 that the approved structure already complies with Florida's SB 484 (section 366.043, 50 MW large load customers), a compliance filing not found; NextEra's earnings reports cite about 21 GW of large load interest (investor material, not read). The as-filed LLCS-1 sheets (MFR E-14, Attachment 1, pp. 130 to 135) were read only through FPL's errata of 29 April 2025.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tampa Electric Company",
+   "state": "FL",
+   "iso_region": "TEC balancing authority (FRCC; no RTO)",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Customer Service, and the Large Load Customer Contract (LLCC), proposed under section 366.043 (Docket 20260146-EI)",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07096-2026/07096-2026.pdf",
+   "source_title": "Petition for Approval of Large Load Customer Tariffs by Tampa Electric Company, filed September 30, 2026, with Exhibit 1 (Original Sheet Nos. 6.850 to 6.905 and 7.985 to 7.1155)",
+   "quoted_clause": {
+    "page": "26",
+    "section": "Original Sheet No. 6.850, Applicable",
+    "quote": "APPLICABLE: To all Customers with an anticipated monthly peak load of 50 megawatts or more at a single location."
+   },
+   "docket": {
+    "value": "20260146-EI",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "DOCKET NO. 20260146-EI"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-09-30",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Re: Petition for Approval of Large Load Customer Tariffs by Tampa Electric Company"
+     },
+     {
+      "page": "1",
+      "quote": "September 30, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW anticipated monthly peak at a single location; LLCS-1 limited to a class combined 1 GW (closed when subscribed or on 1 January 2031, whichever is sooner); LLCS-2 serves load beyond the first 1 GW",
+     "cites": [
+      {
+       "page": "26",
+       "section": "Sheet 6.850",
+       "quote": "To all Customers with an anticipated monthly peak load of 50 megawatts or more at a single location."
+      },
+      {
+       "page": "26",
+       "section": "Sheet 6.850, Limitation of service",
+       "quote": "This schedule shall be closed to new or incremental load at the time the total combined 1 GW load cap becomes fully subscribed or January 1, 2031, whichever occurs sooner."
+      },
+      {
+       "page": "32",
+       "section": "Sheet 6.880 (LLCS-2), Limitation of service",
+       "quote": "in excess of the first class combined total load of 1 GW to be served under rate schedule LLCS-1"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum monthly bill = Basic Service Charge + Demand Charge + Incremental Generation, Transmission, Fuel Transportation and PPA Charges; the demand and incremental generation charges apply to the greatest of Contracted Capacity Demand, Billing Demand or 90 percent of the highest Billing Demand of the previous 11 months (LLCS-1 Incremental Generation Charge $18.98 per kW); Load Ramp Period not to exceed five years",
+     "cites": [
+      {
+       "page": "29",
+       "section": "Sheet 6.865, Minimum bill",
+       "quote": "MINIMUM BILL: The minimum monthly bill shall be the sum of the Basic Service Charge, Demand Charge, Incremental Generation Charge, Incremental Transmission Charge, Incremental Fuel Transportation Charge, and Incremental PPA Charge"
+      },
+      {
+       "page": "27",
+       "section": "Sheet 6.855, Rates",
+       "quote": "$18.98 per kW multiplied by the greater of: a. Contracted Capacity Demand; b. Billing Demand; and c. 90% of the highest Billing Demand established in the previous 11 months."
+      },
+      {
+       "page": "28",
+       "section": "Sheet 6.860, Load ramp period",
+       "quote": "The Load Ramp Period, not to exceed five (5) years, and the Contracted Capacity Demand during the Load Ramp Period shall be agreed upon by Tampa Electric and the Customer in the LLCC"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Term not less than 20 years from the In-Service Date, including the Load Ramp Period; thereafter until the Customer gives three years notice; notice to continue or to cease service at least three years before the end of the Initial Term",
+     "cites": [
+      {
+       "page": "29",
+       "section": "Sheet 6.865, Term of service",
+       "quote": "TERM OF SERVICE: Not less than twenty (20) years from the In-Service Date"
+      },
+      {
+       "page": "48",
+       "section": "LLCC Section 5(a)",
+       "quote": "It shall thereafter remain in effect after the Initial Term expires until the Customer gives three (3) years notice of termination to the Company"
+      },
+      {
+       "page": "49",
+       "section": "LLCC Section 5(c)(i)",
+       "quote": "the Customer shall provide to the Company written notice of intent to cease service at least three (3) years prior to the end of the Initial Term."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Security (cash deposit, letter of credit, investment grade guaranty, protective insurance product or other form the Company accepts) delivered within 5 days of the contract's Effective Date: $2.0 million per MW of Contracted Capacity Demand without an investment grade rating; 50 percent of that with an investment grade rating (customer or guarantor) or a protective insurance product",
+     "cites": [
+      {
+       "page": "55",
+       "section": "LLCC Section 11(a)",
+       "quote": "shall be delivered to the Company no later than five (5) days after the Effective Date of this Agreement"
+      },
+      {
+       "page": "56",
+       "section": "LLCC Section 11(b)",
+       "quote": "with an Investment Grade Credit Rating will be Security in the amount of fifty percent (50%) of the product of $2.0 million multiplied by the MW Contracted Capacity Demand."
+      },
+      {
+       "page": "56",
+       "section": "LLCC Section 11(d)",
+       "quote": "for a Customer without an Investment Grade Credit Rating will be Security in the amount of $2.0 million multiplied by the MW Contracted Capacity Demand."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination Fee before the end of the Initial Term: the NPV of the accelerated incremental generation, transmission, fuel transportation and PPA charges over the remaining Initial Term, due within 30 days; Before In-Service Cancellation Fee: out-of-pocket costs plus 24 months of projected incremental charges; Planning Disruption Fee for late notice: NPV of 36 months of incremental charges, reduced pro rata",
+     "cites": [
+      {
+       "page": "47",
+       "section": "LLCC Section 2(fff)",
+       "quote": "means an amount equal to the sum of the NPV of the accelerated payment of the total Incremental Generation Charge, Incremental Transmission Charge, Incremental Fuel Transportation Charge, and Incremental PPA Charge, absent the termination, that would have been paid for by the Customer over the remaining balance of the Initial Term."
+      },
+      {
+       "page": "49",
+       "section": "LLCC Section 5(c)(ii)",
+       "quote": "If the Customer terminates this Agreement to be effective prior to the end of the Initial Term, the Customer must pay a Termination Fee as defined herein to Tampa Electric within thirty (30) days of such termination."
+      },
+      {
+       "page": "50",
+       "section": "LLCC Section 5(d)",
+       "quote": "the Customer shall pay to the Company a Before In-Service Cancellation Fee equal to (i) the dollar amount of all out of pocket costs incurred by Company as of the cancellation date to perform under this Agreement plus (ii) the sum of the projected monthly Incremental Generation Charge, Incremental Transmission Charge, Incremental Fuel Transportation Charge, and Incremental PPA Charge"
+      },
+      {
+       "page": "50",
+       "section": "LLCC Section 5(d)",
+       "quote": "for the twenty-four (24) months after the cancellation date."
+      },
+      {
+       "page": "49",
+       "section": "LLCC Section 5(b)(ii)",
+       "quote": "a Planning Disruption Fee equal to the Net Present Value of the accelerated payment of thirty-six (36) months of Incremental Generation Charges, Incremental Transmission Charges, Incremental Fuel Transportation Charges, and Incremental PPA Charges."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published (System Studies, paid for by the customer, must be completed, provided and accepted in writing before service; no duration printed)",
+     "cites": [
+      {
+       "page": "26",
+       "section": "Sheet 6.850, Conditions of service",
+       "quote": "The Customer must pay the System Studies charge as required by the Company for the Company to undertake and complete the System Studies;"
+      }
+     ],
+     "searched": "Petition and Exhibit 1 (LLCS-1, LLCS-2, LLCC pp. 26 to 73); testimony and exhibits (document 07097-2026)"
+    },
+    "connection_timeline": {
+     "value": "not published (In-Service Dates are set per customer in Appendix A of the LLCC; the System Studies determine the expected timeline to connect)",
+     "cites": [
+      {
+       "page": "47",
+       "section": "LLCC Section 2(eee)",
+       "quote": "(iii) expected timeline to connect Customer Facilities to the Company System"
+      }
+     ],
+     "searched": "Petition and Exhibit 1 pp. 26 to 73"
+    },
+    "queue_size": {
+     "value": "No large load customers as of the filing; no pipeline figure published",
+     "cites": [
+      {
+       "url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07097-2026/07097-2026.pdf",
+       "page": "15",
+       "quote": "Tampa Electric currently does not have any customers who ... qualify as large load customers",
+       "date_read": "2026-11-13"
+      }
+     ],
+     "searched": "Petition (07096-2026) and testimony (07097-2026)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)",
+   "erw_overlap": "none: no Tampa Electric file in large_load_tariffs or large_load_connection_rules.",
+   "notes": "LLCS-1 rates as filed: Basic Service Charge $126.72 per day, Demand Charge $4.78 per kW, Energy 0.223 cents per kWh, Incremental Generation Charge $18.98 per kW (fixed for the Initial Term), Incremental Transmission Charge $2.33 per kW (trued up), plus fuel transportation and PPA charges by year (sheets 6.855 and 6.860). LLCS-2 sets formula rates (no figures) for load above the first 1 GW. Service is at 69 kV or higher; not available to a Foreign Entity (affidavit of ownership required). Filed to meet section 366.043 (SB 484, effective 1 July 2026, tariffs due 1 October 2026). Status waits on the Commission; Duke Energy Florida's tariff under the same law (Docket 20260064-EI) is another group's.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "url": "https://psc.ga.gov/search/facts-docket/?docketId=55378",
+   "reason": "blocked: the answer looks like a bot check; not retried",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://s27.q4cdn.com/273397814/files/doc_financials/2026/q3/SO-2026-Q3-Earnings-Call-Final.pdf",
+   "reason": "refused: robots.txt answered 403, treated as disallow all (Southern Company investor files)",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000092122&type=10-Q&dateb=&owner=include&count=10",
+   "reason": "refused: robots.txt disallows the path",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://www.fpl.com/content/dam/fplgp/us/en/rates/pdf/electric-tariff-section9.pdf",
+   "reason": "barred: NextEra Energy's terms of use (fpl.com legal notice) forbid bots, spiders and web crawlers without express permission; the copy fetched before the terms were read is not used for any value",
+   "utility": "Florida Power & Light Company"
+  },
+  {
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/221165/102330",
+   "reason": "error: served as .docx; the reader keeps no text (Order Approving Revisions, January 2025)",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/222325/103476",
+   "reason": "no_text: the PDF has no text layer (scan of the April 2025 compliance order); the .docx copy 222325/103475 was not requested",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/224483/105760",
+   "reason": "error: served as .docx; the reader keeps no text",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/224953/106187",
+   "reason": "error: served as .docx; the reader keeps no text",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107927",
+   "reason": "error: served as .docx or .xlsx; the reader keeps no text (Q1 2026 report attachment)",
+   "utility": "Georgia Power Company"
+  },
+  {
+   "url": "https://www.floridapsc.com/library/Orders/2026/00561-2026.pdf",
+   "reason": "error: the download did not finish within 590 seconds (also tried at www.floridapsc.com/pscfiles/library/filings/2026/00561-2026/00561-2026.pdf, stopped after about 25 minutes); FPL final order PSC-2026-0022-S-EI not read",
+   "utility": "Florida Power & Light Company"
+  },
+  {
+   "url": "https://psc.alabama.gov/docket-33709-public-comment-and-reply-info/",
+   "reason": "error: HTTP 404",
+   "utility": "Alabama Power Company"
+  },
+  {
+   "url": "https://psc.alabama.gov/?p=47744",
+   "reason": "error: HTTP 404",
+   "utility": "Alabama Power Company"
+  },
+  {
+   "url": "https://www.alabamapower.com/company/media-room/energy-answers/data-center-facts-for-alabama-communities/data-center-agreements-and-redactions.html",
+   "reason": "error: HTTP 404",
+   "utility": "Alabama Power Company"
+  },
+  {
+   "url": "https://www.alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/FCR.pdf",
+   "reason": "error: HTTP 404 (Rate FCR sheet, a guessed path)",
+   "utility": "Alabama Power Company"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Mississippi Power Company",
+   "searched": "Mississippi Power's index to rate schedules effective June 18, 2025 (mississippipower.com: no large-load or data-center schedule; LPO-TOU-17 Large Power Time of Use and T-LP-30 Temporary Rider for Large Power Requirements are general schedules); web searches for a Mississippi PSC large-load rule or framework, 2025 and 2026. The Mississippi PSC's news release of February 7, 2025 (psc.ms.gov/sites/default/files/2025-02/PressReleaseFeb2025.pdf, read after the certificate fix) announces approval of a special contract between Mississippi Power and Compass Datacenters Jan I, LLC (eight-building campus in Lauderdale County, built over eight years) and prints no contract terms; a single-customer contract, not a rule."
+  },
+  {
+   "utility": "JEA (Jacksonville)",
+   "searched": "web searches: news (News4JAX, October 2026) says JEA is developing a rate class for loads of 50 MW or more, continuing into 2027; no published schedule found."
+  }
+ ]
+}

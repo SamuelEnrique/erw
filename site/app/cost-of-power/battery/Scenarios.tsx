@@ -198,10 +198,10 @@ export function BatteryHeadline({ ms, x, gridName, gridFrom }: { ms: Month[]; x:
           <>A {size} battery in {gridName}: no twelve consecutive months are held, so there is no last-twelve-months figure.</>
         ) : model ? (
           <>Over the last twelve months a {size} battery in {gridName} earned USD <V pre={key} s="l12_kw:total" v={kw} /> per kW, <V pre={key} s="l12_share:ancillary" v={share} /> percent
-            of it from ancillary services, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={keyed} /> times.</>}</>
+            of it from ancillary services, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : cover !== null && cover < 0 ? <span data-cover-negative="1">did not earn its fixed O&amp;M, so nothing was left for its debt (coverage <V pre={key} s="cover" v={cover} keyed={keyed} /> times).</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={keyed} /> times.</>}</>
         ) : (
           <>Over the last twelve months a {size} battery in {gridName} earned USD <V pre={key} s="l12_kw:total" v={kw} keyed={false} /> per kW at a round-trip efficiency
-            of {plain(a.rte)} percent and at most {cycles}, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={false} /> times.</>}</>
+            of {plain(a.rte)} percent and at most {cycles}, and{contractWords} {noDebt ? <span data-no-debt="1">has no debt to cover.</span> : cover !== null && cover < 0 ? <span data-cover-negative="1">did not earn its fixed O&amp;M, so nothing was left for its debt (coverage <V pre={key} s="cover" v={cover} keyed={false} /> times).</span> : <>covered its debt <V pre={key} s="cover" v={cover} keyed={false} /> times.</>}</>
         )}
       </p>
 

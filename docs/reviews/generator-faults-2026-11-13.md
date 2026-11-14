@@ -28,3 +28,12 @@ No broken text ("NaN", "undefined", "null%", "license needed%"). Nothing scrolls
 ## The wider read (session 5008)
 
 Session 5004's build, internal view, 1280 and 390: every grid (ERCOT, CAISO, NYISO, SPP, ISO-NE) with every technology (solar, wind, battery, gas peaker), 40 views. No console error, no broken text, nothing scrolls sideways at 390. Five views draw no checked figure (NYISO's solar, battery and peaker; ISO-NE's battery and peaker): each says why above its first section ("No month of ... is held for ...", NYISO's solar adding that EIA-930 itemizes no solar generation for New York) or in its summary ("ISO-NE holds no twelve months of battery in a row"). Not a fault.
+
+## The fresh read (session 5077, chain 243)
+
+Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 November 2026 between 19:59 and 20:12 UTC) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's end address, its scroll width against the window, the exceptions it threw, the words that betray a broken value (NaN, undefined, [object Object], Infinity), its text and a picture of the window and of the whole page (four looked at: the Grid's Ask flag and Network at 1280, Gravity at 390, the battery's CAISO view at 390; the others read by their measures and text). Not on a local build: the build of `wip/5072-analysis` was stopped by Claude Code when the laptop ran low on memory (three windows on 16 GB), and the stack changes no page's code.
+
+- ERCOT's solar (the default) and CAISO's wind, at both widths: no sideways scroll, no exception, no broken word. The "Price years" default (59.85) is the headline's: the snapshot and the table are both of early October (row 2).
+- **No new fault.**
+- **Session 5404, about 20:55 UTC:** SPP's wind at both widths: no sideways scroll, no exception, no broken word. No new fault.
+- **Session 5406:** CAISO's gas peaker at both widths: no sideways scroll, no exception, no broken word. No new fault.

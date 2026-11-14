@@ -18,7 +18,10 @@ class TheHistory(unittest.TestCase):
     def test_every_run_is_a_row(self):
         with open(os.path.join(ROOT, "docs", "reviews", "ask-history.md"), encoding="utf-8") as f:
             body = f.read()
-        self.assertEqual(body.count("\n| 2026-"), 25)   # session 3769 (chain 211): the weekly thirty and the board's five. Session 3297: tr15 again, iv14 again with iv18 to iv20. Session 1190: six, and session 1149's two runs; session 2886: the board's five; session 2221 (chain 152): the Python loop's four runs (merged by session 2947); session 2948 (chain 157): the board's five through the Python loop; session 2968: the weekly thirty and twenty; session 1486 (chain 158): the board's five again; sessions 3280 to 3282: the trader's and the investor's twenty and their second asking
+        rows = [line for line in body.split("\n") if line.startswith("| 2026-")]
+        # session 5251 (chain 238): the platform set's runs through the site's loop come one a session; tests/test_session5251_ask.py counts them
+        platform = [line for line in rows if "`questions_platform.yaml`" in line]
+        self.assertEqual(len(rows) - len(platform), 25)   # session 3769 (chain 211): the weekly thirty and the board's five. Session 3297: tr15 again, iv14 again with iv18 to iv20. Session 1190: six, and session 1149's two runs; session 2886: the board's five; session 2221 (chain 152): the Python loop's four runs (merged by session 2947); session 2948 (chain 157): the board's five through the Python loop; session 2968: the weekly thirty and twenty; session 1486 (chain 158): the board's five again; sessions 3280 to 3282: the trader's and the investor's twenty and their second asking
         self.assertIn("| 19 of 30 (15 on the figure keys; 30 if session 320's rulings went the answers' way) |", body)
         self.assertIn("| 24 of 30 |", body)
         self.assertIn("| 20 of 20 |", body)   # session 2224 (chain 152), the twenty

@@ -1,0 +1,929 @@
+{
+ "group": "dominion",
+ "rows": [
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Rate Schedule GS-5 (new large-load rate class) with its contract, collateral, minimum demand and exit fee terms, Final Order in Case No. PUR-2025-00058",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/05289-2026/05289-2026.pdf",
+   "source_title": "Virginia SCC Final Order of 25 November 2025 in Case No. PUR-2025-00058 (Doc. Con. Cen. No. 251140150), reproduced as Exhibit A to White Springs and Nucor's motion for official recognition, Florida PSC Docket No. 20260064-EI, Document No. 05289-2026, filed 18 August 2026",
+   "quoted_clause": {
+    "page": "31",
+    "section": "Rate Schedule GS-5",
+    "quote": "The Company shall implement a new rate schedule, Rate Schedule GS-5, as set forth below, effective January 1, 2027."
+   },
+   "docket": {
+    "value": "PUR-2025-00058",
+    "cites": [
+     {
+      "page": "9",
+      "quote": "CASE NO. PUR-2025-00058"
+     },
+     {
+      "page": "1",
+      "quote": "Exhibit A: Virginia State Corporation Commission, Case No. PUR-2025-00058, Application of Virginia Electric and Power Company for a 2025 biennial review"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-11-25",
+    "cites": [
+     {
+      "page": "9",
+      "quote": "COMMONWEALTH OF VIRGINIA STATE CORPORATION COMMISSION AT RICHMOND, NOVEMBER 25, 2025"
+     },
+     {
+      "page": "31",
+      "quote": "The Company shall implement a new rate schedule, Rate Schedule GS-5, as set forth below, effective January 1, 2027."
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526440697/d-20260930.htm",
+      "section": "Form 10-Q for the quarter ended 30 September 2026, 2025 Biennial Review",
+      "quote": "In March 2026, an appeal of the Virginia Commission's order was filed with the Supreme Court of Virginia. This matter is pending.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Measured or contracted demand of 25 MW or greater on a contiguous site, and a measured or expected load factor of at least 75 percent (demand may be totalized at contiguous locations, not aggregated across accounts, for minimum demands)",
+     "cites": [
+      {
+       "page": "31",
+       "section": "GS-5 Rate Class",
+       "quote": "The GS-5 rate class shall include customers with: (1) a measured or contracted demand of 25 megawatts (\"MW\") or greater on a contiguous site; and (2) a measured or expected load factor of at least 75%"
+      },
+      {
+       "page": "32",
+       "section": "GS-5 Rate Class",
+       "quote": "permitting totalization at contiguous locations, but not aggregating accounts at the customer retail service level, for purposes of applying minimum demands"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum distribution charge 85 percent of contracted demand; minimum transmission charge 85 percent; minimum generation charge 60 percent (PJM capacity expense excluded from the generation minimum); the minimums continue if service continues after the contract term; a load ramp period of up to four years within the term with a minimum annual ramp of 20 percent; minimum demand charges do not apply to a customer served before 1 January 2016, and the generation minimum does not apply to certain customers on a competitive service provider or Schedule 10 as of 1 January 2025",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Minimum Demand Charges",
+       "quote": "The Commission approves Dominion's proposed minimum demand charges: (1) minimum distribution charge of 85% contracted demand; (2) minimum transmission charge of 85% contracted demand; and (3) minimum generation charge of 60% contracted demand."
+      },
+      {
+       "page": "34",
+       "section": "Minimum Demand Charges",
+       "quote": "The Commission also approves the Company's proposal to exclude PJM capacity expense from the minimum generation demand charge."
+      },
+      {
+       "page": "32",
+       "section": "Contract",
+       "quote": "A customer may also include, within the contract term, a load ramp period not to exceed four years (with a minimum annual ramp of 20%)."
+      },
+      {
+       "page": "32",
+       "section": "Contract",
+       "quote": "If the customer continues to take service after the conclusion of the contract term, the minimum charges approved herein shall continue."
+      },
+      {
+       "page": "34",
+       "section": "Minimum Demand Charges",
+       "quote": "(a) minimum demand charges shall not apply to a customer that was taking service from the Company prior to January 1, 2016; and (b) minimum generation demand charges shall not apply to a customer that as of January 1, 2025, was taking supply service from a competitive service provider"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "14 years, for customers taking initial service and signing an ESA on or after 1 January 2027, the term including any load ramp period of up to four years; during the term contracted capacity may be reduced by up to 20 percent at no cost and by a further 30 percent if another customer assumes it, each reduction on a separate 36-month notice",
+     "cites": [
+      {
+       "page": "32",
+       "section": "Contract",
+       "quote": "The contract provisions shall apply to customers taking initial service and signing an ESA on or after January 1, 2027."
+      },
+      {
+       "page": "32",
+       "section": "Contract",
+       "quote": "The contract term shall be 14 years."
+      },
+      {
+       "page": "35",
+       "section": "Capacity Reductions",
+       "quote": "A customer on Rate Schedule GS-5 may reduce its contracted capacity during the contract term: (1) by up to 20% at no cost; and (2) by an additional 30% if another customer agrees to assume the associated capacity."
+      },
+      {
+       "page": "35",
+       "section": "Capacity Reductions",
+       "quote": "Each capacity reduction shall require a separate 36month notice."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm",
+       "section": "Form 10-K for 2025, Item 1, Dominion Energy Virginia",
+       "quote": "In addition, Virginia Power will, in accordance with the terms of the 2025 Biennial Review order, begin in January 2027 to require a 14-year contract, collateral over that period and demand minimums for distribution, transmission and generation revenues for high load customers at connection.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "1.5 million USD per MW, reducible by up to 70 percent on the customer's established credit; third-party guarantees and letters of credit allowed; a share released each year throughout the contract term (the Florida copy's text layer prints the fraction as '1714th', an OCR rendering of the order's one-fourteenth); cash collateral accrues interest while held; applies to customers taking initial service and signing an ESA on or after 1 January 2027",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Collateral Requirements",
+       "quote": "The Commission approves the Company's proposed collateral requirement terms, including: (1) $1.5 million/MW; (2) a reduction up to 70% based on the customer's established credit; (3) provisions for third-party guarantees and letters of credit; and (4) releasing 1714th of the collateral requirement each year throughout the contract term."
+      },
+      {
+       "page": "33",
+       "section": "Collateral Requirements",
+       "quote": "In addition, cash collateral shall accrue interest while held by Dominion and shall be returned to the customer consistent with standard financial practices."
+      },
+      {
+       "page": "33",
+       "section": "Collateral Requirements",
+       "quote": "The collateral requirements shall apply to customers taking initial service and signing an"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "If the customer ceases operations or defaults during the contract term, an exit fee covering any outstanding minimum charges over the remaining contract duration (subject to capacity reassignment)",
+     "cites": [
+      {
+       "page": "32",
+       "section": "Contract",
+       "quote": "If the customer ceases operations or otherwise defaults on its agreement during the contract term, the customer shall be required to pay an exit fee covering any outstanding minimum charges over the remaining contract duration (subject to capacity reassignment as addressed below)."
+      },
+      {
+       "url": "https://www.spotsylvania.va.us/DocumentCenter/View/42289/Dominion-Energy-Reponse_08182026",
+       "page": "3",
+       "quote": "The exit fees would equal the amount of the minimum demand charges that would have accrued during the unexpired term of their contract.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Final Order pp. 22 to 28 (PDF pages 30 to 36 of the Florida copy: Large Load Interconnection Queue, Rate Schedule GS-5, Contract, Collateral, Minimum Demand Charges, Capacity Reductions, ordering paragraphs); Dominion's 2025 Form 10-K and Q3 2026 Form 10-Q; Dominion's answers posted by Spotsylvania County. The study durations of Dominion's contract process are on the row 'Data center three-contract structure'"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Final Order pp. 22 to 28 (PDF pages 30 to 36 of the Florida copy); Dominion's 2025 Form 10-K and Q3 2026 Form 10-Q; the GS-5 order sets no time to energize"
+    },
+    "queue_size": {
+     "value": "About 54 GW of data center capacity under contract (ELOA, CLOA, ESA) in Dominion's 20-year data center forecast presented to PJM on 29 September 2026; executed contracts as of July 2026: 32,473 MW of Engineering Letters of Authorization, 9,356 MW of Construction Letters of Authorization and 11,997 MW of Electric Service Agreements (labels printed on the slide). A Dominion engineer's presentation of 16 June 2026, posted by ESIG, gives a large-load queue of about 70 GW of requests, about 25 GW with projected connection dates through 2031 and about 45 GW batched and under study",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5ai---dominion_energy.pdf",
+       "page": "1",
+       "quote": "Dominion Energy LSE 20-Year Data Center Forecast September 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5ai---dominion_energy.pdf",
+       "page": "2",
+       "quote": "Approximately 54GW of capacity under contract (ELOA, CLOA, ESA)",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5ai---dominion_energy.pdf",
+       "page": "6",
+       "quote": "Executed Contracts as of July 2026 ... 32,473 MW of Engineering Letters of Authorization (ELOA) ... 9,356 MW of Construction Letters of Authorization (CLOA - Firm) ... 11,997 MW of Electric Service Agreements (ESA - Firm)",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.esig.energy/attachment/serve/ghosh_largeloadforecastingforoutagescheduling",
+       "page": "3",
+       "quote": "Large-Load Queue: ~70 GW of large-load requests. ... ~25 GW already assigned projected connection dates through 2031. ... ~45 GW batched and under active study for future connection dates.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy of the Virginia SCC's Final Order (the SCC's own host is paused for the ERW); the queue figures from a Dominion document PJM posts and a Dominion presentation ESIG posts; Dominion's SEC filings",
+   "erw_overlap": "large_load_tariffs/dominion_virginia_schedule_gs4.yaml: that file holds GS-4 Paragraph VIII (85 and 60 percent minimums from 2027 for customers of 25 MW or more that do not qualify for GS-5) and says the GS-5 row waits because the order sat on the paused host; this row is GS-5 itself, read from the Final Order's copy in a Florida PSC filing. Its 85/85/60 minimums agree with the GS-4 file's Paragraph VIII; the GS-4 file's one-year minimum term belongs to GS-4, not GS-5 (14 years). The docket (PUR-2025-00058) agrees.",
+   "notes": "Status: approved by the Final Order of 25 November 2025, effective 1 January 2027; Dominion's Q3 2026 10-Q says an appeal of the order to the Supreme Court of Virginia, filed March 2026, is pending. The order (PDF p. 36, ordering paragraph 4) requires the tariffs and terms and conditions effective 1 January 2027 to be filed at least 45 days before that date; that compliance filing was not read (the SCC host is paused; Dominion's own site is barred, below). The order (p. 35) also lets existing customers who would be subject to the 'High Load Customer Terms and Conditions' make a one-time downward adjustment of contracted demand without penalty before the effective date, and (p. 33, footnote 101) approves exemptions from minimum demand obligations for necessary and planned maintenance in the Terms and Conditions. Dominion's answers to Spotsylvania County (p. 1) say the contractual provisions apply, with limited exceptions, to all customers of 25 MW or more, not only GS-5. Not read: Dominion's 'GS-5 Large Load Rate Class Report' of May 2026 on sustainability.dominionenergy.com, its rates and tariffs pages and its investor site, because www.dominionenergy.com's terms (linked from all three hosts) bar spiders, robots and other automated programs; window A's GS-4 file was read from www.dominionenergy.com, so its 'public' license and the read itself may need the owner's review. The ~70 GW queue figure is from a Dominion engineer's slide posted by a conference host (ESIG), not by the utility; the parent may keep only the PJM figure. Lead, not verified: Dominion's Q3 2026 earnings material reportedly gives 54.9 GW of contracted data center capacity as of September 2026 (news only).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Data center three-contract structure (Engineering Letter of Authorization, Construction Letter of Authorization, Electric Service Agreement) with engineering and long-lead equipment deposits and distribution revenue guarantees",
+   "source_url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf",
+   "source_title": "Dominion Energy letter to the PJM Load Analysis Team, 6 January 2026: summary of its data center large load adjustment for the 2026 PJM load forecast (Manual 19 Attachment B), posted by PJM",
+   "quoted_clause": {
+    "page": "2",
+    "section": "Contract Structure",
+    "quote": "The Company uses a three-contract structure when conducting business with the data center industry."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the letter (3 pages), Dominion's 2025 Form 10-K and Q3 2026 Form 10-Q, Dominion's answers posted by Spotsylvania County: no docket is named for the contract structure"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-01-06",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "January 6, 2026"
+     },
+     {
+      "page": "2",
+      "section": "Contract Structure",
+      "quote": "The Company uses a three-contract structure when conducting business with the data center industry."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Not stated as a size in the letter, which covers the data center industry. Dominion's 2025 10-K applies the construction-period deposit requirement to 'high load customers', a group its Q3 2026 10-Q revenue table defines as customers in Virginia with actual or anticipated forecast demand of 25 MW or higher and annual load factor of 75 percent or higher",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm",
+       "section": "Form 10-K for 2025, Note 2, High Load Equipment Deposits",
+       "quote": "Beginning in 2025, Virginia Power requires high load customers to ... provide certain commitments to Virginia Power, including cash deposits, during the project construction period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526440697/d-20260930.htm",
+       "section": "Form 10-Q for the quarter ended 30 September 2026, revenue table footnote (1)",
+       "quote": "Represents customers in Virginia, including certain data centers, with actual or anticipated forecast demand of 25 MW or higher and annual load factor of 75% or higher.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Revenue guarantee ('contract dollar minimum') for distribution assets built for a large customer, designed to recoup the cost of the new distribution infrastructure within 4 years and kept on the account until revenues (less taxes, fuel and facilities charges) exceed Dominion's net investment",
+     "cites": [
+      {
+       "url": "https://www.spotsylvania.va.us/DocumentCenter/View/42289/Dominion-Energy-Reponse_08182026",
+       "page": "2",
+       "quote": "These guarantees are designed to recoup the cost of new distribution infrastructure required to connect a large customer's service within 4 years. This \"contract dollar minimum\" remains on their account until the total revenues collected (less taxes, fuel, and facilities charges) exceed our net investment in distribution assets on their behalf.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "the letter pp. 1 to 3 (the ESA 'ties the customer to the appropriate tariff and the Company's filed Terms and Conditions', no term stated); the 14-year term from 2027 is on the GS-5 row"
+    },
+    "collateral": {
+     "value": "A 250,000 USD deposit with the ELOA to cover engineering costs; deposits for long-lead time equipment before Dominion orders it, refunded at energization; the ESA assigns collateral; from 2025 high load customers provide commitments including cash deposits during the construction period",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Engineering Letter of Authorization",
+       "quote": "the customer may request and execute an ELOA along with a $250,000 deposit to cover engineering costs"
+      },
+      {
+       "page": "2",
+       "section": "Construction Letter of Authorization",
+       "quote": "(3) Long Leadtime Deposits: The customer is required to place deposits for long-lead time equipment, prior to the Company ordering the equipment. These deposits are refunded at energization, typically 3 years after the point of order."
+      },
+      {
+       "page": "2",
+       "section": "Electric Service Agreement",
+       "quote": "The ESA is the legal document that details the contracted capacity, assigns collateral, and ties the customer to the appropriate tariff and the Company's filed Terms and Conditions."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm",
+       "section": "Form 10-K for 2025, Note 2, High Load Equipment Deposits",
+       "quote": "Beginning in 2025, Virginia Power requires high load customers to ... provide certain commitments to Virginia Power, including cash deposits, during the project construction period.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "If the project is canceled before energization, or the customer does not execute an ESA, the customer reimburses Dominion for the investments made on its behalf; the equipment deposit is kept if the equipment cannot be redeployed to another customer",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Construction Letter of Authorization",
+       "quote": "(1) Cost Responsibility: If the project is canceled before energization, the customer must reimburse the Company for any investments made on its behalf."
+      },
+      {
+       "page": "2 to 3",
+       "section": "Electric Service Agreement",
+       "quote": "If the customer does not execute an ESA, the project is ... cancelled, and the customer must reimburse the Company for all investments made."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm",
+       "section": "Form 10-K for 2025, Note 2, High Load Equipment Deposits",
+       "quote": "If the equipment cannot be redeployed, Virginia Power will retain the cash deposit received. If the customer completes construction and Virginia Power begins delivering electricity, the cash deposit will be returned to the customer.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.spotsylvania.va.us/DocumentCenter/View/42289/Dominion-Energy-Reponse_08182026",
+       "page": "2",
+       "quote": "they are required to pay for all engineering, construction, and long-lead-time equipment costs even if they do not proceed with the project",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Engineering study under the ELOA typically 9 to 12 months; after it the customer has 90 days to request a CLOA and another 90 days to execute it, or the project is canceled",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Engineering Letter of Authorization",
+       "quote": "The engineering phase typically takes 9 to 12 months and evaluates the infrastructure required to serve the proposed site."
+      },
+      {
+       "page": "2",
+       "section": "Construction Letter of Authorization",
+       "quote": "Upon completion of the ELOA, the customer has 90 days to request a CLOA and another 90 days to execute it. If the CLOA is not executed within the 90-day window, the project is canceled."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No deadline published; long-lead equipment deposits are refunded at energization, typically 3 years after the point of order; the ELOA study gives the customer an estimated energization date",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Construction Letter of Authorization",
+       "quote": "These deposits are refunded at energization, typically 3 years after the point of order."
+      },
+      {
+       "page": "2",
+       "section": "Engineering Letter of Authorization",
+       "quote": "This study provides the customer with three deliverables: the infrastructure needed, an estimated energization date, and projected costs for the infrastructure."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Rate Schedule GS-5 (new large-load rate class) with its contract, collateral, minimum demand and exit fee terms, Final Order in Case No. PUR-2025-00058"
+    }
+   },
+   "license": "public",
+   "license_basis": "a Dominion letter PJM posts; Dominion's SEC filings; Dominion's written answers posted by Spotsylvania County",
+   "erw_overlap": "none",
+   "notes": "Status 'in effect' rests on the letter's present-tense description of 6 January 2026; no effective date is printed. The letter (p. 3) gives the contracted capacity as of July 2025: '47 GW (9.8 ESA + 7.1 CLOA + 30.1 ELOA)'. Dominion's 10-K says the deposits held at 31 December 2025 were 321 million USD. Dominion's answers to Spotsylvania County (p. 2, document named for 18 August 2026; the text prints no date) say a policy revision extending the revenue guarantees to certain 'direct connect' transmission assets will be filed 'later this year': pending, not read. The order in PUR-2025-00058 (Florida copy p. 30) refers to 'the Company's new interconnection queue process for large load customers': see the queue process row.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Large load interconnection queue process (ordered to be filed for approval in a separate SCC proceeding)",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/05289-2026/05289-2026.pdf",
+   "source_title": "Virginia SCC Final Order of 25 November 2025 in Case No. PUR-2025-00058, reproduced as Exhibit A to a motion in Florida PSC Docket No. 20260064-EI, Document No. 05289-2026, filed 18 August 2026",
+   "quoted_clause": {
+    "page": "30",
+    "section": "Large Load Interconnection Queue",
+    "quote": "the Commission further directs that the Company file its new large load interconnection queue process, along with supporting testimony, in a separate future proceeding at the Commission."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the Final Order (Florida copy pp. 30 to 31) orders a separate proceeding and names no case number; the filing's case was not read (SCC host paused)"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "",
+    "cites": [
+     {
+      "page": "30",
+      "section": "Large Load Interconnection Queue",
+      "quote": "There was testimony at the hearing regarding the Company's new interconnection queue process for large load customers."
+     },
+     {
+      "page": "31",
+      "section": "Large Load Interconnection Queue",
+      "quote": "directs that the Company make such a filing on or before February 2, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Final Order pp. 22 to 23 (Florida copy pp. 30 to 31); the queue filing itself sits on the paused SCC host"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as threshold_mw; the minimum demand charges are on the GS-5 row"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw; the order encourages options for faster interconnection of large loads meeting readiness criteria but sets no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "queue_size": {
+     "value": "see row: Rate Schedule GS-5 (new large-load rate class) with its contract, collateral, minimum demand and exit fee terms, Final Order in Case No. PUR-2025-00058"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy of the Virginia SCC's Final Order",
+   "erw_overlap": "none",
+   "notes": "The order (p. 31) directs the filing 'on or before February 2, 2026' on an expedited timeline and encourages options for faster interconnection of large loads meeting readiness or other criteria. The filing date and case number were not read: the SCC host is paused and Dominion's GS-5 Large Load Rate Class Report, which reportedly says the process was filed, is on a host whose terms bar automated reading. Leads only (news, not verified): Virginia Mercury (30 April 2026) describes standards for requests over 100 MW handled in batches of about 10 with a 300 MW cap per project, opposed by the Data Center Coalition; Virginia Business (17 February 2026) reports Dominion's testimony of about 70,000 MW of requests. Rappahannock Electric Cooperative's 2026 PJM forecast assumes the Dominion Energy queue 'advances one batch per year' (REC row).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Northern Virginia Electric Cooperative (NOVEC)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Schedule HV-1, Large Power Dedicated Distribution Service (new or additional load of at least 5,000 kW, 70 percent load factor)",
+   "source_url": "https://www.novec.com/About_NOVEC/upload/Large-Power-Dedicated-Distribution-Service-HV-1-3-22-23.pdf",
+   "source_title": "NOVEC Unbundled Rates, Regulated Rates: Large Power Dedicated Distribution Service, Schedule HV-1, effective 4/1/2023, filed for informational purposes 22 March 2023",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Applicability",
+    "quote": "The consumer's load must be new or additional separately meterable load of at least 5,000 kW"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Schedule HV-1 pp. 1 to 3 (stamped 'FILED FOR INFORMATIONAL PURPOSES ONLY March 22, 2023', no case number)"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2023-04-01",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Large Power Dedicated Distribution Service - Schedule HV-1 Effective: 4/1/2023"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "New or additional separately meterable load of at least 5,000 kW, an average annual load factor of at least 70 percent, served from facilities of 115 kV or greater at 12.5 kV or greater delivery",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "The consumer's load must be new or additional separately meterable load of at least 5,000 kW; and,"
+      },
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "The consumer must maintain an average annual load factor of at least 70%"
+      },
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "Standard service under this Schedule HV-1 shall be from the high voltage facilities of 115 kV or greater at a delivery voltage of 12.5 kV or greater."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Distribution billing demand is the highest of the 30-minute maximum demand, 5,000 kW, or the contract minimum demand; minimum monthly distribution charge the highest of the contract amount, 1,050 USD plus excess facilities charge, or the billing demand charge plus excess facilities charge; the customer must contract for demand and load factor sufficient to protect the cooperative's investment",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Determination of Distribution Billing Demand",
+       "quote": "The distribution billing demand shall be the highest of 1) the maximum average kilowatt demand established by the consumer for any thirty (30) consecutive minutes during the month for which the bill is rendered; 2) 5,000 kW; or 3) the contract minimum demand."
+      },
+      {
+       "page": "3",
+       "section": "Minimum Monthly NOVEC Distribution Charge",
+       "quote": "The minimum monthly distribution charge is the highest of the following:"
+      },
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "The consumer must contract for demand and an annual load factor sufficient to protect the financial investment made by the Cooperative"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Distribution ESA term negotiable, but structured to recover the full cost of distribution and/or sub-transmission plant investment, maintenance and operation",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "The ESA term for distribution service shall be negotiable between the customer and the Cooperative, but the term shall be structured to recover the full cost of distribution and/or sub-transmission plant investment, maintenance and operation"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Schedule HV-1 pp. 1 to 3; NOVEC Terms and Conditions of 16 October 2024 (deposit as a guarantee of payment of up to two months' estimated billing, a general provision, not a large-load term). Service from the primary distribution system requires a one-time contribution in aid of construction for the full cost of primary distribution investment (HV-1 p. 1)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule HV-1 pp. 1 to 3; NOVEC Terms and Conditions of 16 October 2024"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule HV-1 pp. 1 to 3"
+    },
+    "connection_timeline": {
+     "value": "ESA for distribution service and delivery to have an initial effective date not later than 12 months before the date of desired service, unless otherwise agreed",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Applicability",
+       "quote": "The consumer must execute an Electric Service Agreement (ESA) for electric distribution service and delivery with an initial effective date not later than 12 months prior to the date of desired service; unless otherwise agreed to by the Cooperative"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "No single queue figure published. NOVEC serves 88 data center buildings with about 1,750 MW of load; its July 2026 forecast vintage (projects in its development queue plus active data centers) totals 5,062 MVA of July capacity in 2027 rising to 15,794 MVA in 2047, presented to PJM on 29 September 2026",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5b---novec.pdf",
+       "page": "1",
+       "quote": "PJM LAS SEPTEMBER 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5b---novec.pdf",
+       "page": "4",
+       "quote": "NOVEC serves 88 data center buildings with approx. load of 1,750 MW.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5b---novec.pdf",
+       "page": "10",
+       "quote": "Projects in NOVEC's development queue and active data centers are the only projects included in NOVEC's load forecast",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5b---novec.pdf",
+       "page": "22",
+       "quote": "DOM-NVEC TOTAL 5,062 5,869 6,942 7,740 8,465 9,230 9,970 10,321 10,621 11,017 11,301 11,872 12,337 12,337 12,517 13,135 13,537 14,348 14,905 15,328 15,794",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "NOVEC's own rate schedule as published on novec.com (its legal terms neither bar automated reading nor limit use to personal use); the queue figures from a NOVEC presentation PJM posts",
+   "erw_overlap": "none",
+   "notes": "HV-1 is the large power schedule NOVEC posts for dedicated high-voltage service; NOVEC says it has had a data center rate classification since 1999 (PJM deck p. 4) but the documents read do not say which schedule that is. Schedule HV-2, Large Power Dedicated Facilities Contract Service, is posted as a scanned PDF with no text layer and was not read. NOVEC changed distribution rates from November 2026 (novec.com rate page); the HV-1 sheet posted on 13 November 2026 is still the 2023 one, so HV-1's charges may have changed. Distribution charges on the 2023 sheet: 1,050 USD a month, 1.31 USD per kW, 0.00212 USD per kWh (p. 2). The 2047 MVA total is the forecast's cumulative capacity of energized and queued projects, not a count of pending requests.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Northern Virginia Electric Cooperative (NOVEC)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Data center contracting and project development process (pre-construction commitment, construction commitment, electric service obligation)",
+   "source_url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5b---novec.pdf",
+   "source_title": "NOVEC Large Load Adjustment Request, presented to PJM's Load Analysis Subcommittee, 29 September 2026, posted by PJM",
+   "quoted_clause": {
+    "page": "11",
+    "section": "Contracting/Project Development Process",
+    "quote": "NOVEC has developed a robust planning and contracting process for data centers using contracts with financial obligations and key milestones"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the presentation (30 pages): no docket named"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09-29",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "PJM LAS SEPTEMBER 29, 2026"
+     },
+     {
+      "page": "11",
+      "section": "Contracting/Project Development Process",
+      "quote": "NOVEC has developed a robust planning and contracting process for data centers using contracts with financial obligations and key milestones"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Large customer: dedicated service capacity of 5 MW or more; a data center is a large customer identified as such during contracting or planning",
+     "cites": [
+      {
+       "page": "4",
+       "section": "NOVEC Data Centers",
+       "quote": "NOVEC defines a large customer as a customer with a dedicated service capacity of greater than or equal to 5 MW."
+      },
+      {
+       "page": "4",
+       "section": "NOVEC Data Centers",
+       "quote": "A data center is a large customer that is identified as a data center during the contracting/planning process."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "presentation pp. 1 to 30; the schedule's minimum billing demand is on the HV-1 row"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "presentation pp. 1 to 30"
+    },
+    "collateral": {
+     "value": "Non-refundable deposit at the pre-construction commitment; contribution in aid of construction (CIAC) payments begin at the construction commitment",
+     "cites": [
+      {
+       "page": "11",
+       "section": "Contracting/Project Development Process",
+       "quote": "Pre-Construction Commitment ... Non-refundable deposit"
+      },
+      {
+       "page": "11",
+       "section": "Contracting/Project Development Process",
+       "quote": "Begins Contribution in Aid of Construction (CIAC) payments"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "presentation pp. 1 to 30 (only the deposit is called non-refundable)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "presentation pp. 1 to 30"
+    },
+    "connection_timeline": {
+     "value": "Construction commitment 5 or more years before energization; electric service obligation (ESA executed, including tariff) 3 or more years before energization",
+     "cites": [
+      {
+       "page": "11",
+       "section": "Contracting/Project Development Process",
+       "quote": "Construction Commitment [5+ years prior to energization]"
+      },
+      {
+       "page": "11",
+       "section": "Contracting/Project Development Process",
+       "quote": "Electric Service Obligation [3+ years prior to energization] ... Electric Service Agreement (ESA) executed including tariff"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: Schedule HV-1, Large Power Dedicated Distribution Service (new or additional load of at least 5,000 kW, 70 percent load factor)"
+    }
+   },
+   "license": "public",
+   "license_basis": "a NOVEC presentation PJM posts",
+   "erw_overlap": "none",
+   "notes": "Status 'in effect' rests on the presentation's description of the current process; the date is the PJM meeting's, not an effective date. The presentation (p. 18) says the July 2026 forecast uses project timelines including the 'Dominion Transmission Queue'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Northern Virginia Electric Cooperative (NOVEC)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Terms and Conditions update for the rate classes applicable to large-load customers (filed with the Virginia SCC, 17 July 2026)",
+   "source_url": "https://www.novec.com/About_NOVEC/News_Release/nr071726.cfm",
+   "source_title": "NOVEC news release, 'NOVEC Files Terms & Conditions Update to Ensure System is Future Ready', 17 July 2026",
+   "quoted_clause": {
+    "section": "news release",
+    "quote": "If approved by the State Corporation Commission (SCC), it would update the co-op's rate classes applicable to large-load customers."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the news release and NOVEC's Future Ready page, whose 'Read the SCC Filing Here' link points to the SCC's docket search (case details 147082) on the paused SCC host; no case number printed"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-07-17",
+    "cites": [
+     {
+      "section": "news release",
+      "quote": "July 17, 2026"
+     },
+     {
+      "section": "news release",
+      "quote": "The first step in this process begins with today's filing."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "the news release; NOVEC's Future Ready page (https://www.novec.com/About_NOVEC/FutureReady.cfm); the filing itself is on the paused SCC host"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "queue_size": {
+     "value": "see row: Schedule HV-1, Large Power Dedicated Distribution Service (new or additional load of at least 5,000 kW, 70 percent load factor)"
+    }
+   },
+   "license": "public",
+   "license_basis": "NOVEC's own news release on novec.com (its legal terms neither bar automated reading nor limit use to personal use)",
+   "erw_overlap": "none",
+   "notes": "NOVEC's Future Ready page says of the filing: 'The updates modernize our rate classifications. Clarification is needed for when large customers transition from one rate class to another based on their usage to ensure customers are appropriately classified based on how they use NOVEC power.' The release names later steps (stakeholder input, load forecasts, a power supply RFP, then an application to update cost allocation methodologies and rate classifications). The filing's contents, its case number and any SCC action wait: the SCC host is paused.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Rappahannock Electric Cooperative (REC)",
+   "state": "VA",
+   "iso_region": "PJM",
+   "rule_name": "Data center project development contract stages (Letter of Authorization, Construction Development Agreement, Electric Service Agreement)",
+   "source_url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5c---rappahannock.pdf",
+   "source_title": "Rappahannock Electric Cooperative (REC), 2026 Large Load Adjustment, presented to PJM's Load Analysis Subcommittee (meeting of 29 September 2026 in PJM's file path), posted by PJM",
+   "quoted_clause": {
+    "page": "6",
+    "section": "Project Development Contract Stages",
+    "quote": "Project Development Contract Stages"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the presentation (9 pages): no docket named"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "",
+    "cites": [
+     {
+      "page": "6",
+      "section": "Project Development Contract Stages",
+      "quote": "STEP 1 Letter of Authorization (LOA) Pre-Construction Commitment"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "REC's 2026 and 2025 large load adjustment presentations posted by PJM; REC's own site (Schedule LP-DF) could not be read"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "collateral": {
+     "value": "Non-refundable deposit at the Letter of Authorization; CIAC and milestone payments from the Construction Development Agreement; the ESA is sized to total project cost through fixed capacity and excess facility charges",
+     "cites": [
+      {
+       "page": "6",
+       "section": "Step 1, Letter of Authorization",
+       "quote": "Non-refundable deposit collected"
+      },
+      {
+       "page": "6",
+       "section": "Step 2, Construction Development Agreement",
+       "quote": "CIAC/milestone payment start to finance each successive project phase"
+      },
+      {
+       "page": "6",
+       "section": "Step 3, Electric Service Agreement",
+       "quote": "Ensures full recovery of capital, O&M, and administrative costs ... Sized to total project cost via fixed capacity and excess facility charges"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "The member reimburses REC's investments if the project is canceled (from the Construction Development Agreement)",
+     "cites": [
+      {
+       "page": "6",
+       "section": "Step 2, Construction Development Agreement",
+       "quote": "Member reimburses REC investments if the project is canceled"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw (the LOA step submits a delivery point request to the transmission provider; no duration stated)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "as threshold_mw"
+    },
+    "queue_size": {
+     "value": "Requested data center capacity 22,426 MW in 2026 (17,367 MW in 2025, 7,423 MW in 2024); in August 2025 the forecast counted executed Construction Development Agreements of 4.5 GW and Engineering Letters of Authorization of 13.9 GW",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Data Center Capacity Growth",
+       "quote": "2024 2025 2026 Growth since 2024 REQUESTED CAPACITY (MW) 7,423 17,367 22,426 +14,999 MW"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2025/20250916/20250916-item-04c---rec-large-load-request.pdf",
+       "page": "5",
+       "quote": "Forecast includes projects with executed Construction Development Agreements (4.5GW) and Engineering Letters of Authorization (13.9GW) through August 2025",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "REC presentations PJM posts",
+   "erw_overlap": "none",
+   "notes": "Status 'in effect' rests on the presentation's description of the current stages; no date is printed in its text (the PJM path gives the 29 September 2026 meeting). REC's own schedule for these loads, Schedule LP-DF (Large Power Dedicated Facilities), was not read: myrec.coop's certificate failed the reader's check, so its robots file could not be read, and two Google storage copies answered 403. Leads only (search snippets, not verified): LP-DF is for contracted billing demands exceeding 25 MW served by dedicated substations at 34.5 kV or more from 115 kV or higher; REC petitioned the SCC in April 2025; the posted sheet is stamped 'AS FILED SCC Stamped 01 29 2026' with an effective date of 7/01/2025, and an SCC compliance acceptance shows 4/15/2026; it requires power supply credit collateral set in the agreement. REC's 2026 deck (p. 4) assumes the Dominion Energy queue 'advances one batch per year; campus substations staggered every 3 years.'",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Dominion Energy North Carolina (Virginia Electric and Power Company, North Carolina service)",
+   "searched": "web searches for a DENC large-load or data center tariff, settlement or NCUC filing (2025 and 2026); the NCUC portal is refused for this reader (robots names Claude's agents) and was not requested; Dominion's NC rates pages are on www.dominionenergy.com, whose terms bar automated reading; NCJC et al. comments in NCUC Docket E-7, Sub 1329 (SELC copy, read) mention DENC only as having 'large general service' schedules for loads smaller than those the Duke docket contemplates. No DENC large-load rule found."
+  },
+  {
+   "utility": "Dominion Energy South Carolina (DESC)",
+   "searched": "web searches for a DESC large-load or data center tariff (2025 and 2026); the SC PSC's dms.psc.sc.gov is disallowed by robots; the SC PSC notice of 6 July 2026 for Docket No. 2026-138-E (a generic docket on new large loads of 50 MW or more, petitioned by Duke Energy Carolinas and Duke Energy Progress, read on psc.sc.gov) does not name DESC; DESC's tariffs and IRP are on www.dominionenergy.com (terms bar automated reading). Leads only: SELC's press release of 8 May 2026 says DESC's rate case settlement commits it to join a proceeding on large load users; Sierra Club testimony in DESC's 2026 IRP (Docket No. 2026-9-E) recommends DESC establish a large-load tariff. No DESC large-load rule found."
+  }
+ ],
+ "also_met": [
+  {
+   "utility": "South Carolina Public Service Authority (Santee Cooper)",
+   "state": "SC",
+   "what": "a large-load rate for data centers and large users, reported as in effect from 2025 with a 15-year contract (SC Daily Gazette, 25 April 2025; lead only, not read)"
+  },
+  {
+   "utility": "Appalachian Power Company (Virginia)",
+   "state": "VA",
+   "what": "a large-load proposal filed with the Virginia SCC on 24 March 2025 (Virginia Mercury, 25 April 2025; lead only, SCC host paused; likely another group's)"
+  },
+  {
+   "utility": "Duke Energy Carolinas and Duke Energy Progress (South Carolina)",
+   "state": "SC",
+   "what": "SC PSC Docket No. 2026-138-E, generic docket on new large loads of 50 MW or more, petition of 27 May 2026, Order No. 2026-362 of 17 June 2026 (psc.sc.gov notice, read; another group's)"
+  }
+ ],
+ "refused": [
+  {
+   "url": "https://www.dominionenergy.com/terms-and-conditions",
+   "reason": "read once: the terms bar automated reading ('use spiders, robots, data mining techniques or other automated devices or programs to catalog, download or otherwise reproduce, store or distribute content'); www.dominionenergy.com (rates and tariffs for VA, NC and SC, the Terms and Conditions, the IRPs) not read further",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  },
+  {
+   "url": "https://investors.dominionenergy.com/",
+   "reason": "links to the same www.dominionenergy.com terms (bar automated reading): investor presentations not read; s2.q4cdn.com copies of the investor site's files not read for the same reason",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  },
+  {
+   "url": "https://sustainability.dominionenergy.com/GS-5 Large Load Rate Class Report.pdf",
+   "reason": "the host links to the same www.dominionenergy.com terms (bar automated reading): Dominion's GS-5 Large Load Rate Class Report of May 2026 not read",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  },
+  {
+   "url": "https://npr.brightspotcdn.com/b6/ac/706130b64d2b8eee6a9832b97e48/20251125-virginiascc-dominionenergyruling.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (the order was read from the Florida PSC's copy instead)",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  },
+  {
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000715957&type=10-Q",
+   "reason": "robots.txt disallows /cgi-bin/ (the filings were read under /Archives/ instead)",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  },
+  {
+   "url": "https://dms.psc.sc.gov/Web/Dockets/Detail/118650",
+   "reason": "robots.txt disallows the path for this reader and for *",
+   "utility": "Dominion Energy South Carolina (DESC)"
+  },
+  {
+   "url": "https://www.myrec.coop/",
+   "reason": "robots.txt not readable (SSL certificate verify failed); not read",
+   "utility": "Rappahannock Electric Cooperative (REC)"
+  },
+  {
+   "url": "https://myrec.coop/balancing-growth-and-affordability-rec-announces-hyperscale-energy-services-0",
+   "reason": "robots.txt not readable (SSL certificate verify failed); not read",
+   "utility": "Rappahannock Electric Cooperative (REC)"
+  },
+  {
+   "url": "https://storage.googleapis.com/core_entities/3762f422-c2ae-4aab-9293-f7e436fe5d2f",
+   "reason": "HTTP 403"
+  },
+  {
+   "url": "https://storage.googleapis.com/core_entities/147465dc-41b9-43a4-b9d5-1dcfffc9a179",
+   "reason": "HTTP 403"
+  },
+  {
+   "url": "https://www.scc.virginia.gov/docketsearch#caseDetails/147082",
+   "reason": "paused publisher (Virginia SCC): not requested (NOVEC's July 2026 filing; Dominion's queue process filing and GS-5 compliance tariff; REC's LP-DF case likewise not requested)",
+   "utility": "Northern Virginia Electric Cooperative (NOVEC)"
+  },
+  {
+   "url": "https://legacylis.virginia.gov/cgi-bin/legp604.exe?261+ful+SB503",
+   "reason": "read: the page answered that the document does not exist or is not available (SB 503 of 2026, on GS-5 terms, not read)",
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)"
+  }
+ ]
+}

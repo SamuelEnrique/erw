@@ -1,0 +1,790 @@
+{
+ "group": "southwest_california",
+ "rows": [
+  {
+   "utility": "Pacific Gas and Electric Company",
+   "state": "CA",
+   "iso_region": "CAISO",
+   "rule_name": "Electric Rule No. 30, Retail Service Transmission Facilities, Interim Implementation (50 kV to 230 kV)",
+   "source_url": "https://docs.cpuc.ca.gov/PublishedDocs/Published/G000/M574/K875/574875643.PDF",
+   "source_title": "CPUC Decision 25-07-039 (24 July 2025, issued 28 July 2025), Decision Partly Granting and Partly Denying Pacific Gas and Electric Company's Motion for Interim Implementation of Electric Rule Number 30, A.24-11-007",
+   "quoted_clause": {
+    "page": "51",
+    "section": "Ordering Paragraph 1",
+    "quote": "motion for interim implementation of Electric Rule 30 for large transmission-level customers (50-230 kilovolts) seeking retail service is granted in part and denied in part"
+   },
+   "docket": {
+    "value": "Application 24-11-007 (Decision 25-07-039)",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Decision 25-07-039 July 24, 2025"
+     },
+     {
+      "page": "1",
+      "quote": "Application 24-11-007"
+     },
+     {
+      "page": "54",
+      "section": "Ordering Paragraph 11",
+      "quote": "Application 24-11-007 remains open."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-12-04",
+    "cites": [
+     {
+      "page": "54",
+      "section": "Ordering Paragraph 11",
+      "quote": "This order is effective today. Dated July 24, 2025, at San Francisco, California."
+     },
+     {
+      "page": "53",
+      "section": "Ordering Paragraph 3",
+      "quote": "Pacific Gas and Electric Company shall submit a Tier 1 Advice Letter with revised Electric Rule 30 tariff and associated form agreements that will be used for interim implementation of Electric Rule 30 tariff."
+     },
+     {
+      "page": "54",
+      "section": "Ordering Paragraph 8",
+      "quote": "This decision is effective until a subsequent or final decision on Electric Rule 30 is issued"
+     },
+     {
+      "url": "https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M613/K880/613880295.PDF",
+      "page": "9",
+      "quote": "Opening comments shall be due by August 25, 2026 and shall be limited to a length of ten pages, and reply comments shall be due September 4, 2026, and shall be limited to a length of five pages. Following submittal of reply comments, the record will be submitted.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no MW size printed; large transmission-level customers at 50 to 230 kV seeking retail service",
+     "cites": [
+      {
+       "page": "51",
+       "section": "Ordering Paragraph 1",
+       "quote": "for large transmission-level customers (50-230 kilovolts) seeking retail service"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "D.25-07-039 (Ordering Paragraphs 1 to 11, Findings and Conclusions): no minimum bill, minimum demand or take-or-pay share; the Applicant's 10-year usage forecast in the Rule 30 sheets is held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "D.25-07-039: no service contract term; agreements approved by Tier 2 advice letter during the interim period stay unchanged even if Rule 30 is later modified, except for the deferred refund and loan issues (Ordering Paragraph 5)"
+    },
+    "collateral": {
+     "value": "no letter of credit, guarantee or other security named; under interim Rule 30 transmission-level customers provide the full initial costs of Facility Types 1 to 3 (advances and/or actual cost payments), and Type 4 network upgrades proceed only on a pre-funded loan of 100 percent of the project cost, whose full repayment is not guaranteed. PG&E's investor material adds the pipeline stage payments: the Preliminary Engineering Study fee ($500,000) and, at Final Engineering, payment for design and procurement (10% of the total estimated project cost)",
+     "cites": [
+      {
+       "page": "52",
+       "section": "Ordering Paragraph 1.b",
+       "quote": "Under interim implementation, PG&E shall ensure that transmission-level customers provide the full initial costs of Facility Types 1-3, including advances and/or actual cost payments."
+      },
+      {
+       "page": "52",
+       "section": "Ordering Paragraph 1.c",
+       "quote": "Under interim implementation, Type 4 Facilities will be eligible when transmission-level customers provide 100 percent of the project cost as a pre-funded loan."
+      },
+      {
+       "page": "52",
+       "section": "Ordering Paragraph 1.e",
+       "quote": "The 100 percent repayment of the pre-funded loan for Facility Type 4 is not guaranteed."
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000056/q326earningspresentation.htm",
+       "page": "1",
+       "section": "Appendix 1, Slide 6 endnote 1",
+       "quote": "requires the customer to have paid the Preliminary Engineering Study fee ($500,000). Final Engineering includes projects that have executed a Work Performance Agreement and requires the customer to have begun paying for design and procurement activities (10% of the total estimated project cost).",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "D.25-07-039 (Ordering Paragraph 1.d defers all refunds of advances and actual cost payments to the final decision; 1.e denies pre-funded loan repayment during the interim period): no termination or exit charge; the termination terms of the Rule 30 sheets themselves are in notes"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "D.25-07-039 (its only time limits are the CCA notices within 20 business days, Ordering Paragraph 7, and the 15-day compliance filing); PG&E's Q3 2026 investor presentation names the Preliminary Engineering Study and its fee but no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "D.25-07-039 and PG&E's Q3 2026 investor presentation: no time to energize (the Rule 30 sheets' timed steps are held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml)"
+    },
+    "queue_size": {
+     "value": "data center pipeline (applications for new data center load requesting 20 MW or more) of 12,870 MW at September 2026 (12,710 MW at June 2026): 8,350 MW application and preliminary engineering, 3,880 MW final engineering, 400 MW interconnection construction agreement, 240 MW construction; 27, 18 and 3 projects in the first three stages as of 9/30/26",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000056/q326earningspresentation.htm",
+       "page": "1",
+       "section": "Slide 6, Data Center Pipeline",
+       "quote": "Pipeline Highlights MWs June 2026 Sept 2026 Total 12,710 12,870 Application & Preliminary Engineering 8,200 8,350 Final Engineering 3,880 3,880 Interconnection Construction Agreement 490 400 Construction 140 240",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000056/q326earningspresentation.htm",
+       "page": "1",
+       "section": "Slide 6",
+       "quote": "27 projects as of 9/30/26 ... 18 projects as of 9/30/26 ... 3 projects as of 9/30/26",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000056/q326earningspresentation.htm",
+       "page": "1",
+       "section": "Appendix 1, Slide 6 endnote 1",
+       "quote": "Scope includes applications received to serve new data center load requesting 20 megawatts of power or more.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "every value is cited to the CPUC's own docket copies (Decision 25-07-039 and the ALJ ruling of 7 August 2026, docs.cpuc.ca.gov, no robots file) or to PG&E Corporation's Form 8-K exhibit on sec.gov; nothing is cited to pge.com, whose terms bar use in publications without consent",
+   "erw_overlap": "large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml holds the interim Rule 30 sheets (Advice 7772-E, document_date 2025-12-04) as four timed steps, read from pge.com; no held value differs. This row re-cites the rule on D.25-07-039 and adds collateral and queue.",
+   "notes": "The Rule 30 sheets on pge.com (Advice 7772-E, Sheets 1 to 22; internal, PG&E's terms bar use in publications without consent) print what D.25-07-039 does not: an Advance based on the Project Specific Cost Estimate (C.2), PG&E keeping the earned part of advances if the Applicant terminates before the facilities go into service (C.7), forfeiture of refunds if no service is taken by the end of the first calendar year after in-service (C.8), and Excess Facilities removal costs if load falls significantly below the Usage Forecast (C.9); no CPUC host copy of the sheets or of Advice 7772-E was found, so these stay out of the fields. Final Rule 30 still pending in A.24-11-007 on 13 November 2026: the ALJ ruling of 7 August 2026 reopened the record for comments on FERC's show cause order (EL26-71), reply comments due 4 September 2026, after which the record is submitted; no proposed or final decision was found. A partial settlement of 7 May 2026 (PG&E, Cal Advocates, CalCCA, Sierra Club) covers information sharing only (per AReM and Shell's comments, docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M608/K211/608211962.PDF). Customer-specific transmission-level agreements are approved by resolution: draft Resolution E-5455 of 16 July 2026 (Google, 250 MW at 230 kV, San Jose; docs.cpuc.ca.gov/PublishedDocs/Published/G000/M607/K718/607718746.PDF) limits annual refunds to 100 percent of annual net revenues and says Resolutions E-5420, E-5433 and E-5439 limited them to 75 percent; refunds are not one of the eight fields. Refused: the CPUC proceeding page (apps.cpuc.ca.gov, robots) and PG&E's investor PDF host (s21.q4cdn.com, robots 403); the same presentation was read from the SEC copy. The pipeline counts data center load of 20 MW or more at any voltage, not only Rule 30 applicants. Status date basis: held: large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml (the compliance sheets of Advice 7772-E, document_date 2025-12-04); the CPUC documents read give the decision's date and its effect until the final decision, not the sheets' date",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "state": "AZ",
+   "iso_region": "AZPS balancing authority (WECC, no RTO)",
+   "rule_name": "Rate Schedule XHLF revision proposed in APS's 2025 rate case (direct assignment of generation costs to extra high load factor customers)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000055/novemberinvestordeck.htm",
+   "source_title": "Pinnacle West Capital Corporation, Powering Arizona's Future, November Investor Meetings (Form 8-K exhibit, November 2026)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Slide 30, 2025 APS Rate Case, Proposed rate design modifications",
+    "quote": "Direct assignment of generation costs to ensure extra high load factor customers pay for the resources they require"
+   },
+   "docket": {
+    "value": "E-01345A-25-0105",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Slide 29",
+      "quote": "Docket number: E-01345A-25-0105"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2025-06-13",
+    "cites": [
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000050/pnw-20260930.htm",
+      "page": "1",
+      "section": "Note: 2025 Rate Case",
+      "quote": "On June 13, 2025, APS filed an application with the ACC",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000050/pnw-20260930.htm",
+      "page": "1",
+      "section": "Note: 2025 Rate Case",
+      "quote": "adjustments to rate designs, including direct assignment of costs, to reduce cross-subsidization by certain customer classes",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "1",
+      "section": "Slide 34, 2026 Key Regulatory Dates",
+      "quote": "Initial briefs filed August 27 ... Reply briefs filed September 11 Final Decision estimated December 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Pinnacle West November 2026 investor deck and Q3 2026 Form 10-Q (rate case notes): the proposed XHLF sheet (Attachments JEH-18DR and JEH-19DR to the Hobbick testimony) sits on hosts the reader refused (ACC docket hosts, s22.q4cdn.com); the XHLF in effect (5,000 kW) is held in large_load_tariffs/aps_xhlf.yaml"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q; APS's data center page names minimum bill and collateral requirements with no figure (aps.com, personal noncommercial use terms)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q (the only collateral terms printed are those of the TSMC Direct Pricing Contract, a customer-specific contract, in notes)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q (the 10-Q says APS has developed a queue that identifies and prioritizes projects, with no study duration)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "November 2026 investor deck, Q3 2026 Form 10-Q"
+    },
+    "queue_size": {
+     "value": "5.8 GW of committed load (about 0.9 GW currently served, about 4.9 GW not yet served) and about 20 GW of uncommitted load opportunity, November 2026; committed load spans manufacturing, data centers (more than 15 data center sites), residential and other",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Slide 13",
+       "quote": "9.2GW 2026 System Peak 5.8GW Committed Load ~20GW Uncommitted Load Opportunity"
+      },
+      {
+       "page": "1",
+       "section": "Slide 14",
+       "quote": "~0.9 GW Currently Served ~4.9GW Not Yet Served"
+      },
+      {
+       "page": "1",
+       "section": "Slide 14",
+       "quote": "Data center segment includes more than 15 different data center sites across our service territory"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "Pinnacle West's and APS's filings on sec.gov (Form 8-K exhibit and Form 10-Q)",
+   "erw_overlap": "large_load_tariffs/aps_xhlf.yaml holds Rate Schedule XHLF in effect (A.C.C. No. 6067, Decision No. 79293, effective 2024-03-08); this row is the pending revision in E-01345A-25-0105, whose sheet was not read. No held value differs.",
+   "notes": "Decision expected December 2026 (investor deck; the 10-Q says the hearing concluded on 7 July 2026). Not read: the proposed XHLF redline and clean sheets and the Hobbick testimony (s22.q4cdn.com refused, robots 403; docket.images.azcc.gov refused, robots disallow; images.edocket.azcc.gov refused, certificate mismatch). APS's own pages (aps.com, terms limit use to personal noncommercial use) say the June 2025 request proposed a 45 percent increase for extra-large users and name minimum bill and collateral requirements without figures: internal leads only. The Q3 2026 10-Q (sec.gov, pnw-20260930.htm) reports a Direct Pricing Contract signed 16 October 2026 with TSMC Arizona, ramping to about 1.88 GW for an initial term of 25 years, with upfront payments for credit support and liquid and non-liquid collateral from 1 January 2027, to be submitted to the ACC: a semiconductor customer-specific contract, not a rule, so not a row. The ACC's generic inquiry into data center rate classifications is E-00000A-25-0069 (workshop 16 April 2026).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Salt River Project Agricultural Improvement and Power District",
+   "state": "AZ",
+   "iso_region": "SRP balancing authority (WECC, no RTO)",
+   "rule_name": "Large Customer Integration Process (LCIP) and Agreement for Electric Service for new E-67 large load accounts",
+   "source_url": "https://srpnet.com/about/data-center-facts",
+   "source_title": "SRP, Data Center Facts",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Will adding new data centers raise SRP prices for other customers?",
+    "quote": "Large business customers that first take service after Nov. 1, 2025, are subject to new conditions within SRP ... E-67 price plan and must enter into an Agreement for Electric Service."
+   },
+   "docket": {
+    "value": "no commission docket (public power): the SRP Board of Directors; the LCIP and its first cluster study results were presented at the Board meeting of 6 October 2025",
+    "cites": [
+     {
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+      "page": "53",
+      "quote": "10/6/2025 SRP Board Meeting, D. Dreiling, Z. Heim",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-11-01",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Large business customers that first take service after Nov. 1, 2025, are subject to new conditions within SRP"
+     },
+     {
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+      "page": "53",
+      "quote": "Introduced new Large Customer Integration Process (LCIP)",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+      "page": "53",
+      "quote": "April 2025",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/srp_e67.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/srp_e67.yaml"
+    },
+    "contract_term": {
+     "value": "15-year minimum term in the Agreement for Electric Service",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "15-Year Minimum Term: The customer must commit to paying for its forecasted power requirements before SRP invests in the generation resources needed to serve them."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "substantial financial security; at the Preliminary Agreement for Electric Service, collateral in an amount based on Minimum Demand; contribution in aid of construction of 60% (by irrevocable letter of credit) at cluster study Milestones 1 and 2 and the remaining 40% at the Design, Construction, and Operations Agreement",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Collateral: The customer must provide substantial financial security protecting SRP and its other customers if the customer fails to meet its contractual commitments."
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "section": "LCIP, Contractual Requirements",
+       "quote": "Preliminary Agreement for Electric Service with agreed upon customer contracted load ... Collateral: Amount based on Minimum Demand",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "section": "LCIP, Load Impact Study and Conceptual Scope",
+       "quote": "Milestone 1 & 2 - 60% CIAC (ILOC)",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "section": "LCIP, Detailed Scope of Construction and Operation",
+       "quote": "Fee: Remaining 40% CIAC, Point of Interconnection, Network Upgrades",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "SRP Data Center Facts; Board packet of 6 October 2025 pp. 53 to 63 (page 63 lists performance provisions that cover generation and revenue if customers do not perform as committed, with no amount or formula)"
+    },
+    "study_timeline": {
+     "value": "feasibility assessment about 3 to 4 months (fee $40k); cluster Load Impact Study and conceptual scope about 8 months (fee $250k)",
+     "cites": [
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "section": "LCIP, Application Process",
+       "quote": "Feasibility assessment at proposed project site, including relevant SRP representatives ... Fee: $40k ... Timeline: 3-4 months",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "section": "LCIP, Load Impact Study and Conceptual Scope",
+       "quote": "Cluster Load Impact Study identifies mitigations related to transmission capacity request ... Fee: $250k ... Timeline: ~8 months",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "five to eight years to complete the transmission infrastructure for a new data center; Design, Construction, and Operations Agreement about 3 to 4 months; final Agreement for Electric Service less than 1 month",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "It currently takes between five and eight years to complete the transmission infrastructure needed to serve a new data center."
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "quote": "Design, Construction, and Operations Agreement finalizes transmission capacity and terms & conditions associated with project design & construction",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "quote": "Final Agreement for Electric Service provides permanent power agreement, maintenance and rate schedule",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "62",
+       "quote": "Timeline: Less than 1 month",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "transition cluster (LCIP): 24 customers, 7.2 GW of total new load; serial projects: 35 projects, 7 GW; 52 of the projects are data centers (24 of them new LCIP projects); as presented to the SRP Board on 6 October 2025 (cluster study results to customers October 2025)",
+     "cites": [
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "53",
+       "section": "Summary of Transition Cluster Results",
+       "quote": "inaugural Transition Cluster Load Impact Study ... 24 Customers ... Total new load ... 7.2 GW",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt6690e223995539e6/20251006_DB_packet.pdf",
+       "page": "56",
+       "section": "Projects Map (Serial and Cluster columns)",
+       "quote": "35 Proj ... 7 GW ... 24 Proj 7.2 GW ... 52 Data Center (24 are new LCIP projects)",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from SRP's own website (srpnet.com), whose Website Terms and Conditions bar reproducing or distributing its materials and commercial use without SRP's prior written permission",
+   "erw_overlap": "large_load_tariffs/srp_e67.yaml: its term field reads that the customer signs the Agreement for Electric Service 'having a minimum term as set forth therein' (the agreement not read); this row adds the 15-year minimum term. Threshold (20 MW) and the 80 percent minimum billing demand are held and match SRP's page.",
+   "notes": "Board packet page 53 also gives the transition cluster's 83 network upgrades and a total transmission upgrade cost of $12.8B. SRP's page says data centers contributed 7% of the summer 2026 peak. Leads only, not written: KJZZ (26 October 2026) quotes SRP on 10 data center customers needing about 2 GW; the ACC's workshop release (20 April 2026) says SRP serves 59 large load customers with a combined load of nearly 7,000 MW (served load, not a queue). SRP is public power: its Board, not the ACC, sets the terms. A newer queue figure than October 2025 was not found in an SRP document.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tucson Electric Power Company",
+   "state": "AZ",
+   "iso_region": "TEPC balancing authority (WECC, no RTO)",
+   "rule_name": "Energy Supply Agreement for a data center campus of about 300 MW (customer-specific ESA approved by the ACC; no large-load tariff found)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/100122/000010012226000025/tep-20260930.htm",
+   "source_title": "Tucson Electric Power Company, Form 10-Q for the quarter ended September 30, 2026",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Energy Supply Agreement",
+    "quote": "In 2025, we reached an agreement to serve a data center campus expected to be located in our service territory, requiring potential power demand of approximately 300 MW."
+   },
+   "docket": {
+    "value": "not published",
+    "cites": [],
+    "searched": "TEP Q3 2026 Form 10-Q prints no ACC docket or decision number for the ESA; the ACC's docket hosts were refused (docket.images.azcc.gov robots disallow; images.edocket.azcc.gov certificate hostname mismatch)"
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-12",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "The ACC approved the ESA in December 2025."
+     },
+     {
+      "page": "1",
+      "quote": "In April 2026, the parties satisfied or waived all remaining contingencies and conditions precedent under the ESA."
+     },
+     {
+      "page": "1",
+      "quote": "on October 1, 2026, the Superior Court denied the motions to dismiss and ordered further briefing on the merits of the case."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "TEP Q3 2026 Form 10-Q: a customer-specific agreement for one campus of about 300 MW, with no eligibility size; no TEP large-load tariff found"
+    },
+    "min_demand": {
+     "value": "minimum monthly payment obligations that apply irrespective of the customer's energy use (no amount or share printed)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "establishing minimum monthly payment obligations that apply irrespective of customer energy use"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "TEP Q3 2026 Form 10-Q, Energy Supply Agreement section"
+    },
+    "collateral": {
+     "value": "a $40 million letter of credit securing the termination payment, received April 2026; credit standards designed to mitigate the risk of default",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "which is secured by a $40 million LOC that we received in April 2026"
+      },
+      {
+       "page": "1",
+       "quote": "imposing credit standards designed to mitigate the risk of default"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "$40 million termination payment if the customer terminates the ESA before electric service begins; termination fees supported by financial assurance mechanisms",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "a $40 million termination payment is required if the ESA is terminated by the customer prior to the commencement of electric service"
+      },
+      {
+       "page": "1",
+       "quote": "authorizing termination fees supported by financial assurance mechanisms"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "TEP Q3 2026 Form 10-Q"
+    },
+    "connection_timeline": {
+     "value": "operational as early as 2027, with a ramp schedule through 2029",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "The data center campus is projected to be operational as early as 2027, with a ramp schedule through 2029."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "TEP and UNS Electric together: one data center project under contract (286 MW), other prospective data center projects of about 800 MW, and about 8 to 10 GW of speculative projects in their queue (ACC large load workshop of 16 April 2026)",
+     "cites": [
+      {
+       "url": "https://www.azcc.gov/news/home/2026/04/20/acc-large-load-data-center-workshop-highlights",
+       "page": "1",
+       "quote": "TEP/UNSE has one data center project under contract with an estimated load forecast of 286 MW; other prospective data center projects are forecasted to require about 800 MW.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.azcc.gov/news/home/2026/04/20/acc-large-load-data-center-workshop-highlights",
+       "page": "1",
+       "quote": "In addition, the utilities have approximately 8-10 gigawatts of speculative projects in their queue.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "TEP's Form 10-Q on sec.gov; the Arizona Corporation Commission's own news release",
+   "erw_overlap": "",
+   "notes": "Leads (news, not written): the agreement is with Humphrey's Peak Power LLC for Beale Infrastructure's Project Blue campus, approved 4 to 1 on 3 December 2025; the Attorney General and the City of Tucson challenged the approval (the 10-Q confirms the challenge in the Superior Court of Maricopa County, February 2026). The 10-Q also says TEP is analyzing additional requests from large retail customers and that its 2026 IRP includes a high load factor customer scenario. No TEP large-load tariff or standard ESA form was found. The ACC's April 2026 workshop discussed a universal large load tariff with ESAs (E-00000A-25-0069), not yet proposed.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
+   "state": "NV",
+   "iso_region": "NEVP balancing authority (WECC, no RTO)",
+   "rule_name": "Form Large Load Electric Service Agreement (LLESA) and Form Framework Agreement, filed for PUCN approval with the 2026 Joint IRP",
+   "source_url": "https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/recent-regulatory-filings/2026-irp/NPC-SPPC-Volume-2.pdf",
+   "source_title": "Joint Application of Nevada Power Company and Sierra Pacific Power Company for approval of their 2027-2046 integrated resource plan, Volume 2 of 41 (Application, Exhibits and Testimony), with Exhibit Wells-Direct-2 (Form LLESA)",
+   "quoted_clause": {
+    "page": "111",
+    "section": "Wells Direct, Q22",
+    "quote": "The form LLESA is intended to apply to eligible large customers with at least 25 ... MW taking bundled retail electric service under Schedule LGS-3 / GS-3 whose"
+   },
+   "docket": {
+    "value": "PUCN Docket No. 26-05007 (the posted application leaves the number blank, 'Docket No. 26-05___')",
+    "cites": [
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/Dktinfo.aspx?Util=Electric",
+      "page": "1",
+      "section": "PUCN Docket Information, Electric",
+      "quote": "26-05007 ... Joint Application of Nevada Power Company d/b/a NV Energy and Sierra Pacific Power Company d/b/a NV Energy for approval of their 2027-2046 Triennial Integrated Resource Plan and 2027-2029 Energy Supply Plan.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "1",
+      "quote": "Docket No. 26-05___"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-05-07",
+    "cites": [
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/Dktinfo.aspx?Util=Electric",
+      "page": "1",
+      "section": "PUCN Docket Information, Electric (docket 26-05007 and its date)",
+      "quote": "26-05007 ... 05/07/2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "33",
+      "quote": "Dated this 6th day of May, 2026."
+     },
+     {
+      "page": "7",
+      "quote": "Companies request an expedited ruling on the form LLESA."
+     },
+     {
+      "page": "6",
+      "quote": "The statutory period within which this matter must be resolved, therefore, runs ... on Wednesdays, December 2, 2026."
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28386&type=Hearing&docnum=26-05007&meetingdate=10%2F26%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "26-05007 ... 10/26/2026 ... Hearing ... Application for Approval of Resource Plan",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28402&type=Due+-+Phase+3+Rebuttal+Testimony&docnum=26-05007&meetingdate=11%2F2%2F2026+12%3A00%3A00+AM&location=",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "11/02/2026 ... Due - Phase 3 Rebuttal Testimony",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28390&type=Hearing&docnum=26-05007&meetingdate=11%2F16%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "26-05007 ... 11/16/2026 ... Hearing",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCCalendar.aspx",
+      "page": "1",
+      "section": "PUCN Calendar, November 2026",
+      "quote": "10:00AM - Hearing - 26-05007",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/nv_energy_llesa.yaml"
+    },
+    "min_demand": {
+     "value": "Minimum Demand of at least 90% of Ramp Demand each month of the Ramp Period and at least 90% of Maximum Demand each month after it; Minimum Energy of Maximum Demand times an 80% load factor times 90%",
+     "cites": [
+      {
+       "page": "143",
+       "section": "Exhibit Wells-Direct-2, Article I, Minimum Demand",
+       "quote": "shall mean an amount equal to, collectively, (A) at least ninety percent (90%) of the Ramp Demand during each month of the Ramp Period, and (B) at least ninety percent (90%) of the Maximum Demand during each month of the Term from and after the end of the Ramp Period."
+      },
+      {
+       "page": "143",
+       "section": "Exhibit Wells-Direct-2, Article I, Minimum Energy",
+       "quote": "shall mean the Maximum Demand multiplied by the Load Factor multiplied by ninety percent (90%)."
+      },
+      {
+       "page": "142",
+       "section": "Exhibit Wells-Direct-2, Article I, Load Factor",
+       "quote": "means the application of an eighty percent (80%) factor to convert Maximum Demand to Minimum Energy for billing purposes."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "total term not less than ten years after the Effective Date (Ramp Period plus the period after it; months left blank in the form); after long-term supply begins the customer may terminate on not less than 36 months' written notice",
+     "cites": [
+      {
+       "page": "149",
+       "section": "Exhibit Wells-Direct-2, Section 3.1, note 7",
+       "quote": "The Total term of this Agreement is to be a period of not less than ten (10) years after the Effective Date."
+      },
+      {
+       "page": "149",
+       "section": "Exhibit Wells-Direct-2, Section 3.2",
+       "quote": "Customer may elect to terminate this Agreement, at any time from and after the Long-Term Energy Supply Commencement Date, upon delivery of written notice of such election"
+      },
+      {
+       "page": "149",
+       "section": "Exhibit Wells-Direct-2, Section 3.2",
+       "quote": "not less than thirty-six (36) months prior to the effective date of the termination specified in the Termination Notice"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "ESA Customer Security within 15 Business Days after PUCN approval, equal to the aggregate Minimum Demand and Minimum Energy times the ESA Overall Rate for the remaining Term; letter of credit, cash deposit or affiliate guaranty; waived while the customer holds A- (S&P) and A3 (Moody's) ratings and liquidity above ten times the aggregate Minimum Demand times the ESA Overall Rate for the Term",
+     "cites": [
+      {
+       "page": "157",
+       "section": "Exhibit Wells-Direct-2, Section 6.1(a)",
+       "quote": "not more than fifteen (15) Business Days, after the PUCN Approval Date, Customer shall provide to NV Energy, and thereafter maintain, financial security for its obligations under this Agreement in an amount equal to the sum of the aggregate applicable Minimum Demand and Minimum Energy multiplied by the ESA Overall Rate for the remaining Term"
+      },
+      {
+       "page": "157",
+       "section": "Exhibit Wells-Direct-2, Section 6.1(a)",
+       "quote": "liquidity greater than ten (10) times the aggregate Minimum Demand multiplied by the ESA Overall Rate for the Term"
+      },
+      {
+       "page": "157",
+       "section": "Exhibit Wells-Direct-2, Section 6.1(b)",
+       "quote": "The ESA Customer Security shall be in the form of either (i) a letter of credit issued by a financial institution reasonably satisfactory to NV Energy and in form and substance reasonably satisfactory to NV Energy, (ii) a cash deposit to be held by NV Energy or (iii) a guaranty from an Affiliate of Customer"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination Payment equal to the aggregate Minimum Demand times the ESA Overall Rate from the Termination Date to the end of the Term (excluding BTER, DEAA and other applicable rates), due within 30 days of the Termination Date; NV Energy mitigates it for 36 months after the Termination Date",
+     "cites": [
+      {
+       "page": "145",
+       "section": "Exhibit Wells-Direct-2, Article I, Termination Payment",
+       "quote": "shall mean an amount equal to (x) the aggregate Minimum Demand with respect to the Project multiplied by (y) the ESA Overall Rate, from the Termination Date through the end of the Term, excluding BTER, DEAA, and all other applicable rates"
+      },
+      {
+       "page": "150",
+       "section": "Exhibit Wells-Direct-2, Section 3.3(a)",
+       "quote": "Customer shall pay to NV Energy the Termination Payment promptly, and in any event not more than thirty (30) days, after the Termination Date"
+      },
+      {
+       "page": "150",
+       "section": "Exhibit Wells-Direct-2, Section 3.3(b)",
+       "quote": "continuing for a period of thirty-six (36) months after the Termination Date"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Volume 2: application, Wells Direct (pp. 109 to 126) and the form LLESA (Exhibit Wells-Direct-2, from p. 136): the LLESA covers supply; physical interconnection is under separate Rule 9 agreements, with no study duration printed"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Volume 2, form LLESA: the Ramp Period and Ramp Schedule are customer-specific (Article VII); no time to energize printed"
+    },
+    "queue_size": {
+     "value": "about 22,000 MW (22 GW) of data center interest inquiries and about 6 GW of signed Rule 9 agreements; five customers proceeding toward eight LLESAs with aggregated load expected to exceed 3.3 GW by 2032 (application dated 6 May 2026)",
+     "cites": [
+      {
+       "page": "4",
+       "quote": "NV Energy has received approximately 22,000 megawatts ... of interest inquiries from data centers and has executed approximately 6 GW of signed ... Rule 9 agreements"
+      },
+      {
+       "page": "110",
+       "section": "Wells Direct, Q21",
+       "quote": "At this time, five customers are proceeding toward execution of an LLESA."
+      },
+      {
+       "page": "110",
+       "section": "Wells Direct, Q21",
+       "quote": "aggregated load across these agreements will exceed 3.3 gigawatts by 2032."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "NV Energy's posted copy of its application to the PUCN for the form and its figures; the PUCN's own docket list and calendar (pucweb1.state.nv.us, no robots file) for the docket, filing date and hearings; window A's registry reads nvenergy.com as public; no terms of use page was found linked from the script-rendered nvenergy.com pages read",
+   "erw_overlap": "large_load_tariffs/nv_energy_llesa.yaml (the June 2026 fact sheet): status 'framework' with effective 2026-06-01 differs, the form LLESA is proposed and pending in PUCN Docket 26-05007 (filed 2026-05-07 per the PUCN, application dated 2026-05-06, statutory deadline 2026-12-02, no order found); the fact sheet printed no minimum share, term, security or exit figure, which this row adds from the form. Threshold (25 MW) matches and is held.",
+   "notes": "PUCN record read on 13 November 2026 (pucweb1.state.nv.us, on the coordinator's retry after the certificate fix): the docket list (26-05007 dated 05/07/2026; the customer LLESA dockets 26-05026, 26-05027, 26-05029 and 26-05030 dated 05/29/2026, and 26-05028 dated 06/03/2026) and the calendar (hearings in 26-05007 on 26 to 29 October and 16 to 20 November 2026, Phase 3 rebuttal testimony due 2 November 2026). No order, stipulation or hearing transcript was found: the PUCN's docket detail and document search open only through form postbacks, which this GET-only reader cannot follow, and puc.nv.gov's /uploadedFiles/ newsletters are barred by its robots file. Which phase carries the form LLESA is not stated in a PUCN document read (a lead, the Nevada Conservation League's tracker, puts large-load cost responsibility in Phase 2). The form adds rate components to bundled Schedule LGS-3 / GS-3 (Wells Direct p. 109). The Companies asked for a deemed approved date of 18 September 2026 for the form (p. 7). Leads (news, not written): PUCN Staff recommended rejecting the form in its current form and opening a separate proceeding; Microsoft's rebuttal of 16 October 2026 asked for a replacement large-load tariff. Customer redlines in the same exhibit reserve positions on the 90 percent minimums and the security (Exhibit G). Clean Transition Tariff: the CTT orders of Dockets 24-05022 and 24-05023 required an exemplar CTT pricing model in an IRP, filed here as Exhibits Wells-Direct-4 and -5 (p. 126); the CTT sheets were not found (nvenergy.com CTT_North.pdf answered 404), so no CTT row. Schedule LGS-X (closed) is held in large_load_tariffs/nv_energy_nevada_power_lgs_x.yaml.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Pacific Gas and Electric Company",
+   "url": "https://apps.cpuc.ca.gov/apex/f?p=401:56:0::NO:RP,57,RIR:P5_PROCEEDING_SELECT:A2411007",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"
+  },
+  {
+   "utility": "Pacific Gas and Electric Company",
+   "url": "https://s21.q4cdn.com/673114418/files/doc_financials/2026/q3/Q3-26-Earnings-Presentation.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (the same presentation was read from sec.gov)"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "url": "https://images.edocket.azcc.gov/docketpdf/E000044076.pdf",
+   "reason": "robots.txt not readable (SSL certificate verify failed: a real hostname mismatch); not read, stays refused"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "url": "https://docket.images.azcc.gov/E000044076.pdf",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "url": "https://s22.q4cdn.com/464697698/files/doc_downloads/2025/06/Jessica-Hobbick-Direct-Testimony-2025-Rate-Case.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000764622&type=8-K",
+   "reason": "robots.txt 200: DISALLOWED (the EDGAR archive folders were read instead)"
+  },
+  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
+   "url": "https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/electric-schedules-north/CTT_North.pdf",
+   "reason": "HTTP 404 (a guessed path; the CTT sheet was not found)"
+  },
+  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
+   "url": "https://puc.nv.gov/uploadedFiles/pucnvgov/Content/About/Media_Outreach/PUCNConnection/NewsletterOctober2026.pdf",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai (the September 2026 newsletter likewise)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Southern California Edison Company",
+   "searched": "Web searches for an SCE large-load or transmission-level retail tariff, a Rule 30 equivalent, advice letters and CPUC resolutions on data center energization (2025 and 2026), and SCE or SDG&E responses in FERC EL26-71; read the CAISO's informational report of 20 July 2026 in EL26-71 (no SCE large-load rule or queue figure). Found only the CPUC's statewide rate design rulemaking opened April 2026 (a Phase C large-load rate design track, per search results, not read) and pending 2026 bills (AB 2383, SB 886) that would direct a CPUC large-load tariff; none is an SCE rule."
+  },
+  {
+   "utility": "San Diego Gas & Electric Company",
+   "searched": "Web searches for an SDG&E large-load or data center tariff, transmission-level service advice letter or proposal (2025 and 2026); the CAISO's informational report of 20 July 2026 (no SDG&E figure). Only demand flexibility rate testimony and energization reports turned up, no large-load rule."
+  }
+ ]
+}

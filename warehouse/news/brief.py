@@ -170,10 +170,19 @@ def sector_of(lead):
         # ("U.S. Refineries Make Dramatic Shift Away From Gasoline" under Power, tagged power prices, 5 November)
         if REFINING.search(str(lead.get("title") or "")):
             return "oil"
+        # session 3459 (faults file row 154): a title about the oil or gas market's balance is that fuel's ("IEA Sees Oil
+        # Surplus for First Time in Iran War" under the rest of the top ten, tagged power prices, 13 November 2026)
+        for fuel, pat in FUEL_MARKET.items():
+            if pat.search(str(lead.get("title") or "")):
+                return fuel
     return sector
 
 
 REFINING = re.compile(r"\b(?:refiner(?:y|ies|s)?|refining|gasoline|diesel(?! generat)|jet fuel)\b", re.I)   # 3335, row 120
+_BALANCE = r"(?:surplus|glut|shortage|supply|supplies|demand|market|markets|output|production|stocks|inventor(?:y|ies)|exports?|imports?)"
+FUEL_MARKET = {"oil": re.compile(rf"\b(?:oil {_BALANCE}\b|opec\b|fuels? markets?\b)", re.I),   # 3459, row 154; 3464, row 166
+               # session 3463 (row 163): "Record LNG Demand Ignites Natural Gas Forward Rally, but Will It Last?" (12 November)
+               "gas": re.compile(rf"\b(?:(?:natural )?gas (?:{_BALANCE}|forwards?|futures)|lng {_BALANCE}|lng prices?)\b", re.I)}
 
 
 def build_clusters(stories):
@@ -300,10 +309,26 @@ NO_MODEL_LINE = ("Today's headlines are the publishers' own titles, and the writ
                  "the day's model budget was reached.")
 
 
+def tail_off(title, source=""):
+    """A title with the publisher's own tail taken off ("... in Indiana - Company Announcement", "... - FT.com", "... |
+    Reuters"): a tail of one or two parts after a dash or a bar that names an address, an announcement or the outlet.
+    Session 3335 (faults file row 119) for the also line; session 3495 (row 184) for the headlines of an issue with no
+    model too."""
+    t = str(title or "")
+    outlet = outlet_name(source).lower()
+    tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", t)
+    if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
+                 or (outlet and outlet in tail.group(0).lower())):
+        return t[:tail.start()].rstrip()
+    return t
+
+
 def own_titles(clusters):
     """{cluster_id: the lead story's own title}, for an issue written without the model. Nothing is rewritten: the
-    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline."""
-    return {r["cluster_id"]: nodash(str(r["titles"][0]).strip()) for r in clusters.to_dict("records")}
+    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline, and (session
+    3495, row 184) its site tail off ("... in Indiana - Company Announcement")."""
+    return {r["cluster_id"]: tail_off(nodash(str(r["titles"][0]).strip()), (list(r.get("links") or []) or [("", "")])[0][0])
+            for r in clusters.to_dict("records")}
 
 
 def norm_headline(h):
@@ -366,7 +391,23 @@ def party_words(r):
     for p in str(r.get("parties") or "").split(";"):
         out |= {w.lower() for w in re.findall(r"\b(?:[A-Z][A-Za-z]+|[A-Z]{2,})\b", p)}
         out |= set(re.findall(r"[a-z]{4,}", p.lower()))
+        out |= {ini for pat, ini in AGENCY_INITIALS if pat.search(p)}   # session 3465, row 168
     return out - GENERIC_PARTY
+
+
+# Session 3465 (faults file row 168): an agency's long name is its initials, so "Department of Energy", "US Energy
+# Department" and "DOE" name one party; every word of the long names is generic (GENERIC_PARTY), so they named none, and
+# one DOE grid announcement printed twice in the stack's ten of 21 October ("DOE Announces $967 Million in Grid Resilience
+# Funding" and "Energy Department Announces New Investments to Strengthen America's Power Grid ...")
+AGENCY_INITIALS = [(re.compile(p, re.I), ini) for p, ini in (
+    (r"\b(?:department of energy|energy department)\b", "doe"),
+    (r"\benvironmental protection agency\b", "epa"),
+    (r"\bfederal energy regulatory commission\b", "ferc"),
+    (r"\bnuclear regulatory commission\b", "nrc"),
+    (r"\benergy information administration\b", "eia"),
+    (r"\binternational energy agency\b", "iea"),
+    (r"\b(?:department of the interior|interior department)\b", "doi"),
+    (r"\bbureau of ocean energy management\b", "boem"))]
 
 
 def same_event(a, b):
@@ -549,10 +590,24 @@ OUTLET_NAMES = {"California State Portal | CA.gov": "CA.gov", "IEA - Internation
                 "ft.com": "Financial Times", "wsj.com": "WSJ"}   # session 3352 (rows 133, 134): the paper's name, as its other links give it
 
 
+# Session 3478 (faults file row 176): an outlet the feed names by its address is named as its other links name it
+# ("[bloomberg.com]" beside "[Bloomberg.com]", the stack's 28 September), a subdomain by its domain ("ep.ft.com",
+# "partners.wsj.com", "lei.bloomberg.com")
+DOMAIN_NAMES = {"bloomberg.com": "Bloomberg.com", "ft.com": "Financial Times", "wsj.com": "WSJ", "reuters.com": "Reuters",
+                "hartenergy.com": "Hart Energy", "hydrogeninsight.com": "Hydrogen Insight", "jpt.spe.org": "JPT",
+                "nyiso.com": "NYISO", "caiso.com": "CAISO", "ercot.com": "ERCOT", "misoenergy.org": "MISO", "cpuc.ca.gov": "CPUC"}
+
+
 def outlet_name(src):
     s = str(src or "").strip()
     if s in OUTLET_NAMES:
         return OUTLET_NAMES[s]
+    if re.fullmatch(r"[a-z0-9-]+(?:\.[a-z0-9-]+)+", s):   # session 3478 (row 176): an address, then its domains, longest first
+        parts = s.split(".")
+        for k in range(len(parts) - 1):
+            name = DOMAIN_NAMES.get(".".join(parts[k:]))
+            if name:
+                return name
     return re.sub(r"\s+Home ?page$", "", s, flags=re.I) or s
 
 
@@ -612,6 +667,10 @@ def an_word(word):
     """Whether a word takes 'an': a vowel sound, by its spelling, with the common exceptions ('a utility', 'a one-off',
     'an hour', 'an 8 GW')."""
     w = str(word).lower()
+    # session 3477 (faults file row 175): a word in capitals said letter by letter from "U" ("you") takes "a": "a major US
+    # LNG project" lost its adjective and printed "an US LNG project" (the stack's 28 September)
+    if re.fullmatch(r"U[A-Z.]+", str(word)):
+        return False
     if re.match(r"(uni|use|usu|uti|ura|eu|one|once|ubi)", w):
         return False
     if re.match(r"(hour|honest|honor|honour|heir|8|11\b|18\b|80)", w):
@@ -625,7 +684,9 @@ def an_word(word):
 WHY_ADJECTIVES = ("massive", "unprecedented", "significant", "major", "critical", "key", "huge")
 # Session 2206: unprecedented, critical and key join the list. "key" and "critical" are also plain words of the trade
 # ("the key to", "critical minerals"): TERM says where they stand, and plain() leaves those.
-HYPE = r"(?:major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
+# Session 3457 (faults file row 153): "an oil major" is a company, not an adjective; "Major oil major commits significant
+# capital ..." printed "Oil commits capital ..." on 13 November 2026. "major" after "oil", "gas" or "energy" stays.
+HYPE = r"(?:(?<!oil )(?<!gas )(?<!energy )major|massive|significant|significantly|huge|unprecedented|critical|critically|key)"
 # Session 1437 (chain 149, faults 7 to 11 of docs/reviews/periodicals-faults-2026-11-05.md): a verb that asserts nothing
 # in place of a fact ("capacity expansion signals rising demand"), and a line whose content words are the headline's
 # (half or more of them: "Major oil company nearing deal to invest in Venezuela's oil fields" under "Exxon nears
@@ -725,13 +786,47 @@ def why_check(text, head=""):
 # (as plain() takes an adjective out) and why_check names it in a raw line.
 SCALE_WORD = re.compile(r"\b(?:multi-?)?(?:gigawatt|GW)[- ]scale\s*", re.I)
 HEAD_MW = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?(MW|GW)\b", re.I)
+# Session 3460 (faults file row 158): one capacity in two units ("AirTrunk commits to purchasing 1GW ..." under "AirTrunk
+# signs 1,000 MW energy deal ...", 13 November 2026) is one figure: the rule of no figure the headline gives read it as two
+CAPACITY = re.compile(r"(?<![\w.,])(\d[\d,]*(?:\.\d+)?)[\s-]?(MW|GW)\b", re.I)   # 3496, row 185: "3.6-GW" too
 
 
-def scale_against(text, head):
+def capacity_mw(number, unit):
+    """A capacity in MW, rounded to a thousandth: ('1', 'GW') is 1000.0, ('1,200', 'MW') is 1200.0."""
+    return round(float(str(number).replace(",", "")) * (1000 if str(unit).upper() == "GW" else 1), 3)
+
+
+def capacities_mw(text):
+    """The capacities a text states, in MW (CAPACITY)."""
+    return {capacity_mw(n, u) for n, u in CAPACITY.findall(str(text or ""))}
+
+
+def head_units(t, head):
+    """t with each capacity the headline states in the other unit written as the headline writes it ("1GW" as "1,000 MW"
+    under a headline's "1,000 MW"), so the figure check and without_figures read one figure (row 158)."""
+    forms = {}
+    for m in CAPACITY.finditer(str(head or "")):
+        forms.setdefault(capacity_mw(m.group(1), m.group(2)), (m.group(0), m.group(2).upper()))
+    if not forms:
+        return t
+
+    def one(m):
+        form = forms.get(capacity_mw(m.group(1), m.group(2)))
+        return form[0] if form and form[1] != m.group(2).upper() else m.group(0)
+    return CAPACITY.sub(one, str(t))
+
+
+def scale_against(text, head, mw=None):
     """The scale word of a line ("gigawatt-scale") when every capacity the headline states is under 1,000 MW; "" when the
-    line has none, or the headline states no capacity or one of a gigawatt or more."""
+    line has none, or the headline states no capacity or one of a gigawatt or more. Session 3465 (faults file row 169):
+    the cluster's own scored MW (`mw`) counts as one, since a publisher's title (the issue with no model) often states none
+    ("Gigawatt-scale ..." under "AEP, Google Advance $4 Billion Fuel-Cell Project ...", a 702 MW project)."""
     m = SCALE_WORD.search(str(text or ""))
     caps = [float(v.replace(",", "")) * (1000 if u.upper() == "GW" else 1) for v, u in HEAD_MW.findall(str(head or ""))]
+    try:
+        caps += [float(mw)] if mw not in (None, "") and float(mw) > 0 else []
+    except (TypeError, ValueError):
+        pass
     if not m or not caps or max(caps) >= 1000:
         return ""
     return m.group(0).strip().lower()
@@ -862,6 +957,10 @@ def without_figures(t, head):
         m = pat.search(t)
         if not m or not re.search(r"(?:^|\s)" + BEFORE_FIGURE + r"\s*$", t[:m.start()], re.I):
             return ""
+        # session 3493 (faults file row 183): a figure after a quantity's words cannot go and leave a sentence ("DOE says
+        # it intends to lend up to so Constellation can ...", the stack's W44; "worth about to the seller")
+        if re.search(r"\b(?:about|over|nearly|some|around|up to|more than|at least|almost|roughly)\s*$", t[:m.start()], re.I):
+            return ""
         t = (t[:m.start()] + t[m.end():]).replace("  ", " ")
         t = fix_article(re.sub(r"\s+([,;:.])", r"\1", t).strip(" ,;:"))
     words = re.findall(r"[A-Za-z]+", t)
@@ -870,7 +969,7 @@ def without_figures(t, head):
     return t[0].upper() + t[1:]
 
 
-def why_line(text, head=""):
+def why_line(text, head="", mw=None):
     """Session 577 (digest audit fixes 8 and 9, as session 470 left them): the scorer's reason as an issue prints it: the
     adjectives docs/voice.md cuts taken out (plain), each sum of money in the one style (money_style: the "$3.2bn" and
     "$45 Billion" of the why lines, not only the price field), and a stop at its end, so the figures or the links that
@@ -880,7 +979,9 @@ def why_line(text, head=""):
     short, is replaced by the headline's own clause (why_fallback), never by an invented fact."""
     t = money_style(plain(text)).strip()
     t = HOLLOW_TAIL.sub("", t)   # session 1462: a trailing ", signaling ..." clause is cut, its fact kept
-    if head and scale_against(t, head):   # session 1466 (fault 44): the scale word goes, as an adjective does
+    if head:   # session 3460 (row 158): the headline's capacity in the other unit is the headline's figure
+        t = head_units(t, head)
+    if head and scale_against(t, head, mw):   # session 1466 (fault 44); 3465 (row 169): with the cluster's MW
         t = SCALE_WORD.sub("", t, count=1).strip()
         t = t[:1].upper() + t[1:]
     # "an $800MM loan" was right as written; as "USD 800 million" the article follows the code as it is said
@@ -907,16 +1008,25 @@ def why_line(text, head=""):
     return t
 
 
-def detail(r, head=""):
+# Session 3459 (faults file row 156): a scored sum with no unit ("2.6 billion": of what currency?) or no figure at all
+# ("millions") is no figure a reader can use; detail() leaves it out
+UNITLESS = re.compile(r"^\s*[~≈]?\s*(?:about |around |nearly |over |up to )?\d[\d,]*(?:\.\d+)?\s*(?:billion|million|trillion|thousand|bn|mn|m|b|k)?\s*$", re.I)
+
+
+def detail(r, head="", why=""):
     """The figures line after the why line: the MW, the price and the parties of the cluster's scored fields. Session 801:
     a MW or a price whose figure the printed headline already gives is not printed again ("Anthropic may spend $750 Billion
-    ... $750 Billion; parties: Anthropic", 21 October, top 1)."""
+    ... $750 Billion; parties: Anthropic", 21 October, top 1). Session 3459 (faults file rows 155 and 156): nor one the
+    printed why line gives ("... from USD 118 to below USD 95 per barrel ... USD 118 per barrel.", 13 November, with no
+    model), nor a sum with no unit ("2.6 billion")."""
     bits = []
-    hf = figures_of(head)
-    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf:
+    hf = figures_of(head) | figures_of(why)
+    given_mw = capacities_mw(f"{head} {why}")   # 3460, row 158: "1GW" in the headline gives the scored 1,000 MW
+    if r["mw"] and not figures_of(f"{float(r['mw']):,.0f}") & hf and round(float(r["mw"]), 3) not in given_mw:
         bits.append(f"{float(r['mw']):,.0f} MW")
-    if r["price"] and not (figures_of(r["price"]) and figures_of(r["price"]) <= hf):
-        bits.append(money_style(r["price"]))  # session 470
+    price = money_style(r["price"]) if r["price"] else ""
+    if price and figures_of(price) and not UNITLESS.match(price) and not figures_of(price) <= hf:
+        bits.append(price)  # session 470
     if r["parties"] and bits:
         # kept as written beside a figure: the Roundup reads the parties of a stored issue's item here (roundup.ISSUE_FIELDS)
         bits.append("Parties: " + r["parties"])   # session 3350 (row 130): a label in capitals; the Roundup reads either case
@@ -925,7 +1035,10 @@ def detail(r, head=""):
         # Repsol." under "Repsol takes final investment decision ..."), and the others read as a sentence
         rest = [p.strip() for p in str(r["parties"]).split(";") if p.strip() and not party_in_head(p.strip(), head)]
         return f"Also named: {', '.join(rest)}. " if rest else ""
-    return ("; ".join(bits) + ". ") if bits else ""
+    line = "; ".join(bits)
+    # session 3464 (faults file row 167): the line follows a sentence, so it opens with a capital ("... projects. nearly USD 1
+    # billion; Parties: ..." on the stack's 21 October)
+    return (line[:1].upper() + line[1:] + ". ") if bits else ""
 
 
 COMMON_FIRST = {"united", "the", "new", "north", "south", "west", "east", "great", "federal", "national", "state",
@@ -1068,6 +1181,40 @@ def rt_label(iso, variable):
     return f"{name}'s real-time price"
 
 
+# Session 1895 (faults file row 71, the Roundup's line) and session 3457 (row 152, the Digest's): the zone a grid's local
+# time is written in, the interval's length in words, and the Tables line's words for the highest real-time price's
+# variable (lib/digest.ts, scripts/check_roundup.py and site/scripts/check-values.mjs read it there). Moved here from
+# roundup.py, which keeps its names for them.
+ZONE_WORDS = {"America/Chicago": "Central", "America/New_York": "Eastern", "America/Los_Angeles": "Pacific",
+              "America/Denver": "Mountain", "America/Phoenix": "Arizona", "EST": "Eastern Standard"}
+RT_VARIABLE_DAY = "; yesterday's highest real-time price is variable `"
+
+
+def interval_words(freq):
+    """'PT15M' as 'a 15-minute interval', 'PT1H' as 'an hourly interval', 'PT5M' as 'a 5-minute interval'."""
+    f = str(freq or "")
+    m = re.fullmatch(r"PT(\d+)M", f)
+    if m:
+        return f"a {m.group(1)}-minute interval"
+    if f == "PT1H":
+        return "an hourly interval"
+    return f"an interval of {f}" if f else "an interval of unstated length"
+
+
+def rt_when(ts, tz):
+    """Row 71: an interval's start in the grid's zone and in UTC, "2026-11-03 17:45 Central (23:45 UTC)", the UTC date
+    written only when it is not the local one ("2026-11-03 19:00 Central (2026-11-04 01:00 UTC)"); a grid with no zone
+    held is written in UTC alone ("2026-11-03 23:45 UTC")."""
+    ts = pd.Timestamp(ts)
+    ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts.tz_convert("UTC")
+    zone = ZONE_WORDS.get(tz)
+    if not zone:
+        return f"{ts:%Y-%m-%d %H:%M} UTC"
+    loc = ts.tz_convert(tz)
+    utc = f"{ts:%H:%M}" if loc.date() == ts.date() else f"{ts:%Y-%m-%d %H:%M}"
+    return f"{loc:%Y-%m-%d %H:%M} {zone} ({utc} UTC)"
+
+
 def cite_short(table):
     """The footnote's words for a table: its name and its source reports. Session 804: a table this machine does not hold
     (the section already says "not in the warehouse" for its figures) is named alone, so the footnotes never stop the
@@ -1104,6 +1251,15 @@ CRUDE_MOVE = re.compile(r"\b(?:oil|crude)(?: prices?| futures)? (?:settles?|sett
 
 FOREIGN_GAS = re.compile(r"\b(?:euros?|eu|europe|european|ttf|dutch|asia|asian|jkm|japan|korea|china|uk|british|nbp|germany|"
                          r"german)\b")   # session 3334, row 115
+# session 3492 (faults file row 182): a North American hub other than Henry Hub is another market too ("Permian Basin
+# takeaway capacity tightness could pressure Waha benchmark prices ...", given for Henry Hub's W44 fall once row 181 passed
+# over the story before it)
+OTHER_HUB = re.compile(r"\b(?:waha|aeco|socal|algonquin|dominion south|transco|katy|el paso|sumas|malin|chicago citygate|"
+                       r"tetco|houston ship channel|eastern gas south)\b"
+                       # and a region's own prices ("Eastern Natural Gas Prices Roar Back, Claim Lion's Share of Gains",
+                       # the next story given for the same fall)
+                       r"|\b(?:eastern|western|northeast(?:ern)?|southeast(?:ern)?|appalachian|rockies|regional|west coast|"
+                       r"midwest(?:ern)?|permian|canadian|california)\s+(?:natural\s+)?gas\s+(?:prices?|markets?)\b")
 
 
 def names_price(label, text):
@@ -1111,7 +1267,7 @@ def names_price(label, text):
     words = PRICE_WORDS.get(label) or PRICE_WORDS.get(label.split(" ")[0]) or ()
     # session 3334 (faults file row 115): a story of another gas market names no move of Henry Hub's ("Natural gas prices
     # hit 100 euros per MWh as EU confronts refinery closures", W44, given as the reason for Henry Hub's 12.9% fall)
-    if label == "Henry Hub natural gas" and "henry hub" not in text and FOREIGN_GAS.search(text):
+    if label == "Henry Hub natural gas" and "henry hub" not in text and (FOREIGN_GAS.search(text) or OTHER_HUB.search(text)):
         return False
     if any(w in text for w in words):
         return True
@@ -1134,7 +1290,9 @@ RISE_WORDS = re.compile(r"\b(?:rise|rises|rose|rising|higher|jumps?|jumped|surge
                         r"supports?|supported|lifts?|lifted|boosts?|boosted|rebounds?|rebounded)\b")   # 3334: W44's "support"
 FALL_WORDS = re.compile(r"\b(?:fall|falls|fell|falling|lower|drops?|dropped|slumps?|slumped|tumbles?|tumbled|slides?|slid|"
                         r"sinks?|sank|plunges?|plunged|declines?|declined|slips?|slipped|"
-                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated)\b")
+                        r"weighs?|weighed|pressures?|pressured|routs?|retreats?|retreated|"
+                        # session 3492 (row 181): "... are easing crude prices" is a fall (7 October's WTI reason)
+                        r"eases?|eased|easing)\b")
 
 
 def agrees(text, pct):
@@ -1296,8 +1454,32 @@ def price_reason(label, clusters, pct=None, day=None):
             # contradicts the close it would explain (WTI at 108.21 the same week); the next naming story is tried
             if MONEY.search(why):
                 continue
+            # session 3492 (faults file row 181): the printed line itself must not speak of the other direction. The title
+            # and line together passed row 104 ("Natural Gas Bulls Find a Pulse Beneath the Pressure", a fall word) while
+            # the line printed "... support natural gas prices ..." beside Henry Hub's fall of 12.9% (the stack's W44)
+            if not agrees(f" {why} ".lower(), pct):
+                continue
             return f" Reason, from the day's stories: {why} ({link_text(list(r.get('links') or [])[:1])})"
     return ""
+
+
+def held_from(day):
+    """The first day of US48 demand the hourly table holds (a fetch of the 400 days to `day`), or None."""
+    try:
+        df = erw.fetch("eia930_all_demand", start=day - pd.Timedelta(days=400), end=day + pd.Timedelta(days=1), ba="us48")
+    except Exception:
+        return None
+    df = df[df["variable"] == "demand_mw"] if "variable" in df else df
+    return None if df.empty else pd.Timestamp(df["ts_utc"].min()).tz_convert("UTC").normalize()
+
+
+def not_held_why(week, first):
+    """Session 3461 (faults file row 159): why the year before and the week before are not held. The year before is
+    always before the hourly table's window; the week before can be a day inside it that the table holds no hour of (13
+    November 2026: 5 to 8 November, the machines' pause), which "the window does not reach them" called the window's."""
+    if first is None or week < first:
+        return "the hourly table's window does not reach them"
+    return f"the hourly table starts on {first:%Y-%m-%d} and holds no hour of {week:%Y-%m-%d}"
 
 
 def demand_lines(digest_date, log, notes, store=None):
@@ -1344,7 +1526,7 @@ def demand_lines(digest_date, log, notes, store=None):
             old = None
         if old is None:
             out[-1] += (f"the same weekday a year before ({before:%Y-%m-%d}) and a week before ({week:%Y-%m-%d}) are not held: "
-                        "the hourly table's window does not reach them.")
+                        f"{not_held_why(week, held_from(day))}.")
             return out
         span, before = "week", week
         if store is not None:
@@ -1449,11 +1631,15 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     lines += ["", "**Highest real-time price, yesterday:** "]
     if best:
         top, table, tz, iso = best
-        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), "
-                      f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
-                      f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`, {rt_label(iso, top['variable'])}"
-                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "
-                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
+        # session 3457 (faults file row 152): row 71's fix of the Roundup's line, for the Digest's. The interval in the
+        # grid's zone and in UTC, its length in words; the source id ("spp_rtm", read as SPP in an ERCOT line) and the
+        # interval code ("PT15M") on the Tables line, where lib/digest.ts reads the variable for the figure's key
+        the_interval = re.sub(r"^an? ", "the ", interval_words(top.get("freq", "")))
+        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), {the_interval} starting "
+                      f"{rt_when(top['ts_utc'], tz)} "
+                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables) + RT_VARIABLE_DAY + top['variable'] + '`')}, "
+                      f"{rt_label(iso, top['variable'])}"
+                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
     if held_parts:
@@ -1517,7 +1703,19 @@ def numbers_today(digest_date, log, clusters=None, facts=None, now=None):
     return lines + notes.lines()
 
 
-def policy_actions_lines(start, end, log, n=3):
+def printed_links(paths):
+    """Session 3463 (faults file row 164): every link the issues at `paths` printed."""
+    out = set()
+    for p in paths:
+        try:
+            with open(p, encoding="utf-8") as f:
+                out |= set(LINK_RE.findall(f.read()))
+        except OSError:
+            continue
+    return out
+
+
+def policy_actions_lines(start, end, log, n=3, printed=None):
     """Session 24: the policy actions of the window (policy_actions: the Federal Register and agency news) scored 5 or
     more with the news rubric, most significant first, as the Policy group's last lines. The title is the agency's own."""
     path = os.path.join(ip.OUT_DIR, "policy_actions.csv")
@@ -1530,6 +1728,11 @@ def policy_actions_lines(start, end, log, n=3):
     d = pd.to_datetime(a["event_date"], utc=True, format="ISO8601")
     # the actions are dated by day: the window's days, from the day it starts
     a = a[(d >= start.normalize()) & (d < end) & (a["significance"] != "")]
+    # session 3463 (faults file row 164): a window opens at the last issue's end, but the actions are dated by day, so an
+    # action of that day was in both issues (Long Mott's construction permit, 12 and 13 November 2026); an action whose
+    # link an earlier issue printed is left out, as a story is (`printed`: those issues' links)
+    if printed:
+        a = a[~a["source_url"].isin(printed)]
     a = a[a["significance"].astype(int) >= 5].assign(sig=lambda x: x["significance"].astype(int))
     a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
     kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
@@ -1702,13 +1905,29 @@ ALSO_LABEL = "Also on this topic:"
 # topic ("Also on this topic: Lambda to develop four-building data center campus in Lowndes County, Alabama" under AEP and
 # Google's Wyoming fuel cells, the dry run of 6 November); it is said to be of the sector. Either label opens the line.
 ALSO_SECTOR = "Also in {sector}:"
-ALSO_RE = re.compile(r"^Also (?:on this topic|in [a-z][a-z ]*):")
+ALSO_NOUN = {"deal": "deals", "company": "companies", "ppa": "PPAs"}   # session 3465, row 170
+ALSO_RE = re.compile(r"^Also (?:on this topic|in [A-Za-z][A-Za-z ]*):")   # 3465, row 170: "Also in LNG:", "Also in PPAs:" too
 
 
 def region_key(r):
     """A cluster's region as the topic key reads it: the scorer's region (a US state, a country, or "global"), lower case;
-    "" when the scorer gave none."""
-    return re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    "" when the scorer gave none. Session 3479 (row 177): the country's other names are "us"."""
+    k = re.sub(r"\s+", " ", str(r.get("region") or "").strip().lower())
+    return "us" if k in US_NAMES else k
+
+
+# Session 3479 (faults file row 177): the scorer names the country three ways ("US" 5,172 stored stories, "United States"
+# 794, "USA" 106); the block printed each as written ("Generation capacity, United States", "Storage dispatched, USA") and
+# the topic key read them as three regions
+US_NAMES = {"us", "u.s.", "u.s", "usa", "u.s.a.", "united states", "united states of america"}
+
+
+def region_words(region):
+    """A region as the issue prints it: the country's other names as "US"; "" for none or "global"."""
+    r = str(region or "").strip()
+    if not r or r.lower() == "global":
+        return ""
+    return "US" if r.lower() in US_NAMES else r
 
 
 # Session 1438 (chain 149, fault 12): a price story's topic is its commodity, whatever region the scorer gave. On
@@ -1828,17 +2047,16 @@ def also_line(recs):
         title = money_style(nodash(x["title"]).strip())
         # session 3335 (faults file row 119): the publisher's own tail ("... Projects - Company Announcement - FT.com")
         # goes, as why_fallback takes it off: the outlet is named in the brackets after it
-        outlet = outlet_name((x.get("links") or [("", "")])[0][0]).lower()
-        tail = re.search(r"(?:\s+[-|]\s+[\w.&' ]{1,40}){1,2}$", title)
-        if tail and (".com" in tail.group(0).lower() or "announcement" in tail.group(0).lower()
-                     or (outlet and outlet in tail.group(0).lower())):
-            title = title[:tail.start()].rstrip()
+        title = tail_off(title, (x.get("links") or [("", "")])[0][0])
         return f"{title.rstrip('.')} ({link_text(x['links'])})" if x.get("links") else title
     topic = [part(x) for x in recs if x.get("kind") != "sector"]
     sector = [x for x in recs if x.get("kind") == "sector"]
     out = [f"{ALSO_LABEL} " + "; ".join(topic) + "."] if topic else []
     if sector:
-        label = ALSO_SECTOR.format(sector=sector_words(sector[0].get("sector")) or "this sector")
+        # session 3465 (faults file row 170): a sector named by a count noun reads as its plural ("Also in deals:", not "Also
+        # in deal:", the stack's 6 November)
+        s = str(sector[0].get("sector") or "")
+        label = ALSO_SECTOR.format(sector=ALSO_NOUN.get(s) or sector_words(s) or "this sector")
         out.append(f"{label} " + "; ".join(part(x) for x in sector) + ".")
     return " ".join(out)
 
@@ -1847,7 +2065,7 @@ def sector_line(r, head):
     """Session 1467 (chain 150, fault 46): a by-sector or AI and power line: "- headline (sector): why [Outlet](url)", or,
     when the story has no why line that passes the check, "- headline (sector). [Outlet](url)": no colon that introduces
     nothing (the dry run of 6 November: "... plans coal use to 2038 (generation): [Utility Dive](...)")."""
-    why = why_line(r["why"], head)
+    why = why_line(r["why"], head, r.get("mw"))   # 3465, row 169
     link = link_text(r["links"][:1])
     lead = f"- {head} ({sector_words(r['sector'])})"
     if why:
@@ -2358,8 +2576,8 @@ def story_row(label, recs, sectors, heads, skip_id, what, order, notes=None):
                 noun = "Spending committed"
             elif not RAISED.search(text):
                 noun = "Capital"
-        region = str(r.get("region") or "").strip()
-        place = f", {region}" if region and region.lower() != "global" else ""
+        region = region_words(r.get("region"))   # 3479, row 177
+        place = f", {region}" if region else ""
         ref = f" {notes.ref('news_stories')}" if notes is not None else ""
         who, outlet = story_who(r), outlet_of(r)
         # session 3332 (faults file row 111): with no party, story_who is the outlet: "(Rigzone; Rigzone, ...)" said it twice
@@ -2468,10 +2686,26 @@ def lift_count(words, n0, n_recs):
     return n
 
 
-def no_chart_lines(facts, n=3):
-    """When no valid chart can be built: the issue says no chart is shown, and a small table of the day's largest moves
+# Session 3461 (faults file row 160): why the day's chart section is empty, as daily_chart.section left it ("none": no
+# candidate passed its rules; "error": a chart was chosen and could not be written), read by no_chart_lines
+NO_CHART_WHY = {"none": "no candidate passed the chart's rules", "error": "the chart chosen by its rules could not be drawn"}
+
+
+def chart_omitted():
+    """"none" or "error": why daily_chart.section gave nothing (its OMITTED), "error" when it raised before saying."""
+    try:
+        import daily_chart
+        return getattr(daily_chart, "OMITTED", "") or "error"
+    except Exception:
+        return "error"
+
+
+def no_chart_lines(facts, n=3, why="none"):
+    """When no valid chart can be built: the issue says no chart is shown, and why in words a reader can check (session
+    3461, row 160: "(the run log says why)" pointed to a log no reader sees, and on 13 November 2026 "no candidate passed
+    the chart's rules" was said of a chart that failed to be written), and a small table of the day's largest moves
     (numbers_today's candidates, at most n) stands in its place."""
-    L = ["", "## ERW's Chart of the Day", "", "No chart is shown today: no candidate passed the chart's rules (the run log says why)."]
+    L = ["", "## ERW's Chart of the Day", "", f"No chart is shown today: {NO_CHART_WHY.get(why, NO_CHART_WHY['error'])}."]
     cands = [c for c in facts.get("cands", []) if c.get("pct") is not None][:n]
     if cands:
         L += ["", "| Measure | Value | Change | Period | Table |", "|---|---|---|---|---|"]
@@ -2595,7 +2829,7 @@ def main(argv=None):
                     seen.add(r["cluster_id"])
                     pool.append(r)
         L += numbers_block(facts, op, pool, heads)
-        policy_lines = policy_actions_lines(start, now, log)
+        policy_lines = policy_actions_lines(start, now, log, printed=printed_links(earlier_issues(digest_date)))   # 3463, row 164
 
         def middle(n_moved):
             """What moved with n_moved stories, then the fold: the rest of the top ten, the sectors, AI and power, the
@@ -2603,15 +2837,16 @@ def main(argv=None):
             M = ["## What moved", ""]
             for i, r in enumerate(recs[:n_moved], 1):
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']]), limitation(r)) if x),
+                                " ".join(x for x in (why_line(r['why'], heads[r['cluster_id']], r.get('mw')), limitation(r)) if x),
                                 f"Sources: {link_text(r['links'])}")
             # rulings items 5 and 14: the rest folds under "More", not cut
             M += ["", FOLD_HEADING, "", "### The rest of the top ten", ""]
             if len(recs) <= n_moved:
                 M.append("- no further story in the top ten today")
             for i, r in enumerate(recs[n_moved:], n_moved + 1):
+                w = why_line(r['why'], heads[r['cluster_id']], r.get('mw'))
                 M += item_lines(r, f"{i}. **{heads[r['cluster_id']]}** ({sector_words(r['sector'])})  ",
-                                (why_line(r['why'], heads[r['cluster_id']]) + " " + detail(r, heads[r['cluster_id']])).strip(),
+                                (w + " " + detail(r, heads[r['cluster_id']], why=w)).strip(),   # 3459, row 155
                                 f"Sources: {link_text(r['links'])}")
             M += ["", "### By sector", ""]
             for g, c in by_group.items():
@@ -2633,7 +2868,7 @@ def main(argv=None):
             return M
 
         # session 232: the chart of the day, chosen and drawn by code; omitted, with the reason logged, when there is none
-        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts)   # 805; 2703: the stand-in
+        tail = daily_chart_section(digest_date, log, args.out, stories=recs) or no_chart_lines(facts, why=chart_omitted())   # 805; 2703; 3461
         # session 23: the Fun fact, last; re-verified from its stored sources, omitted if it fails
         tail += fun_fact_section(digest_date, log)
         # session 21: the method is on /about#digest; the generation record stays in the file, not on the page

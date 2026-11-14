@@ -1,0 +1,1432 @@
+{
+ "group": "northeast",
+ "rows": [
+  {
+   "utility": "Public Service Electric and Gas Company; Jersey Central Power & Light Company; Atlantic City Electric Company; Rockland Electric Company (New Jersey's electric public utilities)",
+   "state": "NJ",
+   "iso_region": "PJM",
+   "rule_name": "Data Center Fair Share Act (P.L. 2026, c.32): large data center rate class and tariff each electric public utility must file under BPU standards (BPU Docket No. EO26080463)",
+   "source_url": "https://pub.njleg.gov/Bills/2026/AL26/32_.HTM",
+   "source_title": "P.L. 2026, Chapter 32 (Assembly No. 796, Fourth Reprint), approved July 7, 2026, C.48:7-6.2, as the New Jersey Legislature publishes it",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Section 1c",
+    "quote": "each electric public utility shall file a petition with the board for approval of a rate class and tariff for the provision of electricity to large data center customers."
+   },
+   "docket": {
+    "value": "BPU Docket No. EO26080463 (In the Matter of the Implementation of the Data Center Fair Share Act)",
+    "cites": [
+     {
+      "url": "https://www.nj.gov/bpu/pdf/publicnotice/Webposting-Notice-EO26080463-%20Data%20Center%20Fair%20Share%20Act%20RFI.pdf",
+      "page": "1",
+      "quote": "Docket No. EO26080463",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.nj.gov/bpu/pdf/publicnotice/Webposting-Notice-EO26080463-%20Data%20Center%20Fair%20Share%20Act%20RFI.pdf",
+      "page": "1",
+      "quote": "This RFI is issued pursuant to the signing of P.L. 2026, c.32, also known as the Data Center Fair Share Act, into Law.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07-07",
+    "cites": [
+     {
+      "page": "1",
+      "section": "heading",
+      "quote": "P.L. 2026, CHAPTER 32, approved July 7, 2026"
+     },
+     {
+      "page": "1",
+      "section": "Section 2",
+      "quote": "This act shall take effect immediately."
+     },
+     {
+      "page": "1",
+      "section": "Section 1b",
+      "quote": "No later than 12 months after the effective date of this section, the Board of Public Utilities shall establish, by order for every electric public utility, standards for the provision of electricity to large data center customers by electric public utilities."
+     },
+     {
+      "page": "1",
+      "section": "Section 1c",
+      "quote": "No later than 180 days after the board issues an order establishing standards for the provision of electricity to large data center customers"
+     },
+     {
+      "url": "https://www.nj.gov/bpu/pdf/publicnotice/Webposting-Notice-EO26080463-%20Data%20Center%20Fair%20Share%20Act%20RFI.pdf",
+      "page": "2",
+      "quote": "The deadline for responses on this matter is 5 p.m. on November 13, 2026.",
+      "date_read": "2026-11-13"
+     }
+    ],
+    "note": "The statute is in effect. The BPU's standards order (due within 12 months of enactment) and each utility's tariff petition (due within 180 days of that order) are not yet issued or filed; BPU Staff's Request for Information took responses to 13 November 2026."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "set by the BPU for each utility at not greater than 50 MW; data centers under common ownership or control, on the same or contiguous sites, or sharing substantial infrastructure are aggregated and treated as one large data center",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1b(1)",
+       "quote": "minimum megawatt size designation, which shall not be greater than 50 megawatts."
+      },
+      {
+       "page": "1",
+       "section": "Section 1b(1)",
+       "quote": "the board shall aggregate the peak monthly"
+      },
+      {
+       "url": "https://www.nj.gov/bpu/pdf/publicnotice/Data_Center_Fair_Share_Act_Stakeholder_Meeting_PPT_FINAL_11042026.pdf",
+       "page": "5",
+       "quote": "The Board will define large data centers, with thresholds no greater than 50 MW and aggregation of related facilities.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "adequate financial guarantees that the large data center customer will pay for at least 85 percent of the electricity supply it requests, for 10 years from when service commences, or as otherwise determined in the BPU's standards",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(1)",
+       "quote": "data center customer provides adequate financial guarantees that it will pay for at least 85 percent of the ... it requests for a period of 10 years from when service commences or as otherwise determined in the board"
+      },
+      {
+       "url": "https://www.nj.gov/bpu/pdf/publicnotice/Data_Center_Fair_Share_Act_Stakeholder_Meeting_PPT_FINAL_11042026.pdf",
+       "page": "5",
+       "quote": "Large data centers must guarantee payment for at least 85% of requested electricity supply for 10 years, or as otherwise determined by Board standards.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "10-year period from when service commences for the 85 percent payment guarantee and the security (or as otherwise determined in the BPU's standards); no contract term otherwise printed",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(1)",
+       "quote": "it requests for a period of 10 years from when service commences or as otherwise determined in the board"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "deposits, financial security or, for large data center customers with sufficiently high credit ratings, financial commitments, in forms the BPU approves, sufficient to protect ratepayers against a material rate increase should the customer cease operations or take less service than anticipated over the 10-year period",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(2)",
+       "quote": "provide for the posting of deposits, financial security, or, for ... center customers with sufficiently high credit ratings, financial commitments, in respective forms approved by the board, sufficient to protect ratepayers against a material increase in rates should the large data center customer cease operations or take less service than anticipated over the 10-year period"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "no exit fee printed; the BPU may approve a stranded cost recovery mechanism applicable only to the large data center customer class, for costs not covered by the deposits, security or commitments",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(2)",
+       "quote": "authorize the board to approve a stranded cost recovery mechanism applicable exclusively to the large data center customer class to recover any costs not otherwise covered by the deposits, financial security, or financial commitments"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "P.L. 2026, c.32 (Section 1d(8) requires new large data center customers to pay the reasonable costs of interconnection, system impact and facilities studies, with no duration); BPU RFI and stakeholder slides in EO26080463"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "P.L. 2026, c.32; BPU RFI and stakeholder slides in EO26080463: no time to energize printed (the tariffs are not yet filed)"
+    },
+    "queue_size": {
+     "value": "see row: PSE&G data center SmartConnect agreements: Capacity Review, Feasibility Analysis Review Agreement (FAR), Transmission Extension Agreement (TEA), and Electric Service Obligation / Refunding Agreement at 26 kV"
+    }
+   },
+   "license": "public",
+   "license_basis": "the session law on the New Jersey Legislature's site (pub.njleg.gov, robots allow it) and the BPU's own notice and stakeholder slides (nj.gov/bpu, robots allow it)",
+   "erw_overlap": "none",
+   "notes": "A statewide rule binding each New Jersey electric public utility's future large data center tariff (the Maryland and Pennsylvania model rows are alike). The enacted text is Section 1 as numbered 31 in the Fourth Reprint; the bracketed, deleted Section 1 of earlier reprints (100 MW, 85 percent for not less than 10 years) is not the law and is not quoted. Existing service: a large data center approved by a utility before the act's effective date is exempt from paragraphs (1), (2) and (8) of subsection d (the 85 percent guarantee, the security, the study costs) for the approved megawatts only (Section 1g). Other required tariff terms: demand flexibility commitments, priority curtailment before residential customers in system emergencies, disclosure of similar requests pending at other utilities (Section 1b(11) and (12), 1d(5)). BPU stakeholder meeting held 4 November 2026 (the slides). Queue: PSE&G's pipeline is on its own row; no Jersey Central Power & Light, Atlantic City Electric or Rockland Electric pipeline was found in the documents read (FirstEnergy's site terms bar reuse, siting-gaps; Exelon's terms bar automated access, pjm_east group; neither read). A lead not read: P.L.2025, c.98, a BPU study of data centers' effect on rates (search result only).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Service Electric and Gas Company (PSE&G)",
+   "state": "NJ",
+   "iso_region": "PJM",
+   "rule_name": "PSE&G data center SmartConnect agreements: Capacity Review, Feasibility Analysis Review Agreement (FAR), Transmission Extension Agreement (TEA), and Electric Service Obligation / Refunding Agreement at 26 kV",
+   "source_url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5l---pseg.pdf",
+   "source_title": "PSE&G Large Load Adjustment Request for 2027 Load Forecast, dated 09/21/2026, PSE&G's submittal to PJM's Load Analysis Subcommittee meeting of 29 September 2026 (item 5l), as PJM posts it",
+   "quoted_clause": {
+    "page": "4",
+    "section": "2027 Load Adjustment Request, slide 4",
+    "quote": "Data Centers | SmartConnect Agreements"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "PSE&G's deck of 21 September 2026 and its January 2026 forecast method document print no BPU docket or tariff sheet for the agreements"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09-21",
+    "cites": [
+     {
+      "page": "1",
+      "section": "title slide",
+      "quote": "09/21/2026"
+     },
+     {
+      "page": "4",
+      "quote": "Data Centers | SmartConnect Agreements"
+     },
+     {
+      "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+      "page": "4",
+      "section": "Types of agreements and commitments",
+      "quote": "As noted in the data center load adjustment document, these agreements are underway.",
+      "date_read": "2026-11-13"
+     }
+    ],
+    "note": "Described as PSE&G's current process in a document dated 21 September 2026; no effective date or tariff sheet is printed."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no MW threshold printed for data center requests; the Capacity Review fee is $10,000 instead of $25,000 for requests at 26 kV of less than 20 MW; the FAR and TEA path is for service at 69 kV or higher",
+     "cites": [
+      {
+       "page": "4",
+       "section": "01 Initial Assessment",
+       "quote": "($10,000 fee for 26kV less than 20MW)"
+      },
+      {
+       "page": "4",
+       "section": "02 Detailed Engineering",
+       "quote": "69kV or Higher"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "PSE&G deck of 21 September 2026 pp.1 to 9 and the January 2026 method document: no minimum bill or take-or-pay share of PSE&G's own; the 85 percent on p.5 describes the expected New Jersey data center tariff (see notes)"
+    },
+    "contract_term": {
+     "value": "26 kV: Electric Service Obligation / Refunding Agreement with refunds of the deposit tied to revenue milestones over a 10-year term; no term printed for the TEA",
+     "cites": [
+      {
+       "page": "4",
+       "section": "26kV",
+       "quote": "Electric Service Obligation / Refunding Agreement"
+      },
+      {
+       "page": "4",
+       "section": "26kV",
+       "quote": "Deposit is determined based on construction cost. Eligible refunds are tied to performance milestones on revenue over a 10-year term."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Capacity Review: $25,000 fee ($10,000 at 26 kV below 20 MW), non-refundable. FAR: customer commits to a payment of about $400K to $1M+, which serves as a deposit. TEA: customer deposit covering the full cost of construction (typically $40M+). 26 kV: deposit based on construction cost, refundable against revenue milestones",
+     "cites": [
+      {
+       "page": "4",
+       "section": "01 Initial Assessment",
+       "quote": "Customer submits a $25,000 fee."
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "4",
+       "section": "Capacity Review Phase",
+       "quote": "Customers must deposit a non-refundable fee.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "4",
+       "section": "02 Detailed Engineering",
+       "quote": "(Customer commits to payment (~$400K - $1M+) and enters into a FAR agreement with PSE&G"
+      },
+      {
+       "page": "4",
+       "section": "03 Construction / Financial Commitment",
+       "quote": "Requires customer deposit covering the full cost of construction (typically $40M+) to ensure other customers are not at risk for paying stranded costs."
+      },
+      {
+       "page": "4",
+       "section": "26kV",
+       "quote": "Deposit is determined based on construction cost."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "FAR payment: if the project does not continue, actual study costs are retained; the Capacity Review fee is non-refundable",
+     "cites": [
+      {
+       "page": "4",
+       "section": "02 Detailed Engineering",
+       "quote": "Serves as a deposit if project continues or actual study costs are retained."
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "4",
+       "section": "Capacity Review Phase",
+       "quote": "Customers must deposit a non-refundable fee.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PSE&G deck of 21 September 2026 slide 4 and the January 2026 method document p.4: the Capacity Review and FAR are described with no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PSE&G deck of 21 September 2026 and the January 2026 method document: no time to energize printed"
+    },
+    "queue_size": {
+     "value": "as of January 2026, beyond the data center load submitted to PJM: 2,000 MW in Capacity Review (19 customer requests) and 3,600 MW in potential leads (31 unique site inquiries)",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "1",
+       "quote": "2026 PSE&G Load Forecast Adjustments",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "1",
+       "quote": "January 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "5",
+       "quote": "In addition to the load submitted to PJM, PSE&G has additional inquiries from customers that have not been included in PSE&G's large load forecast request at this time",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "5",
+       "quote": "2000 MW in Capacity Review (19 customer requests)",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/pseg-documentation.pdf",
+       "page": "5",
+       "quote": "3600 MW in potential leads (31 unique site inquiries)",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "PSE&G's own submittals as PJM posts them (pjm.com, robots allow it), read as the other groups read utility documents PJM posts",
+   "erw_overlap": "none",
+   "notes": "Not a filed tariff: PSE&G's process as it describes it to PJM. Slide 5 of the September 2026 deck: 'By billing 85% of peak contracted load, the new data center tariff incentivizes customers to maximize use of their requested capacity', which reads as the expected tariff under the Data Center Fair Share Act (slide 3 names 'New Jersey largeload tariff legislation'), so it is not written as PSE&G's minimum demand. Existing load: 40 data center sites with a summer peak of 297 MW (slide 3, September 2026); PSE&G's forecast data center capacity in its 2027 PJM request runs from 448 MW (2027) to 4,061 MW (2045 on), a forecast, not a queue (slide 7). The September 2026 deck gives no Capacity Review count, so the January 2026 figures are the latest published. Leads not used (news and transcripts): 11.5 GW of large load inquiries and 2.8 GW of mature applications (Q3 2025 call). PSEG's investor PDFs on s24.q4cdn.com were refused by robots; its Q3 2026 Form 10-Q and earnings slides on SEC EDGAR print no pipeline figure. nj.pseg.com's data center page links PSEG's website terms, whose served text (Privacy Policy and Disclaimer) has no clause on automated reading; no value was taken from that host.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Consolidated Edison Company of New York; Orange and Rockland Utilities; Niagara Mohawk Power Corporation (National Grid); New York State Electric & Gas; Rochester Gas and Electric; Central Hudson Gas & Electric (New York's PSC-regulated electric utilities)",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "New York large-load proceeding, Case 26-E-0045 (Energize NY Development): Order Instituting Proceeding and Soliciting Comments",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={B040539C-0000-CB26-AEB3-8C865EF3724D}",
+   "source_title": "New York PSC, Case 26-E-0045, Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads, Order Instituting Proceeding and Soliciting Comments, issued and effective February 12, 2026 (14 pages), the Commission's own copy",
+   "quoted_clause": {
+    "page": "4",
+    "quote": "This proceeding will develop appropriate criteria to define the class of facilities to be considered"
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "CASE 26-E-0045 - Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-02-12",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "ORDER INSTITUTING PROCEEDING AND SOLICITING COMMENTS (Issued and Effective February 12, 2026)"
+     },
+     {
+      "page": "11",
+      "quote": "The whitepaper is to be issued no later than one year from the issuance date of this Order"
+     }
+    ],
+    "note": "A proceeding instituted to consider rules; no rule or tariff has been proposed in it yet. DPS Staff's whitepaper with recommendations is due within one year of the order (by 12 February 2027)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Order of 12 February 2026 (the proceeding will develop criteria to define large loads, p.4); the DPS report notes the NYISO process applies to projects greater than 80 MW at distribution level (p.1); each utility's reporting threshold is on its own row"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Order of 12 February 2026, pp.1 to 14: long-term contracts and charges are listed as options to consider (p.10), with no figure"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Order of 12 February 2026, pp.1 to 14; DPS report overview pp.1 to 3"
+    },
+    "collateral": {
+     "value": "current practice across the transmission owners: customers fund project-specific facility upgrades and provide financial security (letters of credit, bonds, parent guarantees or cash) before the utility commits significant resources or incurs construction costs",
+     "cites": [
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "3",
+       "section": "Risk Management",
+       "quote": "Customers fund project-specific facility upgrades and provide financial security, such as letters of credit, bonds, parent guarantees, or cash, before the utility commits significant resources or incurs construction costs.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "current practice: on cancellation, costs already incurred are retained from deposits and unspent funds returned; no exit fee printed",
+     "cites": [
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "3",
+       "section": "Risk Management",
+       "quote": "In the event of project cancellation, costs already incurred are retained from deposits and unspent funds are returned to the customer.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "current practice: NYISO-jurisdictional projects, System Impact Study about 6 to 12 months and Facility Study about 6 to 15 months for lower-complexity projects; projects in a utility's local jurisdiction, capacity study then load study, generally 1 to 6 months overall",
+     "cites": [
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "2",
+       "section": "Study Methodology and Interconnection Process",
+       "quote": "For NYISO-jurisdictional projects, the process typically involves a System Impact Study taking approximately six to twelve months; a Facility Study taking approximately six to fifteen months for lower-complexity projects",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "2",
+       "quote": "For projects within local TO jurisdiction, an initial high-level capacity study is completed first, then a detailed load study, with the overall process generally taking one to six months.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "current practice: about 42 to 80 months from initial engagement to energization, by project complexity",
+     "cites": [
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "2",
+       "quote": "The full interconnection pathway from initial engagement to energization can span approximately 42 to 80 months depending on project complexity.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "nearly 14 GW of large load requests in the NYISO interconnection queue as of September 2026, over 8 GW of it entering in 2025 (statewide; each utility's own inventory is on its row)",
+     "cites": [
+      {
+       "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+       "page": "1",
+       "section": "Overview",
+       "quote": "As of September 2026, there are nearly 14 gigawatts of large load requests in the New York Independent System Operator's (NYISO) interconnection queue, with over 8 gigawatts entering in 2025 alone.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse)",
+   "erw_overlap": "none (session 3848 read this order for large_load_connection_rules and wrote nothing, as it states no step with a clock; the DPS report's durations above are new)",
+   "notes": "The DPS report (Executive Order 62, transmission owners reporting within 90 days) finds 'No separate classification for data centers currently exists' (p.2), so each utility's current practice is its own row below. From the docket's listing (not cited): initial comments 13 May 2026 and replies 15 June 2026 (comment dates extended by notice of 23 March 2026); a draft scope for a Generic Environmental Impact Statement on data centers and large loads adopted 17 to 18 September 2026; a technical conference on 28 October 2026. The Governor's executive order announced 14 July 2026 (press release in the docket, documents.dps.ny.gov DocRefId {903D619F-0000-CE1F-BAB0-83FEAE8FA61E}) pauses DEC discretionary permits for new hyperscale data centers for up to a year while the GEIS is prepared: a permit moratorium, not a utility connection rule, so not written as a row. National Grid's and Con Edison's comments propose large-load rate classes, minimum bills, take-or-pay terms and security (proposals in comments, not filed rules; see their rows' notes). Con Edison is read only from the DPS's copies.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Central Hudson Gas & Electric Corporation",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "Central Hudson large load connection process under existing tariff (six steps; customer contributions under General Information Section 26 of PSC No. 15), as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix A (Central Hudson)",
+   "quoted_clause": {
+    "page": "6",
+    "section": "Appendix A, 1a",
+    "quote": "Central Hudson's large load connection process generally consists of six steps"
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "6",
+      "section": "Appendix A heading",
+      "quote": "Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "13",
+      "section": "Appendix A, 5e",
+      "quote": "Central Hudson has mechanisms in place to address large load cost allocation and recovery, largely implemented through contract provisions."
+     },
+     {
+      "page": "1",
+      "section": "Overview",
+      "quote": "DPS convened the transmission owners on August 25, 2026, and issued interrogatory / document requests to each transmission owner on August 18 and 19, 2026."
+     }
+    ],
+    "note": "The practice is reported as current in the DPS report; no effective date is printed for it. The figures are as of September 2026; the report was filed in Case 26-E-0045 on 9 October 2026 (the docket's listing, not a printed date)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no large-load class or threshold in the tariff (service class by Character of Service); the report's large load inventory counts grid connections greater than 10 MW",
+     "cites": [
+      {
+       "page": "10",
+       "section": "Appendix A, 3a",
+       "quote": "Central Hudson evaluates customer eligibility for service classifications based on the Character of Service descriptions contained within the Company's applicable tariff Service Classification."
+      },
+      {
+       "page": "6",
+       "section": "Appendix A, 1b",
+       "quote": "Since 2022, Central Hudson has received applications for four projects requiring a grid connection greater than 10 MW"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Appendix A pp.5 to 16: no minimum bill or take-or-pay share in current practice (Central Hudson supports minimum monthly billing requirements as a future measure, p.11)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix A pp.5 to 16: delays are handled by time-bound terms in the customer agreement (p.15), with no term printed"
+    },
+    "collateral": {
+     "value": "financial security posted when a construction contract or other agreement is executed; a contribution covering the customer's portion of system reinforcement, refundable or non-refundable (refundable deposits, non-refundable deposits, CIAC or a facilities charge) under General Information Section 26 of PSC No. 15; non-refundable funds where projected revenue does not offset the cost",
+     "cites": [
+      {
+       "page": "8",
+       "section": "Appendix A, 2f",
+       "quote": "Central Hudson begins to incur material costs after a construction contract or other suitable agreement is executed by the Company and customer, at which point the customer posts financial security."
+      },
+      {
+       "page": "12",
+       "section": "Appendix A, 5a",
+       "quote": "Large load customers are responsible for providing a financial contribution sufficient to cover costs associated with their portion of the system reinforcement, which may be either refundable or non-refundable, including but not limited to refundable deposits, non-refundable deposits, Contribution in Aid of Construction (CIAC), or a facilities charge."
+      },
+      {
+       "page": "12",
+       "section": "Appendix A, 5a",
+       "quote": "Cost responsibility and customer contributions are determined pursuant to General Information Section 26 of the Company's electric tariff - PSC No. 15 - Electricity."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "on cancellation by the customer, costs incurred are retained from any posted deposit and unspent funds returned; no exit fee printed",
+     "cites": [
+      {
+       "page": "15",
+       "section": "Appendix A, 7e",
+       "quote": "If a project is cancelled due to actions of the customer, the company retains any costs incurred from any posted deposit. Any unspent funds would be returned to the customer."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "impact studies for projects outside the NYISO process: generally about 4 to 6 months",
+     "cites": [
+      {
+       "page": "8",
+       "section": "Appendix A, 2e",
+       "quote": "impact studies have generally taken approximately four to six months to complete"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Appendix A pp.5 to 16: six steps named with no stage durations; no interconnection over 10 MW completed in the last 24 months (p.11)"
+    },
+    "queue_size": {
+     "value": "4 projects over 10 MW since 2022, about 290 MW of requested peak load, none interconnected (inventory reported to the DPS, figures as of September 2026)",
+     "cites": [
+      {
+       "page": "6",
+       "section": "Appendix A, 1b",
+       "quote": "Since 2022, Central Hudson has received applications for four projects requiring a grid connection greater than 10 MW, for a total requested peak load of approximately 290 MW. None of these projects have been interconnected"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse)",
+   "erw_overlap": "none (window A holds no Central Hudson file)",
+   "notes": "Three of the four applications were received since December 2025 and three are outside the NYISO queue (p.7). Central Hudson supports large-load tariffs with minimum contract terms, collateral and minimum monthly billing (pp.11 and 16; Joint Utilities' comments of 13 May 2026, not read). Supply above 300 kW is billed at the hourly NYISO Zone G day-ahead price (p.14).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Consolidated Edison Company of New York, Inc.",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "Con Edison large load service and interconnection practice (NYISO Load Interconnection Procedures for transmission; Electric Tariff P.S.C. No. 10 for distribution, with CIAC and Rider Y), as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix B (Con Edison and Orange and Rockland)",
+   "quoted_clause": {
+    "page": "19",
+    "section": "Appendix B, 1a",
+    "quote": "NYISO's Load Interconnection Procedures apply to load interconnections that are either greater than 10 MW connective at a voltage of 115 kV or above or 80 MW or more connecting at a voltage level below 115 kV."
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "18",
+      "quote": "Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "18",
+      "section": "Appendix B, Executive Summary",
+      "quote": "Existing intake, study, cost-estimating, cost-allocation, and risk-management practices continue to support the evaluation and interconnection of these projects"
+     },
+     {
+      "page": "1",
+      "section": "Overview",
+      "quote": "DPS convened the transmission owners on August 25, 2026, and issued interrogatory / document requests to each transmission owner on August 18 and 19, 2026."
+     }
+    ],
+    "note": "The practice is reported as current in the DPS report; no effective date is printed for it. The figures are as of September 2026; the report was filed in Case 26-E-0045 on 9 October 2026 (the docket's listing, not a printed date)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "transmission: NYISO Load Interconnection Procedures for loads greater than 10 MW at 115 kV or above, or 80 MW or more below 115 kV; distribution: requests of 10 MW or greater get a service determination (low or high tension); large commercial customers are served under SC 9",
+     "cites": [
+      {
+       "page": "19",
+       "section": "Appendix B, 1a",
+       "quote": "NYISO's Load Interconnection Procedures apply to load interconnections that are either greater than 10 MW connective at a voltage of 115 kV or above or 80 MW or more connecting at a voltage level below 115 kV."
+      },
+      {
+       "page": "20",
+       "section": "Appendix B, 1a",
+       "quote": "For requests of 10 MW or greater, Con Edison typically determines whether service should be provided through a 265/460V transformer vault"
+      },
+      {
+       "page": "27",
+       "section": "Appendix B, 3a",
+       "quote": "Large commercial customers connecting to the CECONY system are served under SC 9, General Large Service."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "take-or-pay provisions anticipated in the interconnection agreement; no share printed",
+     "cites": [
+      {
+       "page": "32",
+       "section": "Appendix B, 7b",
+       "quote": "including the maintenance of financial security for assigned cost responsibilities and the anticipated take-or-pay provisions within the interconnection agreement"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix B pp.17 to 35: no contract term printed"
+    },
+    "collateral": {
+     "value": "transmission: security posted after the Facilities Study identifies the costs; distribution: where construction cost attributable to the new service exceeds $2M, CIAC of the lesser of the cost above $2M or the cost less five times estimated annual Pure Base Revenue; Rider Y: an Excess Facilities Amount for high load-density service; any tariff cost must be paid in full before Company field work",
+     "cites": [
+      {
+       "page": "25",
+       "section": "Appendix B, 2f",
+       "quote": "Security will be posted after the Facilities Study is performed and identifies the costs."
+      },
+      {
+       "page": "30",
+       "section": "Appendix B, 5a",
+       "quote": "If the Company estimates the total construction cost directly attributable to supplying new service to a customer will exceed $2M, the customer must pay the lesser of (a) the total construction cost in excess of $2M, or (b) the total construction cost less the product of five times the estimated annual Pure Base Revenue (PBR)."
+      },
+      {
+       "page": "30",
+       "section": "Appendix B, 5a",
+       "quote": "Rider Y of the tariff applies to distribution customers requesting high load-density service exceeding the standard load density"
+      },
+      {
+       "page": "30",
+       "section": "Appendix B, 5a",
+       "quote": "Those customers are required to pay an Excess Facilities Amount"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "on cancellation, the customer's financial security is applied to outstanding obligations, including incurred costs of assigned upgrades; no exit fee printed",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Appendix B, 7d",
+       "quote": "In the event a large load project is cancelled, the financial security provided by the customer is expected to be applied toward any outstanding obligations associated with the project, including incurred costs for assigned system upgrades."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "distribution: target of 30 days for major project service determinations and feeder concurrence studies (averages 35 and 32 days); transmission: no stated stage timelines (NYISO process)",
+     "cites": [
+      {
+       "page": "25",
+       "section": "Appendix B, 2e",
+       "quote": "the target completion time for both major project load service determinations and feeder concurrence studies is 30 days"
+      },
+      {
+       "page": "25",
+       "section": "Appendix B, 2e",
+       "quote": "major project service determinations are completed in an average of 35 days, while feeder concurrence studies average 32 days"
+      },
+      {
+       "page": "25",
+       "section": "Appendix B, 2e",
+       "quote": "There are no stated stage timelines, as the Company works through the NYISO process and back and forth with the applicant to efficiently evaluate and provide service."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Appendix B pp.17 to 35: no time to energize printed (no stated stage timelines)"
+    },
+    "queue_size": {
+     "value": "distribution: 48 large load projects proposed 2022 to present, about 864 MW (12 cancelled, 1 complete, 31 in design, 4 in construction); transmission: 3 projects totaling about 1,216 MW (1,000 MW, 200 MW, and a 16.5 MW project withdrawn); figures as of September 2026",
+     "cites": [
+      {
+       "page": "21",
+       "section": "Appendix B, 1b",
+       "quote": "Forty-eight large load projects have proposed to interconnect to the distribution system between 2022 and the present. The aggregate load for all requests totals approximately 864 MW across New York City and Westchester County."
+      },
+      {
+       "page": "21",
+       "section": "Appendix B, 1b",
+       "quote": "Of the forty-eight projects, twelve were cancelled, one is complete, thirty-one are in design, and four are in construction."
+      },
+      {
+       "page": "21",
+       "section": "Appendix B, 1b",
+       "quote": "Three large load projects have proposed to interconnect to the transmission system, totaling approximately 1,216 MW of peak load (one project at 1,000 MW, one project at 200 MW, and one withdrawn project at 16.5 MW)."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); coned.com is barred for this reader and was not asked",
+   "erw_overlap": "large_load_tariffs/con_edison_sc9_rate_ii.yaml holds SC 9 Rate II, the class the report names for large commercial loads; no field here repeats or contradicts it",
+   "notes": "Of the 48 distribution projects, 8 are data centers; the two active transmission projects (about 1,200 MW) are data centers (p.27). Con Edison and O&R's comments (13 May 2026, quoted in the report pp.18 to 19) ask the Commission to allow a separate large-load class, minimum billing at the higher of actual demand or a share of requested service, and security: proposals, not rules.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Orange and Rockland Utilities, Inc.",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "Orange and Rockland large load interconnection practice (local System Impact and Facilities Studies or the NYISO process; SC 9 and SC 22), as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix B (Con Edison and Orange and Rockland)",
+   "quoted_clause": {
+    "page": "24 to 25",
+    "section": "Appendix B, 2f",
+    "quote": "Customers are generally responsible for application fees, study costs, required deposits, customer-specific facilities, and the costs of any system upgrades necessary for interconnection, as specified in the applicable agreements."
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "18",
+      "quote": "Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "18",
+      "section": "Appendix B, Executive Summary",
+      "quote": "Existing intake, study, cost-estimating, cost-allocation, and risk-management practices continue to support the evaluation and interconnection of these projects"
+     },
+     {
+      "page": "1",
+      "section": "Overview",
+      "quote": "DPS convened the transmission owners on August 25, 2026, and issued interrogatory / document requests to each transmission owner on August 18 and 19, 2026."
+     }
+    ],
+    "note": "The practice is reported as current in the DPS report; no effective date is printed for it. The figures are as of September 2026; the report was filed in Case 26-E-0045 on 9 October 2026 (the docket's listing, not a printed date)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no large-load threshold of O&R's own: projects meeting NYISO thresholds go to the NYISO process; commercial customers with a minimum demand over 1,000 kW at primary or transmission voltage are served under SC 9, industrial under SC 22",
+     "cites": [
+      {
+       "page": "23",
+       "section": "Appendix B, 2b",
+       "quote": "O&R's current tariff directs commercial customers who maintain a minimum demand over 1,000 kW taking service at primary or transmission voltages to fall under SC 9"
+      },
+      {
+       "page": "28",
+       "section": "Appendix B, 3c Finding",
+       "quote": "Large loads are served under existing service classifications (CECONY SC 9; O&R SC 9 for commercial and SC 22 for industrial), and no separate classification currently exists for data centers or for transmission-connected large loads."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Appendix B pp.17 to 35: no minimum bill or take-or-pay share printed for O&R"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix B pp.17 to 35: no contract term printed"
+    },
+    "collateral": {
+     "value": "customer pays application fees, study costs, required deposits, customer-specific facilities and system upgrades, as the agreements specify; 100 percent of facilities and upgrades needed exclusively for its interconnection",
+     "cites": [
+      {
+       "page": "24 to 25",
+       "section": "Appendix B, 2f",
+       "quote": "Customers are generally responsible for application fees, study costs, required deposits, customer-specific facilities, and the costs of any system upgrades necessary for interconnection, as specified in the applicable agreements."
+      },
+      {
+       "page": "30 to 31",
+       "section": "Appendix B, 5b",
+       "quote": "The financial risk of stranded assets is minimized by requiring the large load customer to fund 100% of the costs for facilities and upgrades needed exclusively for its interconnection."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "on cancellation, the customer's financial security is applied to outstanding obligations, including incurred costs of assigned upgrades (stated for both companies); no exit fee printed",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Appendix B, 7d",
+       "quote": "In the event a large load project is cancelled, the financial security provided by the customer is expected to be applied toward any outstanding obligations associated with the project, including incurred costs for assigned system upgrades."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "local process: System Impact Study typically 4 to 8 months, then Facilities Study typically 6 to 12 months; NYISO-jurisdictional projects follow NYISO's procedures",
+     "cites": [
+      {
+       "page": "21",
+       "section": "Appendix B, 1a",
+       "quote": "under the local interconnection process, this study typically takes four to eight months"
+      },
+      {
+       "page": "21",
+       "section": "Appendix B, 1a",
+       "quote": "a Facilities Study commences to identify any required system upgrades, facility additions, and non-binding estimated construction costs, typically requiring six to twelve months"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Appendix B: 'There are no stated stage timelines at this time' for O&R (p.25)"
+    },
+    "queue_size": {
+     "value": "5 large load projects proposed to connect to the transmission system 2022 to present, about 236 MW of peak load (4 in design pending the Interconnection Agreement, 1 cancelled); figures as of September 2026",
+     "cites": [
+      {
+       "page": "21",
+       "section": "Appendix B, 1b",
+       "quote": "Five large load projects have proposed to interconnect to the transmission system between 2022 and the present, totaling approximately 236 MW of peak load. Four are in the design phase pending the Interconnection Agreement, and one has been cancelled."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse)",
+   "erw_overlap": "none (window A holds no O&R file)",
+   "notes": "O&R's queue: four proposed data centers (one cancelled) and one pharmaceutical developer (p.27). O&R's New Jersey affiliate, Rockland Electric, is under the New Jersey statute's row.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Niagara Mohawk Power Corporation d/b/a National Grid",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "National Grid (Niagara Mohawk) large load interconnection practice: NYISO process, customer-funded studies, CIAC or revenue assurance with minimum contract demand and an irrevocable letter of credit, as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix D (Niagara Mohawk Power Corporation d/b/a National Grid)",
+   "quoted_clause": {
+    "page": "90",
+    "section": "Appendix D, 3.7",
+    "quote": "Contribution in Aid of Construction (CIAC) payments for attributable facilities are generally due before the start of utility capital outlays. Revenue assurance (further defined in Section 6, Cost Allocation) can be used under the current tariff as an alternative for eligible costs, supported by minimum contract demand and financial security (e.g., an irrevocable letter of credit)."
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "79",
+      "quote": "Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "90",
+      "section": "Appendix D, 3.7",
+      "quote": "Revenue assurance (further defined in Section 6, Cost Allocation) can be used under the current tariff as an alternative for eligible costs"
+     },
+     {
+      "page": "95",
+      "section": "Appendix D, 6.5",
+      "quote": "Current protections include the prospective customer funding the interconnection studies, CIAC for applicable customer-assigned facilities, cost-reimbursement agreements, revenue-assurance arrangements, minimum contract demand obligations, and financial security."
+     }
+    ],
+    "note": "The practice is reported as current in the DPS report; no effective date is printed for it. The figures are as of September 2026; the report was filed in Case 26-E-0045 on 9 October 2026 (the docket's listing, not a printed date)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no large-load class: large retail customers may be served under an existing large general service class; the report covers transmission-connected requests of 10 MW or greater",
+     "cites": [
+      {
+       "page": "84",
+       "section": "Appendix D, 2.2",
+       "quote": "National Grid's response principally addresses transmission-connected requests of 10 MW or greater"
+      },
+      {
+       "page": "91",
+       "section": "Appendix D, 4.1",
+       "quote": "Large retail customers may be served under an existing large general service classification where the tariff criteria are met"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "under revenue assurance: a minimum monthly contract demand, billed at the minimum when actual demand is lower (no level printed)",
+     "cites": [
+      {
+       "page": "95",
+       "section": "Appendix D, 6.5",
+       "quote": "A participating customer agrees to a minimum monthly contract demand and provides an irrevocable letter of credit. If actual demand is below the contractual minimum, billing at the minimum level helps protect the Company and other customers from revenue shortfalls associated with the facilities constructed to serve the project."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix D pp.78 to 103: the revenue assurance agreement's term is named but not printed (p.96)"
+    },
+    "collateral": {
+     "value": "customer-funded preliminary assessments, NYISO study deposits and preliminary engineering (Support Services Arrangements); CIAC for attributable facilities due before utility capital outlays, or revenue assurance supported by minimum contract demand and an irrevocable letter of credit",
+     "cites": [
+      {
+       "page": "89",
+       "section": "Appendix D, 3.7",
+       "quote": "Customers fund applicable preliminary assessments and NYISO study deposits. During Facility Study, customers enter into Support Services Arrangements (SSA) and fund the preliminary engineering study."
+      },
+      {
+       "page": "90",
+       "section": "Appendix D, 3.7",
+       "quote": "Contribution in Aid of Construction (CIAC) payments for attributable facilities are generally due before the start of utility capital outlays. Revenue assurance (further defined in Section 6, Cost Allocation) can be used under the current tariff as an alternative for eligible costs, supported by minimum contract demand and financial security (e.g., an irrevocable letter of credit)."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "no exit fee printed; the irrevocable letter of credit covers a customer that does not connect after construction, fails to pay, or closes before the end of the agreement term",
+     "cites": [
+      {
+       "page": "96",
+       "section": "Appendix D, 6.5",
+       "quote": "The irrevocable letter of credit provides additional protection if the customer does not connect after construction, fails to pay, or closes before the end of the agreement term."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "indicative: early engagement and planning 1 to 3 months; NYISO System Impact Study 6 to 12 months; Facility Study 9 to 15 months (planning ranges, not commitments)",
+     "cites": [
+      {
+       "page": "89",
+       "section": "Appendix D, 3.5",
+       "quote": "approximately one to three months for early engagement and planning, six to twelve months for the NYISO System Impact Study where applicable, and nine to fifteen months for Facility Study"
+      },
+      {
+       "page": "89",
+       "section": "Appendix D, 3.5",
+       "quote": "These ranges are not commitments and depend on project complexity"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "project initiation, engineering, procurement and construction: 2+ years, depending on system upgrades",
+     "cites": [
+      {
+       "page": "88",
+       "section": "Appendix D, 3.4 table",
+       "quote": "Facilities are ready for testing and commissioning. 2+ years*"
+      },
+      {
+       "page": "89",
+       "section": "Appendix D, 3.4 table",
+       "quote": "*Timeline is dependent upon system upgrades required by the project"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "about 55 large load projects, about 7,792 MW of requested demand, as of September 2026: 20 in the NYISO queue (2,992.2 MW) and 35 prospective projects not yet in it (4,800 MW)",
+     "cites": [
+      {
+       "page": "84",
+       "section": "Appendix D, 2.2",
+       "quote": "As of September 2026, National Grid had identified approximately 55 large load projects seeking to interconnect on National Grid's system, representing approximately 7,792 MW of requested demand within the scope of this report. The inventory includes 35 prospective projects totaling 4,800 MW that had engaged with National Grid but had not entered the NYISO queue."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); National Grid's own site is closed to this reader by its terms (session 2937)",
+   "erw_overlap": "large_load_tariffs/niagara_mohawk_sc3a_over_60kv.yaml holds SC 3A (over 2,000 kW; one-year term, 90 days' notice), the general large class; the report does not name SC 3A, so its term is not written here",
+   "notes": "The appendix's own summary (p.82) gives different counts: 'approximately 54 large load projects representing roughly 7,228 MW of requested demand, including 34 prospective projects'; the section 2.2 table (p.84: 55, 7,792.2 MW; 20 in the queue, 2,992.2 MW; 35 prospective, 4,800 MW) is written. In the NYISO queue: 10 data center projects of 1,620 MW, 5 manufacturing of 1,177 MW, 11 other of 195 MW (p.92). Attrition: 25 NYISO requests since 2022 with National Grid as Connecting Transmission Owner, 5 withdrawn (p.98). National Grid's comments propose 100 percent upfront CIAC for sole-use facilities, an end to revenue assurance for them, mandatory long-term take-or-pay agreements, minimum demand charges, minimum terms, exit fees, collateral and a dedicated large-load class (p.96): proposals, not rules. The report cites National Grid's posted timelines PDF (nationalgridus.com, not read).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "New York State Electric & Gas Corporation (NYSEG) and Rochester Gas and Electric Corporation (RG&E)",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "NYSEG and RG&E large load interconnection practice (100 percent customer-funded facilities, security by bond, letter of credit, parent guarantee or cash), as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix F (NYSEG and RG&E)",
+   "quoted_clause": {
+    "page": "117",
+    "section": "Appendix F, 2f",
+    "quote": "the customer must agree to the project costs and payment schedules, in addition to providing financial security in the form of Bond, Letter of Credit, Parent Guarantee or cash."
+   },
+   "docket": {
+    "value": "Case 26-E-0045",
+    "cites": [
+     {
+      "page": "110",
+      "quote": "Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09",
+    "cites": [
+     {
+      "page": "119",
+      "section": "Appendix F, 3",
+      "quote": "Large load customers are served under existing PSC-approved tariff structures based on voltage level and service configuration rather than under dedicated large load service classifications."
+     },
+     {
+      "page": "1",
+      "section": "Overview",
+      "quote": "DPS convened the transmission owners on August 25, 2026, and issued interrogatory / document requests to each transmission owner on August 18 and 19, 2026."
+     }
+    ],
+    "note": "The practice is reported as current in the DPS report; no effective date is printed for it. The figures are as of September 2026; the report was filed in Case 26-E-0045 on 9 October 2026 (the docket's listing, not a printed date)."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "no large-load class (NYSEG SC 7-4 transmission or SC 7-2 primary; RG&E SC 8); the companies' Large Load Project Tracker covers projects over 10 MW at 115 kV or above and over 80 MW below 115 kV",
+     "cites": [
+      {
+       "page": "118",
+       "section": "Appendix F, 3a",
+       "quote": "A customer with a large load is likely to be served under SC 7-4 Transmission (greater than 115 kV) or SC 7-2 Primary (2.4 kV to 46 kV) depending on the interconnection voltage."
+      },
+      {
+       "page": "125",
+       "section": "Appendix F, 8a",
+       "quote": "projects over 10 MW connecting at a voltage level of 115 kV or above, and projects over 80 MW connecting at a voltage level below 115 kV"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Appendix F pp.109 to 126: no minimum bill or take-or-pay share printed"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix F pp.109 to 126: agreement terms address default and termination (p.124), with no term printed"
+    },
+    "collateral": {
+     "value": "customer-specific facilities funded 100 percent by the customer, with prepayment; financial security as a bond, letter of credit, parent guarantee or cash once the customer agrees to costs and payment schedules",
+     "cites": [
+      {
+       "page": "117",
+       "section": "Appendix F, 2f",
+       "quote": "the customer must agree to the project costs and payment schedules, in addition to providing financial security in the form of Bond, Letter of Credit, Parent Guarantee or cash."
+      },
+      {
+       "page": "117",
+       "section": "Appendix F, 2f",
+       "quote": "the customer-specific facilities are funded 100 percent by the customer"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "no exit fee printed; contract terms assign default or termination costs to the customer; upgrades of an abandoned project stay with the companies or are removed at the customer's expense",
+     "cites": [
+      {
+       "page": "124",
+       "section": "Appendix F, 7e",
+       "quote": "Up-front customer funding and security for customer required upgrades as well as contract terms that address default or termination cost responsibilities ameliorate exposure."
+      },
+      {
+       "page": "122",
+       "section": "Appendix F, 5",
+       "quote": "If, once constructed, the customer abandons its facilities, the system upgrades installed as part of the project are wholly owned by the Companies and remain if beneficial to the system or are removed at the expense of the customer."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "NYISO-jurisdictional: System Impact Study 8 to 12 months; Facility Study about 11 months for a low-complexity project; agreement negotiation 3 to 6 months; non-NYISO projects: study 1 to 6 months; cost estimates expire after 6 months",
+     "cites": [
+      {
+       "page": "116",
+       "section": "Appendix F, 2d",
+       "quote": "System Impact Study: 8 to 12 months."
+      },
+      {
+       "page": "116",
+       "section": "Appendix F, 2d",
+       "quote": "Facility Study for a low-complexity project: approximately 11 months."
+      },
+      {
+       "page": "116",
+       "section": "Appendix F, 2d",
+       "quote": "Agreement negotiation and execution: approximately 3 to 6 months."
+      },
+      {
+       "page": "114",
+       "section": "Appendix F, 2a",
+       "quote": "The non-NYISO jurisdiction study process generally takes between 1 month and 6 months."
+      },
+      {
+       "page": "116",
+       "section": "Appendix F, 2d",
+       "quote": "Cost estimates expire after 6 months."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "project execution about 3 to 5 years after the agreement, depending on scope (NYISO-jurisdictional)",
+     "cites": [
+      {
+       "page": "116",
+       "section": "Appendix F, 2d",
+       "quote": "Project execution: approximately 3 to 5 years, depending on scope."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "36 large (10 MW+) load projects: 12 NYISO-jurisdictional (2,460 MW) and 24 non-NYISO (560 MW); 10 cancelled, 2 in service, the rest in study (figures as of September 2026)",
+     "cites": [
+      {
+       "page": "110",
+       "section": "Appendix F, 1b",
+       "quote": "NYSEG and RG&E have received a total of 36 large (10 MW+) load projects. 12 of these are NYISO jurisdictional projects (total 2,460 MW); 24 are non-NYISO jurisdictional (total 560 MWs). Of these 36 total projects, 10 projects are canceled, two are in service"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); nyseg.com reset the connection at its robots file (session 2937) and was not asked",
+   "erw_overlap": "large_load_tariffs/nyseg_sc7_4_transmission.yaml holds SC 7-4, which the report names as the likely class for a transmission-voltage large load; no field here repeats or contradicts it",
+   "notes": "One applicant serves a 60 MW load with on-site generation under NYISO's Behind the Meter: Net Generation program; customers able to self-supply 15 percent or more of load take the standby rate (p.112). The 42 to 80 month pathway in the report's Appendix E (p.106) is the New York Power Authority's, not NYSEG's and RG&E's, so it is not written here.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Long Island Power Authority (LIPA), served by PSEG Long Island",
+   "state": "NY",
+   "iso_region": "NYISO",
+   "rule_name": "LIPA Tariff modifications effective 1 January 2026 requiring an Interconnection Agreement for service at or above 23 kV, with the Performance Requirements for Large Loads (20 MW or more) and the Red Book load thresholds, as reported in Case 26-E-0045",
+   "source_url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId={D0A021A1-0000-C23F-9824-40FE2B36B814}",
+   "source_title": "New York State Department of Public Service, Case 26-E-0045, Executive Order 62 large load report: the DPS overview with the transmission owners' reports as Appendices A to F (126 pages), filed in the case on 9 October 2026 (the docket's listing), the Commission's own copy, Appendix C (Long Island Power Authority / PSEG LI)",
+   "quoted_clause": {
+    "page": "57",
+    "section": "Appendix C, 3.3",
+    "quote": "the LIPA Board of Trustees approved Tariff modifications, effective January 1, 2026, requiring execution of an Interconnection Agreement for customers taking service at or above 23 kV."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Appendix C names no LIPA Board resolution number; LIPA is not rate-regulated in Case 26-E-0045 (it reported at DPS request)"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-01-01",
+    "cites": [
+     {
+      "page": "57",
+      "section": "Appendix C, 3.3",
+      "quote": "the LIPA Board of Trustees approved Tariff modifications, effective January 1, 2026, requiring execution of an Interconnection Agreement for customers taking service at or above 23 kV."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Large Load Facilities: Maximum Gross Demand of 20 MW or greater (Performance Requirements apply); review thresholds 1.5 MW, 20 MW and 40 MW; loads of 40 MW or greater must connect to the transmission system; Interconnection Agreement for service at or above 23 kV",
+     "cites": [
+      {
+       "page": "46",
+       "section": "Appendix C, 2.1",
+       "quote": "For facilities classified as Large Load Facilities, defined as facilities with a Maximum Gross Demand of 20 MW or greater"
+      },
+      {
+       "page": "54",
+       "section": "Appendix C, 3.1",
+       "quote": "The applicable LIPA review thresholds are 1.5 MW, 20 MW, and 40 MW."
+      },
+      {
+       "page": "48",
+       "section": "Appendix C, 2.2",
+       "quote": "Loads of 40 MW or greater are required to interconnect directly to the transmission system."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Appendix C pp.36 to 77: no minimum bill or take-or-pay share printed"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Appendix C pp.36 to 77: the Interconnection Agreement is negotiated; no term printed"
+    },
+    "collateral": {
+     "value": "transmission-connected loads pay all costs of their request, including transmission upgrades, and must sign the agreements and meet financial security or deposit obligations before significant utility spending; distribution-connected loads pay for dedicated facilities",
+     "cites": [
+      {
+       "page": "51",
+       "section": "Appendix C, 2.6",
+       "quote": "For transmission-interconnected load projects, customers are responsible for all costs attributable to their interconnection request, including any required transmission system upgrades."
+      },
+      {
+       "page": "51 to 52",
+       "section": "Appendix C, 2.6",
+       "quote": "Prior to the commitment of significant utility resources, procurement activities, or construction expenditures, customers are required to execute the applicable agreements and satisfy required ... financial security or deposit obligations."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Appendix C pp.36 to 77: no exit or termination charge printed"
+    },
+    "study_timeline": {
+     "value": "typical: distribution assessment about 3 months; System Impact Study about 6 to 9 months; Facilities Study about 180 days (project-specific; actual large load studies can run well beyond a year)",
+     "cites": [
+      {
+       "page": "50",
+       "section": "Appendix C, 2.4 table",
+       "quote": "Utility review complete ~3 months"
+      },
+      {
+       "page": "50",
+       "section": "Appendix C, 2.4 table",
+       "quote": "System Impact Study SIS issued ~6-9 months"
+      },
+      {
+       "page": "50",
+       "section": "Appendix C, 2.4 table",
+       "quote": "Facilities Study Final facilities report ~180 days"
+      },
+      {
+       "page": "51",
+       "section": "Appendix C, 2.5",
+       "quote": "actual timelines to complete a large load interconnection study and obtain all required reviews and approvals can extend well beyond one year"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "project-specific: no duration printed for agreement, construction or energization",
+     "cites": [
+      {
+       "page": "50",
+       "section": "Appendix C, 2.4 table",
+       "quote": "Energization Service placed in operation Project-specific Customer energized"
+      },
+      {
+       "page": "50",
+       "section": "Appendix C, 2.5",
+       "quote": "PSEG LI does not maintain a single set of standard or stated timelines applicable to all large load interconnection requests."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "8 large load requests over 10 MW since 2022, 5 active and 3 cancelled (peak loads about 10 MW to 300 MW); figures as of September 2026",
+     "cites": [
+      {
+       "page": "37",
+       "section": "Appendix C, Executive Summary",
+       "quote": "Since 2022, PSEG LI has received eight identified large load interconnection requests exceeding 10 MW, representing a mix of distribution-connected and transmission-connected projects, including data centers, research facilities, commercial developments, and institutional customers. Five projects remain active while three have been cancelled, resulting in an observed attrition rate of approximately 38%."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Commission's own docket copy (documents.dps.ny.gov, no robots file; the DPS Disclaimer sets no condition on reuse); LIPA's own site allows personal, non-commercial use only (session 3849) and was not read",
+   "erw_overlap": "none (window A holds no LIPA file; session 3849 found LIPA's tariff absent from the DPS tariff system)",
+   "notes": "The 10 MW figure is the report's, 'used for reporting purposes only' (p.54). The LIPA tariff sheets and the Performance Requirements document were not read (LIPA's site terms). PSEG Long Island's comments of 4 November 2026 in Case 26-E-0045 address the GEIS draft scope only.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil",
+   "state": "MA",
+   "iso_region": "ISO-NE",
+   "rule_name": "Executive Order No. 658 and the DPU's directive of 24 September 2026 on data center interconnection requests over 25 MW (informational filings in D.P.U. 26-DC; large load rate schedules in development)",
+   "source_url": "https://www.mass.gov/doc/directive-to-the-electric-distribution-companies-regarding-data-center-interconnection-requests/download",
+   "source_title": "Massachusetts DPU letter of September 24, 2026 to Eversource, National Grid and Unitil: Directive to Electric Distribution Companies regarding data center interconnection requests, pursuant to Executive Order No. 658 (4 pages)",
+   "quoted_clause": {
+    "page": "2",
+    "quote": "the Department hereby directs Fitchburg Gas and Electric Light Company d/b/a Unitil, NSTAR Electric Company d/b/a Eversource Energy, and Massachusetts Electric Company and Nantucket Electric Company, each d/b/a National Grid to each make an informational filing"
+   },
+   "docket": {
+    "value": "D.P.U. 26-DC",
+    "cites": [
+     {
+      "page": "4",
+      "quote": "Each EDC shall file its respective company specific informational filing in docket D.P.U. 26-DC"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09-08",
+    "cites": [
+     {
+      "url": "https://www.mass.gov/executive-orders/no-658-establishing-requirements-for-responsible-data-center-development-and-operations-in-massachusetts-to-protect-and-support-ratepayers-communities-and-the-environment",
+      "page": "1",
+      "section": "Date",
+      "quote": "09/08/2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.mass.gov/executive-orders/no-658-establishing-requirements-for-responsible-data-center-development-and-operations-in-massachusetts-to-protect-and-support-ratepayers-communities-and-the-environment",
+      "page": "1",
+      "section": "Section 15",
+      "quote": "This Executive Order shall be effective upon the date signed and shall continue in force until amended, superseded, or revoked by subsequent Executive Order.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "1",
+      "quote": "September 24, 2026"
+     },
+     {
+      "page": "4",
+      "quote": "no later than close of business (5:00 p.m.) on Friday, October 23, 2026."
+     }
+    ],
+    "note": "E.O. 658 is in effect from 8 September 2026; the DPU's directive asked for informational filings by 23 October 2026. The DPU's large load rate schedules (E.O. 654 of 16 March 2026, E.O. 658 Section 3) are not yet issued."
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "data center projects with peak electricity demand exceeding 25 MW (an expansion adding 25 MW), built or expanded after E.O. 658's effective date; the directive also asks for all data center projects over 1 MW in each queue",
+     "cites": [
+      {
+       "url": "https://www.mass.gov/executive-orders/no-658-establishing-requirements-for-responsible-data-center-development-and-operations-in-massachusetts-to-protect-and-support-ratepayers-communities-and-the-environment",
+       "page": "1",
+       "section": "Section 13",
+       "quote": "exceeds a peak electric demand of twenty-five megawatts, or in the case of a data center expansion, an addition of twenty-five megawatts of peak electric demand",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "2",
+       "section": "item 1",
+       "quote": "A list of all load projects with an electricity demand greater than 25 MW currently in the EDC's interconnection queue"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "E.O. 658 Sections 1 to 15 and the DPU letter pp.1 to 4: no minimum demand"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "E.O. 658 Sections 1 to 15 and the DPU letter pp.1 to 4: no contract term"
+    },
+    "collateral": {
+     "value": "no figure yet: the DPU should direct the EDCs to set fees, deposits or other requirements so that data center projects over 25 MW are legitimate; the EDCs were directed to describe their current or planned fees and deposits",
+     "cites": [
+      {
+       "url": "https://www.mass.gov/executive-orders/no-658-establishing-requirements-for-responsible-data-center-development-and-operations-in-massachusetts-to-protect-and-support-ratepayers-communities-and-the-environment",
+       "page": "1",
+       "section": "Section 4",
+       "quote": "Through the establishment of fees, deposits, or other requirements, the DPU should direct the EDCs to ensure that any data center projects with electricity demand greater than twenty-five megawatts are legitimate projects",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "3",
+       "section": "item 3",
+       "quote": "A detailed description of what current or planned measures the EDC takes (or plans to take) to eliminate speculative data center projects from interconnection queues including information collected (see 4 below), fees, deposits, and any other requirements."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "E.O. 658 Sections 1 to 15 and the DPU letter pp.1 to 4: no exit fee"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "E.O. 658 and the DPU letter: no study duration (item 2 asks each EDC for each project's estimated interconnection timeline)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "E.O. 658 and the DPU letter: no time to energize printed"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "the EDCs' informational filings in D.P.U. 26-DC (due 23 October 2026) were not read: the DPU File Room is a script-driven application whose docket address returned only the app's page shell"
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only on mass.gov, whose Terms of Use forbid copying or use other than fair use and ask written permission for any other use (session 3848's reading, ruling 4)",
+   "erw_overlap": "none",
+   "notes": "E.O. 658 Section 3: the DPU 'should continue to prioritize completion of its work to develop large load rate schedules, as per Executive Order 654 and aligned with the Framework', so that other ratepayers do not pay distribution upgrades for data centers. E.O. 658 Section 1 bars state permits for data centers over 25 MW without conformance to the 25 June 2026 Framework and a community benefits agreement; Section 5 has MassDEP set an alternative compliance payment by 31 December 2026 for data centers that do not procure enough new clean electricity. The DPU's own copy in its File Room was not reached, so the row is internal; a commission copy would make it public. NSTAR Electric's and National Grid's own sites were not read (eversource.com barred; National Grid's terms).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Public Service Electric and Gas Company (PSE&G)",
+   "url": "https://s24.q4cdn.com/601515617/files/doc_financials/2026/PSEG-July-2026-Investor-Update-Final.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (PSEG's investor PDFs host)"
+  },
+  {
+   "utility": "Connecticut Light and Power (Eversource); United Illuminating",
+   "url": "https://www.dpuc.state.ct.us/dockcurr.nsf/XP_PURA_Notices.xsp",
+   "reason": "robots.txt 200: DISALLOWED for every agent; PURA's dockets, notices and final decision database all sit on dpuc.state.ct.us"
+  },
+  {
+   "utility": "Green Mountain Power",
+   "url": "https://puc.vermont.gov/",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (the Vermont PUC)"
+  },
+  {
+   "utility": "NSTAR Electric; Massachusetts Electric; Unitil",
+   "url": "https://eeaonline.eea.state.ma.us/dpu/fileroom/api/dockets/docket/26-DC",
+   "reason": "not a refusal by robots (no robots file): the DPU File Room is a script-driven application and its docket address returned only the app's page shell; not tried further"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Connecticut Light and Power Company (Eversource) and The United Illuminating Company (CT)",
+   "searched": "portal.ct.gov/pura (its docket, notice and decision links all go to dpuc.state.ct.us, refused by robots); eversource.com barred; the web search budget was spent before a Connecticut statute or PURA large load docket could be looked for. Not found is not absence: a Connecticut rule may exist on the refused host."
+  },
+  {
+   "utility": "Central Maine Power and Versant Power (ME)",
+   "searched": "Maine PUC home page and press release list (maine.gov/mpuc): no large load or data center item; the MPUC case system and the Maine Legislature were not searched (search budget spent)"
+  },
+  {
+   "utility": "Green Mountain Power (VT)",
+   "searched": "the Vermont PUC refuses this reader by robots; no other copy found"
+  },
+  {
+   "utility": "Rhode Island Energy (RI)",
+   "searched": "RI PUC commission dockets list (ripuc.ri.gov/events-and-actions/commission-dockets), grepped for large load and data center: no match"
+  },
+  {
+   "utility": "Public Service Company of New Hampshire (Eversource) (NH)",
+   "searched": "NH PUC Virtual File Room docket books for 2025 and 2026: the only large-customer item is DE 26-042, the Large Customer Consortium's petition for an Eversource Rate LG coincident peak transmission pilot rate, a rate design petition, not a large-load connection rule"
+  }
+ ]
+}

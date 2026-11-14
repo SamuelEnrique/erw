@@ -1,0 +1,1291 @@
+{
+ "group": "aep",
+ "rows": [
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "state": "OH",
+   "iso_region": "PJM",
+   "rule_name": "Schedule DCT (Data Center Tariff), P.U.C.O. No. 22, 1st Revised Sheets 223-1 to 223-8",
+   "source_url": "https://www.aepohio.com/lib/docs/ratesandtariffs/Ohio/November_2026_Ohio_Power_Tariff_Book.pdf",
+   "source_title": "Ohio Power Company tariff book, P.U.C.O. No. 22 (November 2026), Schedule DCT sheets 223-1 to 223-8",
+   "quoted_clause": {
+    "page": "114",
+    "section": "Availability of Service (Sheet 223-2)",
+    "quote": "Service pursuant to this schedule is available for general service to customers that operate a Data Center (both Existing Load and New Load) that will use, within the initial contract term, a monthly maximum demand of greater than 25,000 kW at a Single Location or an aggregated Total Customer Contract Capacity in Service Territory of greater than 25,000 kW as described below."
+   },
+   "docket": {
+    "value": "PUCO Case No. 24-508-EL-ATA (Schedule DCT); Case No. 26-113-EL-ATA (Finding and Order of 5 August 2026 behind the 1st Revised sheets)",
+    "cites": [
+     {
+      "page": "114",
+      "section": "Sheet 223-2",
+      "quote": "“Effective Date of Schedule DCT” means the date Schedule DCT became effective following the Commission’s order in Case No. 24-508-EL-ATA."
+     },
+     {
+      "page": "117",
+      "section": "Sheet 223-5",
+      "quote": "In accordance with the Commission’s August 5, 2026, Finding and Order in Case No. 26-113-EL-ATA, the following Interim Procedures shall apply until otherwise ordered by the Commission."
+     },
+     {
+      "url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+      "page": "74",
+      "quote": "Case No. 24-508-EL-ATA ... OPINION AND ORDER ... Entered in the Journal on July 9, 2025",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-08-28",
+    "cites": [
+     {
+      "page": "113",
+      "section": "Sheet 223-1",
+      "quote": "1st Revised Sheet No. 223-1 Cancels Original Sheet No. 223-1 ... Issued: August 28, 2026 ... Effective: August 28, 2026"
+     },
+     {
+      "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+      "page": "1",
+      "quote": "On July 11, 2025, the Company filed its compliance tariff, and the tariff became effective on July 23, 2025.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/aep_ohio_schedule_dct.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/aep_ohio_schedule_dct.yaml"
+    },
+    "contract_term": {
+     "value": "Initial term not less than the Load Ramp Period (not over four years) plus 8 years (12 years with a 4-year ramp); after the initial term, termination or a change of contract capacity on written notice no later than three years ahead",
+     "cites": [
+      {
+       "page": "114",
+       "section": "Sheet 223-2",
+       "quote": "“Load Ramp Period” refers to the time of commencement of service until the customer reaches full contract capacity, which shall not exceed four years."
+      },
+      {
+       "page": "117",
+       "section": "Sheet 223-5, Terms of Contract, New Load",
+       "quote": "For New Load only, contracts under the Schedule shall be made for an initial period of not less than the Load Ramp Period plus 8 years. By way of example, the initial period of a Contract for a Data Center with a 4-year Load Ramp Period will be 12 years."
+      },
+      {
+       "page": "118",
+       "section": "Sheet 223-6",
+       "quote": "After the initial term, Contracts shall remain in effect unless terminated by either party by providing written notice to the other party no later than three (3) years prior to the requested date of termination."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "held: large_load_tariffs/aep_ohio_schedule_dct.yaml"
+    },
+    "exit_fee": {
+     "value": "During the initial term the customer pays the minimum charges whether it curtails, reduces, suspends or terminates service; after the fifth contract year following the Load Ramp Period it may terminate by paying an exit fee equal to minimum charges for 36 months after notice of termination; up to 25% of contract capacity may be assigned to another DCT customer in lieu of some or all of the exit fee",
+     "cites": [
+      {
+       "page": "118",
+       "section": "Sheet 223-6",
+       "quote": "During the initial term of the Contract, the customer will be financially responsible to pay the minimum charges regardless of the customer choosing to curtail, reduce, suspend, or terminate service. If after completion of the fifth year of the Contract after the Load Ramp Period the customer chooses to pay an exit fee equal to minimum charges for 36 months after notice of termination, the customer can thereafter terminate the contract."
+      },
+      {
+       "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+       "page": "1",
+       "section": "Assigning Retail Capacity to Another Customer",
+       "quote": "it may request that Ohio Power assign up to 25% of its contract capacity to another Schedule DCT customer in lieu of paying some or all of its exit fee associated with the reallocated capacity.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Load study fee of $10,000 to $100,000 (by size) paid within 45 days; reasonable efforts to complete the load study within 60 days if regional transmission upgrades are needed, otherwise 45 days; 60 days to sign the LOA and ESA; collateral within 30 days of signing; the next study tranche begins 1 October 2026 for applications received by 30 September 2026",
+     "cites": [
+      {
+       "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+       "page": "1",
+       "section": "Steps for Processing New Service Requests of 25,000 kW or Greater",
+       "quote": "Ohio Power will charge a one-time fee of $10,000 to $100,000 for each load study to be paid within 45 days.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+       "page": "1",
+       "section": "Steps for Processing New Service Requests of 25,000 kW or Greater",
+       "quote": "will make reasonable efforts to complete a load study within (i) 60 days if regional transmission upgrades are needed to serve the customer; or (ii) 45 days for all other situations.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+       "page": "1",
+       "quote": "Customers have 60 days to sign their LOA and ESA.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+       "page": "1",
+       "section": "2026 Study Tranche Two",
+       "quote": "The next round of studies will commence on October 1, 2026. Applications must be received by September 30, 2026, to be considered for this tranche.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/lib/docs/ratesandtariffs/ohio/AEP-Ohio_DCT_Load_Study_Letter_25.11.7.pdf",
+       "page": "5",
+       "section": "IV.D Execution Timeline and Collateral",
+       "quote": "Customers who do sign will be required to provide the collateral specified in the LOA, ESA, and Schedule DCT ... within 30 days of signing.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "Estimated in-service dates for the new data center projects studied in 2025: Q4 2031 for Clusters 1 and 3, 2033 for Cluster 2 (a planning estimate); service under the schedule does not commence until the Company has sufficient capacity",
+     "cites": [
+      {
+       "url": "https://www.aepohio.com/lib/docs/ratesandtariffs/ohio/AEP-Ohio_DCT_Load_Study_Letter_25.11.7.pdf",
+       "page": "4",
+       "section": "III.B Study Outputs",
+       "quote": "Estimated in-service dates for all New Data Center Projects: Q4 2031 for Clusters 1 and 3, and 2033 for Cluster 2.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/lib/docs/ratesandtariffs/ohio/AEP-Ohio_DCT_Load_Study_Letter_25.11.7.pdf",
+       "page": "4",
+       "section": "III.A Key Conclusions",
+       "quote": "However, the 2033 date is merely a planning estimate and subject to change.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "114",
+       "section": "Sheet 223-2",
+       "quote": "service to customers under this schedule will not commence until the Company has sufficient capacity to meet the contractual load requirements."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "AEP's 2026 load forecast adjustments to PJM (29 September 2026), signed ESA or LOA only: AEP Ohio cumulative large-load additions 15,574 MW by 2031 and 17,116 MW ultimate; PUCO Chair (27 May 2026): AEP Ohio announced in February 2026 that it had signed 5,642 MW of data center load under the tariff, against requests of more than 30,000 MW reported in 2024; formal load study requests by 8 September 2025: 36 sites, 13,022.7 MW (AEP Ohio letter of 7 November 2025, internal)",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "1",
+       "quote": "PJM LOAD ANALYSIS SUBCOMMITTEE SEPTEMBER 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "2",
+       "quote": "The largest change from the prior submission relates to AEP’s updated methodology to only include load additions with signed ESA or LOA for the entire planning period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Cumulative Additions* (MW) Appalachian Power ... Indiana & Michigan Power AEP Ohio ... Kentucky Power Total AEP ... 2031 1,238 4,330 15,574 1,033 22,175 ... Data represents existing and planned large load submissions.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Ultimate 2,116 4,330 17,116 1,033 24,596",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/committees/cmte_h_data_centers_1/meetings/cmte_h_data_centers_1_2026-05-27-1000_1337/submissions/pucochairfrenchcommentsbeforetheselectcommitteeondatacenters(2)05.27.2026.pdf",
+       "page": "2",
+       "quote": "In February, AEP Ohio publicly announced that it had signed 5,642 MW of data center load under the new tariff.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/committees/cmte_h_data_centers_1/meetings/cmte_h_data_centers_1_2026-05-27-1000_1337/submissions/pucochairfrenchcommentsbeforetheselectcommitteeondatacenters(2)05.27.2026.pdf",
+       "page": "2",
+       "quote": "In 2024, AEP Ohio reported it had received requests to connect more than 30,000 MW of data center load.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+       "page": "89",
+       "section": "Opinion and Order, para. 45",
+       "quote": "In its application, AEP Ohio states that there are currently over 50 customers in that queue that comprise the anticipated 30,000 MW of load demand.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.aepohio.com/lib/docs/ratesandtariffs/ohio/AEP-Ohio_DCT_Load_Study_Letter_25.11.7.pdf",
+       "page": "1",
+       "section": "I. Background",
+       "quote": "This deadline was September 8, 2025, by which time AEP Ohio received requests to formally study 36 data center sites totaling 13,022.7 MW of total load.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "Schedule DCT's sheets, the DCT web page and the load study letter were read only on aepohio.com, whose AEP legal notice (aep.com/terms, read 13 November 2026) allows copying for personal use only; PUCO's docket copy sits behind a reCAPTCHA and was not tried. The queue cites (pjm.com, the Ohio legislature's copy of the PUCO Chair's testimony, the Florida PSC's copy of the PUCO order) are public. The PUCO Opinion and Order of 9 July 2025 is now read from a public commission copy (next row), which prints the same threshold, minimum demand, term, ramp floors, collateral and exit-fee timing.",
+   "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml: threshold, min_demand and collateral held with the same values (same November 2026 tariff book). contract_term adds the four-year ramp cap and the three-year notice to the held term (Load Ramp Period plus 8 years); exit_fee, study_timeline, connection_timeline and queue_size are new.",
+   "notes": "2026 change: the 1st Revised sheets (effective 28 August 2026) add Interim Procedures from the 5 August 2026 Finding and Order in 26-113-EL-ATA: no less than 180 days' advance written notice to return to or start on SSO, with a separate procurement at the customer's cost (Sheet 223-5, PDF p. 117). AEP company-wide pipeline (public, SEC Form 8-K Exhibit 99.1, 28 October 2026, https://www.sec.gov/Archives/edgar/data/4904/000000490426000069/a3q20268kpressreleaseex991.htm): 'With 15 gigawatts (GW) of new load commitments signed during the third quarter, AEP’s incremental contracted load is expected to grow to 84 GW by 2031. Projects are only included as incremental contracted load if backed by fully executed electric service agreements or letters of agreement.' (not stated per company). AEP 10-Q for Q3 2026 (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm): OHTCo, OPCo and a customer signed agreements in August 2026 for three 765 kV lines to support 'a proposed 10.4 GW data center campus in Piketon, Ohio'. Leads, not verified: OMAEG's appeal of the DCT order is Supreme Court of Ohio Case No. 2025-1458 (news and OMA releases); the court's docket was refused (robots not readable). AEP Ohio's February 2026 Update, the Stipulation and the Opinion and Order sit on dis.puc.state.oh.us (reCAPTCHA, not tried); the February 2026 Update reportedly also gives 12,219 MW signed before the tariff (news, unverified).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "state": "OH",
+   "iso_region": "PJM",
+   "rule_name": "PUCO Opinion and Order in Case No. 24-508-EL-ATA adopting the 10/23 Stipulation (Schedule DCT terms), as modified",
+   "source_url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+   "source_title": "PUCO Opinion and Order, Case No. 24-508-EL-ATA (entered 9 July 2025), Exhibit D to Walmart's motion in Florida PSC filing 07142-2025 (PDF pp. 74 to 171)",
+   "quoted_clause": {
+    "page": "169",
+    "section": "V. Conclusion, para. 158",
+    "quote": "the Commission directs AEP Ohio to file updated tariffs for Schedule DCT, under which applicable data centers shall be subject to the specified load ramp period, longer contract terms, adjusted minimum demand charges, collateral requirement, capacity reassignment limitations, and new service enrollment process, amongst other 10/23 Stipulation provisions."
+   },
+   "docket": {
+    "value": "PUCO Case No. 24-508-EL-ATA",
+    "cites": [
+     {
+      "page": "74",
+      "quote": "In the Matter of the Application of Ohio Power Company for New Tariffs Related to Data Centers and Mobile Data Centers. ... Case No. 24-508-EL-ATA"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-07-09",
+    "cites": [
+     {
+      "page": "74",
+      "quote": "OPINION AND ORDER ... Entered in the Journal on July 9, 2025"
+     },
+     {
+      "page": "170",
+      "section": "VII. Order, para. 171",
+      "quote": "ORDERED, That the 10/23 Stipulation be approved and adopted, subject to modifications consistent with this Order."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "25 MW: Schedule DCT applies to data center ESAs signed after the effective date for new load or expansion greater in the aggregate than 25 MW",
+     "cites": [
+      {
+       "page": "89",
+       "section": "Summary of the Stipulations, 10/23 Stipulation, Tariff Applicability",
+       "quote": "Schedule Data Center Tariff (DCT) would apply to any data center customer ESA signed after the tariff effective date for a"
+      },
+      {
+       "page": "90",
+       "section": "Summary of the Stipulations, 10/23 Stipulation, Tariff Applicability",
+       "quote": "new load (or expansion of an existing load) greater in the aggregate than 25 MW."
+      },
+      {
+       "page": "94",
+       "section": "Aggregation",
+       "quote": "If there are multiple new facilities at a single location of less than 25 MW, but the aggregate total load is greater than 25 MW, all of those facilities will be subject to Schedule DCT."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Greater of 85 percent of the highest billing demand of the past 11 months or the contract-capacity schedule (25,001 to 75,000 kW: 15,000 kW plus 85 percent above 25,000 kW; over 75,000 kW: 57,500 kW plus 100 percent above 75,000 kW), capped at 85 percent of total contract capacity; ramp floors 50, 65, 80 and 90 percent in years 1 to 4",
+     "cites": [
+      {
+       "page": "92",
+       "section": "Minimum Demand Charges, 10/23 Stipulation",
+       "quote": "a) 85-percent of the customer's highest previously established monthly billing demand during the past 11 months; or"
+      },
+      {
+       "page": "92",
+       "section": "Minimum Demand Charges, 10/23 Stipulation",
+       "quote": "for customers with 25,001 kW to 75,000 kW of total contract capacity: minimum demand is 15,000 kW plus 85 percent of any capacity above 25,000 kW; or with more than 75,000 kW of total contract capacity, minimum demand is 57,500 kW plus 100 percent of any capacity above 75,000 kW. However, the minimum demand cannot exceed 85 percent of the total contract capacity."
+      },
+      {
+       "page": "91",
+       "section": "Load Ramp Period, 10/23 Stipulation",
+       "quote": "In Year 1: 50-percent contract capacity In Year 2: 65-percent contract capacity In Year 3: 80-percent contract capacity In Year 4: 90-percent contract capacity"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial term equal to the Load Ramp Period (no greater than four years) plus eight years",
+     "cites": [
+      {
+       "page": "91",
+       "section": "Contract Term, 10/23 Stipulation",
+       "quote": "The initial term of the contract will equal the Load Ramp Period (no greater than four years) plus eight years."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "For customers below A-/A3 ratings, a parent guarantee or collateral (letter of credit or cash) equal to 50 percent of the customer's minimum charges under the ESA; the Commission's modification lets the customer's financial sponsor meet it as a co-signer",
+     "cites": [
+      {
+       "page": "91",
+       "section": "Collateral, 10/23 Stipulation",
+       "quote": "Collateral and other tariff requirements will remain the same, as requested in the Company's application (which would require data center customers who have credit ratings less than A- from S&P, A3 from Moody's to provide a parent guarantee or collateral in the form of a letter of credit or cash equal to 50 percent of the customer's minimum charges under the ESA."
+      },
+      {
+       "page": "150",
+       "quote": "We find that, the collateral requirements must either be met by the data center customer or the customer's financial sponsor, so long as the sponsor is a co-signer on the contract with AEP Ohio."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit fee payable only after five contract years excluding the load ramp period (with a three-year ramp, after year eight); exit fee and collateral revenue to flow back to retail customers",
+     "cites": [
+      {
+       "page": "96",
+       "section": "Exit Fees, 10/23 Stipulation",
+       "quote": "Data centers will be eligible to pay the applicable exit fee after the completion of five years of the contract, excluding load ramp period, meaning if there is a load ramp period of three years, the customer may exit after year eight (three year load ramp period and five years of contract)."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Load study fee of $10k to $100k paid within 45 days; reasonable efforts to complete the load study within 60 days if regional transmission upgrades are needed, otherwise 45 days; 60 days to sign the LOA and ESA",
+     "cites": [
+      {
+       "page": "94",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "AEP Ohio will charge a one-time fee for each load study from $10k to $100k to be paid within 45 days or customers will forfeit their spot."
+      },
+      {
+       "page": "95",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "will make reasonable efforts to complete a load study within (i) 60 days if regional transmission upgrades are needed to serve the customer; or (ii) 45 days (for all other situations)."
+      },
+      {
+       "page": "95",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "4) Customer will have 60 days to sign the LOA and ESA."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PUCO Opinion and Order pp. 74 to 171 of the Florida PSC filing: only a 'good faith estimate of energization date' in the ESA and construction through the PJM planning process; no duration printed"
+    },
+    "queue_size": {
+     "value": "see row: Schedule DCT (Data Center Tariff), P.U.C.O. No. 22, 1st Revised Sheets 223-1 to 223-8"
+    }
+   },
+   "license": "public",
+   "license_basis": "The Florida PSC's docket copy (Walmart's motion with the PUCO order as Exhibit D).",
+   "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml (internal, the tariff sheets on aepohio.com): the order prints the same 25 MW threshold, 85 percent minimum, Load Ramp Period plus eight years, 50/65/80/90 percent ramp floors and 50 percent collateral; this public commission-hosted copy can serve as the public source for them.",
+   "notes": "The order's summary is a two-column comparison of the 10/10 and 10/23 Stipulations; every quote here is from the 10/23 (adopted) column or the Commission's own findings. The order also directs AEP Ohio 'to cease its temporary service moratorium, consistent with this Order' (para. 158) and records that the moratorium in central Ohio began in March 2023 (para. 45).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Indiana Michigan Power Company",
+   "state": "IN",
+   "iso_region": "PJM",
+   "rule_name": "Tariff I.P. (Industrial Power), Terms and Conditions for Customer at or Over 70 MW Individually or 150 MW in the Aggregate (I.U.R.C. No. 20, Sheets 21.3 to 21.7)",
+   "source_url": "https://www.indianamichiganpower.com/lib/docs/ratesandtariffs/Indiana/IM_IN_TB_20_10-28-2026.pdf",
+   "source_title": "Indiana Michigan Power Company, I.U.R.C. No. 20, Schedule of Tariffs and Terms and Conditions of Service Governing Sale of Electricity in the State of Indiana (tariff book of 28 October 2026)",
+   "quoted_clause": {
+    "page": "88",
+    "section": "Sheet 21.3, Applicability",
+    "quote": "These provisions apply to customers whose contract capacity is greater than or equal to 70 MW or is reasonably expected to grow to exceed 70 MW at an individual plant, or 150 MW or reasonably expected to grow to exceed 150 MW at one or more aggregated premises, each of 1 MW or larger (“Large Load Customer”)."
+   },
+   "docket": {
+    "value": "IURC Cause No. 46097 (Sheets 21.3 to 21.6); 30-Day Filing No. 50910 (1st Revised Sheet 21.7)",
+    "cites": [
+     {
+      "page": "85",
+      "section": "Sheet 21.3",
+      "quote": "ISSUED UNDER AUTHORITY OF THE INDIANA UTILITY REGULATORY COMMISSION DATED FEBRUARY 19, 2025 IN CAUSE NO. 46097"
+     },
+     {
+      "page": "92",
+      "section": "Sheet 21.7",
+      "quote": "ISSUED UNDER AUTHORITY OF THE INDIANA UTILITY REGULATORY COMMISSION DATED JUNE 24, 2026 IN 30-DAY FILING NO. 50910"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-02-19",
+    "cites": [
+     {
+      "page": "85",
+      "section": "Sheet 21.3",
+      "quote": "EFFECTIVE FOR ELECTRIC SERVICE RENDERED ON AND AFTER FEBRUARY 19, 2025"
+     },
+     {
+      "page": "92",
+      "section": "Sheet 21.7",
+      "quote": "FIRST REVISED SHEET NO. 21.7 CANCELS ORIGINAL SHEET NO. 21.7 ... EFFECTIVE FOR ELECTRIC SERVICE RENDERED ON AND AFTER JUNE 24, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml"
+    },
+    "contract_term": {
+     "value": "held: large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml"
+    },
+    "collateral": {
+     "value": "24 times the maximum expected monthly non-fuel bill (first contract year) or the previous maximum monthly non-fuel bill, provided within 10 business days of contract signing; recomputed annually; exempt with A-/A3 ratings and liquidity over ten times the requirement; unrated customers with that liquidity exempt from 50 percent, up to $250 million",
+     "cites": [
+      {
+       "page": "92",
+       "section": "Sheet 21.7, Collateral Requirements",
+       "quote": "The amount of collateral to be provided within 10 business days of contract signing is equal to twenty-four (24) multiplied by: (a) during the first year of the contract, the maximum expected monthly non-fuel bill; or (b) after the first year of the contract, the Large Load Customer’s previous maximum monthly non-fuel bill."
+      },
+      {
+       "page": "92",
+       "section": "Sheet 21.7",
+       "quote": "shall be exempt from 50 percent of the Collateral Requirements not to exceed an exemption of more than $250 million."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "held: large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "I&M Indiana tariff book of 28 October 2026, Tariff I.P. Sheets 21.3 to 21.7 (PDF pp. 88 to 92)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "I&M Indiana tariff book of 28 October 2026, Tariff I.P. Sheets 21.3 to 21.7 (PDF pp. 88 to 92)"
+    },
+    "queue_size": {
+     "value": "AEP's 2026 load forecast adjustments to PJM (29 September 2026), signed ESA or LOA only: Indiana & Michigan Power (both states) cumulative large-load additions 4,330 MW by 2031 and 4,330 MW ultimate",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "1",
+       "quote": "PJM LOAD ANALYSIS SUBCOMMITTEE SEPTEMBER 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "2",
+       "quote": "The largest change from the prior submission relates to AEP’s updated methodology to only include load additions with signed ESA or LOA for the entire planning period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Cumulative Additions* (MW) Appalachian Power ... Indiana & Michigan Power AEP Ohio ... Kentucky Power Total AEP ... 2031 1,238 4,330 15,574 1,033 22,175 ... Data represents existing and planned large load submissions.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Ultimate 2,116 4,330 17,116 1,033 24,596",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "The one new value (the 1st Revised Sheet 21.7) was read only in I&M's own tariff book on indianamichiganpower.com, whose AEP legal notice allows personal use only; the held fields come from the registry's public file (the IURC order of 19 February 2025). The queue cite (pjm.com) is public.",
+   "erw_overlap": "large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml: collateral wording differs. The registry's text (the order's Attachment A, PDF p. 73) prints no due date; 1st Revised Sheet 21.7, effective 24 June 2026 under IURC 30-Day Filing No. 50910, adds 'within 10 business days of contract signing' (the 24-times multiplier is unchanged). Sheets 21.3 to 21.6 in the 28 October 2026 book print the same 70/150 MW threshold, 12-year term with 42 months' notice, 80 percent minimum and exit fee as the registry.",
+   "notes": "Lead (2026-11-06 research file): the collateral due-date change came from a settlement in IURC Cause No. 46301 (I&M legal notice); not read. AEP's 10-Q for Q3 2026 says I&M's August 2026 MYRP filing proposes to freeze base rates 'with limited exceptions primarily related to large load customers' (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm); no change to the large-load terms is stated there.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Indiana Michigan Power Company",
+   "state": "MI",
+   "iso_region": "PJM",
+   "rule_name": "Tariff LP (Large Power), Large Load Customers terms (M.P.S.C. 18, First Revised Sheet D-39.00 and Original Sheets D-39.10 to D-39.40)",
+   "source_url": "https://www.indianamichiganpower.com/lib/docs/ratesandtariffs/Michigan/IM_MI_TB_Bk_19_2026_09_18.pdf",
+   "source_title": "Indiana Michigan Power Company, M.P.S.C. 19 Electric, Schedule of Tariffs Governing the Sale of Electricity (Michigan tariff book of 18 September 2026)",
+   "quoted_clause": {
+    "page": "96",
+    "section": "Sheet D-39.00, Large Load Customers",
+    "quote": "the following Terms and Conditions apply to customers whose contract capacity is ... greater than or equal to 50 MW or is reasonably expected to grow to exceed 50 MW at one or more aggregated ... premises, each of 1 MW or larger (“Large Load Customer”)."
+   },
+   "docket": {
+    "value": "MPSC Case No. U-21986 (order of 27 August 2026)",
+    "cites": [
+     {
+      "page": "4",
+      "section": "Sheet D-39.00",
+      "quote": "ISSUED UNDER AUTHORITY OF THE MICHIGAN PUBLIC SERVICE COMMISSION DATED AUGUST 27, 2026 IN CASE NO. U-21986"
+     },
+     {
+      "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+      "page": "1",
+      "quote": "until the utility presents a standalone rate category for very large electricity users in its next general rate case (Case No. U-21986).",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09-18",
+    "cites": [
+     {
+      "page": "4",
+      "section": "Sheet D-39.00",
+      "quote": "EFFECTIVE FOR SERVICE RENDERED ON AND AFTER SEPTEMBER 18, 2026"
+     },
+     {
+      "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+      "page": "1",
+      "quote": "The MPSC today approved amendments to Indiana Michigan Power Co.’s (I&M) large electric load tariff to accommodate data centers and other very large energy users",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+      "page": "1",
+      "quote": "August 27, 2026",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50 MW (contract capacity of, or reasonably expected to grow past, 50 MW at one or more aggregated premises each of 1 MW or larger)",
+     "cites": [
+      {
+       "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+       "page": "1",
+       "quote": "The Commission permitted I&M to amend its large load tariff, or Tariff LP, to allow for large load customers drawing 50 megawatts (MW) or more of electricity.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "96",
+       "section": "Sheet D-39.00",
+       "quote": "greater than or equal to 50 MW or is reasonably expected to grow to exceed 50 MW at one or more aggregated"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly billing demand not less than 90% of the greater of contract capacity or the highest billing demand of the past 11 months; the minimum charge also bills Base Billing Energy of 65% of contract capacity times the billing hours",
+     "cites": [
+      {
+       "page": "98",
+       "section": "Sheet D-39.20, Monthly Billing Demand",
+       "quote": "the monthly billing demand so established shall, in no event, be less than 90% of the greater of (a) the customer’s contract capacity, or (b) the customer’s highest previously established monthly billing demand during the past 11 months."
+      },
+      {
+       "page": "98",
+       "section": "Sheet D-39.20, Minimum Charge",
+       "quote": "The Base Billing Energy will be computed as follows: Contract Capacity (kW) multiplied by 65% multiplied by Number of Billing Hours in the Month."
+      },
+      {
+       "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+       "page": "1",
+       "quote": "a 90% monthly minimum billing demand and 65% monthly minimum energy requirement",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Contract Term not less than 15 years, after an optional Load Ramp Period of up to five years; at least 60 months' written notice to terminate; automatic five-year renewals after the Contract Term",
+     "cites": [
+      {
+       "page": "97",
+       "section": "Sheet D-39.10, Contract Term",
+       "quote": "The Large Load Customer’s Initial Contract Term will be made for a period of not less than 15 years. A Large Load Customer may designate a Load Ramp Period, which can be no greater than five (5) years."
+      },
+      {
+       "page": "97",
+       "section": "Sheet D-39.10",
+       "quote": "Either party shall give at least 60 months written notice to the other party of the intention to terminate the contract."
+      },
+      {
+       "page": "97",
+       "section": "Sheet D-39.10",
+       "quote": "At the conclusion of the Contract Term, the contract shall automatically renew in five-year contract extensions unless the Large Load Customer provides 60 months written notice of the intention to terminate the contract."
+      },
+      {
+       "url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+       "page": "1",
+       "quote": "requiring a contract term of 15 years with a maximum 5-year period to ramp up to its full load",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "50% of the Exit Fee, provided within 10 business days of contract signing, recalculated annually or on a material change; standby letter of credit (A-/A3 bank, 360-day minimum term) or cash",
+     "cites": [
+      {
+       "page": "100",
+       "section": "Sheet D-39.40, Collateral Requirements",
+       "quote": "The amount of collateral to be provided within 10 business days of contract signing and unless otherwise approved by the Commission, the Large Load Customer shall provide collateral in the amount of 50% of the Exit Fee."
+      },
+      {
+       "page": "100",
+       "section": "Sheet D-39.40",
+       "quote": "This amount shall be recalculated annually or upon any material change to the contract term or minimum monthly charges."
+      },
+      {
+       "page": "100",
+       "section": "Sheet D-39.40",
+       "quote": "Such security must be issued for a minimum term of 360 days."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination, a switch to an AES, or a reduction beyond 10% at any time during the Contract Term on at least 60 months' notice, with an Exit Fee equal to the remaining Minimum Charge for the terminated or reduced capacity for the rest of the Contract Term; a one-time reduction of up to 10% without fee after the first five years on at least 48 months' notice",
+     "cites": [
+      {
+       "page": "97",
+       "section": "Sheet D-39.10, Contract Capacity",
+       "quote": "Large Load Customer may terminate its contract, elect to take service from a qualified AES, or reduce its contract capacity beyond 10% at any time during the Contract Term by giving the Company at least 60 months written notice prior to the beginning of the PJM Delivery Year for which the reduction or termination is sought, subject to payment of a capacity reduction/termination fee (“Exit Fee”). The Exit Fee shall be equal to the remaining Minimum Charge, based on the Large Load Customers total Contract Capacity for the terminated/reduced capacity for the remainder of the Contract Term, unless determined otherwise by the Commission."
+      },
+      {
+       "page": "97",
+       "section": "Sheet D-39.10, Contract Capacity",
+       "quote": "Large Load Customer may, without payment of an Exit Fee or any penalty, reduce its contract capacity at any time after the first five (5) years of the Contract Term via a one-time election not to exceed 10%, by giving the Company at least 48 months written notice prior to the beginning of the PJM Delivery Year for which the reduction is sought."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "No study duration printed: each study is under a written study agreement with a target completion date; studies taken in the order complete applications are received; $100,000 non-refundable Administrative Fee per project proposal (reconciled to actual cost); 30 days after study completion to notify intent to proceed",
+     "cites": [
+      {
+       "page": "99",
+       "section": "Sheet D-39.30, Interconnection",
+       "quote": "The Administrative Fee shall be $100,000 per project proposal and shall be reconciled to actual costs upon completion of the project."
+      },
+      {
+       "page": "99",
+       "section": "Sheet D-39.30",
+       "quote": "Each type of study will be the subject of a written study agreement between the Customer and the Company that includes the following: ... a. A target date for completion of any required study; and"
+      },
+      {
+       "page": "99",
+       "section": "Sheet D-39.30",
+       "quote": "The Company will conduct the necessary study in the order a fully complete application is received provided the Customer also demonstrates:"
+      },
+      {
+       "page": "99",
+       "section": "Sheet D-39.30",
+       "quote": "Upon study completion, the Customer will have 30 days to notify the Company of its intent to proceed with service."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "I&M Michigan tariff book of 18 September 2026, Tariff LP Sheets D-39.00 to D-39.40 (PDF pp. 96 to 100), and the MPSC release of 27 August 2026"
+    },
+    "queue_size": {
+     "value": "see row: Tariff I.P. (Industrial Power), Terms and Conditions for Customer at or Over 70 MW Individually or 150 MW in the Aggregate (I.U.R.C. No. 20, Sheets 21.3 to 21.7)"
+    }
+   },
+   "license": "internal",
+   "license_basis": "The tariff sheets were read only in I&M's Michigan tariff book on indianamichiganpower.com (AEP legal notice: personal use only). The MPSC's release of 27 August 2026 on michigan.gov is public and alone supports the 50 MW threshold, the 15-year term with a five-year ramp, the 90 percent minimum demand and 65 percent minimum energy, the order date and the case number.",
+   "erw_overlap": "",
+   "notes": "The MPSC release says the amendments require '4 years of notice if the customer plans to reduce capacity more than 10%', but the sheet prints at least 48 months for a one-time reduction of up to 10% and at least 60 months for a reduction beyond 10% (Sheet D-39.10): a discrepancy for review. The release also states that I&M must propose a standalone large-load rate in its next general rate case, model six cost allocation and rate designs, and make an ex parte filing before each new customer takes service. The MPSC order itself (e-dockets) was not found in a readable form; ADMS order document 27364 is a different case (U-21682).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
+   "state": "WV",
+   "iso_region": "PJM",
+   "rule_name": "Schedule L.C.P. (Large Capacity Power Service), Large Load Customers terms (P.S.C. W.Va. Tariff No. 16 and No. 21, Original Sheets 14-3 and 14-4)",
+   "source_url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/WestVirginia/Securitization_Tariff_Sheets_Eff_11-1-26.pdf",
+   "source_title": "Appalachian Power Company and Wheeling Power Company, P.S.C. W.Va. Tariff No. 16 and No. 21, Rate Schedules, Terms and Conditions of Service Governing Sale of Electricity in West Virginia (tariff posted with sheets effective 1 November 2026)",
+   "quoted_clause": {
+    "page": "70",
+    "section": "Sheet 14-3, Large Load Customers, Applicability",
+    "quote": "After January 1, 2025, the following terms and conditions apply to any new load, and to any expansion of existing load, so long as that new load or load expansion itself has a contract capacity greater than or equal to 100 MW at an individual site or 150 MW on an aggregated basis (“Large Load Customer”)."
+   },
+   "docket": {
+    "value": "P.S.C. W.Va. Case No. 24-0854-E-42T (order of 28 August 2025, under which Sheets 14-3 and 14-4 were issued)",
+    "cites": [
+     {
+      "page": "2",
+      "section": "Sheet 14-3",
+      "quote": "Issued Pursuant to P.S.C. West Virginia Case No. 24-0854-E-42T Order Dated August 28, 2025"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-09-29",
+    "cites": [
+     {
+      "page": "44",
+      "section": "Sheet 14-3",
+      "quote": "Effective: Service rendered on or after September 29, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "100 MW at an individual site or 150 MW aggregated (new load or expansion after 1 January 2025)",
+     "cites": [
+      {
+       "page": "70",
+       "section": "Sheet 14-3",
+       "quote": "so long as that new load or load expansion itself has a contract capacity greater than or equal to 100 MW at an individual site or 150 MW on an aggregated basis"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly billing demand not less than the greater of 80 percent of contract capacity or 80 percent of the highest billing demand of the past 11 months; the minimum charge also bills Base Billing Energy of 60% of contract capacity times the billing hours",
+     "cites": [
+      {
+       "page": "70",
+       "section": "Sheet 14-3, Monthly Billing Demand",
+       "quote": "The monthly billing demand established hereunder shall not be less than the greater of (a) 80 percent of the Large Load Customer's contract capacity specified for the applicable time period of the Contract Term; or (b) 80 percent of the Large Load Customer's highest previously established Monthly Billing Demand during the past 11 months."
+      },
+      {
+       "page": "70",
+       "section": "Sheet 14-3, Minimum Charge",
+       "quote": "The Base Billing Energy will be computed as follows: Contract Capacity (kW) * 60% * Number of Billing Hours in the Month."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Contract Term not less than 12 years, after an optional Load Ramp Period of up to five years; reductions or termination after the first five years on at least 42 months' written notice",
+     "cites": [
+      {
+       "page": "70",
+       "section": "Sheet 14-3, Contract Term",
+       "quote": "The Large Load Customer’s Initial Contract Term will be made for a period of not less than 12 years. A Large Load Customer may designate a Load Ramp Period, which can be no greater than five years."
+      },
+      {
+       "page": "71",
+       "section": "Sheet 14-4",
+       "quote": "Large Load Customer may terminate its contract or reduce its contract capacity beyond 20% at any time after the first five years of the Initial Contract Term by giving the Company at least 42 months written notice prior to the beginning of the PJM Delivery Year for which the reduction or termination is sought"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "24 times the previous maximum monthly non-fuel bill (the maximum expected bill in the first contract year), recomputed annually and updated if 10% greater",
+     "cites": [
+      {
+       "page": "71",
+       "section": "Sheet 14-4, Collateral Requirement",
+       "quote": "The amount of collateral provided shall be equal to 24 times the Large Load Customer’s previous maximum monthly non-fuel bill. During the first year of the contract, the maximum expected bill for the year shall be used."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Up to 20% reduction without fee after the first five years on 42 months' notice; termination or reduction beyond 20% pays an Exit Fee equal to the nominal value of the remaining Minimum Charge for the capacity above the 20% allowance, over an Exit Fee Period of one to five years",
+     "cites": [
+      {
+       "page": "71",
+       "section": "Sheet 14-4, Contract Capacity Reductions",
+       "quote": "Large Load Customer may, without payment of an Exit Fee or any penalty, reduce its contract capacity at any time after the first five years of the Initial Contract Term by up to 20%, in total, by giving the Companies at least 42 months written notice"
+      },
+      {
+       "page": "71",
+       "section": "Sheet 14-4",
+       "quote": "The Exit Fee shall be calculated as the nominal value of the remaining Minimum Charge for the terminated/reduced capacity in excess of the 20% allowed reduction for the first year of the Exit Fee Period"
+      },
+      {
+       "page": "71",
+       "section": "Sheet 14-4",
+       "quote": "The Exit Fee Period shall not be less than one year and shall not exceed five years."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "APCo/Wheeling West Virginia tariff, Schedule L.C.P. Sheets 14-1 to 14-4 (PDF pp. 68 to 71)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "APCo/Wheeling West Virginia tariff, Schedule L.C.P. Sheets 14-1 to 14-4 (PDF pp. 68 to 71)"
+    },
+    "queue_size": {
+     "value": "AEP's 2026 load forecast adjustments to PJM (29 September 2026), signed ESA or LOA only: Appalachian Power (all states) cumulative large-load additions 1,238 MW by 2031 and 2,116 MW ultimate; Wheeling Power not shown separately",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "1",
+       "quote": "PJM LOAD ANALYSIS SUBCOMMITTEE SEPTEMBER 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "2",
+       "quote": "The largest change from the prior submission relates to AEP’s updated methodology to only include load additions with signed ESA or LOA for the entire planning period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Cumulative Additions* (MW) Appalachian Power ... Indiana & Michigan Power AEP Ohio ... Kentucky Power Total AEP ... 2031 1,238 4,330 15,574 1,033 22,175 ... Data represents existing and planned large load submissions.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Ultimate 2,116 4,330 17,116 1,033 24,596",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "Read only in the tariff posted on appalachianpower.com (AEP legal notice: personal use only); the West Virginia PSC's docket copy was not found. The queue cite (pjm.com) is public.",
+   "erw_overlap": "",
+   "notes": "The sheets apply to both companies (Tariff No. 16 for APCo, No. 21 for Wheeling Power), so Wheeling Power's large-load rule is this row. Leads, not verified: the terms came from APCo and Wheeling's July 2024 application in Case No. 24-0611-E-T-PW (revisions to Schedules LCP and IP, per a legal notice) and a January 2025 settlement with Google and the manufacturers' group (WV Public Broadcasting, 22 January 2025: 100 MW, 12 years, 80 percent); the PSC order in that case was not found. Cardinal News (31 July 2026) quotes APCo testimony to the Virginia SCC that it has contracted 'more than double' 540 MW of data center load in West Virginia (news, unverified). Two older APCo West Virginia tariff files answered HTTP 404.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Kentucky Power Company",
+   "state": "KY",
+   "iso_region": "PJM",
+   "rule_name": "Tariff I.G.S. (Industrial General Service), terms for customers adding 150 MW or more (P.S.C. KY. No. 14, Original Sheet No. 8-3)",
+   "source_url": "https://psc.ky.gov/tariffs/Electric/Kentucky%20Power%20Company/Tariff.pdf",
+   "source_title": "Kentucky Power Company, P.S.C. KY. No. 14 tariff (Kentucky PSC tariff library copy)",
+   "quoted_clause": {
+    "page": "63",
+    "section": "Sheet 8-3, Special Terms and Conditions",
+    "quote": "Applicable on and after March 18, 2025, to existing commercial and industrial customers that add 150 MW or more of incremental load and new commercial and industrial customers that have contract demands of at least 150 MW."
+   },
+   "docket": {
+    "value": "Kentucky PSC Case No. 2024-00305 (order of 18 March 2025); current sheet issued under Case No. 2025-00257 (order of 28 February 2026)",
+    "cites": [
+     {
+      "url": "https://psc.ky.gov/order_vault/Orders_2025/202400305_03182025.pdf",
+      "page": "1",
+      "quote": "CASE NO. 2024-00305",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://psc.ky.gov/order_vault/Orders_2025/202400305_03182025.pdf",
+      "page": "5",
+      "quote": "1. Kentucky Power’s proposed revisions to Tariff I.G.S. are approved as modified herein. 2. The tariff provisions shall apply only to existing customers adding 150 MW or more of incremental load or new customers 150 MW or more of incremental load on or after the date of this Order.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "1",
+      "section": "Sheet 8-3",
+      "quote": "In Case No.: 2025-00257 Dated February 28, 2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-03-18",
+    "cites": [
+     {
+      "page": "63",
+      "section": "Sheet 8-3",
+      "quote": "Applicable on and after March 18, 2025"
+     },
+     {
+      "page": "5",
+      "section": "Sheet 8-3",
+      "quote": "DATE EFFECTIVE: Services Rendered On And After March 1, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "150 MW (new customers with contract demands of at least 150 MW, or existing customers adding 150 MW or more of incremental load)",
+     "cites": [
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "existing commercial and industrial customers that add 150 MW or more of incremental load and new commercial and industrial customers that have contract demands of at least 150 MW"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly billing demand not less than 90% of the greater of on-peak contract capacity, the highest billing demand of the past 11 months, or the month's maximum demand",
+     "cites": [
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "the customer’s monthly billing demand shall in no event be less than 90% of the greater of (a) the customer's on-peak contract capacity or b) the customer’s highest previously established monthly billing demand during the past 11 months or (c) the customer’s maximum demand created during the billing month."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial period of 20 years; at least five years' written notice to discontinue (not reducing the 20-year term); five years' notice to reduce contract capacity, by no more than 20% except by mutual agreement, not given in the first five years",
+     "cites": [
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "Contracts will be made for an initial period of twenty (20) years and shall remain in effect thereafter unless cancelled or modified pursuant to the terms hereunder."
+      },
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "Either party shall give at least five years’ written notice to the other of the intention to discontinue service under the terms of this Schedule. Such notice shall not reduce the twenty-year initial term."
+      },
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "Such notice shall not reduce the maximum contract capacity established during the term of the contract by more than 20%, except by mutual agreement. Such notice shall not be given and will not be accepted during the first five (5) years of the initial contract term."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "24 times the previous maximum monthly non-fuel bill (the maximum expected bill in the first contract year), recomputed annually and updated if 10% greater",
+     "cites": [
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "The amount of collateral provided shall be equal to 24 times the customer’s previous maximum monthly non-fuel bill. During the first year of the contract, the maximum expected bill for the year shall be used."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "On a permanent closure after the first five years of the initial term, a one-time payment equal to five years of minimum billing",
+     "cites": [
+      {
+       "page": "63",
+       "section": "Sheet 8-3",
+       "quote": "In the event of a permanent closure by the customer occurring after the first five (5) years of the initial contract term, the customer may exit the contract by providing a one-time payment equal to five (5) years of minimum billing under this Schedule."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Tariff I.G.S. Sheets 8-1 to 8-3 (PDF pp. 61 to 63) and the order of 18 March 2025 in Case No. 2024-00305"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Tariff I.G.S. Sheets 8-1 to 8-3 (PDF pp. 61 to 63) and the order of 18 March 2025 in Case No. 2024-00305"
+    },
+    "queue_size": {
+     "value": "AEP's 2026 load forecast adjustments to PJM (29 September 2026), signed ESA or LOA only: Kentucky Power cumulative large-load additions 1,033 MW by 2031 and 1,033 MW ultimate; AEP 10-Q: an amended agreement with TeraWulf Inc. in October 2026 for 1 GW of contracted demand",
+     "cites": [
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "1",
+       "quote": "PJM LOAD ANALYSIS SUBCOMMITTEE SEPTEMBER 29, 2026",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "2",
+       "quote": "The largest change from the prior submission relates to AEP’s updated methodology to only include load additions with signed ESA or LOA for the entire planning period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Cumulative Additions* (MW) Appalachian Power ... Indiana & Michigan Power AEP Ohio ... Kentucky Power Total AEP ... 2031 1,238 4,330 15,574 1,033 22,175 ... Data represents existing and planned large load submissions.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2026/20260929/20260929-item-5f---aep.pdf",
+       "page": "6",
+       "quote": "Ultimate 2,116 4,330 17,116 1,033 24,596",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm",
+       "page": "1",
+       "quote": "In October 2026, KPCo entered into an amended agreement with TeraWulf Inc., for 1 GW of contracted demand.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "The Kentucky PSC's tariff library copy and its order vault; the queue cites (pjm.com, SEC EDGAR) are public.",
+   "erw_overlap": "",
+   "notes": "The 28 February 2026 rate case order (Case No. 2025-00257, 225 pages) was searched for 150 MW, large load, data center and TeraWulf with no match: the large-load terms carried into P.S.C. KY. No. 14 unchanged in substance from the 2024-00305 approval. The 10-Q says KPCo plans to file for approval of the TeraWulf agreement and related generation in Q4 2026.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma",
+   "state": "OK",
+   "iso_region": "SPP",
+   "rule_name": "Proposed large load special terms and conditions in the Large Power and Light tariff (2026 base rate case)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm",
+   "source_title": "American Electric Power Company, Inc. and subsidiaries, Form 10-Q for the quarter ended September 30, 2026 (SEC EDGAR)",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "Further, PSO is seeking approval of new large load special terms and conditions in the Large Power and Light tariff."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "AEP 10-Q for Q3 2026 (no cause number printed); PSO's data center and rate pages on psoklahoma.com; the OCC's Data Center Customer Ratepayer Protection Act page"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-01",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "In January 2026, PSO filed a request with the OCC for a $299 million annual base rate increase"
+     },
+     {
+      "page": "1",
+      "quote": "All issues related to PSO's proposed large load tariffs would be an open issue at hearing."
+     },
+     {
+      "page": "1",
+      "quote": "A hearing was held and an order is expected in the fourth quarter of 2026."
+     },
+     {
+      "page": "1",
+      "quote": "As of September 30, 2026, AEP filed proposals in eight jurisdictions, with six approved and two pending in Oklahoma and SWEPCo-Texas."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026; psoklahoma.com data center page (says only 'PSO's proposed large load tariff'); the OCC filing was not found in a readable form"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "AEP 10-Q for Q3 2026 and 8-K Exhibit 99.1 (no PSO figure); PSO is in SPP, outside AEP's PJM forecast slides"
+    }
+   },
+   "license": "public",
+   "license_basis": "AEP's Form 10-Q on SEC EDGAR.",
+   "erw_overlap": "",
+   "notes": "Leads, not verified: the rate case is OCC Cause No. PUD-2025-000075 (OKCFox; that page's robots bar Claude's agents, so it was not read), the ALJ's report was filed 21 August 2026 and recommended approval of the large-load tariff proposal (Tulsa Flyer, 24 August 2026), and the class would cover customers over 75 MW (Tulsa Flyer) while LBNL's August 2026 brief says the proposed Large Power and Light tariff applies above 10 MW; a Southwest Ledger item cites PSO testimony in PUD 2025-000064 that 11 customers of 50 MW or more are under letters of agreement or contracts. Oklahoma's Data Center Customer Ratepayer Protection Act of 2026 (17 O.S. 900 to 906) defines a large load customer at 75 MW or more added after 1 July 2026 (OCC page, read). The OCC order is expected in Q4 2026: status may change soon.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwestern Electric Power Company (SWEPCO), Texas",
+   "state": "TX",
+   "iso_region": "SPP",
+   "rule_name": "Contract for Electric Service Texas, Large Load (ES-LL Contract), Tariff Sheet No. VI-10, as revised by the unanimous settlement in PUCT Docket No. 58796",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58796_103_1683248.PDF",
+   "source_title": "Unanimous Stipulation and Settlement Agreement, PUC Docket No. 58796, SOAH Docket No. 473-26-07507 (filed 15 September 2026), with Attachment A (ES-LL Contract) and Attachment B (proposed order)",
+   "quoted_clause": {
+    "page": "13",
+    "section": "Attachment A, Sheet VI-10, Applicability",
+    "quote": "shall apply to any customer whose Contract Capacity (per Schedule 1) for computational load, whether new or incremental load, as of the date of the execution ofthis Contract by the Company and the Customer, is greater than or equal to 75 MW for any single Computational load facility"
+   },
+   "docket": {
+    "value": "PUC Docket No. 58796; SOAH Docket No. 473-26-07507",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "Docket No. 58796 SOAH Docket No. 473-26-07507 - Application of Southwestern Electric Power Company for Authority to Amend Tariffs for Retail Electric Service to Include New Standard Form Contract for Electric Service - Large Load",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2025-10-03",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "4",
+      "section": "Proposed Order, Finding of Fact 5",
+      "quote": "On October 3,2025, SWEPCO filed an application for authority to amend its tariffs for retail service to include a new ES-LL Contract under PURA1 § 36.001 and 16 Texas Administrative Code (TAC) § 25.241.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "5",
+      "section": "Proposed Order, Finding of Fact 20",
+      "quote": "On September 15, 2026, the parties filed the agreement resolving the issues between themselves.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "Enclosed is the Proposed Order in the above-referenced case.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "The parties must file corrections or exceptions to the Proposed Order by November 12, 2026.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "12",
+      "section": "Proposed Order, Finding of Fact 55",
+      "quote": "It is appropriate for the proposed ES-LL Contract to become effective on the date this Order is filed.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "75 MW of Computational load (data centers, cryptocurrency mining) at a single facility, or multiple Computational loads in aggregate treated as a single facility",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "8",
+       "section": "Proposed Order, Finding of Fact 35",
+       "quote": "is greater than or equal to 75 MW for any single Computational load facility or for multiple Computational loads in aggregate that should be considered a single facility for purposes of this Contract.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "8",
+       "section": "Proposed Order, Finding of Fact 35",
+       "quote": "\"Computational load\" means load that primarily consists of power-electronic-based load, specifically Computational load, such as data centers and cryptocurrency mining facilities.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Billing demand during the Billing Period not less than 90% of the Contract Capacity in Schedule 1; minimum billing energy of Contract Capacity times 70% times billing hours",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 40",
+       "quote": "the Billing Demand for each month shall be the greater of the Billing Demand as calculated in accordance with the \"Determination of Kilowatts ofBilling Demand\" provision of the LLP rate schedule or 90% of the Contract Capacity stated in Schedule 1.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 41",
+       "quote": "Contract Capacity stated in Schedule 1 times 70% times billing hours in the month.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Contract Term from execution until 18 years from the inception of the Ramp Period (Ramp Period not over five years); then annual renewals until either party gives notice at least five years before the end of the term",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 38",
+       "quote": "The period beginning with the Beginning Date of Step 1 in Schedule 1 until the day prior to the Beginning Date ofthe last populated Step in Schedule 1, not to exceed five years.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 39",
+       "quote": "The period from the day this Contract is executed until eighteen years (18) from the inception of the Ramp Period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10, Automatic Renewal",
+       "quote": "this contract shall renew annually for successive one-year tenns (each a\"Renewal Tenn\") until Company or Customer provide the other party notice at least five years prior to the end of the Contract Term or Renewal Term, as applicable."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "24 times the customer's previous maximum monthly non-fuel bill based on the last Step in Schedule 1, provided within a number of days left blank in the form; recomputed annually in the full operations period and updated if 10% greater",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10",
+       "quote": "Collateral Required: Within _ days of executing this contract Customer shall provide collateral in a form acceptable to Company based upon the creditworthiness of Customer. Upon execution of this agreement, the amount of collateral provided shall be equal to 24 times Customer's previous maximum monthly non-fuel bill based on Customer' s last Step ill Schedule 1."
+      },
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10",
+       "quote": "During the full operations period, the amount of collateral to be provided will be recomputed annually and updated if the recomputed value is 10% greater than the current amount held."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Termination Fee on early termination (or three months' non-payment): the future minimum payments for the remaining Ramp Period, Full Operations Period and the five-year notice period, due within 90 days",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10, Termination Fee",
+       "quote": "then Customer shall owe and pay Company within 90 days of such termination an amount equal to the future minimum payments due under this contract, including any appendices or attachments hereto, for the remaining portions of the Ramp Period, Full Operations Period, and the five year notice period described in the Automatic Renewal provision above, unless the Company and Customer mutually agree otherwise."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage (the testimony gives a hypothetical 500 MW customer and SWEPCO's peak demand history, no pipeline figure); AEP 10-Q for Q3 2026 and 8-K Exhibit 99.1 (no SWEPCO figure)"
+    }
+   },
+   "license": "public",
+   "license_basis": "The PUCT's interchange copies (Docket No. 58796, items 103 and 109); the filing list and AEP's Form 10-Q are public too.",
+   "erw_overlap": "",
+   "notes": "Status as of 13 November 2026: unanimous settlement filed 15 September 2026 (SWEPCO, Commission Staff, TIEC, OPUC, CARD, Eastman); SOAH remanded the case on 5 October 2026; the PUCT's Proposed Order of 28 October 2026 would approve the tariff with the ES-LL Contract effective on the order date, exceptions due 12 November 2026; no final order in the filing list (109 items, last item 28 October 2026). The settlement revised the Applicability, Ramp Period, Initial Contract Term, Minimum Billing Demand and Minimum Billing Energy sections (Proposed Order, Findings of Fact 35 to 41); the as-filed terms are in Ms. Gage's HSPM exhibit and were not read. Attachment A's text is an OCR copy ('Tenn' for Term, 'ill' for in), quoted as printed. The 10-Q (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm) listed SWEPCo-Texas as pending at 30 September 2026; the City of Mount Vernon's Resolution No. 26-03 (https://mccmeetingspublic.blob.core.usgovcloudapi.net/mtvernontx-meet-4db9bfac3fa0468681008ac335b01f69/ITEM-Attachment-001-30c895bed00e4a838b4485d8fbe45950.pdf) denied the tariff at the municipal level and the appeals were consolidated into this docket (Proposed Order, Finding of Fact 19).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "url": "https://www.supremecourt.ohio.gov/clerk/ecms/#/caseinfo/2025/1458",
+   "reason": "not retried: a script-built case search page (hash route), not a document page; the first attempt failed only on a certificate check of robots.txt"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma",
+   "url": "https://okcfox.com/news/local/occ-approves-pso-rate-changes-exact-bill-impacts-and-refund-eligibility-to-be-determined",
+   "reason": "robots.txt disallows ClaudeBot, Claude-Web, anthropic-ai"
+  },
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "url": "https://dis.puc.state.oh.us/ViewImage.aspx?CMID=A1001001A26B12B61453D00940",
+   "reason": "not tried: PUCO docketing has a reCAPTCHA (AEP Ohio's February 2026 Update; also the Stipulation and the Opinion and Order linked from the DCT page)"
+  },
+  {
+   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
+   "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/WestVirginia/Current_Tariff_Sheets_Eff_7-1-26.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
+   "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/WestVirginia/2025_Base_Case_Tariff_11-17-2025.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Kingsport Power Company (Tennessee)",
+   "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/Tennessee/KGPTTariff-11-1-2025FPPARClean.pdf",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Public Service Company of Oklahoma",
+   "url": "https://www.psoklahoma.com/ratereview.aspx",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Appalachian Power Company (Virginia)",
+   "url": "scc.virginia.gov (any)",
+   "reason": "not tried: paused publisher (APCo Virginia large-load approval of June 2026 waits)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Appalachian Power Company (Virginia)",
+   "searched": "APCo Virginia Tariff 28 (November 1, 2026 update, 158 pages, on appalachianpower.com) searched for large load, data center, MW thresholds, 14-year terms, exit fee and collateral: no large-load terms found. The SCC is paused, so its dockets were not read. Lead (Cardinal News, 31 July 2026, unverified): 'The SCC in June approved new requirements for new large-load customers in Appalachian Power's service territory. These include 14-year contracts and minimum charges'; APCo told the SCC it is in talks with 36 prospective large-load customers in Virginia totalling about 25,000 MW and has contracted 540 MW of data center load there since 2024. A second lead, on the PUCT's interchange (SWEPCO witness Gage, Docket No. 58796, filed 3 October 2025, https://interchange.puc.texas.gov/Documents/58796_2_1545169.PDF, p. 9, Table 1, unverified as to APCo's own tariff): APCoVA Generation & Transmission Rate Schedule L.P.S., 12-17 years (depends on ramp period), 100 MW individual site or 150 MW aggregated, 42 months cancellation notice. This waits for a readable primary copy."
+  },
+  {
+   "utility": "Southwestern Electric Power Company (Arkansas)",
+   "searched": "SWEPCO Arkansas rate book of 11 August 2026 (240 pages, swepco.com) searched for large load and MW thresholds: none; SWEPCO's data center page; AEP's 10-Q for Q3 2026 names only Oklahoma and SWEPCo-Texas as pending large-load proposals"
+  },
+  {
+   "utility": "Southwestern Electric Power Company (Louisiana)",
+   "searched": "SWEPCO's data center page and AEP's 10-Q for Q3 2026 (no Louisiana large-load proposal named); no LPSC document found by web search"
+  },
+  {
+   "utility": "Kingsport Power Company (Tennessee)",
+   "searched": "web search of TPUC dockets (only a TRP&MS rider docket, 17-00032); Kingsport's posted tariff of 1 November 2025 answered HTTP 404"
+  }
+ ]
+}

@@ -256,7 +256,12 @@ def _table(name):
     grids' rows, a table held by row with its public rows only."""
     # session 3307 (chain 200): a table held whole is refused by name before any row is read, so a held table that is
     # not on the machine (company_directory in a clean checkout) is refused with the hold's words, not a read error
-    if hold.on() and hold.held_whole(name):
+    # session 5260 (chain 238, the platform set's pj08): a held grid's own table (isone_interconnection_queue) is held in
+    # every row, so it is refused by name too; a table of things among them was read whole until this session. MISO's own
+    # table is refused in the pause's words, which say more than its license (session 1126), for a description too
+    if hold.on() and hold.miso_own(name) and not hold.held_whole(name):
+        raise ToolError(hold.MISO_PAUSED)
+    if hold.on() and (hold.held_whole(name) or hold.own_grid(name)):
         raise ToolError(f"table {name} is {hold.LICENSE_NEEDED}: {hold.title(name)}. State no figure of it: answer with "
                         f"not_in_warehouse true and say that it is \"{hold.LICENSE_NEEDED}\"")
     df = _table_read(name)
@@ -268,17 +273,43 @@ def _table(name):
         if hold.license_needed(name) and hold.by_row(name):
             col = df[hold.ROW_LICENSE_COLUMN] if hold.ROW_LICENSE_COLUMN in df.columns else pd.Series("", index=df.index)
             kept = df[col.fillna("").astype(str).str.strip().str.lower() == "public"]
-        elif hold.license_needed(name) and "entity" in df.columns:
-            ents = df["entity"].dropna().unique()
+        elif hold.license_needed(name) and ("entity" in df.columns or "entity_id" in df.columns):
+            # session 5260: a row of a table of things is its grid's by its entity_id ("isone_queue:1630"), as a series
+            # row is by its entity; the filter read `entity` alone, so no row of a shared table of things was left out
+            col = "entity" if "entity" in df.columns else "entity_id"
+            ents = df[col].dropna().unique()
             out = [e for e in ents if hold.held_row(name, e)]
             if out:
-                kept = df[~df["entity"].isin(out)]
+                kept = df[~df[col].isin(out)]
+        if "entity_id" in kept.columns:
+            # session 5260, as heldrows.ts keepRows: MISO's own rows of a table of things (a queue position's id,
+            # "miso_queue:J1234") are left out of what is read at all, so a description does not list them either
+            own = kept["entity_id"].map(hold.miso_own).astype(bool)
+            if own.any():
+                kept = kept[~own]
         if kept is not df:
             attrs = df.attrs
             kept = kept.copy()
             kept.attrs = attrs
         _frames[key] = kept
     return _frames[key]
+
+
+def live_only():
+    """Session 5256 (chain 238): whether the tools read the live set and nothing else, as the site's do (ERW_BACKEND
+    supabase or live). A table of the catalogue that such a backend cannot read is a table of the record, on Redivis."""
+    return (erw.version().get("backend") or "") in ("supabase", "live")
+
+
+def not_live_words(table):
+    """Session 5256, the words of site/lib/chat/refused.ts notLiveWords: the refusal of a table the catalogue lists and
+    the live set does not hold says where it is and how to answer, as a held table's refusal says both. (The platform
+    set's oi07 was refused the table, said so rightly, and still answered as an answer with the table as its source.)
+    Session 5258: and that another table may hold what is asked (the held-out nu08 found a generator's capacity in
+    energy_projects after EIA's own table was refused): the words do not forbid the search rule 3 of the prompt asks for."""
+    return (f"table {table} is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. "
+            "Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. "
+            f"If none does, answer with not_in_warehouse true and say that {table} is on Redivis and not in the live set this chat reads")
 
 
 def _table_read(name):
@@ -300,6 +331,8 @@ def _table_read(name):
                 df.attrs = attrs
             _frames[name] = df
         except erw.ERWDataNotFound as exc:
+            if live_only():   # session 5256: the site's own words for a table of the record the live set lacks
+                raise ToolError(not_live_words(name))
             raise ToolError(f"table {name!r} cannot be read from this backend: {exc}")
     return _frames[name]
 
@@ -635,12 +668,23 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
                                     percentile=percentile, value_column=value_column, group_by=group_by, tz=tz, threshold=threshold), grid)
     shape = _shape(df)
     sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
-    if held_on and "entity" in sel.columns and len(sel):
+    idcol = "entity" if "entity" in sel.columns else "entity_id" if "entity_id" in sel.columns else None   # session 5260: a thing's id
+    if held_on and idcol and len(sel):
         # session 1191, as the site's read: MISO's own rows are left out, and a read that held only MISO's rows is refused
-        own = sel["entity"].map(hold.miso_own).astype(bool)
+        own = sel[idcol].map(hold.miso_own).astype(bool)
         if own.all():
             raise ToolError(hold.MISO_PAUSED)
         sel = sel[~own]
+    if held_on and not len(sel) and shape != "series":
+        # session 5260, as heldrows.ts: a read of a table of things that matched only a held grid's rows, or MISO's own,
+        # is refused in the hold's words or the pause's, not answered "no rows match" (the rows are in the table as the
+        # backend gave it; they were left out above)
+        raw = _select(_table_read(table), shape, entity, variable, start, end, where, tz or "UTC")[0]
+        if len(raw) and "entity_id" in raw.columns:
+            if raw["entity_id"].map(hold.miso_own).astype(bool).all():
+                raise ToolError(hold.MISO_PAUSED)
+            if hold.license_needed(table) and hold.by_grid(table):
+                raise ToolError(hold.held_rows_words(table))
     vcol = value_column or {"series": "value", "entities": "capacity_mw", "events": "mw"}[shape]
     if (aggregation not in ("count",) or threshold is not None) and vcol not in df.columns:
         raise ToolError(f"no column {vcol!r}; numeric columns: "

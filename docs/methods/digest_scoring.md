@@ -59,3 +59,25 @@ The scanner's flags and the watch list, most related to the day's top stories fi
 - The first line says when the window holds few stories or many unscored ones, counts only (row 114); thousands carry their separator (row 117).
 - No en dash from a publisher's title (row 119); a refining or road-fuel title is oil's and a gas price title with a verb is gas's, whatever power tag the scorer gave (rows 120 and 125); sector codes print as "LNG", "PPA" (row 127).
 - The emails drop a gated pointer link with its clause (row 105).
+
+## 8. What changed on the evening of 13 November 2026 (chains 252 to 258, rows 151 to 184)
+
+- The chart of the day: a monthly watch card's month ("2026-08") is read as its first day, and the section's lines are written before its picture and record, so a chart that cannot be written leaves nothing behind (row 151: on 13 November the issue said no chart was shown beside the chart's committed record). The no-chart line says why, "no candidate passed the chart's rules" or "the chart chosen by its rules could not be drawn", with no pointer to the run log (row 160).
+- The real-time line names the interval in words and in the grid's zone, "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00 UTC)"; the variable is on the Tables line (row 152, the Roundup's row 71 for the Digest).
+- "major" after oil, gas or energy is the noun (an oil major) and stays (row 153). A title about the oil or gas market's balance (surplus, supply, demand, output, stocks, exports; OPEC) is that fuel's whatever power tag the scorer gave (row 154).
+- The figures line of the rest of the top ten leaves out a figure the printed why line gives (row 155), a sum with no unit ("2.6 billion") or no digit (row 156), and a capacity the headline gives in the other unit (row 158: "1GW" under "1,000 MW"); the why line's check reads the units the same way.
+- The subject: a cut inside a phrase goes back to before the phrase's preposition, a quantity's "up to" being no phrase, when four words or more are left (row 157).
+- US48 demand: a day inside the hourly table's span that it holds no hour of is said to be one ("the hourly table starts on 2026-08-26 and holds no hour of 2026-11-05"), not the window's (row 159).
+- A gas forwards or futures title, or one on LNG's demand, supply, exports or prices, is gas's whatever power tag the scorer gave (row 163, beside row 154's oil and gas market words).
+- A policy action whose link an issue of the last week printed is not printed again: the actions are dated by day, so one dated on the day the window opens was in two issues (row 164).
+- A "fuel market" title is oil's under a power tag (row 166). The figures line opens with a capital (row 167).
+- The subject's figure goes with its quantity words ("up to", "nearly") and a capacity with its "of"; a percent is a figure; the clause keeps the headline's capital (row 165, in `roundup.head_clause`, which both subjects use).
+- An agency's long name counts as its initials when two clusters are read for one topic or one event ("Department of Energy" is DOE; row 168).
+- A scale word ("gigawatt-scale") is read against the cluster's scored MW as well as the headline's (row 169); a sector named by a count noun reads as its plural in an also line ("Also in deals:"), and the also line's readers read capitals (row 170).
+- The emails: the plain text names the chart once (row 171). A subscriber's topics read the v2 issue's sections and a sector in capitals; until then a subscriber with topics was sent no story from a v2 issue (row 172), and an "Also in LNG:" line took its item's why line and source in the email (row 170).
+- The article before a word in capitals said from "U" is "a" ("a US LNG project", row 175).
+- An outlet the feed names by its address reads as its other links name it ("bloomberg.com" as "Bloomberg.com", "jpt.spe.org" as "JPT"; row 176).
+- The country's other names ("United States", "USA") read "US" in the block and in the topic key, so two US stories of one sector are one topic (row 177).
+- A price's reason: the printed line itself must not speak of the other direction ("easing" is a fall), and a story of another North American hub or a region's own gas prices names no move of Henry Hub's (rows 181 and 182).
+- A figure after a quantity's words ("up to", "about", "nearly") is not taken out of a why line; the line falls back (row 183).
+- With no model, the publishers' own titles lose their site tail ("- Company Announcement"), as the also lines do since row 119 (row 184).

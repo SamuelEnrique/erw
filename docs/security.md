@@ -84,3 +84,114 @@ The counts are recording: `site_usage_daily` holds days from 10 October 2026 to 
 
 The other 114 Python packages of the venv carry no advisory known to pip-audit on 6 November.
 
+
+## The list of 13 November 2026 (chains 234 and 237, window P2 of the personal laptop)
+
+Every item still open on 13 November 2026, and what a fresh read of the code found that day, is numbered in [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) (34 rows after the fresh pass of sessions 5159 to 5162 and chain 247's reads; none open, and its section "Where the list stands" counts them by state). That file keeps each row's state from here on; this section keeps what changed in the site.
+
+| Rows | What changed | Where | State |
+|---|---|---|---|
+| 1 | A page in review answered a visitor at its transport addresses (`<page>.segments/...segment.rsc`); the curtain now runs on them and answers 404 without the internal cookie | `site/proxy.ts`, session 5101 | **closed**: landed at `b1ea7427a` on 13 November 2026; `node site/scripts/check-curtain.mjs https://erw-flame.vercel.app` exit 0 after the deploy (8 pages, 32 addresses) |
+| 2 | `site/scripts/test-usage.mjs`, the proof of the guards, failed unseen: no test ran it. It passes again and the suite runs it | `site/lib/usagepath.ts`, `tests/test_session5102.py` | fixed on `wip/5150-security` |
+| 15 | `/internal/lock` clears nothing at a request the browser marks cross-site | `site/app/internal/lock/route.ts` | fixed on `wip/5150-security` |
+| 16, 17, 18 | Four more limits per address, each counted by the guard (the database across instances, this instance's memory as the floor): `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour | the four route handlers | fixed on `wip/5150-security` |
+| 19 | A standing test reads every route handler (41): a body is never read without a cap, every POST asks the guard and names its origin, a GET that asks the database with the visitor's words is limited. The sign-up form refuses a request that says it is over 8 kB | `tests/test_session5102.py` (`EveryRoute`) | fixed on `wip/5150-security` |
+| 20 | A standing scan of the source, nothing built: no `NEXT_PUBLIC_` variable, no client file names `process.env`, no module a client file imports (at any depth) names a secret or is marked `server-only`, no literal shaped like a key. `site/lib/finder.ts` now carries the marker | `tests/test_session5102.py` (`NoSecretReachesABrowser`) | fixed on `wip/5150-security`; row 26 (the battery page's read, window P1's file) waits |
+| 21 | The headers and the enforced policy are read from `site/next.config.ts` itself, without a build | `tests/test_session5102.py` (`TheHeaders`) | fixed on `wip/5150-security` |
+
+**Landed.** The rows of this table marked "fixed on `wip/5150-security`" are live since 13 November 2026, 20:47 UTC: the landing desk landed the stack's first part (sessions 5150 to 5158) at `ad7f16ca6`, every check of its gate passing, the gate's own requests meeting none of the new limits, and the live pages' snapshots differing in nothing. Read on production ten minutes later, as a visitor: `/internal/lock` at a request marked cross-site answers 303 and sets no cookie; marked same-origin it clears the two (session 5185). The list marks them closed.
+
+**Item 3 above (H3, the one look), read on 13 November 2026 by session 5151.** Migration 034 is in force: the anon key holds no insert on `site_api_calls`, `game_plays`, `game_scores` or `subscribers` and cannot execute `site_ask_admit`. Since 21 October those tables hold 24 `site_ask` ledger rows and one counted visitor (3 questions), all on 6 November, and 2 game plays on 28 October: some server holding the service key wrote them. Which server, a read cannot say. The look is now one question asked on production in the internal view: the question counter refuses every question when the database refuses its call, so an answer says `SUPABASE_SERVICE_KEY` is on the host (`tests/test_session5151.py` pins the three lines this rests on). Vercel's settings page says the same.
+
+The limits per address as they stand on `wip/5150-security` (bucket, limit, window): `subscribe` 5 an hour, `unsubscribe` 120 an hour, `confirm` 60 an hour, `entity` 600 an hour, `play_top` 240 an hour, beside the ones session 177 set on the routes that spend or write.
+
+## Dependency audit, 13 November 2026 (session 5152, chain 237)
+
+`npm audit --package-lock-only` on the site's lockfile, and `pip-audit` 2.10.1 (installed into a folder of its own under `runs/`, not into the venv) on the code machine's `.venv` (`--path`, 123 packages) and on `requirements-py314.txt` itself (`-r`, `--no-deps`, 121 pins). The venv and the file agree: the venv was made again from the file since 6 November, so `cryptography` 50.0.2 and `setuptools` 84.1.0 are in it and carry no advisory.
+
+| Package | Where | Advisory | State |
+|---|---|---|---|
+| `minimatch` 10.2.6, under `@typescript-eslint/typescript-estree` (seven findings, one advisory) | the linter, a developer's machine only | GHSA-g3hv-75wg-m249 (denial of service by a crafted pattern), moderate; fixed in 11.0.1 | **open: Samuel**, as L9: `typescript-estree` asks for `minimatch ^10.2.2` up to its newest release (8.72.2), so no minor step closes it. `npm audit fix` was tried on the lockfile alone: it moved the linter's packages from 8.70.1 to 8.72.2 and closed nothing, so the lockfile is left as it was. Nothing on `next`, `react` or any package the site ships |
+| `certifi` 2026.7.22 | the machines' Python: every HTTPS request a connector makes | PYSEC-2026-4320 (GHSA-6q48-6c7w-9gw2): the bundle trusts a root whose intermediates' keys are compromised; fixed in 2026.10.18 | **closed in the file, session 5152**: `requirements-py314.txt` pins 2026.10.18 (the bundle of roots alone changes); a venv made from the file takes it. This machine's venv is shared by three windows and was not changed by the session. The runner's resolving install is held at `certifi~=2025.1` by gridstatus 0.36.0 (below) |
+| `filelock` 3.32.7 | the machines' Python (under `virtualenv` and gridstatus; no code of the ERW imports it) | 13 advisories in its reader and writer lock; fixed in 4.0.9 and 4.2.1 | **open: Samuel** (M7): a major version, and `virtualenv` 20 and gridstatus 0.36.0 both ask for `filelock<4` |
+| `soupsieve` 2.10 | the machines' Python (under `beautifulsoup4`; two connectors select with it) | 3 advisories (a selector with descendant combinators takes polynomial time on a deeply nested page); fixed in 3.0.2 and 4.0.0 | **open: Samuel** (M7): a major version; `beautifulsoup4` allows it (`soupsieve>=1.6.1`) |
+| `pillow` 12.3.0 | the machines' Python (the charts' pictures) | 42 advisories (39 on 6 November), every one fixed in 13.0.0 | **open: Samuel** (M7), unchanged |
+| `virtualenv` 20.39.1 | the machines' Python (tooling, used by no run) | 19 advisories, fixed in 21.7.11 to 21.14.9 | **open: Samuel** (M7), unchanged |
+
+**What changed for M7 since 6 November: gridstatus 0.37.0 is on PyPI.** Its pins are `lxml<7,>=6.1.0`, `cryptography<51,>=50.0.0` and `certifi>=2025.1` (read from its metadata on 13 November; 0.36.0 pinned `lxml~=5.3`, `cryptography<47`, `certifi~=2025.1`, `setuptools<79`, `filelock<4`, `virtualenv<21`). With it the runner's resolving install (`requirements.txt`, where the daily run runs) could leave the old `lxml`, `cryptography` and `certifi` behind. It is a new minor version of the package under every grid connector: a session tries it on a branch with the daily run's tests and a dry run of the connectors, on Samuel's word (item 5's choice (a), now possible for the runner too).
+
+## The policy's inline scripts, read on 13 November 2026 (session 5153, row 22 of the list)
+
+The enforced policy says `script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com`. The word `'unsafe-inline'` is there for the framework: every page carries inline scripts Next writes itself (the data of the page it rendered). What a stricter rule would cost, from Next 16.4.5's own guide (`node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md`):
+
+| Choice | What it takes | What it costs |
+|---|---|---|
+| (a) a nonce on each request | the proxy draws a nonce and writes the policy with it | every page is rendered on each request: no prerendered page, no page regenerated on a clock, no page cached at the host. Of the site's 104 pages, 28 are rendered on each request today; 39 are regenerated on a clock (the home page and `/storage` among them), and the rule that the home page is never cached with a failed read in it rests on that |
+| (b) keep the word | nothing | an injected inline script would run. The guards against one are the ones below |
+| (c) hashes written at build time (`experimental.sri`) | one line of configuration, a build, `check-csp.mjs` on every page | experimental in this version; it covers script files, and whether the framework's inline data passes without the word is only known on a build |
+
+**The guards that stand today, each with a test** (`tests/test_session5153.py`): the site's own source writes no script element, no `eval`, no `document.write`; the one script it adds is the chart library, with its integrity hash; markup reaches a page at 14 places and every one goes through the renderer of `site/lib/markdown.ts`, which escapes raw HTML and refuses a link that is not a plain address; the policy names no `'unsafe-eval'`, no other host for scripts than cdnjs, `object-src 'none'` and `base-uri 'self'`.
+
+The default is (b). (c) needs a window that builds.
+
+## The usage counts and "no identifier", 13 November 2026 (session 5154, row 23 of the list)
+
+The roadmap's item 7 is done when the counts run "with no cookie and no identifier". The first half holds and is pinned (`tests/test_session5154.py`): the route sets no cookie, the browser side keeps nothing and sends a path without its query, and of an earlier day the database keeps numbers only. The second half is Samuel's to read: for the UTC day in progress the database holds a code that stands for one browser (a keyed hash hashed again under a random salt of the day, both deleted when the day is over). Choice: (a) as today, the roadmap's words read as "no identifier kept in the browser and none that outlives the day"; or (b) `USAGE_VISITORS=off` in the host's environment, built by session 5154: no value stands for a visitor at all, events are counted as before, and the `visitors` numbers count pages. The method note says both ([`docs/methods/usage_counts.md`](methods/usage_counts.md), "Counting with no code at all"). The default is (a); nothing changes until the variable is set.
+
+## The usage counts and the pages the ruling allows, 13 November 2026 (session 5155, row 24 of the list)
+
+The ruling is one line, "no usage count on tool pages" (12 October 2026, `docs/roadmap.md`). It was made when the question was open for three pages: the cost of power, the battery and the generator. What the code does today, read page by page from the menu's own list (`runs/s5155/pages.out` of the session's worktree):
+
+| Pages | What is counted |
+|---|---|
+| 7 that carry the mark `<Brand noUsage>`: `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact`, `/play/ev` | the page view, and nothing a reader does after it |
+| The other 29 pages of the menu (`/storage`, `/grid`, `/datacenters`, `/deals`, `/policy`, `/companies`, `/board`, `/map`, `/ask` and the rest; the news and About pages among them) | the page view, a changed control (the fact, never its name or value), a download |
+| A page in review asked for by a visitor | the page view, under the name "In review (not opened)" |
+
+No tool sends a count of its own: "scenario compared" is an event nothing sends.
+
+Choice: (a) as today, the ruling read as "nothing a reader does on those tool pages is counted". (b) `USAGE_TOOL_PAGES=off` in the host's environment, built by session 5155: the server records nothing for the seven marked pages, the page view included. (c) the mark on every page of the menu's groups Economics, Grid, Infrastructure, Analysis and Games, 23 more pages: a session's work in the tools' own files. The default is (a); nothing changes until the variable is set. What is counted and how is in [`docs/methods/usage_counts.md`](methods/usage_counts.md).
+
+## The guards on new tables and functions, and sign-ups, read on 13 November 2026 (session 5156, rows 7 and 12 of the list)
+
+Reads only: the catalog in a read-only transaction, `verify_rls.py --catalog`, and one GET of the public auth settings with the anon key. The outputs are in `runs/s5156/` of the session's worktree (not in git).
+
+| What | Result |
+|---|---|
+| The default privileges (M6) | unchanged: what `postgres` or `supabase_admin` creates in `public` is granted to `anon` and `authenticated` (tables `arwdDxtm`, sequences `rwU`, functions `X`) |
+| The `ensure_rls` event trigger | enabled, on `CREATE TABLE`, `CREATE TABLE AS` and `SELECT INTO` |
+| The tables of `public` | 25, row-level security on for all 25; the anon key holds `INSERT`, `UPDATE` or `DELETE` on none; no write policy names `anon`, `authenticated` or `public` |
+| `verify_rls.py --catalog` | exit 0, 0 mismatches |
+| Sign-ups in Supabase Auth (L8) | `disable_signup` false, the email provider on, `mailer_autoconfirm` false: unchanged since 20 October |
+
+**What the guards did not cover, and now do.** The trigger turns row-level security on for a new table; nothing did the like for a new function, which the default privileges hand to the anon key. On 13 November the anon key may execute 23 functions of `public`. Every one asks for a credential in its own arguments: a token as its first argument, checked before anything else (19), the address's own signed token (the two subscription functions), a run's one-time key (one), and the trigger's own function, which Postgres refuses to call directly. `verify_rls.py --catalog` now has a step 6: the functions the anon key may execute are compared with a list in the script (`ANON_FUNCTIONS`), and one that is not listed fails the run until it is revoked or listed with what it asks for. A session that adds a function adds it to the list, as it adds a table to `EXPECTED`. The verifier is run by sessions; no scheduled job runs it.
+
+Item 4 above (M6) and item 8 (L8) stand as they are, with the same choices.
+
+## The fresh pass, 13 November 2026 (sessions 5159 to 5162, chain 237)
+
+The review run again against the code as it stands, part by part. Each part's findings are rows of [`docs/reviews/security-faults-2026-11-13.md`](reviews/security-faults-2026-11-13.md) from row 27 on; that file's section "The fresh pass" says what was read and found sound.
+
+**Session 5159, the headers and the internal view.** One change: the enforced policy's `connect-src` names this site's own Supabase project, the one `SUPABASE_URL` names when the site is built, where it named every project (`https://*.supabase.co`, row 27). A build without the variable keeps the wider name. One header noted and not added: `Cross-Origin-Opener-Policy` (row 28). The internal view was read file by file (34 pages and route handlers) and stands; `tests/test_session5159.py` now holds it: an address under `/internal` that asks for no cookie, a page there that is indexed or answers something other than 404 without it, fails the suite.
+
+**Session 5160, input limits and rate limits.** All 41 route handlers were tabled: what each reads from the address and from a body, what bounds it, what limit it has. Nothing to fix. Every word taken from the address is bounded before it is used (a pattern, a length, or a look-up in a list the site holds), and `tests/test_session5160.py` now holds each bound: a handler that starts to read the address, or loses its bound, fails the suite until it is read and listed. The limits per address as they stand, 13 names: `ask_hour`, `confirm` (60 an hour), `download`, `entity` (600), `findings_state` (120), `pitchbook` (60), `play` (30), `play_top` (240), `subscribe` (5, and `subscribe_day`, 200 a day for everybody), `unlock` (10 wrong tries), `unsubscribe` (120), `usage` (600). Two things noted and not changed (rows 29 and 30): a download writes a cell as the source wrote it (no value of the public live set begins as a spreadsheet formula would, read on 13 November across 2.85 million rows), and a failed read answers with what failed.
+
+**Session 5161, secrets and what a browser can fetch.** The tree as it stands holds no text shaped like a key (15,264 tracked text files against the scanner's ten patterns) and no file named like a key or an env file; the history was scanned again with this machine's own key values searched for exactly (the result is in session 5161's report). The nine workflows name 14 secrets, print none, and none runs on a stranger's request. One data file is imported by browser-side code and so is in a script any visitor can fetch: the license status, which is public words. What the site ships carries no advisory (`npm audit --omit=dev`: 0); the linter's 7 moderate findings and the four Python packages are as on the audit above, `certifi` no longer among them. `tests/test_session5161.py` holds the scan of what runs the warehouse, the list of the workflows' secrets and the list of browser-side data imports. One thing the pass met that is another window's: every file under `site/public` is served with no curtain, the held grids' price files among them (row 31; [`docs/reviews/held-public-files-2026-11-13.md`](reviews/held-public-files-2026-11-13.md), the licensing sweep's, with its ruling).
+
+**Session 5162, the usage counts' method against the code.** The method note was read statement by statement against the code and the database's functions, and stands. It was corrected in three places where it said more or less than the code (an event no tool sends; four more cases in which nothing is counted; the site's own checks, row 32), and `tests/test_session5162.py` now holds each number and each list of the note to the line of code it describes. `/privacy` agrees with the code as it runs by default.
+
+## What chain 247 read after the fresh pass, 13 November 2026 (sessions 5169 to 5174)
+
+While landing row 23 and the owner's rulings were awaited, six more parts no pass had reached were read. `verify_rls.py --catalog` has nine steps since: the tables (1 to 5), the functions (6), the buckets (7), the API's reach and the scheduler (8), a signed-in user (9). None found a fault; each now has a standing test.
+
+| Session | What was read | What holds it now |
+|---|---|---|
+| 5169 | The nine workflows (permissions, the actions they run, how an input reaches a command, their triggers); what a build offers (no server action, no source map, no setting that widens the image optimizer, no error page of the site's own) | `tests/test_session5169.py` |
+| 5170 | Each of the 23 database functions the anon key may execute, from its newest definition in the migrations: the 19 that take a token check it and raise before any other statement; the subscription functions compare the signed token first; a thesis run's one-time key is compared before the run is written | `tests/test_session5170.py` |
+| 5171 | Every redirect (each to a path the code names; none takes a destination from the address) and every file the site's server reads (sixteen files, each by a name the site holds or a bounded pattern) | `tests/test_session5171.py` |
+| 5172 | The storage buckets: the archive of every table's rows and the thesis tool's files are private and refuse the anon key; one bucket is public by design; no policy opens the objects | `verify_rls.py --catalog`, step 7 (`EXPECTED_BUCKETS`); `tests/test_session5172.py` |
+| 5173 | The scheduler and the API's reach: six scheduled jobs, each one call of the dispatcher, none holding a secret; the dispatcher, the vault and the scheduler's schema closed to the anon key; the REST API serves schema `public` alone; the GraphQL API is not enabled | `verify_rls.py --catalog`, step 8; `tests/test_session5173.py` |
+| 5174 | A signed-in user (sign-ups are on, item 8 above): on the 31 relations of `public` the role `authenticated` holds no privilege `anon` lacks; no policy and no function is for it alone; no account has ever been made. Item 8's choice (b) said so since session 371; now it is proven | `verify_rls.py --catalog`, step 9; `tests/test_session5174.py` |
+| 5175 | The repository at GitHub, through its API: public, one collaborator, no ruleset; Dependabot alerts are off (row 33 of the list, the owner's setting); what "public" means for a fault written down before its fix lands (row 34). The machine's token is a fine-grained one and is not shown the branch's protection or the security settings | the two rows; nothing a test can hold |
+
+Session 5169 also corrected a flaw in this chain's own tests: the way they dropped comments before scanning the source left 4,680 characters of three files unread. Read now, those parts hold nothing the tests forbid.

@@ -19,7 +19,7 @@ Never recorded, in a table or in a log: the IP address, the user agent string, t
 
 - **tool opened**: once a page view (`site/components/Usage.tsx`, mounted once in the root layout).
 - **input changed**: a form control inside the page's `<main>` changed, at most once a control a page view. Only the fact is sent.
-- **scenario compared**: a tool compared two cases. The tool calls `track("scenario compared")` itself (`site/lib/usage.ts`).
+- **scenario compared**: a tool compared two cases. A tool would call `track("scenario compared")` itself (`site/lib/usage.ts`); no tool does (read on 13 November 2026, session 5155), so the event is in the list and no line of it is recorded.
 - **download**: a click on a link that carries `download`, goes to `/api/download` or a download route, or names a `.csv`, `.do` or `.py` file.
 
 ## The daily code, step by step
@@ -33,6 +33,25 @@ Never recorded, in a table or in a log: the IP address, the user agent string, t
 
 So what is kept of an earlier day is counts. The codes are gone, and the salt that made them is gone. Because the salt was random and not derived, it cannot be computed again from anything the database or the site keeps. Two days' codes for the same browser share nothing, and "the same browser on two days" is counted as two browser-days: the site cannot tell.
 
+## Counting with no code at all
+
+The daily code is deleted when its day is over, yet for that day it stands for one browser: an identifier, for a day. The server can be told to make none. With `USAGE_VISITORS=off` in the server's environment (session 5154, row 23 of `docs/reviews/security-faults-2026-11-13.md`):
+
+- Step 2 above is not taken. The address and the user agent are not read for the count.
+- In the code's place the server sends `HMAC-SHA256(key = ASK_VISITOR_SALT, "erw-usage-nobody\n" + path)`: one value a page, the same for every visitor, so it says nothing of who asked.
+- The database counts the events exactly as before. Its `visitors` numbers then count pages, not people: 1 for a page's line, and for a day the number of pages that were opened. `/internal/usage` shows them as it shows any number; read them as that.
+- The limit of 600 counts an hour from one address still holds (`site/lib/guard.ts`, `limited`). It keeps its own keyed hash of the address for the window of the limit, as every limit of the site does, in a table apart from the counts.
+
+Unset, or any other word, the daily code is made as described above. That is the state since session 177 and the default.
+
+## The pages that carry the no-count mark
+
+The owner's ruling of 12 October 2026 is "no usage count on tool pages". Seven pages of the menu carry the mark on the whole page (`<Brand noUsage>`, which writes `data-no-usage`): `/cost-of-power`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/battery/customer`, `/severance`, `/impact` and `/play/ev`. On them the browser sends the page view and nothing after it: no "input changed", no "download".
+
+With `USAGE_TOOL_PAGES=off` in the server's environment (session 5155, row 24 of `docs/reviews/security-faults-2026-11-13.md`) the server records nothing for those seven pages, the page view included. The browser still sends the page view (it cannot read the server's setting); the server answers it as it answers every count and keeps nothing. Unset, the page view of a marked page is recorded, as since session 208. The server's list of the marked pages is `NO_COUNT` in `site/lib/usagepath.ts`, held to the page files by `tests/test_session5155.py`.
+
+Every other page of the menu (29 on 13 November 2026) is counted in full: the page view, a changed control, a download.
+
 ## What this cannot promise
 
 - **Backups.** Supabase keeps its own backups of the database for their retention period. A backup holds whatever the tables held when it ran, which can include a day's codes and that day's salt. Reversing a code would also need the server's secret and a candidate address and user agent to test.
@@ -40,11 +59,15 @@ So what is kept of an earlier day is counts. The codes are gone, and the salt th
 - **During the day** the codes of that day exist, so the day's own lines can be grouped by browser. That is what makes "distinct visitors today" a number.
 - **A shared address.** People behind one address with the same browser version are one code.
 - **The hosts.** Vercel and Supabase handle every request and keep their own logs under their own terms. This note is about what the ERW's own code stores.
+- **The site's own checks.** The counts cannot tell a reader from a check. A site built on a machine that holds the secrets writes into the same tables, so a landing's browser checks, which open every page, can add page views of their own. `site/scripts/check-links.mjs` sends Do Not Track and blocks the count's address; the other browser checks do not (read on 13 November 2026, session 5162; row 32 of `docs/reviews/security-faults-2026-11-13.md`).
 
 ## When nothing is counted
 
 - The browser sends Do Not Track (`navigator.doNotTrack` of `"1"`) or Global Privacy Control: the page's script sends nothing, and the server drops a request that carries `DNT: 1` or `Sec-GPC: 1`.
-- The request comes from another site's page, from a stock command-line client, or names a path that is not a page of this site.
+- The request comes from another site's page, from a stock command-line client, or names a path that is not a page of this site. An address under `/api/`, `/internal/` or `/_next/` is never a page for the count.
+- The request does not say it is JSON or plain text, its body is over 600 characters, or it names an event that is not one of the four.
+- More than 600 counts in an hour from one address: the rest of that hour are dropped (session 177's limit, `usage`).
+- The server holds no secret to make the code with, or cannot tell the visitor's address: nothing is recorded rather than recorded under a wrong code.
 - The page tells the reader that nothing typed there is sent (`/battery/customer`, the contract boxes of the cost-of-power pages, the severance tools, the bill page): the page view is counted and nothing after it, so no request follows what the reader does. `site/scripts/check-no-request.mjs` proves it for `/battery/customer`.
 - An element inside `data-no-usage` is never counted.
 - More than 400 different lines from one code in a day, or 200,000 lines in a day: the rest are dropped.

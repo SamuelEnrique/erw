@@ -128,3 +128,26 @@ export async function limited(req: Request, bucket: string, limit: number, windo
 export function usageVisitor(ip: string, ua: string, secret: string): string {
   return createHmac("sha256", secret).update(`erw-usage\n${ip}\n${ua}`).digest("hex");
 }
+
+// Session 5154 (docs/reviews/security-faults-2026-11-13.md, row 23): the count without any value that stands for a
+// visitor. The daily code above is deleted when its day is over, yet for that day it is an identifier. With
+// USAGE_VISITORS=off on the server no such value is made: every event of a page is sent under one value that stands for
+// the page (the same for every visitor, so it says nothing of who asked), the database counts events as before, and its
+// "visitors" columns then count pages, not people. Unset, or any other word: the daily code, as since session 177.
+export function usageVisitorsOff(env: Record<string, string | undefined> = process.env): boolean {
+  return (env.USAGE_VISITORS ?? "").trim().toLowerCase() === "off";
+}
+
+/** What is sent in the visitor's place when no visitor is counted: 64 hexadecimal characters made of the page's path
+ * alone, under the server's secret. Neither the address nor the user agent is read. One value a page, so the database's
+ * ceiling of 400 lines a visitor a day (migration 028) is a ceiling per page and is never met. */
+export function usageNobody(path: string, secret: string): string {
+  return createHmac("sha256", secret).update(`erw-usage-nobody\n${path}`).digest("hex");
+}
+
+// Session 5155 (row 24): the owner's ruling of 12 October 2026 is "no usage count on tool pages". Since session 208 the
+// pages that carry the mark send their page view and nothing after it. With USAGE_TOOL_PAGES=off on the server the page
+// view of such a page is not recorded either (lib/usagepath.ts, NO_COUNT). Unset, or any other word: as since session 208.
+export function usageToolPagesOff(env: Record<string, string | undefined> = process.env): boolean {
+  return (env.USAGE_TOOL_PAGES ?? "").trim().toLowerCase() === "off";
+}

@@ -115,6 +115,33 @@ await test("usageVisitor: 64 hexadecimal characters, of the address and the user
   assert.ok(!a.includes("203"));
 });
 
+// session 5154 (docs/reviews/security-faults-2026-11-13.md, row 23)
+await test("usageVisitorsOff and usageNobody: the switch is one word, and what is sent then stands for the page alone", () => {
+  assert.equal(guard.usageVisitorsOff({}), false);                              // unset: the daily code, as since session 177
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "" }), false);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "on" }), false);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: "off" }), true);
+  assert.equal(guard.usageVisitorsOff({ USAGE_VISITORS: " OFF " }), true);
+  const n = guard.usageNobody("/storage", SALT);
+  assert.match(n, /^[0-9a-f]{64}$/);                                            // the form the database's function asks for (migration 028)
+  assert.equal(n, guard.usageNobody("/storage", SALT));                         // the same for every request of the page
+  assert.notEqual(n, guard.usageNobody("/about", SALT));                        // one value a page: 400 lines a "visitor" a day is never met
+  assert.notEqual(n, guard.usageNobody("/storage", SALT + "x"));
+  assert.notEqual(n, guard.usageVisitor("/storage", "", SALT));                 // never a value a visitor's code could take
+  assert.equal(guard.usageNobody.length, 2);                                    // it is given no address and no user agent
+});
+
+// session 5155 (docs/reviews/security-faults-2026-11-13.md, row 24)
+await test("usageToolPagesOff and noCount: the setting is one word, and the list is the marked pages, matched exactly", () => {
+  assert.equal(guard.usageToolPagesOff({}), false);                             // unset: the page view is recorded, as since session 208
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: "on" }), false);
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: "off" }), true);
+  assert.equal(guard.usageToolPagesOff({ USAGE_TOOL_PAGES: " Off" }), true);
+  for (const p of ["/cost-of-power", "/cost-of-power/battery", "/cost-of-power/seller", "/battery/customer", "/severance", "/impact", "/play/ev"]) assert.equal(up.noCount(p), true, p);
+  for (const p of ["/", "/storage", "/grid", "/about", "/cost-of-power/battery/awards", "/severance/finder", "/play/battery", "/cost-of-powerx"]) assert.equal(up.noCount(p), false, p);
+  assert.deepEqual([...up.NO_COUNT].sort(), up.NO_COUNT);                       // kept in order, so a change reads as one line
+});
+
 await test("optedOut: Do Not Track and Global Privacy Control send nothing", () => {
   assert.equal(usage.optedOut({ doNotTrack: "1" }), true);
   assert.equal(usage.optedOut({ doNotTrack: "yes" }), true);
@@ -165,7 +192,10 @@ await test("toolOf: the menu's own names, by the nearest parent", () => {
   assert.equal(up.toolOf("/storage/buildout"), "Storage");   // session 239: the build-out is a tab of /storage (it was "Storage build-out", a menu entry of its own)
   assert.equal(up.toolOf("/cost-of-power/battery"), "What a battery earns");
   assert.equal(up.toolOf("/cost-of-power/battery/awards"), "What a battery earns");
-  assert.equal(up.toolOf("/grid/ercot"), "ERCOT");
+  assert.equal(up.toolOf("/grid/ercot"), "The grid");   // session 5102: a grid is a view of /grid since session 237 (it was "ERCOT", a menu entry of its own)
+  // session 5102: the pages of a sub-group have their names too (they were "" from session 203, when the menu gained one)
+  assert.equal(up.toolOf("/cost-of-power/seller"), "What a generator earns");
+  assert.equal(up.toolOf("/shoulder"), "The shoulder hours");
   assert.equal(up.toolOf("/terms"), "Terms");
   assert.equal(up.toolOf("/privacy"), "");
   assert.equal(up.isEvent("tool opened") && up.isEvent("input changed") && up.isEvent("scenario compared") && up.isEvent("download"), true);

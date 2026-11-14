@@ -89,7 +89,7 @@ def deflator(path):
                  "index(2025) / index(y). 2026 is EIA's projection and is not used.",
         "source": "U.S. Energy Information Administration, Short-Term Energy Outlook, API v2 steo/data, series GDPDIUS (annual)",
         "source_url": "https://api.eia.gov/v2/steo/data/?frequency=annual&data[]=value&facets[seriesId][]=GDPDIUS",
-        "read": "2026-11-13, chain 239 session 4200 (runs/w4/eia_requests.csv)",
+        "read": "2026-11-13, chain 239 session 4200 (2009 on) and chain 257 session 4292 (from 1997, for older studies in the cross-check; runs/w4/eia_requests.csv)",
         "base_year": 2025,
         "index": {str(y): v for y, v in sorted(idx.items()) if y <= 2025},
     }, None
@@ -170,6 +170,10 @@ def income(path):
                 v["brackets"].insert(0, {"over_usd": 0.0, "rate": 0.0, "implied": "below the table's first threshold"})
         if len(out) < 51:
             return None, f"income: {len(out)} states read"
+        # session 4299: a state's own 2026 figures where it changed them after the table (income_official.json, cited)
+        off = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "income_official.json"), encoding="utf-8"))
+        for s, o in off.items():
+            out[s].update(o)
         return {
             "about": "State individual income tax for a single filer, 2026 (Tax Foundation's table as of February 2026): each "
                      "bracket's rate over its threshold, the standard deduction and the personal exemption or credit. The tool "

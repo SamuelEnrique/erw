@@ -48,7 +48,10 @@ GN = "https://news.google.com/rss/articles/CBMiabc?oc=5"
 ADJ = re.compile(r"\b(massive|unprecedented|significant|significantly|major|critical|critically|key|huge)\b", re.I)
 MOVER = re.compile(r"^- (.+?): (-?[\d,]+\.\d{2}) (\S+) on (\d{4}-\d{2}-\d{2}), (?:up|down) [\d,.]+ \S+ \([\d.]+%\) from (-?[\d,]+\.\d{2}) \S+ on (\d{4}-\d{2}-\d{2}) \[(\d+)\]")
 FUEL_LINE = re.compile(r"^- (Henry Hub natural gas|WTI Cushing crude|Brent crude): (-?[\d,]+\.\d{2}) (\S+) on (\d{4}-\d{2}-\d{2})\b")
-RT_LINE = re.compile(r"^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD/MWh at (.+?) \(([A-Z-]+)\), interval starting .*?\((\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC\), \S+ `([a-z0-9_]+)`")
+# session 3457 (faults file row 152): the line in row 71's form, as lib/digest.ts reads it since then ("the 15-minute
+# interval starting 2026-10-20 18:45 Central (23:45 UTC) [n]"; the variable on the Tables line)
+RT_LINE = re.compile(r"^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD/MWh at (.+?) \(([A-Z-]+)\), the [^,\[]*? starting "
+                     r"(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) (?:[A-Z][a-z]+(?: [A-Z][a-z]+)? \((?:\d{4}-\d{2}-\d{2} )?\d{2}:\d{2} UTC\)|UTC) \[\d+\]")
 DEMAND = re.compile(r"peaked at (-?[\d,]+) MW in the hour starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC")
 
 

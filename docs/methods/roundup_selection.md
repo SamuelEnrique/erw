@@ -47,3 +47,19 @@ The weekend's stories, the five stories of the week, the deals and datacenter ta
 - Each list of More is numbered from 1 (row 122); the subject's cut goes back to a comma (row 116).
 - The page holds a held grid's real-time line and summary sentence in stored issues (W39 to W44), as well as its table cells (row 108).
 - The fun fact repeats the week's newest Digest fact by design; a fact of the Roundup's own is the owner's to rule on (row 109).
+
+## 9. What changed on the evening of 13 November 2026 (chains 252 to 258, rows 152, 157, 161, 162, 165, 172 to 174 and 178 to 185)
+
+- The real-time line's helpers (`rt_when`, `interval_words`, `ZONE_WORDS`) live in `brief.py`, which the Digest's line uses too (row 152); the Roundup's words are unchanged.
+- The subject's cut goes back to before a phrase it would cut inside (row 157, `phrase_back`).
+- The five's deal of the week is always in the Deals table, in place of the last row otherwise shown (row 161).
+- The five's datacenter load counts a developer as naming the facility, as the table does since row 150 ("1,400 MW, CDC (developer), Kemps Creek, Australia"), names a country other than the United States, and "1 larger load ... names" (row 162).
+- The subject's figure goes with its quantity words and a capacity with its "of"; a percent is a figure (row 165).
+- A subscriber's topics read the v2 Roundup's What mattered and its five stories (row 172).
+- Next week's empty line speaks of the week ahead, not this week (row 173).
+- A story that names a benchmark is given the close of its own trading day against the close before it, when the week's closes hold it; else the week's pair (row 174).
+- The policy titles are in the issue's money style (row 178).
+- Next week: a rule effective on the item's day "takes effect" (row 179).
+- What the evidence does not establish names a figure only when the printed headline or why line states it (row 180); the opening's reason follows rows 181 and 182.
+- The Policy of the Week's impact read keeps its figures (its first sentence, as before; row 183).
+- The evidence line reads a capacity printed in the other unit or with a hyphen ("3.6-GW") as the scored MW (row 185).

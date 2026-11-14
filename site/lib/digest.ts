@@ -112,8 +112,12 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
     const foot: Record<string, string> = {};
     // session 1450: the stories a block row reads ("[3] `news_stories`; story news:abc (mw); story news:def (price)")
     const stories: Record<string, string> = {};
+    // session 3457 (faults file row 152): since then the real-time line names no variable; the Tables line does
+    // ("; yesterday's highest real-time price is variable `spp_rtm`")
+    let rtVariable = "";
     for (let i = num.start; i < num.end; i++) {
       if (lines[i].startsWith("Tables: ")) {
+        rtVariable = /highest real-time price is variable `([a-z0-9_]+)`/.exec(lines[i])?.[1] ?? rtVariable;
         for (const m of lines[i].matchAll(/\[(\d+)\] `([a-z0-9_]+)`/g)) foot[m[1]] = m[2];
         for (const m of lines[i].matchAll(/story (news:[0-9a-f]+) \((mw|price)\)/g)) if (!stories[m[2]]) stories[m[2]] = m[1];
       }
@@ -145,7 +149,12 @@ function read(md: string, date: string, chart: { table: string; numbers: Record<
         }
         continue;
       }
-      const rt = /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), interval starting .*?\((\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC\), \S+ `([a-z0-9_]+)`(.*)$/.exec(l);
+      const rt0 = /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), interval starting .*?\((\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) UTC\), \S+ `([a-z0-9_]+)`(.*)$/.exec(l);
+      // session 3457 (faults file row 152): "the 15-minute interval starting 2026-11-12 19:00 Central (2026-11-13 01:00
+      // UTC) [4], ERCOT's ..." (the UTC date only when it is not the local one; a grid with no zone in UTC alone), the
+      // variable from the Tables line; read as the old form's groups
+      const rt1 = rt0 || !rtVariable ? null : /^\*\*Highest real-time price[^*]*:\*\* (-?[\d,]+\.\d{2}) USD\/MWh at (.+?) \(([A-Z-]+)\), the [^,\[]*? starting (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) (?:[A-Z][a-z]+(?: [A-Z][a-z]+)? \((?:(\d{4}-\d{2}-\d{2}) )?(\d{2}:\d{2}) UTC\)|UTC)(.*)$/.exec(l);
+      const rt = rt0 ?? (rt1 ? [rt1[0], rt1[1], rt1[2], rt1[3], rt1[6] ?? rt1[4], rt1[7] ?? rt1[5], rtVariable, rt1[8]] : null);
       if (rt && GRID[rt[3]]) {
         const rest = rt[7];
         const marks = [...rest.matchAll(/\[(\d+)\]/g)];

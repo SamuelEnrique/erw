@@ -23,4 +23,4 @@ SECTOR_TOPIC = {sec.replace("_", " "): t for t, (_, secs) in TOPICS.items() for 
 
 def topic_of(sector_label):
     """The topic of a sector as the brief prints it ("power prices", "datacenter power"); None for other."""
-    return SECTOR_TOPIC.get((sector_label or "").strip().replace("_", " "))
+    return SECTOR_TOPIC.get((sector_label or "").strip().replace("_", " ").lower())   # session 3469 (row 172): "LNG", "PPA"
