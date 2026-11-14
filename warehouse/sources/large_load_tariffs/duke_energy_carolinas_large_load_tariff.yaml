@@ -7,6 +7,10 @@
 # 2027" with the order's date blank. Duke Energy Progress is a party (E-2, Sub 1380), but the exhibit prints only Duke Energy
 # Carolinas's leaf, so no Progress row is written until its own leaf is read. Schedule HLF's demand charges (the rates these
 # minimums apply to) were not read.
+# Session 3937 (chain 267; data request row 7 of docs/state/data_requests_large_load.md): the term's automatic extension, the
+# letter of credit's ratable reduction, the security and the liquidated damages for early termination added from the same
+# Exhibit 1 (pp. 22 to 24), as window P4's research pass read it on 13 November 2026 (row duke-01, every cite matched); no
+# figure changed. Still proposed: no NCUC order found on 13 November 2026 (Duke's Q3 2026 10-Q names the filing).
 utility: Duke Energy Carolinas, LLC
 eia_id: 5416
 state: NC
@@ -25,8 +29,9 @@ license: public
 notes: "Proposed: a settlement filed 6 October 2026, pending NCUC approval as of 12 November 2026. Applies to letter agreements and electric service agreements executed on and after 1 June 2026. Contract term: below 100 MW the greater of 10 years and 5 years plus the load ramp period; 100 MW or more the greater of 15 years and 10 years plus the load ramp period."
 terms:
   min_bill: {text: "Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF", page: 23}
-  collateral: {text: "Dedicated Facilities: advanced funds equal to the estimated total cost as CIAC within 60 days of the LA; Transmission Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA", page: 22}
-  term: {text: "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years and (b) 10 years plus the load ramp period.", page: 23}
+  collateral: {text: "Dedicated Facilities: advanced funds equal to the estimated total cost as CIAC within 60 days of the LA; Transmission Network Upgrades: a letter of credit equal to the estimated total cost within 60 days of the ESA; After the customer meets or exceeds an actual monthly billing demand of 75% of full contract demand for three (3) consecutive billing months, the letter of credit ... will be reduced once per year on a ratable basis over the remaining term of the ESA (p. 22); The customer must provide security equal to the applicable liquidated damages for early termination in the form of cash, letter of credit or parent guarantee, or a combination thereof (p. 24)", page: 22}
+  term: {text: "The minimum initial contract term for ESAs below 100 MW will be the greater of (a) 10 years and (b) 5 years plus the load ramp period. The minimum initial contract term for ESAs of 100 MW or more will be the greater of (a) 15 years and (b) 10 years plus the load ramp period. At the expiration of the contract term, ESAs will be automatically extended for one-year terms unless the customer notifies the Company in writing of its intent to terminate the contract at least 24 months in advance of such termination.", page: 23}
+  exit_fee: {text: "Liquidated damages for early termination ... equal to (1) 100% of minimum billing demand charges at the customer's annual contract demand and Extra Facilities Charges during the applicable notification period, plus (2) the net present value of remaining Extra Facilities Charges ..., plus (3) 25% of remaining minimum billing demand charges ... after expiration of the notification period. Notification period: Below 250 MW: 24 months; Between 250 MW and 499 MW: 36 months; 500 MW or more: 48 months", page: 23}
 figures:
   - {variable: min_demand_mw, value: 50, printed: "a total contract demand of 50 MW or more and an expected 12-month rolling average load factor of 80% of more", page: 22}
   - {variable: min_bill_pct, value: 75, printed: "Billing demand will not be less than 75% of contract demand for all demand charges in Schedule HLF", page: 23}
