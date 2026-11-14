@@ -40,10 +40,22 @@
 - **Still unsettled**: Arkansas (the revenue opinions host disallows ClaudeBot, the courts' host 403), Tennessee (capitol.tn.gov disallows all but search engines; tn.gov 403), Oklahoma (oklegislature.gov and oscn.net disallow all; Packet M silent), Wyoming (no Department text read), New Mexico gas, Kentucky wind (an inference from KY-TAM-21-01, not held) and gas. All stay 0 with their reason.
 - **Written** on `wip/6000-forecast` (`2c0c87d8f`, pushed): Georgia solar 67.2, wind 66.9, gas 58.3; Mississippi solar 52.4, wind 52.1, gas 45.4; geothermal 0 in both; Idaho and Nevada gas tips with quotes; test; method note. Tests: node 52 passed, python 21 passed. Landing row 12 moved to `2c0c87d8f`.
 
-## Session 6054 (about 11:43 to 11:58 UTC): the cross-check's fourth search
+## Session 6054 (about 11:43 to 11:53 UTC): the cross-check's fourth search
 
 - One read-only reader, about 31 requests, for Plains and Southwest solar and gas studies not yet listed. Refusals honoured: the Texas Comptroller's host (403 at robots), the Texas commission's document site (402).
 - None usable: Eagle Eye Solar, Arizona (a November 2023 draft, one county, storage included, the solar's cost not printed apart: excluded as Yuma County's was); Flickertail Solar, North Dakota (direct jobs only); Entergy Texas's Legend and Lone Star (no jobs); nothing for the Southwest's utilities' gas units. Recorded in the method note's section 9 on `wip/6000-forecast` (`4a9ec60bf`, pushed); landing row 12 moved. Rows: `runs/s6054/studies.json`.
+
+## Sessions 6055 to 6060: no step left
+
+- The list's one remaining step (file 300) waits for the W46 Roundup (Sunday 15 November, 23:00 UTC); every open item of the forecast tool this machine can do without a ruling or a refusing host was taken in sessions 6051 to 6054. The forecast faults file (`docs/reviews/forecast-faults-2026-11-13.md`) has no open row. `/impact`'s check keys carry every input, the exemption included, so the gate checks the new defaults with no new key. These six numbers are left unused.
+
+## Session 6061 (about 11:55 UTC): the records
+
+- `docs/methods/forecast.md` was brought up to date with each group (section 4's table for the 25 states, section 5's paragraph, section 9's fourth search). No faults file was touched: the exemptions were open reads, not fault rows.
+
+## Session 6062 (about 11:57 UTC): the note
+
+- `docs/state/note_2026-11-14_oldlaptop_c274.md` (name checked free on origin's main and every branch): what landed, what waits in rows 12 and 13, rulings 30 to 33 with defaults, the states still unsettled.
 
 ## Decisions made without you
 
