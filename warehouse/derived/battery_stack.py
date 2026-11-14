@@ -378,7 +378,12 @@ def build_market(iso, energy, reserve, log, until=None):
     for strat, mk in STRATEGIES.items():
         e = energy[mk]
         first = max(pd.Timestamp(m["start"]), e.index.min().tz_convert(tz).tz_localize(None).normalize())
-        end = min(e.index.max(), last_as).tz_convert(tz).tz_localize(None).normalize()
+        # session 3935 (request 1 of docs/state/data_requests_five_tools.md): to the end of the local month of the last
+        # ancillary hour (and no later than the energy), so a month's days the reserve prices stop short of are left out
+        # and counted, not skipped: ERCOT's reserve prices end at 2026-10-31T04:00:00Z (30 October in Texas; ruling 2 of
+        # 6 November keeps them there), and 31 October was counted neither solved nor left out
+        as_month_end = last_as.tz_convert(tz).tz_localize(None).normalize() + pd.offsets.MonthEnd(0)
+        end = min(e.index.max().tz_convert(tz).tz_localize(None).normalize(), as_month_end)
         if until is not None:
             end = min(end, pd.Timestamp(until))
         n_mip = 0

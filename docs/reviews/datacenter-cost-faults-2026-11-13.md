@@ -8,6 +8,7 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | 2 | Method note, section 10, item 4 | "ERCOT's load zones stop on 3 October 2026 ... `run_data_machine.sh` is registered nowhere": the page's last twelve months now run to October 2026 (`replication/datacenter/replicate.py`: 2025-11 to 2026-10), and `price_compare` is a daily step of the data machine since session 204 | The row reads closed by session 204, session 190's text kept after it | fixed (session 5003) |
 | 3 | The page's foot | The decisions block starts closed | Not a fault: the datacenter page is not under the battery's "nothing collapsed" ruling | not a fault |
 | 4 | The "Price years" choice (found in session 5077, on production, 1280 and 390) | "The last twelve months (default): 33.73 USD per MWh" and "2026, 9 months held" stand beside the headline's USD 34.07 for November 2025 to October 2026: the choice reads `price_years_by_window`, built once (retrieved 2026-10-20T09:08:39Z), before the daily files reached October | Not the code machine's: a trial build here on 13 November 2026 (`python warehouse/derived/price_years.py --out-dir <scratch>`, the live set read with the anon key; 2,754 rows, 33 proofs equal) gives CAISO's 4-hour foresight default 79.80 from November 2025 and LZ_NORTH's 34.07, the headlines' figures; the build and its load are window A's (`docs/state/data_requests_five_tools.md`, row 4) | data machine |
+| 5 | The source line (found in session 5501, on production, ERCOT's default, 1280) | `ercot_large_load_status` is named twice in "Source: ERW tables ...", and two of the line's spans carry one key | The second entry dropped from the page's list; `SourceLine` (`site/components/tool/ToolPage.tsx`) names each table once, in its first place; `tests/test_session5501.py` | fixed (session 5501) |
 
 ## The read (session 5001's build)
 
@@ -38,3 +39,13 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 - **Row 4, new:** the "Price years" choice is of 20 October (33.73 beside the headline's 34.07). The data machine's (data request row 4).
 - **Second batch (session 5079), the same way, about 20:25 UTC:** CAISO's and SPP's load views, the all-grids view, the hours view (`run=hours`) and the all-grids view of a flexible load, at both widths: no sideways scroll, no exception, no broken word. CAISO's "Price years" default is 28.58 beside its headline's 29.72 for November 2025 to October 2026: row 4's cause, on another grid. SPP's agree (30.80, October 2025 to September 2026: its months have not moved).
 - **Third batch (session 5404), the same way, about 20:55 UTC:** the load view of PJM, MISO, NYISO and ISO-NE at both widths: no sideways scroll, no exception, no broken word. PJM and MISO say "Grid: ... is not held here, so ERCOT is shown." and show ERCOT; NYISO and ISO-NE draw in the internal view, their price years "None is held for this case" and delivery charges "not held yet". No new fault.
+
+## The read of 14 November (session 5501, chain 269)
+
+Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deployed at 08:28 UTC on 14 November 2026, the tree this chain's stack was cut from) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's words, its headings, its closed folds, its links, its width and its exceptions. A local build was not used for this read: 1.0 GB was free at 08:26 UTC, under the chain's 2 GB rule.
+
+- The default (`LZ_NORTH`, a flat load, real time) and the all-grids view, at both widths: no sideways scroll, no exception, no broken word; axe at 390 on the default: 0 rules broken.
+- Against the done line: the method note, the replication (CSV, do-file, Python mirror), "Checked against: 8 published figures" and the decisions block (closed, row 3) are on the face. Unsigned.
+- The "Price years" default is still 33.73 beside the headline's 34.07 (row 4, the data machine's).
+- **Row 5, new**, fixed in session 5501.
+- **The last fresh read (session 5505):** CAISO's load view and ERCOT's hours view (`run=hours`), at both widths: no sideways scroll, no exception. "USD 68.547301 per kW of four-peak demand" is the Commission's rate as filed. No new fault.
