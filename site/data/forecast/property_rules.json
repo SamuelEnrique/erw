@@ -482,6 +482,54 @@
    "url": "https://boe.ca.gov/proptaxes/pdf/SAM_2016.pdf",
    "read": "2026-11-14",
    "read_by": "subagent of session 6000"
+  },
+  "sc_12_37_930": {
+   "title": "South Carolina Code 12-37-930 and 12-37-935, depreciation allowances for manufacturer's machinery and equipment, and their maximum",
+   "url": "https://www.scstatehouse.gov/code/t12c037",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; class 6(a)'s words read again by this chain"
+  },
+  "sc_pt300_2026": {
+   "title": "South Carolina Department of Revenue, PT-300 and Schedules Instructions (2026)",
+   "url": "https://dor.sc.gov/sites/dor/files/forms/PT300Inst_2026.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; Schedule E and the depreciation sentence read again by this chain"
+  },
+  "sc_sctied_2025_ch4": {
+   "title": "South Carolina Department of Revenue, SC Tax Incentives for Economic Development (September 2025), chapter 4, Business Property Tax and Exemptions",
+   "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/SCTIED-2025/Chapter%204-Business%20Property%20Tax%20and%20Exemptions.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
+  },
+  "wv_110_1m_2026": {
+   "title": "West Virginia Legislative Rule 110CSR1M, Valuation of Public Utility Property for Ad Valorem Property Tax Purposes (HB 4245, effective 28 April 2026)",
+   "url": "https://tax.wv.gov/Documents/LegislativeRules/LegislativeRule.Title-110.Series-1M.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
+  },
+  "wv_trend_pg_2027": {
+   "title": "West Virginia State Tax Department, Trend and Percent Good Tables for tax year 2027 (letter of 11 June 2026)",
+   "url": "https://tax.wv.gov/Documents/PropertyTax/TrendAndPercentGoodTables/TrendAndPercentGoodTables.2027.zip",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
+  },
+  "ky_61a200_2025": {
+   "title": "Kentucky Department of Revenue, Public Service Company Property Tax Return 61A200(P) (revised 1-25), Classification of Public Service Property",
+   "url": "https://revenue.ky.gov/Forms/61A200(P)(1-25).pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; page 6's lines read again by this chain by word position"
+  },
+  "ky_136_120": {
+   "title": "Kentucky Revised Statutes 136.120, public service companies valued by the Department of Revenue",
+   "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=45218",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000; item 12 read again by this chain"
+  },
+  "ky_62a500_2026": {
+   "title": "Kentucky Department of Revenue, 2026 Tangible Personal Property Tax Return and Instructions 62A500(P), Schedule B",
+   "url": "https://revenue.ky.gov/Forms/62A500(P)%20(2026).pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6000"
   }
  },
  "states": {
@@ -1253,10 +1301,12 @@
      ],
      "then_pct": 100,
      "cite": "wv_tax_expenditure_2024",
-     "tip": "West Virginia: the Tax Commissioner values public utility and industrial property; assessed at 60 percent (the Tax Department's Tax Expenditure Study, January 2024). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
+     "tip": "West Virginia: the Tax Commissioner values public utility and industrial property; assessed at 60 percent (the Tax Department's Tax Expenditure Study, January 2024). A utility's plant is valued as a unit, the income approach given primary weight and the cost approach at original cost less applicable depreciation, with no table (Rule 110CSR1M, 2026); the Department's 2026 percent good tables for county assessors give lives of 20 to 30 years, but which life a generating plant takes, and whether a merchant plant is centrally assessed, were not found. The value is held at the capital cost, without depreciation: an upper bound.",
      "quote": "The State Tax Commissioner is required to determine the market value of all industrial and natural resource properties in the State. [...] an assumed equalization rate of 60 percent",
      "default_levy": 19.2,
-     "levy_words": "West Virginia: statewide, the average rate for all property was USD 1.92 per 100 of assessed value in tax year 2022 (Tax Department, Tax Expenditure Study, January 2024): USD 19.20 per 1,000. Type your county's."
+     "levy_words": "West Virginia: statewide, the average rate for all property was USD 1.92 per 100 of assessed value in tax year 2022 (Tax Department, Tax Expenditure Study, January 2024): USD 19.20 per 1,000. Type your county's.",
+     "cite2": "wv_110_1m_2026",
+     "quote2": "Cost approach. -- Recognizing that public service corporations are predominantly cost regulated, when the cost approach is used in the valuation process, original cost less applicable depreciation shall be employed. [...] The income approach value shall generally be given primary consideration in the correlation process."
     }
    ]
   },
@@ -1293,7 +1343,8 @@
     {
      "id": "ky_solar_machinery",
      "technologies": [
-      "utility_pv"
+      "utility_pv",
+      "land_based_wind"
      ],
      "kind": "valuation",
      "assessment_ratio": 1.0,
@@ -1302,21 +1353,22 @@
      ],
      "then_pct": 100,
      "cite": "ky_tam_21_01",
-     "tip": "Kentucky: a solar plant's generating machinery is manufacturing machinery, taxed for state purposes only at 15 cents per 100 of value (KRS 132.020(1)(c), 132.200(2); KY-TAM-21-01). Its other tangible property and franchise value (45 cents plus local rates) are not held. The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
+     "tip": "Kentucky: the Department of Revenue values wind turbine and solar generating companies as public service companies (KRS 136.120) and classes solar panels, wind turbines and their inverters and transformers as manufacturing machinery (Form 61A200(P), Classification of Public Service Property), taxed for state purposes only at 15 cents per 100 of value (KRS 132.020(1)(c), 132.200(2); KY-TAM-21-01). Its other tangible property and franchise value (45 cents plus local rates) are not held. The unit value has no published depreciation table (the 62A500 factors exclude public service companies): the value is held at the capital cost, an upper bound.",
      "quote": "Fifteen cents ($0.15) upon each one hundred dollars ($100) of value of all: 1. Machinery actually engaged in manufacturing; [...] A solar power company's generation of electricity is considered to be manufacturing for Kentucky ad valorem property tax purposes.",
      "default_levy": 1.5,
-     "levy_words": "Kentucky: the state's rate on manufacturing machinery, 15 cents per 100 of value (KRS 132.020(1)(c)); no local tax applies to it (132.200(2)): USD 1.50 per 1,000."
+     "levy_words": "Kentucky: the state's rate on manufacturing machinery, 15 cents per 100 of value (KRS 132.020(1)(c)); no local tax applies to it (132.200(2)): USD 1.50 per 1,000.",
+     "cite2": "ky_61a200_2025",
+     "quote2": "CLASSIFICATION OF PUBLIC SERVICE PROPERTY [...] Solar Energy Panels Manufacturing Machinery; Wind Energy Turbines Manufacturing Machinery; Inverters, Converters, Transformers for Solar & Wind Energy Systems Manufacturing Machinery"
     },
     {
      "id": "ky_note",
      "technologies": [
-      "land_based_wind",
       "natural_gas",
       "geothermal"
      ],
      "kind": "note",
      "cite": "ky_132_020",
-     "tip": "Kentucky: the Department of Revenue assesses electric power companies, wind and solar included, at fair cash value and state and local rates (KRS 136.120, 132.020); no guidance classing wind or gas machinery as manufacturing was found: no rule held."
+     "tip": "Kentucky: the Department of Revenue assesses electric power companies at fair cash value as a unit and at state and local rates (KRS 136.120, 136.160, 132.020); its classification of public service property names no gas or geothermal generating machinery as manufacturing machinery (Form 61A200(P)): no rule held."
     }
    ]
   },
@@ -1628,8 +1680,10 @@
      ],
      "then_pct": 100,
      "cite": "sc_12_43_220",
-     "tip": "South Carolina: property of manufacturers and utilities is assessed at 10.5 percent of fair market value (Code 12-43-220(a)(1)); a fee in lieu agreed with the county (chapter 44) is not modeled. The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "must be taxed on an assessment equal to ten and one-half percent of the fair market value of the property"
+     "tip": "South Carolina: property of manufacturers and utilities is assessed at 10.5 percent of fair market value (Code 12-43-220(a)(1)); a fee in lieu agreed with the county (chapter 44), under which most solar farms pay, is not modeled. Property used by or leased to a utility, solar companies named (PT-300 Schedule E), is valued at cost less the straight-line allowances of Code 12-37-930, never below 10 percent of cost (12-37-935); but no allowance class names electric generation (class 6(a), 11 percent, is the manufacture of electrical machinery), and a utility's own plant is valued as a unit (12-4-540(B)) with no published table. The value is held at the capital cost, without depreciation: an upper bound.",
+     "quote": "must be taxed on an assessment equal to ten and one-half percent of the fair market value of the property",
+     "cite2": "sc_12_37_930",
+     "quote2": "(a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries, ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies. [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930."
     },
     {
      "id": "sc_kwh_excise",

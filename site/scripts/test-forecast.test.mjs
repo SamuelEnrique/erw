@@ -612,3 +612,19 @@ test("session 6001: Washington's gas plant by column 7.5, its geothermal plant a
     for (const k of ["cite", "cite2", "cite3"]) if (r[k]) assert.ok(P.property.sources[r[k]], `${id} ${k}`);
   }
 });
+
+test("session 6002: Kentucky's wind turbines are manufacturing machinery (Form 61A200(P)); South Carolina and West Virginia stay at cost with the reason in the hover", () => {
+  const b = (t, s, o = {}) => ({ ...F.defaults(P, t, s), mw: 100, capex: 1500, start: 2027, build: 1, cf: 0.3, ...o });
+  const T = (t, s, i, o) => F.propertyTax(P, b(t, s, o), i).tax;
+  // Kentucky wind: 15 cents per 100 of value, state only: 150,000,000 x 0.15 / 100 = 225,000 in every year (no table)
+  near(T("land_based_wind", "ky", 0), 225000);
+  near(T("land_based_wind", "ky", 20), 225000, 1e-12, "held at cost");
+  assert.equal(T("natural_gas", "ky", 0), null, "gas: still a note");
+  assert.match(P.property.states.ky.rules.find((r) => r.id === "ky_solar_machinery").tip, /Wind|wind turbines/);
+  // South Carolina: 10.5 percent at cost, levy 300 mills, plus half a mill per kWh; the allowance class not assigned
+  near(T("natural_gas", "sc", 5, { levy: 300 }), 150e6 * 0.105 * 0.3 + 100 * 8760 * 0.3 * 0.5, 1e-12, "4,725,000 + 131,400");
+  assert.match(P.property.states.sc.rules.find((r) => r.id === "sc_property").tip, /12-37-930/);
+  // West Virginia solar: B&O on 8 percent of capacity plus property at cost, 60 percent, levy 19.2
+  near(T("utility_pv", "wv", 5), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
+  assert.match(P.property.states.wv.rules.find((r) => r.id === "wv_property").tip, /110CSR1M/);
+});
