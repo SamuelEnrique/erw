@@ -65,6 +65,9 @@
 | Rush Creek, operating jobs a year | The same | 123 against "approximately 180": 0.69 |
 | NREL's Wyoming study (2013): a 225 MW gas plant, Wyoming's figures | The model at the study's MW and cost | Construction jobs 551 against 573: 0.96; operating 0.86; sales tax 0.90 |
 | The same study: a 900 MW wind plant | The same | Construction jobs 1.03; operating 0.70 (leases counted by the study); sales tax 0.80; generation tax 1.01 |
+| NREL's 1,000 MW of wind in Texas (2011) and in Maine (2008) | The model at each study's MW and cost | Texas construction 2.41 (the study's 0 percent in-state equipment), operations 0.93; Maine 1.45 and 0.51 |
+| Three NREL state-level solar studies: Georgia, New York, Mississippi (2013) | The same | Construction 0.70 to 0.76 (on-site 0.82 to 0.99), operations 0.74 to 0.99 |
+| South Spur Solar, Colorado (2025, IMPLAN) | The model at 158 MW AC and USD 173 million | Construction 2.18 (the study's low in-state share), operations 3.40 (JEDI's 2010 solar O&M) |
 | Minnesota's wind production tax, Lincoln County, fiscal 2024 (Center for Rural Affairs) | The statute's USD 1.20 per MWh | USD 1.189 per MWh: within 1 percent |
 | Every figure on five `/impact` addresses, tables by year included | check-values' own recomputation | 785 of 785 (13 November, after Arizona) |
 | The Python and Stata downloads | The tool's totals for both scenarios | The Python script equal to 1e-6 in the node tests (Florida and Wyoming pairs included); the do-file prints both side by side (not run: no Stata on this machine) |

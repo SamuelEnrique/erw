@@ -259,7 +259,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
       && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years)
       && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw)
-      && (r.op_years === undefined || i < r.op_years) && (r.built_before === undefined || x.start + x.build <= r.built_before));
+      && (r.op_years === undefined || i < r.op_years) && (r.built_before === undefined || x.start + x.build <= r.built_before)
+      && (r.min_mw === undefined || x.mw >= r.min_mw));
     const exShare = ex?.exempt_steps ? (ex.exempt_steps.find((st) => st.until === undefined || i < st.until)?.share ?? 0) : (ex?.exempt_share ?? 0);
     const taxed = ex ? 1 - exShare : 1;
     return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };

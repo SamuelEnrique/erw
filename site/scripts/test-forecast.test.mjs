@@ -226,6 +226,7 @@ test("the run's Python script recomputes every total of the tool", async () => {
     [{ ...F.defaults(P, "utility_pv", "va"), mw: 100, own: 0.8, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "va"), mw: 160, own: 0.8, ownyears: 30 }],
     [{ ...F.defaults(P, "land_based_wind", "il"), levy: 80 }, { ...F.defaults(P, "natural_gas", "wv") }],
     [{ ...F.defaults(P, "land_based_wind", "wv") }, { ...F.defaults(P, "utility_pv", "il"), levy: 75, life: 30 }],
+    [{ ...F.defaults(P, "utility_pv", "ny"), own: 1.5, ownyears: 30 }, { ...F.defaults(P, "utility_pv", "dc"), own: 2, ownyears: 20 }],
   ];
   const { execFileSync } = await import("node:child_process");
   const py = process.env.ERW_PYTHON || "python";
@@ -275,7 +276,7 @@ test("sales tax: a statute's exemption is the default (Minnesota wind), elsewher
   assert.equal(mn.exempt, 100);
   const r = F.run(mn, ROWS, P);
   assert.equal(r.sums.sales, 0); assert.equal(r.sales.note, "after the exemption");
-  assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 0, "no solar exemption read in 297A.68");
+  assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 100, "solar: 297A.67 subd. 29, read by the re-check of session 4301");
   assert.equal(F.defaults(P, "land_based_wind", "tx").exempt, 0);
 });
 
@@ -398,7 +399,8 @@ test("Vermont's uniform capacity tax, USD 4 per kW, with the reader's own proper
   near(F.propertyTax(P, vt, 0).tax, 80000);
   near(F.propertyTax(P, { ...vt, own: 1, ownyears: 25 }, 5).tax, 80000 + 30e6 * (1 - 5 / 25) * 0.01);
   assert.equal(F.propertyTax(P, { ...vt, mw: 0.04 }, 0).tax, null, "under 50 kW: exempt from the capacity tax, no rule held");
-  assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "vt"), mw: 20 }, 0).tax, null, "wind: no rule held");
+  const w = { ...F.defaults(P, "land_based_wind", "vt"), mw: 20, cf: 0.3 };
+  near(F.propertyTax(P, w, 0).tax, 20 * 8760 * 0.3 * 3, 1e-12, "wind: the education tax of 5402c (session 4301)");
 });
 
 test("Wisconsin's payments to the municipality and county, USD 5,000 per MW a year, 1 MW at least, no gas rule", () => {
@@ -491,8 +493,9 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "il", { levy: 80 }, 4), 100 * 285580 * 0.80 * 0.3333 * 0.08);
   assert.equal(T("natural_gas", "il", {}), null, "Illinois gas: a note");
   // Montana: 3 percent (wind, gas), 6 percent (solar) of value, plus USD 0.20 per MWh
-  near(T("land_based_wind", "mt", { levy: 50 }), 150e6 * 0.03 * 0.05 + MWH * 0.2);
-  near(T("utility_pv", "mt", { levy: 50 }), 150e6 * 0.06 * 0.05 + MWH * 0.2);
+  near(T("land_based_wind", "mt", { levy: 50 }), 150e6 * 0.97 * 0.03 * 0.05 + MWH * 0.2);
+  near(T("land_based_wind", "mt", { levy: 50 }, 25), 150e6 * 0.15 * 0.03 * 0.05 + MWH * 0.2, 1e-12, "Montana: the floor");
+  near(T("utility_pv", "mt", { levy: 50 }), 150e6 * 0.97 * 0.06 * 0.05 + MWH * 0.2);
   // West Virginia: B&O USD 22.78 per kW of taxable capacity (wind 12, solar 8, gas 40 percent), property at 60 percent, levy 19.2
   near(T("land_based_wind", "wv", {}), 100 * 22.78 * 1000 * 0.12 + 150e6 * (0.79 * 0.05 + 0.21) * 0.6 * 0.0192);
   near(T("utility_pv", "wv", {}), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
@@ -503,8 +506,11 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "ky", {}), 150e6 * 0.15 / 100);
   // California 1 percent; Washington USD 8.96 per 1,000; Georgia 40 percent at 24.712 mills
   near(T("natural_gas", "ca", {}), 150e6 * 0.01);
-  near(T("utility_pv", "wa", {}), 150e6 * 8.96 / 1000);
-  near(T("land_based_wind", "ga", {}), 150e6 * 0.4 * 24.712 / 1000);
+  near(T("utility_pv", "wa", {}), 150e6 * 0.96 * 8.96 / 1000);
+  near(T("land_based_wind", "wa", {}, 30), 150e6 * 0.15 * 8.96 / 1000, 1e-12, "Washington: the floor");
+  near(T("natural_gas", "wa", {}), 150e6 * 8.96 / 1000, 1e-12, "Washington gas: at cost");
+  near(T("land_based_wind", "ga", {}), 150e6 * 0.95 * 0.4 * 24.712 / 1000);
+  near(T("land_based_wind", "ga", {}, 20), 150e6 * 0.15 * 0.4 * 24.712 / 1000, 1e-12, "Georgia: the residual");
   // Tennessee: 55 percent; solar valued at 12.5 percent of installed cost
   near(T("utility_pv", "tn", { levy: 50 }), 150e6 * 0.125 * 0.55 * 0.05);
   near(T("land_based_wind", "tn", { levy: 50 }), 150e6 * 0.55 * 0.05);
@@ -512,7 +518,8 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.3333 * 0.03);
   near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.105 * 0.3 + MWH * 0.5);
   near(T("land_based_wind", "tx", { levy: 15 }), 150e6 * 0.015);
-  near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.07 * 0.07);
+  near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.983 * 0.07 * 0.07);
+  near(T("utility_pv", "oh", { levy: 70 }, 29), 150e6 * 0.15 * 0.07 * 0.07, 1e-12, "Ohio: the floor at 30");
   // New York: exempt 15 operating years if built before 2030, then the reader's rate
   assert.equal(T("utility_pv", "ny", { own: 2, ownyears: 30 }, 14), 0);
   near(T("utility_pv", "ny", { own: 2, ownyears: 30 }, 15), 150e6 * (1 - 15 / 30) * 0.02);
@@ -550,4 +557,17 @@ test("fault 23: every property rule's words open with its state's name (the hove
     const name = v.name;
     assert.ok(r.tip.startsWith(name + ":") || r.tip.startsWith(name.split(" ")[0]) || (s === "dc" && r.tip.startsWith("District of Columbia")), `${s} ${r.id}: ${r.tip.slice(0, 30)}`);
   }
+});
+
+test("session 4301: Vermont's wind education tax, Iowa's generation tax, Nevada's 10 MW minimum, Minnesota's solar sales exemption", () => {
+  const b = (t, s, o = {}) => ({ ...F.defaults(P, t, s), mw: 100, capex: 1500, cf: 0.3, start: 2027, build: 1, ...o });
+  const MWH = 100 * 8760 * 0.3;
+  near(F.propertyTax(P, b("land_based_wind", "vt"), 0).tax, MWH * 3);
+  near(F.propertyTax(P, b("land_based_wind", "vt", { own: 1, ownyears: 25 }), 0).tax, MWH * 3 + 150e6 * 0.01, 1e-12, "the town's rate added");
+  near(F.propertyTax(P, b("utility_pv", "ia"), 0).tax, MWH * 0.6);
+  assert.equal(F.propertyTax(P, b("land_based_wind", "ia"), 0).tax, null, "Iowa wind: the special valuation, off by default");
+  near(F.propertyTax(P, b("utility_pv", "nv", { iaval: true, own: 1, ownyears: 30 }), 0).tax, 150e6 * 0.45 * 0.01);
+  near(F.propertyTax(P, b("utility_pv", "nv", { iaval: true, own: 1, ownyears: 30, mw: 8, capex: 18750 }), 0).tax, 150e6 * 0.01, 1e-12, "under 10 MW: no abatement");
+  assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 100);
+  assert.equal(F.defaults(P, "utility_pv", "az").exempt, 0);
 });

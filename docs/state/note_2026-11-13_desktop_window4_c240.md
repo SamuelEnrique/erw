@@ -29,6 +29,13 @@ Energy Research Warehouse (ERW). Sessions 4250 to 4263 and 4266 to 4268, about 1
 
 - **Chain 253 so far** (sessions 4270 and 4271): Maryland held (counties tax 50 percent of generating equipment, Tax-Property 7-237, every technology, on the reader's own rate); Idaho read and not held (3 and 3.5 percent of gross energy earnings, no sale price in the tool: ruling 16); California's and USDA's sites refused at their robots files. Virginia held (session 4272: a solar project of more than 5 and less than 150 MW AC exempt from 80, 70 and 60 percent of its value by years in service, Code 58.1-3660, on the reader's own rate; EIA's default 150 MW is outside the band: ruling 17); Colorado's statutes are published only through LexisNexis. South Carolina exempts only systems of 20 kW or less (a utility project's fee in lieu is negotiated); Oklahoma's statute site disallows every path; Tennessee publishes through LexisNexis. The last read (sessions 4286 and 4287): seven addresses at 1280 and 390, check-values 937 of 937, no new fault. Row 5 landed at `b5e925530`; row 6 (`wip/4270-forecast`, `11542a585`: Maryland, Virginia) requested.
 
+## Chain 257 (sessions 4290 to 4300): every state and DC
+
+- **The owner's instruction** (13 November, evening): every state and DC covered, by up to 8 read-only subagents, this window alone writing; spot-checks, a test per state, honest notes, a study per technology per region, faults, reads, rows.
+- **Done**: every state and DC in `property_rules.json` (figures for 33 jurisdictions, a cited note for 18), sales exemptions for 16, the states' own 2026 income tax for Georgia, Utah, South Carolina and West Virginia; 32 documents spot-checked by this window, all matching; the model's valuation, exemption and note rules generalized; faults 5, 22 and 23 fixed; NREL's Texas and Maine wind and three state-level solar studies in the cross-check; seven check addresses, 1,092 of 1,092.
+- **Row 7** (`wip/4290-forecast`, `c869252b6`) requested; row 6 landed at `ad7f16ca6`.
+- **New rulings**: 18. Value at cost where no depreciation is read [held, an upper bound]. 19. Tennessee's 12.5 percent in later years [constant]. 20. New York's opt-out or payment in lieu as a switch [not a switch].
+
 ## What waits in which landing row (`docs/state/landing_request_desktop_w4.md`, on main)
 
 - Row 1 landed at `71f8442ed`.
@@ -62,7 +69,7 @@ Energy Research Warehouse (ERW). Sessions 4250 to 4263 and 4266 to 4268, about 1
 10. Virginia's revenue share [left out].
 11. Illinois and Ohio [no rule held].
 12. The shared chart's spacing, faults 13 and 21 [left as it is].
-13. Whether a Vermont plant also pays the education property tax [not held].
+13. Whether a Vermont plant also pays the education property tax: answered by the statute (session 4301): fixtures taxed under 8701 do not (32 V.S.A. 5401(10)(J)(ii)); wind pays 5402c's USD 3 per MWh instead.
 14. Whether Wisconsin's payments belong on the property tax line, and whether its per-resident caps should be an input [on the line; caps not modeled].
 15. Whether `docs/methods/economic_impact.md` stays as the table's method [it stays].
 16. Idaho's tax on gross energy earnings, which needs a sale price [not held].

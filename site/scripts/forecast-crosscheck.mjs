@@ -139,6 +139,15 @@ export const STUDIES = [
     published_words: "Total Impacts 141.2 (construction); 55.6 on-site; 57.9 supply chain; 27.7 induced; operations Total Impacts 1.5; PV Project Labor Only 0.9",
     dollars_of: 2010,
   },
+  {
+    id: "colorado_pv_south_spur", title: "Economic Impact Analysis of the South Spur Solar Project, Strategic Economic Research (Loomis, Loomis, Thankan) for Bechtel, 2025, hosted by Yuma County, Colorado",
+    url: "https://yumacounty.net/wp-content/uploads/2025/08/South-Spur-Solar-Full-Report.pdf", request: 187,
+    method: "IMPLAN, 2022 State of Colorado dataset, with Bechtel's cost estimates and in-state shares (not published); statewide; dollar year not stated (taken as 2025, the report's year); an optional 79 MW battery may or may not be in the investment",
+    tech: "utility_pv", state: "co", mw: 158, cost_usd: 173e6, cost_year: 2025, cost_words: "a 158-megawatt alternating current (MWac) utility-scale solar powered-electric generation facility [...] The total Project represents an investment in excess of $173 million.", life: 35,
+    published: { "construction:total:jobs": 326, "construction:onsite:jobs": 172, "construction:supply_chain:jobs": 86, "construction:induced:jobs": 68, "operations:total:jobs": 17.3, "operations:onsite:jobs": 3.0 },
+    published_words: "326 new local jobs during construction for the State of Colorado; 17.3 new local long-term jobs for the State of Colorado (Table 5.1: construction 172 direct, 86 indirect, 68 induced; operations 3.0 onsite, 9.2 indirect, 5.1 induced)",
+    dollars_of: 2025,
+  },
 ];
 
 export function crosscheck(rows) {
