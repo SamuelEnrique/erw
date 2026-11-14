@@ -96,7 +96,12 @@ import iso_prices as ip  # noqa: E402
 
 NAME = "noaa_grid_weather"
 STATIONS_T, HOURLY, DAILY = "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily"
-LITE = "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite"
+# Session 3942 (chain 267): NOAA moved ISD-Lite to its Open Data Dissemination bucket on AWS. On 14 November 2026 the old
+# address of a file (LITE_OLD/<year>/<file>) answered 200 with the bucket's HTML index page (index.html#isd-lite/, 32,357
+# bytes) in place of the file, and the same file is at LITE/<year>/<file> (88,412 bytes). The files saved from the old
+# address before the move (pull_2026-10-05) are reused, never fetched again; a file that is not gzip is refused.
+LITE = "https://noaa-isd-pds.s3.amazonaws.com/isd-lite/data"
+LITE_OLD = "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite"
 HISTORY = "https://www.ncei.noaa.gov/pub/data/noaa/isd-history.csv"
 API = "https://www.ncei.noaa.gov/access/services/data/v1"
 SRC_LITE, SRC_LCD = "noaa:isd_lite", "noaa:lcd_v2"
@@ -245,8 +250,20 @@ def ghcn_id(wban):
     return "USW000" + wban
 
 
-def lite_url(usaf, wban, year):
-    return f"{LITE}/{year}/{usaf}-{wban}-{year}.gz"
+def lite_url(usaf, wban, year, base=None):
+    return f"{base or LITE}/{year}/{usaf}-{wban}-{year}.gz"
+
+
+def lite_source(usaf, wban, year, cached=None):
+    """The address a year's ISD-Lite file is read from: the new one, unless only the old one is in the raw files (a
+    download from before NOAA's move, reused as it was saved). cached: a function url -> raw record or None."""
+    cached = cached or (lambda u: ip.raw_cached(NAME, u))
+    url, old = lite_url(usaf, wban, year), lite_url(usaf, wban, year, LITE_OLD)
+    return old if cached(url) is None and cached(old) is not None else url
+
+
+def is_gzip(blob):
+    return blob[:2] == bytes([0x1F, 0x8B])
 
 
 def lcd_url(wban, start, end):
@@ -467,9 +484,11 @@ def pull(log, offline=False, end=None, refresh=False, census_dir=None):
         h = h.iloc[0]
         lite, n_lite, urls = [], 0, []
         for y in range(FIRST_YEAR, SEAM.year + 1):
-            url = lite_url(usaf, wban, y)
+            url = lite_source(usaf, wban, y)
             led.allow(8_784, f"{code} {y}", cached=offline or ip.raw_cached(NAME, url) is not None)
             b, r = ip.fetch_raw(NAME, url, log, offline=offline, pause=0, headers=UA)
+            if not is_gzip(b):
+                raise RuntimeError(f"{code} {y}: {url} is not a gzip file ({len(b):,} bytes): NOAA serves another page in its place")
             if not r.get("cached"):
                 time.sleep(PAUSE)
             f, n = parse_lite(b)
@@ -871,7 +890,7 @@ def main(argv=None):
                 f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
                 f"Raw files: warehouse/raw/{NAME}/ (not in git; each run's manifest.csv lists each file and URL)",
                 f"Source: {SRC_LITE} NOAA National Centers for Environmental Information, Integrated Surface Database, ISD-Lite, {PAGE_LITE}",
-                f"  files: {LITE}/<year>/<USAF>-<WBAN>-<year>.gz, {FIRST_YEAR} to {SEAM.year}; used for hours before {ip.utc_iso(SEAM)}. NOAA's database ends on 27 August 2025.",
+                f"  files: {LITE}/<year>/<USAF>-<WBAN>-<year>.gz, {FIRST_YEAR} to {SEAM.year}; used for hours before {ip.utc_iso(SEAM)}. NOAA's database ends on 27 August 2025. The files saved before NOAA moved them were downloaded from {LITE_OLD}/ (session 3942).",
                 f"Source: {SRC_LCD} NOAA National Centers for Environmental Information, Local Climatological Data version 2, {PAGE_LCD}",
                 f"  access: {API}?dataset=local-climatological-data-v2 (stations USW000<WBAN>, dataTypes HourlyDryBulbTemperature,HourlyDewPointTemperature), from {LCD_FROM}; used for hours from {ip.utc_iso(SEAM)}. Its times are local standard time, moved to UTC; an hour takes the report from ten minutes before the hour up to the hour, the closest to it (ISD-Lite's rule).",
                 (f"The seam, checked: over the hours both products hold from {LCD_FROM} to ISD-Lite's end, every station agrees to a tenth of a degree C in at least {worst['agree']:.2%} of the hours outside the eight synoptic hours of the day (the least: {[c for c, f in facts.items() if f is worst][0]}). At the synoptic hours (00, 03, ... 21 UTC) ISD-Lite takes the on-the-hour synoptic report where a station files one, and the Local Climatological Data does not carry it for every station: there the agreement runs from {min(f['agree_synoptic'] for f in seam):.2%} to {max(f['agree_synoptic'] for f in seam):.2%} by station, and the mean difference over all shared hours from {min(f['mean_diff_c'] for f in seam):+.3f} to {max(f['mean_diff_c'] for f in seam):+.3f} C (the Stations lines give each)."
