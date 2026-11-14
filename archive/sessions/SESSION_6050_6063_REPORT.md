@@ -57,12 +57,17 @@
 
 - `docs/state/note_2026-11-14_oldlaptop_c274.md` (name checked free on origin's main and every branch): what landed, what waits in rows 12 and 13, rulings 30 to 33 with defaults, the states still unsettled.
 
+## Session 6063 (about 12:00 UTC): the next file, the queue
+
+- File 275's unfinished steps written and pushed. No W46 Roundup and no 16 November Digest yet, so the queue step took file 275 by name (`f8115cd5d`, pushed); chain 275 runs next.
+
 ## Decisions made without you
 
 - The empty list rebuilt by session 6050, as the chain's rules ask of a chain that stopped early.
 - The readers write their rows to `runs/` as they go (not only at the end), so a window that ends does not lose them a third time.
 - One rule for an exemption that reaches only the generating machinery (a manufacturing or utility machinery route): solar holds the modules and inverters, 67.2 percent of JEDI's taxable purchases (Kentucky's and Iowa's reading), times the share of the rate exempted; wind, gas and geothermal hold 0 with the exemption named and the tax called an upper bound, as no machinery share of JEDI's wind or gas purchases is held. The tax shown errs high, as the property tax held at cost does.
 - Held at 0, as earlier states were: a discretionary abatement (Alabama, Nevada, as Illinois), an exemption ending 30 June 2027 when the default build starts in 2027 (Utah, as Virginia), a regulated utility's only (Louisiana), a government buyer's only (New Mexico wind and solar), and every state not settled from an official page.
+- Sessions 6052 to 6054 took open items of the same tool (as chain 271 did) rather than idle until the Roundup; sessions 6055 to 6060 were left unused once none remained, rather than spent on reads that the rules forbid repeating.
 - New states appended after the held ones in `sales_exemptions.json`, not sorted, so the diff only adds.
 
 ## For Samuel's ruling (default in brackets)
