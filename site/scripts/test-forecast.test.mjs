@@ -342,6 +342,32 @@ test("sales tax: North Dakota exempts a solar or gas power plant's purchases, no
   assert.equal(F.defaults(P, "land_based_wind", "nd").exempt, 0);
 });
 
+test("sales tax: the 25 states read by session 6051, the generating machinery's share of JEDI's taxable purchases (session 6052)", () => {
+  const pv = (0.368421 + 0.063158) / 0.642105 * 100;
+  // JEDI wind: BOP materials, turbines, blades, towers; the machinery held is the turbines and blades. JEDI gas: the power generation equipment.
+  const wind = (193738619.32643428 + 45356867.40083745) / (67889074.06834008 + 193738619.32643428 + 45356867.40083745 + 50216531.76521289) * 100;
+  const gas = 220588235.29411766 / (375000000 + 3676470.588235294) * 100;
+  for (const s of ["ks", "wv", "ma", "mi", "sc", "vt", "pa", "in", "oh"]) {
+    near(F.defaults(P, "utility_pv", s).exempt, pv, 1e-5, `${s}: the modules and inverters`);
+    near(F.defaults(P, "land_based_wind", s).exempt, wind, 1e-5, `${s}: the turbines and blades`);
+    near(F.defaults(P, "natural_gas", s).exempt, gas, 1e-5, `${s}: the power generation equipment`);
+    assert.equal(F.defaults(P, "geothermal", s).exempt, 0, `${s}: JEDI's geothermal model has no sales tax line`);
+  }
+  near(F.defaults(P, "land_based_wind", "mo").exempt, wind, 1e-5); near(F.defaults(P, "natural_gas", "mo").exempt, gas, 1e-5);
+  near(F.defaults(P, "land_based_wind", "wi").exempt, 80.9942, 1e-5, "Wisconsin names the tower");
+  near(F.defaults(P, "natural_gas", "ca").exempt, 3.9375 / 9.03 * gas, 1e-5);
+  const r = F.run({ ...F.defaults(P, "natural_gas", "ks"), mw: 500, capex: 1000 }, ROWS, P);
+  assert.equal(r.sales.note, "after the exemption");
+  assert.equal(F.defaults(P, "utility_pv", "mo").exempt, 100, "Missouri 144.030.2(46): the systems and their materials");
+  assert.equal(F.defaults(P, "geothermal", "nm").exempt, 100, "New Mexico, Laws 2024 chapter 67 section 39");
+  assert.equal(F.defaults(P, "utility_pv", "nm").exempt, 0, "a government buyer's only");
+  near(F.defaults(P, "utility_pv", "wi").exempt, (0.105263 + 0.368421 + 0.063158) / 0.642105 * 100, 1e-5, "Wisconsin 77.54(56): with the mounting");
+  near(F.defaults(P, "utility_pv", "ca").exempt, 3.9375 / 9.03 * pv, 1e-3, "California: 3.9375 points of the rate on the machinery");
+  assert.equal(F.defaults(P, "utility_pv", "ut").exempt, 0, "Utah's exemption ends 30 June 2027");
+  for (const s of ["al", "ar", "ca", "dc", "ga", "id", "in", "ks", "la", "ma", "mi", "mo", "ms", "nm", "nv", "oh", "ok", "pa", "sc", "tn", "ut", "vt", "wi", "wv", "wy"])
+    for (const t of ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]) assert.ok(P.exemptions.states[s][t].tip, `${s} ${t}: a tip says what was read`);
+});
+
 test("Wyoming's wind excise: USD 1 a MWh from the fourth operating year, the reader's own property tax added", () => {
   const wy = { ...F.defaults(P, "land_based_wind", "wy"), mw: 100, cf: 0.4, capex: 1500 };
   assert.equal(F.propertyTax(P, wy, 0).tax, 0); assert.equal(F.propertyTax(P, wy, 2).tax, 0);

@@ -65,3 +65,12 @@
 - **Not found**: Texas wind or gas district schedules (Mitchell CAD's report: a unit method by income, no schedule); a California life for solar or gas; solar studies in the Plains and the Southwest; gas studies in the Plains and the Southwest. Each listed in the method note with its reason.
 - **Records**: the method note's section 4 table rows for the eight states changed (generated from the parameter files, `runs/s6000/table_rows.py`, in session 4296's form); section 9's region table; the review pack's cross-checks, its question 2 (Texas) and its question 12 (the states held at cost).
 - Node 51 of 51; the three Python files 21 passed.
+
+## Session 6007 (about 09:20 to 09:35 UTC): the last study gaps
+
+- One more reader: gas in the Plains and the Southwest, geothermal with a cost. No gas study usable (Bison and Toronto applications, Evergy's plants: no multipliers or no readable study). Two county geothermal studies added, both read again by this chain (neither host has a robots file): Lyon County, Nevada (DRP 2019, 75 MW, USD 3,000 per kW: on-site construction 1.61, operations 2.30) and Black Rock, Imperial County, California (2024, 77 MW net, the middle of USD 557 to 882 million: the applicant's 471 construction job-years 2.28, operations 0.81).
+- The cross-check now holds 22 studies; the region table in the method note's section 9.
+- Queue file 271's unfinished steps written early (`d406eae0d`).
+- A background watch for P1's close-out note runs (two-minute checks); step 5 starts when it lands.
+- Node 51 of 51.
+- 09:45 UTC: the background watch was stopped by Claude Code because the machine ran critically low on memory (MemFree 1.2 GB); not restarted, as the harness asks. P1's note exists on `wip/5500-closeout` (`fcadf7cf9`) but has not landed on main: step 5 not started.
