@@ -68,11 +68,14 @@
 | NREL's 1,000 MW of wind in Texas (2011) and in Maine (2008) | The model at each study's MW and cost | Texas construction 2.41 (the study's 0 percent in-state equipment), operations 0.93; Maine 1.45 and 0.51 |
 | Three NREL state-level solar studies: Georgia, New York, Mississippi (2013) | The same | Construction 0.70 to 0.76 (on-site 0.82 to 0.99), operations 0.74 to 0.99 |
 | South Spur Solar, Colorado (2025, IMPLAN) | The model at 158 MW AC and USD 173 million | Construction 2.18 (the study's low in-state share), operations 3.40 (JEDI's 2010 solar O&M) |
+| NREL's 1,000 MW of wind in North Carolina (2009); Livingston County Wind, Illinois (2021); Corona Wind, New Mexico (2018) (chain 270) | The model at each study's MW and cost | Construction jobs 1.47, 0.58; on-site 0.37, 0.47, 0.62; operations 0.47, 0.85 |
+| LSU's Louisiana combined cycle (2001); MSU's Michigan gas fleet (2011); Killingly, Connecticut (2016) (chain 270) | The same | Construction jobs 2.63 (most equipment bought outside Louisiana), 0.18 (every dollar spent in Michigan), 1.05; Killingly operations 0.97 |
+| NREL's JEDI geothermal guide, its Colorado example (2012) (chain 270) | The same | Construction jobs 1.22, on-site 1.00, operations 1.51: JEDI's own example, not independent |
 | Minnesota's wind production tax, Lincoln County, fiscal 2024 (Center for Rural Affairs) | The statute's USD 1.20 per MWh | USD 1.189 per MWh: within 1 percent |
 | Every figure on five `/impact` addresses, tables by year included | check-values' own recomputation | 785 of 785 (13 November, after Arizona) |
 | The Python and Stata downloads | The tool's totals for both scenarios | The Python script equal to 1e-6 in the node tests (Florida and Wyoming pairs included); the do-file prints both side by side (not run: no Stata on this machine) |
 
-The studies, their requests and the reasons for each gap are in `docs/methods/forecast.md`, section 9, and `docs/reviews/forecast-crosscheck-2026-11-13.json` (`site/scripts/forecast-crosscheck.mjs`).
+The studies, their requests and the reasons for each gap are in `docs/methods/forecast.md`, section 9, and `docs/reviews/forecast-crosscheck-2026-11-13.json` and, with chain 270's seven studies, `docs/reviews/forecast-crosscheck-2026-11-14.json` (`site/scripts/forecast-crosscheck.mjs`). Chain 270's region table (section 9 of the method note) shows what is still missing: solar in the Plains and the Southwest, gas in the Plains and the Southwest, geothermal outside the West.
 
 ## 5. The edge cases tested
 
@@ -110,7 +113,7 @@ The 20 faults found in the readings, each fixed with a test or ruled, are in `do
 Both may be: a job-year is one full-time job for a year. The page counts as JEDI counts; Glendive's headline (part 4) is an example of a count that does not say what it counts.
 
 ### 2. Why does Texas show no property tax, the largest tax a plant pays?
-Texas taxes plants at local rates under negotiated abatements; no statewide rule with a rate exists to hold. A reader with a rate types it.
+Texas taxes plants at local rates, often under negotiated abatements. Since chain 239 the tool holds Texas's market value rule with the reader's levy; since chain 270 a solar plant falls by Tax Code 23.26's 10-year life to its 20 percent floor (Harris Central Appraisal District's schedule), while wind, gas and geothermal stay at cost, an upper bound, because no district publishes their schedule. With no levy typed the figure is not shown.
 
 ### 3. Why is the sales tax for Texas so large?
 It is before Texas's manufacturing exemption, which the Comptroller applies to generating equipment; the statute could not be read as text and no share is held. The field says it is an upper bound (ruling 7 of the note).
@@ -163,6 +166,7 @@ The same in Python: `python erw_local_impact_run.py`, which prints each total be
 9. **Illinois and Ohio,** whose statute sites refuse this machine. (a) no rule held; (b) a person reads them and a session types the rules.
 10. **The shared chart's year labels for long lives** (fault 13). (a) left as they are; (b) thinned in `SeriesChart`, which moves every page.
 11. **The old method note.** `docs/methods/economic_impact.md` describes the snapshot page; (a) keep it as the table's method; (b) fold it into `forecast.md`.
+12. **The states still held at cost** (chain 270, rulings 21 to 29 in `archive/sessions/SESSION_6001_6004_REPORT.md`): California's solar, gas and geothermal, Washington's geothermal, South Carolina, Kentucky's unit value, Tennessee's gas and geothermal, Texas's wind, gas and geothermal. (a) held at cost, an upper bound, as now; (b) the nearest published table each ruling names.
 
 ## Where every number comes from
 

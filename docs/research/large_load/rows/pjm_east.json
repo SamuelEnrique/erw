@@ -180,7 +180,8 @@
    "license_basis": "the PA PUC's docket copy of PPL's filed compliance tariff (www.puc.pa.gov, robots allow it, a public record) and the Commission's letter; the pipeline figure from PPL Corporation's Form 8-K exhibit on SEC EDGAR",
    "erw_overlap": "none held for PPL. Window A's large_load_connection_rules/pa_puc_large_load_model_tariff.yaml is the PUC's model, not PPL's tariff, and LP-6 differs from it: threshold 50 MW single or 75 MW aggregate within 10 miles at 69 kV or above (model: 50 MW individually or 100 MW aggregate); initial term at least 10 years with a ramp of up to 5 years (model: at least 5 years after a 3 to 5 year ramp)",
    "notes": "LP-6 came out of PPL's base rate case settlement (Joint Petition for Non-Unanimous Settlement filed 13 March 2026, Large Load Interconnections at Joint Petition paragraphs III.I.91 to 97, per the I&E statement in support, www.puc.pa.gov/pcdocs/1918891.pdf p.13), approved as modified by the Opinion and Order entered 11 June 2026; compliance tariff filed 30 June 2026, effective 1 July 2026; replacement pages correcting typographical errors filed 27 August 2026 (the copy read). LP-6 also requires annual load forecasts to the Commission broken down by ESAs, LOAs and inquiries (p.246, Load Forecasts). Beginning 1 January 2027, $11 million a year of Universal Service Rider costs is allocated to LP-6 through a non-bypassable customer charge (pcdocs/1946790.pdf p.56). Pending, a lead not read: the Office of Consumer Advocate's complaint against PPL over data center cost allocation, Docket C-2026-3065756, filed 2 October 2026 per Governor Shapiro's petition to intervene of 15 October 2026 (pa.gov); it seeks a separate data center class and interruptible service, so LP-6 may change. PPL has not filed a tariff on the PUC's model (M-2025-3054271) that I found; the model order sets no filing date for the EDCs (pcdocs/1929842.pdf pp. 117 to 118, ordering paragraphs). PPL's own site (pplelectric.com) bars automated access in its terms of use, so its LP-6 PDF was not read.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "pjm_east-01"
   },
   {
    "utility": "Delmarva Power & Light Company",
@@ -274,7 +275,8 @@
    "license_basis": "the Delaware PSC's own notice and news release (depsc.delaware.gov, robots allow it)",
    "erw_overlap": "none",
    "notes": "Petition filed 28 August 2025 by the Public Advocate and PSC Staff (notice p.1, 'FILED AUGUST 28, 2025'). Comments were due 6 March 2026 (notice p.2). PSC Staff, DNREC and the Public Advocate filed joint comments raising concerns (depsc.delaware.gov post of 9 April 2026). Leads, not verified: Delmarva proposed a new class GS-LD and an application process for loads of 50 MW or more and recommended raising the threshold to 50 MW (technical.ly, Spotlight Delaware); PJM's consultant whitepaper of September 2026 lists Delaware's model large load tariff as paused (pjm.com, p.6 table) and says HB 233, passed 1 July 2026 and signed 26 August 2026, directs the PSC on large load tariffs; a tracker says HB 233 requires utilities to file an application within 180 days of its effective date. Delmarva's tariff text, testimony and its load pipeline are on DelaFile (refused).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "pjm_east-02"
   },
   {
    "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's other electric companies",
@@ -299,18 +301,22 @@
     ]
    },
    "status": {
-    "value": "proposed",
-    "date": "2026-06-26",
+    "value": "in effect",
+    "date": "2026-09-28",
     "cites": [
      {
       "page": "1",
-      "section": "Register index",
-      "quote": "20.96.01.01 .08 53:13 Md. R. 614 (6-26-26)"
+      "section": "Final Action on Regulations, Title 20, Subtitle 96",
+      "quote": "COMAR 20.96.01 Large Load Study and Tariff Requirements",
+      "url": "https://dsd.maryland.gov/MDRIssues/5319/Assembled.aspx",
+      "date_read": "2026-11-13"
      },
      {
       "page": "1",
-      "section": "Opportunity for Public Comment",
-      "quote": "Comments will be accepted through July 27, 2026."
+      "section": "Final Action on Regulations, Title 20, Subtitle 96",
+      "quote": "Effective Date: September 28, 2026.",
+      "url": "https://dsd.maryland.gov/MDRIssues/5319/Assembled.aspx",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -428,8 +434,9 @@
    "license": "public",
    "license_basis": "the Maryland Register as the Division of State Documents publishes it (dsd.maryland.gov, robots allow it) and the session law on the General Assembly's site (mgaleg.maryland.gov, no robots file)",
    "erw_overlap": "none",
-   "notes": "A statewide rule, like window A's Pennsylvania model: it binds each Maryland electric company's own large load tariff. Status: published as proposed on 26 June 2026 with comments to 27 July 2026; whether the PSC has since adopted it was not verified (a later Maryland Register issue would show the final action). Each investor-owned company had to file its own large load rate schedule by 1 September 2026: Chapter 353 (HB 1532, signed 12 May 2026), Public Utilities 4-212(c)(1)(i), p.34 of the session law: 'On or before September 1, 2026, each investor-owned electric company and each electric cooperative shall submit to the Commission for approval a specific rate schedule for large load customers'. BGE's, Pepco's and Delmarva's filings were not read: the PSC's docket system (webpscxb.psc.state.md.us) bars Claude's agents in its robots file (refused). A lead: HB 1082 of 2026 would have moved that date to 1 January 2027 (its fiscal note); Chapter 353 as enacted keeps 1 September 2026. Exelon's Q3 2026 earnings slides (SEC EDGAR, exc-20261030ex992.htm, p.1) give a combined MidAtlantic figure: 'MidAtlantic ~2 GW' of high probability load and 'MidAtlantic ~9 GW' within cluster studies (MidAtlantic covers PECO, BGE, Pepco, Delmarva and Atlantic City Electric).",
-   "date_read": "2026-11-13"
+   "notes": "A statewide rule, like window A's Pennsylvania model: it binds each Maryland electric company's own large load tariff. Status: published as proposed on 26 June 2026 with comments to 27 July 2026; whether the PSC has since adopted it was not verified (a later Maryland Register issue would show the final action). Each investor-owned company had to file its own large load rate schedule by 1 September 2026: Chapter 353 (HB 1532, signed 12 May 2026), Public Utilities 4-212(c)(1)(i), p.34 of the session law: 'On or before September 1, 2026, each investor-owned electric company and each electric cooperative shall submit to the Commission for approval a specific rate schedule for large load customers'. BGE's, Pepco's and Delmarva's filings were not read: the PSC's docket system (webpscxb.psc.state.md.us) bars Claude's agents in its robots file (refused). A lead: HB 1082 of 2026 would have moved that date to 1 January 2027 (its fiscal note); Chapter 353 as enacted keeps 1 September 2026. Exelon's Q3 2026 earnings slides (SEC EDGAR, exc-20261030ex992.htm, p.1) give a combined MidAtlantic figure: 'MidAtlantic ~2 GW' of high probability load and 'MidAtlantic ~9 GW' within cluster studies (MidAtlantic covers PECO, BGE, Pepco, Delmarva and Atlantic City Electric). Status updated by the 90-day pass (east-02): was 'proposed' (2026-06-26); The adopted COMAR 20.96.01 took effect on 28 September 2026, the effective date printed in the notice of final action.",
+   "date_read": "2026-11-13",
+   "row_id": "pjm_east-03"
   }
  ],
  "refused": [

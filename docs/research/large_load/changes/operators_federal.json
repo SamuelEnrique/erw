@@ -1,0 +1,759 @@
+{
+ "group": "operators_federal",
+ "changes": [
+  {
+   "utility": "Electric Reliability Council of Texas (ERCOT)",
+   "state": "TX",
+   "rule_name": "ERCOT Planning Guide, Section 9, Large Load Interconnection or Modification (Batch Zero)",
+   "affects": "large_load_connection_rules/ercot_planning_guide_section_9.yaml; also large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml",
+   "change": "order issued",
+   "date": "2026-08-20",
+   "docket": "Project No. 59142",
+   "source_url": "https://interchange.puc.texas.gov/Documents/59142_53_1675960.PDF",
+   "source_title": "PUCT, Project No. 59142, Review of ERCOT's Interconnection Processes for Large Loads, Order Granting Good Cause Exceptions (item 53)",
+   "what": "After the Governor's directive of 3 August 2026, the PUCT granted ERCOT exceptions to Planning Guide 9.3.1(2)(a), 9.2.2(3)(a) and 5.3.5(5)(a)(ii): ERCOT may delay classifying Batch Zero Large Loads past the 7 August 2026 deadline, include eligible submitted base loads in the August and November 2026 QSAs, keep reviewing dynamic data after 7 August, and let ILLEs cure deficiencies within 24 days of notice.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-08-20 12:29:32 PM Control Number - 59142 Item Number - 53"
+    },
+    {
+     "page": "2",
+     "section": "title",
+     "quote": "ORDER GRANTING GOOD CAUSE EXCEPTIONS"
+    },
+    {
+     "page": "2",
+     "section": "",
+     "quote": "ERCOT Planning Guide § 9.3.1(2)(a) requires ERCOT to classify Large Loads as base load, studied load, or load that has not met sufficient criteria to be included in Batch Zero by August 7,2026"
+    },
+    {
+     "page": "3",
+     "section": "order, page 2 of 3",
+     "quote": "The exceptions permit ERCOT to delay classifying Large Loads for inclusion in Batch Zero"
+    },
+    {
+     "page": "3",
+     "section": "order, page 2 of 3",
+     "quote": "allow ILLEs to cure deficiencies within 24 days of notification"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Public Utility Commission of Texas's own copy on its Interchange (a commission record)",
+   "notes": "The registry step 9.3.1(2)(b) (Batch Zero study report by 9 April 2027) is not changed by this order; ERCOT's deck of 14-15 September (next entry) says the effect on that date is still being determined.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Electric Reliability Council of Texas (ERCOT)",
+   "state": "TX",
+   "rule_name": "ERCOT Batch Zero large load study (PGRR 145)",
+   "affects": "large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml",
+   "change": "other",
+   "date": "2026-09-03",
+   "docket": "PGRR 145; PUC Project No. 59142",
+   "source_url": "https://www.ercot.com/files/docs/2026/09/11/14-Batch-Zero-Update.pdf",
+   "source_title": "ERCOT, Item 14: Batch Zero Update, Board of Directors Meeting, September 14-15, 2026",
+   "what": "ERCOT gave the Interconnecting TSPs a provisional (conditional) Batch Zero classification of each Large Load on 3 September 2026 (PGRR 145 had set 7 August 2026 for the final one): 204 projects (66.4 GW) as base load and 158 (127.9 GW) as studied load; final inclusion waits on the eligibility verification and audit, whose report is due to the PUCT by 10 December 2026, and energization of new Large Load data centers and crypto mining facilities is paused until then.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Key Takeaways",
+     "quote": "204 projects (66.4 GW) met the qualifications to be conditionally included as base load"
+    },
+    {
+     "page": "1",
+     "section": "Key Takeaways",
+     "quote": "158 projects (127.9 GW) met the qualifications to be conditionally included as studied load"
+    },
+    {
+     "page": "4",
+     "section": "Key Changes to Batch Zero, item 4",
+     "quote": "to the Interconnecting TSPs on September 3, 2026"
+    },
+    {
+     "page": "4",
+     "section": "Key Changes to Batch Zero, item 4",
+     "quote": "(Originally, PGRR 145 required ERCOT to provide final classification on August 7, 2026.)"
+    },
+    {
+     "page": "4",
+     "section": "Key Changes to Batch Zero, item 1",
+     "quote": "ERCOT will file the Batch Zero Eligibility Verification Report with the Commission by December 10, 2026"
+    },
+    {
+     "page": "4",
+     "section": "Key Changes to Batch Zero, item 3",
+     "quote": "ERCOT has paused the energization of new Large Load data centers and crypto mining facilities"
+    },
+    {
+     "page": "4",
+     "section": "Key Changes to Batch Zero, item 5",
+     "quote": "Originally, PGRR 145 required ERCOT to complete the study by April 9. 2027."
+    },
+    {
+     "url": "https://interchange.puc.texas.gov/Documents/59142_78_1699635.PDF",
+     "page": "5",
+     "section": "Attachment A, Concluding the Verification Process (ERCOT letter of November 4, 2026)",
+     "quote": "ERCOT must complete its review this month to file a report with the PUCT on December 10, 2026.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "ERCOT's own copy under www.ercot.com/files (robots allow; ERCOT's terms allow reuse in compilations and analyses); the November letter is the PUCT's copy",
+   "notes": "The deck's chart legend prints the studied total as 125.4 GW (158 projects) where its key takeaways print 127.9 GW; the takeaway is quoted, the difference is the deck's. ERCOT's letter of 4 November 2026 also says it will file further good cause exception requests for the PUCT's 17 December 2026 open meeting.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Electric Reliability Council of Texas (ERCOT)",
+   "state": "TX",
+   "rule_name": "NPRR1348, Telemetry Offsetting for Provisional Controllable Load Resources",
+   "affects": "new",
+   "change": "filed",
+   "date": "2026-09-29",
+   "docket": "NPRR1348",
+   "source_url": "https://www.ercot.com/mktrules/issues/reports/nprr/pending",
+   "source_title": "ERCOT, Nodal Protocol Revision Requests, Pending NPRRs report",
+   "what": "A market participant (Global Capacity Alliance) filed NPRR1348, which would let a QSE raise the telemetered Low Power Consumption limit of a Provisional Controllable Load Resource (the flexible-load path of the large load process) to match a paired resource; it is pending, not approved.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "NPRR1348",
+     "quote": "Telemetry Offsetting for Provisional Controllable Load Resources"
+    },
+    {
+     "page": "1",
+     "section": "NPRR1348",
+     "quote": "It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR)"
+    },
+    {
+     "page": "1",
+     "section": "NPRR1348, date posted",
+     "quote": "09/29/2026"
+    },
+    {
+     "page": "1",
+     "section": "NPRR1348, sponsor",
+     "quote": "Global Capacity Alliance"
+    }
+   ],
+   "license": "public",
+   "license_basis": "ERCOT's own page (robots allow; ERCOT's terms allow reuse)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "California Independent System Operator (CAISO)",
+   "state": "CA",
+   "rule_name": "CAISO, Large Load Enhancements (response to FERC's Order to Show Cause, EL26-71)",
+   "affects": "large_load_connection_rules/caiso_large_load_enhancements_draft_final_proposal.yaml",
+   "change": "approved",
+   "date": "2026-10-28",
+   "docket": "EL26-71-000",
+   "source_url": "https://www.caiso.com/about/news/news-releases/caiso-board-advances-new-procedures-for-connecting-large-loads-quickly-and-reliably",
+   "source_title": "CAISO news release, CAISO Board advances new procedures for connecting large loads quickly and reliably, 10/28/2026",
+   "what": "The CAISO Board of Governors approved the large load proposal (a flexible interim load interconnection with enforceable flexibility until network upgrades are complete, and a monthly window to review out-of-cycle transmission upgrades for large loads to fit the PTOs' 60 to 90 day studies); the CAISO will file it with FERC by 16 November 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "dateline",
+     "quote": "10/28/2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "With the Board’s approval Wednesday, the ISO will file its proposal with the Federal Energy Regulatory Commission (FERC) by its November 16 deadline."
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "referred to as a “flexible interim load interconnection,” would enable large loads to interconnect quickly to the transmission system with enforceable flexibility determined by grid conditions and constraints until associated network upgrades are complete"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "the proposal creates a new monthly window for the ISO to review any transmission additions or upgrades associated with large loads that fall outside the usual transmission planning cycle"
+    },
+    {
+     "url": "https://stakeholdercenter.caiso.com/RecurringStakeholderProcesses/Large-loads",
+     "page": "1",
+     "section": "Status",
+     "quote": "Oct 28, 2026 Board of Governors approval",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://stakeholdercenter.caiso.com/RecurringStakeholderProcesses/Large-loads",
+     "page": "1",
+     "section": "Status",
+     "quote": "Nov 16, 2026 FERC filing",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.caiso.com/documents/jul-20-2026-informational-report-large-loads-and-co-located-loads-el26-71.pdf",
+     "page": "1",
+     "section": "caption",
+     "quote": "Docket No. EL26-71-000",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the CAISO's own site (robots allow; the CAISO's terms allow use with the CAISO credited)",
+   "notes": "No Board memo or minutes for 28 October were read; the CAISO's process page also lists second revised draft tariff language of 30 October 2026 (with ride-through provisions), not read here.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PJM Interconnection, L.L.C.",
+   "state": "PA",
+   "rule_name": "PJM Tariff definition of Large Load and Large Load Registry (ER26-3515)",
+   "affects": "large_load_connection_rules/pjm_board_letter_cifp_large_load_additions.yaml",
+   "change": "order issued",
+   "date": "2026-10-09",
+   "docket": "ER26-3515-000",
+   "source_url": "https://www.pjm.com/pjmfiles/directory/etariff/FercOrders/9207/20261009-er26-3515-000.pdf",
+   "source_title": "FERC, Order Accepting Tariff Revisions in Part and Rejecting Tariff Revisions in Part, PJM Interconnection, L.L.C., Docket No. ER26-3515-000, 197 FERC 61,019 (issued October 9, 2026), as PJM posts it",
+   "what": "FERC accepted PJM's Tariff definition of Large Load (end-use load with a cumulative peak of 50 MW or more at a single electrical site behind one or more points of interconnection, affiliated facilities within one mile counted as one site) and a Large Load Registry, effective 12 October 2026, with a compliance filing due in 30 days, and rejected the rest of PJM's filing (IRAS, the new-capacity requirement, BYONC and the VRR exclusion).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "(Issued October 9, 2026)"
+    },
+    {
+     "page": "1",
+     "section": "P 2",
+     "quote": "we accept PJM’s proposed Tariff revisions to establish a definition of Large Load and a Large Load Registry, effective October 12, 2026, as requested, and require PJM to submit a compliance filing within 30 days of the date of issuance of this order"
+    },
+    {
+     "page": "1",
+     "section": "P 2",
+     "quote": "We reject PJM’s remaining proposed Tariff revisions"
+    },
+    {
+     "page": "6",
+     "section": "P 16",
+     "quote": "end-use customer(s) load that has a cumulative peak load of 50 [MW] or greater at a single electrical site behind one or more points of interconnection"
+    },
+    {
+     "page": "11",
+     "section": "P 27",
+     "quote": "We find that PJM’s proposed definition of Large Load is just and reasonable and not unduly discriminatory or preferential."
+    }
+   ],
+   "license": "public",
+   "license_basis": "PJM's own posted copy (www.pjm.com, robots allow); a FERC order is a federal work",
+   "notes": "The registry file holds the PJM Board's proposed definition of January 2026 (at or above 50 MW at a single Point of Interconnection); the accepted Tariff definition counts a cumulative peak at a single electrical site. The order does not say the filing came from the CIFP. Whether PJM made the 30-day compliance filing was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PJM Interconnection, L.L.C.",
+   "state": "PA",
+   "rule_name": "PJM show cause proceeding for large loads (FERC Docket EL26-67)",
+   "affects": "large_load_connection_rules/pjm_show_cause_large_loads_proposal.yaml",
+   "change": "order issued",
+   "date": "2026-09-21",
+   "docket": "EL26-67-001",
+   "source_url": "https://www.pjm.com/-/media/DotCom/documents/ferc/orders/2026/20260921-el26-67-001.pdf",
+   "source_title": "FERC, Order Dismissing Requests for Rehearing and Clarification, PJM Interconnection, L.L.C., Docket No. EL26-67-001, 196 FERC 61,214 (issued September 21, 2026), as PJM posts it",
+   "what": "FERC dismissed the requests for rehearing and clarification of its 18 June 2026 show cause order on large loads, because that order is not final; it restated that, under its abeyance order of 14 August 2026, responses are due 16 November 2026 and answers 16 December 2026, and the proceeding stays in abeyance to that date.",
+   "cites": [
+    {
+     "page": "2",
+     "section": "caption",
+     "quote": "ORDER DISMISSING REQUESTS FOR REHEARING AND CLARIFICATION"
+    },
+    {
+     "page": "2",
+     "section": "caption",
+     "quote": "(Issued September 21, 2026)"
+    },
+    {
+     "page": "4",
+     "section": "",
+     "quote": "such that responses to the Show Cause Order will be due on November 16, 2026, and answers to responses will be due on December 16, 2026"
+    },
+    {
+     "page": "11",
+     "section": "",
+     "quote": "The show cause proceeding has been held in abeyance until November 16, 2026"
+    },
+    {
+     "page": "11",
+     "section": "ordering paragraphs",
+     "quote": "(A) The requests for rehearing are hereby dismissed, as discussed in the body of this order."
+    }
+   ],
+   "license": "public",
+   "license_basis": "PJM's own posted copy (www.pjm.com, robots allow); a FERC order is a federal work",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PJM Interconnection, L.L.C. (the PJM Transmission Owners)",
+   "state": "PA",
+   "rule_name": "PJM show cause proceeding for large loads (FERC Docket EL26-67): the Transmission Owners' cost recovery agreement",
+   "affects": "large_load_connection_rules/pjm_show_cause_large_loads_proposal.yaml",
+   "change": "other",
+   "date": "2026-10-09",
+   "docket": "EL26-67-000",
+   "source_url": "https://www.pjm.com/-/media/DotCom/committees-groups/workshops/cllsco/2026/20261026/20261026-item-04---pjm-to-large-load-mc-consultation-notice.pdf",
+   "source_title": "Notice of PJM Transmission Owners Consultation with the Members Committee Regarding Proposed Revisions to the PJM Tariff, October 9, 2026 (posted with the CLLSCO workshop of October 26, 2026)",
+   "what": "The PJM Transmission Owners opened consultation with the Members Committee on Tariff revisions answering the large load show cause order, committing to a section 205 filing by 16 November 2026 that would include a pro forma cost recovery agreement for large loads, with a term of 10 to 20 years under consideration and security; PJM's chief executive wrote on 5 November 2026 that PJM's own proposal was still under development.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "October 9, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "via a Federal Power Act (“FPA”) Section 205 filing on or before November 16, 2026"
+    },
+    {
+     "page": "3",
+     "section": "A. Pro Forma Cost Recovery Agreement",
+     "quote": "the PJM Transmission Owners are developing and intend to file a pro forma CRA applicable to Eligible Customers taking transmission service on behalf of Large Loads"
+    },
+    {
+     "page": "3",
+     "section": "A. Pro Forma Cost Recovery Agreement",
+     "quote": "The PJM Transmission Owners are considering a term that extends 10-20 years following the date when the customer begins taking transmission service"
+    },
+    {
+     "url": "https://www.pjm.com/-/media/DotCom/about-pjm/who-we-are/public-disclosures/2026/20261106-pjm-board-response-to-ceba-acpa-dcc-and-iti-concerning-large-load-show-cause-issues.pdf",
+     "page": "1",
+     "section": "letter of the PJM President and CEO",
+     "quote": "November 5, 2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.pjm.com/-/media/DotCom/about-pjm/who-we-are/public-disclosures/2026/20261106-pjm-board-response-to-ceba-acpa-dcc-and-iti-concerning-large-load-show-cause-issues.pdf",
+     "page": "1",
+     "section": "letter of the PJM President and CEO",
+     "quote": "I encourage you to continue to work with the PJM team as our proposal is still under development.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "PJM's own posted copies (www.pjm.com, robots allow)",
+   "notes": "A proposal, not a filing: the 10 to 20 year term is under consideration. The filings due 16 November 2026 fall after the window.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwest Power Pool (SPP)",
+   "state": "AR",
+   "rule_name": "SPP Conditional High Impact Large Load Service (CHILLS), ER26-1323",
+   "affects": "new",
+   "change": "order issued",
+   "date": "2026-10-26",
+   "docket": "ER26-1323-002",
+   "source_url": "https://www.spp.org/Documents/78171/20261026_Order%20on%20Compliance%20Filing%20-%20Revisions%20to%20Add%20the%20Conditional%20High%20Impact%20Large%20Load%20Service_ER26-1323-002.pdf",
+   "source_title": "FERC, Office of Energy Market Regulation, letter order, Southwest Power Pool, Inc., Docket No. ER26-1323-002 (issued October 26, 2026), as SPP posts it",
+   "what": "FERC (by delegated letter order) accepted SPP's compliance filing of 6 July 2026 on CHILLS (revisions to Schedule 15, Part VII sections 44.3 and 44.4, Attachment AE section 2.22.2, the pro forma CHILLS Service Agreement and Attachment BC), effective 1 July 2026; SPP describes CHILLS as a non-firm interim transmission service and a temporary 7-year bridge for large loads.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "Southwest Power Pool, Inc. Docket No. ER26-1323-002"
+    },
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "Issued: October 26, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "in compliance with the directives in a June 5, 2026 Commission order"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "the submittal is accepted for filing, effective July 1, 2026, as requested"
+    },
+    {
+     "url": "https://www.spp.org/engineering/large-load/",
+     "page": "1",
+     "section": "Conditional High Impact Large Load (CHILLS)",
+     "quote": "CHILLS is a non-firm, interim transmission service as described in Attachment BA, Section 4.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.spp.org/engineering/large-load/",
+     "page": "1",
+     "section": "Conditional High Impact Large Load (CHILLS)",
+     "quote": "CHILLS acts as a temporary 7-year bridge for data centers and large industrial loads to connect to the grid quickly while they wait for long-term service upgrades or generation.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "SPP's posted copy of a FERC issuance (spp.org, no robots file); a FERC order is a federal work",
+   "notes": "Window A has no CHILLS file (the method note's Waiting list: known only secondhand). FERC's CHILLS order of 5 June 2026 (195 FERC 61,196) is listed in SPP's docket folder and was not read. SPP's page cites Attachment BA, Section 4, while the compliance order names Attachment BC; both are as printed.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwest Power Pool (SPP)",
+   "state": "AR",
+   "rule_name": "SPP CHILL policy, planned outages of supporting resources (ER26-3591)",
+   "affects": "new",
+   "change": "filed",
+   "date": "2026-08-24",
+   "docket": "ER26-3591-000",
+   "source_url": "https://www.spp.org/Documents/77556/20260824_Revisions%20to%20Modify%20the%20CHILL%20Policy%20to%20Accommodate%20Planned%20Outages_ER26-3591-000.pdf",
+   "source_title": "SPP, Submission of Tariff Revisions to Modify the Conditional High Impact Large Load Policy to Accommodate Planned Outages, August 24, 2026",
+   "what": "SPP filed Tariff revisions so that a CHILL is not curtailed only because its supporting resource is on a planned outage, asking for an order by 24 November 2026 and targeting implementation in the second quarter of 2027.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "August 24, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "to modify the Conditional High Impact Large Load (“CHILL”) policy to accommodate planned Outages"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "but not later than November 24, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "As of the date of this filing, implementation is targeted for the second quarter of 2027."
+    },
+    {
+     "url": "https://www.spp.org/Documents/78117/20261021_Deficiency%20Letter_Revisions%20to%20Modify%20the%20CHILL%20Policy%20to%20Accommodate%20Planned%20Outages_ER26-3591-000.pdf",
+     "page": "1",
+     "section": "caption",
+     "quote": "Docket No. ER26-3591-000",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "SPP's posted copy of its own FERC filing (spp.org, no robots file)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwest Power Pool (SPP)",
+   "state": "AR",
+   "rule_name": "SPP CHILL policy, planned outages of supporting resources (ER26-3591)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-10-21",
+   "docket": "ER26-3591-000",
+   "source_url": "https://www.spp.org/Documents/78117/20261021_Deficiency%20Letter_Revisions%20to%20Modify%20the%20CHILL%20Policy%20to%20Accommodate%20Planned%20Outages_ER26-3591-000.pdf",
+   "source_title": "FERC, Office of Energy Market Regulation, Deficiency Letter, Southwest Power Pool, Inc., Docket No. ER26-3591-000 (issued October 21, 2026), as SPP posts it",
+   "what": "FERC staff found SPP's planned-outage CHILL filing deficient and asked for more information on the proposal that a CHILL not be curtailed solely for supporting resource insufficiency when the resource's outage is scheduled at least 14 days ahead.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "Issued: October 21, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "Please be advised that the submittal is deficient and that additional information is necessary to process the filing."
+    },
+    {
+     "page": "1",
+     "section": "question 1",
+     "quote": "when its supporting resource takes a Scheduled Resource Outage that is scheduled at least 14 days in advance of the planned start time"
+    }
+   ],
+   "license": "public",
+   "license_basis": "SPP's posted copy of a FERC issuance (spp.org, no robots file); a FERC issuance is a federal work",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwest Power Pool (SPP)",
+   "state": "AR",
+   "rule_name": "SPP CHILL policy, commitment, deployment and curtailment (ER26-3685)",
+   "affects": "new",
+   "change": "filed",
+   "date": "2026-09-02",
+   "docket": "ER26-3685",
+   "source_url": "https://www.spp.org/Documents/77674/20260902_Revisions%20to%20Clarify%20the%20Conditional%20High%20Impact%20Large%20Load%20Policy_ER26-3685-000.pdf",
+   "source_title": "SPP, Submission of Tariff Revisions to Clarify the Conditional High Impact Large Load Policy, September 2, 2026",
+   "what": "SPP filed revisions to Attachment AE to clarify commitment, deployment and curtailment of a CHILL, asking for an order by 1 December 2026, with implementation targeted for the second quarter of 2027; no order was posted in SPP's docket folder on 13 November 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "September 2, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "to clarify commitment, deployment, and curtailment related to a Conditional High Impact Large Load (“CHILL”)"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "but not later than December 1, 2026"
+    },
+    {
+     "url": "https://www.spp.org/spp-documents-filings/?id=544714",
+     "page": "1",
+     "section": "2026 FERC Dockets",
+     "quote": "ER26-3685 (Revisions to Clarify the Conditional High Impact Large Load Policy)",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "SPP's posted copy of its own FERC filing (spp.org, no robots file)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Southwest Power Pool (SPP)",
+   "state": "AR",
+   "rule_name": "SPP Provisional Load Process, Attachment AX (ER26-3691)",
+   "affects": "new",
+   "change": "order issued",
+   "date": "2026-10-30",
+   "docket": "ER26-3691-000",
+   "source_url": "https://www.spp.org/Documents/78216/20261030_Order_Revisions%20for%20Improvements%20to%20the%20Provisional%20Load%20Process_ER26-3691-000.pdf",
+   "source_title": "FERC, letter order, Southwest Power Pool, Inc., Docket No. ER26-3691-000, 197 FERC 61,074 (October 30, 2026), as SPP posts it",
+   "what": "FERC accepted SPP's revisions to Attachment AX (Provisional Load Process), one of the study paths SPP lists for a CHILL, clarifying its administration and aligning it with the Attachment AQ delivery point process, effective 2 November 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "October 30, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "Docket No. ER26-3691-000"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "proposed revisions to Attachment AX (Provisional Load Process) of SPP’s Open Access Transmission Tariff (Tariff) to clarify the administration of the Provisional Load Process"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "we accept SPP’s proposed Tariff revisions, effective November 2, 2026, as requested"
+    },
+    {
+     "url": "https://www.spp.org/engineering/large-load/",
+     "page": "1",
+     "section": "CHILLS",
+     "quote": "Provisional Load Process Study (Attachment AX)",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "SPP's posted copy of a FERC issuance (spp.org, no robots file); a FERC order is a federal work",
+   "notes": "Attachment AX applies to load additions generally, not only to large loads; written here because SPP's large load page lists it as a CHILL study path.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Pennsylvania Public Utility Commission (all jurisdictional electric distribution companies)",
+   "state": "PA",
+   "rule_name": "EDC Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Provisions (curtailment of large computational loads), M-2026-3064961",
+   "affects": "new",
+   "change": "order issued",
+   "date": "2026-10-01",
+   "docket": "M-2026-3064961",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1952506.pdf",
+   "source_title": "Pennsylvania PUC, Tentative Order, Electric Distribution Company Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Provisions, M-2026-3064961 (public meeting October 1, 2026)",
+   "what": "The Pennsylvania PUC issued a Tentative Order seeking comments on requiring every EDC to update its pre-emergency and emergency load control procedures to incorporate PJM's Interim Resource Adequacy Service and to keep data centers from being classified as critical load exempt from curtailment.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "Public Meeting held October 1, 2026"
+    },
+    {
+     "page": "1",
+     "section": "",
+     "quote": "seeking comments on a proposed requirement that all electric distribution companies update their pre-emergency and emergency load control procedures to incorporate Interim Resource Adequacy Service and to ensure that data centers are not classified as critical load exempt from curtailment during these events"
+    },
+    {
+     "page": "7",
+     "section": "ordering paragraph 3",
+     "quote": "That comments filed in response to this Tentative Order and Appendix are due no later than thirty days from the date this Tentative Order and Appendix is published in the Pennsylvania Bulletin."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Pennsylvania Public Utility Commission's own copy (www.puc.pa.gov, a commission record)",
+   "notes": "A curtailment rule for large loads, not a connection rule; written because it is the Commission's new large load proceeding beside the model tariff.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Pennsylvania Public Utility Commission (all jurisdictional electric distribution companies)",
+   "state": "PA",
+   "rule_name": "EDC Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Provisions (curtailment of large computational loads), M-2026-3064961",
+   "affects": "new",
+   "change": "amended",
+   "date": "2026-11-05",
+   "docket": "M-2026-3064961",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1957729.pdf",
+   "source_title": "Pennsylvania PUC, Clarification Order, M-2026-3064961 (public meeting November 5, 2026)",
+   "what": "After FERC accepted PJM's 50 MW Large Load definition and registry but rejected IRAS on 9 October 2026, the Pennsylvania PUC clarified the scope of its Tentative Order and reset the comment periods (comments 20 days and replies 30 days after publication in the Pennsylvania Bulletin).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "",
+     "quote": "Public Meeting held November 5, 2026"
+    },
+    {
+     "page": "1",
+     "section": "title",
+     "quote": "CLARIFICATION ORDER"
+    },
+    {
+     "page": "2",
+     "section": "",
+     "quote": "the Commission is clarifying the scope of its October 1st Tentative Order and modifying the previous timeframe for filing initial comments and replies thereto"
+    },
+    {
+     "page": "4",
+     "section": "",
+     "quote": "While FERC accepted PJM’s 50 MW Large Load definition and its new Large Load Registry, it rejected core parts of PJM’s IRAS proposal as filed."
+    },
+    {
+     "page": "6",
+     "section": "ordering paragraph 3",
+     "quote": "That comments filed in response to this Clarification Order are due no later than twenty days from the date this Clarification Order is published in the Pennsylvania Bulletin."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Pennsylvania Public Utility Commission's own copy (www.puc.pa.gov, a commission record)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Pennsylvania PUC Large Load Customer Model Tariff (M-2025-3054271), as applied to PPL Electric's Rate LP-6",
+   "affects": "large_load_connection_rules/pa_puc_large_load_model_tariff.yaml",
+   "change": "filed",
+   "date": "2026-10-21",
+   "docket": "C-2026-3065756",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1956828.pdf",
+   "source_title": "Pennsylvania Consumer Advocate v. PPL Electric Utilities Corporation, Office of Consumer Advocate's Amended Formal Complaint and Public Statement, Docket No. C-2026-3065756, October 21, 2026",
+   "what": "The Office of Consumer Advocate filed a formal complaint (2 October 2026, amended 21 October 2026) against PPL Electric, relying on the 2025 rate case settlement's provision to reopen Rate LP-6 once the Commission issued a final model tariff, and stating that the model tariff takes effect only where an EDC files a conforming tariff.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "cover letter",
+     "quote": "October 21, 2026"
+    },
+    {
+     "page": "1",
+     "section": "cover letter",
+     "quote": "Docket No. C-2026-3065756"
+    },
+    {
+     "page": "1",
+     "section": "cover letter",
+     "quote": "Office of Consumer Advocate’s Amended Formal Complaint and Public Statement"
+    },
+    {
+     "page": "12",
+     "section": "introduction",
+     "quote": "that settlement contained a specific provision allowing the parties to re-open Rate LP-6 after the Commission’s issuance of a final model tariff"
+    },
+    {
+     "page": "34",
+     "section": "b. The Commission's Large Load Model Tariff Policy, P 46",
+     "quote": "The Commission left it up to the EDCs’ individual discretion to file with the Commission tariffs that conform with the Model Tariff Policy"
+    },
+    {
+     "url": "https://www.puc.pa.gov/pcdocs/1953337.pdf",
+     "page": "1",
+     "section": "cover letter of the original complaint",
+     "quote": "October 2, 2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.puc.pa.gov/pcdocs/1953337.pdf",
+     "page": "1",
+     "section": "cover letter of the original complaint",
+     "quote": "Office of Consumer Advocate’s Formal Complaint and Public Statement",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Pennsylvania Public Utility Commission's own copy (www.puc.pa.gov, a commission record)",
+   "notes": "A party's complaint, not a Commission action. Both copies were already in the cache (fetched by another group this session). No EDC compliance tariff filed on the model was found in the documents read.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "no_change": [
+  {
+   "utility": "Public Utility Commission of Texas, Project No. 58000 (16 TAC 25.192, 25.193, new 25.252)",
+   "searched": "The project's filings list on the PUCT Interchange, read 13 November 2026: after the comments of 11 August 2026 (items 49 to 67, before the window) the only filings are of 1 October 2026 (item 68, voided by item 69; item 70, TEBA and JPI response comments on the minimum billing demand study). No adoption order or new proposal in the window."
+  },
+  {
+   "utility": "ERCOT Planning Guide Section 9 (PGRRs and NPRRs for large loads)",
+   "searched": "ERCOT's Planning Guide current page (13 November 2026) still lists Section 9 dated Jul 11, 2026; the Approved PGRRs report ends with PGRR145 (effective 07/11/2026); the pending PGRRs are 073, 122, 124, 140, 142, 146 and 147, none on large loads; the Approved NPRRs report shows no large load NPRR with a date in the window (NPRR1308, the Large Computational Load definition, is dated 08/01/2026, before it). The only new large load revision request found is NPRR1348 (pending, entry above). ERCOT's Board met on 14 and 15 September 2026 (the Batch Zero update, entry above) and next meets on 7 and 8 December 2026."
+  },
+  {
+   "utility": "SPP HILL and HILLGA (ER26-247)",
+   "searched": "SPP's docket folder for ER26-247 (2026 FERC Dockets, read 13 November 2026): the last document is FERC's order on the compliance filing of 9 March 2026 (ER26-247-001); nothing in the window."
+  },
+  {
+   "utility": "FERC orders to show cause of 18 June 2026 (PJM EL26-67, SPP EL26-68, CAISO EL26-71)",
+   "searched": "PJM: the order of 21 September 2026 (entry above) restates the abeyance order of 14 August 2026, responses due 16 November 2026. SPP: its EL26-68 folder's latest document is FERC's abeyance order of 14 August 2026 (one day before the window). CAISO: its process page lists FERC's order accepting abeyance of 14 August 2026 and the FERC filing for 16 November 2026. No response or later order in the window. MISO's (a paused publisher), NYISO's and ISO-NE's proceedings were not read."
+  },
+  {
+   "utility": "FERC large load interconnection rulemaking (RM26-4, the Secretary of Energy's ANOPR of 23 October 2025)",
+   "searched": "FERC's show cause order to PJM of 18 June 2026 (EL26-67-000, PJM's copy, pp. 4 and 9 to 10) records the ANOPR and the Commission's Order Regarding Intent to Act of 16 April 2026 (195 FERC 61,045) and proceeds by show cause; the orders of 21 September 2026 (EL26-67-001) and 9 October 2026 (ER26-3515) and the CAISO and SPP documents read name no final rule. No final rule or further order in RM26-4 was found in the documents read; ferc.gov and eLibrary were not asked (an eLibrary docket sheet is built by script: an earlier copy in the cache holds only the word eLibrary)."
+  },
+  {
+   "utility": "Pennsylvania PUC Large Load Customer Model Tariff (M-2025-3054271)",
+   "searched": "The docket page, read 13 November 2026: status Closed; its last action, of 10/28/2026, reads Case Closed - No active tasks exist for this Case (administrative; the order of 16 July 2026 already ended the reconsideration). No EDC compliance tariff on the model was found; the OCA's complaint against PPL (entry above) states the model is voluntary."
+  },
+  {
+   "utility": "Utah R746-318 (Docket 25-R318-01, Rocky Mountain Power)",
+   "searched": "The PSC docket page psc.utah.gov/2025/05/09/docket-no-25-r318-01/ (copy of 13 November 2026): in the window only responsive comments (20 August 2026) and reply comments (4 September 2026) of RMP, the Division, the Office, UAE, Calpine and Will-Power; no amended rule, notice of change or order."
+  },
+  {
+   "utility": "Utah S.B. 132 (Utah Code Title 54 Chapter 26)",
+   "searched": "No amendment appears in the R746-318 docket read; the Legislature's site was not read in this pass, so an amendment there is not ruled out."
+  },
+  {
+   "utility": "PG&E Electric Rule 30 (CPUC A.24-11-007)",
+   "searched": "The CPUC proceeding page is refused by robots (below). The cached ALJ ruling of 7 August 2026 (before the window) seeks comments on the proceeding's status after FERC's show cause order to the CAISO and the PTOs. No decision or proposed decision of the window was read."
+  },
+  {
+   "utility": "PJM CIFP Large Load Additions, Expedited Interconnection Track",
+   "searched": "PJM's large load page lists, as FERC filings, only ER26-3515 (filed 13 August 2026, order of 9 October 2026, entry above); the EIT order (before the window) was not re-read."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "NERC (large loads action plan, Project 2026-02 Computational Loads, alerts, registration)",
+   "url": "https://www.nerc.com/initiatives/large-loads-action-plan",
+   "reason": "robots.txt 200: DISALLOWED for ClaudeBot, Claude-Web, anthropic-ai (the reader refuses); no NERC document was read, so no NERC change is written"
+  },
+  {
+   "utility": "PG&E Electric Rule 30 (CPUC A.24-11-007)",
+   "url": "https://apps.cpuc.ca.gov/apex/f?p=401:56:::NO:RP,57,RIR:P5_PROCEEDING_SELECT:A2411007",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, * and Anthropic's agents"
+  },
+  {
+   "utility": "MISO (show cause order, large load rules)",
+   "url": "not requested",
+   "reason": "paused publisher (warehouse/metadata/paused_sources.csv); never asked"
+  },
+  {
+   "utility": "SPP CHILLS compliance order (ER26-1323-002)",
+   "url": "https://www.spp.org/Documents/78171/20261026_Order on Compliance Filing - Revisions to Add the Conditional High Impact Large Load Service_ER26-1323-002.pdf",
+   "reason": "local client error, InvalidURL (the address contains spaces), no request sent; the same address with its spaces percent-encoded was then read (the entry's source_url)"
+  }
+ ],
+ "dropped_duplicates": [
+  {
+   "what": "The PUCT adopted new 16 TAC 25.194 with changes to the published proposal: before a large load customer (a new interconnection of 75 MW or more at a single site) can be included in an ERCOT interconne",
+   "duplicate_of": "south_changes (16 TAC 25.194 adopted, affects texas-01)"
+  },
+  {
+   "what": "The Texas Register's acknowledgment of the PUCT's adopted rulemaking for 16 TAC 25.194 (adopted with changes to the proposal) gives its effective date as 8 October 2026, for the issue of 2 October 202",
+   "duplicate_of": "south_changes (16 TAC 25.194 in effect, affects texas-01)"
+  }
+ ]
+}

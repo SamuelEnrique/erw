@@ -1,0 +1,1127 @@
+{
+ "group": "south_changes",
+ "changes": [
+  {
+   "utility": "Tampa Electric Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Customer Service, and the Large Load Customer Contract (LLCC), proposed under section 366.043 (Docket 20260146-EI)",
+   "affects": "southern_florida-05",
+   "change": "filed",
+   "date": "2026-09-30",
+   "docket": "20260146-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07096-2026/07096-2026.pdf",
+   "source_title": "Tampa Electric Company, Petition for Approval of Large Load Customer Tariffs (FPSC Document No. 07096-2026)",
+   "what": "Tampa Electric filed its petition for approval of large load customer tariffs on 30 September 2026 (already the row's status date; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "cover letter",
+     "quote": "Re: Petition for Approval of Large Load Customer Tariffs by Tampa Electric Company"
+    },
+    {
+     "page": "1",
+     "section": "cover letter",
+     "quote": "September 30, 2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Tampa Electric Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Customer Service, and the Large Load Customer Contract (LLCC), proposed under section 366.043 (Docket 20260146-EI)",
+   "affects": "southern_florida-05",
+   "change": "suspended",
+   "date": "2026-11-03",
+   "docket": "20260146-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07695-2026/07695-2026.pdf",
+   "source_title": "Florida PSC Vote Sheet, 3 November 2026 Commission Conference, Item 9 (Document No. 07695-2026)",
+   "what": "At its 3 November 2026 conference the Commission approved staff's recommendation to suspend TECO's proposed large load service tariffs and related general tariff changes, and to keep the docket open pending its decision on them.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "Issue 1: Should the Commission suspend TECO's proposed large load service tariffs and related general tariff changes?"
+    },
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "APPROVED"
+    },
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "November 3, 2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Tampa Electric Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Customer Service, and the Large Load Customer Contract (LLCC), proposed under section 366.043 (Docket 20260146-EI)",
+   "affects": "southern_florida-05",
+   "change": "hearing set",
+   "date": "2026-11-03",
+   "docket": "20260146-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07681-2026/07681-2026.pdf",
+   "source_title": "Order No. PSC-2026-0399-PCO-EI, Order Establishing Procedure, Docket No. 20260146-EI (Document No. 07681-2026)",
+   "what": "The order establishing procedure, issued 3 November 2026, states that the Commission has set a hearing on TECO's large load tariffs for 30 March to 2 April 2027.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "ORDER NO. PSC-2026-0399-PCO-EI"
+    },
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "ISSUED: November 3, 2026"
+    },
+    {
+     "page": "1",
+     "section": "I. Case Background",
+     "quote": "The Commission has set a hearing for this docket for March 30-April 2, 2027."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Florida Public Utilities Company",
+   "state": "FL",
+   "rule_name": "Rate Schedule LLS, Large Load Service (Original Sheet Nos. 7.027 to 7.029), with a Large Load Service Agreement, proposed under section 366.043 (Docket 20260148-EI)",
+   "affects": "new",
+   "change": "filed",
+   "date": "2026-10-01",
+   "docket": "20260148-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07117-2026/07117-2026.pdf",
+   "source_title": "Florida Public Utilities Company, Petition for Authority to Implement a Large Load Service Tariff (FPSC Document No. 07117-2026)",
+   "what": "FPUC petitioned on 1 October 2026 for a Large Load Service (LLS) tariff applicable to customers with an anticipated monthly peak load of 50 MW or more at a single location, under which each large load customer would sign a Large Load Service Agreement with rates designed for that customer, filed with the Commission for approval before service; the petition states FPUC has no such customers or inquiries.",
+   "cites": [
+    {
+     "page": "2",
+     "section": "caption",
+     "quote": "FILED: October 1, 2026"
+    },
+    {
+     "page": "2",
+     "section": "caption",
+     "quote": "PETITION FOR AUTHORITY TO IMPLEMENT A LARGE LOAD SERVICE TARIFF"
+    },
+    {
+     "page": "9",
+     "section": "Original Sheet No. 7.027, Rate Schedule LLS, Applicability",
+     "quote": "Applicable to a customer with an anticipated monthly peak load of 50 megawatts or more at a single location, measured as the highest average load over a 15-minute interval."
+    },
+    {
+     "page": "4",
+     "section": "paragraph 10",
+     "quote": "FPUC proposes to require that any potential large load customer enter into a Large Load Service Agreement"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Florida Public Utilities Company",
+   "state": "FL",
+   "rule_name": "Rate Schedule LLS, Large Load Service (Original Sheet Nos. 7.027 to 7.029), with a Large Load Service Agreement, proposed under section 366.043 (Docket 20260148-EI)",
+   "affects": "new",
+   "change": "suspended",
+   "date": "2026-11-03",
+   "docket": "20260148-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07696-2026/07696-2026.pdf",
+   "source_title": "Florida PSC Vote Sheet, 3 November 2026 Commission Conference, Item 10 (Document No. 07696-2026)",
+   "what": "At its 3 November 2026 conference the Commission approved staff's recommendation to suspend FPUC's proposed large load service tariff (First Revised Sheet No. 7.000 and Original Sheet Nos. 7.027 to 7.029), keeping the docket open.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "Issue 1: Should the Commission suspend FPUC's proposed large load service tariff (First Revised Sheet No. 7.000, and Original Sheet Nos. 7.027-7.029)?"
+    },
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "APPROVED"
+    },
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "November 3, 2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Florida Power & Light Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Contract Service, and the LLCS Service Agreement: compliance filing under section 366.043(8) with Foreign Entity tariff revisions (Docket 20260149-EI)",
+   "affects": "southern_florida-04",
+   "change": "filed",
+   "date": "2026-10-01",
+   "docket": "20260149-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07123-2026/07123-2026.pdf",
+   "source_title": "Florida Power & Light Company's Compliance Filing Pursuant to Section 366.043, Florida Statutes, and Request for Proposed Agency Action (FPSC Document No. 07123-2026)",
+   "what": "FPL filed on 1 October 2026 asking the Commission to find its existing LLCS tariffs compliant with section 366.043, proposing no change to LLCS-1, LLCS-2 or the LLCS Service Agreement and only two general tariff revisions on Foreign Entities (a definition in Section 5 and a bar on serving a large load customer that is a Foreign Entity in Section 6).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing stamp",
+     "quote": "DOCKET NO. 20260149-EI FILED 10/1/2026 DOCUMENT NO. 07123-2026"
+    },
+    {
+     "page": "3",
+     "section": "paragraph 12",
+     "quote": "FPL is not proposing any amendment, modification, or other changes to the LLCS Tariffs in this proceeding."
+    },
+    {
+     "page": "3",
+     "section": "paragraph 13",
+     "quote": "FPL proposes two limited revisions to FPL's general tariff provisions to address the requirements of Section 366.043 concerning Foreign Entities."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Florida Power & Light Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Contract Service, and the LLCS Service Agreement: compliance filing under section 366.043(8) with Foreign Entity tariff revisions (Docket 20260149-EI)",
+   "affects": "southern_florida-04",
+   "change": "suspended",
+   "date": "2026-11-03",
+   "docket": "20260149-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07697-2026/07697-2026.pdf",
+   "source_title": "Florida PSC Vote Sheet, 3 November 2026 Commission Conference, Item 11 (Document No. 07697-2026)",
+   "what": "At its 3 November 2026 conference the Commission approved staff's recommendation to suspend FPL's proposed tariff revisions (Third Revised Sheet No. 5.010, First Revised Sheet No. 6.011 and Thirteenth Revised Sheet No. 6.020) for further review; the LLCS tariffs themselves remain as approved.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "Should the Commission suspend FPL's proposed tariff revisions"
+    },
+    {
+     "page": "1",
+     "section": "Issue 1",
+     "quote": "be suspended to allow staff sufficient time to review the petition and gather all pertinent information in order to present the Commission with an informed recommendation on the proposed tariff modifications. APPROVED"
+    },
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "VOTE SHEET November 3, 2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Florida Power & Light Company",
+   "state": "FL",
+   "rule_name": "Rate Schedules LLCS-1 and LLCS-2, Large Load Contract Service, and the LLCS Service Agreement: compliance filing under section 366.043(8) with Foreign Entity tariff revisions (Docket 20260149-EI)",
+   "affects": "southern_florida-04",
+   "change": "hearing set",
+   "date": "2026-11-06",
+   "docket": "20260149-EI",
+   "source_url": "https://www.floridapsc.com/pscfiles/library/filings/2026/07754-2026/07754-2026.pdf",
+   "source_title": "Order No. PSC-2026-0403-PCO-EI, Order Establishing Procedure, Docket No. 20260149-EI (Document No. 07754-2026)",
+   "what": "The order establishing procedure, issued 6 November 2026, states that the Commission has set a hearing on FPL's compliance filing for 4 to 7 May 2027.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "ORDER NO. PSC-2026-0403-PCO-EI ISSUED: November 6, 2026"
+    },
+    {
+     "page": "1",
+     "section": "I. Case Background",
+     "quote": "The Commission has set a hearing for this docket for May 4-7, 2027."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Florida PSC's docket copy (floridapsc.com)"
+  },
+  {
+   "utility": "Georgia Power Company",
+   "state": "GA",
+   "rule_name": "Rules and Regulations for Electric Service A1, D13 and D14 (customers of 100 MW or more) and the Large Load Contract Review Process (Docket 44280)",
+   "affects": "southern_florida-01",
+   "change": "other",
+   "date": "2026-08-26",
+   "docket": "44280",
+   "source_url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228126/109296",
+   "source_title": "Joint Statement of the Georgia Public Service Commission Staff and Georgia Power Company Regarding Large Load Contract Deemed Filed for purposes of review July 27, 2026 (Docket 44280, 26 August 2026)",
+   "what": "Under the Large Load Contract Review Process, Staff did not object to the seventh large load contract (3,210 MW, filed for review 27 July 2026, deemed approved 26 August 2026), and Staff and Georgia Power agreed that on early termination of a large load data center contract the Company will not seek to recover any Incremental Cost Revenue Deficiency from Non-Large Load customers, and that the Company will file a semi-annual public report on its large load data center portfolio and a public summary of each contract filed for review.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "date",
+     "quote": "August 26, 2026"
+    },
+    {
+     "page": "2",
+     "section": "early termination",
+     "quote": "the Company agrees that, in future ratemaking proceedings, it shall not seek to recover from Non-Large Load customers any Incremental Cost Revenue Deficiency"
+    },
+    {
+     "page": "2",
+     "section": "reporting",
+     "quote": "the Company will file a semi-annual public report"
+    },
+    {
+     "page": "3",
+     "section": "conclusion",
+     "quote": "Staff acknowledges that the existing Large Load contract portfolio protects Non-Large Load customers from bearing any of the costs of serving new Large Load customers, and therefore Staff does not object to the contract filed on July 27, 2026"
+    },
+    {
+     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228177/109306",
+     "page": "1",
+     "section": "Executed Large Load Contract Filing, 27 August 2026",
+     "quote": "enclosed for filing is a fully executed large load contract for 3,210MW of electric service",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/228177/109306",
+     "page": "1",
+     "section": "Executed Large Load Contract Filing, 27 August 2026",
+     "quote": "This contract was submitted for Commission Staff review on July 27, 2026, and was deemed approved on August 26, 2026.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Georgia PSC's docket copies (services.psc.ga.gov)"
+  },
+  {
+   "utility": "Alabama Power Company",
+   "state": "AL",
+   "rule_name": "Alabama PSC generic proceeding on contracts between Alabama Power and large load data center customers (Docket 33709)",
+   "affects": "southern_florida-02",
+   "change": "approved",
+   "date": "2026-10-06",
+   "docket": "33709",
+   "source_url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+   "source_title": "Alabama Public Service Commission, Minutes of the Commission Meeting held Tuesday, October 6, 2026",
+   "what": "On 6 October 2026 the Commission unanimously adopted the Docket 33709 procedures for large load data center customers as defined by Act 610: Alabama Power files a public Petition to Contract with a contract summary and gives the full contract and supporting analysis to the Commission's Legal Division and the Attorney General; each contract is approved or disapproved by Commission vote with no hearing or intervention, but is deemed approved if the Commission fails to vote within 90 days of the Petition (amended from the July proposal's 60 days); Alabama Power is to file the Petition at least 120 days before the contract would become void, and to file a compliance tariff within ten calendar days of the order's effective date.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "opening",
+     "quote": "The October 2026 meeting of the Alabama Public Service Commission was held on Tuesday, October 6, 2026"
+    },
+    {
+     "page": "14",
+     "section": "Agenda",
+     "quote": "DOCKET 33709, Generic Proceeding to Establish a Process for Consideration of Contracts for Electric Service Between Alabama Power Company and Large Load Data Center Customers"
+    },
+    {
+     "page": "15",
+     "section": "RECOMMENDED, APPLICABILITY",
+     "quote": "The following procedures are applicable to large load data center customers as defined by Act 610."
+    },
+    {
+     "page": "17",
+     "section": "AMENDED: DECISION AND REVIEW",
+     "quote": "AMENDED: DECISION AND REVIEW. Contracts submitted under this process shall be approved or disapproved through a Commission vote; however, if the Commission fails to vote within 90 days from the filing of the Petition, then the Petition is deemed approved."
+    },
+    {
+     "page": "17",
+     "section": "COMPLIANCE",
+     "quote": "Within ten calendar days of the effective date of this order, Alabama Power shall file a tariff that complies with the requirements of this order."
+    },
+    {
+     "page": "18",
+     "section": "vote",
+     "quote": "Upon approval of the amendment, the Commissioners voted unanimously to accept the entire recommendation."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Alabama PSC's own minutes (psc.alabama.gov)"
+  },
+  {
+   "utility": "Cleco Power LLC",
+   "state": "LA",
+   "rule_name": "LPSC Docket U-38035: Cleco Power application for authorization of contracts, including a site-specific contract, and certification of transmission interconnection and new generation for a large load customer under the Lightning Directive",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-09-16",
+   "docket": "U-38035",
+   "source_url": "https://www.lpsc.louisiana.gov/docs/minutes/September_16_2026_Min.pdf",
+   "source_title": "Louisiana Public Service Commission, Minutes of September 16, 2026 B&E",
+   "what": "On 16 September 2026 the LPSC unanimously directed its Administrative Hearings Division to set a procedural schedule in Cleco's U-38035, an application for a large load customer under the Lightning Initiative, that provides for Commission consideration no later than the March 2027 Business and Executive Session, with the hearing examiner compiling the record for the Commission's de novo review without a formal ALJ recommendation.",
+   "cites": [
+    {
+     "page": "5",
+     "section": "5) Directives",
+     "quote": "U-38035 - Cleco Power LLC, ex parte."
+    },
+    {
+     "page": "5",
+     "section": "5) Directives",
+     "quote": "the Commission voted to direct the Administrative Hearings Division to establish a procedural schedule in LPSC Docket No. U-38035 that provides for Commission consideration of the Application no later than the March, 2027 Business and Executive Session"
+    },
+    {
+     "url": "https://www.lpsc.louisiana.gov/docs/transcripts/September-16-2026-BE.pdf",
+     "page": "70",
+     "section": "transcript, Exhibit 14",
+     "quote": "Exhibit 14 is Docket Number U-38035.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.lpsc.louisiana.gov/docs/transcripts/September-16-2026-BE.pdf",
+     "page": "70",
+     "section": "transcript, Exhibit 14",
+     "quote": "and associated waivers for a large load customer pursuant to the Commission's",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the LPSC's own published minutes and transcript (lpsc.louisiana.gov)"
+  },
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "rule_name": "Docket 25-055-P: Amended and Restated Agreement for Electric Service with Altitude Capital, LLC (Google), higher maximum demand and faster ramp",
+   "affects": "entergy-06",
+   "change": "filed",
+   "date": "2026-10-19",
+   "docket": "25-055-P",
+   "source_url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_94_1.pdf",
+   "source_title": "Entergy Arkansas, LLC, REDACTED Application for Approval to Amend a Special Rate Contract and for All Other Related Approvals (Docket 25-055-P, Doc. 94)",
+   "what": "Entergy Arkansas filed its Amended and Restated Application to amend the special rate contract on 19 October 2026 (already the row's status date; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "3",
+     "section": "filing stamp",
+     "quote": "APSC FILED Time: 10/19/2026 4:24:18 PM"
+    },
+    {
+     "url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_103_1.pdf",
+     "page": "1",
+     "section": "Order No. 13",
+     "quote": "On October 19,2026, Entergy Arkansas, LLC (EAL) filed with the Arkansas Public Service Commission (Commission) its Application of Entergy Arkansas, LLC for Approval to Amend a Special Rate Contract and for All Other Related Approvals",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Arkansas PSC's e-filing copies"
+  },
+  {
+   "utility": "Entergy Arkansas, LLC",
+   "state": "AR",
+   "rule_name": "Docket 25-055-P: Amended and Restated Agreement for Electric Service with Altitude Capital, LLC (Google), higher maximum demand and faster ramp",
+   "affects": "entergy-06",
+   "change": "hearing set",
+   "date": "2026-10-26",
+   "docket": "25-055-P",
+   "source_url": "https://apps.apsc.arkansas.gov/pdf/25/25-055-P_103_1.pdf",
+   "source_title": "Arkansas PSC Docket 25-055-P, Order No. 13 (Doc. 103)",
+   "what": "Order No. 13, filed 26 October 2026, sets the procedural schedule with the public evidentiary hearing on Monday, 4 January 2027, citing the 90-day period within which the Commission must rule on the Amended and Restated Application under Act 373 of 2025.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing stamp",
+     "quote": "APSC FILED Time: 10/26/2026 1:08:20 PM"
+    },
+    {
+     "page": "1",
+     "section": "Order",
+     "quote": "including the 90-day period by which the Commission must issue an order on the Amended and Restated Application"
+    },
+    {
+     "page": "1",
+     "section": "Procedural Schedule",
+     "quote": "Public Evidentiary Hearing"
+    },
+    {
+     "page": "1",
+     "section": "Procedural Schedule",
+     "quote": "Monday, January 4, 2027"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Arkansas PSC's e-filing copies"
+  },
+  {
+   "utility": "Big Rivers Electric Corporation, with Kenergy Corp.",
+   "state": "KY",
+   "rule_name": "Retail Electric Service Agreement among Big Rivers, Kenergy and Justified DataPower LLC (TeraWulf), 482 MW data center at the former Century Aluminum Hawesville site (Kentucky PSC Case No. 2026-00115)",
+   "affects": "new",
+   "change": "approved",
+   "date": "2026-08-21",
+   "docket": "Kentucky PSC Case No. 2026-00115",
+   "source_url": "https://psc.ky.gov/pscscf/2026%20Cases/2026-00115//20260821_PSC_ORDER.pdf",
+   "source_title": "Kentucky PSC Order, Case No. 2026-00115, Electronic Tariff Filing of Big Rivers Electric Corporation of a Retail Electric Service Agreement with Justified DataPower LLC, a Subsidiary of TeraWulf Inc.",
+   "what": "The Kentucky PSC approved the RESA (a single-customer special contract, not a rule of general application) for service on and after the order's date of service: an initial term of fifteen years after the Construction Completion Date with automatic five-year renewals, and a Maximum Contract Demand of 482 MW billed in full during the first six years; any amendment needs Commission approval.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "CASE NO. 2026-00115"
+    },
+    {
+     "page": "5",
+     "section": "Background",
+     "quote": "The RESA has an initial term of fifteen years following the Construction Completion Date"
+    },
+    {
+     "page": "10",
+     "section": "Risk Allocation",
+     "quote": "During the first six years of the agreement, TeraWulf's Maximum Contract Demand is 482 MW"
+    },
+    {
+     "page": "28",
+     "section": "ordering paragraph 1",
+     "quote": "The Retail Electric Service Agreement (RESA) among BREC, Kenergy, and TeraWulf, filed on April 14, 2026, is approved for service rendered on and after the date of service of this Order."
+    },
+    {
+     "page": "30",
+     "section": "signature",
+     "quote": "Entered on this 21st day of August, 2026."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the Kentucky PSC's own order (psc.ky.gov)"
+  },
+  {
+   "utility": "Southwestern Electric Power Company (SWEPCO), Texas",
+   "state": "TX",
+   "rule_name": "Electric Service, Large Load Contract (ES-LL Contract), proposed tariff",
+   "affects": "aep-08",
+   "change": "other",
+   "date": "2026-09-15",
+   "docket": "PUC Docket No. 58796; SOAH Docket No. 473-26-07507",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58796_103_1683248.PDF",
+   "source_title": "Unanimous Stipulation and Settlement Agreement, PUC Docket No. 58796 (Item 103)",
+   "what": "SWEPCO, Commission Staff, TIEC, OPUC, CARD and Eastman filed a unanimous settlement dated 15 September 2026 revising the ES-LL Contract: it applies to computational load (such as data centers and cryptocurrency mining) with Contract Capacity of 75 MW or more for a single facility, sets a minimum billing demand of 90 percent of Contract Capacity and minimum billing energy at 70 percent during the Billing Period, and an initial contract term running until eighteen years from the start of the Ramp Period.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-09-15 02:02:41 PM"
+    },
+    {
+     "page": "2",
+     "section": "preamble",
+     "quote": "The Signatories to this Unanimous Stipulation and Settlement Agreement (Settlement), which is dated as of September 15, 2026"
+    },
+    {
+     "page": "3",
+     "section": "Applicability",
+     "quote": "is greater than or equal to 75 MW for any single Computational load facility"
+    },
+    {
+     "page": "4",
+     "section": "Minimum Billing Demand",
+     "quote": "or 90% of the Contract Capacity stated in Schedule 1"
+    },
+    {
+     "page": "14",
+     "section": "Attachment A, Sheet VI-10, page 2",
+     "quote": "Initial Contract Term: The period from the day this Contract is executed until eighteen years (18) from the inception of the Ramp Period."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Southwestern Electric Power Company (SWEPCO), Texas",
+   "state": "TX",
+   "rule_name": "Electric Service, Large Load Contract (ES-LL Contract), proposed tariff",
+   "affects": "aep-08",
+   "change": "other",
+   "date": "2026-10-28",
+   "docket": "PUC Docket No. 58796; SOAH Docket No. 473-26-07507",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+   "source_title": "Proposed Order, PUC Docket No. 58796 (Item 109), with the ALJ's memorandum of 28 October 2026",
+   "what": "The ALJ served a Proposed Order on 28 October 2026 under which the Commission would approve the tariff including the ES-LL Contract attached to the settlement; corrections or exceptions were due 12 November 2026, and no Commission vote is in the docket as of 13 November 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-10-28 03:38:28 PM"
+    },
+    {
+     "page": "2",
+     "section": "memorandum",
+     "quote": "Enclosed is the Proposed Order in the above-referenced case."
+    },
+    {
+     "page": "2",
+     "section": "memorandum",
+     "quote": "The parties must file corrections or exceptions to the Proposed Order by November 12, 2026."
+    },
+    {
+     "page": "3",
+     "section": "Proposed Order",
+     "quote": "The Commission approves the tariff including the ES-LL Contract, attached to the agreement as attachment A, to the extent provided in this Order."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Southwestern Public Service Company (Xcel Energy)",
+   "state": "TX",
+   "rule_name": "Large General Service - Transmission (LGS-T) rate schedule, large load customer tariff provisions (LLT), proposed",
+   "affects": "xcel_plains-04",
+   "change": "filed",
+   "date": "2026-09-25",
+   "docket": "PUCT Docket No. 60332",
+   "source_url": "https://interchange.puc.texas.gov/Documents/60332_2_1687520.PDF",
+   "source_title": "Application of Southwestern Public Service Company for Approval of Large Load Customer Tariff Provisions (PUCT Docket No. 60332, Item 2)",
+   "what": "SPS filed its application for large load customer tariff provisions on 25 September 2026 (already the row's status date; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "24",
+     "section": "Attachment B, notice",
+     "quote": "On September 25,2026, Southwestern Public Service Company"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Southwestern Public Service Company (Xcel Energy)",
+   "state": "TX",
+   "rule_name": "Large General Service - Transmission (LGS-T) rate schedule, large load customer tariff provisions (LLT), proposed",
+   "affects": "xcel_plains-04",
+   "change": "suspended",
+   "date": "2026-10-30",
+   "docket": "PUCT Docket No. 60332",
+   "source_url": "https://interchange.puc.texas.gov/Documents/60332_18_1698214.PDF",
+   "source_title": "Order No. 5 Suspending Effective Date, PUCT Docket No. 60332 (Item 18)",
+   "what": "The ALJ suspended the effective date of SPS's proposed large load tariff change, proposed for 30 October 2026, to 27 February 2027 (already in the row's status cite; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "2",
+     "section": "Order No. 5",
+     "quote": "Accordingly, the ALJ suspends the effective date of SPS's proposed tariff change to February 27,2027, to allow sufficient time for processing the application."
+    },
+    {
+     "page": "2",
+     "section": "signature",
+     "quote": "Signed at Austin, Texas on the 30th day of October 2026."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Texas TSPs and DSPs in ERCOT (PUCT rule)",
+   "state": "TX",
+   "rule_name": "16 TAC 25.194, Large Load Interconnection Standards (PUCT Project No. 58481)",
+   "affects": "texas-01",
+   "change": "approved",
+   "date": "2026-09-18",
+   "docket": "PUCT Project No. 58481",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+   "source_title": "Order Adopting New 16 TAC 25.194 (PUCT Project No. 58481, Item 218)",
+   "what": "The PUCT adopted new 16 TAC 25.194, Large Load Interconnection Standards, with changes to the proposed text; the order was filed 18 September 2026 (already the row's status cite; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "71",
+     "section": "ordering paragraph",
+     "quote": "is hereby adopted with changes to the text as proposed"
+    },
+    {
+     "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-09-18 01:19:42 PM",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's own docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Texas TSPs and DSPs in ERCOT (PUCT rule)",
+   "state": "TX",
+   "rule_name": "16 TAC 25.194, Large Load Interconnection Standards (PUCT Project No. 58481)",
+   "affects": "texas-01",
+   "change": "in effect",
+   "date": "2026-10-08",
+   "docket": "PUCT Project No. 58481",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58481_219_1684678.PDF",
+   "source_title": "Texas Register acknowledgment of receipt, TRD 202604027 (PUCT Project No. 58481, Item 219)",
+   "what": "16 TAC 25.194 took effect on 8 October 2026 (already the row's status; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "3",
+     "section": "Texas Register acknowledgment of receipt",
+     "quote": "Effective Date: 10/08/2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's own docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "Texas TSPs and DSPs in ERCOT (PUCT rule)",
+   "state": "TX",
+   "rule_name": "Standardized Large Load Interconnection Agreement (SLLIA), proposed for comment (PUCT Project No. 59999)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-11-05",
+   "docket": "PUCT Project No. 59999",
+   "source_url": "https://interchange.puc.texas.gov/Documents/59999_4_1699922.PDF",
+   "source_title": "Public Utility Commission of Texas, Request for Comments on the Standardized Large Load Interconnection Agreement (SLLIA) (Project No. 59999, Item 4)",
+   "what": "The PUCT proposed and requested comments on a new Standardized Large Load Interconnection Agreement to serve as the standard agreement for all large loads interconnecting in the ERCOT region, integrating the obligations of 16 TAC 25.194 and the still-pending transmission cost recovery standards of Project 58000; comments are due 14 December 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-11-05 01:36:37 PM"
+    },
+    {
+     "page": "2",
+     "section": "request for comments",
+     "quote": "The Public Utility Commission of Texas (commission) proposes and requests comments on the new Standardized Large Load Interconnection Agreement (SLLIA)."
+    },
+    {
+     "page": "2",
+     "section": "request for comments",
+     "quote": "The new form will serve as the standard agreement for all large loads interconnecting within the ERCOT region of Texas"
+    },
+    {
+     "page": "2",
+     "section": "request for comments",
+     "quote": "The SLLIA will also integrate the transmission cost recovery standards for large load customers pending in Project 58000"
+    },
+    {
+     "page": "6",
+     "section": "Public Comments",
+     "quote": "Comments must be filed by December14, 2026."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's own docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "El Paso Electric Company",
+   "state": "TX",
+   "rule_name": "Schedule No. 27, High Load Factor Large Power Service (proposed, PUCT Docket No. 59611)",
+   "affects": "new",
+   "change": "suspended",
+   "date": "2026-08-26",
+   "docket": "PUCT Docket No. 59611 (SOAH Order No. 2)",
+   "source_url": "https://interchange.puc.texas.gov/Documents/59611_35_1677728.PDF",
+   "source_title": "SOAH Order No. 2, Adopting Procedural Schedule, Setting Hearing on the Merits, Addressing Evidence Submission Procedures, and Granting Suspension of Effective Date (PUCT Docket No. 59611, Item 35)",
+   "what": "The ALJ granted the parties' agreement that the proposed effective date of EPE's new Schedule No. 27 High Load Factor Large Power Service (proposed for 12 May 2026) is extended until the Commission's final order.",
+   "cites": [
+    {
+     "page": "8",
+     "section": "IV. Agreement to Suspend Proposed Effective Date",
+     "quote": "EPE stated that it filed an application for a new tariff, Schedule No. 27 High Load Factor Large Power Service, with a proposed effective date of May 12, 2026."
+    },
+    {
+     "page": "8",
+     "section": "IV. Agreement to Suspend Proposed Effective Date",
+     "quote": "EPE and the other parties agree that the proposed effective date of Schedule No. 27 is extended until the issuance of a final order in this docket."
+    },
+    {
+     "page": "8",
+     "section": "IV. Agreement to Suspend Proposed Effective Date",
+     "quote": "The ALJ GRANTS the suspension of the effective date until the Commission issues its final"
+    },
+    {
+     "page": "8",
+     "section": "signature",
+     "quote": "Signed August 26,2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "El Paso Electric Company",
+   "state": "TX",
+   "rule_name": "Schedule No. 27, High Load Factor Large Power Service (proposed, PUCT Docket No. 59611)",
+   "affects": "new",
+   "change": "hearing set",
+   "date": "2026-08-26",
+   "docket": "PUCT Docket No. 59611 (SOAH Order No. 2)",
+   "source_url": "https://interchange.puc.texas.gov/Documents/59611_35_1677728.PDF",
+   "source_title": "SOAH Order No. 2, Adopting Procedural Schedule, Setting Hearing on the Merits, Addressing Evidence Submission Procedures, and Granting Suspension of Effective Date (PUCT Docket No. 59611, Item 35)",
+   "what": "The same order set the hearing on the merits on EPE's proposed Schedule No. 27 for 21 January 2027.",
+   "cites": [
+    {
+     "page": "4",
+     "section": "II. Setting Hearing on the Merits",
+     "quote": "The Administrative Law Judge will convene a hearing on the merits at 9:00 AM (CT) onJanuary 21, 2027."
+    },
+    {
+     "page": "8",
+     "section": "signature",
+     "quote": "Signed August 26,2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov)"
+  },
+  {
+   "utility": "El Paso Electric Company",
+   "state": "TX",
+   "rule_name": "Schedule No. 33A, Large Economic Development Service Rate (Texas), data center update (PUCT Docket No. 59948)",
+   "affects": "texas-09",
+   "change": "other",
+   "date": "2026-10-14",
+   "docket": "PUCT Docket No. 59948",
+   "source_url": "https://interchange.puc.texas.gov/Documents/59948_17_1692853.PDF",
+   "source_title": "Proposed Order and Memorandum, PUCT Docket No. 59948, Application of El Paso Electric Company for Approval of an Update to Its Rate Schedules 33A and 33B Economic Development Rate Rider for a New Data Center (Item 17)",
+   "what": "The ALJ served a Proposed Order on 14 October 2026 under which the Commission would approve EPE's updates to Rate Schedules 33A and 33B, filed 1 July 2026 to reflect the cost of service approved in Docket 57568, effective the first billing cycle after the order; this is the PUCT docket of the pending amendment the row names.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "filing receipt",
+     "quote": "Filed Date - 2026-10-14 01:01:39 PM"
+    },
+    {
+     "page": "2",
+     "section": "memorandum",
+     "quote": "Enclosed is the Proposed Order in the above-referenced case."
+    },
+    {
+     "page": "3",
+     "section": "Proposed Order",
+     "quote": "The Commission approves the updates to El Paso Electric's Rate Schedule No. 33A, large economic development service rate, and Rate Schedule No. 33B, medium economic development service rate"
+    },
+    {
+     "page": "4",
+     "section": "Findings of Fact 8",
+     "quote": "is to reflect the cost of service approved by the Commission in El Paso Electric"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the PUCT's docket copy (interchange.puc.texas.gov); the row itself is internal (EPE's site)"
+  },
+  {
+   "utility": "Tennessee Valley Authority (TVA), wholesale supplier",
+   "state": "TN",
+   "rule_name": "TVA Large Data Service Rates (wholesale TOU Schedules DC and DCA, resale Schedules DC and DCA), Capacity Commitment Charge Rider, and the revised 100 MW power commitment approval policy",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-08-20",
+   "docket": "not published",
+   "source_url": "https://tva-azr-eastus-cdn-ep-tvawcm-prd.azureedge.net/cdn-tvawcma/docs/default-source/about-tva/board-of-directors/august-20--2026/resolutions/board-resolution---rate-change-and-related-actions---stamped-(1).pdf?sfvrsn=fefcb72d_1",
+   "source_title": "TVA Board Resolution (Rate Change and Related Actions), with the CFO's memorandum of 10 August 2026 (posted among the Board's 20 August 2026 resolutions)",
+   "what": "TVA posted, among the resolutions of its Board meeting of 20 August 2026, a resolution whose text says the Board 'hereby approves' rate changes for bills from meter readings on and after 2 October 2026, including Large Data Service Rates (Schedule DC mandatory for data center customers above 5,000 kW) and a Capacity Commitment Charge above the first 5 MW, and Board approval of power commitments that could exceed 100 MW over any 5-year period. The text layer is headed 'PROPOSED BOARD RESOLUTION' and prints no approval stamp, so the adoption itself is not stated in the words read; the date is the Board exhibit label 08/20/2026L and the posting folder. MLGW's Schedule TDC, in effect 1 October 2026 (row tva_southeast-01), is TVA's data center rate as a distributor resells it.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "PROPOSED BOARD RESOLUTION (Rate Change and Related Actions)"
+    },
+    {
+     "page": "1",
+     "section": "recital",
+     "quote": "a copy of which is filed with the records of the Board as Exhibit 08/20/2026L recommends approval of the proposed rate changes"
+    },
+    {
+     "page": "1",
+     "section": "resolution",
+     "quote": "BE IT RESOLVED, That the Board of Directors hereby approves (1) the proposed rate changes to be made effective (a) for bills rendered from wholesale meter readings scheduled to be taken on and after October 2, 2026"
+    },
+    {
+     "page": "8",
+     "section": "Attachment I, Change 2",
+     "quote": "The rates would then be phased-in over TVA fiscal years 2028 and 2029"
+    },
+    {
+     "page": "12",
+     "section": "Attachment II, Large Data Service Rates and Capacity Commitment Charge",
+     "quote": "Schedule DC will be mandatory where (a) a customer's currently effective onpeak or offpeak contract demand, whichever is higher, is greater than 5,000 kW"
+    },
+    {
+     "page": "12",
+     "section": "Attachment II",
+     "quote": "Customers that contract for service under Schedule DC for new or expanded load will be subject to a Capacity Commitment Charge."
+    },
+    {
+     "page": "11",
+     "section": "Attachment I, Change 4",
+     "quote": "For new load requests, the Capacity Commitment Charge will only apply above the first 5 MW of contract demand."
+    },
+    {
+     "page": "13",
+     "section": "Attachment II, Inflight load",
+     "quote": "For initial implementation on October 1, 2026"
+    },
+    {
+     "page": "17",
+     "section": "Attachment III, 100 MW Power Commitment Policy",
+     "quote": "Board consultation and approval would be required for power supply commitments if TVA becomes aware that any total ultimate power supply commitment could or will exceed 100 MW over any 5-year period."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "a federal agency's Board record, read from TVA's own content host (tva-azr-eastus-cdn-ep-tvawcm-prd.azureedge.net, robots answered 400, read as no robots file); tva.com and tva.gov were refused by robots earlier and TVA's terms of use were not read: for the owner's check",
+   "notes": "Session 5302: written as 'other', not 'approved', because the document's own words print it as proposed."
+  },
+  {
+   "utility": "Memphis Light, Gas and Water Division (MLGW), a TVA local power company",
+   "state": "TN",
+   "rule_name": "Electric Service Schedule TDC, Time of Use Data Service (TVA's data center rate structure as adopted by MLGW)",
+   "affects": "tva_southeast-01",
+   "change": "in effect",
+   "date": "2026-10-01",
+   "docket": "not published",
+   "source_url": "https://www.mlgw.com/images/content/files/pdf_rates/businessrates26/TDCOct26.pdf",
+   "source_title": "MLGW Electric Service Schedule TDC, Time of Use Data Service",
+   "what": "MLGW's posted Schedule TDC carries rates effective 1 October 2026 (already the row's status date; listed here because it falls in the window and matches TVA's initial implementation date above).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "RATE EFFECTIVE OCTOBER 1, 2026"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "MLGW's own posted rate schedule on mlgw.com, as the row"
+  },
+  {
+   "utility": "South Carolina Public Service Authority (Santee Cooper)",
+   "state": "SC",
+   "rule_name": "Schedule L-27-HIL, Large Light and Power High Impact Load Service (supersedes L-25-LL)",
+   "affects": "tva_southeast-06",
+   "change": "approved",
+   "date": "2026-10-30",
+   "docket": "not published",
+   "source_url": "https://www.santeecooper.com/Rates/Rate-Study/_pdfs/2026RatesDocs/Final-Rates-2027.pdf",
+   "source_title": "Santee Cooper, Final Rates 2027 (rate schedules adopted 30 October 2026)",
+   "what": "Santee Cooper adopted Schedule L-27-HIL on 30 October 2026, effective for bills on and after 1 February 2027, superseding Schedule L-25-LL (already the row's status; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "129",
+     "section": "Schedule L-27-HIL, footer",
+     "quote": "Adopted October 30, 2026 Effective for bills rendered on and after February 1, 2027"
+    },
+    {
+     "page": "129",
+     "section": "Schedule L-27-HIL, footer",
+     "quote": "Supersedes: Schedule L-25-LL, Effective April 25, 2025"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "Santee Cooper's own posted rate schedule on santeecooper.com, as the row"
+  },
+  {
+   "utility": "Duke Energy Carolinas, LLC",
+   "state": "NC",
+   "rule_name": "Large Load Tariff (LLT), with Schedule HLF: Exhibit 1 to the Agreement and Stipulation of Settlement on Large Load Tariff of 6 October 2026",
+   "affects": "duke-01",
+   "change": "filed",
+   "date": "2026-10-06",
+   "docket": "NCUC E-7, Sub 1329 (and E-2, Sub 1380)",
+   "source_url": "https://www.selc.org/wp-content/uploads/2026/10/2026-10-06-Duke-Energy-LLT-Settlement.pdf",
+   "source_title": "Duke Energy Carolinas, LLC's and Duke Energy Progress, LLC's Agreement and Stipulation of Settlement on Large Load Tariff (intervenor's posted copy)",
+   "what": "Duke Energy Carolinas and Duke Energy Progress filed the Agreement and Stipulation of Settlement on Large Load Tariff with the NCUC on 6 October 2026, with an Exhibit 1 tariff proposed effective for service on and after 1 January 2027 (already the row's status date; listed here because it falls in the window). No NCUC order on it was found; the NCUC portal bars this reader.",
+   "cites": [
+    {
+     "page": "2",
+     "section": "signature",
+     "quote": "This, the 6th day of October, 2026."
+    },
+    {
+     "page": "22",
+     "section": "Exhibit 1 footer",
+     "quote": "Effective for service rendered on and after January 1, 2027"
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "copy of the NCUC filing posted by an intervenor (the Southern Environmental Law Center), as the row"
+  },
+  {
+   "utility": "Duke Energy Progress, LLC",
+   "state": "NC",
+   "rule_name": "Large Load Tariff (LLT), proposed for Duke Energy Progress by the same settlement of 6 October 2026",
+   "affects": "duke-02",
+   "change": "filed",
+   "date": "2026-10-06",
+   "docket": "NCUC E-2, Sub 1380 (with E-7, Sub 1329)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1326160/000132616026000051/duk-20260930.htm",
+   "source_title": "Duke Energy Corporation, Form 10-Q for the quarter ended 30 September 2026",
+   "what": "Duke Energy Carolinas and Duke Energy Progress filed an additional settlement agreement with the NCUC on large-load customer tariffs on 6 October 2026 (already the row's status date; listed here because it falls in the window).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Regulatory Matters",
+     "quote": "On October 6, 2026, Duke Energy Carolinas and Duke Energy Progress filed an additional settlement agreement with the NCUC regarding large-load customer tariffs."
+    }
+   ],
+   "date_read": "2026-11-13",
+   "license": "public",
+   "license_basis": "the 10-Q from SEC EDGAR, as the row"
+  }
+ ],
+ "no_change": [
+  {
+   "utility": "Duke Energy Florida, LLC (duke-04)",
+   "searched": "Not written here: the parent has recorded the 3 November 2026 vote (Vote Sheet Item 3, Document 07689-2026, read from the cache). The Docket 20260064-EI filing list (pscweb.floridapsc.com API, pages 1 to 3, read 13 November 2026) shows no final order after the 3 November vote sheet; the rest of page 1 is consumer correspondence to 9 November 2026."
+  },
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia) (dominion-01 to dominion-03)",
+   "searched": "Dominion's Form 10-Q for Q3 2026 (cached copy) searched for GS-5, large load, high load and interconnection queue: no development dated 15 August to 13 November 2026 beyond the pending Supreme Court of Virginia appeal already in the row. The GS-5 compliance tariffs due at least 45 days before 1 January 2027 and the queue process case were not read: the Virginia SCC is paused and dominionenergy.com is barred."
+  },
+  {
+   "utility": "Northern Virginia Electric Cooperative (NOVEC) and Rappahannock Electric Cooperative (dominion-04 to dominion-07)",
+   "searched": "No primary document of the window found; the SCC dockets (NOVEC's 17 July 2026 filing, REC's LP-DF) wait on the paused SCC host."
+  },
+  {
+   "utility": "Appalachian Power Company (Virginia)",
+   "searched": "No readable primary copy: the Virginia SCC is paused (the reported June 2026 approval of large-load terms is outside the window and unread)."
+  },
+  {
+   "utility": "Dominion Energy North Carolina",
+   "searched": "NCJC et al. reply comments of 6 October 2026 (SELC copy, cached) cite Supplemental Direct Testimony of David F. Walker for DENC in NCUC Docket E-22, Sub 765 (4 September 2026) on a high load customer class; a party's description only, the testimony is on the NCUC portal, which bars this reader. Lead, not a change."
+  },
+  {
+   "utility": "Duke Energy Carolinas and Duke Energy Progress, South Carolina (duke-03)",
+   "searched": "No SC PSC order of the window found; dms.psc.sc.gov disallows robots and was not requested."
+  },
+  {
+   "utility": "Dominion Energy South Carolina",
+   "searched": "No large-load filing found; dms.psc.sc.gov disallows robots; dominionenergy.com barred."
+  },
+  {
+   "utility": "Georgia Power Company (other filings)",
+   "searched": "The Q2 and Q3 2026 Large Load Economic Development Reports, the promised semi-annual data center report, the public contract summary due within 10 days of 26 August 2026 and the reported NU-1 tariff of 21 September 2026 were not found on services.psc.ga.gov by search (web search budget then ran out); no certification order of the window found."
+  },
+  {
+   "utility": "Alabama Power Company (southern_florida-03, Rate HLF)",
+   "searched": "The Docket 33709 compliance tariff (due within ten days of the order's effective date) was not found; the Commission's December 2026 meeting notice on psc.alabama.gov was read with no Docket 33709 match."
+  },
+  {
+   "utility": "Mississippi Power Company and Entergy Mississippi, LLC",
+   "searched": "Mississippi PSC October and November 2026 utility dockets and the 6 October 2026 agenda (psc.ms.gov) searched for data center, large load, special contract and economic development: only an Entergy Mississippi agreement with Nissan and a Mississippi Power special contract with the Gulfport-Biloxi airport, neither a large-load rule."
+  },
+  {
+   "utility": "Entergy Louisiana, LLC (entergy-01, U-37882)",
+   "searched": "LPSC minutes of 12 August, 16 September and 22 October 2026 and the 18 November 2026 revised and supplemental agendas: only discovery rulings in U-37882 (12 August, the Commission reversed the Tribunal's ruling and vacated a subpoena, 3 to 1; 16 September, it accepted the 4 September 2026 stipulation and vacated the 6 August ruling); no change to the 16 December 2026 consideration date was found."
+  },
+  {
+   "utility": "Louisiana PSC jurisdictional utilities (entergy-03, entergy-04)",
+   "searched": "Same minutes and agendas: no amendment or withdrawal of the Lightning Directive or the Non-Binding Guidelines. Lead: the 18 November 2026 revised agenda lists R-37905 (private use electrical networks to serve new large loads) for a possible vote on a Proposed Final Rule; outside the window, not read further."
+  },
+  {
+   "utility": "Entergy New Orleans, LLC",
+   "searched": "No document of the window found."
+  },
+  {
+   "utility": "Entergy Arkansas, LLC (entergy-05, entergy-07)",
+   "searched": "Docket 25-055-P listing (cached, read 13 November 2026): every entry of the window concerns the amended agreement (entries above); Order No. 14 (29 October 2026) asks supplemental testimony by 9 November 2026, procedural only. Rate Schedule No. 69 not read again."
+  },
+  {
+   "utility": "Entergy Texas, Inc.",
+   "searched": "PUCT docket search (interchange, dockets with activity to 13 November 2026): Entergy Texas dockets are rate riders, PPAs and metering, none a large-load tariff."
+  },
+  {
+   "utility": "Oncor, CenterPoint Energy Houston Electric, AEP Texas, TNMP (texas-02 to texas-04)",
+   "searched": "No utility-specific large-load tariff docket of the window found in the PUCT docket search; their change is the statewide 16 TAC 25.194 (entries above) and the proposed SLLIA."
+  },
+  {
+   "utility": "PUCT Project No. 58000 (large_load_connection_rules/puct_project_58000_proposal.yaml)",
+   "searched": "The PUCT's SLLIA request for comments of 5 November 2026 (p. 2) calls the Project 58000 transmission cost recovery standards still pending: no adoption in the window."
+  },
+  {
+   "utility": "Austin Energy, CPS Energy (texas-05, texas-06)",
+   "searched": "No primary document of the window read (cpsenergy.com refused by robots)."
+  },
+  {
+   "utility": "Kentucky Power Company (aep-05)",
+   "searched": "No TeraWulf agreement filing found: the psc.ky.gov home page's case and order lists of 13 November 2026 show no Kentucky Power large-load case (only a demand-side management order and the 2025-00257 rate case); the case search itself was not reached."
+  },
+  {
+   "utility": "Kentucky Utilities, Louisville Gas and Electric, EKPC, Duke Energy Kentucky (tva_southeast-02 to -04)",
+   "searched": "No change of the window found; the EHLF rate revision on rehearing is dated 14 August 2026, one day before the window (row note)."
+  },
+  {
+   "utility": "Public Service Company of Oklahoma (aep-06)",
+   "searched": "AEP's Q3 2026 10-Q (cached) still expects the OCC order in Q4 2026; the OCC rate case and news pages (oklahoma.gov/occ) list no 2026 PSO order; OCC case imaging not reached."
+  },
+  {
+   "utility": "Oklahoma Gas and Electric Company (ameren_evergy_spp-10)",
+   "searched": "OG&E's Q3 2026 10-Q (cached) gives the XLPL hearing as 12 January 2027 but not the date it was set; no OCC document read."
+  },
+  {
+   "utility": "TVA local power companies other than MLGW (EPB, NES, KUB, Huntsville Utilities) and PowerSouth, Oglethorpe Power",
+   "searched": "No new posted data center schedule found by the earlier pass's reads of 13 November 2026; not read again."
+  },
+  {
+   "utility": "JEA",
+   "searched": "No published schedule found (news lead only)."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia); Appalachian Power; NOVEC; Rappahannock Electric Cooperative",
+   "url": "https://scc.virginia.gov/",
+   "reason": "not requested: paused publisher (the Virginia SCC's robots file disallows every automated request); the GS-5 compliance tariff due about mid-November 2026 was not read"
+  },
+  {
+   "utility": "Virginia Electric and Power Company (Dominion Energy Virginia); Dominion Energy North Carolina and South Carolina",
+   "url": "https://www.dominionenergy.com/",
+   "reason": "not requested: barred, Dominion's terms bar spiders, robots and automated programs"
+  },
+  {
+   "utility": "Duke Energy Carolinas, Duke Energy Progress, Dominion Energy North Carolina",
+   "url": "https://starw1.ncuc.gov/",
+   "reason": "not requested: the NCUC portal's robots file bars Claude's agents; no allowed copy of an NCUC order on the 6 October 2026 settlement was found"
+  },
+  {
+   "utility": "Duke Energy Carolinas and Progress (SC); Dominion Energy South Carolina",
+   "url": "https://dms.psc.sc.gov/",
+   "reason": "not requested: robots.txt disallows the docket paths"
+  },
+  {
+   "utility": "Entergy Louisiana, Entergy Arkansas, Entergy Mississippi, Entergy Texas, Entergy New Orleans",
+   "url": "https://www.entergy.com/",
+   "reason": "not requested: barred, the Entergy Site Terms bar robots, spiders and scrapers"
+  },
+  {
+   "utility": "Florida Power & Light Company",
+   "url": "https://www.fpl.com/",
+   "reason": "not requested: barred, NextEra's terms bar bots and spiders (the Florida PSC's copies were read instead)"
+  },
+  {
+   "utility": "All (search)",
+   "url": "web search",
+   "reason": "the session's web search budget ran out after two searches in this pass; later leads were followed only through the commissions' own docket indexes and pages the reader allowed"
+  }
+ ],
+ "dropped_duplicates": [
+  {
+   "what": "After the Governor's letter of 3 August 2026 directing a verification and audit of data centers in ERCOT's interconnection process, ERCOT stated it would temporarily pause the transitional Batch Zero ",
+   "duplicate_of": "operators_federal (the PUCT's order of 20 August 2026 on Batch Zero)"
+  }
+ ]
+}

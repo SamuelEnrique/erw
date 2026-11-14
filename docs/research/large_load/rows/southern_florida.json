@@ -24,7 +24,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2025-02-01",
+    "date": "",
     "cites": [
      {
       "page": "16",
@@ -154,8 +154,9 @@
    "license": "public",
    "license_basis": "the Georgia PSC's docket copies (services.psc.ga.gov) and the Commission's own publications (psc.ga.gov news release and 2025 Annual Report)",
    "erw_overlap": "large_load_tariffs/georgia_power_rules_100mw.yaml holds threshold (100 MW), min_bill, collateral and exit_fee (D14 text) from the same December 2024 filing, effective 2025-02-01; this row adds contract_term (Commission release), the 26 August 2026 joint statement on termination, the 30-day contract review and the queue. large_load_tariffs/georgia_power_tou_sc_15.yaml (Monthly Access Charge option, 100 MW, term three years or as the CES specifies) is the schedule these customers take and is not repeated here.",
-   "notes": "The Commission's orders of 28 January 2025 (document 221165) and 17 April 2025 (document 222325, which sets the minimum bill framework) are served as .docx files that the reader cannot turn into text, and the April order's PDF copy (222325/103476) is a scan with no text layer: their wording (minimum bill at the higher of tariffed rates or the minimum bill, liability for minimum bills over the remaining term) is not cited. The 26 August 2026 joint statement says Staff had reviewed six prior Large Load contracts and did not object to the seventh (filed 27 July 2026, reported in news as OpenAI, 3,200 MW); it promises a semi-annual Large Load Data Center report and a public summary of each contract filed. An intervenor brief (GIPL and Southface, 16 Dec 2025, Docket 56298/56310, document 224874) says the contracts carry a two-year termination notice and minimum bills for two years after termination, citing hearing testimony: a party's characterization, lead only. The Q2 2026 and Q3 2026 pipeline reports were not found; Southern Company's investor files (s27.q4cdn.com) were refused by robots; the PSC facts site gave a bot check. The 2025 certification stipulation (Docket 56298/56310, document 224772) sets a minimum large load revenue forecast and a load flexibility collaboration, not connection terms. Lead (news only): a Nuclear Uprate tariff NU-1 filed 21 September 2026 in Docket 44280 for Google's subscription; not a connection rule, not read.",
-   "date_read": "2026-11-13"
+   "notes": "The Commission's orders of 28 January 2025 (document 221165) and 17 April 2025 (document 222325, which sets the minimum bill framework) are served as .docx files that the reader cannot turn into text, and the April order's PDF copy (222325/103476) is a scan with no text layer: their wording (minimum bill at the higher of tariffed rates or the minimum bill, liability for minimum bills over the remaining term) is not cited. The 26 August 2026 joint statement says Staff had reviewed six prior Large Load contracts and did not object to the seventh (filed 27 July 2026, reported in news as OpenAI, 3,200 MW); it promises a semi-annual Large Load Data Center report and a public summary of each contract filed. An intervenor brief (GIPL and Southface, 16 Dec 2025, Docket 56298/56310, document 224874) says the contracts carry a two-year termination notice and minimum bills for two years after termination, citing hearing testimony: a party's characterization, lead only. The Q2 2026 and Q3 2026 pipeline reports were not found; Southern Company's investor files (s27.q4cdn.com) were refused by robots; the PSC facts site gave a bot check. The 2025 certification stipulation (Docket 56298/56310, document 224772) sets a minimum large load revenue forecast and a load flexibility collaboration, not connection terms. Lead (news only): a Nuclear Uprate tariff NU-1 filed 21 September 2026 in Docket 44280 for Google's subscription; not a connection rule, not read. Corrected by the independent audit of session 5304 (A-12): the status date was '2025-02-01', read from the footer of the Rules pages as proposed in the December 2024 filing ('Paragraphs 13 and 14 added February 1, 2025'); the Commission's order of 28 January 2025 approves the revisions as modified by Staff and prints no effective date, and the adopted compliance pages (the order of 17 April 2025, a scan) were not read, so the date is not published.",
+   "date_read": "2026-11-13",
+   "row_id": "southern_florida-01"
   },
   {
    "utility": "Alabama Power Company",
@@ -179,20 +180,50 @@
     ]
    },
    "status": {
-    "value": "proposed",
-    "date": "2026-07-07",
+    "value": "approved",
+    "date": "2026-10-06",
     "cites": [
      {
       "page": "1",
-      "quote": "was held on Tuesday, July 7, 2026"
+      "section": "opening",
+      "quote": "The October 2026 meeting of the Alabama Public Service Commission was held on Tuesday, October 6, 2026",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "14",
+      "section": "Agenda",
+      "quote": "DOCKET 33709, Generic Proceeding to Establish a Process for Consideration of Contracts for Electric Service Between Alabama Power Company and Large Load Data Center Customers",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
      },
      {
       "page": "15",
-      "quote": "This generic proceeding would seek public comments on a proposed process for consideration of such contracts, which includes:"
+      "section": "RECOMMENDED, APPLICABILITY",
+      "quote": "The following procedures are applicable to large load data center customers as defined by Act 610.",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
      },
      {
-      "page": "15",
-      "quote": "Upon being motioned by Commissioner Oden for discussion and seconded by Commissioner Almond, the Commissioners voted unanimously to accept the recommendations."
+      "page": "17",
+      "section": "AMENDED: DECISION AND REVIEW",
+      "quote": "AMENDED: DECISION AND REVIEW. Contracts submitted under this process shall be approved or disapproved through a Commission vote; however, if the Commission fails to vote within 90 days from the filing of the Petition, then the Petition is deemed approved.",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "17",
+      "section": "COMPLIANCE",
+      "quote": "Within ten calendar days of the effective date of this order, Alabama Power shall file a tariff that complies with the requirements of this order.",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
+     },
+     {
+      "page": "18",
+      "section": "vote",
+      "quote": "Upon approval of the amendment, the Commissioners voted unanimously to accept the entire recommendation.",
+      "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -214,14 +245,37 @@
      "searched": "July 7, 2026 minutes, Docket 33709 item (pp. 14 to 15); Act 2026-610 as held"
     },
     "study_timeline": {
-     "value": "not published (the proposed process names a designated review period with no figure)",
+     "value": "Commission vote on each Petition to Contract, with no hearing or intervention; the Petition is deemed approved if the Commission does not vote within 90 days of its filing; Alabama Power should file the Petition and the Confidential Submission at least 120 days before the date the contract would become void for want of Commission approval; Alabama Power to use best efforts to answer Staff and Attorney General data requests within five business days (a commission review period, not a load study)",
      "cites": [
       {
-       "page": "15",
-       "quote": "3) a designated review period;"
+       "page": "17",
+       "section": "Docket 33709, Decision and Review (amended)",
+       "quote": "if the Commission fails to vote within 90 days from the filing of the Petition, then the Petition is deemed approved",
+       "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "17",
+       "section": "Docket 33709",
+       "quote": "Alabama Power should file the Petition and provide the Confidential Submission at least 120 days before the date the contract would become void",
+       "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "17",
+       "section": "Docket 33709 (amended)",
+       "quote": "The process would not call for a hearing or intervention.",
+       "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "17",
+       "section": "Docket 33709 (amended)",
+       "quote": "Alabama Power shall use its best efforts to respond within five business days.",
+       "url": "https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf",
+       "date_read": "2026-11-13"
       }
-     ],
-     "searched": "July 7, 2026 minutes pp. 14 to 15; the Docket 33709 page on psc.alabama.gov (HTTP 404)"
+     ]
     },
     "connection_timeline": {
      "value": "not published",
@@ -235,8 +289,9 @@
    "license": "public",
    "license_basis": "the Alabama PSC's own minutes (psc.alabama.gov)",
    "erw_overlap": "large_load_tariffs/alabama_act_2026_610_data_centers.yaml holds the Act's 150 MW threshold and the contract matters (minimum term, upfront payments, security and collateral, minimum payment, no figures); this row is the PSC's procedure under it, not held.",
-   "notes": "Status waits: news reports (abc3340, Alabama Reflector, Inside Climate News, SELC's release of 6 October 2026) say the PSC adopted final procedures on 6 October 2026: a vote within 90 days of a petition, deemed approved if the PSC does not act, a public petition with a contract summary, the full contract to the PSC and the Attorney General, no public hearing; and that Alabama Power had agreed on an interim basis to extend review from 10 to 45 days. The order itself was not found: the Docket 33709 page on psc.alabama.gov and psc.alabama.gov/?p=47744 answered 404. The October 2026 minutes were not yet found.",
-   "date_read": "2026-11-13"
+   "notes": "Status waits: news reports (abc3340, Alabama Reflector, Inside Climate News, SELC's release of 6 October 2026) say the PSC adopted final procedures on 6 October 2026: a vote within 90 days of a petition, deemed approved if the PSC does not act, a public petition with a contract summary, the full contract to the PSC and the Attorney General, no public hearing; and that Alabama Power had agreed on an interim basis to extend review from 10 to 45 days. The order itself was not found: the Docket 33709 page on psc.alabama.gov and psc.alabama.gov/?p=47744 answered 404. The October 2026 minutes were not yet found. Status updated by the 90-day pass (south-10): was 'proposed' (2026-07-07); On 6 October 2026 the Commission unanimously adopted the Docket 33709 procedures for large load data center customers as defined by Act 610: Alabama Power files a public Petition to Contract with a contract summary and gives the full contract and supporting analysis to the Commission's Legal Division and the Attorney General; each contract is approved or disapproved by Commission vote with no hearing or intervention, but is deemed approved if the Commission fails to vote within 90 days of the Petition (amended from the July proposal's 60 days); Alabama Power is to file the Petition at least 120 days before the contract would become void, and to file a compliance tariff within ten calendar days of the order's effective date. Corrected by the independent audit of session 5304 (A-13): study_timeline was 'not published (the proposed process names a designated review period with no figure)'. Corrected by the independent audit of session 5304 (A-13): study_timeline was 'Commission vote on each Petition to Contract, with no hearing or intervention; the Petition is deemed approved if the Commission does not vote within 90 days of its filing; Alabama Power should file the Petition and the Confidential Submission at least 120 days before the date the contract would become void for want of Commission approval; Alabama Power to use best efforts to answer Staff and Attorney General data requests within five business days (a commission review period, not a load study)'. Corrected by the independent audit of session 5304 (A-13): study_timeline was 'Commission vote on each Petition to Contract, with no hearing or intervention; the Petition is deemed approved if the Commission does not vote within 90 days of its filing; Alabama Power should file the Petition and the Confidential Submission at least 120 days before the date the contract would become void for want of Commission approval; Alabama Power to use best efforts to answer Staff and Attorney General data requests within five business days (a commission review period, not a load study)'. Corrected by the independent audit of session 5304 (A-13): study_timeline was 'Commission vote on each Petition to Contract, with no hearing or intervention; the Petition is deemed approved if the Commission does not vote within 90 days of its filing; Alabama Power should file the Petition and the Confidential Submission at least 120 days before the date the contract would become void for want of Commission approval; Alabama Power to use best efforts to answer Staff and Attorney General data requests within five business days (a commission review period, not a load study)'.",
+   "date_read": "2026-11-13",
+   "row_id": "southern_florida-02"
   },
   {
    "utility": "Alabama Power Company",
@@ -330,7 +385,8 @@
    "license_basis": "Alabama Power's filed tariff (Rate HLF, by order of the Alabama PSC, Docket 24860) as the utility publishes it; note that Southern Company's website terms (southerncompany.com/terms-and-conditions.html, which alabamapower.com links) ask prior written consent to reproduce site contents and do not mention automated access; window A labeled alabama_power_lpl.yaml from the same host public Session 5300's license audit: the sheet was read only on alabamapower.com, and Southern Company's Terms and Conditions (https://www.southerncompany.com/terms-and-conditions.html, read 2026-11-13) say 'You may not reproduce, republish, transmit, distribute ... any of the Contents of the Web Sites without the prior written consent of Southern Company subsidiaries': internal under the owner's ruling 4 of 6 November until a commission copy is read or permission is on record.",
    "erw_overlap": "none: large_load_tariffs/alabama_power_lpl.yaml (Rate LPL) and alabama_act_2026_610_data_centers.yaml are other rules; Rate HLF is not held.",
    "notes": "A general high load factor schedule, included because it is the published tariff clause reserving negotiated terms for loads above 27 MW; the character of service clause also says the Company need not serve loads over 20,000 kVa except from transmission of 115 kV or higher. Alabama Power's Rate FCR (Flexible Contract Rate), under which news reports say data center contracts filed before 1 October 2026 were reviewed (Dotier, Alabama ADC Holdings, Woostor; contract length, minimum bill and pricing redacted), was not found: alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/FCR.pdf answered 404.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "southern_florida-03"
   },
   {
    "utility": "Florida Power & Light Company",
@@ -520,24 +576,27 @@
      ]
     },
     "queue_size": {
-     "value": "No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center accounts and 2 projected data center accounts (large load, LLCS) expected to begin service in 2028",
+     "value": "No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center customer accounts and 2 projected data center customer accounts, the latter based on discussions with potential large power users and FPL's assessment that they are highly likely to begin service in 2028 (no rate schedule is stated for them)",
      "cites": [
       {
-       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
        "page": "7",
+       "section": "",
        "quote": "The two projected data center customer accounts were based on discussions with potential large power users and FPL's assessment that customers with significant load requirements are highly likely to begin service on FPL's system in 2028.",
+       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
        "date_read": "2026-11-13"
       },
       {
+       "page": "7",
+       "section": "",
+       "quote": "The 32 active data center customer accounts were identified through a monthly query of customer billing records for data center usage profiles.",
        "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
-       "page": "5",
-       "quote": "The referenced large load customers refer to customers served under Rate Schedules LLCS-1 and LLCS-2.",
        "date_read": "2026-11-13"
       },
       {
-       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
        "page": "1",
+       "section": "",
        "quote": "FILED 7/14/2026 DOCUMENT NO. 04335-2026",
+       "url": "https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf",
        "date_read": "2026-11-13"
       }
      ]
@@ -546,8 +605,9 @@
    "license": "public",
    "license_basis": "the settlement as filed with the SEC (a public filing of FPL and NextEra) and the Florida PSC's docket copies (floridapsc.com); FPL's own site (fpl.com) was not used: NextEra's terms bar bots, spiders and crawlers",
    "erw_overlap": "none: no FPL file in large_load_tariffs or large_load_connection_rules.",
-   "notes": "The final order itself (document 00561-2026) did not finish downloading on two tries of about ten minutes each, so its text (and any effective date it states) is not cited; status cites its issued date and title from the e-service bounce copy (00628-2026), which reproduces the order's first pages. The Commission granted in part and denied in part a motion for reconsideration on 27 April 2026 (Order PSC-2026-0117-FOF-EI) and an appeal of the final order is reported stayed. Leads (news, not read in a primary document): FPL's tariff book lists the LLCS Service Agreement effective 1 January 2026 (fpl.com, barred); LLCS-1 is reported to be capped at about 3 GW near FPL's 500 kV system; FPL told the PSC around 1 October 2026 that the approved structure already complies with Florida's SB 484 (section 366.043, 50 MW large load customers), a compliance filing not found; NextEra's earnings reports cite about 21 GW of large load interest (investor material, not read). The as-filed LLCS-1 sheets (MFR E-14, Attachment 1, pp. 130 to 135) were read only through FPL's errata of 29 April 2025.",
-   "date_read": "2026-11-13"
+   "notes": "The final order itself (document 00561-2026) did not finish downloading on two tries of about ten minutes each, so its text (and any effective date it states) is not cited; status cites its issued date and title from the e-service bounce copy (00628-2026), which reproduces the order's first pages. The Commission granted in part and denied in part a motion for reconsideration on 27 April 2026 (Order PSC-2026-0117-FOF-EI) and an appeal of the final order is reported stayed. Leads (news, not read in a primary document): FPL's tariff book lists the LLCS Service Agreement effective 1 January 2026 (fpl.com, barred); LLCS-1 is reported to be capped at about 3 GW near FPL's 500 kV system; FPL told the PSC around 1 October 2026 that the approved structure already complies with Florida's SB 484 (section 366.043, 50 MW large load customers), a compliance filing not found; NextEra's earnings reports cite about 21 GW of large load interest (investor material, not read). The as-filed LLCS-1 sheets (MFR E-14, Attachment 1, pp. 130 to 135) were read only through FPL's errata of 29 April 2025. Corrected by the independent audit of session 5304 (A-14): queue_size was 'No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center accounts and 2 projected data center accounts (large load, LLCS) expected to begin service in 2028'. Corrected by the independent audit of session 5304 (A-14): queue_size was 'No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center customer accounts and 2 projected data center customer accounts, the latter based on discussions with potential large power users and FPL's assessment that they are highly likely to begin service in 2028 (no rate schedule is stated for them)'. Corrected by the independent audit of session 5304 (A-14): queue_size was 'No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center customer accounts and 2 projected data center customer accounts, the latter based on discussions with potential large power users and FPL's assessment that they are highly likely to begin service in 2028 (no rate schedule is stated for them)'.",
+   "date_read": "2026-11-13",
+   "row_id": "southern_florida-04"
   },
   {
    "utility": "Tampa Electric Company",
@@ -586,7 +646,7 @@
    },
    "fields": {
     "threshold_mw": {
-     "value": "50 MW anticipated monthly peak at a single location; LLCS-1 limited to a class combined 1 GW (closed when subscribed or on 1 January 2031, whichever is sooner); LLCS-2 serves load beyond the first 1 GW",
+     "value": "50 MW anticipated monthly peak at a single location; LLCS-1 limited to a class combined total load of 1 GW (closed to new or incremental load when the 1 GW cap is fully subscribed or on 1 January 2031, whichever is sooner); LLCS-2 applies to new or incremental load in excess of the first class combined 1 GW under LLCS-1, or from five years after LLCS-1 opens, whichever is sooner",
      "cites": [
       {
        "page": "26",
@@ -602,6 +662,11 @@
        "page": "32",
        "section": "Sheet 6.880 (LLCS-2), Limitation of service",
        "quote": "in excess of the first class combined total load of 1 GW to be served under rate schedule LLCS-1"
+      },
+      {
+       "page": "32",
+       "section": "Original Sheet No. 6.880, LLCS-2, Limitation of Service",
+       "quote": "in excess of the first class combined total load of 1 GW to be served under rate schedule LLCS-1 or five years from the date the LLCS-1 rate schedule opens"
       }
      ]
     },
@@ -733,8 +798,9 @@
    "license": "public",
    "license_basis": "the Florida PSC's docket copy (floridapsc.com)",
    "erw_overlap": "none: no Tampa Electric file in large_load_tariffs or large_load_connection_rules.",
-   "notes": "LLCS-1 rates as filed: Basic Service Charge $126.72 per day, Demand Charge $4.78 per kW, Energy 0.223 cents per kWh, Incremental Generation Charge $18.98 per kW (fixed for the Initial Term), Incremental Transmission Charge $2.33 per kW (trued up), plus fuel transportation and PPA charges by year (sheets 6.855 and 6.860). LLCS-2 sets formula rates (no figures) for load above the first 1 GW. Service is at 69 kV or higher; not available to a Foreign Entity (affidavit of ownership required). Filed to meet section 366.043 (SB 484, effective 1 July 2026, tariffs due 1 October 2026). Status waits on the Commission; Duke Energy Florida's tariff under the same law (Docket 20260064-EI) is another group's.",
-   "date_read": "2026-11-13"
+   "notes": "LLCS-1 rates as filed: Basic Service Charge $126.72 per day, Demand Charge $4.78 per kW, Energy 0.223 cents per kWh, Incremental Generation Charge $18.98 per kW (fixed for the Initial Term), Incremental Transmission Charge $2.33 per kW (trued up), plus fuel transportation and PPA charges by year (sheets 6.855 and 6.860). LLCS-2 sets formula rates (no figures) for load above the first 1 GW. Service is at 69 kV or higher; not available to a Foreign Entity (affidavit of ownership required). Filed to meet section 366.043 (SB 484, effective 1 July 2026, tariffs due 1 October 2026). Status waits on the Commission; Duke Energy Florida's tariff under the same law (Docket 20260064-EI) is another group's. Corrected by the independent audit of session 5304 (A-15): threshold_mw was '50 MW anticipated monthly peak at a single location; LLCS-1 limited to a class combined 1 GW (closed when subscribed or on 1 January 2031, whichever is sooner); LLCS-2 serves load beyond the first 1 GW'.",
+   "date_read": "2026-11-13",
+   "row_id": "southern_florida-05"
   }
  ],
  "refused": [

@@ -2,7 +2,7 @@
 
 machine: samueloldlaptop
 
-Written first by session 6000 of chain 270 (`queue/done/270-night-14-november-oldlaptop-forecast.md`) on 14 November 2026 at about 01:05 UTC, and rewritten at about 01:30 UTC with the owner's corrected goal (below), as that chain's rules ask; to be updated by its session 6019 with what chain 270 did not finish. The first queue number free on origin's main and every branch was 271. It takes sessions 6020 to 6035, sixteen numbers after chain 270's last (6019); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written. Session 6020 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5, xhigh effort. Only one Claude Code window runs on this machine.
+Written first by session 6000 of chain 270 (`queue/done/270-night-14-november-oldlaptop-forecast.md`) on 14 November 2026 at about 08:42 UTC, and rewritten at about 08:52 UTC with the owner's corrected goal (below), as that chain's rules ask; to be updated by its session 6019 with what chain 270 did not finish. The first queue number free on origin's main and every branch was 271. It takes sessions 6020 to 6035, sixteen numbers after chain 270's last (6019); none was named by a report, a commit subject, a branch or a queue file on origin's main or any branch when this was written. Session 6020 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine: portable-laptop and the desktop must never take this file. Model: Opus 5.5, xhigh effort. Only one Claude Code window runs on this machine.
 
 ## The corrected goal (the owner, 14 November 2026)
 
@@ -28,6 +28,14 @@ The next file in `queue/next/` for this machine (the first queue number free on 
 One step a session, starting from chain 270's unfinished steps as session 6019 lists them below, then the goal's next numbered step. Pushed after every group; a landing request row after every group.
 
 ### Unfinished steps (to be written by session 6019 of chain 270)
+
+Written early by session 6007 (14 November, about 09:35 UTC), to be brought up to date by session 6019:
+
+- Steps 1 to 4 of the goal are done on `wip/6000-forecast` (landing row 12 of `docs/state/landing_request_oldlaptop.md`, head `53dcfa64b` or later): the states held at cost read (WA gas, CA wind, NM, TN wind, TX solar, KY wind, WV now by official schedules; the rest at cost with the reason in the hover), Montana confirmed, nine studies added to the cross-check, D's faults and rulings checked. Reports: `archive/sessions/SESSION_6000_REPORT.md`, `SESSION_6001_6004_REPORT.md` (with 6005 to 6007).
+- Waiting for Samuel: rulings 21 to 23 and 25 to 29 (`SESSION_6001_6004_REPORT.md`); nothing waits on them.
+- Still no readable study: solar in the Plains and the Southwest; gas in the Plains and the Southwest (three searches; see the method note's section 9). Read again only a newly found source.
+- Step 5: window P1's close-out note `docs/state/note_2026-11-14_portable_p1.md` was not on main at 09:45 UTC (it exists on `wip/5500-closeout` at `fcadf7cf9`, waiting for its landing). Session 6007's background watch for it was stopped by Claude Code for low memory (1.2 GB free) and not restarted: check with `git fetch origin` and `git ls-tree --name-only origin/main docs/state/`. Once it is, the five tools' open fault rows that need no site build (`docs/reviews/{battery,generator,datacenter-cost,analysis,grid}-faults-2026-11-13.md` and the five of 11 November), each fixed with a test on a `wip/60NN-five` branch, a landing request row after each group.
+- Step 6: the periodicals file `queue/next/300-...` once the W46 Roundup (15 November, 23:00 UTC) and the 16 November Digest exist.
 
 ## Session 6033: the records
 
