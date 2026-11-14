@@ -2,6 +2,8 @@
 
 machine: samueloldlaptop
 
+Not before: the W46 Roundup (Sunday 15 November 2026, 23:00 UTC) and the Digest of Monday 16 November exist. Renamed from 268 to 300 on 14 November 2026 by the forecast chain (270, sessions 6000 upward), on the owner's instruction, so that this machine's forecast chains are taken first. A session that takes this file before both issues exist returns it to queue/next/ unchanged and runs the forecast chain's next file instead.
+
 Written first by session 3537 of chain 266 (`queue/done/266-day-25-november-oldlaptop-periodicals-continued.md`) on 14 November 2026 at about 00:50 UTC, as that chain's rules ask, and to be updated by its session 3552 with what chain 266 did not finish. The first queue number free on origin's main and every branch was 268 (267 is the data machine's). It takes sessions 3553 to 3568, sixteen numbers after chain 266's last (3552); none was named by a report, a commit subject or a queue file on origin's main or any branch when this was written. Session 3553 checks each is free again, skips a taken one upward and says so. The `machine:` line names this machine, not the role: portable-laptop, the second code machine, must never take this file. Model: Opus 5.5, high effort. Only one Claude Code window runs on this machine.
 
 ## Rules for every session
