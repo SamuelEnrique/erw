@@ -1,0 +1,37 @@
+# Session 3937 (chain 267; data request row 5 of docs/state/data_requests_large_load.md): Rate Schedule GS-5, the new
+# large-load rate class, as the Virginia State Corporation Commission's Final Order of 25 November 2025 in Case No.
+# PUR-2025-00058 orders it. The SCC's own host is paused for the ERW (docs/methods/vascc_pause.md) and Dominion's site
+# bars this reader, so the order is read in the copy the Florida PSC holds: Exhibit A to White Springs and Nucor's motion
+# for official recognition, Florida PSC Docket No. 20260064-EI, Document No. 05289-2026, filed 18 August 2026. Read by
+# window P4's research pass on 13 November 2026 (docs/research/large_load/utilities_2026-11-13.csv, row dominion-01; every
+# cite matched by its verify_quotes.py), not read again by this session. Pages are the order's own (the Florida copy's PDF
+# pages 30 to 36 hold pp. 22 to 28). STATUS ORDERED: approved, effective 1 January 2027; Dominion's Q3 2026 10-Q says an
+# appeal to the Supreme Court of Virginia, filed March 2026, is pending, and the compliance tariff (due 45 days before 1
+# January 2027) was not read. The collateral release fraction prints as '1714th' in the copy's text layer, an OCR
+# rendering of one-fourteenth; it is quoted as printed and not used as a figure. retrieved_at is the day the pass read it.
+utility: Virginia Electric and Power Company (Dominion Energy Virginia)
+eia_id: 19876
+state: VA
+grid: PJM
+sector: customers with a measured or contracted demand of 25 MW or greater on a contiguous site and a load factor of at least 75 percent
+status: ordered
+schedule: Rate Schedule GS-5
+tariff_sheet: no tariff sheet read; the Final Order's GS-5 terms (pp. 31 to 35)
+effective: 2027-01-01
+commission: Virginia State Corporation Commission
+docket: PUR-2025-00058
+document: Virginia SCC, Final Order of 25 November 2025 in Case No. PUR-2025-00058 (Doc. Con. Cen. No. 251140150), as reproduced in Florida PSC Document No. 05289-2026 (Docket No. 20260064-EI, filed 18 August 2026)
+document_url: https://www.floridapsc.com/pscfiles/library/filings/2026/05289-2026/05289-2026.pdf
+retrieved_at: 2026-11-13T00:00:00Z
+license: public
+notes: "The contract provisions apply to customers taking initial service and signing an ESA on or after 1 January 2027 (p. 32); a load ramp period of up to four years within the term, with a minimum annual ramp of 20 percent (p. 32); contracted capacity may be reduced by up to 20 percent at no cost and by a further 30 percent if another customer assumes it, each on a separate 36-month notice (p. 35); PJM capacity expense excluded from the minimum generation charge (p. 34). Appeal pending (Dominion's Form 10-Q for the quarter ended 30 September 2026)."
+terms:
+  min_bill: {text: "The Commission approves Dominion's proposed minimum demand charges: (1) minimum distribution charge of 85% contracted demand; (2) minimum transmission charge of 85% contracted demand; and (3) minimum generation charge of 60% contracted demand.", page: 33}
+  term: {text: "The contract term shall be 14 years.", page: 32}
+  ramp: {text: "A customer may also include, within the contract term, a load ramp period not to exceed four years (with a minimum annual ramp of 20%).", page: 32}
+  collateral: {text: "The Commission approves the Company's proposed collateral requirement terms, including: (1) $1.5 million/MW; (2) a reduction up to 70% based on the customer's established credit; (3) provisions for third-party guarantees and letters of credit; and (4) releasing 1714th of the collateral requirement each year throughout the contract term.", page: 33}
+  exit_fee: {text: "If the customer ceases operations or otherwise defaults on its agreement during the contract term, the customer shall be required to pay an exit fee covering any outstanding minimum charges over the remaining contract duration (subject to capacity reassignment as addressed below).", page: 32}
+figures:
+  - {variable: min_demand_mw, value: 25, printed: "The GS-5 rate class shall include customers with: (1) a measured or contracted demand of 25 megawatts (\"MW\") or greater on a contiguous site; and (2) a measured or expected load factor of at least 75%", page: 31}
+  - {variable: min_bill_pct, value: 85, printed: "(1) minimum distribution charge of 85% contracted demand; (2) minimum transmission charge of 85% contracted demand", page: 33}
+  - {variable: min_contract_years, value: 14, printed: "The contract term shall be 14 years.", page: 32}

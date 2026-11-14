@@ -7,6 +7,10 @@
 # bundle generation, distribution and transmission, and the generation and summer demand charges are by time of use: only
 # the two components printed as one figure a month for transmission voltage are written. The customer charge is printed
 # per meter per day, a unit the registry does not take, so no fixed_charge is written.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Pacific Gas and Electric Company
 eia_id: 14328
 state: CA
@@ -21,7 +25,7 @@ docket: Advice 7846-E (the rates of Sheet 5); Advice 7202-E (Sheet 1)
 document: PG&E Electric Schedule B-20, "Service to Customers with Maximum Demands of 1000 Kilowatts or More", as filed in PG&E's tariff book
 document_url: https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-20.pdf
 retrieved_at: 2026-11-06T05:27:32Z
-license: public
+license: internal
 terms:
   term: {text: "Assignment of New Customers: If a customer is new and PG&E believes that the customer's maximum demand will exceed 999 kilowatts and that the customer should not be served under a time-of-use agricultural schedule, PG&E will serve the customer's account under Schedule B-20.", page: 1}
 figures:

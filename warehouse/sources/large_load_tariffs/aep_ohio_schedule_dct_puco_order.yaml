@@ -1,0 +1,33 @@
+# Session 3937 (chain 267; data request row 11 of docs/state/data_requests_large_load.md): AEP Ohio's Schedule DCT as the
+# Public Utilities Commission of Ohio's Opinion and Order of 9 July 2025 in Case No. 24-508-EL-ATA adopts it (the 10/23
+# Stipulation, as modified). Read in the public copy the Florida PSC holds: Exhibit D to Walmart's motion, Florida PSC
+# filing 07142-2025 (the order on PDF pages 74 to 171), by window P4's research pass on 13 November 2026
+# (docs/research/large_load/utilities_2026-11-13.csv, row aep-02; every cite matched), not read again by this session.
+# Pages are the Florida copy's PDF pages, as the pass cites them. The tariff book's later sheets (1st Revised, effective 28
+# August 2026, aep_ohio_schedule_dct.yaml) stay held for a license: aepohio.com allows personal use only. So this file
+# carries the order's own terms only (25 MW, the 85 percent minimum, the ramp plus eight years, the 50 percent collateral),
+# not the book's charges. effective is the day the order was entered. retrieved_at is the day the pass read the copy.
+utility: Ohio Power Company (AEP Ohio)
+eia_id: 14006
+state: OH
+grid: PJM
+sector: data centers (new load or expansion greater in the aggregate than 25 MW)
+status: adopted
+schedule: Schedule DCT, Data Center Tariff (as the PUCO's Opinion and Order of 9 July 2025 adopts it)
+tariff_sheet: no tariff sheet; the Opinion and Order's terms of the 10/23 Stipulation, as modified
+effective: 2025-07-09
+commission: Public Utilities Commission of Ohio
+docket: 24-508-EL-ATA
+document: PUCO Opinion and Order, Case No. 24-508-EL-ATA (entered 9 July 2025), as Exhibit D to Walmart's motion in Florida PSC filing 07142-2025
+document_url: https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf
+retrieved_at: 2026-11-13T00:00:00Z
+license: public
+notes: "The Commission's modification lets the customer's financial sponsor meet the collateral as a co-signer (p. 150). Ramp floors of 50, 65, 80 and 90 percent of contract capacity in years 1 to 4 (p. 91). The 1st Revised sheets effective 28 August 2026 (Case 26-113-EL-ATA) are held for a license and not written."
+terms:
+  min_bill: {text: "a) 85-percent of the customer's highest previously established monthly billing demand during the past 11 months; or ... for customers with 25,001 kW to 75,000 kW of total contract capacity: minimum demand is 15,000 kW plus 85 percent of any capacity above 25,000 kW; or with more than 75,000 kW of total contract capacity, minimum demand is 57,500 kW plus 100 percent of any capacity above 75,000 kW. However, the minimum demand cannot exceed 85 percent of the total contract capacity.", page: 92}
+  term: {text: "The initial term of the contract will equal the Load Ramp Period (no greater than four years) plus eight years.", page: 91}
+  collateral: {text: "which would require data center customers who have credit ratings less than A- from S&P, A3 from Moody's to provide a parent guarantee or collateral in the form of a letter of credit or cash equal to 50 percent of the customer's minimum charges under the ESA", page: 91}
+figures:
+  - {variable: min_demand_mw, value: 25, printed: "new load (or expansion of an existing load) greater in the aggregate than 25 MW.", page: 90}
+  - {variable: min_bill_pct, value: 85, printed: "a) 85-percent of the customer's highest previously established monthly billing demand during the past 11 months; or", page: 92}
+  - {variable: min_contract_years, value: 8, printed: "The initial term of the contract will equal the Load Ramp Period (no greater than four years) plus eight years.", page: 91}

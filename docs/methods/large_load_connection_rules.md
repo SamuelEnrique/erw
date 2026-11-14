@@ -57,8 +57,16 @@ says so in its name and its steps say "(proposed)".
 | Project No. 58000, Proposal for Publication (16 TAC 25.252) | PUCT | 2026-07-09 | 3 | proposed rule |
 
 **Waiting.** None of these is written:
-- **PUCT 16 TAC 25.194** (Project No. 58481, adopted on 18 September 2026 according to secondhand sources): the document
-  fetched under the project number is a party's comments, not the rule.
+- **PUCT 16 TAC 25.194** (Project No. 58481): now read in the PUCT's own documents by window P4's research pass (13 November
+  2026, rows `texas-01` and `texas-04` of `docs/research/large_load/utilities_2026-11-13.csv`): the Order Adopting New 16 TAC
+  §25.194, filed 18 September 2026 (item 218), effective 8 October 2026 (the Texas Register's receipt, item 219). Its steps:
+  a $100,000 study fee at the intermediate agreement; the TSP or DSP contacts ERCOT within 60 days after that agreement is
+  executed and funded, and tells the customer within five working days; the SLLIA executed and funded within 60 days after
+  ERCOT's study report; $50,000 per MW of security at each agreement (the SLLIA's the greater of that or the allocated
+  upgrade costs), returned 20 percent at energization and in 20 percent steps after; non-utilized capacity reported within
+  30 days of a schedule missed by 24 months. Not written to this registry: the documents sit on interchange.puc.texas.gov,
+  and the licensing sweep holds the PUCT's tables for its link policy (session 4102) pending the owner's ruling.
+  Project No. 58000 (16 TAC 25.252) is still pending: its latest filing, of 1 October 2026, is comments.
 - **MISO's ERAS guide:** the research file names only a news site's copy.
 - **MISO's large-load definition:** known only secondhand.
 - **FERC's six orders to show cause of 18 June 2026:** known only from law-firm summaries.

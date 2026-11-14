@@ -2,6 +2,10 @@
 # 6 November 2026's Set B row 6 being the lead; saved under runs/license_reads/s3760/ (not in git). The figure is the
 # Transmission Service column ($/4CP kW) of the step effective 4 October 2026 (PDF page 98, the rider's page 3 of 4); the
 # earlier steps (1 August 2026 $3.491759, 1 September 2025 $3.395215 among them) are in the same table.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Oncor Electric Delivery Company LLC
 eia_id: 44372
 state: TX
@@ -16,7 +20,7 @@ docket: PUCT Substantive Rule 25.193 (the step's own docket not printed)
 document: Oncor's Tariff for Retail Delivery Service, Rider TCRF, the step effective 4 October 2026, as published on its tariffs page
 document_url: https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf.coredownload.pdf
 retrieved_at: 2026-11-12T10:58:14Z
-license: public
+license: internal
 notes: "Billed on the customer's 4CP kW: the average of its demand in ERCOT's four coincident peak intervals of June to September."
 figures:
   - {variable: demand_charge_transmission, value: 6.260839, printed: "Oct. 4, 2026 ... Transmission ($/4CP kW) 6.260839", page: 98}

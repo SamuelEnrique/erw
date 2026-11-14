@@ -4,6 +4,13 @@
 # Corporation Commission; the price plan it publishes is the record here, and public. The summer peak (July and August)
 # per kW total, $28.84, has no variable of its own and is in notes; the minimum term is in SRP's Agreement for Electric
 # Service, not read.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
+# Session 3937 (data request row 6): SRP's data center page says its Agreement for Electric Service sets a 15-year minimum
+# term, where this file reads 'a minimum term as set forth therein' (window P4's research pass, row southwest_california-03).
+# Held, as the file is: SRP's terms forbid reproduction without permission.
 utility: Salt River Project Agricultural Improvement and Power District
 eia_id: 16572
 state: AZ
@@ -19,7 +26,7 @@ docket: SRP price process (the Board's approval date not read in an SRP document
 document: SRP's E-67 price plan, effective with the November 2025 billing cycle, with the Transmission Cost Adjustment decrease effective January 2026, as published in its 2025 ratebook
 document_url: https://www.srpnet.com/assets/srpnet/pdf/price-plans/FY26/TCA%20Ratebooks/2025%20Ratebook%20E-67%20with%20TCA.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Per kW charge on the On-Peak Max kW or the Minimum Billing Demand: Summer $16.61 (Transmission $1.98, TCA ($0.16), Ancillary $0.63 and $0.72, Generation $13.44), Summer Peak $28.84, Winter $9.83. Billing and Customer Service $5,479.45 a month plus $287.57 a meter; Facilities Charge customer-specific."
 terms:
   min_bill: {text: "each New Large Load Account will have a minimum billing demand (the kW used for calculating the per kW charge) of 80% of customer's forecasted demand (the \"Minimum Billing Demand\")", page: 2}

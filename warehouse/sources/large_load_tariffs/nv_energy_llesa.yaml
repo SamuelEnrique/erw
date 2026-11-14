@@ -1,26 +1,34 @@
-# Session 3761 (chain 211): read from NV Energy's own fact sheet on the Large Load Electric Service Agreement, the research
-# file of 6 November 2026's Set B row 16 being the lead; saved under runs/license_reads/s3761/ (not in git). STATUS
-# FRAMEWORK: customer-specific agreements each approved by the PUCN, not a published rate schedule; the fact sheet states
-# no figure but the size it typically serves. The trade-press figures for individual agreements (25-year terms, 90 percent
-# minimums) are not from a filing and are not written. The effective date is the fact sheet's month (June 2026), its first
-# day; no PUCN docket was read.
+# Session 3761 (chain 211): first read from NV Energy's own fact sheet on the Large Load Electric Service Agreement (June
+# 2026), status framework, effective the fact sheet's month.
+# Session 3937 (chain 267; data request row 2 of docs/state/data_requests_large_load.md): the form LLESA itself, filed for
+# the PUCN's approval with the companies' 2027-2046 Integrated Resource Plan (Docket 26-05007, filed 7 May 2026, the
+# application dated 6 May; the statutory period runs to 2 December 2026; no order found by 13 November). Read by window
+# P4's research pass on 13 November 2026 (docs/research/large_load/utilities_2026-11-13.csv, row southwest_california-05;
+# every cite matched in the document by its verify_quotes.py), not read again by this session. STATUS PROPOSED: the form is
+# pending; effective is the day the PUCN lists the filing, not a date the form takes effect. The fact sheet's size, "energy
+# needs that typically exceed 25 megawatts", is not printed in the form and is kept in the notes with the fact sheet's
+# address. retrieved_at is the day the pass read the volume (it gives the day, not the hour).
 utility: Nevada Power Company d/b/a NV Energy (and Sierra Pacific Power Company)
 eia_id: 13407
 state: NV
 grid: NEVP
-sector: large loads that require new generation or transmission (typically above 25 MW)
-status: framework
-schedule: Large Load Electric Service Agreement (LLESA)
-tariff_sheet: no tariff sheet; NV Energy's LLESA fact sheet (dated June 2026)
-effective: 2026-06-01
+sector: large loads served under a customer-specific agreement (the form names no size)
+status: proposed
+schedule: Form Large Load Electric Service Agreement (LLESA)
+tariff_sheet: no tariff sheet; Exhibit Wells-Direct-2 (Form LLESA) of the 2027-2046 IRP application, Volume 2 of 41
+effective: 2026-05-07
 commission: Public Utilities Commission of Nevada
-docket: not read (each agreement is filed for approval)
-document: NV Energy, "Large Load Electric Service Agreement" fact sheet, June 2026
-document_url: https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/help/brochures/Large-Load-Electric-Service-Agreement-LLESA-Fact-Sheet.pdf
-retrieved_at: 2026-11-12T11:14:13Z
+docket: PUCN Docket No. 26-05007 (the posted application leaves the number blank, "Docket No. 26-05___")
+document: Joint Application of Nevada Power Company and Sierra Pacific Power Company for approval of their 2027-2046 integrated resource plan, Volume 2 of 41, Exhibit Wells-Direct-2 (Form LLESA), dated 6 May 2026
+document_url: https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/recent-regulatory-filings/2026-irp/NPC-SPPC-Volume-2.pdf
+retrieved_at: 2026-11-13T00:00:00Z
 license: public
-notes: "A proposed framework of customer-specific agreements: long-term commitments for energy usage, minimum usage levels and financial guarantees, each agreement reviewed and approved by the PUCN (fact sheet). No rate, term or minimum share is printed."
+notes: "Proposed: the companies ask an expedited ruling on the form (p. 7); the statutory period runs to 2 December 2026 (p. 6). Termination by the customer after long-term supply begins, on not less than 36 months' notice (p. 149). The June 2026 fact sheet (https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/help/brochures/Large-Load-Electric-Service-Agreement-LLESA-Fact-Sheet.pdf, read 2026-11-12) says the LLESA serves customers whose energy needs typically exceed 25 MW."
 terms:
-  min_bill: {text: "LLESA customers must: Make long-term commitments for energy usage; Pay minimum usage levels; Provide financial guarantees to ensure obligations are met", page: 1}
+  min_bill: {text: "Minimum Demand: at least ninety percent (90%) of the Ramp Demand during each month of the Ramp Period, and at least ninety percent (90%) of the Maximum Demand during each month of the Term from and after the end of the Ramp Period; Minimum Energy: the Maximum Demand multiplied by the Load Factor (80%) multiplied by ninety percent (90%)", page: 143}
+  term: {text: "The Total term of this Agreement is to be a period of not less than ten (10) years after the Effective Date.", page: 149}
+  collateral: {text: "not more than fifteen (15) Business Days, after the PUCN Approval Date, Customer shall provide to NV Energy, and thereafter maintain, financial security for its obligations under this Agreement in an amount equal to the sum of the aggregate applicable Minimum Demand and Minimum Energy multiplied by the ESA Overall Rate for the remaining Term (letter of credit, cash deposit or guaranty, Section 6.1(b))", page: 157}
+  exit_fee: {text: "Termination Payment: the aggregate Minimum Demand multiplied by the ESA Overall Rate, from the Termination Date through the end of the Term, excluding BTER, DEAA, and all other applicable rates; due not more than thirty (30) days after the Termination Date (p. 150)", page: 145}
 figures:
-  - {variable: min_demand_mw, value: 25, printed: "Large customers with energy needs that typically exceed 25 megawatts and require new generation or transmission infrastructure are served under a LLESA.", page: 1}
+  - {variable: min_bill_pct, value: 90, printed: "at least ninety percent (90%) of the Maximum Demand during each month of the Term from and after the end of the Ramp Period", page: 143}
+  - {variable: min_contract_years, value: 10, printed: "The Total term of this Agreement is to be a period of not less than ten (10) years after the Effective Date.", page: 149}

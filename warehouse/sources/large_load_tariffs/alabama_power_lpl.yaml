@@ -3,6 +3,10 @@
 # kW ($4.26 per kVa at transmission), so no demand charge is written in USD/kW-month; the kVA charge and the energy blocks
 # are in notes. Alabama Power has no large-load schedule; LPL is what a large load takes until a contract under Act
 # 2026-610 (session 3761).
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Alabama Power Company
 eia_id: 195
 state: AL
@@ -18,7 +22,7 @@ docket: not printed on the page read
 document: Alabama Power's Rate LPL, Seventeenth Revision, effective with January 2009 billings, kWh charges as adjusted for June 2023 billings
 document_url: https://www.alabamapower.com/content/dam/alabama-power/pdfs-docs/Rates/LPL.pdf
 retrieved_at: 2026-11-12T10:50:15Z
-license: public
+license: internal
 notes: "Capacity charge per kVa of billing capacity: $4.26 (transmission), with secondary and primary higher (page 1); energy 5.7996 cents per kWh and 4.5496 cents per kWh in two blocks (page 1). The effective date is the January 2009 billings of the Seventeenth Revision, written as their first day."
 terms:
   min_bill: {text: "eleven (11) months preceding the billing period or seventy-five percent (75%) of the contracted capacity", page: 2}

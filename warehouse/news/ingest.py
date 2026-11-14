@@ -117,6 +117,13 @@ BACKFILL_TERMS = {
 TRACKING = re.compile(r"^(utm_|fbclid$|gclid$|mc_cid$|mc_eid$|cmpid$|ref$|src$|_hsenc$|_hsmi$)", re.I)
 
 
+def fold_dashes(name):
+    """Session 3940 (request 1 of docs/state/data_requests_licenses.md): an en or em dash in an outlet's name is written as
+    a hyphen, so the name the registry, the citations and the release list copy holds no such dash; 'IEA <en dash>
+    International Energy Agency' (first seen 2026-09-25) becomes the hyphen row the registry already holds."""
+    return (name or "").replace(chr(0x2013), "-").replace(chr(0x2014), "-")
+
+
 def canonical(url):
     parts = urlsplit(url.strip())
     q = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not TRACKING.match(k)]
@@ -127,7 +134,7 @@ def canonical(url):
 def clean(text, limit=None):
     text = html.unescape(re.sub(r"<[^>]+>", " ", text or ""))
     # the ERW writes no em dashes in any file (CLAUDE.md): an outlet's em dash becomes " - "
-    text = text.replace("—", " - ")
+    text = text.replace(chr(0x2014), " - ")
     text = re.sub(r"\s+", " ", text).strip()
     if limit and len(text) > limit:
         text = text[:limit].rsplit(" ", 1)[0] + " ..."
@@ -251,6 +258,7 @@ def parse_feed(content, feed, retrieved):
             outlet = (src.get("title") if hasattr(src, "get") else None) or feed["name"]
             if title.endswith(" - " + outlet):
                 title = title[: -len(" - " + outlet)]
+        outlet = fold_dashes(outlet)
         stories.append({
             "event_date": dt.datetime(*when[:6], tzinfo=dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "source": outlet, "source_url": link, "canonical": canonical(link),
@@ -702,7 +710,14 @@ def main(argv=None):
     # ruling 3: resolve Google News links once per story, new rows and stored rows not yet tried
     df, n_try_new, n_ok_new = resolve_rows(df, log)
     old_res, n_try_old, n_ok_old = resolve_rows(old, log) if len(old) else (old, 0, 0)
-    changed_old = old_res[(old_res["url_resolved"] != old["url_resolved"])] if len(old) else old
+    renamed = pd.Series(False, index=old_res.index)
+    if len(old_res):   # session 3940: a stored row whose outlet name holds an en or em dash is written again, folded
+        folded = old_res["source"].map(fold_dashes)
+        renamed = folded != old_res["source"]
+        old_res = old_res.assign(source=folded)
+        if renamed.any():
+            log(f"  {int(renamed.sum())} stored stories' outlet names folded (an en or em dash to a hyphen)")
+    changed_old = old_res[(old_res["url_resolved"] != old["url_resolved"]) | renamed] if len(old) else old
     write = pd.concat([df, changed_old], ignore_index=True)
     if migrated:  # every stored row gains the new columns
         write = pd.concat([df, old_res], ignore_index=True).drop_duplicates("event_id")
@@ -712,7 +727,7 @@ def main(argv=None):
         log("  no new stories; file unchanged")
         print(f"{NAME}.csv: no new stories")
     # every outlet present in the stored table is registered (not only this run's)
-    outlets = sorted(set(ip.read_series(path, NEWS_COLS)["source"])) if os.path.exists(path) else []
+    outlets = sorted({fold_dashes(o) for o in ip.read_series(path, NEWS_COLS)["source"]}) if os.path.exists(path) else []
     feed_of = {}
     for st in got:
         feed_of.setdefault(st["source"], st)
