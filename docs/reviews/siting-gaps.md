@@ -321,3 +321,8 @@ Read again by session 3931 at about 09:35 UTC, after chain 227's section, on `wi
 - **FERC's order to show cause in EL26-71 (18 June 2026): still not read** (session 3928). www.ferc.gov answers a Cloudflare challenge (HTTP 403, "Just a moment...") to this reader, and the eLibrary copy the CAISO's process page links is a script-built page with no document in its bytes. Neither is worked around.
 - **The CAISO's FERC compliance filing** (due 16 November 2026): not filed when read; waiting.
 - **Still open:** as chain 227's section.
+## State on 14 November 2026, afternoon (chain 278)
+Read again by session 3963 at about 14:28 UTC, after chain 267's section, on `wip/c278-data` (main at `537cd73a2`; chain 272's session was closed by the chain worker after its session 3949, and its rows ride in this chain's branch):
+- **Time to connect, CAISO: the FERC compliance filing is not yet filed.** The large-loads process page (stakeholdercenter.caiso.com, read at 14:27 UTC, its robots file answering 404 first in a call of its own) still lists "Nov 16, 2026 FERC filing" as to come; its bytes are the same as session 3927's read at 09:04 UTC (sha256 `578c69995d9a0388...`). Waiting.
+- **PG&E's Rule 30:** held since session 3947 (pge.com's terms); the CAISO rows' hover carries the Board's decision's 3 steps in its place.
+- **Still open:** as chain 267's section.
