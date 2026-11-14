@@ -1,0 +1,40 @@
+# Session 3927 (chain 267): read from the CAISO Board of Governors' decision on Large Load Enhancements, its General
+# Session of 28 October 2026: the motion (one page, 117,255 bytes) and Management's memorandum of 22 October 2026 that the
+# motion approves (six pages, 188,486 bytes), as the CAISO publishes them on www.caiso.com (robots: "Disallow:
+# /resources/*", "Allow: /", read first in a call of its own; the governance page, about/governance-committees, links
+# both). The lead was chain 227's note: the Board's decision named on page 70 of the draft final proposal of 24 September
+# 2026 (caiso_large_load_enhancements_draft_final_proposal.yaml) and not read. Kept under runs/license_reads/s3927/ (not in
+# git), listed in runs/c267/s3927/probe.csv. The CAISO's site terms (license_verdicts.csv, CAISO) allow use with the CAISO
+# credited and its notices kept. DECIDED BY THE BOARD (vote 5-0); the FERC filing it authorizes was not read (the response
+# to the Order to Show Cause in EL26-71, due 16 November 2026 by chain 227's note). The memorandum keeps the draft final
+# proposal's 50 MW definition and its monthly review within the PTOs' 60 to 90 days; a range and a frequency are written
+# with their words and no duration, as the method's rule for Pennsylvania's model tariff (session 3863) writes them. Pages
+# are the PDF's.
+body: California Independent System Operator (CAISO)
+grid: CAISO
+utility: ""
+eia_id: ""
+state: CA
+document: CAISO Board of Governors, Decision on Large Load Enhancements, motion of 28 October 2026 approving Management's memorandum of 22 October 2026 (decided by the Board; FERC Docket EL26-71, the filing not read)
+document_date: 2026-10-28
+document_url: https://www.caiso.com/documents/decision-on-large-load-enhancements-motion-oct-28-2026.pdf
+retrieved_at: 2026-11-14T09:04:27Z
+license: public
+steps:
+  - section: "Motion"
+    page: 1
+    step: the Board of Governors approves the large load enhancements and authorizes the filings with FERC (vote 5-0)
+    party: CAISO
+    date: 2026-10-28
+    printed: "Moved, that the ISO Board of Governors approves the proposed large loads enhancements, as described in the memorandum dated October 22, 2026"
+  - section: "Memorandum of 22 October 2026, Discussion and Analysis, the definition"
+    page: 3
+    step: a large load is defined for the CAISO tariff as approved by the Board
+    party: CAISO
+    mw: 50
+    printed: "Management first proposes to define large loads as end users behind points of interconnection with peak load of 50 MW or greater and interconnecting to the transmission system, namely the ISO controlled grid."
+  - section: "Memorandum of 22 October 2026, Discussion and Analysis, the concurrence review"
+    page: 3
+    step: the CAISO reviews out-of-cycle transmission additions or upgrades for large loads each month, within the PTOs' study period, as approved by the Board
+    party: CAISO
+    printed: "the ISO will review any specific out-of-cycle transmission additions or upgrades associated with large loads on a monthly basis in order to accommodate FERC's 60-90 day process requirement for participating transmission owners' load interconnection studies."
