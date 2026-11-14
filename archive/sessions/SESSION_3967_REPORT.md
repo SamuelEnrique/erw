@@ -25,14 +25,14 @@ Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 Novem
 
 - **Both fixes ride in gate b** (`wip/c278-land-b`, started 16:04 UTC).
 - **A second daily run today:** dispatched once gate b lands and the data machine's own run (17:00 UTC) has let go of the data lock, which both share; otherwise tomorrow's 14:00 run is the first with the fixes.
-- **The data machine's run of 14 November** (17:00 UTC): read below (added at 18:45 UTC).
+- **The data machine's run of 14 November** (17:00 UTC): read below (added at 18:40 UTC).
 
 ## The data machine's run of 14 November (17:00 to 18:34 UTC)
 
 - **Every step ok or expected** (`runs/data_machine_status.txt`) but three: `dm_carb_lcfs` skipped (CARB 61 days old), `dm_live_set` skipped ("the database gate is closed (8.95 s, 1000 rows of iso_dam_hub_prices): nothing loaded"), `dm_test_battery_dispatch` failed (test 178, waiting on its ruling, put back as committed). `dm_test_replication` passed: gate b's replication files hold.
 - **`dm_commit` refused** at 18:34 by the push guard: "2 failing tests: test_session5074.Datacenter.test_the_hourly_window_as_the_do_file_counts_it, test_session5502.TheExpectedValues.test_each_quoted_figure_is_the_page_s". The commit `a7a17d360` (253 files) went to `wip/red-dm-2026-11-14`; main untouched.
 - **Why:** the datacenter refresh moved its figures. The carbon file holds 10,160 hourly rows, but prices and intensity are both held in only 10,094 of them (the page's window was 10,151): the carbon tables run past the prices' last hour, since no daily commit has landed since 12 November. Test 5074 holds the two counts equal; test 5502 holds the signature pack's quoted figures (written 14 November) to `replication/datacenter/page_figures.json`, so any daily move refuses the commit.
-- **Fault 3, fixed:** the replication group (`warehouse/run_data_machine.sh`, session 3206's rule: a refresh that moves a recorded figure is put back whole) did not run tests 5074 and 5502, which landed today, so the guard refused the whole commit, every other group's files with it. They join the group (5074's Datacenter and Analysis classes, 5502); test 3206 follows (3 passed; the three joined: 12 tests OK). Gate c started 18:41 UTC.
+- **Fault 3, fixed:** the replication group (`warehouse/run_data_machine.sh`, session 3206's rule: a refresh that moves a recorded figure is put back whole) did not run tests 5074 and 5502, which landed today, so the guard refused the whole commit, every other group's files with it. They join the group (5074's Datacenter and Analysis classes, 5502); test 3206 follows (3 passed; the three joined: 12 tests OK). Gate c started 18:40 UTC.
 - **The daily re-run** dispatched at 18:36 UTC (`once=1`, HTTP 204) once the data machine let go of the lock.
 
 ## Decisions made without you
