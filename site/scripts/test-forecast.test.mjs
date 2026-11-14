@@ -513,9 +513,9 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("land_based_wind", "ga", {}, 20), 150e6 * 0.15 * 0.4 * 24.712 / 1000, 1e-12, "Georgia: the residual");
   // Tennessee: 55 percent; solar valued at 12.5 percent of installed cost
   near(T("utility_pv", "tn", { levy: 50 }), 150e6 * 0.125 * 0.55 * 0.05);
-  near(T("land_based_wind", "tn", { levy: 50 }), 150e6 * 0.55 * 0.05);
+  near(T("land_based_wind", "tn", { levy: 50 }), 150e6 * 0.333333 * 0.55 * 0.05, 1e-6, "Tennessee wind: one third (session 6003; at cost before)");
   // New Mexico a third; South Carolina 10.5 percent plus half a mill per kWh; Texas market value; Ohio 7 percent
-  near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.3333 * 0.03);
+  near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.98 * 0.3333 * 0.03, 1e-12, "New Mexico solar: Table 20 (session 6003; at cost before)");
   near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.105 * 0.3 + MWH * 0.5);
   near(T("land_based_wind", "tx", { levy: 15 }), 150e6 * 0.015);
   near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.983 * 0.07 * 0.07);
@@ -627,4 +627,29 @@ test("session 6002: Kentucky's wind turbines are manufacturing machinery (Form 6
   // West Virginia solar: B&O on 8 percent of capacity plus property at cost, 60 percent, levy 19.2
   near(T("utility_pv", "wv", 5), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
   assert.match(P.property.states.wv.rules.find((r) => r.id === "wv_property").tip, /110CSR1M/);
+});
+
+test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's one third, Texas solar's 10-year life (Harris CAD's schedule)", () => {
+  const b = (t, s, o = {}) => ({ ...F.defaults(P, t, s), mw: 100, capex: 1500, start: 2027, build: 1, cf: 0.3, ...o });
+  const T = (t, s, i, o) => F.propertyTax(P, b(t, s, o), i).tax;
+  // New Mexico, a third of value, levy 30 mills: Table 20 solar 98 percent at age 1, 22 at age 20, the 20 percent floor at 21
+  near(T("utility_pv", "nm", 0, { levy: 30 }), 150e6 * 0.98 * 0.3333 * 0.03, 1e-12, "150,000,000 x 0.98 x 0.3333 x 0.03 = 1,469,853");
+  near(T("utility_pv", "nm", 19, { levy: 30 }), 150e6 * 0.22 * 0.3333 * 0.03);
+  near(T("utility_pv", "nm", 25, { levy: 30 }), 150e6 * 0.20 * 0.3333 * 0.03, 1e-12, "the floor");
+  // wind Table 25: 100 - 80 x (age - 0.5) / 25; age 10: 69.6
+  near(T("land_based_wind", "nm", 9, { levy: 30 }), 150e6 * 0.696 * 0.3333 * 0.03);
+  // gas (combined cycle, class 49.13) and geothermal, Table 28: age 1 98.6, age 28 21.4, then 20
+  near(T("natural_gas", "nm", 0, { levy: 30 }), 150e6 * 0.986 * 0.3333 * 0.03);
+  near(T("geothermal", "nm", 27, { levy: 30 }), 150e6 * 0.214 * 0.3333 * 0.03);
+  near(T("geothermal", "nm", 28, { levy: 30 }), 150e6 * 0.20 * 0.3333 * 0.03, 1e-12, "the floor");
+  // Tennessee wind: a third of installed cost, 55 percent, levy 50 mills, every year; gas at cost
+  near(T("land_based_wind", "tn", 0, { levy: 50 }), 150e6 * 0.333333 * 0.55 * 0.05, 1e-6, "= 1,374,999");
+  near(T("land_based_wind", "tn", 15, { levy: 50 }), 150e6 * 0.333333 * 0.55 * 0.05, 1e-6);
+  near(T("natural_gas", "tn", 15, { levy: 50 }), 150e6 * 0.55 * 0.05, 1e-12, "gas: at cost");
+  // Texas solar, levy 15 mills: Harris CAD's 10-year Solar/Ind column, 92 percent at age 1, 21 at age 10, 20 from age 11
+  near(T("utility_pv", "tx", 0, { levy: 15 }), 150e6 * 0.92 * 0.015, 1e-12, "150,000,000 x 0.92 x 0.015 = 2,070,000");
+  near(T("utility_pv", "tx", 9, { levy: 15 }), 150e6 * 0.21 * 0.015);
+  near(T("utility_pv", "tx", 30, { levy: 15 }), 150e6 * 0.20 * 0.015, 1e-12, "the 23.26 floor");
+  near(T("land_based_wind", "tx", 10, { levy: 15 }), 150e6 * 0.015, 1e-12, "wind: at cost, no schedule published");
+  for (const s of ["nm", "tn", "tx"]) for (const r of P.property.states[s].rules) for (const k of ["cite", "cite2", "cite3"]) if (r[k]) assert.ok(P.property.sources[r[k]], `${s} ${r.id} ${k}`);
 });
