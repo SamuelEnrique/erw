@@ -15,7 +15,7 @@ Energy Research Warehouse (ERW). The owner's four classes for the chat's evaluat
                      whatever the grade: the rule the chat stands on is that it never states a number it did not fetch
   wrong              everything else: graded not right, or ended in an error
 
-    python warehouse/chat/eval/class_scores.py --set platform --sessions 6101,6102 [--json]
+    python warehouse/chat/eval/class_scores.py --set platform --sessions 6101,6102 [--json] [--python-loop]
 
 A question asked more than once in the sessions named counts once, its newest answer standing (the later session's).
 A draft sent back once and answered right is counted where its answer falls, and listed under "sent back once".
@@ -26,7 +26,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CLASSES = ("correct", "correctly refused", "unsupported number", "wrong")
-REFUSAL_KINDS = ("hold", "pause", "not_live", "outside", "gap")
+REFUSAL_KINDS = ("hold", "pause", "not_live", "outside", "gap", "unstated", "not_readable")   # session 6113: the new tables' two kinds
 
 
 def read_json(path):
@@ -59,12 +59,13 @@ def class_of(q, answer, ok, check=None):
     return "correctly refused" if key_refuses(q) else "correct"
 
 
-def newest(which, sessions, here=HERE):
-    """{id: (session, record, grade row)} over the sessions named, the later session's answer standing."""
+def newest(which, sessions, here=HERE, loop="site"):
+    """{id: (session, record, grade row)} over the sessions named, the later session's answer standing. `loop`: site (the
+    runs of eval_site.py) or loop (session 6113: the Python loop's, eval_loop.py)."""
     out = {}
     for s in sorted(sessions, key=int):
-        run = os.path.join(here, f"eval_s{s}_site_{which}_run.json")
-        grades = os.path.join(here, f"eval_s{s}_site_{which}_grades.json")
+        run = os.path.join(here, f"eval_s{s}_{loop}_{which}_run.json")
+        grades = os.path.join(here, f"eval_s{s}_{loop}_{which}_grades.json")
         if not os.path.exists(run):
             continue
         g = {r["id"]: r for r in read_json(grades)["questions"]} if os.path.exists(grades) else {}
@@ -112,7 +113,7 @@ def main(argv):
     import eval_s1113 as E   # the sets and their questions
     import replay            # today's checks on a stored record
     qs = E.questions(E.SETS[which]["questions"])
-    rows, counts = score(qs, newest(which, sessions), replay.check)
+    rows, counts = score(qs, newest(which, sessions, loop="loop" if "--python-loop" in argv else "site"), replay.check)
     if "--json" in argv:
         print(json.dumps({"set": which, "sessions": sessions, "in_set": len(qs), "asked": len(rows), "counts": counts, "rows": rows}, indent=1))
     else:

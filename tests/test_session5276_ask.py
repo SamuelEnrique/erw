@@ -95,11 +95,12 @@ class TheRefusalsWords(unittest.TestCase):
 
     def test_only_the_general_chats_refusals_and_only_refusals(self):
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertIn("if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };", loop)
+        # session 6109 (chain 280): the hold's words go in first when a table was refused for a license; the refusal's words as before
+        self.assertIn("if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(withHoldWords(draft.answer, heldTables(refusedWholeWords))) };", loop)
         self.assertIn("const answer = plain(nodash(draft.answer));", loop)       # session 168's line, as its own test holds it
         py = src("warehouse", "chat", "ask.py")
         self.assertIn('if draft.get("not_in_warehouse") and type(self) is Asker:', py)
-        self.assertIn('final = dict(draft, answer=with_refusal_words(draft["answer"]))', py)
+        self.assertIn('final = dict(draft, answer=with_refusal_words(with_hold_words(draft["answer"], held_tables(refused_whole_words))))', py)
 
     def test_the_two_stored_refusals_without_them_would_have_had_them(self):
         found = []

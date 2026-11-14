@@ -313,10 +313,45 @@ def not_live_words(table):
             f"If none does, answer with not_in_warehouse true and say that {table} is on Redivis and not in the live set this chat reads")
 
 
+# Session 6113 (chain 280), the words of site/lib/chat/refused.ts notListedWords and NOT_LISTED_NOTE: a table of the
+# ERW's record that the live catalogue does not list (its license is not settled or internal, or it has landed and is
+# not loaded yet). Asked about the week's new tables on 14 November 2026 the site's chat refused rightly and three of six
+# answers took all 12 tool calls looking; one went on from a neighbour table. A call that names such a table is told
+# what it is, in the words of a table not in the live set, so the loop counts it refused whole.
+NOT_LISTED_NOTE = ("A table the briefing names and this list does not is a table of the record this site cannot read: describe_table says why. "
+                   "A question about such a table is answered 'not in the warehouse' with the table named, never from another table.")
+_verdicts = None
+
+
+def verdict_of(table):
+    """The license record's word for a table of the record (site/data/table_verdicts.json): public, unsettled or
+    internal; None for a name the record does not hold."""
+    global _verdicts
+    if _verdicts is None:
+        try:
+            with open(os.path.join(ROOT, "site", "data", "table_verdicts.json"), encoding="utf-8") as f:
+                _verdicts = json.load(f)
+        except OSError:
+            _verdicts = {}
+    v = _verdicts.get(table)
+    return v[0] if isinstance(v, list) and v else None
+
+
+def not_listed_words(table, verdict):
+    why = ("it is a table of the ERW's record that is not loaded here" if verdict == "public"
+           else "it is a table of the ERW's record whose license is not settled (license needed), so the ERW does not publish it")
+    return (f"table {table} is not in this site's live set: {why}. No tool here can read it, and no figure of it may be stated. "
+            "Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse, "
+            f"and never answer for {table} from a table that holds something else. If none does, answer with not_in_warehouse true and say that "
+            f"{table} is not in the live set this chat reads")
+
+
 def _table_read(name):
     _ready()
     if name not in _frames:
         if name not in set(_coverage()["table"]):
+            if live_only() and verdict_of(name):   # session 6113: a table of the record the live catalogue does not list
+                raise ToolError(not_listed_words(name, verdict_of(name)))
             raise ToolError(f"no table named {name!r}; call list_tables for the table names")
         if SCOPE is not None and name not in SCOPE["tables"]:
             raise ToolError(f"{name} does not carry {SCOPE['iso']}; this chat reads only {SCOPE['iso']}'s tables (list_tables)")
@@ -439,7 +474,8 @@ def list_tables(sector=None, license=None, iso=None):
     return {"n_tables": len(rows), "tables": rows,
             "backend": v.get("backend"),
             "note": ("Only public tables may be shown publicly; internal tables are licensed for "
-                     "internal use only. first and last are interval starts, UTC.")}
+                     "internal use only. first and last are interval starts, UTC."
+                     + ((" " + NOT_LISTED_NOTE) if live_only() else ""))}   # session 6113
 
 
 # ------------------------------------------------------------- describe_table

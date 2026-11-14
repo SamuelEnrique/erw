@@ -125,3 +125,32 @@ export function withHoldWords(answer: string, held: string[]): string {
   if (!held.length || (answer ?? "").toLowerCase().includes(HOLD_WORDS)) return answer;
   return `${held.join(", ")}: ${HOLD_WORDS}, so no figure of ${held.length === 1 ? "it" : "them"} is given here. ${(answer ?? "").trim()}`.trim();
 }
+
+// Session 6109 (chain 280): an answer that stops in the middle of a sentence. The lab's l02 of 14 November 2026 was
+// refused energy_deals, a table held for a license, and the answer that reached the reader was "This is not in the
+// warehouse. The energy_deals table, which holds power purchase agreements, is held for a license (": the model closed
+// the answer's string where it meant to quote the hold's words. One of the 888 stored answers ends so. A draft whose
+// answer ends on an opening bracket, a comma, a colon or a semicolon is sent back once (ask.py cut_short, CUT_SHORT).
+export const CUT_SHORT = "an answer that stops in the middle of a sentence: write the whole answer again, as plain sentences, with no double quotation marks inside it";
+/** Whether an answer stops in the middle of a sentence. An empty answer is another check's. */
+export function cutShort(answer: string): boolean {
+  const t = (answer ?? "").trimEnd();
+  return t.length > 0 && "([{,:;".includes(t[t.length - 1]);
+}
+
+// Session 6113 (chain 280): a table of the ERW's record that the site's catalogue does not list. The catalogue lists the
+// tables a visitor may hear of; a table whose license is not settled or internal is never in it, and a table that has
+// just landed is not in it until the next load. The briefing names every table of the record. Asked on 14 November 2026
+// about the week's new tables (utility_large_load_rules, forecast_tool_parameters), the chat refused rightly, six of six,
+// and three of the six took all 12 tool calls looking; one of them (ru07) went on from a neighbour table: "No large-load
+// rule has the status denied", said of a table of statements, not of rules. The tools answered a call that named such a
+// table "no public table named ...; call list_tables". They now say what it is, in the words of a table not in the
+// live set (so the loop counts it refused whole, and does not ask it again), and the list's note says the same.
+// As warehouse/chat/tools.py not_listed_words and NOT_LISTED_NOTE.
+export const NOT_LISTED_NOTE = "A table the briefing names and this list does not is a table of the record this site cannot read: describe_table says why. A question about such a table is answered 'not in the warehouse' with the table named, never from another table.";
+/** The refusal of a table of the record the catalogue does not list. `verdict`: the license record's word for the table
+ * (site/data/table_verdicts.json): public, or anything else (unsettled, internal). */
+export function notListedWords(table: string, verdict: string): string {
+  const why = verdict === "public" ? "it is a table of the ERW's record that is not loaded here" : "it is a table of the ERW's record whose license is not settled (license needed), so the ERW does not publish it";
+  return `table ${table} is not in this site's live set: ${why}. No tool here can read it, and no figure of it may be stated. Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse, and never answer for ${table} from a table that holds something else. If none does, answer with not_in_warehouse true and say that ${table} is not in the live set this chat reads`;
+}

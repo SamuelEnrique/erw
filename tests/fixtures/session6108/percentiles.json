@@ -1,0 +1,22 @@
+{
+ "_about": "Session 6108 (chain 280): answers that name a percentile in words, checked by both loops' number check (warehouse/chat/ask.py unverified, site/lib/chat/ask.ts unverified) against the result the investor's iv14 was written from on 14 November 2026 (interconnection_durations_summary, lbnl_durations:caiso, the 2024 rows; the figures are the live set's of that day). untraced is what the check must return. sources_unnamed holds the same figures under names that name no percentile.",
+ "sources": [
+  "What was the median time from interconnection request to commercial operation for CAISO projects that reached operation in 2024, in months?",
+  "{\"aggregation\": \"latest\", \"filters\": {\"entity\": \"lbnl_durations:caiso\", \"start\": \"2024-01-01\", \"end\": \"2025-01-01\"}, \"rows_matched\": 7, \"variables\": [\"median_months\", \"median_months_5y\", \"mw\", \"p25_months\", \"p75_months\", \"projects\", \"projects_5y\"], \"result\": [{\"variable\": \"median_months\", \"value\": 95, \"unit\": \"month\"}, {\"variable\": \"median_months_5y\", \"value\": 92.8, \"unit\": \"month\"}, {\"variable\": \"mw\", \"value\": 2900.83, \"unit\": \"MW\"}, {\"variable\": \"p25_months\", \"value\": 86.25, \"unit\": \"month\"}, {\"variable\": \"p75_months\", \"value\": 103.7, \"unit\": \"month\"}, {\"variable\": \"projects\", \"value\": 15, \"unit\": \"count\"}, {\"variable\": \"projects_5y\", \"value\": 63, \"unit\": \"count\"}], \"table\": \"interconnection_durations_summary\"}"
+ ],
+ "sources_unnamed": [
+  "{\"result\": [{\"variable\": \"median_months\", \"value\": 95}, {\"variable\": \"low_months\", \"value\": 86.25}, {\"variable\": \"high_months\", \"value\": 103.7}, {\"variable\": \"projects\", \"value\": 15}]}"
+ ],
+ "answers": [
+  {"id": "iv14_as_drafted", "answer": "The median was 95 months for the 15 CAISO projects that reached operation in 2024 (interconnection_durations_summary). The middle half ran from 86.25 months (25th percentile) to 103.7 months (75th percentile).", "untraced": []},
+  {"id": "a_pair", "answer": "The median was 95 months; the 25th and 75th percentiles were 86.25 and 103.7 months.", "untraced": []},
+  {"id": "from_to", "answer": "From the 25th to the 75th percentile the wait ran 86.25 to 103.7 months, around a median of 95.", "untraced": []},
+  {"id": "a_percentile_no_result_names", "answer": "The median was 95 months and the 90th percentile 103.7 months.", "untraced": ["90"]},
+  {"id": "a_pair_with_one_unnamed", "_note": "a phrase is taken out only when every ordinal in it is named by a tool: here neither is", "answer": "The 25th and 90th percentiles were 86.25 and 103.7 months.", "untraced": ["25", "90"]},
+  {"id": "another_75", "answer": "The 75th percentile was 103.7 months, across 75 projects.", "untraced": ["75"]},
+  {"id": "no_percentile_named_by_the_tool", "named": false, "answer": "The median was 95 months. The middle half ran from 86.25 months (25th percentile) to 103.7 months (75th percentile).", "untraced": ["25", "75"]},
+  {"id": "a_figure_in_no_result", "answer": "The median was 97 months (25th percentile 86.25).", "untraced": ["97"]}
+ ],
+ "phrase": "from the 25th to the 75th percentile, and the 75th percentile of 75 projects",
+ "phrase_stripped": "from the  percentile, and the  percentile of 75 projects"
+}

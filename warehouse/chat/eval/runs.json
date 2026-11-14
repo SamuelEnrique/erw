@@ -728,6 +728,118 @@
     "what": "questions of the platform set asked in session 6107 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6107's report"
    }
+  },
+  {
+   "file": "eval_s6108_site_investor_run.json",
+   "grades": "eval_s6108_site_investor_grades.json",
+   "right": "ok",
+   "label": "session 6108, the site's loop, the investor set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "questions of the investor set asked in session 6108 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6108's report"
+   }
+  },
+  {
+   "file": "eval_s6109_site_s2224_run.json",
+   "grades": "eval_s6109_site_s2224_grades.json",
+   "right": "ok",
+   "label": "session 6109, the site's loop, the s2224 set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_s2224.yaml`",
+    "what": "questions of the s2224 set asked in session 6109 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6109's report"
+   }
+  },
+  {
+   "file": "eval_s6110_site_investor_run.json",
+   "grades": "eval_s6110_site_investor_grades.json",
+   "right": "ok",
+   "label": "session 6110, the site's loop, the investor set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "questions of the investor set asked in session 6110 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6110's report"
+   }
+  },
+  {
+   "file": "eval_s6110_site_s2224_run.json",
+   "grades": "eval_s6110_site_s2224_grades.json",
+   "right": "ok",
+   "label": "session 6110, the site's loop, the s2224 set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_s2224.yaml`",
+    "what": "questions of the s2224 set asked in session 6110 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6110's report"
+   }
+  },
+  {
+   "file": "eval_s6110_site_platform_run.json",
+   "grades": "eval_s6110_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 6110, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 6110 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6110's report"
+   }
+  },
+  {
+   "file": "eval_s6113_site_newtables_live_run.json",
+   "grades": "eval_s6113_site_newtables_live_grades.json",
+   "right": "ok",
+   "label": "session 6113, the site's loop, the newtables_live set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables_live.yaml`",
+    "what": "questions of the newtables_live set asked in session 6113 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6113's report"
+   }
+  },
+  {
+   "file": "eval_s6111_loop_newtables_run.json",
+   "grades": "eval_s6111_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6111, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "questions drawn from the tables that landed in the week of 9 November 2026, the first 28 (the forecast tool's parameters and the first rules), asked through the Python loop over the tables' own files (`eval_loop.py --data-dir`: the live set does not hold them yet); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6100_6129_REPORT.md`"
+   }
+  },
+  {
+   "file": "eval_s6112_loop_newtables_run.json",
+   "grades": "eval_s6112_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6112, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "questions drawn from the tables that landed in the week of 9 November 2026, the other 30 (rules, changes, laws, counterparties, reserve margins), asked through the Python loop over the tables' own files (`eval_loop.py --data-dir`: the live set does not hold them yet); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6100_6129_REPORT.md`"
+   }
   }
  ],
  "left_out": {

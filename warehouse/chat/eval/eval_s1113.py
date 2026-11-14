@@ -90,7 +90,11 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # session 6111 (chain 280): the tables that landed in the week of 9 November 2026 (scripts/ask_eval/newtables_questions.py
         # computes its keys from the tables' own files: the live set does not hold them yet); its runs are named by session
         "newtables": {"questions": os.path.join(HERE, "questions_newtables.yaml"), "run": os.path.join(HERE, "eval_s6111_loop_newtables_run.json"),
-                      "grades": os.path.join(HERE, "eval_s6111_loop_newtables_grades.json")}}
+                      "grades": os.path.join(HERE, "eval_s6111_loop_newtables_grades.json")},
+        # the same questions keyed as a visitor's chat can answer them on the day (a table out of its reach: a refusal, and
+        # never the figure the table holds), written by the same builder with --live; asked through the site's loop
+        "newtables_live": {"questions": os.path.join(HERE, "questions_newtables_live.yaml"), "run": os.path.join(HERE, "eval_s6112_site_newtables_live_run.json"),
+                           "grades": os.path.join(HERE, "eval_s6112_site_newtables_live_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -310,8 +314,7 @@ def table_held(table):
     if chat not in sys.path:
         sys.path.insert(0, chat)
     import license_hold
-    whole = license_hold.license_needed(table) and not license_hold.by_grid(table) and not license_hold.by_row(table)
-    return bool(OWN_TABLE.match(table)) or whole
+    return bool(OWN_TABLE.match(table)) or license_hold.held_whole(table) or bool(license_hold.own_grid(table))
 
 
 def hold_answer(q, a, rules=()):
@@ -344,6 +347,9 @@ def partial_grade(q, a):
     return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "partial": said, "ok": said}
 
 
+IDENTIFIERS = re.compile(r"\b(?:(?:[A-Z]\.){1,3}|[A-Z]{1,3}|Act|Public Act|Chapter|Docket|No\.|Order|Project|Case)\s?(?:No\.\s?)?\d[\d-]*(?:-[A-Z]+)?\b")
+
+
 def unstated_grade(q, a):
     """Session 6111: the grade of a key of kind unstated (grade_set). `text` is whether the answer carries one of the
     words that say the thing is not stated (the key's text entry, its parts joined by "|"); `no_figure` as a refusal's
@@ -351,8 +357,37 @@ def unstated_grade(q, a):
     number followed by MW, GW or kW is a figure whatever its size."""
     text = a.get("answer") or ""
     said = any(p.strip().lower() in text.lower() for t in q["text"] for p in t.split("|") if p.strip())
-    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in G.numbers(text)) or bool(re.search(r"\d\s*(MW|GW|kW)\b", text))
+    # session 6113: a bill's, an act's or a docket's number is a name (H.F. 2690, SB 270, Act 2026-610, Docket 25-055-P).
+    # lw09's right answer of 14 November 2026 named Iowa's bill and was graded as stating a figure
+    plain = IDENTIFIERS.sub(" ", text)
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in G.numbers(plain)) or bool(re.search(r"\d\s*(MW|GW|kW)\b", plain))
     return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "no_figure": not figure, "ok": said and not figure}
+
+
+MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
+DATES = re.compile(rf"\b\d{{4}}-\d{{2}}-\d{{2}}\b|\b\d{{1,2}} (?:{MONTHS})(?: \d{{4}})?\b|\b(?:{MONTHS}) \d{{1,2}}(?:, \d{{4}})?\b|\b(?:{MONTHS}) \d{{4}}\b")
+
+
+def not_readable_grade(q, a):
+    """Session 6111: the grade of a key of kind not_readable (questions_newtables_live.yaml): the table holds the answer
+    and a visitor's chat cannot read the table today (not in the live set, or its license not settled). Right when the
+    answer refuses in one of the key's words, states no figure as a refusal's is graded, and does not state the figure
+    the table holds (the key's `withheld`, looked for apart from the answer's dates: a chat that knew the figure from
+    anywhere but a tool result would be stating a number it did not fetch)."""
+    text = a.get("answer") or ""
+    said = any(p.strip().lower() in text.lower() for t in q["text"] for p in t.split("|") if p.strip())
+    written = G.numbers(text)
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in written)
+    apart = G.numbers(DATES.sub(" ", text))
+    def listed(v):   # the set's loader keeps a field it does not know as the YAML's own text
+        return json.loads(v) if isinstance(v, str) else (v or [])
+    withheld = [float(x) for x in listed(q.get("withheld"))]
+    leaked = any(G.matches(e, apart, q.get("tolerance") or 0.01) for e in withheld)
+    words = [w for w in listed(q.get("withheld_text")) if w]
+    leaked = leaked or any(any(p.strip().lower() in text.lower() for p in w.split("|") if p.strip()) for w in words)
+    refused = bool(a.get("not_in_warehouse")) or a.get("status") in ("not_in_warehouse", "refused_unverified")
+    return {"number": None, "text": said, "table": None, "cited": None, "refusal": refused, "no_figure": not figure, "not_stated": not leaked,
+            "ok": said and refused and not figure and not leaked}
 
 
 def first_sentence(text):
@@ -390,6 +425,10 @@ def grade_set(which, rules=()):
             # state the thing ("not published"). Right when the answer says so in one of the key's words and gives no
             # figure, whether it is written as a refusal or as an answer
             g = unstated_grade(q, a)
+        if q.get("kind") == "not_readable":
+            # session 6111 (questions_newtables_live.yaml): what a visitor's chat must answer while the table is out of its
+            # reach: a refusal in the key's words, no figure, and never the figure the table holds
+            g = not_readable_grade(q, a)
         if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a, rules):   # the set's loader keeps the YAML's word
             g["hold_answer"] = True
             g["ok"] = True

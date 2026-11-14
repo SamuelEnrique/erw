@@ -153,8 +153,35 @@ def list_markers(text):
     return {float(m.group(1)) for m in re.finditer(r"(?m)^\s*(\d+)[.)]\s", text)}
 
 
+# Session 6108 (chain 280): a percentile's ordinal is the name of a statistic. The investor's twenty asked through the
+# site's loop on 14 November 2026: iv14 (the median months from request to operation, CAISO, 2024) had its figure, 95
+# months, at the third call, and both drafts added the spread in the table's own variables, p25_months and p75_months,
+# written "the 25th and 75th percentile". The check read 75 as a number in no tool result (a variable's name is not a
+# number: p75_months), sent the draft back twice, and the reader got the fixed refusal where the warehouse held the
+# answer. Three stored answers name a percentile so and passed, because 25 or 75 happened to stand in a result. An
+# ordinal written before "percentile" is the name of that percentile when a tool result or a tool argument names it
+# (p25, p75_months): it is then no figure of the answer. Any other 75 in the answer is checked as before.
+# The same in site/lib/chat/ask.ts (withoutPercentileNames).
+PCT_NAME = re.compile(r"(?<![A-Za-z\d])p(\d{1,2})(?![\d.])")
+_ORD = r"\d{1,2}(?:st|nd|rd|th)"
+PCT_PHRASE = re.compile(rf"(?<![\w.]){_ORD}(?:\s*(?:,|and|to|or)\s*(?:the\s+)?{_ORD})*(?=[\s-]+percentiles?\b)", re.I)
+
+
+def without_percentile_names(answer, sources):
+    """The answer without the ordinals that name a percentile a source names (p25_months: "25th percentile"). A phrase is
+    taken out only when every ordinal in it is named so; the word percentile stays."""
+    named = {int(m.group(1)) for s in sources for m in PCT_NAME.finditer(s)}
+    if not named:
+        return answer
+
+    def repl(m):
+        return "" if all(int(n) in named for n in re.findall(r"\d{1,2}", m.group(0))) else m.group(0)
+    return PCT_PHRASE.sub(repl, answer)
+
+
 def unverified(answer, sources):
     """Numbers in the answer that no source text contains at the answer's precision."""
+    answer = without_percentile_names(answer, sources)   # session 6108
     pool = []
     for s in sources:
         pool.extend(v for v, _ in numbers(s))
@@ -416,6 +443,27 @@ def with_hold_words(answer, held):
     if not held or HOLD_WORDS in (answer or "").lower():
         return answer
     return f"{', '.join(held)}: {HOLD_WORDS}, so no figure of {'it' if len(held) == 1 else 'them'} is given here. {(answer or '').strip()}".strip()
+
+
+# Session 6109 (chain 280): an answer that stops in the middle of a sentence. The lab's twenty asked through the site's loop
+# on 14 November 2026: l02 (the largest power purchase agreement of 2026) was refused energy_deals, a table held for a
+# license, and the answer that reached the reader was "This is not in the warehouse. The energy_deals table, which holds
+# power purchase agreements, is held for a license (": the model closed the answer's string where it meant to quote the
+# hold's words. One of the 888 stored answers ends so. Two mends, in both loops:
+#   the draft   a draft whose answer ends on an opening bracket, a comma, a colon or a semicolon is sent back once, as a
+#               draft with an untraced number is (cut_short)
+#   the words   a refusal written after a table was refused as license needed is given the hold's words too, as an answer
+#               is since session 6106 (with_hold_words): "not in the warehouse" alone says the warehouse lacks what it holds
+# The same in site/lib/chat/refused.ts (cutShort, CUT_SHORT).
+CUT_SHORT = ("an answer that stops in the middle of a sentence: write the whole answer again, as plain sentences, with no double "
+             "quotation marks inside it")
+
+
+def cut_short(answer):
+    """Whether an answer stops in the middle of a sentence: its last character is an opening bracket, a comma, a colon or
+    a semicolon. An empty answer is another check's."""
+    t = (answer or "").rstrip()
+    return bool(t) and t[-1] in "([{,:;"
 
 
 def reads_of(name, args):
@@ -699,11 +747,14 @@ class Asker:
                 figures = refusal_figures(draft["answer"], question)
                 if figures:
                     more = list(more) + [REFUSAL_FIGURE.format(figures=", ".join(figures))]
+            if type(self) is Asker and cut_short(draft["answer"]):
+                more = list(more) + [CUT_SHORT]   # session 6109
             if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 if draft.get("not_in_warehouse") and type(self) is Asker:
-                    final = dict(draft, answer=with_refusal_words(draft["answer"]))   # session 5276: its fixed words, by the loop
+                    # session 5276: its fixed words, by the loop; session 6109: the hold's first, when a table was refused for a license
+                    final = dict(draft, answer=with_refusal_words(with_hold_words(draft["answer"], held_tables(refused_whole_words))))
                 elif type(self) is Asker:
                     # session 6106: an answer written after a table was refused as license needed says so in the fixed words
                     final = dict(draft, answer=with_hold_words(draft["answer"], held_tables(refused_whole_words)))

@@ -343,10 +343,72 @@ def yaml_text(qs, at, runs):
     return text
 
 
+LIVE_OUT = os.path.join(EVAL, "questions_newtables_live.yaml")
+OUT_OF_REACH = "not in the warehouse|license needed|live set|Redivis|not loaded"
+STATUS_WORDS = ("proposed", "in effect", "approved", "ordered", "denied", "enacted", "introduced", "passed", "vetoed", "died")
+
+
+def visitor_reads():
+    """{table: whether a visitor's chat can read it today}: the live catalogue's in_live_set (yes, or review), read with
+    the anon key through lab_questions.py's reader. A table the catalogue does not list is not read."""
+    sys.path.insert(0, HERE)
+    import lab_questions as L
+    cat = L.catalogue()
+    return {t: (cat.get(t) or {}).get("in_live_set") in ("yes", "review") for t in TABLES}
+
+
+def live(qs, reads):
+    """The set as a visitor's chat can answer it today. A question of a table the chat cannot read (kinds figure and
+    unstated) becomes one of kind not_readable: a refusal in the words of a table out of reach, no figure, and never the
+    figure the table holds (kept as `withheld`, for the grader alone). A question of kind outside is a refusal either
+    way. A question of a table the chat can read keeps its key."""
+    out = []
+    for x in qs:
+        table = (x["tables"] or [None])[0] or x["note"].split(":")[0].split(",")[0].split(" ")[0]
+        if x["kind"] == "outside" or reads.get(table):
+            out.append(dict(x, withheld=[], withheld_text=[]))
+            continue
+        out.append(dict(x, kind="not_readable", expected=[], text=[OUT_OF_REACH], tables=[], refuse=True, count=False,
+                        # a word key is withheld when it is a name or a date; a status word (proposed, in effect) may stand in a
+                        # refusal that leaks nothing, so it is not looked for
+                        withheld=x["expected"], withheld_text=[t for t in x["text"] if t not in STATUS_WORDS] if x["kind"] == "figure" and not x["expected"] else [],
+                        note=f"a visitor's chat cannot read {table} today (not in the live set): a refusal, no figure, never the table's own. When it can: " + x["note"]))
+    return out
+
+
+def live_yaml(qs, at, reads):
+    n = {k: sum(1 for x in qs if x["kind"] == k) for k in KINDS + ("not_readable",)}
+    lines = [
+        f"# Energy Research Warehouse (ERW): the {len(qs)} questions of questions_newtables.yaml keyed as a visitor's chat can answer them on {at[:10]}",
+        "# (session 6111, chain 280), written by scripts/ask_eval/newtables_questions.py --live. A visitor's chat reads the live set; the tables read today: "
+        + (", ".join(t for t, r in reads.items() if r) or "none of the six") + ".",
+        f"# {n['not_readable']} ask of a table out of its reach (kind not_readable: a refusal in one of the text entry's words, no figure, and never the figure",
+        f"# the table holds, kept under withheld for the grader); {n['outside']} of something the table does not hold either way (outside); {n['figure'] + n['unstated']} keep their key.",
+        f"today: '{TODAY}'",
+        "questions:",
+    ]
+    for x in qs:
+        lines += [f"- id: {x['id']}", f"  sector: {x['sector']}", f"  kind: {x['kind']}", f"  grid: {x['grid']}", f"  via: {x['via']}",
+                  f"  question: {json.dumps(x['question'])}", f"  expected: {json.dumps(x['expected'])}", f"  tolerance: {x['tolerance']}",
+                  f"  text: {json.dumps(x['text'])}", f"  tables: {json.dumps(x['tables'])}", f"  refuse: {'true' if x['refuse'] else 'false'}",
+                  f"  hold: {'true' if x['hold'] else 'false'}", f"  count: {'true' if x['count'] else 'false'}",
+                  f"  withheld: {json.dumps(x['withheld'])}", f"  withheld_text: {json.dumps(x['withheld_text'])}", f"  note: {json.dumps(x['note'])}"]
+    text = "\n".join(lines) + "\n"
+    if chr(0x2014) in text or chr(0x2013) in text:
+        raise SystemExit("a dash in the output")
+    return text
+
+
 def main(argv):
     at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     qs = build()
     runs = {t: run_of(t) for t in TABLES}
+    if "--live" in argv:
+        reads = visitor_reads()
+        with open(LIVE_OUT, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(live_yaml(live(qs, reads), at, reads))
+        print(f"wrote {os.path.relpath(LIVE_OUT, ROOT)}: a visitor's chat reads {sum(reads.values())} of the {len(reads)} tables today ({reads})")
+        return 0
     if "--check" in argv:
         import yaml
         with open(OUT, encoding="utf-8") as fh:

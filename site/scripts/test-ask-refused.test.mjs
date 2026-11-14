@@ -6,8 +6,22 @@
 //   node --test site/scripts/test-ask-refused.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { HOLD_WORDS, REFUSAL_FIRST, REFUSAL_WORDS, heldTables, notLiveWords, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole,
-  tablesNamed, withHoldWords, withRefusalWords } from "../lib/chat/refused.ts";
+import { CUT_SHORT, HOLD_WORDS, REFUSAL_FIRST, REFUSAL_WORDS, cutShort, heldTables, notLiveWords, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead,
+  refusedWhole, tablesNamed, withHoldWords, withRefusalWords } from "../lib/chat/refused.ts";
+
+// Session 6109 (chain 280): the lab's l02 of 14 November 2026, a refusal that reached the reader cut at an opening bracket
+// (tests/test_session6108_ask.py holds the Python side and the stored runs).
+test("an answer that stops in the middle of a sentence is told from a whole one", () => {
+  const l02 = "This is not in the warehouse. The energy_deals table, which holds power purchase agreements, is held for a license (";
+  assert.ok(cutShort(l02));
+  for (const end of ["the price was,", "the tables are:", "it holds;", "see [", "  a set { \n"]) assert.ok(cutShort(end), end);
+  for (const whole of ["49,421.92 MW (eia930_all_demand).", "It was 54.48 USD/MWh", "Not in the warehouse.", "The table is \"license needed\"", "100 percent", ""]) assert.ok(!cutShort(whole), whole);
+  assert.match(CUT_SHORT, /^an answer that stops in the middle of a sentence: write the whole answer again/);
+  // a refusal after a held table: the hold's words first, and then no "Not in the warehouse." is added to them
+  const held = heldTables({ energy_deals: "table energy_deals is license needed: Reuters; Bloomberg" });
+  assert.equal(withRefusalWords(withHoldWords("The deals table is held.", held)), "energy_deals: license needed, so no figure of it is given here. The deals table is held.");
+  assert.equal(withRefusalWords(withHoldWords("The table holds no row.", [])), "Not in the warehouse. The table holds no row.");
+});
 
 test("the refusal of a table the live set lacks says where it is and how to answer", () => {
   const w = notLiveWords("eia_crude_imports_by_country");

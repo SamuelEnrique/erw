@@ -15,7 +15,8 @@ import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
-import { notLiveWords } from "./refused";
+import { NOT_LISTED_NOTE, notListedWords, notLiveWords } from "./refused";
+import verdictFile from "@/data/table_verdicts.json";   // session 6113: the license record's word for every table of the record
 import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
@@ -122,7 +123,12 @@ async function catalogue(): Promise<Cat[]> {
 
 async function tableInfo(name: string, scope: Scope = null) {
   const c = (await catalogue()).find((r) => r.table_name === name);
-  if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
+  if (!c) {
+    // session 6113: a table of the record the catalogue does not list (license not settled or internal, or not loaded yet)
+    const verdict = (verdictFile as unknown as Record<string, [string, string]>)[name]?.[0];
+    if (verdict) throw new ToolError(notListedWords(name, verdict));
+    throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
+  }
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
   // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
   // session 5256: the refusal says how to answer too, as a held table's does below (lib/chat/refused.ts)
@@ -264,7 +270,7 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
       in_live_set: r.in_live_set,
     })),
     backend: "supabase",
-    note: `${LIVE_NOTE} first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here.`,
+    note: `${LIVE_NOTE} first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here. ${NOT_LISTED_NOTE}`,
   };
 }
 

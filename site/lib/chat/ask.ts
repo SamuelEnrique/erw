@@ -12,7 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
-import { heldTables, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withHoldWords, withRefusalWords } from "./refused";
+import { CUT_SHORT, cutShort, heldTables, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withHoldWords, withRefusalWords } from "./refused";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -163,7 +163,23 @@ function listMarkers(text: string): Set<number> {
   return new Set(Array.from(text.matchAll(/^\s*(\d+)[.)]\s/gm)).map((m) => parseFloat(m[1])));
 }
 
-export function unverified(answer: string, sources: string[]): string[] {
+// Session 6108 (chain 280), as ask.py without_percentile_names: a percentile's ordinal is the name of a statistic. The
+// investor's iv14 of 14 November 2026 had its figure and wrote the spread in the table's own variables, p25_months and
+// p75_months, as "the 25th and 75th percentile"; 75 stood in no tool result as a number, the draft was sent back twice
+// and the reader got the fixed refusal. An ordinal written before "percentile" is that percentile's name when a tool
+// result or argument names it (p25, p75_months), and is then no figure of the answer; any other 75 is checked as before.
+const PCT_NAME = /(?<![A-Za-z\d])p(\d{1,2})(?![\d.])/g;
+const ORD = String.raw`\d{1,2}(?:st|nd|rd|th)`;
+const PCT_PHRASE = new RegExp(String.raw`(?<![\w.])${ORD}(?:\s*(?:,|and|to|or)\s*(?:the\s+)?${ORD})*(?=[\s-]+percentiles?\b)`, "gi");
+export function withoutPercentileNames(answer: string, sources: string[]): string {
+  const named = new Set<number>();
+  for (const s of sources) for (const m of s.matchAll(PCT_NAME)) named.add(parseInt(m[1], 10));
+  if (!named.size) return answer;
+  return answer.replace(PCT_PHRASE, (phrase) => ((phrase.match(/\d{1,2}/g) ?? []).every((n) => named.has(parseInt(n, 10))) ? "" : phrase));
+}
+
+export function unverified(given: string, sources: string[]): string[] {
+  const answer = withoutPercentileNames(given, sources);   // session 6108
   const pool = sources.flatMap((s) => numbers(s).map(([v]) => v));
   const markers = listMarkers(answer);
   const bad: string[] = [];
@@ -469,6 +485,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       const figures = refusalFigures(draft.answer, question);
       if (figures.length) more.push(refusalFigureProblem(figures));
     }
+    if (!profile && cutShort(draft.answer)) more.push(CUT_SHORT);   // session 6109: an answer that stops in the middle of a sentence
     clock.add("writing", "check", Date.now() - tCheck);
     const ok = !bad.length && !units.length && !uncited.length && !noCite && !more.length;
     return { ok, bad, units, uncited, noCite, more };
@@ -478,7 +495,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
     // session 5276: a refusal of the general chat carries its fixed words (lib/chat/refused.ts withRefusalWords)
-    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };
+    // session 6109: the hold's words first, when a table was refused for a license (a refusal as an answer since session 6106)
+    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(withHoldWords(draft.answer, heldTables(refusedWholeWords))) };
     // session 6106: an answer written after a table was refused as license needed says so in the fixed words
     else if (!profile) draft = { ...draft, answer: withHoldWords(draft.answer, heldTables(refusedWholeWords)) };
     const answer = plain(nodash(draft.answer));

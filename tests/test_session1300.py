@@ -174,7 +174,19 @@ class ThePythonLoop(unittest.TestCase):
                           "a_held_grids_own_table": "not_in_warehouse",
                           "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified",
                           "a_refusal_without_its_words": "not_in_warehouse",
-                          "a_refusal_with_a_figure": "not_in_warehouse", "an_answer_after_a_held_table": "answered"})
+                          "a_refusal_with_a_figure": "not_in_warehouse", "an_answer_after_a_held_table": "answered",
+                          "a_draft_cut_in_mid_sentence": "not_in_warehouse", "a_refusal_after_a_held_table_without_the_words": "not_in_warehouse"})
+        # session 6109 (chain 280, the lab's l02 of 14 November 2026): a draft whose answer stops on an opening bracket (the
+        # model closed the string where it meant to quote the hold's words) is sent back once, and the second draft, whole,
+        # stands: one refused call, no read, three model calls
+        r = got["a_draft_cut_in_mid_sentence"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"], r["why"]), (1, 0, True, 3, [], ""))
+        self.assertEqual(r["answer"], "Not in the warehouse for a reader: energy_deals is held for a license (license needed), so no PPA price can be given.")
+        # and a refusal written after a table was refused for a license, which says only that the warehouse lacks it, is
+        # given the hold's words by the loop, before the model's own (an answer has been since session 6106)
+        r = got["a_refusal_after_a_held_table_without_the_words"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"]), (1, 0, False, 2))
+        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. Not in the warehouse. The deals table is held, so no PPA price can be given.")
         # session 6106 (chain 280, the platform set's pw13 of 14 November 2026): a refusal that goes on to state a figure
         # (one that was fetched, of something the question did not ask) is sent back once, as rule 3 says a refusal states
         # no numbers; the second draft, a refusal with no figure, stands. One query, one read, three model calls

@@ -1,0 +1,466 @@
+{
+ "_about": "Session 6110 (s2224): questions of questions_s2224.yaml asked through the site's own loop (site/lib/chat/ask.ts ask(), no build, every read with the anon key), every tool call recorded, by eval_site.py and site/scripts/eval-ask-site-loop.mjs under the ledger step site_ask_eval.",
+ "base": "site loop",
+ "questions": [
+  {
+   "id": "l01",
+   "grid": "none",
+   "via": "general",
+   "question": "What was the average disclosed price of the solar power purchase agreements signed in 2026, in USD per MWh?",
+   "asked_at_utc": "2026-11-14T19:42:48Z",
+   "http": null,
+   "loop": "site",
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse: this is \"license needed\". The deals table (energy_deals) would hold PPA prices, but its publishers' pages ask for permission and none is recorded yet, so I can't state any figure from it. The related table deal_counterparties is on Redivis and not in the live set this chat reads.",
+   "why": null,
+   "citations": [],
+   "not_in_warehouse": true,
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.031404,
+   "seconds": 7.1,
+   "error": null,
+   "refused": false,
+   "reads": null,
+   "nearest": null,
+   "usage": {
+    "input": 10,
+    "output": 326,
+    "cache_write": 1296,
+    "cache_read": 124420,
+    "requests": 4
+   },
+   "trace": [
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "energy_deals"
+     },
+     "out": {
+      "error": "table energy_deals is license needed: ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA: the publisher's own page asks for permission; none is recorded yet. State no figure of it: answer with not_in_warehouse true and say that it is \"license needed\""
+     },
+     "isError": true,
+     "is_error": true
+    },
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "deals"
+     },
+     "out": {
+      "n_tables": 3,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-13T15:10:45Z",
+        "last": "2026-11-13T15:10:45Z",
+        "rows": 532,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "no"
+       },
+       {
+        "table": "energy_companies",
+        "sector": "deals",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-09-28T17:04:21Z",
+        "last": "2026-11-13T15:10:44Z",
+        "rows": 568,
+        "source_report": "erw:energy_deals;erw:thesis_builder",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "energy_deals",
+        "sector": "deals",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-01-05T08:00:00Z",
+        "last": "2026-11-13T12:37:09Z",
+        "rows": 590,
+        "source_report": "25 outlets",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       }
+      ],
+      "backend": "supabase",
+      "note": "This site reads the Supabase live set: public tables only; the interval tables of power prices, demand, generation and hourly emissions hold only their last 35 days; derived, fuel, generator, queue and news tables are whole, and so are ERCOT's hub prices by day (ercot_hub_prices_daily, since 2015) and its reserve prices (ercot_as_prices, since 2018). Tables with in_live_set no cannot be queried here (their full history is on Redivis). first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here."
+     },
+     "isError": false,
+     "is_error": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "deal_counterparties"
+     },
+     "out": {
+      "error": "table deal_counterparties is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. If none does, answer with not_in_warehouse true and say that deal_counterparties is on Redivis and not in the live set this chat reads"
+     },
+     "isError": true,
+     "is_error": true
+    }
+   ],
+   "asked_under": {
+    "effort": "medium",
+    "max_tokens": 16000,
+    "rules": 11
+   }
+  },
+  {
+   "id": "l02",
+   "grid": "none",
+   "via": "general",
+   "question": "Which buyer signed the largest power purchase agreement by MW in 2026, and for how many MW?",
+   "asked_at_utc": "2026-11-14T19:43:22Z",
+   "http": null,
+   "loop": "site",
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse. The deals table (energy_deals) is marked \"license needed\": its publishers' pages ask for permission and none is recorded, so I can't state any figure from it. The only other table that could hold this, deal_counterparties, is on Redivis and not in the live set this chat reads. I can't say which buyer signed the largest 2026 power purchase agreement by MW, or for how many MW.",
+   "why": null,
+   "citations": [],
+   "not_in_warehouse": true,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.042738399999999996,
+   "seconds": 7.5,
+   "error": null,
+   "refused": false,
+   "reads": null,
+   "nearest": null,
+   "usage": {
+    "input": 12,
+    "output": 398,
+    "cache_write": 2982,
+    "cache_read": 156397,
+    "requests": 5
+   },
+   "trace": [
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "energy_deals"
+     },
+     "out": {
+      "error": "table energy_deals is license needed: ANS Nuclear Newswire; Bloomberg; Canary Media; Data Center Dynamics; Data Center Frontier; Electrek; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; JPT; LNG Prime; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Rigzone; Utility Dive; WSJ; pv magazine USA: the publisher's own page asks for permission; none is recorded yet. State no figure of it: answer with not_in_warehouse true and say that it is \"license needed\""
+     },
+     "isError": true,
+     "is_error": true
+    },
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "deals"
+     },
+     "out": {
+      "n_tables": 3,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-13T15:10:45Z",
+        "last": "2026-11-13T15:10:45Z",
+        "rows": 532,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "no"
+       },
+       {
+        "table": "energy_companies",
+        "sector": "deals",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-09-28T17:04:21Z",
+        "last": "2026-11-13T15:10:44Z",
+        "rows": 568,
+        "source_report": "erw:energy_deals;erw:thesis_builder",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "energy_deals",
+        "sector": "deals",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-01-05T08:00:00Z",
+        "last": "2026-11-13T12:37:09Z",
+        "rows": 590,
+        "source_report": "25 outlets",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       }
+      ],
+      "backend": "supabase",
+      "note": "This site reads the Supabase live set: public tables only; the interval tables of power prices, demand, generation and hourly emissions hold only their last 35 days; derived, fuel, generator, queue and news tables are whole, and so are ERCOT's hub prices by day (ercot_hub_prices_daily, since 2015) and its reserve prices (ercot_as_prices, since 2018). Tables with in_live_set no cannot be queried here (their full history is on Redivis). first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here."
+     },
+     "isError": false,
+     "is_error": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "deal_counterparties"
+     },
+     "out": {
+      "error": "table deal_counterparties is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. If none does, answer with not_in_warehouse true and say that deal_counterparties is on Redivis and not in the live set this chat reads"
+     },
+     "isError": true,
+     "is_error": true
+    },
+    {
+     "tool": "grid_notes",
+     "input": {
+      "grid": "ercot"
+     },
+     "out": {
+      "table": "docs/grids/ercot.md",
+      "grid": "ercot",
+      "tier": "written",
+      "license": "public",
+      "source_report": "docs/grids/ercot.md: text written for the ERW's grid page; each section names its ISO and EIA sources",
+      "data_version": "the site's build",
+      "text": "# ERCOT: the written layer\n\n## What this grid is and who runs it\n\nThe Electric Reliability Council of Texas (ERCOT) runs the power grid for most of Texas. It is a grid operator, not a utility: it owns no power plants and no power lines. It schedules the plants that others own, keeps supply equal to demand every second, and runs the wholesale market where power is bought and sold. The Public Utility Commission of Texas (PUCT) and the Texas Legislature oversee it. Parts of Texas, near El Paso, in the Panhandle and in the east, belong to other grids.\n\nSources: https://www.ercot.com/about ; https://www.ercot.com/about/profile ; https://www.eia.gov/energyexplained/electricity/delivery-to-consumers.php\n\n## How its market sets prices\n\nERCOT runs two markets. In the day-ahead market, buyers and sellers agree today on power for each hour of tomorrow. In the real-time market, ERCOT dispatches plants every few minutes and pays the price at that moment. Prices are set at each location on the grid (locational marginal prices), so power costs more where lines are congested. A hub, such as the Hub Average on this page, averages many locations into one price that traders use. ERCOT has no capacity market: generators are paid only for the energy they sell and some reliability services, so prices during scarce hours can rise very high, which is meant to reward being available.\n\nSources: https://www.ercot.com/mktinfo ; https://www.ercot.com/about/profile ; https://www.eia.gov/electricity/wholesale/\n\n## What makes it different\n\nERCOT is an island. Its grid has only a few small links to the rest of the country and to Mexico, so it cannot lean on its neighbors in an emergency, and because its power does not cross state lines in a big way, the federal regulator (FERC) does not set its market rules. It is also the energy-only market described above. Texas produces more wind electricity than any other state (EIA, https://www.eia.gov/energyexplained/wind/where-wind-power-is-harnessed.php) and is adding large amounts of solar and batteries, so the mix on this page changes a lot between a windy night and a sunny afternoon.\n\nSources: https://www.ercot.com/about/profile ; https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/ERCO\n\n## A short history\n\n- **1970:** ERCOT is formed to manage reliability for the Texas grid (ERCOT, https://www.ercot.com/news/mediakit/backgrounder).\n- **2010-12-01:** ERCOT starts its nodal market, with a price at each location on the grid instead of a few zones (ERCOT, https://www.ercot.com/files/docs/2011/04/26/ercot_2010_financial_statements.pdf).\n- **2021-02-15:** During Winter Storm Uri, ERCOT orders utilities to cut power to customers across the state because too many power plants had failed in the cold (EIA, https://www.eia.gov/todayinenergy/detail.php?id=46836).\n\nSources: https://www.ercot.com/about ; https://www.ercot.com/about/profile\n\n## Glossary\n\n- **Balancing authority:** the organization that keeps supply and demand equal in an area. EIA reports ERCOT as balancing authority ERCO.\n- **Demand:** how much electricity customers are using, in megawatts (MW).\n- **Megawatt (MW) and megawatt-hour (MWh):** a megawatt is a rate of power; a megawatt-hour is one megawatt for one hour, an amount of energy.\n- **Net generation:** the power plants produce, minus what they use themselves.\n- **Day-ahead market:** trades for each hour of tomorrow, agreed today.\n- **Real-time market:** the price paid for power at the moment it is delivered.\n- **Hub:** an average of many grid locations' prices, used as one reference price.\n- **Peak and off-peak:** peak hours are weekday daytime hours when demand is high; the rest are off-peak.\n- **Carbon intensity:** the carbon dioxide released per megawatt-hour of electricity, in kilograms of CO2 per MWh.\n- **Interconnection queue:** the waiting list of new power plants and batteries asking to connect to the grid.\n\nSources: https://www.eia.gov/electricity/gridmonitor/about ; https://www.eia.gov/energyexplained/electricity/electricity-in-the-us.php\n"
+     },
+     "isError": false,
+     "is_error": false
+    }
+   ],
+   "asked_under": {
+    "effort": "medium",
+    "max_tokens": 16000,
+    "rules": 11
+   }
+  },
+  {
+   "id": "l03",
+   "grid": "none",
+   "via": "general",
+   "question": "How many MW of datacenter projects does the tracker hold in ERCOT?",
+   "asked_at_utc": "2026-11-14T19:43:29Z",
+   "http": null,
+   "loop": "site",
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse: I can't give a figure. The datacenter tracker tables (datacenter_facilities and datacenter_projects) are \"license needed\". Their publishers' pages ask for permission and none is recorded. The third table, datacenter_queue_positions, is on Redivis and not in the live set this chat reads. I stated no MW figure.",
+   "why": null,
+   "citations": [],
+   "not_in_warehouse": true,
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0524347,
+   "seconds": 9.3,
+   "error": null,
+   "refused": false,
+   "reads": null,
+   "nearest": null,
+   "usage": {
+    "input": 14,
+    "output": 557,
+    "cache_write": 3225,
+    "cache_read": 193871,
+    "requests": 6
+   },
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "datacenters"
+     },
+     "out": {
+      "n_tables": 9,
+      "tables": [
+       {
+        "table": "attention_index_weekly",
+        "sector": "news, datacenters",
+        "license": "public",
+        "iso": "attention",
+        "interval": "P1W",
+        "first": "2024-12-30T00:00:00Z",
+        "last": "2026-11-30T00:00:00Z",
+        "rows": 1785,
+        "source_report": "erw:attention",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "attention_story_links",
+        "sector": "news, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-10-05T17:03:00Z",
+        "last": "2026-11-17T12:00:00Z",
+        "rows": 8120,
+        "source_report": "48 outlets",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "datacenter_facilities",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-11-13T15:11:05Z",
+        "last": "2026-11-13T15:11:05Z",
+        "rows": 460,
+        "source_report": "Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Energy-Storage.news;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;Utility Dive;WSJ;aws:locations;digitalrealty:data-centers;equinix:us-data-centers;ercot:interconnection_queue;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;nyiso:interconnection_queue;oracle:public-cloud-regions;switch:locations",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "datacenter_operator_sites",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-11-05T23:26:29Z",
+        "last": "2026-11-05T23:26:29Z",
+        "rows": 264,
+        "source_report": "aws:locations;digitalrealty:data-centers;equinix:us-data-centers;google:datacenter-locations;meta:datacenter-locations;microsoft:azure-geographies;oracle:public-cloud-regions;switch:locations",
+        "derived": "no",
+        "tier": "source",
+        "in_live_set": "no"
+       },
+       {
+        "table": "datacenter_projects",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-09-27T04:31:06Z",
+        "last": "2026-11-13T15:10:50Z",
+        "rows": 195,
+        "source_report": "Bloomberg;Bloomberg.com;Data Center Dynamics;Data Center Frontier;Data Center Knowledge;Energy-Storage.news;Financial Times;Hart Energy;Heatmap News;Latitude Media;Natural Gas Intelligence;OilPrice.com;POWER Magazine;Reuters;Utility Dive;WSJ",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "datacenter_queue_positions",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "snapshot",
+        "first": "2026-09-26T00:06:50Z",
+        "last": "2026-11-05T23:21:53Z",
+        "rows": 3,
+        "source_report": "ercot:interconnection_queue;nyiso:interconnection_queue",
+        "derived": "no",
+        "tier": "derived",
+        "in_live_set": "no"
+       },
+       {
+        "table": "ercot_large_load_status",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "ERCOT",
+        "interval": "P1M",
+        "first": "2025-05-28T00:00:00Z",
+        "last": "2026-06-19T00:00:00Z",
+        "rows": 38,
+        "source_report": "ercot:large_load_status_update",
+        "derived": "no",
+        "tier": "source",
+        "in_live_set": "review"
+       },
+       {
+        "table": "friction_index_weekly",
+        "sector": "news, datacenters",
+        "license": "public",
+        "iso": "friction",
+        "interval": "P1W",
+        "first": "2026-10-05T00:00:00Z",
+        "last": "2026-11-16T00:00:00Z",
+        "rows": 4167,
+        "source_report": "erw:attention",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       },
+       {
+        "table": "large_load_public",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2024-05-01T00:00:00Z",
+        "last": "2026-09-30T00:00:00Z",
+        "rows": 341,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted",
+        "in_live_set": "yes"
+       }
+      ],
+      "backend": "supabase",
+      "note": "This site reads the Supabase live set: public tables only; the interval tables of power prices, demand, generation and hourly emissions hold only their last 35 days; derived, fuel, generator, queue and news tables are whole, and so are ERCOT's hub prices by day (ercot_hub_prices_daily, since 2015) and its reserve prices (ercot_as_prices, since 2018). Tables with in_live_set no cannot be queried here (their full history is on Redivis). first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here."
+     },
+     "isError": false,
+     "is_error": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "datacenter_facilities"
+     },
+     "out": {
+      "error": "table datacenter_facilities is license needed: Amazon Web Services; Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Digital Realty; Energy-Storage.news; Equinix; Financial Times; Google; Hart Energy; Heatmap News; ISO-NE; Latitude Media; MISO; Meta; Microsoft; NYISO; Natural Gas Intelligence; OilPrice.com; Oracle; POWER Magazine; Reuters; Switch; Utility Dive; Vantage Data Centers; WSJ: the publisher's own page asks for permission; none is recorded yet. State no figure of it: answer with not_in_warehouse true and say that it is \"license needed\""
+     },
+     "isError": true,
+     "is_error": true
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "datacenter_projects"
+     },
+     "out": {
+      "error": "table datacenter_projects is license needed: Bloomberg; Data Center Dynamics; Data Center Frontier; Data Center Knowledge; Energy-Storage.news; Financial Times; Hart Energy; Heatmap News; Latitude Media; Natural Gas Intelligence; OilPrice.com; POWER Magazine; Reuters; Utility Dive; WSJ: the publisher's own page asks for permission; none is recorded yet. State no figure of it: answer with not_in_warehouse true and say that it is \"license needed\""
+     },
+     "isError": true,
+     "is_error": true
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "datacenter_queue_positions"
+     },
+     "out": {
+      "error": "table datacenter_queue_positions is not in this site's live set; its full history is on Redivis. No tool here can read it, and no figure of it may be stated. Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse. If none does, answer with not_in_warehouse true and say that datacenter_queue_positions is on Redivis and not in the live set this chat reads"
+     },
+     "isError": true,
+     "is_error": true
+    }
+   ],
+   "asked_under": {
+    "effort": "medium",
+    "max_tokens": 16000,
+    "rules": 11
+   }
+  }
+ ]
+}
