@@ -21,7 +21,8 @@ export type LongColumn = { distinct: number; longest_chars: number };
 export function splitLongText<T extends string[] | Record<string, number>>(values: Record<string, T>, limit = LONG_TEXT): { short: Record<string, T>; long: Record<string, LongColumn> } {
   const short: Record<string, T> = {}, long: Record<string, LongColumn> = {};
   for (const [col, vals] of Object.entries(values)) {
-    const list = Array.isArray(vals) ? vals : Object.keys(vals);
+    // the desk's fix (session 3976, chain 278): a list typed as one array, or Next's type check finds reduce not callable
+    const list: string[] = Array.isArray(vals) ? (vals as string[]) : Object.keys(vals);
     const longest = list.reduce((m, v) => Math.max(m, String(v).length), 0);
     if (longest > limit) long[col] = { distinct: list.length, longest_chars: longest };
     else short[col] = vals;
