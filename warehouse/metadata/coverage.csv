@@ -441,7 +441,7 @@ hub_price_comparison,hub,,31,P1M;P1Y,2025-10-01T00:00:00Z,2026-09-01T00:00:00Z,5
 ieso_generation_fuel_hourly,ieso,,8,PT1H,2020-01-01T05:00:00Z,2026-10-23T04:00:00Z,371781,ieso:gen_output_by_fuel_hourly,2026-10-24T02:01:32Z,pass,public,power,no,source
 ieso_ontario_demand_hourly,ieso,,1,PT1H,2025-01-01T05:00:00Z,2026-10-23T05:00:00Z,31680,ieso:demand,2026-10-23T20:06:39Z,pass,public,power,no,source
 ilr_luxembourg_electricity,ilr,,15,P1M;P1Y,2017-01-01T00:00:00Z,2026-06-01T00:00:00Z,668,ilr:donnees-statistiques-electricite,2026-10-24T09:51:43Z,pass,public,power,no,source
-imf_commodity_prices,imf,,5,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,470,imf:pcps,2026-11-12T22:16:45Z,pass,public,uranium;metals,no,source
+imf_commodity_prices,imf,,8,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,752,imf:pcps,2026-11-14T10:45:40Z,pass,public,uranium;metals,no,source
 impact_tax_rules,none,,10,event,1951-09-01T00:00:00Z,2026-10-20T00:00:00Z,49,10 outlets,2026-10-20T08:33:45Z,pass,public,power;oil;gas,no,source
 ine_es_dwellings_electricity_2021,ine,,58626,P1Y,2021-01-01T00:00:00Z,2021-01-01T00:00:00Z,58626,ine_es:jaxi_tpx_59531,2026-10-25T23:50:36Z,pass,public,power,no,source
 inseed_togo_electricity_annual,inseed,,12,P1Y,2020-01-01T00:00:00Z,2024-01-01T00:00:00Z,55,inseed_tg:annuaire_2024_ch25,2026-10-24T21:13:20Z,pass,internal,power,no,source
