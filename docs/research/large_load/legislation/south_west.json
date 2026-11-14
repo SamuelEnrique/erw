@@ -2,190 +2,12 @@
  "group": "laws_south_west",
  "laws": [
   {
-   "state": "TX",
-   "bill": "S.B. 6",
-   "session": "89th Legislature, 2025 regular",
-   "title": "relating to the planning for, interconnection and operation of, and costs related to providing service for certain electrical loads and to the generation of electric power by a water supply or sewer service corporation",
-   "status": "passed",
-   "status_date": "2025-05-29",
-   "effective_date": "",
-   "source_url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB00006F.pdf",
-   "source_title": "S.B. No. 6, enrolled (89th Legislature, Regular Session)",
-   "cites": [
-    {
-     "page": "14",
-     "section": "Senate and House certificates",
-     "quote": "the Senate concurred in House amendments on May 29, 2025"
-    },
-    {
-     "page": "13",
-     "section": "SECTION 8",
-     "quote": "This Act takes effect immediately if it receives ... a vote of two-thirds of all the members elected to each house, as ... Act takes effect September 1, 2025."
-    }
-   ],
-   "threshold_mw": {
-    "value": "75 MW at a single site (new or expanded interconnection in the ERCOT power region), unless the PUCT finds a lower threshold necessary",
-    "cites": [
-     {
-      "page": "2",
-      "section": "Utilities Code Sec. 37.0561(c)",
-      "quote": "new or expanded interconnection where the total load at a single ... The commission shall establish a ... demand threshold of 75 megawatts unless the commission determines ... that a lower threshold is necessary to accomplish the purposes"
-     }
-    ]
-   },
-   "requirements": [
-    {
-     "topic": "commission rulemaking",
-     "value": "The PUCT by rule sets standards for interconnecting large load customers in the ERCOT power region (Utilities Code Sec. 37.0561(b))",
-     "cites": [
-      {
-       "page": "2",
-       "section": "Sec. 37.0561(b)",
-       "quote": "The commission by rule shall establish standards for ... interconnecting large load customers in the ERCOT power region in a ... minimizing the potential for stranded infrastructure costs and"
-      }
-     ]
-    },
-    {
-     "topic": "cost allocation",
-     "value": "The PUCT by rule ensures that a large load customer under the Sec. 37.0561 standards contributes to the interconnecting utility's costs to interconnect it; a cooperative or municipal utility without customer choice passes those reasonable costs through to the customer (Sec. 35.004(c-1), (c-2))",
-     "cites": [
-      {
-       "page": "1",
-       "section": "Sec. 35.004(c-1)",
-       "quote": "The commission by rule shall ensure that a large load ... contributes to the recovery of the interconnecting electric"
-      },
-      {
-       "page": "1",
-       "section": "Sec. 35.004(c-2)",
-       "quote": "that has not adopted customer choice shall pass through to a large"
-      }
-     ]
-    },
-    {
-     "topic": "disclosure",
-     "value": "Each large load customer discloses to the interconnecting utility whether it is pursuing a substantially similar request for electric service in Texas; interconnected large loads disclose their on-site backup generating facilities (generation that cannot export and can serve at least 50 percent of on-site demand)",
-     "cites": [
-      {
-       "page": "2",
-       "section": "Sec. 37.0561(d)",
-       "quote": "is pursuing a substantially similar request for electric service in"
-      },
-      {
-       "page": "3",
-       "section": "Sec. 37.0561(e)",
-       "quote": "information about the customer ... aggregate, can serve at least 50 percent of on-site demand"
-      }
-     ]
-    },
-    {
-     "topic": "curtailment or backup generation",
-     "value": "ERCOT may, after deploying all available market services except frequency responsive services, direct the utility to require the large load customer to deploy its on-site backup generation or curtail load during an energy emergency",
-     "cites": [
-      {
-       "page": "3",
-       "section": "Sec. 37.0561(e)",
-       "quote": "backup generating facilities may be directed to either deploy the ... customer to either deploy the customer ... facilities or curtail load"
-      }
-     ]
-    },
-    {
-     "topic": "interconnection study",
-     "value": "A flat study fee of at least $100,000 for initial transmission screening studies; an additional fee for a request for more capacity; the unused part is credited toward later obligations at the same site",
-     "cites": [
-      {
-       "page": "4",
-       "section": "Sec. 37.0561(f)",
-       "quote": "The standards must set a flat study fee of at least ... $100,000 to be paid to the interconnecting electric utility or ... studies for large loads subject to Subsection (c)"
-      }
-     ]
-    },
-    {
-     "topic": "other",
-     "value": "Site control: the standards include a method for the customer to demonstrate site control through ownership, lease or another legal interest acceptable to the PUCT",
-     "cites": [
-      {
-       "page": "4",
-       "section": "Sec. 37.0561(g)",
-       "quote": "customer subject to Subsection (c) to demonstrate site control for"
-      }
-     ]
-    },
-    {
-     "topic": "collateral",
-     "value": "Uniform financial commitment requirements for transmission built to serve the customer, which may include security on a dollar per megawatt basis set by the PUCT, contribution in aid of construction, or prepayment security; the per-MW security is refunded as the customer meets load ramp milestones, withdraws capacity, or capacity is reallocated",
-     "cites": [
-      {
-       "page": "4",
-       "section": "Sec. 37.0561(h)",
-       "quote": "The standards must include uniform financial commitment ... security provided on a dollar per megawatt basis"
-      },
-      {
-       "page": "5",
-       "section": "Sec. 37.0561(h)(2), (i)",
-       "quote": "contribution in aid of construction ... load ramp milestones and sustains operations for a prescribed"
-      }
-     ]
-    },
-    {
-     "topic": "curtailment or backup generation",
-     "value": "Each utility serving a transmission-voltage customer interconnected after December 31, 2025 develops a protocol, with equipment installed before interconnection, to allow the load to be curtailed during firm load shed (Sec. 39.170(a)); ERCOT develops a competitively procured demand reduction service for large load customers of at least 75 MW, with at least 24 hours' notice (Sec. 39.170(b))",
-     "cites": [
-      {
-       "page": "9",
-       "section": "Sec. 39.170(a)",
-       "quote": "customer is interconnected, to allow the load to be curtailed"
-      },
-      {
-       "page": "10",
-       "section": "Sec. 39.170(a), (b)",
-       "quote": "interconnected after December 31, 2025, that is not ... demand reductions from large load customers with a demand of at ... least 75 megawatts to be deployed in the event of an anticipated"
-      }
-     ]
-    },
-    {
-     "topic": "other",
-     "value": "Co-location: a net metering arrangement between a stand-alone generation resource registered as of September 1, 2025 and a new large load requires notice to ERCOT; ERCOT studies it within 120 days of receiving all information and the PUCT approves, denies or conditions it within 60 days of the study (Sec. 39.169)",
-     "cites": [
-      {
-       "page": "7",
-       "section": "Sec. 39.169(a)",
-       "quote": "metering arrangement between an operating facility registered with"
-      },
-      {
-       "page": "8",
-       "section": "Sec. 39.169(d)",
-       "quote": "later than the 120th day after the independent organization ... later than the 60th day after the date the commission receives the"
-      }
-     ]
-    },
-    {
-     "topic": "cost allocation",
-     "value": "The PUCT evaluates whether the four coincident peak method of charging wholesale transmission costs ensures all loads contribute appropriately, and amends its rules by December 31, 2026",
-     "cites": [
-      {
-       "page": "12",
-       "section": "SECTION 6(a)",
-       "quote": "whether the current four coincident peak"
-      },
-      {
-       "page": "13",
-       "section": "SECTION 6(c)",
-       "quote": "31, 2026, the commission shall amend commission rules to ensure"
-      }
-     ]
-    }
-   ],
-   "license": "public",
-   "notes": "Status is 'passed' because the document read prints only the chambers' certificates (Senate passed March 19, 2025; House passed with amendments May 27, 2025; Senate concurred May 29, 2025); its Governor's approval line is blank. The bill's history page (capitol.texas.gov/BillLookup/) and the Legislative Reference Library are refused by robots, and the statutes site (statutes.capitol.texas.gov) is built by script, so the Governor's action and the effective date were not read. FOR THE PARENT'S RULING: capitol.texas.gov's robots file says 'Disallow: /TLODOCS/' (upper case); the reader matched case-sensitively and allowed the lower-case path /tlodocs/ it was given, and the server answered. If the parent reads that rule as covering /tlodocs/, this entry should be dropped or re-read from another official copy. The PUCT's implementing rules (Project No. 58000 proposal, held in large_load_connection_rules/puct_project_58000_proposal.yaml; 16 TAC 25.194, Project No. 58481) were not read here. No 2026 follow-up: the Texas Legislature holds no regular session in 2026. effective_date as the reading group wrote it: 'immediately on a two-thirds vote of all members elected to each house, otherwise 2025-09-01 (SECTION 8; the vote and the Governor's approval are not printed in the document read)'.",
-   "date_read": "2026-11-13"
-  },
-  {
    "state": "UT",
    "bill": "S.B. 132",
    "session": "2025 General Session",
    "title": "Electric Utility Amendments",
-   "status": "passed",
-   "status_date": "",
+   "status": "in effect",
+   "status_date": "2025-03-25",
    "effective_date": "2025-05-07",
    "source_url": "https://le.utah.gov/~2025/bills/sbillenr/SB0132.pdf",
    "source_title": "S.B. 132 Electric Utility Amendments, 2025 General Session, Enrolled Copy",
@@ -199,6 +21,20 @@
      "page": "1",
      "section": "",
      "quote": "2025 GENERAL SESSION"
+    },
+    {
+     "url": "https://le.utah.gov/data/2025GS/SB0132.json",
+     "page": "1",
+     "section": "bill status record (lastAction)",
+     "quote": "\"lastAction\":\"Governor Signed\",\"lastActionOwner\":\"Lieutenant Governor's office for filing\",\"lastActionDate\":\"3/25/2025\"",
+     "date_read": "2026-11-14"
+    },
+    {
+     "url": "https://le.utah.gov/data/2025GS/SB0132.json",
+     "page": "1",
+     "section": "bill status record (actionHistoryList)",
+     "quote": "{\"description\":\"Governor Signed\",\"owner\":\"Lieutenant Governor's office for filing\",\"actionDate\":\"3/25/2025 7:37 PM\"",
+     "date_read": "2026-11-14"
     }
    ],
    "threshold_mw": {
@@ -269,7 +105,7 @@
     }
    ],
    "license": "public",
-   "notes": "Window A's registry holds this law's steps and clocks: large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml (and the PSC rule under it, utah_psc_r746_318_large_scale_electric.yaml); this entry is its law row for the third pass. The enrolled copy prints no Governor's action, so status is 'passed' with the effective date the bill states; the bill's status page was not read (the network failed late in this pass). No 2026 amendment found: the Utah Code page for Chapter 54-26 (le.utah.gov/xcode/Title54/Chapter26/54-26.html, read 13 November 2026) names only the version C54-26_2025050720250507 (no 2026 version); its text is built by script, so this is a note, not a cite.",
+   "notes": "Window A's registry holds this law's steps and clocks: large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml (and the PSC rule under it, utah_psc_r746_318_large_scale_electric.yaml); this entry is its law row for the third pass. The enrolled copy prints no Governor's action; the Governor's signature (3/25/2025) is read from the Legislature's own bill status record (le.utah.gov/data/2025GS/SB0132.json, the data file its bill page le.utah.gov/~2025/bills/static/SB0132.html loads by script; robots allows /data/), and the effective date, May 7, 2025, from Section 22 of the enrolled copy, as window A's file has it. No 2026 amendment found: the Utah Code page for Chapter 54-26 (le.utah.gov/xcode/Title54/Chapter26/54-26.html, read 13 November 2026) names only the version C54-26_2025050720250507 (no 2026 version); its text is built by script, so this is a note, not a cite.",
    "date_read": "2026-11-13"
   },
   {
@@ -876,11 +712,55 @@
   },
   {
    "state": "GA",
-   "searched": "not read: the General Assembly site (legis.ga.gov) is built by script and no web search was left to find S.B. 34's document address; the lead (S.B. 34 of 2025) is unconfirmed"
+   "searched": "not read: the General Assembly site (legis.ga.gov) builds its bill pages and documents by script, and no web search was left to find S.B. 34's document address; the lead (S.B. 34 of 2025) is unconfirmed; the Official Code of Georgia is not published on a state host the reader can use"
   },
   {
-   "state": "LA, AR, MS, TN, AZ, NM, WY",
-   "searched": "not searched: the session's web search budget was spent before this pass began, and the network failed (DNS) at about 21:42 UTC; no legislature page of these states was read"
+   "state": "LA",
+   "searched": "the Legislature's Subject Index to Acts for the 2025 and 2026 regular sessions (legis.la.gov/LegisDocs/billindex/25RSactindex.pdf, 79 pages; 26RSactindex.pdf, 103 pages; read 14 November 2026): no act on large loads or data center electric service; the 2025 index lists Act 36 ('Data center; construction/operation; industrial development area'), a siting act, and under Electric Utilities only consumption reports (Act 311), grid resilience (Act 462) and other items; the 2026 index's Electric Utilities entries are a distributed energy study (HR 197), a task force (SR 174) and overcharge reimbursement (Act 553)"
+  },
+  {
+   "state": "MS",
+   "searched": "the Legislature's all-measures lists for 2025 and 2026 (billstatus.ls.state.ms.us/2025/pdf/all_measures/allmsrs.xml and /2026/...): the only data center measures are HB 1239 and SB 3168 of 2025 (data center enterprise tax exemption definitions) and SB 3410 of 2026 (Brandon and West Rankin Utility Authority water and wastewater agreements with a data center); none sets electric large-load terms; their final status was not read"
+  },
+  {
+   "state": "NV",
+   "searched": "NRS Chapter 704 as published (leg.state.nv.us/NRS/NRS-704.html, read 14 November 2026): the sections added by 2025 acts concern refunds of overcharges (704.657), affordable housing solar (704.7671 to 704.7733), performance-based rates (704.9903 to 704.99041) and 704.1833; the only data center text is the older exemption of a data center's own on-site plant (NRS 704.021(13)); no large-load section"
+  },
+  {
+   "state": "WA",
+   "searched": "RCW Chapter 80.28 section list (app.leg.wa.gov/RCW/default.aspx?cite=80.28, read 14 November 2026): no section on large loads or data centers; 2026 session laws not otherwise searched"
+  },
+  {
+   "state": "MT",
+   "searched": "MCA Title 69 Chapter 3 and Chapter 8 parts indexes (leg.mt.gov/bills/mca/title_0690/chapter_0030/ and chapter_0080/parts_index.html): no part on large loads or data centers; the indexes name parts only, not sections, so a section inside an existing part would not show"
+  },
+  {
+   "state": "WY",
+   "searched": "Wyoming Statutes Title 37, Public Utilities (wyoleg.gov/statutes/compress/title37.pdf, 230 pages, read 14 November 2026): no 'large load' or 'data center' text; 2025 and 2026 bills not searched (the bill site is built by script)"
+  },
+  {
+   "state": "AZ",
+   "searched": "ARS Title 40 section list (azleg.gov/arsDetail/?title=40): it prints section numbers without captions, so nothing could be found by subject; Arizona's bill status site is built by script; not searched further"
+  },
+  {
+   "state": "NM",
+   "searched": "the Legislature's legislation list for the current (2026) session (nmlegis.gov/Legislation/Legislation_List) and its keyword search page (nmlegis.gov/Search?search=large+load, which returned no listed results): no data center or large-load measure; the 2025 session list was not read"
+  },
+  {
+   "state": "AR",
+   "searched": "the Legislature's advanced bill search for the 2025 regular session with the phrase 'data center' (arkleg.state.ar.us/Bills/Search?...&tbExactPhrase=data+center) returned a page with no listed results (the list appears to load by script); a keyword URL answered HTTP 500; the Arkansas Code is not on a state host; not found, not ruled out"
+  },
+  {
+   "state": "TN",
+   "searched": "not read: no bill number or official subject index was found without a web search, and the Tennessee Code is not published on a state host; not ruled out"
+  },
+  {
+   "state": "OK",
+   "searched": "not read: the Legislature's site (oklegislature.gov) disallows every agent in its robots file and OSCN (Oklahoma Statutes) disallows this reader; no lead bill number; not ruled out"
+  },
+  {
+   "state": "CA",
+   "searched": "not read: leginfo.legislature.ca.gov answers its robots file with HTTP 403 (treated as disallow all); S.B. 57 of 2025 and any other California bill could not be read on an official host; not ruled out"
   }
  ],
  "refused": [
@@ -910,19 +790,27 @@
    "reason": "robots.txt not readable (connection timed out); not read (the bill number was a guess, not a lead)"
   },
   {
-   "state": "WA",
-   "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=80.28",
-   "reason": "robots.txt not readable (getaddrinfo failed: the network's DNS failed at about 21:42 UTC); not read"
+   "state": "OK",
+   "url": "https://www.oklegislature.gov/",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"
   },
   {
-   "state": "NV",
-   "url": "https://www.leg.state.nv.us/NRS/NRS-704.html",
-   "reason": "robots.txt not readable (getaddrinfo failed: DNS failure); not read"
+   "state": "AR",
+   "url": "https://arkleg.state.ar.us/Bills/SearchByKeyword?ddBienniumSession=2025%2F2025R&keyword=data+center",
+   "reason": "HTTP 500 (a guessed search address)"
   },
   {
-   "state": "MT",
-   "url": "https://leg.mt.gov/bills/mca/title_0690/chapter_0030/parts_index.html",
-   "reason": "robots.txt not readable (getaddrinfo failed: DNS failure); not read"
+   "state": "KY",
+   "url": "https://apps.legislature.ky.gov/record/26rs/bills_S.html",
+   "reason": "HTTP 404"
+  }
+ ],
+ "withheld": [
+  {
+   "state": "TX",
+   "bill": "S.B. 6",
+   "url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB00006F.pdf",
+   "reason": "capitol.texas.gov's robots file disallows /TLODOCS/; the copy was fetched at /tlodocs/ by a case-sensitive check. Honoring the rule's intent (session 5304), the entry is withheld until an allowed official copy is read."
   }
  ]
 }

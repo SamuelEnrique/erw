@@ -1,0 +1,771 @@
+{
+ "group": "west_changes",
+ "changes": [
+  {
+   "utility": "California Independent System Operator (CAISO), with its participating transmission owners",
+   "state": "CA",
+   "rule_name": "CAISO Large Load Enhancements (response to FERC's Order to Show Cause, EL26-71)",
+   "affects": "large_load_connection_rules/caiso_large_load_enhancements_draft_final_proposal.yaml",
+   "change": "approved",
+   "date": "2026-10-28",
+   "docket": "FERC EL26-71 (named in window A's registry file; the release names FERC's June 'Show Cause' order)",
+   "source_url": "https://www.caiso.com/about/news/news-releases/caiso-board-advances-new-procedures-for-connecting-large-loads-quickly-and-reliably",
+   "source_title": "CAISO Board advances new procedures for connecting large loads quickly and reliably (CAISO news release, 28 October 2026)",
+   "what": "The CAISO Board of Governors approved the large load proposal (flexible interim load interconnection, a monthly review of out-of-cycle upgrades to fit the PTOs' 60 to 90 day studies, cost-shift protections), to be filed with FERC by 16 November 2026; no FERC filing was found by 13 November.",
+   "cites": [
+    {
+     "page": "",
+     "section": "release header",
+     "quote": "News release 10/28/2026"
+    },
+    {
+     "page": "",
+     "section": "subtitle",
+     "quote": "Board-approved proposal now goes to FERC for review"
+    },
+    {
+     "page": "",
+     "section": "first paragraph",
+     "quote": "With the Board's approval Wednesday, the ISO will file its proposal with the Federal Energy Regulatory Commission (FERC) by its November 16 deadline."
+    },
+    {
+     "page": "",
+     "section": "load interconnection applications and studies",
+     "quote": "the proposal creates a new monthly window for the ISO to review any transmission additions or upgrades associated with large loads that fall outside the usual transmission planning cycle to accommodate FERC's 60-90 day requirement for participating transmission owners' load interconnection studies."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the CAISO's own release on caiso.com (window A's license verdict for the CAISO: use with the CAISO credited and its notices kept)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "state": "AZ",
+   "rule_name": "Rate Schedule XHLF revision proposed in APS's 2025 rate case",
+   "affects": "southwest_california-02",
+   "change": "other",
+   "date": "2026-09-11",
+   "docket": "the 2025 Rate Case (the 10-Q prints no docket number; the row's docket is E-01345A-25-0105)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000050/pnw-20260930.htm",
+   "source_title": "Pinnacle West Capital Corporation and Arizona Public Service Company, Form 10-Q for the quarter ended September 30, 2026",
+   "what": "Initial post-hearing briefs (27 August 2026) and reply briefs (11 September 2026) were filed in the 2025 Rate Case that carries the XHLF revision; no ACC decision yet, APS anticipating resolution before the end of 2026.",
+   "cites": [
+    {
+     "page": "",
+     "section": "Regulatory Matters, 2025 Rate Case",
+     "quote": "The hearing concluded on July 7, 2026. APS and other parties filed their Initial Post-Hearing Briefs and Reply Briefs on August 27, 2026 and September 11, 2026, respectively. Although APS anticipates that the 2025 Rate Case will be resolved before the end of this year, APS cannot predict the outcome of its request nor when the 2025 Rate Case will be decided by the ACC."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Arizona Public Service Company",
+   "state": "AZ",
+   "rule_name": "Direct Pricing Contract with TSMC Arizona (customer-specific contract, not a rule)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-10-16",
+   "docket": "not published (to be submitted to the ACC)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000050/pnw-20260930.htm",
+   "source_title": "Pinnacle West Capital Corporation and Arizona Public Service Company, Form 10-Q for the quarter ended September 30, 2026",
+   "what": "APS signed its first Direct Pricing Contract with a large energy user, TSMC Arizona, ramping to about 1.88 GW for an initial term of 25 years with upfront credit-support payments and collateral from 1 January 2027, to be submitted to the ACC in 2026 (a contract, so the earlier choice of no row may stand).",
+   "cites": [
+    {
+     "page": "",
+     "section": "Note 7, Direct Pricing Contract",
+     "quote": "On October 16, 2026, APS signed a DPC with TSMC Arizona. APS expects to submit the DPC to the ACC for regulatory approval in 2026."
+    },
+    {
+     "page": "",
+     "section": "Note 7, Direct Pricing Contract",
+     "quote": "Pursuant to the DPC, APS has agreed to provide service ramping to approximately 1.88 gigawatts to power TSMC Arizona's semiconductor fabs/advanced packaging facilities for an initial term of 25 years. The DPC includes various contractual provisions to support the development of resources for APS to meet the load demand, including upfront payments for credit support and various forms of liquid and non-liquid collateral beginning on January 1, 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tucson Electric Power Company",
+   "state": "AZ",
+   "rule_name": "Energy Supply Agreement for a data center campus of about 300 MW",
+   "affects": "southwest_california-04",
+   "change": "other",
+   "date": "2026-10-01",
+   "docket": "not published (Superior Court of Maricopa County; the ACC docket is not named in the 10-Q)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/100122/000010012226000025/tep-20260930.htm",
+   "source_title": "Tucson Electric Power Company, Form 10-Q for the quarter ended September 30, 2026",
+   "what": "The Superior Court of Maricopa County denied the ACC's and TEP's motions to dismiss the Attorney General's and the City of Tucson's challenges to the ACC's approval of the ESA and ordered further briefing on the merits.",
+   "cites": [
+    {
+     "page": "",
+     "section": "Energy Supply Agreement",
+     "quote": "In February 2026, the Arizona Attorney General and the City of Tucson filed legal challenges, now pending in the Superior Court of Maricopa County, contesting the ACC's approval of the ESA."
+    },
+    {
+     "page": "",
+     "section": "Energy Supply Agreement",
+     "quote": "In September 2026, oral arguments were held, and on October 1, 2026, the Superior Court denied the motions to dismiss and ordered further briefing on the merits of the case."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
+   "state": "NV",
+   "rule_name": "Form Large Load Electric Service Agreement (LLESA) and Form Framework Agreement, filed with the 2026 Joint IRP",
+   "affects": "southwest_california-05",
+   "change": "hearing set",
+   "date": "2026-10-26",
+   "docket": "26-05007",
+   "source_url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28386&type=Hearing&docnum=26-05007&meetingdate=10%2F26%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+   "source_title": "PUCN Calendar, Event Detail: Docket 26-05007, Hearing, 10/26/2026",
+   "what": "The PUCN calendar lists hearings in Docket 26-05007 (the Joint IRP that carries the form LLESA) from 26 October 2026 and again from 16 November 2026, with Phase 3 rebuttal testimony due 2 November 2026; no order on the form LLESA was found.",
+   "cites": [
+    {
+     "page": "",
+     "section": "event detail",
+     "quote": "Docket Number 26-05007 Presiding Officer Williamson Date 10/26/2026 Time 10:00AM"
+    },
+    {
+     "page": "",
+     "section": "event detail",
+     "quote": "Type Hearing Description Application for Approval of Resource Plan"
+    },
+    {
+     "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28390&type=Hearing&docnum=26-05007&meetingdate=11%2F16%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+     "page": "",
+     "section": "event detail",
+     "quote": "Docket Number 26-05007 Presiding Officer Williamson Date 11/16/2026 Time 10:00AM",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28402&type=Due+-+Phase+3+Rebuttal+Testimony&docnum=26-05007&meetingdate=11%2F2%2F2026+12%3A00%3A00+AM&location=",
+     "page": "",
+     "section": "event detail",
+     "quote": "Date 11/02/2026 Time 12:00PM City Room Type Due - Phase 3 Rebuttal Testimony",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PUCN's own calendar (pucweb1.state.nv.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PacifiCorp (Pacific Power)",
+   "state": "OR",
+   "rule_name": "Schedule 401, Service to New Large Energy Use Facilities (LEUF Agreements), UE 463",
+   "affects": "northwest_mountain-01",
+   "change": "other",
+   "date": "2026-09-16",
+   "docket": "UE 463",
+   "source_url": "https://apps.puc.state.or.us/orders/2026ords/26-443.pdf",
+   "source_title": "Oregon PUC Order No. 26-443 (UE 463), entered 13 November 2026",
+   "what": "PacifiCorp, Staff, CUB, the Community Energy Project, Climate Solutions, Oregon Environmental Council and Sierra Club entered into the Schedule 401 stipulation on 16 September 2026 (adopted by Order No. 26-443, next entry).",
+   "cites": [
+    {
+     "page": "42",
+     "section": "VII. Order, paragraph 4",
+     "quote": "The stipulation entered into between PacifiCorp, dba Pacific Power; Staff of the Oregon Public Utility Commission; the Oregon Citizens' Utility Board; the Community Energy Project; Climate Solutions; Oregon Environmental Council; and Sierra Club on September 16, 2026, attached as Appendix A is adopted."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the Oregon PUC's own order (apps.puc.state.or.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PacifiCorp (Pacific Power)",
+   "state": "OR",
+   "rule_name": "Schedule 401, Service to New Large Energy Use Facilities (LEUF Agreements), UE 463",
+   "affects": "northwest_mountain-01",
+   "change": "approved",
+   "date": "2026-11-13",
+   "docket": "UE 463",
+   "source_url": "https://apps.puc.state.or.us/orders/2026ords/26-443.pdf",
+   "source_title": "Oregon PUC Order No. 26-443 (UE 463), entered 13 November 2026",
+   "what": "Order No. 26-443 adopted the stipulation, permanently suspended Advice No. 25-015 and directed new tariffs consistent with the order by 24 November 2026, effective 1 January 2027 (already the row's status).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "ORDER NO. 26-443 ENTERED Nov 13 2026"
+    },
+    {
+     "page": "1",
+     "section": "disposition",
+     "quote": "DISPOSITION: STIPULATION ADOPTED"
+    },
+    {
+     "page": "41",
+     "section": "VII. Order, paragraphs 1 and 2",
+     "quote": "1. Advice No. 25-015, filed on October 2, 2025, is permanently suspended. 2. PacifiCorp, dba Pacific Power, must file new tariffs consistent with this order no later than November 24, 2026, to be effective January 1, 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the Oregon PUC's own order (apps.puc.state.or.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Portland General Electric Company",
+   "state": "OR",
+   "rule_name": "Schedule 96, Data Center Standard Service (with Rule I Large Load Customer Agreement), UM 2377",
+   "affects": "northwest_mountain-04",
+   "change": "order issued",
+   "date": "2026-08-31",
+   "docket": "UM 2377",
+   "source_url": "https://apps.puc.state.or.us/orders/2026ords/26-309.pdf",
+   "source_title": "Oregon PUC Order No. 26-309 (UM 2377), entered 31 August 2026",
+   "what": "Order No. 26-309 granted reconsideration in part and denied it in part: the Schedule 96 queue, the one-cent surcharge and the 90 percent minimum demand charges stand; the exit fee is to be refunded or adjusted where costs are defrayed by other customers or exceed stranded costs; Schedules 89 and 90 minimum demand and exceedance issues go to UE 473; and PGE must file new tariffs by 15 September 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "ORDER NO. 26-309 ENTERED Aug 31, 2026"
+    },
+    {
+     "page": "1",
+     "section": "disposition",
+     "quote": "APPLICATIONS FOR RECONSIDERATION AND REHEARING AND MOTIONS FOR CLARIFICATION GRANTED IN PART AND DENIED IN PART"
+    },
+    {
+     "page": "9",
+     "section": "exit fee, resolution",
+     "quote": "We grant reconsideration in part. We agree that the exit fee should be adjusted to take into account subsequent use by other customers or the broader system"
+    },
+    {
+     "page": "35",
+     "section": "IV. Order, paragraph 5",
+     "quote": "5. Portland General Electric Company must file new tariffs consistent with this order no later than September 15, 2026."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the Oregon PUC's own order (apps.puc.state.or.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Portland General Electric Company",
+   "state": "OR",
+   "rule_name": "Schedule 96, Data Center Standard Service (with Rule I Large Load Customer Agreement), UM 2377",
+   "affects": "northwest_mountain-04",
+   "change": "other",
+   "date": "2026-09-10",
+   "docket": "UM 2377",
+   "source_url": "https://apps.puc.state.or.us/edockets/docket.asp?DocketID=24470",
+   "source_title": "Oregon PUC eDockets, UM 2377, PUC Investigation of Rule C and I, Marginal Cost Study Treatment (actions list)",
+   "what": "AWEC petitioned the Oregon Court of Appeals for judicial review of Orders No. 26-309, 26-154 and 26-239.",
+   "cites": [
+    {
+     "page": "",
+     "section": "Actions, 9/10/2026",
+     "quote": "Alliance of Western Energy Consumers Petition for Judicial Review of Administrative Orders, Order No. 26-309, dated August 31, 2026 which denied rehearing and/or reconsideration of Order No. 26-154 dated May 7, 2026, and Order No. 26-239 dated July 10, 2026 in the Court of Appeals."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the Oregon PUC's eDockets page for UM 2377 (apps.puc.state.or.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Portland General Electric Company",
+   "state": "OR",
+   "rule_name": "Schedule 96, Data Center Standard Service (with Rule I Large Load Customer Agreement), UM 2377",
+   "affects": "northwest_mountain-04",
+   "change": "in effect",
+   "date": "2026-10-01",
+   "docket": "UM 2377 (Advice No. 26-39)",
+   "source_url": "https://apps.puc.state.or.us/edockets/docket.asp?DocketID=24470",
+   "source_title": "Oregon PUC eDockets, UM 2377, PUC Investigation of Rule C and I, Marginal Cost Study Treatment (docket header and actions list)",
+   "what": "PGE filed Advice No. 26-39, its compliance filing to Order No. 26-309, on 15 September 2026; the Commission sent its acceptance letter on 30 September 2026 and the docket lists the filing as accepted, effective 1 October 2026 (the revised sheets were not read).",
+   "cites": [
+    {
+     "page": "",
+     "section": "Actions, 9/15/2026",
+     "quote": "PGE's Advice No. 26-39, UM 2377 Compliance Filing to Reconsideration Order No. 26-309."
+    },
+    {
+     "page": "",
+     "section": "docket header",
+     "quote": "Advice No: 26-39 ... Effective: 10/1/2026 ... Status: ACCEPTED"
+    },
+    {
+     "page": "",
+     "section": "Actions, 9/30/2026",
+     "quote": "Action: ACCEPTED UTILITY FILING Description Letter sent."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the Oregon PUC's eDockets page for UM 2377 (apps.puc.state.or.us)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Idaho Power Company",
+   "state": "ID",
+   "rule_name": "Petition IPC-E-26-07 on class cost of service and cost of service considerations for new large-load customers (pending)",
+   "affects": "northwest_mountain-05",
+   "change": "hearing set",
+   "date": "2026-09-16",
+   "docket": "IPC-E-26-07",
+   "source_url": "https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2607/OrdNotc/20260916Notice_of_Schedule_Order_No_37170.pdf",
+   "source_title": "Idaho PUC Order No. 37170, Notice of Schedule, Notice of Public Comment Deadline, Notice of Technical Hearing (Case IPC-E-26-07)",
+   "what": "Order No. 37170 set the schedule (company testimony 23 September 2026, Staff and intervenor testimony 25 November 2026, public comments by 14 December 2026, all-party testimony 13 January 2027) and a technical hearing from 19 to 21 January 2027.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "caption",
+     "quote": "CASE NO. IPC-E-26-07"
+    },
+    {
+     "page": "5",
+     "section": "Order",
+     "quote": "IT IS HEREBY ORDERED that the procedural schedule set forth above is approved. IT IS FURTHER ORDERED that the Commission will conduct a technical hearing in this matter on Tuesday, January 19, 2027"
+    },
+    {
+     "page": "5",
+     "section": "signature",
+     "quote": "DONE by Order of the Idaho Public Utilities Commission at Boise, Idaho this 16th day of September 2026."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Idaho PUC's own order (puc.idaho.gov Fileroom)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Idaho Power Company",
+   "state": "ID",
+   "rule_name": "Petition IPC-E-26-07 on class cost of service and cost of service considerations for new large-load customers (pending)",
+   "affects": "northwest_mountain-05",
+   "change": "filed",
+   "date": "2026-09-23",
+   "docket": "IPC-E-26-07",
+   "source_url": "https://puc.idaho.gov/Case/Details/7731",
+   "source_title": "Idaho PUC case page, IPC-E-26-07",
+   "what": "Idaho Power filed its direct testimony (Allen and Anderson), with exhibits including a New Large Load (NLL) GRM model; the testimony itself was not read (the Laserfiche viewer shows no text).",
+   "cites": [
+    {
+     "page": "",
+     "section": "company documents",
+     "quote": "09/23/2026 DIRECT ALLEN EXHIBIT NO. 8 - NLL GRM MODEL.XLSX"
+    },
+    {
+     "page": "",
+     "section": "company documents",
+     "quote": "09/23/2026 DIRECT ALLEN.PDF"
+    },
+    {
+     "page": "",
+     "section": "company documents",
+     "quote": "09/23/2026 DIRECT ANDERSON.PDF"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Idaho PUC's own case page (puc.idaho.gov)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Washington investor-owned electric utilities (Puget Sound Energy, Avista, PacifiCorp in Washington)",
+   "state": "WA",
+   "rule_name": "Washington UTC draft Policy Statement Addressing Electric Large Load Customers (UE-260162)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-11-06",
+   "docket": "UE-260162",
+   "source_url": "https://apiproxy.utc.wa.gov/cases/GetDocument?docID=155&year=2026&docketNumber=260162",
+   "source_title": "Washington UTC, Notice of Draft Policy Statement and Opportunity to Comment by November 25, 2026, Docket UE-260162 (with the draft Policy Statement Addressing Electric Large Load Customers)",
+   "what": "The UTC issued a draft policy statement for its regulated investor-owned utilities that would treat customers of 50 MW maximum contracted capacity (and, by presumption, over 20 MW at over 75 percent load factor) as large load customers and expects minimum terms, exit fees and collateral for the full contract term, with comments due 25 November 2026 and a final statement planned by year-end.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "notice",
+     "quote": "Service Date: November 6, 2026"
+    },
+    {
+     "page": "1",
+     "section": "notice",
+     "quote": "NOTICE OF DRAFT POLICY STATEMENT AND OPPORTUNITY TO COMMENT BY NOVEMBER 25, 2026"
+    },
+    {
+     "page": "1",
+     "section": "notice",
+     "quote": "The Commission plans to publish a final version of this policy statement by the end of the calendar year."
+    },
+    {
+     "url": "https://apiproxy.utc.wa.gov/cases/GetDocument?docID=156&year=2026&docketNumber=260162",
+     "page": "5",
+     "section": "definition of large loads",
+     "quote": "To exclude traditional industrial loads from LLC classification, the Commission believes that a threshold of 50 MW is appropriate.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://apiproxy.utc.wa.gov/cases/GetDocument?docID=156&year=2026&docketNumber=260162",
+     "page": "5",
+     "section": "definition of large loads",
+     "quote": "Commission presumes that a customer with greater than 20 MW of demand and a load factor of greater than 75 percent is an LLC, even if the capacity-only criterion is not met.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://apiproxy.utc.wa.gov/cases/GetDocument?docID=156&year=2026&docketNumber=260162",
+     "page": "13",
+     "section": "contract terms",
+     "quote": "Utilities should require that LLCs commit to a minimum contract term sufficient to fully recover the incremental fixed costs of serving them",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://apiproxy.utc.wa.gov/cases/GetDocument?docID=156&year=2026&docketNumber=260162",
+     "page": "13",
+     "section": "credit and collateral",
+     "quote": "LLC tariffs should include credit, deposit, and collateral requirements for the full contract term.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Washington UTC's own docket documents (utc.wa.gov case docket, robots allowed)",
+   "notes": "The draft binds no named utility; it says the Commission regulates investor-owned electric utilities, not PUDs, municipals or cooperatives (footnote 6). A petition for rulemaking by Green Recursive Utility Service LLC (filed 3 November 2026) on measuring large loads is in the same docket. The UTC's Notice of Timeline of 13 October 2026 was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Utility District No. 2 of Grant County (Grant PUD)",
+   "state": "WA",
+   "rule_name": "Customer Service Policies, Section 8 (Large Power Customer Electric Service), with Rate Schedule No. 94",
+   "affects": "northwest_mountain-07",
+   "change": "in effect",
+   "date": "2026-11-01",
+   "docket": "Grant PUD Commission Resolution 9132 (22 September 2026), as the policies print it",
+   "source_url": "https://www.grantpud.org/images/2026/2026-Rates/Customer%20Service%20Policy_Clean_Effective%2020261101.pdf",
+   "source_title": "Grant PUD Customer Service Policies, effective 11/1/2026",
+   "what": "Grant PUD's revised Customer Service Policies, including Section 8 for large power customers, carry the date 'Effective 11/1/2026', and the preamble cites Resolution 9132 of 22 September 2026, which delegates future revisions to the General Manager (already the row's status date).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "Effective 11/1/2026"
+    },
+    {
+     "page": "2",
+     "section": "contents",
+     "quote": "8. LARGE POWER CUSTOMER ELECTRIC SERVICE (500 KW/KVA+)"
+    },
+    {
+     "page": "4",
+     "section": "1.1 Preamble",
+     "quote": "Pursuant to Resolution 9132, dated September 22, 2026, the Commission has delegated authority to the General Manager/Chief Executive Officer to approve future updates and revisions to the CSP as necessary to meet these objectives."
+    }
+   ],
+   "license": "public",
+   "license_basis": "Grant PUD's own posted policy (a public utility district), as the dataset row",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Utility District No. 2 of Grant County (Grant PUD)",
+   "state": "WA",
+   "rule_name": "Proposed Rate Schedule 20, High Density Compute (data centers and cryptocurrency)",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-08-18",
+   "docket": "not published (commission workshop, no resolution yet)",
+   "source_url": "https://www.grantpud.org/blog/commission-workshop-8-18-2026",
+   "source_title": "Commission workshop, 8/18/2026 -- Cost-of-service analysis seeks increased accuracy, rate simplification (Grant PUD blog, 20 August 2026)",
+   "what": "Staff proposed at the 18 August 2026 commission workshop a new Rate Schedule 20 for high-density compute, moving data centers and cryptocurrency from Rates 7, 14, 15 and 17 on 1 April 2027, with a commission vote planned by year-end or January 2027.",
+   "cites": [
+    {
+     "page": "",
+     "section": "post",
+     "quote": "Commissioners got their first look at draft results at their Aug. 18 workshop but want time to study the analysis and proposal before further discussion."
+    },
+    {
+     "page": "",
+     "section": "post",
+     "quote": "Create a new Rate Schedule 20 for \"high-density compute,\" which would combine data centers and cryptocurrency from their current rates 7, 14, 15, and 17 on April 1, 2027."
+    },
+    {
+     "page": "",
+     "section": "post",
+     "quote": "Further discussion about the cost-of-service analysis and rate proposal is planned for commission workshops in September, October, and November with a commission vote planned by year-end or January 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "Grant PUD's own post (a public utility district)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy (Wyoming Electric)",
+   "state": "WY",
+   "rule_name": "Large Power Contract Service, Rate Schedule LPCS",
+   "affects": "northwest_mountain-10",
+   "change": "other",
+   "date": "2026-09",
+   "docket": "not published",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1130464/000119312526449130/bkh-20260930.htm",
+   "source_title": "Black Hills Corporation, Form 10-Q for the quarter ended September 30, 2026",
+   "what": "Black Hills signed long-term agreements with Google for a Cheyenne data center, including an LPCS agreement and a generation facilities agreement through December 2048, with about 2.1 GW of third-party resources to be managed under the LPCS tariff (a contract under the rule, not a change to its sheets).",
+   "cites": [
+    {
+     "page": "",
+     "section": "Google Data Center Agreements",
+     "quote": "In September 2026, the Company entered into long-term agreements with Google and other third-party partners to serve a planned data center project to be constructed in Cheyenne, Wyoming. The negotiated agreements include a LPCS agreement and a generation facilities agreement, both of which extend through December 2048."
+    },
+    {
+     "page": "",
+     "section": "Google Data Center Agreements",
+     "quote": "In addition, we expect to manage the output of approximately 2.1 GW of third-party contracted resources through a privately managed microgrid under the Company's LPCS tariff."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
+   "notes": "The same 10-Q says Wyoming Electric filed an LCTCAM tariff with the WPSC on 19 June 2026 to recover transmission costs directly from LPCS customers, decision expected in the first quarter of 2027 (filed before the window, so no entry).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Imperial Irrigation District",
+   "state": "CA",
+   "rule_name": "Schedule LL, Large Load Tariff",
+   "affects": "coops_public_power-04",
+   "change": "in effect",
+   "date": "2026-09-15",
+   "docket": "not published (IID Board of Directors)",
+   "source_url": "https://www.iid.com/home/showpublisheddocument/23987/639250755695530000",
+   "source_title": "IID Large Load Tariff Schedule LL, effective September 15, 2026",
+   "what": "The IID Board of Directors approved Schedule LL on 15 September 2026, the schedule's effective date (already the row's status date).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "header",
+     "quote": "LARGE LOAD TARIFF SCHEDULE LL Effective September 15, 2026"
+    },
+    {
+     "url": "https://www.iid.com/power/rates-regulations/large-load-customers",
+     "page": "",
+     "section": "Large Load Customers page",
+     "quote": "On September 15, 2026, the IID Board of Directors approved Schedule LL, establishing a service process for new or expanded electrical loads that meet the tariff's Large Load applicability requirements.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "IID's own posted tariff and page (an irrigation district, public power), as the dataset row",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "state": "CO, NM, WY, NE",
+   "rule_name": "High Impact Load Tariff and pro forma agreement (HILT)",
+   "affects": "coops_public_power-01",
+   "change": "other",
+   "date": "2026-09",
+   "docket": "not published in the 10-Q",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1637880/000163788026000052/tris-20260930.htm",
+   "source_title": "Tri-State Generation and Transmission Association, Inc., Form 10-Q for the quarter ended September 30, 2026",
+   "what": "Tri-State opened its first HILT review cycle in September 2026 and is reviewing applications for seven projects of about five gigawatts of potential incremental load by 2034, results expected in the first half of 2027 (FERC's acceptance is dated only August 2026, so it may fall before the window).",
+   "cites": [
+    {
+     "page": "",
+     "section": "Recent Developments",
+     "quote": "August 2026, FERC accepted Tri-State's tariff and pro forma agreement. In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects. Tri-State has received and is reviewing applications for seven projects with approximately five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects under the BYOR Program."
+    },
+    {
+     "page": "",
+     "section": "Recent Developments",
+     "quote": "Results of Tri-State's evaluation processes, including screening for reliability, affordability, responsibility and transmission planning impacts, are expected in the first half of 2027."
+    }
+   ],
+   "license": "public",
+   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "El Paso Electric Company",
+   "state": "NM",
+   "rule_name": "Proposed Original Rate No. 50 High Load Factor Power Service Rate (New Mexico), NM PRC Case No. 25-00082-UT",
+   "affects": "texas-07",
+   "change": "order issued",
+   "date": "2026-09-15",
+   "docket": "Case No. 25-00082-UT",
+   "source_url": "https://www.prc.nm.gov/wp-content/uploads/2026/10/El-Paso-Electric-Companys-Response-to-Order-on-EPEs-Proposed-Second-Notice-and-Social-Media-Campaign.pdf",
+   "source_title": "El Paso Electric Company's Response to Order on EPE's Proposed Second Notice and Social Media Campaign (Case No. 25-00082-UT, dated 18 September 2026, posted by the NM PRC)",
+   "what": "An Order on EPE's Proposed Second Notice and Social Media Campaign, dated 15 September 2026, was issued in the amended rate case that carries proposed Rates 50 and 51 (EPE responded on 18 September 2026; the filing does not name the issuer), and the PRC's case page says the public evidentiary hearing is scheduled for 9 through 22 December (the date it was set is not printed).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "opening",
+     "quote": "El Paso Electric Company (\"EPE\") is submitting this filing pursuant to the Order on EPE's Proposed Second Notice and Social Media Campaign dated September 15, 2026"
+    },
+    {
+     "page": "22",
+     "section": "certificate of service",
+     "quote": "DATED September 18, 2026."
+    },
+    {
+     "url": "https://www.prc.nm.gov/?p=33054",
+     "page": "",
+     "section": "EPE Rate Proposal Case Information",
+     "quote": "A public evidentiary hearing is scheduled for December 9 through December 22, beginning each day at 9:00 a.m. via Zoom.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.prc.nm.gov/?p=33054",
+     "page": "",
+     "section": "EPE Rate Proposal Case Information",
+     "quote": "On August 6, 2026, EPE filed an amended application with the Commission.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the NM PRC's own case page and its posted copy of EPE's filing (prc.nm.gov); the rows themselves stay internal (EPE's site)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "El Paso Electric Company",
+   "state": "NM",
+   "rule_name": "Proposed Original Rate No. 51 Large Load Power Service Rate (New Mexico), NM PRC Case No. 25-00082-UT",
+   "affects": "texas-08",
+   "change": "order issued",
+   "date": "2026-09-15",
+   "docket": "Case No. 25-00082-UT",
+   "source_url": "https://www.prc.nm.gov/wp-content/uploads/2026/10/El-Paso-Electric-Companys-Response-to-Order-on-EPEs-Proposed-Second-Notice-and-Social-Media-Campaign.pdf",
+   "source_title": "El Paso Electric Company's Response to Order on EPE's Proposed Second Notice and Social Media Campaign (Case No. 25-00082-UT, dated 18 September 2026, posted by the NM PRC)",
+   "what": "An Order on EPE's Proposed Second Notice and Social Media Campaign, dated 15 September 2026, was issued in the amended rate case that carries proposed Rates 50 and 51 (EPE responded on 18 September 2026; the filing does not name the issuer), and the PRC's case page says the public evidentiary hearing is scheduled for 9 through 22 December (the date it was set is not printed).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "opening",
+     "quote": "El Paso Electric Company (\"EPE\") is submitting this filing pursuant to the Order on EPE's Proposed Second Notice and Social Media Campaign dated September 15, 2026"
+    },
+    {
+     "page": "22",
+     "section": "certificate of service",
+     "quote": "DATED September 18, 2026."
+    },
+    {
+     "url": "https://www.prc.nm.gov/?p=33054",
+     "page": "",
+     "section": "EPE Rate Proposal Case Information",
+     "quote": "A public evidentiary hearing is scheduled for December 9 through December 22, beginning each day at 9:00 a.m. via Zoom.",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.prc.nm.gov/?p=33054",
+     "page": "",
+     "section": "EPE Rate Proposal Case Information",
+     "quote": "On August 6, 2026, EPE filed an amended application with the Commission.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the NM PRC's own case page and its posted copy of EPE's filing (prc.nm.gov); the rows themselves stay internal (EPE's site)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power)",
+   "state": "UT",
+   "rule_name": "Utah PSC rulemaking on amendments to R746-318, Large-Scale Electric Service Requirements (Docket 25-R318-01, with 24-035-43)",
+   "affects": "large_load_connection_rules/utah_psc_r746_318_large_scale_electric.yaml",
+   "change": "filed",
+   "date": "2026-09-04",
+   "docket": "25-R318-01 and 24-035-43",
+   "source_url": "https://pscdocs.utah.gov/Rules/25R31801/346985RMPRplyCmnts9-4-2026.pdf",
+   "source_title": "Rocky Mountain Power Reply Comments, Utah PSC Dockets 25-R318-01 and 24-035-43, 4 September 2026",
+   "what": "Under the PSC's Notice of Additional Comment Period of 22 July 2026 on proposed amendments to R746-318, Rocky Mountain Power filed initial (20 August 2026) and reply (4 September 2026) comments proposing to issue the isolation declaration within seven business days counted from complete documentation and site verification; the PSC docket page shows no Commission action after 22 July 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "opening",
+     "quote": "Pursuant to the Public Service Commission of Utah's (\"Commission\") Notice of Additional Comment Period (\"Notice\") issued on July 22, 2026, Rocky Mountain Power (\"Company\") hereby submits for filing its Reply Comments"
+    },
+    {
+     "page": "1",
+     "section": "opening",
+     "quote": "These Reply Comments are supplemental to the Company's initial comments from August 20, 2026"
+    },
+    {
+     "page": "2",
+     "section": "I.A",
+     "quote": "The Company's proposal, i.e., that it would issue a declaration within seven business days, aligns with the Division's suggestion"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Utah PSC's docket copy (pscdocs.utah.gov)",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "no_change": [
+  {
+   "utility": "Pacific Gas and Electric Company (Rule 30, A.24-11-007)",
+   "searched": "Read 13 November 2026: the ALJ ruling of 7 August 2026 (docs.cpuc.ca.gov 613880295, before the window); the CPUC's New Filings page for 2 to 6 November 2026 (no Rule 30 item); PG&E's Form 10-Q for Q3 2026 (sec.gov pcg-20260930.htm, no Rule 30 or large-load passage); three docs.cpuc.ca.gov documents found by search (617649807, 614134949, 617386060: unrelated). No proposed or final Rule 30 decision found. Leads only: draft Resolution E-5455 (Google, 250 MW) was moved to the CPUC's 3 September 2026 agenda (mgrid.org), and a Stoel Rives update of 4 November 2026 describes a PG&E transmission-level resolution at the 29 October 2026 voting meeting tying the advance to the Rule 30 outcome; neither adopted resolution was found on a readable CPUC host (ia.cpuc.ca.gov refused)."
+  },
+  {
+   "utility": "Southern California Edison Company",
+   "searched": "Web searches (large-load or transmission-level tariff; R.26-04-009, the CPUC's advanced rate design rulemaking with a large-load track, opened 9 April 2026) on 13 November 2026: no SCE large-load rule or filing in the window found, and no scoping memo for R.26-04-009 found."
+  },
+  {
+   "utility": "San Diego Gas & Electric Company",
+   "searched": "The same searches as SCE: no SDG&E large-load rule or filing in the window found."
+  },
+  {
+   "utility": "Salt River Project Agricultural Improvement and Power District",
+   "searched": "Web search for SRP Board pricing actions on large loads (September to November 2026): none found. Lead only (KJZZ, 2 November 2026): Board members discussed a data center moratorium; no SRP Board decision document was read. Row southwest_california-03 stands."
+  },
+  {
+   "utility": "Public Service Company of New Mexico (PNM)",
+   "searched": "PNM's Form 10-Q for Q3 2026 (sec.gov pnm-20260930.htm, read 13 November 2026): no PNM large-load tariff filing; Meta is served under a special service rate and a rate rider. Web search: no PNM large-load tariff case found (PNM said in July 2026 it intends to file one, a news lead)."
+  },
+  {
+   "utility": "NorthWestern Corporation d/b/a NorthWestern Energy (Montana)",
+   "searched": "NorthWestern Energy Group's Form 10-Q for Q3 2026 (sec.gov nwe-20260930.htm, filed 5 November 2026): the LNL Rule is pending, 'Discovery has started in this proceeding, however, the MPSC has not set settlement or hearing dates.' The MPSC docket is 2026.04.023 per search results (not read)."
+  },
+  {
+   "utility": "Public Utility District No. 1 of Chelan County (Chelan PUD)",
+   "searched": "Web search for Chelan PUD large-load rate actions in September to November 2026: only 2024 and 2025 items found; no change to Rate Schedule 4 found. chelanpud.org's terms page answered with a bot check earlier and was not retried."
+  },
+  {
+   "utility": "Avista Corporation",
+   "searched": "Washington: covered by the UTC's draft policy statement of 6 November 2026 (entry above), which cites Avista's paused data center negotiations; no Avista large-load tariff filing found. Idaho: Idaho Code 61-335 (row northwest_mountain-06) unchanged."
+  },
+  {
+   "utility": "Puget Sound Energy",
+   "searched": "The UTC docket UE-260162 document list (read 13 November 2026): PSE commented before the August workshop; the draft policy statement of 6 November 2026 is the change (entry above). No PSE large-load schedule filed in the window found."
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power) in Wyoming and Idaho",
+   "searched": "psc.wyo.gov hot topics page (read 13 November 2026): RMP's general rate case and 2025 IRP only, no large-load item; the Wyoming PSC investigation of RMP's large-load tariff compliance (November 2026) is a news lead not found in a readable PSC document. Idaho: nothing new found."
+  },
+  {
+   "utility": "Seattle City Light, Tacoma Power, Snohomish County PUD",
+   "searched": "Rows coops_public_power_2-02 and remainder-05 to remainder-09: their rules took effect before the window (Seattle Ordinance 127473 passed 21 July 2026; Snohomish NLLP signed 17 July 2026; Tacoma schedules 1 April 2026); no change in the window was searched for beyond the rows' own notes."
+  },
+  {
+   "utility": "Hawaiian Electric Company",
+   "searched": "Web search (large-load or data center tariff, Hawaii PUC, 2026): none found."
+  },
+  {
+   "utility": "Alaska utilities (Chugach Electric, Matanuska Electric Association)",
+   "searched": "Web search (RCA large-load or data center tariff, 2026): none found; only unrelated 2026 tariff notices."
+  },
+  {
+   "utility": "Arizona electric cooperatives",
+   "searched": "Lead only, outside the window: an azcc.gov release of 13 August 2026 (from search results, not read) says the ACC approved a cooperatives' joint application on large load cost protection, two days before the window, so no entry. The ACC's generic large-load docket E-00000A-25-0069 showed no action in the window in search results."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Pacific Gas and Electric Company (CPUC voting meeting results)",
+   "url": "https://ia.cpuc.ca.gov/agendadocs/3584_results.pdf",
+   "reason": "robots.txt not readable (getaddrinfo failed); not read, not retried"
+  },
+  {
+   "utility": "New Mexico PRC (large load policy survey)",
+   "url": "https://www.prc.nm.gov/wp-content/uploads/2026/08/Large-Load-Policy-Technical-Analysis-Survey-v-3.0.pdf",
+   "reason": "robots.txt not readable (connection timed out); not read, not retried"
+  },
+  {
+   "utility": "Idaho Power Company (IPC-E-26-07 order viewer)",
+   "url": "https://lf-puc.idaho.gov/WebLink/DocView.aspx?dbid=0&id=161791",
+   "reason": "read, but the Laserfiche viewer is built by script and showed no text; the order was read from the Fileroom copy instead"
+  },
+  {
+   "utility": "Idaho Power Company (IPC-E-26-07 testimony)",
+   "url": "https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2607/CaseFiles/20260923Direct%20Allen.pdf",
+   "reason": "HTTP 404 (a guessed path)"
+  }
+ ]
+}
