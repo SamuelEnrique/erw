@@ -16,6 +16,13 @@ The rules of `queue/done/241-day-20-november-data-continued.md` hold word for wo
 - **The build lock has no queue** (every waiter polls every 20 seconds): launch a gate early, and commit to its branch only before `lock=` appears in its `gate*_held.out`.
 - **A refused scheduled commit is read from its job's log** (`actions/runs/<id>/jobs`, then `actions/jobs/<id>/logs`, with the repository's token) and the run's artifact (`daily-prices-log`).
 
+## The owner's rules of 14 November 2026 (they win over anything older in this file or the files it names)
+
+From 14 November the desktop runs one Claude Code session, 24 hours a day: this data chain and the landing desk together (the windows B, 3 and 4 closed; files 250 and 265 retired). Every successor data file carries these two rules word for word, under this heading, and requires its own successor to carry them.
+
+- **No waiting.** Never stop to ask: a reversible choice goes under "Decisions made without you", the rest under "For Samuel's ruling" with a default. Never end a turn idle: poll any wait yourself and keep working in between. Never wait on Samuel. Never wait for the daily run (14:00 UTC) or any time of day: a step that needs the next daily run, or a later date, is written as waiting in the report and skipped; meanwhile take the landing desk, the data requests and every other step that can be done now, and come back to the skipped step once the run or the date has come. This replaces the 20-minute rule and every "not before" of the older files. The weekly limit is the only stop. Reports in short bullets, no em or en dash.
+- **The landing desk.** At the start of every session: `git fetch`, then read every `docs/state/landing_request_*.md` (`oldlaptop`, `portable`, `desktop_w3`, `desktop_w4`, and any new one) for rows marked requested. Land each requested row in order of request (several from one stack may land as one) through `scripts/land_check.py`, exactly as desk window B did (its rules in `queue/done/228-day-13-november-desktop-window2-landings.md` and its sessions' reports): the work in a worktree beside the main checkout, `origin/main` merged into the branch first; every command the lander prints run as its own command with its exit read; never between 14:00 and 16:15 UTC; the snapshots before and after, every difference listed; a failing gate fixed on the requesting stack only when the fix is small and plainly correct, otherwise the failure written in the row and the desk moves on. Mark each row landed with its commit and push. A landing outranks the session's other steps.
+
 Read first: chain 241's note `docs/state/note_<its day>_data_c241.md`, chain 227's note `docs/state/note_2026-11-13_data_c227.md`, `docs/state/rulings_2026-11-06.md` and any newer rulings file, `docs/reviews/siting-gaps.md`, `CLAUDE.md`.
 
 ## Session 3921: the next file, the ground, chain 241's first unfinished step
@@ -24,7 +31,13 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3922 to 3925: chain 241's other unfinished steps
 
-Long end 1:30 each. Session 3920 writes them here from chain 241's note. Where chain 241 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Chain 241 ran only session 3905 (the ground and the next file, 13 November 23:11 to 23:30 UTC, `archive/sessions/SESSION_3905_REPORT.md` on `wip/c241-data`); its window closed with the owner's change of 14 November, so no note and no session 3920 wrote this list. Written here on 14 November from chain 241's file (`queue/done/241-day-20-november-data-continued.md`, sessions 3905 to 3909), each step as that file states it; a step whose run has not happened is waiting and skipped under the no-waiting rule:
+
+- **The daily run of 14 November** (the 14:00 UTC dispatch): `board_tests` ok, the daily commit on main through the guard (refused on 7 to 13 November), `package tests` ok, the health summaries of 12, 13 and 14 November on main and their "Stale on main" line. A refusal read from the job's log and fixed at its cause.
+- **The data machine's run of 14 November** (17:00 UTC): its page files on main through the guard, every `dm_` step ok or skipped by its schedule, and `dm_test_battery_dispatch` (test 178; a ruling, left put back).
+- **Check-values on the Digest of 14 November,** and `/digest` with that issue on main; the lost Digests of 9, 10, 11 and 13 November left as the owner rules (session 3905: `digest_sends` holds no send for 9, 10 and 11 November).
+- **The gate's two failures that are main's own** since 13 November: `/policy`'s floor and `runs/c147/main_known_fails.txt` read again.
+- **The hunt** (`check.py --tables warehouse/output` after the daily commit's tables move), the cards and do-files, and the records.
 
 ## Session 3926: the runs of 15 and 16 November
 
