@@ -18,6 +18,12 @@
 
 - **13:20 UTC wake**: row 12 landed whole (`83c597550` in land-h, `510840e9e`): marked, worktree `erw-6000` removed (clean), remote branch deleted. No Roundup yet; the watch renewed.
 
+- **15:21 UTC (Saturday)**: the second watch reached the two-hour limit of a background command and was stopped; it already had the longest timeout allowed, so it was not started again. No W46 Roundup and no 16 November Digest. The window stops here with chain 276 open: sessions 6079 to 6091 not used.
+
+## To finish
+
+- After the 16 November Digest exists (Monday 16 November, after the daily run), take the periodicals file by name: `.venv\Scripts\python.exe scripts\chain_queue.py next --file 300-day-26-november-oldlaptop-periodicals-continued.md`, and run it. File 277 (`queue/next/277-day-20-november-oldlaptop-forecast-continued.md`) holds no forecast step left; its list is empty, so a plain `chain_queue.py next` before then takes it, and its session 6092 rebuilds the list from this report (the one step: file 300 once both issues exist).
+
 ## Decisions made without you
 
 - Chain 276 waits for the Roundup instead of writing a new empty chain every few minutes: file 300 forbids an early start, every reachable forecast item is done, and a chain of empty sessions every ten minutes until Monday would fill the queue and the history with nothing. The wait is on a scheduled issue, not on a landing or on Samuel; landings and rulings are checked at every wake and acted on.
