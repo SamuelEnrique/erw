@@ -20,7 +20,13 @@ Long end 1:00 each. One step a session, in chain 263's order, as session 3536 li
 
 ### Unfinished steps (written by session 3536 of chain 263)
 
-(Session 3536 writes this list.)
+Chain 263 was taken on Friday 13 November at 22:16 UTC, before the issues its steps read were written, so it carried them here. It added rows 186 and 187 (`scripts/check_digest.py`'s revision rules for a US48 demand peak and a fun fact's state share) to `wip/3457-periodicals`, and row 11 now asks for `98df9760b` (rows 183 to 187; rows 151 to 182 are on main). The note is `docs/state/note_2026-11-14_oldlaptop.md`. **Start this file after Sunday 15 November, 23:00 UTC**, when the W46 Roundup is written. The queue has no time gate: a queue step run before then hands it out anyway. In this order:
+
+1. (Session 3538) The W46 Roundup as stored (`docs/roundup/2026-W46.md`) read as a reader against a dry run of the same hour on the stack (`--no-model`; the worktree `erw-3457` needs `policy_actions.csv` and `policy_reads.csv` copied from the main copy after `scripts/sync.py --tables` restores them, and the run's own `energy_deals.csv` and `datacenter_projects.csv` swapped in, then checked out again), with `scripts/check_roundup.py --week 2026-W46`. Each new fault a numbered row from 188. Before it is written, skip it and say so.
+2. (Session 3539) Whether `wip/red-daily-2026-11-13` (the 13 November Digest) has landed, and the Digest of 16 November (Monday, after the daily run) as stored against the stack's dry run, traced with `scripts/check_digest.py`: its window should open at 13 November 16:01 UTC if the red branch landed, else at 12 November 22:56 UTC, which would repeat 13 November's items (said so if it does). Before it is written, skip it and say so.
+3. (Session 3540) If row 11 has landed in full: the clean-up. Remove the worktree `erw-3457` with its `site/.next` and `site/node_modules` (untracked copies of `.env`, `site/.env.local`, the 13 November fun fact item and two ignored tables, none to keep), delete `wip/3457-periodicals` on origin, and mark row 11 landed. If not, skip it and say so.
+4. The site build and the read of `/digest` and `/roundup` at 1280 and 390, only if MemFree reaches 2.5 GB (2.2 to 2.4 GB through chain 263). Not forced.
+5. Rows 39, 65 and 109 and rulings item 13 stay the owner's; rows 61, 77 and 129 the data machine's. The notes list what waits for Samuel.
 
 ## Sessions 3544 to 3550: the periodicals, again
 
