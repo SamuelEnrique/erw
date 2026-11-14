@@ -17,11 +17,24 @@
 - **The W46 Roundup**: not yet (newest `docs/roundup/2026-W45.md`); the newest Digest on main is 12 November. File 300 waits.
 - **Readers sent** (session 6051's step): four read-only subagents, groups A (AL AR GA LA MS MO), B (SC TN WV PA VT MA DC), C (IN MI OH WI KS OK), D (CA NV UT ID WY NM), one brief (`runs/s6050/readers/BRIEF.md`), each writing its rows to `runs/s6050/readers/group_<x>.json` as it goes.
 
+## Session 6051 (about 11:25 to 12:20 UTC): the 25 states' sales tax exemptions
+
+- **Readers**: four, about 160 page requests in all (each over the brief's 25, said so). Hosts refused, not worked around: tn.gov and publications.tnsosfiles.com (403), mass.gov (403, letter rulings), code.dccouncil.gov (robots), rules.sos.ga.gov (robots), codes.ohio.gov and oscn.net (robots: Ohio read in a bill's reprint of the existing text, Oklahoma in the Senate's compilation), leginfo.legislature.ca.gov (403 on robots: California read at CDTFA), michigan.gov (403).
+- **Spot-check by the session**: eleven quotes found word for word on their pages (KS, WV, MA, MI, SC, CA, WI, VT, PA, IN, OH; `runs/s6050/spot.py`), Missouri 144.030.2(46) read directly, New Mexico's final act (Laws 2024, chapter 67) and the Governor's message read directly: the partial veto struck sections 16 to 22 only, so section 39 (geothermal) stands. Two quotes corrected to the page's words before writing (Kansas, Vermont); Utah's URL taken from the reader's file.
+- **Written** on `wip/6000-forecast` (`0ce94ef84`, pushed): `sales_exemptions.json` gains the 25 states, all four technologies each with a hover; figures: Missouri solar 100, New Mexico geothermal 100, solar 67.2 (modules and inverters) in KS WV MA MI SC VT PA IN OH, Wisconsin solar 83.6, California solar 29.3; the rest 0 with the reason. Method note section 4's table and section 5. One test.
+- **Tests**: `site/scripts/test-forecast.test.mjs` 52 passed, 0 failed; `tests/test_session409.py`, `test_session4203_forecast.py`, `test_session4221_forecast_readers.py` 21 passed. Not built here (rule).
+- **Landing row 12** moved to `0ce94ef84`; it had landed to `53dcfa64b` (land-c, `f359090f9`).
+
 ## Decisions made without you
 
 - The empty list rebuilt by session 6050, as the chain's rules ask of a chain that stopped early.
 - The readers write their rows to `runs/` as they go (not only at the end), so a window that ends does not lose them a third time.
+- One rule for an exemption that reaches only the generating machinery (a manufacturing or utility machinery route): solar holds the modules and inverters, 67.2 percent of JEDI's taxable purchases (Kentucky's and Iowa's reading), times the share of the rate exempted; wind, gas and geothermal hold 0 with the exemption named and the tax called an upper bound, as no machinery share of JEDI's wind or gas purchases is held. The tax shown errs high, as the property tax held at cost does.
+- Held at 0, as earlier states were: a discretionary abatement (Alabama, Nevada, as Illinois), an exemption ending 30 June 2027 when the default build starts in 2027 (Utah, as Virginia), a regulated utility's only (Louisiana), a government buyer's only (New Mexico wind and solar), and every state not settled from an official page.
+- New states appended after the held ones in `sales_exemptions.json`, not sorted, so the diff only adds.
 
 ## For Samuel's ruling (default in brackets)
 
-- (none yet)
+- 30. New York holds 100 percent for a machinery-only exemption (Tax Law 1115(a)(12), "an upper bound of the exemption"), while the 25 states read today hold the machinery share (solar) or 0 (wind, gas): one rule for both? [New York kept as it is until ruled; nothing waits on it]
+- 31. Wisconsin's solar exemption read as reaching the mounting and trackers (Publication 207), 83.6 percent, not the electrical materials. [as written]
+- 32. Missouri's machinery exemption and California's 3.9375 points also reach foundations or special purpose buildings; the tool does not count them. [not counted: the tax shown is an upper bound]
