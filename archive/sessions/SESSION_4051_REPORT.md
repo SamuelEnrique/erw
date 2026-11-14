@@ -45,7 +45,16 @@ Energy Research Warehouse (ERW). Chain 230, the desktop's second window, 13 Nove
   - test 4051;
   - under node both sets build with 5 questions each; `tsc` 0 errors; the 14 problem-set test files pass.
   - Commit `2d32f6de4`, regated from 00:35 UTC.
-- (the regate's result and the landing: written when they come)
+- **The regate passed every step** (`0e77e4e53`, 00:35 to 01:05 UTC, after midnight). check-routes read `/learn/problems/know-your-grid` and `storage-and-taxes` with "200, 0 no data".
+- **The landing:**
+  - Snapshot `before-0e77e4e5`, then the push to `task/4051-landing-c` at 01:05.
+  - Run 43538461118 merged at 01:21 (`719a7f66d`); the deploy succeeded at 01:22.
+  - Snapshot after: **0 differences**.
+- **Marked** on main as `de250c2f8` (0 differences):
+  - rows 25, 26 and 27 landed;
+  - row 11 landed in part (to `f2ebae979`; it names `98df9760b` now);
+  - window 4's row 7 landed in part (to `c869252b6`; it names `829a1dfb6` now).
+- **The failed task branches** `task/4051-landing` and `task/4051-landing-b` stay on origin as records of the two failed runs. This window deletes no branch.
 
 ## Decisions made without you
 
