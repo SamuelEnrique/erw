@@ -24,7 +24,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FOLDER = os.path.join(ROOT, "docs", "research", "large_load")
 FIELDS = ("threshold_mw", "min_demand", "contract_term", "collateral", "exit_fee", "study_timeline",
           "connection_timeline", "queue_size")
-STATUSES = {"proposed", "approved", "in effect", "denied", "withdrawn"}  # a proposal a commission rejected, or the filer withdrew
+STATUSES = {"ordered", "proposed", "approved", "in effect", "denied", "withdrawn"}  # ordered: a commission ordered a filing not yet read
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 MONTH_OR_DATE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")  # a status date the document states only to the month
 # One cite as build_csv.py writes it: an optional other document's address and read date, then the place (a page,

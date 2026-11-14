@@ -22,7 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 FIELDS = ("threshold_mw", "min_demand", "contract_term", "collateral", "exit_fee", "study_timeline",
           "connection_timeline", "queue_size")
-STATUSES = ("proposed", "approved", "in effect", "denied", "withdrawn")  # session 5301: a commission may reject a proposal
+STATUSES = ("ordered", "proposed", "approved", "in effect", "denied", "withdrawn")  # 5301: denied, withdrawn; 5304: ordered (window A's word)
 EM, EN = chr(0x2014), chr(0x2013)
 
 

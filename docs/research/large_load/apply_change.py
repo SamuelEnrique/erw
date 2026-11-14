@@ -19,7 +19,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-STATUSES = ("proposed", "approved", "in effect", "denied", "withdrawn")
+STATUSES = ("ordered", "proposed", "approved", "in effect", "denied", "withdrawn")
 
 
 def main() -> int:

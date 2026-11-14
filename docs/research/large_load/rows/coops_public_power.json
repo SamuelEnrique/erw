@@ -33,7 +33,7 @@
       "quote": "FERC accepted Tri-State's High Impact Load Tariff, creating a framework to evaluate new high impact load opportunities, including data centers."
      }
     ],
-    "note": "FERC's acceptance is dated only to the month; no effective date is printed in the filings read, so the status is approved, with the first review cycle under way since September 2026"
+    "note": "'approved' here means FERC accepted the tariff in August 2026 (no effective date printed); Tri-State began its first high impact load review cycle in September 2026"
    },
    "fields": {
     "threshold_mw": {
@@ -86,7 +86,7 @@
    "license": "public",
    "license_basis": "SEC EDGAR filings (public); nothing is read from tristate.coop, whose terms bar robots",
    "erw_overlap": "none (window A holds no registry file for Tri-State)",
-   "notes": "History, from Tri-State's SEC filings: the first HILT was board-approved and filed with FERC in August 2025 and rejected by FERC in October 2025 (Q3 2025 10-Q: \"In August 2025, our Board approved and we filed with FERC a new tariff and pro forma agreement for high impact loads that have large load requirements, including data centers, into our system.\" and \"In October 2025, FERC issued an order rejecting our tariff.\"); the 2026 filing drew a FERC deficiency letter in May 2026 and Tri-State's response in June 2026 (Q2 2026 10-Q). In August 2025 Tri-State also filed BYOR tariff amendments to expand the BYOR Program to high impact loads, accepted by FERC in October 2025 (2025 10-K, Bring Your Own Resource Program). Leads not used as values: Tri-State's own press release of 14 August 2026 on tristate.coop (read before its terms were read; terms bar robots, so not used) and a Colorado news report describe a 45 MW threshold (load additions over 45 MW at request or forecast to exceed 45 MW within four years), a security payment, a minimum term, minimum monthly demand and energy charges, and a 30-day compliance filing on agreements for Eastern Interconnection members; the 2025 filing's FERC docket is ER25-3316 per search results only (its copy on rtoinsider.com is refused by robots). Waits: the FERC order of August 2026 and the 2026 HILT filing (eLibrary accession numbers needed), and the compliance filing.",
+   "notes": "History, from Tri-State's SEC filings: the first HILT was board-approved and filed with FERC in August 2025 and rejected by FERC in October 2025 (Q3 2025 10-Q: \"In August 2025, our Board approved and we filed with FERC a new tariff and pro forma agreement for high impact loads that have large load requirements, including data centers, into our system.\" and \"In October 2025, FERC issued an order rejecting our tariff.\"); the 2026 filing drew a FERC deficiency letter in May 2026 and Tri-State's response in June 2026 (Q2 2026 10-Q). In August 2025 Tri-State also filed BYOR tariff amendments to expand the BYOR Program to high impact loads, accepted by FERC in October 2025 (2025 10-K, Bring Your Own Resource Program). Leads not used as values: Tri-State's own press release of 14 August 2026 on tristate.coop (read before its terms were read; terms bar robots, so not used) and a Colorado news report describe a 45 MW threshold (load additions over 45 MW at request or forecast to exceed 45 MW within four years), a security payment, a minimum term, minimum monthly demand and energy charges, and a 30-day compliance filing on agreements for Eastern Interconnection members; the 2025 filing's FERC docket is ER25-3316 per search results only (its copy on rtoinsider.com is refused by robots). Waits: the FERC order of August 2026 and the 2026 HILT filing (eLibrary accession numbers needed), and the compliance filing. Session 5304 (audit, A-42): the status kept as 'approved', with a status note on what it means.",
    "date_read": "2026-11-13",
    "row_id": "coops_public_power-01"
   },
@@ -142,8 +142,23 @@
      "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read"
     },
     "collateral": {
-     "value": "not published",
-     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read; the onboarding procedures name an initial and a final financial screening, a study funding agreement and a $50K non-refundable application fee, but no security amount"
+     "value": "no security amount printed; Decision Point 1 requires a Funding Agreement to prefund required studies and document drafting, and a $50K non-refundable Large Load application fee",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Onboarding procedures, Decision Point 1",
+       "quote": "Funding Agreement to prefund required studies and document drafting",
+       "url": "https://www.basinelectric.com/_files/pdf/Large-Load-Program/BEPC-Large-Load-Commercial-Program-One-Pager.Final.pdf",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "1",
+       "section": "Onboarding procedures, Decision Point 1",
+       "quote": "$50K non-refundable Large Load application fee",
+       "url": "https://www.basinelectric.com/_files/pdf/Large-Load-Program/BEPC-Large-Load-Commercial-Program-One-Pager.Final.pdf",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "exit_fee": {
      "value": "not published",
@@ -194,9 +209,10 @@
    "license": "public",
    "license_basis": "the rule, status and queue fields are cited to Basin's SEC prospectus (public); the study and connection timelines and two status cites are read only from basinelectric.com, whose terms of use state \"Any reproduction and distribution of any and all material on this websites without the express written consent of Basin Electric Power Cooperative is strictly prohibited\": treat those fields as internal",
    "erw_overlap": "none (window A holds no registry file for Basin Electric)",
-   "notes": "Basin's Q3 2026 10-Q: projected capital expenditures exclude loads that qualify as large loads under the program, and the member peak forecast is exclusive of large loads. The onboarding one-pager also lists Phase A requirements (new load application, NDA, ownership and control disclosure, initial financial screening), Decision Point 1 (MOU, study prefunding agreement, $50K non-refundable application fee) and Decision Point 2 (board authorization, definitive agreements, final financial screening). A newer one-pager version on basinmembers.com (\"One-Pager-2-26\") is behind the members-only login and was not read. Lead, outside 2025 to 2026: FERC rejected Basin's proposed cryptocurrency and large load (over 75 MW) rate schedules in 2024 (news reports only; FERC order not read). Basin's NextEra MOU on a 1,450 MW combined-cycle plant in Mercer County is in the prospectus (MD&A, Large Load Commercial Program).",
+   "notes": "Basin's Q3 2026 10-Q: projected capital expenditures exclude loads that qualify as large loads under the program, and the member peak forecast is exclusive of large loads. The onboarding one-pager also lists Phase A requirements (new load application, NDA, ownership and control disclosure, initial financial screening), Decision Point 1 (MOU, study prefunding agreement, $50K non-refundable application fee) and Decision Point 2 (board authorization, definitive agreements, final financial screening). A newer one-pager version on basinmembers.com (\"One-Pager-2-26\") is behind the members-only login and was not read. Lead, outside 2025 to 2026: FERC rejected Basin's proposed cryptocurrency and large load (over 75 MW) rate schedules in 2024 (news reports only; FERC order not read). Basin's NextEra MOU on a 1,450 MW combined-cycle plant in Mercer County is in the prospectus (MD&A, Large Load Commercial Program). Corrected by the independent audit of session 5304 (A-43): collateral was 'not published'; the application fee and study prefunding are recorded as PSE&G's fee is (northeast-02).",
    "date_read": "2026-11-13",
    "internal_fields": [
+    "collateral",
     "connection_timeline",
     "study_timeline"
    ],
@@ -420,7 +436,7 @@
      ]
     },
     "study_timeline": {
-     "value": "completeness notice within 10 Business Days of the Stage 1 submission; Feasibility Assessment targeted within 30 Business Days; Phase I Study Authorization targeted within 20 Business Days of the Queue Position; Phase I System Impact Study report, best efforts within 90 Business Days of the Phase I authorization; Phase II report, best efforts within 90 Business Days of the Phase II authorization; 30 Business Days for the applicant to advance after the Phase I report",
+     "value": "completeness notice within 10 Business Days of the Stage 1 submission; Feasibility Assessment targeted within 30 Business Days; Phase I Study Authorization targeted within 20 Business Days of the Queue Position; Phase I System Impact Study report, best efforts within 90 Business Days of the Phase I authorization; Phase II report, best efforts within 90 Business Days of the Phase II authorization; 30 Business Days for the applicant to advance after the Phase I report; section 7.6 targets completion of Phase I and of Phase II within 90 Calendar Days once each phase's prerequisites are met; Cluster Study reports with best efforts within 120 Business Days",
      "cites": [
       {
        "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
@@ -463,6 +479,13 @@
        "section": "7.2 Phase II advancement",
        "quote": "Within thirty (30) Business Days after IID delivers the Phase I Study Report and the Phase II advancement package, an Applicant seeking to proceed must provide:",
        "date_read": "2026-11-13"
+      },
+      {
+       "page": "15",
+       "section": "7.6 Study Schedule and Delay",
+       "quote": "IID will target completion of Phase I within ninety (90) Calendar Days after the Phase I Study Authorization is effective",
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "date_read": "2026-11-13"
       }
      ]
     },
@@ -478,7 +501,7 @@
    "license": "public",
    "license_basis": "the public power district's own published rate schedule and procedure; iid.com shows no terms of use restricting reuse",
    "erw_overlap": "none (window A holds no registry file for IID)",
-   "notes": "The Queue Service Request Process also sets a fixed $20,000 non-refundable application fee, a 10 Business Day cure period, first-ready, first-served administration, and serial or cluster studies. Service under Schedule LL is full requirements service at 69 kV or higher and interruptible at IID's sole discretion (p. 3). The customer pays the actual costs of all studies and bears the cost of substations and upgrades (pp. 2 to 3).",
+   "notes": "The Queue Service Request Process also sets a fixed $20,000 non-refundable application fee, a 10 Business Day cure period, first-ready, first-served administration, and serial or cluster studies. Service under Schedule LL is full requirements service at 69 kV or higher and interruptible at IID's sole discretion (p. 3). The customer pays the actual costs of all studies and bears the cost of substations and upgrades (pp. 2 to 3). Corrected by the independent audit of session 5304 (A-44): study_timeline was 'completeness notice within 10 Business Days of the Stage 1 submission; Feasibility Assessment targeted within 30 Business Days; Phase I Study Authorization targeted within 20 Business Days of the Queu': the queue process prints 90 Business Days (7.2.1, 7.3) and 90 Calendar Days (7.6); both are now given.",
    "date_read": "2026-11-13",
    "row_id": "coops_public_power-04"
   }

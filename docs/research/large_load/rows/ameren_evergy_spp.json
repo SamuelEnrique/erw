@@ -235,22 +235,32 @@
      "searched": "Sheets 125 and 126 (pp. 37 and 38): a Letter of Agreement is required but no term is printed."
     },
     "collateral": {
-     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be given queue priority and may not need a deposit",
+     "value": "A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit",
      "cites": [
       {
        "page": "37",
-       "section": "Sheet 125, III.P.2",
-       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+       "section": "",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning."
       },
       {
        "page": "37",
-       "section": "Sheet 125, III.P.2",
+       "section": "",
+       "quote": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "37",
+       "section": "",
+       "quote": "Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+      },
+      {
+       "page": "37",
+       "section": "",
        "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
       },
       {
        "page": "37",
-       "section": "Sheet 125, III.P.2.a",
-       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+       "section": "",
+       "quote": "may be given priority in the queue and may not be required to submit a deposit"
       }
      ]
     },
@@ -294,7 +304,7 @@
    "license": "public",
    "license_basis": "the Missouri PSC's EFIS copy of the filed tariff and its tariff record",
    "erw_overlap": "none: the registries do not hold Ameren Missouri's General Rules III.P.",
-   "notes": "Sheet 126, III.P.5: further queue details are posted on the Company's website, which was not read (ameren.com's terms forbid bots). Sheet 125 marks III.P as an addition in this filing; the same rule text appears in Evergy's Missouri rules (2.14 and 2.10) with SPP in place of MISO.",
+   "notes": "Sheet 126, III.P.5: further queue details are posted on the Company's website, which was not read (ameren.com's terms forbid bots). Sheet 125 marks III.P as an addition in this filing; the same rule text appears in Evergy's Missouri rules (2.14 and 2.10) with SPP in place of MISO. Corrected by the independent audit of session 5304 (A-30): collateral was 'A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be given queue priority and may not need a deposit'. Corrected by the independent audit of session 5304 (A-30): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-30): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-30): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-30): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'.",
    "date_read": "2026-11-13",
    "row_id": "ameren_evergy_spp-02"
   },
@@ -450,22 +460,32 @@
      "searched": "Sheets 1.09D and 1.30H (EFIS 865314 pp. 1 and 2): a Letter of Agreement is required but no term is printed."
     },
     "collateral": {
-     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+     "value": "A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit; substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
      "cites": [
       {
        "page": "1",
-       "section": "Sheet 1.09D, 2.14 B",
-       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+       "section": "",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning."
       },
       {
        "page": "1",
-       "section": "Sheet 1.09D, 2.14 B",
+       "section": "",
+       "quote": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "1",
+       "section": "",
+       "quote": "Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+      },
+      {
+       "page": "1",
+       "section": "",
        "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
       },
       {
        "page": "1",
-       "section": "Sheet 1.09D, 2.14 B.1",
-       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+       "section": "",
+       "quote": "may be given priority in the queue and may not be required to submit a deposit"
       },
       {
        "page": "2",
@@ -520,7 +540,7 @@
    "license": "public",
    "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
    "erw_overlap": "none: the registries do not hold Evergy Missouri Metro's Rules 2.14 or 9.11(E).",
-   "notes": "Sheet 1.09D is an original sheet (new on 9 March 2026). 2.14 E: further queue details are posted on Evergy's website, not read (evergy.com gave a bot check to earlier readers; not requested).",
+   "notes": "Sheet 1.09D is an original sheet (new on 9 March 2026). 2.14 E: further queue details are posted on Evergy's website, not read (evergy.com gave a bot check to earlier readers; not requested). Corrected by the independent audit of session 5304 (A-31): collateral was 'A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)'. Corrected by the independent audit of session 5304 (A-31): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-31): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-31): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-31): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'.",
    "date_read": "2026-11-13",
    "row_id": "ameren_evergy_spp-04"
   },
@@ -676,22 +696,32 @@
      "searched": "Sheets R-21 and R-54 (EFIS 865322 pp. 39 and 40): a Letter of Agreement is required but no term is printed."
     },
     "collateral": {
-     "value": "A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+     "value": "A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit; substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
      "cites": [
       {
        "page": "39",
-       "section": "Sheet R-21, 2.10 B",
-       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning. Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+       "section": "",
+       "quote": "submit a refundable deposit of $200,000 that will be used to offset costs associated with project planning."
       },
       {
        "page": "39",
-       "section": "Sheet R-21, 2.10 B",
+       "section": "",
+       "quote": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required."
+      },
+      {
+       "page": "39",
+       "section": "",
+       "quote": "Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+      },
+      {
+       "page": "39",
+       "section": "",
        "quote": "Initial deposit funds not used during planning shall be refunded to the customer without interest."
       },
       {
        "page": "39",
-       "section": "Sheet R-21, 2.10 B.a",
-       "quote": "Service related to projects the Company designates as serving the community interest may be given priority in the queue and may not be required to submit a deposit."
+       "section": "",
+       "quote": "may be given priority in the queue and may not be required to submit a deposit"
       },
       {
        "page": "40",
@@ -746,7 +776,7 @@
    "license": "public",
    "license_basis": "the Missouri PSC's EFIS copy of the filed rules sheets and their tariff record",
    "erw_overlap": "none: the registries do not hold Evergy Missouri West's Rules 2.10 or 7.11 E.",
-   "notes": "Sheet R-21 is a 2nd Revised sheet cancelling the 1st Revised; whether 2.10 existed before this revision was not established (the redline, EFIS 865323, does not mark changes in its text). The substitute filings of 13 and 17 February 2026 (EFIS 865973, 866165) carry Schedule LLPS sheets only, so Sheets R-21 and R-54 stand as filed on 5 February 2026. 2.10 E: further queue details are posted on Evergy's website, not read.",
+   "notes": "Sheet R-21 is a 2nd Revised sheet cancelling the 1st Revised; whether 2.10 existed before this revision was not established (the redline, EFIS 865323, does not mark changes in its text). The substitute filings of 13 and 17 February 2026 (EFIS 865973, 866165) carry Schedule LLPS sheets only, so Sheets R-21 and R-54 stand as filed on 5 February 2026. 2.10 E: further queue details are posted on Evergy's website, not read. Corrected by the independent audit of session 5304 (A-32): collateral was 'A refundable deposit of $200,000 with a Letter of Agreement, then further refundable $200,000 deposits so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)'. Corrected by the independent audit of session 5304 (A-32): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-32): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-32): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'. Corrected by the independent audit of session 5304 (A-32): collateral was 'A refundable deposit of $200,000 with the Letter of Agreement, to offset project planning costs; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (no amount stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be prioritized and may not be required to submit a deposit'.",
    "date_read": "2026-11-13",
    "row_id": "ameren_evergy_spp-06"
   },
@@ -874,7 +904,7 @@
      "searched": "The same three KCC documents: no time to energize or construction milestone. The news release says upgrades needed solely to serve the new or expanded customer are directly assigned to it, and network upgrades are directed by SPP."
     },
     "queue_size": {
-     "value": "Evergy Companies, Kansas and Missouri together: electric service agreements signed in 2026 with large load customers for data centers, projected peak steady-state load of approximately 2,600 MW (three new projects and the expansion of two earlier projects), service commenced or expected to commence 2026 to 2028 (Form 10-Q for the quarter ended 30 September 2026, filed 5 November 2026). On 5 November 2026 Evergy also announced three amendments to signed ESAs expected to add about 250 MW and a letter of intent with Digital Realty for a 1.4 GW expansion",
+     "value": "Evergy Companies, Kansas and Missouri together: electric service agreements signed in 2026 with large load customers for data centers, projected peak steady-state load of approximately 2,600 MW (three new projects and the expansion of two earlier projects), service commenced or expected to commence 2026 to 2028 (Form 10-Q for the quarter ended 30 September 2026, dated 4 November 2026). On 5 November 2026 Evergy also announced three amendments to signed ESAs expected to add about 250 MW and a letter of intent with Digital Realty for a 1.4 GW expansion",
      "cites": [
       {
        "url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
@@ -899,6 +929,13 @@
        "section": "Evergy third quarter 2026 earnings release",
        "quote": "a letter of intent signed with Digital Realty for a 1.4 gigawatt expansion",
        "date_read": "2026-11-13"
+      },
+      {
+       "page": "1",
+       "section": "signature",
+       "quote": "Dated: November 4, 2026",
+       "url": "https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm",
+       "date_read": "2026-11-13"
       }
      ]
     }
@@ -906,7 +943,7 @@
    "license": "public",
    "license_basis": "the Kansas Corporation Commission's own report, slides and news release on kcc.ks.gov; the queue figure from Evergy's filings on SEC EDGAR",
    "erw_overlap": "none: the registries hold Evergy's Missouri LLPS schedules only, not the Kansas one.",
-   "notes": "Rates (KCC report p. 17, from the settlement): Evergy Kansas Central LLPS customer charge $386.67 per month, demand charges $22.985/kW summer and $20.817/kW winter, energy $0.00872/kWh, Grid charges $0.248/kW substation and $0.156/kW transmission; Evergy Kansas Metro customer charge $751.02, demand $21.174/kW summer and $19.174/kW winter, energy $0.01000/kWh, Grid $0.200/kW substation and $0.126/kW transmission (for window A's tariff table, not one of this row's fields). The application of 11 February 2025 proposed the rate for customers over 100 MW (report p. 16); the settlement lowered it to 75 MW. Settlement filed 18 August 2025, hearing 8 October 2025 (slides p. 8). The slides (p. 18) say LLPS applies only in the Evergy Kansas Central and Evergy Kansas Metro service territories (Evergy Kansas South lies within Evergy Kansas Central's). The tariff's effective date was not read in a primary document (CURB's newsletter, another party, is a lead only), so the status is approved with the order date. Evergy 10-Q table: remaining contractual minimum consideration for large load contracts $8.9 billion (Evergy), weighted average remaining term 15 years, as of 30 September 2026. Refused: the KCC order on kcc-connect.kcc.ks.gov (bot check); evergy.com not requested.",
+   "notes": "Rates (KCC report p. 17, from the settlement): Evergy Kansas Central LLPS customer charge $386.67 per month, demand charges $22.985/kW summer and $20.817/kW winter, energy $0.00872/kWh, Grid charges $0.248/kW substation and $0.156/kW transmission; Evergy Kansas Metro customer charge $751.02, demand $21.174/kW summer and $19.174/kW winter, energy $0.01000/kWh, Grid $0.200/kW substation and $0.126/kW transmission (for window A's tariff table, not one of this row's fields). The application of 11 February 2025 proposed the rate for customers over 100 MW (report p. 16); the settlement lowered it to 75 MW. Settlement filed 18 August 2025, hearing 8 October 2025 (slides p. 8). The slides (p. 18) say LLPS applies only in the Evergy Kansas Central and Evergy Kansas Metro service territories (Evergy Kansas South lies within Evergy Kansas Central's). The tariff's effective date was not read in a primary document (CURB's newsletter, another party, is a lead only), so the status is approved with the order date. Evergy 10-Q table: remaining contractual minimum consideration for large load contracts $8.9 billion (Evergy), weighted average remaining term 15 years, as of 30 September 2026. Refused: the KCC order on kcc-connect.kcc.ks.gov (bot check); evergy.com not requested. Corrected by the independent audit of session 5304 (A-35): the 10-Q was described as 'filed 5 November 2026', which it does not print; it is dated 4 November 2026.",
    "date_read": "2026-11-13",
    "row_id": "ameren_evergy_spp-07"
   },

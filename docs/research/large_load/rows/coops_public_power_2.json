@@ -18,7 +18,7 @@
    },
    "status": {
     "value": "in effect",
-    "date": "2026-04-08",
+    "date": "",
     "cites": [
      {
       "section": "article text",
@@ -86,7 +86,7 @@
    "license": "public",
    "license_basis": "Hoosier Energy's own news post; the site's only legal page is a privacy policy (https://hoosierenergy.com/privacy-policy/, read 13 November 2026), with no terms limiting use or reproduction",
    "erw_overlap": "",
-   "notes": "The post (a staff article, quoting Hoosier executives) says the costs the load pays include studies, transmission infrastructure, transmission costs, capacity costs and administrative fees, and that Hoosier does not procure capacity for the data center: the load must procure its own (\"we do not procure any capacity on behalf of the actual data center\"). The policy document itself was not found. Leads not read: none.",
+   "notes": "The post (a staff article, quoting Hoosier executives) says the costs the load pays include studies, transmission infrastructure, transmission costs, capacity costs and administrative fees, and that Hoosier does not procure capacity for the data center: the load must procure its own (\"we do not procure any capacity on behalf of the actual data center\"). The policy document itself was not found. Leads not read: none. Corrected by the independent audit of session 5304 (A-45): the status date '2026-04-08' was the day Hoosier's annual meeting convened, not an adoption or effective date; the date is not published.",
    "date_read": "2026-11-13",
    "row_id": "coops_public_power_2-01"
   },
@@ -577,7 +577,7 @@
      "searched": "as for threshold_mw"
     },
     "queue_size": {
-     "value": "one proposal (Lightedge co-location data center on City property): 3 MW first phase, 6 MW second phase, 25 MW at full build-out over an estimated 10 years",
+     "value": "the Lightedge co-location data center proposal on City property, the only project the documents describe (no count of requests printed): 3 MW first phase, 6 MW second phase, 25 MW at full build-out over an estimated 10 years",
      "cites": [
       {
        "url": "https://www.cityofames.org/Resident-Services/Whats-Happening-in-Ames/Major-Projects/Data-Center-Development-Updates",
@@ -591,7 +591,7 @@
    "license": "public",
    "license_basis": "the City of Ames's council staff report and project page (a city government's public record); cityofames.org's terms were not read",
    "erw_overlap": "",
-   "notes": "Report p.3: resolving the discrepancy \"would strengthen the utility's ability to require large power users to pay upfront for the installation of additional infrastructure necessary to serve the customer.\" The report also lists zoning, noise, water and wastewater options and a possible moratorium. Not a rule in force: kept as a pending proposal.",
+   "notes": "Report p.3: resolving the discrepancy \"would strengthen the utility's ability to require large power users to pay upfront for the installation of additional infrastructure necessary to serve the customer.\" The report also lists zoning, noise, water and wastewater options and a possible moratorium. Not a rule in force: kept as a pending proposal. Corrected by the independent audit of session 5304 (A-46): queue_size was 'one proposal (Lightedge co-location data center on City property): 3 MW first phase, 6 MW second phase, 25 MW at full build-out over an estimated 10 years'.",
    "date_read": "2026-11-13",
    "row_id": "coops_public_power_2-06"
   }

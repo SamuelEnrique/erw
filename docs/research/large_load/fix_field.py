@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from verify_quotes import FIELDS, find, load_doc  # noqa: E402
 
-STATUSES = ("proposed", "approved", "in effect", "denied", "withdrawn")
+STATUSES = ("ordered", "proposed", "approved", "in effect", "denied", "withdrawn")
 
 
 def main() -> int:

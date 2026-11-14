@@ -801,8 +801,10 @@
     "cites": [
      {
       "page": "1",
-      "section": "61-335(1)(c)(ii)",
-      "quote": "Is subject to a service contract with a public utility that was entered into on or after July 1, 2026."
+      "section": "H 911 bill status",
+      "quote": "Effective: 07/01/2026",
+      "url": "https://legislature.idaho.gov/sessioninfo/2026/legislation/H0911/",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -876,7 +878,7 @@
    "license": "public",
    "license_basis": "a state statute as the Idaho Legislature publishes it (legislature.idaho.gov)",
    "erw_overlap": "none",
-   "notes": "The statute prints no effective date of its own; 1 July 2026 is the date from which contracts fall under it (61-335(1)(c)(ii)). The commission must issue orders setting guidance to implement it (61-335(8)(a)); none was found. It also applies to Rocky Mountain Power and Avista in Idaho; PacifiCorp's testimony speaks of special contracts in Idaho at 30 MW 'per statute and tariff' (UE 463, PAC/200, Eller/6), a figure this statute does not print.",
+   "notes": "The statute prints no effective date of its own; 1 July 2026 is the date from which contracts fall under it (61-335(1)(c)(ii)). The commission must issue orders setting guidance to implement it (61-335(8)(a)); none was found. It also applies to Rocky Mountain Power and Avista in Idaho; PacifiCorp's testimony speaks of special contracts in Idaho at 30 MW 'per statute and tariff' (UE 463, PAC/200, Eller/6), a figure this statute does not print. Corrected by the independent audit of session 5304 (A-27): the status date 2026-07-01 was cited to the clause on contracts entered on or after that day; it is now cited to the Legislature's bill status ('Effective: 07/01/2026').",
    "date_read": "2026-11-13",
    "row_id": "northwest_mountain-06"
   },
@@ -1051,8 +1053,13 @@
      ]
     },
     "min_demand": {
-     "value": "No take-or-pay share printed. Energy Capacity Charge from the first billing period with demand above 5,000 kW: $10.93/kW on the positive difference of 90 percent of Demand minus average demand; Basic Charge of $0.10/kW of maximum authorized demand above 5,000 kW plus $1,000; other rates and terms by contract",
+     "value": "No take-or-pay share printed; the Contract may incorporate by reference: Energy Capacity Charge from the first billing period with demand above 5,000 kW: $10.93/kW on the positive difference of 90 percent of Demand minus average demand; Basic Charge of $0.10/kW of maximum authorized demand above 5,000 kW plus $1,000; other rates and terms by contract",
      "cites": [
+      {
+       "page": "20",
+       "section": "Specific Charges",
+       "quote": "Such Contract may incorporate one or more of the following charges by reference"
+      },
       {
        "page": "20",
        "section": "4.a Energy Capacity Charge",
@@ -1075,8 +1082,18 @@
      "searched": "Rate Schedule 4 (pp. 20 to 27): duration, interruption, curtailment and credit requirements are left to the contract (p. 20)"
     },
     "collateral": {
-     "value": "Liquidity Risk Charge on all invoiced amounts at a rate set by the customer's lowest credit rating, from 0.50 percent (Aa3/AA- or above) to 3.00 percent (below Baa3/BBB-), the top rate also applying if a rating is withdrawn, the customer defaults or fewer than two agencies rate it; credit requirements otherwise by contract",
+     "value": "No posted security printed; the Contract may incorporate a Liquidity Risk Charge, a charge on all invoiced amounts at a rate set by the customer's lowest credit rating, from 0.50 percent (Aa3 or AA- and above) to 3.00 percent (below Baa3 or BBB-), the top rate also applying if a rating is suspended or withdrawn, the customer defaults or fewer than two agencies rate it; credit requirements, including financial statements, may be set by the Contract",
      "cites": [
+      {
+       "page": "20",
+       "section": "Specific Charges",
+       "quote": "Such Contract may incorporate one or more of the following charges by reference"
+      },
+      {
+       "page": "20",
+       "section": "Rates, Terms and Conditions",
+       "quote": "credit requirements (including provision of financial statements)"
+      },
       {
        "page": "25",
        "section": "4.m Liquidity Risk Charge",
@@ -1119,7 +1136,7 @@
    "license": "internal",
    "license_basis": "read only from chelanpud.org; its terms of use page answered with a bot check and was not read, so the terms are unknown (the PDFs themselves were served normally)",
    "erw_overlap": "none",
-   "notes": "The schedule also carries a Load Imbalance Charge, Load Following Charge ($13.66 per load-following kW), Demand Exceedance and Excess Energy charges, a Transaction Specific Charge of 6.4 percent, and Transitional Energy Service with a security deposit of three times the highest monthly bill (only for customers whose contract has ended). An older copy of the schedules (effective 19 February 2019 for Schedule 4, $4.38/kW energy capacity charge) is still posted at electric-rate-schedules.pdf; this row uses the August 2025 copy. Leads: Chelan PUD's 2025 Microsoft agreement and large load framework (not read).",
+   "notes": "The schedule also carries a Load Imbalance Charge, Load Following Charge ($13.66 per load-following kW), Demand Exceedance and Excess Energy charges, a Transaction Specific Charge of 6.4 percent, and Transitional Energy Service with a security deposit of three times the highest monthly bill (only for customers whose contract has ended). An older copy of the schedules (effective 19 February 2019 for Schedule 4, $4.38/kW energy capacity charge) is still posted at electric-rate-schedules.pdf; this row uses the August 2025 copy. Leads: Chelan PUD's 2025 Microsoft agreement and large load framework (not read). Corrected by the independent audit of session 5304 (A-28): min_demand was 'No take-or-pay share printed. Energy Capacity Charge from the first billing period with demand above 5,000 kW: $10.93/kW on the positive difference of 90 percen': the charges are ones a Contract may incorporate. Corrected by the independent audit of session 5304 (A-28): collateral was 'Liquidity Risk Charge on all invoiced amounts at a rate set by the customer's lowest credit rating, from 0.50 percent (Aa3/AA- or above) to 3.00 percent (below ': the Liquidity Risk Charge is a fee a Contract may incorporate, not posted security.",
    "date_read": "2026-11-13",
    "row_id": "northwest_mountain-08"
   },
@@ -1219,7 +1236,7 @@
      "searched": "the news release; Form 10-Q (quarter ended 30 June 2026) p. 25"
     },
     "queue_size": {
-     "value": "Development agreements with Sabey Data Centers, Atlas Power Holdings and Quantica Infrastructure: combined service requirement expected at 150 MW from late 2027, growing to approximately 1,500 MW or more by 2030 (Form 10-Q for the quarter ended 30 June 2026)",
+     "value": "Development agreements with Sabey Data Centers, Atlas Power Holdings and Quantica Infrastructure: combined service requirement expected at 150 MW from late 2027, growing to up to approximately 1,500 MW or more by 2030 (Form 10-Q for the quarter ended 30 June 2026)",
      "cites": [
       {
        "url": "https://northwesternenergy.com/docs/default-source/default-document-library/about-us/investors/financials/form-10-q-q2-2026.pdf",
@@ -1234,6 +1251,13 @@
        "section": "Data Center Development",
        "quote": "In April 2026, we signed a development agreement with Quantica Infrastructure",
        "date_read": "2026-11-13"
+      },
+      {
+       "page": "25",
+       "section": "MD&A",
+       "quote": "with growth of up to approximately 1,500 megawatts or more by 2030",
+       "url": "https://northwesternenergy.com/docs/default-source/default-document-library/about-us/investors/financials/form-10-q-q2-2026.pdf",
+       "date_read": "2026-11-13"
       }
      ]
     }
@@ -1241,7 +1265,7 @@
    "license": "internal",
    "license_basis": "read only from northwesternenergy.com, whose terms of use intend content solely for personal, noncommercial use; the same 10-Q is filed with the SEC (public), but EDGAR's browse path is disallowed to this reader and the filing's Archives address was not found; the Montana PSC's docket copy was not reached",
    "erw_overlap": "none",
-   "notes": "Status on 13 November 2026: pending; DEQ announced its intervention on 18 June 2026 (news.mt.gov, lead) and intervenors asked the PSC to consolidate the tariff docket with complaint docket 2025.11.084 (Earthjustice-posted filings, leads only). The Form 10-Q for the quarter ended 30 September 2026 was not found on the company's site (HTTP 404). NorthWestern's South Dakota service was not searched for a large-load rule.",
+   "notes": "Status on 13 November 2026: pending; DEQ announced its intervention on 18 June 2026 (news.mt.gov, lead) and intervenors asked the PSC to consolidate the tariff docket with complaint docket 2025.11.084 (Earthjustice-posted filings, leads only). The Form 10-Q for the quarter ended 30 September 2026 was not found on the company's site (HTTP 404). NorthWestern's South Dakota service was not searched for a large-load rule. Corrected by the independent audit of session 5304 (A-22): queue_size was 'Development agreements with Sabey Data Centers, Atlas Power Holdings and Quantica Infrastructure: combined service requirement expected at 150 MW from late 2027, growing to approximately 1,500 MW or more by 2030 (Form 10-Q for the quarter ended 30 June 2026)'.",
    "date_read": "2026-11-13",
    "row_id": "northwest_mountain-09"
   },

@@ -402,8 +402,8 @@
     "date": "2025-02-19",
     "cites": [
      {
-      "page": "85",
-      "section": "Sheet 21.3",
+      "page": "88",
+      "section": "Sheet 21.3 footer (the same footer is on First Revised Sheet No. 21, p. 85)",
       "quote": "EFFECTIVE FOR ELECTRIC SERVICE RENDERED ON AND AFTER FEBRUARY 19, 2025"
      },
      {
@@ -482,7 +482,7 @@
    "license": "internal",
    "license_basis": "The one new value (the 1st Revised Sheet 21.7) was read only in I&M's own tariff book on indianamichiganpower.com, whose AEP legal notice allows personal use only; the held fields come from the registry's public file (the IURC order of 19 February 2025). The queue cite (pjm.com) is public.",
    "erw_overlap": "large_load_tariffs/indiana_michigan_power_tariff_ip_large_load.yaml: collateral wording differs. The registry's text (the order's Attachment A, PDF p. 73) prints no due date; 1st Revised Sheet 21.7, effective 24 June 2026 under IURC 30-Day Filing No. 50910, adds 'within 10 business days of contract signing' (the 24-times multiplier is unchanged). Sheets 21.3 to 21.6 in the 28 October 2026 book print the same 70/150 MW threshold, 12-year term with 42 months' notice, 80 percent minimum and exit fee as the registry.",
-   "notes": "Lead (2026-11-06 research file): the collateral due-date change came from a settlement in IURC Cause No. 46301 (I&M legal notice); not read. AEP's 10-Q for Q3 2026 says I&M's August 2026 MYRP filing proposes to freeze base rates 'with limited exceptions primarily related to large load customers' (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm); no change to the large-load terms is stated there.",
+   "notes": "Lead (2026-11-06 research file): the collateral due-date change came from a settlement in IURC Cause No. 46301 (I&M legal notice); not read. AEP's 10-Q for Q3 2026 says I&M's August 2026 MYRP filing proposes to freeze base rates 'with limited exceptions primarily related to large load customers' (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm); no change to the large-load terms is stated there. Session 5304 (audit, A-19): the status cite moved from p. 85 (Sheet 21) to p. 88 (Sheet 21.3).",
    "date_read": "2026-11-13",
    "row_id": "aep-03"
   },
@@ -874,8 +874,8 @@
       "quote": "Applicable on and after March 18, 2025"
      },
      {
-      "page": "5",
-      "section": "Sheet 8-3",
+      "page": "63",
+      "section": "Sheet 8-3 footer (the same footer is on other sheets, among them p. 5)",
       "quote": "DATE EFFECTIVE: Services Rendered On And After March 1, 2026"
      }
     ]
@@ -988,7 +988,7 @@
    "license": "public",
    "license_basis": "The Kentucky PSC's tariff library copy and its order vault; the queue cites (pjm.com, SEC EDGAR) are public.",
    "erw_overlap": "",
-   "notes": "The 28 February 2026 rate case order (Case No. 2025-00257, 225 pages) was searched for 150 MW, large load, data center and TeraWulf with no match: the large-load terms carried into P.S.C. KY. No. 14 unchanged in substance from the 2024-00305 approval. The 10-Q says KPCo plans to file for approval of the TeraWulf agreement and related generation in Q4 2026.",
+   "notes": "The 28 February 2026 rate case order (Case No. 2025-00257, 225 pages) was searched for 150 MW, large load, data center and TeraWulf with no match: the large-load terms carried into P.S.C. KY. No. 14 unchanged in substance from the 2024-00305 approval. The 10-Q says KPCo plans to file for approval of the TeraWulf agreement and related generation in Q4 2026. Session 5304 (audit, A-20): a status cite moved from p. 5 (another sheet) to p. 63 (Sheet 8-3).",
    "date_read": "2026-11-13",
    "row_id": "aep-06"
   },

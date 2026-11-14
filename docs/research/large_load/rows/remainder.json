@@ -109,7 +109,7 @@
      "searched": "Rate 45 sheets (pp.48 to 50): no energization timeline or milestones; individual dates appear in the electric service agreements (rows below)"
     },
     "queue_size": {
-     "value": "data center load under MDU electric service agreements, as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital, Ellendale ND, 180 MW at full capacity under the first agreement and an additional 350 MW under an NDPSC-approved agreement, of which 280 MW is online; Applied Digital, Center ND, 430 MW under an agreement signed June 2026, pending NDPSC approval, scheduled to come online in the third quarter of 2027; a data center near Leola SD, up to 50 MW, agreement pending at the SDPUC",
+     "value": "as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital's data center near Ellendale ND requires 180 MW at full capacity; an NDPSC-approved agreement serves an additional 350 MW of Applied Digital load in MDU's service territory; a total of 280 MW of Applied Digital's load is currently online; Applied Digital near Center ND, 430 MW of HPC load under an agreement pending NDPSC approval, scheduled for the third quarter of 2027; a data center near Leola SD, up to 50 MW, agreement pending at the SDPUC",
      "cites": [
       {
        "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
@@ -153,7 +153,7 @@
    "license": "public",
    "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov); the queue figures from MDU Resources' Form 10-Q on SEC EDGAR",
    "erw_overlap": "",
-   "notes": "Schedule terms also printed: the company must be able to interrupt for up to 200 hours a year or as the agreement says (p.48); penalty for non-performance the greater of $10.00 per kW of the agreement's demand or reallocated MISO penalties (p.49). MDU's presentation to the ND Legislature of 27 August 2025 (https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5028.03000appendixb.pdf, p.5) describes Rate 45 as 'Approved rate in North and South Dakota' and (p.4) 'Sufficient security and credit support for data center customers'. Search leads not read: the original Rate 45 filing, Case PU-22-337 (filed 1 August 2022). montana-dakota.com's own tariff PDFs (NDElectric45.pdf, NDElectricTableOfContents.pdf) answered HTTP 404. MDU's Q3 2026 call (news only, not used): over 1 GW of data center load signed.",
+   "notes": "Schedule terms also printed: the company must be able to interrupt for up to 200 hours a year or as the agreement says (p.48); penalty for non-performance the greater of $10.00 per kW of the agreement's demand or reallocated MISO penalties (p.49). MDU's presentation to the ND Legislature of 27 August 2025 (https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5028.03000appendixb.pdf, p.5) describes Rate 45 as 'Approved rate in North and South Dakota' and (p.4) 'Sufficient security and credit support for data center customers'. Search leads not read: the original Rate 45 filing, Case PU-22-337 (filed 1 August 2022). montana-dakota.com's own tariff PDFs (NDElectric45.pdf, NDElectricTableOfContents.pdf) answered HTTP 404. MDU's Q3 2026 call (news only, not used): over 1 GW of data center load signed. Corrected by the independent audit of session 5304 (A-47): queue_size was 'data center load under MDU electric service agreements, as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital, Ellendale ND, 180 MW at full capacity under the fi': it now follows the 10-Q's words.",
    "date_read": "2026-11-13",
    "row_id": "remainder-01"
   },
@@ -636,7 +636,7 @@
      ]
     },
     "min_demand": {
-     "value": "Minimum Charge equal to the Demand Charge ($8.48 per kW of Billing Demand, plus delivery $9.81 per kW); Billing Demand at least 60 percent of the highest measured demand or of the highest Contract Demand of the preceding 11 months; Contract Demand Overrun at 300 percent of the Demand Charge",
+     "value": "Power Service Minimum Charge: the Demand Charge, $8.48 per kW of Billing Demand (Delivery is billed separately at $9.81 per kW of Billing Demand, with a monthly Customer Charge); Billing Demand at least 60 percent of the highest measured demand or of the highest Contract Demand of the preceding 11 months; Contract Demand Overrun at 300 percent of the Demand Charge",
      "cites": [
       {
        "page": "26",
@@ -662,6 +662,16 @@
        "page": "27",
        "section": "C.1(d)",
        "quote": "Contract Demand Overrun Charge = Excess MW x 300% x DC"
+      },
+      {
+       "page": "26",
+       "section": "Schedule NLL, C.1",
+       "quote": "(c) Minimum Charge: The Demand Charge."
+      },
+      {
+       "page": "27",
+       "section": "Schedule NLL, C.2",
+       "quote": "2. Delivery: All kilowatts of Billing Demand delivered at $9.81 per kW."
       }
      ]
     },
@@ -698,7 +708,7 @@
    "license": "internal",
    "license_basis": "mytpu.org's Disclaimer & Copyright page (reproduction limited to non-commercial purposes, as read); see the VLL row",
    "erw_overlap": "",
-   "notes": "A customer whose consumption grows by 10 aMW or more in 12 months moves to Schedule VLL (p.26). Below the roughly 20 MW scale of this pass, kept because it is Tacoma Power's large new load class.",
+   "notes": "A customer whose consumption grows by 10 aMW or more in 12 months moves to Schedule VLL (p.26). Below the roughly 20 MW scale of this pass, kept because it is Tacoma Power's large new load class. Corrected by the independent audit of session 5304 (A-48): min_demand was 'Minimum Charge equal to the Demand Charge ($8.48 per kW of Billing Demand, plus delivery $9.81 per kW); Billing Demand at least 60 percent of the highest measured demand or of the highest Contract Demand of the preceding': Delivery is not part of the Minimum Charge.",
    "date_read": "2026-11-13",
    "row_id": "remainder-06"
   },
@@ -857,7 +867,7 @@
      ]
     },
     "min_demand": {
-     "value": "no minimum bill in the policy; the refund of Eligible Dollars through annual Demand Credits over 120 months is full only when average annual billed demand is at least 90 percent of Anticipated Demand, otherwise prorated; a monthly Capacity Reservation Fee, where it applies, is 70 percent of the applicable large-load (or transmission) demand charge on the reserved demand above 2.5 MVA",
+     "value": "no minimum bill in the policy; the refund of Eligible Dollars through annual Demand Credits over 120 months is full only when average annual billed demand is at least 90 percent of Anticipated Demand, otherwise prorated; a monthly Capacity Reservation Fee, where it applies, is 70 percent of the applicable large-load (or transmission) demand charge on the reserved demand above 2.5 MVA The Capacity Reservation Fee formula subtracts the greater of 2.5 MVA and the Available Capacity (the existing usable capacity of the system component before the upgrade); the formula itself is printed in math glyphs the text layer does not render as words.",
      "cites": [
       {
        "page": "26",
@@ -873,6 +883,11 @@
        "page": "25",
        "section": "Appendix B",
        "quote": "70% of the Demand Charge in the applicable large load rate schedule for customers taking delivery at primary or secondary voltage"
+      },
+      {
+       "page": "24",
+       "section": "Appendix A",
+       "quote": "Available Capacity = existing usable capacity available on the relevant system component prior to the upgrade"
       }
      ]
     },
@@ -991,7 +1006,7 @@
    "license": "public",
    "license_basis": "a public power utility's published policy and rate book; snopud.com's privacy policy page carries no terms limiting reuse or automated reading",
    "erw_overlap": "",
-   "notes": "Threshold of 2.5 MVA is below the roughly 20 MW scale of this pass; the 10 MVA and 10 aMVA tiers are the data-center-scale terms. Lead (news only, not used as a value): The Herald (16 May 2026) reported 8 large-load inquiries in 2025, none data centers. The Large Load Interconnection Process Workflow (https://www.snopud.com/wp-content/uploads/2026/04/LargeLoadWF.pdf) and the 2026 interconnection requirements were not read.",
+   "notes": "Threshold of 2.5 MVA is below the roughly 20 MW scale of this pass; the 10 MVA and 10 aMVA tiers are the data-center-scale terms. Lead (news only, not used as a value): The Herald (16 May 2026) reported 8 large-load inquiries in 2025, none data centers. The Large Load Interconnection Process Workflow (https://www.snopud.com/wp-content/uploads/2026/04/LargeLoadWF.pdf) and the 2026 interconnection requirements were not read. Corrected by the independent audit of session 5304 (A-49): the Capacity Reservation Fee's deduction is the greater of 2.5 MVA and the Available Capacity, as the auditor read the formula's glyph runs against Appendix A.",
    "date_read": "2026-11-13",
    "row_id": "remainder-08"
   },

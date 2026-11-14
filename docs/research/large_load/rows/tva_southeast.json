@@ -550,7 +550,7 @@
    },
    "fields": {
     "threshold_mw": {
-     "value": "Data centers (including cryptocurrency mining) with expected or actual peak demand of 15,000 kW (15 MW) or more and a monthly load factor of 60 percent or more, aggregated across co-located and grouped facilities of the same customer; above 250,000 kW (250 MW) a Dedicated Resource is required",
+     "value": "Data centers (including cryptocurrency mining) with expected or actual peak demand of 15,000 kW (15 MW) or more and a monthly load factor of 60 percent or more, aggregated across co-located and grouped facilities of the same customer; above 250,000 kW (250 MW) a Dedicated Resource is required unless EKPC determines otherwise in its sole discretion",
      "cites": [
       {
        "page": "142",
@@ -566,6 +566,11 @@
        "page": "145",
        "section": "Sheet No. 106, V.3",
        "quote": "If the expected or actual peak real-time energy demand of an Eligible Data Center is greater than 250,000 kWs then Qualifying Customer shall have the option of utilizing either"
+      },
+      {
+       "page": "145",
+       "section": "Rate DCP",
+       "quote": "unless otherwise determined by EKPC in its sole discretion, if the expected or actual peak real-time energy demand of an Eligible Data Center is greater than 250,000 kW then a Dedicated Resource will be required"
       }
      ]
     },
@@ -673,7 +678,7 @@
    "license": "public",
    "license_basis": "the Kentucky PSC's tariff library copy and the PSC's order on psc.ky.gov",
    "erw_overlap": "none",
-   "notes": "Some tariff text is OCR of a scanned filing; quotes keep its spacing errors as printed in the cached text. The PSC's order (pp. 18 to 19) also directed removal of the application fee cap so that each customer bears all its application costs; the filed Sheet No. 114 still prints 'up to $250,000' and adds that the applicant bears Load Study costs above the fee. All Rate DCP special contracts must be approved by the PSC; rates are set in each contract (Sheet No. 109). Below the roughly 20 MW scope line (15 MW threshold), kept because it is the cooperative's data center rule.",
+   "notes": "Some tariff text is OCR of a scanned filing; quotes keep its spacing errors as printed in the cached text. The PSC's order (pp. 18 to 19) also directed removal of the application fee cap so that each customer bears all its application costs; the filed Sheet No. 114 still prints 'up to $250,000' and adds that the applicant bears Load Study costs above the fee. All Rate DCP special contracts must be approved by the PSC; rates are set in each contract (Sheet No. 109). Below the roughly 20 MW scope line (15 MW threshold), kept because it is the cooperative's data center rule. Corrected by the independent audit of session 5304 (A-36): the 250 MW Dedicated Resource rule now carries its qualifier.",
    "date_read": "2026-11-13",
    "row_id": "tva_southeast-04"
   },

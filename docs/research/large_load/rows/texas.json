@@ -844,7 +844,7 @@
      ]
     },
     "collateral": {
-     "value": "16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement; the greater of $50,000 per MW of contracted peak demand or allocated system upgrade costs at the SLLIA; cash collateral held in a segregated interest-bearing account; direct interconnection costs as cash CIAC; AEP Texas segregated about $1.2 billion of cash collateral in October 2026 and received about $2 billion of Batch Zero security in July 2026 as cash, corporate or parental guarantees and letters of credit",
+     "value": "16 TAC §25.194: $50,000 per MW of requested peak demand at the intermediate agreement; the greater of $50,000 per MW of contracted peak demand or allocated system upgrade costs at the SLLIA; cash collateral held in a segregated interest-bearing account; direct interconnection costs as cash CIAC; AEP Texas segregated about $1.2 billion of cash collateral in October 2026 and received about $2 billion of Batch Zero security in July 2026 as cash, corporate or parental guarantees and letters of credit; the accepted forms besides cash collateral are a guaranty (guarantor rated at least BBB- or Baa3) or a letter of credit from a major bank rated at least A- or A3",
      "cites": [
       {
        "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
@@ -881,11 +881,25 @@
       {
        "section": "Large Load Interconnections in Texas",
        "quote": "In July 2026, AEP Texas received approximately $2 billion of financial security in the form of cash collateral, corporate or parental guarantees and letters of credit"
+      },
+      {
+       "page": "37",
+       "section": "16 TAC 25.194(d)(2)(B)(ii)",
+       "quote": "guaranty, only if the guarantor has a U.S. or international credit rating of at least \"BBB-\" from Standard & Poor's",
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "38",
+       "section": "16 TAC 25.194(d)(2)(B)(ii)",
+       "quote": "a letter of credit issued by a major U.S. commercial bank",
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "date_read": "2026-11-13"
       }
      ]
     },
     "exit_fee": {
-     "value": "16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline, 20% of the security for withdrawn contracted demand kept after a SLLIA, security forfeited without a SLLIA; CIAC not refundable (statewide row)",
+     "value": "16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline, 20% of the security for withdrawn contracted demand kept after a SLLIA, a customer that neither withdraws before the SLLIA deadline nor executes a SLLIA forfeits the security posted under its intermediate agreement; CIAC not refundable (statewide row)",
      "cites": [
       {
        "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
@@ -899,6 +913,20 @@
        "page": "57",
        "section": "§25.194(f)(3)(B)",
        "quote": "subtract 20% of the financial security associated with the contracted peak demand that is withdrawn before the interconnecting DSP or the interconnecting TSP returns the remaining balance of financial security posted by a large load customer.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "41-42",
+       "section": "16 TAC 25.194(d)(3)(E)",
+       "quote": "A large load customer that does not withdraw its interconnection request before the deadline to execute a SLLIA and does not execute a SLLIA before the deadline ... is deemed to have forfeited any financial security that the large load customer posted under an intermediate agreement",
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "55",
+       "section": "16 TAC 25.194(f)(2)(C)(v)",
+       "quote": "CIAC is not refundable.",
+       "url": "https://interchange.puc.texas.gov/Documents/58481_218_1684656.PDF",
        "date_read": "2026-11-13"
       }
      ]
@@ -965,7 +993,7 @@
    "license": "public",
    "license_basis": "AEP's combined Form 10-Q on SEC EDGAR and the PUCT's adoption order in Project 58481 (AEP's own sites allow personal use only and were not used for any value)",
    "erw_overlap": "large_load_connection_rules/ercot_planning_guide_section_9.yaml and ercot_large_load_batch_update_april_2026.yaml hold Batch Zero itself; large_load_connection_rules/puct_project_58000_proposal.yaml holds the separate, still pending Project 58000 proposal (25.192, 25.193, 25.252). 16 TAC §25.194 is the statewide row of this file.",
-   "notes": "AEP Texas's own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP 404 and was not read; no AEP Texas large-load schedule is named in the 10-Q (AEP's pending Texas large-load tariff is SWEPCo-Texas, outside ERCOT). The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and an audit of data center projects 25 MW and above; ERCOT 'has currently paused Batch Zero classification and study activity and stated it will not authorize large loads to energize until verification is complete.'",
+   "notes": "AEP Texas's own tariff (aeptexas.com, Tariff for Electric Delivery Service effective 5 January 2026) answered HTTP 404 and was not read; no AEP Texas large-load schedule is named in the 10-Q (AEP's pending Texas large-load tariff is SWEPCo-Texas, outside ERCOT). The 10-Q: in August 2026 the Governor directed a verification of Batch Zero loads and an audit of data center projects 25 MW and above; ERCOT 'has currently paused Batch Zero classification and study activity and stated it will not authorize large loads to energize until verification is complete.' Corrected by the independent audit of session 5304 (A-21): exit_fee was '16 TAC §25.194: 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline, 20% of the security for withdrawn contracted demand kept after a SLLIA, security forfeited without a SLLIA; CIAC not refundable (statewide row)'. Corrected by the independent audit of session 5304 (A-23): collateral now names the guaranty and the letter of credit the rule accepts.",
    "date_read": "2026-11-13",
    "row_id": "texas-04"
   },
@@ -1044,7 +1072,7 @@
      "searched": "CPS Energy deck of 3 August 2026: no time to energize printed"
     },
     "queue_size": {
-     "value": "local large load requests by phase (the deck marks its columns as of 12 January 2026 and 16 June 2026): speculative new customer requests 21 projects, 11,611 MW; feasibility study 11 projects, 3,480 MW; agreement phase 11 projects, 1,790 MW; contracting phase in process 1,455 MW; under contract, contracted 335 MW; total line printed '59 43 Projects | 26,146 MW 16,881 MW' (which total belongs to which date is not printed)",
+     "value": "local large load requests by phase, as the deck prints them: speculative new customer requests '21 Projects l 11,611 MW'; feasibility study '11 Projects l 3,480 MW'; agreement phase '11 Projects l 1,790 MW In Process l 1,455 MW'; 'Contracted l 335 MW'; the total line prints '59 43 Projects | 26,146 MW' and the deck marks figures as of 12 January 2026 and 16 June 2026 (the text layer does not show which figure carries which date)",
      "cites": [
       {
        "page": "9",
@@ -1082,7 +1110,7 @@
    "license": "internal",
    "license_basis": "CPS Energy's own presentation, read only from a third-party conference file store with no stated terms (no robots file); CPS Energy's own site bars Claude's agents in robots.txt and was not read",
    "erw_overlap": "",
-   "notes": "cpsenergy.com refused (robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai); leads only, unverified: its large-load page is reported (search snippet) to list an End-User Interconnection Study for 40 to 75 MW at $75,000, a Pre-LLIS Screening Study for 75 MW and up at $75,000 and the ERCOT LLIS at $150,000 per point of interconnection, and a March 2026 council briefing to define large load at 40 MW and to track 59 projects. Not taken as values. The deck's page 9 table is laid out in two columns; the row values are quoted as printed. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)).",
+   "notes": "cpsenergy.com refused (robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai); leads only, unverified: its large-load page is reported (search snippet) to list an End-User Interconnection Study for 40 to 75 MW at $75,000, a Pre-LLIS Screening Study for 75 MW and up at $75,000 and the ERCOT LLIS at $150,000 per point of interconnection, and a March 2026 council briefing to define large load at 40 MW and to track 59 projects. Not taken as values. The deck's page 9 table is laid out in two columns; the row values are quoted as printed. 16 TAC §25.194 (statewide row, in effect 8 October 2026) also binds municipally owned utilities interconnecting loads of 75 MW or more to the ERCOT system, and leaves them free to add requirements of their own (its subsection (a)). Corrected by the independent audit of session 5304 (A-25): queue_size was 'local large load requests by phase (the deck marks its columns as of 12 January 2026 and 16 June 2026): speculative new customer requests 21 projects, 11,611 MW; feasibility study 11 projects, 3,480 M'.",
    "date_read": "2026-11-13",
    "row_id": "texas-05"
   },

@@ -362,7 +362,7 @@
     ]
    },
    "status": {
-    "value": "approved",
+    "value": "in effect",
     "date": "2026-08-27",
     "cites": [
      {
@@ -372,6 +372,13 @@
      {
       "section": "DTE Electric emergency procedures item",
       "quote": "The MPSC approved, with modifications, an application from DTE Electric Co. to update its emergency electric procedures in section C3 of the utility's rate book"
+     },
+     {
+      "page": "45",
+      "section": "Sheet C-4.00 footer",
+      "quote": "Effective for service rendered on and after August 27, 2026",
+      "url": "https://www.dteenergy.com/content/dam/dteenergy/deg/website/common/service-and-price/rate-cards/DTEElectricRateBook.pdf",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -416,7 +423,7 @@
    "license": "public",
    "license_basis": "the MPSC's own news release on michigan.gov",
    "erw_overlap": "none",
-   "notes": "DTE's rate book (dteenergy.com, terms allow private personal use only, so internal) prints the rule in Sections C3.2 and C3.5 (PDF pp. 45, 46 and 55; sheet C-4.00 'Effective for service rendered on and after August 27, 2026', 'Issued under authority of the Michigan Public Service Commission dated August 27, 2026 in Case No. U-22059'), so the rule is in effect from 27 August 2026 by that sheet. The 'Large Load Provision of Rate Schedule No. D11' it names is not yet in the D11 sheets (see the U-22058 row's notes).",
+   "notes": "DTE's rate book (dteenergy.com, terms allow private personal use only, so internal) prints the rule in Sections C3.2 and C3.5 (PDF pp. 45, 46 and 55; sheet C-4.00 'Effective for service rendered on and after August 27, 2026', 'Issued under authority of the Michigan Public Service Commission dated August 27, 2026 in Case No. U-22059'), so the rule is in effect from 27 August 2026 by that sheet. The 'Large Load Provision of Rate Schedule No. D11' it names is not yet in the D11 sheets (see the U-22058 row's notes). Corrected by the independent audit of session 5304 (A-33): status was 'approved 2026-08-27'; DTE's rate book (dteenergy.com, terms allow personal use only) prints the rule effective 27 August 2026, the day of the MPSC's approval.",
    "date_read": "2026-11-13",
    "row_id": "great_lakes-03"
   },
@@ -824,7 +831,7 @@
      ]
     },
     "exit_fee": {
-     "value": "On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve another customer; for a bespoke resource terminated after commercial operation, reimburses its net book value for the customer's share (before operation, the non-recoverable costs incurred)",
+     "value": "On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve another customer; for a bespoke resource terminated after commercial operation, reimburses its net book value for the customer's share (before operation, the non-recoverable costs incurred); after commercial operation the customer owes nothing further for a bespoke resource if the Commission moves its share into the Company's rate base or assigns it directly to another customer",
      "cites": [
       {
        "page": "313",
@@ -846,6 +853,11 @@
        "section": "slide 31",
        "quote": "Early termination: Customer pays for remaining net book value, to the extent it cannot be repurposed",
        "date_read": "2026-11-13"
+      },
+      {
+       "page": "346",
+       "section": "BRT, Sheet 272",
+       "quote": "If the Commission approves moving the Customer's Share into the Company's rate base or assigning it directly to another customer under an applicable Company tariff, customer will not be obligated to reimburse the Company for any additional costs"
       }
      ]
     },
@@ -884,7 +896,7 @@
    "license": "internal",
    "license_basis": "the tariff sheets were read only from we-energies.com, whose terms bar retransmitting or republishing any portion without prior written consent; the status, threshold, resource term, exit and queue cites are also in WEC's public SEC filing (EDGAR), so the parent may treat those fields as public",
    "erw_overlap": "none",
-   "notes": "The PSCW's ERF and docket pages (apps.psc.wi.gov) refuse Claude's agents by robots, so the PSCW order of 21 May 2026 in 6630-TE-113 was not read. Charges (2025 dollars): Fixed Administrative Charge 213,118 USD per billing period per customer; Demand-Based Administrative Charge 305 USD per MW of Customer Maximum Demand (Sheet 245); energy at MISO pass-through, no fuel adjustment. Non-firm load above the Firm Service Level is curtailable at MISO EEA2; failure to curtail is charged at MISO Value of Lost Load (Sheets 243 and 244). Bespoke resources carry a fixed return on equity of 10.48% to 10.98% on a 57% equity ratio (Sheet 250). Oracle (Port Washington) has met its financial security obligations per the WEC deck (slide 13).",
+   "notes": "The PSCW's ERF and docket pages (apps.psc.wi.gov) refuse Claude's agents by robots, so the PSCW order of 21 May 2026 in 6630-TE-113 was not read. Charges (2025 dollars): Fixed Administrative Charge 213,118 USD per billing period per customer; Demand-Based Administrative Charge 305 USD per MW of Customer Maximum Demand (Sheet 245); energy at MISO pass-through, no fuel adjustment. Non-firm load above the Firm Service Level is curtailable at MISO EEA2; failure to curtail is charged at MISO Value of Lost Load (Sheets 243 and 244). Bespoke resources carry a fixed return on equity of 10.48% to 10.98% on a 57% equity ratio (Sheet 250). Oracle (Port Washington) has met its financial security obligations per the WEC deck (slide 13). Corrected by the independent audit of session 5304 (A-34): exit_fee was 'On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve anot'.",
    "date_read": "2026-11-13",
    "row_id": "great_lakes-06"
   },

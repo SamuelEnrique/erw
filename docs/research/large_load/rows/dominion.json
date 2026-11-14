@@ -379,8 +379,8 @@
     "searched": "the Final Order (Florida copy pp. 30 to 31) orders a separate proceeding and names no case number; the filing's case was not read (SCC host paused)"
    },
    "status": {
-    "value": "proposed",
-    "date": "",
+    "value": "ordered",
+    "date": "2025-11-25",
     "cites": [
      {
       "page": "30",
@@ -391,6 +391,11 @@
       "page": "31",
       "section": "Large Load Interconnection Queue",
       "quote": "directs that the Company make such a filing on or before February 2, 2026"
+     },
+     {
+      "page": "31",
+      "section": "",
+      "quote": "make such a filing on or before February 2, 2026"
      }
     ]
    },
@@ -430,7 +435,7 @@
    "license": "public",
    "license_basis": "the Florida PSC's docket copy of the Virginia SCC's Final Order",
    "erw_overlap": "none",
-   "notes": "The order (p. 31) directs the filing 'on or before February 2, 2026' on an expedited timeline and encourages options for faster interconnection of large loads meeting readiness or other criteria. The filing date and case number were not read: the SCC host is paused and Dominion's GS-5 Large Load Rate Class Report, which reportedly says the process was filed, is on a host whose terms bar automated reading. Leads only (news, not verified): Virginia Mercury (30 April 2026) describes standards for requests over 100 MW handled in batches of about 10 with a 300 MW cap per project, opposed by the Data Center Coalition; Virginia Business (17 February 2026) reports Dominion's testimony of about 70,000 MW of requests. Rappahannock Electric Cooperative's 2026 PJM forecast assumes the Dominion Energy queue 'advances one batch per year' (REC row).",
+   "notes": "The order (p. 31) directs the filing 'on or before February 2, 2026' on an expedited timeline and encourages options for faster interconnection of large loads meeting readiness or other criteria. The filing date and case number were not read: the SCC host is paused and Dominion's GS-5 Large Load Rate Class Report, which reportedly says the process was filed, is on a host whose terms bar automated reading. Leads only (news, not verified): Virginia Mercury (30 April 2026) describes standards for requests over 100 MW handled in batches of about 10 with a 300 MW cap per project, opposed by the Data Center Coalition; Virginia Business (17 February 2026) reports Dominion's testimony of about 70,000 MW of requests. Rappahannock Electric Cooperative's 2026 PJM forecast assumes the Dominion Energy queue 'advances one batch per year' (REC row). Corrected by the independent audit of session 5304 (A-11): status was 'proposed'.",
    "date_read": "2026-11-13",
    "row_id": "dominion-03"
   },
