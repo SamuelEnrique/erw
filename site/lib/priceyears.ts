@@ -53,7 +53,23 @@ export function windowsOf(rows: Row[], prefix: string): PriceYear[] {
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const monthWords = (ym: string) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
-const eventWords = (id: string) => id === "events" ? "every stress event" : id.replace(/_/g, " ");
+// Session 5501 (battery faults row 13): the choice read "less uri 2021" and, on CAISO, "less caiso notices 20230815",
+// the table's ids. ERCOT's three named events take the names lib/batterystack.ts's EVENTS gives them (the same words,
+// the date in brackets, tests/test_session5501.py holds the two lists together); a CAISO event, made by a rule from
+// CAISO's notices and named by its first day (`caiso_notices_<YYYYMMDD>`), takes that day in words, as the page's
+// leave-out boxes name its days. Any other id keeps its words, the underscores as spaces.
+const NAMED_EVENTS: Record<string, string> = {
+  uri_2021: "Winter Storm Uri (February 2021)",
+  elliott_2022: "Winter Storm Elliott (December 2022)",
+  ercot_heat_2023: "the summer 2023 heat",
+};
+const eventWords = (id: string) => {
+  if (id === "events") return "every stress event";
+  if (NAMED_EVENTS[id]) return NAMED_EVENTS[id];
+  const c = id.match(/^caiso_notices_(\d{4})(\d{2})(\d{2})$/);
+  if (c) return `CAISO's notice days from ${Number(c[3])} ${MONTHS[Number(c[2]) - 1]} ${c[1]}`;
+  return id.replace(/_/g, " ");
+};
 
 /** A window's name in the choice and in a sentence. */
 export function windowWords(w: PriceYear): { label: string; sentence: string } {

@@ -125,6 +125,7 @@ Each value is rounded to four decimals, half up. Entity `ercot:HB_HUBAVG` or `ca
 - **"earned USD X per kW"** (`l12_kw:total`): the sum of `r(m, total)` over the last twelve months, divided by 1,000. Default: 81.40.
 - **"Y percent of it from ancillary services"** (`l12_share:ancillary`): `round(100 x sum of r(m, ancillary) / sum of r(m, total))` over the same twelve months. Default: 33.
 - **"covered its debt Z times"** (`cover`): see 4.3.
+- **A coverage below zero** (session 5078, battery faults row 11; kept on the default of the owner's open ruling 6, session 5503): when the twelve months' revenue is less than a year's fixed O&M, nothing is left for the debt, and the sentence ends "did not earn its fixed O&M, so nothing was left for its debt (coverage Z times)." with the keyed figure, in both forms of the sentence. On 13 November 2026, CAISO, 8 hours, the day-ahead schedule: USD 85.65 per kW against a fixed O&M of 92, "coverage -0.14 times". A battery with no debt "has no debt to cover."
 
 **The last twelve months**: walk the months from newest to oldest; take the first held month that is whole (every one of its days is in the table, solved or left out: `days_held + days_left_out = days_in_month`) and whose eleven preceding calendar months are all held too. Until session 195 the first held month was taken, whole or not (section 5, "A month so far"). Those twelve are the window. If there is none, the page says so and shows no last-twelve-months figure. Default: October 2025 to September 2026.
 

@@ -5,11 +5,12 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | # | Where | Fault | Fix | State |
 |---:|---|---|---|---|
 | 1 | The page at 390, "Chart archive" | The page is 563 px wide at a 390 px window: one daily chart's entry holds a word of 95 characters (an entity id), and a grid item is as wide as its longest word | `.brand-a .chart-archive li` may shrink (`min-width: 0`) and break a long word (`overflow-wrap: anywhere`); `tests/test_session5004.py` | fixed (session 5004) |
-| 2 | The daily chart of 2026-11-06 in the archive (the Digest's chart of the day) | Its fact line opens with a raw entity id, `onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none`, where a reader expects words | Not this window's: the daily chart is written by the Digest's chart of the day (`warehouse/analysis/findings/daily_chart.py`), the old laptop's. Recommendation: the fact names the entity's label, never its id | other window (the old laptop) |
+| 2 | The daily chart of 2026-11-06 in the archive (the Digest's chart of the day) | Its fact line opens with a raw entity id, `onrr_revenue:federal:onshore:22081_red_river:other_revenues:oil_gas:oil_gas_pre_production:none`, where a reader expects words | Not this window's: the daily chart is written by the Digest's chart of the day (`warehouse/analysis/findings/daily_chart.py`), the old laptop's. Recommendation: the fact names the entity's label, never its id. Checked by the old laptop (chain 271, session 6020): the code was already fixed by session 1441 (`43bf867a6`, on main at 02:04 UTC on 6 November, 32 minutes after that day's chart was written at 01:32): `daily_chart.readable` passes over any candidate whose series name is an id (a colon, an underscore, or a code of six capitals or digits), held by `tests/test_periodicals.py` (the Red River and PADD flags; 3 passed at `0fa64ea4f`). Every stored chart read again by `readable`: the four named by an id (7, 22 and 23 October, 6 November) all predate the fix; every chart since is named in words. The stored charts stay as printed (a stored issue is not rewritten); a plain name for them in the page's archive would need a site build, not made on this machine | fixed (session 1441; checked in session 6020) |
 | 3 | Method note, first paragraph | "on the site's `/analysis`": the page is `/research` since session 238 | The paragraph names `/research` and says `/analysis` redirects | fixed (session 5004) |
 | 4 | Method note | No sign-off block, which the three economics notes and the Grid tool's have; roadmap item 2 asks for a signed note | A "Sign-off" block ends the note, naming what a signature accepts | fixed (session 5004) |
 | 5 | Method note | Nothing says which parts of the page run by themselves and on which clock, which "the final form" needs | A section "Final form" before "Replication": each part, what makes it, its clock, the last one made, and what waits for a person by ruling (a finding's publication) | fixed (session 5004) |
 | 6 | `docs/methods/crosschecks/automated_analysis.md` (found in session 5402, reading the cards against it) | The cross-check table quoted the cards of 6 November where the page prints those of 12 November: least all-in 40.99 for 41.04, the gigawatt's years, the curtailment estimates (8,539 for 8,426 and five more), the flexible load's hub figures, the queue's 3,509 GW for 3,591 and its best technology's 52 percent for 53. Session 5073 held only the three decision tools' tables to their page figures | Every figure set to `replication/analysis/page_figures.json` of 12 November, the gaps recomputed (-25.98; +90 GW); `tests/test_session5073.py` holds every card figure the page prints to the table | fixed (session 5402) |
+| 7 | "Today's chart", the record's figures (found in session 5501, on production, 1280 and 390) | The figures are printed as their raw JSON: "sigma 26822.265161999996; value 1060503.7; margin 295122.29999999993; ..." | Written as the chart-maker rounds them, a whole number whole: "sigma 26,822; value 1,060,504; margin 295,122; strength 11.00; ...; stood points 25" (`site/lib/researchrules.ts` figureText; the rule of `lib/digest.ts` chartText and of the value checker's `digest_chart` keys); `tests/test_session5501.py` | fixed (session 5501) |
 
 ## The read
 
@@ -25,7 +26,7 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | Replication | `replication/analysis/replicate.py`: 66 of 66 computed figures inside the tolerance, 10 license needed, 2 not in a download; the do-file never run |
 | Cross-check table | `docs/methods/crosschecks/automated_analysis.md` |
 | Decisions block | the note's "Decisions" (35 assumptions, `replication/analysis/assumptions.json`) |
-| Final form | every part made on a clock with no person (the note's "Final form"); a finding is published after the owner's approval, by ruling; whether it is final is the owner's word |
+| Final form | every part made on a clock with no person (the note's "Final form"); a finding is published after the owner's approval, by ruling; whether it is final is the owner's word. Since session 5503 built as final on the default of chain 243's ruling 5: each chart says on the page what makes it and when |
 
 ## The fresh read (session 5077, chain 243)
 
@@ -33,3 +34,12 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 
 - `/research` and the archive's newest week, `/research/2026-W45`, at both widths: no sideways scroll, no exception, no broken word.
 - **No new fault.** The week's chart of 2026-W46 is made on Sunday 15 November; this chain's dry run of it (session 5075) chose Brent's weekly mean.
+
+## The read of 14 November (session 5501, chain 269)
+
+Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deployed at 08:28 UTC on 14 November 2026, the tree this chain's stack was cut from) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's words, its headings, its closed folds, its links, its width and its exceptions. A local build was not used for this read: 1.0 GB was free at 08:26 UTC, under the chain's 2 GB rule.
+
+- `/research` at both widths: no sideways scroll, no exception, no broken word; axe at 390: 0 rules broken.
+- Against the done line: the method note is linked, each card downloads its CSV, do-file and Python file, the week's chart is 2026-W45 (W46 is made on Sunday 15 November), today's chart is the Digest's of 12 November.
+- **Row 7, new**, fixed in session 5501.
+- **The last fresh read (session 5505):** the week's page `/research/2026-W45` at both widths: no sideways scroll, no exception. No new fault.

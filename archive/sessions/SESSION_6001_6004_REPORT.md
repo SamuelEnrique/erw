@@ -57,7 +57,7 @@
 - P1's close-out note (portable laptop) not on main at 09:03 UTC (chain 269 runs on `wip/5500-closeout`): the five tools' faults wait. The W46 Roundup does not exist yet.
 - Row 12 moved to this head.
 
-## Sessions 6005 and 6006 (about 09:10 to 09:45 UTC): three more readers, West Virginia, Killingly, the records
+## Sessions 6005 and 6006 (about 09:05 to 09:20 UTC): three more readers, West Virginia, Killingly, the records
 
 - Three read-only readers: West Texas wind districts, West Virginia's NAICS list and California's lives; gas studies for the Northeast, Plains and Southwest; solar studies for the Plains and Southwest.
 - **West Virginia** (session 6005): the Tax Division's letter of 11 June 2026 to county assessors (as the Cabell County Assessor publishes it, with the NAICS list the Division's own copy omits; the host has no robots file, checked by this chain before its read) assigns 2211, electric power generation, to percent good table 9 (30 years). Read again by this chain by word position: 98, 97, 95 ... 21, 21, 20. Applied to solar, gas and geothermal; wind keeps its salvage valuation. The reader fetched that host before reading its robots file: said here, and this chain's own read came after the check.
