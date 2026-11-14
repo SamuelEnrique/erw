@@ -45,7 +45,7 @@
 21. California solar, gas and geothermal: [held at cost] or AH 581 Table 4 at a life of 20, 25 or 30 years.
 22. Washington geothermal: [held at cost] or the steam and gas fired column 7.5.
 23. South Carolina: [held at cost] or 12-37-930's 11 percent a year (class 6(a)) to its 10 percent floor for property on Schedule E.
-24. West Virginia solar, gas and geothermal: [held at cost] or a 20, 25 or 30-year column of the 2027 percent good tables.
+24. West Virginia solar, gas and geothermal: answered by session 6005 (the Tax Division's NAICS list assigns 2211 to table 9, 30 years: applied). Left: whether a merchant plant is assessed centrally [the county table].
 25. Kentucky: [held at cost] or the 62A500 Class VI factors as a proxy for the unit value.
 26. Texas wind, gas and geothermal: [held at cost] or Harris CAD's 20-year industrial column.
 27. Texas solar: [Harris CAD's 10-year schedule] or a straight line over 10 years to 20 percent.
@@ -56,3 +56,12 @@
 
 - P1's close-out note (portable laptop) not on main at 09:03 UTC (chain 269 runs on `wip/5500-closeout`): the five tools' faults wait. The W46 Roundup does not exist yet.
 - Row 12 moved to this head.
+
+## Sessions 6005 and 6006 (about 09:10 to 09:45 UTC): three more readers, West Virginia, Killingly, the records
+
+- Three read-only readers: West Texas wind districts, West Virginia's NAICS list and California's lives; gas studies for the Northeast, Plains and Southwest; solar studies for the Plains and Southwest.
+- **West Virginia** (session 6005): the Tax Division's letter of 11 June 2026 to county assessors (as the Cabell County Assessor publishes it, with the NAICS list the Division's own copy omits; the host has no robots file, checked by this chain before its read) assigns 2211, electric power generation, to percent good table 9 (30 years). Read again by this chain by word position: 98, 97, 95 ... 21, 21, 20. Applied to solar, gas and geothermal; wind keeps its salvage valuation. The reader fetched that host before reading its robots file: said here, and this chain's own read came after the check.
+- **Killingly Energy Center** (session 6006): PA Consulting's 2016 study for the Connecticut Siting Council (Docket 470), read again by this chain (the robots file disallows only an unrelated media path): construction jobs 1.05, output 0.98, operations jobs 0.97. The Northeast's gas row.
+- **Not found**: Texas wind or gas district schedules (Mitchell CAD's report: a unit method by income, no schedule); a California life for solar or gas; solar studies in the Plains and the Southwest; gas studies in the Plains and the Southwest. Each listed in the method note with its reason.
+- **Records**: the method note's section 4 table rows for the eight states changed (generated from the parameter files, `runs/s6000/table_rows.py`, in session 4296's form); section 9's region table; the review pack's cross-checks, its question 2 (Texas) and its question 12 (the states held at cost).
+- Node 51 of 51; the three Python files 21 passed.
