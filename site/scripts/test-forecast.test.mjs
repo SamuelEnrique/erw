@@ -657,7 +657,7 @@ test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's o
 
 test("session 6004: the six studies added to the cross-check, each with its region, reproduce the saved ratios", async () => {
   const X = await import("./forecast-crosscheck.mjs");
-  const ids = ["nc_wind_nrel", "livingston_il", "corona_nm", "lsu_la_cc", "msu_mi_gas", "jedi_geo_co", "killingly_ct"];  // killingly: session 6006
+  const ids = ["nc_wind_nrel", "livingston_il", "corona_nm", "lsu_la_cc", "msu_mi_gas", "jedi_geo_co", "killingly_ct", "lyon_nv_geo", "black_rock_ca"];  // killingly: session 6006; the two geothermal rows: session 6007
   for (const id of ids) {
     const s = X.STUDIES.find((t) => t.id === id);
     assert.ok(s && s.region && s.url && s.published_words && Object.keys(s.published).length, id);
@@ -669,7 +669,10 @@ test("session 6004: the six studies added to the cross-check, each with its regi
   assert.equal(X.STUDIES.find((t) => t.id === "killingly_ct").published["construction:total:jobs"], 180 + 515 + 386 + 51);
   const saved = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "reviews", "forecast-crosscheck-2026-11-14.json"), "utf8")).studies;
   const out = X.crosscheck(ROWS).filter((r) => ids.includes(r.id) && !["jedi_geo_co", "killingly_ct"].includes(r.id));  // the fixture holds no Colorado geothermal, no Connecticut
-  assert.equal(out.length, 5);
+  assert.equal(out.length, 7);
+  // Black Rock: 157 FTE a year for about three years, 471 job-years; the cost the middle of USD 557 to 882 million
+  const br = X.STUDIES.find((t) => t.id === "black_rock_ca");
+  assert.equal(br.published["construction:onsite:jobs"], 157 * 3); assert.equal(br.cost_usd, (557e6 + 882e6) / 2);
   for (const r of out) {
     const t = saved.find((x) => x.id === r.id);
     r.lines.forEach((l, k) => { if (l.ratio !== null) near(l.ratio, t.lines[k].ratio, 1e-9, `${r.id} ${l.figure}`); });
