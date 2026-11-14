@@ -32,3 +32,12 @@
 ## For Samuel's ruling (default in brackets)
 
 - (none yet)
+
+## Closed (14 November 2026, about 18:55 UTC)
+
+- **Chain 277 is closed** by the owner's instruction of 14 November for this machine's next window (the chat chain, `queue/next/280-day-14-november-oldlaptop-ask.md`): "close chain 277 (its report, as its last message says)".
+- **Sessions used: 6092 only.** 6093 to 6099 were never used and are named by no report, branch or commit. 6100 to 6105 pass to chain 280 by the same instruction ("sessions 6100 upward"); they were named by this chain's file alone.
+- **Nothing of the forecast tool is left open by chains 270 to 277**: no step, no open landing row (rows 12 and 13 landed).
+- **The periodicals file stays where it is**, `queue/next/300-day-26-november-oldlaptop-periodicals-continued.md`, to be taken by name only after the W46 Roundup and the 16 November Digest exist (the command under "To finish" above). Neither is on origin's main at 18:55 UTC on Saturday.
+- **Model spend of chain 277: USD 0.**
+- **For Samuel's ruling: none.**
