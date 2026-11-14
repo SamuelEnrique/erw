@@ -55,7 +55,14 @@ export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /
    * write fails the question (an evaluation never spends unrecorded) */
   step?: string; strictLedger?: boolean;
   /** session 1111: record every tool call and its result in the answer (an evaluation only; the route sets it) */
-  record?: boolean };
+  record?: boolean;
+  /** session 5269: an object the loop writes what it has counted into after every model call (AskMeter). An answer that
+   * ends in an error is thrown, and its answer's own count is lost with it, though its model calls were paid for: on 14
+   * November 2026 a question that stopped at the model's output limit was recorded at USD 0 where the ledger held USD
+   * 0.31. A caller that counts spend (an evaluation's runner) reads the meter when the loop throws. */
+  meter?: AskMeter };
+export type AskMeter = { cost_usd?: number | null; tool_calls?: number; usage?: { input: number; output: number; cache_write: number; cache_read: number; requests: number };
+  /** the stop reason of the last model call */ stop?: string | null; trace?: unknown[] };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -424,6 +431,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     usage.input += u.input; usage.output += u.output; usage.cache_write += u.cache_write; usage.cache_read += u.cache_read; usage.requests += 1;
     const c = cost(model, u);
     spent = spent === null || c === null ? null : spent + c;
+    // session 5269: what has been counted so far, for a caller that must count an answer that ends in an error
+    if (opts.meter) Object.assign(opts.meter, { cost_usd: spent, tool_calls: calls, usage: { ...usage }, stop: resp.stop_reason, ...(tracing ? { trace: traced } : {}) });
     return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason,
       ...(/haiku-4-5/.test(model) ? {} : { effort: effortOf(role, profile ? profile.effort : spec.effort) }) } };
   };

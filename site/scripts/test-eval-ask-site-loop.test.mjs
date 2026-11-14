@@ -5,6 +5,7 @@
 //   node --test site/scripts/test-eval-ask-site-loop.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { GRID_SLUG, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
 import { bare } from "./eval-loader.mjs";
 
@@ -53,6 +54,34 @@ test("an error is a record with no answer and no cost, never a guess", () => {
   assert.equal(rec.cost_usd, 0);
   assert.deepEqual(rec.trace, []);
   assert.match(rec.error, /ledger/);
+});
+
+// Session 5269. On 14 November 2026 gp01 ended in "stop_reason max_tokens" after eight model calls: its record said USD 0
+// and the ledger held USD 0.3132, so the run's own cost, which the cap is counted on, was short by a question.
+test("an error after model calls were made is recorded at what the loop had counted, and the cap counts it", () => {
+  const q = { id: "gp01", grid: "none", via: "general", question: "?" };
+  const meter = { cost_usd: 0.3132, tool_calls: 7, usage: { input: 16, output: 17002, cache_write: 0, cache_read: 250000, requests: 8 }, stop: "max_tokens",
+    trace: [{ tool: "query", input: { table: "eia930_all_demand" }, out: { rows_matched: 0 }, isError: false }] };
+  const rec = recordOf(q, null, "t", "Error: stop_reason max_tokens", meter);
+  assert.equal(rec.status, "error");
+  assert.equal(rec.answer, null);
+  assert.equal(rec.cost_usd, 0.3132);
+  assert.equal(rec.tool_calls, 7);
+  assert.equal(rec.usage.requests, 8);
+  assert.equal(rec.stopped_at, "max_tokens");
+  assert.deepEqual(rec.trace.map((t) => [t.tool, t.is_error]), [["query", false]]);
+  assert.ok(Math.abs(costOf({ questions: [{ id: "a", cost_usd: 0.1 }, rec] }) - 0.4132) < 1e-9);
+  // an error before any model call (no key, a refused ledger row at the first call) has an empty meter: no cost, as before
+  assert.equal(recordOf(q, null, "t", "Error: x", {}).cost_usd, 0);
+  // an answer that came back is its own count: the meter is not read, and it gains no field
+  const ok = recordOf(q, { status: "answered", answer: "a", cost_usd: 0.05, tool_calls: 3, trace: [] }, "t", null, { cost_usd: 9, tool_calls: 99, stop: "end_turn" });
+  assert.deepEqual([ok.cost_usd, ok.tool_calls, "stopped_at" in ok], [0.05, 3, false]);
+  // the loop writes the meter after every model call, and the runner hands it one
+  const loop = fs.readFileSync(new URL("../lib/chat/ask.ts", import.meta.url), "utf8");
+  assert.ok(loop.includes("if (opts.meter) Object.assign(opts.meter, { cost_usd: spent, tool_calls: calls, usage: { ...usage }, stop: resp.stop_reason, ...(tracing ? { trace: traced } : {}) });"));
+  const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
+  assert.ok(runner.includes('questionId: crypto.randomBytes(16).toString("hex"), meter });'));
+  assert.ok(runner.includes("const rec = recordOf(q, r, at, error, meter);"));
 });
 
 test("every grid a set may name has a slug", () => {
