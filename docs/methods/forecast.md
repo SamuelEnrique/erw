@@ -229,7 +229,7 @@ Session 4301 added the West's utility solar study: South Spur (Colorado, 158 MW 
 
 ### One study per technology per region (session 6004, chain 270)
 
-The owner's instruction of 14 November 2026: one published impact study per technology per region (Northeast, Southeast, Midwest, Plains, Southwest, West) as a cross-check. Two read-only subagents of session 6000 searched (about 120 requests; refusals honoured: the UNT web archive names ClaudeBot, the Texas Comptroller's assets host and UNR's repository answer 403 to the robots file); this chain read four of their fourteen rows again (North Carolina, Illinois, Louisiana, the geothermal guide). Six were usable (a state, a MW, a cost with its year, statewide figures, or a stated narrower area) and are added to `site/scripts/forecast-crosscheck.mjs`; the full output is `docs/reviews/forecast-crosscheck-2026-11-14.json`.
+The owner's instruction of 14 November 2026: one published impact study per technology per region (Northeast, Southeast, Midwest, Plains, Southwest, West) as a cross-check. Two read-only subagents of session 6000 searched (about 120 requests; refusals honoured: the UNT web archive names ClaudeBot, the Texas Comptroller's assets host and UNR's repository answer 403 to the robots file); this chain read four of their fourteen rows again (North Carolina, Illinois, Louisiana, the geothermal guide). Six were usable (a state, a MW, a cost with its year, statewide figures, or a stated narrower area) and are added (a seventh, Killingly, by a second search in session 6006, read again by this chain) to `site/scripts/forecast-crosscheck.mjs`; the full output is `docs/reviews/forecast-crosscheck-2026-11-14.json`.
 
 | Study (region) | Project | Figure | Published | Model / published | Why they differ |
 |---|---|---|---:|---:|---|
@@ -238,6 +238,7 @@ The owner's instruction of 14 November 2026: one published impact study per tech
 | Corona Wind, New Mexico, 2018 (Southwest) | 2,200 MW, USD 2.4 billion | on-site construction; on-site operations | 1,186; 94 | 0.62; 1.06 | the study counts every worker by labor hours, wherever from |
 | LSU, Louisiana combined cycle, 2001 (Southeast) | 600 MW, USD 600 per kW of 2000 | construction jobs; earnings; output; operations jobs; output | 419; 13.2 m; 128.5 m; 66; 81.2 m | 2.63; 4.87; 1.09; 1.36; 0.11 | most equipment bought outside Louisiana (direct construction output USD 113 million of 360); its operations output likely includes the plant's sales (an inference: the study does not say) |
 | MSU, Michigan gas plants, 2011 (Midwest) | 1,000 MW a year, USD 1.125 million per MW | construction jobs; direct; output | 17,346; 9,094; 2,218 m | 0.18; 0.12; 0.22 | every dollar treated as spent in Michigan (direct output equals the cost) |
+| Killingly Energy Center, Connecticut, PA Consulting 2016 (Northeast; session 6006) | 500 MW, USD 537 million (year taken as 2016) | construction jobs; on-site; earnings; output; operations jobs; earnings | 1,132; 599; 160 m; 235 m; 74; 8 m | 1.05; 0.71; 0.72; 0.98; 0.97; 0.65 | JEDI itself with Connecticut's shares (26 percent of the cost in state, no generating equipment): close to the tool's defaults |
 | NREL JEDI geothermal guide, Colorado example, 2012 (West) | 30 MW net, USD 3,565 per kW of 2010 | construction jobs; on-site; operations jobs | 432; 223; 24 | 1.22; 1.00; 1.51 | JEDI's own example, not independent: the tool's later multipliers and its cost scaling |
 
 Coverage by technology and region after this session (the studies of sessions 4209 to 4301 and these six):
@@ -246,7 +247,7 @@ Coverage by technology and region after this session (the studies of sessions 42
 |---|---|---|---|---|---|---|
 | Wind | Maine (NREL) | North Carolina (NREL) | Indiana (NREL), Illinois | Kansas, Texas (NREL) | New Mexico (Corona) | Montana, Colorado, Wyoming (NREL) |
 | Solar | New York (NREL, 2 MW) | Georgia, Mississippi (NREL, small) | Ohio (Ohio University) | none readable | none readable | Colorado (South Spur) |
-| Gas | none readable | Louisiana (LSU) | Michigan (MSU, a fleet) | none usable | none readable | Wyoming (NREL) |
+| Gas | Connecticut (Killingly) | Louisiana (LSU) | Michigan (MSU, a fleet) | none usable | none readable | Wyoming (NREL) |
 | Geothermal | none built | none built | none built | none built | none with a cost | Colorado (JEDI's example) |
 
 Found and not usable, with the reason: Arizona's Topaz study (per million dollars of spending, modules left out) and Yuma County's (one county, storage included); Wolf Hills Solar, Virginia (one county); Somerset Solar, New York (cost redacted); K-Junction Solar, Nebraska (the memo answers 404); Orange County Power Station, Texas (the Beaumont MSA, no MW stated); Ohio University's PORTS combined cycle (eleven counties, jobs as annual averages, no dollar year); IPP Renewed, Utah (no MW, on-site jobs only); NREL's Blue Mountain and Neal Hot Springs geothermal validations (no cost printed); Astoria Replacement, New York (404).

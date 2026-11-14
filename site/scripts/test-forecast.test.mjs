@@ -657,7 +657,7 @@ test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's o
 
 test("session 6004: the six studies added to the cross-check, each with its region, reproduce the saved ratios", async () => {
   const X = await import("./forecast-crosscheck.mjs");
-  const ids = ["nc_wind_nrel", "livingston_il", "corona_nm", "lsu_la_cc", "msu_mi_gas", "jedi_geo_co"];
+  const ids = ["nc_wind_nrel", "livingston_il", "corona_nm", "lsu_la_cc", "msu_mi_gas", "jedi_geo_co", "killingly_ct"];  // killingly: session 6006
   for (const id of ids) {
     const s = X.STUDIES.find((t) => t.id === id);
     assert.ok(s && s.region && s.url && s.published_words && Object.keys(s.published).length, id);
@@ -665,8 +665,10 @@ test("session 6004: the six studies added to the cross-check, each with its regi
   // Louisiana: USD 600 per kW of 2000, in 2025 dollars by the deflator's ratio
   const la = X.STUDIES.find((t) => t.id === "lsu_la_cc");
   near(la.cost_usd / (la.mw * 1000) * F.to2025(P, 2000), 600 * idx["2025"] / idx["2000"], 1e-12);
+  // Killingly: the construction job-years are the yearly FTEs of Table 2-3 added (180 + 515 + 386 + 51)
+  assert.equal(X.STUDIES.find((t) => t.id === "killingly_ct").published["construction:total:jobs"], 180 + 515 + 386 + 51);
   const saved = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "reviews", "forecast-crosscheck-2026-11-14.json"), "utf8")).studies;
-  const out = X.crosscheck(ROWS).filter((r) => ids.includes(r.id) && r.id !== "jedi_geo_co");  // the fixture holds no Colorado geothermal
+  const out = X.crosscheck(ROWS).filter((r) => ids.includes(r.id) && !["jedi_geo_co", "killingly_ct"].includes(r.id));  // the fixture holds no Colorado geothermal, no Connecticut
   assert.equal(out.length, 5);
   for (const r of out) {
     const t = saved.find((x) => x.id === r.id);

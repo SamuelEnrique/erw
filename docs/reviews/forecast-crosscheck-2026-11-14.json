@@ -1040,6 +1040,74 @@
      "ratio": 1.4850508933390805
     }
    ]
+  },
+  {
+   "id": "killingly_ct",
+   "title": "Killingly Energy Center: An Analysis of Need and Economic & Environmental Impacts, PA Consulting Group for NTE Connecticut, 2016 (Appendix B of the Connecticut Siting Council Docket 470 application)",
+   "url": "https://portal.ct.gov/-/media/csc/1_dockets-medialibrary/media_do400-499/docket470/application_reload/volume2/appendixbeconomicpdf.pdf?rev=67d10ccb5cbc4ab986777810d2e5f3ce&hash=A839150DA3E87986B1E92484ED24E8E9",
+   "request": "s6006 (spot-checked)",
+   "method": "JEDI natural gas with Connecticut's in-state shares (26 percent of the construction cost spent in Connecticut: no generating equipment, 65 percent of the plant's construction labor), Connecticut statewide; jobs per year 2017 to 2020 added here into job-years; the dollar year is not stated (taken as 2016, the report's year); the ratepayer savings lines left out",
+   "inputs": {
+    "tech": "natural_gas",
+    "state": "ct",
+    "mw": 500,
+    "capex_2025_usd_per_kw": 1409.6933498289345,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "Table 2-3: Construction Period FTEs per year 180, 515, 386, 51 (2017 to 2020); Facility Operations 74. Table 2-4: Direct construction 95, 273, 204, 27; direct operations 28. The construction of KEC will support the creation of approximately $160 million in salary and wages to Connecticut employees from 2017-2020 [...] During the construction period, 2017-2020, economic output is projected to total $235 million. [Operations, 2022: earnings $8 million, output $17 million.]",
+   "cost_words": "KEC's total equipment and construction costs are projected to be $537 million [...] KEC is a planned 500 MW natural gas-fired electric generating facility",
+   "dollars_of": 2016,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 1132,
+     "model": 1183.280860793695,
+     "ratio": 1.045301113775349
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 599,
+     "model": 428.0945544124511,
+     "ratio": 0.7146820607887331
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 160000000,
+     "model": 115817891.75882639,
+     "ratio": 0.7238618234926649
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 235000000,
+     "model": 230271155.96138164,
+     "ratio": 0.9798772594101347
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 74,
+     "model": 72.10950000000001,
+     "ratio": 0.9744527027027029
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 28,
+     "model": 25.323999999999998,
+     "ratio": 0.9044285714285714
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 8000000,
+     "model": 5179126.740474342,
+     "ratio": 0.6473908425592928
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 17000000,
+     "model": 11082841.385661399,
+     "ratio": 0.6519318462153764
+    }
+   ]
   }
  ]
 }

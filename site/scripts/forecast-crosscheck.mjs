@@ -210,6 +210,16 @@ export const STUDIES = [
     published_words: "432 full-time equivalent (FTE) jobs are supported, generating over $26 million in earnings and over $61 million in total economic activity during project development and construction. These include a total of 223 FTE jobs from project development [...] 128 from the turbine and supply chain, and 81 from induced impacts [...] 14 full-time operations and maintenance jobs [...] for a total of 24",
     dollars_of: 2010,
   },
+  {
+    id: "killingly_ct", title: "Killingly Energy Center: An Analysis of Need and Economic & Environmental Impacts, PA Consulting Group for NTE Connecticut, 2016 (Appendix B of the Connecticut Siting Council Docket 470 application)",
+    url: "https://portal.ct.gov/-/media/csc/1_dockets-medialibrary/media_do400-499/docket470/application_reload/volume2/appendixbeconomicpdf.pdf?rev=67d10ccb5cbc4ab986777810d2e5f3ce&hash=A839150DA3E87986B1E92484ED24E8E9", request: "s6006 (spot-checked)", region: "Northeast",
+    method: "JEDI natural gas with Connecticut's in-state shares (26 percent of the construction cost spent in Connecticut: no generating equipment, 65 percent of the plant's construction labor), Connecticut statewide; jobs per year 2017 to 2020 added here into job-years; the dollar year is not stated (taken as 2016, the report's year); the ratepayer savings lines left out",
+    tech: "natural_gas", state: "ct", mw: 500, cost_usd: 537e6, cost_year: 2016, cost_words: "KEC's total equipment and construction costs are projected to be $537 million [...] KEC is a planned 500 MW natural gas-fired electric generating facility", life: 30,
+    published: { "construction:total:jobs": 1132, "construction:onsite:jobs": 599, "construction:total:earnings": 160e6, "construction:total:output": 235e6,
+      "operations:total:jobs": 74, "operations:onsite:jobs": 28, "operations:total:earnings": 8e6, "operations:total:output": 17e6 },
+    published_words: "Table 2-3: Construction Period FTEs per year 180, 515, 386, 51 (2017 to 2020); Facility Operations 74. Table 2-4: Direct construction 95, 273, 204, 27; direct operations 28. The construction of KEC will support the creation of approximately $160 million in salary and wages to Connecticut employees from 2017-2020 [...] During the construction period, 2017-2020, economic output is projected to total $235 million. [Operations, 2022: earnings $8 million, output $17 million.]",
+    dollars_of: 2016,
+  },
 ];
 
 export function crosscheck(rows) {
