@@ -107,7 +107,10 @@ class AnAnswerAfterAHeldTable(unittest.TestCase):
     def test_the_fixed_sentence_goes_before_the_models_own(self):
         self.assertEqual(ask.with_hold_words(PJ08, ask.held_tables(self.WORDS)),
                          "isone_interconnection_queue: license needed, so no figure of it is given here. " + PJ08)
-        self.assertEqual(ask.with_hold_words(PJ08, ["a", "b"]), "a, b: license needed, so no figure of them is given here. " + PJ08)
+        two = "Neither energy_deals nor policy_actions can be read here."
+        self.assertEqual(ask.with_hold_words(two, ["energy_deals", "policy_actions"]), "energy_deals, policy_actions: license needed, so no figure of them is given here. " + two)
+        # session 6166: a held table the answer does not name is not said (it was only touched on the way)
+        self.assertEqual(ask.with_hold_words(PJ08, ["news_index"]), PJ08)
 
     def test_an_answer_that_has_the_words_and_one_with_no_held_table_are_left(self):
         for kept in ("energy_deals is held (license needed), so no price is given. ERCOT's was 54.481 USD/MWh.", "License needed for the deals table."):

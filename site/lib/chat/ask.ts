@@ -10,10 +10,10 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
+import { cataloguedNames, nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 import { CUT_SHORT, askedAboutProblem, cutShort, heldTables, plainDates, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, unlistedNamed, unlistedTables,
-  withAskedAbout, withHoldWords, withRefusalWords, withUnlistedWords } from "./refused";
+  unlistedOf, withAskedAboutNames, withHoldWords, withRefusalWords, withUnlistedWords } from "./refused";
 import verdictFile from "@/data/table_verdicts.json";   // session 6133: the license record's word for every table of the record
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
@@ -356,6 +356,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? []),
     ...past.flatMap((t) => [t.answer, ...t.queries])];   // session 1129: an earlier answer's numbers were checked when it was written
   const sources: string[] = [...given];
+  let unlisted: string[] | null = null;   // session 6166: the record's tables the catalogue does not list, known at the first list
   const askedAbout: string[] = [];   // session 6136: the tables the list told the model the question names and this site cannot read
   const lists: ToolRecord[] = [];   // session 6133: the general chat's list_tables results, for the table a question names and the list lacks
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
@@ -386,7 +387,10 @@ export async function ask(question: string, today = new Date().toISOString().sli
       // session 6136 (lib/chat/refused.ts withAskedAbout): the list's own result says, before its rows, which table of the
       // record the question names and this site cannot read, in the tools' words for it; the table counts as refused whole
       if (!profile && name === "list_tables" && !got.isError) {
-        const told = withAskedAbout(got.out, question, input, verdictFile as unknown as Record<string, [string, string]>);
+        // session 6166: against what the catalogue lists, whatever filter this call gave the list
+        const all = verdictFile as unknown as Record<string, [string, string]>;
+        unlisted = unlistedOf(Object.keys(all), await cataloguedNames());
+        const told = withAskedAboutNames(got.out, question, unlisted, all);
         for (const [t, words] of Object.entries(told.told)) { if (!refusedWholeWords.has(t)) refusedWholeWords.set(t, words); refusedTables.add(t); }
         for (const t of Object.keys(told.told)) if (!askedAbout.includes(t)) askedAbout.push(t);
         return { ...got, out: told.out };
@@ -516,7 +520,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     // session 6133: a table of the record the question names and the list did not show is said to be one
     if (!profile && draft.not_in_warehouse) {
       const verdicts = verdictFile as unknown as Record<string, [string, string]>;
-      const named = unlistedNamed(question, unlistedTables(lists, Object.keys(verdicts)));
+      const named = unlistedNamed(question, unlisted ?? unlistedTables(lists, Object.keys(verdicts)));
       draft = { ...draft, answer: withUnlistedWords(draft.answer, named, (t) => verdicts[t]?.[0]) };
     }
     // session 6136: the general chat writes a day in words (2026-11-05 as 5 November 2026), after every check has run

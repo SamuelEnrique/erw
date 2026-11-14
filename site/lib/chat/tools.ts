@@ -149,6 +149,12 @@ async function tableInfo(name: string, scope: Scope = null) {
   return { c, columns, shape };
 }
 
+/** Session 6166: the names the catalogue lists (kept ten minutes, as the list itself): what the loop sets the record's
+ *  tables against, whatever filter a list_tables call was given. */
+export async function cataloguedNames(): Promise<string[]> {
+  return (await catalogue()).map((r) => r.table_name);
+}
+
 /** Session 148: whether every one of these tables is in the site's live set now, by the catalogue (kept ten minutes). */
 async function allHeld(names: string[]): Promise<boolean> {
   const rows = await catalogue();

@@ -177,7 +177,10 @@ class ThePythonLoop(unittest.TestCase):
                           "a_refusal_with_a_figure": "not_in_warehouse", "an_answer_after_a_held_table": "answered",
                           "a_draft_cut_in_mid_sentence": "not_in_warehouse", "a_refusal_after_a_held_table_without_the_words": "not_in_warehouse",
                           "a_table_of_the_record_the_list_does_not_show": "not_in_warehouse",
-                          "an_answer_from_a_neighbour_table": "not_in_warehouse"})
+                          "an_answer_from_a_neighbour_table": "not_in_warehouse",
+                          "a_filtered_list_and_a_table_the_site_cannot_read": "not_in_warehouse"})
+        # session 6166 (chain 282): the same after a list the model filtered: the loop knows what the catalogue lists from the tools
+        self.assertEqual(got["a_filtered_list_and_a_table_the_site_cannot_read"]["answer"], got["a_table_of_the_record_the_list_does_not_show"]["answer"])
         # session 6136 (chain 281, the new tables' ru05 and ru10 through the site's loop): the question names a table of
         # the record this site cannot read, and the list's own result says so before its rows. A draft that answers all
         # the same from another table (its figure fetched, and of something else) is sent back once; the refusal stands,
@@ -208,7 +211,7 @@ class ThePythonLoop(unittest.TestCase):
         # given the hold's words by the loop, before the model's own (an answer has been since session 6106)
         r = got["a_refusal_after_a_held_table_without_the_words"]
         self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"]), (1, 0, False, 2))
-        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. Not in the warehouse. The deals table is held, so no PPA price can be given.")
+        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. Not in the warehouse. The energy_deals table is held, so no PPA price can be given.")
         # session 6106 (chain 280, the platform set's pw13 of 14 November 2026): a refusal that goes on to state a figure
         # (one that was fetched, of something the question did not ask) is sent back once, as rule 3 says a refusal states
         # no numbers; the second draft, a refusal with no figure, stands. One query, one read, three model calls
@@ -220,7 +223,7 @@ class ThePythonLoop(unittest.TestCase):
         # needed, which says so in other words, is given the fixed words by the loop, before the model's own
         r = got["an_answer_after_a_held_table"]
         self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"]), (2, 1, False, 3, ["cost_of_power_monthly"]))
-        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. The deals table is held because it needs a license, "
+        self.assertEqual(r["answer"], "energy_deals: license needed, so no figure of it is given here. The energy_deals table is held because it needs a license, "
                                       "so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).")
         # session 5276 (chain 256, the platform set's gp02 of 14 November 2026): a refusal that is right and carries none of
         # the fixed words is given the first by the loop, before the model's own sentence, which is not changed; a refusal

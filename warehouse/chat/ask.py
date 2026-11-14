@@ -441,7 +441,12 @@ def held_tables(refused_words):
 def with_hold_words(answer, held):
     """An answer written after a table was refused as license needed: as it is when it carries the words, else a fixed
     sentence that names the table before it."""
-    if not held or HOLD_WORDS in (answer or "").lower():
+    # session 6166 (chain 282): only a held table the answer itself names. Asked about wildfires (questions_unlisted.yaml,
+    # ul12), the chat touched news_index on its way, and its refusal opened "news_index: license needed, so no figure of
+    # it is given here": true, and beside the point. The cases the sentence was made for name the table (pj08, l02)
+    low = (answer or "").lower()
+    held = [t for t in held if t.lower() in low]
+    if not held or HOLD_WORDS in low:
         return answer
     return f"{', '.join(held)}: {HOLD_WORDS}, so no figure of {'it' if len(held) == 1 else 'them'} is given here. {(answer or '').strip()}".strip()
 
@@ -525,6 +530,24 @@ def unlisted_tables(results, verdicts):
 # whole from then on. As site/lib/chat/refused.ts withAskedAbout.
 ASKED_ABOUT = ("an answer to a question about {tables}, which this site cannot read: figures of another table do not answer it. Answer with "
                "not_in_warehouse true, naming the table and why it cannot be read, and state no figure")
+
+
+def unlisted_of(names, catalogued):
+    """Session 6166 (chain 282), as refused.ts unlistedOf: the record's tables the catalogue does not list, whatever filter
+    the model gave the list (ul05 of questions_unlisted.yaml listed CAISO's tables alone and took ten tool calls)."""
+    have = set(catalogued)
+    return sorted(n for n in names if n not in have)
+
+
+def with_asked_about_names(out, question, unlisted, verdicts, words_of):
+    """with_asked_about over the names the catalogue lacks, known from the tools and not from the list's rows."""
+    named = unlisted_named(question, unlisted)
+    if not named:
+        return out, {}
+    told = {t: words_of(t, (verdicts.get(t) or [None])[0]) for t in named}
+    first = {k: out[k] for k in ("n_tables",) if k in out}
+    rest = {k: v for k, v in out.items() if k != "n_tables"}
+    return {**first, "asked_about_not_listed": [{"table": t, "cannot_be_read": w} for t, w in told.items()], **rest}, told
 
 
 def with_asked_about(out, question, list_input, verdicts, words_of):
@@ -716,6 +739,7 @@ class Asker:
         messages = [{"role": "user", "content": first}]
         usage = {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "requests": 0}
         calls, sources, tables_read = [], [question] + given, set(self.known_tables(history) if history else ())
+        unlisted = None   # session 6166: the record's tables the catalogue does not list, known at the first list
         asked_about = []   # session 6136: the tables the list told the model the question names and this site cannot read
         refused_tables, read_ok = set(), set()   # session 5256: the tables a tool refused to read, and those a call did read
         refused_whole_words = {}                 # session 5256: a table refused whole for this question, with the refusal's words
@@ -773,7 +797,8 @@ class Asker:
                         if type(self) is Asker and b.name == "list_tables" and not err and isinstance(out, dict) and tools.live_only():
                             # session 6136: the list itself says, first, which table of the record the question names and
                             # this site cannot read, in the tools' own words for it; the table counts as refused whole
-                            out, told = with_asked_about(out, question, b.input, tools.verdicts(), tools.not_listed_words)
+                            unlisted = unlisted_of(tools.verdicts(), tools.catalogued_names())   # session 6166: whatever the list's filter
+                            out, told = with_asked_about_names(out, question, unlisted, tools.verdicts(), tools.not_listed_words)
                             for t, words in told.items():
                                 refused_whole_words.setdefault(t, words)
                                 refused_tables.add(t)
@@ -864,7 +889,7 @@ class Asker:
                     final = dict(draft, answer=with_refusal_words(with_hold_words(draft["answer"], held_tables(refused_whole_words))))
                     if tools.live_only():
                         # session 6133: a table of the record the question names and the list did not show is said to be one
-                        named = unlisted_named(question, unlisted_tables(results, tools.verdicts()))
+                        named = unlisted_named(question, unlisted if unlisted is not None else unlisted_tables(results, tools.verdicts()))
                         final = dict(final, answer=with_unlisted_words(final["answer"], named, tools.verdict_of))
                 elif type(self) is Asker:
                     # session 6106: an answer written after a table was refused as license needed says so in the fixed words

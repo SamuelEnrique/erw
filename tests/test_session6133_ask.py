@@ -57,10 +57,11 @@ class TheTableTheQuestionNames(unittest.TestCase):
     def test_only_a_refusal_of_the_general_chat_and_only_over_the_live_set(self):
         py = open(os.path.join(ROOT, "warehouse", "chat", "ask.py"), encoding="utf-8").read()
         self.assertIn("if tools.live_only():\n                        # session 6133", py)
-        self.assertIn("named = unlisted_named(question, unlisted_tables(results, tools.verdicts()))", py)
+        # session 6166: against what the catalogue lists (known at the first list, whatever its filter), else what a whole list showed
+        self.assertIn("named = unlisted_named(question, unlisted if unlisted is not None else unlisted_tables(results, tools.verdicts()))", py)
         ts = open(os.path.join(SITE, "lib", "chat", "ask.ts"), encoding="utf-8").read().replace("\r\n", "\n")
         self.assertIn("if (!profile && draft.not_in_warehouse) {\n      const verdicts = verdictFile as unknown as Record<string, [string, string]>;", ts)
-        self.assertIn("const named = unlistedNamed(question, unlistedTables(lists, Object.keys(verdicts)));", ts)
+        self.assertIn("const named = unlistedNamed(question, unlisted ?? unlistedTables(lists, Object.keys(verdicts)));", ts)
 
     def test_the_record_names_the_weeks_tables(self):
         v = tools.verdicts()

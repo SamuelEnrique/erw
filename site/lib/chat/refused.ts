@@ -121,8 +121,12 @@ export function heldTables(refusedWords: Map<string, string> | Record<string, st
 
 /** An answer written after a table was refused as license needed: as it is when it carries the words, else a fixed
  * sentence that names the table before it. */
-export function withHoldWords(answer: string, held: string[]): string {
-  if (!held.length || (answer ?? "").toLowerCase().includes(HOLD_WORDS)) return answer;
+export function withHoldWords(answer: string, tables: string[]): string {
+  // session 6166 (chain 282): only a held table the answer itself names. Asked about wildfires (ul12), the chat touched
+  // news_index on its way and its refusal opened with that table's hold: true, and beside the point
+  const low = (answer ?? "").toLowerCase();
+  const held = tables.filter((t) => low.includes(t.toLowerCase()));
+  if (!held.length || low.includes(HOLD_WORDS)) return answer;
   return `${held.join(", ")}: ${HOLD_WORDS}, so no figure of ${held.length === 1 ? "it" : "them"} is given here. ${(answer ?? "").trim()}`.trim();
 }
 
@@ -235,4 +239,22 @@ export function plainDates(text: string): string {
 // untraced number is. As warehouse/chat/ask.py ASKED_ABOUT.
 export function askedAboutProblem(tables: string[]): string {
   return `an answer to a question about ${tables.join(" and ")}, which this site cannot read: figures of another table do not answer it. Answer with not_in_warehouse true, naming the table and why it cannot be read, and state no figure`;
+}
+
+// Session 6166 (chain 282): whatever filter the model gave the list. unlistedTables reads what a list's result showed,
+// and says nothing when the list was filtered: asked about CAISO's curtailment intervals (questions_unlisted.yaml,
+// ul05), the model listed CAISO's tables alone, the loop could not tell which tables the site lacks, and the question
+// took ten tool calls. The loop now asks the tools what the catalogue lists (cataloguedNames) and sets the record's
+// tables against that. As warehouse/chat/ask.py unlisted_of and with_asked_about_names.
+export function unlistedOf(names: string[], catalogued: string[]): string[] {
+  const have = new Set(catalogued);
+  return names.filter((n) => !have.has(n)).sort();
+}
+export function withAskedAboutNames(out: Record<string, unknown>, question: string, unlisted: string[], verdicts: Record<string, [string, string] | string[]>): { out: Record<string, unknown>; told: Record<string, string> } {
+  const named = unlistedNamed(question, unlisted);
+  if (!named.length) return { out, told: {} };
+  const told: Record<string, string> = {};
+  for (const t of named) told[t] = notListedWords(t, String(verdicts[t]?.[0]));
+  const { n_tables, ...rest } = out;
+  return { out: { ...(n_tables !== undefined ? { n_tables } : {}), asked_about_not_listed: named.map((t) => ({ table: t, cannot_be_read: told[t] })), ...rest }, told };
 }

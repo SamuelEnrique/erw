@@ -773,7 +773,7 @@
     },
     {
      "text": {
-      "answer": "The deals table is held because it needs a license, so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "answer": "The energy_deals table is held because it needs a license, so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
       "citations": [
        {
         "table": "cost_of_power_monthly",
@@ -849,7 +849,7 @@
     },
     {
      "text": {
-      "answer": "Not in the warehouse. The deals table is held, so no PPA price can be given.",
+      "answer": "Not in the warehouse. The energy_deals table is held, so no PPA price can be given.",
       "citations": [],
       "not_in_warehouse": true
      }
@@ -923,6 +923,30 @@
     {
      "text": {
       "answer": "Not in the warehouse this chat reads, so I give no count for Texas.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_filtered_list_and_a_table_the_site_cannot_read",
+   "_note": "Session 6166 (chain 282, questions_unlisted.yaml's ul05): the model lists the tables of one sector alone. The loop still knows what the catalogue lists (it asks the tools), so the table the question names and the site cannot read is said, as after a whole list.",
+   "question": "How many rules does the warehouse's utility large-load rules table hold?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {
+        "sector": "power"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. I found no table of utility large-load rules.",
       "citations": [],
       "not_in_warehouse": true
      }

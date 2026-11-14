@@ -1022,6 +1022,90 @@
     "what": "questions of the platform set asked in session 6143 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6143's report"
    }
+  },
+  {
+   "file": "eval_s6161_site_platform_run.json",
+   "grades": "eval_s6161_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 6161, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 6161 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6161's report"
+   }
+  },
+  {
+   "file": "eval_s6162_site_platform_run.json",
+   "grades": "eval_s6162_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 6162, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 6162 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6162's report"
+   }
+  },
+  {
+   "file": "eval_s6163_site_platform_run.json",
+   "grades": "eval_s6163_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 6163, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 6163 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6163's report"
+   }
+  },
+  {
+   "file": "eval_s6164_site_platform_run.json",
+   "grades": "eval_s6164_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 6164, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 6164 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6164's report"
+   }
+  },
+  {
+   "file": "eval_s6165_site_unlisted_run.json",
+   "grades": "eval_s6165_site_unlisted_grades.json",
+   "right": "ok",
+   "label": "session 6165, the site's loop, the unlisted set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_unlisted.yaml`",
+    "what": "questions of the unlisted set asked in session 6165 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6165's report"
+   }
+  },
+  {
+   "file": "eval_s6166_site_unlisted_run.json",
+   "grades": "eval_s6166_site_unlisted_grades.json",
+   "right": "ok",
+   "label": "session 6166, the site's loop, the unlisted set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_unlisted.yaml`",
+    "what": "questions of the unlisted set asked in session 6166 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6166's report"
+   }
   }
  ],
  "left_out": {

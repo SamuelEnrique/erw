@@ -19,7 +19,8 @@ test("an answer that stops in the middle of a sentence is told from a whole one"
   assert.match(CUT_SHORT, /^an answer that stops in the middle of a sentence: write the whole answer again/);
   // a refusal after a held table: the hold's words first, and then no "Not in the warehouse." is added to them
   const held = heldTables({ energy_deals: "table energy_deals is license needed: Reuters; Bloomberg" });
-  assert.equal(withRefusalWords(withHoldWords("The deals table is held.", held)), "energy_deals: license needed, so no figure of it is given here. The deals table is held.");
+  assert.equal(withRefusalWords(withHoldWords("The energy_deals table is held.", held)), "energy_deals: license needed, so no figure of it is given here. The energy_deals table is held.");
+  assert.equal(withRefusalWords(withHoldWords("No table holds wildfires.", held)), "Not in the warehouse. No table holds wildfires.");
   assert.equal(withRefusalWords(withHoldWords("The table holds no row.", [])), "Not in the warehouse. The table holds no row.");
 });
 
@@ -110,7 +111,9 @@ test("an answer written after a table was refused as license needed carries the 
   assert.deepEqual(heldTables({ b: "table b is license needed: x", a: "table a is license needed: y" }), ["a", "b"]);
   const pj08 = "I can't give a figure from ISO-NE's own queue table. isone_interconnection_queue is held because it needs a license. Berkeley Lab's national queue file is a separate public source.";
   assert.equal(withHoldWords(pj08, heldTables(words)), `isone_interconnection_queue: license needed, so no figure of it is given here. ${pj08}`);
-  assert.equal(withHoldWords(pj08, ["a", "b"]), `a, b: license needed, so no figure of them is given here. ${pj08}`);
+  const two = "Neither energy_deals nor policy_actions can be read here.";
+  assert.equal(withHoldWords(two, ["energy_deals", "policy_actions"]), `energy_deals, policy_actions: license needed, so no figure of them is given here. ${two}`);
+  assert.equal(withHoldWords(pj08, ["news_index"]), pj08);   // session 6166: a held table the answer does not name is not said
   // an answer that carries the words, and an answer with no table held, are as the model wrote them
   for (const kept of ["energy_deals is held (license needed), so no price is given. ERCOT's was 54.481 USD/MWh.", "License needed for the deals table."]) assert.equal(withHoldWords(kept, ["energy_deals"]), kept);
   assert.equal(withHoldWords(pj08, []), pj08);

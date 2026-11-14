@@ -345,6 +345,11 @@ def verdicts():
     return _verdicts
 
 
+def catalogued_names():
+    """Session 6166, as the site's cataloguedNames: the names the catalogue lists, whatever filter a list was given."""
+    return sorted(set(_coverage()["table"]))
+
+
 def not_listed_words(table, verdict):
     why = ("it is a table of the ERW's record that is not loaded here" if verdict == "public"
            else "it is a table of the ERW's record whose license is not settled (license needed), so the ERW does not publish it")

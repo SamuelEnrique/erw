@@ -113,11 +113,13 @@ class AnAnswerCutShort(unittest.TestCase):
 
     def test_a_refusal_after_a_held_table_gets_the_holds_words(self):
         held = ask.held_tables({"energy_deals": "table energy_deals is license needed: Reuters; Bloomberg"})
-        said = ask.with_refusal_words(ask.with_hold_words("Not in the warehouse. The deals table is held, so no PPA price can be given.", held))
-        self.assertEqual(said, "energy_deals: license needed, so no figure of it is given here. Not in the warehouse. The deals table is held, so no PPA price can be given.")
+        said = ask.with_refusal_words(ask.with_hold_words("Not in the warehouse. The energy_deals table is held, so no PPA price can be given.", held))
+        self.assertEqual(said, "energy_deals: license needed, so no figure of it is given here. Not in the warehouse. The energy_deals table is held, so no PPA price can be given.")
         # a refusal with none of the fixed words gets the hold's, and not "Not in the warehouse." as well
-        self.assertEqual(ask.with_refusal_words(ask.with_hold_words("The deals table is held.", held)),
-                         "energy_deals: license needed, so no figure of it is given here. The deals table is held.")
+        self.assertEqual(ask.with_refusal_words(ask.with_hold_words("The energy_deals table is held.", held)),
+                         "energy_deals: license needed, so no figure of it is given here. The energy_deals table is held.")
+        # session 6166: a refusal that does not name the held table gets the refusal's own words, not the hold's
+        self.assertEqual(ask.with_refusal_words(ask.with_hold_words("No table holds wildfires.", held)), "Not in the warehouse. No table holds wildfires.")
         # with no table held, as before
         self.assertEqual(ask.with_refusal_words(ask.with_hold_words("The table holds no row.", [])), "Not in the warehouse. The table holds no row.")
         py = open(os.path.join(ROOT, "warehouse", "chat", "ask.py"), encoding="utf-8").read()

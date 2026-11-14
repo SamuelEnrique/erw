@@ -94,7 +94,11 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # the same questions keyed as a visitor's chat can answer them on the day (a table out of its reach: a refusal, and
         # never the figure the table holds), written by the same builder with --live; asked through the site's loop
         "newtables_live": {"questions": os.path.join(HERE, "questions_newtables_live.yaml"), "run": os.path.join(HERE, "eval_s6112_site_newtables_live_run.json"),
-                           "grades": os.path.join(HERE, "eval_s6112_site_newtables_live_grades.json")}}
+                           "grades": os.path.join(HERE, "eval_s6112_site_newtables_live_grades.json")},
+        # session 6165 (chain 282): twelve questions about other tables of the record a visitor's chat cannot read
+        # (scripts/ask_eval/unlisted_questions.py): each key a refusal with no figure; asked through the site's loop
+        "unlisted": {"questions": os.path.join(HERE, "questions_unlisted.yaml"), "run": os.path.join(HERE, "eval_s6165_site_unlisted_run.json"),
+                     "grades": os.path.join(HERE, "eval_s6165_site_unlisted_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
