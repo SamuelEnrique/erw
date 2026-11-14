@@ -467,8 +467,11 @@ group dm_test_board "dm_board_page" "tests.test_session132 tests.test_session240
 # (e475f7069) committed a refresh of the datacenter and findings files that broke four of them on main (190, 1491,
 # 538, 720; chain 184 put the files back): those tests read the committed files, so a refresh that moves a recorded
 # figure is put back here, whole, until the tests or their recorded figures follow the refresh.
+# Session 3967 (chain 278): the run of 14 November moved the datacenter's figures (its carbon file past the prices'
+# last hour), and tests 5074 (Datacenter) and 5502 (the signature pack, which quotes those figures) refused the whole
+# commit in the push guard, the other groups' 250 files with it. They join the group, with 5074's Analysis class.
 group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter_carbon dm_siting_card dm_datacenter_figures dm_findings_recompute dm_cross_check_rows dm_analysis_figures" \
-  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701" -- \
+  "tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701 tests.test_session5074.Datacenter tests.test_session5074.Analysis tests.test_session5502" -- \
   site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
   replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md \
   replication/analysis/page_figures.json replication/analysis/page_figures.csv

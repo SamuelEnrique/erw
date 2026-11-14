@@ -33,8 +33,10 @@ class TheGroup(unittest.TestCase):
         self.assertEqual(steps.split(), ["dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_siting_card",
                                          "dm_datacenter_figures", "dm_findings_recompute", "dm_cross_check_rows", "dm_analysis_figures"])
         # session 3803: test 3701 (Research's replication) joined, with the step that writes its page figures
+        # session 3967: tests 5074 (its Datacenter and Analysis classes) and 5502 joined, after the run of 14 November
         self.assertEqual(tests.split(), ["tests.test_session190_replication", "tests.test_session1491", "tests.test_session538", "tests.test_session720",
-                                         "tests.test_session3701"])
+                                         "tests.test_session3701", "tests.test_session5074.Datacenter", "tests.test_session5074.Analysis",
+                                         "tests.test_session5502"])
         self.assertEqual(paths.split(), ["site/data/datacenter", "site/public/datacenter", "site/data/findings", "site/public/findings",
                                          "replication/datacenter/page_figures.json", "replication/datacenter/page_figures.csv",
                                          "docs/methods/automated_analysis_findings.md",
@@ -45,8 +47,13 @@ class TheGroup(unittest.TestCase):
         for step in ("dm_datacenter_page", "dm_datacenter_export", "dm_datacenter_carbon", "dm_siting_card", "dm_datacenter_figures",
                      "dm_findings_recompute", "dm_cross_check_rows", "dm_analysis_figures"):
             self.assertRegex(t, rf"soft_step {step} ")
-        for mod in ("test_session190_replication", "test_session1491", "test_session538", "test_session720", "test_session3701"):
-            self.assertTrue(os.path.exists(os.path.join(ROOT, "tests", mod + ".py")), mod)
+        for mod in ("test_session190_replication", "test_session1491", "test_session538", "test_session720", "test_session3701",
+                    "test_session5074.Datacenter", "test_session5074.Analysis", "test_session5502"):
+            name, _, cls = mod.partition(".")
+            path = os.path.join(ROOT, "tests", name + ".py")
+            self.assertTrue(os.path.exists(path), mod)
+            if cls:
+                self.assertRegex(open(path, encoding="utf-8").read(), rf"(?m)^class {cls}\(", mod)
 
     def test_the_group_runs_after_its_steps_and_before_the_commit(self):
         t = text()
