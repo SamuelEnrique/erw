@@ -143,7 +143,7 @@
  "eia930_all_storage": "U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by energy source.",
  "eia930_daily_demand": "U.S. Energy Information Administration. Form EIA-930, daily demand by balancing authority (electricity/rto/daily-region-data, type D).",
  "eia930_daily_interchange": "U.S. Energy Information Administration. Form EIA-930, daily interchange (electricity/rto/daily-interchange-data).",
- "eia930_daily_total_interchange": "U.S. Energy Information Administration. Form EIA-930, daily total interchange by balancing authority (electricity/rto/daily-region-data, type TI).",
+ "eia930_daily_total_interchange": "U.S. Energy Information Administration; U.S. Energy Information Administration (EIA). EIA-930 six-month files (Hourly Electric Grid Monitor); Form EIA-930, daily total interchange by balancing authority (electricity/rto/daily-region-data, type TI).",
  "eia930_demand_growth": "Energy Research Warehouse (ERW), derived. Demand growth since 2019: annual and peak demand from EIA-930 hourly demand (docs/methods/demand_growth.md).",
  "eia930_demand_weather": "Energy Research Warehouse (ERW), derived. ERW derived table, demand growth with the weather taken out (docs/methods/demand_weather.md).",
  "eia930_event_hourly_interchange": "U.S. Energy Information Administration (EIA). Form EIA-930, Hourly Electric Grid Monitor: hourly demand, day-ahead demand forecast, net generation and interchange by balancing authority; Form EIA-930, Hourly Electric Grid Monitor: hourly interchange between balancing authorities.",
