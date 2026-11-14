@@ -1,0 +1,33 @@
+# Session 3937 (chain 267; data request row 17 of docs/state/data_requests_large_load.md, change operators_federal-05):
+# FERC's Order Accepting Tariff Revisions in Part and Rejecting Tariff Revisions in Part, PJM Interconnection, L.L.C., Docket
+# No. ER26-3515-000, 197 FERC 61,019 (issued 9 October 2026), as PJM posts it in its eTariff orders (www.ferc.gov answers this
+# reader with a challenge). Read by window P4's research pass on 13 November 2026 (docs/research/large_load/
+# changes_2026-11-13.csv, every cite matched), not read again by this session. FERC accepted PJM's definition of Large Load
+# and its Large Load Registry, effective 12 October 2026, with a compliance filing due within 30 days, and rejected the rest
+# of the filing (IRAS, the new-capacity requirement, BYONC and the VRR exclusion). A FERC order is a work of the U.S.
+# government. Pages are the order's own.
+body: Federal Energy Regulatory Commission (FERC), on PJM Interconnection, L.L.C.
+grid: PJM
+utility: ""
+eia_id: ""
+state: PA
+document: FERC, Order Accepting Tariff Revisions in Part and Rejecting Tariff Revisions in Part, PJM Interconnection, L.L.C., Docket No. ER26-3515-000, 197 FERC 61,019 (issued 9 October 2026)
+document_date: 2026-10-09
+document_url: https://www.pjm.com/pjmfiles/directory/etariff/FercOrders/9207/20261009-er26-3515-000.pdf
+retrieved_at: 2026-11-13T00:00:00Z
+license: public
+steps:
+  - section: "P 2, the Large Load definition and Registry accepted"
+    page: 1
+    step: FERC accepts PJM's definition of Large Load and its Large Load Registry, effective 12 October 2026; PJM files its compliance within 30 days
+    party: FERC
+    date: 2026-10-12
+    duration: 30
+    unit: days
+    printed: "we accept PJM's proposed Tariff revisions to establish a definition of Large Load and a Large Load Registry, effective October 12, 2026, as requested, and require PJM to submit a compliance filing within 30 days of the date of issuance of this order"
+  - section: "P 16, the definition"
+    page: 6
+    step: a Large Load is defined in PJM's Tariff (accepted by FERC)
+    party: PJM
+    mw: 50
+    printed: "end-use customer(s) load that has a cumulative peak load of 50 [MW] or greater at a single electrical site behind one or more points of interconnection"
