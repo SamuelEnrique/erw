@@ -2,43 +2,6 @@
  "group": "west_changes",
  "changes": [
   {
-   "utility": "California Independent System Operator (CAISO), with its participating transmission owners",
-   "state": "CA",
-   "rule_name": "CAISO Large Load Enhancements (response to FERC's Order to Show Cause, EL26-71)",
-   "affects": "large_load_connection_rules/caiso_large_load_enhancements_draft_final_proposal.yaml",
-   "change": "approved",
-   "date": "2026-10-28",
-   "docket": "FERC EL26-71 (named in window A's registry file; the release names FERC's June 'Show Cause' order)",
-   "source_url": "https://www.caiso.com/about/news/news-releases/caiso-board-advances-new-procedures-for-connecting-large-loads-quickly-and-reliably",
-   "source_title": "CAISO Board advances new procedures for connecting large loads quickly and reliably (CAISO news release, 28 October 2026)",
-   "what": "The CAISO Board of Governors approved the large load proposal (flexible interim load interconnection, a monthly review of out-of-cycle upgrades to fit the PTOs' 60 to 90 day studies, cost-shift protections), to be filed with FERC by 16 November 2026; no FERC filing was found by 13 November.",
-   "cites": [
-    {
-     "page": "",
-     "section": "release header",
-     "quote": "News release 10/28/2026"
-    },
-    {
-     "page": "",
-     "section": "subtitle",
-     "quote": "Board-approved proposal now goes to FERC for review"
-    },
-    {
-     "page": "",
-     "section": "first paragraph",
-     "quote": "With the Board's approval Wednesday, the ISO will file its proposal with the Federal Energy Regulatory Commission (FERC) by its November 16 deadline."
-    },
-    {
-     "page": "",
-     "section": "load interconnection applications and studies",
-     "quote": "the proposal creates a new monthly window for the ISO to review any transmission additions or upgrades associated with large loads that fall outside the usual transmission planning cycle to accommodate FERC's 60-90 day requirement for participating transmission owners' load interconnection studies."
-    }
-   ],
-   "license": "public",
-   "license_basis": "the CAISO's own release on caiso.com (window A's license verdict for the CAISO: use with the CAISO credited and its notices kept)",
-   "date_read": "2026-11-13"
-  },
-  {
    "utility": "Arizona Public Service Company",
    "state": "AZ",
    "rule_name": "Rate Schedule XHLF revision proposed in APS's 2025 rate case",
@@ -547,33 +510,6 @@
    "date_read": "2026-11-13"
   },
   {
-   "utility": "Tri-State Generation and Transmission Association, Inc.",
-   "state": "CO, NM, WY, NE",
-   "rule_name": "High Impact Load Tariff and pro forma agreement (HILT)",
-   "affects": "coops_public_power-01",
-   "change": "other",
-   "date": "2026-09",
-   "docket": "not published in the 10-Q",
-   "source_url": "https://www.sec.gov/Archives/edgar/data/1637880/000163788026000052/tris-20260930.htm",
-   "source_title": "Tri-State Generation and Transmission Association, Inc., Form 10-Q for the quarter ended September 30, 2026",
-   "what": "Tri-State opened its first HILT review cycle in September 2026 and is reviewing applications for seven projects of about five gigawatts of potential incremental load by 2034, results expected in the first half of 2027 (FERC's acceptance is dated only August 2026, so it may fall before the window).",
-   "cites": [
-    {
-     "page": "",
-     "section": "Recent Developments",
-     "quote": "August 2026, FERC accepted Tri-State's tariff and pro forma agreement. In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects. Tri-State has received and is reviewing applications for seven projects with approximately five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects under the BYOR Program."
-    },
-    {
-     "page": "",
-     "section": "Recent Developments",
-     "quote": "Results of Tri-State's evaluation processes, including screening for reliability, affordability, responsibility and transmission planning impacts, are expected in the first half of 2027."
-    }
-   ],
-   "license": "public",
-   "license_basis": "public: the company's filing with the SEC (sec.gov EDGAR archive)",
-   "date_read": "2026-11-13"
-  },
-  {
    "utility": "El Paso Electric Company",
    "state": "NM",
    "rule_name": "Proposed Original Rate No. 50 High Load Factor Power Service Rate (New Mexico), NM PRC Case No. 25-00082-UT",
@@ -766,6 +702,16 @@
    "utility": "Idaho Power Company (IPC-E-26-07 testimony)",
    "url": "https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2607/CaseFiles/20260923Direct%20Allen.pdf",
    "reason": "HTTP 404 (a guessed path)"
+  }
+ ],
+ "dropped_duplicates": [
+  {
+   "what": "Tri-State opened its first HILT review cycle in September 2026 and is reviewing applications for seven projects of about five gigawatts of potential incremental load by 2034, results expected in the f",
+   "duplicate_of": "midwest_changes-13 (Tri-State's first HILT review cycle)"
+  },
+  {
+   "what": "The CAISO Board of Governors approved the large load proposal (flexible interim load interconnection, a monthly review of out-of-cycle upgrades to fit the PTOs' 60 to 90 day studies, cost-shift protec",
+   "duplicate_of": "operators_federal-04 (the CAISO Board's approval of 28 October 2026)"
   }
  ]
 }
