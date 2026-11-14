@@ -13,10 +13,21 @@
 - **Landing rows**: all thirteen landed (row 12 at `510840e9e`, row 13 at `d34df4cb6`); none open.
 - **The W46 Roundup**: not yet; the 16 November Digest neither (the newest Digest is of 12 November, the newest Roundup W45).
 
+- **The push**: `861cc6f77` to main (the queue move and this report), pushed only on the ancestry check. Snapshots `s6092-before` (15:28 UTC) and `s6092-after`: 25 pages, 0 differences in all (expected: a report and a queue move change no page).
+
+## Sessions 6093 onward: the Roundup's step, waited for
+
+- **15:31 to 17:29 UTC**: a watch of origin's main every 10 minutes (`runs/s6092_watch.sh`) reached the two-hour limit of a background command and was stopped by Claude Code, whose notice says a watch that already had the longest timeout is not started again. It is not restarted. At 17:29 UTC (Saturday) neither `docs/roundup/2026-W46.md` nor `docs/digest/2026-11-16.md` is on origin's main; no landing row of this machine is open and no ruling by Samuel on 21 to 33 has come. The window stops here with chain 277 open: sessions 6093 to 6105 not used.
+
+## To finish
+
+- After the 16 November Digest exists (Monday 16 November, the daily run's commit about 23:30 UTC; the Roundup comes first, Sunday 23:00 UTC): pull main, then take the periodicals file by name, `.venv\Scripts\python.exe scripts\chain_queue.py next --file 300-day-26-november-oldlaptop-periodicals-continued.md`, and run it. Nothing of chains 270 to 277 is left for it: no forecast step, no open landing row.
+- No forecast file waits in `queue/next/` for this machine (see the first decision below). A plain `chain_queue.py next` before Monday would offer file 300, which returns itself unchanged before both issues exist; so take file 300 by name, and only after the Digest.
+
 ## Decisions made without you
 
 - **No next file written in session 6092.** The chain's one step is to hand over to file 300; nothing of the forecast tool is left for a next file. A forecast file written now would carry a lower number than the periodicals chain's own next file, so a later plain queue step would take it first and run another empty chain like this one. If something is left unfinished when this chain ends, session 6105 writes the file then.
-- **The wait is kept, renewed at each limit.** Chain 276 stopped when its watch reached the two-hour limit of a background command; this chain starts a new watch at each limit instead, as the owner's instruction for this run says to stop only when the queue step exits 3. Each wake checks origin's main for the two issues, Samuel's rulings and new landing rows.
+- **The wait stopped at the background limit, as chain 276's did.** Session 6092 first meant to start a new watch at each limit, because the owner's instruction for this run says to stop only when the queue step exits 3. When the watch was stopped, Claude Code's notice said a watch that already had the longest timeout is not to be started again, so it was not. The other choice, an empty chain every few minutes until Monday, was ruled out by chain 276 for good reason: it would fill the queue and the history with nothing. The queue step was not run again, so it never exited 3: the chain is open, and the command to finish is above.
 
 ## For Samuel's ruling (default in brackets)
 
