@@ -13,11 +13,15 @@ Energy Research Warehouse (ERW). Three steps, each its own command:
                                                                           after every question; --only b01,g02 for some
     python warehouse/chat/eval/eval_s1113.py --grade                      the grades, no model, no network:
                                                                           eval_s1113_grades.json
+    python warehouse/chat/eval/eval_s1113.py --spent                      the step's spend of the UTC day, the ledger
+                                                                          read whole (session 5263; reads only)
 
 The spend cap is enforced before each question: the step's spend of the UTC day, read back from the ledger
 (site_api_calls, the service key from .env) or, when the ledger cannot be read, the run's own costs, plus a reserve
 (USD 0.50 for the first ten questions, then two and a half times the dearest so far, at least USD 0.30), must stay
-under --cap. The route holds its own ceiling (ASK_EVAL_DAILY_USD) too.
+under --cap. The route holds its own ceiling (ASK_EVAL_DAILY_USD) too. Since session 5263 the ledger is read whole, a
+page at a time (spent_today: one request is answered with 1,000 rows at most, and the day of 13 November 2026 held
+1,092), and a day whose rows cannot all be counted stops the asking before the call (LedgerNotWhole).
 
 The grades, four for each question (session 539's, with one more):
   now        eval_s267.py's grader on the keys of this hour
@@ -133,23 +137,86 @@ def keys():
 
 # ------------------------------------------------------------------ asking
 
-def spent_today():
-    url, key = env_file(os.path.join(ENV_ROOT, ".env"), "SUPABASE_URL").rstrip("/"), env_file(os.path.join(ENV_ROOT, ".env"), "SUPABASE_SERVICE_KEY")
+class LedgerNotWhole(Exception):
+    """The ledger answered, and the day's rows could not all be counted: the spend is then not known, and no call is made."""
+
+
+LEDGER_PAGE = 1000      # the rows asked for in one request; the server may answer with fewer, and the reading does not lean on it
+LEDGER_MOST_PAGES = 2000    # a reading that has not ended by then is not a ledger's
+
+
+def ledger_page(url, headers):
+    """One request of the ledger: (its rows, the Content-Range header the server answered with)."""
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read()), r.headers.get("Content-Range") or ""
+
+
+def spent_today(get=None, url=None, key=None, now=None):
+    """(USD, calls) of the step's rows of the UTC day in the site's ledger, every row read.
+
+    Session 5263 (found by session 5262 on 13 November 2026): this asked for the day in one request with "limit=5000".
+    Supabase answers a request with at most 1,000 rows whatever limit it names, so with 1,092 rows in the ledger the
+    count stopped at 1,000 (USD 18.01 of the day's spend) and the cap was checked against too little. Now the rows are
+    read a page at a time in the order of the ledger's key, each page beginning after the last row read (`id=gt.`), until
+    a page comes back empty: the reading does not lean on the size of the server's page, and a row written while it runs
+    is counted once. The first answer's exact count (Prefer: count=exact) is then held against what was read.
+
+    None: the ledger could not be asked (no keys on this machine, or the request failed); the run's own costs stand in,
+    as before, and a line says so. LedgerNotWhole: it answered, and the day cannot be counted (fewer rows read than it
+    counts, a page that does not move on, a call with no price): the caller makes no call."""
+    get = get or ledger_page
+    if url is None:
+        url = env_file(os.path.join(ENV_ROOT, ".env"), "SUPABASE_URL")
+    if key is None:
+        key = env_file(os.path.join(ENV_ROOT, ".env"), "SUPABASE_SERVICE_KEY")
+    url = (url or "").rstrip("/")
     if not url or not key:
         return None
     u = urllib.parse.urlparse(url)
-    day = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT00:00:00Z")
-    q = urllib.parse.urlencode({"select": "usd", "step": f"eq.{STEP}", "ts_utc": f"gte.{day}", "limit": "5000"})
-    req = urllib.request.Request(f"{u.scheme}://{u.netloc}/rest/v1/site_api_calls?{q}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            rows = json.loads(r.read())
-    except Exception as exc:  # noqa: BLE001: the run's own costs stand in, and the line says so
-        print(f"ledger unreadable: {exc}")
-        return None
+    day = (now or dt.datetime.now(dt.timezone.utc)).strftime("%Y-%m-%dT00:00:00Z")
+    headers = {"apikey": key, "Authorization": f"Bearer {key}", "Prefer": "count=exact"}
+    rows, last, counted = [], None, None
+    for _ in range(LEDGER_MOST_PAGES):
+        p = {"select": "id,usd", "step": f"eq.{STEP}", "ts_utc": f"gte.{day}", "order": "id.asc", "limit": str(LEDGER_PAGE)}
+        if last is not None:
+            p["id"] = f"gt.{last}"
+        try:
+            page, said = get(f"{u.scheme}://{u.netloc}/rest/v1/site_api_calls?{urllib.parse.urlencode(p)}", headers)
+        except Exception as exc:  # noqa: BLE001: the run's own costs stand in, and the line says so
+            if rows:
+                raise LedgerNotWhole(f"the ledger stopped answering after {len(rows)} rows: {exc}") from exc
+            print(f"ledger unreadable: {exc}")
+            return None
+        if not isinstance(page, list):
+            raise LedgerNotWhole(f"the ledger answered with no list of rows: {str(page)[:160]}")
+        if counted is None:
+            m = re.search(r"/(\d+)$", said or "")
+            counted = int(m.group(1)) if m else -1
+        if not page:
+            break
+        ids = [r.get("id") for r in page]
+        if any(not isinstance(i, int) for i in ids) or ids != sorted(set(ids)) or (last is not None and ids[0] <= last):
+            raise LedgerNotWhole(f"a page of the ledger did not move on (after id {last}, {len(page)} rows)")
+        rows += page
+        last = ids[-1]
+    else:
+        raise LedgerNotWhole(f"the ledger's reading had not ended after {LEDGER_MOST_PAGES} pages")
+    if counted < 0:
+        raise LedgerNotWhole("the ledger did not say how many rows it holds (no Content-Range count)")
+    if len(rows) < counted:
+        raise LedgerNotWhole(f"the ledger counts {counted} rows of the day and {len(rows)} were read")
     if any(r.get("usd") is None for r in rows):
-        return None
+        raise LedgerNotWhole("a call of the day has no price in the ledger")
     return sum(float(r["usd"]) for r in rows), len(rows)
+
+
+def ledger_line():
+    """The step's ledger today as the run's last line says it; never a reason for the line to fail."""
+    try:
+        return spent_today()
+    except LedgerNotWhole as exc:
+        return f"not counted: {exc}"
 
 
 def post(base, token, q, ip):
@@ -186,7 +253,11 @@ def ask(base, cap, only=None, which="s320"):
     for i, q in enumerate(qs):
         if (only and q["id"] not in only) or (not only and q["id"] in done):
             continue
-        led = spent_today()
+        try:
+            led = spent_today()
+        except LedgerNotWhole as exc:   # session 5263: a day that cannot be counted is not a day under the cap
+            print(f"{q['id']}: STOPPED before the call: the day's spend is not known ({exc})")
+            break
         spent = led[0] if led else sum(float(x.get("cost_usd") or 0) for x in run["questions"])
         reserve = 0.50 if len(done) < 10 else max(0.30, 2.5 * dearest)
         if spent + reserve > cap:
@@ -208,7 +279,7 @@ def ask(base, cap, only=None, which="s320"):
             f.write("\n")
         print(f"{q['id']} {q['via']:7} http {r.get('_http')} {done[q['id']]['status']} calls {r.get('tool_calls')} cost {cost:.4f} {done[q['id']]['seconds']}s"
               + (f" ERROR {str(r.get('error'))[:160]}" if r.get("error") else ""))
-    print(f"asked {len(run['questions'])} of {len(qs)}; the step's ledger today: {spent_today()}")
+    print(f"asked {len(run['questions'])} of {len(qs)}; the step's ledger today: {ledger_line()}")
 
 
 # ------------------------------------------------------------------ grading
@@ -369,6 +440,19 @@ def grade(run_doc=None, keys_doc=None, rules=()):
 
 
 def main(argv):
+    if "--spent" in argv:
+        # session 5263: the step's spend of the UTC day, the ledger read whole (reads only, no model): 0 with the line,
+        # 3 when the day cannot be counted, 4 when the ledger could not be asked
+        try:
+            led = spent_today()
+        except LedgerNotWhole as exc:
+            print(f"the day's spend is not known: {exc}")
+            return 3
+        if led is None:
+            print("the ledger could not be asked (no keys on this machine, or no answer)")
+            return 4
+        print(f"{STEP} today (UTC): USD {led[0]:.4f} in {led[1]} calls")
+        return 0
     which = argv[argv.index("--set") + 1] if "--set" in argv else "s320"
     if which not in SETS:
         raise SystemExit(f"--set must be one of {sorted(SETS)}")
