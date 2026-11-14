@@ -571,3 +571,19 @@ test("session 4301: Vermont's wind education tax, Iowa's generation tax, Nevada'
   assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 100);
   assert.equal(F.defaults(P, "utility_pv", "az").exempt, 0);
 });
+
+test("session 6000: Montana's 19-year life confirmed against the Department of Revenue's PDF by word position", () => {
+  // page 27 of the 2026 schedules, the percent good column under economic life 19, read by word position (runs/s6000/mt_col.py)
+  const pdf19 = [97, 93, 89, 85, 81, 77, 72, 68, 63, 57, 52, 47, 42, 37, 33, 29, 25, 23, 21, 20];
+  for (const id of ["mt_class14", "mt_class13"]) {
+    const r = P.property.states.mt.rules.find((x) => x.id === id);
+    assert.deepEqual(r.schedule_pct, pdf19, id);
+    assert.equal(r.then_pct, 15, `${id}: 15 percent after the 20th year`);
+  }
+  assert.match(P.property.sources.mt_pp_dep_2026.checked, /Renewable Energy Generation 87 \(11\) 19/);
+  // a hand-worked year: a 100 MW gas plant at USD 1,500 per kW, class fourteen (3 percent), levy 600 mills, its 8th year (68 percent)
+  const x = { ...F.defaults(P, "natural_gas", "mt"), mw: 100, capex: 1500, start: 2027, build: 1, levy: 600 };
+  // plus Montana's electrical energy producers' license tax, USD 0.20 per MWh, at the gas default capacity factor (0.65)
+  assert.equal(x.cf, 0.65);
+  near(F.propertyTax(P, x, 7).tax, 150e6 * 0.68 * 0.03 * 0.6 + 100 * 8760 * 0.65 * 0.2, 1e-12, "1,836,000 + 113,880 = 1,949,880");
+});

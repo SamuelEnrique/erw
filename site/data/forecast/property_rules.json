@@ -438,7 +438,8 @@
    "title": "Montana Department of Revenue, Personal Property Depreciation Schedules and Trend Tables 2026 (v.2), industrial machinery and equipment percent good",
    "url": "https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf",
    "read": "2026-11-13",
-   "request": 193
+   "request": 193,
+   "checked": "2026-11-14, session 6000 (samueloldlaptop): the PDF read again by word position, so the lookup table's rows cannot be misaligned: page 22, 'Renewable Energy Generation 87 (11) 19'; page 21, 'Electric Power Equipment 20 (11) 19'; page 27, the percent good column under economic life 19: 97, 93, 89, 85, 81, 77, 72, 68, 63, 57, 52, 47, 42, 37, 33, 29, 25, 23, 21, 20, then 15. The rule's schedule matches it exactly (runs/s6000/mt_col.py on samueloldlaptop)."
   },
   "ga_lgsd_2024_001": {
    "title": "Georgia Department of Revenue, LGSD-2024-001, amended and adopted regulations (Rule 560-11-10-.10(1)(c), Group III composite conversion factors)",
@@ -1099,7 +1100,7 @@
      "tip": "Montana: wind generation facilities and natural gas combined cycle facilities are class fourteen property, taxed at 3 percent of market value, where prevailing wages were paid in construction (MCA 15-6-157). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
      "quote": "wind generation facilities of a centrally assessed electric power company; [...] (v) all property of a natural gas combined cycle facility; [...] Class fourteen property is taxed at 3% of its market value. [...] does not include facilities: (a) at which the standard prevailing rate of wages for heavy construction, as provided in 18-2-414, was not paid",
      "cite2": "mt_pp_dep_2026",
-     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Electric Power Equipment 20 (11) 19 [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_class13",
@@ -1136,7 +1137,7 @@
      "tip": "Montana: other electrical generation facilities, solar included, are class thirteen property, taxed at 6 percent of market value (MCA 15-6-156). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
      "quote": "electrical generation facilities, except wind generation facilities, [...] class thirteen property is taxed at 6% of its market value",
      "cite2": "mt_pp_dep_2026",
-     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Electric Power Equipment 20 (11) 19 [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_license_tax",
