@@ -1,6 +1,6 @@
 # Session 5276: the chat's effort is medium; a refusal's fixed words are the loop's
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:17 to 10:30 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:17 to 10:26 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
 
 ## Read these first
 

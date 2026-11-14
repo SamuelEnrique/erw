@@ -1,6 +1,6 @@
 # Session 5268: rule 11, to stop
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:17 to 09:32 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:16 to 09:21 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
 
 ## Read these first
 

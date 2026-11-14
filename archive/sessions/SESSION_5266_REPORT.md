@@ -1,6 +1,6 @@
 # Session 5266: what the calls after the figure are
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:05 to 09:17 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:03 to 09:06 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no model call, no warehouse data written.
 
 ## Read these first
 

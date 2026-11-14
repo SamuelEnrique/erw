@@ -1,6 +1,6 @@
 # Session 5273: the window class at effort medium: half the cost, and one refusal that lost its fixed words
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:04 to 10:14 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 0.7150.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:04 to 10:09 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 0.7150.
 
 ## Read these first
 

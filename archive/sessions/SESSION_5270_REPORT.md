@@ -1,6 +1,6 @@
 # Session 5270: rule 11 on the heaviest figure answers: fewer calls, and a second answer cut off while thinking
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:38 to 09:52 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.3942.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:38 to 09:45 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.3942.
 
 ## Read these first
 

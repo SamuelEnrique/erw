@@ -1,6 +1,6 @@
 # Session 5274: the refusals at effort medium: nineteen of nineteen
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:09 to 10:16 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.6504.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:09 to 10:13 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.6504.
 
 ## Read these first
 

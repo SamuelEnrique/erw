@@ -1,6 +1,6 @@
 # Session 5269: the window class asked again; an error that cost USD 0.31 and was recorded as nothing
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:26 to 09:45 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.6155.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:21 to 09:38 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.6155.
 
 ## Read these first
 

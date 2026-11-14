@@ -1,6 +1,6 @@
 # Session 5272: the fourth arm; a reply cut off at the output limit is no longer an error
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:50 to 10:14 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.5905.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:50 to 10:03 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.5905.
 
 ## Read these first
 

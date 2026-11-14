@@ -1,6 +1,6 @@
 # Session 5277: the final sample on the chat as it stands; the method note
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:26 to 10:40 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.5880.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:26 to 10:33 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.5880.
 
 ## Read these first
 

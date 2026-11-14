@@ -1,6 +1,6 @@
 # Session 5271: the twelve heavy figure answers at effort medium: all right, no cut-off, half the cost
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:45 to 09:52 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.2555.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (09:45 to 09:50 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 1.2555.
 
 ## Read these first
 

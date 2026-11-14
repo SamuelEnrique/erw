@@ -1,6 +1,6 @@
 # Session 5275: the held-out measure: the trader's twenty through the site's loop at effort medium, twenty of twenty
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:13 to 10:22 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 0.9132.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (10:13 to 10:17 UTC), Fable, unattended. Chain 256. Branch `wip/5200-ask-close` (worktree `erw-p3-5264`). Nothing built, nothing landed, no warehouse data written. Model spend USD 0.9132.
 
 ## Read these first
 
