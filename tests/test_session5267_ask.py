@@ -109,13 +109,14 @@ class ThePythonTool(unittest.TestCase):
         self.assertEqual(w["missing"], [{"from": "2014-01-01T00:00:00Z", "until": "2015-01-01T00:00:00Z", "steps": 1}])
         self.assertEqual(w["note"], W.PART)
 
-    def test_a_window_with_nothing_held_says_so_when_the_series_is_named(self):
+    def test_a_window_with_nothing_held_says_so(self):
         out = query(aggregation="mean", start="2030-01-01", end="2031-01-01")
         self.assertEqual((out["rows_matched"], out["result"]), (0, []))
         self.assertEqual((out["window"]["steps_held"], out["window"]["steps_in_window"], out["window"]["whole"], out["window"]["note"]), (0, 1, False, W.NONE_HELD))
-        with T.Frames() as frames:      # no entity and no variable named: no one series to count for
+        with T.Frames() as frames:      # with no entity and no variable named too: no row of the table is in the window
             frames.load()
-            self.assertNotIn("window", tools.query(table=Q["table"], aggregation="mean", start="2030-01-01", end="2031-01-01"))
+            bare = tools.query(table=Q["table"], aggregation="mean", start="2030-01-01", end="2031-01-01")["window"]
+        self.assertEqual((bare["steps_held"], bare["steps_in_window"], bare["whole"]), (0, 1, False))
 
     def test_the_window_is_counted_before_a_threshold_keeps_some_rows(self):
         out = query(aggregation="count", start="2019-01-01", end="2025-01-01", threshold={"above": 10})
@@ -140,7 +141,8 @@ class TheSitesTool(unittest.TestCase):
         self.assertIn('import { windowOf } from "./window";', t)
         block = t[t.index("// session 5267 (lib/chat/window.ts)"):t.index("if (dcol) out.date_column")]
         self.assertIn('if (shape === "series" && !family && a.day === undefined && a.start && a.end) {', block)
-        self.assertIn("for (const r of all) if (r.t)", block)                              # the rows before a threshold, as the Python tool
+        self.assertIn("for (const r of all) if (r.t)", block)
+        self.assertIn('if (!all.length) by[`${a.entity ?? "*"}|${a.variable ?? "*"}`] = [];', block)     # no row in the window: 0 of its steps                              # the rows before a threshold, as the Python tool
         self.assertIn('windowOf(parseTime(a.start, btz), parseTime(a.end, btz), (c.interval ?? "").split(";").filter(Boolean), by)', block)
         for word in ("rest(", "read(", "await "):                                         # no request added
             self.assertNotIn(word, block, word)

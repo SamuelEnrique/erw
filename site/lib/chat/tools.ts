@@ -739,7 +739,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (shape === "series" && !family && a.day === undefined && a.start && a.end) {
     const by: Record<string, string[]> = {};
     for (const r of all) if (r.t) (by[`${r.entity}|${r.variable}`] ??= []).push(r.t);
-    if (!all.length && a.entity && a.variable) by[`${a.entity}|${a.variable}`] = [];
+    if (!all.length) by[`${a.entity ?? "*"}|${a.variable ?? "*"}`] = [];   // no row in the window: none of its steps is held for these filters
     const w = windowOf(parseTime(a.start, btz), parseTime(a.end, btz), (c.interval ?? "").split(";").filter(Boolean), by);
     if (w) out.window = w;
   }

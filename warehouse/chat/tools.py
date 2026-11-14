@@ -730,8 +730,8 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         # says whether it is whole: the steps held, the steps the window has at the table's step, the runs missing. From
         # the rows already selected; the steps are the table's own (its freq values), as the site's are the catalogue's
         by = {f"{e}|{v_}": [int(t.value // 10 ** 9) for t in g["ts_utc"]] for (e, v_), g in in_window.groupby(["entity", "variable"])}
-        if not by and entity and variable:
-            by = {f"{entity}|{variable}": []}
+        if not by:
+            by = {f"{entity or '*'}|{variable or '*'}": []}     # no row in the window: none of its steps is held for these filters
         steps = sorted({str(f) for f in df["freq"].dropna().unique() if str(f)}) if "freq" in df else []
         w = window.window_of(int(bounds["ge"].value // 10 ** 9), int(bounds["lt"].value // 10 ** 9), steps, by)
         if w:
