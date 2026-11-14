@@ -25,6 +25,18 @@ Energy Research Warehouse (ERW). Chain 230, the desktop's second window, 13 Nove
 - **With them:** `wip/w2-4000` (chain 228's and 230's reports and the note).
 - **Checks:** the three checks exit 0. The 9 changed test files with 414, 425, 4010 and 579 pass. `test-waits-ledger.mjs` holds 3,000 of 3,000.
 - **Its gate was queued at 22:53**, behind land-k's.
+- **The gate passed every step** (`56a46041c`, 23:28 to 23:58 UTC):
+  - the suite: 9,235 tests OK;
+  - the build passed;
+  - check-values, check-routes, check-cross-checks and check-csp passed.
+- **GitHub's run of `task/4051-landing` failed** (run 43531064396, 00:13 UTC). The step was "Site build and check-routes": `/learn/problems/know-your-grid` printed "unexpected error: Cannot read properties of undefined (reading 'value')", and `/learn/problems/storage-and-taxes` printed "invalid input syntax for type timestamp with time zone: undefined-01T00:00:00Z" (the job's log, read through the API).
+- **Read as a failed read on the runner, not a fault of the branch:**
+  - The same pages passed in the gate's build 20 minutes before.
+  - Main gained only land-k and two request lines in between, and land-k's own run passed its build at 23:35.
+  - The live set answers both pages' tables now. `cost_of_power_monthly` has September 2026 whole and October not (48 of 744 hours), and the hourly profile holds every month to October, all retrieved on 4 October.
+  - An empty read gives exactly these errors (the month of an empty list, the `.value` of an absent row).
+- **Run again** as `task/4051-landing-b`, the same commit, at 00:16 UTC, after snapshot `before-56a46041-b`.
+- (its result: written when it comes)
 
 ## Decisions made without you
 
