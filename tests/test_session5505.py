@@ -41,6 +41,10 @@ class HeldIsNotFailed(unittest.TestCase):
         node = shutil.which("node")
         if not node or not os.path.exists(os.path.join(SITE, "scripts", "alias-register.mjs")) or not os.path.exists(os.path.join(SITE, "content", "docs.json")):
             self.skipTest("node, the site's alias loader or site/content/docs.json is not here")
+        # session 3921 (chain 267, the landing desk): the gate's suite runs before its npm ci, in a worktree with no
+        # site/node_modules; lib/markdown.ts imports the package marked, so the run is skipped there as the other Node runs are
+        if not os.path.exists(os.path.join(SITE, "node_modules", "marked")):
+            self.skipTest("the site's packages are not installed here (site/node_modules)")
         script = """
 import { load } from "@/lib/grid";
 import { DOCS } from "@/lib/markdown";
