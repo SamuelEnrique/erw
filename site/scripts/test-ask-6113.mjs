@@ -24,5 +24,9 @@ assert.doesNotMatch(open, /license needed/);
 assert.doesNotMatch(open + held, /Redivis/);   // an unsettled table is on no public copy, and a new one may not be yet
 const tools = fs.readFileSync(new URL("../lib/chat/tools.ts", import.meta.url), "utf8");
 assert.match(tools, /if \(verdict\) throw new ToolError\(notListedWords\(name, verdict\)\);/);
-assert.match(tools, /Internal tables are not visible here\. \$\{NOT_LISTED_NOTE\}`,/);
+// session 6132: the hint stands before the rows of the list, not at the end of its note
+const flat = tools.replace(/\r\n/g, "\n");
+assert.ok(flat.includes("    not_listed: NOT_LISTED_NOTE,\n    tables: rows.map("));
+assert.ok(flat.indexOf("not_listed: NOT_LISTED_NOTE") < flat.indexOf("backend: \"supabase\""));
+assert.match(NOT_LISTED_NOTE, /call describe_table with that name before anything else/);
 console.log("test-ask-6113: ok");

@@ -64,7 +64,7 @@ class ATableOfTheRecordNotListed(unittest.TestCase):
     def test_only_a_backend_that_reads_the_live_set_says_so(self):
         py = open(os.path.join(ROOT, "warehouse", "chat", "tools.py"), encoding="utf-8").read()
         self.assertIn("if live_only() and verdict_of(name):", py)
-        self.assertIn('+ ((" " + NOT_LISTED_NOTE) if live_only() else ""))}', py)
+        self.assertIn('**({"not_listed": NOT_LISTED_NOTE} if live_only() else {}),', py)
 
     def test_the_site_says_the_same(self):
         exe = shutil.which("node")

@@ -5,14 +5,14 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 21 | 21 of 21 graded |
-| a license hold | 85 | 84 of 85 graded |
-| a table not in the live set | 41 | 40 of 41 graded |
-| the call limit | 6 | 5 of 6 graded |
-| the warehouse lacks the figure | 60 | 53 of 60 graded |
-| rows read, then refused | 16 | 15 of 16 graded |
+| a license hold | 91 | 90 of 91 graded |
+| a table not in the live set | 42 | 41 of 42 graded |
+| the call limit | 11 | 10 of 11 graded |
+| the warehouse lacks the figure | 73 | 66 of 73 graded |
+| rows read, then refused | 18 | 17 of 18 graded |
 | the number check's refusal | 1 | 0 of 1 graded |
 
-In all: 230 refusals.
+In all: 257 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -246,3 +246,30 @@ In all: 230 refusals.
 | session 6112, Python loop over the tables' files, the new tables' set | lw10 | 5 | the warehouse lacks the figure | right |
 | session 6112, Python loop over the tables' files, the new tables' set | lw11 | 4 | the warehouse lacks the figure | right |
 | session 6112, Python loop over the tables' files, the new tables' set | rs03 | 7 | the warehouse lacks the figure | right |
+| session 6132, the site's loop, the newtables_live set | fc06 | 6 | the warehouse lacks the figure | right |
+| session 6132, the site's loop, the newtables_live set | ru07 | 6 | a license hold | right |
+| session 6132, the site's loop, the newtables_live set | ru09 | 11 | rows read, then refused | right |
+| session 6133, the site's loop, the newtables_live set | fc06 | 1 | the warehouse lacks the figure | right |
+| session 6133, the site's loop, the newtables_live set | ru07 | 6 | the warehouse lacks the figure | right |
+| session 6133, the site's loop, the newtables_live set | ru09 | 8 | a license hold | right |
+| session 6134, the site's loop, the newtables_live set | fc02 | 10 | a table not in the live set | right |
+| session 6134, the site's loop, the newtables_live set | fc03 | 3 | the warehouse lacks the figure | right |
+| session 6134, the site's loop, the newtables_live set | fc04 | 3 | the warehouse lacks the figure | right |
+| session 6134, the site's loop, the newtables_live set | fc05 | 2 | the warehouse lacks the figure | right |
+| session 6134, the site's loop, the newtables_live set | fc07 | 12 | the call limit | right |
+| session 6134, the site's loop, the newtables_live set | fc08 | 8 | rows read, then refused | right |
+| session 6134, the site's loop, the newtables_live set | fc09 | 1 | the warehouse lacks the figure | right |
+| session 6134, the site's loop, the newtables_live set | fc10 | 12 | the call limit | right |
+| session 6134, the site's loop, the newtables_live set | fc11 | 12 | the call limit | right |
+| session 6134, the site's loop, the newtables_live set | fc12 | 12 | the call limit | right |
+| session 6134, the site's loop, the newtables_live set | fc13 | 12 | the call limit | right |
+| session 6135, the site's loop, the newtables_live set | fc14 | 5 | the warehouse lacks the figure | right |
+| session 6135, the site's loop, the newtables_live set | fc15 | 9 | the warehouse lacks the figure | right |
+| session 6135, the site's loop, the newtables_live set | fc18 | 6 | the warehouse lacks the figure | right |
+| session 6135, the site's loop, the newtables_live set | fc19 | 2 | the warehouse lacks the figure | right |
+| session 6135, the site's loop, the newtables_live set | ru02 | 11 | a license hold | right |
+| session 6135, the site's loop, the newtables_live set | ru03 | 7 | a license hold | right |
+| session 6135, the site's loop, the newtables_live set | ru04 | 9 | the warehouse lacks the figure | right |
+| session 6135, the site's loop, the newtables_live set | ru06 | 3 | a license hold | right |
+| session 6135, the site's loop, the newtables_live set | ru08 | 12 | a license hold | right |
+| session 6131, Python loop over the tables' files, the new tables' set | ch09 | 7 | the warehouse lacks the figure | right |

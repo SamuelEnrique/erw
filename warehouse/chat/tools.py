@@ -318,8 +318,10 @@ def not_live_words(table):
 # not loaded yet). Asked about the week's new tables on 14 November 2026 the site's chat refused rightly and three of six
 # answers took all 12 tool calls looking; one went on from a neighbour table. A call that names such a table is told
 # what it is, in the words of a table not in the live set, so the loop counts it refused whole.
-NOT_LISTED_NOTE = ("A table the briefing names and this list does not is a table of the record this site cannot read: describe_table says why. "
-                   "A question about such a table is answered 'not in the warehouse' with the table named, never from another table.")
+NOT_LISTED_NOTE = ("Tables of the ERW's record that this site cannot read are not in this list (their license is not settled or internal, or they are not loaded "
+                   "here yet); the briefing's catalogue names every one. If the briefing names a table for what is asked and this list does not hold it, call "
+                   "describe_table with that name before anything else: it says why the table cannot be read, and that is the answer. Never answer for such a "
+                   "table from another table.")
 _verdicts = None
 
 
@@ -335,6 +337,12 @@ def verdict_of(table):
             _verdicts = {}
     v = _verdicts.get(table)
     return v[0] if isinstance(v, list) and v else None
+
+
+def verdicts():
+    """Every table of the record with its verdict (the file verdict_of reads)."""
+    verdict_of("")
+    return _verdicts
 
 
 def not_listed_words(table, verdict):
@@ -471,11 +479,13 @@ def list_tables(sector=None, license=None, iso=None):
                      "source_report": r.source_report, "derived": r.derived,
                      "tier": getattr(r, "tier", None)})
     v = erw.version()
-    return {"n_tables": len(rows), "tables": rows,
+    return {"n_tables": len(rows),
+            # session 6132: said before the rows, where it is read (a backend that reads the live set alone)
+            **({"not_listed": NOT_LISTED_NOTE} if live_only() else {}),
+            "tables": rows,
             "backend": v.get("backend"),
             "note": ("Only public tables may be shown publicly; internal tables are licensed for "
-                     "internal use only. first and last are interval starts, UTC."
-                     + ((" " + NOT_LISTED_NOTE) if live_only() else ""))}   # session 6113
+                     "internal use only. first and last are interval starts, UTC.")}
 
 
 # ------------------------------------------------------------- describe_table
@@ -802,6 +812,14 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         w = window.window_of(int(bounds["ge"].value // 10 ** 9), int(bounds["lt"].value // 10 ** 9), steps, by)
         if w:
             out["window"] = w
+    if shape != "series" and (start or end) and tcol in df and df[tcol].notna().any():
+        # session 6131 (window.py span_outside, as the site's): a table of events or things asked for a period that lies
+        # wholly outside its own first and last date says so, where it said only that no rows match
+        sec = lambda t: int(pd.Timestamp(t).value // 10 ** 9)   # noqa: E731
+        s = window.span_outside(sec(bounds["ge"]) if "ge" in bounds else None, sec(bounds["lt"]) if "lt" in bounds else None,
+                                sec(df[tcol].min()), sec(df[tcol].max()))
+        if s:
+            out["span"] = s
     if shape == "series" and len(sel):
         out["units"] = sorted(sel["unit"].unique())
         out["variables"] = sorted(sel["variable"].unique())[:10]

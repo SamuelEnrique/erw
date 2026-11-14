@@ -855,6 +855,79 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_table_of_the_record_the_list_does_not_show",
+   "_note": "Session 6133 (chain 281): the question names a table of the ERW's record (utility_large_load_rules) that the list does not show, and the refusal says only that no such table was found. The loop says what the table is, before the model's own sentence. The second question names nothing of the record and is left as written.",
+   "question": "How many rules does the warehouse's utility large-load rules table hold?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {}
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. I found no table of utility large-load rules.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_from_a_neighbour_table",
+   "_note": "Session 6136 (chain 281, the new tables' ru05 and ru10 through the site's loop): the question names a table of the record this site cannot read; the list says so; the model answers all the same from another table. The draft is sent back once and the refusal stands, with the table said by the loop.",
+   "question": "How many of the utility large-load rules in the warehouse are of Texas?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {}
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "I read the utility large-load rules as the rows of cost_of_power_monthly: 54.481 of them are Texas (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse this chat reads, so I give no count for Texas.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
   }
  ],
  "extra": [

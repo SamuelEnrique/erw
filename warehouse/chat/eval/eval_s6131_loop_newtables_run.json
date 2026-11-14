@@ -1,0 +1,1908 @@
+{
+ "_about": "Session 6131 (chain 152, newtables): the questions asked through the Python loop (warehouse/chat/ask.py Asker; a grid question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), the table files of C:\\Users\\lossa\\Documents\\erw\\runs\\s6111\\data as the backend (the erw package's local backend: tables the live set does not hold yet), every tool call recorded (trace), by eval_loop.py under the ledger step chat_eval.",
+ "base": "python loop",
+ "questions": [
+  {
+   "id": "ru10",
+   "grid": "none",
+   "via": "general",
+   "question": "How many of the utility large-load rules in the warehouse are dated in 2026 (by the table's event date)?",
+   "asked_at_utc": "2026-11-14T20:01:36Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "77 utility large-load rules in utility_large_load_rules have an event date in 2026. The count covers event dates from 2026-01-01 through the end of 2026, in UTC. The table is model-extracted: a model read the source documents, so the figure is the model's reading and not the publishers' own.",
+   "why": null,
+   "citations": [
+    {
+     "table": "utility_large_load_rules",
+     "source_report": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026)",
+     "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+     "tier": "model_extracted"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": true,
+   "cost_usd": 0.1239332,
+   "seconds": 13.9,
+   "error": null,
+   "refused": false,
+   "first_violations": [
+    "31"
+   ],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "utility_large_load_rules",
+     "start": "2026-01-01",
+     "end": "2027-01-01",
+     "aggregation": "count"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rules",
+      "aggregation": "count",
+      "start": "2026-01-01",
+      "end": "2027-01-01"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "start": "2026-01-01",
+       "end": "2027-01-01"
+      },
+      "rows_matched": 77,
+      "result": [
+       {
+        "count": 77
+       }
+      ],
+      "table": "utility_large_load_rules",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "utility_large_load_rules"
+     },
+     "out": {
+      "shape": "events",
+      "rows": 100,
+      "columns": [
+       "event_id",
+       "event_date",
+       "event_type",
+       "parties",
+       "entity_ids",
+       "mw",
+       "price",
+       "currency",
+       "status",
+       "source",
+       "source_url",
+       "x_row_id",
+       "x_group",
+       "x_utility",
+       "x_state",
+       "x_iso_region",
+       "x_rule_name",
+       "x_status_date",
+       "x_status_cite",
+       "x_date_kind",
+       "x_docket",
+       "x_docket_cite",
+       "x_threshold_mw",
+       "x_threshold_mw_cite",
+       "x_min_demand",
+       "x_min_demand_cite",
+       "x_contract_term",
+       "x_contract_term_cite",
+       "x_collateral",
+       "x_collateral_cite",
+       "x_exit_fee",
+       "x_exit_fee_cite",
+       "x_study_timeline",
+       "x_study_timeline_cite",
+       "x_connection_timeline",
+       "x_connection_timeline_cite",
+       "x_queue_size",
+       "x_queue_size_cite",
+       "x_source_title",
+       "x_date_read",
+       "x_quoted_clause",
+       "x_license_basis",
+       "x_withheld",
+       "x_held",
+       "x_erw_overlap",
+       "x_notes"
+      ],
+      "source_reports": [
+       {
+        "source": "research:large_load_2026-11-13",
+        "publisher": "US utilities, state commissions and legislatures, read by the ERW's research pass",
+        "report": "Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026)",
+        "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md"
+       },
+       {
+        "source": "research:large_load_2026-11-13,",
+        "publisher": null,
+        "report": "docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "long_text_columns": {
+       "x_min_demand": {
+        "distinct": 48,
+        "longest_chars": 798
+       },
+       "x_contract_term": {
+        "distinct": 49,
+        "longest_chars": 422
+       },
+       "x_exit_fee": {
+        "distinct": 44,
+        "longest_chars": 744
+       },
+       "x_study_timeline": {
+        "distinct": 30,
+        "longest_chars": 659
+       },
+       "x_connection_timeline": {
+        "distinct": 28,
+        "longest_chars": 432
+       },
+       "x_queue_size": {
+        "distinct": 54,
+        "longest_chars": 581
+       },
+       "x_held": {
+        "distinct": 10,
+        "longest_chars": 301
+       },
+       "x_erw_overlap": {
+        "distinct": 40,
+        "longest_chars": 631
+       }
+      },
+      "long_text_columns_note": "columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row (by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.",
+      "text_column_values": {
+       "event_type": {
+        "large_load_rule": 100
+       },
+       "status": {
+        "in effect": 52,
+        "proposed": 25,
+        "approved": 21,
+        "denied": 1,
+        "ordered": 1
+       },
+       "source": {
+        "research:large_load_2026-11-13": 100
+       },
+       "x_group": {
+        "ameren_evergy_spp": 11,
+        "northeast": 9,
+        "xcel_plains": 8,
+        "dominion": 7,
+        "entergy": 7,
+        "northwest_mountain": 7,
+        "remainder": 7,
+        "coops_public_power_2": 6,
+        "tva_southeast": 6,
+        "duke": 5,
+        "aep": 4,
+        "southwest_california": 4,
+        "texas": 4,
+        "great_lakes": 4,
+        "southern_florida": 4,
+        "coops_public_power": 4,
+        "pjm_east": 3
+       },
+       "x_state": {
+        "TX": 8,
+        "NY": 7,
+        "VA": 7,
+        "MO": 7,
+        "WA": 4,
+        "LA": 4,
+        "KY": 4,
+        "SC": 3,
+        "OH": 3,
+        "MI": 3,
+        "WI": 3,
+        "AR": 3,
+        "OR": 3,
+        "ND": 3,
+        "KS": 3,
+        "MN": 3,
+        "FL": 3,
+        "OK": 2,
+        "NC": 2,
+        "CA": 2,
+        "ID": 2,
+        "NJ": 2,
+        "AZ": 2,
+        "IA": 2,
+        "NV": 1,
+        "TN": 1,
+        "ND, SD, MT, WY and other member states": 1,
+        "IL": 1,
+        "PA": 1,
+        "AL": 1,
+        "UT": 1,
+        "MD": 1,
+        "SD": 1,
+        "CO": 1,
+        "GA": 1,
+        "IN, IL": 1,
+        "CO, NM, WY, NE": 1,
+        "VA, MD, DE": 1,
+        "DE": 1
+       },
+       "x_iso_region": {
+        "MISO": 19,
+        "PJM": 17,
+        "SPP": 12,
+        "MISO (MISO South)": 7,
+        "NYISO": 7,
+        "ERCOT": 6,
+        "SOCO (Southern Company balancing authority, SERC; no RTO)": 2,
+        "Bonneville Power Administration balancing authority, WECC (outside an ISO)": 2,
+        "PACW (PacifiCorp West balancing authority), no RTO": 2,
+        "LG&E and KU balancing authority (LGEE), no RTO": 2,
+        "Santee Cooper balancing authority (SC), no RTO": 2,
+        "IPCO (Idaho Power balancing authority), no RTO": 2,
+        "TVA balancing authority, no RTO": 1,
+        "DUK (Duke Energy Carolinas balancing authority), no RTO": 1,
+        "PGE balancing authority, no RTO": 1,
+        "NEVP balancing authority (WECC, no RTO)": 1,
+        "outside an ISO (Seattle City Light balancing authority, Western Interconnection)": 1,
+        "PACE (PacifiCorp East balancing authority), no RTO": 1,
+        "FPC (Duke Energy Florida balancing authority), no RTO": 1,
+        "AZPS balancing authority (WECC, no RTO)": 1,
+        "SPP (Upper Missouri zone, most member load); some members' load in the West outside an RTO": 1,
+        "PJM (DEOK zone)": 1,
+        "CPLE and CPLW (Duke Energy Progress balancing authorities), no RTO": 1,
+        "TEC balancing authority (FRCC; no RTO)": 1,
+        "TEPC balancing authority (WECC, no RTO)": 1,
+        "FPL balancing authority (FRCC; no RTO)": 1,
+        "DUK, CPLE and CPLW (Duke balancing authorities), no RTO": 1,
+        "PSCO balancing authority (WECC), no RTO": 1,
+        "GCPD (Grant County PUD balancing authority), no RTO": 1,
+        "SPP (RTO West expansion from 1 April 2026; Eastern Interconnection members served through Basin Electric)": 1,
+        "IID balancing authority (outside CAISO)": 1,
+        "CAISO": 1
+       },
+       "x_date_kind": {
+        "stated date": 73,
+        "date read": 27
+       },
+       "x_date_read": {
+        "2026-11-13": 100
+       },
+       "x_withheld": {
+        "queue_size": 1,
+        "collateral;connection_timeline;study_timeline": 1
+       }
+      },
+      "numeric_columns": [
+       "mw",
+       "price"
+      ],
+      "first": "2010-01-01T00:00:00Z",
+      "last": "2026-11-13T00:00:00Z",
+      "time_column": "event_date",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261114T105038Z-local (2026-11-14T10:50:38Z); that run's own header of the table follows",
+       "Rows: 100 written; held for a license and not written (22): southern_florida-03 (Alabama Power Company); aep-01 (Ohio Power Company (AEP Ohio)); aep-03 (Indiana Michigan Power Company); aep-04 (Indiana Michigan Power Company); aep-05 (Appalachian Power Company and Wheeling Power Company (West Virginia)); texas-03 (CenterPoint Energy Houston Electric, LLC); texas-05 (CPS Energy (City Public Service Board of San Antonio)); texas-07 (El Paso Electric Company); texas-08 (El Paso Electric Company); texas-09 (El Paso Electric Company); southwest_california-03 (Salt River Project Agricultural Improvement and Power District); northwest_mountain-08 (Public Utility District No. 1 of Chelan County (Chelan PUD)); northwest_mountain-09 (NorthWestern Corporation d/b/a NorthWestern Energy (Montana)); northwest_mountain-10 (Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy); xcel_plains-09 (Omaha Public Power District (OPPD)); great_lakes-04 (DTE Electric Company); great_lakes-05 (Consumers Energy Company); great_lakes-06 (Wisconsin Electric Power Company (We Energies)); northeast-10 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); remainder-05 (Tacoma Power (City of Tacoma Department of Public Utilities)); remainder-06 (Tacoma Power (City of Tacoma Department of Public Utilities)); remainder-07 (Tacoma Power (City of Tacoma Department of Public Utilities)).",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_research.md",
+       "License: public (row-level holds): each written row cites a commission's copy, a filed tariff book, an SEC filing, a grid operator's posted document or a legislature's own text (the owner's ruling 4 of 6 November 2026); rows and cells whose only source asks written permission are not written; x_withheld names a public row's cells left empty for that reason."
+      ],
+      "table": "utility_large_load_rules",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "ch02",
+   "grid": "none",
+   "via": "general",
+   "question": "How many changes to utilities' large-load rules does the warehouse hold for October 2026?",
+   "asked_at_utc": "2026-11-14T20:01:50Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The warehouse holds 32 large-load rule changes with an event date in October 2026 (utility_large_load_rule_changes, model-extracted from utilities' and regulators' documents). The table has 94 rows in all, and only 4 more were held back for licensing. The same table gives 15 for August, 25 for September and 22 for November 1-13. Months are UTC calendar months.",
+   "why": null,
+   "citations": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "source_report": "1 outlets",
+     "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+     "tier": "model_extracted"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.061535200000000005,
+   "seconds": 11.7,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "start": "2026-10-01",
+     "end": "2026-11-01",
+     "aggregation": "count"
+    },
+    {
+     "table": "utility_large_load_rule_changes",
+     "aggregation": "count",
+     "group_by": "month"
+    },
+    {
+     "table": "utility_large_load_rule_changes",
+     "start": "2026-10-01",
+     "end": "2026-11-01",
+     "aggregation": "count",
+     "tz": "UTC"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "news"
+     },
+     "out": {
+      "n_tables": 0,
+      "tables": [],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "count",
+      "start": "2026-10-01",
+      "end": "2026-11-01"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "start": "2026-10-01",
+       "end": "2026-11-01"
+      },
+      "rows_matched": 32,
+      "result": [
+       {
+        "count": 32
+       }
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "utility_large_load_rule_changes"
+     },
+     "out": {
+      "shape": "events",
+      "rows": 94,
+      "columns": [
+       "event_id",
+       "event_date",
+       "event_type",
+       "parties",
+       "entity_ids",
+       "mw",
+       "price",
+       "currency",
+       "status",
+       "source",
+       "source_url",
+       "x_change_id",
+       "x_group",
+       "x_utility",
+       "x_state",
+       "x_rule_name",
+       "x_date",
+       "x_date_kind",
+       "x_affects",
+       "x_docket",
+       "x_what",
+       "x_cite",
+       "x_source_title",
+       "x_date_read",
+       "x_license_basis"
+      ],
+      "source_reports": [
+       {
+        "source": "research:large_load_2026-11-13",
+        "publisher": "US utilities, state commissions and legislatures, read by the ERW's research pass",
+        "report": "Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026)",
+        "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md"
+       },
+       {
+        "source": "research:large_load_2026-11-13,",
+        "publisher": null,
+        "report": "docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "long_text_columns": {
+       "parties": {
+        "distinct": 53,
+        "longest_chars": 256
+       },
+       "x_utility": {
+        "distinct": 53,
+        "longest_chars": 256
+       }
+      },
+      "long_text_columns_note": "columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row (by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.",
+      "text_column_values": {
+       "event_type": {
+        "large_load_rule_change": 94
+       },
+       "status": {
+        "other": 26,
+        "filed": 19,
+        "order issued": 11,
+        "hearing set": 11,
+        "approved": 10,
+        "suspended": 7,
+        "in effect": 6,
+        "amended": 4
+       },
+       "source": {
+        "research:large_load_2026-11-13": 94
+       },
+       "x_group": {
+        "south_changes": 29,
+        "west_changes": 19,
+        "east_changes": 17,
+        "operators_federal": 15,
+        "midwest_changes": 14
+       },
+       "x_state": {
+        "PA": 16,
+        "TX": 13,
+        "FL": 8,
+        "AR": 7,
+        "OR": 5,
+        "MO": 3,
+        "WA": 3,
+        "MI": 3,
+        "AZ": 3,
+        "MD": 2,
+        "NM": 2,
+        "TN": 2,
+        "OK": 2,
+        "WI": 2,
+        "ID": 2,
+        "NC": 2,
+        "CA": 2,
+        "WY": 1,
+        "DE": 1,
+        "GA": 1,
+        "UT": 1,
+        "LA": 1,
+        "IL": 1,
+        "CO, NM, WY, NE": 1,
+        "KY": 1,
+        "AL": 1,
+        "IA": 1,
+        "NJ": 1,
+        "NY": 1,
+        "KS": 1,
+        "NV": 1,
+        "CO": 1,
+        "IN": 1,
+        "SC": 1
+       },
+       "x_date": {
+        "2026-10-01": 8,
+        "2026-11-03": 4,
+        "2026-10": 4,
+        "2026-10-28": 4,
+        "2026-09-15": 4,
+        "2026-11-05": 4,
+        "2026-08-26": 4,
+        "2026-10-21": 4,
+        "2026-10-30": 3,
+        "2026-09-16": 3,
+        "2026-08-27": 3,
+        "2026-10-26": 3,
+        "2026-09": 3,
+        "2026-10-06": 3,
+        "2026-09-14": 2,
+        "2026-11-13": 2,
+        "2026-11-06": 2,
+        "2026-08-18": 2,
+        "2026-08-20": 2,
+        "2026-09-11": 2,
+        "2026-10-09": 2,
+        "2026-09-28": 1,
+        "2026-09-22": 1,
+        "2026-09-21": 1,
+        "2026-09-10": 1,
+        "2026-09-04": 1,
+        "2026-09-25": 1,
+        "2026-09-29": 1,
+        "2026-10-02": 1,
+        "2026-08-31": 1,
+        "2026-11-01": 1,
+        "2026-08-19": 1,
+        "2026-09-09": 1,
+        "2026-08-21": 1,
+        "2026-09-30": 1,
+        "2026-10-08": 1,
+        "2026-08-24": 1,
+        "2026-11-04": 1,
+        "2026-09-23": 1,
+        "2026-09-17": 1,
+        "2026-09-02": 1,
+        "2026-10-19": 1,
+        "2026-10-16": 1,
+        "2026-11-10": 1,
+        "2026-10-14": 1,
+        "2026-09-18": 1,
+        "2026-09-03": 1
+       },
+       "x_date_kind": {
+        "stated date": 87,
+        "date read": 7
+       },
+       "x_affects": {
+        "new": 25,
+        "pjm_east-01": 5,
+        "ameren_evergy_spp-11": 3,
+        "northwest_mountain-04": 3,
+        "southern_florida-04": 3,
+        "southern_florida-05": 3,
+        "pjm_east-03": 2,
+        "northwest_mountain-01": 2,
+        "large_load_connection_rules/pjm_show_cause_large_loads_proposal.yaml": 2,
+        "aep-08": 2,
+        "large_load_connection_rules/pa_puc_large_load_model_tariff.yaml": 2,
+        "texas-01": 2,
+        "entergy-06": 2,
+        "northwest_mountain-05": 2,
+        "xcel_plains-04": 2,
+        "ameren_evergy_spp-10": 1,
+        "large_load_connection_rules/utah_psc_r746_318_large_scale_electric.yaml": 1,
+        "tva_southeast-01": 1,
+        "southern_florida-01": 1,
+        "northwest_mountain-07": 1,
+        "xcel_plains-06": 1,
+        "southwest_california-04": 1,
+        "northwest_mountain-10": 1,
+        "southwest_california-02": 1,
+        "texas-08": 1,
+        "ameren_evergy_spp-09": 1,
+        "large_load_connection_rules/ercot_planning_guide_section_9.yaml; also large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml": 1,
+        "southern_florida-02": 1,
+        "large_load_connection_rules/caiso_large_load_enhancements_draft_final_proposal.yaml": 1,
+        "aep-04": 1,
+        "coops_public_power-01": 1,
+        "pjm_east-02": 1,
+        "great_lakes-03": 1,
+        "great_lakes-06": 1,
+        "xcel_plains-08": 1,
+        "northeast-01": 1,
+        "duke-01": 1,
+        "great_lakes-01": 1,
+        "duke-02": 1,
+        "northeast-03": 1,
+        "ameren_evergy_spp-08": 1,
+        "texas-09": 1,
+        "southwest_california-05": 1,
+        "texas-07": 1,
+        "xcel_plains-03": 1,
+        "large_load_connection_rules/pjm_board_letter_cifp_large_load_additions.yaml": 1,
+        "tva_southeast-06": 1,
+        "large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml": 1,
+        "coops_public_power-04": 1
+       },
+       "x_date_read": {
+        "2026-11-13": 94
+       }
+      },
+      "numeric_columns": [
+       "mw",
+       "price"
+      ],
+      "first": "2026-08-18T00:00:00Z",
+      "last": "2026-11-13T00:00:00Z",
+      "time_column": "event_date",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261114T105038Z-local (2026-11-14T10:50:38Z); that run's own header of the table follows",
+       "Rows: 94 written; held for a license and not written (4): east_changes-06 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); east_changes-07 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); east_changes-18 (Ohio Power Company (AEP Ohio)); east_changes-20 (Indiana Michigan Power Company).",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_research.md",
+       "License: public (row-level holds): each written row cites a commission's copy, a filed tariff book, an SEC filing, a grid operator's posted document or a legislature's own text (the owner's ruling 4 of 6 November 2026); rows and cells whose only source asks written permission are not written."
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "count",
+      "group_by": "month"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {},
+      "rows_matched": 94,
+      "n_groups": 4,
+      "result": [
+       {
+        "month": "2026-08",
+        "count": 15
+       },
+       {
+        "month": "2026-09",
+        "count": 25
+       },
+       {
+        "month": "2026-10",
+        "count": 32
+       },
+       {
+        "month": "2026-11",
+        "count": 22
+       }
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "count",
+      "start": "2026-10-01",
+      "end": "2026-11-01",
+      "tz": "UTC"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "start": "2026-10-01",
+       "end": "2026-11-01"
+      },
+      "rows_matched": 32,
+      "result": [
+       {
+        "count": 32
+       }
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "ch07",
+   "grid": "none",
+   "via": "general",
+   "question": "What is the date of the newest change in the warehouse's table of changes to utilities' large-load rules?",
+   "asked_at_utc": "2026-11-14T20:02:02Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "The newest change in utility_large_load_rule_changes is dated 2026-11-13 (UTC). The table holds 94 rows, and 9 of them are dated on or after 2026-11-13. The table is model-extracted: a model read news and filings to fill at least one field.",
+   "why": null,
+   "citations": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "source_report": "1 outlets",
+     "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+     "tier": "model_extracted"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0413098,
+   "seconds": 8.6,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "aggregation": "latest"
+    },
+    {
+     "table": "utility_large_load_rule_changes",
+     "start": "2026-11-13",
+     "aggregation": "count"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "max",
+      "value_column": "event_date"
+     },
+     "out": {
+      "error": "column 'event_date' is not numeric"
+     },
+     "is_error": true,
+     "isError": true
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "latest"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "mw",
+      "filters": {},
+      "rows_matched": 94,
+      "result": [
+       {
+        "value": null,
+        "at": "2026-11-13T00:00:00Z"
+       }
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "count",
+      "start": "2026-11-13"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "start": "2026-11-13"
+      },
+      "rows_matched": 9,
+      "result": [
+       {
+        "count": 9
+       }
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "ch09",
+   "grid": "none",
+   "via": "general",
+   "question": "How many changes to utilities' large-load rules does the warehouse hold for March 2026?",
+   "asked_at_utc": "2026-11-14T20:02:11Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse. The table of changes to utilities' large-load rules (utility_large_load_rule_changes, model-extracted, public) only covers 2026-08-18 to 2026-11-13. March 2026 falls outside that span, so I can't give a count for it.",
+   "why": null,
+   "citations": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "source_report": "research:large_load_2026-11-13",
+     "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+     "tier": "model_extracted"
+    }
+   ],
+   "not_in_warehouse": true,
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.08452570000000001,
+   "seconds": 13.3,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "start": "2026-03-01",
+     "end": "2026-04-01",
+     "aggregation": "count"
+    },
+    {
+     "table": "utility_large_load_rule_changes",
+     "aggregation": "count"
+    },
+    {
+     "table": "utility_large_load_rule_changes",
+     "start": "2026-03-01",
+     "end": "2026-04-01",
+     "aggregation": "min"
+    }
+   ],
+   "nearest": [
+    {
+     "table": "utility_large_load_rule_changes",
+     "holds": "power;datacenters data; step event; 2026-08-18 to 2026-11-13; from 1 outlets"
+    },
+    {
+     "table": "utility_large_load_rules",
+     "holds": "power;datacenters data; step event; 2010-01-01 to 2026-11-13; from 1 outlets"
+    }
+   ],
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "utility_large_load_rule_changes"
+     },
+     "out": {
+      "shape": "events",
+      "rows": 94,
+      "columns": [
+       "event_id",
+       "event_date",
+       "event_type",
+       "parties",
+       "entity_ids",
+       "mw",
+       "price",
+       "currency",
+       "status",
+       "source",
+       "source_url",
+       "x_change_id",
+       "x_group",
+       "x_utility",
+       "x_state",
+       "x_rule_name",
+       "x_date",
+       "x_date_kind",
+       "x_affects",
+       "x_docket",
+       "x_what",
+       "x_cite",
+       "x_source_title",
+       "x_date_read",
+       "x_license_basis"
+      ],
+      "source_reports": [
+       {
+        "source": "research:large_load_2026-11-13",
+        "publisher": "US utilities, state commissions and legislatures, read by the ERW's research pass",
+        "report": "Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026)",
+        "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md"
+       },
+       {
+        "source": "research:large_load_2026-11-13,",
+        "publisher": null,
+        "report": "docs/research/large_load/changes_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "long_text_columns": {
+       "parties": {
+        "distinct": 53,
+        "longest_chars": 256
+       },
+       "x_utility": {
+        "distinct": 53,
+        "longest_chars": 256
+       }
+      },
+      "long_text_columns_note": "columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row (by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.",
+      "text_column_values": {
+       "event_type": {
+        "large_load_rule_change": 94
+       },
+       "status": {
+        "other": 26,
+        "filed": 19,
+        "order issued": 11,
+        "hearing set": 11,
+        "approved": 10,
+        "suspended": 7,
+        "in effect": 6,
+        "amended": 4
+       },
+       "source": {
+        "research:large_load_2026-11-13": 94
+       },
+       "x_group": {
+        "south_changes": 29,
+        "west_changes": 19,
+        "east_changes": 17,
+        "operators_federal": 15,
+        "midwest_changes": 14
+       },
+       "x_state": {
+        "PA": 16,
+        "TX": 13,
+        "FL": 8,
+        "AR": 7,
+        "OR": 5,
+        "MO": 3,
+        "WA": 3,
+        "MI": 3,
+        "AZ": 3,
+        "MD": 2,
+        "NM": 2,
+        "TN": 2,
+        "OK": 2,
+        "WI": 2,
+        "ID": 2,
+        "NC": 2,
+        "CA": 2,
+        "WY": 1,
+        "DE": 1,
+        "GA": 1,
+        "UT": 1,
+        "LA": 1,
+        "IL": 1,
+        "CO, NM, WY, NE": 1,
+        "KY": 1,
+        "AL": 1,
+        "IA": 1,
+        "NJ": 1,
+        "NY": 1,
+        "KS": 1,
+        "NV": 1,
+        "CO": 1,
+        "IN": 1,
+        "SC": 1
+       },
+       "x_date": {
+        "2026-10-01": 8,
+        "2026-11-03": 4,
+        "2026-10": 4,
+        "2026-10-28": 4,
+        "2026-09-15": 4,
+        "2026-11-05": 4,
+        "2026-08-26": 4,
+        "2026-10-21": 4,
+        "2026-10-30": 3,
+        "2026-09-16": 3,
+        "2026-08-27": 3,
+        "2026-10-26": 3,
+        "2026-09": 3,
+        "2026-10-06": 3,
+        "2026-09-14": 2,
+        "2026-11-13": 2,
+        "2026-11-06": 2,
+        "2026-08-18": 2,
+        "2026-08-20": 2,
+        "2026-09-11": 2,
+        "2026-10-09": 2,
+        "2026-09-28": 1,
+        "2026-09-22": 1,
+        "2026-09-21": 1,
+        "2026-09-10": 1,
+        "2026-09-04": 1,
+        "2026-09-25": 1,
+        "2026-09-29": 1,
+        "2026-10-02": 1,
+        "2026-08-31": 1,
+        "2026-11-01": 1,
+        "2026-08-19": 1,
+        "2026-09-09": 1,
+        "2026-08-21": 1,
+        "2026-09-30": 1,
+        "2026-10-08": 1,
+        "2026-08-24": 1,
+        "2026-11-04": 1,
+        "2026-09-23": 1,
+        "2026-09-17": 1,
+        "2026-09-02": 1,
+        "2026-10-19": 1,
+        "2026-10-16": 1,
+        "2026-11-10": 1,
+        "2026-10-14": 1,
+        "2026-09-18": 1,
+        "2026-09-03": 1
+       },
+       "x_date_kind": {
+        "stated date": 87,
+        "date read": 7
+       },
+       "x_affects": {
+        "new": 25,
+        "pjm_east-01": 5,
+        "ameren_evergy_spp-11": 3,
+        "northwest_mountain-04": 3,
+        "southern_florida-04": 3,
+        "southern_florida-05": 3,
+        "pjm_east-03": 2,
+        "northwest_mountain-01": 2,
+        "large_load_connection_rules/pjm_show_cause_large_loads_proposal.yaml": 2,
+        "aep-08": 2,
+        "large_load_connection_rules/pa_puc_large_load_model_tariff.yaml": 2,
+        "texas-01": 2,
+        "entergy-06": 2,
+        "northwest_mountain-05": 2,
+        "xcel_plains-04": 2,
+        "ameren_evergy_spp-10": 1,
+        "large_load_connection_rules/utah_psc_r746_318_large_scale_electric.yaml": 1,
+        "tva_southeast-01": 1,
+        "southern_florida-01": 1,
+        "northwest_mountain-07": 1,
+        "xcel_plains-06": 1,
+        "southwest_california-04": 1,
+        "northwest_mountain-10": 1,
+        "southwest_california-02": 1,
+        "texas-08": 1,
+        "ameren_evergy_spp-09": 1,
+        "large_load_connection_rules/ercot_planning_guide_section_9.yaml; also large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml": 1,
+        "southern_florida-02": 1,
+        "large_load_connection_rules/caiso_large_load_enhancements_draft_final_proposal.yaml": 1,
+        "aep-04": 1,
+        "coops_public_power-01": 1,
+        "pjm_east-02": 1,
+        "great_lakes-03": 1,
+        "great_lakes-06": 1,
+        "xcel_plains-08": 1,
+        "northeast-01": 1,
+        "duke-01": 1,
+        "great_lakes-01": 1,
+        "duke-02": 1,
+        "northeast-03": 1,
+        "ameren_evergy_spp-08": 1,
+        "texas-09": 1,
+        "southwest_california-05": 1,
+        "texas-07": 1,
+        "xcel_plains-03": 1,
+        "large_load_connection_rules/pjm_board_letter_cifp_large_load_additions.yaml": 1,
+        "tva_southeast-06": 1,
+        "large_load_connection_rules/ercot_large_load_batch_update_april_2026.yaml": 1,
+        "coops_public_power-04": 1
+       },
+       "x_date_read": {
+        "2026-11-13": 94
+       }
+      },
+      "numeric_columns": [
+       "mw",
+       "price"
+      ],
+      "first": "2026-08-18T00:00:00Z",
+      "last": "2026-11-13T00:00:00Z",
+      "time_column": "event_date",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261114T105038Z-local (2026-11-14T10:50:38Z); that run's own header of the table follows",
+       "Rows: 94 written; held for a license and not written (4): east_changes-06 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); east_changes-07 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); east_changes-18 (Ohio Power Company (AEP Ohio)); east_changes-20 (Indiana Michigan Power Company).",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_research.md",
+       "License: public (row-level holds): each written row cites a commission's copy, a filed tariff book, an SEC filing, a grid operator's posted document or a legislature's own text (the owner's ruling 4 of 6 November 2026); rows and cells whose only source asks written permission are not written."
+      ],
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "utility_large_load_rules"
+     },
+     "out": {
+      "shape": "events",
+      "rows": 100,
+      "columns": [
+       "event_id",
+       "event_date",
+       "event_type",
+       "parties",
+       "entity_ids",
+       "mw",
+       "price",
+       "currency",
+       "status",
+       "source",
+       "source_url",
+       "x_row_id",
+       "x_group",
+       "x_utility",
+       "x_state",
+       "x_iso_region",
+       "x_rule_name",
+       "x_status_date",
+       "x_status_cite",
+       "x_date_kind",
+       "x_docket",
+       "x_docket_cite",
+       "x_threshold_mw",
+       "x_threshold_mw_cite",
+       "x_min_demand",
+       "x_min_demand_cite",
+       "x_contract_term",
+       "x_contract_term_cite",
+       "x_collateral",
+       "x_collateral_cite",
+       "x_exit_fee",
+       "x_exit_fee_cite",
+       "x_study_timeline",
+       "x_study_timeline_cite",
+       "x_connection_timeline",
+       "x_connection_timeline_cite",
+       "x_queue_size",
+       "x_queue_size_cite",
+       "x_source_title",
+       "x_date_read",
+       "x_quoted_clause",
+       "x_license_basis",
+       "x_withheld",
+       "x_held",
+       "x_erw_overlap",
+       "x_notes"
+      ],
+      "source_reports": [
+       {
+        "source": "research:large_load_2026-11-13",
+        "publisher": "US utilities, state commissions and legislatures, read by the ERW's research pass",
+        "report": "Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026)",
+        "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md"
+       },
+       {
+        "source": "research:large_load_2026-11-13,",
+        "publisher": null,
+        "report": "docs/research/large_load/utilities_2026-11-13.csv (window P4 of the portable laptop, sessions 5300 to 5304; method https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md); each row's source_url is the document it was read in. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "long_text_columns": {
+       "x_min_demand": {
+        "distinct": 48,
+        "longest_chars": 798
+       },
+       "x_contract_term": {
+        "distinct": 49,
+        "longest_chars": 422
+       },
+       "x_exit_fee": {
+        "distinct": 44,
+        "longest_chars": 744
+       },
+       "x_study_timeline": {
+        "distinct": 30,
+        "longest_chars": 659
+       },
+       "x_connection_timeline": {
+        "distinct": 28,
+        "longest_chars": 432
+       },
+       "x_queue_size": {
+        "distinct": 54,
+        "longest_chars": 581
+       },
+       "x_held": {
+        "distinct": 10,
+        "longest_chars": 301
+       },
+       "x_erw_overlap": {
+        "distinct": 40,
+        "longest_chars": 631
+       }
+      },
+      "long_text_columns_note": "columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row (by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.",
+      "text_column_values": {
+       "event_type": {
+        "large_load_rule": 100
+       },
+       "status": {
+        "in effect": 52,
+        "proposed": 25,
+        "approved": 21,
+        "denied": 1,
+        "ordered": 1
+       },
+       "source": {
+        "research:large_load_2026-11-13": 100
+       },
+       "x_group": {
+        "ameren_evergy_spp": 11,
+        "northeast": 9,
+        "xcel_plains": 8,
+        "dominion": 7,
+        "entergy": 7,
+        "northwest_mountain": 7,
+        "remainder": 7,
+        "coops_public_power_2": 6,
+        "tva_southeast": 6,
+        "duke": 5,
+        "aep": 4,
+        "southwest_california": 4,
+        "texas": 4,
+        "great_lakes": 4,
+        "southern_florida": 4,
+        "coops_public_power": 4,
+        "pjm_east": 3
+       },
+       "x_state": {
+        "TX": 8,
+        "NY": 7,
+        "VA": 7,
+        "MO": 7,
+        "WA": 4,
+        "LA": 4,
+        "KY": 4,
+        "SC": 3,
+        "OH": 3,
+        "MI": 3,
+        "WI": 3,
+        "AR": 3,
+        "OR": 3,
+        "ND": 3,
+        "KS": 3,
+        "MN": 3,
+        "FL": 3,
+        "OK": 2,
+        "NC": 2,
+        "CA": 2,
+        "ID": 2,
+        "NJ": 2,
+        "AZ": 2,
+        "IA": 2,
+        "NV": 1,
+        "TN": 1,
+        "ND, SD, MT, WY and other member states": 1,
+        "IL": 1,
+        "PA": 1,
+        "AL": 1,
+        "UT": 1,
+        "MD": 1,
+        "SD": 1,
+        "CO": 1,
+        "GA": 1,
+        "IN, IL": 1,
+        "CO, NM, WY, NE": 1,
+        "VA, MD, DE": 1,
+        "DE": 1
+       },
+       "x_iso_region": {
+        "MISO": 19,
+        "PJM": 17,
+        "SPP": 12,
+        "MISO (MISO South)": 7,
+        "NYISO": 7,
+        "ERCOT": 6,
+        "SOCO (Southern Company balancing authority, SERC; no RTO)": 2,
+        "Bonneville Power Administration balancing authority, WECC (outside an ISO)": 2,
+        "PACW (PacifiCorp West balancing authority), no RTO": 2,
+        "LG&E and KU balancing authority (LGEE), no RTO": 2,
+        "Santee Cooper balancing authority (SC), no RTO": 2,
+        "IPCO (Idaho Power balancing authority), no RTO": 2,
+        "TVA balancing authority, no RTO": 1,
+        "DUK (Duke Energy Carolinas balancing authority), no RTO": 1,
+        "PGE balancing authority, no RTO": 1,
+        "NEVP balancing authority (WECC, no RTO)": 1,
+        "outside an ISO (Seattle City Light balancing authority, Western Interconnection)": 1,
+        "PACE (PacifiCorp East balancing authority), no RTO": 1,
+        "FPC (Duke Energy Florida balancing authority), no RTO": 1,
+        "AZPS balancing authority (WECC, no RTO)": 1,
+        "SPP (Upper Missouri zone, most member load); some members' load in the West outside an RTO": 1,
+        "PJM (DEOK zone)": 1,
+        "CPLE and CPLW (Duke Energy Progress balancing authorities), no RTO": 1,
+        "TEC balancing authority (FRCC; no RTO)": 1,
+        "TEPC balancing authority (WECC, no RTO)": 1,
+        "FPL balancing authority (FRCC; no RTO)": 1,
+        "DUK, CPLE and CPLW (Duke balancing authorities), no RTO": 1,
+        "PSCO balancing authority (WECC), no RTO": 1,
+        "GCPD (Grant County PUD balancing authority), no RTO": 1,
+        "SPP (RTO West expansion from 1 April 2026; Eastern Interconnection members served through Basin Electric)": 1,
+        "IID balancing authority (outside CAISO)": 1,
+        "CAISO": 1
+       },
+       "x_date_kind": {
+        "stated date": 73,
+        "date read": 27
+       },
+       "x_date_read": {
+        "2026-11-13": 100
+       },
+       "x_withheld": {
+        "queue_size": 1,
+        "collateral;connection_timeline;study_timeline": 1
+       }
+      },
+      "numeric_columns": [
+       "mw",
+       "price"
+      ],
+      "first": "2010-01-01T00:00:00Z",
+      "last": "2026-11-13T00:00:00Z",
+      "time_column": "event_date",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261114T105038Z-local (2026-11-14T10:50:38Z); that run's own header of the table follows",
+       "Rows: 100 written; held for a license and not written (22): southern_florida-03 (Alabama Power Company); aep-01 (Ohio Power Company (AEP Ohio)); aep-03 (Indiana Michigan Power Company); aep-04 (Indiana Michigan Power Company); aep-05 (Appalachian Power Company and Wheeling Power Company (West Virginia)); texas-03 (CenterPoint Energy Houston Electric, LLC); texas-05 (CPS Energy (City Public Service Board of San Antonio)); texas-07 (El Paso Electric Company); texas-08 (El Paso Electric Company); texas-09 (El Paso Electric Company); southwest_california-03 (Salt River Project Agricultural Improvement and Power District); northwest_mountain-08 (Public Utility District No. 1 of Chelan County (Chelan PUD)); northwest_mountain-09 (NorthWestern Corporation d/b/a NorthWestern Energy (Montana)); northwest_mountain-10 (Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy); xcel_plains-09 (Omaha Public Power District (OPPD)); great_lakes-04 (DTE Electric Company); great_lakes-05 (Consumers Energy Company); great_lakes-06 (Wisconsin Electric Power Company (We Energies)); northeast-10 (NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil); remainder-05 (Tacoma Power (City of Tacoma Department of Public Utilities)); remainder-06 (Tacoma Power (City of Tacoma Department of Public Utilities)); remainder-07 (Tacoma Power (City of Tacoma Department of Public Utilities)).",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_research.md",
+       "License: public (row-level holds): each written row cites a commission's copy, a filed tariff book, an SEC filing, a grid operator's posted document or a legislature's own text (the owner's ruling 4 of 6 November 2026); rows and cells whose only source asks written permission are not written; x_withheld names a public row's cells left empty for that reason."
+      ],
+      "table": "utility_large_load_rules",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rules`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "count",
+      "start": "2026-03-01",
+      "end": "2026-04-01"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {
+       "start": "2026-03-01",
+       "end": "2026-04-01"
+      },
+      "rows_matched": 0,
+      "span": {
+       "first": "2026-08-18T00:00:00Z",
+       "last": "2026-11-13T00:00:00Z",
+       "outside": true,
+       "note": "the period asked lies wholly outside the table's own span, first to last: the table does not cover that period, which is not a count of zero. Answer with not_in_warehouse true, naming the period and the table's span, and state no count for it"
+      },
+      "result": [],
+      "note": "no rows match these filters",
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "compare",
+     "input": {
+      "a": {
+       "table": "utility_large_load_rule_changes",
+       "aggregation": "count"
+      },
+      "b": {
+       "table": "utility_large_load_rule_changes",
+       "aggregation": "count"
+      }
+     },
+     "out": {
+      "a": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {},
+       "rows_matched": 94,
+       "result": [
+        {
+         "count": 94
+        }
+       ],
+       "table": "utility_large_load_rule_changes",
+       "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+       "source_report": "1 outlets",
+       "license": "public",
+       "tier": "model_extracted",
+       "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+      },
+      "b": {
+       "aggregation": "count",
+       "value_column": null,
+       "filters": {},
+       "rows_matched": 94,
+       "result": [
+        {
+         "count": 94
+        }
+       ],
+       "table": "utility_large_load_rule_changes",
+       "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+       "source_report": "1 outlets",
+       "license": "public",
+       "tier": "model_extracted",
+       "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+      },
+      "difference_b_minus_a": 0,
+      "ratio_b_over_a": 1.0
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "utility_large_load_rule_changes",
+      "aggregation": "min",
+      "value_column": "mw",
+      "start": "2026-03-01",
+      "end": "2026-04-01"
+     },
+     "out": {
+      "aggregation": "min",
+      "value_column": "mw",
+      "filters": {
+       "start": "2026-03-01",
+       "end": "2026-04-01"
+      },
+      "rows_matched": 0,
+      "span": {
+       "first": "2026-08-18T00:00:00Z",
+       "last": "2026-11-13T00:00:00Z",
+       "outside": true,
+       "note": "the period asked lies wholly outside the table's own span, first to last: the table does not cover that period, which is not a count of zero. Answer with not_in_warehouse true, naming the period and the table's span, and state no count for it"
+      },
+      "result": [],
+      "note": "no rows match these filters",
+      "table": "utility_large_load_rule_changes",
+      "data_version": "local backend; table last run 2026-11-14T10:50:35Z",
+      "source_report": "1 outlets",
+      "license": "public",
+      "tier": "model_extracted",
+      "citation": "US utilities, state commissions and legislatures, read by the ERW's research pass. Large-load rules, their changes and the states' laws (docs/research/large_load, 13 and 14 November 2026). Via the Energy Research Warehouse (ERW), table `utility_large_load_rule_changes`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  }
+ ]
+}

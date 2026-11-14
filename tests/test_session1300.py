@@ -175,7 +175,29 @@ class ThePythonLoop(unittest.TestCase):
                           "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified",
                           "a_refusal_without_its_words": "not_in_warehouse",
                           "a_refusal_with_a_figure": "not_in_warehouse", "an_answer_after_a_held_table": "answered",
-                          "a_draft_cut_in_mid_sentence": "not_in_warehouse", "a_refusal_after_a_held_table_without_the_words": "not_in_warehouse"})
+                          "a_draft_cut_in_mid_sentence": "not_in_warehouse", "a_refusal_after_a_held_table_without_the_words": "not_in_warehouse",
+                          "a_table_of_the_record_the_list_does_not_show": "not_in_warehouse",
+                          "an_answer_from_a_neighbour_table": "not_in_warehouse"})
+        # session 6136 (chain 281, the new tables' ru05 and ru10 through the site's loop): the question names a table of
+        # the record this site cannot read, and the list's own result says so before its rows. A draft that answers all
+        # the same from another table (its figure fetched, and of something else) is sent back once; the refusal stands,
+        # and the loop says what the table is. One list, one read, four model calls
+        r = got["an_answer_from_a_neighbour_table"]
+        why = "it is not loaded here" if tools.verdict_of("utility_large_load_rules") == "public" else "its license is not settled (license needed)"
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["citations"], r["why"]), (2, 1, True, 4, [], ""))
+        self.assertEqual(r["answer"], f"Not in the warehouse this chat reads: utility_large_load_rules is a table of the ERW's record that it cannot read, because {why}. "
+                                      "Not in the warehouse this chat reads, so I give no count for Texas.")
+        self.assertNotIn("54.481", r["answer"])
+        # session 6133 (chain 281): the question names a table of the ERW's record that the list does not show, and the
+        # refusal says only that no such table was found: the loop says what the table is, by the license record's word
+        # for it on the day, before the model's own sentence. Nothing else is changed, and no call is added
+        r = got["a_table_of_the_record_the_list_does_not_show"]
+        why = "it is not loaded here" if tools.verdict_of("utility_large_load_rules") == "public" else "its license is not settled (license needed)"
+        self.assertEqual((r["tool_calls"], r["retried"], r["model_calls"]), (1, False, 2))
+        self.assertEqual(r["answer"], f"Not in the warehouse this chat reads: utility_large_load_rules is a table of the ERW's record that it cannot read, because {why}. "
+                                      "Not in the warehouse. I found no table of utility large-load rules.")
+        # a refusal of a question that names no table of the record is as it was (the scenario above it in the file)
+        self.assertEqual(got["not_in_the_warehouse"]["answer"], "Not in the warehouse: cost_of_power_monthly holds no row for that month.")
         # session 6109 (chain 280, the lab's l02 of 14 November 2026): a draft whose answer stops on an opening bracket (the
         # model closed the string where it meant to quote the hold's words) is sent back once, and the second draft, whole,
         # stands: one refused call, no read, three model calls

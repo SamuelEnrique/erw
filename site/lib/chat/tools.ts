@@ -20,6 +20,7 @@ import verdictFile from "@/data/table_verdicts.json";   // session 6113: the lic
 import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
+import { spanOutside } from "./window";   // session 6131: a period outside a table's own span
 import { LONG_TEXT_NOTE, splitLongText } from "./longtext";   // session 6111: a column of prose is named, not listed
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
@@ -255,6 +256,8 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
   if (a.iso) rows = rows.filter((r) => (r.iso ?? "").toUpperCase().split(";").includes(a.iso!.toUpperCase()));
   return {
     n_tables: rows.length,
+    // session 6132: said before the rows, where it is read: at the end of the note, after 140 rows, it was not acted on
+    not_listed: NOT_LISTED_NOTE,
     tables: rows.map((r) => ({
       table: r.table_name,
       sector: (r.sector ?? "").split(";").join(", "),
@@ -270,7 +273,7 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
       in_live_set: r.in_live_set,
     })),
     backend: "supabase",
-    note: `${LIVE_NOTE} first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here. ${NOT_LISTED_NOTE}`,
+    note: `${LIVE_NOTE} first, last and rows describe the whole ERW table, not the live set. Internal tables are not visible here.`,
   };
 }
 
@@ -755,6 +758,12 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     if (!all.length) by[`${a.entity ?? "*"}|${a.variable ?? "*"}`] = [];   // no row in the window: none of its steps is held for these filters
     const w = windowOf(parseTime(a.start, btz), parseTime(a.end, btz), (c.interval ?? "").split(";").filter(Boolean), by);
     if (w) out.window = w;
+  }
+  // session 6131 (lib/chat/window.ts spanOutside): a table of events or things asked for a period that lies wholly outside
+  // its own first and last date says so, where it said only that no rows match. The span is the catalogue's
+  if (shape !== "series" && !dcol && a.day === undefined && (a.start || a.end)) {
+    const s = spanOutside(a.start ? parseTime(a.start, btz) : null, a.end ? parseTime(a.end, btz) : null, isoTs(c.ts_min), isoTs(c.ts_max));
+    if (s) out.span = s;
   }
   if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
   if (shape === "series" && rows.length) {

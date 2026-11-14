@@ -840,6 +840,76 @@
     "what": "questions drawn from the tables that landed in the week of 9 November 2026, the other 30 (rules, changes, laws, counterparties, reserve margins), asked through the Python loop over the tables' own files (`eval_loop.py --data-dir`: the live set does not hold them yet); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6100_6129_REPORT.md`"
    }
+  },
+  {
+   "file": "eval_s6132_site_newtables_live_run.json",
+   "grades": "eval_s6132_site_newtables_live_grades.json",
+   "right": "ok",
+   "label": "session 6132, the site's loop, the newtables_live set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables_live.yaml`",
+    "what": "questions of the newtables_live set asked in session 6132 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6132's report"
+   }
+  },
+  {
+   "file": "eval_s6133_site_newtables_live_run.json",
+   "grades": "eval_s6133_site_newtables_live_grades.json",
+   "right": "ok",
+   "label": "session 6133, the site's loop, the newtables_live set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables_live.yaml`",
+    "what": "questions of the newtables_live set asked in session 6133 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6133's report"
+   }
+  },
+  {
+   "file": "eval_s6134_site_newtables_live_run.json",
+   "grades": "eval_s6134_site_newtables_live_grades.json",
+   "right": "ok",
+   "label": "session 6134, the site's loop, the newtables_live set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables_live.yaml`",
+    "what": "questions of the newtables_live set asked in session 6134 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6134's report"
+   }
+  },
+  {
+   "file": "eval_s6135_site_newtables_live_run.json",
+   "grades": "eval_s6135_site_newtables_live_grades.json",
+   "right": "ok",
+   "label": "session 6135, the site's loop, the newtables_live set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables_live.yaml`",
+    "what": "questions of the newtables_live set asked in session 6135 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6135's report"
+   }
+  },
+  {
+   "file": "eval_s6131_loop_newtables_run.json",
+   "grades": "eval_s6131_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6131, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "four questions of the new tables' set asked again through the Python loop over the tables' own files after the query tool was made to say when a period lies outside a table's span (ch09, and three counts inside the span); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6130_6159_REPORT.md`"
+   }
   }
  ],
  "left_out": {
