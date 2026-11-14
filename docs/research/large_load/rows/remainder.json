@@ -1,0 +1,1303 @@
+{
+ "group": "remainder",
+ "rows": [
+  {
+   "utility": "Montana-Dakota Utilities Co. (MDU), North Dakota",
+   "state": "ND",
+   "iso_region": "MISO",
+   "rule_name": "High Density Contracted Demand Response Rate 45 (North Dakota): data center service of 10 MW and up under a PSC-approved electric service agreement",
+   "source_url": "https://www.psc.nd.gov/webdocs/case/26-0241/001-010.pdf",
+   "source_title": "Montana-Dakota Utilities Co., Application and Notice of Change in General Electric Rates, Case No. PU-26-241, filed 30 June 2026 (Appendix A: present rate schedules, NDPSC Volume 5 Original Sheet Nos. 30 to 30.2, Rate 45)",
+   "quoted_clause": {
+    "page": "48",
+    "section": "Rate 45, Availability",
+    "quote": "Availability: In all communities served for electric service to data center-type facilities housing high density computer processing technology where customers have (1) an expected demand of at least 10,000 Kw per month metered at a single delivery point and (2) an expected minimum load factor of 85%."
+   },
+   "docket": {
+    "value": "NDPSC Case No. PU-22-194 (the case printed on the Rate 45 sheets now in effect); the sheets are reprinted as present rates in PU-26-241",
+    "cites": [
+     {
+      "page": "48",
+      "quote": "Service rendered on and after July 1, 2023 PU-22-194"
+     },
+     {
+      "page": "1",
+      "quote": "PU-26-241 Filed 06/30/2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2023-07-01",
+    "cites": [
+     {
+      "page": "48",
+      "quote": "Service rendered on and after July 1, 2023"
+     },
+     {
+      "page": "5",
+      "quote": "That the following described rate schedules presently on file with and approved by the Commission are attached hereto as Appendix A."
+     },
+     {
+      "page": "6",
+      "quote": "High Density Contracted Demand Response Rate 45"
+     }
+    ],
+    "note": "listed among the schedules presently on file in the rate case of 30 June 2026; Rate 45 is not among the schedules the case proposes to change (Section V, p.7)"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "expected demand of at least 10,000 kW per month at a single delivery point, with an expected minimum load factor of 85 percent, for data center-type facilities",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Availability",
+       "quote": "an expected demand of at least 10,000 Kw per month metered at a single delivery point and (2) an expected minimum load factor of 85%"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "no minimum bill printed in the schedule: billing as specified in each PSC-approved electric service agreement, with all incremental costs of service billed monthly; eligibility requires an expected minimum load factor of 85 percent, and a customer who does not maintain it is moved to the otherwise applicable rate",
+     "cites": [
+      {
+       "page": "48",
+       "section": "Billing",
+       "quote": "As specified in the electric service agreement entered into by and between the Company and customer and approved by the North Dakota Public Service Commission. Customers taking service under this rate schedule shall be billed any and all incremental costs required to provide electric service to customers each month."
+      },
+      {
+       "page": "48",
+       "section": "Availability",
+       "quote": "Customers who do not maintain these service requirements will have their service moved to the otherwise applicable rate schedule."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "electric service agreement of at least three years and at most five years",
+     "cites": [
+      {
+       "page": "48",
+       "section": "General Terms and Conditions 2",
+       "quote": "The electric service agreement shall have a minimum term of three years but not exceed five years."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "a deposit, its amount set in the electric service agreement, required before service begins; and a contribution in aid of construction paid in advance of construction, equal to the estimated cost of the service facilities including the cost to disconnect and remove them",
+     "cites": [
+      {
+       "page": "49",
+       "section": "General Terms and Conditions 3.d",
+       "quote": "The deposit amount required prior to the commencement of service under this rate schedule."
+      },
+      {
+       "page": "50",
+       "section": "General Terms and Conditions 10",
+       "quote": "The Company shall require a contribution in aid of construction (CIAC) from the customer, in advance of the construction of any facilities, in the amount of the Company's estimated cost of installing and furnishing such service facilities, including the cost to disconnect and remove the same facilities."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rate 45, NDPSC Volume 5 Original Sheet Nos. 30 to 30.2 (PU-26-241 Appendix A, pp.48 to 50): no termination or exit charge; the schedule prints a non-performance penalty for failing to interrupt (see notes), not an exit fee"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate 45 sheets (pp.48 to 50); MDU's presentation to the ND Legislature of 27 August 2025 (ndlegis.gov appendix B, p.10) lists a market study and a MISO load addition study among the approvals for a data center, with no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rate 45 sheets (pp.48 to 50): no energization timeline or milestones; individual dates appear in the electric service agreements (rows below)"
+    },
+    "queue_size": {
+     "value": "as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital's data center near Ellendale ND requires 180 MW at full capacity; an NDPSC-approved agreement serves an additional 350 MW of Applied Digital load in MDU's service territory; a total of 280 MW of Applied Digital's load is currently online; Applied Digital near Center ND, 430 MW of HPC load under an agreement pending NDPSC approval, scheduled for the third quarter of 2027; a data center near Leola SD, up to 50 MW, agreement pending at the SDPUC",
+     "cites": [
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "At full capacity, the data center requires 180 MW of electricity",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "The NDPSC approved an electric service agreement to serve an additional 350 MW of data center load with Applied Digital in the Company's service territory.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "A total of 280 MW of Applied Digital's data center load is currently online.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "The electric service agreement supports 430 MWs of HPC load and is currently scheduled to come online in the third quarter of 2027, pending various approvals, including NDPSC approval of the electric service agreement.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "In August 2024, the Company filed a request with the SDPUC seeking approval on an electric service agreement to provide up to 50 MW of electricity to a data center near Leola, South Dakota.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "Approval of the electric service agreement with the SDPUC remains pending, with a hearing scheduled in November 2026.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov); the queue figures from MDU Resources' Form 10-Q on SEC EDGAR",
+   "erw_overlap": "",
+   "notes": "Schedule terms also printed: the company must be able to interrupt for up to 200 hours a year or as the agreement says (p.48); penalty for non-performance the greater of $10.00 per kW of the agreement's demand or reallocated MISO penalties (p.49). MDU's presentation to the ND Legislature of 27 August 2025 (https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5028.03000appendixb.pdf, p.5) describes Rate 45 as 'Approved rate in North and South Dakota' and (p.4) 'Sufficient security and credit support for data center customers'. Search leads not read: the original Rate 45 filing, Case PU-22-337 (filed 1 August 2022). montana-dakota.com's own tariff PDFs (NDElectric45.pdf, NDElectricTableOfContents.pdf) answered HTTP 404. MDU's Q3 2026 call (news only, not used): over 1 GW of data center load signed. Corrected by the independent audit of session 5304 (A-47): queue_size was 'data center load under MDU electric service agreements, as MDU Resources' Form 10-Q for the quarter ended 30 September 2026 states it (not summed here): Applied Digital, Ellendale ND, 180 MW at full capacity under the fi': it now follows the 10-Q's words.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-01"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co. (MDU), South Dakota",
+   "state": "SD",
+   "iso_region": "MISO",
+   "rule_name": "High Density Contracted Demand Response Rate 45 (South Dakota): data center service of 10 MW and up under a SDPUC-approved electric service agreement",
+   "source_url": "https://puc.sd.gov/commission/Tariffs/Electric/mdu/Section3/20.pdf",
+   "source_title": "Montana-Dakota Utilities Co., State of South Dakota Electric Rate Schedule, SDPUC Volume No. 3, Section No. 3 Original Sheet Nos. 20 to 20.2, High Density Contracted Demand Response Rate 45 (SDPUC tariff book)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Availability",
+    "quote": "Availability: In all communities served for electric service to data center-type facilities housing high density computer processing technology where customers have (1) an expected demand of at least 10,000 Kw per month metered at a single delivery point and (2) an expected minimum load factor of 85%."
+   },
+   "docket": {
+    "value": "SDPUC Docket No. EL23-020",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "EL23-020"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2024-09-01",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Service rendered on and after September 1, 2024"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "expected demand of at least 10,000 kW per month at a single delivery point, with an expected minimum load factor of 85 percent, for data center-type facilities",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Availability",
+       "quote": "an expected demand of at least 10,000 Kw per month metered at a single delivery point and (2) an expected minimum load factor of 85%"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "no minimum bill printed in the schedule: billing as specified in each SDPUC-approved electric service agreement, with all incremental costs billed monthly; a customer who does not maintain the eligibility requirements is moved to the otherwise applicable rate",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Billing",
+       "quote": "As specified in the electric service agreement entered into by and between the Company and customer and approved by the South Dakota Public Utilities Commission. Customers taking service under this rate schedule shall be billed any and all incremental costs required to provide electric service to customers each month."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "electric service agreement of at least three years and at most five years",
+     "cites": [
+      {
+       "page": "1",
+       "section": "General Terms and Conditions 2",
+       "quote": "The electric service agreement shall have a minimum term of three years but not exceed five years."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "a deposit, its amount set in the electric service agreement, required before service begins; and a contribution in aid of construction in advance of construction, equal to the estimated cost of the service facilities including the cost to disconnect and remove them",
+     "cites": [
+      {
+       "page": "2",
+       "section": "General Terms and Conditions 3.d",
+       "quote": "The deposit amount required prior to the commencement of service under this rate schedule."
+      },
+      {
+       "page": "3",
+       "section": "General Terms and Conditions 10",
+       "quote": "The Company shall require a contribution in aid of construction (CIAC) from the customer, in advance of the construction of any facilities, in the amount of the Company's estimated cost of installing and furnishing such service facilities, including the cost to disconnect and remove the same facilities."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "SD Rate 45, Original Sheet Nos. 20 to 20.2 (pp.1 to 3): no termination or exit charge"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "SD Rate 45, Original Sheet Nos. 20 to 20.2 (pp.1 to 3)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "SD Rate 45, Original Sheet Nos. 20 to 20.2 (pp.1 to 3)"
+    },
+    "queue_size": {
+     "value": "see row: High Density Contracted Demand Response Rate 45 (North Dakota): data center service of 10 MW and up under a PSC-approved electric service agreement"
+    }
+   },
+   "license": "public",
+   "license_basis": "the South Dakota PUC's tariff book copy (puc.sd.gov)",
+   "erw_overlap": "",
+   "notes": "Same terms as the ND schedule (interruption up to 200 hours a year; non-performance penalty the greater of $10.00 per kW or reallocated MISO penalties, p.2). The one SD agreement under it, up to 50 MW near Leola, was pending at the SDPUC with a hearing in November 2026 (MDU Resources Q3 2026 10-Q, cited on the ND row).",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-02"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co. (MDU), North Dakota",
+   "state": "ND",
+   "iso_region": "MISO",
+   "rule_name": "Rate 45 electric service agreement with Applied Digital (APLD-ELN-02 LLC, Ellendale), amendment raising service from 225 MW to 350 MW and extending it to 31 August 2030",
+   "source_url": "https://www.psc.nd.gov/webdocs/case/24-0332/019-010.pdf",
+   "source_title": "North Dakota Public Service Commission, Order, Case No. PU-24-332, Montana-Dakota Utilities Co. Electric Service Agreement - APLD Amendment Approval, 5 February 2025",
+   "quoted_clause": {
+    "page": "2",
+    "section": "Preliminary Statement",
+    "quote": "The amended agreement increased the amount of electric service that Applied can take from MDU from 225 MW to 350 MW, extended the expiration date to August 31 , 2030, modified demand charges provision, and provided an updated service area coverage map."
+   },
+   "docket": {
+    "value": "NDPSC Case No. PU-24-332 (original agreement approved in Case No. PU-23-322)",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "originally approved by the Commission on May 23, 2024, in Case No. PU-23-322"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-02-05",
+    "cites": [
+     {
+      "page": "2",
+      "quote": "February 5, 2025"
+     },
+     {
+      "page": "3",
+      "quote": "MDU's amendment to the Electric Service Agreement with APLD-ELN-02 LLC is APPROVED ."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "the order states the agreement's service amount (350 MW), not an eligibility threshold; the agreement is taken under Rate 45, whose threshold is on the row 'High Density Contracted Demand Response Rate 45 (North Dakota)'"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Order of 5 February 2025 (pp.2 to 3): it says only that the amendment 'modified demand charges provision', without the terms"
+    },
+    "contract_term": {
+     "value": "agreement expiration extended to 31 August 2030",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Discussion 1",
+       "quote": "extends the expiration date of the ESA to August 31, 2030"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Order of 5 February 2025 (pp.2 to 3)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Order of 5 February 2025 (pp.2 to 3)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Order of 5 February 2025 (pp.2 to 3)"
+    },
+    "connection_timeline": {
+     "value": "all contracted Ellendale data center load (530 MW) expected online by the end of 2027 (MDU, August 2025); the third HPC building at Ellendale scheduled to begin ramping in January 2027 (MDU Resources Q3 2026 10-Q)",
+     "cites": [
+      {
+       "url": "https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5028.03000appendixb.pdf",
+       "page": "9",
+       "quote": "All contracted Ellendale data center load (530 MWs) is expected to be online by the end of 2027",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "The third HPC building at Ellendale is scheduled to begin ramping in January 2027.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: High Density Contracted Demand Response Rate 45 (North Dakota): data center service of 10 MW and up under a PSC-approved electric service agreement"
+    }
+   },
+   "license": "public",
+   "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov); MDU's presentation on the ND Legislature's host; SEC EDGAR",
+   "erw_overlap": "",
+   "notes": "The order (p.3) also refers to Applied Digital's other agreement for 180 MW approved in Case No. PU-22-371. The 530 MW figure is MDU's own (presentation to the ND Legislature, 27 August 2025).",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-03"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co. (MDU), North Dakota",
+   "state": "ND",
+   "iso_region": "MISO",
+   "rule_name": "Rate 45 electric service agreement with Applied Digital (APLD BIS-01 LLC, Center ND, 430 MW), with requested waivers of Rate 45's term limit (15-year term) and CIAC provision",
+   "source_url": "https://www.psc.nd.gov/webdocs/case/26-0235/001-010.pdf",
+   "source_title": "Montana-Dakota Utilities Co., Approval of an Electric Service Agreement by and between Montana-Dakota Utilities Co. and APLD BIS-01 LLC, Case No. PU-26-235, filed 26 June 2026 (public, redacted copy)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "transmittal letter",
+    "quote": "This is the third High Density Contracted Demand Response Rate 45 (Rate 45) Electric Service Agreement (ESA or Agreement) entered into by and between Montana-Dakota and Applied Digital."
+   },
+   "docket": {
+    "value": "NDPSC Case No. PU-26-235",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "PU-26-235 Filed 06/26/2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-06-26",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "June 26, 2026"
+     },
+     {
+      "url": "https://www.psc.nd.gov/webdocs/case/26-0235/018-020.pdf",
+      "page": "1",
+      "quote": "ROUGHRIDER ELECTRIC COOPERATIVE, INC.'S PROTEST AND REQUEST FOR HEARING",
+      "date_read": "2026-11-13"
+     }
+    ],
+    "note": "no order on the agreement in the docket listing read on 13 November 2026 (documents 001 to 018); Roughrider Electric Cooperative protested and asked for a hearing on 4 September 2026; the Commission granted trade secret protection on 9 September 2026 (document 016)"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "the agreement states its maximum service (430 MW), not an eligibility threshold; Rate 45's threshold is on the row 'High Density Contracted Demand Response Rate 45 (North Dakota)'"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "PU-26-235 public copy (74 pages): resource adequacy charges and payment terms are in Exhibit B, which is redacted as trade secret"
+    },
+    "contract_term": {
+     "value": "15 years from the later of the Service Commencement Date or 28 August 2027, extendable by mutual agreement for further five-year terms subject to NDPSC approval; needs an NDPSC waiver of Rate 45's three-to-five-year term",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Agreement 22, Term",
+       "quote": "remain in full force and effect for a period extending for fifteen (15) years from the later of the Service Commencement Date or August 28, 2027. This Agreement may be extended upon mutual agreement of both Parties for additional five (5) year terms subject to approval of the NDPSC"
+      },
+      {
+       "page": "12",
+       "section": "Agreement 3.b, Conditions Precedent",
+       "quote": "Approval by the NDPSC of a waiver of the High Density Contracted Demand Response Rate 45 (\"Rate 45\") allowing for a fifteen (15) year term."
+      },
+      {
+       "page": "48",
+       "section": "Rate 45, General Terms and Conditions 2",
+       "quote": "The electric service agreement shall have a minimum term of three years but not exceed five years.",
+       "url": "https://www.psc.nd.gov/webdocs/case/26-0241/001-010.pdf",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Credit Support required (its form and amount are redacted in the public copy); facility costs paid under separate System Additions Agreements, with a requested waiver of Rate 45's advance CIAC provision",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Agreement 23.a, Termination",
+       "quote": "maintains Credit Support sufficient to secure the disputed amount"
+      },
+      {
+       "page": "41",
+       "section": "Agreement, Assignment",
+       "quote": "replace any required security provided by Customer to secure the obligations of Customer hereunder"
+      },
+      {
+       "page": "3",
+       "section": "transmittal letter",
+       "quote": "Montana-Dakota is requesting a waiver from Paragraph 10 of the General Terms and Conditions of Rate 45 that provides that the Company will require a contribution in aid of construction (CIAC) from the customer in advance of the construction of facilities."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "PU-26-235 public copy: Section 23 (Termination) gives the company the right to terminate for unpaid resource adequacy charges (15-day cure) or other breach (30-day cure); no exit or termination charge is printed in the unredacted text"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "PU-26-235 public copy: MISO's expedited project review (EPR) of the large load addition study is a condition precedent (Agreement 3.c, p.12), with no duration"
+    },
+    "connection_timeline": {
+     "value": "conditions precedent (NDPSC approvals, MISO expedited project review, CPCN, System Additions in service) to be met or waived by 31 July 2028, after which either party may terminate on 30 days notice; MDU Resources' Q3 2026 10-Q: scheduled to come online in the third quarter of 2027",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Agreement 3, Conditions Precedent",
+       "quote": "In the event that the Conditions Precedent are not met or waived by July 31, 2028, either Party may terminate this Agreement upon 30 days notice"
+      },
+      {
+       "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000086/mdu-20260930.htm",
+       "section": "MD&A, electric distribution",
+       "quote": "The electric service agreement supports 430 MWs of HPC load and is currently scheduled to come online in the third quarter of 2027, pending various approvals, including NDPSC approval of the electric service agreement.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "see row: High Density Contracted Demand Response Rate 45 (North Dakota): data center service of 10 MW and up under a PSC-approved electric service agreement"
+    }
+   },
+   "license": "public",
+   "license_basis": "the North Dakota PSC's docket copy (psc.nd.gov)",
+   "erw_overlap": "",
+   "notes": "Agreement 16.a (p.29): 'The maximum amount of service provided under this Agreement is 430 MW'. The letter (p.2) says the company agreed to limit interruptions at Center to MISO-declared emergencies or LMR dispatch. PU-26-235 document 018-010 has no text layer (a scan) and was not read. Roughrider's protest (018-020) is another party's filing, used only for the status note. Corrected by the independent audit of session 5304 (A-10): contract_term was '15 years from the later of the Service Commencement Date or 28 August 2027, extendable by mutual agreement for further five-year terms subject to NDPSC approval; needs an NDPSC waiver of Rate 45's three-to-five-year term'.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-04"
+  },
+  {
+   "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
+   "state": "WA",
+   "iso_region": "Tacoma Power balancing authority, WECC (outside an ISO)",
+   "rule_name": "Schedule VLL, Very Large Load Service of 10 aMW or more (TMC 12.06.266): incremental-cost power supply under a Power Service Agreement",
+   "source_url": "https://www.mytpu.org/wp-content/uploads/All-Schedules-2026_Clean.pdf",
+   "source_title": "Tacoma Power, 2026 Rate Schedule (all schedules), Schedule VLL, Tacoma Municipal Code 12.06.266",
+   "quoted_clause": {
+    "page": "29",
+    "section": "A. Applicability",
+    "quote": "For new loads of 10 average megawatts (aMW) or more, or existing loads that grow by 10 average megawatts or more within any consecutive 12-month period."
+   },
+   "docket": {
+    "value": "City of Tacoma Ordinance No. 28993 (current sheets); the schedule was created by Ordinance No. 28911",
+    "cites": [
+     {
+      "page": "30",
+      "quote": "Ordinance No. 28993"
+     },
+     {
+      "page": "29",
+      "quote": "Ordinance No. 28911"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-04-01",
+    "cites": [
+     {
+      "page": "30",
+      "quote": "Effective: April 1, 2026"
+     },
+     {
+      "page": "29",
+      "quote": "Effective: January 1, 2024"
+     }
+    ],
+    "note": "the schedule has been in effect since 1 January 2024 (Ordinance No. 28911); the sheets as revised by Ordinance No. 28993 are effective 1 April 2026"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "10 aMW or more (new loads, or existing loads growing by 10 aMW within any consecutive 12 months); minimum Contract Demand of not less than 10 MW",
+     "cites": [
+      {
+       "page": "29",
+       "section": "A. Applicability",
+       "quote": "For new loads of 10 average megawatts (aMW) or more, or existing loads that grow by 10 average megawatts or more within any consecutive 12-month period."
+      },
+      {
+       "page": "29",
+       "section": "B. Minimum Conditions",
+       "quote": "A minimum Contract Demand (as set forth in the Contract) of not less than 10 megawatts"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum Charge equal to the Energy and Demand Charge; Billing Demand the highest of the month's measured demand, 60 percent of the highest measured demand of the preceding 11 months, or 60 percent of the highest Contract Demand of the preceding 11 months; Contract Demand Overrun charge of excess MW times 300 percent of the Demand Charge",
+     "cites": [
+      {
+       "page": "30",
+       "section": "C.1(c)",
+       "quote": "Minimum Charge: The Energy and Demand Charge."
+      },
+      {
+       "page": "31",
+       "section": "D. Billing Demand",
+       "quote": "60 percent of the highest Contract Demand (as set forth in the Contract) during any of the preceding 11 months."
+      },
+      {
+       "page": "31",
+       "section": "D. Billing Demand",
+       "quote": "60 percent of the highest measured demand occurring during any of the preceding 11 months after adjustment for power factor"
+      },
+      {
+       "page": "30",
+       "section": "C.1(d)",
+       "quote": "Contract Demand Overrun Charge = Excess MW x 300% x DC"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Schedule VLL (2026 schedules pp.29 to 32): the Power Service Agreement's term is not printed; the interim Transition Period is in notes"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Schedule VLL (pp.29 to 32): no security or credit support terms; the customer pays for its substation and other necessary infrastructure (B.7)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule VLL (pp.29 to 32): no exit or termination charge; if the underlying PPA ends, Tacoma Power may amend the Contract (B.6)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule VLL (pp.29 to 32): service is subject to the evaluation and approval of Tacoma Power's Transmission and Distribution department, with no duration"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule VLL (pp.29 to 32)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Tacoma Power 2026 rate schedules and power rates pages (mytpu.org): no large-load pipeline; the web search budget ran out before Tacoma Power's IRP or board materials could be looked for"
+    }
+   },
+   "license": "internal",
+   "license_basis": "mytpu.org's Disclaimer & Copyright page: 'All rights are reserved. The content of this website is copyrighted and may not be reproduced in any form including digital and print for any non-commercial purpose so long as this notice remains visible and attached hereto.' (read as limited to non-commercial use); the same schedule is Tacoma Municipal Code 12.06.266, whose copy on the City's code host was not read",
+   "erw_overlap": "",
+   "notes": "Interim rate (E, p.31): a customer on G, HVG, CP or NLL that grows by 10 aMW becomes a BPA 'New Large Single Load' and pays BPA's New Resource Firm Power rates during a Transition Period of up to 12 months, then two times that rate until a Power Service Agreement is effective; the agreement is subject to approval by the Tacoma Public Utility Board and City Council. Energy and demand are priced at Tacoma Power's incremental cost plus a service fee no greater than 10 percent (C.1). Proposed 2027 to 2028 rate adjustments are posted (mytpu.org power rates page) with no VLL change found in what was read.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-05"
+  },
+  {
+   "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
+   "state": "WA",
+   "iso_region": "Tacoma Power balancing authority, WECC (outside an ISO)",
+   "rule_name": "Schedule NLL, New Large Load Service under 10 aMW (TMC 12.06.265): loads greater than 8 MW and under 10 aMW",
+   "source_url": "https://www.mytpu.org/wp-content/uploads/All-Schedules-2026_Clean.pdf",
+   "source_title": "Tacoma Power, 2026 Rate Schedule (all schedules), Schedule NLL, Tacoma Municipal Code 12.06.265",
+   "quoted_clause": {
+    "page": "26",
+    "section": "A. Applicability",
+    "quote": "For new loads or expanding existing loads greater than 8 megawatts (MW) but less than 10 average megawatts (aMW) within any consecutive 12-month period."
+   },
+   "docket": {
+    "value": "City of Tacoma Ordinance No. 28993",
+    "cites": [
+     {
+      "page": "26",
+      "quote": "Ordinance No. 28993"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-04-01",
+    "cites": [
+     {
+      "page": "26",
+      "quote": "Effective: April 1, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "greater than 8 MW and less than 10 aMW within any consecutive 12 months; minimum Contract Demand not less than 8 MW and not more than 10 aMW",
+     "cites": [
+      {
+       "page": "26",
+       "section": "A. Applicability",
+       "quote": "For new loads or expanding existing loads greater than 8 megawatts (MW) but less than 10 average megawatts (aMW) within any consecutive 12-month period."
+      },
+      {
+       "page": "26",
+       "section": "B. Minimum Requirements",
+       "quote": "A minimum Contract Demand (as set forth in the Contract) of not less than 8 MW and not more than 10 aMW within any consecutive 12-month period"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Power Service Minimum Charge: the Demand Charge, $8.48 per kW of Billing Demand (Delivery is billed separately at $9.81 per kW of Billing Demand, with a monthly Customer Charge); Billing Demand at least 60 percent of the highest measured demand or of the highest Contract Demand of the preceding 11 months; Contract Demand Overrun at 300 percent of the Demand Charge",
+     "cites": [
+      {
+       "page": "26",
+       "section": "C.1",
+       "quote": "Demand: All kilowatts of Billing Demand delivered at $8.48 per kW."
+      },
+      {
+       "page": "26",
+       "section": "C.1(c)",
+       "quote": "Minimum Charge: The Demand Charge."
+      },
+      {
+       "page": "27",
+       "section": "C.2",
+       "quote": "Delivery: All kilowatts of Billing Demand delivered at $9.81 per kW."
+      },
+      {
+       "page": "28",
+       "section": "D.1(c)",
+       "quote": "60 percent of the highest Contract Demand (as set forth in the Contract) during any of the preceding 11 months."
+      },
+      {
+       "page": "27",
+       "section": "C.1(d)",
+       "quote": "Contract Demand Overrun Charge = Excess MW x 300% x DC"
+      },
+      {
+       "page": "26",
+       "section": "Schedule NLL, C.1",
+       "quote": "(c) Minimum Charge: The Demand Charge."
+      },
+      {
+       "page": "27",
+       "section": "Schedule NLL, C.2",
+       "quote": "2. Delivery: All kilowatts of Billing Demand delivered at $9.81 per kW."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "the Power Service Agreement's own term is not printed; a load may move to Schedule CP only after ten consecutive years on Schedule NLL",
+     "cites": [
+      {
+       "page": "26",
+       "section": "A. Applicability",
+       "quote": "Loads receiving service under Schedule NLL may receive service under Schedule CP (or a successor rate) after a period of ten consecutive years from the beginning of service if applicable requirements are met."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Schedule NLL (2026 schedules pp.26 to 28)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule NLL (pp.26 to 28)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule NLL (pp.26 to 28)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule NLL (pp.26 to 28)"
+    },
+    "queue_size": {
+     "value": "see row: Schedule VLL, Very Large Load Service of 10 aMW or more (TMC 12.06.266): incremental-cost power supply under a Power Service Agreement"
+    }
+   },
+   "license": "internal",
+   "license_basis": "mytpu.org's Disclaimer & Copyright page (reproduction limited to non-commercial purposes, as read); see the VLL row",
+   "erw_overlap": "",
+   "notes": "A customer whose consumption grows by 10 aMW or more in 12 months moves to Schedule VLL (p.26). Below the roughly 20 MW scale of this pass, kept because it is Tacoma Power's large new load class. Corrected by the independent audit of session 5304 (A-48): min_demand was 'Minimum Charge equal to the Demand Charge ($8.48 per kW of Billing Demand, plus delivery $9.81 per kW); Billing Demand at least 60 percent of the highest measured demand or of the highest Contract Demand of the preceding': Delivery is not part of the Minimum Charge.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-06"
+  },
+  {
+   "utility": "Tacoma Power (City of Tacoma Department of Public Utilities)",
+   "state": "WA",
+   "iso_region": "Tacoma Power balancing authority, WECC (outside an ISO)",
+   "rule_name": "Schedule EF, Electrofuel Service Pilot (TMC 12.06.373): new electrofuel loads of 10 aMW or more, priced as Schedule VLL, capped at 65 MW",
+   "source_url": "https://www.mytpu.org/wp-content/uploads/All-Schedules-2026_Clean.pdf",
+   "source_title": "Tacoma Power, 2026 Rate Schedule (all schedules), Schedule EF, Tacoma Municipal Code 12.06.373",
+   "quoted_clause": {
+    "page": "51",
+    "section": "A. Applicability",
+    "quote": "For this schedule, each new electrofuel customer's load requirement shall be at 10 average megawatts (aMW) or more within any consecutive 12-month period."
+   },
+   "docket": {
+    "value": "City of Tacoma Ordinance No. 28996",
+    "cites": [
+     {
+      "page": "51",
+      "quote": "Ordinance No. 28996"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-01-01",
+    "cites": [
+     {
+      "page": "51",
+      "quote": "Effective: January 1, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "10 aMW or more within any consecutive 12 months per new electrofuel customer; minimum Contract Demand not less than 10 MW; no more than 65 MW of total load on the schedule; closed to new customers in 2030 unless extended",
+     "cites": [
+      {
+       "page": "51",
+       "section": "A. Applicability",
+       "quote": "No more than 65 MW of total load shall be served on this schedule. Unless otherwise extended, this rate schedule shall be closed to new customers in 2030."
+      },
+      {
+       "page": "51",
+       "section": "B. Minimum Condition",
+       "quote": "A minimum Contract Demand (as set forth in the Contract) of not less than 10 megawatts"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Billing Demand the highest of the month's measured demand, 60 percent of the highest measured demand of the preceding 11 months, or 60 percent of the highest Contract Demand; charges as Schedule VLL",
+     "cites": [
+      {
+       "page": "52",
+       "section": "D.1(c)",
+       "quote": "60 percent of the highest Contract Demand (as set forth in the Contract)."
+      },
+      {
+       "page": "51",
+       "section": "C. Monthly Rate",
+       "quote": "The sum of the applicable power supply charge, delivery charge and customer charge as set forth in TMC 12.06.266 Very large load service of 10 aMW or more"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Schedule EF (2026 schedules pp.51 to 52)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Schedule EF (pp.51 to 52): the customer pays for its substation and other necessary infrastructure (B.(g))"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule EF (pp.51 to 52)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule EF (pp.51 to 52)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule EF (pp.51 to 52)"
+    },
+    "queue_size": {
+     "value": "see row: Schedule VLL, Very Large Load Service of 10 aMW or more (TMC 12.06.266): incremental-cost power supply under a Power Service Agreement"
+    }
+   },
+   "license": "internal",
+   "license_basis": "mytpu.org's Disclaimer & Copyright page (reproduction limited to non-commercial purposes, as read); see the VLL row",
+   "erw_overlap": "",
+   "notes": "Not a data-center rule: a large-load pilot for hydrogen electrofuel production, listed because it is a 10 aMW-and-up schedule with its own cap.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-07"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Snohomish County (Snohomish County PUD)",
+   "state": "WA",
+   "iso_region": "Bonneville Power Administration balancing authority, WECC (outside an ISO)",
+   "rule_name": "New Large Load Policy (NLLP): new or expanded loads greater than 2.5 MVA, with enhanced review above 10 MVA and a Power Supply Review at 10 aMVA",
+   "source_url": "https://www.snopud.com/wp-content/uploads/2026/09/PUDNewLargeLoadPolicy-v07.17.2026SIGNED.pdf",
+   "source_title": "Snohomish County PUD, New Large Load Policy, signed by the CEO/General Manager 17 July 2026",
+   "quoted_clause": {
+    "page": "4",
+    "section": "1. Overview",
+    "quote": "evaluates, plans, and delivers electrical service for new or expanded loads greater than 2.5 MVA"
+   },
+   "docket": {
+    "value": "not a docket: a District policy authorized by the CEO/General Manager",
+    "cites": [
+     {
+      "page": "21",
+      "section": "5.B",
+      "quote": "This Policy is authorized by the District's CEO/General Manager and is effective as of the date specified in the signature block below."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07-17",
+    "cites": [
+     {
+      "page": "21",
+      "section": "5.B",
+      "quote": "This Policy is authorized by the District's CEO/General Manager and is effective as of the date specified in the signature block below."
+     },
+     {
+      "page": "23",
+      "section": "5.E Approval",
+      "quote": "Date: 07/17/2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "aggregate anticipated demand greater than 2.5 MVA (net increase over a continuous five-year period); loads exceeding 10 MVA may need enhanced review and additional contractual terms; loads of 10 aMVA or more need a Power Supply Review",
+     "cites": [
+      {
+       "page": "4",
+       "section": "1. Overview",
+       "quote": "evaluates, plans, and delivers electrical service for new or expanded loads greater than 2.5 MVA"
+      },
+      {
+       "page": "9",
+       "section": "2.A Eligibility Criteria",
+       "quote": "For loads exceeding 10 MVA, enhanced review and additional contractual terms may be required."
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "Power Supply Review",
+       "quote": "For new or expanding loads with an average demand of 10 average MVA (aMVA*) or greater, a Power Supply Review is required in addition to the interconnection study process described above.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "no minimum bill in the policy; the refund of Eligible Dollars through annual Demand Credits over 120 months is full only when average annual billed demand is at least 90 percent of Anticipated Demand, otherwise prorated; a monthly Capacity Reservation Fee, where it applies, is 70 percent of the applicable large-load (or transmission) demand charge on the reserved demand above 2.5 MVA The Capacity Reservation Fee formula subtracts the greater of 2.5 MVA and the Available Capacity (the existing usable capacity of the system component before the upgrade); the formula itself is printed in math glyphs the text layer does not render as words.",
+     "cites": [
+      {
+       "page": "26",
+       "section": "Appendix C",
+       "quote": "If average annual billed demand is at least 90% of Anticipated Demand, the maximum annual credit is applied; otherwise, the credit is prorated."
+      },
+      {
+       "page": "26",
+       "section": "Appendix C",
+       "quote": "returned to eligible customers through an annual Demand Credit applied once per year over 120 months (Credit Period)."
+      },
+      {
+       "page": "25",
+       "section": "Appendix B",
+       "quote": "70% of the Demand Charge in the applicable large load rate schedule for customers taking delivery at primary or secondary voltage"
+      },
+      {
+       "page": "24",
+       "section": "Appendix A",
+       "quote": "Available Capacity = existing usable capacity available on the relevant system component prior to the upgrade"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "New Large Load Policy (pp.1 to 29): the New Large Load Agreement is bilateral and its term is not printed; the policy sets a 120-month Demand Credit period and a five-year Election Period (Appendix C, pp.26 to 27), not a service term"
+    },
+    "collateral": {
+     "value": "formal credit evaluation; acceptable instruments include letters of credit, parental guarantees, performance security bonds or cash collateral, scaled to project maturity and risk; an up-front refundable deposit (refunded over ten years for customers who remain in service), which may be larger for loads over 10 aMVA",
+     "cites": [
+      {
+       "page": "12",
+       "section": "2.E.3",
+       "quote": "may require the provision of acceptable credit instruments such as letters of credit, parental guarantees, performance security bonds, or cash collateral"
+      },
+      {
+       "page": "12",
+       "section": "2.E.3",
+       "quote": "Upon credit evaluation, a form of performance security may be required to mitigate risks associated with demand shortfall, project abandonment, or nonpayment."
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "New Load Policy",
+       "quote": "Under this policy, new or existing customers with an estimated net increase in peak power demand of 2.5 MVA or greater over a continuous five-year period are required to provide an up-front, refundable deposit.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "New Load Policy",
+       "quote": "For customers who remain in service, the deposit is refunded over a ten-year period",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "Power Supply Review",
+       "quote": "Projects with loads greater than 10 aMVA may require an increased deposit amount, depending on project scope and complexity.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "on partial completion or demand shortfall, the District recovers all incurred expenses from the performance security; on nonpayment or abandonment, forfeiture of deposits, termination of service agreements or legal action; Demand Credits forfeited if energization is not reached by the end of the five-year Election Period",
+     "cites": [
+      {
+       "page": "12",
+       "section": "2.E.3",
+       "quote": "In the event of partial project completion or demand shortfall, the District will retain the right to recover all incurred expenses from the established performance security."
+      },
+      {
+       "page": "21",
+       "section": "5.A",
+       "quote": "In the event of nonpayment or project abandonment, the District may pursue remedies such as the forfeiture of deposits, termination of service agreements, or legal action to recover outstanding costs."
+      },
+      {
+       "page": "27",
+       "section": "Appendix C, Election Period",
+       "quote": "if the customer fails to achieve energization by the end of the Election Period, the Demand Credit will be forfeited"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "policy: Feasibility Review approximately 2 weeks; System Impact Study approximately 1 to 4 months. PUD web page: application and feasibility review 1 to 2 months ($5,000); interconnection studies 3 to 8 months ($10,000 minimum); Power Supply Review typically two to three months, in parallel; final Power Service Agreement less than 1 month (the two documents differ; both are the PUD's)",
+     "cites": [
+      {
+       "page": "10",
+       "section": "2.C",
+       "quote": "2.C FEASIBILITY REVIEW (APPROXIMATELY 2 WEEKS)"
+      },
+      {
+       "page": "10",
+       "section": "2.D",
+       "quote": "2.D SYSTEM IMPACT STUDY (\"SIS\") (APPROXIMATELY 1-4 MONTHS)"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "1. Application Process",
+       "quote": "Estimated timeline: 1-2 months. Fee: $5,000.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "2. Interconnection Studies",
+       "quote": "Estimated timeline: 3-8 months. Fee: $10,000 minimum, increasing based on project complexity",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "Power Supply Review",
+       "quote": "The Power Supply Review is typically completed within two to three months",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.snopud.com/account/services/connecting_large_loads/",
+       "page": "1",
+       "section": "4. Final Power Service Agreement",
+       "quote": "Estimated timeline: Less than 1 month",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "New Large Load Policy (pp.1 to 29) and the Connecting Large Loads page: the SIS gives non-binding timelines, contracting is 'project dependent', and Capacity Reservations do not guarantee an energization date (3.A, p.14); Commercial Operation must occur within five years of full fee payment to keep Demand Credits (Appendix C, p.27)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "New Large Load Policy; Connecting Large Loads page; 2026 Electric Rate Book (snopud.com): no large-load pipeline in MW or count; the web search budget ran out before the PUD's IRP or board materials could be looked for"
+    }
+   },
+   "license": "public",
+   "license_basis": "a public power utility's published policy and rate book; snopud.com's privacy policy page carries no terms limiting reuse or automated reading",
+   "erw_overlap": "",
+   "notes": "Threshold of 2.5 MVA is below the roughly 20 MW scale of this pass; the 10 MVA and 10 aMVA tiers are the data-center-scale terms. Lead (news only, not used as a value): The Herald (16 May 2026) reported 8 large-load inquiries in 2025, none data centers. The Large Load Interconnection Process Workflow (https://www.snopud.com/wp-content/uploads/2026/04/LargeLoadWF.pdf) and the 2026 interconnection requirements were not read. Corrected by the independent audit of session 5304 (A-49): the Capacity Reservation Fee's deduction is the greater of 2.5 MVA and the Available Capacity, as the auditor read the formula's glyph runs against Appendix A.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-08"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Snohomish County (Snohomish County PUD)",
+   "state": "WA",
+   "iso_region": "Bonneville Power Administration balancing authority, WECC (outside an ISO)",
+   "rule_name": "Rate Schedule 37, New Large Single Loads: loads growing by 10 average megawatts or more in 12 months, priced by contract at the cost of power acquired to serve them",
+   "source_url": "https://www.snopud.com/wp-content/uploads/2025/10/ElectricRates_2026.pdf",
+   "source_title": "Snohomish County PUD, Electric Utility Rates (2026 Electric Rate Book), Schedule 37 - New Large Single Loads",
+   "quoted_clause": {
+    "page": "17",
+    "section": "(1) Availability",
+    "quote": "Which will result in an increase in power requirements of a customer of ten average megawatts or more in any consecutive twelve-month period."
+   },
+   "docket": {
+    "value": "Snohomish County PUD Commission Resolution No. 5470 (2009)",
+    "cites": [
+     {
+      "page": "18",
+      "quote": "Res. No. 5470 (2009)"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2010-01-01",
+    "cites": [
+     {
+      "page": "18",
+      "quote": "Effective Date: January 1, 2010"
+     }
+    ],
+    "note": "unchanged schedule in the rate book for 2026; in force through 2025 and 2026"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "a load increase of ten average megawatts or more in any consecutive twelve months (a BPA New Large Single Load)",
+     "cites": [
+      {
+       "page": "17",
+       "section": "(1) Availability",
+       "quote": "Which will result in an increase in power requirements of a customer of ten average megawatts or more in any consecutive twelve-month period."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "periodic minimum charges and fixed fees set in the Customer Contract (no figure printed)",
+     "cites": [
+      {
+       "page": "17",
+       "section": "(4)(d)",
+       "quote": "A periodic fixed fee to cover non-variable or minimum costs."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Schedule 37 (rate book pp.17 to 18): a Customer Contract is required, its term not printed"
+    },
+    "collateral": {
+     "value": "no security terms printed; the PUD reserves the right to collect contributions in aid of construction or other charges for required capital expansion",
+     "cites": [
+      {
+       "page": "17",
+       "section": "(4)(d)",
+       "quote": "The PUD also reserves the right to collect contributions in aid of construction or other charges arising out of any required capital expansion or extraordinary costs."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule 37 (pp.17 to 18)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule 37 (pp.17 to 18): no study terms; the PUD's study steps for large loads are on the New Large Load Policy row"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule 37 (pp.17 to 18)"
+    },
+    "queue_size": {
+     "value": "see row: New Large Load Policy (NLLP): new or expanded loads greater than 2.5 MVA, with enhanced review above 10 MVA and a Power Supply Review at 10 aMVA"
+    }
+   },
+   "license": "public",
+   "license_basis": "a public power utility's published rate book (snopud.com)",
+   "erw_overlap": "",
+   "notes": "Rates (4)(a): energy and capacity priced on the PUD's cost of power available or acquired to serve the customer, plus a reasonable service fee, under written power supply arrangements. Schedules 20, 36 and 38 exclude New Large Single Loads and send them to Schedule 37.",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-09"
+  },
+  {
+   "utility": "Bryan Texas Utilities (BTU), City of Bryan",
+   "state": "TX",
+   "iso_region": "ERCOT",
+   "rule_name": "Transmission Service - Customer Directed Power Supply: transmission-voltage customers with peak demand of 10 MW to under 75 MW that procure their own power (City of Bryan Ordinance No. 2788)",
+   "source_url": "https://btutilities.com/sites/default/files/6a-ord-2788-btu-electric-ordinance-may-2026.pdf",
+   "source_title": "City of Bryan Ordinance No. 2788, Bryan Texas Utilities Electric Rate Schedules, adopted 5 May 2026",
+   "quoted_clause": {
+    "page": "16",
+    "section": "Section 5.B",
+    "quote": "This rate applies to electric service for all Non-Residential Customers within the BTU certificated service area with Peak Demand greater than or equal to 10 MW and less than 75 MW, and elect to procure their own power supply and contract for electric transmission services at BTU's transmission voltage level."
+   },
+   "docket": {
+    "value": "City of Bryan Ordinance No. 2788",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "ORDINANCE NO. 2788"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-06",
+    "cites": [
+     {
+      "page": "34",
+      "quote": "The schedule of rates as provided for in this ordinance above shall be effective commencing with the first billing cycle for the month of June, 2026."
+     },
+     {
+      "page": "34",
+      "quote": "PASSED, ADOPTED AND APPROVED the 5th of May, 2026"
+     }
+    ],
+    "note": "effective with the first billing cycle of June 2026; the day is not printed"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "peak demand of 10 MW or more and less than 75 MW, at transmission voltage, customer procuring its own power supply (General Service Transmission, bundled, applies up to 75 MW)",
+     "cites": [
+      {
+       "page": "16",
+       "section": "Section 5.B",
+       "quote": "with Peak Demand greater than or equal to 10 MW and less than 75 MW"
+      },
+      {
+       "page": "15",
+       "section": "Section 5.A",
+       "quote": "receive power, not to exceed 75 MW, at BTU's Transmission Voltage level"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Billed Demand not less than 80 percent of the peak demand of the 12 months ending with the current month; minimum bill and all monthly charges set in a BTU Supplemental Agreement; a customer without demand of 10 MW for 12 consecutive months moves to General Service Transmission for at least 3 months",
+     "cites": [
+      {
+       "page": "16",
+       "section": "Section 5.B, Billed Demand",
+       "quote": "The Billed Demand shall be the maximum 15 minutes measured kW in the month, but not less than 80 percent of the Peak Demand measured in the 12-month period ending with the current month."
+      },
+      {
+       "page": "16",
+       "section": "Section 5.B",
+       "quote": "Minimum Bill: The minimum bill shall be defined within a BTU Supplemental Agreement."
+      },
+      {
+       "page": "16",
+       "section": "Section 5.B",
+       "quote": "General Service Transmission shall apply beginning with the first month succeeding such 12-month period and shall remain on the General Service Transmission rate for a minimum of 3 months"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788, Section 5 (pp.15 to 16) and Section 1 Terms of Service: the Supplemental Agreement's term is not printed"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788 (pp.1 to 34): no security terms for this schedule; BTU's separate deposit ordinance (Ordinance 2226, 2017) was not read"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788 (pp.1 to 34)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788 (pp.1 to 34); btutilities.com business rates page"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788 (pp.1 to 34)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Ordinance No. 2788; btutilities.com business rates page: no large-load pipeline"
+    }
+   },
+   "license": "public",
+   "license_basis": "a municipal utility's council-adopted rate ordinance published on its site; btutilities.com shows no terms-of-use page in its links",
+   "erw_overlap": "",
+   "notes": "Loads of 75 MW and up are not covered by any BTU schedule in Ordinance No. 2788 (both transmission schedules stop below 75 MW); no BTU large-load (75 MW) rule was found in what was read. BTU is an ERCOT transmission and distribution provider subject to the PUCT's large-load interconnection standards (covered by the texas group).",
+   "date_read": "2026-11-13",
+   "row_id": "remainder-10"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Garland Power and Light",
+   "url": "https://www.gpltexas.org/",
+   "reason": "blocked: the answer looks like a bot check; not retried with another agent"
+  },
+  {
+   "utility": "Denton Municipal Electric (City of Denton)",
+   "url": "https://www.cityofdenton.com/",
+   "reason": "robots.txt answered 403: treated as disallow all"
+  },
+  {
+   "utility": "Georgetown Utility Systems (City of Georgetown, TX)",
+   "url": "https://utilities.georgetown.org/",
+   "reason": "robots.txt not readable (certificate CN name does not match); not read"
+  },
+  {
+   "utility": "Georgetown Utility Systems (City of Georgetown, TX)",
+   "url": "https://www.georgetown.org/",
+   "reason": "robots.txt not readable (certificate CN name does not match); not read"
+  },
+  {
+   "utility": "Liberty Utilities (CalPeco Electric)",
+   "url": "https://libertyutilities.com/terms-of-use.html",
+   "reason": "terms of use bar any robot, spider or other automatic device; the host was not read beyond its terms page"
+  },
+  {
+   "utility": "Independence Power and Light",
+   "url": "https://www.ipl-mo.org/",
+   "reason": "robots.txt not readable (DNS getaddrinfo failed); not read"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co.",
+   "url": "https://www.psc.nd.gov/webdocs/case/26-0235/018-010.pdf",
+   "reason": "no text layer (a scan); not read"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co.",
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000067716&type=10-Q&dateb=&owner=include&count=10",
+   "reason": "robots.txt disallows /cgi-bin/; the filing was reached through the Archives directory instead"
+  },
+  {
+   "utility": "Montana-Dakota Utilities Co.",
+   "url": "https://www.montana-dakota.com/wp-content/uploads/PDFs/Rates-Tariffs/NorthDakota/Electric/NDElectric45.pdf",
+   "reason": "HTTP 404; the ND PSC's copy of the same sheets was read"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Hawaiian Electric (Hawaiian Electric Company, Maui Electric, Hawaii Electric Light)",
+   "searched": "one web search for a Hawaiian Electric large-load or data center tariff or Hawaii PUC docket of 2025 or 2026 (none surfaced); Hawaii PUC Annual Report, Fiscal Year 2025 (puc.hawaii.gov, 70 pages): no match for large load, data center, large customer or hyperscale"
+  },
+  {
+   "utility": "Kansas City Board of Public Utilities (KS, SPP)",
+   "searched": "BPU Rate Application Manual, January 2026 rates (bpu.com, 59 pages): no large-load, data center or high-density schedule (Large Power Service and Large Power High Load Factor rates are general, contract term 12 months); BPU rates and electric and water rate hearings pages (only the 2023 rate case documents posted)"
+  },
+  {
+   "utility": "City Utilities of Springfield (MO, SPP)",
+   "searched": "cityutilities.net business and economic development pages; 2025 Integrated Resource Plan overview (30 pages): no large-load rule; the IRP models a '100 MW Data Center Load' scenario (p.25) and assumes new industrial load of 5 MW a year to 50 MW by 2034 (p.11), neither a rule nor a queue; no rate book link was found on the pages read"
+  },
+  {
+   "utility": "Independence Power and Light (MO, SPP)",
+   "searched": "independencemo.gov Power and Light, Nebius Data Center FAQs and Data Center and BESS Moratorium FAQs pages; ipl-mo.org could not be resolved; the web search budget ran out before a council ordinance or rate schedule could be found",
+   "notes": "The City's Nebius FAQ (https://www.independencemo.gov/community-faqs/nebius-data-center-faqs) describes one contract arrangement, not a published rule, and prints no approval date for it: 'This project will require at least 800 megawatts (MW) of power, which will be supplied by a new, privately financed facility developed by Independence Power Partners (IPP) at the City's retired Blue Valley Power Plant site.'; protections listed include 'Performance Guarantees: Nebius must ensure financial stability.', 'Prepaid Billing: IPL receives payments upfront.' and 'Phase 2 Controls: City can renegotiate or cancel if costs exceed projections.' The City's moratorium FAQ (https://www.independencemo.gov/community-faqs/data-center-bess-moratorium-faqs): 'The Independence City Council approved a temporary 180-day moratorium on new applications, permits and licenses related to data centers and battery energy storage system facilities.' (a land-use pause, date not printed; the Nebius project is excluded)."
+  },
+  {
+   "utility": "Garland Power and Light (TX, ERCOT)",
+   "searched": "gpltexas.org answered with a bot check (refused); garlandtx.gov home page links only to gpltexas.org; the web search budget ran out before another copy of GP&L's rate ordinance could be found"
+  },
+  {
+   "utility": "Denton Municipal Electric (TX, ERCOT)",
+   "searched": "cityofdenton.com refused by robots (403); no other copy sought, the web search budget having run out"
+  },
+  {
+   "utility": "Georgetown Utility Systems (TX, ERCOT)",
+   "searched": "georgetown.org hosts refused (certificate mismatch); no other copy sought, the web search budget having run out"
+  },
+  {
+   "utility": "UNS Electric, Inc. (AZ)",
+   "searched": "uesaz.com electric rates page (all schedule links): no large-load or data center schedule; Large Power Service (301-EILPS, transmission voltage of 69 kV and up, billing demand floor of contract capacity or 500 kW) is general; Rules Section 7 Line Extensions: a special study when requirements exceed 100 kW, no large-load terms; Economic Development Rate rider (713) not read"
+  },
+  {
+   "utility": "Liberty Utilities (CalPeco Electric) LLC (CA)",
+   "searched": "libertyutilities.com terms of use bar robots, so its tariff pages were not read; no CPUC copy of CalPeco's tariff was sought, the web search budget having run out"
+  },
+  {
+   "utility": "New York municipal electric systems (Massena, Plattsburgh and other NYMPA members) and the New York Power Authority",
+   "searched": "NY DPS Matter Master for Case 18-E-0126 (documents.dps.ny.gov), whose title reads 'Tariff Filing by the New York Municipal Power Agency to Implement a New Rider A - Rates and Charges for High Density Load Service.' (filed by the New York Municipal Power Agency, 2018); its 14 filed documents load by script and their links could not be listed, and the web search budget ran out before the order or the municipal tariffs could be found; NYPA's large-load terms not searched",
+   "notes": "A 2018 high-density load rider exists for NYMPA members per the DPS matter title; whether and how it applies in 2025 and 2026 was not confirmed from a document."
+  },
+  {
+   "utility": "Fitchburg Gas and Electric Light Company d/b/a Unitil (MA)",
+   "searched": "not searched: the northeast group's rows already cover Unitil (rows/northeast.json)"
+  }
+ ]
+}

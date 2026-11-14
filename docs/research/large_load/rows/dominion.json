@@ -201,7 +201,8 @@
    "license_basis": "the Florida PSC's docket copy of the Virginia SCC's Final Order (the SCC's own host is paused for the ERW); the queue figures from a Dominion document PJM posts and a Dominion presentation ESIG posts; Dominion's SEC filings",
    "erw_overlap": "large_load_tariffs/dominion_virginia_schedule_gs4.yaml: that file holds GS-4 Paragraph VIII (85 and 60 percent minimums from 2027 for customers of 25 MW or more that do not qualify for GS-5) and says the GS-5 row waits because the order sat on the paused host; this row is GS-5 itself, read from the Final Order's copy in a Florida PSC filing. Its 85/85/60 minimums agree with the GS-4 file's Paragraph VIII; the GS-4 file's one-year minimum term belongs to GS-4, not GS-5 (14 years). The docket (PUR-2025-00058) agrees.",
    "notes": "Status: approved by the Final Order of 25 November 2025, effective 1 January 2027; Dominion's Q3 2026 10-Q says an appeal of the order to the Supreme Court of Virginia, filed March 2026, is pending. The order (PDF p. 36, ordering paragraph 4) requires the tariffs and terms and conditions effective 1 January 2027 to be filed at least 45 days before that date; that compliance filing was not read (the SCC host is paused; Dominion's own site is barred, below). The order (p. 35) also lets existing customers who would be subject to the 'High Load Customer Terms and Conditions' make a one-time downward adjustment of contracted demand without penalty before the effective date, and (p. 33, footnote 101) approves exemptions from minimum demand obligations for necessary and planned maintenance in the Terms and Conditions. Dominion's answers to Spotsylvania County (p. 1) say the contractual provisions apply, with limited exceptions, to all customers of 25 MW or more, not only GS-5. Not read: Dominion's 'GS-5 Large Load Rate Class Report' of May 2026 on sustainability.dominionenergy.com, its rates and tariffs pages and its investor site, because www.dominionenergy.com's terms (linked from all three hosts) bar spiders, robots and other automated programs; window A's GS-4 file was read from www.dominionenergy.com, so its 'public' license and the read itself may need the owner's review. The ~70 GW queue figure is from a Dominion engineer's slide posted by a conference host (ESIG), not by the utility; the parent may keep only the PJM figure. Lead, not verified: Dominion's Q3 2026 earnings material reportedly gives 54.9 GW of contracted data center capacity as of September 2026 (news only).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-01"
   },
   {
    "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
@@ -358,7 +359,8 @@
    "license_basis": "a Dominion letter PJM posts; Dominion's SEC filings; Dominion's written answers posted by Spotsylvania County",
    "erw_overlap": "none",
    "notes": "Status 'in effect' rests on the letter's present-tense description of 6 January 2026; no effective date is printed. The letter (p. 3) gives the contracted capacity as of July 2025: '47 GW (9.8 ESA + 7.1 CLOA + 30.1 ELOA)'. Dominion's 10-K says the deposits held at 31 December 2025 were 321 million USD. Dominion's answers to Spotsylvania County (p. 2, document named for 18 August 2026; the text prints no date) say a policy revision extending the revenue guarantees to certain 'direct connect' transmission assets will be filed 'later this year': pending, not read. The order in PUR-2025-00058 (Florida copy p. 30) refers to 'the Company's new interconnection queue process for large load customers': see the queue process row.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-02"
   },
   {
    "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
@@ -377,8 +379,8 @@
     "searched": "the Final Order (Florida copy pp. 30 to 31) orders a separate proceeding and names no case number; the filing's case was not read (SCC host paused)"
    },
    "status": {
-    "value": "proposed",
-    "date": "",
+    "value": "ordered",
+    "date": "2025-11-25",
     "cites": [
      {
       "page": "30",
@@ -389,6 +391,11 @@
       "page": "31",
       "section": "Large Load Interconnection Queue",
       "quote": "directs that the Company make such a filing on or before February 2, 2026"
+     },
+     {
+      "page": "31",
+      "section": "",
+      "quote": "make such a filing on or before February 2, 2026"
      }
     ]
    },
@@ -428,8 +435,9 @@
    "license": "public",
    "license_basis": "the Florida PSC's docket copy of the Virginia SCC's Final Order",
    "erw_overlap": "none",
-   "notes": "The order (p. 31) directs the filing 'on or before February 2, 2026' on an expedited timeline and encourages options for faster interconnection of large loads meeting readiness or other criteria. The filing date and case number were not read: the SCC host is paused and Dominion's GS-5 Large Load Rate Class Report, which reportedly says the process was filed, is on a host whose terms bar automated reading. Leads only (news, not verified): Virginia Mercury (30 April 2026) describes standards for requests over 100 MW handled in batches of about 10 with a 300 MW cap per project, opposed by the Data Center Coalition; Virginia Business (17 February 2026) reports Dominion's testimony of about 70,000 MW of requests. Rappahannock Electric Cooperative's 2026 PJM forecast assumes the Dominion Energy queue 'advances one batch per year' (REC row).",
-   "date_read": "2026-11-13"
+   "notes": "The order (p. 31) directs the filing 'on or before February 2, 2026' on an expedited timeline and encourages options for faster interconnection of large loads meeting readiness or other criteria. The filing date and case number were not read: the SCC host is paused and Dominion's GS-5 Large Load Rate Class Report, which reportedly says the process was filed, is on a host whose terms bar automated reading. Leads only (news, not verified): Virginia Mercury (30 April 2026) describes standards for requests over 100 MW handled in batches of about 10 with a 300 MW cap per project, opposed by the Data Center Coalition; Virginia Business (17 February 2026) reports Dominion's testimony of about 70,000 MW of requests. Rappahannock Electric Cooperative's 2026 PJM forecast assumes the Dominion Energy queue 'advances one batch per year' (REC row). Corrected by the independent audit of session 5304 (A-11): status was 'proposed'.",
+   "date_read": "2026-11-13",
+   "row_id": "dominion-03"
   },
   {
    "utility": "Northern Virginia Electric Cooperative (NOVEC)",
@@ -564,7 +572,8 @@
    "license_basis": "NOVEC's own rate schedule as published on novec.com (its legal terms neither bar automated reading nor limit use to personal use); the queue figures from a NOVEC presentation PJM posts",
    "erw_overlap": "none",
    "notes": "HV-1 is the large power schedule NOVEC posts for dedicated high-voltage service; NOVEC says it has had a data center rate classification since 1999 (PJM deck p. 4) but the documents read do not say which schedule that is. Schedule HV-2, Large Power Dedicated Facilities Contract Service, is posted as a scanned PDF with no text layer and was not read. NOVEC changed distribution rates from November 2026 (novec.com rate page); the HV-1 sheet posted on 13 November 2026 is still the 2023 one, so HV-1's charges may have changed. Distribution charges on the 2023 sheet: 1,050 USD a month, 1.31 USD per kW, 0.00212 USD per kWh (p. 2). The 2047 MVA total is the forecast's cumulative capacity of energized and queued projects, not a count of pending requests.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-04"
   },
   {
    "utility": "Northern Virginia Electric Cooperative (NOVEC)",
@@ -667,7 +676,8 @@
    "license_basis": "a NOVEC presentation PJM posts",
    "erw_overlap": "none",
    "notes": "Status 'in effect' rests on the presentation's description of the current process; the date is the PJM meeting's, not an effective date. The presentation (p. 18) says the July 2026 forecast uses project timelines including the 'Dominion Transmission Queue'.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-05"
   },
   {
    "utility": "Northern Virginia Electric Cooperative (NOVEC)",
@@ -735,7 +745,8 @@
    "license_basis": "NOVEC's own news release on novec.com (its legal terms neither bar automated reading nor limit use to personal use)",
    "erw_overlap": "none",
    "notes": "NOVEC's Future Ready page says of the filing: 'The updates modernize our rate classifications. Clarification is needed for when large customers transition from one rate class to another based on their usage to ensure customers are appropriately classified based on how they use NOVEC power.' The release names later steps (stakeholder input, load forecasts, a power supply RFP, then an application to update cost allocation methodologies and rate classifications). The filing's contents, its case number and any SCC action wait: the SCC host is paused.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-06"
   },
   {
    "utility": "Rappahannock Electric Cooperative (REC)",
@@ -836,7 +847,8 @@
    "license_basis": "REC presentations PJM posts",
    "erw_overlap": "none",
    "notes": "Status 'in effect' rests on the presentation's description of the current stages; no date is printed in its text (the PJM path gives the 29 September 2026 meeting). REC's own schedule for these loads, Schedule LP-DF (Large Power Dedicated Facilities), was not read: myrec.coop's certificate failed the reader's check, so its robots file could not be read, and two Google storage copies answered 403. Leads only (search snippets, not verified): LP-DF is for contracted billing demands exceeding 25 MW served by dedicated substations at 34.5 kV or more from 115 kV or higher; REC petitioned the SCC in April 2025; the posted sheet is stamped 'AS FILED SCC Stamped 01 29 2026' with an effective date of 7/01/2025, and an SCC compliance acceptance shows 4/15/2026; it requires power supply credit collateral set in the agreement. REC's 2026 deck (p. 4) assumes the Dominion Energy queue 'advances one batch per year; campus substations staggered every 3 years.'",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "dominion-07"
   }
  ],
  "none_found": [
