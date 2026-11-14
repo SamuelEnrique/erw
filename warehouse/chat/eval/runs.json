@@ -350,6 +350,160 @@
     "what": "the board's five through the Python loop (chain 211), graded on session 2948's keys: the live board's rows were still those of 6 November",
     "where": "session 3769's report"
    }
+  },
+  {
+   "file": "eval_s5251_site_platform_run.json",
+   "grades": "eval_s5251_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5251, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5251 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5251's report"
+   }
+  },
+  {
+   "file": "eval_s5252_site_platform_run.json",
+   "grades": "eval_s5252_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5252, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5252 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5252's report"
+   }
+  },
+  {
+   "file": "eval_s5253_site_platform_run.json",
+   "grades": "eval_s5253_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5253, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5253 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5253's report"
+   }
+  },
+  {
+   "file": "eval_s5254_site_platform_run.json",
+   "grades": "eval_s5254_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5254, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5254 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5254's report"
+   }
+  },
+  {
+   "file": "eval_s5255_site_platform_run.json",
+   "grades": "eval_s5255_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5255, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5255 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5255's report"
+   }
+  },
+  {
+   "file": "eval_s5256_site_platform_run.json",
+   "grades": "eval_s5256_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5256, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5256 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5256's report"
+   }
+  },
+  {
+   "file": "eval_s5257_site_platform_run.json",
+   "grades": "eval_s5257_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5257, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5257 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5257's report"
+   }
+  },
+  {
+   "file": "eval_s5258_site_platform_run.json",
+   "grades": "eval_s5258_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5258, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5258 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5258's report"
+   }
+  },
+  {
+   "file": "eval_s5259_site_platform_run.json",
+   "grades": "eval_s5259_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5259, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5259 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5259's report"
+   }
+  },
+  {
+   "file": "eval_s5260_site_platform_run.json",
+   "grades": "eval_s5260_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5260, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5260 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5260's report"
+   }
+  },
+  {
+   "file": "eval_s5261_site_platform_run.json",
+   "grades": "eval_s5261_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5261, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5261 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5261's report"
+   }
   }
  ],
  "left_out": {
@@ -371,6 +525,8 @@
   "eval_s2968_loop_keys.json": "the keys of session 2968's asking through the Python loop, not a run",
   "keys_trader.json": "the keys of questions_trader.yaml, written by scripts/ask_eval/trader_questions.py, not a run",
   "keys_investor.json": "the keys of questions_investor.yaml, written by scripts/ask_eval/investor_questions.py, not a run",
-  "eval_s3769_loop_keys.json": "the keys of session 3769's thirty"
+  "eval_s3769_loop_keys.json": "the keys of session 3769's thirty",
+  "eval_s5201_regrade_s1133_grades.json": "session 5201's regrade of eval_s1133_s1114_run.json (the second thirty's newest asking) under eval_s267.py's RULES_5201: 30 of 30; a regrade of a stored run, not a run",
+  "keys_platform.json": "the keys of questions_platform.yaml, written by scripts/ask_eval/platform_questions.py, not a run"
  }
 }

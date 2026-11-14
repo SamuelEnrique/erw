@@ -1,0 +1,489 @@
+{
+ "_about": "eval_s5259_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 19,
+ "right": 18,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.9212,
+ "questions": [
+  {
+   "id": "ga10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0880456,
+   "seconds": 7.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "oi08",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0971885,
+   "seconds": 9.8,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "oi10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.08246,
+   "seconds": 7.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "st10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.065349,
+   "seconds": 4.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "tx02",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.1278345,
+   "seconds": 17.6,
+   "expected": [
+    8.2943
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "tx06",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.20377230000000005,
+   "seconds": 21.8,
+   "expected": [
+    43.5
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "tx08",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.12506910000000002,
+   "seconds": 12.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "tx10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0927566,
+   "seconds": 8.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "pj02",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0675939,
+   "seconds": 10.1,
+   "expected": [
+    73847.7334
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "pj04",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0613741,
+   "seconds": 8.5,
+   "expected": [
+    118354.39
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "pj06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.1526327,
+   "seconds": 17.9,
+   "expected": [
+    61.4
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "pj08",
+   "via": "general",
+   "grid": "ISO-NE",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1199673,
+   "seconds": 13.2,
+   "expected": [],
+   "ok": false,
+   "grade": {
+    "number": null,
+    "text": false,
+    "table": null,
+    "cited": null,
+    "refusal": false,
+    "no_figure": true,
+    "ok": false
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "pj10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.148758,
+   "seconds": 14.6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "de02",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0406859,
+   "seconds": 8.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "de04",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.039447399999999994,
+   "seconds": 9.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "de06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.1016686,
+   "seconds": 9.3,
+   "expected": [
+    568.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "de08",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1306269,
+   "seconds": 12.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "po02",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.018033600000000004,
+   "seconds": 3.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "po04",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 8,
+   "retried": false,
+   "cost_usd": 0.15798430000000002,
+   "seconds": 17.9,
+   "expected": [
+    58.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "not_live": {
+   "asked": 4,
+   "right": 4
+  },
+  "outside": {
+   "asked": 4,
+   "right": 4
+  },
+  "figure": {
+   "asked": 7,
+   "right": 7
+  },
+  "hold": {
+   "asked": 4,
+   "right": 3
+  }
+ },
+ "by_sector": {
+  "gas": {
+   "asked": 1,
+   "right": 1
+  },
+  "oil": {
+   "asked": 2,
+   "right": 2
+  },
+  "storage": {
+   "asked": 1,
+   "right": 1
+  },
+  "transmission": {
+   "asked": 4,
+   "right": 4
+  },
+  "projects": {
+   "asked": 5,
+   "right": 4
+  },
+  "deals": {
+   "asked": 4,
+   "right": 4
+  },
+  "policy": {
+   "asked": 2,
+   "right": 2
+  }
+ }
+}

@@ -10,7 +10,7 @@ import { StackedArea } from "@/components/StackedArea";
 import type { SeriesRow, StorageUnit } from "@/lib/data";
 import { count, shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
-import { gridHref } from "@/lib/gridtool";
+import { gridHref, zoneWords } from "@/lib/gridtool";
 import { DOCS, render, type GridConfig } from "@/lib/markdown";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { Reliability } from "./Reliability";
@@ -32,7 +32,7 @@ const H = 3_600_000;
 const EIA = (g: GridConfig) => `https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/${g.entity.split(":")[1]}`;
 const isoTs = (t: number) => new Date(t).toISOString().replace(/\.\d{3}Z$/, "Z");
 const local = (ts: string, tz: string, withDay = true) =>
-  new Intl.DateTimeFormat("en-US", { timeZone: tz, ...(withDay ? { month: "short", day: "numeric" } : {}), hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(ts));
+  zoneWords(new Intl.DateTimeFormat("en-US", { timeZone: tz, ...(withDay ? { month: "short", day: "numeric" } : {}), hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(ts)), tz);
 const localDay = (t: number, tz: string) => new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(t));
 
 function Chip({ tier }: { tier: "source" | "derived" | "model_extracted" | "written" }) {

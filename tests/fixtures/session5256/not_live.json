@@ -1,0 +1,26 @@
+{
+ "_about": "Session 5256 (chain 238): the catalogue row of eia_crude_imports_by_country, a table of the record that the live set does not hold (in_live_set no), with no rows: both loops refuse it by name before reading, so the scenario a_table_not_in_the_live_set of tests/fixtures/session1300/turns.json needs no row. The row is the live set's catalogue row as read with the anon key on 13 November 2026.",
+ "catalogue": [
+  {
+   "table_name": "eia_crude_imports_by_country",
+   "iso": "none",
+   "market": null,
+   "n_nodes": 82,
+   "interval": "P1M",
+   "ts_min": "1920-01-01T00:00:00+00:00",
+   "ts_max": "2026-08-01T00:00:00+00:00",
+   "n_rows": 22657,
+   "source_report": "eia:petroleum/move/impcus",
+   "last_run": "2026-11-13T14:43:33+00:00",
+   "validator_status": "pass",
+   "license": "public",
+   "sector": "oil",
+   "derived": "no",
+   "in_live_set": "no",
+   "columns": null,
+   "rows_sha256": null,
+   "tier": "source"
+  }
+ ],
+ "rows": []
+}
