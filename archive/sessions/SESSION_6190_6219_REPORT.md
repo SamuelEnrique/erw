@@ -1,10 +1,10 @@
 # Sessions 6190 to 6219 report: the held-out set, a wrong sum found, and the key's limit (chain 283, samueloldlaptop)
 
-14 November 2026, about 21:44 to 22:15 UTC. Chain file `queue/done/283-day-17-november-oldlaptop-ask-continued.md`, taken by name by chain 282's last step. Model: Fable, high effort. Branch `wip/6100-ask` (landing row 14 not landed), worktree `C:\Users\lossa\Documents\erw-6100`. Sessions 6190 to 6192 used.
+14 November 2026, 21:44 to about 22:05 UTC. Chain file `queue/done/283-day-17-november-oldlaptop-ask-continued.md`, taken by name by chain 282's last step. Model: Fable, high effort. Branch `wip/6100-ask` (landing row 14 not landed), worktree `C:\Users\lossa\Documents\erw-6100`. Sessions 6190 to 6192 used.
 
 ## Read these first
 
-- **Not meant, and yours to act on: the Anthropic API key reached its usage limit at about 21:55 UTC.** The API's words: "You have reached your specified API usage limits. You will regain access on 2026-12-01 at 00:00 UTC." It is the key in the repository's `.env`. Every asking stopped there. If the weekday Digest's scoring, the Sunday Roundup's analysis or `/ask` share that key or its workspace, they are refused too until you raise the limit in the Anthropic console. I could not check that from this machine and tried no other key.
+- **Not meant, and yours to act on: the Anthropic API key reached its usage limit at 21:50 UTC** (the time of the refused call in the run file)**.** The API's words: "You have reached your specified API usage limits. You will regain access on 2026-12-01 at 00:00 UTC." It is the key in the repository's `.env`. Every asking stopped there. If the weekday Digest's scoring, the Sunday Roundup's analysis or `/ask` share that key or its workspace, they are refused too until you raise the limit in the Anthropic console. I could not check that from this machine and tried no other key.
 - **The day's spend under the key was about USD 59**: window P3's USD 10.72 in the morning, and USD 48.17 by this machine's four chains (USD 19.32, 14.49, 12.65 and 1.71). Each chain stayed under its USD 20 and every session under USD 2, as your instruction set them; a cap that renews with every chain let the day's total run to the console's limit. I should have told you the running total at each chain's end.
 - **The held-out set found a wrong number in the chat, of a kind no check of the loop could catch.** Asked how many MW are withdrawn in SPP's queue, the chat said 419,388.74 MW. The rows sum to 419,636.34. The figure was fetched and cited; the tool's read was wrong. Fixed in the site's tool and proved with no model.
 - **Of the 24 held-out questions answered before the key stopped, 23 were right.** Ten were not asked.
@@ -51,7 +51,7 @@
 - **No other key and no other route was tried** when the API refused. The limit is your setting.
 - **The chain stops asking and does not take file 284.** What is left needs the model (the ten held-out questions, any check of a new mend), or the data machine, or your rulings. An empty chain would only fill the queue. File 284 holds the list for when the key answers again.
 - **The paging fix was made without an asking to confirm it**: it is a read of rows, proved against the rows themselves.
-- **A desktop notification was sent to you at 22:00 UTC** about the key, because the Sunday Roundup runs in a day and may need it.
+- **A desktop notification was sent to you at about 21:53 UTC** about the key, because the Sunday Roundup runs in a day and may need it.
 
 ## For Samuel's ruling (default in brackets)
 

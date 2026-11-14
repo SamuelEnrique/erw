@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW). Written by session 6192 of chain 283 (`queue/done/283-day-17-november-oldlaptop-ask-continued.md`, samueloldlaptop, Fable high). It follows the notes of chains 280, 281 and 282 of the same day. The work is on `wip/6100-ask`, landing row 14. The report is `archive/sessions/SESSION_6190_6219_REPORT.md`.
 
-- **The Anthropic API key reached its usage limit at about 21:55 UTC on 14 November.** "You will regain access on 2026-12-01 at 00:00 UTC." No model call from this machine's key is answered. If the Digest's scoring, the Sunday Roundup or `/ask` share that key or its workspace, they are refused as well until the limit is raised in the Anthropic console. Not checked from here; no other key tried.
+- **The Anthropic API key reached its usage limit at 21:50 UTC on 14 November.** "You will regain access on 2026-12-01 at 00:00 UTC." No model call from this machine's key is answered. If the Digest's scoring, the Sunday Roundup or `/ask` share that key or its workspace, they are refused as well until the limit is raised in the Anthropic console. Not checked from here; no other key tried.
 - **The day's spend under the key: about USD 59** (window P3 USD 10.72; this machine's four chains USD 48.17). Every chain under its USD 20, every session under USD 2.
 - **A wrong figure was found and fixed.** The site's chat summed more than 1,000 rows of a table of things wrongly (SPP's withdrawn queue: 419,388.74 MW said, 419,636.34 true). The fix is in row 14. It is the one change of the stack that corrects a figure a visitor could be given today.
 - **The chain queue for this machine stops here.** File 284 holds what is left; it is not taken.
