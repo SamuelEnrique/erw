@@ -73,3 +73,4 @@
 - Queue file 271's unfinished steps written early (`d406eae0d`).
 - A background watch for P1's close-out note runs (two-minute checks); step 5 starts when it lands.
 - Node 51 of 51.
+- 09:45 UTC: the background watch was stopped by Claude Code because the machine ran critically low on memory (MemFree 1.2 GB); not restarted, as the harness asks. P1's note exists on `wip/5500-closeout` (`fcadf7cf9`) but has not landed on main: step 5 not started.
