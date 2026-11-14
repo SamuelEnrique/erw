@@ -1,6 +1,6 @@
 # Session 3974 report: the week's daily runs
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 21:00 to 21:03 UTC. Opus 5.5. Model spend USD 0. GitHub's API this chain: about 30 requests in all (15 in session 3964, the rest the landings' and the re-run's polls and 3 here).
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 20:56 to 20:57 UTC. Opus 5.5. Model spend USD 0. GitHub's API this chain: about 30 requests in all (15 in session 3964, the rest the landings' and the re-run's polls and 3 here).
 
 Session 3964 read the seven days to 14 November 14:30 UTC; this session adds what came after.
 
