@@ -1,0 +1,2152 @@
+{
+ "group": "laws_midwest_northeast",
+ "laws": [
+  {
+   "state": "MN",
+   "bill": "H.F. No. 16 (Laws 2025, First Special Session, chapter 12)",
+   "session": "94th Legislature, 2025 First Special Session",
+   "title": "relating to data centers; modifying various environmental and energy regulatory requirements governing data centers; authorizing a clean energy and capacity tariff; modifying sales and use tax exemptions; imposing a fee",
+   "status": "enacted",
+   "status_date": "2025-06-14",
+   "effective_date": "",
+   "source_url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/12/",
+   "source_title": "Laws of Minnesota 2025, First Special Session, Chapter 12 (H.F. No. 16), Office of the Revisor of Statutes",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "CHAPTER 12--H.F.No. 16"
+    },
+    {
+     "page": "1",
+     "section": "end of chapter",
+     "quote": "Signed by the governor June 14, 2025, 10:30 a.m."
+    },
+    {
+     "page": "1",
+     "section": "Sec. 9, EFFECTIVE DATE",
+     "quote": "This section is effective the day following final enactment."
+    }
+   ],
+   "threshold_mw": {
+    "value": "no MW figure for the very large customer class: the Commission defines it for each utility by order by 15 December 2026; a data center is defined as a facility designed to have a load of 100 MW or more; the qualified large-scale data center fee starts at 100 MW of peak demand",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Sec. 9, 216B.1622 subd. 1",
+      "quote": "By December 15, 2026, the commission shall establish by order the definition and appropriate characteristics of a very large customer class or subclass for each public utility providing electric service."
+     },
+     {
+      "page": "1",
+      "section": "216B.02, subd. 11",
+      "quote": "\"Data center\" means a facility that is designed to have a load of 100 megawatts or more"
+     },
+     {
+      "page": "1",
+      "section": "216B.72(b)",
+      "quote": "(1) 100 to 250 MW"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "commission rulemaking",
+     "value": "the Commission must establish by order, by 15 December 2026, the definition and characteristics of a very large customer class or subclass for each public utility, in a rate case or another proceeding; it may approve, modify or reject a tariff or electric service agreement between a utility and a very large customer",
+     "cites": [
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 1",
+       "quote": "The commission may do this in a rate case under section 216B.16 for that utility or in another proceeding."
+      },
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 2",
+       "quote": "The commission may approve, modify or reject a tariff or electric service agreement proposed between a public utility and a very large customer establishing the terms and conditions under which the utility will provide electric service to the customer."
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "the Commission must consider how best to achieve that all costs attributable to very large customers not exempt are assigned to the very large customer class or subclass",
+     "cites": [
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 2(1)",
+       "quote": "(1) all costs attributable to the utility's very large customers not exempt under subdivision 3 are assigned to the very large customer class or subclass determined by the commission under paragraph (a);"
+      }
+     ]
+    },
+    {
+     "topic": "exit fee",
+     "value": "no exit fee printed: the tariff or agreement must contain protections so other customers are not placed at risk for paying stranded costs of serving the very large customer",
+     "cites": [
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 2(3)",
+       "quote": "(3) the tariff or agreement contains protections necessary to ensure that other customers of the public utility are not placed at risk for paying stranded costs associated with the utility serving the very large customer; and"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "the electricity provided to a very large customer must achieve each benchmark of the state's electricity standards (216B.1691), shown by a utility plan to serve the load without asking to delay or modify the standards; existing, renewed or extended agreements and very large customers taking service before 2020 are exempt",
+     "cites": [
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 2(2)",
+       "quote": "(2) the electricity to be provided by the utility to a very large customer achieves each quantitative benchmark of the state's electricity standards under section 216B.1691"
+      },
+      {
+       "page": "1",
+       "section": "216B.1622 subd. 3",
+       "quote": "This section shall not apply to existing, renewed, or extended electric service agreements of public utility customers meeting the threshold of a very large customer, or to very large customers that have been actively taking electric service from the public utility prior to 2020."
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "an annual fee the commissioner collects from each qualified large-scale data center, by the peak demand the utility arranges to serve: 2,000,000 dollars for 100 to 250 MW up to 5,000,000 dollars for 750 MW or more, paid into the energy and conservation account",
+     "cites": [
+      {
+       "page": "1",
+       "section": "216B.72(a)",
+       "quote": "(a) The commissioner must collect an annual fee from the qualified large-scale data center, on a schedule prescribed by the commissioner and deposited in the energy and conservation account established in section 216B.241, subdivision 2a."
+      },
+      {
+       "page": "1",
+       "section": "216B.72(b)(1)",
+       "quote": "$2,000,000"
+      },
+      {
+       "page": "1",
+       "section": "216B.72(b)(4)",
+       "quote": "(4) 750 MW or greater"
+      },
+      {
+       "page": "1",
+       "section": "216B.72(b)(4)",
+       "quote": "$5,000,000"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "each public utility must offer an optional clean energy and capacity tariff for commercial and industrial customers by special contract, with participants paying all proportional costs of the new resources and no cost shifting either way",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 10, 216B.1623",
+       "quote": "The commission shall require each public utility to offer a clean energy and capacity tariff for commercial and industrial customers."
+      },
+      {
+       "page": "1",
+       "section": "216B.1623(5)",
+       "quote": "(5) prohibit cost shifting from the participating customers to other utility customers or vice versa; and"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Statewide law of dataset row xcel_plains-02 (Minn. Stat. 216B.1622, read there in Minnesota Statutes 2026); this entry adds the session law, the 100 MW data center definition (216B.02 subd. 11), the clean energy and capacity tariff (216B.1623) and the data center fee (216B.72). Minnesota Statutes 2026 show subd. 2 amended by 2026 c 88 art 1 s 91 (the cross-reference to subd. 1; same outcomes). A qualified large-scale data center is defined by investment (at least 250,000,000 dollars within 60 months, 297A.68 subd. 42(f)), not by MW. Effective date: the session law says each section is effective the day following final enactment (signed 14 June 2025); the date itself is not printed.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "MO",
+   "bill": "S.S. No. 2 for S.B. 4",
+   "session": "103rd General Assembly, 2025 first regular session",
+   "title": "To repeal sections ... RSMo, and to enact in lieu thereof thirty-two new sections relating to utilities",
+   "status": "in effect",
+   "status_date": "2025-08-28",
+   "effective_date": "2025-08-28",
+   "source_url": "https://www.senate.mo.gov/25info/pdf-bill/tat/SB4.pdf",
+   "source_title": "Senate Substitute No. 2 for Senate Bill No. 4, Truly Agreed To and Finally Passed (0120S.08T), Missouri Senate",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "FIRST REGULAR SESSION [TRULY AGREED TO AND FINALLY PASSED]"
+    },
+    {
+     "page": "1",
+     "section": "SB 4, Legislative Session 2025 Regular Session",
+     "quote": "Signed by Governor",
+     "url": "https://governor.mo.gov/legislation/sb-4",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "SB 4, Signed by Governor",
+     "quote": "April 9, 2025",
+     "url": "https://governor.mo.gov/legislation/sb-4",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "393.130",
+     "quote": "Effective - 28 Aug 2025",
+     "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "393.130 history",
+     "quote": "A.L. 2025 S.B. 4",
+     "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+     "date_read": "2026-11-14"
+    }
+   ],
+   "threshold_mw": {
+    "value": "customers reasonably projected to have an annual peak demand of 100 MW or more, for electrical corporations serving more than 250,000 customers; 50 MW or more for those serving 250,000 or fewer customers as of 1 January 2025",
+    "cites": [
+     {
+      "page": "40",
+      "section": "393.130.7",
+      "quote": "service to more than two hundred fifty thousand customers ... above an annual peak demand of one hundred megawatts or"
+     },
+     {
+      "page": "40",
+      "section": "393.130.7",
+      "quote": "fifty megawatts or more. The commission may order"
+     },
+     {
+      "page": "1",
+      "section": "393.130.7",
+      "quote": "applicable to customers who are reasonably projected to have above an annual peak demand of one hundred megawatts or more.",
+      "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+      "date_read": "2026-11-14"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "each electrical corporation must develop and submit to the Commission tariff schedules for these customers that should reasonably ensure their rates reflect their representative share of the costs to serve them and prevent other classes' rates from reflecting unjust or unreasonable costs of serving them; the Commission may order similar tariffs for customers below the thresholds",
+     "cites": [
+      {
+       "page": "1",
+       "section": "393.130.7",
+       "quote": "shall develop and submit to the commission schedules to include in the electrical corporation's service tariff",
+       "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+       "date_read": "2026-11-14"
+      },
+      {
+       "page": "1",
+       "section": "393.130.7",
+       "quote": "The schedules should reasonably ensure such customers' rates will reflect the customers' representative share of the costs incurred to serve the customers and prevent other customer classes' rates from reflecting any unjust or unreasonable costs arising from service to such customers.",
+       "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+       "date_read": "2026-11-14"
+      },
+      {
+       "page": "1",
+       "section": "393.130.7",
+       "quote": "The commission may order electrical corporations to submit similar tariffs to reasonably ensure that the rates of customers who are reasonably projected to have annual peak demands below the above-referenced levels",
+       "url": "https://revisor.mo.gov/main/OneSection.aspx?section=393.130",
+       "date_read": "2026-11-14"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "No dataset row is a statewide Missouri law; the utilities' own large-load tariffs under this section (Ameren Missouri, Evergy) are in the dataset's utility rows. The text quoted is RSMo 393.130.7 as enacted by SB 4 (truly agreed version, p.40) and as the Revisor of Statutes prints it. The first requests to the revisor, the governor's page and the House site failed during this machine's own network outage of 13 November 2026 (DNS failed for every host); the revisor and governor pages were read on 14 November 2026 after the network returned.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "MO",
+   "bill": "S.B. 1750",
+   "session": "103rd General Assembly, 2026 second regular session",
+   "title": "To repeal section 393.130, RSMo, and to enact in lieu thereof two new sections relating to the regulation of large load electric customers.",
+   "status": "introduced",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://www.senate.mo.gov/26info/pdf-bill/intro/SB1750.pdf",
+   "source_title": "Senate Bill No. 1750 (7195S.02I), introduced by Senator McCreery, Missouri Senate",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "SECOND REGULAR SESSION"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "INTRODUCED BY SENATOR MCCREERY."
+    }
+   ],
+   "threshold_mw": {
+    "value": "would lower the 393.130.7 threshold for the larger electrical corporations from 100 MW to 50 MW of annual peak demand; the emergency curtailment duty applies above 25 MW of peak demand",
+    "cites": [
+     {
+      "page": "4",
+      "section": "393.130.7",
+      "quote": "above an annual peak demand of [one hundred] fifty megawatts"
+     },
+     {
+      "page": "9",
+      "section": "393.325.8(1)",
+      "quote": "demand of greater than twenty-five megawatts shall implement"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "curtailment or backup generation",
+     "value": "a large load facility with peak demand above 25 MW would have to implement an emergency curtailment system letting the serving utility temporarily reduce or suspend its service in firm load emergencies; it may switch to self-supported backup generation",
+     "cites": [
+      {
+       "page": "9",
+       "section": "393.325.8(1)",
+       "quote": "Any large load facility with a peak electrical ... demand of greater than twenty-five megawatts shall implement ... an emergency curtailment system for temporary reduction or"
+      },
+      {
+       "page": "9",
+       "section": "393.325.8(2)",
+       "quote": "switch to backup generation that is self-supported during"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "an annual payment by each large load facility toward low-income energy assistance: 250,000 dollars up to 25 MW, 500,000 dollars from 25 to 50 MW, 1,000,000 dollars above 50 MW",
+     "cites": [
+      {
+       "page": "9",
+       "section": "393.325.7(c)",
+       "quote": "fifty megawatts of electricity shall pay one million dollars."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Introduced bill; the introduction date and any committee action are not in the text read (the Senate's bill pages did not answer during the network outage and were not needed further). Missouri's 2026 regular session has ended; no document read states the bill's final disposition. A large load facility is defined by function (a data center), not size (393.325.1(3)).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "IN",
+   "bill": "H.E.A. 1007",
+   "session": "124th General Assembly, 2025 first regular session",
+   "title": "AN ACT to amend the Indiana Code concerning utilities.",
+   "status": "passed",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://iga.in.gov/pdf-documents/124/2025/house/bills/HB1007/HB1007.08.ENRS.pdf",
+   "source_title": "House Enrolled Act No. 1007 (2025), Indiana General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "HOUSE ENROLLED ACT No. 1007"
+    },
+    {
+     "page": "3",
+     "section": "SECTION 2",
+     "quote": "SECTION 2. IC 8-1-7.9 IS ADDED TO THE INDIANA CODE AS A NEW CHAPTER TO READ AS FOLLOWS [EFFECTIVE UPON PASSAGE]"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a large load customer requests new or additional demand above the lesser of 5 percent of the utility's average peak demand over the last three calendar years or 150 MW (up to four customers aggregated), with a planned capital investment above 500,000,000 dollars and at least 50 full-time employees",
+    "cites": [
+     {
+      "page": "4",
+      "section": "IC 8-1-7.9-10",
+      "quote": "\"large load customer\" means a new or existing customer of an energy utility, or not more than four (4) multiple new or existing customers of an energy utility, that: (1) requests new or additional electricity demand that in the aggregate exceeds the lesser of:"
+     },
+     {
+      "page": "4",
+      "section": "IC 8-1-7.9-10",
+      "quote": "(B) one hundred fifty (150) megawatts; (2) plans to make a capital investment that exceeds five hundred million dollars ($500,000,000)"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "minimum bill",
+     "value": "a utility may petition for approval of a project to serve a large load customer only if the customer commits to financial assurances including reimbursement of at least 80 percent of the project costs reasonably allocable to it, protecting other customers whether or not it takes service in the anticipated amount and time",
+     "cites": [
+      {
+       "page": "10",
+       "section": "IC 8-1-7.9-22(b)(2)",
+       "quote": "The large load customer commits to significant and meaningful financial assurances that must:"
+      },
+      {
+       "page": "10",
+       "section": "IC 8-1-7.9-22(b)(2)",
+       "quote": "(A) include reimbursement by the large load customer of at least eighty percent (80%) of the project costs reasonably allocable to the large load customer; and (B) afford protections for the energy utility's existing and future customers"
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "at least 30 days before filing, the utility must hold a pre-filing meeting with the economic development corporation, the energy office, the consumer counselor, the regional transmission organization and the customer; the Commission must issue its final order within 150 days of a complete petition, or the petition is considered approved",
+     "cites": [
+      {
+       "page": "10",
+       "section": "IC 8-1-7.9-22(b)(3)",
+       "quote": "At least thirty (30) days before the energy utility's submission of the petition to the commission, the energy utility held at least one (1) pre-filing meeting with:"
+      },
+      {
+       "page": "13",
+       "section": "IC 8-1-7.9-24(b)",
+       "quote": "The commission shall issue its final order on the petition not later than one hundred fifty (150) days after receiving the energy utility's complete petition and case in chief."
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "the Commission may approve a reasonable risk premium negotiated with and paid by the large load customer",
+     "cites": [
+      {
+       "page": "13",
+       "section": "IC 8-1-7.9-24(d)",
+       "quote": "The commission may approve a reasonable risk premium for a project if requested in an energy utility's petition and if the commission finds that the reasonable risk premium is appropriate."
+      }
+     ]
+    }
+   ],
+   "license": "internal",
+   "notes": "No dataset row is a statewide Indiana law. Status: the enrolled act as concurred is read; the governor's signature (6 May 2025 per leads) and the public law number are not in it, and the IGA's bill page is built by script (no text); so status is 'passed'. License internal: iga.in.gov sits under IN.gov, whose terms the license audit read as personal use only (README, The hosts' terms); for Samuel's ruling. Not read: any 2026 Indiana act (a lead, HB 1210 of 2026 on local agreements before data center tax incentives, is from a news summary only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "MI",
+   "bill": "Enrolled H.B. 4906 (Public Act 207 of 2024)",
+   "session": "102nd Legislature, 2024 regular session",
+   "title": "AN ACT to amend 1933 PA 167 (the general sales tax act): enterprise data center exemption",
+   "status": "in effect",
+   "status_date": "2025-04-17",
+   "effective_date": "2025-04-17",
+   "source_url": "https://www.legislature.mi.gov/documents/2023-2024/publicact/pdf/2024-PA-0207.pdf",
+   "source_title": "Act No. 207, Public Acts of 2024 (Enrolled House Bill No. 4906), Michigan Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Act No. 207 Public Acts of 2024 Approved by the Governor"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "January 17, 2025 EFFECTIVE DATE: April 17, 2025"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "ENROLLED HOUSE BILL No. 4906"
+    }
+   ],
+   "threshold_mw": {
+    "value": "not published",
+    "searched": "PA 207 of 2024 pp. 1-6: an enterprise data center is defined by an aggregate capital investment of not less than 250,000,000 dollars, not by MW (section 4(e)(iv))"
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "to claim the exemption the facility must procure clean energy equal to 90 percent of its forecasted annual use, which may be shown by a long-term contract with the serving utility that ensures no costs to serve the facility are passed onto the utility's other customers; utilities must identify and if necessary develop tariffs and contracts to support this",
+     "cites": [
+      {
+       "page": "5",
+       "section": "section 4(e)(ix)",
+       "quote": "equivalent to 90% of the facility's forecasted electricity usage on an annual basis"
+      },
+      {
+       "page": "5",
+       "section": "section 4(e)(ix)(B)",
+       "quote": "Long-term contract with the electric utility, cooperative electric utility, or municipal utility serving the geographic area where the facility is located, which ensures no costs to serve the facility are passed onto other customers of the electric utility"
+      },
+      {
+       "page": "5",
+       "section": "section 4(e)(ix)",
+       "quote": "electric utilities, cooperative electric utilities, and municipal utilities shall identify and, if necessary, develop tariffs, contracts, and other mechanisms that support the enterprise data center in making this demonstration"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "the facility may not take service under the long-term industrial load rate (unless based on a resource placed in operation after 1 January 2024 and at least the average industrial rate), certain approved tariffs, or a rate that causes residential customers to subsidize its service",
+     "cites": [
+      {
+       "page": "5",
+       "section": "section 4(e)(x)",
+       "quote": "The facility will not take electric service under any of the following rates:"
+      },
+      {
+       "page": "5",
+       "section": "section 4(e)(x)(C)",
+       "quote": "A rate that causes residential customers to subsidize the costs incurred to provide electric service to the facility."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "A 2024-session act approved 17 January 2025 and in effect in 2025 (the brief's lead). It sets terms for data centers' electric service as conditions of a sales and use tax exemption, not as a utility rule. The companion Act No. 208 of 2024 (Enrolled H.B. 5600, effective 2 April 2025) was opened but not read for terms. No 2025 or 2026 Michigan act on large loads was found (one web search; a Michigan moratorium bill is a news lead only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "WI",
+   "bill": "A.B. 840 (as amended by Assembly Substitute Amendment 1)",
+   "session": "2025-2026 Legislature",
+   "title": "Assembly Bill 840: large data centers (location of renewable energy facilities, rate-making, closed-loop cooling, bonding)",
+   "status": "died",
+   "status_date": "2026-03-23",
+   "effective_date": "",
+   "source_url": "https://docs.legis.wisconsin.gov/document/amends/2025/REG/AB840-ASA1.pdf",
+   "source_title": "Assembly Substitute Amendment 1 to 2025 Assembly Bill 840 (LRBs0244/5), Wisconsin Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "History, 1/20/2026 Asm.",
+     "quote": "Read a third time and passed, Ayes 53, Noes 44, Paired 2",
+     "url": "https://docs.legis.wisconsin.gov/2025/proposals/ab840",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "History, 1/20/2026 Asm.",
+     "quote": "Assembly Substitute Amendment 1 adopted",
+     "url": "https://docs.legis.wisconsin.gov/2025/proposals/ab840",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "History, 3/23/2026 Sen.",
+     "quote": "Failed to concur in pursuant to Senate Joint Resolution 1",
+     "url": "https://docs.legis.wisconsin.gov/2025/proposals/ab840",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "ASSEMBLY SUBSTITUTE AMENDMENT 1, TO ASSEMBLY BILL 840"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a large data center has an information-technology load above 20 GWh of consumption or 100 MW of demand (facilities under common ownership aggregated)",
+    "cites": [
+     {
+      "page": "3",
+      "section": "196.492(1)(a)1.c",
+      "quote": "The facility has an information-technology load of more than 20 gigawatt- ... hours in electricity consumption or 100 megawatts of electrical demand."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "the Public Service Commission would have had to ensure in rate-making orders that no utility costs of serving large data centers are allocated to or recovered from any other customer",
+     "cites": [
+      {
+       "page": "2",
+       "section": "196.20(10)",
+       "quote": "196.20 (10) The commission shall ensure in rate-making orders that no utility"
+      },
+      {
+       "page": "3",
+       "section": "196.20(10)",
+       "quote": "costs used for serving large data centers, as defined in s. 196.492 (1) (a), are ... allocated to or recovered from any other customer."
+      }
+     ]
+    },
+    {
+     "topic": "siting or tax",
+     "value": "any renewable energy facility primarily serving a large data center would have had to be located at the data center's site",
+     "cites": [
+      {
+       "page": "2",
+       "section": "analysis",
+       "quote": "2. Any renewable energy facility that primarily serves the load of a large data center must be located at the site of the large data center."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Passed the Assembly 20 January 2026 as amended by ASA 1; the Senate committee recommended concurrence 13 March 2026; it failed to concur under Senate Joint Resolution 1 on 23 March 2026 (the end of the session's floor period). Companion SB 843 is 'Available for Scheduling' on the same page. Leads not read: 2025 Wisconsin Act 16 (tax increment districts for data centers, not large-load terms), AB 722 and an LRB draft s0278 on a very large customer class (search results only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "KS",
+   "bill": "S.B. 98 (2025 Session Laws of Kansas, Chapter 124)",
+   "session": "2025 regular session",
+   "title": "An Act concerning data centers; relating to economic development; providing a sales tax exemption for the construction or remodeling of a qualified data center in Kansas",
+   "status": "enacted",
+   "status_date": "2025-04-24",
+   "effective_date": "",
+   "source_url": "https://www.sos.ks.gov/publications/sessionlaws/2025/Chapter-124-SB-98.html",
+   "source_title": "2025 Session Laws of Kansas, Chapter 124: Senate Bill 98, Kansas Secretary of State",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "CHAPTER 124"
+    },
+    {
+     "page": "1",
+     "section": "end of chapter",
+     "quote": "Approved April 24, 2025."
+    },
+    {
+     "page": "1",
+     "section": "Sec. 8",
+     "quote": "Sec. 8. This act shall take effect and be in force from and after its publication in the statute book."
+    }
+   ],
+   "threshold_mw": {
+    "value": "not published",
+    "searched": "Chapter 124: a qualified data center is defined by an investment of at least 250,000,000 dollars by the fifth year of operations and 20 new jobs (New Sec. 2), not by MW"
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "a customer may not receive an economic development rate discount under K.S.A. 66-101j for any new or expanded facility that is a qualified data center",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 5, K.S.A. 66-101j(c)",
+       "quote": "(c) A customer shall not be eligible for the discount authorized by this section for any new or expanded facility that is a qualified data center as defined in section 1, and amendments thereto."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "No dataset row is a statewide Kansas law; Evergy's Large Load Power Service tariff (KCC docket) is a utility rule, not a statute. Also read: 2026 Session Laws Chapter 113 (S.B. 92, approved 9 April 2026), which extends the provisions letting a utility not offer parallel generation service to certain large load customers and excluding them from the peak-demand determination (net metering, not connection terms; not entered). Lead not read: 2026 S.B. 531 (drought counties, news tracker only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "NE",
+   "bill": "L.B. 1010",
+   "session": "109th Legislature, 2026 second session",
+   "title": "Large Load Customer Regulation Act (A BILL FOR AN ACT relating to electricity)",
+   "status": "enacted",
+   "status_date": "2026-04-14",
+   "effective_date": "",
+   "source_url": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Slip/LB1010.pdf",
+   "source_title": "Legislative Bill 1010 (slip law), approved by the Governor April 14, 2026, Nebraska Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "LEGISLATIVE BILL 1010"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Approved by the Governor April 14, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Sec. 1",
+     "quote": "the Large Load Customer Regulation Act."
+    }
+   ],
+   "threshold_mw": {
+    "value": "a retail load customer requesting a new or expanded interconnection where the total load at a single site would exceed 20 MW",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Sec. 2(1)",
+      "quote": "Large load customer means a retail load customer requesting a new or ... expanded interconnection where the total load at a single site would exceed twenty megawatts;"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "interconnection study",
+     "value": "public power suppliers must set interconnection standards including a study fee of 50,000 dollars or 1,000 dollars per MW, whichever is greater, with the study completed within one year of receiving the fee, and an additional fee for added capacity",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(c)",
+       "quote": "(c) A study fee of fifty thousand dollars or one thousand dollars per megawatt, whichever is greater, to be paid to the interconnecting public power supplier for initial studies"
+      },
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(c)",
+       "quote": "The public power supplier shall complete the study within one year after receiving the study fee;"
+      }
+     ]
+    },
+    {
+     "topic": "disclosure",
+     "value": "each large load customer must disclose any substantially similar request for service elsewhere that would make it change, delay or withdraw the request, and its onsite backup generating facilities",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(a)",
+       "quote": "(a) A requirement for each large load customer to disclose to the interconnecting public power supplier whether the customer is pursuing a substantially similar request for electric service"
+      },
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(b)",
+       "quote": "(b) A requirement for each interconnected large load customer to disclose to the interconnecting public power supplier information about the customer's onsite backup generating facilities."
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "the standards must include a way to demonstrate site control and financial commitment requirements for the transmission and generation needed to serve the customer",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(d)",
+       "quote": "(d) A method for a large load customer to demonstrate site control for the proposed load location; and"
+      },
+      {
+       "page": "1",
+       "section": "Sec. 3(1)(e)",
+       "quote": "(e) Financial commitment requirements for the development of transmission and generation infrastructure needed to serve a large load customer."
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "a public power supplier may set or negotiate rates, charges and operating standards for each large load customer that fairly allocate system costs to it and mitigate operational, resource adequacy and financial risks to other customers",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 3(2)",
+       "quote": "(2) A public power supplier is authorized to establish or negotiate rates, charges, and operating standards for each large load customer that fairly allocate electricity system costs to the large load customer"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "public power suppliers must develop a procedure to procure demand response and load flexibility from large load customers and, in grid instability or emergencies, require them to curtail load or run onsite backup generation",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Sec. 4",
+       "quote": "Sec. 4. Public power suppliers shall develop a procedure to: (1) Procure demand response, reductions, and load flexibility from large"
+      },
+      {
+       "page": "2",
+       "section": "Sec. 4(2)",
+       "quote": "the affected large load customers to curtail load or, for those customers with onsite backup generating facilities, to deploy such facilities"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Nebraska is served wholly by public power; the act binds public power suppliers (districts, municipalities, cooperatives). The effective date is not printed in the slip law. No dataset row is a statewide Nebraska law (OPPD's and NPPD's rules are utility rows if present).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "SD",
+   "bill": "S.B. 135",
+   "session": "101st Legislative Session, 2026",
+   "title": "An Act to protect residents from increased utility costs and utility shortages caused by data centers and clarify authority to regulate data centers.",
+   "status": "passed",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://mylrc.sdlegislature.gov/api/Documents/306610.pdf",
+   "source_title": "Senate Bill 135 Enrolled (26.729.47), South Dakota Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Senate Bill 135 ENROLLED"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a data center with a peak demand of 10 MW or greater",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Section 2",
+      "quote": "\"data center\" means a centralized repository for the dissemination, management, processing, and storage of electronic data and information, with a peak demand of ten megawatts or greater."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "every provider of electricity must keep separate terms and conditions for data centers requiring them to reimburse all costs fairly attributed to them, including costs incurred to serve them if they depart the system or materially reduce load",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 3",
+       "quote": "A provider of electricity shall establish and maintain separate terms and conditions for electric service applicable to a data center."
+      },
+      {
+       "page": "1",
+       "section": "Section 3",
+       "quote": "including costs incurred to serve the data center if the data center departs the system or materially reduces its load."
+      }
+     ]
+    },
+    {
+     "topic": "siting or tax",
+     "value": "the state may not preempt or limit counties, municipalities or other subdivisions from regulating the construction, development or operation of data centers",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 4",
+       "quote": "The state may not preempt or otherwise limit the authority of the governing body of a county, municipality, or other political subdivision to adopt ordinances and resolutions limiting, prohibiting, or otherwise regulating the construction, development, or operation of data centers."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Status 'passed': the enrolled bill is read; its approval block is blank in the copy read. The governor's signature (24 March 2026) and the session law (SL 2026, ch 190) are leads from a news report and a search snippet of the codified law; the codified-law page (sdlegislature.gov/Statutes/49-50) answered with a bot check and was not retried. Sections 5 and 6 also set water-use notice and semi-annual reporting. Lead read but not entered: 2026 H.B. 1301 (20 MW 'large data center', full-cost rates), whose status was not found.",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "OH",
+   "bill": "Sub. H.B. 646",
+   "session": "136th General Assembly, 2025-2026",
+   "title": "Create the Data Center Study Commission",
+   "status": "passed one chamber",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/legislation/hb646/06_RCS/pdf/",
+   "source_title": "Sub. H.B. No. 646 As Recommitted to the Senate Energy Committee, Ohio General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "As Passed by the House",
+     "url": "https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/legislation/hb646/03_PH/pdf/",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "title",
+     "quote": "To create the Data Center Study Commission.",
+     "url": "https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/legislation/hb646/03_PH/pdf/",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "2",
+     "section": "running head",
+     "quote": "Sub. H. B. No. 646 As Recommitted to the Senate Energy Committee"
+    }
+   ],
+   "threshold_mw": {
+    "value": "Senate committee version only: a data center requires peak demand capacity greater than 25 MW at a single building or location; the self-supply duty applies to new data centers above 250 MW aggregate monthly maximum demand",
+    "cites": [
+     {
+      "page": "40",
+      "section": "4941.01(B)",
+      "quote": "requiring peak demand capacity that is greater than twenty-five megawatts at a single building or physical location"
+     },
+     {
+      "page": "41",
+      "section": "4941.02(A)",
+      "quote": "each new data center in this state with an aggregate monthly maximum demand of greater than two hundred fifty"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "Senate committee version only: all direct costs of retail service to data centers, including generation, transmission and distribution, would be allocated and recovered solely from data center operators, and no other customer would pay them",
+     "cites": [
+      {
+       "page": "43",
+       "section": "4941.03(A)",
+       "quote": "(A) All direct costs associated with providing retail electric service to data centers, including any generation costs, transmission costs, and distribution costs"
+      },
+      {
+       "page": "43",
+       "section": "4941.03(B)",
+       "quote": "(B) No other electric service customer in this state, other than a data center operator, shall pay any amount described in division (A) of this section."
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "Senate committee version only: within 60 days each electric distribution utility without an approved data center tariff would file one classifying data centers as a separate rate class; the filing may set minimum requirements for demand percentage, collateral, term length and exit and termination fees",
+     "cites": [
+      {
+       "page": "43",
+       "section": "4941.04(A)",
+       "quote": "shall file a tariff with the public utilities commission that classifies data centers as a separate rate class and allocates electric service costs for data centers to data center operators."
+      },
+      {
+       "page": "43",
+       "section": "4941.04(A)(2)",
+       "quote": "(2) Collateral;"
+      },
+      {
+       "page": "44",
+       "section": "4941.04(A)(3)",
+       "quote": "(3) Term length;"
+      },
+      {
+       "page": "44",
+       "section": "4941.04(A)(4)",
+       "quote": "(4) Exit and termination fees;"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "Senate committee version only: a new data center above 250 MW would have to be supplied by its own generation or supply arrangements offsetting its grid consumption, and has no standard service offer",
+     "cites": [
+      {
+       "page": "42",
+       "section": "4941.02(B)",
+       "quote": "(B) An electric distribution utility shall have no obligation to provide a standard service offer to a data center subject to this section."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The House passed the bill only as a Data Center Study Commission (the As Passed by the House version, 4 pages, holds no large-load terms). The large-load terms quoted (new R.C. chapter 4941) are in the Senate Energy Committee's substitute, recommitted to that committee; no chamber has passed them. The House passage date is not printed in the documents read (18 March 2026 per news). Also read: H.B. 15 (2025, effective 14 August 2025 per the General Assembly's page), which holds no data center or large-load terms (none_found). Lead not read: H.B. 983 (introduced August 2026, news only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "IA",
+   "bill": "H.F. 2690 (successor to H.F. 2447)",
+   "session": "91st General Assembly, 2026 session",
+   "title": "An Act relating to water and energy use for data centers, including reporting and tariff requirements, and including effective date provisions.",
+   "status": "introduced",
+   "status_date": "",
+   "effective_date": "",
+   "source_url": "https://www.legis.iowa.gov/docs/publications/LGI/91/HF2690.pdf",
+   "source_title": "House File 2690 - Introduced, by Committee on Commerce, Iowa Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "House File 2690 - Introduced"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "HOUSE FILE 2690 BY COMMITTEE ON COMMERCE (SUCCESSOR TO HF 2447)"
+    }
+   ],
+   "threshold_mw": {
+    "value": "not published",
+    "searched": "H.F. 2690 pp. 1-8: a data center is defined by function (476.59(1)(a)), with no MW size"
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "the Utilities Commission would provide a separate classification of service for data centers with its own tariff schedule, allocating costs equal or proportional to the cost of serving them or directly assigning them, and mitigating the risk of other classes paying unwarranted costs",
+     "cites": [
+      {
+       "page": "3",
+       "section": "476.4(3)",
+       "quote": "The commission shall provide for a classification of ... service for data centers, as defined in section 476.59."
+      },
+      {
+       "page": "3",
+       "section": "476.4(3)(a)",
+       "quote": "Allocate the costs of servicing data centers in a manner ... that is equal or proportional to the costs of serving the data"
+      },
+      {
+       "page": "4",
+       "section": "476.4(3)(c)",
+       "quote": "In deciding whether to approve a proposed tariff schedule ... of a data center, the commission shall consider whether the"
+      }
+     ]
+    },
+    {
+     "topic": "disclosure",
+     "value": "data center owners or operators would file quarterly energy usage reports with the Commission",
+     "cites": [
+      {
+       "page": "5",
+       "section": "476.59(2)",
+       "quote": "data center in the state of Iowa shall prepare and submit an ... energy usage report to the commission"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Introduced bill; only the introduced version is posted, with six House floor amendments filed (H-8203 to H-8214). The bill history is not rendered in the page read, so no later action is stated; Iowa's 2026 session has ended. Leads not read: SF 2249 and HF 2261 (large energy use facilities of 20 MW or more), from trackers only.",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "PA",
+   "bill": "H.B. 1834 (Printer's No. 3061)",
+   "session": "2025-2026 Regular Session",
+   "title": "Providing for the regulation of commercial data centers; imposing duties on the Pennsylvania Public Utility Commission ... providing for clean firm energy requirements, contract filing, commission review, disclosure requirements, backup generation standards, curtailment standards",
+   "status": "passed one chamber",
+   "status_date": "2026-03-24",
+   "effective_date": "",
+   "source_url": "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB1834/PN3061",
+   "source_title": "House Bill No. 1834, Printer's No. 3061, as amended on second consideration March 23, 2026, Pennsylvania General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Bill Status & History",
+     "quote": "Third consideration and final passage, March 24, 2026 (104-95)",
+     "url": "https://www.palegis.us/legislation/bills/2025/hb1834",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Bill Status & History",
+     "quote": "Referred to Consumer Protection & Professional Licensure, March 31, 2026",
+     "url": "https://www.palegis.us/legislation/bills/2025/hb1834",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "PRINTER'S NO. 3061"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a commercial data center has a peak demand of 25 MW or greater",
+    "cites": [
+     {
+      "page": "4",
+      "section": "definition of commercial data center",
+      "quote": "(2) HAS A PEAK DEMAND OF 25 MEGAWATTS OR GREATER."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "collateral",
+     "value": "the Commission's regulations must govern retail tariff terms that safeguard existing customers, including deposits or other financial security from a commercial data center",
+     "cites": [
+      {
+       "page": "19",
+       "section": "tariff terms",
+       "quote": "STRANDED INVESTMENT AND COST SHIFTING, INCLUDING ALL OF THE"
+      },
+      {
+       "page": "19",
+       "section": "tariff terms (i)",
+       "quote": "(I) DEPOSITS OR OTHER FINANCIAL SECURITY REQUIRED"
+      }
+     ]
+    },
+    {
+     "topic": "minimum term",
+     "value": "minimum contract terms and minimum load obligations requiring a data center that ceases operations early or engages in economic peak-shaving to take a minimum level of service for a minimum number of years, secured by a letter of credit or comparable instrument",
+     "cites": [
+      {
+       "page": "19",
+       "section": "tariff terms (iii)",
+       "quote": "(III) MINIMUM CONTRACT TERMS AND MINIMUM LOAD"
+      },
+      {
+       "page": "19",
+       "section": "tariff terms (iii)",
+       "quote": "OF SERVICE FOR A MINIMUM NUMBER OF YEARS SUFFICIENT TO"
+      },
+      {
+       "page": "19",
+       "section": "tariff terms (iii)",
+       "quote": "THIS SUBPARAGRAPH BY A LETTER OF CREDIT OR OTHER"
+      }
+     ]
+    },
+    {
+     "topic": "exit fee",
+     "value": "exit fees or early termination fees",
+     "cites": [
+      {
+       "page": "19",
+       "section": "tariff terms (v)",
+       "quote": "(V) EXIT FEES OR EARLY TERMINATION FEES."
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "a prohibition on shifting to other customers costs caused in whole or part by a commercial data center's interconnection, service or load",
+     "cites": [
+      {
+       "page": "21",
+       "section": "Section 4",
+       "quote": "SECTION 4. PROHIBITION ON COST SHIFTING AND RECOVERY OF COSTS."
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "curtailment of a commercial data center's load under regional transmission organization curtailment programs, and curtailment standards",
+     "cites": [
+      {
+       "page": "20",
+       "section": "regulations (2)",
+       "quote": "(2) CURTAILMENT OF A COMMERCIAL DATA CENTER'S LOAD UNDER"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Passed the House 24 March 2026; referred to the Senate Consumer Protection and Professional Licensure Committee 31 March 2026; the 2025-2026 session runs to 30 November 2026. Quotes are taken only from the capitalized (current) text of PN 3061, not from lower-case text carried from earlier prints. No dataset statewide row is this bill; the PUC's model tariff is window A's large_load_connection_rules. Leads not read: S.B. 724 and S.B. 1469 (trackers only); Act 45 of 2025 on PUC review of load forecasts (news only).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "NJ",
+   "bill": "A. 796 (Fourth Reprint), P.L. 2026, c.32 (Data Center Fair Share Act)",
+   "session": "2026-2027 session",
+   "title": "An Act concerning the provision of electricity to certain data centers and supplementing Title 48 of the Revised Statutes.",
+   "status": "in effect",
+   "status_date": "2026-07-07",
+   "effective_date": "2026-07-07",
+   "source_url": "https://pub.njleg.gov/Bills/2026/AL26/32_.HTM",
+   "source_title": "P.L. 2026, Chapter 32 (Assembly No. 796, Fourth Reprint), approved July 7, 2026, C.48:7-6.2, New Jersey Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "P.L. 2026, CHAPTER 32, approved July 7, 2026"
+    },
+    {
+     "page": "1",
+     "section": "Section 2",
+     "quote": "This act shall take effect immediately."
+    }
+   ],
+   "threshold_mw": {
+    "value": "set by the BPU for each utility at not greater than 50 MW, with related data centers aggregated",
+    "cites": [
+     {
+      "page": "1",
+      "section": "Section 1b(1)",
+      "quote": "minimum megawatt size designation, which shall not be greater than 50 megawatts."
+     },
+     {
+      "page": "1",
+      "section": "Section 1b(1)",
+      "quote": "the board shall aggregate the peak monthly"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "commission rulemaking",
+     "value": "the BPU must set standards by order for every electric public utility within 12 months; each utility must then petition for a large data center rate class and tariff",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1b",
+       "quote": "No later than 12 months after the effective date of this section, the Board of Public Utilities shall establish, by order for every electric public utility, standards for the provision of electricity to large data center customers by electric public utilities."
+      },
+      {
+       "page": "1",
+       "section": "Section 1c",
+       "quote": "each electric public utility shall file a petition with the board for approval of a rate class and tariff for the provision of electricity to large data center customers."
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "adequate financial guarantees to pay for at least 85 percent of the electricity supply requested, for 10 years from when service commences, unless the BPU's standards say otherwise",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(1)",
+       "quote": "data center customer provides adequate financial guarantees that it will pay for at least 85 percent of the ... it requests for a period of 10 years from when service commences or as otherwise determined in the board"
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "deposits, financial security or, for customers with sufficiently high credit ratings, financial commitments, in forms the BPU approves, over the 10-year period",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(2)",
+       "quote": "provide for the posting of deposits, financial security, or, for ... center customers with sufficiently high credit ratings, financial commitments, in respective forms approved by the board"
+      }
+     ]
+    },
+    {
+     "topic": "exit fee",
+     "value": "no exit fee printed; the BPU may approve a stranded cost recovery mechanism applicable only to the large data center class",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(2)",
+       "quote": "authorize the board to approve a stranded cost recovery mechanism applicable exclusively to the large data center customer class"
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "new large data center customers pay the reasonable costs of interconnection, system impact and facilities studies",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1d(8)",
+       "quote": "require any new large data center customer to ... pay the reasonable costs of any interconnection, system impact, and facilities"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "priority curtailment of large data center customers before residential customers in system emergencies, as firm load shed; demand flexibility commitments",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1b(11)",
+       "quote": "ensure the priority curtailment of large data ... center customers before residential customers, excluding designated critical"
+      },
+      {
+       "page": "1",
+       "section": "Section 1d(5)",
+       "quote": "(5) require demand flexibility commitments by large"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Statewide law of dataset row northeast-01 (read there from the same session law, cached); quotes reused from that row's verified cites, with the curtailment, study-cost and demand flexibility clauses added. Implementation docket: BPU EO26080463 (RFI responses due 13 November 2026). Lead not read: P.L.2025, c.98 (a BPU study of data centers' rate effects).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "MD",
+   "bill": "S.B. 937 (Chapter 625 of 2025), Next Generation Energy Act",
+   "session": "2025 regular session",
+   "title": "Next Generation Energy Act",
+   "status": "enacted",
+   "status_date": "2025-05-20",
+   "effective_date": "2025-06-01",
+   "source_url": "https://mgaleg.maryland.gov/2025RS/Chapters_noln/CH_625_sb0937e.pdf",
+   "source_title": "Chapter 625 of the 2025 Laws of Maryland (S.B. 937), Maryland General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Chapter 625"
+    },
+    {
+     "page": "75",
+     "section": "end of chapter",
+     "quote": "Approved by the Governor, May 20, 2025."
+    },
+    {
+     "page": "75",
+     "section": "SECTION 14",
+     "quote": "That this Act shall take effect July June 1, 2025"
+    }
+   ],
+   "threshold_mw": {
+    "value": "large load customer: aggregate monthly demand of at least 100 MW and a load factor over 80 percent; the specific rate schedule covers more than 100 MW at a single location or more than 100 MW aggregated contract capacity (lowered to 25 MW by Chapter 353 of 2026)",
+    "cites": [
+     {
+      "page": "16",
+      "section": "PUA 4-212(a)(3)",
+      "quote": "(I) HAS OR IS PROJECTED TO HAVE AN AGGREGATE MONTHLY DEMAND OF AT LEAST 100 MEGAWATTS; AND"
+     },
+     {
+      "page": "16",
+      "section": "PUA 4-212(a)(3)",
+      "quote": "(II) HAS OR IS PROJECTED TO HAVE A LOAD FACTOR OF OVER"
+     },
+     {
+      "page": "17",
+      "section": "PUA 4-212(c)(2)(i)",
+      "quote": "1. A MONTHLY MAXIMUM DEMAND OF MORE THAN 100 MEGAWATTS AT A SINGLE LOCATION; OR"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "commission rulemaking",
+     "value": "each investor-owned electric company and electric cooperative must submit a specific rate schedule for large load customers by 1 September 2026; the PSC must adopt regulations by 1 June 2026 on notice and deadlines for load studies and contract terminations, forms of collateral, and study completion",
+     "cites": [
+      {
+       "page": "17",
+       "section": "PUA 4-212(c)(1)",
+       "quote": "SHALL SUBMIT TO THE COMMISSION FOR APPROVAL A SPECIFIC RATE SCHEDULE FOR LARGE LOAD CUSTOMERS."
+      },
+      {
+       "page": "19",
+       "section": "PUA 4-212(f)(1)",
+       "quote": "ADOPT REGULATIONS TO CARRY OUT THIS SECTION."
+      },
+      {
+       "page": "19",
+       "section": "PUA 4-212(f)(2)(ii)",
+       "quote": "COMMON FORMS OF ACCEPTABLE COLLATERAL TO SATISFY THE REQUIREMENTS OF"
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "in approving a schedule the PSC must consider minimum billing demand for distribution and transmission at a high percentage of contract capacity, long-term commitments and exit fees, guarantee or collateral requirements, and penalties if a project is delayed or cancelled after buildout begins",
+     "cites": [
+      {
+       "page": "18",
+       "section": "PUA 4-212(d)(2)(ii)",
+       "quote": "AND TRANSMISSION SERVICE THAT IS A HIGH PERCENTAGE OF A LARGE LOAD"
+      },
+      {
+       "page": "18",
+       "section": "PUA 4-212(d)(2)(iii)",
+       "quote": "(III) LONG-TERM CONTRACTUAL COMMITMENTS AND EXIT FEES;"
+      },
+      {
+       "page": "18",
+       "section": "PUA 4-212(d)(2)(iv)",
+       "quote": "(IV) GUARANTEE OR COLLATERAL REQUIREMENTS; AND"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "the schedule should require the customer to cover the just and reasonable costs of transmission or distribution buildout to interconnect or serve it, payable over multiple years of the contract not exceeding 5 years",
+     "cites": [
+      {
+       "page": "18",
+       "section": "PUA 4-212(e)",
+       "quote": "THE COSTS ASSOCIATED WITH ANY ELECTRIC TRANSMISSION OR DISTRIBUTION SYSTEM BUILDOUT REQUIRED UNDER SUBSECTION (D)(1) OF THIS SECTION MAY BE PAID OVER MULTIPLE YEARS OF A LARGE LOAD CUSTOMER'S CONTRACT FOR SERVICE, NOT TO EXCEED 5 YEARS."
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "before signing a contract under the schedule the customer must request a load study to set its contract capacity and pay its fees, designate a site, and own or control the land",
+     "cites": [
+      {
+       "page": "19",
+       "section": "PUA 4-212",
+       "quote": "NECESSARY CONTRACT CAPACITY FOR THE LARGE LOAD CUSTOMER AND PAY ANY"
+      },
+      {
+       "page": "19",
+       "section": "PUA 4-212",
+       "quote": "APPLICABLE FEES ASSOCIATED WITH THE STUDY;"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The 2025 act that created Public Utilities Article 4-212; Chapter 353 of 2026 (next entry) amended it. Dataset row pjm_east-03 is the PSC's proposed COMAR 20.96.01 under 4-212. The chapter text prints amendments in place, so struck words appear in the text: the effective-date line reads 'July June 1, 2025' (July struck), hence 1 June 2025.",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "MD",
+   "bill": "H.B. 1532 (Chapter 353 of 2026), Utility RELIEF Act",
+   "session": "2026 regular session",
+   "title": "Utility RELIEF (Reducing Energy Load Inflation for Everyday Families) Act",
+   "status": "enacted",
+   "status_date": "2026-05-12",
+   "effective_date": "",
+   "source_url": "https://mgaleg.maryland.gov/2026RS/Chapters_noln/CH_353_hb1532e.pdf",
+   "source_title": "Chapter 353 of the 2026 Laws of Maryland (H.B. 1532), Maryland General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Chapter 353"
+    },
+    {
+     "page": "244",
+     "section": "end of chapter",
+     "quote": "Approved by the Governor, May 12, 2026."
+    },
+    {
+     "page": "244",
+     "section": "SECTION 22",
+     "quote": "SECTION 22. AND BE IT FURTHER ENACTED, That Sections 1, 2, 3, 4, 6, 8, 19, and 20 of this Act shall take effect July 1, 2026."
+    }
+   ],
+   "threshold_mw": {
+    "value": "large load customer (new Part III): aggregate monthly demand of at least 25 MW and a load factor above 60 percent, excluding water and sewage companies, manufacturing, hospitals, district energy, agriculture; the 4-212 rate schedule threshold lowered from 100 MW to 25 MW",
+    "cites": [
+     {
+      "page": "73",
+      "section": "PUA 7-232(e)(1)(i)",
+      "quote": "HAS OR IS PROJECTED TO HAVE AN AGGREGATE MONTHLY DEMAND OF AT LEAST 25 MEGAWATTS"
+     },
+     {
+      "page": "73",
+      "section": "PUA 7-232(e)(1)(ii)",
+      "quote": "HAS OR IS PROJECTED TO HAVE A LOAD FACTOR OF MORE"
+     },
+     {
+      "page": "34",
+      "section": "PUA 4-212(c)(2)(i)",
+      "quote": "a monthly maximum demand of more than [100] 25 megawatts at a single location; or"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "the PSC must consider whether a schedule allocates to the large load customer any increased or avoided costs it causes, including wholesale costs; residential customers should not bear the financial risks of large loads",
+     "cites": [
+      {
+       "page": "34",
+       "section": "PUA 4-212(b)",
+       "quote": "(b) It is the intent of the General Assembly that residential retail electric customers in the State should not bear the financial risks associated with large load customers interconnecting to the electric system serving the State."
+      },
+      {
+       "page": "35",
+       "section": "PUA 4-212(d)(3)(i)",
+       "quote": "(I) ANY INCREASED OR AVOIDED COSTS THAT THE COMMISSION DETERMINES HAVE BEEN CAUSED BY THE LARGE LOAD CUSTOMER, INCLUDING ANY INCREASED OR AVOIDED WHOLESALE COSTS SUCH AS:"
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "the PSC considers minimum billing demand at a high percentage of contract capacity, long-term commitments and exit fees, guarantee or collateral requirements, and delay or cancellation penalties",
+     "cites": [
+      {
+       "page": "35",
+       "section": "PUA 4-212(d)(2)(ii)",
+       "quote": "(ii) minimum billing demand for electric distribution and transmission service that is a high percentage of a large load customer's contract capacity;"
+      },
+      {
+       "page": "35",
+       "section": "PUA 4-212(d)(2)(iii)",
+       "quote": "(iii) long-term contractual commitments and exit fees;"
+      },
+      {
+       "page": "35",
+       "section": "PUA 4-212(d)(2)(iv)",
+       "quote": "(iv) guarantee or collateral requirements; and"
+      }
+     ]
+    },
+    {
+     "topic": "disclosure",
+     "value": "the PSC must establish a large load customer registry by 1 July 2027 for planning and load forecasts",
+     "cites": [
+      {
+       "page": "74",
+       "section": "PUA 7-233(a)",
+       "quote": "(A) ON OR BEFORE JULY 1, 2027, THE COMMISSION, BY ORDER OR REGULATION, SHALL ESTABLISH A LARGE LOAD CUSTOMER REGISTRY TO:"
+      }
+     ]
+    },
+    {
+     "topic": "interconnection study",
+     "value": "subject to PSC approval each electric company must set an interconnection process for customers in the voluntary clean capacity rating program, with a standard timeline and prioritization for gold or platinum ratings, not unduly affecting other customers",
+     "cites": [
+      {
+       "page": "83",
+       "section": "PUA 7-234(h)(1)",
+       "quote": "SHALL ESTABLISH AN INTERCONNECTION PROCESS FOR LARGE LOAD CUSTOMERS"
+      },
+      {
+       "page": "83",
+       "section": "PUA 7-234(h)(3)(ii)",
+       "quote": "(II) A PRIORITIZATION PROCESS FOR LARGE LOAD CUSTOMERS WITH A GOLD OR PLATINUM RATING."
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "the PSC must develop a voluntary clean capacity rating program for large load customers by 15 December 2027",
+     "cites": [
+      {
+       "page": "80",
+       "section": "PUA 7-234(a)(1)",
+       "quote": "DEVELOP A VOLUNTARY CLEAN CAPACITY RATING PROGRAM THAT ESTABLISHES CLEAN CAPACITY RATINGS FOR LARGE LOAD CUSTOMERS THAT ELECT TO"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Amends PUA 4-212 (from Chapter 625 of 2025) and adds Part III, 7-232 to 7-234; it keeps the 1 September 2026 rate schedule filing date (4-212(c)(1)(i), p.34). Dataset row pjm_east-03 (proposed COMAR 20.96.01, RM 93) cites this chapter for its threshold. Effective date: the chapter has several effective-date sections (July 1, 2026 for listed sections; the rest from enactment as an emergency measure); which section carries these provisions was not traced, so not published here. Existing large load customers whose load does not expand by more than 25 MW are outside the schedule (4-212(c)(2)(iii)).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "state": "DE",
+   "bill": "H.S. 1 for H.B. 233 (as amended), 85 Del. Laws c. 440",
+   "session": "153rd General Assembly (2025-2026)",
+   "title": "AN ACT TO AMEND TITLE 26 OF THE DELAWARE CODE RELATING TO LARGE ENERGY USE FACILITIES.",
+   "status": "in effect",
+   "status_date": "2026-08-26",
+   "effective_date": "2026-08-26",
+   "source_url": "https://legis.delaware.gov/json/BillDetail/GeneratePdfEngrossment?engrossmentId=38147&docTypeId=6",
+   "source_title": "House Substitute No. 1 for House Bill No. 233 as amended by House Amendments 1 and 3 and Senate Amendment 2 (engrossment), Delaware General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Status",
+     "quote": "Signed 8/26/26",
+     "url": "https://legis.delaware.gov/BillDetail/143381",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Volume:Chapter",
+     "quote": "85:440",
+     "url": "https://legis.delaware.gov/BillDetail/143381",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Effective Date",
+     "quote": "8/26/26",
+     "url": "https://legis.delaware.gov/BillDetail/143381",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "14",
+     "section": "Section 6",
+     "quote": "Section 6. This Act takes effect upon enactment."
+    }
+   ],
+   "threshold_mw": {
+    "value": "a large energy use facility uses or is projected to use 75 MW or more of monthly maximum demand at a load factor of 85 percent or more, or 100 MW or more of monthly maximum instantaneous demand, or 30 MW or more if primarily a data processing and hosting service (NAICS 518210); facilities may be aggregated; bulk petroleum facilities excluded",
+    "cites": [
+     {
+      "page": "3",
+      "section": "26 Del. C. 102",
+      "quote": "1. Uses or is projected to use a monthly maximum demand of 75 megawatts or greater at a load"
+     },
+     {
+      "page": "3",
+      "section": "26 Del. C. 102",
+      "quote": "2. Uses a monthly maximum instantaneous demand of 100 megawatts or greater."
+     },
+     {
+      "page": "3",
+      "section": "26 Del. C. 102",
+      "quote": "3. Uses or is able to use a monthly maximum demand of 30 megawatts or greater and is primarily"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "minimum term",
+     "value": "the Electric Service Agreement must run at least 10 years after the load ramp period and at least 15 years in total",
+     "cites": [
+      {
+       "page": "5",
+       "section": "26 Del. C. 203G",
+       "quote": "(1) Specify the duration of the contract, which must be a minimum of 10 years commencing after load ramp"
+      },
+      {
+       "page": "5",
+       "section": "26 Del. C. 203G",
+       "quote": "and a minimum of 15 years total including the load ramp period."
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "minimum payment of distribution charges, and of supply costs where the utility supplies, of not less than 90 percent of contract capacity; peak load contributions deemed at least 90 percent of contract capacity",
+     "cites": [
+      {
+       "page": "5",
+       "section": "26 Del. C. 203G",
+       "quote": "which cannot be less than 90% of contract capacity, based on the large energy use facility's projected electricity usage"
+      },
+      {
+       "page": "6",
+       "section": "26 Del. C. 203G",
+       "quote": "the large energy use facility's annual capacity peak load contribution will be deemed to have been at least 90% of the contract capacity"
+      }
+     ]
+    },
+    {
+     "topic": "exit fee",
+     "value": "at least 5 years' advance notice of termination and exit fees covering all unrecovered costs",
+     "cites": [
+      {
+       "page": "6",
+       "section": "26 Del. C. 203G",
+       "quote": "(7) Outline exit procedures that will apply to large energy use facility customers in the event of contract termination. Such procedures must include at least a 5-year advance notice of termination."
+      },
+      {
+       "page": "6",
+       "section": "26 Del. C. 203G",
+       "quote": "(8) Set exit fees that ensure the large energy use facility makes adequate contributions to offset all unrecovered costs in the event of contract termination."
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "bonding or letters of credit backed by an investment-grade entity, or other cash-equivalent guarantees",
+     "cites": [
+      {
+       "page": "6",
+       "section": "26 Del. C. 203G",
+       "quote": "(11) Require bonding or letters of credit backed by an investment-grade entity, or other cash-equivalent financial guarantees"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "enforceable curtailment and interruptibility obligations; acceptance of interruptible service for curtailment obligations PJM assigns to the DPL Zone",
+     "cites": [
+      {
+       "page": "6",
+       "section": "26 Del. C. 203G",
+       "quote": "(10) Establish enforceable curtailment and interruptibility obligations during emergencies and other circumstances determined by the Commission"
+      },
+      {
+       "page": "12",
+       "section": "26 Del. C. 317",
+       "quote": "(3) Require that the large energy use facility accept interruptible service for curtailment obligations assigned"
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "no large energy use facility may begin operations without a Commission-approved ESA and a Transmission Security Agreement; utilities must establish a separate classification of service within 180 days after the Commission's regulations are final",
+     "cites": [
+      {
+       "page": "4",
+       "section": "26 Del. C. 203G(a)",
+       "quote": "No person or entity may begin operations as a large energy use facility served by a Commission-regulated electric utility without first obtaining from the Commission the approval of an Electric Service Agreement"
+      },
+      {
+       "page": "9",
+       "section": "26 Del. C. 317(a)",
+       "quote": "(a) Commission-regulated electric utilities must, within 180 days after finalization of the regulations under"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Coordinator's lead (a Governor's release: HB 233 signed 26 August 2026) confirmed on the General Assembly's bill page: House Substitute 1 for HB 233, Signed 8/26/26, Volume:Chapter 85:440, Effective Date 8/26/26. The text read is the engrossment of HS 1 as amended (House Amendments 1 and 3, Senate Amendment 2). The bill page's synopsis says rate applications are due within 180 days of the effective date; the engrossed Section 6 says within 180 days of the finalization of the Commission's regulations, and the engrossed text is quoted. No dataset statewide row exists for Delaware (Delmarva's tariff is Exelon's, whose site terms bar automated access).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "NY",
+   "bill": "A. 11560 (same as S. 10642), Responsible Data Center Development Act",
+   "session": "2025-2026 legislative session",
+   "title": "AN ACT to amend the environmental conservation law, the public service law, the public authorities law, the energy law and the labor law, in relation to enacting the responsible data center development act",
+   "status": "passed",
+   "status_date": "2026-06-04",
+   "effective_date": "",
+   "source_url": "https://legislation.nysenate.gov/pdf/bills/2025/A11560",
+   "source_title": "Assembly Bill A11560 (2025-2026), New York State Legislature (legislation.nysenate.gov)",
+   "cites": [
+    {
+     "page": "1",
+     "section": "S10642",
+     "quote": "SAME AS A11560",
+     "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=S10642&term=2025&Summary=Y&Actions=Y",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "A11560 actions, 06/04/2026",
+     "quote": "passed assembly",
+     "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=S10642&term=2025&Summary=Y&Actions=Y",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "S10642 actions, 06/04/2026",
+     "quote": "PASSED SENATE",
+     "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=S10642&term=2025&Summary=Y&Actions=Y",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "S10642 actions, 06/04/2026",
+     "quote": "RETURNED TO ASSEMBLY",
+     "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=S10642&term=2025&Summary=Y&Actions=Y",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "12",
+     "section": "section 12",
+     "quote": "This act shall take effect immediately."
+    }
+   ],
+   "threshold_mw": {
+    "value": "a large data center has a peak demand of 20 MW or more (5 MW for the covered data center labor and reporting duties)",
+    "cites": [
+     {
+      "page": "2",
+      "section": "ECL 31-0101(7)",
+      "quote": "\"Large data center\" shall mean a data center that has a peak demand ... of twenty megawatts or more."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "each electric corporation, gas corporation and municipality must file a separate classification of service for large data centers assigning entirely to that class the costs to serve them, including infrastructure upgrades, administrative expenses and operational costs",
+     "cites": [
+      {
+       "page": "5",
+       "section": "PSL 65(5)(b)(i)",
+       "quote": "corporation, and municipality to establish, and file with the commission ... for approval or modification, an independent classification of service ... for large data centers that is separate and distinct from other classi"
+      },
+      {
+       "page": "5",
+       "section": "PSL 65(5)(b)(i)(A)",
+       "quote": "(A) assign the costs incurred by the electric corporation, gas corpo"
+      },
+      {
+       "page": "5",
+       "section": "PSL 65(5)(b)(i)(A)",
+       "quote": "facilitate and maintain service to such facilities, entirely among such"
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "regulations may set financial surety requirements between utilities and large data centers: insurance, guarantee, surety bond, letter of credit or self-insurance",
+     "cites": [
+      {
+       "page": "6",
+       "section": "PSL 65(5)(b)(iii)",
+       "quote": "The department may promulgate regulations regarding financial ... surety requirements, between an electric corporation, gas corporation, ... or municipality and a large data center, for the provision of service to ... large data centers which may include one, or any combination, of the ... following: insurance, guarantee, surety bond, letter of credit, or"
+      }
+     ]
+    },
+    {
+     "topic": "commission rulemaking",
+     "value": "the PSC may not approve any rate change or tariff update unless it includes a large data center service classification, all to be implemented by 1 June 2030",
+     "cites": [
+      {
+       "page": "7",
+       "section": "PSL 114-b",
+       "quote": "Service classification for large data centers. 1. The commis"
+      }
+     ]
+    },
+    {
+     "topic": "siting or tax",
+     "value": "no state environmental permit may be issued to a large data center for one year after the effective date, except renewals and centers already under construction",
+     "cites": [
+      {
+       "page": "2",
+       "section": "ECL 31-0103",
+       "quote": "1. No permit, certificate, registration, license, or other form of ... approval may be issued by the department to a large data center prior to ... one year after the effective date of this section."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Passed both houses on 4 June 2026 (A11560 passed the Assembly and was substituted for S10642 in the Senate, which passed it and returned it to the Assembly). The Assembly page read on 14 November 2026 shows no delivery to the Governor, signature or veto. The Senate's bill page (nysenate.gov) answered HTTP 403 and was not retried; the S10642 text (legislation.nysenate.gov) was also read. Related: PSC Case 26-E-0045 on large-load interconnection (news lead, not read).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "CT",
+   "bill": "Raised H.B. 5469",
+   "session": "February Session, 2026",
+   "title": "AN ACT CONCERNING COLOCATED ELECTRIC SUPPLIERS AND LARGE ELECTRIC LOAD CUSTOMERS.",
+   "status": "introduced",
+   "status_date": "2026-03-19",
+   "effective_date": "",
+   "source_url": "https://www.cga.ct.gov/2026/TOB/H/PDF/2026HB-05469-R01-HB.PDF",
+   "source_title": "Raised Bill No. 5469 (LCO No. 2300), February Session 2026, Connecticut General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Raised Bill No. 5469"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "Referred to Committee on ENERGY AND TECHNOLOGY"
+    },
+    {
+     "page": "1",
+     "section": "Joint Favorable Report header",
+     "quote": "AN ACT CONCERNING COLOCATED ELECTRIC SUPPLIERS AND LARGE ELECTRIC LOAD CUSTOMERS. 3/19/2026 Joint Favorable 3/12/2026",
+     "url": "https://www.cga.ct.gov/2026/JFR/H/PDF/2026HB-05469-R00ET-JFR.PDF",
+     "date_read": "2026-11-14"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a large electric load customer has a peak demand of not less than 50 MW",
+    "cites": [
+     {
+      "page": "14",
+      "section": "16-1(a)(52)",
+      "quote": "(52) \"Large electric load customer\" means any electric customer"
+     },
+     {
+      "page": "14",
+      "section": "16-1(a)(52)",
+      "quote": "whose peak demand is not less than fifty megawatts."
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "other",
+     "value": "by 1 April 2027 each distribution company and municipal utility would file a tariff for large load customers interconnecting after 1 October 2026 requiring them to contract for new generation supplying at least 100 percent of their anticipated load plus a reserve margin, from sources entering service on or after 1 July 2026",
+     "cites": [
+      {
+       "page": "24",
+       "section": "16-245(p)(1)",
+       "quote": "(p) (1) Not later than April 1, 2027, each electric distribution company"
+      },
+      {
+       "page": "24",
+       "section": "16-245(p)(1)",
+       "quote": "generation source that supplies not less than one hundred per cent of"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "PURA would consider whether the tariff protects other ratepayers from increased rates due to transmission, distribution, capacity, energy or other costs of serving large loads",
+     "cites": [
+      {
+       "page": "24",
+       "section": "16-245(p)(2)(A)",
+       "quote": "reasonably protects ratepayers who are not large electric load customers"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Reported Joint Favorable by the Energy and Technology Committee on 19 March 2026 (public hearing 12 March 2026). The General Assembly's bill status pages are disallowed to this reader by robots, so no later action was read; the 2026 session adjourned in May. The document read is the R01 file copy, printed as Raised Bill No. 5469.",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "MA",
+   "bill": "H. 5175 (House text, section 163 of chapter 164)",
+   "session": "194th General Court (2025-2026)",
+   "title": "An Act relative to energy affordability, clean power and economic competitiveness",
+   "status": "passed one chamber",
+   "status_date": "2026-02-26",
+   "effective_date": "",
+   "source_url": "https://malegislature.gov/Bills/194/H5175.pdf",
+   "source_title": "House Bill No. 5175 (House bill No. 5151, as amended and as adopted by the House, February 26, 2026), Massachusetts Legislature",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Bill History, 2/26/2026 House",
+     "quote": "Passed to be engrossed - 128 YEAS to 27 NAYS (See YEA and NAY No. 141 )",
+     "url": "https://malegislature.gov/Bills/194/H5175",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Bill History, 7/1/2026 Senate",
+     "quote": "Amended by striking out all after the enacting clause and inserting in place thereof the text of S3143",
+     "url": "https://malegislature.gov/Bills/194/H5175",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Bill History, 7/1/2026 Senate",
+     "quote": "Passed to be engrossed -- see Roll Call #205 (Yeas 32 to Nays 8)",
+     "url": "https://malegislature.gov/Bills/194/H5175",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Bill History, 7/16/2026 Senate",
+     "quote": "Committee of conference appointed (Barrett-Creem-Tarr), in concurrence",
+     "url": "https://malegislature.gov/Bills/194/H5175",
+     "date_read": "2026-11-14"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a data center is a facility designed to have a load of not less than 20 MW",
+    "cites": [
+     {
+      "page": "97",
+      "section": "c.164 s.163(a)",
+      "quote": "designed to have a load of not less than 20 megawatts and whose primary purpose is the storage,"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "each electric company would file a data center tariff designed to protect non-data center ratepayers from increased costs of data centers' demand and to encourage efficiency and heat reuse; filed within 180 days and applied to every data center within 1 year",
+     "cites": [
+      {
+       "page": "98",
+       "section": "c.164 s.163(d)",
+       "quote": "tariff for the provision of electricity to data centers. The tariff shall be designed to: (i) ensure that"
+      },
+      {
+       "page": "98",
+       "section": "c.164 s.163(d)",
+       "quote": "non-data center ratepayers are protected from any increased costs that result from increased"
+      },
+      {
+       "page": "109",
+       "section": "SECTION 68E(a)",
+       "quote": "developed pursuant to section 163 of said chapter 164 to each data center within the electric"
+      }
+     ]
+    },
+    {
+     "topic": "other",
+     "value": "a new or expanded data center seeking a permit from the department or the siting board would procure at least 80 percent renewable supply, and must show battery storage is infeasible before fossil backup generation is permitted",
+     "cites": [
+      {
+       "page": "98",
+       "section": "c.164 s.163(b)",
+       "quote": "energy facilities siting board shall procure sufficient electricity supply to meet their operational"
+      },
+      {
+       "page": "98",
+       "section": "c.164 s.163(b)",
+       "quote": "needs using not less than 80 per cent renewable energy resources."
+      },
+      {
+       "page": "98",
+       "section": "c.164 s.163(c)",
+       "quote": "power shall first demonstrate infeasibility of battery energy storage facilities on their site."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The data center terms are in the House text only: the Senate replaced the bill with S3143 (reprinted S3166, which holds no data center tariff), and a conference committee was appointed on 16 July 2026; no later action on the history read 14 November 2026. Lead: similar tariff language in Senate amendment 3213 to an economic development bill (read: an amendment offered 23 July 2026, not adopted text). Governor's Executive Order 658 on large-load rate schedules is executive, not legislative (not read).",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "VT",
+   "bill": "H.727, Vermont Sustainable Data Centers Act",
+   "session": "2025-2026 legislative session",
+   "title": "An act relating to sustainable data center deployment",
+   "status": "vetoed",
+   "status_date": "2026-05-29",
+   "effective_date": "",
+   "source_url": "https://legislature.vermont.gov/Documents/2026/Docs/BILLS/H-0727/H-0727%20As%20Passed%20by%20Both%20House%20and%20Senate%20Official.pdf",
+   "source_title": "H.727, Bill as Passed by the House and Senate 2026 (official), Vermont General Assembly",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Last Recorded Action",
+     "quote": "5/29/2026 - Veto of the Governor sustained by a vote of Yeas = 83, Nays = 52",
+     "url": "https://legislature.vermont.gov/bill/status/2026/H.727",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "summary",
+     "quote": "This summary is of a bill that was vetoed by the Governor",
+     "url": "https://legislature.vermont.gov/Documents/2026/Docs/BILLS/H-0727/H-0727%20Vetoed%20Bill%20Summary.pdf",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "BILL AS PASSED BY THE HOUSE AND SENATE 2026"
+    }
+   ],
+   "threshold_mw": {
+    "value": "a data center uses or is able to use 20 MW or more and provides data processing and hosting services (NAICS 518210)",
+    "cites": [
+     {
+      "page": "11",
+      "section": "30 V.S.A. 283(1)",
+      "quote": "\"Data center\" means a facility that uses or is able to use 20"
+     },
+     {
+      "page": "11",
+      "section": "30 V.S.A. 283(1)",
+      "quote": "megawatts or more of power and is engaged in providing data processing, hosting, and related services"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "cost allocation",
+     "value": "a data center would be served under a PUC-approved large load service equity contract with costs allocated equal or proportional to the cost of serving it and mitigating the risk of other classes paying unwarranted costs",
+     "cites": [
+      {
+       "page": "12",
+       "section": "30 V.S.A. 284(a)",
+       "quote": "a data center shall be served by an electric company pursuant to a large load service equity contract approved by the Public Utility Commission."
+      },
+      {
+       "page": "12",
+       "section": "30 V.S.A. 284(b)(1)",
+       "quote": "(1) include a method for allocating costs that is equal or proportional to"
+      }
+     ]
+    },
+    {
+     "topic": "minimum bill",
+     "value": "a minimum amount or percentage based on projected usage for the duration of the contract, and a charge for demand above the projection",
+     "cites": [
+      {
+       "page": "13",
+       "section": "30 V.S.A. 284(b)(4)",
+       "quote": "(4) obligate the data center to pay a minimum amount or percentage based on the data center's projected electricity usage for the duration of the contract"
+      }
+     ]
+    },
+    {
+     "topic": "collateral",
+     "value": "a collateral requirement sufficient to mitigate the risk of stranded costs",
+     "cites": [
+      {
+       "page": "13",
+       "section": "30 V.S.A. 284(b)(6)",
+       "quote": "(6) include a collateral requirement sufficient to mitigate the risk of stranded costs;"
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "demand-side management measures including demand response and flexible load management",
+     "cites": [
+      {
+       "page": "13",
+       "section": "30 V.S.A. 284(b)(7)",
+       "quote": "(7) include provisions requiring implementation of demand-side management operational measures for the purpose of maintaining grid stability and efficiency"
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "Passed by both chambers (the official 'as passed' copy prints the House text, pp. 1-10, and then the text as amended by the Senate and agreed, from p. 11; quotes are from the latter). Vetoed by the Governor; the House sustained the veto on 29 May 2026 (Yeas 83, Nays 52; two-thirds needed to override). The veto date itself is not printed on the status page read.",
+   "date_read": "2026-11-14"
+  },
+  {
+   "state": "WV",
+   "bill": "Enr. Com. Sub. for H.B. 2014 (Chapter 112, Acts, 2025)",
+   "session": "2025 regular session",
+   "title": "Certified Microgrid Program (the Power Generation and Consumption Act, per the brief's lead)",
+   "status": "in effect",
+   "status_date": "2025-07-11",
+   "effective_date": "2025-07-11",
+   "source_url": "https://code.wvlegislature.gov/signed_bills/2025/2025-RS-HB2014-SUB%20ENR_signed.pdf",
+   "source_title": "Enrolled Committee Substitute for House Bill 2014 (signed copy), West Virginia Legislature, 2025 Regular Session",
+   "cites": [
+    {
+     "page": "1",
+     "section": "heading",
+     "quote": "[Passed April 12, 2025; in effect 90 days from"
+    },
+    {
+     "page": "1",
+     "section": "Actions",
+     "quote": "Approved by Governor 4/30/2025 - House Journal",
+     "url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2014&year=2025&sessiontype=RS",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Last action",
+     "quote": "Effective Ninety Days from Passage - (July 11, 2025)",
+     "url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2014&year=2025&sessiontype=RS",
+     "date_read": "2026-11-14"
+    },
+    {
+     "page": "1",
+     "section": "Actions",
+     "quote": "Chapter 112, Acts, Regular Session, 2025",
+     "url": "https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2014&year=2025&sessiontype=RS",
+     "date_read": "2026-11-14"
+    }
+   ],
+   "threshold_mw": {
+    "value": "no general size threshold for microgrid customers; the negotiation requirement does not apply to microgrid districts producing 300 MW or more; a high impact data center (special property valuation) has an aggregate critical IT load of 90 MW or more",
+    "cites": [
+     {
+      "page": "12",
+      "section": "5B-2-21",
+      "quote": "300 megawatts or more of electricity or for microgrid districts that are proposing to not be"
+     },
+     {
+      "page": "21",
+      "section": "high impact data center definition",
+      "quote": "(D) Has a critical IT load in the aggregate of 90 megawatts total or higher; and"
+     }
+    ]
+   },
+   "requirements": [
+    {
+     "topic": "other",
+     "value": "after a microgrid district is certified, the PSC may approve special contracts for microgrid customers; the customer negotiates with the local utility for 120 days, then may petition, and the PSC must establish a special contract, including backup and supplemental service, within 90 days",
+     "cites": [
+      {
+       "page": "9",
+       "section": "5B-2-21(e)",
+       "quote": "Microgrid customers; special contracts and rates."
+      },
+      {
+       "page": "9",
+       "section": "5B-2-21(e)",
+       "quote": "a petition pursuant to this section and shall do so within 90 days of filing."
+      }
+     ]
+    },
+    {
+     "topic": "curtailment or backup generation",
+     "value": "microgrid customers' load not covered by a backup and supplemental service contract is non-firm and interruptible",
+     "cites": [
+      {
+       "page": "9",
+       "section": "5B-2-21(e)",
+       "quote": "covered by a contract for back up and supplemental service shall be considered non-firm and"
+      }
+     ]
+    },
+    {
+     "topic": "cost allocation",
+     "value": "regulated utility customers bear no costs of generation, transmission or distribution facilities serving a microgrid district; those costs are borne by the generator or consumers in the district",
+     "cites": [
+      {
+       "page": "10",
+       "section": "5B-2-21(f)",
+       "quote": "costs including, but not limited to, construction, operational, ancillary services, grid-related,"
+      },
+      {
+       "page": "10",
+       "section": "5B-2-21(f)",
+       "quote": "are to be borne by the generator or electricity consumers situated within the microgrid district."
+      }
+     ]
+    }
+   ],
+   "license": "public",
+   "notes": "The act creates a certified microgrid program for data centers and others (W. Va. Code 5B-2-21) and a special valuation for high impact data center property; it sets terms for utility service to microgrid customers rather than a large-load tariff. 'Power Generation and Consumption Act' is the brief's name, not printed in the passages read.",
+   "date_read": "2026-11-14"
+  }
+ ],
+ "none_found": [
+  {
+   "state": "IL",
+   "searched": "Public Act 104-0458 (SB 25, the Clean and Reliable Grid Affordability Act, ilga.gov PDF, 1,021 pp.): no 'large load' terms; one 'data center' reference (backup generators). The POWER Act (2026, data centers) is described in news as held in committee in spring 2026; its bill number was not found, so its text was not read. ComEd's large-load deposit tariff (ICC, March 2026) is a utility rule."
+  },
+  {
+   "state": "OH",
+   "searched": "H.B. 15 (136th GA, enrolled, 101 pp.): no data center or large-load terms (mercantile customer self-power systems only). H.B. 646 entered as a law above."
+  },
+  {
+   "state": "ND",
+   "searched": "one combined web search for 2025-2026 large-load or data center laws in the Plains and northern New England: nothing for North Dakota"
+  },
+  {
+   "state": "NH",
+   "searched": "the same combined web search: a one-year ban on new data center construction failed (news); no large-load tariff law found; nothing read on gencourt.state.nh.us"
+  },
+  {
+   "state": "RI",
+   "searched": "the same combined web search: no Rhode Island large-load or data center law found"
+  },
+  {
+   "state": "ME",
+   "searched": "the same combined web search: a 2026 bill pausing large data centers until November 2027 with a council on load and ratepayers (news: Senate final vote 14 April 2026); its LD number and the governor's action were not found within the search budget, so its text was not read (a lead)"
+  }
+ ],
+ "refused": [
+  {
+   "state": "NY",
+   "url": "https://www.nysenate.gov/legislation/bills/2025/S10642",
+   "reason": "HTTP 403 (not retried; the Assembly's page and the legislation.nysenate.gov PDFs were read instead)"
+  },
+  {
+   "state": "CT",
+   "url": "https://www.cga.ct.gov/asp/cgabillstatus/cgabillstatus.asp?selBillType=Bill&which_year=2026&bill_num=5469",
+   "reason": "robots.txt DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents"
+  },
+  {
+   "state": "SD",
+   "url": "https://sdlegislature.gov/Statutes/49-50",
+   "reason": "the answer looks like a bot check; not retried with another agent"
+  },
+  {
+   "state": "MO",
+   "url": "https://www.house.mo.gov/BillActions.aspx?bill=SB4&year=2025&code=R",
+   "reason": "getaddrinfo failed during this machine's own network outage (every host, google.com included); not retried, the governor's page gave the status"
+  },
+  {
+   "state": "MO",
+   "url": "https://www.senate.mo.gov/25info/BTS_Web/BillList.aspx?SessionType=R",
+   "reason": "connection timed out during the same network outage; not retried"
+  },
+  {
+   "state": "IN",
+   "url": "https://iga.in.gov/legislative/2025/bills/house/1007/details",
+   "reason": "the page is built by script and the reader saw no text (bill actions not read)"
+  }
+ ]
+}

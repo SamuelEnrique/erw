@@ -119,7 +119,8 @@
    "license_basis": "MLGW's own posted rate schedule on mlgw.com (robots allow; no terms of use page found on the site; its privacy policy neither bars automated reading nor limits use)",
    "erw_overlap": "none",
    "notes": "The schedule carries TVA's terms (TVA-furnished certification form, TVA's sole judgment on computational use, TVA remote meter access, contract demand review by TVA), so it is TVA's wholesale data center rate structure as resold by MLGW. Leads, unverified: 256today.com (August 2026) reports the TVA Board approved a separate data center rate class at its 20 August 2026 meeting in Memphis, effective 1 October 2026 for new and existing facilities and phased in over three fiscal years, with four classes by contract demand and a capacity commitment charge of about 1.5 million USD per MW, paid over three to five years, for new or expanding data centers above 5 MW; other news reports a revised TVA Board policy for new loads above 100 MW. None of this could be read in a TVA document: tva.com and tva.gov answered robots 403, TVA's investor CDN s205.q4cdn.com (the 20 August 2026 Board press release) answered robots 403. TVA's Form 10-Q for the quarter ended 30 June 2026 notes that MLGW's contract with TVA has a five-year termination notice period. Base rates for TDCD at transmission voltage (115 kV and up), summer: on-peak billing demand 14.15 USD per kW, maximum billing demand 2.42 USD per kW (p. 4).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-01"
   },
   {
    "utility": "Kentucky Utilities Company (KU, a PPL company)",
@@ -317,7 +318,8 @@
    "license_basis": "the Kentucky PSC's tariff library copy and the PSC's orders on psc.ky.gov (PPL's own sites bar robots and were not read)",
    "erw_overlap": "none",
    "notes": "Rates on Sheet No. 26 (First Revision, effective with bills on and after 14 August 2026, order of that date on rehearing): Basic Service Charge 74.00 USD per day, Energy Charge 0.03156 USD per kWh, Maximum Load Charge 20.48 USD per kVA (p. 35). The PSC requires KU to file every Rate EHLF electric service agreement with the Commission (order of 16 February 2026, p. 281 and ordering paragraph 66, p. 310). The order (p. 273) recites KU testimony that a 402 MW EHLF customer meeting the enhanced creditworthiness test would post more than 100 million USD of collateral at signing (KU's own testimony as recited by the PSC; context, not a field value). The stipulation in Case 2025-00045 (CPCN order of 28 October 2025) sets 500 MW of executed Rate EHLF agreements by Mill Creek 6's 2031 in-service date as one cost recovery review metric and defines an 'Eligible Data Center' of 50 to 100 MVA at 75 percent load factor for the Mill Creek 6 offset. PPL's Form 10-Q for the quarter ended 30 September 2026 (sec.gov) confirms the KPSC approved the EHLF tariff in its 16 February 2026 orders.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-02"
   },
   {
    "utility": "Louisville Gas and Electric Company (LG&E, a PPL company)",
@@ -503,7 +505,8 @@
    "license_basis": "the Kentucky PSC's tariff library copy and the PSC's orders on psc.ky.gov (PPL's own sites bar robots and were not read)",
    "erw_overlap": "none",
    "notes": "Rates on Original Sheet No. 26 (effective with bills on and after 16 February 2026; the LG&E tariff library copy read on 13 November 2026 still shows the original sheet): Basic Service Charge 63.55 USD per day, Energy Charge 0.03175 USD per kWh, Maximum Load Charge 19.98 USD per kVA (p. 33). Sheet No. 26 states all EHLF Electric Service Agreements will be filed with the PSC. The PSC's EHLF discussion and findings are in the KU order (Case 2025-00113, pp. 271 to 281); LG&E's order approves the stipulation with modifications. The queue figure is the companies' combined figure: count it once.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-03"
   },
   {
    "utility": "East Kentucky Power Cooperative, Inc. (EKPC), with its 16 owner-member distribution cooperatives",
@@ -547,7 +550,7 @@
    },
    "fields": {
     "threshold_mw": {
-     "value": "Data centers (including cryptocurrency mining) with expected or actual peak demand of 15,000 kW (15 MW) or more and a monthly load factor of 60 percent or more, aggregated across co-located and grouped facilities of the same customer; above 250,000 kW (250 MW) a Dedicated Resource is required",
+     "value": "Data centers (including cryptocurrency mining) with expected or actual peak demand of 15,000 kW (15 MW) or more and a monthly load factor of 60 percent or more, aggregated across co-located and grouped facilities of the same customer; above 250,000 kW (250 MW) a Dedicated Resource is required unless EKPC determines otherwise in its sole discretion",
      "cites": [
       {
        "page": "142",
@@ -563,6 +566,11 @@
        "page": "145",
        "section": "Sheet No. 106, V.3",
        "quote": "If the expected or actual peak real-time energy demand of an Eligible Data Center is greater than 250,000 kWs then Qualifying Customer shall have the option of utilizing either"
+      },
+      {
+       "page": "145",
+       "section": "Rate DCP",
+       "quote": "unless otherwise determined by EKPC in its sole discretion, if the expected or actual peak real-time energy demand of an Eligible Data Center is greater than 250,000 kW then a Dedicated Resource will be required"
       }
      ]
     },
@@ -670,8 +678,9 @@
    "license": "public",
    "license_basis": "the Kentucky PSC's tariff library copy and the PSC's order on psc.ky.gov",
    "erw_overlap": "none",
-   "notes": "Some tariff text is OCR of a scanned filing; quotes keep its spacing errors as printed in the cached text. The PSC's order (pp. 18 to 19) also directed removal of the application fee cap so that each customer bears all its application costs; the filed Sheet No. 114 still prints 'up to $250,000' and adds that the applicant bears Load Study costs above the fee. All Rate DCP special contracts must be approved by the PSC; rates are set in each contract (Sheet No. 109). Below the roughly 20 MW scope line (15 MW threshold), kept because it is the cooperative's data center rule.",
-   "date_read": "2026-11-13"
+   "notes": "Some tariff text is OCR of a scanned filing; quotes keep its spacing errors as printed in the cached text. The PSC's order (pp. 18 to 19) also directed removal of the application fee cap so that each customer bears all its application costs; the filed Sheet No. 114 still prints 'up to $250,000' and adds that the applicant bears Load Study costs above the fee. All Rate DCP special contracts must be approved by the PSC; rates are set in each contract (Sheet No. 109). Below the roughly 20 MW scope line (15 MW threshold), kept because it is the cooperative's data center rule. Corrected by the independent audit of session 5304 (A-36): the 250 MW Dedicated Resource rule now carries its qualifier.",
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-04"
   },
   {
    "utility": "South Carolina Public Service Authority (Santee Cooper)",
@@ -829,7 +838,8 @@
    "license_basis": "Santee Cooper's own posted rate schedule on santeecooper.com (robots allow; its legal notices page links only its retail service terms and privacy policy, which neither bar automated reading nor limit use)",
    "erw_overlap": "none",
    "notes": "Rates: monthly customer charge 3,605.00 USD per delivery point; base demand charge 8,223.00 USD for the first 300 kW and 21.08 USD per kW above; coincident peak demand charge 7.00 USD per kW (pp. 2 to 3). Section 7(D) caps the experimental class at 12 percent of the large industrial class under S.C. Code 58-31-730(F), excluding customers of 100 MW or more. News (SC Daily Gazette, 25 April 2025; lead only) reports the Board's unanimous April 2025 approval.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-05"
   },
   {
    "utility": "South Carolina Public Service Authority (Santee Cooper)",
@@ -979,7 +989,8 @@
    "license_basis": "Santee Cooper's own posted rate schedule on santeecooper.com (robots allow; its legal notices page links only its retail service terms and privacy policy, which neither bar automated reading nor limit use)",
    "erw_overlap": "none",
    "notes": "Rates: monthly customer charge 4,068.00 USD per delivery point (p. 120); the Coincident Peak Billing Demand Charge is recalculated periodically against Santee Cooper's incremental capacity-related production costs (pp. 120 to 121), and a Retail Sufficiency Recovery Charge may be assessed when a Retail Revenue Shortfall exists (pp. 121 to 122). The customer may be called on to reduce load or run onsite backup generation in emergencies (pp. 128 to 129). Management's rate report says the experimental Large Load rate is renamed High Impact Load and made permanent. Principal row for the queue field is the L-25-LL row (status 'in effect' until 1 February 2027); L-27-HIL is the current rule from that date.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "tva_southeast-06"
   }
  ],
  "refused": [

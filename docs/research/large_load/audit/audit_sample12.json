@@ -1,0 +1,141 @@
+{
+  "auditor": "session 5302, independent audit of 12 rows, cached copies only (runs/s5300/docs), no web requests",
+  "date": "2026-11-14",
+  "rows": [
+    {
+      "row_id": "aep-05",
+      "verdicts": [
+        {"field": "status", "verdict": "wrong", "detail": "Cite error; the value is right. 'in effect 2025-09-29' is correct: p.70 (Original Sheet 14-3) and p.71 (Sheet 14-4) both read 'Effective: Service rendered on or after September 29, 2025'. But the cited page, p.44, is Schedule R.S. (Residential Service) Original Sheet No. 5-1A, not Sheet 14-3. The words only match because every sheet carries the same footer. Fix the cite to p.70 (or p.71)."},
+        {"field": "docket", "verdict": "wrong", "detail": "Cite error; the value is right. The words 'Issued Pursuant to P.S.C. West Virginia Case No. 24-0854-E-42T Order Dated August 28, 2025' are on pp.70 and 71 (Sheets 14-3 and 14-4). The cited page, p.2, is the Index (Original Sheet No. 1-1, whose footer reads 'Effective: Bills rendered'), not Sheet 14-3. Fix the page to p.70/71."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.70 Sheet 14-3, Large Load Customers Applicability: contract capacity >= 100 MW at an individual site or 150 MW aggregated, for new load or expansion after January 1, 2025."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.70: billing demand not less than the greater of 80% of contract capacity or 80% of the highest Monthly Billing Demand of the past 11 months. Base Billing Energy = Contract Capacity x 60% x billing hours, inside the Minimum Charge."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.70: Initial Contract Term not less than 12 years, plus an optional Load Ramp Period of no more than five years. p.71: termination or reduction after the first five years on at least 42 months' written notice before the PJM Delivery Year."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.71 Collateral Requirement: 24 times the previous maximum monthly non-fuel bill, using the maximum expected bill in the first contract year; recomputed annually and updated if the recomputed value is 10% greater than the amount held."},
+        {"field": "exit_fee", "verdict": "wrong", "detail": "The formula is incomplete, so it overstates the fee for every year after the first. p.71 says the Exit Fee is the nominal value of the remaining Minimum Charge for capacity above the 20% allowance 'for the first year of the Exit Fee Period; and for any remaining years of the Exit Fee Period, the Exit Fee shall be calculated in the same manner as the first year, minus the Large Load Customer's estimated reduction in allocated PJM LSE OATT transmission charges to the Company on a West Virginia jurisdictional basis.' The value gives the whole fee as the remaining Minimum Charge over the period and leaves out that deduction. The rest is right: up to 20% reduction without fee after five years on 42 months' notice; the Exit Fee Period is the remaining Initial Contract Term, not less than one year and not more than five."},
+        {"field": "queue_size", "verdict": "ok", "detail": "PJM LAS deck of 29 September 2026, p.6 'Cumulative Additions* (MW)': Appalachian Power 1,238 in 2031 and 2,116 Ultimate. p.2: signed ESA or LOA only. Two caveats. The figures are 'Summer Peak Forecast Adjustments' (industrial, crypto and data centers), with the footnote 'existing and planned large load submissions'. '(all states)' is the row's own reading of a column labelled only 'Appalachian Power': the deck does not say it, but p.2 lists both WV and VA."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-10",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "OGE Energy/OG&E 10-Q (Q3 2026), OCC Proceedings: 'in June 2026, OG&E filed an application requesting approval of its new proposed XLPL tariff'. A hearing is scheduled for January 12, 2027, so 'proposed 2026-06' is right."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "'If approved, this tariff would establish a framework to serve large load customers (75 MWs or higher)'. It is shown as a proposal, matching the status."},
+        {"field": "min_demand", "verdict": "ok", "detail": "The value only says the proposal includes 'minimum billing demand and energy charges', and the 10-Q prints no figure. The full 10-Q text cached was searched: no XLPL figure."},
+        {"field": "contract_term", "verdict": "ok", "detail": "'long-term contract commitments' is listed and no term is printed; the value says exactly that."}
+      ]
+    },
+    {
+      "row_id": "coops_public_power_2-02",
+      "verdicts": [
+        {"field": "status", "verdict": "unclear", "detail": "'in effect' with date 2026-07 rests on City Light's post: 'adopted, and effective immediately, as part of our rate ordinance in July 2026'. But the ordinance the row cites says otherwise. Section 15 (p.59, cited in this very status) says the ordinance takes effect 'as provided by Seattle Municipal Code Sections 1.04.020 and 1.04.070, except that Sections 10 and 12 shall take effect on January 1, 2027'. SMC 21.49.059 is Section 7, so it falls under the general rule. The Mayor signed on 22 July 2026 (Legistar history), and the general rule is normally 30 days after the Mayor's approval, which would be about 21 August 2026. The text of SMC 1.04.020 is not in the cached documents. Also, the class definition (p.7) only reaches capacity installed after January 1, 2027. The effective date needs a source that settles which date governs."},
+        {"field": "docket", "verdict": "ok", "detail": "Legistar details: Record No. CB 121231, Ordinance No. Ord 127473, Status: Passed."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.7, SMC 21.49.020 definition: '>= 10 MVA of capacity installed within any consecutive five-year period after January 1, 2027' for a new or expanded installation. The value says correctly that the figure is MVA, not MW."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.40 B.1 requires 'A guaranteed minimum demand or service rating'. p.42 D.1.b says billing demand is the contract demand 'unless otherwise specified' (the value drops 'unless otherwise specified'; minor). D.1.c sets the overrun at 300 percent of the demand charge."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.59 SMC 21.49.130 C.9: authority to execute data center contracts 'for an effective term not exceeding 20 years'. The value gives it correctly as a maximum."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.41 B.7: full upfront financial responsibility for infrastructure costs. B.11: 'Any other terms of service needed to address transactional costs, security, and financial risk.' Minor: B says the Contract 'shall require' these terms, so 'may add' slightly understates a mandatory, need-based term. No amount is stated, as the value says."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.41 B.9: the customer stays fully responsible for the cost of agreements executed to serve its load until the Contract term expires. No exit fee is named."},
+        {"field": "queue_size", "verdict": "ok", "detail": "City Council release of 9 June 2026: 'four companies had approached Seattle City Light to build five large-scale data centers ... combined maximum demand of 369 megawatts'. The Council attributes this to 'reports in April', so it is the governing body relaying reports, not a City Light queue figure; the value's wording ('as the City Council's release ... states') is faithful."}
+      ]
+    },
+    {
+      "row_id": "entergy-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Order No. 11 p.1: on December 4, 2025 the Commission issued Order No. 9 'approving, without modification, the Agreement for Electric Service'. Order No. 11 (29 January 2026) rules on rehearing of ratemaking issues and does not vacate the approval. An amended agreement is noted as pending in a separate row."},
+        {"field": "docket", "verdict": "ok", "detail": "'DOCKET NO. 25-055-P ORDER NO. 11', p.1."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Order No. 11 p.1 fn.2: 'Monthly Minimum Bill payments (included in Table 4 of the Agreement)', cited to the HSPI version of Order No. 9. Doc. 88 p.2 (re-filed application p.6): 'Approval to defer $443 million in accelerated payments and $83 million in minimum demand payments to a regulatory liability'. The value says correctly that $83 million is the requested deferral."}
+      ]
+    },
+    {
+      "row_id": "northeast-05",
+      "verdicts": [
+        {"field": "status", "verdict": "unclear", "detail": "'in effect' is supported as current practice: p.18, 'Existing intake, study ... practices continue to support'. The date 2026-09 is not printed anywhere in Appendix B (pp.17 to 35). The appendix is undated: it responds 'to the DPS Staff request sent on August 25, 2026' and 'reflects information available as of today'. The only September date in the source is the DPS overview's 'As of September 2026' about the NYISO queue, and the combined report was filed 9 October 2026. The date is an inference."},
+        {"field": "docket", "verdict": "ok", "detail": "p.18: 'Case 26-E-0045 ... Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.19: NYISO Load Interconnection Procedures apply above 10 MW at 115 kV and up, or 80 MW or more below 115 kV. p.20: 'For requests of 10 MW or greater, Con Edison typically determines' low- or high-tension service (the value drops 'typically'). p.27: SC 9 for large commercial customers."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.32, 7b: 'the anticipated take-or-pay provisions within the interconnection agreement'. These are anticipated, not in place, and no share is printed; the value says both."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.25 2f: transmission security is posted after the Facilities Study. p.30 5a: the $2M CIAC test and the Rider Y Excess Facilities Amount, both quoted correctly. One clause has no cite: 'any tariff cost must be paid in full before Company field work'. Its words are on p.20 ('If the customer is required to pay a cost pursuant to the Electric Tariff, an invoice is generated and must be paid in full before any Company field work'); add that cite."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.33, 7d: on cancellation, the security 'is expected to be applied toward any outstanding obligations ... including incurred costs for assigned system upgrades'. No exit fee is printed."},
+        {"field": "study_timeline", "verdict": "wrong", "detail": "The quote is trimmed, and the trim changes its scope. p.25 2e reads in full: 'For more standard requests for service, the target completion time for both major project load service determinations and feeder concurrence studies is 30 days. However, large load requests can require additional review time when area station impact studies and complex distribution system analyses are needed.' So the 30-day target is for more standard requests, not large loads, and the report says large loads can take longer. The cite drops 'For more standard requests for service', and the value presents 30 days as the large-load target. The averages (35 and 32 days) and the transmission part ('There are no stated stage timelines') are quoted correctly."},
+        {"field": "queue_size", "verdict": "unclear", "detail": "The counts are exact (p.21, 1b): 48 distribution projects, about 864 MW (12 cancelled, 1 complete, 31 in design, 4 in construction); 3 transmission projects, about 1,216 MW (1,000, 200 and a withdrawn 16.5 MW). But 'figures as of September 2026' is not stated in Appendix B, which is undated ('information available as of today', in reply to the 25 August 2026 request). Either drop the date or give it as 'reported in the DPS report filed 9 October 2026'."}
+      ]
+    },
+    {
+      "row_id": "northeast-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "p.90: revenue assurance 'can be used under the current tariff'. p.95: 'Current protections include ...'. The date is supported by the appendix's own date, 'Date: September 18, 2026' (p.79), which is in the docket cite's context rather than the status cites."},
+        {"field": "docket", "verdict": "ok", "detail": "p.79: 'New York State Public Service Commission Case 26-E-0045 Proceeding on Motion of the Commission to Address Interconnection Reforms for Large Loads'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.84: the report 'principally addresses transmission-connected requests of 10 MW or greater' and 'should not be interpreted as encompassing every distribution-level inquiry of 10 MW or greater'; 'covers' slightly overstates 'principally addresses'. p.91: large retail customers may be served under an existing large general service class. p.95: a dedicated large-load class 'remains a proposed policy rather than present treatment'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.95, 6.5: under revenue assurance the customer agrees to a minimum monthly contract demand, billed at the minimum if actual demand is lower. No level is printed."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.89, 3.7: customers fund preliminary assessments and NYISO study deposits, and the preliminary engineering study under SSAs. p.90: CIAC 'generally due' before capital outlays, or revenue assurance with minimum contract demand and financial security ('e.g., an irrevocable letter of credit'). p.95: an irrevocable letter of credit."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.96: the irrevocable letter of credit 'provides additional protection if the customer does not connect after construction, fails to pay, or closes before the end of the agreement term'. Exit fees appear only among National Grid's proposals (p.96, 'not yet been adopted')."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "p.89, 3.5: early engagement 1 to 3 months, NYISO SIS 6 to 12 months 'where applicable', Facility Study 9 to 15 months; 'These ranges are not commitments'. The p.88 table matches."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.88 table, stage 4 (Project Initiation and Engineering, Procurement, Construction): '2+ years*'. p.89: '*Timeline is dependent upon system upgrades required by the project'."},
+        {"field": "queue_size", "verdict": "ok", "detail": "p.84, 2.2 and its table (as of September 2026): 55 projects, 7,792.2 MW; 20 in the NYISO queue, 2,992.2 MW; 35 prospective, 4,800 MW. The source conflicts with itself, and the row's notes flag it: the executive summary (p.82) says about 54 projects, 7,228 MW, 34 prospective. A reader should see that the report gives two counts."}
+      ]
+    },
+    {
+      "row_id": "northwest_mountain-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Order No. 26-239 p.1: the decision was 'made and effective at our July 7, 2026 regular public meeting' and approves Advice No. 26-24 with errata; it adopts the staff recommendation. Staff report p.5: 'approve Advice No. 26-24 errata effective for service on July 8, 2026.' Entered Jul 10 2026. So 'in effect 2026-07-08' is right."},
+        {"field": "docket", "verdict": "ok", "detail": "Staff report p.2: '(Docket No. UM 2377/Advice No. 26-24) Compliance filing in PUC Investigation of Large Customer Rates.'"},
+        {"field": "collateral", "verdict": "ok", "detail": "Order 26-154 p.45: the system capacity allocation deposit at contract signing equals two years of minimum transmission demand, refundable 50% in year two and 50% in year three after energization, if the customer meets 80% of allocated system capacity and its contracted flexibility plan. p.38: credit requirements are uniform in the tariff, including senior long-term debt of A- (S&P) or A3 (Moody's), and surety bonds may be accepted as collateral. Order 26-309 (cached) was checked and does not change these."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "Order 26-154 p.3, First Partial Stipulation item 1: 'allow changes to Rule I, Section 2 outlining the expiration period for study results (60 days unless extended)'. The stipulation was adopted (p.1 disposition). The value says correctly that this is an expiry period, not a study duration."},
+        {"field": "queue_size", "verdict": "ok", "detail": "PGE investor presentation of 29 October 2026, p.8 (layout checked): '473 MW under construction across executed contracts with five data center customers with energization beginning in 2026 and ramping through 2032'; '1.7 GW additional pipeline of large load requests targeting energization beginning in 2028'; '(1) Values represent customer capacity as of October 29, 2026.'"}
+      ]
+    },
+    {
+      "row_id": "remainder-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The transmittal letter is dated June 26, 2026. Roughrider's protest shows the case is contested. MDU's Q3 2026 10-Q says 'pending various approvals, including NDPSC approval'. So 'proposed 2026-06-26' is right."},
+        {"field": "docket", "verdict": "ok", "detail": "p.1 stamp: 'PU-26-235 Filed 06/26/2026'."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.35, Section 22: 15 years from the later of the Service Commencement Date or August 28, 2027, extendable by mutual agreement for additional five-year terms subject to NDPSC approval. p.12, 3.b: waiver of Rate 45 'allowing for a fifteen (15) year term'. One part has no cite: 'Rate 45's three-to-five-year term'. It is supported by Exhibit A (p.51), Rate 45 General Terms item 2, whose text layer is font-shifted; decoded it reads 'The electric service agreement shall have a minimum term of three years but not exceed five years'. Add that cite, noting the shifted text layer."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.35, 23.a: 'maintains Credit Support sufficient to secure the disputed amount'. p.41: 'replace any required security' and 'the Credit Support required under this Agreement'. p.3: facilities under the System Additions Agreements, plus the requested waiver of Rate 45 paragraph 10's advance CIAC. 'Form and amount redacted' is an inference, though a sound one: definitions c to f (p.13) are blank in the public copy and Credit Support is defined nowhere visible."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "pp.12 to 14, Section 3: the conditions precedent are NDPSC approval, the Rate 45 waiver, MISO EPR, the CPCN, 'some or all of the System Additions' in service, and FERC approvals. If they are not met or waived by July 31, 2028, either party may terminate on 30 days' notice. 10-Q: 'scheduled to come online in the third quarter of 2027, pending various approvals'."}
+      ]
+    },
+    {
+      "row_id": "remainder-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Footers on pp.51 and 52 of the 2026 schedule book: 'Ordinance No. 28996 ... Effective: January 1, 2025'."},
+        {"field": "docket", "verdict": "ok", "detail": "p.51: 'Ordinance No. 28996'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.51 A: each new electrofuel customer at 10 aMW or more within any consecutive 12 months; no more than 65 MW of total load; closed to new customers in 2030 unless extended. B(a): minimum Contract Demand of not less than 10 megawatts."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.52 D.1: billing demand is the highest of the month's measured demand, 60% of the highest measured demand in the preceding 11 months, or 60% of the highest Contract Demand. p.51 C: charges as TMC 12.06.266, Schedule VLL."}
+      ]
+    },
+    {
+      "row_id": "southwest_california-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "TEP Q3 2026 10-Q: 'The ACC approved the ESA in December 2025'. Contingencies were satisfied or waived in April 2026, and the Superior Court challenge is still pending (motions to dismiss denied October 1, 2026). Under the method, 'approved' with no tariff sheet is defensible."},
+        {"field": "min_demand", "verdict": "ok", "detail": "'establishing minimum monthly payment obligations that apply irrespective of customer energy use'; no amount is printed."},
+        {"field": "collateral", "verdict": "ok", "detail": "'secured by a $40 million LOC that we received in April 2026'; 'imposing credit standards designed to mitigate the risk of default'."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "'a $40 million termination payment is required if the ESA is terminated by the customer prior to the commencement of electric service'; 'authorizing termination fees supported by financial assurance mechanisms'."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "'The data center campus is projected to be operational as early as 2027, with a ramp schedule through 2029.'"},
+        {"field": "queue_size", "verdict": "ok", "detail": "ACC news release of Apr 20, 2026, on the workshop of Thursday, April 16, 2026: 'TEP/UNSE has one data center project under contract with an estimated load forecast of 286 MW; other prospective data center projects are forecasted to require about 800 MW. In addition, the utilities have approximately 8-10 gigawatts of speculative projects in their queue.'"}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 26.1 (p.36) and Sheet 26.2 (p.37): 'With Service Rendered On and After February 16, 2026'. Order p.310, paragraph 65: 'The EHLF tariff is approved as proposed in the Stipulation.' Sheet 26's rates were revised effective August 14, 2026 (p.35), which the row notes."},
+        {"field": "docket", "verdict": "ok", "detail": "Footers on pp.35 to 37: 'Case No. 2025-00113', orders of February 16, 2026 and August 14, 2026."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.35: new customers only, contract capacity greater than 50 MVA and an expected average monthly load factor above 85%; the aggregation authority is quoted. Order p.278: 'reduced from 100 to 50 MVA' by the stipulation."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.35: billing demand is the greater of the current maximum load, the highest of the preceding 11 periods, or 80% of contract capacity. p.36: monthly billing begins 30 days after the stated start date 'whether or not electricity is being provided'. ('greatest' for 'greater' is harmless.)"},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.36: Initial Contract Term of not less than 15 years; 60 months' notice, which does not reduce the initial term except under the Exit Fee provision; capacity reductions after the first five years on 60 months' notice, with a Capacity Reduction Fee."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.37, Sheet 26.2: cash or Letter of Credit of 24 months of minimum billed amounts at the largest contract capacity; 12 months if rated at least A (S&P) and A2 (Moody's) with cash of at least 10 times the requirement; due at ESA signing; increased collateral within three business days after written notice. Qualified Institution: asset base of at least $10 billion and ratings of at least A- and A3."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.36: the Exit Fee is the nominal value of the remaining minimum non-fuel revenue over the remaining term, due on the effective date of termination. The Capacity Reduction Fee is the nominal value of the remaining minimum non-fuel revenue change from the original contract capacity over the remaining term."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.35: 'service to Customers under this schedule will not commence until the Company has sufficient capacity to meet the contractual load requirements'. The start date and load ramp are set in the ESA. The value correctly says no time is published."},
+        {"field": "queue_size", "verdict": "ok", "detail": "Case 2025-00045 order (28 October 2025), p.50: 'more than 6,000 MW of potential data center load in the companies' current queue', of which the 1,750 MW is an estimate. p.54: 'A recent expected value ... is 2,521 MW of both data center and non-data center economic development load.' The figures are about a year old, which the value makes clear."}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "p.12: 'Adopted April 25, 2025 Effective for bills rendered on and after April 25, 2025 Expires no later than April 24, 2029'. The 2027 rate book p.129 (Schedule L-27-HIL, adopted October 30, 2026, effective for bills on and after February 1, 2027) shows 'Supersedes: Schedule L-25-LL'. So the schedule is in effect until then."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.1, Section 1(A): data centers with aggregate monthly maximum demand above 50,000 kW; mobile large loads (including cryptocurrency) above 1,000 kW; other high load factor facilities above 50,000 kW not meeting economic development criteria. Minor omission: it is mandatory only for customers who also meet Schedule L's availability requirements."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.5, 4(A)(1): Firm Billing Demand is the greater of On-Peak Measured Demand or Firm Contract Demand times the factor. p.9 (layout confirms the mapping): 100% for months 1 to 60, 95% for 61 to 120, 90% from 121. 4(G): Coincident Peak Billing Demand floor of contract demand times 50%, 65% and 80%. p.7, 4(C)(1): 36-month month-to-month phase-in at the Authority's option."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.10, 6(B)(1): not less than 180 months. p.7, 4(C)(2): no reduction effective before 15 years of service; at least one year's notice; steps of 10,000 kW/20%, 20,000/40%, 30,000/60%, 40,000/80%, then 100% from the fifth twelve-month period of reductions ('first year' and 'fifth year' in the value mean the reduction periods, not years of service). p.11, 7(D): experimental, available through no later than April 24, 2029."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.11, 6(B)(3): at signing, collateral or financial assurances equal to the first 180 months of Minimum Bills; at least 12 months as a mandatory cash deposit, the rest as credit facilities, parental guarantees or other acceptable assurances; recalculated annually to all outstanding Minimum Bills. p.10, 6(B)(2): delivery point and transmission costs paid in full before execution."}
+      ]
+    }
+  ],
+  "not_published_checks": "No 'not published' field among the 12 rows has its value plainly printed in the cached documents read. Checked: AEP study and connection timelines (Sheets 14-1 to 14-4); OG&E collateral, exit, study, connection and queue (whole 10-Q text searched); Seattle study and connection; Entergy contract term, collateral and exit (Order No. 11 says only that future applications must disclose the term of years); Con Ed contract term and connection timeline; National Grid contract term (agreement term named, not printed, p.96); PGE connection timeline; MDU threshold, min_demand (Exhibit B redacted), exit and study; Tacoma EF contract, collateral (B(g) is cost responsibility for infrastructure, not collateral), exit, study and connection; TEP threshold, term, study and docket; KU study timeline; Santee Cooper exit, study, connection, queue and docket."
+}

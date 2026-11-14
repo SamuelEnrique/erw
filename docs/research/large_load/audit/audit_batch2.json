@@ -1,0 +1,1009 @@
+{
+ "rows": [
+  {
+   "row_id": "texas-04",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Filing receipt p.1 and 'ORDER ADOPTING NEW 16 TAC §25.194' p.2 of Item 218 match."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Texas Register acknowledgment TRD 202604027 (Item 219 p.3) prints 'Effective Date: 10/08/2026' for TAC Rule 25.194; the 10-Q confirms 'effective October 2026'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "§25.194(b)(1)(A) p.25: new interconnection at a single site equal to or exceeding 75 MW; 10-Q: Batch Zero 'applies primarily to large electric loads of 75 MW or greater'. (The rule also covers expansions and co-location, (b)(1)(B)-(D); not a misstatement.)"
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "§25.194(f)(2)(D) p.55 says the SLLIA binds the customer to the §25.193 minimum billing demand; no figure in §25.194."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "§25.194(f) p.45 and (f)(2)(D) p.55 as quoted; no term printed."
+    },
+    {
+     "field": "collateral",
+     "verdict": "unclear",
+     "detail": "Figures are right ($50,000/MW at the intermediate agreement, p.36; greater of $50,000/MW of contracted peak demand or allocated system upgrade costs at the SLLIA, pp.52-53; CIAC in cash, p.55). But 'cash collateral held in a segregated interest-bearing account' reads as if cash were required. §25.194(d)(2)(B)(ii) lists cash collateral as only one of three accepted forms; a guaranty (guarantor BBB-/Baa3) or a letter of credit (bank A-/A3) are also accepted. The value should say these are the accepted forms.",
+     "page": "37-38 (§25.194(d)(2)(B)(ii))",
+     "words": "may accept only the following forms of financial security: (I) cash collateral to be held in a segregated, cash account bearing interest ...; (II) guaranty, only if the guarantor has ... at least \"BBB-\" ... or (III) a letter of credit issued by a major U.S. commercial bank ... at least \"A-\""
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "wrong",
+     "detail": "The 20% deductions are right (pp.41, 57). But 'security forfeited without a SLLIA' overstates the rule and has no cite. §25.194(d)(3)(E) forfeits the intermediate-agreement security only when the customer neither withdraws before the SLLIA deadline nor executes a SLLIA. A customer that withdraws before the study begins, or that is allocated zero MW and withdraws before the deadline, gets the full balance back less amounts owed ((d)(3)(B), p.40). One allocated part of its demand that withdraws before the deadline loses 20% ((d)(3)(C)).",
+     "corrected_value": "16 TAC §25.194: full return (less amounts owed) on withdrawal before ERCOT begins the study, or when allocated zero MW and withdrawing before the SLLIA deadline; 20% of the security for allocated capacity kept on withdrawal before the SLLIA deadline; intermediate-agreement security forfeited if the customer neither withdraws before the SLLIA deadline nor executes a SLLIA; 20% of the security for withdrawn contracted demand kept after a SLLIA; CIAC not refundable",
+     "page": "40-42 (§25.194(d)(3)(B), (C), (E))",
+     "words": "(E) Forfeiture. A large load customer that does not withdraw its interconnection request before the deadline to execute a SLLIA and does not execute a SLLIA before the deadline set forth in subsection (f) of this section is deemed to have forfeited any financial security that the large load customer posted under an intermediate agreement."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "$100,000 fee p.35; contact ERCOT within 60 days p.43; notify customer within five working days p.44. Working days kept as printed."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "SLLIA within 60 days of the study report p.45; notice of non-utilized capacity after a 24-month miss of the phased energization schedule p.59."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "10-Q: LOAs for ~49 GW by 2031 including Batch Zero load; ~$2 billion of security for 45 GW through 2032. Matches."
+    }
+   ]
+  },
+  {
+   "row_id": "texas-05",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "'in effect' is printed only for the study fees ('Study Fees (Launched 2026)', p.13; 'Initiated charging fees for large load engineering studies', p.15). The deck gives no date or status for the surety bonds, the CIAC or the clawback that fill collateral and exit_fee. Page 15 also says CPS is 'evaluating additional measures to manage cost recovery', and the agenda (p.2) reads 'Cost recovery mechanisms today and in the future'. The deck does not show whether the clawback and surety bonds are in effect or planned.",
+     "page": "13, 15, 2",
+     "words": "Initiated charging fees for large load engineering studies; evaluating additional measures to manage cost recovery."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.13: surety bonds for long-lead items such as transformers; CIAC as full upfront payment for non-standard facilities. Status of these measures is unclear (see status)."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.13 clawback: 10-year performance period, recovers standard distribution investment if usage falls short of the ramp schedule. Status unclear (see status)."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "unclear",
+     "detail": "The figures are as printed, but the deck's arithmetic shows a structure the value does not state. 11,611 + 3,480 + 1,790 = 16,881 MW and 21 + 11 + 11 = 43 projects, so the per-phase figures belong to the column whose total is '43 Projects | 16,881 MW'. The other column prints only counts (25, 23), with 59 projects and 26,146 MW in total. Also 1,455 + 335 = 1,790 MW, so 'In Process 1,455 MW' and 'Contracted 335 MW' look like the High Probability split of the agreement phase's 1,790 MW, not separate phases. The value lists them as separate phases, which invites double counting. Which column is 12 January and which 16 June 2026 is not printed.",
+     "page": "9 (layout.txt)",
+     "words": "Speculative New Customer Requests 25 21 Projects l 11,611 MW / Feasibility Study 23 11 Projects l 3,480 MW / Agreement Phase 11 Projects l 1,790 MW In Process l 1,455 MW / Contracting Phase High Under Contract Contracted l 335 MW / * As of 01/12/2026 ** As of 06/16/2026 / 59 43 Projects | 26,146 MW 16,881 MW"
+    }
+   ]
+  },
+  {
+   "row_id": "texas-06",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Ordinance No. 20260226-008 (id=468612 p.1) and Resolution 20140612-057 (RCA p.1)."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Ordinance PART 3: 'This ordinance takes effect on March 9,2026.'"
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "RCA p.1 (all customers incl. large loads); presentation p.5 'Large Customer Requests Less Than 75MW'; repealed 15-9-5 applied to 'loads over four megawatts'."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Presentation p.6 'Customer Pays 100% of Infrastructure Costs' with affordable-housing exemption; RCA p.1 on the repealed 50% deposit or bond and the retained authority to assess a deposit."
+    }
+   ]
+  },
+  {
+   "row_id": "texas-07",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Cover letter p.1: Case No. 25-00082-UT, Advice Notice No. 317."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Amended filing dated August 6, 2026; PRC notice says EPE 'proposed' Rates 50 and 51; no order found."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Rate 50 Applicability p.235: Maximum Demand of 30,000 kW or more during the current month and previous eleven months, and load factor of 85% or more; transmission voltage into a customer-dedicated substation."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.236 billing demand items (a)-(e) incl. 80% of Contract Capacity, 80% summer ratchet, 30,000 kW; 80% of Load Ramp Contract Capacity during ramp; Monthly Minimum Charge as quoted."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.238 20-year Initial Term Minimum with annual renewal, ramp included; p.235 ramp cannot exceed 4 years; p.237 ESA filed with PRC before service."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "pp.238-239: waiver at two of three A-/A3/A- ratings; cash, LC (A-/A3 bank, 365-day term, renewal 30 days before expiry) or parent/affiliate guarantee; $/MW basis; annual NPV adjustment; replacement within 30 days."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.239 prints two Termination for Default paragraphs, one with 'or other exit fees', as the value says; Facility Charge pp.239-240."
+    }
+   ]
+  },
+  {
+   "row_id": "texas-08",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Same case, Advice Notice No. 317."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "As texas-07."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Rate 51 Applicability p.242: 10,000 kW, no load factor test; transmission voltage. The parenthetical 'the rate for large loads that do not meet Rate 50's' is printed on page 8 of the ERDPC deck ('Rate option for large-load customers that do not meet Rate 50's high-load-factor requirements'), not on the cited page 4."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.243 items (a)-(e) with (e) 10,000 kW; ramp floor; Monthly Minimum Charge."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.245 20-year minimum initial term; p.242 ramp up to 4 years; p.244 ESA filed with PRC."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "pp.245-246 match Rate 50's security terms."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.246 has a single Termination for Default paragraph ('damages as set forth'); value correctly omits 'or other exit fees'."
+    }
+   ]
+  },
+  {
+   "row_id": "texas-09",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Schedule 33A footer: 'Effective for electricity consumed on and after August 1, 2025'; City release of 20 July 2026 on the pending amendment."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.1: data center customers over 50,000 kW, must qualify under Schedule 33, transmission voltage. The parenthetical '(Schedule 33B covers data centers over 600 kW up to 50,000 kW)' has no cite in the row. It is supported by the cached Schedule 33B (03_schedule-33b-medium-economic-development-service-rate-clean.pdf, p.1: 'greater than six hundred (600) kilowatts (kW) in any month and (ii) did not exceed fifty thousand (50,000) kW')."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.3 Billing Demand highest of 50,000 kW, Maximum Demand, or 80% summer ratchet; p.2 Monthly Minimum Charge."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.1 Term of Service: not to exceed five years unless extended and approved; correctly marked a maximum."
+    }
+   ]
+  },
+  {
+   "row_id": "duke-01",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.3 caption: E-7, Sub 1329 and E-2, Sub 1380."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Settlement filed 6 October 2026; Exhibit 1 footer 'Order dated ___'; 10-Q confirms filing; no order in the documents read."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Exhibit 1 p.23 Contract Term and Contract Term Extensions as quoted."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.22 Dedicated Facilities CIAC within 60 days of the LA; Network Upgrades LC within 60 days of the ESA, reduced ratably once a year after three consecutive months at or above 75% of full contract demand; p.24 security equal to termination liquidated damages."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.23 liquidated damages formula, notification periods (24/36/48 months), one-time 20% (max 200 MW) reduction after the 6th anniversary; p.22 LC drawn for remaining net book value on early termination."
+    }
+   ]
+  },
+  {
+   "row_id": "duke-02",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "p.3 caption."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "As duke-01; settlement p.7 asks approval of the LLT 'applicable to both DEC and DEP'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Exhibit 1 p.22 Applicability (50 MW at 80% load factor, or 150 MW at any load factor; single premises or within one mile)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.23 75% of contract demand for HLF demand charges; p.9 II.B.3 HLF or future large load schedule for ESAs on or after 1 June 2026."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.23 as quoted."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "pp.22, 24 as quoted."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.23 as quoted."
+    }
+   ]
+  },
+  {
+   "row_id": "duke-03",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "PSC release: Docket No. 2026-138-E."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Petition filed May 27, 2026; Order No. 2026-362 on procedure; a pending petition for a comment docket (rule_name says no tariff proposed)."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "'new large load (50 megawatts or greater) additions', correctly marked as the docket's subject, not a tariff threshold."
+    }
+   ]
+  },
+  {
+   "row_id": "duke-04",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Order PSC-2026-0286-PCO-EI and vote sheet print Docket No. 20260064-EI."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Vote sheet of 3 November 2026: Issue 1B (deny as filed, DEF must refile) 'APPROVED' 'AS modified by oral modification'; oral modification document 07601-2026 as quoted. 'denied' is not one of the README's three statuses, but it is what the documents say."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Sheet 4.130 13.01 p.48 as quoted, incl. the 31 December 2025 carve-out."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Sheet 4.130 13.03 p.48: Minimum Demand 75% to 85% of annual Contract Capacity (range kept), Minimum Billing Energy Volume at a load factor no lower than 60%, Billing Demand rule, ramp."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "13.02 p.48 20-year Minimum Term from permanent service; 13.05 p.49 two years' written notice."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "13.04 p.49 (Security Percentage of termination payment, revised annually, at least 10% above $100M, LOC or cash, parent guarantee lowers the percentage); 13.07 p.50 CIAC 100% in advance, refunded over up to five years (the value leaves out 'less CIAC that would normally be paid', a minor omission)."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "13.05 p.49 Termination Payment Obligation before full ramp; Termination Fee of three years of Minimum Monthly Bills plus net book value less unrefunded CIAC."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "13.01 p.48: $150,000 non-refundable study fee, $150,000 for updates, LLCA or reimbursement agreement within three months; no duration."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "LLCA p.53 'does not guarantee such timelines can be met'; 13.06 p.50 service not before sufficient capacity."
+    }
+   ]
+  },
+  {
+   "row_id": "duke-05",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "PUCO bulletin: Case No. 26-0755-EL-ATA."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Bulletin of 30 July 2026: 'recently filed an application'; date blank as not printed."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "PJM LAS deck pp.6-7 (layout): Ohio total capacity 231 (2027) to 1,330 (2032-2047); ESO 231 then 250; non-firm 'No ESO' with probability discounting (250 + 1,080 = 1,330); Kentucky 30 to 48, one manufacturing load. Correctly called a forecast submittal."
+    }
+   ]
+  },
+  {
+   "row_id": "southwest_california-01",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "D.25-07-039 p.1 and OP 11 p.54."
+    },
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "'in effect' is supported: the decision is 'effective today' (24 July 2025) and stays in effect until a subsequent or final decision (OP 8). But no document cited in the row prints the date 2025-12-04. It comes from window A's registry (pacific_gas_and_electric_electric_rule_30.yaml header: 'Advice 7772-E, Decision D.25-07-039, effective 4 December 2025'), read from pge.com. The row's notes say so, but the status cites do not carry the date.",
+     "page": "54 (OP 8 and 11); registry header",
+     "words": "This order is effective today. Dated July 24, 2025"
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "OP 1 p.51: 50-230 kV transmission-level customers; no MW."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "OP 1.b, 1.c, 1.e p.52 as quoted. The investor-material stage payments are labelled as payments (study fee $500,000; design and procurement 10% of estimated project cost), as printed in the 8-K endnote."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "8-K slide 6: 12,710 (June) / 12,870 (Sept 2026) MW, stage split as quoted, 27/18/3 projects as of 9/30/26, scope 20 MW or more data center load."
+    }
+   ]
+  },
+  {
+   "row_id": "southwest_california-02",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Deck: 'Docket number: E-01345A-25-0105'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "10-Q: application filed June 13, 2025; deck: final decision estimated December 2026."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "Deck slides 13-14: 5.8 GW committed (~0.9 GW served, ~4.9 GW not yet served), ~20 GW uncommitted opportunity, more than 15 data center sites; segments as printed."
+    }
+   ]
+  },
+  {
+   "row_id": "southwest_california-03",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Board packet p.53 footer '10/6/2025 SRP Board Meeting'; public power, no commission docket."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "SRP page: new conditions for large customers first taking service after Nov. 1, 2025; LCIP introduced April 2025 (packet p.53)."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "SRP page '15-Year Minimum Term'."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "SRP page (substantial financial security); packet p.62 (collateral based on Minimum Demand; 60% CIAC by ILOC at Milestones 1 and 2; remaining 40% at the DCOA)."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Packet p.62: feasibility $40k, 3-4 months; cluster Load Impact Study $250k, ~8 months (ranges and '~' kept; page notes 'All content & timelines subject to change')."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "SRP page 'between five and eight years'; packet p.62 DCOA ~3-4 months, final AES less than 1 month."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "Packet p.53 (24 customers, 7.2 GW) and p.56 (serial 35 projects, 7 GW; cluster 24 projects, 7.2 GW; 52 data centers, 24 new LCIP); dated October 2025 as stated."
+    }
+   ]
+  },
+  {
+   "row_id": "southwest_california-05",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "PUCN docket list: '26-05007 05/07/2026 Joint Application ... 2027-2046 Triennial Integrated Resource Plan'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Filed 05/07/2026 per PUCN; application dated 6 May 2026; statutory deadline 2 December 2026; no order."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Exhibit Wells-Direct-2 pp.142-143: Minimum Demand 90% of Ramp Demand / 90% of Maximum Demand; Minimum Energy = Maximum Demand x 80% Load Factor x 90%."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.149 Section 3.1 note 7 (not less than ten years; months blank in the form) and Section 3.2 (36 months' notice after the Long-Term Energy Supply Commencement Date)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.157 Section 6.1(a)-(b) as quoted, incl. the 15 Business Day deadline and the Creditworthiness Requirements waiver."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.145 Termination Payment definition; p.150 Section 3.3(a) 30 days; 3.3(b) mitigation and refund over a Refund Period running from the Termination Notice to 36 months after the Termination Date."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "Application p.4 (~22,000 MW inquiries, ~6 GW signed Rule 9 agreements); Wells Direct p.110 (five customers, eight agreements, over 3.3 GW by 2032)."
+    }
+   ]
+  },
+  {
+   "row_id": "pjm_east-01",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "LP-6 p.243 and PUC letter: R-2025-3057164."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "LP-6 sheets 'Effective: July 1, 2026'; PUC letter of 7 July 2026: supplements effective by operation of law as of the date on each page."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.243 Application as quoted, incl. the LP-5 petition carve-out for 50-75 MW single facilities with no network upgrade costs."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.245 terms (7), (8) and the Voluntary Interruptible Option (60%/30%); p.243 $999.11 Customer Charge as the Monthly Minimum Distribution Charge."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.244 terms (1)-(2)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.244 terms (3), (4), (6); p.245 term (10) CIAC."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.245 term (9), whichever is greater."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "8-K Exhibit 99.1 (Nov. 6, 2026): ~35.3 GW in advanced stages, 11.4 GW signed ESAs, 8.5 GW under construction."
+    }
+   ]
+  },
+  {
+   "row_id": "pjm_east-02",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Notice: Docket No. 25-0826."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Notice p.1 'On December 19, 2025, Delmarva filed a proposed tariff'; p.2 Commission may approve or reject."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Notice p.1: Order 10829 defines large load customers at monthly maximum demand of 25 MW or greater."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "PSC release of 14 October 2025: oral vote to pause interconnection of any new large load facilities in Delmarva territory until a large load tariff is established; petition presented September 3, 2025."
+    }
+   ]
+  },
+  {
+   "row_id": "pjm_east-03",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Md. R. 53:13: 'rule-making (RM 93) meeting held on February 4, 2026'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Md. R. issue 5319 Notice of Final Action [26-021-F]: adopted August 18, 2026 'as proposed'; 'Effective Date: September 28, 2026'. Because it was adopted as proposed, the proposal text supports the field values."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "COMAR 20.96.01.01B(4) refers to PUA 4-212(a); Ch. 353 p.33 4-212(a)(3) now 'HAS THE MEANING STATED IN § 7-232'; p.73 7-232(e)(1) at least 25 MW and load factor more than 60%; p.34 4-212(c)(2)(i) more than 25 MW single location or aggregated contract capacity."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": ".06A, .06B, .06D as quoted (post-initial-contract 1-year notices, unless a tariff or later contract says otherwise)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": ".07A-D as quoted."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": ".03 (30 calendar days; 10 business days to cure), .04E (18 months), .04F-G extensions. Calendar and business days kept as printed."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-01",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Order 26-443 p.41 quoting the stipulation: report filed in docket UE 463; caption p.1 'UE463'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "p.1 'ENTERED Nov 13 2026', 'STIPULATION ADOPTED'; p.41 OP 2 tariffs due 24 November 2026, effective 1 January 2027; 'approved' fits."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.4 POWER Act definition (20 MW, NAICS 518210); as-filed Sheet 401-1 (20,000 kW) labelled as filed; p.13 site aggregation (2,500 feet or same substation; 'similar ownership' summed territory-wide)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "pp.9-10 IV.E.3, E.5, E.6 as summarized; 'No minimum percentage is printed' is correct."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.12 IV.H: minimum 10 years, maximum 30 inclusive of ramp; renewals at least 10 years."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.13 IV.L and p.7 IV.E.1 as summarized (the value leaves out the rule that an entity rated by several agencies must meet at least two of the standards, a minor omission); Qualified Network Upgrade criteria p.7, monthly fee p.8."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "p.11 IV.E.8 components and three-year pro-rata refund; removal cost not refunded."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "p.40 (no standard deadline possible); PAC/200 Eller/7 p.69 (strives for six months, company practice as testified); p.7 IV.D (45 days, 180 days, 90/180-day review); p.12 engineering studies funded separately."
+    },
+    {
+     "field": "connection_timeline",
+     "verdict": "ok",
+     "detail": "As-filed Sheet 401-2 3.f (date or estimated date in the agreement); p.14 IV.N order of execution."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "PAC/101 p.53: 20 requests; (a) 20 above 100 MW, (b) seven above 250 MW, (c) three above 500 MW; PAC/100 p.23 ~4 GW most conservative; PAC/200 p.64 over 5,000 MW system-wide."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-02",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Sheet R13-1 footer 'Advice No. 24-024/Docket No. UE 433'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Sheet R13-1 'Effective for service on and after January 1, 2025'; charges from July 1, 2025."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Rule 13 p.83 (50,000 kW total Reserved Capacity); Order 24-447 p.101 rejects the proposed 25,000 kW."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Order 24-447 p.99 ($3.68/kW, ten percent buffer, excess demand charge three times the CRC with no buffer); Advice 25-003 sheet R13-2 (90% of Reserved Capacity less the 12-month maximum, beginning 12 months after commencement); p.75 from July 1, 2025. The $3.68 is correctly marked as the order's figure, not the current Schedule 300 rate."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.83: reduction by up to 10% of total load or 50 MW a year, whichever is smaller; no minimum term in the sheets read."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-03",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Sheet footers: Report and Order in Docket No. 24-035-04."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Sheets print 'FILED: May 9, 2025' and 'EFFECTIVE: April 25, 2025'."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Sheet 12R.12 3(f)(1)-(2) p.271; Sheet 12R.3 1(h) p.262 200,000 kVA special pricing contracts."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "12R.3 1(k) p.262 (higher of actual or 75% of Reserved Capacity); 12R.2 1(d) p.261 Excess Power Charge; p.271 ramp rule; both waivable by special contract."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.271: minimum five years in addition to the ramp; reduction up to 10 percent or 50,000 kVA a year, whichever is smaller."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.271: sufficient credit or collateral, at the Company's election, to cover the Minimum On-Peak Power Charge for at least five years."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-05",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Petition p.1: Case No. IPC-E-26-07."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Petition para. 60 p.27 describes the current ESA framework above 20 MW; no date printed, left blank."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Para. 57 p.27 (over 20 MW at the same premises); para. 56 p.26 (1 MW or more as large-load inquiries)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Para. 58 p.27 'typically incorporate ... minimum billing demand (take-or-pay)'; 'typically' kept, no figure."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Para. 58: notice/resizing limits; no term."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Para. 58 credit support requirements; para. 56 up-front CIAC for customer-specific delivery facilities."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Para. 58 termination/make-whole protections; no figure."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-06",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "History line: '[61-335, added 2026, ch. 335, sec. 1, p. 1315.]'."
+    },
+    {
+     "field": "status",
+     "verdict": "unclear",
+     "detail": "The section is in the code, so 'in effect' is reasonable. But 2026-07-01 is not printed as an effective date. It comes from 61-335(1)(c)(ii), which sets the date from which contracts fall under the definition. The row's notes admit the statute prints no effective date of its own. The session law's effective date clause (2026 ch. 335) was not read.",
+     "page": "1 (61-335(1)(c)(ii))",
+     "words": "Is subject to a service contract with a public utility that was entered into on or after July 1, 2026."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "61-335(1)(c)(i)-(ii) and (5) as quoted."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "61-335(4)(b) full cost of service; correctly says no figure."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "61-335(6) as quoted."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "61-335(4) 270 days for commission review; (3) no harm test; correctly says this is not an engineering study clock."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-07",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Schedule 94 header 'Resolution 8802'."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Policy pages 'Effective 11/1/2026'; Schedule 94 effective January 1, 2016; the row dates the policy as rule_name says."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Policy p.8 New Large Load definition (over 10 average MW above the highest annual average since 2010); p.46 more than 20 MVA needs more detailed study. The '500 kW/kVA' Large Power Customer figure has no cite in the row. It is printed in the section 8 heading ('LARGE POWER CUSTOMER ELECTRIC SERVICE (500 KW/KVA+)', table of contents p.2)."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Schedule 94: energy charge the greater of the Mid-C index or Schedule 15's largest block, plus 5%; demand charges of Schedules 14, 15, 16 or 85 apply; no take-or-pay."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Policy 8.4 p.45 Customer Contribution under a Facilities Contribution Agreement; pp.45-46 it reserves no capacity."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "8.4 p.45: System Impact Study first; 30 calendar days after the consultation to proceed to the Facilities Study or terminate."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "ok",
+     "detail": "FAQ dated Friday, 28 August 2026: approximately 800 MW of large-load requests in the queue."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-08",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Rate Schedule 4 'EFFECTIVE: August 1, 2025' (PDF p.27)."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.20 Availability: above 5 aMW or special circumstances; written contract before connection."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "unclear",
+     "detail": "The figures are printed ($10.93/kW on the positive difference of 90% of Demand minus average demand, from the first period above 5,000 kW; Basic Charge $0.10/kW above 5,000 kW plus $1,000). But Schedule 4 says the specific charges apply only where a contract incorporates them ('Such Contract may incorporate one or more of the following charges by reference'). The value presents them as applying to every Schedule 4 customer. It should say they apply only when incorporated in the customer's contract.",
+     "page": "20 (SPECIFIC CHARGES)",
+     "words": "SPECIFIC CHARGES: Such Contract may incorporate one or more of the following charges by reference:"
+    },
+    {
+     "field": "collateral",
+     "verdict": "unclear",
+     "detail": "The Liquidity Risk Charge (4.m) is quoted correctly (0.50% to 3.00% by lowest rating; level 4 if a rating is withdrawn, the customer defaults or fewer than two agencies rate it). But it is one of the charges a contract 'may incorporate' (same preamble as min_demand). It is also a percentage charge on invoiced amounts, not security posted. The only security-type terms the schedule prints are 'credit requirements (including provision of financial statements)' left to the contract (p.20) and the Transitional Energy Service deposit (notes).",
+     "page": "20, 25",
+     "words": "Terms and conditions may include ... credit requirements (including provision of financial statements), and other provisions relating to Service. ... Such Contract may incorporate one or more of the following charges by reference"
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-09",
+   "verdicts": [
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Release dated March 31, 2026; Q2 10-Q p.25 'In March 2026, we filed an application with the MPSC'; pending."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Release: 5 MW or more framework; 50 MW or greater ESAs filed for MPSC approval; 5 to 49 MW standardized process."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Release bullet; marked proposed, no figure."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Release bullet: minimum commitment periods, longer at 50 MW or more; no length."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Release bullet; no amount."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Release bullet; no formula."
+    },
+    {
+     "field": "study_timeline",
+     "verdict": "ok",
+     "detail": "Release: development agreement and funded studies; no duration."
+    },
+    {
+     "field": "queue_size",
+     "verdict": "wrong",
+     "detail": "The value drops 'up to'. The 10-Q gives 1,500 MW as a ceiling ('growth of up to approximately 1,500 megawatts or more'). The value turns it into a target ('growing to approximately 1,500 MW or more'). The rest (Sabey, Atlas, Quantica in April 2026; 150 MW from late 2027) matches.",
+     "corrected_value": "Development agreements with Sabey Data Centers, Atlas Power Holdings and Quantica Infrastructure: combined energy service requirement currently expected to be 150 MW beginning in late 2027, with growth of up to approximately 1,500 MW or more by 2030 (Form 10-Q for the quarter ended 30 June 2026)",
+     "page": "25 (Data Center Development)",
+     "words": "The combined energy service requirement associated with these development agreements is currently expected to be 150 megawatts beginning in late 2027, with growth of up to approximately 1,500 megawatts or more by 2030."
+    }
+   ]
+  },
+  {
+   "row_id": "northwest_mountain-10",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "Value says not published and cites the only docket printed (last rate case, p.29 footnote); faithful."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "LPCS sheets 'Effective Date: June 1, 2024' (issued November 26, 2025, as printed)."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "p.27 (5,000 kW or more on top of ICS/ITS qualifying load); p.23 ICS 13,000 kW; p.29 confirms 13 MW minimum for ICS or ITS."
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "p.30 Capacity and Energy Charges at actual cost, Microgrid Management Fee, Administrative Costs, 115% Eligible Capacity Resources; no minimum bill."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "p.31 Contract (filed confidentially) and Service Transfer and Termination (four years' notice to transfer; 10 days' notice to terminate subject to the Agreement)."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "p.32 Credit Support as quoted."
+    }
+   ]
+  },
+  {
+   "row_id": "xcel_plains-01",
+   "verdicts": [
+    {
+     "field": "docket",
+     "verdict": "ok",
+     "detail": "MPUC release 'Docket 25-289'; petition notice of July 16, 2025 (captioned E002/M-25-___)."
+    },
+    {
+     "field": "status",
+     "verdict": "ok",
+     "detail": "Release of 18 May 2026 reports the decision; NSP-M Q3 10-Q: 'approved by the MPUC in June 2026'. 'approved' fits: compliance sheets not read."
+    },
+    {
+     "field": "threshold_mw",
+     "verdict": "ok",
+     "detail": "Release: new loads of 100 MW or greater, plus system-intensive 20-100 MW customers. (The 10-Q says 'over 100 MW'; the value follows the Commission's own words.)"
+    },
+    {
+     "field": "min_demand",
+     "verdict": "ok",
+     "detail": "Release: minimum bill raised to 80% of contracted capacity; petition proposed Sheet 32.4 p.35 (75% of Load Ramp Capacity or Contract Capacity), labelled as proposed."
+    },
+    {
+     "field": "contract_term",
+     "verdict": "ok",
+     "detail": "Release: 15-year default term and 24-month exit notice approved; proposed Sheet 32.2 p.33 (at least 15 years incl. ramp up to 5 years), labelled as proposed."
+    },
+    {
+     "field": "collateral",
+     "verdict": "ok",
+     "detail": "Release: T&D upgrades paid as CIAC; proposed Sheet 32.7 item 10 p.38; form ESA s.14 pp.114-115 ($3 billion cash balance or BBB-/Baa3; s.14.1 within 30 days, capped at the Guaranty Cap), labelled as Xcel's proposal."
+    },
+    {
+     "field": "exit_fee",
+     "verdict": "ok",
+     "detail": "Release: exit fee raised to 80%; proposed Sheet 32.7 items 8-9 p.38 formula with 75% and the lesser of remaining months or 120 months; form ESA s.16.1 p.115 12 months' notice for capacity reduction."
+    }
+   ]
+  }
+ ]
+}

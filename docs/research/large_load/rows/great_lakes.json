@@ -148,7 +148,8 @@
    "license_basis": "the MPSC's own news release on michigan.gov and DTE Energy's SEC filings (EDGAR)",
    "erw_overlap": "none",
    "notes": "Principal DTE row (holds the queue). The release is the Commission's summary and carries the MPSC disclaimer that the order is the official action; the U-22058 order and the PSA text were not read (no document link reachable without search). DTE's EEI deck (slide 8) also says 'Large load tariff moving through approval process': DTE's rate book (Section C3, sheet C-4.00, effective 27 August 2026) already refers to a 'Large Load Provision of Rate Schedule No. D11', but the D11 sheets in the rate book read on 13 November 2026 (effective 5 March 2026, Case U-21860) contain no such provision, so the large-load tariff is pending; its case number and filing date were not found (web search unavailable this session; sec.gov per-host limit reached). The base D11 terms the Commission compares against: 5-year contract for new primary installations over 1000 kW, on-peak billing demand not less than 65% of the highest summer on-peak demand, maximum demand not less than 50% of contract capacity (DTE rate book sheets D-48.02 to D-48.04).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-01"
   },
   {
    "utility": "DTE Electric Company",
@@ -337,7 +338,8 @@
    "license_basis": "the MPSC e-dockets copy of DTE Electric's filing (mi-psc.my.site.com, robots allow) and the MPSC's own news release",
    "erw_overlap": "none",
    "notes": "Terms are those DTE filed on 31 October 2025; the Commission approved them conditionally on 18 December 2025 (the release lists the 19-year term, 80% minimum billing demand and a termination payment of up to 10 years of minimum billing demand, matching the filing, and adds conditions: DTE bears any unrecovered cost to serve, and the data center's load is shed first in an emergency, see the U-22059 row). The U-21990 order itself was not read. The ESA (energy storage up to the customer's 1,383 MW contracted demand, 15-year cost recovery per project) is part of the same approval.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-02"
   },
   {
    "utility": "DTE Electric Company",
@@ -360,7 +362,7 @@
     ]
    },
    "status": {
-    "value": "approved",
+    "value": "in effect",
     "date": "2026-08-27",
     "cites": [
      {
@@ -370,6 +372,13 @@
      {
       "section": "DTE Electric emergency procedures item",
       "quote": "The MPSC approved, with modifications, an application from DTE Electric Co. to update its emergency electric procedures in section C3 of the utility's rate book"
+     },
+     {
+      "page": "45",
+      "section": "Sheet C-4.00 footer",
+      "quote": "Effective for service rendered on and after August 27, 2026",
+      "url": "https://www.dteenergy.com/content/dam/dteenergy/deg/website/common/service-and-price/rate-cards/DTEElectricRateBook.pdf",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -414,8 +423,9 @@
    "license": "public",
    "license_basis": "the MPSC's own news release on michigan.gov",
    "erw_overlap": "none",
-   "notes": "DTE's rate book (dteenergy.com, terms allow private personal use only, so internal) prints the rule in Sections C3.2 and C3.5 (PDF pp. 45, 46 and 55; sheet C-4.00 'Effective for service rendered on and after August 27, 2026', 'Issued under authority of the Michigan Public Service Commission dated August 27, 2026 in Case No. U-22059'), so the rule is in effect from 27 August 2026 by that sheet. The 'Large Load Provision of Rate Schedule No. D11' it names is not yet in the D11 sheets (see the U-22058 row's notes).",
-   "date_read": "2026-11-13"
+   "notes": "DTE's rate book (dteenergy.com, terms allow private personal use only, so internal) prints the rule in Sections C3.2 and C3.5 (PDF pp. 45, 46 and 55; sheet C-4.00 'Effective for service rendered on and after August 27, 2026', 'Issued under authority of the Michigan Public Service Commission dated August 27, 2026 in Case No. U-22059'), so the rule is in effect from 27 August 2026 by that sheet. The 'Large Load Provision of Rate Schedule No. D11' it names is not yet in the D11 sheets (see the U-22058 row's notes). Corrected by the independent audit of session 5304 (A-33): status was 'approved 2026-08-27'; DTE's rate book (dteenergy.com, terms allow personal use only) prints the rule effective 27 August 2026, the day of the MPSC's approval.",
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-03"
   },
   {
    "utility": "DTE Electric Company",
@@ -536,7 +546,8 @@
    "license_basis": "read only from dteenergy.com, whose terms permit download 'for private personal use' and bar public or commercial use without written permission",
    "erw_overlap": "none",
    "notes": "Included as a large-load schedule in force (50 MW and up) although it excludes data centers; the parent may drop it if the dataset is to hold only rules open to data centers. Prices (13 November 2026 book): power supply capacity 15.14, non-capacity 30.87, transmission 3.08 USD per MWh (sheet D-48.08).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-04"
   },
   {
    "utility": "Consumers Energy Company",
@@ -679,7 +690,8 @@
    "license_basis": "read only from consumersenergy.com, whose terms say the contents are 'intended solely for personal, noncommercial use'",
    "erw_overlap": "none",
    "notes": "The provision also requires Commission approval of each Large Load Customer rate contract (Sheet D-67.40) and a written rate contract of at least fifteen years (Sheet D-69.00). Administrative Fee: 100,000 USD per project proposal, reconciled to actual cost (Sheet D-67.50). The MPSC order of 6 November 2025 in U-21859 was not read (e-docket document link not reachable without search); a public copy would make the row public. The CMS presentation's mention of a 'signed large load agreement' points to a Consumers large-load contract whose case was not found.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-05"
   },
   {
    "utility": "Wisconsin Electric Power Company (We Energies)",
@@ -819,7 +831,7 @@
      ]
     },
     "exit_fee": {
-     "value": "On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve another customer; for a bespoke resource terminated after commercial operation, reimburses its net book value for the customer's share (before operation, the non-recoverable costs incurred)",
+     "value": "On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve another customer; for a bespoke resource terminated after commercial operation, reimburses its net book value for the customer's share (before operation, the non-recoverable costs incurred); after commercial operation the customer owes nothing further for a bespoke resource if the Commission moves its share into the Company's rate base or assigns it directly to another customer",
      "cites": [
       {
        "page": "313",
@@ -841,6 +853,11 @@
        "section": "slide 31",
        "quote": "Early termination: Customer pays for remaining net book value, to the extent it cannot be repurposed",
        "date_read": "2026-11-13"
+      },
+      {
+       "page": "346",
+       "section": "BRT, Sheet 272",
+       "quote": "If the Commission approves moving the Customer's Share into the Company's rate base or assigning it directly to another customer under an applicable Company tariff, customer will not be obligated to reimburse the Company for any additional costs"
       }
      ]
     },
@@ -879,8 +896,9 @@
    "license": "internal",
    "license_basis": "the tariff sheets were read only from we-energies.com, whose terms bar retransmitting or republishing any portion without prior written consent; the status, threshold, resource term, exit and queue cites are also in WEC's public SEC filing (EDGAR), so the parent may treat those fields as public",
    "erw_overlap": "none",
-   "notes": "The PSCW's ERF and docket pages (apps.psc.wi.gov) refuse Claude's agents by robots, so the PSCW order of 21 May 2026 in 6630-TE-113 was not read. Charges (2025 dollars): Fixed Administrative Charge 213,118 USD per billing period per customer; Demand-Based Administrative Charge 305 USD per MW of Customer Maximum Demand (Sheet 245); energy at MISO pass-through, no fuel adjustment. Non-firm load above the Firm Service Level is curtailable at MISO EEA2; failure to curtail is charged at MISO Value of Lost Load (Sheets 243 and 244). Bespoke resources carry a fixed return on equity of 10.48% to 10.98% on a 57% equity ratio (Sheet 250). Oracle (Port Washington) has met its financial security obligations per the WEC deck (slide 13).",
-   "date_read": "2026-11-13"
+   "notes": "The PSCW's ERF and docket pages (apps.psc.wi.gov) refuse Claude's agents by robots, so the PSCW order of 21 May 2026 in 6630-TE-113 was not read. Charges (2025 dollars): Fixed Administrative Charge 213,118 USD per billing period per customer; Demand-Based Administrative Charge 305 USD per MW of Customer Maximum Demand (Sheet 245); energy at MISO pass-through, no fuel adjustment. Non-firm load above the Firm Service Level is curtailable at MISO EEA2; failure to curtail is charged at MISO Value of Lost Load (Sheets 243 and 244). Bespoke resources carry a fixed return on equity of 10.48% to 10.98% on a 57% equity ratio (Sheet 250). Oracle (Port Washington) has met its financial security obligations per the WEC deck (slide 13). Corrected by the independent audit of session 5304 (A-34): exit_fee was 'On early termination the customer stays liable for trailing pass-through charges (or credits); pays the remaining undepreciated book balance of dedicated distribution facilities that cannot serve anot'.",
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-06"
   },
   {
    "utility": "Minnesota Power (ALLETE, Inc.)",
@@ -956,7 +974,8 @@
    "license_basis": "the MPUC's own web page (mn.gov) and Minnesota Power's posted press release (no terms of use found on mnpower.com)",
    "erw_overlap": "none",
    "notes": "The MPUC page says the comment period was open until 28 August 2026; Minnesota Power's 2 November 2026 release says the MPUC is still reviewing the ESA. The same page cites Minn. Stat. 216B.1622 and 216B.1623 (2025): utilities must propose special rates for very large customers, data centers pay for all system upgrades, and qualified large data centers pay an annual fee of 2 to 5 million USD. No Minnesota Power very large customer tariff filing was found; the 2026 rate case filing letter proposes a Sales Adjustment Mechanism for future large-customer load growth, not a large-load tariff. The MPUC's very large electric customers page (mn.gov/puc/activities/v-l-e-c/index.jsp) answered with a bot check.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "great_lakes-07"
   }
  ],
  "refused": [
