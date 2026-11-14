@@ -22,7 +22,12 @@ One step a session, from the list below. Pushed after every group; a landing req
 
 ### Unfinished steps (to be written by session 6063 of chain 274)
 
-- (to be written)
+Written by session 6063 (14 November, about 12:00 UTC):
+
+- Chain 274 finished its list: the 25 states' sales tax exemptions, the wind and gas machinery shares from JEDI's workbooks, Georgia and Mississippi settled by a second read, and a fourth study search (none usable). All on `wip/6000-forecast` to `4a9ec60bf`, landing row 12. Note: `docs/state/note_2026-11-14_oldlaptop_c274.md`; report: `archive/sessions/SESSION_6050_6063_REPORT.md`.
+- Still unsettled, each 0 with its reason: Arkansas, Oklahoma, Tennessee, Wyoming, New Mexico gas, Kentucky wind and gas. Read again only from an official source not yet tried (the hosts that refused are listed in the report); never retry a refusing host.
+- Waiting for Samuel: rulings 30 to 33 (this chain) and 21 to 29; nothing waits on them.
+- The periodicals file `queue/next/300-day-26-november-oldlaptop-periodicals-continued.md` once the W46 Roundup (Sunday 15 November, 23:00 UTC) and the 16 November Digest exist: taken by name at once, by session 6064 if they exist by then.
 
 ## Session 6075: the records
 
