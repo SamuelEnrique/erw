@@ -274,7 +274,11 @@ class Grid(unittest.TestCase):
         cls.a = json.loads(read("replication", "grid", "assumptions.json"))
         cls.committed = json.loads(read("replication", "grid", "page_figures.json"))
         snap = json.loads(read("replication", "grid", "snapshot.json"))
-        _, _, _, cls.mine = cls.r.network(snap, {}, cls.a)
+        # Session 3962 (chain 278): the gravity shape's generation is an input read from eia930_all_generation, as the
+        # snapshot is; given the committed generation figures, replicate.py computes the share itself
+        gen = {f["check"].split("|")[2].split(":", 1)[1]: float(f["raw"]) for f in cls.committed["figures"]
+               if f["check"].startswith("series|eia930_all_generation|")}
+        _, _, _, cls.mine = cls.r.network(snap, gen, cls.a)
         cls.do = read("replication", "grid", "replicate.do")
         cls.ask_do = read("replication", "grid", "replicate_ask.do")
 

@@ -78,7 +78,18 @@ class TheNetwork(unittest.TestCase):
         if committed["snapshot_built"] != self.snap["built"]:
             self.skipTest(f"the snapshot was rebuilt ({self.snap['built']}); page_figures.json is of {committed['snapshot_built']}")
         mine = {f["check"]: f["raw"] for f in committed["figures"] if f["group"] in ("network", "gravity")}
-        page = {f["check"]: f["raw"] for f in self.page["figures"] if f["tab"] in ("network", "gravity")}
+        # Session 3962 (chain 278): written where eia930_all_generation is held, the file carries the gravity shape's
+        # generation and share. The generation is an input read from the table, as the snapshot is: the page's own
+        # code is run again with the committed generation figures, so the share is the page's from the same inputs.
+        gen_figs = {k: v for k, v in mine.items() if k.startswith("series|eia930_all_generation|")}
+        figures = self.page["figures"]
+        if gen_figs:
+            h = self.snap["hours"].index(self.page["hour"])
+            gen = {}
+            for k, raw in gen_figs.items():
+                gen.setdefault(k.split("|")[2].split(":", 1)[1], [None] * len(self.snap["hours"]))[h] = raw
+            figures = self.b.network_group(SNAPSHOT, os.path.join(ROOT, "no-tables-here"), gen=gen)["figures"]
+        page = {f["check"]: f["raw"] for f in figures if f["tab"] in ("network", "gravity")}
         self.assertEqual(mine, page)
 
 

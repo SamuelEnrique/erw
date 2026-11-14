@@ -613,6 +613,14 @@ Since session 5005 (13 November 2026) `figures_of_the_page.py` keeps the snapsho
   - the Mix tab's other views, built from EIA's workbooks on the data machine.
 - **The test:** `tests/test_session3703.py`. It runs both computations of the network on the committed snapshot, so the daily run's new snapshot never turns it red. The carbon and Ask checks run where the tables are, and skip in a clean checkout. It also checks the Mix tab's rules on a fixture, the license hold against the site's, the query rules on a fixture, the imports, and both do-files' rules.
 
+**What it found on 14 November 2026** (session 3962, chain 278, five-tools request 3; the snapshot built 2026-11-12T21:46:53Z, hour shown 2026-11-09T23:00 UTC; the tables of `warehouse/output` on the data machine, the EIA-930 tables retrieved 13 November):
+
+- 203 figures; 181 computed, **178 met**; 22 license needed; **0 not held in the tables given**.
+- **Network 70 of 70, Gravity 30 of 30.** With `eia930_all_generation` held, the gravity shape's generation for the seven grids and the Lower 48, and each grid's net import as a share of its generation, are computed by `replicate.py` and, since this session, by `replicate.do` (section 1b).
+- **Carbon: 21 of 21** (the months and the network's hourly colours).
+- **Ask: 57 of 60 met; 3 a known difference** (SPP's answers asked on 14 October, against copies of their tables made on 5 November and 26 October).
+- **The tests held to it:** test 3703 runs the page's own code again with the committed file's generation figures, and test 5074 gives them to `replicate.py`: the generation is an input read from the table, as the snapshot is, and the share is computed from it by both. Until this session both tests compared against a run without generation, so a file written where the table is held could not be committed (session 3936).
+
 The earlier files stay as they were: `site/public/grid/erw_2026_grid_replication.{csv,do,py}` (session 266), the Network view's hour of 12 October 2026, the page's download.
 
 ## Decisions: every assumption, its default, its source, how to change it (session 3705)

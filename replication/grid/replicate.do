@@ -6,7 +6,7 @@
 
 * Run it from this folder (replication/grid). snapshot_hour.csv is the network snapshot's hour shown, written by figures_of_the_page.py from the snapshot the page draws; the global tables below is the folder of the warehouse's tables as CSV (warehouse/output on the ERW's machines).
 
-* What it does not compute: the gravity shape's generation and share (eia930_all_generation at the hour shown, not in the tables of 30 September); the Ask panel's grouped queries and compares (replicate.py); every figure the page prints as "license needed". Session 5074: the network's carbon intensity per grid is computed (the hour's own row of carbon_intensity_hourly, section 2), and printed as not held when the tables given do not reach the hour shown.
+* What it does not compute: the Ask panel's grouped queries and compares (replicate.py); every figure the page prints as "license needed". Session 5074: the network's carbon intensity per grid is computed (the hour's own row of carbon_intensity_hourly, section 2), and printed as not held when the tables given do not reach the hour shown. Session 3962: the gravity shape's generation and share are computed too (section 1b), from eia930_all_generation at the hour shown.
 
 clear all
 
@@ -133,6 +133,64 @@ replace replication = topexport in L
 tempfile network
 
 save `network'
+
+* ---------------------------------------------------------------- 1b. The gravity shape's generation and share
+
+* Session 3962 (chain 278): each grid's net generation in the hour shown (eia930_all_generation, net_generation_mw) and the Lower 48's, the shape's scale; a grid's share is its net import over its net generation, in percent, when the generation is above zero and the grid has a reporting tie (site/lib/gridKeys.ts gravityPanel, replicate.py network). A grid the tables given do not hold at the hour is left out, and printed below as not held.
+
+import delimited using "$tables/eia930_all_generation.csv", varnames(nonames) colrange(1:4) stringcols(_all) clear
+
+drop if substr(v1, 1, 1) == "#" | v1 == "entity"
+
+rename (v1 v2 v3 v4) (entity variable ts_utc value)
+
+keep if variable == "net_generation_mw" & ts_utc == "`hour'" & inlist(entity, "eia930:ERCO", "eia930:CISO", "eia930:PJM", "eia930:MISO", "eia930:NYIS", "eia930:ISNE", "eia930:SWPP", "eia930:US48")
+
+destring value, replace force
+
+drop if value >= .
+
+rename value generation
+
+gen ba = substr(entity, 8, .)
+
+keep ba entity generation
+
+tempfile generation
+
+save `generation'
+
+use `ties', clear
+
+collapse (sum) net_export = mw, by(ba)
+
+gen double net_import = -net_export
+
+merge 1:1 ba using `generation', keep(match using) nogenerate
+
+gen double share = net_import / generation * 100 if generation > 0 & net_import < .
+
+gen rows = 2
+
+expand rows
+
+bysort ba: gen k = _n
+
+drop if k == 2 & share >= .
+
+gen check = "series|eia930_all_generation|" + entity + "|net_generation_mw|`hour'" if k == 1
+
+gen double replication = generation if k == 1
+
+replace check = "calc|pct|net~import~" + ba + "~`hour'|series~eia930_all_generation~" + entity + "~net_generation_mw~`hour'" if k == 2
+
+replace replication = share if k == 2
+
+keep check replication
+
+append using `network'
+
+save `network', replace
 
 * ---------------------------------------------------------------- 2. The Clean tab's carbon months, rebuilt from the hours
 
