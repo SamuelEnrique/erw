@@ -584,6 +584,12 @@
    "url": "https://hcad.org/assets/uploads/pdf/resources/2026/2026-PP-Calc-Guide.pdf",
    "read": "2026-11-14",
    "read_by": "subagent of session 6000; the Solar/Ind column read again by this chain by word position"
+  },
+  "wv_trend_pg_2027_naics": {
+   "title": "West Virginia Tax Division, letter of 11 June 2026 to all county assessors: the 2026 Trend and Percent Good Tables for Tax Year 2027 with the NAICS code list (row 2211: trend table 46, percent good table 9, 30 years), as the Cabell County Assessor publishes the package (the Tax Division's own copy at tax.wv.gov omits the NAICS list)",
+   "url": "https://cabellassessor.com/Forms/TrendandPercentGoodTablesforTaxYear2027.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6005; the letter, row 2211 and column pp09 read again by this chain (page 18 by word position); the host has no robots file"
   }
  },
  "states": {
@@ -1351,16 +1357,48 @@
      "kind": "valuation",
      "assessment_ratio": 0.6,
      "schedule_pct": [
-      100
+      98,
+      97,
+      95,
+      93,
+      91,
+      89,
+      86,
+      84,
+      82,
+      79,
+      76,
+      74,
+      71,
+      68,
+      65,
+      61,
+      58,
+      54,
+      51,
+      47,
+      47,
+      40,
+      40,
+      34,
+      34,
+      28,
+      28,
+      23,
+      23,
+      21,
+      21
      ],
-     "then_pct": 100,
+     "then_pct": 20,
      "cite": "wv_tax_expenditure_2024",
-     "tip": "West Virginia: the Tax Commissioner values public utility and industrial property; assessed at 60 percent (the Tax Department's Tax Expenditure Study, January 2024). A utility's plant is valued as a unit, the income approach given primary weight and the cost approach at original cost less applicable depreciation, with no table (Rule 110CSR1M, 2026); the Department's 2026 percent good tables for county assessors give lives of 20 to 30 years, but which life a generating plant takes, and whether a merchant plant is centrally assessed, were not found. The value is held at the capital cost, without depreciation: an upper bound.",
+     "tip": "West Virginia: the Tax Commissioner values public utility and industrial property; assessed at 60 percent (the Tax Department's Tax Expenditure Study, January 2024). The Tax Division's 2026 tables for county assessors put electric power generation (NAICS 2211) on percent good table 9, a 30-year life: 98 percent at age 1 to 20 percent from age 32, every column's last figure (letter of 11 June 2026); the trend table's factors are not applied (constant dollars). A utility's own plant is valued instead as a unit, the income approach first, with no table (Rule 110CSR1M, 2026), and whether a merchant plant is assessed centrally was not found: neither is modeled.",
      "quote": "The State Tax Commissioner is required to determine the market value of all industrial and natural resource properties in the State. [...] an assumed equalization rate of 60 percent",
      "default_levy": 19.2,
      "levy_words": "West Virginia: statewide, the average rate for all property was USD 1.92 per 100 of assessed value in tax year 2022 (Tax Department, Tax Expenditure Study, January 2024): USD 19.20 per 1,000. Type your county's.",
      "cite2": "wv_110_1m_2026",
-     "quote2": "Cost approach. -- Recognizing that public service corporations are predominantly cost regulated, when the cost approach is used in the valuation process, original cost less applicable depreciation shall be employed. [...] The income approach value shall generally be given primary consideration in the correlation process."
+     "quote2": "Cost approach. -- Recognizing that public service corporations are predominantly cost regulated, when the cost approach is used in the valuation process, original cost less applicable depreciation shall be employed. [...] The income approach value shall generally be given primary consideration in the correlation process.",
+     "cite3": "wv_trend_pg_2027_naics",
+     "quote3": "Enclosed is a copy of the 2026 Trend and Percent Good Tables for Tax Year 2027, along with a detailed list of North American Industry Classification System (NAICS) codes. [...] 2211 Electric Power Generation, Transmission and Distribution 46 9 [...] PERCENT GOOD TABLE [...] pp09 [...] 30 YEARS: 2026 98.00, 2025 97.00, 2024 95.00 [...] 1995 20.00, 1994 20.00"
     }
    ]
   },

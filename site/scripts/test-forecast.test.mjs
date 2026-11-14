@@ -498,8 +498,8 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "mt", { levy: 50 }), 150e6 * 0.97 * 0.06 * 0.05 + MWH * 0.2);
   // West Virginia: B&O USD 22.78 per kW of taxable capacity (wind 12, solar 8, gas 40 percent), property at 60 percent, levy 19.2
   near(T("land_based_wind", "wv", {}), 100 * 22.78 * 1000 * 0.12 + 150e6 * (0.79 * 0.05 + 0.21) * 0.6 * 0.0192);
-  near(T("utility_pv", "wv", {}), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
-  near(T("natural_gas", "wv", {}), 100 * 22.78 * 1000 * 0.40 + 150e6 * 0.6 * 0.0192);
+  near(T("utility_pv", "wv", {}), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.98 * 0.6 * 0.0192, 1e-12, "table 9 (session 6005; at cost before)");
+  near(T("natural_gas", "wv", {}), 100 * 22.78 * 1000 * 0.40 + 150e6 * 0.98 * 0.6 * 0.0192, 1e-12, "table 9 (session 6005)");
   // Rhode Island: USD 5 per kW AC
   near(T("utility_pv", "ri", {}), 100 * 5 * 1000);
   // Kentucky solar: 15 cents per 100, state only
@@ -625,8 +625,9 @@ test("session 6002: Kentucky's wind turbines are manufacturing machinery (Form 6
   near(T("natural_gas", "sc", 5, { levy: 300 }), 150e6 * 0.105 * 0.3 + 100 * 8760 * 0.3 * 0.5, 1e-12, "4,725,000 + 131,400");
   assert.match(P.property.states.sc.rules.find((r) => r.id === "sc_property").tip, /12-37-930/);
   // West Virginia solar: B&O on 8 percent of capacity plus property at cost, 60 percent, levy 19.2
-  near(T("utility_pv", "wv", 5), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
+  near(T("utility_pv", "wv", 5), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.89 * 0.6 * 0.0192, 1e-12, "table 9, age 6 (session 6005)");
   assert.match(P.property.states.wv.rules.find((r) => r.id === "wv_property").tip, /110CSR1M/);
+  assert.match(P.property.states.wv.rules.find((r) => r.id === "wv_property").tip, /NAICS 2211/);
 });
 
 test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's one third, Texas solar's 10-year life (Harris CAD's schedule)", () => {
@@ -671,4 +672,15 @@ test("session 6004: the six studies added to the cross-check, each with its regi
     const t = saved.find((x) => x.id === r.id);
     r.lines.forEach((l, k) => { if (l.ratio !== null) near(l.ratio, t.lines[k].ratio, 1e-9, `${r.id} ${l.figure}`); });
   }
+});
+
+test("session 6005: West Virginia's solar, gas and geothermal plants by the Tax Division's table 9 (NAICS 2211, 30 years)", () => {
+  const b = (t, o = {}) => ({ ...F.defaults(P, t, "wv"), mw: 100, capex: 1500, start: 2027, build: 1, cf: 0.3, ...o });
+  const prop = (t, i) => F.propertyTax(P, b(t), i).tax - (t === "utility_pv" ? 100 * 22.78 * 1000 * 0.08 : 100 * 22.78 * 1000 * 0.40);
+  // the property part alone, levy USD 19.20 per 1,000, 60 percent: age 1 98, age 10 79, age 31 21, then 20
+  near(prop("utility_pv", 0), 150e6 * 0.98 * 0.6 * 0.0192, 1e-9, "150,000,000 x 0.98 x 0.6 x 0.0192 = 1,693,440");
+  near(prop("natural_gas", 9), 150e6 * 0.79 * 0.6 * 0.0192, 1e-9);
+  near(prop("geothermal", 30), 150e6 * 0.21 * 0.6 * 0.0192, 1e-9);
+  near(prop("geothermal", 35), 150e6 * 0.20 * 0.6 * 0.0192, 1e-9, "20 percent, the table's last figure");
+  assert.deepEqual(P.property.states.wv.rules.find((r) => r.id === "wv_property").schedule_pct.slice(0, 5), [98, 97, 95, 93, 91]);
 });
