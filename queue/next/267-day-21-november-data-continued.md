@@ -1,8 +1,8 @@
-# Chain of 21 November 2026: sessions 3921 to 3936, data machine (lab-desktop), unattended: chain 241's unfinished steps, the runs of 15 and 16 November, the siting gaps a public US source can close, and the records
+# Chain of 21 November 2026: sessions 3921 to 3944, data machine (lab-desktop), unattended: chain 241's unfinished steps, the runs of 15 and 16 November, the siting gaps a public US source can close, the records, and the other windows' data requests
 
 machine: data
 
-Written by session 3905 of chain 241 (`queue/done/241-day-20-november-data-continued.md`) on 13 November 2026, as that chain's rules ask; session 3920 updates it with what chain 241 did not finish. It takes sessions 3921 to 3936, the first sixteen free numbers after 3920 (each checked free on origin's main and on every branch by session 3905; its first session checks again, skips a taken one upward and says so). Model: Opus 5.5, high effort. One Claude Code window on the desktop.
+Written by session 3905 of chain 241 (`queue/done/241-day-20-november-data-continued.md`) on 13 November 2026, as that chain's rules ask; session 3920 updates it with what chain 241 did not finish. It takes sessions 3921 to 3944 (3921 to 3936 the first sixteen free numbers after 3920; 3937 to 3944 added on 14 November for the data requests, checked free on every branch that day) (each checked free on origin's main and on every branch by session 3905; its first session checks again, skips a taken one upward and says so). Model: Opus 5.5, high effort. One Claude Code window on the desktop.
 
 ## Why this chain
 
@@ -12,7 +12,7 @@ Chain 241 reads the runs of 14 November, the first with chain 227's five fixes. 
 
 The rules of `queue/done/241-day-20-november-data-continued.md` hold word for word (and through it those of chains 227, 226, 223, 221, 218, 216, 215, 212, 147 and 157). Also:
 
-- **Session 3921 writes the next file first** (`queue/next/<first free number at or above 268>-day-22-november-data-continued.md`, `machine: data`, at least fourteen sessions), commits it alone and pushes it; session 3936 updates it.
+- **Session 3921 writes the next file first** (`queue/next/<first free number at or above 268>-day-22-november-data-continued.md`, `machine: data`, at least fourteen sessions), commits it alone and pushes it; session 3944 updates it.
 - **The build lock has no queue** (every waiter polls every 20 seconds): launch a gate early, and commit to its branch only before `lock=` appears in its `gate*_held.out`.
 - **A refused scheduled commit is read from its job's log** (`actions/runs/<id>/jobs`, then `actions/jobs/<id>/logs`, with the repository's token) and the run's artifact (`daily-prices-log`).
 
@@ -63,10 +63,23 @@ Long end 1:30. Pulls: Redivis's API only, at most 150 requests. This chain's new
 
 Long end 1:00. Pulls: GitHub's API, at most 30 requests. Each scheduled job's last seven days, each failed step with its first error line; the guard's verdict on every bot push; `runs/data_machine_status.txt` and the `dm_` rows of `erw_health`; the health summary's "Stale on main" line quoted.
 
-## Session 3935: the note
+## Sessions 3935 to 3942: the other windows' data requests and two faults the paper work found
+
+Added by the owner's prompt of 14 November 2026, after this chain's own steps above. Each request file's rows are marked done with their commit, or with what stops them (a license, a key, a ruling: under "For Samuel's ruling" with the default taken). Every warehouse write under the data lock; every new table validated, archived, in coverage and registered (source, sector, license, release); robots and terms before any new host. Long end 1:30 each.
+
+- **3935: `docs/state/data_requests_five_tools.md` rows 1 and 4:** `battery_stack_monthly`'s October 2026 for ERCOT whole in all six cases (every local day solved or left out and counted), and `price_years_by_window` built again and loaded.
+- **3936: `docs/state/data_requests_five_tools.md` rows 2 and 3:** the generator's snapshot, `merchant_revenue_monthly`, hub files and hourly CSV built with `GENERATOR=1` as one group with the six landing tests that hold the CSV (moved together, or the ruling asked); the Grid replication's five files written where the tables are held.
+- **3937: `docs/state/data_requests_large_load.md`:** row 1, `docs/research/large_load/utilities_2026-11-13.csv` loaded as the warehouse table `utility_large_load_rules` (events) under its license rules (each row's host terms: an internal host's values held internal); then rows 2 to 14, the registry files' changes, each under its own license cell.
+- **3938: `docs/state/data_requests_forecast.md`:** rows 1 to 5 (`eia_steo_forecasts`' GDPDIUS, `nlr_jedi_multipliers`' construction cost, `impact_tax_rules`' property rules, `forecast_parameters`, the Texas Comptroller's rates after its robots file and terms, read with the wildcard reading).
+- **3939: `docs/state/data_requests_licenses.md`, the FRED section:** each retired FRED series read from its primary publisher (EIA or the Federal Reserve where they publish it; rows 2 to 7 are covered); rows 8 to 10 added to `imf_pcps.py` under the IMF's terms, rows 11 and 12 (BLS) only by the registered API with a key the repository holds, else a ruling.
+- **3940: request 28 of `docs/state/data_requests_licenses.md`:** `warehouse/derived/board_page.py` builds no row data and no public file (`site/public/board/s/`, `board/h/`, `seller/prices/`) for a grid in `ls.held_grids()`, as the power-hub branch already does, with its test; the files already there left to the owner's ruling.
+- **3941: the total-interchange gap of November and December 2025:** two monthly checkpoints froze a short EIA answer on 13 October 2026 and the connector never pulls past months again. Fill the two months from EIA's six-month files (they fill it exactly), and make the connector re-pull a checkpointed month whose rows are short, with its test.
+- **3942: `noaa_grid_weather`:** the connector still points at the old ISD-Lite path; NOAA moved ISD-Lite to its AWS bucket (NOAA's Open Data Dissemination). Robots and terms of the new host first, the path moved, a trial, the table rebuilt under the lock, with its test.
+
+## Session 3943: the note
 
 Long end 1:00. `docs/state/note_<the day>_data_c267.md` in chain 147's note's form.
 
-## Session 3936: the next file, the landing, the queue
+## Session 3944: the next file, the landing, the queue
 
-Long end 1:00. The next file (written by session 3921) updated with what this chain did not finish and pushed alone; this chain's branch landed through the gate (never between 14:00 and 16:15 UTC); `python scripts/chain_queue.py next`, and run the file it prints the same way. If the queue step exits 3, write the next data file and continue.
+Long end 1:00. The next file (written by session 3921) updated with what this chain did not finish, carrying the owner's rules of 14 November (the no-waiting rule and the landing desk) word for word, and pushed alone; this chain's branch landed through the gate (never between 14:00 and 16:15 UTC); `python scripts/chain_queue.py next`, and run the file it prints the same way. If the queue step exits 3, write the next data file (`machine: data`, carrying both rules) and continue.
