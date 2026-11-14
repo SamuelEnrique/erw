@@ -176,6 +176,10 @@ PART = ("the window is held in part: steps_held of steps_in_window. The steps un
 NONE_HELD = ("no step of the window is held for these filters: steps_in_window steps, none of them in the table. When the entity and the variable are "
              "right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is "
              "missing and state no figure of it")
+NONE_HELD_ANY_STEP = ("no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are "
+                      "not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the "
+                      "variable are right (the same query with no start and no end finds their rows), the table holds the series and not this "
+                      "window: say which window is missing and state no figure of it")
 UNKNOWN = ("whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, "
            "or the rows do not sit on one step): steps_held is the rows held")
 SEVERAL = ("more than one series matched: steps_held gives the least and the most rows any one of them holds in the window. "
@@ -206,12 +210,26 @@ def window_of(start, end, steps, series):
         out.update({"series": len(rows), "steps_held": {"least": min(h for h, _, _ in each), "most": max(h for h, _, _ in each)}, "steps_in_window": n})
         held = out["steps_held"]["least"]
     out["whole"] = None if n is None or n == 0 else held == n
+    # session 5276: no row at all in the window of a table of more than one step. The steps the window has cannot be
+    # counted (at which step?), but when it has some at every step the table may have, none of them is held, and that is
+    # said: the live set's SP15 real-time prices on a missing day read "not told" where "none held" is plain (gp02)
+    none_at_any_step = False
+    if n is None and step is None and not every:
+        counts = []
+        for s in sorted({x for x in (steps or []) if x}):
+            exp = _expected(s, a, b, [])
+            counts.append(None if exp is None else len(exp) if isinstance(exp, list) else exp[2])
+        if counts and all(c is not None and c > 0 for c in counts):
+            none_at_any_step = True
+            out["whole"] = False
     out["first_held"] = _iso(every[0]) if every else None
     out["last_held"] = _iso(every[-1]) if every else None
     if runs:
         out["missing"] = runs[:MISSING_SHOWN]
         out["missing_runs"] = len(runs)
-    if n is None:
+    if none_at_any_step:
+        note = NONE_HELD_ANY_STEP
+    elif n is None:
         note = UNKNOWN
     elif n == 0:
         note = EMPTY

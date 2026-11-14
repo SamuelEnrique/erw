@@ -459,7 +459,7 @@
  },
  "max_tool_calls": 12,
  "max_tokens": 16000,
- "effort": "high",
+ "effort": "medium",
  "prices": {
   "claude-fable-5-1": [
    10.0,

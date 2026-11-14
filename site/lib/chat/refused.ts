@@ -47,3 +47,18 @@ export function tablesNamed(name: string, input: unknown): string[] {
 export function refusedRead(error: unknown): boolean {
   return typeof error === "string" && /is not in this site's live set|license needed|MISO is paused/.test(error);
 }
+
+// Session 5276 (chain 256): a refusal's fixed words, by the loop. Rule 3 of the prompt asks for the words "not in the
+// warehouse"; a held table's refusal says "license needed" and MISO's "paused" (the tools' own words). Of the 135
+// refusals for want of a figure in the stored runs, two carried none of the three: "I can't give this figure" (oi09, 13
+// November 2026) and "The warehouse does not hold this figure" (gp02, 14 November 2026), each right in substance. The
+// reader's page and the grader both tell a refusal by its words. So a refusal of the general chat that carries none of
+// them is given the first: the fixed sentence before the model's own, nothing of the model's changed. As
+// warehouse/chat/ask.py with_refusal_words. Not for a profile's chat (Ask ERCOT's refusals have their own form).
+export const REFUSAL_WORDS = ["not in the warehouse", "license needed", "paused"];
+export const REFUSAL_FIRST = "Not in the warehouse.";
+/** A refusal's text with its fixed words: as it is when it carries one of REFUSAL_WORDS, else REFUSAL_FIRST before it. */
+export function withRefusalWords(answer: string): string {
+  const low = answer.toLowerCase();
+  return REFUSAL_WORDS.some((w) => low.includes(w)) ? answer : `${REFUSAL_FIRST} ${answer.trim()}`.trim();
+}

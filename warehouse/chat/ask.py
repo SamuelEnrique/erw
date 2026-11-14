@@ -47,7 +47,16 @@ import llm  # noqa: E402  session 30: every Anthropic call goes through the cost
 
 MAX_TOOL_CALLS = 12      # session 1111: 8 until 23 October 2026; 11 of session 320's thirty used all 8
 MAX_TOKENS = 16000
-EFFORT = "high"
+# Session 5276 (chain 256): medium, where it was high. The effort level sets how much the model thinks and how many
+# tool calls it makes; its own documentation names medium as the starting point for work of several tool calls, and Ask
+# ERCOT has run at medium since session 143 (ercot.py). Measured on 14 November 2026 through the site's loop, the effort
+# set for each asking by ASK_WRITER_EFFORT: 61 questions at medium (twelve heavy figure answers, the eight on a short
+# window, nineteen refusals of four kinds, the trader's twenty never asked through that loop, po05 twice more), 60 right
+# (one refusal without its fixed words, which the loop now gives: with_refusal_words), USD 4.53 where the same
+# questions had cost USD 7.35 at high; on nine figure answers asked at both efforts under the same rules, 48 calls and
+# USD 0.87 against 60 and USD 1.13 (docs/reviews/ask-eval-2026-11-13.md). The way back, with no deploy: the server's
+# ASK_WRITER_EFFORT=high (site/lib/chat/ask.ts effortOf); here, this constant.
+EFFORT = "medium"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 # session 1110: the refusal begins with the words the chain of 23 October names
@@ -339,6 +348,20 @@ def refused_again_note(table, words):
     return f"table {table} was already refused for this question and no call can read it: do not ask it again. {words}"
 
 
+# Session 5276 (chain 256), as site/lib/chat/refused.ts: a refusal's fixed words, by the loop. Rule 3 asks for the words
+# "not in the warehouse"; a held table's refusal says "license needed" and MISO's "paused". Two of the 135 refusals for
+# want of a figure in the stored runs carried none of the three (oi09 of 13 November 2026, gp02 of 14 November), each
+# right in substance. A refusal of the general chat that carries none is given the first, before the model's own words.
+REFUSAL_WORDS = ("not in the warehouse", "license needed", "paused")
+REFUSAL_FIRST = "Not in the warehouse."
+
+
+def with_refusal_words(answer):
+    """A refusal's text with its fixed words: as it is when it carries one of REFUSAL_WORDS, else REFUSAL_FIRST before it."""
+    low = (answer or "").lower()
+    return answer if any(w in low for w in REFUSAL_WORDS) else f"{REFUSAL_FIRST} {(answer or '').strip()}".strip()
+
+
 def reads_of(name, args):
     """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
     def one(a):
@@ -618,6 +641,8 @@ class Asker:
             if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
+                if draft.get("not_in_warehouse") and type(self) is Asker:
+                    final = dict(draft, answer=with_refusal_words(draft["answer"]))   # session 5276: its fixed words, by the loop
                 break
             attempts += 1
             if attempts == 1:

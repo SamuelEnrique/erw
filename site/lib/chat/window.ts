@@ -127,7 +127,8 @@ export const WINDOW_WHOLE = "the window holds every step it has: steps_held of s
 export const WINDOW_WHOLE_ROWS = "every row of the window is held: steps_held of steps_in_window, one row a day, a week, a month or a year. No count and no regrouping is needed to check it. Whether a row covers its whole period is the table's own to say, in a variable that counts the hours or days behind the row where it has one (da_hours, days_held and the like)";
 export const WINDOW_PART = "the window is held in part: steps_held of steps_in_window. The steps under missing are not held and nothing is filled. Say so in the answer: a figure over this window is over the steps held, not over the whole window";
 export const WINDOW_NONE_HELD = "no step of the window is held for these filters: steps_in_window steps, none of them in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it";
-export const WINDOW_UNKNOWN = "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held";
+export const WINDOW_NONE_HELD_ANY_STEP = "no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it";
+export const WINDOW_UNKNOWN ="whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held";
 export const WINDOW_SEVERAL = "more than one series matched: steps_held gives the least and the most rows any one of them holds in the window. For the steps a series is missing, ask it alone (one entity, one variable)";
 export const WINDOW_EMPTY = "the window has no step of the table inside it (it is shorter than the table's step, or starts and ends between two steps)";
 
@@ -158,10 +159,18 @@ export function windowOf(start: string | number, end: string | number, steps: (s
     out.steps_in_window = n;
   }
   out.whole = n === null || n === 0 ? null : held === n;
+  // session 5276: no row at all in the window of a table of more than one step. The steps the window has cannot be
+  // counted (at which step?), but when it has some at every step the table may have, none of them is held, and that is
+  // said: the live set's SP15 real-time prices on a missing day read "not told" where "none held" is plain (gp02)
+  let noneAtAnyStep = false;
+  if (n === null && step === null && !every.length) {
+    const counts = Array.from(new Set(steps.filter((s): s is string => !!s))).sort().map((s) => { const e = expected(s, a, b, []); return e === null ? null : Array.isArray(e) ? e.length : e.n; });
+    if (counts.length && counts.every((c) => c !== null && c > 0)) { noneAtAnyStep = true; out.whole = false; }
+  }
   out.first_held = every.length ? iso(every[0]) : null;
   out.last_held = every.length ? iso(every[every.length - 1]) : null;
   if (runs && runs.length) { out.missing = runs.slice(0, MISSING_SHOWN); out.missing_runs = runs.length; }
-  const note = n === null ? WINDOW_UNKNOWN : n === 0 ? WINDOW_EMPTY : out.whole ? (step !== null && (step in FIXED || CALENDAR.includes(step)) ? WINDOW_WHOLE_ROWS : WINDOW_WHOLE) : !every.length ? WINDOW_NONE_HELD : WINDOW_PART;
+  const note = noneAtAnyStep ? WINDOW_NONE_HELD_ANY_STEP : n === null ? WINDOW_UNKNOWN : n === 0 ? WINDOW_EMPTY : out.whole ? (step !== null && (step in FIXED || CALENDAR.includes(step)) ? WINDOW_WHOLE_ROWS : WINDOW_WHOLE) : !every.length ? WINDOW_NONE_HELD : WINDOW_PART;
   out.note = note + (keys.length > 1 ? `. ${WINDOW_SEVERAL}` : "");
   return out as Window;
 }

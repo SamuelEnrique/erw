@@ -47,7 +47,7 @@ def query(**kw):
 class TheFunction(unittest.TestCase):
     def test_every_made_window(self):
         cs = cases()
-        self.assertGreaterEqual(len(cs), 35)
+        self.assertGreaterEqual(len(cs), 38)
         for c in cs:
             got = W.window_of(c["start"], c["end"], c["steps"], c["series"])
             self.assertEqual(got, c["window"], c["name"])
@@ -68,6 +68,11 @@ class TheFunction(unittest.TestCase):
         self.assertEqual(by["a table of months, February missing"]["missing"], [{"from": "2025-02-01T00:00:00Z", "until": "2025-03-01T00:00:00Z", "steps": 1}])
         self.assertEqual(by["a table of two steps, the rows five minutes apart"]["step"], "PT5M")
         self.assertIsNone(by["no series"])
+        # session 5276: SP15's real-time prices on the live set's missing day: a table of two steps, no row. Not "not told"
+        gap = by["a missing local day of a table of two steps, no row (SP15 real time)"]
+        self.assertEqual((gap["steps_held"], gap["steps_in_window"], gap["whole"], gap["note"]), (0, None, False, W.NONE_HELD_ANY_STEP))
+        self.assertIsNone(by["a table of two steps, no row, a window shorter than one of them: not told"]["whole"])
+        self.assertIsNone(by["a table of hours and weeks and no row: not told"]["whole"])      # a week's grid is only told by a row
         # a whole window of hours says no check is needed; of days or longer, that every row is held and the row's cover is the table's to say
         self.assertEqual(by["an hourly UTC day, whole"]["note"], W.WHOLE)
         for name in ("a table of months, a year whole", "a table of months, the one month asked, held", "a table of days and months, the rows a day apart"):
@@ -79,7 +84,13 @@ class TheFunction(unittest.TestCase):
             w = c["window"]
             if w is None:
                 continue
-            if w["steps_in_window"] is None:
+            if w["steps_in_window"] is None and w["whole"] is False:
+                # session 5276: the one thing said with no count of the window's steps: no row at all is held, and the
+                # window has steps at every step the table may have. That is no guess
+                self.assertEqual((w["steps_held"], w["first_held"], w["step"]), (0, None, None), c["name"])
+                self.assertTrue(w["note"].startswith(W.NONE_HELD_ANY_STEP), c["name"])
+                self.assertNotIn("missing", w, c["name"])
+            elif w["steps_in_window"] is None:
                 self.assertIsNone(w["whole"], c["name"])
                 self.assertTrue(w["note"].startswith(W.UNKNOWN), c["name"])
                 self.assertNotIn("missing", w, c["name"])
@@ -89,7 +100,7 @@ class TheFunction(unittest.TestCase):
 
     def test_the_notes_are_the_sites_word_for_word(self):
         ts = src("site", "lib", "chat", "window.ts")
-        for words in (W.WHOLE, W.WHOLE_ROWS, W.PART, W.NONE_HELD, W.UNKNOWN, W.SEVERAL, W.EMPTY):
+        for words in (W.WHOLE, W.WHOLE_ROWS, W.NONE_HELD_ANY_STEP, W.PART, W.NONE_HELD, W.UNKNOWN, W.SEVERAL, W.EMPTY):
             self.assertIn(json.dumps(words), ts, words[:50])
         self.assertIn(f"export const MISSING_SHOWN = {W.MISSING_SHOWN};", ts)
         self.assertIn(f"export const MOST_LABELS = {W.MOST_LABELS};", ts)

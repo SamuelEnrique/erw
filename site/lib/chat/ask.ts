@@ -12,7 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
-import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed } from "./refused";
+import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withRefusalWords } from "./refused";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -471,6 +471,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), unit_mismatches: c.units.slice(0, 6), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
+    // session 5276: a refusal of the general chat carries its fixed words (lib/chat/refused.ts withRefusalWords)
+    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };
     const answer = plain(nodash(draft.answer));
     // session 28: each citation's tier is the warehouse's, whatever the model copied
     const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));

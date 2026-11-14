@@ -619,7 +619,7 @@
    }
   },
   {
-   "name": "a table of two steps and no row: the step is not told",
+   "name": "a table of two steps and no row: none held, the step not told",
    "start": "2026-11-10T08:00:00Z",
    "end": "2026-11-10T10:00:00Z",
    "steps": [
@@ -632,6 +632,75 @@
    "window": {
     "from": "2026-11-10T08:00:00Z",
     "until": "2026-11-10T10:00:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": false,
+    "first_held": null,
+    "last_held": null,
+    "note": "no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it"
+   }
+  },
+  {
+   "name": "a missing local day of a table of two steps, no row (SP15 real time)",
+   "start": "2026-11-07T08:00:00Z",
+   "end": "2026-11-08T08:00:00Z",
+   "steps": [
+    "PT15M",
+    "PT5M"
+   ],
+   "series": {
+    "caiso:TH_SP15_GEN-APND|lmp_rtm_15m_mean": []
+   },
+   "window": {
+    "from": "2026-11-07T08:00:00Z",
+    "until": "2026-11-08T08:00:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": false,
+    "first_held": null,
+    "last_held": null,
+    "note": "no row of the window is held for these filters. The table's rows come at more than one step, so the steps the window has are not counted here (steps_in_window is null); it has some at each of them, and none is in the table. When the entity and the variable are right (the same query with no start and no end finds their rows), the table holds the series and not this window: say which window is missing and state no figure of it"
+   }
+  },
+  {
+   "name": "a table of two steps, no row, a window shorter than one of them: not told",
+   "start": "2026-11-10T08:10:00Z",
+   "end": "2026-11-10T08:40:00Z",
+   "steps": [
+    "PT1H",
+    "PT5M"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-11-10T08:10:00Z",
+    "until": "2026-11-10T08:40:00Z",
+    "step": null,
+    "steps_held": 0,
+    "steps_in_window": null,
+    "whole": null,
+    "first_held": null,
+    "last_held": null,
+    "note": "whether the window is whole cannot be told from the rows read (the table's step is not one a window is counted by, or the rows do not sit on one step): steps_held is the rows held"
+   }
+  },
+  {
+   "name": "a table of hours and weeks and no row: not told",
+   "start": "2026-11-02T00:00:00Z",
+   "end": "2026-11-09T00:00:00Z",
+   "steps": [
+    "PT1H",
+    "P1W"
+   ],
+   "series": {
+    "x|y": []
+   },
+   "window": {
+    "from": "2026-11-02T00:00:00Z",
+    "until": "2026-11-09T00:00:00Z",
     "step": null,
     "steps_held": 0,
     "steps_in_window": null,

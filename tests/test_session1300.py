@@ -172,7 +172,15 @@ class ThePythonLoop(unittest.TestCase):
                           "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered",
                           "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse",
                           "a_held_grids_own_table": "not_in_warehouse",
-                          "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified"})
+                          "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified",
+                          "a_refusal_without_its_words": "not_in_warehouse"})
+        # session 5276 (chain 256, the platform set's gp02 of 14 November 2026): a refusal that is right and carries none of
+        # the fixed words is given the first by the loop, before the model's own sentence, which is not changed; a refusal
+        # that has them is as the model wrote it
+        r = got["a_refusal_without_its_words"]
+        self.assertEqual(r["answer"], "Not in the warehouse. The warehouse does not hold this figure. The table cost_of_power_monthly holds no row for that month, so there is nothing to average.")
+        self.assertEqual((r["retried"], r["model_calls"]), (False, 2))
+        self.assertEqual(got["not_in_the_warehouse"]["answer"], "Not in the warehouse: cost_of_power_monthly holds no row for that month.")
         # session 5272 (chain 256): a reply cut off at the model's output limit (its thinking counts toward the limit; three
         # askings of 14 November 2026 ended so and the loops threw). The cut-off reply is dropped and the model is told once:
         # the call after it may only write, and the answer it writes stands, checked as any other. One query, one read,

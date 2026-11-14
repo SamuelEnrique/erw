@@ -157,6 +157,28 @@ The catalogue lists every table of the record; the live set this chat reads hold
 - **For an evaluation:** an answer that still ends in an error is recorded at what the loop had counted (`ask.ts` `AskMeter`, session 5269), and every stored answer says what it was asked under (`asked_under`: the effort, the output limit, the count of the prompt's rules).
 - **Held by** `tests/test_session5272_ask.py` and the scenarios `an_answer_cut_off_then_written` and `an_answer_cut_off_twice` of `tests/test_session1300.py`, which keep the two loops equal turn by turn.
 
+## The chat's effort is medium, and a refusal's fixed words are the loop's (14 November 2026, session 5276)
+
+- **The effort.** A setting of the model call: it sets how much the model thinks before it writes and how many tool calls it makes. The general chat ran at `high`; it now runs at `medium` (`warehouse/chat/ask.py` `EFFORT`, exported to the site's spec). Ask ERCOT has run at `medium` since session 143 and is not changed.
+- **Why.** At `high` more than half the chat's tool calls came after it had its figure. The model's own documentation names `medium` as the starting point for work of several tool calls, and says the amount of thinking is set by the effort, not by words in the prompt.
+- **The measure** (14 November 2026, through the site's loop, the effort set for each asking by the loop's switch; every stored answer says what it was asked under):
+
+| Asked at `medium` | Questions | Right | Calls, cost at `medium` | The same questions at `high` before |
+|---|---:|---:|---|---|
+| The twelve heaviest figure answers | 12 | 12 | 65, USD 1.256 | 141, USD 2.403 |
+| A missing day, a period held in part | 8 | 7 | 40, USD 0.715 | 72, USD 1.327 |
+| Refusals of four kinds | 19 | 19 | 81, USD 1.650 | 82, USD 2.014 |
+| The trader's twenty, never asked through this loop | 20 | 20 | 46, USD 0.913 | 111, USD 1.876 (the Python loop, 6 November) |
+| po05, twice more | 2 askings | 2 | | |
+| All | 61 | 60 | USD 4.53 | USD 7.35 |
+
+- **Told apart from rule 11.** Nine figure answers asked under all four settings: `high` and ten rules 105 calls, USD 1.77; rule 11 alone 60, USD 1.13; `medium` alone 54, USD 1.04; both 48, USD 0.87. Every answer right in every arm.
+- **The one not right** was a refusal, right in substance, that began "The warehouse does not hold this figure" where rule 3 asks for the words "not in the warehouse". Of 135 refusals for want of a figure in the stored runs, two carry none of the fixed words ("not in the warehouse", "license needed", "paused"): one at `high`, one at `medium`.
+- **So the words are the loop's.** A refusal of the general chat that carries none of the three is given the first: the sentence "Not in the warehouse." before the model's own, which is not changed (`with_refusal_words`, `withRefusalWords`). A refusal that has them is as written. Ask ERCOT's refusals have their own form and are left alone.
+- **The way back.** `ASK_WRITER_EFFORT=high` on the server puts every writing call at `high` again, with no deploy; in the code, the one constant.
+- **A window with no row, on a table of more than one step** (SP15's real-time prices on a missing day): the window field read "not told", since the step cannot be told from no rows. When the window has steps at every step the table may have and holds no row, it now says none is held.
+- **Held by** `tests/test_session5276_ask.py`, `site/scripts/test-ask-refused.test.mjs`, and the scenario `a_refusal_without_its_words` of `tests/test_session1300.py`.
+
 ## The evaluation's spend guard reads the whole ledger (14 November 2026, session 5263)
 
 - **What it is.** The asking through the site's route (`eval_s1113.py --ask`, `run_eval.py`) checks before each question that the day's spend of the evaluation's step, read from the site's cost ledger, and a reserve stay under `--cap` (`spent_today`).
@@ -254,3 +276,8 @@ Each dated, with the session that made it; the reports in `archive/sessions/` ca
 - 13 November 2026, session 5260 (chain 238): a held grid's own table refused by name in the chat's tools, by the table's name and the grids that decide it, not by a list; a shared table of things read without a held grid's rows, by each row's id; MISO's own table refused in the pause's words before its license's; the site's one reader left as it is, for a ruling; a stored run keeps no result of a held grid's own table.
 - 13 November 2026, session 5262 (chain 238; cut off before its report, its files committed by session 5263): the set once more as a sample of eleven, one an area, not whole, under the session's USD 2.
 - 14 November 2026, session 5263 (window P3's close-out): the day's spend read from the whole ledger by key, not by offset; a day that cannot be counted stops the asking, never a smaller number in its place; the fallback to the run's own costs kept only for a ledger that cannot be asked; the day's ceiling of the site's loop an option (`--day-cap`), not a default, so a stored command reads as before.
+- 14 November 2026, session 5264 (the close-out): a hub spread is of its two hubs' grids, so a grid's panel reads its own spreads and no other's; a spread across two grids is read by neither (`docs/methods/ask_ercot.md`).
+- 14 November 2026, sessions 5267 and 5268 (chain 256): the window field made from the rows already read and the table's step, with no request added, so the recorded reads of the stored tests are found as before; never whole and never in part on a guess; rule 11 in the shared prompt, not in Ask ERCOT's.
+- 14 November 2026, session 5269 (chain 256): an answer that ends in an error is recorded at what the loop had counted, by a meter the caller hands in; no change to what the route returns.
+- 14 November 2026, session 5272 (chain 256): a reply cut off at the output limit is run once more with the instruction to write, not given a larger limit; a second cut-off ends with the status the page already draws; an arm of a measure is stored under its own name and left out of the set's runs.
+- 14 November 2026, session 5276 (chain 256): the general chat's effort to `medium`, on 61 questions of which 60 right and the other mended in the loop; the fixed words of a refusal given by the loop as a sentence before the model's, never by rewriting its words; the limits of 12 calls and 16,000 output tokens unchanged.
