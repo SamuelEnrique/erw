@@ -1,6 +1,6 @@
 # Session 3967 report: the daily run of 14 November, two faults fixed
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:54 to 16:20 UTC. Opus 5.5. Model spend USD 0. No request to a publisher. `erw_health` read over `SUPABASE_DB_URL` (`runs/c278/daily_now.py`).
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 14:54 to 16:17 UTC. Opus 5.5. Model spend USD 0. No request to a publisher. `erw_health` read over `SUPABASE_DB_URL` (`runs/c278/daily_now.py`).
 
 ## The daily run of 14 November (run 43602537759, dispatched 14:00 UTC)
 

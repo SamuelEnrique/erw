@@ -1,6 +1,6 @@
 # Session 3968 report (with 3969 to 3971): the data requests still open
 
-Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 16:16 to 16:20 UTC. Opus 5.5. Model spend USD 0. No request to a publisher.
+Energy Research Warehouse (ERW). Chain 278, data machine (lab-desktop), 14 November 2026, 16:16 to 16:17 UTC. Opus 5.5. Model spend USD 0. No request to a publisher.
 
 Every row still requested in `docs/state/data_requests_*.md`, read on main at `7c594771a` (no row added since the chain began), in order of request:
 
