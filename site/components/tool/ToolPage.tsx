@@ -161,9 +161,12 @@ export function Fold({ title, children }: { title: string; children: ReactNode }
 
 /** The grey source line: every table the page reads, by name, and one note. */
 export function SourceLine({ tables, note }: { tables: string[]; note?: ReactNode }) {
+  // session 5501 (datacenter faults row 5): a table named twice is named once (the datacenter page listed
+  // ercot_large_load_status twice, and React keyed two spans alike); the first place is kept
+  const named = [...new Set(tables)];
   return (
     <p className="mt-8 border-t border-rule pt-3 text-xs leading-relaxed text-muted">
-      Source: ERW tables {tables.map((t, i) => <span key={t}>{i ? ", " : ""}<code className="font-mono">{t}</code></span>)}.{note ? <> {note}</> : null}
+      Source: ERW tables {named.map((t, i) => <span key={t}>{i ? ", " : ""}<code className="font-mono">{t}</code></span>)}.{note ? <> {note}</> : null}
     </p>
   );
 }

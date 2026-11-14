@@ -274,7 +274,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   ) : nodeWhy ? <p className="mt-2 max-w-3xl text-xs text-muted" data-node-band="none">At its own node: {nodeWhy}</p> : null}
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
                     <a href={monthsHref} download>Every month, CSV</a>: energy, ancillary and total for {size}, each month&apos;s coverage at scenario A&apos;s costs, days held and days left out
-                    (<V pre={key} s="out" v={st("out")} /> days in all{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}).
+                    (<V pre={key} s="out" v={st("out")} /> {st("out") === 1 /* session 5501, battery faults row 12: not "1 days" */ ? "day" : "days"} in all{leftOut ? `, ${leftAnc} of them for a missing ancillary price` : ""}).
                     {/* session 257: the events of the grid shown, read from the table: ERCOT's by name, CAISO's by their days */}
                     {events.length ? <span data-stress-days={events.map((e) => e.event).join(" ")}> The stress days{STRESS_BY[x.grid] ? `, ${STRESS_BY[x.grid]}` : ""} ({events.map((e) => e.short).join(", ")}): <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</span>
                       : stressRead && !stressRead.ok ? <span data-stress-days=""> The stress days: <a href={STRESS_DOWNLOAD} download>the table, CSV</a>.</span> : null}

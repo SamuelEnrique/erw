@@ -315,3 +315,9 @@ Read again by session 3888 at about 10:45 UTC, after chain 226's section, on `wi
 - **Time to connect, ERCOT:** unchanged. The Planning Guide's current Section 9 is still the 11 July 2026 version held.
 - **Time to connect, NYISO and ISO-NE:** open. Both operators' terms ask written permission; New York's Case 26-E-0045 was read at 05:49 UTC (session 3848) and states no clock.
 - **Still open:** as chain 223's section.
+## State on 14 November 2026, morning (chain 267)
+Read again by session 3931 at about 09:35 UTC, after chain 227's section, on `wip/c267-data` (main at `4435942c5`; chain 241 ran only its first session). Chain 267's sessions 3927 and 3928:
+- **Time to connect, CAISO: the Board's decision joined** (session 3927). The CAISO Board of Governors approved the Large Load Enhancements on 28 October 2026 (vote 5-0), as Management's memorandum of 22 October describes them, and authorized the FERC filings: 3 steps (the approval with its date, the 50 MW definition, the monthly review within the PTOs' 60 to 90 days), read on www.caiso.com. None prints a single duration, so the CAISO rows' hover reads as before; no cell moved.
+- **FERC's order to show cause in EL26-71 (18 June 2026): still not read** (session 3928). www.ferc.gov answers a Cloudflare challenge (HTTP 403, "Just a moment...") to this reader, and the eLibrary copy the CAISO's process page links is a script-built page with no document in its bytes. Neither is worked around.
+- **The CAISO's FERC compliance filing** (due 16 November 2026): not filed when read; waiting.
+- **Still open:** as chain 227's section.

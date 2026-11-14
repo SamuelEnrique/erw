@@ -265,6 +265,18 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                       spanRow("Price of every hour, USD per MWh", (v) => usd(v.flat), "flat"),
                       spanRow(peaker ? "Price while running over every hour's, percent" : "Capture rate, percent", (v) => (v.rate !== null ? whole(v.rate) : "not held"), "rate"),
                     ]} />
+                  {/* session 5501 (generator faults row 4): two capture prices stood on the face with nothing to say why, the spans
+                      table's 23.20 and 32.10 beside the headline's 23.27 and 32.17 (docs/methods/generator_earns_algorithm.md,
+                      section 9 item 1, edge cases 7 and 8); said here, each figure with the key it already carries */}
+                  {fuel && mine && s.twelve && s.twelve.capture !== null ? (
+                    <p className="mt-2 max-w-3xl text-xs text-muted" data-two-captures="1">
+                      Two ways of weighing the hours. In this table the capture price weighs each hour by the fleet&apos;s output per MW of that month&apos;s nameplate,
+                      and the price of every hour is the mean of the months&apos; flat prices, each month weighing the same: the model&apos;s way. The price received above
+                      weighs each hour by the generation itself and every hour the same, so over the same twelve months the two read USD {spanNum("twelve", "capture", s.twelve.capture, usd(s.twelve.capture))} and{" "}
+                      <Num check={capKey("price")} raw={mine.price}>{two(mine.price)}</Num> per MWh for the price received, and {spanNum("twelve", "flat", s.twelve.flat, usd(s.twelve.flat))} and{" "}
+                      <Num check={capKey("flat")} raw={mine.flat}>{two(mine.flat)}</Num> for every hour.
+                    </p>
+                  ) : null}
                   {x.asset === "battery" ? <p className="mt-2 text-sm">Energy alone. Energy and ancillary services together, at 2, 4 and 8 hours: <Link href="/cost-of-power/battery">What a battery earns</Link>.</p> : null}
                 </>
               ) : null}

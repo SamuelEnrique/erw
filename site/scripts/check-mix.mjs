@@ -31,7 +31,7 @@ const text = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(
 const n0 = (v) => Math.round(v).toLocaleString("en-US");
 const n1 = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-const VIEWS = { now: "today so far", day: "Generation by fuel, by hour", duck: "year after year", records: "the records", clean: "Carbon-free share of generation, by year", stress: "The largest evening ramp of each year",
+const VIEWS = { now: "the latest day EIA has published, so far", day: "Generation by fuel, by hour", duck: "year after year", records: "the records", clean: "Carbon-free share of generation, by year", stress: "The largest evening ramp of each year",
   supply: "Output as a share of installed capacity, by hour", forecast: "forecast a day ahead against actual", history: "Net generation by fuel, by year since 2001" };
 const pages = {};
 for (const [view, words] of Object.entries(VIEWS)) {
@@ -42,7 +42,7 @@ for (const [view, words] of Object.entries(VIEWS)) {
   check(r.status === 200 && r.html.includes(`data-mix="${view}"`) && t.includes(words) && !/\bundefined\b|NaN/.test(t) && !face && t.includes("Method, sources and gaps"),
     `${view}: opens, shows "${words}", carries no method${face ? ` (found "${face[0]}")` : ""}`);
 }
-check(/name="ba"/.test(pages.now) && /name="state"/.test(pages.now) && ["today so far", "hourly mix, last 7 days", "monthly mix since 2001"].every((w) => text(pages.now).includes(w)), "the first view is the original page: its two selects and its three sections");
+check(/name="ba"/.test(pages.now) && /name="state"/.test(pages.now) && ["the latest day EIA has published, so far", "hourly mix, last 7 days", "monthly mix since 2001"].every((w) => text(pages.now).includes(w)), "the first view is the original page: its two selects and its three sections");
 check(Object.keys(VIEWS).every((v) => pages.now.includes(`data-view="${v}"`)), "the nine views are one click apart on every view");
 
 // numbers against the files

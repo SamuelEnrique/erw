@@ -1122,7 +1122,13 @@ def build_fuel_spreads(b, fuels, log):
 
 def build_spreads(b, daily, fuels, us_coal):
     gas = fuels.get("eia:henry_hub", {})
+    held = ls.held_grids()   # session 1606 (test_session207 counts four since session 3008)
     for iso, (grid, tz) in ISO.items():
+        if grid in held:
+            # session 3940 (request 28 of docs/state/data_requests_licenses.md): a held grid's main hub builds no spark,
+            # heat or dark row data and no series file, as its power-hub rows build none; one row reads "licensed"
+            b.grey("spark", f"{iso}|spark", f"{grid} spark and dark spreads", "licensed", ls.note(grid), tags=dict(grid=grid), unit="USD/MWh")
+            continue
         entity, words = f"{iso}:{MAIN[iso]}", HUB_WORDS[MAIN[iso]]
         d = daily.get((entity, "da"))
         da = col(d, "mean") if d is not None else {}
@@ -1135,7 +1141,6 @@ def build_spreads(b, daily, fuels, us_coal):
               extra=dict(inputs=di) if di else None)
     # session 1606 (chain 165): the spark spread at every other public hub (not the load zones), behind the group's Show
     # filter; the stated heat rate's source in every spark and dark row's hover (heat_basis)
-    held = ls.held_grids()   # session 1606 (test_session207 counts four since session 3008)
     ref = fleet_heat_rates()
     if ref:
         b.heat_ref = ref

@@ -387,7 +387,7 @@ class ThePage(unittest.TestCase):
 
     def test_the_original_view_keeps_its_filters_and_its_three_sections(self):
         page = src("site", "components", "grid", "MixView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
-        for words in ('name="ba"', 'name="state"', "today so far", "hourly mix, last 7 days", "monthly mix since 2001", "<Today ", "<Hourly ", "<Monthly "):
+        for words in ('name="ba"', 'name="state"', "the latest day EIA has published, so far", "hourly mix, last 7 days", "monthly mix since 2001", "<Today ", "<Hourly ", "<Monthly "):
             self.assertIn(words, page, words)
         now = src("site", "components", "mix", "Now.tsx")
         for words in ("<ShareBar", "<StackedArea", "series_esum|${LATEST}", "series|${MONTHLY}"):
