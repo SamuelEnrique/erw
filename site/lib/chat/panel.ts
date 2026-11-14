@@ -19,6 +19,7 @@ import "server-only";
 import type Anthropic from "@anthropic-ai/sdk";
 import board from "@/data/board.json";
 import supply from "@/data/supply.json";
+import { gridOfRow } from "@/lib/board";
 import { DOCS } from "@/lib/markdown";
 
 type Json = Record<string, unknown>;
@@ -52,9 +53,36 @@ type SupplyRow = { id: string; group: string; label: string; at?: string; unit?:
 const BOARD = board as unknown as { built: string; sources: string[]; groups: { id: string; title: string }[]; rows: BoardRow[] };
 const SUPPLY = supply as unknown as { built: string; sources: string[]; groups: { id: string; title: string }[]; rows: SupplyRow[] };
 
-/** The rows a grid's panel may read: the grid's own and those of no grid. Another grid's row is never returned. */
+// Session 5264: the grids a row of the board is of. Until then a row was a grid's when its `grid` tag said so, and no
+// grid's when it carried none. The group "Hub spreads, within and across grids" (session 1606) tags its rows with a
+// scope, "within" or "across", and no grid, so ERCOT's panel read CAISO's NP15 less SP15, SPP's North less South, and
+// the two spreads across grids (the panel's own test, scripts/test-ask-panel.mjs, has failed on main since those rows
+// were drawn). A hub spread's id is two hubs and the market (`<hub>-<hub>-da`), and each hub is a row of the board
+// that carries its grid: the spread is of both hubs' grids. Any other row with no tag is the grid its id begins with,
+// as the board itself reads it for the license hold (lib/board.ts gridOfRow), and no grid's when it begins with none
+// (Henry Hub, crude oil, a state's retail price).
+const MARKET = /-(da|rt)$/;
+const HUB_GRID = new Map(BOARD.rows.filter((r) => r.tags?.grid && MARKET.test(r.id)).map((r) => [r.id.replace(MARKET, ""), r.tags!.grid.toUpperCase()] as const));
+/** The grids a row is of: [] for a row of no grid; null for a hub spread whose two hubs the board does not name,
+ *  which no panel may read (it is some grid's, and which cannot be told). */
+export function gridsOf(r: { id: string; group: string; tags?: Record<string, string> }): string[] | null {
+  if (r.tags?.grid) return [r.tags.grid.toUpperCase()];
+  if (r.group === "hubspread" || r.tags?.scope === "within" || r.tags?.scope === "across") {
+    const stem = r.id.replace(MARKET, "");
+    for (let i = stem.indexOf("-"); i > 0; i = stem.indexOf("-", i + 1)) {
+      const a = HUB_GRID.get(stem.slice(0, i)), b = HUB_GRID.get(stem.slice(i + 1));
+      if (a && b) return [...new Set([a, b])];
+    }
+    return null;
+  }
+  const g = gridOfRow(r);
+  return g ? [g.toUpperCase()] : [];
+}
+/** The rows a grid's panel may read: the grid's own and those of no grid. Another grid's row is never returned, and
+ *  a row of two grids (a spread across them) is not one grid's own. */
 export function boardRows(iso: string): BoardRow[] {
-  return BOARD.rows.filter((r) => !r.tags?.grid || r.tags.grid.toUpperCase() === iso.toUpperCase());
+  const mine = iso.toUpperCase();
+  return BOARD.rows.filter((r) => { const g = gridsOf(r); return g !== null && g.every((x) => x === mine); });
 }
 export function supplyRows(slug: string): SupplyRow[] {
   // a row of the two per-grid groups belongs to the grid its id names; "burn-all" is seven grids together, so no one grid's

@@ -1,0 +1,334 @@
+{
+  "auditor": "session 5302, batch b3 (independent audit, cached copies only, no web requests)",
+  "date": "2026-11-14",
+  "rows": [
+    {
+      "row_id": "xcel_plains-02",
+      "verdicts": [
+        {
+          "field": "status",
+          "verdict": "wrong",
+          "detail": "2025-06-14 is the date the governor signed the law. It is not the date the law took effect. The cited session law (Laws 2025, 1st Sp. Sess. ch. 12) prints its own effective-date clause right after Sec. 9 [216B.1622]: 'This section is effective the day following final enactment.' The governor signed it on 14 June 2025, so by these words Sec. 9 took effect on 15 June 2025. The row's note keeps the reading group's wording ('signed; the section is effective the day following final enactment'), but the status date that was written down is the signing date.",
+          "corrected_value": "in effect 2025-06-15 (effective the day following final enactment; signed by the governor 14 June 2025)",
+          "page": "1 (https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/12/, Sec. 9 EFFECTIVE DATE and the signature line)",
+          "words": "This section is effective the day following final enactment. ... Presented to the governor June 12, 2025 Signed by the governor June 14, 2025, 10:30 a.m."
+        },
+        {"field": "docket", "verdict": "ok", "detail": "The statute's History line on p.1 reads '1Sp2025 c 12 s 9; 2026 c 88 art 1 s 91'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Subd. 1 has the Commission define the very large customer class by order by 15 December 2026. Subds. 1 to 3 print no MW figure."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The PUC milestone table says 'Application Filed ... Apr. 2, 2026' and 'Commission Decision ... TBD'. The 10-Q expects a decision in late 2026 or early 2027. So: proposed, filed 2026-04-02."},
+        {"field": "docket", "verdict": "ok", "detail": "'Proceeding Number 26AL-0137E' is on the PUC page."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "The PUC page says 'those requiring 50 MW or more' and 'New customers using between 20 and 50 MW may also be subject'. The 10-Q says 'mandatory for new loads over 50 MW'. The value gives each wording and names its source."},
+        {"field": "contract_term", "verdict": "ok", "detail": "The PUC page says 'contracts of 15 years or more'. The 10-Q says 'a minimum initial term of 15 years'. Both describe the proposal and are labeled as such."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Filed 25 September 2026 (Attachment B notice, p.24). Order No. 5 only suspends the effective date to 27 February 2027, so the status is still proposed."},
+        {"field": "docket", "verdict": "ok", "detail": "'DOCKET NO. 60332', p.3."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.19 gives Aggregated Service of 'greater than or equal to 75 megawatts (MW) of Peak Contracted Load', a 2.5-mile radius, common ownership or control, and PCL Growth of '75 MW or more occurring after September 25,2026'. The doc's voltage wording, '69 kV sub-transmission and 115 kV and above', is fairly summarized as 69 kV and above."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.20: the greater of actual metered kW or 80% of Peak Contracted Load. p.19: Load Ramp Period of up to five years, with demand charges billed from the Load Ramp Start Date."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.20: 15 years at full PCL, with any ramp added and up to 10 years of credit for existing load. p.21: five-year auto-renewal unless 24 months' written notice."},
+        {"field": "collateral", "verdict": "ok", "detail": "pp.20 to 21 support every element: a letter of credit of at least 3 months' minimum bills plus a guaranty of at least 5 years of minimum bills and no more than the exit fee; guarantor TNW of $500 million and investment grade; a letter of credit in lieu of the guaranty if not creditworthy; banks rated A- or A3; posting within 30 days."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.20: the lesser of fifteen years or the remaining term, where the term counts the 24-month notice plus thirteen years of minimum bill payments."},
+        {"field": "queue_size", "verdict": "ok", "detail": "Williams testimony, p.12 (filing receipt dated 2026-09-25): 'thousands of MW of new peak load demand', set against a historical peak of approximately 4,500 MW. No figure is invented."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The 10-Q says the tariff was 'filed in the second quarter of 2026', so: proposed. The date is left empty even though the quarter is printed. That is not an error, but 2026-Q2 could be given."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "'would be mandatory for new loads over 100 MW'."},
+        {"field": "contract_term", "verdict": "ok", "detail": "'a minimum initial term of 15 years' (proposed tariff)."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "'In September 2026, WPL filed an application with the PSCW for approval of a large load tariff.'"},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "The 100 MW figure is the PSCW's direction ('applicable to all customers with demand requirements of 100 MW or greater'), and the value says so. The 10-Q does not print the filed tariff's own threshold."},
+        {"field": "contract_term", "verdict": "ok", "detail": "'commit to an initial service term of 15 years' (proposed tariff)."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The release (7 May 2026) records the open-meeting decision and says a final order will follow. The 10-Q says 'In June 2026, the PSCW approved an ICR'."},
+        {"field": "docket", "verdict": "ok", "detail": "'Docket 6680-TE-115', release p.3."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-08",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The 10-Q says the IUC's September 2024 rate review order includes the 'Creation of an individual customer rate tariff', with rate changes effective 1 October 2024. The 10-K says ICRs were approved under it in May and October 2025. No ICR sheet or effective date for the ICR tariff itself was read, so 'approved' with the order month is what the words support."},
+        {"field": "queue_size", "verdict": "ok", "detail": "The 10-K says 'aggregate, peak demands of approximately 3 gigawatts' and is signed 'the 20th day of February 2026'. The 10-Q adds the April 2026 IPL ESA of 'approximately 370 MW'. The two figures are not summed."}
+      ]
+    },
+    {
+      "row_id": "xcel_plains-09",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "'Effective 01/01/2026' on pp.44 to 46 (Rate 261M)."},
+        {"field": "docket", "verdict": "ok", "detail": "'Resolution No. 6743' on pp.44 to 46."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.44: minimum demand of 20,000 kW at 161 kV or 200,000 kW at 345 kV, a customer-owned substation, and the minimum to be met within 18 months."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.44 gives the minimum billing demand and the minimum monthly bill of $488,200 or $4,792,000. p.45 sets the demand floor at the larger of 90% (summer) or 75% (non-summer) of the highest demand of the preceding eleven months, or 20,000 kW or 200,000 kW."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The cover letter says 'effective on and after January 4, 2026'. The EFIS record shows 'Approved (1/4/2026)'."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0076: 'Related Submission No. ET-2025-0184'."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet 61.10: up to 5-year ramp plus a 12-year Term, five-year Extension Terms unless 36 months' notice. Sheet 61.12: Termination Notice not less than 24 months."},
+        {"field": "collateral", "verdict": "ok", "detail": "Sheet 61.15 (2) sets two years of Minimum Monthly Bills. All four discount tiers (60/50/40/25 percent, capped at $175M/$150M/$125M/$75M) check out on pp.14 to 15. Sheet 61.17 (8) and (10) give the timing and the annual review after three years at peak load."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Sheets 61.12 to 61.13: Early Termination Fee of 2 times the Minimum Monthly Bill times the months short of 24. Sheet 61.11: a 20 percent Permissible Capacity Reduction on 24 months' notice; beyond that, after year five, a Capacity Reduction Fee."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Sheet 122 III.M: the customer pays extension costs (MISO network upgrades excluded), and construction begins only after payment and signed agreements. No time to energize is printed."},
+        {"field": "queue_size", "verdict": "ok", "detail": "10-Q Note 2: '2.8 gigawatts of demand', executed in 2026 'under its modified large primary service tariff that was approved in 2025'. Service Classification 11(M) is Large Primary Service, and LLCS is its large load provision. The 10-Q signature reads 'Date: November 6, 2026'."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheets 125 and 126 (2nd Revised) are in the filing that is effective on and after 4 January 2026. III.P is marked as an addition."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0076: 'Related Submission No. ET-2025-0184'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "'loads expected to be greater than 25 megawatts(MW)'."},
+        {
+          "field": "collateral",
+          "verdict": "wrong",
+          "detail": "The tariff gives a dollar amount only for the first deposit and for one additional deposit. Any later deposits have no stated amount. The value's 'then further refundable $200,000 deposits' applies the $200,000 figure to every later deposit, which the words do not do.",
+          "corrected_value": "A refundable deposit of $200,000 with a Letter of Agreement; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (amount not stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; projects the Company designates as serving the community interest may be given queue priority and may not need a deposit",
+          "page": "37 (Sheet 125, III.P.2)",
+          "words": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required. Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+        },
+        {"field": "study_timeline", "verdict": "ok", "detail": "Sheets 125 and 126 support each element: queue by date of information and deposit, up to four projects at a time, details sent to MISO after the initial project agreement, plans valid six months. No duration is printed."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 76 footer: 'Effective: March 9, 2026'. EFIS JE-2026-0104: 'Approved (3/9/2026)'."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0104: 'Related Submission No. EO-2025-0154'."},
+        {"field": "collateral", "verdict": "ok", "detail": "All four tiers (60/50/40/25 percent, caps $175M/$150M/$125M/$75M) check out on p.24 (Sheet 80). Sheet 81 (p.25): provided at execution of the LLPS Service Agreement."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 1.09D footer: 'Effective: March 9, 2026'. EFIS JE-2026-0103: 'Approved (3/9/2026)'."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0103: 'Related Submission No. EO-2025-0154'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "2.14 A: 'loads expected to be greater than 25 megawatts (MW)'."},
+        {
+          "field": "collateral",
+          "verdict": "wrong",
+          "detail": "Same wording as Ameren's III.P. Rule 2.14 B sets $200,000 for the first deposit and for one additional deposit only. Later deposits have no stated amount, but the value says 'further refundable $200,000 deposits'. The 9.11(E) part (extension costs paid in full, SPP network upgrades excluded) is correct.",
+          "corrected_value": "A refundable deposit of $200,000 with a Letter of Agreement; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (amount not stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+          "page": "1 (Sheet 1.09D, 2.14 B)",
+          "words": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required. Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+        },
+        {"field": "study_timeline", "verdict": "ok", "detail": "2.14 B and C: queue by date, up to four projects, details sent to SPP after the Initial Projects Agreement, plans valid six months. No duration."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "9.11(E) (p.2): construction is conditional on payment and agreements. 2.14 D: customers may be returned to the queue, with no timeframe printed."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 187 footer: 'Effective: March 9, 2026'. EFIS JE-2026-0105: 'Approved (3/9/2026)'."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0105: 'Related Submission No. EO-2025-0154'."},
+        {"field": "collateral", "verdict": "ok", "detail": "All four tiers check out on p.11 (Sheet 190). Sheet 191 (p.12): provided at execution."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The Sheet R-21 and R-54 footers say 'Effective: March 9, 2026'. EFIS JE-2026-0105 lists '2nd rs R-21 and 3rd rs R-54'."},
+        {"field": "docket", "verdict": "ok", "detail": "EFIS JE-2026-0105: 'Related Submission No. EO-2025-0154'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "2.10 A: 'loads expected to be greater than 25 megawatts (MW)'."},
+        {
+          "field": "collateral",
+          "verdict": "wrong",
+          "detail": "Rule 2.10 B sets $200,000 for the first deposit and for one additional deposit only. Later deposits have no stated amount, but the value says 'further refundable $200,000 deposits'. The 7.11 E part is correct.",
+          "corrected_value": "A refundable deposit of $200,000 with a Letter of Agreement; if costs exceed it, an additional refundable deposit of $200,000; further refundable deposits (amount not stated) so that the customer pays all project planning costs; unused initial deposit funds refunded without interest; community interest projects may be given queue priority and may not need a deposit. Substation or transmission extensions are paid in full by the customer (SPP network upgrades excluded)",
+          "page": "39 (Sheet R-21, 2.10 B)",
+          "words": "Should costs exceed this deposit an additional refundable deposit of $200,000 shall be required. Additional refundable deposits will be required such that the Customer pays all project planning costs associated with their project."
+        },
+        {"field": "study_timeline", "verdict": "ok", "detail": "2.10 B and C, p.39. No duration is printed."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "7.11 E (p.40) and 2.10 D (p.39). No timeframe is printed."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "KCC report p.17 and the slides (p.8) say the Commission approved the settlement on 6 November 2025. No tariff effective date was read, so 'approved' follows the README."},
+        {"field": "docket", "verdict": "ok", "detail": "'Docket No. 25-EKME-315-TAR', report p.16."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Report p.16: 'peak load of 75 MW or greater, or an existing customer with an expansion of 75 MW or greater'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Report p.17: 80% of contract demand, regardless of actual monthly usage."},
+        {"field": "contract_term", "verdict": "ok", "detail": "The '15' at the foot of p.16 is the printed page number. The sentence continues on p.17 as 'up to 17-years. Thereafter, the contract automatically extends for five years at a time.'"},
+        {"field": "collateral", "verdict": "ok", "detail": "Report p.17: 'equal to two (2) years of Minimum Monthly Bills, as calculated by Evergy'. Note that the slides (p.11) say 'up to 2 years of Minimum Bills', which the value does not reflect. Not wrong, since the report's words support it."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Report p.17: 36 months' notice; exit fee is the greater of the remaining months or 12 months; with short notice, plus 2 times the Minimum Monthly Bill times the months short of 36; capacity reduction limited to the lower of 25 MW or 10 percent."},
+        {
+          "field": "queue_size",
+          "verdict": "unclear",
+          "detail": "The figures and words are right. The 10-Q says 'approximately 2,600 MWs', three new projects and the expansion of two, service commencing 2026 to 2028. The 5 November 2026 earnings release (Ex. 99.1) gives the ~250 MW of ESA amendments and the 1.4 GW Digital Realty letter of intent. One detail is not supported: the parenthetical 'filed 5 November 2026'. The cached 10-Q prints no filing date, and its signature block reads 'Dated: November 4, 2026'. The EDGAR filing date is what is missing. 'Kansas and Missouri together' is a fair reading of 'the Evergy Companies' (the release names 'our Kansas and Missouri service territories').",
+          "page": "10-Q signature block (https://www.sec.gov/Archives/edgar/data/1711269/000171126926000117/evrg-20260930.htm)",
+          "words": "Dated: November 4, 2026"
+        }
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-08",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "10-Q: 'In October 2026, Evergy Kansas Central and Evergy Metro filed an application with the KCC'. An order is requested in February 2027. Proposed, dated to the month only."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-09",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The ICC list says '(Tariffs filed July 10, 2026)', and suspension and resuspension are pending to 6 June 2027. Proposed 2026-07-10."},
+        {"field": "docket", "verdict": "ok", "detail": "'Complete docket number: P2026-0625'."}
+      ]
+    },
+    {
+      "row_id": "ameren_evergy_spp-11",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "MD&A: 'On September 11, 2026, Empire Electric filed a Large Load tariff'. The PSC page says the case is 'currently in progress'."},
+        {"field": "docket", "verdict": "ok", "detail": "PSC page: 'Submit Comment in Liberty Case ET-2026-0184'."}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "'RATE EFFECTIVE OCTOBER 1, 2026' on each page."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "The p.1 Availability clause (2022 NAICS 518/519 excluding 519210, 522320, 541214, or computational equipment in TVA's sole judgment) and the class table (TDCA to TDCD, above 1,000 / 5,000 / 15,000 / 25,000 kW, based on the higher of on-peak or off-peak contract demand) are both rendered correctly."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.2: the stepped 30/40/50/60/70/80/85 percent floor on both on-peak and off-peak billing demand, and 110 hours of off-peak energy above 5,000 kW. p.3: minimum monthly bill and 'may require minimum bills higher'. p.1: TVA's 36-month review at 75 percent."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.3 Contract Requirement: TDCA is 1 year, then year to year, 90 days' notice. TDCB, TDCC and TDCD are 5 years with renewals of at least 5, and after 10 years a renewal may allow 16 months' notice."}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 26 says 'With Bills Rendered On and After February 16, 2026'. Sheet 26.1 says 'With Service Rendered On and After February 16, 2026'. The order is dated 16 February 2026."},
+        {"field": "docket", "verdict": "ok", "detail": "Sheet 26 footer: 'Case No. 2025-00114 dated February 16, 2026'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.33: 'contract capacity greater than 50 MVA', load factor above 85%, new customers only, and aggregation authority. The 50 MVA comes from the stipulation, p.14 of the order, which approves it with modifications. The issued sheet prints 50 MVA."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.33: the greatest of current maximum load, the highest of the preceding 11 months, or 80% of contract capacity. p.34: billing begins 30 days after the stated start date."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.34: not less than 15 years, 60 months' notice, and capacity reduction after the first 5 years on 60 months' notice with a Capacity Reduction Fee."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.35 supports every element: 24 months, or 12 months at A and A2 with 10 times cash; due at signing; three business days after an adverse change; Qualified Institution with $10 billion in assets, rated A- and A3."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.34: the nominal value of the remaining minimum non-fuel revenue, due on the termination date. Capacity Reduction Fee calculated the same way."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.33: service 'will not commence until the Company has sufficient capacity'. No time is printed."},
+        {"field": "queue_size", "verdict": "ok", "detail": "Order in Case 2025-00045 dated 28 October 2025, p.50: 'more than 6,000 MW of potential data center load in the companies' current queue'. It is the combined LG&E/KU figure, and the value labels it that way."}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Order ordering paragraph 1: approved 'for service rendered on and after the date of this Order' (30 October 2025). The sheets are stamped effective 10/30/2025."},
+        {"field": "docket", "verdict": "ok", "detail": "'Case No. 2025-00140 dated October 30, 2025'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.142: 15,000 kW, 60 percent load factor, cryptocurrency mining included. p.143 covers aggregation. Above 250,000 kW, p.145 says a Dedicated Resource 'will be required', but the same sentence opens with 'unless otherwise determined by EKPC in its sole discretion', which the value leaves out. A small omission. Adding it is optional."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet 105 IV.4: term and renewals are set in each contract, and the load ramp schedule may not exceed five years."},
+        {"field": "collateral", "verdict": "ok", "detail": "pp.149 to 152 support every element: rolling 6-month Pre-Payment Deposit, after 2 years never below 2 months; replenished 'Within seven (7) days after any draw'; Creditworthy means A- (S&P) or A3 (Moody's), lower controls, and liquidity above 20 times; 18-month Downgrade amount; PJM capacity and termination collateral; parent guarantee caps of 50/25/0 percent. p.147 covers Build-Out Costs paid up front."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.147 V.6(c): unreimbursed Build-Out Costs, including settlement of underlying agreements. p.149 VII.1(a): the deposit may be drawn for damages from early termination."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "p.153: fee of $75,000 plus $1,000 per MW over 15 MW, up to $250,000, with study costs above the fee borne by the applicant. PJM request 'within a commercially reasonable amount of time'. p.145: 180 days 'as an objective, but not an obligation'. p.154: 60 days to sign, and 10 business days to file on commercially reasonable efforts."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.145: service does not begin until the Selected Resource Mix 'is obtained, secured and available'."}
+      ]
+    },
+    {
+      "row_id": "tva_southeast-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "p.129: 'Adopted October 30, 2026 Effective for bills rendered on and after February 1, 2027'. Approved, not yet in effect."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.119 Section 1(A): above 20,000 kW for data centers, above 1,000 kW for mobile loads including cryptocurrency, above 20,000 kW for other high load factor facilities, and mandatory. The parenthetical '(lowered from 50,000 kW under L-25-LL)' rests on the L-25-LL row's cites, not on this document."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.122 4(A)(1) and p.126 4(H)(2)-(3): factors of 90% and 90%. p.124 4(C)(1): the 36-month phase-in is at the Authority's option."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.127 6(B)(1): 180 months. p.124 4(C)(2): no reduction before 15 years and one year's notice, with steps of 4,000 kW or 20%, then 40%, 60%, 80%, and 100% from the fifth period."},
+        {"field": "collateral", "verdict": "ok", "detail": "pp.127 to 128: 180 months of Minimum Bills, at least 12 months as a cash deposit, the creditworthiness matrix (Aaa to A3 or AAA to A-: guaranty up to 100%; Baa1/BBB+ or lower, or unrated: 100% letter of credit or cash), recalculated annually, and delivery point and transmission costs paid before signing."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Release of 1 October 2026: 'today approved special contracts'. The 10-Q says approval came in Q4 2026."},
+        {"field": "docket", "verdict": "ok", "detail": "'(Case No. U-22058)'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "A customer-specific contract. 10-Q: '1.0 gigawatt data center agreement'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "'A minimum billing demand of 80%, compared to 50%-65% in the general D11 rate.'"},
+        {"field": "contract_term", "verdict": "ok", "detail": "Release: 20 years vs 5 years under D11. EEI deck: 20-year PSA and 20-year clean capacity agreement."},
+        {"field": "collateral", "verdict": "ok", "detail": "The release names credit and collateral requirements without amounts, and the value says so."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "'at least 15 years of minimum monthly charges'."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "'expected to begin taking service in December 2027 with a maximum load achieved by December 2028', attributed to DTE."},
+        {"field": "queue_size", "verdict": "ok", "detail": "EEI deck, slide 8: '2.4 GW of executed agreements', Oracle 1.4 GW and Google 1 GW, '5-6 GW of additional opportunities', '2 GW in advanced discussions', '3-4 GW of additional pipeline opportunities'."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "The 18 December 2025 release says 'conditionally approved'. A special contract with no sheet, so 'approved' fits the README. The conditions are in the row's notes."},
+        {"field": "docket", "verdict": "ok", "detail": "'Case No. U-21990', application p.2."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Foley Q13 (p.12): 'approximately 1.4 GW'. Release: '1,383- megawatt (MW) data center'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Foley pp.17 to 18: 80% of contract capacity applied to all three D11 demand charges, superseding the '65% ratchet' and the '50% of contract capacity' term, with the MMC rising with the ramp and then held constant."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Application p.3: to 28 February 2045. Foley p.15: two 10-year renewals. Foley pp.15 to 16: rate change conditions. Foley p.21: ESA 15 years per project. These are the filed terms, approved conditionally."},
+        {"field": "collateral", "verdict": "ok", "detail": "Foley Q31 (p.20): parent guaranty and, as needed, a letter of credit. The release (p.3) adds ESA credit and collateral."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Foley Q29 (p.19) is rendered correctly. The release's 'up to 10 years' worth' (the size of the payment) and the testimony's 'at least 10 years' (the total recovery) are consistent."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Foley Q13 and Q28: January 2027 start, max load December 2027, delay of up to 12 months in aggregate, so December 2028 at the latest."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-03",
+      "verdicts": [
+        {
+          "field": "status",
+          "verdict": "wrong",
+          "detail": "The MPSC release does support Commission approval on 27 August 2026. But the approved rule is printed in DTE's rate book (the cached copy of great_lakes-04's source_url) on Second Revised Sheets C-4.00, C-5.00 and C-14.00 (PDF pp.45, 46 and 55), each 'Effective for service rendered on and after August 27, 2026' and issued 2 September 2026. Under the README, 'approved' means not yet in effect or no sheet yet. The row's own notes say the rule is in effect from that date. Because the rate book host allows personal use only, the cite would be an internal source; the row stays public through the MPSC release.",
+          "corrected_value": "in effect 2026-08-27",
+          "page": "45 (https://www.dteenergy.com/content/dam/dteenergy/deg/website/common/service-and-price/rate-cards/DTEElectricRateBook.pdf, Second Revised Sheet No. C-4.00)",
+          "words": "Customers that take service from DTE Electric after October 1, 2025 with capacity of at least 500MW or customers that take service under the Large Load Provision of Rate Schedule No. D11 will be subject to firm load shedding prior to other customers ... Effective for service rendered on and after August 27, 2026"
+        },
+        {"field": "docket", "verdict": "ok", "detail": "'(Case No. U-22059)'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "'after Oct. 1, 2025, with at least 500 MWs of capacity or customers that take service under DTE Electric's Large Load Provision of Rate Schedule No. D11'."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Original Sheet D-48.10: 'Effective for service rendered on and after January 21, 2022' (U-21163). Current prices are on Fourth Revised D-48.08, effective 5 March 2026."},
+        {"field": "docket", "verdict": "ok", "detail": "The sheet footers name U-21163 (order dated December 22, 2021) and U-21860."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.193: not less than 50,000 kW at one or more sites, new and incremental, at least 75% load factor, and 'not available to serve the load associated with data centers'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "The p.195 formula is rendered faithfully. 'Surcharges and Credits as applicable' is left out, which is not material."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.195: 15 years, then month to month until mutual consent or 12 months' written notice."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.193: 'in service within four years of initially taking service under this rate'."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet D-67.40: 'Effective for service rendered on and after November 7, 2025'."},
+        {"field": "docket", "verdict": "ok", "detail": "'dated November 6, 2025 in Case No. U-21859'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.216: 100 MW at a single site, or multiple sites of 20 MW or more totalling 100 MW, owned by the same entity."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.216: 80% of Contract Capacity, applied to Maximum Demand and On-Peak Billing Demand, transmission charge included, for the contract term."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.216: 15 years after a ramp-up of up to 5 years, then 5-year renewals unless 4 years' notice. p.217: one 10% reduction at the Company's discretion on 48 months' notice."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.216: 50% of the Exit Fee unless the Commission approves otherwise, recalculated annually, letter of credit (A- and A3 bank, 360-day terms) or cash."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p.217: (Minimum Billing Demand plus System Access Charge) times the remaining months, ramp-up included, and a prorated Exit Fee for reductions above 10%."}
+      ]
+    },
+    {
+      "row_id": "great_lakes-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 238: 'Effective: For service furnished on and after 6-1-2026', order dated 5-21-2026."},
+        {"field": "docket", "verdict": "ok", "detail": "'PSCW Authorization: Docket No. 6630-TE-113'."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p.312: 100 MW of new load not now in any Wisconsin utility's territory, at least 24,900 volts, mandatory."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p.314: Minimum Transmission Demand. p.313: Initial Forecasted Demand. p.330: minimum monthly charge items 1 to 8, owed regardless of power used."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p.312: 15 years, with one-year notice due 'no later than one day prior to the first day of the MISO Planning Year (currently, June 1) in year nine (9)', then annual renewal. p.336: the BRT term."},
+        {"field": "collateral", "verdict": "ok", "detail": "p.332: net book value of dedicated distribution facilities plus 1.3 times 24 months of the Charges, reset yearly; not required while the customer meets A- and A3 plus 2.0 times TNW or 10 times liquidity. p.333 gives the forms. p.348 gives BRT security at the aggregate net book value."},
+        {
+          "field": "exit_fee",
+          "verdict": "wrong",
+          "detail": "The value states the bespoke-resource reimbursement after commercial operation as unconditional. Sheet 272 (p.346) relieves the customer of further reimbursement if the Commission approves moving its share into the Company's rate base or assigning it to another customer. The WEC deck the value also cites says 'to the extent it cannot be repurposed'. The VLC parts are correct: continued pass-through charges or credits (p.313), and the undepreciated dedicated distribution facilities that can no longer serve another similar size customer (p.323).",
+          "corrected_value": "On early termination the customer stays responsible for certain pass-through charges (or receives certain credits); pays the remaining undepreciated book balance of dedicated distribution facilities that could no longer serve another similar size customer; for a bespoke resource terminated after commercial operation, reimburses the net book value of its share, but owes no further reimbursement if the Commission approves moving its share into the Company's rate base or assigning it directly to another customer (before commercial operation, its share of expenditures and cancellation fees not otherwise recoverable or mitigated)",
+          "page": "346 (Sheet 272, Rate Schedule BRT, Termination after Commercial Operation of the Bespoke Resource)",
+          "words": "If the Commission approves moving the Customer's Share into the Company's rate base or assigning it directly to another customer under an applicable Company tariff, customer will not be obligated to reimburse the Company for any additional costs, including invested capital and accumulated AFUDC."
+        },
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p.331 Conditions of Delivery (2)."},
+        {"field": "queue_size", "verdict": "ok", "detail": "WEC Investor Update, November 2026, slide 11: '2026-2031 expecting to add 4.9 GW* (~60%) of electric demand *Includes Microsoft/SE WI 3,200 MW, Oracle 1,300 MW and 400 MW of additional growth.'"}
+      ]
+    }
+  ]
+}

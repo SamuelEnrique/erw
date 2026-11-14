@@ -49,7 +49,7 @@ def main() -> int:
             n = notes.setdefault(s, {"utility": r.get("utility"), "state": set(), "group": group, "rows": [],
                                      "none": [], "refused": []})
             n["state"].add(r.get("state", ""))
-            n["rows"].append((f"{group}-{i:02d}", r))
+            n["rows"].append((r.get("row_id") or f"{group}-{i:02d}", r))
         for nf in data.get("none_found") or []:
             s = slug_for(nf.get("utility", ""), nf.get("notes_slug") or "")
             n = notes.setdefault(s, {"utility": nf.get("utility"), "state": set(), "group": group, "rows": [],
