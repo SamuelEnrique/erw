@@ -133,3 +133,7 @@ final proposal's 50 MW definition and its monthly review within the PTOs' 60 to 
 Board's approval with its stated date, the definition, and the monthly review with its words and no duration. None prints
 a single duration, so the CAISO rows' hover reads as before, with the decision now named. The FERC filing it authorizes
 (due 16 November 2026) was not read.
+
+## Chain 272: a document held for a license (session 3947)
+
+The registry now holds a document whose only copy read sits on a host whose terms ask written permission (ruling 4 of 6 November 2026; the default of data request row 8 of `docs/state/data_requests_large_load.md`): the file stays, with `license: internal`; its steps are not written; the table's header names it as held. The table is written whole from the registry on every run, so a held document's steps leave it. PG&E's Electric Rule No. 30 is the first: read from PG&E's filed tariff book on pge.com, whose terms forbid publication without consent. The CPUC's Decision 25-07-039 orders the interim rule but prints none of its four timed steps, so they cannot be re-cited there. The table went from 89 steps to 85, and the All grids tab's CAISO rows lose those four (`site/data/siting/conn_rules.json`, rebuilt from the table, also gains the CAISO Board's decision and FERC's order on PJM's definition). `tariffs.json` was rebuilt from the tariffs table the same day, without the fourteen schedules held in session 3937.
