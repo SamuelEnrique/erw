@@ -106,5 +106,50 @@ class TheRefusingHosts(unittest.TestCase):
         self.assertIn('if r["publisher"] == "EIA":', src)
 
 
+
+class TheWildcardReading(unittest.TestCase):
+    """Request 27: each of the three fetchers reads a robots file's "*" and "$" as the convention does and keeps the
+    stricter of that and urllib.robotparser's answer. The Texas Comptroller's "Disallow: /*/" (read 2038) refuses /taxes/."""
+    LINES = ["User-agent: *", "Disallow: /*/", "Allow: /$"]
+
+    def mods(self):
+        import importlib
+        for sub in (("warehouse", "connectors"), ("warehouse", "thesis")):
+            d = os.path.join(ROOT, *sub)
+            if d not in sys.path:
+                sys.path.insert(0, d)
+        return [importlib.import_module(n) for n in ("eia_ba_boundaries", "large_load_filings")] + [self.series()]
+
+    def series(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("thesis_series_3940", os.path.join(ROOT, "warehouse", "thesis", "series.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        return m
+
+    def test_the_comptrollers_rule(self):
+        for m in self.mods():
+            self.assertFalse(m.wildcard_allows(self.LINES, "*", "/taxes/"), m.__name__)
+            self.assertTrue(m.wildcard_allows(self.LINES, "*", "/"), m.__name__)
+            self.assertTrue(m.wildcard_allows(["User-agent: *", "Disallow:"], "*", "/a/b"), m.__name__)
+            self.assertEqual(m.url_path("https://x.example/a/b?c=1"), "/a/b?c=1")
+
+    def test_the_answer_does_not_rest_on_the_python(self):
+        # urllib.robotparser reads "*" literally on the runner's Python 3.12 and as a wildcard on 3.14 (this machine):
+        # the wildcard reading gives the same refusal on both
+        for m in self.mods():
+            self.assertFalse(m.wildcard_allows(["User-agent: *", "Disallow: /*/"], "ClaudeBot", "/taxes/"), m.__name__)
+
+    def test_the_saved_file_check_refuses(self):
+        import tempfile
+        m = self.mods()[0]
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+            f.write(chr(10).join(self.LINES))
+        try:
+            self.assertFalse(m.robots_allows(f.name, "https://comptroller.texas.gov/taxes/"))
+        finally:
+            os.remove(f.name)
+
+
 if __name__ == "__main__":
     unittest.main()
