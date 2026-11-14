@@ -444,6 +444,32 @@ def list_tables(sector=None, license=None, iso=None):
 
 # ------------------------------------------------------------- describe_table
 
+# Session 6111 (chain 280): a column of prose is named, not listed. describe_table lists the values of every text column
+# of a table of things or events that has 60 distinct values or fewer. The large-load research tables of 14 November 2026
+# (utility_large_load_rules, state_large_load_laws) are small and hold whole clauses as printed (a law's requirements, a
+# rule's exit fee): describing one returned 80 to 90 KB, most of it prose no question had asked for, read again by every
+# later call of the answer. A column whose longest value is over LONG_TEXT characters is prose: describe_table gives
+# its name, how many distinct values it has and the longest one's length, and the note says how one row's text is read.
+# The same rule in the site's loop (site/lib/chat/tools.ts splitLongText).
+LONG_TEXT = 200
+LONG_TEXT_NOTE = ("columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. "
+                  "To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row "
+                  "(by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.")
+
+
+def split_long_text(values, limit=LONG_TEXT):
+    """({column: its values} for the columns whose values are short, {column: {"distinct": n, "longest_chars": m}} for the
+    columns of prose). `values` maps a column to its values, as a dict of counts (here) or a list (the site's loop)."""
+    short, long = {}, {}
+    for col, vals in values.items():
+        longest = max((len(str(v)) for v in vals), default=0)
+        if longest > limit:
+            long[col] = {"distinct": len(vals), "longest_chars": longest}
+        else:
+            short[col] = vals
+    return short, long
+
+
 def describe_table(table):
     df = _table(table)
     shape = _shape(df)
@@ -478,6 +504,10 @@ def describe_table(table):
                 vc = s[s != ""].value_counts()
                 if 1 <= len(vc) <= 60:
                     text_cols[c] = {str(k): int(v) for k, v in vc.items()}
+        text_cols, long_cols = split_long_text(text_cols)
+        if long_cols:
+            out["long_text_columns"] = long_cols
+            out["long_text_columns_note"] = LONG_TEXT_NOTE
         numeric = [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]
         out.update({"text_column_values": text_cols, "numeric_columns": numeric,
                     "first": _ts(df[tcol].min()) if tcol in df else None,

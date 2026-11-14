@@ -19,6 +19,7 @@ import { notLiveWords } from "./refused";
 import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
+import { LONG_TEXT_NOTE, splitLongText } from "./longtext";   // session 6111: a column of prose is named, not listed
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -312,9 +313,15 @@ async function describeTable(a: { table: string }, scope: Scope = null): Promise
         (vals[col] ??= new Set()).add(String(v));
       }
     }
-    out.text_column_values = Object.fromEntries(
+    // session 6111: a column of prose (a value over 200 characters) is named with its count, not listed (lib/chat/longtext.ts)
+    const split = splitLongText(Object.fromEntries(
       Object.entries(vals).filter(([, s]) => s.size <= 60).map(([k, s]) => [k, Array.from(s).sort()]),
-    );
+    ));
+    out.text_column_values = split.short;
+    if (Object.keys(split.long).length) {
+      out.long_text_columns = split.long;
+      out.long_text_columns_note = LONG_TEXT_NOTE;
+    }
     out.text_column_values_note = `values seen in the first ${sample.length} rows, without counts; use query with aggregation count to count`;
     out.time_column = tcol;
   }
