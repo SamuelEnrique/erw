@@ -5,14 +5,14 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/refusals
 | Class | Refusals | Graded right |
 |---|---|---|
 | MISO's pause | 25 | 25 of 25 graded |
-| a license hold | 120 | 119 of 120 graded |
-| a table not in the live set | 61 | 60 of 61 graded |
-| the call limit | 12 | 11 of 12 graded |
-| the warehouse lacks the figure | 129 | 122 of 129 graded |
-| rows read, then refused | 23 | 22 of 23 graded |
+| a license hold | 126 | 125 of 126 graded |
+| a table not in the live set | 62 | 61 of 62 graded |
+| the call limit | 14 | 13 of 14 graded |
+| the warehouse lacks the figure | 137 | 130 of 137 graded |
+| rows read, then refused | 29 | 28 of 29 graded |
 | the number check's refusal | 1 | 0 of 1 graded |
 
-In all: 371 refusals.
+In all: 394 refusals.
 
 | Run | Id | Calls | Class | Graded |
 |---|---|---|---|---|
@@ -387,3 +387,26 @@ In all: 371 refusals.
 | session 6166, the site's loop, the unlisted set | ul10 | 3 | a license hold | right |
 | session 6166, the site's loop, the unlisted set | ul11 | 3 | a table not in the live set | right |
 | session 6166, the site's loop, the unlisted set | ul12 | 7 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv01 | 3 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv02 | 2 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv03 | 4 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv04 | 3 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv05 | 5 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv17 | 2 | the warehouse lacks the figure | right |
+| session 6167, the site's loop, the investor set | iv18 | 9 | a table not in the live set | right |
+| session 6167, the site's loop, the investor set | iv19 | 3 | a license hold | right |
+| session 6167, the site's loop, the investor set | iv20 | 3 | the warehouse lacks the figure | right |
+| session 6168, Python loop over the tables' files, the new tables' set | fc16 | 12 | the call limit | right |
+| session 6168, Python loop over the tables' files, the new tables' set | fc17 | 6 | rows read, then refused | right |
+| session 6168, Python loop over the tables' files, the new tables' set | fc18 | 9 | rows read, then refused | right |
+| session 6168, Python loop over the tables' files, the new tables' set | fc19 | 6 | rows read, then refused | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ru11 | 10 | rows read, then refused | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ru12 | 5 | the warehouse lacks the figure | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ru13 | 4 | the warehouse lacks the figure | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ru14 | 5 | rows read, then refused | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ch09 | 6 | the warehouse lacks the figure | right |
+| session 6169, Python loop over the tables' files, the new tables' set | ch10 | 7 | rows read, then refused | right |
+| session 6169, Python loop over the tables' files, the new tables' set | lw09 | 12 | the call limit | right |
+| session 6169, Python loop over the tables' files, the new tables' set | lw10 | 4 | the warehouse lacks the figure | right |
+| session 6169, Python loop over the tables' files, the new tables' set | lw11 | 4 | the warehouse lacks the figure | right |
+| session 6170, Python loop over the tables' files, the new tables' set | rs03 | 4 | the warehouse lacks the figure | right |

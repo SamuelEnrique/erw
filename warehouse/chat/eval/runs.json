@@ -1106,6 +1106,62 @@
     "what": "questions of the unlisted set asked in session 6166 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6166's report"
    }
+  },
+  {
+   "file": "eval_s6167_site_investor_run.json",
+   "grades": "eval_s6167_site_investor_grades.json",
+   "right": "ok",
+   "label": "session 6167, the site's loop, the investor set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_investor.yaml`",
+    "what": "questions of the investor set asked in session 6167 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 6167's report"
+   }
+  },
+  {
+   "file": "eval_s6168_loop_newtables_run.json",
+   "grades": "eval_s6168_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6168, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "the new tables' set asked whole once more through the Python loop over the tables' own files, on the chat as chains 280 to 282 left it (twelve rules), the first 27; the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6160_6189_REPORT.md`"
+   }
+  },
+  {
+   "file": "eval_s6169_loop_newtables_run.json",
+   "grades": "eval_s6169_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6169, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "the new tables' set asked whole once more through the Python loop over the tables' own files, on the chat as chains 280 to 282 left it (twelve rules), 28 more; the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6160_6189_REPORT.md`"
+   }
+  },
+  {
+   "file": "eval_s6170_loop_newtables_run.json",
+   "grades": "eval_s6170_loop_newtables_grades.json",
+   "right": "ok",
+   "label": "session 6170, Python loop over the tables' files, the new tables' set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_newtables.yaml`",
+    "what": "the new tables' set asked whole once more through the Python loop over the tables' own files, on the chat as chains 280 to 282 left it (twelve rules), the last three; the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; `archive/sessions/SESSION_6160_6189_REPORT.md`"
+   }
   }
  ],
  "left_out": {

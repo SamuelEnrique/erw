@@ -1,0 +1,784 @@
+{
+ "_about": "Session 6170 (chain 152, newtables): the questions asked through the Python loop (warehouse/chat/ask.py Asker; a grid question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), the table files of C:\\Users\\lossa\\Documents\\erw\\runs\\s6111\\data as the backend (the erw package's local backend: tables the live set does not hold yet), every tool call recorded (trace), by eval_loop.py under the ledger step chat_eval.",
+ "base": "python loop",
+ "questions": [
+  {
+   "id": "rs01",
+   "grid": "none",
+   "via": "general",
+   "question": "What planning reserve margin did CAISO's 2026 summer assessment say was achieved, in percent, according to the warehouse's reserve margin reports?",
+   "asked_at_utc": "2026-11-14T21:31:38Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "CAISO's 2026 Summer Loads and Resources Assessment (May 2026) reports an achieved planning reserve margin of 30.8 percent (iso_reserve_margin_reports, a public source table).",
+   "why": null,
+   "citations": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "source_report": "caiso:summer_loads_and_resources_assessment",
+     "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+     "tier": "source"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.035288,
+   "seconds": 6.5,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "variable": "prm_achieved_pct",
+     "aggregation": "latest"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "iso_reserve_margin_reports"
+     },
+     "out": {
+      "shape": "series",
+      "rows": 5,
+      "columns": [
+       "entity",
+       "variable",
+       "ts_utc",
+       "value",
+       "unit",
+       "freq",
+       "geo",
+       "market",
+       "node",
+       "source",
+       "source_url",
+       "retrieved_at",
+       "vintage",
+       "x_grid",
+       "x_body",
+       "x_document",
+       "x_period",
+       "x_page",
+       "x_printed"
+      ],
+      "source_reports": [
+       {
+        "source": "caiso:summer_loads_and_resources_assessment",
+        "publisher": "CAISO",
+        "report": "CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+        "report_url": "https://www.caiso.com/documents/2026-summer-loads-and-resources-assessment.pdf"
+       },
+       {
+        "source": "the:registry",
+        "publisher": null,
+        "report": "warehouse/sources/reserve_margins/ (one file a document, each figure with its page and words), filled by reading each grid operator's own assessment. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "entities": [
+       "reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026"
+      ],
+      "n_entities": 1,
+      "nodes": [
+       "CAISO, 2026 Summer Loads and Resources Assessment, May 2026"
+      ],
+      "variables": [
+       "capacity_surplus_mw",
+       "peak_forecast_mw",
+       "prm_achieved_pct",
+       "prm_required_pct",
+       "ra_prm_load_weighted_pct"
+      ],
+      "units": [
+       "MW",
+       "pct"
+      ],
+      "freq": [
+       ""
+      ],
+      "first": "2026-06-01T00:00:00Z",
+      "last": "2026-06-01T00:00:00Z",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261112T165534Z-local (2026-11-12T16:55:34Z); that run's own header of the table follows",
+       "Documents: CAISO: CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/reserve_margin_reports.md",
+       "License: public, row by row: a document is written here only where its publisher's terms allow it (warehouse/metadata/license_verdicts.csv)."
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_reserve_margin_reports",
+      "aggregation": "latest",
+      "variable": "prm_achieved_pct"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "variable": "prm_achieved_pct"
+      },
+      "rows_matched": 1,
+      "units": [
+       "pct"
+      ],
+      "variables": [
+       "prm_achieved_pct"
+      ],
+      "time_span": {
+       "first": "2026-06-01T00:00:00Z",
+       "last": "2026-06-01T00:00:00Z"
+      },
+      "result": [
+       {
+        "value": 30.8,
+        "at": "2026-06-01T00:00:00Z",
+        "entity": "reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026",
+        "variable": "prm_achieved_pct",
+        "unit": "pct"
+       }
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "rs02",
+   "grid": "none",
+   "via": "general",
+   "question": "What capacity surplus in MW did CAISO's 2026 summer assessment report, according to the warehouse's reserve margin reports?",
+   "asked_at_utc": "2026-11-14T21:31:45Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "answered",
+   "answer": "CAISO's 2026 Summer Loads and Resources Assessment (May 2026) reports a capacity surplus of 2,547 MW for summer 2026 (iso_reserve_margin_reports, a public source table).",
+   "why": null,
+   "citations": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "source_report": "caiso:summer_loads_and_resources_assessment",
+     "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+     "tier": "source"
+    }
+   ],
+   "not_in_warehouse": false,
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0357069,
+   "seconds": 6.2,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "variable": "capacity_surplus_mw",
+     "aggregation": "latest",
+     "group_by": "x_period"
+    }
+   ],
+   "nearest": null,
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "iso_reserve_margin_reports"
+     },
+     "out": {
+      "shape": "series",
+      "rows": 5,
+      "columns": [
+       "entity",
+       "variable",
+       "ts_utc",
+       "value",
+       "unit",
+       "freq",
+       "geo",
+       "market",
+       "node",
+       "source",
+       "source_url",
+       "retrieved_at",
+       "vintage",
+       "x_grid",
+       "x_body",
+       "x_document",
+       "x_period",
+       "x_page",
+       "x_printed"
+      ],
+      "source_reports": [
+       {
+        "source": "caiso:summer_loads_and_resources_assessment",
+        "publisher": "CAISO",
+        "report": "CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+        "report_url": "https://www.caiso.com/documents/2026-summer-loads-and-resources-assessment.pdf"
+       },
+       {
+        "source": "the:registry",
+        "publisher": null,
+        "report": "warehouse/sources/reserve_margins/ (one file a document, each figure with its page and words), filled by reading each grid operator's own assessment. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "entities": [
+       "reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026"
+      ],
+      "n_entities": 1,
+      "nodes": [
+       "CAISO, 2026 Summer Loads and Resources Assessment, May 2026"
+      ],
+      "variables": [
+       "capacity_surplus_mw",
+       "peak_forecast_mw",
+       "prm_achieved_pct",
+       "prm_required_pct",
+       "ra_prm_load_weighted_pct"
+      ],
+      "units": [
+       "MW",
+       "pct"
+      ],
+      "freq": [
+       ""
+      ],
+      "first": "2026-06-01T00:00:00Z",
+      "last": "2026-06-01T00:00:00Z",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261112T165534Z-local (2026-11-12T16:55:34Z); that run's own header of the table follows",
+       "Documents: CAISO: CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/reserve_margin_reports.md",
+       "License: public, row by row: a document is written here only where its publisher's terms allow it (warehouse/metadata/license_verdicts.csv)."
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_reserve_margin_reports",
+      "aggregation": "latest",
+      "variable": "capacity_surplus_mw",
+      "group_by": "x_period"
+     },
+     "out": {
+      "aggregation": "latest",
+      "value_column": "value",
+      "filters": {
+       "variable": "capacity_surplus_mw"
+      },
+      "rows_matched": 1,
+      "units": [
+       "MW"
+      ],
+      "variables": [
+       "capacity_surplus_mw"
+      ],
+      "time_span": {
+       "first": "2026-06-01T00:00:00Z",
+       "last": "2026-06-01T00:00:00Z"
+      },
+      "n_groups": 1,
+      "result": [
+       {
+        "x_period": "summer 2026",
+        "value": 2547.0,
+        "at": "2026-06-01T00:00:00Z",
+        "entity": "reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026",
+        "variable": "capacity_surplus_mw",
+        "unit": "MW"
+       }
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  },
+  {
+   "id": "rs03",
+   "grid": "none",
+   "via": "general",
+   "question": "What planning reserve margin did ERCOT's 2026 summer assessment report, according to the warehouse's reserve margin reports?",
+   "asked_at_utc": "2026-11-14T21:31:52Z",
+   "http": null,
+   "loop": "python",
+   "model": "claude-sonnet-5-5",
+   "status": "not_in_warehouse",
+   "answer": "Not in the warehouse. The reserve margin reports table (iso_reserve_margin_reports) holds only CAISO's 2026 Summer Loads and Resources Assessment (May 2026). It has no ERCOT assessment, so it has no ERCOT planning reserve margin.",
+   "why": null,
+   "citations": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "source_report": "caiso:summer_loads_and_resources_assessment",
+     "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+     "tier": "source"
+    }
+   ],
+   "not_in_warehouse": true,
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0438309,
+   "seconds": 8.2,
+   "error": null,
+   "refused": false,
+   "first_violations": [],
+   "second_violations": null,
+   "reads": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "aggregation": "count",
+     "group_by": "x_grid"
+    }
+   ],
+   "nearest": [
+    {
+     "table": "iso_reserve_margin_reports",
+     "holds": "power data; iso; 2026-06-01 to 2026-06-01; from caiso:summer_loads_and_resources_assessment"
+    }
+   ],
+   "trace": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "n_tables": 6,
+      "tables": [
+       {
+        "table": "deal_counterparties",
+        "sector": "deals",
+        "license": "public",
+        "iso": "deal",
+        "interval": "snapshot",
+        "first": "2026-11-12T22:09:17Z",
+        "last": "2026-11-12T22:09:17Z",
+        "rows": 527,
+        "source_report": "erw:energy_deals",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "forecast_tool_parameters",
+        "sector": "power, gas",
+        "license": "public",
+        "iso": "forecast",
+        "interval": "",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-01-01T00:00:00Z",
+        "rows": 768,
+        "source_report": "eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models",
+        "derived": "no",
+        "tier": "derived"
+       },
+       {
+        "table": "iso_reserve_margin_reports",
+        "sector": "power",
+        "license": "public",
+        "iso": "iso",
+        "interval": "",
+        "first": "2026-06-01T00:00:00Z",
+        "last": "2026-06-01T00:00:00Z",
+        "rows": 5,
+        "source_report": "caiso:summer_loads_and_resources_assessment",
+        "derived": "no",
+        "tier": "source"
+       },
+       {
+        "table": "state_large_load_laws",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2025-03-25T00:00:00Z",
+        "last": "2026-11-14T00:00:00Z",
+        "rows": 27,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rule_changes",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2026-08-18T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 94,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       },
+       {
+        "table": "utility_large_load_rules",
+        "sector": "power, datacenters",
+        "license": "public",
+        "iso": "none",
+        "interval": "event",
+        "first": "2010-01-01T00:00:00Z",
+        "last": "2026-11-13T00:00:00Z",
+        "rows": 100,
+        "source_report": "1 outlets",
+        "derived": "no",
+        "tier": "model_extracted"
+       }
+      ],
+      "backend": "local",
+      "note": "Only public tables may be shown publicly; internal tables are licensed for internal use only. first and last are interval starts, UTC."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "describe_table",
+     "input": {
+      "table": "iso_reserve_margin_reports"
+     },
+     "out": {
+      "shape": "series",
+      "rows": 5,
+      "columns": [
+       "entity",
+       "variable",
+       "ts_utc",
+       "value",
+       "unit",
+       "freq",
+       "geo",
+       "market",
+       "node",
+       "source",
+       "source_url",
+       "retrieved_at",
+       "vintage",
+       "x_grid",
+       "x_body",
+       "x_document",
+       "x_period",
+       "x_page",
+       "x_printed"
+      ],
+      "source_reports": [
+       {
+        "source": "caiso:summer_loads_and_resources_assessment",
+        "publisher": "CAISO",
+        "report": "CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+        "report_url": "https://www.caiso.com/documents/2026-summer-loads-and-resources-assessment.pdf"
+       },
+       {
+        "source": "the:registry",
+        "publisher": null,
+        "report": "warehouse/sources/reserve_margins/ (one file a document, each figure with its page and words), filled by reading each grid operator's own assessment. No request is made by this connector.",
+        "report_url": ""
+       }
+      ],
+      "entities": [
+       "reserve_report:caiso:caiso_2026_summer_loads_and_resources_assessment_may_2026"
+      ],
+      "n_entities": 1,
+      "nodes": [
+       "CAISO, 2026 Summer Loads and Resources Assessment, May 2026"
+      ],
+      "variables": [
+       "capacity_surplus_mw",
+       "peak_forecast_mw",
+       "prm_achieved_pct",
+       "prm_required_pct",
+       "ra_prm_load_weighted_pct"
+      ],
+      "units": [
+       "MW",
+       "pct"
+      ],
+      "freq": [
+       ""
+      ],
+      "first": "2026-06-01T00:00:00Z",
+      "last": "2026-06-01T00:00:00Z",
+      "notes": [
+       "Rebuilt from the ERW archive by warehouse/restore_tables.py (session 305), as of run 20261112T165534Z-local (2026-11-12T16:55:34Z); that run's own header of the table follows",
+       "Documents: CAISO: CAISO, 2026 Summer Loads and Resources Assessment, May 2026",
+       "Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/reserve_margin_reports.md",
+       "License: public, row by row: a document is written here only where its publisher's terms allow it (warehouse/metadata/license_verdicts.csv)."
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    },
+    {
+     "tool": "query",
+     "input": {
+      "table": "iso_reserve_margin_reports",
+      "aggregation": "count",
+      "group_by": "x_grid"
+     },
+     "out": {
+      "aggregation": "count",
+      "value_column": null,
+      "filters": {},
+      "rows_matched": 5,
+      "units": [
+       "MW",
+       "pct"
+      ],
+      "variables": [
+       "capacity_surplus_mw",
+       "peak_forecast_mw",
+       "prm_achieved_pct",
+       "prm_required_pct",
+       "ra_prm_load_weighted_pct"
+      ],
+      "time_span": {
+       "first": "2026-06-01T00:00:00Z",
+       "last": "2026-06-01T00:00:00Z"
+      },
+      "n_groups": 1,
+      "result": [
+       {
+        "x_grid": "CAISO",
+        "count": 5
+       }
+      ],
+      "table": "iso_reserve_margin_reports",
+      "data_version": "local backend; table last run 2026-11-12T16:55:29Z",
+      "source_report": "caiso:summer_loads_and_resources_assessment",
+      "license": "public",
+      "tier": "source",
+      "citation": "CAISO. CAISO, 2026 Summer Loads and Resources Assessment, May 2026. Via the Energy Research Warehouse (ERW), table `iso_reserve_margin_reports`, local files (no ERW commit identifies them)."
+     },
+     "is_error": false,
+     "isError": false
+    }
+   ]
+  }
+ ]
+}

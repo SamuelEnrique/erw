@@ -199,9 +199,9 @@ Every answer of an asking is put in one of four classes, from the stored runs al
 |---|---:|---|---|
 | The platform set, whole (`questions_platform.yaml`) | 134 | 85, 47, 0, 2 | 85, 49, 0, 0, and the same asked whole again under rule 12 (sessions 6139 to 6164) |
 | Twelve other tables of the record the site cannot read (`questions_unlisted.yaml`) | 12 | 0, 12, 0, 0 (two took seven and ten calls) | 0, 12, 0, 0 |
-| The investor's twenty, the site's loop | 20 | 10, 9, 1, 0 | 11, 9, 0, 0 |
+| The investor's twenty, the site's loop | 20 | 10, 9, 1, 0 | 11, 9, 0, 0, and the same on the chat as it stands (session 6167) |
 | The lab's twenty, the site's loop | 20 | 13, 6, 0, 1 | 13, 7, 0, 0 |
-| The week's new tables, read through their own files (`questions_newtables.yaml`, the Python loop) | 58 | 44, 13, 0, 1 | 44, 14, 0, 0 |
+| The week's new tables, read through their own files (`questions_newtables.yaml`, the Python loop) | 58 | 44, 13, 0, 1 | 44, 14, 0, 0, asked whole again on the chat as it stands (sessions 6168 to 6170) |
 | The same, as a visitor's chat meets them (`questions_newtables_live.yaml`), whole | 58 | 3 of the first 29 asked were answered from a neighbour table (wrong); the other 26 refused rightly | 0, 58, 0, 0 |
 | The trader's twenty, the site's loop, asked again under rule 12 | 20 | 18, 2, 0, 0 (session 5275) | 18, 2, 0, 0 |
 
