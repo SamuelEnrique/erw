@@ -28,7 +28,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "connectors"))
 sys.path.insert(0, HERE)
 import iso_prices as ip  # noqa: E402
-from ingest import NAME, NEWS_COLS  # noqa: E402
+from ingest import NAME, NEWS_COLS, fold_dashes  # noqa: E402
 
 INDEX = "news_index"
 INDEX_COLS = ["event_id", "event_date", "event_type", "source", "source_url", "sector", "region",
@@ -41,6 +41,7 @@ def main():
     log = ip.Log(os.path.join(ip.LOG_DIR, f"news_index_{run_id}.log"))
     df = ip.read_series(os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
     scored = df[df["scored_at"] != ""][INDEX_COLS].copy()
+    scored["source"] = scored["source"].map(fold_dashes)   # session 3940: no en or em dash in an outlet's name
     n_head = int((scored["headline"] != "").sum())
     header = [
         "Energy Research Warehouse (ERW): Public news index: links, metadata and model scores",

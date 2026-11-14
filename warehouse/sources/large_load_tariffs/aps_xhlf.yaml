@@ -2,6 +2,10 @@
 # 2026's Set B row 10 being the lead; saved under runs/license_reads/s3760/ (not in git). The figures written are those of
 # a customer served at transmission voltage (15,000 kW or greater may choose it); the secondary ($18.750) and primary
 # ($17.290) demand charges are in notes. The pending revision in APS's 2025 rate case (Set B row 11) was not read.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Arizona Public Service Company
 eia_id: 803
 state: AZ
@@ -17,7 +21,7 @@ docket: Decision No. 79293
 document: APS's Rate Schedule XHLF, effective 8 March 2024 in Decision No. 79293, as published on its rates page
 document_url: https://www.aps.com/-/media/APS/APSCOM-PDFs/Utility/Regulatory-and-Legal/Regulatory-Plan-Details-Tariffs/Business/Business-NonResidential-Plans/ExtraHighLoadFactor.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Bundled demand charge: Secondary $18.750, Primary $17.290, Transmission $13.274 per kW; energy $0.04210 per kWh at every voltage; basic service charge at transmission voltage $43.130 per day (page 2)."
 terms:
   min_bill: {text: "The monthly bill will be calculated at the following rates or the minimum rates, whichever is greater", page: 2}

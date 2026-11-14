@@ -134,3 +134,9 @@ What it says:
 - Ameren's gap is the widest. Its energy charge is printed before its fuel adjustment clause, and the industrial average
   includes that clause.
 - This is a check, not a correction.
+
+## Chain 267: fourteen schedules held for a license (session 3937)
+
+Window P4's research pass read the terms of the hosts the registry's files were read from (`docs/research/large_load/README.md`, "The hosts' terms"; data request row 8 of `docs/state/data_requests_large_load.md`). Fourteen files rest only on a host whose terms bar automated reading, or reproduction without written permission, or on IN.gov's statewide terms: the three Entergy schedules, Dominion's GS-4, CenterPoint Houston's transmission service, SRP's E-67, Georgia Power's TOU-SC-15, Alabama Power's LPL, APS's XHLF, Oncor's transmission service and Rider TCRF, PG&E's B-20 transmission, and Indiana Michigan Power's two. Under ruling 4 of 6 November 2026 each is now `internal`: kept in the registry, named in the table's header as held, not written to the public table, until it is re-read from a commission's own copy (the research names public copies for some: Oncor's in PUCT Docket 58306, AEP Ohio's DCT in a Florida PSC filing).
+
+The connector now writes the filed rows whole from the registry on every run, keeping only the other connectors' rows (OpenEI's): before, a merge kept the held schedules' 42 rows. The table went from 95 rows to 53 (29 schedules, 13 utilities, 15 held), and the Redivis draft with it. PG&E's Rule 30 in `large_load_connection_rules` rests on the same host; that registry takes only public documents, so it stays until it is re-cited to the CPUC's Decision 25-07-039 (row 14).

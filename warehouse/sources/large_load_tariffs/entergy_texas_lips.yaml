@@ -3,6 +3,10 @@
 # center schedule on its published tariff list; LIPS (2,500 kW and above) is its largest general schedule, kept here as
 # what a large load in its territory (MISO South, outside ERCOT) takes today. The energy charge is in two blocks (page 1),
 # so none is written; the sheet prints no docket number.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Entergy Texas, Inc.
 eia_id: 55937
 state: TX
@@ -18,7 +22,7 @@ docket: not printed on the sheet
 document: Entergy Texas's Schedule LIPS, Revision 8, effective 3 December 2022 (implemented 2 June 2023), as published in its tariff list
 document_url: https://www.entergytexas.com/wp-content/uploads/eti_lips.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Energy charge $0.006010 per kWh for the first 584 kWh/kW of Billing Load, $0.004028 per kWh additional, plus the Fixed Fuel Factor (page 1). No large-load schedule exists for this utility as of 12 November 2026."
 terms:
   min_bill: {text: "The kW of Billing Load will be the greatest of ... (B) 75% of Contract Power", page: 2}

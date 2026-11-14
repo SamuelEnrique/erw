@@ -65,5 +65,27 @@ class TheHeldGridsSpreads(unittest.TestCase):
         self.assertEqual(self.rows[f"{main}-spark"]["status"], "ok")
 
 
+
+class TheOutletNames(unittest.TestCase):
+    """Request 1 of the same file: an en or em dash in a news outlet's name is folded to a hyphen before the registry,
+    the citations and the release list copy it; the registry's two IEA rows are one."""
+
+    def test_the_fold(self):
+        news = os.path.join(ROOT, "warehouse", "news")
+        if news not in sys.path:
+            sys.path.insert(0, news)
+        import ingest  # noqa: E402
+        self.assertEqual(ingest.fold_dashes("IEA " + chr(0x2013) + " International Energy Agency"), "IEA - International Energy Agency")
+        self.assertEqual(ingest.fold_dashes("A " + chr(0x2014) + " B"), "A - B")
+        self.assertEqual(ingest.fold_dashes("Utility Dive"), "Utility Dive")
+
+    def test_the_registry_holds_no_dash_in_an_outlet(self):
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
+            names = [r["source"] for r in csv.DictReader(f)]
+        self.assertEqual([n for n in names if chr(0x2013) in n or chr(0x2014) in n], [])
+        self.assertEqual(names.count("IEA - International Energy Agency"), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,10 @@
 # 2026's Set A row 8 being the lead; saved under runs/license_reads/s3760/ (not in git). The first 200,000 kW are billed as
 # one sum ($1,665,947 a month, page 1); the per-kW figure written is the one the schedule prints for the kW above it. The
 # schedule states no contract term, collateral, exit fee or ramp.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Entergy Louisiana, LLC
 eia_id: 11241
 state: LA
@@ -17,7 +21,7 @@ docket: Staff Acceptance Letter of 4 April 2025 (the authority the sheet cites)
 document: Entergy Louisiana's Schedule LPHLF-G, Second Revised, effective 4 April 2025, as published in its tariff index
 document_url: https://www.entergylouisiana.com/wp-content/uploads/ell_elec_lphlf-g.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Billing Load Charge: $1,665,947 for the first 200,000 kW per Month, then $8.31 per kW for all additional kW (page 1)."
 terms:
   min_bill: {text: "The kW of Billing Load will be the greatest of ... 80% of Contract Power ... 60% of the Highest Contract Power ...; The Minimum Charge will be the sum of the Billing Load Charge and Tax Adjustment.", page: 2}
