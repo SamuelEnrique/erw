@@ -532,6 +532,20 @@
     "what": "questions of the platform set asked in session 5269 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5269's report"
    }
+  },
+  {
+   "file": "eval_s5270_site_platform_run.json",
+   "grades": "eval_s5270_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5270, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5270 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5270's report"
+   }
   }
  ],
  "left_out": {
