@@ -33,6 +33,10 @@
 - **Gas** (ProjectData): the base is facility and equipment 375,000,000 + spare parts 3,676,471 = 378,676,471; times 0.04 it equals 15,147,058.82. Held: power generation equipment 220,588,235, 58.3 percent.
 - Applied to the twelve states (KS WV MA MI SC VT PA IN OH MO WI, and CA at 43.6 percent of the tax: wind 29.2, gas 25.4) on `wip/6000-forecast` (`0527caeeb`, pushed); method note and test brought along. Tests: node 52 passed; python 21 passed. Landing row 12 moved to `0527caeeb`.
 
+## Session 6053 (from about 12:55 UTC): a second read of the states left unsettled
+
+- Two read-only readers sent (`runs/s6053/readers/BRIEF2.md`): group E (GA, MS, AR, TN), group F (OK, ID, WY; Nevada and New Mexico gas; Kentucky wind and gas), each told to use an official source the first read did not, and never to retry a host that refused.
+
 ## Decisions made without you
 
 - The empty list rebuilt by session 6050, as the chain's rules ask of a chain that stopped early.
