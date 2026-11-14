@@ -616,6 +616,20 @@
     "what": "questions of the trader set asked in session 5275 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
     "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5275's report"
    }
+  },
+  {
+   "file": "eval_s5277_site_platform_run.json",
+   "grades": "eval_s5277_site_platform_grades.json",
+   "right": "ok",
+   "label": "session 5277, the site's loop, the platform set",
+   "limit": 12,
+   "replay": true,
+   "history": {
+    "kind": "right",
+    "set": "`questions_platform.yaml`",
+    "what": "questions of the platform set asked in session 5277 through the site's own loop with no build and a visitor's key (`eval_site.py`); the count is of this session's asking",
+    "where": "`docs/reviews/ask-eval-2026-11-13.md`; session 5277's report"
+   }
   }
  ],
  "left_out": {
