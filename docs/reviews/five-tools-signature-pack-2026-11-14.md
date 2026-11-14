@@ -4,7 +4,7 @@ Energy Research Warehouse (ERW). Written by session 5502 of chain 269 (`queue/do
 
 - **What a signature is.** You fill the three lines of the note's "Sign-off" block (`Signed off by`, `Date`, `Items ... ruled, and how`) and commit it, or say it in a prompt and a session writes your words there. A session never signs.
 - **What you sign accepts** the rules the block lists, at the defaults of the decisions table. It does not freeze the figures: they move with the data every day.
-- **The expected values below** are what each tool's Python mirror printed on 14 November 2026 at about 09:20 UTC, on main at `85e5b2eeb` (the files of `replication/<tool>/` and `site/public/`, none changed by this chain). The do-file prints the same lines; the tolerance is half the last digit the page shows.
+- **The expected values below** are what each tool's Python mirror printed on 14 November 2026 at about 09:01 UTC, on main at `85e5b2eeb` (the files of `replication/<tool>/` and `site/public/`, none changed by this chain). The do-file prints the same lines; the tolerance is half the last digit the page shows.
 - **Before you run Stata.** A checkout of main at `85e5b2eeb` or later. Each do-file is run from its own folder (it reads `assumptions.csv` there and the public CSV by a relative path). The files use `import delimited` with `varnames`, `rowrange` and `stringcols(_all)`, and no package. Keep a log of each (the commands below open one), so a session can set your printed lines beside the mirror's: that closes the last open step of every chain since 233 ("a do-file run in Stata").
 - **Order of the sitting.** Battery, generator, datacenter (one model family), then Automated Analysis and the Grid. Then the rulings at the end.
 

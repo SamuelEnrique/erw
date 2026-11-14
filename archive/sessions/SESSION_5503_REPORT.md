@@ -1,6 +1,6 @@
 # Session 5503 report: chain 269, item 3: Research's final form and the negative coverage words, on their defaults
 
-Energy Research Warehouse (ERW). Chain 269, portable laptop window P1, 14 November 2026, about 09:45 to 10:10 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5500-closeout`.
+Energy Research Warehouse (ERW). Chain 269, portable laptop window P1, 14 November 2026, about 09:08 to 09:13 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5500-closeout`.
 
 - **Research's final form (chain 243's ruling 5, default "final as the note describes"), built on the default:**
   - `/research` says under each chart what makes it and when: today's chart "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date."; this week's "Chosen and drawn by code every Sunday at 23:00 UTC, by the rule in the method note ... No person chooses it." (`site/app/research/page.tsx`, the sections' notes).

@@ -1,6 +1,6 @@
 # Session 5501 report: chain 269, item 1: the five read on main, six faults fixed
 
-Energy Research Warehouse (ERW). Chain 269, portable laptop window P1, 14 November 2026, about 08:35 to 09:05 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5500-closeout`.
+Energy Research Warehouse (ERW). Chain 269, portable laptop window P1, 14 November 2026, about 08:35 to 09:00 UTC. Opus 5.5. Model spend USD 0. Branch `wip/5500-closeout`.
 
 - **Where read:** production (`https://erw-flame.vercel.app`), main at `85e5b2eeb` as deployed at 08:28 UTC, the tree this stack was cut from, in the internal view (the token posted as the site's form does), at 1280 by 900 and 390 by 844 as a phone, with `site/scripts/browser.mjs`. **No local build:** 1.0 GB free at 08:26 UTC and 1.7 GB at 08:50, under the chain's 2 GB rule.
 - **Pages:** the five defaults, then MISO's and ERCOT's Grid pages, the Grid's Network tab, the battery's CAISO case, the datacenter's all-grids view and the generator's CAISO solar: 22 reads. Every one: page width equal to the window, no element past the right edge, no exception, no "NaN" or "undefined".
