@@ -210,7 +210,7 @@
    "title": "California State Board of Equalization, Annual Report 2024-25 (Publication 306)",
    "url": "https://www.boe.ca.gov/legdiv/2024-2025/pub306.pdf",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 180
   },
   "ca_boe_lta26034": {
    "title": "California State Board of Equalization, Letter to Assessors No. 2026/034 (SB 710, Revenue and Taxation Code 73)",
@@ -264,25 +264,25 @@
    "title": "South Carolina Code 12-43-220, Classification of property for assessment",
    "url": "https://www.scstatehouse.gov/code/t12c043.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 176
   },
   "sc_12_23_10": {
    "title": "South Carolina Code 12-23-10, Electric power excise tax",
    "url": "https://www.scstatehouse.gov/code/t12c023.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 177
   },
   "tx_comptroller_valuing": {
    "title": "Texas Comptroller, Valuing Property (Tax Code 23.01)",
    "url": "https://comptroller.texas.gov/taxes/property-tax/valuing-property.php",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 178
   },
   "oh_lsc_hb96": {
    "title": "Ohio Legislative Service Commission, Final Analysis of H.B. 96 (136th General Assembly), public utilities (R.C. 5727.111)",
    "url": "https://lsc.ohio.gov/assets/legislation/136/hb96/en0/files/hb96-puc-bill-analysis-as-enacted-136th-general-assembly.pdf",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 179
   },
   "ny_rptl_487": {
    "title": "New York Real Property Tax Law 487, Exemption from taxation for certain energy systems",
@@ -409,6 +409,48 @@
    "url": "https://tax.utah.gov/property/centrally-assessed",
    "read": "2026-11-13",
    "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+  },
+  "vt_32_5401": {
+   "title": "Vermont Statutes, 32 V.S.A. 5401 (definitions, nonhomestead property, (10)(J))",
+   "url": "https://legislature.vermont.gov/statutes/section/32/135/05401",
+   "read": "2026-11-13",
+   "request": 182
+  },
+  "vt_32_5402c": {
+   "title": "Vermont Statutes, 32 V.S.A. 5402c, Wind-powered electric generating facilities tax",
+   "url": "https://legislature.vermont.gov/statutes/section/32/135/05402c",
+   "read": "2026-11-13",
+   "request": 183
+  },
+  "ia_437a_6": {
+   "title": "Iowa Code 2026, section 437A.6, Replacement generation tax",
+   "url": "https://www.legis.iowa.gov/docs/code/437A.6.pdf",
+   "read": "2026-11-13",
+   "request": 184
+  },
+  "oh_pupp_2025": {
+   "title": "Ohio Department of Taxation, Instructions and Valuation Procedures for Filing Ohio Public Utility Property Tax Reports, tax year 2025 (composite annual allowances, Class C-30)",
+   "url": "https://dam.assets.ohio.gov/image/upload/v1739290822/tax.ohio.gov/forms/public_utility_property/2025/pupp-instructions.pdf",
+   "read": "2026-11-13",
+   "request": 192
+  },
+  "mt_pp_dep_2026": {
+   "title": "Montana Department of Revenue, Personal Property Depreciation Schedules and Trend Tables 2026 (v.2), industrial machinery and equipment percent good",
+   "url": "https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf",
+   "read": "2026-11-13",
+   "request": 193
+  },
+  "ga_lgsd_2024_001": {
+   "title": "Georgia Department of Revenue, LGSD-2024-001, amended and adopted regulations (Rule 560-11-10-.10(1)(c), Group III composite conversion factors)",
+   "url": "https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download",
+   "read": "2026-11-13",
+   "request": 194
+  },
+  "wa_valuation_2026": {
+   "title": "Washington Department of Revenue, 2026 Personal and Industrial Property Valuation Guidelines and their embedded 2026 valuation tables (Trend II table, column RG: utility-scale solar and wind generation)",
+   "url": "https://dor.wa.gov/sites/default/files/2025-12/2026ValuationGuidelines.docx",
+   "read": "2026-11-13",
+   "request": 195
   }
  },
  "states": {
@@ -562,6 +604,21 @@
      "not_modeled": "The local levy: no statewide figure is held, so the tax needs the reader's levy rate (dollars per 1,000 of taxable value). The excess cost adjustment in the net acquisition cost.",
      "tip": "Iowa: where the county or city has adopted it by ordinance, wind property is valued at 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh (Code 427B.26).",
      "option_tip": "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh."
+    },
+    {
+     "id": "ia_generation_tax",
+     "technologies": [
+      "utility_pv",
+      "natural_gas",
+      "geothermal"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 0.6,
+     "adds_to_property": true,
+     "cite": "ia_437a_6",
+     "tip": "Iowa: a replacement generation tax of six hundredths of a cent per kWh generated (USD 0.60 per MWh) (Code 437A.6); wind specially valued under 427B.26 is excluded; the property tax on the plant is not held.",
+     "own_tip": "Iowa's replacement generation tax, USD 0.60 per MWh (Code 437A.6), is held; the property tax on the plant is not: a rate typed here is the reader's own, added to it, applied to the capital cost as it falls.",
+     "quote": "A replacement generation tax of six hundredths of a cent per kilowatt-hour of electricity generated within this state during the tax year is imposed on every person generat[ing] [...] c. Wind energy conversion property subject to section 427B.26 or eligible for a tax credit under chapter 476B."
     }
    ]
   },
@@ -781,7 +838,7 @@
      "quote3": "(f) \"Qualified solar energy facility\" or \"qualified facility\" means a facility, whether owned or leased, that when constructed and placed in service is located in a solar energy district and that uses or will use solar energy as the sole source for the generation of at least 2 megawatts of nameplate capacity, alternating current [...]",
      "default_why": "USD 7,000 per MW AC, the statute's rate; USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement. Only those two rates are statutory: a rate between them is held, not refused.",
      "not_modeled": "The district must be established and the certificate approved by the city, village or township (sections 3 to 6): off by default. The 20 years run from the certificate's effective date, which the tool takes as the first operating year; the tax on construction in progress (half the rate) and before construction (none) is not charged, as the tool charges property tax only in operating years. The land stays under the general property tax, not modeled.",
-     "tip": "Michigan: in a solar energy district established by a city, village or township, a facility of 2 MW AC or more is exempt from property tax for 20 years and pays USD 7,000 per MW AC a year (USD 2,000 on some sites) (MCL 211.1157, 211.1159).",
+     "tip": "Michigan: in a solar energy district established by a city, village or township, a facility of 2 MW AC or more is exempt from property tax for 20 years and pays USD 7,000 per MW AC a year (USD 2,000 on state land, in an opportunity zone, on commercial or industrial property that is a facility, functionally obsolete or blighted in the brownfield act's terms, or attached to an improvement) (MCL 211.1157, 211.1159).",
      "option_tip": "Michigan (Solar Energy Facilities Taxation Act, 2023 PA 108): a city, village or township may establish a solar energy district and approve an exemption certificate for a facility of at least 2 MW AC; the facility then pays a specific tax per MW in place of the property tax on it, for 20 years. The land is not exempt.",
      "rate_tip": "USD 7,000 per MW AC (MCL 211.1159(2)); USD 2,000 on state land, in an opportunity zone, on a brownfield or attached to an improvement (211.1159(3)). Only those two rates are statutory; a rate outside them is held to them."
     }
@@ -801,9 +858,23 @@
      "min_mw": 0.05,
      "cite": "vt_32_8701",
      "quote": "(b)(1) There is assessed on any renewable energy plant in Vermont commissioned to generate solar power an annual tax of $4.00 per kW of plant capacity. [...] (3) [...] The Department of Taxes shall deposit the taxes collected under this section into the Education Fund. (c) A renewable energy plant that generates electricity from solar power shall be exempt from taxation under this section if it has a plant capacity of less than 50kW. (d) The existence of a renewable energy plant or energy storage facility subject to tax under subsection (b) of this section shall not: (1) alter the exempt status of any underlying property under section 3802 or subdivision 5401(10)(F) of this title; or (2) alter the taxation of the underlying property under chapters 121-135 of this title.",
-     "not_modeled": "A state tax paid to the Education Fund; the plant's municipal property tax is not held: a rate typed by the reader is added. \"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Whether the plant also pays the education property tax (chapters 121 to 135) is not read here.",
-     "tip": "Vermont: a solar plant of 50 kW or more pays USD 4 per kW of plant capacity a year to the Education Fund (32 V.S.A. 8701); the town's property tax on it is not held.",
-     "own_tip": "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held; the town's property tax on the plant is not: a rate typed here is the reader's own, added to the capacity tax, applied to the capital cost as it falls."
+     "not_modeled": "\"Plant capacity\" is defined in 30 V.S.A. 8002, not read: the tool applies USD 4 per kW to the reader's MW (AC). Answered by the re-check of session 4291 and read by this chain (request 182): fixtures taxed under 8701 are outside nonhomestead property, so they pay no education property tax; the land still does (not modeled).",
+     "tip": "Vermont: a solar plant of 50 kW or more pays USD 4 per kW of plant capacity a year to the Education Fund (32 V.S.A. 8701), in place of the education property tax on its buildings and fixtures (5401(10)(J)(ii)); the town's property tax on it is not held.",
+     "own_tip": "Vermont's uniform capacity tax, USD 4 per kW a year to the Education Fund (32 V.S.A. 8701), is held and replaces the education property tax on the plant's fixtures (5401(10)(J)(ii)); the town's property tax is not: a rate typed here is the reader's own municipal rate, added to the capacity tax, applied to the capital cost as it falls."
+    },
+    {
+     "id": "vt_wind_education",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "production",
+     "usd_per_mwh": 3.0,
+     "min_mw": 1,
+     "adds_to_property": true,
+     "cite": "vt_32_5402c",
+     "tip": "Vermont: a wind facility of 1 MW or more, in service after 2007, pays an alternative education property tax of USD 0.003 per kWh produced (USD 3 per MWh) on its buildings and fixtures (32 V.S.A. 5402c); the town's property tax on it is not held.",
+     "own_tip": "Vermont's wind education tax, USD 3 per MWh (32 V.S.A. 5402c), is held; the town's property tax is not: a rate typed here is the reader's own municipal rate, added to it, applied to the capital cost as it falls.",
+     "quote": "shall be assessed an alternative education property tax on its buildings and fixtures used directly and exclusively in the generation of electrical energy from wind power. (b) The tax shall be imposed at a rate per kWh of electrical energy produced by the certified facility [...] The rate of the tax shall be $0.003."
     }
    ]
   },
@@ -846,10 +917,11 @@
      "cite": "nv_701a",
      "quote": "NRS 701A.370 1. If the Director approves an application for a partial abatement pursuant to NRS 701A.300 to 701A.390, inclusive, of: (a) Property taxes imposed pursuant to chapter 361 of NRS, the partial abatement must: (1) Be for a duration of the 20 fiscal years immediately following the date of approval of the application; (2) Be equal to 55 percent of the taxes on real and personal property payable by the facility each year; and (3) Not apply during any period in which the facility is receiving another abatement or exemption from property taxes imposed pursuant to chapter 361 of NRS, other than any partial abatement provided pursuant to NRS 361.4722.",
      "quote2": "NRS 701A.365 (the version effective through June 30, 2032) 2. [...] If the board of county commissioners does not approve or deny the application within 30 days after the board receives from the Director a copy of the application, the application shall be deemed approved.",
-     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled.",
-     "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval (NRS 701A.370).",
+     "not_modeled": "The abatement needs the Director's approval (jobs on the construction, a capital investment of USD 3 or 10 million, wages of 110 and 175 percent of the state's average, NRS 701A.365) and the county may deny it within 30 days: off by default. No rate is in the statute: the abatement acts on the reader's own rate. The 20 fiscal years run from the approval, taken as the first construction year. The partial abatement of local sales and use taxes above 0.6 percent for 3 years (701A.370(1)(b)) is not modeled. Eligibility needs a generating capacity of at least 10 MW (701A.360, read by the re-check of session 4291): held as the rule's minimum size.",
+     "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval for a facility of 10 MW or more (NRS 701A.370, 701A.360).",
      "own_tip": "Nevada's partial abatement (NRS 701A.370), where approved (the local option above), takes 55 percent off the tax for the 20 fiscal years after approval, counted here from the first construction year: a rate typed here is the reader's own, applied to the capital cost as it falls, 45 percent of it charged in those years.",
-     "option_tip": "Nevada (NRS 701A.360 to 701A.370): the Office of Energy's Director may approve a partial abatement of 55 percent of the property tax for the 20 fiscal years after approval, for a facility that meets the statute's tests of construction jobs, investment and wages; the county may deny it within 30 days. It acts on the property tax rate typed below."
+     "option_tip": "Nevada (NRS 701A.360 to 701A.370): the Office of Energy's Director may approve a partial abatement of 55 percent of the property tax for the 20 fiscal years after approval, for a facility that meets the statute's tests of construction jobs, investment and wages; the county may deny it within 30 days. It acts on the property tax rate typed below.",
+     "min_mw": 10
     }
    ]
   },
@@ -869,7 +941,7 @@
      "cite": "md_tp_7_237",
      "quote": "(a) Except as provided in subsection (b) of this section, personal property is exempt from property tax if the property is machinery or equipment used to generate: (1) electricity or steam for sale; [...] (b) Subject to § 7-514 of this title, and except as provided in subsection (c) of this section, personal property that is machinery or equipment described in subsection (a) of this section is subject to county or municipal corporation property tax on: (1) 75% of its value for the taxable year beginning July 1, 2000; and (2) 50% of its value for the taxable year beginning July 1, 2001 and each subsequent taxable year.",
      "not_modeled": "No rate is in the section: the county's or municipality's rate is the reader's own, applied to 50 percent of the capital cost as it falls. The section reaches machinery and equipment (personal property), not land or buildings, which the tool does not separate. Section 7-514, to which subsection (b) is subject, is not read. The exemption of small community solar systems (subsection (c), 5 MW AC or less with conditions) is not modeled.",
-     "tip": "Maryland: generating machinery and equipment is exempt from the state's property tax; counties and municipalities tax 50 percent of its value (Tax-Property 7-237).",
+     "tip": "Maryland: generating machinery and equipment is exempt from the state's property tax; counties and municipalities tax 50 percent of its value (Tax-Property 7-237), or agree a payment in lieu with the owner (7-514, re-read 13 November 2026; not modeled).",
      "own_tip": "Maryland exempts generating machinery and equipment from the state's property tax and lets counties and municipalities tax 50 percent of its value (Tax-Property 7-237): a rate typed here is the reader's own, applied to half the capital cost as it falls. Land and buildings are taxed in full; the tool applies the 50 percent to the whole capital cost."
     }
    ]
@@ -1001,12 +1073,33 @@
      "kind": "valuation",
      "assessment_ratio": 0.03,
      "schedule_pct": [
-      100
+      97,
+      93,
+      89,
+      85,
+      81,
+      77,
+      72,
+      68,
+      63,
+      57,
+      52,
+      47,
+      42,
+      37,
+      33,
+      29,
+      25,
+      23,
+      21,
+      20
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "mt_15_6_157",
-     "tip": "Montana: wind generation facilities and natural gas combined cycle facilities are class fourteen property, taxed at 3 percent of market value, where prevailing wages were paid in construction (MCA 15-6-157). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "wind generation facilities of a centrally assessed electric power company; [...] (v) all property of a natural gas combined cycle facility; [...] Class fourteen property is taxed at 3% of its market value. [...] does not include facilities: (a) at which the standard prevailing rate of wages for heavy construction, as provided in 18-2-414, was not paid"
+     "tip": "Montana: wind generation facilities and natural gas combined cycle facilities are class fourteen property, taxed at 3 percent of market value, where prevailing wages were paid in construction (MCA 15-6-157). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
+     "quote": "wind generation facilities of a centrally assessed electric power company; [...] (v) all property of a natural gas combined cycle facility; [...] Class fourteen property is taxed at 3% of its market value. [...] does not include facilities: (a) at which the standard prevailing rate of wages for heavy construction, as provided in 18-2-414, was not paid",
+     "cite2": "mt_pp_dep_2026",
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_class13",
@@ -1017,12 +1110,33 @@
      "kind": "valuation",
      "assessment_ratio": 0.06,
      "schedule_pct": [
-      100
+      97,
+      93,
+      89,
+      85,
+      81,
+      77,
+      72,
+      68,
+      63,
+      57,
+      52,
+      47,
+      42,
+      37,
+      33,
+      29,
+      25,
+      23,
+      21,
+      20
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "mt_15_6_156",
-     "tip": "Montana: other electrical generation facilities, solar included, are class thirteen property, taxed at 6 percent of market value (MCA 15-6-156). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "electrical generation facilities, except wind generation facilities, [...] class thirteen property is taxed at 6% of its market value"
+     "tip": "Montana: other electrical generation facilities, solar included, are class thirteen property, taxed at 6 percent of market value (MCA 15-6-156). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
+     "quote": "electrical generation facilities, except wind generation facilities, [...] class thirteen property is taxed at 6% of its market value",
+     "cite2": "mt_pp_dep_2026",
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_license_tax",
@@ -1205,10 +1319,51 @@
    "name": "Washington",
    "rules": [
     {
+     "id": "wa_renewable_property",
+     "technologies": [
+      "utility_pv",
+      "land_based_wind"
+     ],
+     "kind": "valuation",
+     "assessment_ratio": 1.0,
+     "schedule_pct": [
+      96,
+      92.3,
+      89.4,
+      90.9,
+      87.7,
+      82,
+      75.7,
+      72.2,
+      68.2,
+      62.9,
+      58,
+      54.4,
+      49.4,
+      45.8,
+      41.7,
+      38.1,
+      34.1,
+      30.1,
+      26.5,
+      23.4,
+      20.6,
+      18.2,
+      15.6
+     ],
+     "then_pct": 15,
+     "cite": "wa_dor_levy",
+     "tip": "Washington: ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). Utility-scale solar and wind of 1 MW or more fall by the Department's 2026 table, column RG (0.96 at age 1 to 0.15 from age 24), whose factors include a price trend (applied here to constant dollars); the cost less tax credits is not modeled. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
+     "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
+     "default_levy": 8.96,
+     "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's.",
+     "min_mw": 1,
+     "cite2": "wa_valuation_2026",
+     "quote2": "Renewable Energy, two trend columns, one for utility-scale solar and wind generation (Trend RG) and one for utility-scale battery storage (trend RS) are included in the attached tables. These tables apply to renewable energy production that has at least 1 megawatt of nameplate capacity. The original cost reported to the county should be less any tax credits [...] Percent Good Indicators -- For January 1, 2026 Valuation [...] RG (4) [...] 1 2025 [...] 0.96"
+    },
+    {
      "id": "wa_property",
      "technologies": [
-      "land_based_wind",
-      "utility_pv",
       "natural_gas",
       "geothermal"
      ],
@@ -1219,7 +1374,7 @@
      ],
      "then_pct": 100,
      "cite": "wa_dor_levy",
-     "tip": "Washington: ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
+     "tip": "Washington: a gas or geothermal plant pays ordinary property tax at local levy rates; the Department of Revenue values intercounty electric companies, counties the rest (chapter 84.12 RCW, as the Department states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound. The public utility tax on gross income (3.8734 percent, chapter 82.16 RCW) needs a sale price and is not held.",
      "quote": "The statewide average levy rate was $8.96 per $1,000 assessed value for taxes due in 2025.",
      "default_levy": 8.96,
      "levy_words": "Washington: the statewide average levy was USD 8.96 per 1,000 of assessed value for taxes due in 2025 (Department of Revenue). Type your district's."
@@ -1240,14 +1395,30 @@
      "kind": "valuation",
      "assessment_ratio": 0.4,
      "schedule_pct": [
-      100
+      95,
+      90,
+      89,
+      87,
+      86,
+      84,
+      83,
+      76,
+      67,
+      59,
+      51,
+      43,
+      36,
+      28,
+      23
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "ga_dor_valuation",
-     "tip": "Georgia: property, equipment and machinery included, is assessed at 40 percent of fair market value (O.C.G.A. 48-5-7, as the Department of Revenue states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
+     "tip": "Georgia: property, equipment and machinery included, is assessed at 40 percent of fair market value (O.C.G.A. 48-5-7, as the Department of Revenue states it). The value falls by the Department's Group III factors (assets of 13 years' life or more), 95 percent at year 1 to a residual 15 percent from year 16 (Rule 560-11-10-.10(1)(c)); whether a plant is assessed locally or as a utility is not read.",
      "quote": "property is required to be assessed at 40% of the fair market value unless otherwise specified by law",
      "default_levy": 24.712,
-     "levy_words": "Georgia: the 2025 average county millage was 10.236 for unincorporated areas and 14.476 for schools (Department of Revenue, 2025 annual report): USD 24.712 per 1,000 of assessed value outside a city. Type your county's."
+     "levy_words": "Georgia: the 2025 average county millage was 10.236 for unincorporated areas and 14.476 for schools (Department of Revenue, 2025 annual report): USD 24.712 per 1,000 of assessed value outside a city. Type your county's.",
+     "cite2": "ga_lgsd_2024_001",
+     "quote2": "Group III composite conversion factors. The following composite conversion factors shall be applied to Group III assets: Y1-.95, Y2-.90, Y3-.89, Y4-.87, Y5-.86, Y6-.84, Y7-.83, Y8-.76, Y9-.67, Y10-.59, Y11-.51, Y12-.43, Y13-.36, Y14-.28, Y15-.23. Thereafter the residual composite conversion factor shall be .15."
     }
    ]
   },
@@ -1386,12 +1557,43 @@
      "kind": "valuation",
      "assessment_ratio": 0.07,
      "schedule_pct": [
-      100
+      98.3,
+      95.0,
+      91.7,
+      88.3,
+      85.0,
+      81.7,
+      78.3,
+      75.0,
+      71.7,
+      68.3,
+      65.0,
+      61.7,
+      58.3,
+      55.0,
+      51.7,
+      48.3,
+      45.0,
+      41.7,
+      38.3,
+      35.0,
+      31.7,
+      29.8,
+      28.0,
+      26.1,
+      24.3,
+      22.4,
+      20.6,
+      18.7,
+      16.9,
+      15.0
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "oh_lsc_hb96",
-     "tip": "Ohio: an energy company's production equipment first taxed for tax year 2027 is assessed at 7 percent of true value (R.C. 5727.111, as the Legislative Service Commission's analysis of H.B. 96 states it); payments in lieu under R.C. 5727.75 continue for existing projects only. The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "the tangible personal property (TPP) assessment rate of a rural electric company or energy company's production or energy conversion equipment that is first subject to taxation for tax year 2027, or that is repowered or converted production equipment, is 7%."
+     "tip": "Ohio: an energy company's production equipment first taxed for tax year 2027 is assessed at 7 percent of true value (R.C. 5727.111, as the Legislative Service Commission's analysis of H.B. 96 states it); payments in lieu under R.C. 5727.75 continue for existing projects only. The value falls by the Department of Taxation's Class C-30 composite allowances, 98.3 percent good at age 1 to 15 percent at 30 (2025 instructions).",
+     "quote": "the tangible personal property (TPP) assessment rate of a rural electric company or energy company's production or energy conversion equipment that is first subject to taxation for tax year 2027, or that is repowered or converted production equipment, is 7%.",
+     "cite2": "oh_pupp_2025",
+     "quote2": "The minimum percent good for taxable property in any class is 15%. [...] All other production plant equipment uses Class C-30. [...] Age C-5 C-7.5 C-10 C-15 C-20 C-25 C-30 [...] 1 90.0 93.3 95.0 96.7 97.5 98.0 98.3"
     }
    ]
   },

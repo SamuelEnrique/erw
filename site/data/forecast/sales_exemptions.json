@@ -59,13 +59,19 @@
    "title": "Maryland Code, Tax-General 11-230",
    "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-230&enactments=false",
    "read": "2026-11-13",
-   "read_by": "subagent of session 4291 (WebFetch), not spot-checked"
+   "request": 181
   },
   "ky_tam_21_01": {
    "title": "Kentucky Department of Revenue, KY-TAM-21-01, Solar Power (22 April 2021)",
    "url": "https://revenue.ky.gov/DOR Training Materials/KY TAM 21-01 Solar Power FINAL.pdf",
    "read": "2026-11-13",
    "request": 153
+  },
+  "mn_297a_67": {
+   "title": "Minnesota Statutes 2026, section 297A.67, subd. 29, Solar energy products",
+   "url": "https://www.revisor.mn.gov/statutes/cite/297A.67",
+   "read": "2026-11-13",
+   "request": 185
   }
  },
  "states": {
@@ -75,6 +81,12 @@
     "cite": "mn_297a_68",
     "subdivision": "Subd. 12. Wind energy conversion systems.",
     "quote": "Wind energy conversion systems, as defined in section 216C.06, subdivision 19, that are used as an electric power source are exempt, and the materials used to manufacture, install, construct, repair, or replace them are exempt."
+   },
+   "utility_pv": {
+    "exempt_pct": 100,
+    "cite": "mn_297a_67",
+    "tip": "Minnesota exempts a solar energy system as defined in section 216C.06, subdivision 17 (Statutes 297A.67, subd. 29): 100 percent.",
+    "quote": "Subd. 29. Solar energy products. A solar energy system, as defined in section 216C.06, subdivision 17, is exempt."
    }
   },
   "ia": {
@@ -320,6 +332,24 @@
    "land_based_wind": {
     "exempt_pct": 0,
     "tip": "Virginia exempts machinery generating energy from sunlight or wind until 30 June 2027 (Code 58.1-609.3(2)); a build in 2027 is exempt only in its first half: 0 held, type the share bought before July 2027."
+   }
+  },
+  "az": {
+   "land_based_wind": {
+    "exempt_pct": 0,
+    "tip": "Arizona deducts machinery and equipment used directly in producing electrical power from the transaction privilege tax base (Revised Statutes 42-5061(B)(4), read by a subagent); a plant's construction is taxed under the prime contracting classification, whose deductions were not read: 0 held."
+   },
+   "utility_pv": {
+    "exempt_pct": 0,
+    "tip": "Arizona deducts machinery and equipment used directly in producing electrical power from the transaction privilege tax base (Revised Statutes 42-5061(B)(4), read by a subagent); a plant's construction is taxed under the prime contracting classification, whose deductions were not read: 0 held."
+   },
+   "natural_gas": {
+    "exempt_pct": 0,
+    "tip": "Arizona deducts machinery and equipment used directly in producing electrical power from the transaction privilege tax base (Revised Statutes 42-5061(B)(4), read by a subagent); a plant's construction is taxed under the prime contracting classification, whose deductions were not read: 0 held."
+   },
+   "geothermal": {
+    "exempt_pct": 0,
+    "tip": "Arizona deducts machinery and equipment used directly in producing electrical power from the transaction privilege tax base (Revised Statutes 42-5061(B)(4), read by a subagent); a plant's construction is taxed under the prime contracting classification, whose deductions were not read: 0 held."
    }
   }
  }

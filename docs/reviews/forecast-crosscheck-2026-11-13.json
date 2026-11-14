@@ -630,6 +630,62 @@
      "ratio": 1.0257444444444443
     }
    ]
+  },
+  {
+   "id": "colorado_pv_south_spur",
+   "title": "Economic Impact Analysis of the South Spur Solar Project, Strategic Economic Research (Loomis, Loomis, Thankan) for Bechtel, 2025, hosted by Yuma County, Colorado",
+   "url": "https://yumacounty.net/wp-content/uploads/2025/08/South-Spur-Solar-Full-Report.pdf",
+   "request": 187,
+   "method": "IMPLAN, 2022 State of Colorado dataset, with Bechtel's cost estimates and in-state shares (not published); statewide; dollar year not stated (taken as 2025, the report's year); an optional 79 MW battery may or may not be in the investment",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "co",
+    "mw": 158,
+    "capex_2025_usd_per_kw": 1094.9367088607594,
+    "life": 35,
+    "ilr": 1.2821
+   },
+   "published_words": "326 new local jobs during construction for the State of Colorado; 17.3 new local long-term jobs for the State of Colorado (Table 5.1: construction 172 direct, 86 indirect, 68 induced; operations 3.0 onsite, 9.2 indirect, 5.1 induced)",
+   "cost_words": "a 158-megawatt alternating current (MWac) utility-scale solar powered-electric generation facility [...] The total Project represents an investment in excess of $173 million.",
+   "dollars_of": 2025,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 326,
+     "model": 710.0217902928775,
+     "ratio": 2.177980951818643
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 172,
+     "model": 366.896374265549,
+     "ratio": 2.1331184550322617
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 86,
+     "model": 207.86869050945108,
+     "ratio": 2.417077796621524
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 68,
+     "model": 135.25660874571778,
+     "ratio": 1.9890677756723203
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 17.3,
+     "model": 58.7695229006,
+     "ratio": 3.3970822485895953
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 3,
+     "model": 37.4016417212,
+     "ratio": 12.467213907066666
+    }
+   ]
   }
  ]
 }
