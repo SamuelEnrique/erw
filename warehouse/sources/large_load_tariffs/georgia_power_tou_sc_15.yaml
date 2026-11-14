@@ -3,6 +3,10 @@
 # option, the one for customers of 100 MW or more, has no per-kW demand charge: the MAC is customer-specific and "In no
 # case shall this MAC be less than the minimum MAC level established by Georgia Power for that specific location"
 # (page 3), so none is written. The effective date is the billing month of April 2025, written as its first day.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Georgia Power Company
 eia_id: 7140
 state: GA
@@ -17,7 +21,7 @@ docket: "44280"
 document: Georgia Power's Schedule TOU-SC-15, First Revision, with bills rendered for the billing month of April 2025, as published on its tariffs page
 document_url: https://www.georgiapower.com/content/dam/georgia-power/pdfs/business-pdfs/tariffs/2025/tou-sc-15.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Monthly Access Charge option: a customer-specific MAC computed by the Company, never below the minimum MAC for the location; energy at the hourly day-ahead real-time price; Administrative Charge $155 per month (page 3)."
 terms:
   term: {text: "Three (3) years; or [as the Contract for Electric Service specifies]", page: 3}

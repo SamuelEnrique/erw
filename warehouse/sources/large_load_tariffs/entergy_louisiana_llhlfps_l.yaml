@@ -2,6 +2,10 @@
 # 2026's Set A row 7 being the lead; saved under runs/license_reads/s3760/ (not in git). The demand charge is in four blocks
 # (First $10.55, Second $7.32, Third $4.36, Fourth $3.37 per kW, page 1; the blocks defined on page 2), so no one demand
 # charge is written; the blocks are in notes. No collateral, exit fee or ramp language is in the schedule.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Entergy Louisiana, LLC
 eia_id: 11241
 state: LA
@@ -17,7 +21,7 @@ docket: U-36959 (the authority the sheet cites)
 document: Entergy Louisiana's Schedule LLHLFPS-L, First Revised, effective 30 August 2024, as published in its tariff index
 document_url: https://www.entergylouisiana.com/wp-content/uploads/ell_elec_llhlfps-l.pdf
 retrieved_at: 2026-11-12T10:50:14Z
-license: public
+license: internal
 notes: "Firm demand charge in blocks: $10.55 per kW for the First Demand Block, $7.32 the Second, $4.36 the Third, $3.37 the Fourth (page 1); reactive $0.41 per rkVA above 25% of Maximum Demand."
 terms:
   min_bill: {text: "The Demand Charge ... but not less than the sum of the First Demand Block and the Second Demand Block ... if the average of the Maximum Demands during the preceding twelve Months falls below 70 MW, the Maximum Demand for the current Month shall be adjusted by the amount required to raise that average to 70 MW.", page: 2}

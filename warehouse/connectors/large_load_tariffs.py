@@ -242,6 +242,16 @@ def main(argv=None):
                 ip._require_lock(path, f"rebuilding {NAME} with its new columns")
                 os.remove(path)
                 log(f"  {NAME}: columns changed; written again whole ({len(keep)} OpenEI rows kept)")
+            else:
+                # session 3937 (chain 267): the registry is the whole of the filed rows, so a schedule held for a license
+                # (or taken out of the registry) leaves the table; a merge kept its rows (42 kept when fourteen files were
+                # held internal on 14 November 2026). The other connectors' rows (OpenEI's) are kept as they are
+                keep = old[~old["entity"].str.startswith("filed:")]
+                gone = int(old["entity"].str.startswith("filed:").sum()) - len(d)   # filed rows the registry no longer writes
+                d = pd.concat([d, keep], ignore_index=True) if len(keep) else d
+                ip._require_lock(path, f"rebuilding {NAME}'s filed rows from the registry")
+                os.remove(path)
+                log(f"  {NAME}: the filed rows written again from the registry ({gone} fewer than the table held; {len(keep)} other rows kept)")
         ip.write_csv(d, NAME, header(d, run_id, held), log, cols=COLS)
         if not a.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="the state commissions (filed tariffs), read into the ERW's registry",

@@ -5,6 +5,10 @@
 # Charge $0.00 and Distribution System Charge $0.587101 per 4CP kVA (Sheet 6.5, PDF page 97); Rider TCRF, Transmission
 # Service, $5.048210 per 4 CP kVA, effective 1 September 2026 (Sheet 6.13, Revision 53rd, PDF page 147). No large-load
 # schedule exists for this utility.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: CenterPoint Energy Houston Electric, LLC
 eia_id: 8901
 state: TX
@@ -20,7 +24,7 @@ docket: not printed for this revision
 document: CenterPoint Energy Houston Electric's Tariff for Retail Delivery Service, Transmission Service effective 17 September 2025, as published on its assets host
 document_url: https://assets.centerpointenergy.com/api/public/content/houston-electric-tariff-for-retail-delivery-service.pdf
 retrieved_at: 2026-11-12T10:58:17Z
-license: public
+license: internal
 notes: "Per 4CP kVA, not per kW: Transmission System Charge $0.00, Distribution System Charge $0.587101 (page 97); Rider TCRF Transmission Service $5.048210 per 4 CP kVA from 1 September 2026 (page 147). Metering Charge $732.35 per Meter per month (page 97)."
 figures:
   - {variable: fixed_charge, value: 190.55, printed: "Customer Charge $190.55 per Retail Customer per month", page: 97}

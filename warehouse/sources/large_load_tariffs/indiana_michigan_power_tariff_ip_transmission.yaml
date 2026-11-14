@@ -2,6 +2,10 @@
 # PDF is Tariff I.P.'s rate sheet as the Settlement Agreement's Attachment A prints it (rates effective 28 May 2024, Cause No. 45933).
 # Large Load Customers are charged Tariff I.P.'s rates (the order, page 3). The energy charge is two blocks (the first 410 kWh per kW
 # of demand, and over 410 kWh per kW): no single energy_charge is printed, so none is written.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Indiana Michigan Power Company
 eia_id: 9324
 state: IN
@@ -16,7 +20,7 @@ docket: Cause No. 45933 (the rates); Cause No. 46097 (the attachment read)
 document: the Commission's Order of 19 February 2025 in Cause No. 46097, Settlement Agreement Attachment A, Sheet No. 21
 document_url: https://www.in.gov/iurc/files/ord_46097_021925.pdf
 retrieved_at: 2026-10-08T04:11:47Z
-license: public
+license: internal
 terms:
   min_bill: {text: "This tariff is subject to a minimum monthly charge equal to the sum of the Monthly Service Charge, the product of the Minimum Demand Charge and the monthly billing demand, and all applicable riders ... 324 Transmission 14.700", page: 66}
 figures:

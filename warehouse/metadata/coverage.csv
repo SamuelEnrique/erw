@@ -639,7 +639,7 @@ uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
 utility_large_load_rule_changes,none,,1,event,2026-08-18T00:00:00Z,2026-11-13T00:00:00Z,94,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_rules,none,,1,event,2010-01-01T00:00:00Z,2026-11-13T00:00:00Z,100,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
-utility_large_load_tariffs,utility,,27,,2009-01-01T00:00:00Z,2027-01-01T00:00:00Z,95,filed:large_load_tariffs,2026-11-13T05:46:50Z,pass,public,power,no,source
+utility_large_load_tariffs,utility,,13,,2018-02-15T00:00:00Z,2027-01-01T00:00:00Z,53,filed:large_load_tariffs,2026-11-14T11:19:29Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source

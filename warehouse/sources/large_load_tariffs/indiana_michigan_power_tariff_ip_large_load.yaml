@@ -2,6 +2,10 @@
 # (warehouse/raw/large_load_rules/B/raw/in/ord_46097_021925.pdf, 73 pages); no request was made for it. The tariff sheets are the
 # Settlement Agreement's Attachment A, pages 66 to 73 of the order's PDF; the pages below are the PDF's own page numbers.
 # The Large Load sheets print their effective date as a blank line: the date here is the Commission's order approving them.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Indiana Michigan Power Company
 eia_id: 9324
 state: IN
@@ -15,7 +19,7 @@ docket: Cause No. 46097
 document: the Commission's Order of 19 February 2025 approving the Settlement Agreement, with the agreed Tariff I.P. sheets (Attachment A)
 document_url: https://www.in.gov/iurc/files/ord_46097_021925.pdf
 retrieved_at: 2026-10-08T04:11:47Z
-license: public
+license: internal
 terms:
   min_bill: {text: "the monthly demand so established shall in no event be less than the greater of (a) 80 percent of the Large Load Customer's contract capacity specified for the applicable time period of the Contract Term; or (b) 80 percent of the Large Load Customer's highest previously established Monthly Billing Demand during the past 11 months", page: 71}
   collateral: {text: "The amount of collateral to be provided is equal to twenty-four (24) multiplied by: (a) during the first year of the contract, the maximum expected monthly non-fuel bill; or (b) after the first year of the contract, the Large Load Customer's previous maximum monthly non-fuel bill", page: 73}

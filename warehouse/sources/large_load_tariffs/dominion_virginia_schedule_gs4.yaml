@@ -5,6 +5,10 @@
 # is the record. Paragraph I.F and VIII (customers of 25 MW or more that do not qualify for Rate Schedule GS-5) take effect
 # on 1 January 2027; the figures written are the transmission-voltage customer's. Rate Schedule GS-5 itself (ordered, from
 # 1 January 2027) has no published sheet and its order is on the paused host: that row waits.
+# Session 3937 (chain 267): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md
+# (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
+# 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
+# (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
 utility: Virginia Electric and Power Company (Dominion Energy Virginia)
 eia_id: 19876
 state: VA
@@ -20,7 +24,7 @@ docket: PUR-2025-00058 (the Final Order the schedule cites; the SCC's host not r
 document: Dominion Energy Virginia's Schedule GS-4, filed 9 December 2025, effective for usage on and after 1 January 2026, as published on its rates page
 document_url: https://www.dominionenergy.com/-/media/content/rates-and-tariffs/pdfs/virginia/large-business/schedule-gs4.pdf
 retrieved_at: 2026-11-12T11:14:11Z
-license: public
+license: internal
 notes: "Paragraph VIII's minimums apply from 1 January 2027 to customers of 25 MW or more that do not qualify for GS-5: distribution and transmission demand not less than 85 percent of contracted demand, generation demand not less than 60 percent (excluding PJM capacity expense). Distribution demand charge $2.717 per kW for the first 5,000 kW where delivery is below 69 kV (page 2); on-peak generation demand $9.280 per kW at transmission voltage (page 2)."
 terms:
   min_bill: {text: "Eighty-five percent of the Customer's contracted demand (distribution and transmission demand, Paragraph VIII.A and B.1); Sixty percent of the contracted demand (generation demand, Paragraph VIII.B.2)", page: 6}
