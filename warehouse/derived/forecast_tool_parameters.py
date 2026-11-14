@@ -10,6 +10,7 @@ forecast tool (/impact) reads, each written by chain 239 (lab-desktop window 4) 
                                           cost study for AEO2025 (Sargent & Lundy), Appendix A
     site/data/forecast/jedi_taxable.json  the share of construction spending that bears sales and use tax, by technology:
                                           JEDI's own taxable base (NLR's JEDI models)
+    site/data/forecast/jedi_costs.json    JEDI's default construction cost per MW by technology and location (session 3948)
     site/data/forecast/gas.json           the gas plant's fuel: the heat rate (the same study), JEDI's default capacity
                                           factor, the 2025 Henry Hub mean (eia_steo_forecasts) and EIA's heat content
 
@@ -60,6 +61,7 @@ def build(folder=FOLDER):
     capex = json.load(open(os.path.join(folder, "eia_capex.json"), encoding="utf-8"))
     taxable = json.load(open(os.path.join(folder, "jedi_taxable.json"), encoding="utf-8"))
     gas = json.load(open(os.path.join(folder, "gas.json"), encoding="utf-8"))
+    costs = json.load(open(os.path.join(folder, "jedi_costs.json"), encoding="utf-8"))
     out = []
     src, url = SOURCES["capex"][0], capex["source_url"]
     when = str(capex.get("written_at", ""))
@@ -87,6 +89,17 @@ def build(folder=FOLDER):
             continue
         out.append(row(f"forecast:jedi_taxable:{tech}:us", "taxable_share", t["taxable_share"], "ratio", src, "https://www.nlr.gov/analysis/jedi/models", "",
                        tech, "us", "", f"{t.get('file', '')}: {t.get('arithmetic', '')}"))
+    # session 3948 (chain 272; request 2 of docs/state/data_requests_forecast.md): JEDI's default construction cost per MW
+    # of its default project, by technology and location, from jedi_costs.json, whose every location's 24 figures were
+    # checked against nlr_jedi_multipliers when it was written (warehouse/forecast/jedi_costs.py); the recalculation it
+    # rests on is on no machine now, so the checked file is the record
+    src = SOURCES["jedi"][0]
+    cwhen = str(costs.get("written_at", ""))
+    for tech, t in costs["technologies"].items():
+        for code, s in t.get("states", {}).items():
+            out.append(row(f"forecast:jedi_costs:{tech}:{code}", "construction_cost", s["cost_usd_per_mw"], "USD/MW", src,
+                           "https://www.nlr.gov/analysis/jedi/models", cwhen, tech, code, t.get("dollar_year", ""),
+                           f"{t['file']} ({t.get('mw_basis', '')}), {s['location']}: {s['cells']} {s['cost_usd']:,.2f} USD over {s['project_mw']:g} MW"))
     src = SOURCES["gas"][0]
     gwhen = str(gas.get("written_at", ""))
     out.append(row("forecast:gas:natural_gas:us", "heat_rate", float(gas["heat_rate_btu_per_kwh"]) / 1000.0, "MMBtu/MWh", src, METHOD_URL, gwhen, "natural_gas", "us", "",
@@ -119,7 +132,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): the forecast tool's parameters (EIA's capital cost by technology, state and city; JEDI's taxable share; the gas plant's fuel defaults) (session 3938)",
             "Shape: series (docs/datastandard.md v0). entity forecast:<file>:<technology>:<place> (place us, a state code, or <state>_<city>); "
-            "variables overnight_cost (USD/kW, x_dollar_year), construction_months, case_mw, operating_life (year), heat_rate (MMBtu/MWh), location_variation and "
+            "variables overnight_cost (USD/kW, x_dollar_year), construction_cost (USD/MW, JEDI's default project, its model's dollar year), construction_months, case_mw, operating_life (year), heat_rate (MMBtu/MWh), location_variation and "
             "taxable_share and capacity_factor (ratio), fuel_price (USD/MMBtu, the 2025 mean), heat_content (Btu/ft3); ts_utc the dollar year's "
             "first day where the value has one, else 2026-01-01; no freq (a parameter, not a time series).",
             f"Rows: {len(d)}. Read from site/data/forecast/eia_capex.json, jedi_taxable.json and gas.json (chain 239, lab-desktop window 4, "

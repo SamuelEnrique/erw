@@ -5853,6 +5853,7 @@ flex_alert_model,variant_minimal_pooled_reduction_mw_hi,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw_lo,series variable,MW
 forecast_tool_parameters,capacity_factor,series variable,ratio
 forecast_tool_parameters,case_mw,series variable,MW
+forecast_tool_parameters,construction_cost,series variable,USD/MW
 forecast_tool_parameters,construction_months,series variable,month
 forecast_tool_parameters,fuel_price,series variable,USD/MMBtu
 forecast_tool_parameters,heat_content,series variable,Btu/ft3
