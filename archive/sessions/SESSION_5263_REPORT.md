@@ -1,6 +1,6 @@
 # Session 5263: the spend guard reads the whole ledger; session 5262's work committed
 
-Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (08:25 to 09:05 UTC), Fable, unattended. The first step of window P3's close-out. Branch `wip/5200-ask-guard` (worktree `erw-p3-5200`), cut from `origin/main` at `85e5b2eeb`. Nothing built, nothing landed, no warehouse data written. Model spend USD 0.00: no model call was made in this session.
+Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (08:27 to 08:58 UTC), Fable, unattended. The first step of window P3's close-out. Branch `wip/5200-ask-guard` (worktree `erw-p3-5200`), cut from `origin/main` at `85e5b2eeb`. Nothing built, nothing landed, no warehouse data written. Model spend USD 0.00: no model call was made in this session.
 
 ## Read these first
 
@@ -46,7 +46,7 @@ Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (0
 
 - `tests/test_session5263_ask.py`: 21 passed. It holds the fault's mechanism, the whole reading, a smaller server page, a row written meanwhile, the refusals, the cap held against the whole day in `ask()`, the day's ceiling, and what each other helper reads.
 - The 16 test files that name the evaluation's runners: 162 passed, 1 skipped.
-- The test files that touch the chat, the license hold or the docs tree: the count is in the landing row.
+- The 130 test files that touch the chat, the license hold or the docs tree: 1,778 passed, 126 skipped, 1 failed in 11 minutes. The one failure is `tests/test_session1011.py` `test_the_copy_is_byte_for_byte`, on an ignored build file an earlier session left in this worktree (`site/content/llms.json`, older than today's `package/llms.txt`): not this stack's, skipped in a clean checkout, and named in row 28 before.
 - No em or en dash in the files changed.
 - Not run: the whole suite, a build, a lint (this window never builds).
 
