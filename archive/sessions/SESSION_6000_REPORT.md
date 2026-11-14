@@ -1,6 +1,6 @@
 # Session 6000 report: the queue, the ground, Montana's life, the readers sent (chain 270, samueloldlaptop)
 
-14 November 2026, from about 00:40 UTC. Branch `wip/6000-forecast` (worktree `C:\Users\lossa\Documents\erw-6000`), cut from `origin/main` at `5b1301928`. Model spend under the owner's key: USD 0 (no model call by any tool); the subagents' own tokens are the harness's.
+14 November 2026, from about 08:40 UTC. Branch `wip/6000-forecast` (worktree `C:\Users\lossa\Documents\erw-6000`), cut from `origin/main` at `5b1301928`. Model spend under the owner's key: USD 0 (no model call by any tool); the subagents' own tokens are the harness's.
 
 ## The queue
 
@@ -18,7 +18,7 @@
 - Precheck passed; memory free 2.3 GB; disk 81 GB free.
 - Window D's newest branch `wip/4290-forecast` (`829a1dfb6`, session 4304) is an ancestor of origin/main; so are `wip/4250-forecast` and `wip/4270-forecast`.
 - Worktrees: `erw-3457` (landed branch, holds one untracked dry-run file of chain 252, `warehouse/news/facts/items/2026-11-13.json`: left for its chain, not removed); `erw-1425` and `erw-1600` hold open branches: left.
-- P1's close-out note (portable laptop, chain 269) not yet on main at 01:50 UTC; the W46 Roundup does not exist yet.
+- P1's close-out note (portable laptop, chain 269) not yet on main at about 08:50 UTC; the W46 Roundup does not exist yet.
 
 ## (2) Montana's 19-year life: confirmed
 
