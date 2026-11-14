@@ -76,6 +76,7 @@
     "cited": null,
     "refusal": true,
     "no_figure": true,
+    "not_stated": true,
     "ok": true
    },
    "trace_calls": 2
@@ -153,12 +154,8 @@
  "loop": "site",
  "by_kind": {
   "not_readable": {
-   "asked": 5,
-   "right": 5
-  },
-  "outside": {
-   "asked": 1,
-   "right": 1
+   "asked": 6,
+   "right": 6
   }
  },
  "by_sector": {

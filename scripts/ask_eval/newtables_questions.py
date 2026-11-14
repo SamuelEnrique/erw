@@ -360,13 +360,21 @@ def visitor_reads():
 def live(qs, reads):
     """The set as a visitor's chat can answer it today. A question of a table the chat cannot read (kinds figure and
     unstated) becomes one of kind not_readable: a refusal in the words of a table out of reach, no figure, and never the
-    figure the table holds (kept as `withheld`, for the grader alone). A question of kind outside is a refusal either
-    way. A question of a table the chat can read keeps its key."""
+    figure the table holds (kept as `withheld`, for the grader alone). A question of kind outside becomes one too, with
+    nothing withheld. A question of a table the chat can read keeps its key."""
     out = []
     for x in qs:
         table = (x["tables"] or [None])[0] or x["note"].split(":")[0].split(",")[0].split(" ")[0]
-        if x["kind"] == "outside" or reads.get(table):
+        if reads.get(table):
             out.append(dict(x, withheld=[], withheld_text=[]))
+            continue
+        if x["kind"] == "outside":
+            # session 6141: a question of something the table does not hold either way is, for a chat that cannot read the
+            # table, a question of a table out of its reach like any other: it cannot know the table's span or its rows, so
+            # the key asks for the refusal and no figure, not for the words of the readable case (ch09, asked through the
+            # site's loop on 14 November 2026, refused rightly and was graded wrong for not naming the month)
+            out.append(dict(x, kind="not_readable", text=[OUT_OF_REACH], withheld=[], withheld_text=[],
+                            note=f"a visitor's chat cannot read {table} today: a refusal and no figure. When it can: " + x["note"]))
             continue
         out.append(dict(x, kind="not_readable", expected=[], text=[OUT_OF_REACH], tables=[], refuse=True, count=False,
                         # a word key is withheld when it is a name or a date; a status word (proposed, in effect) may stand in a

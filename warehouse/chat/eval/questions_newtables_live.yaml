@@ -1,7 +1,7 @@
 # Energy Research Warehouse (ERW): the 58 questions of questions_newtables.yaml keyed as a visitor's chat can answer them on 2026-11-14
 # (session 6111, chain 280), written by scripts/ask_eval/newtables_questions.py --live. A visitor's chat reads the live set; the tables read today: none of the six.
-# 46 ask of a table out of its reach (kind not_readable: a refusal in one of the text entry's words, no figure, and never the figure
-# the table holds, kept under withheld for the grader); 12 of something the table does not hold either way (outside); 0 keep their key.
+# 58 ask of a table out of its reach (kind not_readable: a refusal in one of the text entry's words, no figure, and never the figure
+# the table holds, kept under withheld for the grader); 0 of something the table does not hold either way (outside); 0 keep their key.
 today: '2026-11-14'
 questions:
 - id: fc01
@@ -246,68 +246,68 @@ questions:
   note: "a visitor's chat cannot read forecast_tool_parameters today (not in the live set): a refusal, no figure, never the table's own. When it can: forecast_tool_parameters, overnight_cost of x_technology utility_pv: the count of rows (the US, states and cities)"
 - id: fc16
   sector: forecast
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What overnight capital cost do the forecast tool's parameters hold for offshore wind, in USD per kW?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "offshore"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  note: "a visitor's chat cannot read forecast_tool_parameters today: a refusal and no figure. When it can: forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
 - id: fc17
   sector: forecast
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What overnight capital cost do the forecast tool's parameters hold for a battery storage plant, in USD per kW?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "battery|storage"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  note: "a visitor's chat cannot read forecast_tool_parameters today: a refusal and no figure. When it can: forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
 - id: fc18
   sector: forecast
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What overnight capital cost do the forecast tool's parameters hold for a nuclear plant, in USD per kW?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "nuclear"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  note: "a visitor's chat cannot read forecast_tool_parameters today: a refusal and no figure. When it can: forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
 - id: fc19
   sector: forecast
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What will the overnight capital cost of utility-scale solar PV be in 2030, according to the forecast tool's parameters?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "2030|projection|forecast"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "forecast_tool_parameters holds EIA's cost of the 2025 study in 2023 dollars and no projection of a later year: not in the warehouse, no figure"
+  note: "a visitor's chat cannot read forecast_tool_parameters today: a refusal and no figure. When it can: forecast_tool_parameters holds EIA's cost of the 2025 study in 2023 dollars and no projection of a later year: not in the warehouse, no figure"
 - id: ru01
   sector: rules
   kind: not_readable
@@ -486,52 +486,52 @@ questions:
   note: "a visitor's chat cannot read utility_large_load_rules today (not in the live set): a refusal, no figure, never the table's own. When it can: utility_large_load_rules: x_queue_size of duke-01 is 'not published' (the documents read do not state it): the answer says so and gives no figure"
 - id: ru12
   sector: rules
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What minimum contract term does Indiana Michigan Power's large-load rule set, according to the warehouse's utility large-load rules table?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "Indiana Michigan"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "utility_large_load_rules holds no row of Indiana Michigan Power: not in the warehouse, the utility named, no figure"
+  note: "a visitor's chat cannot read utility_large_load_rules today: a refusal and no figure. When it can: utility_large_load_rules holds no row of Indiana Michigan Power: not in the warehouse, the utility named, no figure"
 - id: ru13
   sector: rules
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What minimum contract term does Hawaiian Electric's large-load rule set, according to the warehouse's utility large-load rules table?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "Hawaiian"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "utility_large_load_rules holds no row of Hawaiian Electric: not in the warehouse, the utility named, no figure"
+  note: "a visitor's chat cannot read utility_large_load_rules today: a refusal and no figure. When it can: utility_large_load_rules holds no row of Hawaiian Electric: not in the warehouse, the utility named, no figure"
 - id: ru14
   sector: rules
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What is the average size threshold in MW across the utility large-load rules in the warehouse?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "utility_large_load_rules holds each threshold as the phrase its document prints (x_threshold_mw) and no number (mw is empty): no average can be read from it; not in the warehouse, no figure"
+  note: "a visitor's chat cannot read utility_large_load_rules today: a refusal and no figure. When it can: utility_large_load_rules holds each threshold as the phrase its document prints (x_threshold_mw) and no number (mw is empty): no average can be read from it; not in the warehouse, no figure"
 - id: ch01
   sector: changes
   kind: not_readable
@@ -662,36 +662,36 @@ questions:
   note: "a visitor's chat cannot read utility_large_load_rule_changes today (not in the live set): a refusal, no figure, never the table's own. When it can: utility_large_load_rule_changes: the count of rows whose x_affects is new"
 - id: ch09
   sector: changes
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "How many changes to utilities' large-load rules does the warehouse hold for March 2026?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "March|August"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "utility_large_load_rule_changes begins on 2026-08-18 (the pass read 15 August to 13 November 2026) and holds no row of March 2026: not in the warehouse, the period named, no figure given as March's"
+  note: "a visitor's chat cannot read utility_large_load_rule_changes today: a refusal and no figure. When it can: utility_large_load_rule_changes begins on 2026-08-18 (the pass read 15 August to 13 November 2026) and holds no row of March 2026: not in the warehouse, the period named, no figure given as March's"
 - id: ch10
   sector: changes
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "How many MW of load were affected by the changes to utilities' large-load rules of October 2026, according to the warehouse?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "utility_large_load_rule_changes holds no MW of any change (mw is empty; sizes are phrases): not in the warehouse, no figure"
+  note: "a visitor's chat cannot read utility_large_load_rule_changes today: a refusal and no figure. When it can: utility_large_load_rule_changes holds no MW of any change (mw is empty; sizes are phrases): not in the warehouse, no figure"
 - id: lw01
   sector: laws
   kind: not_readable
@@ -838,36 +838,36 @@ questions:
   note: "a visitor's chat cannot read state_large_load_laws today (not in the live set): a refusal, no figure, never the table's own. When it can: state_large_load_laws: x_effective_date of Iowa's row (H.F. 2690 (successor to H.F. 2447), introduced) is 'not published': the answer says so and gives no date"
 - id: lw10
   sector: laws
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What is the status of Texas's large-load law, according to the warehouse's state large-load laws table?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "Texas"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "state_large_load_laws holds no row of Texas: not in the warehouse, the state named, no status"
+  note: "a visitor's chat cannot read state_large_load_laws today: a refusal and no figure. When it can: state_large_load_laws holds no row of Texas: not in the warehouse, the state named, no status"
 - id: lw11
   sector: laws
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What is the status of California's large-load law, according to the warehouse's state large-load laws table?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "California"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "state_large_load_laws holds no row of California: not in the warehouse, the state named, no status"
+  note: "a visitor's chat cannot read state_large_load_laws today: a refusal and no figure. When it can: state_large_load_laws holds no row of California: not in the warehouse, the state named, no status"
 - id: cp01
   sector: counterparties
   kind: not_readable
@@ -918,17 +918,17 @@ questions:
   note: "a visitor's chat cannot read iso_reserve_margin_reports today (not in the live set): a refusal, no figure, never the table's own. When it can: iso_reserve_margin_reports, variable capacity_surplus_mw: the one row"
 - id: rs03
   sector: reserve
-  kind: outside
+  kind: not_readable
   grid: none
   via: general
   question: "What planning reserve margin did ERCOT's 2026 summer assessment report, according to the warehouse's reserve margin reports?"
   expected: []
   tolerance: 0.01
-  text: ["not in the warehouse", "ERCOT"]
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
   tables: []
   refuse: true
   hold: false
   count: false
   withheld: []
   withheld_text: []
-  note: "iso_reserve_margin_reports holds CAISO's assessment alone: not in the warehouse, ERCOT named, no figure"
+  note: "a visitor's chat cannot read iso_reserve_margin_reports today: a refusal and no figure. When it can: iso_reserve_margin_reports holds CAISO's assessment alone: not in the warehouse, ERCOT named, no figure"

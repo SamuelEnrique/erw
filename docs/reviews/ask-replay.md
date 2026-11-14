@@ -67,5 +67,13 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/replay.p
 | session 6134, the site's loop, the newtables_live set | 11 | 11 | 0 | 0 |
 | session 6135, the site's loop, the newtables_live set | 12 | 9 | 0 | 0 |
 | session 6131, Python loop over the tables' files, the new tables' set | 4 | 4 | 0 | 0 |
+| session 6136, the site's loop, the newtables_live set | 12 | 12 | 0 | 0 |
+| session 6137, the site's loop, the trader set | 20 | 20 | 0 | 0 |
+| session 6138, the site's loop, the s2224 set | 20 | 20 | 0 | 0 |
+| session 6139, the site's loop, the platform set | 20 | 20 | 0 | 0 |
+| session 6140, the site's loop, the newtables_live set | 23 | 23 | 0 | 0 |
+| session 6141, the site's loop, the newtables_live set | 6 | 6 | 0 | 0 |
+| session 6142, the site's loop, the platform set | 26 | 26 | 0 | 0 |
+| session 6143, the site's loop, the platform set | 9 | 9 | 0 | 0 |
 
-In all: 993 answers, 0 would now be sent back.
+In all: 1129 answers, 0 would now be sent back.

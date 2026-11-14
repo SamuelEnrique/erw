@@ -191,7 +191,7 @@ The catalogue lists every table of the record; the live set this chat reads hold
 - **No other spend guard reads its total through one request of rows:** the site's ceilings are sums the database makes (`site_ask_admit`, `internal_ask_spend`), `warehouse/llm.py` reads its ledger file whole, the thesis runner sums in SQL, and the daily cap of the scheduled steps reads Supabase's copy in pages (`warehouse/health.py` `ledger_remote`).
 - **Held by** `tests/test_session5263_ask.py`: a stand-in server that holds 1,092 rows and answers 1,000 at most.
 
-## The evaluation finished, in four classes (14 November 2026, sessions 6101 to 6113, chain 280)
+## The evaluation finished, in four classes (14 November 2026, sessions 6101 to 6143, chains 280 and 281)
 
 Every answer of an asking is put in one of four classes, from the stored runs alone (`warehouse/chat/eval/class_scores.py`, no model): **correct** (a figure key met), **correctly refused** (a refusal key met), **unsupported number** (the answer a reader got holds a number in no tool result, or the loop gave its fixed refusal for one), **wrong** (everything else). Before: the chat as chain 256 left it. After: the failure classes asked again on the mended chat. The full account is `docs/reviews/ask-eval-2026-11-13.md`.
 
@@ -200,8 +200,9 @@ Every answer of an asking is put in one of four classes, from the stored runs al
 | The platform set, whole (`questions_platform.yaml`) | 134 | 85, 47, 0, 2 | 85, 49, 0, 0 |
 | The investor's twenty, the site's loop | 20 | 10, 9, 1, 0 | 11, 9, 0, 0 |
 | The lab's twenty, the site's loop | 20 | 13, 6, 0, 1 | 13, 7, 0, 0 |
-| The week's new tables, read through their own files (`questions_newtables.yaml`, the Python loop) | 58 | 44, 13, 0, 1 | not asked again yet |
-| The same, as a visitor's chat meets them (`questions_newtables_live.yaml`, a slice) | 6 | 0, 6, 0, 0 | not asked again yet |
+| The week's new tables, read through their own files (`questions_newtables.yaml`, the Python loop) | 58 | 44, 13, 0, 1 | 44, 14, 0, 0 |
+| The same, as a visitor's chat meets them (`questions_newtables_live.yaml`), whole | 58 | 3 of the first 29 asked were answered from a neighbour table (wrong); the other 26 refused rightly | 0, 58, 0, 0 |
+| The trader's twenty, the site's loop, asked again under rule 12 | 20 | 18, 2, 0, 0 (session 5275) | 18, 2, 0, 0 |
 
 What changed in the loops, each in `site/lib/chat/` and its twin in `warehouse/chat/`, each held by a scripted scenario both loops run turn by turn (`tests/test_session1300.py`, 22 scenarios) or by a test that asks the tools with no model:
 
@@ -210,7 +211,10 @@ What changed in the loops, each in `site/lib/chat/` and its twin in `warehouse/c
 - **A percentile's ordinal is a name** (`withoutPercentileNames`, `without_percentile_names`). "The 75th percentile" is no figure of the answer when a tool result or argument names that percentile (`p75_months`). Any other 75 is checked as before.
 - **An answer that stops in the middle of a sentence is sent back once** (`cutShort`, `cut_short`): its last character an opening bracket, a comma, a colon or a semicolon. One of 888 stored answers ends so.
 - **A column of prose is named, not listed** (`site/lib/chat/longtext.ts`, `tools.py` `split_long_text`). `describe_table` gives a text column whose longest value is over 200 characters by name, with the count of its distinct values; a row's text is read with a count grouped by that column and narrowed to the row.
-- **A table of the record the catalogue does not list** (`notListedWords`, `not_listed_words`). A call that names one is told what it is (its license not settled, or not loaded here), in the words of a table not in the live set, so it is not asked again; the list's note says such a table is never answered from another one. Held by tests that ask the tools; not yet asked with a model.
+- **A table of the record the catalogue does not list**, in four layers, each added when an asking showed the one before was not enough. (1) A call that names one is told what it is (its license not settled, or not loaded here), in the words of a table not in the live set (`notListedWords`, `not_listed_words`). (2) The list's result says so at its head (`not_listed`). (3) When the question's own words hold the table's whole name and the refusal does not name it, the loop says it in a fixed sentence that begins with the refusal's words (`unlistedNamed`, `withUnlistedWords`). (4) The list's own result names that table before its rows (`asked_about_not_listed`, `withAskedAbout`), it counts as refused whole, and a draft that answers all the same from another table is sent back once (`askedAboutProblem`). Before layer 4, 3 of 12 such questions were answered from a neighbour table; the same twelve asked again: 12 refused by name, 25 tool calls where they took 112, USD 1.02 where they cost USD 2.27.
+- **A period outside a table's own span** (`site/lib/chat/window.ts` `spanOutside`, `window.py` `span_outside`). A bounded query of a table of events or things whose period lies wholly before the table's first date or after its last carries `span`, with the note that this is not a count of zero. A series has said whether its window is whole since session 5267.
+- **A day in words** (`plainDates`, `plain_dates`). After every check has run, the general chat's answer writes 2026-11-05 as 5 November 2026. A time stamp, a month and digits inside a name are left.
+- **Rule 12 of the prompt, "Write for the reader, not about how you worked"**: no talk of tools, calls, queries or checks; the thing itself, not a row's label; a price to the cent. From a read of sixty replies as a trader, a project developer and an AI lab's energy team would read them (20 each): all right, 29 faults of form (16 dates as the tool writes them, 6 row labels, 4 of tool talk, 3 prices past the cent). The same sixty asked again: 60 right, 2 faults of form.
 
 What changed in the grading (`warehouse/chat/eval/eval_s267.py`, `eval_s1113.py`):
 
@@ -219,7 +223,7 @@ What changed in the grading (`warehouse/chat/eval/eval_s267.py`, `eval_s1113.py`
 
 The measure before each rule was taken on the stored answers, so that no right answer is sent back: 134 refusals of the site's loop for the figure rule (one states a figure, and it was wrong); 888 answers for the cut (one, wrong); every stored answer through `replay.py --check` for the percentile rule (exit 0).
 
-Model spend of the chain: USD 19.3211 of USD 20, in 260 askings; no session over USD 2; each estimate written before its asking. The site's ledger for the day, read whole, agrees with the run files to the cent.
+Model spend: chain 280 USD 19.3211 of USD 20, in 260 askings; chain 281's is in its report (`archive/sessions/SESSION_6130_6159_REPORT.md`). No session over USD 2; each estimate written before its asking. The site's ledger for the day, read whole, agrees with the run files to the cent.
 
 ## The rule, proved (6 November 2026, session 2225)
 
