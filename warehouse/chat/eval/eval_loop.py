@@ -85,9 +85,35 @@ def trace_of(rec):
     return out
 
 
+def backend_words(env=None):
+    """What a run's own line says the tools read: the live set, or (session 6111) a folder of table files."""
+    env = os.environ if env is None else env
+    if env.get("ERW_BACKEND") == "local":
+        return f"the table files of {env.get('ERW_DATA_DIR')} as the backend (the erw package's local backend: tables the live set does not hold yet)"
+    return "the Supabase live set as the backend"
+
+
+def set_backend(argv, env=None):
+    """Session 6111 (chain 280): --data-dir <folder> asks the questions over the table files of a folder (the erw
+    package's local backend) where the live set is the default: a table that has landed and is not loaded into the live
+    set yet can then be asked about before it is. The folder's coverage file is <folder>/../metadata/coverage.csv
+    unless --coverage names one; the tools list what that file lists. Returns the backend's name."""
+    env = os.environ if env is None else env
+    if "--data-dir" not in argv:
+        env["ERW_BACKEND"] = "supabase"
+        return "supabase"
+    folder = os.path.abspath(argv[argv.index("--data-dir") + 1])
+    cov = os.path.abspath(argv[argv.index("--coverage") + 1]) if "--coverage" in argv else os.path.join(os.path.dirname(folder), "metadata", "coverage.csv")
+    for what, path in (("--data-dir", folder), ("the coverage file", cov)):
+        if not os.path.exists(path):
+            raise SystemExit(f"{what} {path} does not exist")
+    env["ERW_BACKEND"], env["ERW_DATA_DIR"], env["ERW_COVERAGE_CSV"] = "local", folder, cov
+    return "local"
+
+
 def ask_all(E, ask, qs, run_path, cap, only, session, which):
     run = {"_about": f"Session {session} (chain 152, {which}): the questions asked through the Python loop (warehouse/chat/ask.py Asker; a grid "
-                     "question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), the Supabase live set as the backend, "
+                     "question through the grid's scoped chat), the hold on as the site's (ASK_HOLD=on), " + backend_words() + ", "
                      "every tool call recorded (trace), by eval_loop.py under the ledger step chat_eval.",
            "base": "python loop", "questions": []}
     if os.path.exists(run_path):
@@ -140,7 +166,7 @@ def main(argv):
     cap = float(argv[argv.index("--cap") + 1]) if "--cap" in argv else 3.0
     only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
     load_env()
-    os.environ["ERW_BACKEND"] = "supabase"
+    set_backend(argv)
     os.environ["ASK_HOLD"] = "on"
     os.environ.setdefault("ERW_STEP", "chat_eval")
     # the cost ledger is a table of warehouse/output, which only a machine holding the data lock writes (docs/machines.md,

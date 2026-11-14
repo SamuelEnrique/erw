@@ -41,6 +41,8 @@ Long end 1:30 each. Written by chain 278's session 3976 on 14 November 2026 at a
 - **The hunt** once the tables move (`check.py --tables` with an absolute path, `check_cards.py`, `check_do.py`; 185 of 185 on 14 November).
 - **The CAISO's FERC compliance filing** (due 16 November) for the siting gaps; **the Ask weekly run** (USD 4) on or after 19 November.
 - **Two `Derived from:` lines that parse as one name** (`datacenter_facilities`' and `ercot_node_transmission`'s headers run their method or report text into the line with commas): seen by chain 278's check, not yet a stop; look before they become one.
+- **The owner's Anthropic API key reached its usage limit** at about 21:55 UTC on 14 November, access back on 1 December (chain 283's note on main, the old laptop). Read whether the daily run's model steps (news scoring, the Digest, the Roundup of 15 November) were refused, and say so at the top of the report; no other key or route is tried.
+- **Added at 23:40 UTC on 14 November by session 3976:** GitHub's own start of the 14:00 schedule (run 43629058508) ran main from before gate d and stopped at the rollups' license at 23:01, as expected. The old laptop's row 14 landed at `58c34dd99` with the desk's fix to `longtext.ts` (gate e's build had failed on its type check).
 
 ## Session 3983: the runs of the days since chain 278's last reading
 

@@ -32,7 +32,8 @@ class TheRule(unittest.TestCase):
         return m.group(1)
 
     def test_eleven_rules_in_order_and_the_last_line_as_it_was(self):
-        self.assertEqual(re.findall(r"^(\d+)\. ", ask.RULES, re.M), [str(n) for n in range(1, 12)])
+        # session 6136 (chain 281): a twelfth rule, on writing for the reader; the eleven before it are as they were
+        self.assertEqual(re.findall(r"^(\d+)\. ", ask.RULES, re.M), [str(n) for n in range(1, 13)])
         self.assertTrue(ask.RULES.rstrip().endswith("not_in_warehouse (true or false)."))
         self.assertIn("6. You have at most 12 tool calls.", ask.RULES)          # the limit is not changed
         self.assertEqual(ask.MAX_TOOL_CALLS, 12)

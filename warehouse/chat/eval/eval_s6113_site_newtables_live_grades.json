@@ -1,0 +1,171 @@
+{
+ "_about": "eval_s6113_site_newtables_live_run.json graded on questions_newtables_live.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "newtables_live",
+ "asked": 6,
+ "right": 6,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids",
+  "hold_public_table"
+ ],
+ "cost_usd": 0.9162,
+ "questions": [
+  {
+   "id": "fc01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0800704,
+   "seconds": 7.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "fc06",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.22427029999999998,
+   "seconds": 26,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "fc16",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0795344,
+   "seconds": 5.1,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "ru01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.08261070000000001,
+   "seconds": 6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "ru07",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.2172365,
+   "seconds": 21.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "ru09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": true,
+   "cost_usd": 0.2324946,
+   "seconds": 24.9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "not_readable": {
+   "asked": 6,
+   "right": 6
+  }
+ },
+ "by_sector": {
+  "forecast": {
+   "asked": 3,
+   "right": 3
+  },
+  "rules": {
+   "asked": 3,
+   "right": 3
+  }
+ }
+}

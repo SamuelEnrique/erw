@@ -1,0 +1,22 @@
+{
+ "_about": "Session 6136 (chain 281): cases run through both loops' functions: a date in words (warehouse/chat/ask.py plain_dates, site/lib/chat/refused.ts plainDates), and the list's result that names a table the question asks about and the site cannot read (with_asked_about, withAskedAbout). The date texts are from the sixty replies read on 14 November 2026.",
+ "verdicts": {"forecast_tool_parameters": ["public", "x"], "utility_large_load_rules": ["unsettled", "x"], "large_load_rules": ["unsettled", "x"], "cost_of_power_monthly": ["public", "x"]},
+ "dates": [
+  {"id": "pj01", "text": "(ercot_interconnection_queue, source tier, vintage 2026-11-05). The table was last run 2026-11-05.", "plain": "(ercot_interconnection_queue, source tier, vintage 5 November 2026). The table was last run 5 November 2026."},
+  {"id": "a_span", "text": "only covers 2026-08-18 to 2026-11-13.", "plain": "only covers 18 August 2026 to 13 November 2026."},
+  {"id": "l13", "text": "month row labelled 2026-09-01)", "plain": "month row labelled 1 September 2026)"},
+  {"id": "a_time_stamp_is_left", "text": "which is 2026-10-27T04:15Z.", "plain": "which is 2026-10-27T04:15Z."},
+  {"id": "a_month_is_left", "text": "from 2013-11 to 2026-08", "plain": "from 2013-11 to 2026-08"},
+  {"id": "a_name_is_left", "text": "docs/reviews/ask-eval-2026-11-13.md and run_2026-11-13 and 2026-11-13-b", "plain": "docs/reviews/ask-eval-2026-11-13.md and run_2026-11-13 and 2026-11-13-b"},
+  {"id": "not_a_date_is_left", "text": "the code 2026-13-40 and 2026-00-10", "plain": "the code 2026-13-40 and 2026-00-10"},
+  {"id": "words_are_left", "text": "on 3 November 2026 (Central time)", "plain": "on 3 November 2026 (Central time)"},
+  {"id": "empty", "text": "", "plain": ""}
+ ],
+ "lists": [
+  {"id": "the_question_names_one", "question": "In the forecast tool's parameters, what heat rate is given?", "input": {}, "out": {"n_tables": 2, "not_listed": "x", "tables": [{"table": "cost_of_power_monthly"}, {"table": "large_load_rules"}], "backend": "supabase", "note": "n"},
+   "told": ["forecast_tool_parameters"], "keys": ["n_tables", "asked_about_not_listed", "not_listed", "tables", "backend", "note"]},
+  {"id": "it_names_none", "question": "What was ERCOT's demand on 3 November 2026?", "input": {}, "out": {"n_tables": 1, "tables": [{"table": "cost_of_power_monthly"}]}, "told": [], "keys": ["n_tables", "tables"]},
+  {"id": "a_filtered_list_says_nothing", "question": "In the forecast tool's parameters, what heat rate is given?", "input": {"sector": "gas"}, "out": {"n_tables": 1, "tables": [{"table": "cost_of_power_monthly"}]}, "told": [], "keys": ["n_tables", "tables"]},
+  {"id": "a_table_the_list_holds_is_not_named", "question": "How many of the large load rules are in effect?", "input": {}, "out": {"n_tables": 1, "tables": [{"table": "large_load_rules"}]}, "told": [], "keys": ["n_tables", "tables"]}
+ ]
+}

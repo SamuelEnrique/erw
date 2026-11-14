@@ -1,0 +1,204 @@
+{
+ "_about": "Session 6133 (chain 281): cases for the loop's naming of a table of the record the chat cannot read, run through both loops' functions (warehouse/chat/ask.py unlisted_named, unlisted_tables, with_unlisted_words; site/lib/chat/refused.ts unlistedNamed, unlistedTables, withUnlistedWords). names are tables of the record the list did not show; verdicts their license record's words. The questions are the new tables' set's own (questions_newtables.yaml) and three that name no such table.",
+ "names": [
+  "deal_counterparties",
+  "forecast_tool_parameters",
+  "large_load_connection_rules",
+  "large_load_rules",
+  "state_large_load_laws",
+  "utility_large_load_rule_changes",
+  "utility_large_load_rules",
+  "utility_large_load_tariffs"
+ ],
+ "verdicts": {
+  "forecast_tool_parameters": "public",
+  "utility_large_load_rules": "unsettled",
+  "state_large_load_laws": "unsettled",
+  "large_load_rules": "unsettled",
+  "utility_large_load_rule_changes": "unsettled",
+  "large_load_connection_rules": "unsettled",
+  "utility_large_load_tariffs": "unsettled",
+  "deal_counterparties": "public"
+ },
+ "questions": [
+  {
+   "id": "fc06",
+   "question": "In the forecast tool's parameters, which place has the highest overnight capital cost for land-based wind, and what is it in USD per kW?",
+   "named": [
+    "forecast_tool_parameters"
+   ]
+  },
+  {
+   "id": "ru07",
+   "question": "One utility large-load rule in the warehouse has the status \"denied\". Which utility's is it?",
+   "named": [
+    "utility_large_load_rules"
+   ]
+  },
+  {
+   "id": "ru01",
+   "question": "How many large-load connection rules of US utilities does the warehouse's utility large-load rules table hold?",
+   "named": [
+    "large_load_connection_rules",
+    "utility_large_load_rules"
+   ]
+  },
+  {
+   "id": "ch02",
+   "question": "How many changes to utilities' large-load rules does the warehouse hold for October 2026?",
+   "named": [
+    "utility_large_load_rule_changes"
+   ]
+  },
+  {
+   "id": "lw05",
+   "question": "Which state's large-load bill was vetoed, according to the warehouse's state large-load laws table?",
+   "named": [
+    "state_large_load_laws"
+   ]
+  },
+  {
+   "id": "a_name_of_two_words_is_not_looked_for",
+   "question": "How many companies does the warehouse's deal counterparties table hold?",
+   "named": []
+  },
+  {
+   "id": "pw13",
+   "question": "What will ERCOT's peak demand be in the summer of 2028, in MW?",
+   "named": []
+  },
+  {
+   "id": "load_alone",
+   "question": "What was the large load forecast for the rules of 2026?",
+   "named": [
+    "large_load_rules"
+   ]
+  },
+  {
+   "id": "nothing",
+   "question": "",
+   "named": []
+  }
+ ],
+ "answers": [
+  {
+   "id": "not_named",
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "answer": "Not in the warehouse. I found no table of forecast-tool parameters.",
+   "said": "Not in the warehouse this chat reads: forecast_tool_parameters is a table of the ERW's record that it cannot read, because it is not loaded here. Not in the warehouse. I found no table of forecast-tool parameters."
+  },
+  {
+   "id": "unsettled",
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "answer": "Not in the warehouse. The only large-load table I found is large_load_public.",
+   "said": "Not in the warehouse this chat reads: utility_large_load_rules is a table of the ERW's record that it cannot read, because its license is not settled (license needed). Not in the warehouse. The only large-load table I found is large_load_public."
+  },
+  {
+   "id": "already_named",
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "answer": "Not in the warehouse. utility_large_load_rules is not in the live set this chat reads, because its license is not settled.",
+   "said": "Not in the warehouse. utility_large_load_rules is not in the live set this chat reads, because its license is not settled."
+  },
+  {
+   "id": "two",
+   "tables": [
+    "large_load_connection_rules",
+    "utility_large_load_rules"
+   ],
+   "answer": "Not in the warehouse.",
+   "said": "Not in the warehouse this chat reads: large_load_connection_rules is a table of the ERW's record that it cannot read, because its license is not settled (license needed). Not in the warehouse this chat reads: utility_large_load_rules is a table of the ERW's record that it cannot read, because its license is not settled (license needed). Not in the warehouse."
+  },
+  {
+   "id": "none",
+   "tables": [],
+   "answer": "Not in the warehouse: no table holds futures.",
+   "said": "Not in the warehouse: no table holds futures."
+  }
+ ],
+ "records": [
+  {
+   "id": "the_whole_list",
+   "records": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "tables": [
+       {
+        "table": "large_load_rules"
+       },
+       {
+        "table": "deal_counterparties"
+       }
+      ]
+     },
+     "isError": false
+    }
+   ],
+   "unlisted": [
+    "forecast_tool_parameters",
+    "large_load_connection_rules",
+    "state_large_load_laws",
+    "utility_large_load_rule_changes",
+    "utility_large_load_rules",
+    "utility_large_load_tariffs"
+   ]
+  },
+  {
+   "id": "a_filtered_list_alone",
+   "records": [
+    {
+     "tool": "list_tables",
+     "input": {
+      "sector": "gas"
+     },
+     "out": {
+      "tables": [
+       {
+        "table": "large_load_rules"
+       }
+      ]
+     },
+     "isError": false
+    }
+   ],
+   "unlisted": []
+  },
+  {
+   "id": "no_list",
+   "records": [
+    {
+     "tool": "query",
+     "input": {
+      "table": "x"
+     },
+     "out": {
+      "result": []
+     },
+     "isError": false
+    }
+   ],
+   "unlisted": []
+  },
+  {
+   "id": "a_list_that_failed",
+   "records": [
+    {
+     "tool": "list_tables",
+     "input": {},
+     "out": {
+      "error": "the catalogue returned no rows"
+     },
+     "isError": true
+    }
+   ],
+   "unlisted": []
+  }
+ ]
+}

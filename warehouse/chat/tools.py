@@ -313,10 +313,58 @@ def not_live_words(table):
             f"If none does, answer with not_in_warehouse true and say that {table} is on Redivis and not in the live set this chat reads")
 
 
+# Session 6113 (chain 280), the words of site/lib/chat/refused.ts notListedWords and NOT_LISTED_NOTE: a table of the
+# ERW's record that the live catalogue does not list (its license is not settled or internal, or it has landed and is
+# not loaded yet). Asked about the week's new tables on 14 November 2026 the site's chat refused rightly and three of six
+# answers took all 12 tool calls looking; one went on from a neighbour table. A call that names such a table is told
+# what it is, in the words of a table not in the live set, so the loop counts it refused whole.
+NOT_LISTED_NOTE = ("Tables of the ERW's record that this site cannot read are not in this list (their license is not settled or internal, or they are not loaded "
+                   "here yet); the briefing's catalogue names every one. If the briefing names a table for what is asked and this list does not hold it, call "
+                   "describe_table with that name before anything else: it says why the table cannot be read, and that is the answer. Never answer for such a "
+                   "table from another table.")
+_verdicts = None
+
+
+def verdict_of(table):
+    """The license record's word for a table of the record (site/data/table_verdicts.json): public, unsettled or
+    internal; None for a name the record does not hold."""
+    global _verdicts
+    if _verdicts is None:
+        try:
+            with open(os.path.join(ROOT, "site", "data", "table_verdicts.json"), encoding="utf-8") as f:
+                _verdicts = json.load(f)
+        except OSError:
+            _verdicts = {}
+    v = _verdicts.get(table)
+    return v[0] if isinstance(v, list) and v else None
+
+
+def verdicts():
+    """Every table of the record with its verdict (the file verdict_of reads)."""
+    verdict_of("")
+    return _verdicts
+
+
+def catalogued_names():
+    """Session 6166, as the site's cataloguedNames: the names the catalogue lists, whatever filter a list was given."""
+    return sorted(set(_coverage()["table"]))
+
+
+def not_listed_words(table, verdict):
+    why = ("it is a table of the ERW's record that is not loaded here" if verdict == "public"
+           else "it is a table of the ERW's record whose license is not settled (license needed), so the ERW does not publish it")
+    return (f"table {table} is not in this site's live set: {why}. No tool here can read it, and no figure of it may be stated. "
+            "Another table you can read may hold what is asked (a derived table often carries a source table's figures): look before you refuse, "
+            f"and never answer for {table} from a table that holds something else. If none does, answer with not_in_warehouse true and say that "
+            f"{table} is not in the live set this chat reads")
+
+
 def _table_read(name):
     _ready()
     if name not in _frames:
         if name not in set(_coverage()["table"]):
+            if live_only() and verdict_of(name):   # session 6113: a table of the record the live catalogue does not list
+                raise ToolError(not_listed_words(name, verdict_of(name)))
             raise ToolError(f"no table named {name!r}; call list_tables for the table names")
         if SCOPE is not None and name not in SCOPE["tables"]:
             raise ToolError(f"{name} does not carry {SCOPE['iso']}; this chat reads only {SCOPE['iso']}'s tables (list_tables)")
@@ -436,13 +484,42 @@ def list_tables(sector=None, license=None, iso=None):
                      "source_report": r.source_report, "derived": r.derived,
                      "tier": getattr(r, "tier", None)})
     v = erw.version()
-    return {"n_tables": len(rows), "tables": rows,
+    return {"n_tables": len(rows),
+            # session 6132: said before the rows, where it is read (a backend that reads the live set alone)
+            **({"not_listed": NOT_LISTED_NOTE} if live_only() else {}),
+            "tables": rows,
             "backend": v.get("backend"),
             "note": ("Only public tables may be shown publicly; internal tables are licensed for "
                      "internal use only. first and last are interval starts, UTC.")}
 
 
 # ------------------------------------------------------------- describe_table
+
+# Session 6111 (chain 280): a column of prose is named, not listed. describe_table lists the values of every text column
+# of a table of things or events that has 60 distinct values or fewer. The large-load research tables of 14 November 2026
+# (utility_large_load_rules, state_large_load_laws) are small and hold whole clauses as printed (a law's requirements, a
+# rule's exit fee): describing one returned 80 to 90 KB, most of it prose no question had asked for, read again by every
+# later call of the answer. A column whose longest value is over LONG_TEXT characters is prose: describe_table gives
+# its name, how many distinct values it has and the longest one's length, and the note says how one row's text is read.
+# The same rule in the site's loop (site/lib/chat/tools.ts splitLongText).
+LONG_TEXT = 200
+LONG_TEXT_NOTE = ("columns of prose as the source printed it (a value is over 200 characters): their values are not listed here. "
+                  "To read one row's text, call query with aggregation count, group_by set to the column, and where narrowed to that row "
+                  "(by a short column listed above, such as a state, a status or an id); the text comes back as the group's key.")
+
+
+def split_long_text(values, limit=LONG_TEXT):
+    """({column: its values} for the columns whose values are short, {column: {"distinct": n, "longest_chars": m}} for the
+    columns of prose). `values` maps a column to its values, as a dict of counts (here) or a list (the site's loop)."""
+    short, long = {}, {}
+    for col, vals in values.items():
+        longest = max((len(str(v)) for v in vals), default=0)
+        if longest > limit:
+            long[col] = {"distinct": len(vals), "longest_chars": longest}
+        else:
+            short[col] = vals
+    return short, long
+
 
 def describe_table(table):
     df = _table(table)
@@ -478,6 +555,10 @@ def describe_table(table):
                 vc = s[s != ""].value_counts()
                 if 1 <= len(vc) <= 60:
                     text_cols[c] = {str(k): int(v) for k, v in vc.items()}
+        text_cols, long_cols = split_long_text(text_cols)
+        if long_cols:
+            out["long_text_columns"] = long_cols
+            out["long_text_columns_note"] = LONG_TEXT_NOTE
         numeric = [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]
         out.update({"text_column_values": text_cols, "numeric_columns": numeric,
                     "first": _ts(df[tcol].min()) if tcol in df else None,
@@ -736,6 +817,14 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         w = window.window_of(int(bounds["ge"].value // 10 ** 9), int(bounds["lt"].value // 10 ** 9), steps, by)
         if w:
             out["window"] = w
+    if shape != "series" and (start or end) and tcol in df and df[tcol].notna().any():
+        # session 6131 (window.py span_outside, as the site's): a table of events or things asked for a period that lies
+        # wholly outside its own first and last date says so, where it said only that no rows match
+        sec = lambda t: int(pd.Timestamp(t).value // 10 ** 9)   # noqa: E731
+        s = window.span_outside(sec(bounds["ge"]) if "ge" in bounds else None, sec(bounds["lt"]) if "lt" in bounds else None,
+                                sec(df[tcol].min()), sec(df[tcol].max()))
+        if s:
+            out["span"] = s
     if shape == "series" and len(sel):
         out["units"] = sorted(sel["unit"].unique())
         out["variables"] = sorted(sel["variable"].unique())[:10]

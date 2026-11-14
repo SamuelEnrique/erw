@@ -174,3 +174,23 @@ export function windowOf(start: string | number, end: string | number, steps: (s
   out.note = note + (keys.length > 1 ? `. ${WINDOW_SEVERAL}` : "");
   return out as Window;
 }
+
+// Session 6131 (chain 281): a period outside a table's own span. A series bounded by a start and an end says whether
+// its window is whole (above). A table of events or things has no step to count by, and a bounded query of one that
+// matched no row said only "no rows match these filters". Asked how many changes to utilities' large-load rules the
+// warehouse holds for March 2026 (the new tables' ch09, 14 November 2026), the chat answered "0 rule changes dated March
+// 2026 ... its first change is dated 2026-08-18": honest, and a period the table does not cover is not a count of zero.
+// The result now says so itself. As warehouse/chat/window.py span_outside.
+export const SPAN_OUTSIDE = "the period asked lies wholly outside the table's own span, first to last: the table does not cover that period, which is not a count of zero. Answer with not_in_warehouse true, naming the period and the table's span, and state no count for it";
+export type SpanOutside = { first: string; last: string; outside: true; note: string };
+/** For a table of events or things: the table's own first and last date with the note above, when the period asked
+ * (start, or the beginning of time; end, exclusive, or the end of time) lies wholly before the first or after the last.
+ * Null when the period touches the span, or when a bound or the span cannot be read as a time. */
+export function spanOutside(start: string | null | undefined, end: string | null | undefined, first: string | null | undefined, last: string | null | undefined): SpanOutside | null {
+  if (!first || !last || (!start && !end)) return null;
+  const a = start ? Date.parse(start) : -Infinity, b = end ? Date.parse(end) : Infinity, f = Date.parse(first), l = Date.parse(last);
+  if ([a, b, f, l].some((x) => Number.isNaN(x)) || f > l) return null;
+  if (!(b <= f || a > l)) return null;
+  const iso = (ms: number) => new Date(ms).toISOString().replace(/\.\d+Z$/, "Z");
+  return { first: iso(f), last: iso(l), outside: true, note: SPAN_OUTSIDE };
+}
