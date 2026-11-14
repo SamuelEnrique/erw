@@ -4,6 +4,7 @@ Energy Research Warehouse (ERW). portable-laptop, window P3, 14 November 2026 (0
 
 ## Read these first
 
+- **Corrected by session 5272:** the second line below blames rule 11 for the cut-off. The same question was then cut off with the rule taken out. The rule is not the cause; `SESSION_5272_REPORT.md` has the four arms and the mend.
 - **Rule 11 cuts the calls after the figure by more than half.** Nine heavy figure answers: 105 calls and USD 1.769 on 13 November, 60 calls and USD 1.126 now, all nine right, the same figures.
 - **It cannot land as it is.** The tenth question was cut off while thinking: 16,786 output tokens in one call and no word written. The second such stop in 19 questions today; none in about 150 before the rule.
 - **The cause is read, not guessed.** The response was recorded: one thinking block, no text. The model's thinking counts toward the 16,000 output tokens a call may use.

@@ -18529,7 +18529,9 @@
      "is_error": false
     }
    ]
-  },
+  }
+ ],
+ "superseded": [
   {
    "id": "po05",
    "grid": "ERCOT",
@@ -20811,7 +20813,8 @@
      "isError": false,
      "is_error": false
     }
-   ]
+   ],
+   "asked_note": "session 5272: this asking ended in an error (a reply cut off at the output limit) and was not asked again in its own session; session 5271 asked the question again and its answer stands. An errored asking is kept here, with its cost, and not among the run's answers"
   }
  ]
 }

@@ -99,6 +99,14 @@ test("a record says what it was asked under: the effort, the output limit, the t
   assert.ok(loop.includes("return env.ASK_WRITER_EFFORT || own;"));
 });
 
+// Session 5272: the loop no longer throws on a reply cut off at the output limit; an answer that had one says so
+test("an answer written after a reply was cut off keeps the count of cut-offs in its record", () => {
+  const q = { id: "po05", grid: "none", via: "general", question: "?" };
+  assert.equal(recordOf(q, { status: "answered", answer: "8", cost_usd: 0.2, tool_calls: 3, cut_off: 1, trace: [] }, "t", null).cut_off, 1);
+  assert.equal(recordOf(q, { status: "refused_unverified", answer: "No answer was written", cost_usd: 0.4, tool_calls: 3, cut_off: 2, trace: [] }, "t", null).cut_off, 2);
+  assert.equal("cut_off" in recordOf(q, { status: "answered", answer: "8", cost_usd: 0.1, tool_calls: 3, trace: [] }, "t", null), false);
+});
+
 test("every grid a set may name has a slug", () => {
   for (const g of ["ERCOT", "CAISO", "NYISO", "SPP", "ISO-NE", "MISO", "PJM"]) assert.equal(typeof GRID_SLUG[g], "string");
 });

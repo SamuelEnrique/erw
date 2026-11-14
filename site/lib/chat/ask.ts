@@ -371,7 +371,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     }
   };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
-  let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
+  let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false, cutOff = 0;
   // session 2226 (chain 152): an en dash becomes "-" too (a span of years), as warehouse/chat/ask.py nodash; the stored runs hold every answer
   const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ").split(String.fromCharCode(0x2013)).join("-");
   // session 168: the local words the tool results gave for each stamp, and a profile's text with no UTC stamp left in it.
@@ -447,7 +447,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const looked = new Set<string>();
   // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
   const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
+  // session 5272: cut_off, the replies of this answer that were cut off at the output limit (left out when there was none)
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(cutOff ? { cut_off: cutOff } : {}), ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
@@ -655,6 +656,25 @@ export async function ask(question: string, today = new Date().toISOString().sli
       clock.add("writing", "model", ms, note);
       withdraw();
       return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal" as const, ...base(), ...(profile ? profile.finish("model_refusal", null, records) : {}) });
+    }
+    if (resp.stop_reason === "max_tokens") {
+      // Session 5272 (chain 256), as warehouse/chat/ask.py: a reply cut off at the output limit. The model's thinking
+      // counts toward max_tokens whether or not its text is returned, so a call can spend the whole limit thinking and
+      // write nothing: on 14 November 2026 three askings of the platform set ended so, each with its figure already in a
+      // tool result, and the loop threw (an error for the reader, USD 0.27 to 0.31 spent). The cut-off reply is not kept
+      // (a thinking block cut short is no turn of the conversation). Once, the model is told so and its next call may
+      // only write; cut off again, the question ends in words that say what happened, with no figure and no error.
+      clock.add("writing", "model", ms, note);
+      withdraw();
+      messages.pop();
+      cutOff += 1;
+      if (cutOff === 1) {
+        messages.push({ role: "user", content: spec.cut_off });
+        forceWrite = true;
+        continue;
+      }
+      return done({ answer: spec.cut_off_answer, why: spec.cut_off_why, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried,
+        ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
     }
     if (resp.stop_reason !== "end_turn") throw new Error(`stop_reason ${resp.stop_reason}`);
     const draft = JSON.parse(textOf(resp)) as Draft;

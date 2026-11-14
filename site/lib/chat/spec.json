@@ -496,6 +496,9 @@
  },
  "retry": "Your answer failed the check that every number comes from a tool result: {problems}. Every number must appear in a tool result, at the same or a coarser precision, and every cited table must be one a tool read. Call a tool for any number you need (compare gives differences and ratios), or remove the number, or answer \"not in the warehouse\". Answer again in the same JSON format.",
  "refusal": "The warehouse does not hold that figure: the numbers in my draft could not all be traced to a warehouse query. Try asking for one value, one table and one period at a time.",
+ "cut_off": "Your last reply was cut off at the output limit before anything was written, so none of it was kept. Do not start over and do not call a tool: write the answer now, briefly, from the tool results above, in the same JSON format. If the results do not hold what the question asks, answer \"not in the warehouse\" and say what is missing.",
+ "cut_off_answer": "No answer was written: the model reached its output limit twice before writing one, so nothing is stated here. Try asking for one value, one table and one period at a time.",
+ "cut_off_why": "Why: the reply was cut off at the model's output limit twice, before any answer was written.",
  "model_prices": {
   "claude-fable-5-1": {
    "input": 10.0,

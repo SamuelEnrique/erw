@@ -11,6 +11,7 @@ No network, no warehouse table, no model. Nothing here sets the environment at i
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -53,6 +54,9 @@ class Scripted:
         t = self.turns[min(self.n, len(self.turns) - 1)]
         self.n += 1
         self.choices.append((kw.get("tool_choice") or {}).get("type"))
+        if t.get("cut"):
+            # session 5272: a reply that stops at the model's output limit: a thinking block, no text
+            return types.SimpleNamespace(stop_reason="max_tokens", content=[types.SimpleNamespace(type="thinking", thinking="")], usage=Usage(), _request_id="req_fixture")
         if "tools" in t:
             content = [types.SimpleNamespace(type="tool_use", name=c["name"], input=c["input"], id=f"toolu_fixture_{i + 1}") for i, c in enumerate(t["tools"])]
             return types.SimpleNamespace(stop_reason="tool_use", content=content, usage=Usage(), _request_id="req_fixture")
@@ -167,7 +171,20 @@ class ThePythonLoop(unittest.TestCase):
                           "a_series": "answered", "a_per_kw_question": "answered", "a_repeated_call": "answered",
                           "a_table_held_whole": "not_in_warehouse", "misos_pause": "not_in_warehouse", "a_threshold_count": "answered",
                           "a_table_not_in_the_live_set": "not_in_warehouse", "a_refused_table_asked_again": "not_in_warehouse",
-                          "a_held_grids_own_table": "not_in_warehouse"})
+                          "a_held_grids_own_table": "not_in_warehouse",
+                          "an_answer_cut_off_then_written": "answered", "an_answer_cut_off_twice": "refused_unverified"})
+        # session 5272 (chain 256): a reply cut off at the model's output limit (its thinking counts toward the limit; three
+        # askings of 14 November 2026 ended so and the loops threw). The cut-off reply is dropped and the model is told once:
+        # the call after it may only write, and the answer it writes stands, checked as any other. One query, one read,
+        # three model calls, the third with no tool; not "retried", which is a draft sent back by the number check
+        r = got["an_answer_cut_off_then_written"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["tool_choices"]), (1, 1, False, 3, ["auto", "auto", "none"]))
+        self.assertEqual((r["answer"], r["citations"]), (got["answered"]["answer"], ["cost_of_power_monthly"]))
+        # cut off a second time, the question ends in the cut-off's own words: no figure, no citation, and no error raised
+        r = got["an_answer_cut_off_twice"]
+        self.assertEqual((r["tool_calls"], r["reads"], r["retried"], r["model_calls"], r["tool_choices"]), (1, 1, False, 3, ["auto", "auto", "none"]))
+        self.assertEqual((r["answer"], r["why"], r["citations"]), (ask.CUT_OFF_ANSWER, ask.CUT_OFF_WHY, []))
+        self.assertIsNone(re.search(r"\d", r["answer"] + r["why"]))
         # session 5260 (chain 238, the platform set's pj08): a held grid's own table of things (ISO New England's queue) is
         # refused by name with the hold's words, as a table held whole is; its description, asked next, is not read either
         r = got["a_held_grids_own_table"]

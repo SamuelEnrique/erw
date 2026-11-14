@@ -386,6 +386,20 @@ def call_key(name, args):
 
 REPEAT_NOTE = "this exact call was already made for this question and its result is above: answer from it; do not call it again"
 
+# Session 5272 (chain 256): a model call that ends at its output limit. The model's thinking counts toward MAX_TOKENS
+# whether or not its text is returned, so a call can spend the whole limit thinking and write nothing. On 14 November
+# 2026 three askings of the platform set ended so (gp01 once, po05 twice: at effort high and at medium, under eleven
+# rules and under ten), each with its figure already in a tool result; the recorded response is one thinking block and no
+# text. Both loops threw on it: the reader got an error and the question's cost was spent (USD 0.27 to 0.31). Now the
+# cut-off reply is dropped, the model is told once, in these words, and its next call may only write; cut off again, the
+# question ends in CUT_OFF_ANSWER, which states no figure. The same words in the site's loop (spec.json cut_off...).
+CUT_OFF = ("Your last reply was cut off at the output limit before anything was written, so none of it was kept. Do not start "
+           "over and do not call a tool: write the answer now, briefly, from the tool results above, in the same JSON format. "
+           "If the results do not hold what the question asks, answer \"not in the warehouse\" and say what is missing.")
+CUT_OFF_ANSWER = ("No answer was written: the model reached its output limit twice before writing one, so nothing is stated here. "
+                  "Try asking for one value, one table and one period at a time.")
+CUT_OFF_WHY = "Why: the reply was cut off at the model's output limit twice, before any answer was written."
+
 
 def cost_usd(model, usage):
     """Session 30: at the prices of warehouse/config/model_prices.yaml, cache reads at their own price."""
@@ -493,7 +507,7 @@ class Asker:
         ran, force_write = set(), False
         record = {"question": question, "grid": self.grid, "model": self.model, "today": today, "retried": False,
                   "first_violations": [], "request_ids": []}
-        final, attempts = None, 0
+        final, attempts, cut_off = None, 0, 0
         while True:
             resp = self._create(messages, allow_tools=len(calls) < MAX_TOOL_CALLS and not force_write)
             u = resp.usage
@@ -567,6 +581,21 @@ class Asker:
             if resp.stop_reason == "refusal":
                 final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
                 record["status"] = "model_refusal"
+                break
+            if resp.stop_reason == "max_tokens":
+                # session 5272: a reply cut off at the output limit (CUT_OFF, above). It is not kept: a thinking block cut
+                # short is no turn of the conversation. Once, the model is told so and the next call may only write; a
+                # second cut-off ends the question in words that say what happened, with no figure and no error
+                messages.pop()
+                cut_off += 1
+                record["cut_off"] = cut_off
+                if cut_off == 1:
+                    messages.append({"role": "user", "content": CUT_OFF})
+                    force_write = True
+                    continue
+                final = {"answer": CUT_OFF_ANSWER, "citations": [], "not_in_warehouse": False}
+                record["status"] = "refused_unverified"
+                record["why"] = CUT_OFF_WHY
                 break
             if resp.stop_reason != "end_turn":
                 raise RuntimeError(f"stop_reason {resp.stop_reason} (request {resp._request_id})")
@@ -654,6 +683,8 @@ def export_spec(path):
             "system": SYSTEM, "grid_system": GRID_SYSTEM, "tools": tools.TOOLS, "answer_schema": ANSWER_SCHEMA,
             "max_tool_calls": MAX_TOOL_CALLS, "max_tokens": MAX_TOKENS, "effort": EFFORT,
             "prices": PRICES, "retry": RETRY, "refusal": REFUSAL,
+            # session 5272: the words of a reply cut off at the output limit, once and twice
+            "cut_off": CUT_OFF, "cut_off_answer": CUT_OFF_ANSWER, "cut_off_why": CUT_OFF_WHY,
             # session 30: the full price table (cache writes and reads) and its date, for the site's cost ledger
             "model_prices": llm.prices()["models"], "prices_as_of": llm.prices()["as_of"],
             "aggregations": tools.AGGREGATIONS, "time_groups": tools.TIME_GROUPS,

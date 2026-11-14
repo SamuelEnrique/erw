@@ -88,7 +88,9 @@ export function recordOf(q, r, at, error, meter = null) {
     model: r?.model ?? null, status, answer: r?.answer ?? null, why: r?.why ?? null, citations: r?.citations ?? null,
     not_in_warehouse: status === "not_in_warehouse", tool_calls: r?.tool_calls ?? counted?.tool_calls ?? null, retried: Boolean(r?.retried),
     cost_usd: Number(r?.cost_usd ?? counted?.cost_usd ?? 0), seconds: r?.seconds ?? null, error: error ?? null, refused: status === "refused_unverified",
-    reads: r?.reads ?? null, nearest: r?.nearest ?? null, usage: r?.usage ?? counted?.usage ?? null, ...(counted?.stop ? { stopped_at: counted.stop } : {}), trace };
+    reads: r?.reads ?? null, nearest: r?.nearest ?? null, usage: r?.usage ?? counted?.usage ?? null, ...(counted?.stop ? { stopped_at: counted.stop } : {}),
+    ...(r?.cut_off ? { cut_off: r.cut_off } : {}),   // session 5272: the replies of this answer cut off at the output limit
+    trace };
 }
 
 async function main() {

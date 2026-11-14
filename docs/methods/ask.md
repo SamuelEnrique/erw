@@ -147,6 +147,16 @@ The catalogue lists every table of the record; the live set this chat reads hold
 - **Not changed:** Ask ERCOT's own rules and its fast path (`warehouse/chat/ercot.py`, `spec_ercot.json`); the limit of 12 calls; the forms "newest day" and "this week", which carry their own count of days.
 - **Held by** `tests/test_session5267_ask.py` and `site/scripts/test-ask-window.test.mjs` (35 made windows answered alike by both functions; the Python tool on session 1300's rows), `tests/test_session5268_ask.py` (the rule, the description, the exported spec), and the stored replays of sessions 143, 156 and 161, which set the new key apart and check it on their recorded rows (four Central days of hourly demand: 96 of 96).
 
+## A reply cut off at the output limit (14 November 2026, session 5272)
+
+- **What happens.** The model's thinking counts toward the output tokens a call may use (16,000 here), whether or not its text is returned. A call can spend the whole limit thinking and write nothing. Three askings of 14 November ended so, each with its figure already in a tool result, at `high` and at `medium`, with rule 11 and without it.
+- **Before.** Both loops raised an error on a stop they did not know: the reader got an error and the question's cost was spent.
+- **Now, in both loops.** The cut-off reply is dropped from the conversation. Once, the model is sent fixed words (nothing was kept; write the answer now from the results above, with no tool) and the next call may only write. The answer it writes is checked like any other. Cut off a second time, the question ends with the status of a refusal and words that say what happened, with no figure: "No answer was written: the model reached its output limit twice before writing one".
+- **What an answer records.** `cut_off`, the replies of that answer that were cut off, when there were any. The cut-off call's tokens are counted in the answer's cost.
+- **Not changed:** the limit itself. A larger limit lets one call think longer and cost more.
+- **For an evaluation:** an answer that still ends in an error is recorded at what the loop had counted (`ask.ts` `AskMeter`, session 5269), and every stored answer says what it was asked under (`asked_under`: the effort, the output limit, the count of the prompt's rules).
+- **Held by** `tests/test_session5272_ask.py` and the scenarios `an_answer_cut_off_then_written` and `an_answer_cut_off_twice` of `tests/test_session1300.py`, which keep the two loops equal turn by turn.
+
 ## The evaluation's spend guard reads the whole ledger (14 November 2026, session 5263)
 
 - **What it is.** The asking through the site's route (`eval_s1113.py --ask`, `run_eval.py`) checks before each question that the day's spend of the evaluation's step, read from the site's cost ledger, and a reserve stay under `--cap` (`spent_today`).

@@ -1,0 +1,283 @@
+{
+ "_about": "eval_s5272_site_platform_ten_rules_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 10,
+ "right": 9,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.3316,
+ "questions": [
+  {
+   "id": "pw09",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1360144,
+   "seconds": 14.7,
+   "expected": [
+    11.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "pr09",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0782768,
+   "seconds": 11.9,
+   "expected": [
+    2724.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "ga08",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0752164,
+   "seconds": 14.7,
+   "expected": [
+    6645.0735
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "re01",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.027387599999999998,
+   "seconds": 6.5,
+   "expected": [
+    163494.642
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tx01",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 9,
+   "retried": false,
+   "cost_usd": 0.18444170000000001,
+   "seconds": 20,
+   "expected": [
+    4981715.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  },
+  {
+   "id": "tx03",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.2370826,
+   "seconds": 26.7,
+   "expected": [
+    224863.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "tx06",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.1410179,
+   "seconds": 12.7,
+   "expected": [
+    43.5
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "tx07",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.10967260000000001,
+   "seconds": 11.5,
+   "expected": [
+    9451.88
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "pj07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.049535300000000004,
+   "seconds": 10,
+   "expected": [
+    2626.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "po05",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "error",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.2929255,
+   "seconds": null,
+   "expected": [
+    8.0
+   ],
+   "ok": false,
+   "grade": {
+    "number": false,
+    "text": null,
+    "table": false,
+    "cited": false,
+    "refusal": true,
+    "ok": false
+   },
+   "trace_calls": 7
+  }
+ ],
+ "loop": "site",
+ "arm": "an arm of a measure, not one of the set's runs (runs.json, left_out)",
+ "by_kind": {
+  "figure": {
+   "asked": 10,
+   "right": 9
+  }
+ },
+ "by_sector": {
+  "power": {
+   "asked": 1,
+   "right": 1
+  },
+  "prices": {
+   "asked": 1,
+   "right": 1
+  },
+  "gas": {
+   "asked": 1,
+   "right": 1
+  },
+  "renewables": {
+   "asked": 1,
+   "right": 1
+  },
+  "transmission": {
+   "asked": 4,
+   "right": 4
+  },
+  "projects": {
+   "asked": 1,
+   "right": 1
+  },
+  "policy": {
+   "asked": 1,
+   "right": 0
+  }
+ }
+}
