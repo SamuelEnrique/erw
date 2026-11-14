@@ -124,6 +124,9 @@ TIER_RULES = [
     # agent's, each proved by code in large_load_statements), and the license verdict the ERW's code gives each document
     ("model_extracted", r"^large_load_public$"),
     ("derived", r"^large_load_document_verdicts$"),
+    # session 3937: the research pass of 13 and 14 November 2026 (window P4, AI research sessions), every cite matched in its
+    # document by the pass's own code (docs/research/large_load/verify_quotes.py) and every rules row read by five auditors
+    ("model_extracted", r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws)$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -141,7 +144,8 @@ SECTOR_RULES = [
     (r"^eia861_utility_sales$", "power"),  # session 485: EIA-861 retail sales, revenue and customers by utility
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
     (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
-    (r"^large_load_connection_rules$", "power;datacenters"),  # session 2924: the steps a document states to connect a large load (the registry)
+    (r"^large_load_connection_rules$", "power;datacenters"),
+    (r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws)$", "power;datacenters"),  # session 3937: the large-load research pass  # session 2924: the steps a document states to connect a large load (the registry)
     (r"^iso_reserve_margin_reports$", "power"),  # session 3798: grid operators' reserve margins as their assessments print them (the registry)
     (r"^generator_pipeline_by_grid$", "power"),  # session 2951: EIA-860M's pipeline by grid and its monthly moves (derived)
     (r"^iso_queue_snapshot_summary$", "power"),  # session 2953: the ISO queues summarized from their own snapshots (derived)

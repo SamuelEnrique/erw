@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-13",
+ "written": "2026-11-14",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -1547,7 +1547,8 @@
   "eia860_plants_annual": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "eia860_solar_generators": {
@@ -1583,6 +1584,7 @@
     "/cost-of-power",
     "/data",
     "/datacenters",
+    "/impact",
     "/map",
     "/policy"
    ]
@@ -2487,7 +2489,8 @@
   "eia_steo_forecasts": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "eia_uranium_facilities": {
@@ -2642,6 +2645,7 @@
    "pages": [
     "/data",
     "/grid",
+    "/impact",
     "/map"
    ]
   },
@@ -3643,7 +3647,8 @@
   "lbnl_solar_projects": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "lbnl_tracking_the_sun": {
@@ -3655,7 +3660,8 @@
   "lbnl_wind_capacity_factors": {
    "status": "public",
    "pages": [
-    "/data"
+    "/data",
+    "/impact"
    ]
   },
   "lbnl_wind_costs": {
@@ -4366,6 +4372,10 @@
     "/grid"
    ]
   },
+  "state_large_load_laws": {
+   "status": "public",
+   "pages": []
+  },
   "statec_lu_electricity_generation_annual": {
    "status": "public",
    "pages": [
@@ -4515,6 +4525,14 @@
    "pages": [
     "/data"
    ]
+  },
+  "utility_large_load_rule_changes": {
+   "status": "public",
+   "pages": []
+  },
+  "utility_large_load_rules": {
+   "status": "public",
+   "pages": []
   },
   "utility_large_load_tariffs": {
    "status": "public",
@@ -4718,13 +4736,14 @@
    "public": 1
   },
   "/impact": {
-   "label": "Economic impact",
+   "label": "Local impact",
    "dark": "part",
    "license_needed": [
+    "energy_projects",
     "impact_tax_rules"
    ],
    "internal": 0,
-   "public": 1
+   "public": 6
   },
   "/cost-of-power/battery": {
    "label": "What a battery earns",

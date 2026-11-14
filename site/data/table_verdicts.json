@@ -2007,6 +2007,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "state_large_load_laws": [
+  "unsettled",
+  "The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are."
+ ],
  "statec_lu_electricity_generation_annual": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -2098,6 +2102,14 @@
  "uswtdb_wind_turbines": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "utility_large_load_rule_changes": [
+  "unsettled",
+  "The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are."
+ ],
+ "utility_large_load_rules": [
+  "unsettled",
+  "The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are."
  ],
  "utility_large_load_tariffs": [
   "unsettled",

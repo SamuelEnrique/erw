@@ -606,6 +606,7 @@ statcan_oil_gas_supply_monthly,public,,,,Statistics Canada,"Public: every publis
 statcan_petroleum_products_monthly,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statcan_power_disposition_annual,public,,,,Statistics Canada,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 state_generation_mix_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+state_large_load_laws,unsettled,,,,"US utilities, state commissions and legislatures, read by the ERW's research pass","The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are.",none
 statec_lu_electricity_generation_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statec_lu_electricity_trade_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 statec_lu_power_capacity_annual,public,,,,STATEC (Luxembourg),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -636,6 +637,8 @@ usgs_mcs_critical_minerals,public,,,,U.S. Geological Survey (USGS),"Public: ever
 usgs_streamflow_daily,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uspvdb_solar_facilities,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 uswtdb_wind_turbines,public,,,,U.S. Geological Survey (USGS),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+utility_large_load_rule_changes,unsettled,,,,"US utilities, state commissions and legislatures, read by the ERW's research pass","The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are.",none
+utility_large_load_rules,unsettled,,,,"US utilities, state commissions and legislatures, read by the ERW's research pass","The terms of US utilities, state commissions and legislatures, read by the ERW's research pass have not been read or settled, so the ERW does not redistribute it until they are.",none
 utility_large_load_tariffs,unsettled,,,,"the state commissions (filed tariffs), read into the ERW's registry","The terms of the state commissions (filed tariffs), read into the ERW's registry have not been read or settled, so the ERW does not redistribute it until they are.",none
 utility_service_territories,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 vmme_paraguay_electricity_annual,internal,,,"Viceministerio de Minas y Energia, Paraguay (VMME)","Viceministerio de Minas y Energia, Paraguay (VMME)",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none

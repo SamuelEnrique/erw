@@ -606,6 +606,7 @@ statcan_oil_gas_supply_monthly,statcan,,383,P1M,2016-01-01T00:00:00Z,2026-08-01T
 statcan_petroleum_products_monthly,statcan,,1331,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,112385,statcan:25-10-0081-01,2026-10-24T09:30:19Z,pass,public,oil;products,no,source
 statcan_power_disposition_annual,statcan,,229,P1Y,2005-01-01T00:00:00Z,2025-01-01T00:00:00Z,3909,statcan:25-10-0021-01,2026-10-24T11:47:29Z,pass,public,power,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-08-01T00:00:00Z,108125,erw:generation_mix,2026-11-12T21:54:30Z,pass,public,power,yes,derived
+state_large_load_laws,none,,1,event,2025-03-25T00:00:00Z,2026-11-14T00:00:00Z,27,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
 statec_lu_electricity_generation_annual,statec,,19,P1Y,1928-01-01T00:00:00Z,2024-01-01T00:00:00Z,942,statec:lustat_df_a4203,2026-10-26T00:13:26Z,pass,public,power,no,source
 statec_lu_electricity_trade_annual,statec,,10,P1Y,1933-01-01T00:00:00Z,2024-01-01T00:00:00Z,584,statec:lustat_df_a4208,2026-10-26T00:19:29Z,pass,public,power,no,source
 statec_lu_power_capacity_annual,statec,,14,P1Y,1960-01-01T00:00:00Z,2024-01-01T00:00:00Z,951,statec:lustat_df_a4201,2026-10-26T01:56:17Z,pass,public,power,no,source
@@ -636,6 +637,8 @@ usgs_mcs_critical_minerals,usgs,,653,P1Y;P4Y,2021-01-01T00:00:00Z,2025-01-01T00:
 usgs_streamflow_daily,usgs,,8,P1D,2015-01-01T00:00:00Z,2026-10-22T00:00:00Z,33421,usgs:nwis_daily_values,2026-10-23T23:00:29Z,pass,public,power,no,source
 uspvdb_solar_facilities,uspvdb,,6611,snapshot,2026-10-23T05:19:06Z,2026-10-23T05:19:06Z,6611,usgs:uspvdb,2026-10-23T05:35:32Z,pass,public,power,no,source
 uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:33:12Z,77839,usgs:uswtdb,2026-10-21T18:33:12Z,pass,public,power,no,source
+utility_large_load_rule_changes,none,,1,event,2026-08-18T00:00:00Z,2026-11-13T00:00:00Z,94,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
+utility_large_load_rules,none,,1,event,2010-01-01T00:00:00Z,2026-11-13T00:00:00Z,100,1 outlets,2026-11-14T10:50:35Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_tariffs,utility,,27,,2009-01-01T00:00:00Z,2027-01-01T00:00:00Z,95,filed:large_load_tariffs,2026-11-13T05:46:50Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
