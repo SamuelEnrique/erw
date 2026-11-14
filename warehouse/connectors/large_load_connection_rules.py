@@ -89,8 +89,11 @@ def check(reg, path):
         bad.append(f"state {reg.get('state')!r} is not a two-letter code")
     if not text(reg.get("document_url")).startswith(("http://", "https://")):
         bad.append("document_url is not an address")
-    if text(reg.get("license")) != "public":
-        bad.append(f"license {reg.get('license')!r}: only a public document is written here")
+    # session 3947 (chain 272): a document whose only copy read sits on a host whose terms ask written permission is held
+    # (ruling 4 of 6 November 2026; data request row 8 of docs/state/data_requests_large_load.md): kept in the registry,
+    # named in the header, its steps not written, as utility_large_load_tariffs holds its schedules
+    if text(reg.get("license")) not in ("public", "internal"):
+        bad.append(f"license {reg.get('license')!r}: only a public document is written here (internal: held)")
     seen = set()
     for i, s in enumerate(reg.get("steps") or []):
         sec = text(s.get("section"))
@@ -137,10 +140,17 @@ def read_registry(folder=REGISTRY):
     return regs, problems
 
 
+def held(regs):
+    """The documents held for a license (session 3947): their files are kept, their steps are not written."""
+    return [f"{text(reg['body'])}, {text(reg['document'])}" for _, reg in regs if text(reg.get("license")) != "public"]
+
+
 def rows(regs):
-    """The table's rows from the documents' files."""
+    """The table's rows from the documents' files (public documents only, session 3947)."""
     out = []
     for p, reg in regs:
+        if text(reg.get("license")) != "public":
+            continue
         doc = slug(os.path.splitext(os.path.basename(p))[0])
         for s in reg["steps"]:
             date = text(s.get("date"))
@@ -158,7 +168,7 @@ def rows(regs):
     return d.sort_values(["x_grid", "x_body", "event_id"]).reset_index(drop=True)
 
 
-def header(d, run_id):
+def header(d, run_id, held_docs=()):
     docs = d.drop_duplicates("source_url")[["x_body", "x_document_date"]].itertuples(index=False) if len(d) else []
     return [
         "Energy Research Warehouse (ERW): large loads' connection rules, one row a step a document states (session 2924, chain 153)",
@@ -171,7 +181,9 @@ def header(d, run_id):
         "filled by reading each document. No request is made by this connector.",
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/large_load_connection_rules.py; x_retrieved_at is when each document was read",
         f"Method: {METHOD_URL}",
-        "License: public, row by row: each row quotes a grid operator's public guide or a utility's filed rule.",
+        "License: public, row by row: each row quotes a grid operator's public guide or a utility's filed rule. "
+        + ("Held for a license and not written (the only copy read sits on a host whose terms ask written permission; ruling 4): "
+           + "; ".join(held_docs) + "." if held_docs else "No document is held for a license."),
     ]
 
 
@@ -201,7 +213,12 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
     try:
-        ip.write_csv(d, NAME, header(d, run_id), log, cols=COLS, key=["event_id"], time_col="event_date")
+        # session 3947: the registry is the whole table, so a held document's steps leave it (a merge would keep them)
+        path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+        if os.path.exists(path):
+            ip._require_lock(path, f"writing {NAME} again whole from the registry")
+            os.remove(path)
+        ip.write_csv(d, NAME, header(d, run_id, held(regs)), log, cols=COLS, key=["event_id"], time_col="event_date")
         if not a.out_dir:
             ip.update_sources([dict(source=SOURCE, publisher="grid operators' guides and utilities' filed rules, read into the ERW's registry",
                                     report="Large loads' connection rules (warehouse/sources/large_load_connection_rules)", report_url=METHOD_URL,

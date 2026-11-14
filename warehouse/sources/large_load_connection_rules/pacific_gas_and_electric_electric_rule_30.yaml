@@ -3,6 +3,10 @@
 # of use on its tariff pages). Each sheet is the CPUC-filed sheet itself (Advice 7772-E, Decision D.25-07-039, effective
 # 4 December 2025). Pages are the PDF's, each one tariff sheet. The Rule applies to Retail Service at 50 kV to 230 kV; it
 # states no load size in MW. The steps below are those it prints with a number of days, months or years.
+# Session 3947 (chain 272): held internal, the default of data request row 8 of docs/state/data_requests_large_load.md and
+# ruling 4: the only copy read is PG&E's filed tariff book on pge.com, whose terms forbid publication without consent
+# (docs/research/large_load/README.md, "The hosts' terms"). The CPUC's Decision 25-07-039 (row 14) orders the interim rule but
+# prints none of these four timed steps, so the steps cannot be re-cited there; public again once read in a commission's copy.
 body: Pacific Gas and Electric Company
 grid: CAISO
 utility: Pacific Gas and Electric Company
@@ -12,7 +16,7 @@ document: PG&E Electric Rule No. 30, Retail Service Transmission Facilities, Int
 document_date: 2025-12-04
 document_url: https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_RULES_30.pdf
 retrieved_at: 2026-11-06T05:26:53Z
-license: public
+license: internal
 steps:
   - section: "A.1.b.1)"
     page: 1

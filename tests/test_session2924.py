@@ -72,8 +72,15 @@ class TheRegistry(unittest.TestCase):
         self.assertTrue(any("mw 100" in p for p in problems), problems)
 
     def test_a_license_other_than_public_is_refused(self):
-        _, problems = self.run_on(GOOD.replace("license: public", "license: internal"))
+        _, problems = self.run_on(GOOD.replace("license: public", "license: open"))
         self.assertTrue(any("only a public document" in p for p in problems), problems)
+
+    def test_an_internal_document_is_held_not_written(self):
+        # session 3947 (ruling 4): a document whose only copy asks permission is held: no problem, no row, named as held
+        regs, problems = self.run_on(GOOD.replace("license: public", "license: internal"))
+        self.assertEqual(problems, [])
+        self.assertEqual(len(self.m.rows(regs)), 0)
+        self.assertEqual(len(self.m.held(regs)), 1)
 
 
 class TheCommittedRegistry(unittest.TestCase):
@@ -91,7 +98,8 @@ class TheCommittedRegistry(unittest.TestCase):
         # and the CAISO's Large Load Enhancements Draft Final Proposal of 24 September 2026 (4 steps, one a stated date)
         # session 3927 (chain 267): the CAISO Board's decision of 28 October 2026 approving it (3 steps, one a stated date)
         # session 3937 (chain 267): FERC's order in ER26-3515 accepting PJM's Large Load definition (2 steps, one a stated date)
-        self.assertEqual(len(d), 89)
+        # session 3947 (chain 272): PG&E's Rule 30 held for a license (its 4 steps leave the table)
+        self.assertEqual(len(d), 85)
         self.assertEqual(sorted(d["x_grid"].unique()), ["CAISO", "ERCOT", "PACE", "PJM", "SPP"])
         self.assertEqual(int((d["x_date_kind"] == "stated date").sum()), 7)
         pclr = d[d["event_id"] == "rule:ercot_planning_guide_section_9:9_6_1_1"].iloc[0]
