@@ -6,7 +6,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { GRID_SLUG, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
+import { GRID_SLUG, askedUnder, costOf, dotenv, recordOf, reserve, withRecord } from "./eval-ask-site-loop.mjs";
 import { bare } from "./eval-loader.mjs";
 
 test("dotenv reads KEY=value lines, drops quotes and leaves comments", () => {
@@ -81,7 +81,22 @@ test("an error after model calls were made is recorded at what the loop had coun
   assert.ok(loop.includes("if (opts.meter) Object.assign(opts.meter, { cost_usd: spent, tool_calls: calls, usage: { ...usage }, stop: resp.stop_reason, ...(tracing ? { trace: traced } : {}) });"));
   const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
   assert.ok(runner.includes('questionId: crypto.randomBytes(16).toString("hex"), meter });'));
-  assert.ok(runner.includes("const rec = recordOf(q, r, at, error, meter);"));
+  assert.ok(runner.includes("recordOf(q, r, at, error, meter)"));
+});
+
+// Session 5271: an asking at another effort than the spec's (ASK_WRITER_EFFORT, the loop's own switch) says so in every record
+test("a record says what it was asked under: the effort, the output limit, the thinking switch when set", () => {
+  const spec = { effort: "high", max_tokens: 16000, system: "You answer.\n\nRules:\n1. One.\n2. Two.\n\n# Briefing\n\n1. a numbered line of the briefing is not a rule\n" };
+  assert.deepEqual(askedUnder({}, spec), { effort: "high", max_tokens: 16000, rules: 2 });
+  assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "medium" }, spec), { effort: "medium", max_tokens: 16000, rules: 2 });
+  assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "low", ASK_THINKING: "between_tools" }, spec), { effort: "low", max_tokens: 16000, rules: 2, thinking: "between_tools" });
+  assert.equal(askedUnder({}, { effort: "high", max_tokens: 16000 }).rules, 0);
+  assert.equal(askedUnder({}, JSON.parse(fs.readFileSync(new URL("../lib/chat/spec.json", import.meta.url), "utf8"))).rules, 11);   // the prompt as it stands
+  const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
+  assert.ok(runner.includes("const rec = { ...recordOf(q, r, at, error, meter), asked_under: under };"));
+  // the effort the record names is the one the loop sends: the same switch, read the same way
+  const loop = fs.readFileSync(new URL("../lib/chat/ask.ts", import.meta.url), "utf8");
+  assert.ok(loop.includes("return env.ASK_WRITER_EFFORT || own;"));
 });
 
 test("every grid a set may name has a slug", () => {

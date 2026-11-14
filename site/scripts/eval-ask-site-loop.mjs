@@ -53,6 +53,16 @@ export function reserve(asked, dearest) {
 
 export const GRID_SLUG = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", SPP: "spp", "ISO-NE": "isone", MISO: "miso", PJM: "pjm" };
 
+/** Session 5271: what an answer was asked under, kept in its record: the effort of the writing turn (ASK_WRITER_EFFORT
+ *  when the asking set it, as lib/chat/ask.ts effortOf reads it, else the spec's own), the output limit of a call, and
+ *  the thinking switch when one is set. An asking at another effort is then told from one at the spec's by its record. */
+export function askedUnder(env, spec) {
+  // rules: the numbered rules of the prompt the answer was asked under (ten until session 5268, eleven with the rule to
+  // stop), counted in the prompt's own part, before the briefing's first heading
+  return { effort: env.ASK_WRITER_EFFORT || spec.effort, max_tokens: spec.max_tokens, rules: (String(spec.system ?? "").split(/\n# /)[0].match(/^\d+\. /gm) ?? []).length,
+    ...(env.ASK_THINKING ? { thinking: env.ASK_THINKING } : {}) };
+}
+
 /** The run's cost so far: its answers and the answers they superseded. */
 export function costOf(run) {
   return [...(run.questions ?? []), ...(run.superseded ?? [])].reduce((s, x) => s + Number(x.cost_usd ?? 0), 0);
@@ -109,6 +119,7 @@ async function main() {
   const order = qs.map((x) => x.id);
   let dearest = Math.max(0, ...run.questions.map((x) => Number(x.cost_usd ?? 0)), ...(run.superseded ?? []).map((x) => Number(x.cost_usd ?? 0)));
   let stopped = null, failed = false;
+  const under = askedUnder(process.env, JSON.parse(fs.readFileSync(path.join(here, "..", "lib", "chat", "spec.json"), "utf8")));
   for (const q of qs) {
     if (only ? !only.has(q.id) : done.has(q.id)) continue;
     const spent = costOf(run);
@@ -123,7 +134,7 @@ async function main() {
     } catch (e) {
       error = `${e?.name ?? "Error"}: ${e?.message ?? e}`.slice(0, 400);
     }
-    const rec = recordOf(q, r, at, error, meter);
+    const rec = { ...recordOf(q, r, at, error, meter), asked_under: under };
     dearest = Math.max(dearest, rec.cost_usd);
     done.set(q.id, rec);
     run = withRecord(run, rec, order);
