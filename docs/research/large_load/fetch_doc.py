@@ -157,9 +157,15 @@ def robots_verdict(url: str) -> tuple[bool, str]:
     rp.parse(body.splitlines())
     # A server may treat paths without regard to case (session 5304: capitol.texas.gov disallows /TLODOCS/, and the
     # reader had fetched /tlodocs/). A path is refused when the rule bars it in its own case, upper case or lower case.
+    # The rule paths and the address are compared once as written and once both lower-cased, so an Allow line keeps
+    # its force (assets.centerpointenergy.com: Disallow: / with Allow: /api/public/) and a Disallow line written in
+    # capitals still bars the same path in small letters.
+    lowered = urllib.robotparser.RobotFileParser()
+    lowered.parse([re.sub(r"(?i)^(\s*(?:dis)?allow\s*:\s*)(.*)$", lambda m: m.group(1) + m.group(2).lower(), ln)
+                   for ln in body.splitlines()])
     parts = urllib.parse.urlsplit(url)
-    variants = {url} | {urllib.parse.urlunsplit(parts._replace(path=f(parts.path))) for f in (str.upper, str.lower)}
-    barred = [a for a in AGENTS if not all(rp.can_fetch(a, v) for v in variants)]
+    low_url = urllib.parse.urlunsplit(parts._replace(path=parts.path.lower()))
+    barred = [a for a in AGENTS if not (rp.can_fetch(a, url) and lowered.can_fetch(a, low_url))]
     ok = not barred
     named = [ln.strip() for ln in body.splitlines() if re.match(r"(?i)user-agent:\s*\S", ln.strip())]
     agents = ", ".join(n.split(":", 1)[1].strip() for n in named)[:300]
