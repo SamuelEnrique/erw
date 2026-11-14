@@ -115,3 +115,13 @@ the CAISO of out-of-cycle transmission additions for large loads, and puts the B
 Pennsylvania's are; the straw proposal's row written in session 3762 carries the range's upper end, 90 days, as its
 duration, and is left as it was written. The draft tariff language of 30 October 2026 was read and states no other
 clock for a connection. The Board's decision and the FERC compliance filing were not read.
+
+## Chain 267: the CAISO Board's decision (session 3927)
+
+The CAISO Board of Governors approved the Large Load Enhancements on 28 October 2026 (General Session, vote 5-0), as
+Management's memorandum of 22 October 2026 describes them, and authorized the filings with FERC. The motion and the
+memorandum were read on www.caiso.com (robots read first; the governance page links both). The memorandum keeps the draft
+final proposal's 50 MW definition and its monthly review within the PTOs' 60 to 90 days. The steps written (3): the
+Board's approval with its stated date, the definition, and the monthly review with its words and no duration. None prints
+a single duration, so the CAISO rows' hover reads as before, with the decision now named. The FERC filing it authorizes
+(due 16 November 2026) was not read.
