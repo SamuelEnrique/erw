@@ -220,6 +220,24 @@ export const STUDIES = [
     published_words: "Table 2-3: Construction Period FTEs per year 180, 515, 386, 51 (2017 to 2020); Facility Operations 74. Table 2-4: Direct construction 95, 273, 204, 27; direct operations 28. The construction of KEC will support the creation of approximately $160 million in salary and wages to Connecticut employees from 2017-2020 [...] During the construction period, 2017-2020, economic output is projected to total $235 million. [Operations, 2022: earnings $8 million, output $17 million.]",
     dollars_of: 2016,
   },
+  {
+    id: "lyon_nv_geo", title: "The Economic Benefits of Nevada Rural Renewable Energy Facilities, Development Research Partners for The Western Way, January 2019: the case study of a 75 MW geothermal plant in Lyon County (Tables 7 to 10)",
+    url: "https://static1.squarespace.com/static/5734cf71b6aa60fb98e91bf2/t/5c3eba7703ce646dc64b05e2/1547614841078/NV+Rural+Renewables+Report+%28Full+Report%29.pdf", request: "s6007 (spot-checked)", region: "Southwest",
+    method: "direct spending from JEDI, RIMS II for Lyon County; a hypothetical plant; the construction workers are the whole project's, wherever from (18 of the 256 local to the county); operations as the county's; the dollar year not stated (taken as 2018)",
+    tech: "geothermal", state: "nv", mw: 75, cost_usd: 225e6, cost_year: 2018, cost_words: "A new 75 MW-geothermal project could cost an estimated $225 million, based on a cost of $3,000 per KW of installed capacity", life: 30,
+    published: { "construction:onsite:jobs": 256, "operations:onsite:jobs": 21 },
+    published_words: "An estimated 256 FTE construction workers earning $30.7 million in wages and employee benefits could be employed during the development of a potential geothermal facility (Table 7) [...] 42 employees (21 direct employees + 21 indirect employees) [annual operations, Lyon County]",
+    dollars_of: 2018,
+  },
+  {
+    id: "black_rock_ca", title: "Black Rock Geothermal LLC: Economic, Employment (Jobs) and Fiscal Impact Analysis, Draft Report of Findings, Development Management Group for the County of Imperial, 26 June 2024 (California Energy Commission docket 23-AFC-03, TN 257614)",
+    url: "https://efiling.energy.ca.gov/GetDocument.aspx?tn=257614&DocumentContentId=93501", request: "s6007 (spot-checked)", region: "West",
+    method: "the applicant's own construction and operating jobs (157 FTE a year for about three years, added here into 471 job-years; 61 permanent jobs), RIMS II for Imperial County on payroll; the cost the middle of its stated range (USD 557 to 882 million, with USD 82 million of transmission and offices), in 2023-24 dollars; 77 MW net (140 MW gross)",
+    tech: "geothermal", state: "ca", mw: 77, cost_usd: 719.5e6, cost_year: 2024, cost_words: "Initial construction of Black Rock is anticipated to cost between $557 million and $882 million. This is inclusive of between $475 million to $800 million in geothermal facility and well construction and additional $82 million for transmission and administrative office construction. [...] a 140 MW (Gross), 77 MW (Net) geothermal energy production facility", life: 30,
+    published: { "construction:onsite:jobs": 471, "operations:onsite:jobs": 61 },
+    published_words: "the project developer states that 157 full time equivalent jobs lasting about three (3) years [...] the project will create sixty-one (61) full-time permanent jobs",
+    dollars_of: 2024,
+  },
 ];
 
 export function crosscheck(rows) {
