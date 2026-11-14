@@ -3,6 +3,20 @@
 // lib/research.ts) and the tests share it. The rules are stated in lib/research.ts and on the page itself.
 import type { Card } from "./findings";
 
+/** Session 5501 (Automated Analysis faults row 7): the record's figures under today's chart were written as their raw
+ * JSON ("sigma 26822.265161999996; margin 295122.29999999993"). A whole number is written whole, with commas; any other
+ * number as the chart-maker rounds it (warehouse/analysis/findings/daily_chart.py nd_for; the same rule as
+ * lib/digest.ts chartText and the value checker's digest_chart rule, tests/test_session5501.py holding the three
+ * together); a value that is not a number keeps its text. */
+export function figureText(v: unknown): string {
+  const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : NaN;
+  if (!Number.isFinite(n)) return String(v);
+  if (Number.isInteger(n)) return n.toLocaleString("en-US");
+  const a = Math.abs(n);
+  const nd = a >= 10000 ? 0 : a >= 100 ? 1 : a >= 1 ? 2 : 4;
+  return n.toLocaleString("en-US", { minimumFractionDigits: nd, maximumFractionDigits: nd });
+}
+
 export const GRIDS: { id: string; label: string; words: RegExp; table: RegExp }[] = [
   { id: "ercot", label: "ERCOT", words: /\bERCOT\b/i, table: /^ercot_/ },
   { id: "caiso", label: "CAISO", words: /\bCAISO\b/i, table: /^caiso_/ },

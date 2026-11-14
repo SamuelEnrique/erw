@@ -108,6 +108,11 @@ Roadmap item 2 asks for "Automated Analysis in its final form" ("fully automatic
 
 What waits for a person, by ruling, and stays so: a deeper finding is published only after Samuel approves it at `/internal/findings`, having run its Stata first, and nothing is posted to LinkedIn (the owner's rulings of 12 October 2026, night). A reader's own request ("Ask for an analysis", "Or choose a finding and its inputs") is run by the data machine's worker, with no person. No step of the page is made by hand. Whether this is the final form is the owner's word.
 
+**Final, on the default (session 5503, 14 November 2026).** Chain 243 asked the owner whether this is Research's final form, with the default "final as the note describes" (`docs/state/note_2026-11-13_portable_p1_c243.md`, ruling 5). Until he rules otherwise the page is built as final:
+- the page says under each chart what makes it and when ("Chosen and drawn by code with each Digest ..."; "... every Sunday at 23:00 UTC, by the rule in the method note ..."), so the clock above is on the face where it runs;
+- nothing else changes: the parts, their clocks and the one step that waits for a person (a deeper finding's approval) are the table above.
+- **What "final" does not promise.** Today's chart follows the Digest (`warehouse/news/brief.py` draws it while it writes an issue): a day with no issue, or no new candidate, has no chart, and the section shows the newest with its date. On 14 November 2026 the newest is of 12 November; the Digests of that week on main are of 6 and 12 November. The Digest is the old laptop's; how often it runs is not this page's to set.
+
 ## Replication (session 3701)
 
 Roadmap item 2 asks for a replication a reader can run. `replication/analysis/` is Research's, in the form of the three decision tools' packages (`replication/battery/`, `generator/`, `datacenter/`). It reads only what `/research` offers for download and this folder's own files:

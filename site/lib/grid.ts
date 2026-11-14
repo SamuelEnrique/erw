@@ -2,7 +2,7 @@
 // for one grid of docs/grids/grids.json; every number a page shows is a row of a live-set table, or a sum of rows
 // that site/scripts/check-values.mjs recomputes with the same key.
 import "server-only";
-import { HOURLY, rest } from "@/lib/supabase";
+import { HOURLY, LicenseNeeded, rest } from "@/lib/supabase";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 
@@ -103,7 +103,10 @@ export async function load(g: GridConfig): Promise<GridData> {
     try {
       return await f();
     } catch (e) {
-      errors[what] = (e as Error).message;
+      // session 5505 (Grid faults row 7): a read held for a license is not a failed read (lib/supabase.ts, LicenseNeeded:
+      // "nothing was asked"); its section says "license needed" in place, so the page's "Reads that failed" line no
+      // longer lists the held tables' thirty publishers as failures
+      if (!(e instanceof LicenseNeeded)) errors[what] = (e as Error).message;
       return empty;
     }
   };

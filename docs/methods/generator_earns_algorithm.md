@@ -425,7 +425,7 @@ The package a reader runs is `replication/generator/` in the repository:
 
 ## 9. Where the notes and the code differ
 
-1. **Two capture prices on one page.** The headline's "price received" (4.3) is the capture file's; the spans table's "capture price" (4.9) is the model's. `cost_of_power.md` says so; the page face does not. They differ by the weights (edge case 7): 23.27 and 23.20 at the default.
+1. **Two capture prices on one page.** The headline's "price received" (4.3) is the capture file's; the spans table's "capture price" (4.9) is the model's. `cost_of_power.md` says so, and since session 5501 (14 November 2026, generator faults row 4) the page face does too, in a line under the spans table for solar and wind that names the two weighings and gives the four figures. They differ by the weights (edge case 7): 23.27 and 23.20 at the default; the price of every hour by edge case 8, 32.17 and 32.10.
 2. `cost_of_power.md` ("The seller's side") says the other grids are held "from 2025-09". The snapshot holds them from September 2024 (26 months); the note's own later section says September 2024.
 3. `cost_of_power.md` says day-ahead is shown first for New York City. Since session 149's zone history, New York City holds real time from 2019 and is shown in real time. ISO-NE's Internal hub is still day-ahead first.
 4. `cost_of_power.md` ("Session 145", decision 5) says the hybrid is at the main hub whatever hub is chosen. True, and now said on the page when another hub is chosen.

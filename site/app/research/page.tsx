@@ -18,6 +18,11 @@ import { DOCS, analysisWeeks, digestChartDays, digestDates, weeklyWeeks } from "
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
 import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, topicLabel, topicsOf } from "@/lib/research";
 import { ChartOfWeekView } from "./view";
+import { figureText } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them
+
+// Session 5503 (chain 269): what makes each chart, and when, in the words of the method note's "Final form"
+const TODAY_NOTE = "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date.";
+const WEEK_NOTE = "Chosen and drawn by code every Sunday at 23:00 UTC, by the rule in the method note: the week's most notable real change among the measures. No person chooses it.";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Research" };
@@ -129,7 +134,9 @@ export default async function ResearchPage() {
             <RequestForm catalogue={catalogue} listOnly />
           </ToolSection>
 
-          <ToolSection title="Today's chart" id="today">
+          {/* session 5503 (chain 269): the final form on its default (chain 243's ruling 5), said where it runs: each chart's
+              maker and clock, as docs/methods/automated_analysis.md "Final form" lists them; no person chooses either */}
+          <ToolSection title="Today's chart" id="today" note={TODAY_NOTE}>
             {today ? (
               <figure className="lead-chart" data-today-chart={today.date}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -141,7 +148,7 @@ export default async function ResearchPage() {
                   {Object.keys(today.numbers ?? {}).length ? (
                     <p className="lead-numbers text-xs text-muted" data-today-numbers={Object.keys(today.numbers).length}>
                       The record&apos;s figures: {Object.entries(today.numbers).map(([k, v], i) => (
-                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{String(v)}</span></Num></span>
+                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{figureText(v)}</span></Num></span>
                       ))}.
                     </p>
                   ) : null}
@@ -158,7 +165,7 @@ export default async function ResearchPage() {
             )}
           </ToolSection>
 
-          <ToolSection title={week ? `This week's chart, ${week}` : "This week's chart"} id="week">
+          <ToolSection title={week ? `This week's chart, ${week}` : "This week's chart"} id="week" note={WEEK_NOTE}>
             {wk?.card ? (
               <figure className="lead-chart" data-week-chart={wk.week} data-week-card={wk.card.card_id}>
                 <div>
