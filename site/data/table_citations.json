@@ -357,6 +357,7 @@
  "fhwa_motor_fuel_monthly": "U.S. Department of Transportation, Federal Highway Administration (FHWA). Monthly Motor Fuel: Gasoline Volumes Distributed; Special Fuel Volumes Distributed (DOT DataHub).",
  "flex_alert_effects": "Energy Research Warehouse (ERW), derived. Flex Alert scorecard (warehouse/derived/flex_alert_scorecard.py).",
  "flex_alert_model": "Energy Research Warehouse (ERW), derived. Flex Alert scorecard (warehouse/derived/flex_alert_scorecard.py).",
+ "forecast_tool_parameters": "Energy Research Warehouse (ERW); National Laboratory of the Rockies (NLR, formerly NREL); U.S. Energy Information Administration (EIA). Capital Cost and Performance Characteristic Estimates for Utility Scale Electric Power Generating Technologies (AEO2025), Appendix A; JEDI models (Jobs and Economic Development Impact); The forecast tool's gas fuel defaults (site/data/forecast/gas.json).",
  "frb_treasury_yields": "Board of Governors of the Federal Reserve System. H.15 Selected Interest Rates: market yield on U.S. Treasury securities at constant maturity, the Data Download Program's package Treasury Constant Maturities (daily).",
  "frb_utility_output_monthly": "Board of Governors of the Federal Reserve System. G.17 Industrial Production and Capacity Utilization.",
  "friction_index_weekly": "Energy Research Warehouse (ERW). The Attention and Friction indices: coverage and opposition by week, sector and place, from the classified news stories (the ERW's own derivation).",

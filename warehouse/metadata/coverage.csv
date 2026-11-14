@@ -419,6 +419,7 @@ ferc_eqr_quarter_changes,ferc,,4,P3M,2025-07-01T00:00:00Z,2026-04-01T00:00:00Z,6
 fhwa_motor_fuel_monthly,fhwa,,52,P1M,2020-01-01T00:00:00Z,2026-05-01T00:00:00Z,7998,fhwa:monthly_motor_fuel,2026-10-23T19:44:40Z,pass,public,products,no,source
 flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00Z,2973,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-19T22:49:51Z,pass,public,power,yes,derived
+forecast_tool_parameters,forecast,,353,,2023-01-01T00:00:00Z,2026-01-01T00:00:00Z,562,eia:capital_cost_aeo2025;erw:forecast_gas;nlr:jedi_models,2026-11-14T11:47:37Z,pass,public,power;gas,no,derived
 frb_treasury_yields,frb,,3,P1D,2019-01-02T00:00:00Z,2026-11-10T00:00:00Z,5898,frb:h15_treasury_yields,2026-11-12T22:16:42Z,pass,public,equities,no,source
 frb_utility_output_monthly,frb,,19,P1M,1919-01-01T00:00:00Z,2026-09-01T00:00:00Z,15365,frb:g17,2026-10-23T05:34:53Z,pass,public,power,no,source
 friction_index_weekly,friction,,184,P1W,2026-10-05T00:00:00Z,2026-11-16T00:00:00Z,4167,erw:attention,2026-11-06T20:52:23Z,pass,public,news;datacenters,no,model_extracted

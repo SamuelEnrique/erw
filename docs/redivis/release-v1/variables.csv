@@ -5851,6 +5851,16 @@ flex_alert_model,variant_minimal_oos_rmse_mw,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw_hi,series variable,MW
 flex_alert_model,variant_minimal_pooled_reduction_mw_lo,series variable,MW
+forecast_tool_parameters,capacity_factor,series variable,ratio
+forecast_tool_parameters,case_mw,series variable,MW
+forecast_tool_parameters,construction_months,series variable,month
+forecast_tool_parameters,fuel_price,series variable,USD/MMBtu
+forecast_tool_parameters,heat_content,series variable,Btu/ft3
+forecast_tool_parameters,heat_rate,series variable,MMBtu/MWh
+forecast_tool_parameters,location_variation,series variable,ratio
+forecast_tool_parameters,operating_life,series variable,year
+forecast_tool_parameters,overnight_cost,series variable,USD/kW
+forecast_tool_parameters,taxable_share,series variable,ratio
 frb_treasury_yields,yield,series variable,pct
 frb_utility_output_monthly,production,series variable,index
 frb_utility_output_monthly,utilization,series variable,pct
@@ -8855,9 +8865,7 @@ uswtdb_wind_turbines,faa_asn,column,
 uswtdb_wind_turbines,usgs_project_id,column,
 utility_large_load_tariffs,collateral_months,series variable,month
 utility_large_load_tariffs,demand_charge,series variable,USD/kW-month
-utility_large_load_tariffs,demand_charge_distribution,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_summer,series variable,USD/kW-month
-utility_large_load_tariffs,demand_charge_transmission,series variable,USD/kW-month
 utility_large_load_tariffs,demand_charge_winter,series variable,USD/kW-month
 utility_large_load_tariffs,energy_charge,series variable,USD/MWh
 utility_large_load_tariffs,energy_charge_summer,series variable,USD/MWh

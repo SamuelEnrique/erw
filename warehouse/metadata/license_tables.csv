@@ -419,6 +419,7 @@ ferc_eqr_quarter_changes,EIA; FERC,"the source registry and the tables its heade
 fhwa_motor_fuel_monthly,"U.S. Department of Transportation, Federal Highway Administration (FHWA)",the source registry
 flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
+forecast_tool_parameters,"EIA; National Laboratory of the Rockies (NLR, formerly NREL)",the source registry
 frb_treasury_yields,FRB,the source registry
 frb_utility_output_monthly,FRB,the source registry
 friction_index_weekly,ERW,the source registry

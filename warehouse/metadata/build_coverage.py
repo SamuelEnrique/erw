@@ -107,6 +107,7 @@ TIER_RULES = [
     ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
     # session 345: NLR's JEDI workbooks' own formulas, evaluated by ERW code for each state the model lists, per MW
     ("derived", r"^nlr_jedi_multipliers$"),
+    ("derived", r"^forecast_tool_parameters$"),  # session 3938: the forecast tool's parameters from its committed files (EIA's study, JEDI, the gas defaults)
     ("derived", r"^ercot_node_prices_hourly$"),  # session 358: ERCOT's saved price files reshaped by ERW code, internal by the owner's rule
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
@@ -653,7 +654,8 @@ SECTOR_RULES = [
     (r"^merchant_revenue_monthly$", "power;gas"),  # session 51: the seller's side (solar, wind, batteries, peaker)
     (r"^battery_stack_(monthly|stress_daily|review_monthly)$", "power"),  # session 67: the battery revenue stack (energy and ancillary); session 86: the grids in review
     (r"^(battery_sourced_ranges|grid_stress_days)$", "power"),  # session 306: the battery's published cost cases; the grids' stress days by one rule
-    (r"^nlr_jedi_multipliers$", "power"),  # session 345: JEDI's jobs, earnings and output per MW of a power plant, by state
+    (r"^nlr_jedi_multipliers$", "power"),
+    (r"^forecast_tool_parameters$", "power;gas"),  # session 3938: capital costs, taxable shares and the gas plant's fuel  # session 345: JEDI's jobs, earnings and output per MW of a power plant, by state
     (r"^impact_tax_rules$", "power;oil;gas"),  # session 346: the severance rules of TX, LA and NM, and the property tax of a plant (none held)
     (r"^iso_queue_statistics$", "power"),  # session 348: the six queues' entries, withdrawals, completions and waits by entry year
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather

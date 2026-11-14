@@ -419,6 +419,7 @@ ferc_eqr_quarter_changes,internal,,,,EIA; FERC,The ERW holds it for its own use 
 fhwa_motor_fuel_monthly,public,,,,"U.S. Department of Transportation, Federal Highway Administration (FHWA)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 flex_alert_effects,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 flex_alert_model,public,,,,CAISO; EIA; NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+forecast_tool_parameters,public,,,,"EIA; National Laboratory of the Rockies (NLR, formerly NREL)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 frb_treasury_yields,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 frb_utility_output_monthly,public,,,,FRB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 friction_index_weekly,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
