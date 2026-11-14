@@ -198,6 +198,30 @@
    "url": "https://www.nlr.gov/docs/libraries/analysis/01d-jedi-ngas-model_rel-ng4-17-17.xlsm?sfvrsn=d9ff898_2",
    "read": "2026-11-14",
    "read_by": "session 6052"
+  },
+  "ga_lr_sut_2015_16": {
+   "title": "Georgia Department of Revenue, Letter Ruling LR SUT-2015-16, Manufacturing (3 November 2015), quoting Code 48-8-3.2",
+   "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2015-16/download",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6053 (WebFetch), the quote spot-checked on the page by session 6053"
+  },
+  "ms_35_iv_7_03": {
+   "title": "Mississippi Administrative Code, Title 35, Part IV, Subpart 7, Chapter 03, Manufacturers and Custom Processors (rules 101 and 202)",
+   "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6053 (WebFetch), the quote spot-checked on the page by session 6053"
+  },
+  "id_stc_producers": {
+   "title": "Idaho State Tax Commission, Producers That Qualify for Production Exemption (updated 26 June 2023); Code 63-3622D",
+   "url": "https://tax.idaho.gov/taxes/sales-use/exemptions/producers/general-info/businesses-that-qualify/",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6053 (WebFetch), the quote spot-checked on the page by session 6053"
+  },
+  "nv_360_750": {
+   "title": "Nevada Revised Statutes 360.750 (partial abatement by application to the Office of Economic Development)",
+   "url": "https://www.leg.state.nv.us/NRS/NRS-360.html",
+   "read": "2026-11-14",
+   "read_by": "subagent of session 6053 (WebFetch), the quote spot-checked on the page by session 6053"
   }
  },
  "states": {
@@ -870,7 +894,9 @@
    },
    "natural_gas": {
     "exempt_pct": 0,
-    "tip": "Nevada: no exemption for a gas plant was read; the general abatement of NRS 360.750, by application, was not read: 0."
+    "cite": "nv_360_750",
+    "tip": "Nevada: no exemption for a gas plant; the general partial abatement of NRS 360.750 is by application to the Office of Economic Development, at its discretion: 0 held.",
+    "quote": "may apply to the Office of Economic Development pursuant to this section for a partial abatement of one or more of the taxes"
    }
   },
   "al": {
@@ -937,38 +963,58 @@
   },
   "ga": {
    "land_based_wind": {
-    "exempt_pct": 0,
-    "tip": "Georgia: no exemption written for generating plants; whether the manufacturing machinery exemption (Code 48-8-3.2) reaches a power plant was not settled, and the rules site refuses automated reads: 0 held."
+    "exempt_pct": 66.9358,
+    "cite": "ga_lr_sut_2015_16",
+    "tip": "Georgia exempts machinery and equipment necessary and integral to manufacturing in a manufacturing plant (Code 48-8-3.2), and a manufacturer includes NAICS industry code 22111, electric power generation (Letter Ruling LR SUT-2015-16); construction materials are taxed; the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata",
+    "quote": "To be considered a manufacturer, the person or business, or the location of a person or business, must be classified as a manufacturer under the 2007 North American Industrial Classification System (\"NAICS\") Sectors 21, 31, 32, or 33; or NAICS industry code 22111 or specific code 511110 or generally regarded as a manufacturer."
    },
    "utility_pv": {
-    "exempt_pct": 0,
-    "tip": "Georgia: no exemption written for generating plants; whether the manufacturing machinery exemption (Code 48-8-3.2) reaches a power plant was not settled, and the rules site refuses automated reads: 0 held."
+    "exempt_pct": 67.2132,
+    "cite": "ga_lr_sut_2015_16",
+    "tip": "Georgia exempts machinery and equipment necessary and integral to manufacturing in a manufacturing plant (Code 48-8-3.2), and a manufacturer includes NAICS industry code 22111, electric power generation (Letter Ruling LR SUT-2015-16); construction materials are taxed; the tool holds the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases, so the tax shown is an upper bound.",
+    "quote": "To be considered a manufacturer, the person or business, or the location of a person or business, must be classified as a manufacturer under the 2007 North American Industrial Classification System (\"NAICS\") Sectors 21, 31, 32, or 33; or NAICS industry code 22111 or specific code 511110 or generally regarded as a manufacturer."
    },
    "natural_gas": {
-    "exempt_pct": 0,
-    "tip": "Georgia: no exemption written for generating plants; whether the manufacturing machinery exemption (Code 48-8-3.2) reaches a power plant was not settled, and the rules site refuses automated reads: 0 held."
+    "exempt_pct": 58.2524,
+    "cite": "ga_lr_sut_2015_16",
+    "tip": "Georgia exempts machinery and equipment necessary and integral to manufacturing in a manufacturing plant (Code 48-8-3.2), and a manufacturer includes NAICS industry code 22111, electric power generation (Letter Ruling LR SUT-2015-16); construction materials are taxed; the tool holds JEDI's power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent of its taxable purchases, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata",
+    "quote": "To be considered a manufacturer, the person or business, or the location of a person or business, must be classified as a manufacturer under the 2007 North American Industrial Classification System (\"NAICS\") Sectors 21, 31, 32, or 33; or NAICS industry code 22111 or specific code 511110 or generally regarded as a manufacturer."
    },
    "geothermal": {
     "exempt_pct": 0,
-    "tip": "Georgia: no exemption written for generating plants; whether the manufacturing machinery exemption (Code 48-8-3.2) reaches a power plant was not settled, and the rules site refuses automated reads: 0 held."
+    "cite": "ga_lr_sut_2015_16",
+    "tip": "Georgia exempts machinery and equipment necessary and integral to manufacturing in a manufacturing plant (Code 48-8-3.2), and a manufacturer includes NAICS industry code 22111, electric power generation (Letter Ruling LR SUT-2015-16); construction materials are taxed; JEDI's geothermal model has no sales tax line, so 0 is held; type the share.",
+    "quote": "To be considered a manufacturer, the person or business, or the location of a person or business, must be classified as a manufacturer under the 2007 North American Industrial Classification System (\"NAICS\") Sectors 21, 31, 32, or 33; or NAICS industry code 22111 or specific code 511110 or generally regarded as a manufacturer."
    }
   },
   "ms": {
    "land_based_wind": {
-    "exempt_pct": 0,
-    "tip": "Mississippi: no exemption for generating plants on the Department of Revenue's list; manufacturing machinery pays a reduced 1.5 percent, whether a power plant qualifies was not read (Code 27-65-17): 0 held."
+    "exempt_pct": 52.1455,
+    "cite": "ms_35_iv_7_03",
+    "tip": "Mississippi taxes manufacturing machinery used directly in manufacturing at 1.5 percent rather than 7, and manufacturing includes the generation of electricity (Administrative Code Title 35, Part IV, 7.03.101 and 7.03.202); construction materials and the rest of a contract pay the contractor's tax: (7 - 1.5) / 7.06 = 77.9 percent of the tax on the machinery; the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases: 52.1 percent, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata",
+    "quote": "\"Manufacturing\" refines, improves, changes the condition of raw materials, or converts the form of the materials into new, different, or more useful property and includes the fabrication or production of special made-to-order articles and the generation of electricity."
    },
    "utility_pv": {
-    "exempt_pct": 0,
-    "tip": "Mississippi: no exemption for generating plants on the Department of Revenue's list; manufacturing machinery pays a reduced 1.5 percent, whether a power plant qualifies was not read (Code 27-65-17): 0 held."
+    "exempt_pct": 52.3615,
+    "cite": "ms_35_iv_7_03",
+    "tip": "Mississippi taxes manufacturing machinery used directly in manufacturing at 1.5 percent rather than 7, and manufacturing includes the generation of electricity (Administrative Code Title 35, Part IV, 7.03.101 and 7.03.202); construction materials and the rest of a contract pay the contractor's tax: (7 - 1.5) / 7.06 = 77.9 percent of the tax on the machinery; the tool holds the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases: 52.4 percent, so the tax shown is an upper bound.",
+    "quote": "\"Manufacturing\" refines, improves, changes the condition of raw materials, or converts the form of the materials into new, different, or more useful property and includes the fabrication or production of special made-to-order articles and the generation of electricity."
    },
    "natural_gas": {
-    "exempt_pct": 0,
-    "tip": "Mississippi: no exemption for generating plants on the Department of Revenue's list; manufacturing machinery pays a reduced 1.5 percent, whether a power plant qualifies was not read (Code 27-65-17): 0 held."
+    "exempt_pct": 45.3808,
+    "cite": "ms_35_iv_7_03",
+    "tip": "Mississippi taxes manufacturing machinery used directly in manufacturing at 1.5 percent rather than 7, and manufacturing includes the generation of electricity (Administrative Code Title 35, Part IV, 7.03.101 and 7.03.202); construction materials and the rest of a contract pay the contractor's tax: (7 - 1.5) / 7.06 = 77.9 percent of the tax on the machinery; the tool holds JEDI's power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent of its taxable purchases: 45.4 percent, so the tax shown is an upper bound.",
+    "machinery_cite": "nlr_jedi_ngas_projectdata",
+    "quote": "\"Manufacturing\" refines, improves, changes the condition of raw materials, or converts the form of the materials into new, different, or more useful property and includes the fabrication or production of special made-to-order articles and the generation of electricity."
    },
    "geothermal": {
     "exempt_pct": 0,
-    "tip": "Mississippi: no exemption for generating plants on the Department of Revenue's list; manufacturing machinery pays a reduced 1.5 percent, whether a power plant qualifies was not read (Code 27-65-17): 0 held."
+    "cite": "ms_35_iv_7_03",
+    "tip": "Mississippi taxes manufacturing machinery used directly in manufacturing at 1.5 percent rather than 7, and manufacturing includes the generation of electricity (Administrative Code Title 35, Part IV, 7.03.101 and 7.03.202); construction materials and the rest of a contract pay the contractor's tax: (7 - 1.5) / 7.06 = 77.9 percent of the tax on the machinery; JEDI's geothermal model has no sales tax line, so 0 is held; type the share.",
+    "quote": "\"Manufacturing\" refines, improves, changes the condition of raw materials, or converts the form of the materials into new, different, or more useful property and includes the fabrication or production of special made-to-order articles and the generation of electricity."
    }
   },
   "tn": {
@@ -1010,19 +1056,27 @@
   "id": {
    "land_based_wind": {
     "exempt_pct": 0,
-    "tip": "Idaho: no renewable generation exemption was found; whether the production exemption (Code 63-3622D) reaches generating electricity was not settled, and it excludes real property improvements: 0 held."
+    "cite": "id_stc_producers",
+    "tip": "Idaho: the production exemption (Code 63-3622D) excludes utility companies delivering their product through wires to the customer, and fixtures; no exemption for generating plants was found: 0 (an independent producer selling wholesale is not named either way).",
+    "quote": "Utility companies delivering products through pipes, wires, or mains to the place where the customer will use the product"
    },
    "utility_pv": {
     "exempt_pct": 0,
-    "tip": "Idaho: no renewable generation exemption was found; whether the production exemption (Code 63-3622D) reaches generating electricity was not settled, and it excludes real property improvements: 0 held."
+    "cite": "id_stc_producers",
+    "tip": "Idaho: the production exemption (Code 63-3622D) excludes utility companies delivering their product through wires to the customer, and fixtures; no exemption for generating plants was found: 0 (an independent producer selling wholesale is not named either way).",
+    "quote": "Utility companies delivering products through pipes, wires, or mains to the place where the customer will use the product"
    },
    "natural_gas": {
     "exempt_pct": 0,
-    "tip": "Idaho: no renewable generation exemption was found; whether the production exemption (Code 63-3622D) reaches generating electricity was not settled, and it excludes real property improvements: 0 held."
+    "cite": "id_stc_producers",
+    "tip": "Idaho: the production exemption (Code 63-3622D) excludes utility companies delivering their product through wires to the customer, and fixtures; no exemption for generating plants was found: 0 (an independent producer selling wholesale is not named either way).",
+    "quote": "Utility companies delivering products through pipes, wires, or mains to the place where the customer will use the product"
    },
    "geothermal": {
     "exempt_pct": 0,
-    "tip": "Idaho: no renewable generation exemption was found; whether the production exemption (Code 63-3622D) reaches generating electricity was not settled, and it excludes real property improvements: 0 held."
+    "cite": "id_stc_producers",
+    "tip": "Idaho: the production exemption (Code 63-3622D) excludes utility companies delivering their product through wires to the customer, and fixtures; no exemption for generating plants was found: 0 (an independent producer selling wholesale is not named either way).",
+    "quote": "Utility companies delivering products through pipes, wires, or mains to the place where the customer will use the product"
    }
   },
   "wy": {
