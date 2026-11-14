@@ -164,6 +164,64 @@ class SecondAndThirdPasses(unittest.TestCase):
                 self.assertTrue(placed(r["threshold_mw_cite"]), r["law_id"])
 
 
+class StableIdsAndPointers(unittest.TestCase):
+    """Session 5304: row ids are stored in the rows and never move; a change points at a real row or registry file."""
+
+    def rows_json(self):
+        out = {}
+        for fp in glob.glob(os.path.join(FOLDER, "rows", "*.json")):
+            with open(fp, encoding="utf-8") as fh:
+                for r in json.load(fh).get("rows") or []:
+                    out[r.get("row_id")] = r
+        return out
+
+    def test_every_row_stores_its_id_and_the_csv_uses_it(self):
+        files = csv_files()
+        if not files:
+            self.skipTest("no CSV")
+        rj = self.rows_json()
+        self.assertNotIn(None, rj)
+        self.assertEqual(sorted(rj), sorted(r["row_id"] for r in read_rows(files[-1])))
+
+    def test_a_change_points_at_a_row_of_its_utility_or_a_registry_file(self):
+        rj = self.rows_json()
+        for fp in glob.glob(os.path.join(FOLDER, "changes", "*.json")):
+            with open(fp, encoding="utf-8") as fh:
+                changes = json.load(fh).get("changes") or []
+            for c in changes:
+                aff = c["affects"].split()[0].rstrip(";")
+                if aff == "new":
+                    continue
+                if aff.startswith(("large_load_tariffs/", "large_load_connection_rules/")):
+                    self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "sources", aff)), aff)
+                    continue
+                self.assertIn(aff, rj, f"{fp}: {aff}")
+                key = lambda s: re.sub(r"[^a-z]", "", s.lower())[:8]
+                self.assertEqual(key(rj[aff]["utility"]), key(c["utility"]), f"{aff}: {c['utility']}")
+
+
+class Audit(unittest.TestCase):
+    """Session 5304: every finding of the independent audit has its resolution in the audit log."""
+
+    def test_every_wrong_finding_is_resolved_in_the_log(self):
+        logs = sorted(glob.glob(os.path.join(FOLDER, "audit_*.md")))
+        reports = glob.glob(os.path.join(FOLDER, "audit", "*.json"))
+        if not logs or not reports:
+            self.skipTest("no audit yet")
+        log = open(logs[-1], encoding="utf-8").read()
+        resolved = {}
+        for line in log.splitlines():
+            m = re.match(r"^\| (A-\d+) \| ([a-z_0-9]+-\d\d) \| ([a-z_]+) \| (wrong|unclear) \| .* \| (fixed|not changed: .+|already right: .+) \|$", line)
+            if m:
+                resolved[(m.group(2), m.group(3))] = m.group(5)
+        for fp in reports:
+            with open(fp, encoding="utf-8") as fh:
+                for row in json.load(fh).get("rows") or []:
+                    for v in row.get("verdicts") or []:
+                        if v.get("verdict") == "wrong":
+                            self.assertIn((row["row_id"], v["field"]), resolved, f"{fp}: {row['row_id']} {v['field']}")
+
+
 class NoDash(unittest.TestCase):
     def test_no_em_or_en_dash_in_the_folder(self):
         for path in glob.glob(os.path.join(FOLDER, "**", "*"), recursive=True):
