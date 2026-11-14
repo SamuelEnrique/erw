@@ -24,9 +24,15 @@ The precheck; then the next file (the first queue number free on origin's main a
 
 One step a session, from the list below. Pushed after every step; a landing request row after each stack is ready.
 
-### Unfinished steps (to be written by session 6158 of chain 281)
+### Unfinished steps (written by session 6143 of chain 281, 14 November 2026, about 20:40 UTC)
 
-- (to be written)
+Chain 281 did each of the owner's five steps once and spent USD 14.49 of its USD 20 (sessions 6130 to 6143; 6144 to 6159 not used). Read first: `docs/state/note_2026-11-14_oldlaptop_c281.md`, then "Chain 281" in `docs/reviews/ask-eval-2026-11-13.md`. The branch is `wip/6100-ask` (landing row 14), worktree `C:\Users\lossa\Documents\erw-6100`; if row 14 has landed, remove that worktree and cut `wip/6160-ask` from `origin/main`.
+
+1. **The platform set's 79 questions last asked under eleven rules** (rule 12 came in session 6136; 55 of the 134 were asked under it, all right): ask them through the site's loop (`eval_site.py --set platform --only <ids>`; the ids asked under rule 12 are in the runs of sessions 6139, 6142 and 6143), about USD 6 in four sessions, scored by class (`class_scores.py`). Check the keys first (`platform_questions.py --check`): the week of 19 to 25 October leaves the live set's 35 days on about 22 November.
+2. **Two faults of form left from the fresh read:** a price written to six decimals beside the rounded one (the trader's tr03: the tool returns 49.995417), and a row's label said as such (the lab's l17). Each as a class, in both loops or in rule 12's words, with a test; the class asked again.
+3. **Tables of the record the site cannot read, other than this week's six:** a slice of 12 questions that name other unlisted tables (an internal one, an unsettled one, one of two words in its name, which the loop's word match does not look for by design), to see the refusal is by name and in two calls (about USD 1).
+4. **The day the data machine loads a new table** (`docs/state/data_requests_ask.md`): `newtables_questions.py --live` again, the platform set's pj10 re-keyed, that table's questions asked through the site's loop.
+5. **The records:** the scores into `docs/methods/ask.md` and the review file; landing row 14 moved to the branch's head, or a new row if 14 has landed.
 
 ## Session 6186: the method note
 
