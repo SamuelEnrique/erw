@@ -1,0 +1,650 @@
+{
+ "_about": "eval_s6111_loop_newtables_run.json graded on questions_newtables.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "newtables",
+ "asked": 28,
+ "right": 28,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words"
+ ],
+ "cost_usd": 1.76,
+ "questions": [
+  {
+   "id": "fc01",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0537271,
+   "seconds": 9.2,
+   "expected": [
+    1502.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "fc02",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0426858,
+   "seconds": 6.8,
+   "expected": [
+    1489.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc03",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0565151,
+   "seconds": 9.6,
+   "expected": [
+    868.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "fc04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0426777,
+   "seconds": 7.2,
+   "expected": [
+    3963.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc05",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0747814,
+   "seconds": 11.5,
+   "expected": [
+    1444.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "fc06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0639844,
+   "seconds": 11.8,
+   "expected": [
+    1990.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "fc07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.062024800000000005,
+   "seconds": 9.8,
+   "expected": [
+    24.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "fc08",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0427479,
+   "seconds": 7.2,
+   "expected": [
+    6.266
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc09",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0511695,
+   "seconds": 9.1,
+   "expected": [
+    3.5267
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc10",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.0634005,
+   "seconds": 11.3,
+   "expected": [
+    0.819282
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "fc11",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.08902620000000001,
+   "seconds": 12.2,
+   "expected": [
+    1071335.53
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "fc12",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.04249,
+   "seconds": 6.0,
+   "expected": [
+    25.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc13",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0528436,
+   "seconds": 8.4,
+   "expected": [
+    150.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "fc14",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0424325,
+   "seconds": 7.0,
+   "expected": [
+    0.65
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "fc15",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0650304,
+   "seconds": 12.0,
+   "expected": [
+    111.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "fc16",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0732628,
+   "seconds": 11.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "fc17",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.0738372,
+   "seconds": 10.8,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "fc18",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 9,
+   "retried": false,
+   "cost_usd": 0.104229,
+   "seconds": 17.0,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  },
+  {
+   "id": "fc19",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.1418336,
+   "seconds": 24.0,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "ru01",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0493679,
+   "seconds": 8.0,
+   "expected": [
+    100.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ru02",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0416335,
+   "seconds": 8.2,
+   "expected": [
+    52.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ru03",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0249249,
+   "seconds": 4.7,
+   "expected": [
+    25.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "ru04",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.041522300000000005,
+   "seconds": 7.2,
+   "expected": [
+    21.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ru05",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.1294576,
+   "seconds": 21.1,
+   "expected": [
+    8.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 11
+  },
+  {
+   "id": "ru06",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0417419,
+   "seconds": 6.6,
+   "expected": [
+    8.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ru07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0524961,
+   "seconds": 7.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "ru08",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.06973270000000001,
+   "seconds": 11.9,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "ru09",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 5,
+   "retried": true,
+   "cost_usd": 0.0704165,
+   "seconds": 11.2,
+   "expected": [
+    75.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  }
+ ]
+}

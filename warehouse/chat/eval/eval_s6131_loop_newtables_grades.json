@@ -1,0 +1,103 @@
+{
+ "_about": "eval_s6131_loop_newtables_run.json graded on questions_newtables.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "newtables",
+ "asked": 4,
+ "right": 4,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words"
+ ],
+ "cost_usd": 0.3113,
+ "questions": [
+  {
+   "id": "ru10",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": true,
+   "cost_usd": 0.1239332,
+   "seconds": 13.9,
+   "expected": [
+    77.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "ch02",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 6,
+   "retried": false,
+   "cost_usd": 0.061535200000000005,
+   "seconds": 11.7,
+   "expected": [
+    32.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "ch07",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0413098,
+   "seconds": 8.6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "ch09",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.08452570000000001,
+   "seconds": 13.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  }
+ ]
+}

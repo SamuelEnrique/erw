@@ -1,0 +1,497 @@
+# Energy Research Warehouse (ERW): 35 held-out questions for the AI chat over the warehouse, session 6191 (chain 283, 14 November 2026):
+# written after the fixes of chains 280 to 282, never asked before, asked once before anything is changed for them.
+# By kind: 17 figure, 4 hold, 1 pause, 3 not_live, 4 outside, 1 gap, 5 partial. The kinds and the grading are questions_platform.yaml's.
+# Every expected number was computed before any model call from the live set (Supabase, the anon key, reads only) on 2026-11-14 by
+# scripts/ask_eval/heldout_questions.py, which writes this file; each note names the table, the entity or filter, the variable and the aggregation.
+today: '2026-11-14'
+questions:
+- id: h03
+  sector: power
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was ERCOT's highest hourly demand in the week of Monday 12 to Sunday 18 October 2026 (Central time), in MW?"
+  expected: [81154.0]
+  tolerance: 0.5
+  text: []
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:ERCO, demand_mw: the maximum of the 168 hourly rows of the local week (America/Chicago); checked whole"
+- id: h04
+  sector: power
+  kind: figure
+  grid: none
+  via: general
+  question: "How much electricity was sold to commercial customers in Florida in May 2026, in MWh?"
+  expected: [9016531.06]
+  tolerance: 0.5
+  text: []
+  tables: ["eia_retail_sales_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_retail_sales_monthly, eia:retail_sales:FL:COM, retail_sales: the 2026-05 row"
+- id: h05
+  sector: power
+  kind: figure
+  grid: PJM
+  via: general
+  question: "By how much had PJM's average demand in 2025 grown since 2019, in percent?"
+  expected: [5.37]
+  tolerance: 0.01
+  text: []
+  tables: ["eia930_demand_growth"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_demand_growth, eia930:PJM, avg_demand_growth_since_2019_pct: the 2025 row"
+- id: h06
+  sector: power
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the carbon intensity of ERCOT's generation in August 2026, in kg of CO2 per MWh?"
+  expected: [326.6858]
+  tolerance: 0.01
+  text: []
+  tables: ["carbon_intensity_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "carbon_intensity_monthly, eia930:ERCO, intensity_generation: the 2026-08 row"
+- id: h07
+  sector: power
+  kind: figure
+  grid: PJM
+  via: general
+  question: "What was PJM's peak demand in 2025, in MW?"
+  expected: [160560.0]
+  tolerance: 0.5
+  text: []
+  tables: ["grid_peak_vs_capacity", "grid_stress_yearly", "ai_power_regions"]
+  refuse: false
+  hold: false
+  count: false
+  note: "grid_peak_vs_capacity, grid_peak_vs_capacity:pjm, peak_demand_mw: the 2025 row"
+- id: h08
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the average hourly day-ahead price at ERCOT's South hub (HB_SOUTH) on 11 November 2026 (Central time), in USD per MWh?"
+  expected: [53.1621]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices", "iso_trader_daily", "price_board_latest"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, ercot:HB_SOUTH, spp_dam: the mean of the 24 hourly rows of the local day; checked whole"
+- id: h09
+  sector: prices
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "What was the highest hourly day-ahead price at CAISO's NP15 hub on 12 November 2026 (Pacific time), in USD per MWh?"
+  expected: [55.5375]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_dam_hub_prices", "iso_trader_daily"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, caiso:TH_NP15_GEN-APND, lmp_dam: the maximum of the 24 hourly rows of the local day; checked whole"
+- id: h11
+  sector: prices
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the average real-time price at ERCOT's Houston hub (HB_HOUSTON) on 11 November 2026 (Central time), over its 15-minute intervals, in USD per MWh?"
+  expected: [49.083]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, ercot:HB_HOUSTON, spp_rtm: the mean of the 96 fifteen-minute rows of the local day; checked whole"
+- id: h12
+  sector: prices
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "What was the highest 15-minute real-time price at CAISO's ZP26 hub on 12 November 2026 (Pacific time), in USD per MWh?"
+  expected: [64.1376]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_rtm_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, caiso:TH_ZP26_GEN-APND, lmp_rtm_15m_mean: the maximum of the 96 fifteen-minute rows of the local day; checked whole"
+- id: h13
+  sector: prices
+  kind: figure
+  grid: SPP
+  via: general
+  question: "What was the simple average day-ahead price at SPP's North hub in August 2026, in USD per MWh?"
+  expected: [41.4166]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "cost_of_power_monthly, spp:SPPNORTH_HUB, da_simple_mean: the 2026-08 row"
+- id: h14
+  sector: prices
+  kind: figure
+  grid: CAISO
+  via: general
+  question: "What was the load-weighted real-time price at CAISO's SP15 hub in July 2026, in USD per MWh?"
+  expected: [40.6615]
+  tolerance: 0.01
+  text: []
+  tables: ["cost_of_power_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "cost_of_power_monthly, caiso:TH_SP15_GEN-APND, rt_load_weighted: the 2026-07 row"
+- id: h15
+  sector: gas
+  kind: figure
+  grid: none
+  via: general
+  question: "What was the Henry Hub natural gas spot price on 4 November 2026, in USD per MMBtu?"
+  expected: [2.63]
+  tolerance: 0.01
+  text: []
+  tables: ["eia_fuel_spot_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia_fuel_spot_prices, eia:henry_hub, spot_price: the row of 2026-11-04"
+- id: h17
+  sector: storage
+  kind: figure
+  grid: none
+  via: general
+  question: "How many MW of battery storage were operating in the United States in June 2026?"
+  expected: [52657.9]
+  tolerance: 0.5
+  text: []
+  tables: ["storage_buildout_monthly"]
+  refuse: false
+  hold: false
+  count: false
+  note: "storage_buildout_monthly, us:total, battery_operating_mw: the 2026-06 row"
+- id: h19
+  sector: projects
+  kind: figure
+  grid: SPP
+  via: general
+  question: "How many MW are withdrawn in SPP's interconnection queue, summed over its withdrawn requests?"
+  expected: [419636.335]
+  tolerance: 0.5
+  text: []
+  tables: ["spp_interconnection_queue"]
+  refuse: false
+  hold: false
+  count: false
+  note: "spp_interconnection_queue: the sum of capacity_mw over the rows whose status is withdrawn"
+- id: h20
+  sector: transmission
+  kind: figure
+  grid: ERCOT
+  via: general
+  question: "What was the median time from interconnection request to commercial operation for ERCOT projects that reached operation in 2023, in months?"
+  expected: [45.5]
+  tolerance: 0.01
+  text: []
+  tables: ["interconnection_durations_summary"]
+  refuse: false
+  hold: false
+  count: false
+  note: "interconnection_durations_summary, lbnl_durations:ercot, median_months: the 2023 row"
+- id: h21
+  sector: transmission
+  kind: figure
+  grid: SPP
+  via: general
+  question: "How many projects in SPP reached commercial operation in 2024, according to Berkeley Lab's interconnection durations?"
+  expected: [12.0]
+  tolerance: 0.01
+  text: []
+  tables: ["interconnection_durations_summary"]
+  refuse: false
+  hold: false
+  count: true
+  note: "interconnection_durations_summary, lbnl_durations:spp, projects: the 2024 row"
+- id: h22
+  sector: datacenters
+  kind: figure
+  grid: none
+  via: general
+  question: "How many public large-load statements does the warehouse hold in all?"
+  expected: [341.0]
+  tolerance: 0.01
+  text: []
+  tables: ["large_load_public"]
+  refuse: false
+  hold: false
+  count: true
+  note: "large_load_public: the count of its rows"
+- id: h23
+  sector: prices
+  kind: hold
+  grid: ISO-NE
+  via: general
+  question: "What was the average day-ahead price at ISO New England's Internal Hub on 11 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: []
+  refuse: true
+  hold: true
+  count: false
+  note: "ISO-NE's rows are held for a license: the hold's words, and no ISO-NE figure (the public grids' figures of the same day may follow)"
+- id: h24
+  sector: prices
+  kind: hold
+  grid: NYISO
+  via: general
+  question: "What was the average day-ahead price in NYISO's Zone A (West) on 12 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: []
+  refuse: true
+  hold: true
+  count: false
+  note: "NYISO's rows are held for a license: the hold's words, and no NYISO figure"
+- id: h25
+  sector: deals
+  kind: hold
+  grid: none
+  via: general
+  question: "How many energy deals were announced in September 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["energy_deals"]
+  refuse: true
+  hold: true
+  count: false
+  note: "energy_deals is held whole for a license: the hold's words and no figure"
+- id: h26
+  sector: policy
+  kind: hold
+  grid: none
+  via: general
+  question: "How many policy actions does the warehouse's policy table record for September 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["license needed"]
+  tables: ["policy_actions"]
+  refuse: true
+  hold: true
+  count: false
+  note: "policy_actions is held whole for a license: the hold's words and no figure"
+- id: h27
+  sector: prices
+  kind: pause
+  grid: MISO
+  via: general
+  question: "What was the average day-ahead price at MISO's Minnesota hub on 11 November 2026, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["paused"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "MISO is paused since 4 October 2026: the pause's words and no MISO figure"
+- id: h28
+  sector: gas
+  kind: not_live
+  grid: none
+  via: general
+  question: "How much LNG did the United States export to South Korea in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "LNG"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "eia_lng_exports_monthly is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: h29
+  sector: datacenters
+  kind: not_live
+  grid: none
+  via: general
+  question: "How many sites does Equinix operate, according to the warehouse's datacenter operator sites table?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "operator|site"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "datacenter_operator_sites is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: h30
+  sector: power
+  kind: not_live
+  grid: none
+  via: general
+  question: "What planning reserve margin did CAISO's 2026 summer assessment say was achieved, according to the warehouse's reserve margin reports?"
+  expected: []
+  tolerance: 0.01
+  text: ["Redivis|live set|not loaded|not available here|cannot read|can't read", "reserve"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "iso_reserve_margin_reports is a table of the record, not loaded into the live set: the answer says so and states no figure"
+- id: h31
+  sector: prices
+  kind: outside
+  grid: ERCOT
+  via: general
+  question: "What is the forward price of power at ERCOT's North hub for calendar year 2028, in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "forward|2028|futures"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the warehouse holds what settled, and no forward or futures price of power: not in the warehouse, no figure"
+- id: h32
+  sector: oil
+  kind: outside
+  grid: none
+  via: general
+  question: "What was the price of lithium carbonate in October 2026, in USD per tonne?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "lithium"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "no table of the live set holds a metals price: not in the warehouse, the thing named, no figure"
+- id: h33
+  sector: power
+  kind: outside
+  grid: ERCOT
+  via: general
+  question: "How many people does ERCOT employ?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "nothing in the warehouse holds a grid operator's headcount: not in the warehouse, no figure"
+- id: h34
+  sector: storage
+  kind: outside
+  grid: none
+  via: general
+  question: "What did a 4-hour battery earn in ISO New England in August 2026, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "the battery model covers ERCOT and CAISO; ISO-NE is held for a license besides: a refusal, no figure"
+- id: h35
+  sector: prices
+  kind: gap
+  grid: ERCOT
+  via: general
+  question: "What was the average real-time price at ERCOT's North hub (HB_NORTH) on 6 November 2026 (Central time), in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "6 November|November 6|2026-11-06|6 Nov"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "iso_rtm_hub_prices, ercot:HB_NORTH, spp_rtm, the local day 6 November 2026: 0 of 96 steps held on 2026-11-13; not in the warehouse, the day named, no figure"
+- id: h36
+  sector: power
+  kind: partial
+  grid: none
+  via: general
+  question: "What was the average hourly electricity demand of the Lower 48 states in the week of Monday 2 to Sunday 8 November 2026 (UTC), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:US48, demand_mw, the UTC week of 2 to 8 November 2026: 72 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: h37
+  sector: prices
+  kind: partial
+  grid: CAISO
+  via: general
+  question: "What was the average hourly day-ahead price at CAISO's NP15 hub in the week of Monday 2 to Sunday 8 November 2026 (Pacific time), in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, caiso:TH_NP15_GEN-APND, lmp_dam, the local week of 2 to 8 November 2026: 120 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: h38
+  sector: power
+  kind: partial
+  grid: SPP
+  via: general
+  question: "What was SPP's average hourly demand on 11 November 2026 (Central time), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:SWPP, demand_mw, the local day 11 November 2026: 6 of 24 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: h39
+  sector: power
+  kind: partial
+  grid: CAISO
+  via: general
+  question: "What was the highest hourly demand in CAISO on 12 November 2026 (Pacific time), in MW?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["eia930_all_demand"]
+  refuse: false
+  hold: false
+  count: false
+  note: "eia930_all_demand, eia930:CISO, demand_mw, the local day 12 November 2026: 16 of 24 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"
+- id: h40
+  sector: prices
+  kind: partial
+  grid: SPP
+  via: general
+  question: "What was the average hourly day-ahead price at SPP's South hub in the week of Monday 12 to Sunday 18 October 2026 (Central time), in USD per MWh?"
+  expected: []
+  tolerance: 0.01
+  text: ["missing|incomplete|not complete|partial|gap|not held|no rows|no data|does not hold|do not hold|does not have|not all|not cover|not whole|not available|of the 168|of 168|only the|only for|only through|only holds|only has|only covers|only includes|only part|only 1|only 2|only 3|only 4|only 5|only 6|only 7|only 8|only 9|not a full|not the full|not full"]
+  tables: ["iso_dam_hub_prices"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_dam_hub_prices, spp:SPPSOUTH_HUB, lmp_dam, the local week of 12 to 18 October 2026: 144 of 168 steps held on 2026-11-13; the answer says the window is not whole (a figure of the steps held, said so, or a refusal that says so)"

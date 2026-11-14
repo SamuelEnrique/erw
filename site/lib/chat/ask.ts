@@ -10,9 +10,11 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
+import { cataloguedNames, nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
-import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withRefusalWords } from "./refused";
+import { CUT_SHORT, askedAboutProblem, cutShort, heldTables, plainDates, refusalFigureProblem, refusalFigures, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, unlistedNamed, unlistedTables,
+  unlistedOf, withAskedAboutNames, withHoldWords, withRefusalWords, withUnlistedWords } from "./refused";
+import verdictFile from "@/data/table_verdicts.json";   // session 6133: the license record's word for every table of the record
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -163,7 +165,23 @@ function listMarkers(text: string): Set<number> {
   return new Set(Array.from(text.matchAll(/^\s*(\d+)[.)]\s/gm)).map((m) => parseFloat(m[1])));
 }
 
-export function unverified(answer: string, sources: string[]): string[] {
+// Session 6108 (chain 280), as ask.py without_percentile_names: a percentile's ordinal is the name of a statistic. The
+// investor's iv14 of 14 November 2026 had its figure and wrote the spread in the table's own variables, p25_months and
+// p75_months, as "the 25th and 75th percentile"; 75 stood in no tool result as a number, the draft was sent back twice
+// and the reader got the fixed refusal. An ordinal written before "percentile" is that percentile's name when a tool
+// result or argument names it (p25, p75_months), and is then no figure of the answer; any other 75 is checked as before.
+const PCT_NAME = /(?<![A-Za-z\d])p(\d{1,2})(?![\d.])/g;
+const ORD = String.raw`\d{1,2}(?:st|nd|rd|th)`;
+const PCT_PHRASE = new RegExp(String.raw`(?<![\w.])${ORD}(?:\s*(?:,|and|to|or)\s*(?:the\s+)?${ORD})*(?=[\s-]+percentiles?\b)`, "gi");
+export function withoutPercentileNames(answer: string, sources: string[]): string {
+  const named = new Set<number>();
+  for (const s of sources) for (const m of s.matchAll(PCT_NAME)) named.add(parseInt(m[1], 10));
+  if (!named.size) return answer;
+  return answer.replace(PCT_PHRASE, (phrase) => ((phrase.match(/\d{1,2}/g) ?? []).every((n) => named.has(parseInt(n, 10))) ? "" : phrase));
+}
+
+export function unverified(given: string, sources: string[]): string[] {
+  const answer = withoutPercentileNames(given, sources);   // session 6108
   const pool = sources.flatMap((s) => numbers(s).map(([v]) => v));
   const markers = listMarkers(answer);
   const bad: string[] = [];
@@ -338,6 +356,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? []),
     ...past.flatMap((t) => [t.answer, ...t.queries])];   // session 1129: an earlier answer's numbers were checked when it was written
   const sources: string[] = [...given];
+  let unlisted: string[] | null = null;   // session 6166: the record's tables the catalogue does not list, known at the first list
+  const askedAbout: string[] = [];   // session 6136: the tables the list told the model the question names and this site cannot read
+  const lists: ToolRecord[] = [];   // session 6133: the general chat's list_tables results, for the table a question names and the list lacks
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
   const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? []), ...past.flatMap((t) => t.tables)]);
   // session 5256 (lib/chat/refused.ts): a table a tool refused to read, and a table a describe_table, query or compare did read
@@ -363,6 +384,17 @@ export async function ask(question: string, today = new Date().toISOString().sli
       if (again !== undefined) return { out: { note: refusedAgainNote(again, refusedWholeWords.get(again) ?? "") }, isError: false, repeat: true };
       if (repeat) return { out: { note: "this exact call was already made for this question and its result is above: answer from it; do not call it again" }, isError: false, repeat: true };
       const got = await (profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc));
+      // session 6136 (lib/chat/refused.ts withAskedAbout): the list's own result says, before its rows, which table of the
+      // record the question names and this site cannot read, in the tools' words for it; the table counts as refused whole
+      if (!profile && name === "list_tables" && !got.isError) {
+        // session 6166: against what the catalogue lists, whatever filter this call gave the list
+        const all = verdictFile as unknown as Record<string, [string, string]>;
+        unlisted = unlistedOf(Object.keys(all), await cataloguedNames());
+        const told = withAskedAboutNames(got.out, question, unlisted, all);
+        for (const [t, words] of Object.entries(told.told)) { if (!refusedWholeWords.has(t)) refusedWholeWords.set(t, words); refusedTables.add(t); }
+        for (const t of Object.keys(told.told)) if (!askedAbout.includes(t)) askedAbout.push(t);
+        return { ...got, out: told.out };
+      }
       const whole = got.isError ? refusedWhole(got.out.error, tablesNamed(name, input)) : null;
       if (whole) refusedWholeWords.set(whole, String(got.out.error));
       return got;
@@ -463,6 +495,15 @@ export async function ask(question: string, today = new Date().toISOString().sli
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
+    // session 6106: a refusal of the general chat states no figure (lib/chat/refused.ts refusalFigures; the question's own
+    // numbers are the asker's)
+    if (!profile && draft.not_in_warehouse) {
+      const figures = refusalFigures(draft.answer, question);
+      if (figures.length) more.push(refusalFigureProblem(figures));
+    }
+    if (!profile && cutShort(draft.answer)) more.push(CUT_SHORT);
+    // session 6136: an answer to a question about a table this site cannot read is not one (figures of a neighbour table)
+    if (!profile && !draft.not_in_warehouse && askedAbout.length) more.push(askedAboutProblem(askedAbout));   // session 6109: an answer that stops in the middle of a sentence
     clock.add("writing", "check", Date.now() - tCheck);
     const ok = !bad.length && !units.length && !uncited.length && !noCite && !more.length;
     return { ok, bad, units, uncited, noCite, more };
@@ -472,7 +513,18 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
     // session 5276: a refusal of the general chat carries its fixed words (lib/chat/refused.ts withRefusalWords)
-    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };
+    // session 6109: the hold's words first, when a table was refused for a license (a refusal as an answer since session 6106)
+    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(withHoldWords(draft.answer, heldTables(refusedWholeWords))) };
+    // session 6106: an answer written after a table was refused as license needed says so in the fixed words
+    else if (!profile) draft = { ...draft, answer: withHoldWords(draft.answer, heldTables(refusedWholeWords)) };
+    // session 6133: a table of the record the question names and the list did not show is said to be one
+    if (!profile && draft.not_in_warehouse) {
+      const verdicts = verdictFile as unknown as Record<string, [string, string]>;
+      const named = unlistedNamed(question, unlisted ?? unlistedTables(lists, Object.keys(verdicts)));
+      draft = { ...draft, answer: withUnlistedWords(draft.answer, named, (t) => verdicts[t]?.[0]) };
+    }
+    // session 6136: the general chat writes a day in words (2026-11-05 as 5 November 2026), after every check has run
+    if (!profile) draft = { ...draft, answer: plainDates(draft.answer) };
     const answer = plain(nodash(draft.answer));
     // session 28: each citation's tier is the warehouse's, whatever the model copied
     const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
@@ -523,6 +575,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (!isError && name === "describe_table" && typeof input.table === "string") looked.add(input.table);
     for (const r of readsOf(name, input)) looked.add(r.table);
     if (!profile && !isError && !out.held && (name === "query" || name === "compare")) generalResults.push({ tool: name, input, out });
+    if (!profile && name === "list_tables") lists.push({ tool: name, input, out, isError });   // session 6133: what the list showed
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });

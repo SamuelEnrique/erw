@@ -223,7 +223,7 @@ class TheSite(unittest.TestCase):
 
 
 class TheStoredRuns(unittest.TestCase):
-    def test_the_question_that_found_it_is_a_refusal_in_its_newest_answer(self):
+    def test_the_question_that_found_it_reads_no_held_table_in_its_newest_answer(self):
         S = module("eval_site_for_5260", os.path.join(EVAL, "eval_site.py"))
         newest = None
         for s in S.sessions_of("platform"):
@@ -233,8 +233,18 @@ class TheStoredRuns(unittest.TestCase):
         self.assertIsNotNone(newest)
         s, q = newest
         self.assertGreaterEqual(int(s), 5260, "pj08 has not been asked since the fix")
-        self.assertEqual(q["status"], "not_in_warehouse")
+        # session 6107 (chain 280): until then the newest answer was a refusal, and this test held its status. Asked on
+        # 14 November 2026 at effort medium, the chat was refused the held table, said so, and answered from Berkeley Lab's
+        # public table, which the license file does not hold (the owner's open ruling 9; docs/reviews/ask-eval-2026-11-13.md).
+        # What session 5260 fixed is held as before: the hold's words, and no call of the held table answered. An answer
+        # must cite no held table
+        self.assertIn(q["status"], ("not_in_warehouse", "answered"))
         self.assertIn("license needed", q["answer"])
+        if q["status"] == "answered":
+            E = module("eval_s1113_for_5260_newest", os.path.join(EVAL, "eval_s1113.py"))
+            cited = [c["table"] for c in q.get("citations") or []]
+            self.assertTrue(cited)
+            self.assertEqual([t for t in cited if E.table_held(t)], [])
         self.assertFalse(any(not t.get("isError") and (t.get("input") or {}).get("table") == "isone_interconnection_queue" for t in q.get("trace") or []),
                          "a call of the held table was answered")
 

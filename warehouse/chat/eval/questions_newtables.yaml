@@ -1,0 +1,824 @@
+# Energy Research Warehouse (ERW): 58 questions for the AI chat over the warehouse on the tables that landed in the week of
+# 9 November 2026 (session 6111, chain 280): the utilities' large-load rules, their changes, the states' laws, the forecast tool's
+# parameters, the deals' counterparties and the reserve margin reports.
+# 44 have an answer in the table (kind figure: a number, a count or a word); 12 ask of something the table has no row or
+# column for (outside: "not in the warehouse", the missing thing named, no figure); 2 of a cell that says the documents read do
+# not state the thing (unstated: the answer says so and gives no figure).
+# Every expected answer was computed before any model call from the table's own file on this machine, as restored from the archive, on 2026-11-14 by
+# scripts/ask_eval/newtables_questions.py, which writes this file; each note names the table, the row or filter and the column.
+# The tables' runs: utility_large_load_rules 20261114T105035Z; utility_large_load_rule_changes 20261114T105035Z; state_large_load_laws 20261114T105035Z; forecast_tool_parameters 20261114T133323Z; deal_counterparties 20261113T151045Z; iso_reserve_margin_reports 20261112T165529Z.
+# tolerance: 0.01 under 1,000, 0.5 from 1,000. A text entry with "|" is met by any one of its parts; count: true asks the figure apart from a clock time.
+today: '2026-11-14'
+questions:
+- id: fc01
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is EIA's overnight capital cost for utility-scale solar PV for the US as a whole, in USD per kW?"
+  expected: [1502.0]
+  tolerance: 0.5
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:utility_pv:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+- id: fc02
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is EIA's overnight capital cost for land-based wind for the US as a whole, in USD per kW?"
+  expected: [1489.0]
+  tolerance: 0.5
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:land_based_wind:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+- id: fc03
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is EIA's overnight capital cost for a natural gas combined-cycle plant for the US as a whole, in USD per kW?"
+  expected: [868.0]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:natural_gas:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+- id: fc04
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is EIA's overnight capital cost for geothermal for the US as a whole, in USD per kW?"
+  expected: [3963.0]
+  tolerance: 0.5
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:geothermal:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+- id: fc05
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is EIA's overnight capital cost for utility-scale solar PV in Texas, in USD per kW?"
+  expected: [1444.0]
+  tolerance: 0.5
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:utility_pv:tx, overnight_cost: the state's row"
+- id: fc06
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, which place has the highest overnight capital cost for land-based wind, and what is it in USD per kW?"
+  expected: [1990.0]
+  tolerance: 0.5
+  text: ["new york"]
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, overnight_cost of x_technology land_based_wind: the maximum over 111 places (forecast:eia_capex:land_based_wind:ny_new_york)"
+- id: fc07
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "How many months of construction do the forecast tool's parameters give for a natural gas combined-cycle plant?"
+  expected: [24.0]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:natural_gas:us, construction_months"
+- id: fc08
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "What heat rate do the forecast tool's parameters give for a natural gas plant, in MMBtu per MWh?"
+  expected: [6.266]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, heat_rate (MMBtu/MWh): forecast:gas:natural_gas:us and forecast:eia_capex:natural_gas:us hold the same figure"
+- id: fc09
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "What natural gas fuel price do the forecast tool's parameters use by default, in USD per MMBtu?"
+  expected: [3.5267]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:gas:natural_gas:us, fuel_price (USD/MMBtu, the mean of 2025)"
+- id: fc10
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what share of a land-based wind project's construction cost is taxable, as JEDI's model has it?"
+  expected: [0.819282]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:jedi_taxable:land_based_wind:us, taxable_share (a ratio)"
+- id: fc11
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "In the forecast tool's parameters, what is JEDI's construction cost for a utility-scale solar PV project for the US, in USD per MW?"
+  expected: [1071335.53]
+  tolerance: 0.5
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:jedi_costs:utility_pv:us, construction_cost (USD/MW, 2010 dollars)"
+- id: fc12
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "What operating life do the forecast tool's parameters give a land-based wind plant, in years?"
+  expected: [25.0]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:land_based_wind:us, operating_life (year)"
+- id: fc13
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "How large is EIA's reference utility-scale solar PV plant in the forecast tool's parameters, in MW?"
+  expected: [150.0]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:eia_capex:utility_pv:us, case_mw"
+- id: fc14
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "What capacity factor do the forecast tool's parameters assume for a natural gas plant?"
+  expected: [0.65]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: false
+  note: "forecast_tool_parameters, forecast:gas:natural_gas:us, capacity_factor (a ratio)"
+- id: fc15
+  sector: forecast
+  kind: figure
+  grid: none
+  via: general
+  question: "For how many places do the forecast tool's parameters hold an overnight capital cost of utility-scale solar PV?"
+  expected: [111.0]
+  tolerance: 0.01
+  text: []
+  tables: ["forecast_tool_parameters"]
+  refuse: false
+  hold: false
+  count: true
+  note: "forecast_tool_parameters, overnight_cost of x_technology utility_pv: the count of rows (the US, states and cities)"
+- id: fc16
+  sector: forecast
+  kind: outside
+  grid: none
+  via: general
+  question: "What overnight capital cost do the forecast tool's parameters hold for offshore wind, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "offshore"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+- id: fc17
+  sector: forecast
+  kind: outside
+  grid: none
+  via: general
+  question: "What overnight capital cost do the forecast tool's parameters hold for a battery storage plant, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "battery|storage"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+- id: fc18
+  sector: forecast
+  kind: outside
+  grid: none
+  via: general
+  question: "What overnight capital cost do the forecast tool's parameters hold for a nuclear plant, in USD per kW?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "nuclear"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+- id: fc19
+  sector: forecast
+  kind: outside
+  grid: none
+  via: general
+  question: "What will the overnight capital cost of utility-scale solar PV be in 2030, according to the forecast tool's parameters?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "2030|projection|forecast"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "forecast_tool_parameters holds EIA's cost of the 2025 study in 2023 dollars and no projection of a later year: not in the warehouse, no figure"
+- id: ru01
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many large-load connection rules of US utilities does the warehouse's utility large-load rules table hold?"
+  expected: [100.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows"
+- id: ru02
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the utility large-load rules in the warehouse have the status \"in effect\"?"
+  expected: [52.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows whose status is in effect"
+- id: ru03
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the utility large-load rules in the warehouse have the status \"proposed\"?"
+  expected: [25.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows whose status is proposed"
+- id: ru04
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the utility large-load rules in the warehouse have the status \"approved\"?"
+  expected: [21.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows whose status is approved"
+- id: ru05
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the utility large-load rules in the warehouse are of Texas?"
+  expected: [8.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows whose x_state is TX"
+- id: ru06
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "Which state has the most rules in the warehouse's utility large-load rules table, and how many?"
+  expected: [8.0]
+  tolerance: 0.01
+  text: ["Texas|TX"]
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count by x_state, the highest (TX)"
+- id: ru07
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "One utility large-load rule in the warehouse has the status \"denied\". Which utility's is it?"
+  expected: []
+  tolerance: 0.01
+  text: ["Duke Energy Florida"]
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: false
+  note: "utility_large_load_rules: the parties of the one row whose status is denied (duke-04)"
+- id: ru08
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "What is the status of Duke Energy Carolinas' large-load rule in the warehouse's utility large-load rules table?"
+  expected: []
+  tolerance: 0.01
+  text: ["proposed"]
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: false
+  note: "utility_large_load_rules: the status of the row of parties 'Duke Energy Carolinas, LLC' (duke-01)"
+- id: ru09
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "According to the warehouse's utility large-load rules table, from what size in MW does the Public Utility Commission of Texas's large-load interconnection rule for ERCOT apply?"
+  expected: [75.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: false
+  note: "utility_large_load_rules: x_threshold_mw of the row texas-01 (Texas TSPs and DSPs in ERCOT (PUCT rule)), a phrase that begins with the size"
+- id: ru10
+  sector: rules
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the utility large-load rules in the warehouse are dated in 2026 (by the table's event date)?"
+  expected: [77.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rules"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rules: the count of rows whose event_date is in 2026"
+- id: ru11
+  sector: rules
+  kind: unstated
+  grid: none
+  via: general
+  question: "According to the warehouse's utility large-load rules table, how many MW are in Duke Energy Carolinas' large-load queue?"
+  expected: []
+  tolerance: 0.01
+  text: ["not published|not state|not stated|no figure|not in the warehouse"]
+  tables: []
+  refuse: false
+  hold: false
+  count: false
+  note: "utility_large_load_rules: x_queue_size of duke-01 is 'not published' (the documents read do not state it): the answer says so and gives no figure"
+- id: ru12
+  sector: rules
+  kind: outside
+  grid: none
+  via: general
+  question: "What minimum contract term does Indiana Michigan Power's large-load rule set, according to the warehouse's utility large-load rules table?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "Indiana Michigan"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "utility_large_load_rules holds no row of Indiana Michigan Power: not in the warehouse, the utility named, no figure"
+- id: ru13
+  sector: rules
+  kind: outside
+  grid: none
+  via: general
+  question: "What minimum contract term does Hawaiian Electric's large-load rule set, according to the warehouse's utility large-load rules table?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "Hawaiian"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "utility_large_load_rules holds no row of Hawaiian Electric: not in the warehouse, the utility named, no figure"
+- id: ru14
+  sector: rules
+  kind: outside
+  grid: none
+  via: general
+  question: "What is the average size threshold in MW across the utility large-load rules in the warehouse?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "utility_large_load_rules holds each threshold as the phrase its document prints (x_threshold_mw) and no number (mw is empty): no average can be read from it; not in the warehouse, no figure"
+- id: ch01
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many changes to utilities' large-load rules does the warehouse's rule changes table hold?"
+  expected: [94.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows"
+- id: ch02
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many changes to utilities' large-load rules does the warehouse hold for October 2026?"
+  expected: [32.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows whose event_date is in October 2026"
+- id: ch03
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the changes to utilities' large-load rules in the warehouse are of the kind \"order issued\"?"
+  expected: [11.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows whose status is order issued"
+- id: ch04
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the changes to utilities' large-load rules in the warehouse are of the kind \"suspended\"?"
+  expected: [7.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows whose status is suspended"
+- id: ch05
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the changes to utilities' large-load rules in the warehouse are of the kind \"filed\"?"
+  expected: [19.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows whose status is filed"
+- id: ch06
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "Which state has the most changes in the warehouse's table of changes to utilities' large-load rules, and how many?"
+  expected: [16.0]
+  tolerance: 0.01
+  text: ["Pennsylvania|PA"]
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count by x_state, the highest (PA)"
+- id: ch07
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "What is the date of the newest change in the warehouse's table of changes to utilities' large-load rules?"
+  expected: []
+  tolerance: 0.01
+  text: ["2026-11-13|13 November 2026|November 13, 2026|November 13 2026"]
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: false
+  note: "utility_large_load_rule_changes: the latest event_date"
+- id: ch08
+  sector: changes
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the changes to utilities' large-load rules in the warehouse are marked as affecting a new rule (\"new\")?"
+  expected: [25.0]
+  tolerance: 0.01
+  text: []
+  tables: ["utility_large_load_rule_changes"]
+  refuse: false
+  hold: false
+  count: true
+  note: "utility_large_load_rule_changes: the count of rows whose x_affects is new"
+- id: ch09
+  sector: changes
+  kind: outside
+  grid: none
+  via: general
+  question: "How many changes to utilities' large-load rules does the warehouse hold for March 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "March|August"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "utility_large_load_rule_changes begins on 2026-08-18 (the pass read 15 August to 13 November 2026) and holds no row of March 2026: not in the warehouse, the period named, no figure given as March's"
+- id: ch10
+  sector: changes
+  kind: outside
+  grid: none
+  via: general
+  question: "How many MW of load were affected by the changes to utilities' large-load rules of October 2026, according to the warehouse?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "utility_large_load_rule_changes holds no MW of any change (mw is empty; sizes are phrases): not in the warehouse, no figure"
+- id: lw01
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "How many state large-load laws and bills does the warehouse's state large-load laws table hold?"
+  expected: [27.0]
+  tolerance: 0.01
+  text: []
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: true
+  note: "state_large_load_laws: the count of rows"
+- id: lw02
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the state large-load laws and bills in the warehouse have the status \"in effect\"?"
+  expected: [10.0]
+  tolerance: 0.01
+  text: []
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: true
+  note: "state_large_load_laws: the count of rows whose status is in effect"
+- id: lw03
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the state large-load laws and bills in the warehouse have the status \"enacted\"?"
+  expected: [6.0]
+  tolerance: 0.01
+  text: []
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: true
+  note: "state_large_load_laws: the count of rows whose status is enacted"
+- id: lw04
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "How many of the state large-load laws and bills in the warehouse have the status \"introduced\"?"
+  expected: [3.0]
+  tolerance: 0.01
+  text: []
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: true
+  note: "state_large_load_laws: the count of rows whose status is introduced"
+- id: lw05
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "Which state's large-load bill was vetoed, according to the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["Vermont|VT"]
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_large_load_laws: x_state of the one row whose status is vetoed (H.727, Vermont Sustainable Data Centers Act)"
+- id: lw06
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "How many large-load laws or bills of Missouri does the warehouse's state large-load laws table hold?"
+  expected: [2.0]
+  tolerance: 0.01
+  text: []
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: true
+  note: "state_large_load_laws: the count of rows whose x_state is MO"
+- id: lw07
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "What is the status of New Jersey's large-load law in the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["in effect"]
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_large_load_laws: the status of the one row whose x_state is NJ (A. 796 (Fourth Reprint), P.L. 2026, c.32 (Data Center Fair Share Act))"
+- id: lw08
+  sector: laws
+  kind: figure
+  grid: none
+  via: general
+  question: "When does Idaho's large-load law take effect, according to the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["2026-07-01|1 July 2026|July 1, 2026|July 1 2026"]
+  tables: ["state_large_load_laws"]
+  refuse: false
+  hold: false
+  count: false
+  note: "state_large_load_laws: x_effective_date of the one row whose x_state is ID (H 911 (Idaho Code 61-335))"
+- id: lw09
+  sector: laws
+  kind: unstated
+  grid: none
+  via: general
+  question: "When does Iowa's large-load bill take effect, according to the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["not published|not state|not stated|no effective date|not in the warehouse"]
+  tables: []
+  refuse: false
+  hold: false
+  count: false
+  note: "state_large_load_laws: x_effective_date of Iowa's row (H.F. 2690 (successor to H.F. 2447), introduced) is 'not published': the answer says so and gives no date"
+- id: lw10
+  sector: laws
+  kind: outside
+  grid: none
+  via: general
+  question: "What is the status of Texas's large-load law, according to the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "Texas"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "state_large_load_laws holds no row of Texas: not in the warehouse, the state named, no status"
+- id: lw11
+  sector: laws
+  kind: outside
+  grid: none
+  via: general
+  question: "What is the status of California's large-load law, according to the warehouse's state large-load laws table?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "California"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "state_large_load_laws holds no row of California: not in the warehouse, the state named, no status"
+- id: cp01
+  sector: counterparties
+  kind: figure
+  grid: none
+  via: general
+  question: "How many companies does the warehouse's deal counterparties table hold?"
+  expected: [532.0]
+  tolerance: 0.01
+  text: []
+  tables: ["deal_counterparties"]
+  refuse: false
+  hold: false
+  count: true
+  note: "deal_counterparties: the count of rows"
+- id: rs01
+  sector: reserve
+  kind: figure
+  grid: none
+  via: general
+  question: "What planning reserve margin did CAISO's 2026 summer assessment say was achieved, in percent, according to the warehouse's reserve margin reports?"
+  expected: [30.8]
+  tolerance: 0.01
+  text: []
+  tables: ["iso_reserve_margin_reports"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_reserve_margin_reports, variable prm_achieved_pct: the one row (CAISO, 2026 Summer Loads and Resources Assessment)"
+- id: rs02
+  sector: reserve
+  kind: figure
+  grid: none
+  via: general
+  question: "What capacity surplus in MW did CAISO's 2026 summer assessment report, according to the warehouse's reserve margin reports?"
+  expected: [2547.0]
+  tolerance: 0.5
+  text: []
+  tables: ["iso_reserve_margin_reports"]
+  refuse: false
+  hold: false
+  count: false
+  note: "iso_reserve_margin_reports, variable capacity_surplus_mw: the one row"
+- id: rs03
+  sector: reserve
+  kind: outside
+  grid: none
+  via: general
+  question: "What planning reserve margin did ERCOT's 2026 summer assessment report, according to the warehouse's reserve margin reports?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse", "ERCOT"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  note: "iso_reserve_margin_reports holds CAISO's assessment alone: not in the warehouse, ERCOT named, no figure"

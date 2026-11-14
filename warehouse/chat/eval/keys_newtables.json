@@ -1,0 +1,931 @@
+{
+ "_about": "Session 6111: the keys of questions_newtables.yaml as computed from the tables' own files by scripts/ask_eval/newtables_questions.py, not a run.",
+ "computed_at_utc": "2026-11-14T19:10:28Z",
+ "source": "the tables' files on this machine (the erw package's local backend), restored from the archive by scripts/sync.py",
+ "table_runs": {
+  "utility_large_load_rules": "20261114T105035Z",
+  "utility_large_load_rule_changes": "20261114T105035Z",
+  "state_large_load_laws": "20261114T105035Z",
+  "forecast_tool_parameters": "20261114T133323Z",
+  "deal_counterparties": "20261113T151045Z",
+  "iso_reserve_margin_reports": "20261112T165529Z"
+ },
+ "keys": {
+  "fc01": {
+   "expected": [
+    1502.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:utility_pv:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+  },
+  "fc02": {
+   "expected": [
+    1489.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:land_based_wind:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+  },
+  "fc03": {
+   "expected": [
+    868.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:natural_gas:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+  },
+  "fc04": {
+   "expected": [
+    3963.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:geothermal:us, overnight_cost (USD/kW, 2023 dollars): the one row"
+  },
+  "fc05": {
+   "expected": [
+    1444.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:utility_pv:tx, overnight_cost: the state's row"
+  },
+  "fc06": {
+   "expected": [
+    1990.0
+   ],
+   "tolerance": 0.5,
+   "text": [
+    "new york"
+   ],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, overnight_cost of x_technology land_based_wind: the maximum over 111 places (forecast:eia_capex:land_based_wind:ny_new_york)"
+  },
+  "fc07": {
+   "expected": [
+    24.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:natural_gas:us, construction_months"
+  },
+  "fc08": {
+   "expected": [
+    6.266
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, heat_rate (MMBtu/MWh): forecast:gas:natural_gas:us and forecast:eia_capex:natural_gas:us hold the same figure"
+  },
+  "fc09": {
+   "expected": [
+    3.5267
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:gas:natural_gas:us, fuel_price (USD/MMBtu, the mean of 2025)"
+  },
+  "fc10": {
+   "expected": [
+    0.819282
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:jedi_taxable:land_based_wind:us, taxable_share (a ratio)"
+  },
+  "fc11": {
+   "expected": [
+    1071335.53
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:jedi_costs:utility_pv:us, construction_cost (USD/MW, 2010 dollars)"
+  },
+  "fc12": {
+   "expected": [
+    25.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:land_based_wind:us, operating_life (year)"
+  },
+  "fc13": {
+   "expected": [
+    150.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:eia_capex:utility_pv:us, case_mw"
+  },
+  "fc14": {
+   "expected": [
+    0.65
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, forecast:gas:natural_gas:us, capacity_factor (a ratio)"
+  },
+  "fc15": {
+   "expected": [
+    111.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "forecast_tool_parameters"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "forecast",
+   "kind": "figure",
+   "note": "forecast_tool_parameters, overnight_cost of x_technology utility_pv: the count of rows (the US, states and cities)"
+  },
+  "fc16": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "offshore"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "outside",
+   "note": "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  },
+  "fc17": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "battery|storage"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "outside",
+   "note": "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  },
+  "fc18": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "nuclear"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "outside",
+   "note": "forecast_tool_parameters holds four technologies (geothermal, land_based_wind, natural_gas, utility_pv) and none of this one: not in the warehouse, the technology named, no figure"
+  },
+  "fc19": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "2030|projection|forecast"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "forecast",
+   "kind": "outside",
+   "note": "forecast_tool_parameters holds EIA's cost of the 2025 study in 2023 dollars and no projection of a later year: not in the warehouse, no figure"
+  },
+  "ru01": {
+   "expected": [
+    100.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows"
+  },
+  "ru02": {
+   "expected": [
+    52.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows whose status is in effect"
+  },
+  "ru03": {
+   "expected": [
+    25.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows whose status is proposed"
+  },
+  "ru04": {
+   "expected": [
+    21.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows whose status is approved"
+  },
+  "ru05": {
+   "expected": [
+    8.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows whose x_state is TX"
+  },
+  "ru06": {
+   "expected": [
+    8.0
+   ],
+   "tolerance": 0.01,
+   "text": [
+    "Texas|TX"
+   ],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count by x_state, the highest (TX)"
+  },
+  "ru07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Duke Energy Florida"
+   ],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the parties of the one row whose status is denied (duke-04)"
+  },
+  "ru08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "proposed"
+   ],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the status of the row of parties 'Duke Energy Carolinas, LLC' (duke-01)"
+  },
+  "ru09": {
+   "expected": [
+    75.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: x_threshold_mw of the row texas-01 (Texas TSPs and DSPs in ERCOT (PUCT rule)), a phrase that begins with the size"
+  },
+  "ru10": {
+   "expected": [
+    77.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rules"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "rules",
+   "kind": "figure",
+   "note": "utility_large_load_rules: the count of rows whose event_date is in 2026"
+  },
+  "ru11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not published|not state|not stated|no figure|not in the warehouse"
+   ],
+   "tables": [],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "unstated",
+   "note": "utility_large_load_rules: x_queue_size of duke-01 is 'not published' (the documents read do not state it): the answer says so and gives no figure"
+  },
+  "ru12": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "Indiana Michigan"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "outside",
+   "note": "utility_large_load_rules holds no row of Indiana Michigan Power: not in the warehouse, the utility named, no figure"
+  },
+  "ru13": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "Hawaiian"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "outside",
+   "note": "utility_large_load_rules holds no row of Hawaiian Electric: not in the warehouse, the utility named, no figure"
+  },
+  "ru14": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "rules",
+   "kind": "outside",
+   "note": "utility_large_load_rules holds each threshold as the phrase its document prints (x_threshold_mw) and no number (mw is empty): no average can be read from it; not in the warehouse, no figure"
+  },
+  "ch01": {
+   "expected": [
+    94.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows"
+  },
+  "ch02": {
+   "expected": [
+    32.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows whose event_date is in October 2026"
+  },
+  "ch03": {
+   "expected": [
+    11.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows whose status is order issued"
+  },
+  "ch04": {
+   "expected": [
+    7.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows whose status is suspended"
+  },
+  "ch05": {
+   "expected": [
+    19.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows whose status is filed"
+  },
+  "ch06": {
+   "expected": [
+    16.0
+   ],
+   "tolerance": 0.01,
+   "text": [
+    "Pennsylvania|PA"
+   ],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count by x_state, the highest (PA)"
+  },
+  "ch07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "2026-11-13|13 November 2026|November 13, 2026|November 13 2026"
+   ],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the latest event_date"
+  },
+  "ch08": {
+   "expected": [
+    25.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "utility_large_load_rule_changes"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "changes",
+   "kind": "figure",
+   "note": "utility_large_load_rule_changes: the count of rows whose x_affects is new"
+  },
+  "ch09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "March|August"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "changes",
+   "kind": "outside",
+   "note": "utility_large_load_rule_changes begins on 2026-08-18 (the pass read 15 August to 13 November 2026) and holds no row of March 2026: not in the warehouse, the period named, no figure given as March's"
+  },
+  "ch10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "changes",
+   "kind": "outside",
+   "note": "utility_large_load_rule_changes holds no MW of any change (mw is empty; sizes are phrases): not in the warehouse, no figure"
+  },
+  "lw01": {
+   "expected": [
+    27.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the count of rows"
+  },
+  "lw02": {
+   "expected": [
+    10.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the count of rows whose status is in effect"
+  },
+  "lw03": {
+   "expected": [
+    6.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the count of rows whose status is enacted"
+  },
+  "lw04": {
+   "expected": [
+    3.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the count of rows whose status is introduced"
+  },
+  "lw05": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "Vermont|VT"
+   ],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: x_state of the one row whose status is vetoed (H.727, Vermont Sustainable Data Centers Act)"
+  },
+  "lw06": {
+   "expected": [
+    2.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the count of rows whose x_state is MO"
+  },
+  "lw07": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "in effect"
+   ],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: the status of the one row whose x_state is NJ (A. 796 (Fourth Reprint), P.L. 2026, c.32 (Data Center Fair Share Act))"
+  },
+  "lw08": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "2026-07-01|1 July 2026|July 1, 2026|July 1 2026"
+   ],
+   "tables": [
+    "state_large_load_laws"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "figure",
+   "note": "state_large_load_laws: x_effective_date of the one row whose x_state is ID (H 911 (Idaho Code 61-335))"
+  },
+  "lw09": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not published|not state|not stated|no effective date|not in the warehouse"
+   ],
+   "tables": [],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "unstated",
+   "note": "state_large_load_laws: x_effective_date of Iowa's row (H.F. 2690 (successor to H.F. 2447), introduced) is 'not published': the answer says so and gives no date"
+  },
+  "lw10": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "Texas"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "outside",
+   "note": "state_large_load_laws holds no row of Texas: not in the warehouse, the state named, no status"
+  },
+  "lw11": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "California"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "laws",
+   "kind": "outside",
+   "note": "state_large_load_laws holds no row of California: not in the warehouse, the state named, no status"
+  },
+  "cp01": {
+   "expected": [
+    532.0
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "deal_counterparties"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": true,
+   "sector": "counterparties",
+   "kind": "figure",
+   "note": "deal_counterparties: the count of rows"
+  },
+  "rs01": {
+   "expected": [
+    30.8
+   ],
+   "tolerance": 0.01,
+   "text": [],
+   "tables": [
+    "iso_reserve_margin_reports"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "reserve",
+   "kind": "figure",
+   "note": "iso_reserve_margin_reports, variable prm_achieved_pct: the one row (CAISO, 2026 Summer Loads and Resources Assessment)"
+  },
+  "rs02": {
+   "expected": [
+    2547.0
+   ],
+   "tolerance": 0.5,
+   "text": [],
+   "tables": [
+    "iso_reserve_margin_reports"
+   ],
+   "refuse": false,
+   "hold": false,
+   "count": false,
+   "sector": "reserve",
+   "kind": "figure",
+   "note": "iso_reserve_margin_reports, variable capacity_surplus_mw: the one row"
+  },
+  "rs03": {
+   "expected": [],
+   "tolerance": 0.01,
+   "text": [
+    "not in the warehouse",
+    "ERCOT"
+   ],
+   "tables": [],
+   "refuse": true,
+   "hold": false,
+   "count": false,
+   "sector": "reserve",
+   "kind": "outside",
+   "note": "iso_reserve_margin_reports holds CAISO's assessment alone: not in the warehouse, ERCOT named, no figure"
+  }
+ }
+}

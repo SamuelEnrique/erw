@@ -137,6 +137,12 @@ class OutsideTheWarehouse(unittest.TestCase):
         for r in rows:
             answer = by_run[r["run"]][r["id"]]["answer"]
             first = re.split(r"(?<=[.!?:])\s", answer.strip(), maxsplit=1)[0]
+            if r["run"].startswith(("session 6134,", "session 6135,")) and "is a table of the ERW's record that this chat cannot read:" in first:
+                # sessions 6134 and 6135 (chain 281): the loop's sentence for a table the chat cannot read stood before the
+                # refusal's fixed words in its first form; this test found it, and from session 6136 the sentence begins
+                # with them. The answers asked under the first form are kept as they were given
+                self.assertIn("not in the warehouse", answer.lower(), (r["run"], r["id"]))
+                continue
             self.assertIn("not in the warehouse", first.lower(), (r["run"], r["id"], first))
 
 

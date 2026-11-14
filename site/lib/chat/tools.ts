@@ -15,10 +15,13 @@ import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
-import { notLiveWords } from "./refused";
+import { NOT_LISTED_NOTE, notListedWords, notLiveWords } from "./refused";
+import verdictFile from "@/data/table_verdicts.json";   // session 6113: the license record's word for every table of the record
 import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
+import { spanOutside } from "./window";   // session 6131: a period outside a table's own span
+import { LONG_TEXT_NOTE, splitLongText } from "./longtext";   // session 6111: a column of prose is named, not listed
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -121,7 +124,12 @@ async function catalogue(): Promise<Cat[]> {
 
 async function tableInfo(name: string, scope: Scope = null) {
   const c = (await catalogue()).find((r) => r.table_name === name);
-  if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
+  if (!c) {
+    // session 6113: a table of the record the catalogue does not list (license not settled or internal, or not loaded yet)
+    const verdict = (verdictFile as unknown as Record<string, [string, string]>)[name]?.[0];
+    if (verdict) throw new ToolError(notListedWords(name, verdict));
+    throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
+  }
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
   // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
   // session 5256: the refusal says how to answer too, as a held table's does below (lib/chat/refused.ts)
@@ -139,6 +147,12 @@ async function tableInfo(name: string, scope: Scope = null) {
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };
+}
+
+/** Session 6166: the names the catalogue lists (kept ten minutes, as the list itself): what the loop sets the record's
+ *  tables against, whatever filter a list_tables call was given. */
+export async function cataloguedNames(): Promise<string[]> {
+  return (await catalogue()).map((r) => r.table_name);
 }
 
 /** Session 148: whether every one of these tables is in the site's live set now, by the catalogue (kept ten minutes). */
@@ -248,6 +262,8 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
   if (a.iso) rows = rows.filter((r) => (r.iso ?? "").toUpperCase().split(";").includes(a.iso!.toUpperCase()));
   return {
     n_tables: rows.length,
+    // session 6132: said before the rows, where it is read: at the end of the note, after 140 rows, it was not acted on
+    not_listed: NOT_LISTED_NOTE,
     tables: rows.map((r) => ({
       table: r.table_name,
       sector: (r.sector ?? "").split(";").join(", "),
@@ -312,9 +328,15 @@ async function describeTable(a: { table: string }, scope: Scope = null): Promise
         (vals[col] ??= new Set()).add(String(v));
       }
     }
-    out.text_column_values = Object.fromEntries(
+    // session 6111: a column of prose (a value over 200 characters) is named with its count, not listed (lib/chat/longtext.ts)
+    const split = splitLongText(Object.fromEntries(
       Object.entries(vals).filter(([, s]) => s.size <= 60).map(([k, s]) => [k, Array.from(s).sort()]),
-    );
+    ));
+    out.text_column_values = split.short;
+    if (Object.keys(split.long).length) {
+      out.long_text_columns = split.long;
+      out.long_text_columns_note = LONG_TEXT_NOTE;
+    }
     out.text_column_values_note = `values seen in the first ${sample.length} rows, without counts; use query with aggregation count to count`;
     out.time_column = tcol;
   }
@@ -543,7 +565,13 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (shape === "series" && a.day === THIS_WEEK) sel.push("freq");   // session 161: the step, to say whether a day of the week is whole
   if (shape === "entities") sel.push("id:entity_id");
   // a read by a date column is in the order of the rows' own ids, so that a read of more than one page holds each row once
-  const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast`;
+  // session 6192 (chain 283): and a read by the time column is in the order of the time and then of the rows' own ids. By
+  // the time alone the order was not whole: the rows of a queue's snapshot share one status date, a page was cut anywhere
+  // among them, and a read of more than one page held a row twice and missed another. Found by the held-out set's h19 on
+  // 14 November 2026: SPP's 2,058 withdrawn requests summed to 419,388.735 MW, the same on every asking, where the rows
+  // sum to 419,636.335 (the Python tool's figure, which reads the table whole). A count was right and a sum was not
+  const ids = { series: "entity.asc,variable.asc", entities: "entity_id.asc", events: "event_id.asc" }[shape];
+  const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast,${ids}`;
   const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order, ...scopeFilter(scope, a.table, shape, columns) };
   if (a.entity && shape !== "series") {
     q.or = shape === "entities" ? `(entity_id.eq.${quote(a.entity)},name.eq.${quote(a.entity)})` : `(source.eq.${quote(a.entity)})`;
@@ -742,6 +770,12 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     if (!all.length) by[`${a.entity ?? "*"}|${a.variable ?? "*"}`] = [];   // no row in the window: none of its steps is held for these filters
     const w = windowOf(parseTime(a.start, btz), parseTime(a.end, btz), (c.interval ?? "").split(";").filter(Boolean), by);
     if (w) out.window = w;
+  }
+  // session 6131 (lib/chat/window.ts spanOutside): a table of events or things asked for a period that lies wholly outside
+  // its own first and last date says so, where it said only that no rows match. The span is the catalogue's
+  if (shape !== "series" && !dcol && a.day === undefined && (a.start || a.end)) {
+    const s = spanOutside(a.start ? parseTime(a.start, btz) : null, a.end ? parseTime(a.end, btz) : null, isoTs(c.ts_min), isoTs(c.ts_max));
+    if (s) out.span = s;
   }
   if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
   if (shape === "series" && rows.length) {

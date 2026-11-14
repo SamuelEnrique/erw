@@ -84,6 +84,7 @@ Rules:
 9. The site's economics pages and the tables behind them: the battery page (/cost-of-power/battery) reads battery_stack_monthly; the generator page (/cost-of-power/seller) reads merchant_revenue_monthly, whose battery rows (battery_4h_revenue_per_mw and its kin) are the generator page's rule for a battery; the datacenter page (/cost-of-power) reads cost_of_power_monthly. A question that names one of these pages is answered from that page's table.
 10. USD per kW: a query of battery_stack_monthly carries, beside each value in USD per MW, the same figure in USD per kW of rated power as value_usd_per_kw (the table's method note's own conversion, done by the tool). A question asked in USD per kW is answered with value_usd_per_kw, written in USD per kW; never divide or multiply a figure yourself.
 11. Stop when you have the answer. When a tool result holds the figure the question asks for, write the answer. Do not ask the same rows again with another grouping, time zone, aggregation or filter to confirm a figure you already have: the same rows read another way are not a second source. Whether a window is complete is said by the result itself: a query of a series with start and end returns window (steps_held, steps_in_window, whole, and the runs of steps missing), so no count and no regrouping is needed for it; when window.whole is false, say which part is held and give a figure only as the figure of the steps held, never as the whole period's. One check the window cannot make: a row of a table of days, months or years may cover only part of its period, and such a table says so in a variable of its own (the hours or days behind the row, such as da_hours or days_held); where the table has one, read it once before giving the row's figure as the period's. Make any other further call only for something you can name: a figure the results do not hold, or a second figure the question asks for.
+12. Write for the reader, not about how you worked. Say the thing itself: "the week is complete", not "the window check says the window is whole"; "MISO is paused", not "every query returns that message"; "in September 2026", not "the row labelled 2026-09-01". Do not mention tools, calls, queries or checks. Write a price to the cent (49.84 USD/MWh, not 49.835) unless the question asks for more decimals.
 
 Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
@@ -153,8 +154,35 @@ def list_markers(text):
     return {float(m.group(1)) for m in re.finditer(r"(?m)^\s*(\d+)[.)]\s", text)}
 
 
+# Session 6108 (chain 280): a percentile's ordinal is the name of a statistic. The investor's twenty asked through the
+# site's loop on 14 November 2026: iv14 (the median months from request to operation, CAISO, 2024) had its figure, 95
+# months, at the third call, and both drafts added the spread in the table's own variables, p25_months and p75_months,
+# written "the 25th and 75th percentile". The check read 75 as a number in no tool result (a variable's name is not a
+# number: p75_months), sent the draft back twice, and the reader got the fixed refusal where the warehouse held the
+# answer. Three stored answers name a percentile so and passed, because 25 or 75 happened to stand in a result. An
+# ordinal written before "percentile" is the name of that percentile when a tool result or a tool argument names it
+# (p25, p75_months): it is then no figure of the answer. Any other 75 in the answer is checked as before.
+# The same in site/lib/chat/ask.ts (withoutPercentileNames).
+PCT_NAME = re.compile(r"(?<![A-Za-z\d])p(\d{1,2})(?![\d.])")
+_ORD = r"\d{1,2}(?:st|nd|rd|th)"
+PCT_PHRASE = re.compile(rf"(?<![\w.]){_ORD}(?:\s*(?:,|and|to|or)\s*(?:the\s+)?{_ORD})*(?=[\s-]+percentiles?\b)", re.I)
+
+
+def without_percentile_names(answer, sources):
+    """The answer without the ordinals that name a percentile a source names (p25_months: "25th percentile"). A phrase is
+    taken out only when every ordinal in it is named so; the word percentile stays."""
+    named = {int(m.group(1)) for s in sources for m in PCT_NAME.finditer(s)}
+    if not named:
+        return answer
+
+    def repl(m):
+        return "" if all(int(n) in named for n in re.findall(r"\d{1,2}", m.group(0))) else m.group(0)
+    return PCT_PHRASE.sub(repl, answer)
+
+
 def unverified(answer, sources):
     """Numbers in the answer that no source text contains at the answer's precision."""
+    answer = without_percentile_names(answer, sources)   # session 6108
     pool = []
     for s in sources:
         pool.extend(v for v, _ in numbers(s))
@@ -362,6 +390,178 @@ def with_refusal_words(answer):
     return answer if any(w in low for w in REFUSAL_WORDS) else f"{REFUSAL_FIRST} {(answer or '').strip()}".strip()
 
 
+# Session 6106 (chain 280): a refusal states no figure, and a held table is said to be held. The whole platform set asked
+# once more on 14 November 2026 (134 questions, docs/reviews/ask-eval-2026-11-13.md) had two answers not right:
+#
+#   pw13  asked ERCOT's peak demand of the summer of 2028, the chat refused rightly ("Not in the warehouse. It holds no
+#         forecast") and went on: "The only peak figure I found is a past one: ERCOT's 2025 peak demand was 83,597 MW".
+#         The figure was fetched and cited, and rule 3 says a refusal states no numbers: a reader of a refusal must not
+#         be left with a figure that answers another question. Of the 124 refusals in the stored runs of the site's
+#         loop it is the only one that states a figure. A draft that refuses and states a figure is sent back once, as a
+#         draft with an untraced number is (refusal_figures; a number the question itself holds is the asker's).
+#   pj08  asked the MW active in ISO New England's queue, the chat was refused ISO-NE's own table (license needed), said
+#         so in its own words ("is held because it needs a license") and answered from Berkeley Lab's public table. The
+#         license file allows that table; the hold's fixed words were missing. An answer written after a table was
+#         refused as license needed, and that does not carry the words, is given them by the loop (with_hold_words),
+#         nothing of the model's changed: as a refusal is given its words (session 5276).
+#
+# For the general chat only, as with_refusal_words. The same in site/lib/chat/refused.ts (refusalFigures, withHoldWords).
+REFUSAL_FIGURE = ("a refusal that states a figure ({figures}): rule 3 says a refusal states no numbers. Remove it, or, if a tool result holds "
+                  "what the question asks for, answer the question with not_in_warehouse false")
+HOLD_WORDS = "license needed"
+
+
+def refusal_figures(answer, question=""):
+    """The figures a refusal states, as written: a number with decimals, or a whole number of 1,000 or more that is not
+    a year (1900 to 2100), as the evaluation's grader tells a figure in a refusal (eval_s267.py grade). A number the
+    question holds, a name's digits (EIA-930) and a list marker are not figures of the answer."""
+    text = (answer or "").replace("−", "-")
+    asked = {abs(v) for v, _ in numbers(question or "")}
+    marks = list_markers(text)
+    out = []
+    for m in NUM.finditer(text):
+        whole, frac = m.group(2), m.group(3) or ""
+        if is_name(text, m.start(2)):
+            continue
+        v = float(whole.replace(",", "") + frac)
+        if v in asked or v in marks:
+            continue
+        if frac or (v >= 1000 and not 1900 <= v <= 2100):
+            s = whole + frac
+            if s not in out:
+                out.append(s)
+    return out
+
+
+def held_tables(refused_words):
+    """The tables a tool refused as license needed, from the loop's record of the tables refused whole and the words."""
+    return sorted(t for t, w in (refused_words or {}).items() if isinstance(w, str) and w.startswith(f"table {t} is {HOLD_WORDS}"))
+
+
+def with_hold_words(answer, held):
+    """An answer written after a table was refused as license needed: as it is when it carries the words, else a fixed
+    sentence that names the table before it."""
+    # session 6166 (chain 282): only a held table the answer itself names. Asked about wildfires (questions_unlisted.yaml,
+    # ul12), the chat touched news_index on its way, and its refusal opened "news_index: license needed, so no figure of
+    # it is given here": true, and beside the point. The cases the sentence was made for name the table (pj08, l02)
+    low = (answer or "").lower()
+    held = [t for t in held if t.lower() in low]
+    if not held or HOLD_WORDS in low:
+        return answer
+    return f"{', '.join(held)}: {HOLD_WORDS}, so no figure of {'it' if len(held) == 1 else 'them'} is given here. {(answer or '').strip()}".strip()
+
+
+# Session 6109 (chain 280): an answer that stops in the middle of a sentence. The lab's twenty asked through the site's loop
+# on 14 November 2026: l02 (the largest power purchase agreement of 2026) was refused energy_deals, a table held for a
+# license, and the answer that reached the reader was "This is not in the warehouse. The energy_deals table, which holds
+# power purchase agreements, is held for a license (": the model closed the answer's string where it meant to quote the
+# hold's words. One of the 888 stored answers ends so. Two mends, in both loops:
+#   the draft   a draft whose answer ends on an opening bracket, a comma, a colon or a semicolon is sent back once, as a
+#               draft with an untraced number is (cut_short)
+#   the words   a refusal written after a table was refused as license needed is given the hold's words too, as an answer
+#               is since session 6106 (with_hold_words): "not in the warehouse" alone says the warehouse lacks what it holds
+# The same in site/lib/chat/refused.ts (cutShort, CUT_SHORT).
+CUT_SHORT = ("an answer that stops in the middle of a sentence: write the whole answer again, as plain sentences, with no double "
+             "quotation marks inside it")
+
+
+def cut_short(answer):
+    """Whether an answer stops in the middle of a sentence: its last character is an opening bracket, a comma, a colon or
+    a semicolon. An empty answer is another check's."""
+    t = (answer or "").rstrip()
+    return bool(t) and t[-1] in "([{,:;"
+
+
+# Session 6133 (chain 281), as site/lib/chat/refused.ts unlistedNamed and withUnlistedWords: the loop names a table of
+# the record the chat cannot read. With the tools' words (session 6113) and the hint at the head of the list (session
+# 6132) in place, two of three refusals about such tables still read "I found no table of forecast-tool parameters", or
+# were answered from a neighbour table, where the ERW's record holds the table by that very name and this chat cannot
+# read it. When a question's own words hold every word of the name of a table of the record that the list did not show,
+# and the refusal does not name that table, the loop says what it is, before the model's own sentence.
+def _stem(w):
+    if len(w) > 4 and w.endswith("ies"):
+        return w[:-3] + "y"
+    if len(w) > 3 and w.endswith("s") and not w.endswith("ss"):
+        return w[:-1]
+    return w
+
+
+def unlisted_named(question, names):
+    """The tables, among `names`, whose every word is a word of the question (plurals folded; a name of three words or
+    more, so that a short name is not found by chance): those with the most words, at most two, in the names' order."""
+    have = {_stem(w) for w in re.sub(r"[^a-z0-9]+", " ", (question or "").lower()).split()}
+    found = []
+    for t in sorted(names):
+        words = [_stem(w) for w in t.split("_") if w]
+        if len(words) >= 3 and all(w in have for w in words):
+            found.append((len(words), t))
+    most = max([n for n, _ in found] + [0])
+    return [t for n, t in found if n == most][:2]
+
+
+def with_unlisted_words(answer, tables, verdict_of):
+    """A refusal with the unreadable tables it does not name said first: one sentence a table, by the license record's word."""
+    low = (answer or "").lower()
+    said = [f"Not in the warehouse this chat reads: {t} is a table of the ERW's record that it cannot read, because "
+            + ("it is not loaded here" if verdict_of(t) == "public" else f"its license is not settled ({HOLD_WORDS})") + "."
+            for t in tables if t.lower() not in low]
+    return f"{' '.join(said)} {(answer or '').strip()}".strip() if said else answer
+
+
+def unlisted_tables(results, verdicts):
+    """The names of the record's tables that the answer's own list did not show: every name of `verdicts` that no
+    list_tables result of the answer holds. Empty when the answer never listed the tables whole (no call with no
+    filter): a filtered list leaves most tables out, and nothing can then be said of what the site does not list."""
+    listed, whole = set(), False
+    for r in results:
+        if r.get("tool") != "list_tables" or r.get("is_error") or r.get("isError") or not isinstance(r.get("out"), dict):
+            continue
+        whole = whole or not (r.get("input") or {})
+        listed |= {t.get("table") for t in r["out"].get("tables") or [] if isinstance(t, dict)}
+    return sorted(set(verdicts) - listed) if whole else []
+
+
+# Session 6136 (chain 281): the list says which table the question names and this site cannot read. The hint at the
+# head of the list (session 6132) and the loop's sentence (session 6133) made the refusals right and plain; the cost
+# stayed: of the first eight questions about the forecast tool's parameters asked through the site's loop, four took 8 to
+# 12 tool calls looking in other tables, USD 0.15 a question. The model does not ask for a table by a name the list
+# lacks. So the loop puts it into the list's own result, before the rows: the table's name and the tools' words for it
+# (not_listed_words), exactly as a call that named the table would have been answered, and the table counts as refused
+# whole from then on. As site/lib/chat/refused.ts withAskedAbout.
+ASKED_ABOUT = ("an answer to a question about {tables}, which this site cannot read: figures of another table do not answer it. Answer with "
+               "not_in_warehouse true, naming the table and why it cannot be read, and state no figure")
+
+
+def unlisted_of(names, catalogued):
+    """Session 6166 (chain 282), as refused.ts unlistedOf: the record's tables the catalogue does not list, whatever filter
+    the model gave the list (ul05 of questions_unlisted.yaml listed CAISO's tables alone and took ten tool calls)."""
+    have = set(catalogued)
+    return sorted(n for n in names if n not in have)
+
+
+def with_asked_about_names(out, question, unlisted, verdicts, words_of):
+    """with_asked_about over the names the catalogue lacks, known from the tools and not from the list's rows."""
+    named = unlisted_named(question, unlisted)
+    if not named:
+        return out, {}
+    told = {t: words_of(t, (verdicts.get(t) or [None])[0]) for t in named}
+    first = {k: out[k] for k in ("n_tables",) if k in out}
+    rest = {k: v for k, v in out.items() if k != "n_tables"}
+    return {**first, "asked_about_not_listed": [{"table": t, "cannot_be_read": w} for t, w in told.items()], **rest}, told
+
+
+def with_asked_about(out, question, list_input, verdicts, words_of):
+    """(the list's result with asked_about_not_listed before its rows, {table: the words said of it}). The result is
+    as it was, and the dict empty, when the list was filtered or the question names no table the list lacks."""
+    named = unlisted_named(question, unlisted_tables([{"tool": "list_tables", "input": list_input, "out": out, "is_error": False}], verdicts))
+    if not named:
+        return out, {}
+    told = {t: words_of(t, (verdicts.get(t) or [None])[0]) for t in named}
+    first = {k: out[k] for k in ("n_tables",) if k in out}
+    rest = {k: v for k, v in out.items() if k != "n_tables"}
+    return {**first, "asked_about_not_listed": [{"table": t, "cannot_be_read": w} for t, w in told.items()], **rest}, told
+
+
 def reads_of(name, args):
     """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
     def one(a):
@@ -375,6 +575,27 @@ def reads_of(name, args):
     if name == "compare":
         return one((args or {}).get("a")) + one((args or {}).get("b"))
     return []
+
+
+# Session 6136 (chain 281): the fresh read for three audiences. Sixty stored replies were read as a trader, a project
+# developer and an AI lab's energy team would read them (20 each, 14 November 2026; docs/reviews/ask-eval-2026-11-13.md):
+# every one right, and 16 gave a date as the tool writes it (2026-11-05), 6 spoke of a row's label ("the row labelled
+# 2026-09-01"), 4 of the tools ("the compare tool's result"), 3 wrote a price past the cent. The date is the loop's to
+# write, after every check has run on the text as the model wrote it: a day written 2026-11-05 becomes 5 November 2026.
+# A time stamp (2026-10-27T04:15Z), a month (2026-11) and digits inside a name are left as they are. The other three are
+# rule 12 of the prompt. For the general chat; Ask ERCOT writes its times by its own rule (session 168).
+# As site/lib/chat/refused.ts plainDates.
+MONTH_NAMES = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+ISO_DAY = re.compile(r"(?<![\w:/.-])(\d{4})-(\d{2})-(\d{2})(?![\w:-])")
+
+
+def plain_dates(text):
+    """A text with each day written 2026-11-05 written 5 November 2026. A date that is not one (month 13, day 0 or 32)
+    is left as it is."""
+    def repl(m):
+        y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        return f"{d} {MONTH_NAMES[mo - 1]} {y}" if 1 <= mo <= 12 and 1 <= d <= 31 else m.group(0)
+    return ISO_DAY.sub(repl, text or "")
 
 
 def nodash(text):
@@ -518,6 +739,8 @@ class Asker:
         messages = [{"role": "user", "content": first}]
         usage = {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "requests": 0}
         calls, sources, tables_read = [], [question] + given, set(self.known_tables(history) if history else ())
+        unlisted = None   # session 6166: the record's tables the catalogue does not list, known at the first list
+        asked_about = []   # session 6136: the tables the list told the model the question names and this site cannot read
         refused_tables, read_ok = set(), set()   # session 5256: the tables a tool refused to read, and those a call did read
         refused_whole_words = {}                 # session 5256: a table refused whole for this question, with the refusal's words
         seconds_first = None
@@ -571,6 +794,16 @@ class Asker:
                         if on_event:
                             on_event({"type": "reading", "tool": b.name, "table": b.input.get("table") if isinstance(b.input, dict) else None})
                         out, err = tools.run(b.name, b.input)
+                        if type(self) is Asker and b.name == "list_tables" and not err and isinstance(out, dict) and tools.live_only():
+                            # session 6136: the list itself says, first, which table of the record the question names and
+                            # this site cannot read, in the tools' own words for it; the table counts as refused whole
+                            unlisted = unlisted_of(tools.verdicts(), tools.catalogued_names())   # session 6166: whatever the list's filter
+                            out, told = with_asked_about_names(out, question, unlisted, tools.verdicts(), tools.not_listed_words)
+                            for t, words in told.items():
+                                refused_whole_words.setdefault(t, words)
+                                refused_tables.add(t)
+                                if t not in asked_about:
+                                    asked_about.append(t)
                         out = self.tag(b.name, b.input, out, len(calls) + 1)
                         results.append({"tool": b.name, "input": b.input, "out": out, "is_error": err})
                         text = json.dumps(out, default=str)
@@ -638,11 +871,29 @@ class Asker:
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             more = self.extra_problems(draft, results)
+            if draft.get("not_in_warehouse") and type(self) is Asker:
+                # session 6106: a refusal states no figure (the question's own numbers are the asker's)
+                figures = refusal_figures(draft["answer"], question)
+                if figures:
+                    more = list(more) + [REFUSAL_FIGURE.format(figures=", ".join(figures))]
+            if type(self) is Asker and cut_short(draft["answer"]):
+                more = list(more) + [CUT_SHORT]   # session 6109
+            if type(self) is Asker and not draft.get("not_in_warehouse") and asked_about:
+                # session 6136: an answer to a question about a table this site cannot read is not one
+                more = list(more) + [ASKED_ABOUT.format(tables=" and ".join(asked_about))]
             if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 if draft.get("not_in_warehouse") and type(self) is Asker:
-                    final = dict(draft, answer=with_refusal_words(draft["answer"]))   # session 5276: its fixed words, by the loop
+                    # session 5276: its fixed words, by the loop; session 6109: the hold's first, when a table was refused for a license
+                    final = dict(draft, answer=with_refusal_words(with_hold_words(draft["answer"], held_tables(refused_whole_words))))
+                    if tools.live_only():
+                        # session 6133: a table of the record the question names and the list did not show is said to be one
+                        named = unlisted_named(question, unlisted if unlisted is not None else unlisted_tables(results, tools.verdicts()))
+                        final = dict(final, answer=with_unlisted_words(final["answer"], named, tools.verdict_of))
+                elif type(self) is Asker:
+                    # session 6106: an answer written after a table was refused as license needed says so in the fixed words
+                    final = dict(draft, answer=with_hold_words(draft["answer"], held_tables(refused_whole_words)))
                 break
             attempts += 1
             if attempts == 1:
@@ -679,6 +930,8 @@ class Asker:
         for k in ("answer", "first_answer", "second_answer"):
             if isinstance(record.get(k), str):
                 record[k] = nodash(record[k])
+        if type(self) is Asker and isinstance(record.get("answer"), str):
+            record["answer"] = plain_dates(record["answer"])   # session 6136: a date in words, after every check has run
         if self.record_tools:
             record["trace"] = results
         # session 1146: what each query read, and on a refusal the tables it looked at with what each holds, as the site

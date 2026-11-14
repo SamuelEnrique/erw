@@ -690,6 +690,268 @@
      }
     }
    ]
+  },
+  {
+   "id": "a_refusal_with_a_figure",
+   "_note": "Session 6106 (chain 280, the platform set's pw13 of 14 November 2026): a refusal that goes on to state a fetched figure of something else is sent back once (rule 3: a refusal states no numbers); the second draft, a refusal with no figure, stands.",
+   "question": "What will ERCOT's hub average real-time load-weighted price be in January 2028?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. It holds no forecast of January 2028. The only figure I found is a past one: 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": true
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. It holds what happened and no forecast, so there is no price for January 2028.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_after_a_held_table",
+   "_note": "Session 6106 (chain 280, the platform set's pj08 of 14 November 2026): an answer written after a table was refused as license needed, and that says so in other words, is given the fixed words by the loop, before the model's own, which are not changed.",
+   "question": "What was the average disclosed solar PPA price in 2026, and ERCOT's hub average real-time load-weighted price in January 2026?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "energy_deals",
+        "aggregation": "mean",
+        "value_column": "price_value",
+        "where": {
+         "technology": "solar"
+        },
+        "start": "2026-01-01",
+        "end": "2027-01-01"
+       }
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "The energy_deals table is held because it needs a license, so I give no PPA price. ERCOT's hub average real-time load-weighted price was 54.481 USD/MWh in January 2026 (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_draft_cut_in_mid_sentence",
+   "_note": "Session 6109 (chain 280, the lab's l02 of 14 November 2026): a draft whose answer stops on an opening bracket is sent back once; the second draft, whole, stands.",
+   "question": "What was the average disclosed price of the solar power purchase agreements signed in 2026, in USD per MWh?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "energy_deals",
+        "aggregation": "mean",
+        "value_column": "price_value",
+        "where": {
+         "technology": "solar"
+        },
+        "start": "2026-01-01",
+        "end": "2027-01-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "This is not in the warehouse. The energy_deals table, which holds power purchase agreements, is held for a license (",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse for a reader: energy_deals is held for a license (license needed), so no PPA price can be given.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_refusal_after_a_held_table_without_the_words",
+   "_note": "Session 6109: a refusal written after a table was refused as license needed, and that says only that the warehouse lacks it, is given the hold's words by the loop, before the model's own.",
+   "question": "What was the average disclosed price of the solar power purchase agreements signed in 2026, in USD per MWh?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "energy_deals",
+        "aggregation": "mean",
+        "value_column": "price_value",
+        "where": {
+         "technology": "solar"
+        },
+        "start": "2026-01-01",
+        "end": "2027-01-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. The energy_deals table is held, so no PPA price can be given.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_table_of_the_record_the_list_does_not_show",
+   "_note": "Session 6133 (chain 281): the question names a table of the ERW's record (utility_large_load_rules) that the list does not show, and the refusal says only that no such table was found. The loop says what the table is, before the model's own sentence. The second question names nothing of the record and is left as written.",
+   "question": "How many rules does the warehouse's utility large-load rules table hold?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {}
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. I found no table of utility large-load rules.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "an_answer_from_a_neighbour_table",
+   "_note": "Session 6136 (chain 281, the new tables' ru05 and ru10 through the site's loop): the question names a table of the record this site cannot read; the list says so; the model answers all the same from another table. The draft is sent back once and the refusal stands, with the table said by the loop.",
+   "question": "How many of the utility large-load rules in the warehouse are of Texas?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {}
+      }
+     ]
+    },
+    {
+     "tools": [
+      {
+       "name": "query",
+       "input": {
+        "table": "cost_of_power_monthly",
+        "aggregation": "mean",
+        "entity": "ercot:HB_HUBAVG",
+        "variable": "rt_load_weighted",
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "I read the utility large-load rules as the rows of cost_of_power_monthly: 54.481 of them are Texas (cost_of_power_monthly).",
+      "citations": [
+       {
+        "table": "cost_of_power_monthly",
+        "source_report": "erw:cost_of_power",
+        "data_version": "fixture",
+        "tier": "derived"
+       }
+      ],
+      "not_in_warehouse": false
+     }
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse this chat reads, so I give no count for Texas.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "a_filtered_list_and_a_table_the_site_cannot_read",
+   "_note": "Session 6166 (chain 282, questions_unlisted.yaml's ul05): the model lists the tables of one sector alone. The loop still knows what the catalogue lists (it asks the tools), so the table the question names and the site cannot read is said, as after a whole list.",
+   "question": "How many rules does the warehouse's utility large-load rules table hold?",
+   "turns": [
+    {
+     "tools": [
+      {
+       "name": "list_tables",
+       "input": {
+        "sector": "power"
+       }
+      }
+     ]
+    },
+    {
+     "text": {
+      "answer": "Not in the warehouse. I found no table of utility large-load rules.",
+      "citations": [],
+      "not_in_warehouse": true
+     }
+    }
+   ]
   }
  ],
  "extra": [

@@ -241,3 +241,25 @@ def window_of(start, end, steps, series):
         note = PART
     out["note"] = note + (". " + SEVERAL if len(rows) > 1 else "")
     return out
+
+
+# Session 6131 (chain 281), as the site's lib/chat/window.ts spanOutside: a period outside a table's own span. A table of
+# events or things has no step to count by, and a bounded query of one that matched no row said only "no rows match
+# these filters". Asked how many changes to utilities' large-load rules the warehouse holds for March 2026 (the new
+# tables' ch09, 14 November 2026), the chat answered "0 rule changes dated March 2026 ... its first change is dated
+# 2026-08-18": honest, and a period the table does not cover is not a count of zero. The result now says so itself.
+SPAN_OUTSIDE = ("the period asked lies wholly outside the table's own span, first to last: the table does not cover that period, which is not a count "
+                "of zero. Answer with not_in_warehouse true, naming the period and the table's span, and state no count for it")
+
+
+def span_outside(start, end, first, last):
+    """For a table of events or things: {"first", "last", "outside": True, "note"} when the period asked lies wholly
+    before the table's first date or after its last, else None. start and end are epoch seconds or None (the beginning
+    and the end of time; end is exclusive); first and last are the table's own, epoch seconds."""
+    if first is None or last is None or (start is None and end is None) or first > last:
+        return None
+    a = float("-inf") if start is None else start
+    b = float("inf") if end is None else end
+    if not (b <= first or a > last):
+        return None
+    return {"first": _iso(first), "last": _iso(last), "outside": True, "note": SPAN_OUTSIDE}

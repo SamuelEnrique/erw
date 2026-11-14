@@ -86,7 +86,23 @@ SETS = {"s320": {"questions": None, "run": RUN, "grades": GRADES},
         # computes its keys and writes the file), asked through the site's own loop with no build (eval_site.py, which names its
         # run by session; this is its first asking)
         "platform": {"questions": os.path.join(HERE, "questions_platform.yaml"), "run": os.path.join(HERE, "eval_s5251_site_platform_run.json"),
-                     "grades": os.path.join(HERE, "eval_s5251_site_platform_grades.json")}}
+                     "grades": os.path.join(HERE, "eval_s5251_site_platform_grades.json")},
+        # session 6111 (chain 280): the tables that landed in the week of 9 November 2026 (scripts/ask_eval/newtables_questions.py
+        # computes its keys from the tables' own files: the live set does not hold them yet); its runs are named by session
+        "newtables": {"questions": os.path.join(HERE, "questions_newtables.yaml"), "run": os.path.join(HERE, "eval_s6111_loop_newtables_run.json"),
+                      "grades": os.path.join(HERE, "eval_s6111_loop_newtables_grades.json")},
+        # the same questions keyed as a visitor's chat can answer them on the day (a table out of its reach: a refusal, and
+        # never the figure the table holds), written by the same builder with --live; asked through the site's loop
+        "newtables_live": {"questions": os.path.join(HERE, "questions_newtables_live.yaml"), "run": os.path.join(HERE, "eval_s6112_site_newtables_live_run.json"),
+                           "grades": os.path.join(HERE, "eval_s6112_site_newtables_live_grades.json")},
+        # session 6165 (chain 282): twelve questions about other tables of the record a visitor's chat cannot read
+        # (scripts/ask_eval/unlisted_questions.py): each key a refusal with no figure; asked through the site's loop
+        "unlisted": {"questions": os.path.join(HERE, "questions_unlisted.yaml"), "run": os.path.join(HERE, "eval_s6165_site_unlisted_run.json"),
+                     "grades": os.path.join(HERE, "eval_s6165_site_unlisted_grades.json")},
+        # session 6191 (chain 283): a held-out set written after the fixes of chains 280 to 282 and asked once before
+        # anything is changed for it (scripts/ask_eval/heldout_questions.py: other hubs, days, months and tables)
+        "heldout": {"questions": os.path.join(HERE, "questions_heldout.yaml"), "run": os.path.join(HERE, "eval_s6191_site_heldout_run.json"),
+                    "grades": os.path.join(HERE, "eval_s6191_site_heldout_grades.json")}}
 ENV_ROOT = ROOT if os.path.exists(os.path.join(ROOT, ".env")) else os.path.join(os.path.dirname(ROOT), "erw")   # a worktree reads the main checkout's
 STEP = "site_ask_eval"
 GRID_SLUG = {"ERCOT": "ercot", "CAISO": "caiso", "NYISO": "nyiso", "SPP": "spp", "ISO-NE": "isone", "MISO": "miso", "PJM": "pjm"}
@@ -294,6 +310,21 @@ def held_ok(answer, k):
     return "license needed" in a.lower() and grid.lower() in a.lower() and not states
 
 
+OWN_TABLE = re.compile(r"^(isone|nyiso|miso)_")   # a held or paused grid's own table, by its name (as eval_site.py)
+
+
+def table_held(table):
+    """Session 6107: whether a table is held whole: license needed today in the license file both loops read
+    (warehouse/chat/license_hold.py) and not held by grid or by row, or a held or paused grid's own by its name. A table
+    held by grid or by row is read without the held rows (the tools leave them out), so a result of it that was not
+    refused holds public rows alone."""
+    chat = os.path.dirname(HERE)
+    if chat not in sys.path:
+        sys.path.insert(0, chat)
+    import license_hold
+    return bool(OWN_TABLE.match(table)) or license_hold.held_whole(table) or bool(license_hold.own_grid(table))
+
+
 def hold_answer(q, a, rules=()):
     """Session 2224: a question of a table held whole (hold: true in the set) is right as a refusal or as an answer, when
     the answer carries the hold's words and states no figure (as session 1112's held-grid answer is graded). Session 5251,
@@ -306,9 +337,13 @@ def hold_answer(q, a, rules=()):
         return False
     if not figures:
         return True
-    if "hold_public_grids" not in rules:
+    if "hold_public_grids" not in rules and "hold_public_table" not in rules:
         return False
-    public = G.public_figures(a)
+    public = G.public_figures(a) if "hold_public_grids" in rules else []
+    if "hold_public_table" in rules:
+        # session 6107 (eval_s267.py RULES_6107): or figures of a table the license file does not hold, read in the
+        # answer's own record: another publisher's public table (Berkeley Lab's queue for ISO New England's, pj08)
+        public = public + G.public_table_figures(a, table_held)
     return bool(public) and all(any(abs(p - v) < 1e-9 or (dec >= 1 and abs(round(p, dec) - v) < 10 ** -(dec + 3)) for p in public) for v, dec in figures)
 
 
@@ -318,6 +353,49 @@ def partial_grade(q, a):
     ans = (a.get("answer") or "").lower()
     said = any(p.strip().lower() in ans for t in q["text"] for p in t.split("|") if p.strip())
     return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "partial": said, "ok": said}
+
+
+IDENTIFIERS = re.compile(r"\b(?:(?:[A-Z]\.){1,3}|[A-Z]{1,3}|Act|Public Act|Chapter|Docket|No\.|Order|Project|Case)\s?(?:No\.\s?)?\d[\d-]*(?:-[A-Z]+)?\b")
+
+
+def unstated_grade(q, a):
+    """Session 6111: the grade of a key of kind unstated (grade_set). `text` is whether the answer carries one of the
+    words that say the thing is not stated (the key's text entry, its parts joined by "|"); `no_figure` as a refusal's
+    is graded (eval_s267.py grade: no number with decimals, no whole number of 1,000 or more that is not a year), and a
+    number followed by MW, GW or kW is a figure whatever its size."""
+    text = a.get("answer") or ""
+    said = any(p.strip().lower() in text.lower() for t in q["text"] for p in t.split("|") if p.strip())
+    # session 6113: a bill's, an act's or a docket's number is a name (H.F. 2690, SB 270, Act 2026-610, Docket 25-055-P).
+    # lw09's right answer of 14 November 2026 named Iowa's bill and was graded as stating a figure
+    plain = IDENTIFIERS.sub(" ", text)
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in G.numbers(plain)) or bool(re.search(r"\d\s*(MW|GW|kW)\b", plain))
+    return {"number": None, "text": said, "table": None, "cited": None, "refusal": None, "no_figure": not figure, "ok": said and not figure}
+
+
+MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
+DATES = re.compile(rf"\b\d{{4}}-\d{{2}}-\d{{2}}\b|\b\d{{1,2}} (?:{MONTHS})(?: \d{{4}})?\b|\b(?:{MONTHS}) \d{{1,2}}(?:, \d{{4}})?\b|\b(?:{MONTHS}) \d{{4}}\b")
+
+
+def not_readable_grade(q, a):
+    """Session 6111: the grade of a key of kind not_readable (questions_newtables_live.yaml): the table holds the answer
+    and a visitor's chat cannot read the table today (not in the live set, or its license not settled). Right when the
+    answer refuses in one of the key's words, states no figure as a refusal's is graded, and does not state the figure
+    the table holds (the key's `withheld`, looked for apart from the answer's dates: a chat that knew the figure from
+    anywhere but a tool result would be stating a number it did not fetch)."""
+    text = a.get("answer") or ""
+    said = any(p.strip().lower() in text.lower() for t in q["text"] for p in t.split("|") if p.strip())
+    written = G.numbers(text)
+    figure = any(dec >= 1 or (abs(v) >= 1000 and not 1900 <= v <= 2100) for v, dec in written)
+    apart = G.numbers(DATES.sub(" ", text))
+    def listed(v):   # the set's loader keeps a field it does not know as the YAML's own text
+        return json.loads(v) if isinstance(v, str) else (v or [])
+    withheld = [float(x) for x in listed(q.get("withheld"))]
+    leaked = any(G.matches(e, apart, q.get("tolerance") or 0.01) for e in withheld)
+    words = [w for w in listed(q.get("withheld_text")) if w]
+    leaked = leaked or any(any(p.strip().lower() in text.lower() for p in w.split("|") if p.strip()) for w in words)
+    refused = bool(a.get("not_in_warehouse")) or a.get("status") in ("not_in_warehouse", "refused_unverified")
+    return {"number": None, "text": said, "table": None, "cited": None, "refusal": refused, "no_figure": not figure, "not_stated": not leaked,
+            "ok": said and refused and not figure and not leaked}
 
 
 def first_sentence(text):
@@ -350,6 +428,15 @@ def grade_set(which, rules=()):
             # one of the key's words, whether it then gives the figure of the steps held or refuses; a figure given as the
             # window's own, with no such word, is wrong. Nothing else of the answer is graded
             g = partial_grade(q, a)
+        if q.get("kind") == "unstated":
+            # session 6111 (questions_newtables.yaml): the table has the row and its cell says the documents read do not
+            # state the thing ("not published"). Right when the answer says so in one of the key's words and gives no
+            # figure, whether it is written as a refusal or as an answer
+            g = unstated_grade(q, a)
+        if q.get("kind") == "not_readable":
+            # session 6111 (questions_newtables_live.yaml): what a visitor's chat must answer while the table is out of its
+            # reach: a refusal in the key's words, no figure, and never the figure the table holds
+            g = not_readable_grade(q, a)
         if q.get("hold") in (True, "true", "True") and not g["ok"] and hold_answer(q, a, rules):   # the set's loader keeps the YAML's word
             g["hold_answer"] = True
             g["ok"] = True

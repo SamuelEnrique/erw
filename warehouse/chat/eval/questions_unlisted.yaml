@@ -1,0 +1,196 @@
+# Energy Research Warehouse (ERW): 12 questions about tables of the record that a visitor's chat cannot read, other than the week's six
+# (session 6162, chain 282), written by scripts/ask_eval/unlisted_questions.py. Every key is a refusal with no figure (kind not_readable).
+today: '2026-11-14'
+questions:
+- id: ul01
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "What was Alberta's highest hourly load in 2025, by the AESO's figures?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "aeso_alberta_load_hourly is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul02
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many offshore platforms does BOEM list in the Gulf of Mexico?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "boem_offshore_platforms is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul03
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "What is the population of the Houston metro area in the Census figures the warehouse holds?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "census_metro_population is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul04
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many renewable energy leases has BOEM issued off the Atlantic coast?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "boem_renewable_leases is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul05
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "In how many intervals did CAISO report wind and solar curtailment in May 2026?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "caiso_curtailment_intervals is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul06
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "What do the AFDC's annual station counts give for electric vehicle charging stations in Texas in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "afdc_station_counts_annual is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul07
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many dams does the USACE's NID list in California?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "usace_nid_dams is a table of the ERW's record (verdict unsettled) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul08
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many large-load connection rules does the warehouse hold for utilities in PJM?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "large_load_connection_rules is a table of the ERW's record (verdict unsettled) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul09
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many utility large-load tariffs does the warehouse hold?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "utility_large_load_tariffs is a table of the ERW's record (verdict unsettled) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul10
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many MW of load are in NYISO's load queue?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "nyiso_load_queue is a table of the ERW's record (verdict unsettled) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has three words or more: the loop names it."
+- id: ul11
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many boilers does EIA-860 list at power plants in Texas?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "eia860_boilers is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has two words: the loop's word match does not look for it, and the tools' words must do."
+- id: ul12
+  sector: unlisted
+  kind: not_readable
+  grid: none
+  via: general
+  question: "How many wildfires does WFIGS record in California in 2025?"
+  expected: []
+  tolerance: 0.01
+  text: ["not in the warehouse|license needed|live set|Redivis|not loaded"]
+  tables: []
+  refuse: true
+  hold: false
+  count: false
+  withheld: []
+  withheld_text: []
+  note: "wfigs_wildfires is a table of the ERW's record (verdict public) that a visitor's chat cannot read (not in the live catalogue): a refusal and no figure. Its name has two words: the loop's word match does not look for it, and the tools' words must do."

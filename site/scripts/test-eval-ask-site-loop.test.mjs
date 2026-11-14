@@ -91,7 +91,7 @@ test("a record says what it was asked under: the effort, the output limit, the t
   assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "medium" }, spec), { effort: "medium", max_tokens: 16000, rules: 2 });
   assert.deepEqual(askedUnder({ ASK_WRITER_EFFORT: "low", ASK_THINKING: "between_tools" }, spec), { effort: "low", max_tokens: 16000, rules: 2, thinking: "between_tools" });
   assert.equal(askedUnder({}, { effort: "high", max_tokens: 16000 }).rules, 0);
-  assert.equal(askedUnder({}, JSON.parse(fs.readFileSync(new URL("../lib/chat/spec.json", import.meta.url), "utf8"))).rules, 11);   // the prompt as it stands
+  assert.equal(askedUnder({}, JSON.parse(fs.readFileSync(new URL("../lib/chat/spec.json", import.meta.url), "utf8"))).rules, 12);   // the prompt as it stands (twelve since session 6136, eleven before)
   const runner = fs.readFileSync(new URL("./eval-ask-site-loop.mjs", import.meta.url), "utf8");
   assert.ok(runner.includes("const rec = { ...recordOf(q, r, at, error, meter), asked_under: under };"));
   // the effort the record names is the one the loop sends: the same switch, read the same way

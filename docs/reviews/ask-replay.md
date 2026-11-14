@@ -47,5 +47,44 @@ Energy Research Warehouse (ERW). Written by `python warehouse/chat/eval/replay.p
 | session 5274, the site's loop, the platform set | 19 | 19 | 0 | 0 |
 | session 5275, the site's loop, the trader set | 20 | 20 | 0 | 0 |
 | session 5277, the site's loop, the platform set | 24 | 24 | 0 | 0 |
+| session 6101, the site's loop, the platform set | 25 | 24 | 0 | 0 |
+| session 6102, the site's loop, the platform set | 31 | 31 | 0 | 0 |
+| session 6103, the site's loop, the platform set | 25 | 25 | 0 | 0 |
+| session 6104, the site's loop, the platform set | 22 | 21 | 0 | 0 |
+| session 6105, the site's loop, the platform set | 22 | 22 | 0 | 0 |
+| session 6106, the site's loop, the platform set | 9 | 9 | 0 | 0 |
+| session 6107, the site's loop, the platform set | 14 | 14 | 0 | 0 |
+| session 6108, the site's loop, the investor set | 19 | 19 | 0 | 0 |
+| session 6109, the site's loop, the s2224 set | 20 | 19 | 0 | 0 |
+| session 6110, the site's loop, the investor set | 4 | 4 | 0 | 0 |
+| session 6110, the site's loop, the s2224 set | 3 | 3 | 0 | 0 |
+| session 6110, the site's loop, the platform set | 1 | 1 | 0 | 0 |
+| session 6113, the site's loop, the newtables_live set | 6 | 6 | 0 | 0 |
+| session 6111, Python loop over the tables' files, the new tables' set | 28 | 28 | 0 | 0 |
+| session 6112, Python loop over the tables' files, the new tables' set | 30 | 29 | 0 | 0 |
+| session 6132, the site's loop, the newtables_live set | 3 | 3 | 0 | 0 |
+| session 6133, the site's loop, the newtables_live set | 3 | 3 | 0 | 0 |
+| session 6134, the site's loop, the newtables_live set | 11 | 11 | 0 | 0 |
+| session 6135, the site's loop, the newtables_live set | 12 | 9 | 0 | 0 |
+| session 6131, Python loop over the tables' files, the new tables' set | 4 | 4 | 0 | 0 |
+| session 6136, the site's loop, the newtables_live set | 12 | 12 | 0 | 0 |
+| session 6137, the site's loop, the trader set | 20 | 20 | 0 | 0 |
+| session 6138, the site's loop, the s2224 set | 20 | 20 | 0 | 0 |
+| session 6139, the site's loop, the platform set | 20 | 20 | 0 | 0 |
+| session 6140, the site's loop, the newtables_live set | 23 | 23 | 0 | 0 |
+| session 6141, the site's loop, the newtables_live set | 6 | 6 | 0 | 0 |
+| session 6142, the site's loop, the platform set | 26 | 26 | 0 | 0 |
+| session 6143, the site's loop, the platform set | 9 | 9 | 0 | 0 |
+| session 6161, the site's loop, the platform set | 32 | 32 | 0 | 0 |
+| session 6162, the site's loop, the platform set | 21 | 21 | 0 | 0 |
+| session 6163, the site's loop, the platform set | 21 | 21 | 0 | 0 |
+| session 6164, the site's loop, the platform set | 5 | 5 | 0 | 0 |
+| session 6165, the site's loop, the unlisted set | 12 | 12 | 0 | 0 |
+| session 6166, the site's loop, the unlisted set | 5 | 5 | 0 | 0 |
+| session 6167, the site's loop, the investor set | 20 | 20 | 0 | 0 |
+| session 6168, Python loop over the tables' files, the new tables' set | 27 | 27 | 0 | 0 |
+| session 6169, Python loop over the tables' files, the new tables' set | 28 | 28 | 0 | 0 |
+| session 6170, Python loop over the tables' files, the new tables' set | 3 | 3 | 0 | 0 |
+| session 6192, the site's loop, the heldout set | 24 | 23 | 0 | 0 |
 
-In all: 701 answers, 0 would now be sent back.
+In all: 1327 answers, 0 would now be sent back.

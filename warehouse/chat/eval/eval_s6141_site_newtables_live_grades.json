@@ -1,0 +1,175 @@
+{
+ "_about": "eval_s6141_site_newtables_live_run.json graded on questions_newtables_live.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "newtables_live",
+ "asked": 6,
+ "right": 6,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids",
+  "hold_public_table"
+ ],
+ "cost_usd": 0.474,
+ "questions": [
+  {
+   "id": "lw10",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0773455,
+   "seconds": 5.5,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "lw11",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.07757720000000001,
+   "seconds": 4.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "cp01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 5,
+   "retried": false,
+   "cost_usd": 0.0646626,
+   "seconds": 10.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 5
+  },
+  {
+   "id": "rs01",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.08874109999999999,
+   "seconds": 6.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "rs02",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.0885125,
+   "seconds": 6.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "rs03",
+   "via": "general",
+   "grid": "none",
+   "status": "not_in_warehouse",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0771595,
+   "seconds": 4.6,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "not_stated": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "not_readable": {
+   "asked": 6,
+   "right": 6
+  }
+ },
+ "by_sector": {
+  "laws": {
+   "asked": 2,
+   "right": 2
+  },
+  "counterparties": {
+   "asked": 1,
+   "right": 1
+  },
+  "reserve": {
+   "asked": 3,
+   "right": 3
+  }
+ }
+}

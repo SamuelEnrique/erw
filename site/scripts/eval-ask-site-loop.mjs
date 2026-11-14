@@ -150,5 +150,10 @@ async function main() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  main().then((code) => process.exit(code), (e) => { console.error(`eval-ask-site-loop: ${e?.message ?? e}`); process.exit(1); });
+  // Session 6101: the exit code is set and Node ends by itself once its sockets close. process.exit() here, with a
+  // fetch's handle still closing, ended in "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)" on Windows under
+  // Node 24 (exit 127 after a run that had gone well), and the caller then graded nothing. The timer is a last resort
+  // for a handle that never closes; it is not a reference, so it holds nothing open.
+  const end = (code) => { process.exitCode = code; setTimeout(() => process.exit(code), 30000).unref(); };
+  main().then(end, (e) => { console.error(`eval-ask-site-loop: ${e?.message ?? e}`); end(1); });
 }
