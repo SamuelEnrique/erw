@@ -427,6 +427,24 @@
    "url": "https://www.legis.iowa.gov/docs/code/437A.6.pdf",
    "read": "2026-11-13",
    "request": 184
+  },
+  "oh_pupp_2025": {
+   "title": "Ohio Department of Taxation, Instructions and Valuation Procedures for Filing Ohio Public Utility Property Tax Reports, tax year 2025 (composite annual allowances, Class C-30)",
+   "url": "https://dam.assets.ohio.gov/image/upload/v1739290822/tax.ohio.gov/forms/public_utility_property/2025/pupp-instructions.pdf",
+   "read": "2026-11-13",
+   "request": 192
+  },
+  "mt_pp_dep_2026": {
+   "title": "Montana Department of Revenue, Personal Property Depreciation Schedules and Trend Tables 2026 (v.2), industrial machinery and equipment percent good",
+   "url": "https://revenuefiles.mt.gov/property/personal-property/2026-Personal-Property-Depreciation-Schedules-and-Trend-Tables-v2.pdf",
+   "read": "2026-11-13",
+   "request": 193
+  },
+  "ga_lgsd_2024_001": {
+   "title": "Georgia Department of Revenue, LGSD-2024-001, amended and adopted regulations (Rule 560-11-10-.10(1)(c), Group III composite conversion factors)",
+   "url": "https://dor.georgia.gov/document/document/lgsd-2024-001-amended-and-adopted-regulationspdf/download",
+   "read": "2026-11-13",
+   "request": 194
   }
  },
  "states": {
@@ -1049,12 +1067,33 @@
      "kind": "valuation",
      "assessment_ratio": 0.03,
      "schedule_pct": [
-      100
+      97,
+      93,
+      89,
+      85,
+      81,
+      77,
+      72,
+      68,
+      63,
+      57,
+      52,
+      47,
+      42,
+      37,
+      33,
+      29,
+      25,
+      23,
+      21,
+      20
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "mt_15_6_157",
-     "tip": "Montana: wind generation facilities and natural gas combined cycle facilities are class fourteen property, taxed at 3 percent of market value, where prevailing wages were paid in construction (MCA 15-6-157). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "wind generation facilities of a centrally assessed electric power company; [...] (v) all property of a natural gas combined cycle facility; [...] Class fourteen property is taxed at 3% of its market value. [...] does not include facilities: (a) at which the standard prevailing rate of wages for heavy construction, as provided in 18-2-414, was not paid"
+     "tip": "Montana: wind generation facilities and natural gas combined cycle facilities are class fourteen property, taxed at 3 percent of market value, where prevailing wages were paid in construction (MCA 15-6-157). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
+     "quote": "wind generation facilities of a centrally assessed electric power company; [...] (v) all property of a natural gas combined cycle facility; [...] Class fourteen property is taxed at 3% of its market value. [...] does not include facilities: (a) at which the standard prevailing rate of wages for heavy construction, as provided in 18-2-414, was not paid",
+     "cite2": "mt_pp_dep_2026",
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_class13",
@@ -1065,12 +1104,33 @@
      "kind": "valuation",
      "assessment_ratio": 0.06,
      "schedule_pct": [
-      100
+      97,
+      93,
+      89,
+      85,
+      81,
+      77,
+      72,
+      68,
+      63,
+      57,
+      52,
+      47,
+      42,
+      37,
+      33,
+      29,
+      25,
+      23,
+      21,
+      20
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "mt_15_6_156",
-     "tip": "Montana: other electrical generation facilities, solar included, are class thirteen property, taxed at 6 percent of market value (MCA 15-6-156). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "electrical generation facilities, except wind generation facilities, [...] class thirteen property is taxed at 6% of its market value"
+     "tip": "Montana: other electrical generation facilities, solar included, are class thirteen property, taxed at 6 percent of market value (MCA 15-6-156). The value falls by the Department of Revenue's 2026 industrial percent good table for a 19-year life (renewable energy generation and electric power equipment), 97 percent at age 1 to 15 percent from age 21; the trend factors are not applied (constant dollars); centrally assessed companies' schedules were not read.",
+     "quote": "electrical generation facilities, except wind generation facilities, [...] class thirteen property is taxed at 6% of its market value",
+     "cite2": "mt_pp_dep_2026",
+     "quote2": "These schedules are effective from January 1, 2026, through December 31, 2026. [...] Renewable Energy Generation 87 (11) 19 [...] *Equipment remains taxable at the level of the final year of life expectancy until its disposal. [...] Industrial Machinery and Equipment Percent Good Table"
     },
     {
      "id": "mt_license_tax",
@@ -1288,14 +1348,30 @@
      "kind": "valuation",
      "assessment_ratio": 0.4,
      "schedule_pct": [
-      100
+      95,
+      90,
+      89,
+      87,
+      86,
+      84,
+      83,
+      76,
+      67,
+      59,
+      51,
+      43,
+      36,
+      28,
+      23
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "ga_dor_valuation",
-     "tip": "Georgia: property, equipment and machinery included, is assessed at 40 percent of fair market value (O.C.G.A. 48-5-7, as the Department of Revenue states it). The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
+     "tip": "Georgia: property, equipment and machinery included, is assessed at 40 percent of fair market value (O.C.G.A. 48-5-7, as the Department of Revenue states it). The value falls by the Department's Group III factors (assets of 13 years' life or more), 95 percent at year 1 to a residual 15 percent from year 16 (Rule 560-11-10-.10(1)(c)); whether a plant is assessed locally or as a utility is not read.",
      "quote": "property is required to be assessed at 40% of the fair market value unless otherwise specified by law",
      "default_levy": 24.712,
-     "levy_words": "Georgia: the 2025 average county millage was 10.236 for unincorporated areas and 14.476 for schools (Department of Revenue, 2025 annual report): USD 24.712 per 1,000 of assessed value outside a city. Type your county's."
+     "levy_words": "Georgia: the 2025 average county millage was 10.236 for unincorporated areas and 14.476 for schools (Department of Revenue, 2025 annual report): USD 24.712 per 1,000 of assessed value outside a city. Type your county's.",
+     "cite2": "ga_lgsd_2024_001",
+     "quote2": "Group III composite conversion factors. The following composite conversion factors shall be applied to Group III assets: Y1-.95, Y2-.90, Y3-.89, Y4-.87, Y5-.86, Y6-.84, Y7-.83, Y8-.76, Y9-.67, Y10-.59, Y11-.51, Y12-.43, Y13-.36, Y14-.28, Y15-.23. Thereafter the residual composite conversion factor shall be .15."
     }
    ]
   },
@@ -1434,12 +1510,43 @@
      "kind": "valuation",
      "assessment_ratio": 0.07,
      "schedule_pct": [
-      100
+      98.3,
+      95.0,
+      91.7,
+      88.3,
+      85.0,
+      81.7,
+      78.3,
+      75.0,
+      71.7,
+      68.3,
+      65.0,
+      61.7,
+      58.3,
+      55.0,
+      51.7,
+      48.3,
+      45.0,
+      41.7,
+      38.3,
+      35.0,
+      31.7,
+      29.8,
+      28.0,
+      26.1,
+      24.3,
+      22.4,
+      20.6,
+      18.7,
+      16.9,
+      15.0
      ],
-     "then_pct": 100,
+     "then_pct": 15,
      "cite": "oh_lsc_hb96",
-     "tip": "Ohio: an energy company's production equipment first taxed for tax year 2027 is assessed at 7 percent of true value (R.C. 5727.111, as the Legislative Service Commission's analysis of H.B. 96 states it); payments in lieu under R.C. 5727.75 continue for existing projects only. The value is held at the capital cost, without depreciation (no schedule read): an upper bound.",
-     "quote": "the tangible personal property (TPP) assessment rate of a rural electric company or energy company's production or energy conversion equipment that is first subject to taxation for tax year 2027, or that is repowered or converted production equipment, is 7%."
+     "tip": "Ohio: an energy company's production equipment first taxed for tax year 2027 is assessed at 7 percent of true value (R.C. 5727.111, as the Legislative Service Commission's analysis of H.B. 96 states it); payments in lieu under R.C. 5727.75 continue for existing projects only. The value falls by the Department of Taxation's Class C-30 composite allowances, 98.3 percent good at age 1 to 15 percent at 30 (2025 instructions).",
+     "quote": "the tangible personal property (TPP) assessment rate of a rural electric company or energy company's production or energy conversion equipment that is first subject to taxation for tax year 2027, or that is repowered or converted production equipment, is 7%.",
+     "cite2": "oh_pupp_2025",
+     "quote2": "The minimum percent good for taxable property in any class is 15%. [...] All other production plant equipment uses Class C-30. [...] Age C-5 C-7.5 C-10 C-15 C-20 C-25 C-30 [...] 1 90.0 93.3 95.0 96.7 97.5 98.0 98.3"
     }
    ]
   },

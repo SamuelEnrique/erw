@@ -104,7 +104,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | District of Columbia | solar: 100 percent exempt on the reader's rate; wind/gas/geothermal: none held (a note) | none read (0) | dc_fp31_2026 (request 166) |
 | Delaware | wind/solar/gas/geothermal: none held (a note) | none read (0) | de_9_8306 (subagent) |
 | Florida | solar/wind/geothermal: 80 percent exempt on the reader's rate | geothermal 0; wind 0; gas 0; solar 0 | fl_196_182 (request 83) |
-| Georgia | wind/solar/gas/geothermal: the capital cost, assessed at 40.0 percent, levy 24.712 per 1,000 | none read (0) | ga_dor_valuation (request 164) |
+| Georgia | wind/solar/gas/geothermal: the capital cost, assessed at 40.0 percent, schedule 95 to 15 percent, levy 24.712 per 1,000 | none read (0) | ga_dor_valuation (request 164) |
 | Hawaii | wind/solar/gas/geothermal: none held (a note) | geothermal 0; wind 0; gas 0; solar 0 | hi_hrs_239 (subagent) |
 | Iowa | wind: the capital cost, schedule 0 to 30 percent, the reader's levy; solar/gas/geothermal: USD 0.6 per MWh | wind 100; solar 67.2131 | ia_427b_26, ia_437a_6 (request 184, request 36) |
 | Idaho | wind/solar/gas/geothermal: none held (a note) | none read (0) | id_63_3502b (request 112) |
@@ -120,7 +120,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | Minnesota | wind: per MWh, by size; solar: per MWh, by size | wind 100; solar 100 | mn_272_029, mn_272_0295 (request 34, request 35) |
 | Missouri | wind/solar/gas/geothermal: none held (a note) | none read (0) | mo_stc_2024 (subagent) |
 | Mississippi | wind/solar/gas/geothermal: none held (a note) | none read (0) | ms_dor_faq (subagent) |
-| Montana | wind/gas: the capital cost, assessed at 3.0 percent, the reader's levy; solar/geothermal: the capital cost, assessed at 6.0 percent, the reader's levy; wind/solar/gas/geothermal: USD 0.2 per MWh | none read (0) | mt_15_51_101, mt_15_6_156, mt_15_6_157 (request 146, request 147, request 148) |
+| Montana | wind/gas: the capital cost, assessed at 3.0 percent, schedule 97 to 15 percent, the reader's levy; solar/geothermal: the capital cost, assessed at 6.0 percent, schedule 97 to 15 percent, the reader's levy; wind/solar/gas/geothermal: USD 0.2 per MWh | none read (0) | mt_15_51_101, mt_15_6_156, mt_15_6_157 (request 146, request 147, request 148) |
 | North Carolina | solar: 80 percent exempt on the reader's rate | geothermal 0; wind 0; gas 0; solar 0 | nc_105_275 (request 90) |
 | North Dakota | wind: USD 2,500 per MW a year; wind: USD 0.5 per MWh; solar/gas/geothermal: USD 500 per MW a year; solar/gas/geothermal: USD 1.0 per MWh | geothermal 100; wind 0; gas 100; solar 100 | nd_57_33_2 (request 58) |
 | Nebraska | wind/solar: USD 3,518 per MW a year | none read (0) | ne_77_6203 (request 38) |
@@ -129,7 +129,7 @@ Two rule kinds were generalized: the valuation (a statutory value per MW, an ass
 | New Mexico | wind/solar/gas/geothermal: the capital cost, assessed at 33.33 percent, the reader's levy | none read (0) | nm_trd_general (request 165) |
 | Nevada | solar/wind/geothermal: 55 percent exempt on the reader's rate | none read (0) | nv_701a (request 105) |
 | New York | solar/wind: 100 percent exempt on the reader's rate, 15 operating years; gas/geothermal: none held (a note) | geothermal 100; wind 100; gas 100; solar 100 | ny_rptl_487 (subagent) |
-| Ohio | wind/solar/gas/geothermal: the capital cost, assessed at 7.0 percent, the reader's levy | none read (0) | oh_lsc_hb96 (request 179) |
+| Ohio | wind/solar/gas/geothermal: the capital cost, assessed at 7.0 percent, schedule 98.3 to 15 percent, the reader's levy | none read (0) | oh_lsc_hb96 (request 179) |
 | Oklahoma | wind/solar/gas/geothermal: none held (a note) | none read (0) | ok_none (subagent) |
 | Oregon | solar: USD 5,500 to 7,000 per MW by local option | none read (0) | or_2015_c571 (request 68) |
 | Pennsylvania | wind: USD 0 per MW a year; solar/gas/geothermal: none held (a note) | none read (0) | pa_53_8811 (request 167) |
@@ -233,7 +233,7 @@ Session 4301 added the West's utility solar study: South Spur (Colorado, 158 MW 
 - Abatements negotiated project by project (Texas chapter 312, Louisiana's ITEP, New Mexico's industrial revenue bonds, payments in lieu agreed with a county): they are not statutes with a rate, so the tool cannot hold them; the reader's rate input is the place for one.
 - Federal taxes and credits, and the owner's state corporate income or franchise tax.
 - Decommissioning, repowering, degradation of output over the life (the capacity factor is held constant).
-- Depreciation where a state's schedule was not read (session 4296): the value is held at the capital cost, an upper bound of the tax, in California, Washington, Georgia, Tennessee (wind, gas), New Mexico, South Carolina, Texas, Ohio, Montana, West Virginia (solar, gas) and Kentucky (solar), each said in its hover.
+- Depreciation where a state's schedule was not read or does not reach a generator (session 4296, searched again in session 4303): the value is held at the capital cost, an upper bound of the tax, in California (the Board's handbook table names no life for generating equipment), Washington (its guidelines unreadable), Tennessee (power companies are assessed as utilities; the local schedule does not apply), New Mexico (a straight line over the IRS class life, not read; floor 20 percent), South Carolina, West Virginia and Kentucky (utilities valued as a unit, no table), and Texas (no statewide schedule; each appraisal district its own), each said in its hover. Georgia (Group III factors), Ohio (Class C-30) and Montana (the 19-year industrial table) now depreciate by their official schedules (requests 192 to 194).
 - Local levies: a statewide figure is the default only where a state publishes one (California, Washington, Georgia, West Virginia; Kentucky's statutory machinery rate); a county's levy can differ widely from it.
 - Payments in lieu, local opt-outs and discretionary abatements (Texas chapter 312 and JETI, Louisiana's ITEP, South Carolina's fees, Massachusetts and New Hampshire agreements, Maryland 7-514, Alabama 40-9B, Mississippi 27-31-101, New York's opt-out): negotiated, held only as words in the hover.
 - Taxes on gross receipts or earnings (Idaho, Hawaii, Washington's public utility tax, Delaware's on distributors): the tool holds no sale price.

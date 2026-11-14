@@ -493,8 +493,9 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "il", { levy: 80 }, 4), 100 * 285580 * 0.80 * 0.3333 * 0.08);
   assert.equal(T("natural_gas", "il", {}), null, "Illinois gas: a note");
   // Montana: 3 percent (wind, gas), 6 percent (solar) of value, plus USD 0.20 per MWh
-  near(T("land_based_wind", "mt", { levy: 50 }), 150e6 * 0.03 * 0.05 + MWH * 0.2);
-  near(T("utility_pv", "mt", { levy: 50 }), 150e6 * 0.06 * 0.05 + MWH * 0.2);
+  near(T("land_based_wind", "mt", { levy: 50 }), 150e6 * 0.97 * 0.03 * 0.05 + MWH * 0.2);
+  near(T("land_based_wind", "mt", { levy: 50 }, 25), 150e6 * 0.15 * 0.03 * 0.05 + MWH * 0.2, 1e-12, "Montana: the floor");
+  near(T("utility_pv", "mt", { levy: 50 }), 150e6 * 0.97 * 0.06 * 0.05 + MWH * 0.2);
   // West Virginia: B&O USD 22.78 per kW of taxable capacity (wind 12, solar 8, gas 40 percent), property at 60 percent, levy 19.2
   near(T("land_based_wind", "wv", {}), 100 * 22.78 * 1000 * 0.12 + 150e6 * (0.79 * 0.05 + 0.21) * 0.6 * 0.0192);
   near(T("utility_pv", "wv", {}), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.6 * 0.0192);
@@ -506,7 +507,8 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   // California 1 percent; Washington USD 8.96 per 1,000; Georgia 40 percent at 24.712 mills
   near(T("natural_gas", "ca", {}), 150e6 * 0.01);
   near(T("utility_pv", "wa", {}), 150e6 * 8.96 / 1000);
-  near(T("land_based_wind", "ga", {}), 150e6 * 0.4 * 24.712 / 1000);
+  near(T("land_based_wind", "ga", {}), 150e6 * 0.95 * 0.4 * 24.712 / 1000);
+  near(T("land_based_wind", "ga", {}, 20), 150e6 * 0.15 * 0.4 * 24.712 / 1000, 1e-12, "Georgia: the residual");
   // Tennessee: 55 percent; solar valued at 12.5 percent of installed cost
   near(T("utility_pv", "tn", { levy: 50 }), 150e6 * 0.125 * 0.55 * 0.05);
   near(T("land_based_wind", "tn", { levy: 50 }), 150e6 * 0.55 * 0.05);
@@ -514,7 +516,8 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.3333 * 0.03);
   near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.105 * 0.3 + MWH * 0.5);
   near(T("land_based_wind", "tx", { levy: 15 }), 150e6 * 0.015);
-  near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.07 * 0.07);
+  near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.983 * 0.07 * 0.07);
+  near(T("utility_pv", "oh", { levy: 70 }, 29), 150e6 * 0.15 * 0.07 * 0.07, 1e-12, "Ohio: the floor at 30");
   // New York: exempt 15 operating years if built before 2030, then the reader's rate
   assert.equal(T("utility_pv", "ny", { own: 2, ownyears: 30 }, 14), 0);
   near(T("utility_pv", "ny", { own: 2, ownyears: 30 }, 15), 150e6 * (1 - 15 / 30) * 0.02);
