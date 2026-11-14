@@ -4374,7 +4374,9 @@
   },
   "state_large_load_laws": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "statec_lu_electricity_generation_annual": {
    "status": "public",
@@ -4528,11 +4530,15 @@
   },
   "utility_large_load_rule_changes": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "utility_large_load_rules": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "utility_large_load_tariffs": {
    "status": "public",
@@ -4659,7 +4665,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 484
+   "public": 487
   },
   "/data/faults": {
    "label": "Known faults in source data",
