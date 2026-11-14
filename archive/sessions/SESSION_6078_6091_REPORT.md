@@ -16,6 +16,8 @@
 
 - The list's one step is time-gated (Sunday 15 November, 23:00 UTC, and the Monday Digest after it). The session waits for it in background checks of origin's main (every 10 minutes, a two-hour watch renewed on each wake), and at each wake checks row 12's landing and any ruling by Samuel on 21 to 33.
 
+- **13:20 UTC wake**: row 12 landed whole (`83c597550` in land-h, `510840e9e`): marked, worktree `erw-6000` removed (clean), remote branch deleted. No Roundup yet; the watch renewed.
+
 ## Decisions made without you
 
 - Chain 276 waits for the Roundup instead of writing a new empty chain every few minutes: file 300 forbids an early start, every reachable forecast item is done, and a chain of empty sessions every ten minutes until Monday would fill the queue and the history with nothing. The wait is on a scheduled issue, not on a landing or on Samuel; landings and rulings are checked at every wake and acted on.
