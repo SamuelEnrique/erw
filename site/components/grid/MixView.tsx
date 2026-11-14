@@ -120,7 +120,9 @@ async function NowView({ c }: { c: Choice }) {
         return (
           <div key={b.code} data-now-ba={b.code}>
             <section id={i ? `today-${b.code}` : "today"} className="mb-8">
-              <h2 className={h2}>{b.label}: today so far</h2>
+              {/* session 5501 (Grid faults row 6): the heading said "today so far" over 2026-11-13 on 14 November; EIA publishes
+                  fuel data a day or more after the hour, so the day shown is the latest EIA has published, its date in the line */}
+              <h2 className={h2}>{b.label}: the latest day EIA has published, so far</h2>
               {withheld ? <Missing why={caiso} /> : latest.ok ? <Today rows={latest.data} label={b.label} /> : failed(latest.reason)}
             </section>
             <section id={i ? `hourly-${b.code}` : "hourly"} className="mb-8">

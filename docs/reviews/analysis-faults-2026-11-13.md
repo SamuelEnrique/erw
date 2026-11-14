@@ -10,6 +10,7 @@ Energy Research Warehouse (ERW). Chain 233, window P1 of the portable laptop, se
 | 4 | Method note | No sign-off block, which the three economics notes and the Grid tool's have; roadmap item 2 asks for a signed note | A "Sign-off" block ends the note, naming what a signature accepts | fixed (session 5004) |
 | 5 | Method note | Nothing says which parts of the page run by themselves and on which clock, which "the final form" needs | A section "Final form" before "Replication": each part, what makes it, its clock, the last one made, and what waits for a person by ruling (a finding's publication) | fixed (session 5004) |
 | 6 | `docs/methods/crosschecks/automated_analysis.md` (found in session 5402, reading the cards against it) | The cross-check table quoted the cards of 6 November where the page prints those of 12 November: least all-in 40.99 for 41.04, the gigawatt's years, the curtailment estimates (8,539 for 8,426 and five more), the flexible load's hub figures, the queue's 3,509 GW for 3,591 and its best technology's 52 percent for 53. Session 5073 held only the three decision tools' tables to their page figures | Every figure set to `replication/analysis/page_figures.json` of 12 November, the gaps recomputed (-25.98; +90 GW); `tests/test_session5073.py` holds every card figure the page prints to the table | fixed (session 5402) |
+| 7 | "Today's chart", the record's figures (found in session 5501, on production, 1280 and 390) | The figures are printed as their raw JSON: "sigma 26822.265161999996; value 1060503.7; margin 295122.29999999993; ..." | Written as the chart-maker rounds them, a whole number whole: "sigma 26,822; value 1,060,504; margin 295,122; strength 11.00; ...; stood points 25" (`site/lib/researchrules.ts` figureText; the rule of `lib/digest.ts` chartText and of the value checker's `digest_chart` keys); `tests/test_session5501.py` | fixed (session 5501) |
 
 ## The read
 
@@ -33,3 +34,11 @@ Read on production (`https://erw-flame.vercel.app`, main as deployed on 13 Novem
 
 - `/research` and the archive's newest week, `/research/2026-W45`, at both widths: no sideways scroll, no exception, no broken word.
 - **No new fault.** The week's chart of 2026-W46 is made on Sunday 15 November; this chain's dry run of it (session 5075) chose Brent's weekly mean.
+
+## The read of 14 November (session 5501, chain 269)
+
+Read on production (`https://erw-flame.vercel.app`, main at `85e5b2eeb` as deployed at 08:28 UTC on 14 November 2026, the tree this chain's stack was cut from) in the internal view, the token posted as the site's form does, at 1280 by 900 and at 390 by 844 as a phone, with the site's own browser helper (`site/scripts/browser.mjs`): each page's words, its headings, its closed folds, its links, its width and its exceptions. A local build was not used for this read: 1.0 GB was free at 08:26 UTC, under the chain's 2 GB rule.
+
+- `/research` at both widths: no sideways scroll, no exception, no broken word; axe at 390: 0 rules broken.
+- Against the done line: the method note is linked, each card downloads its CSV, do-file and Python file, the week's chart is 2026-W45 (W46 is made on Sunday 15 November), today's chart is the Digest's of 12 November.
+- **Row 7, new**, fixed in session 5501.

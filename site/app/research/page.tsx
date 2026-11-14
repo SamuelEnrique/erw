@@ -18,6 +18,7 @@ import { DOCS, analysisWeeks, digestChartDays, digestDates, weeklyWeeks } from "
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
 import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, topicLabel, topicsOf } from "@/lib/research";
 import { ChartOfWeekView } from "./view";
+import { figureText } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Research" };
@@ -141,7 +142,7 @@ export default async function ResearchPage() {
                   {Object.keys(today.numbers ?? {}).length ? (
                     <p className="lead-numbers text-xs text-muted" data-today-numbers={Object.keys(today.numbers).length}>
                       The record&apos;s figures: {Object.entries(today.numbers).map(([k, v], i) => (
-                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{String(v)}</span></Num></span>
+                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{figureText(v)}</span></Num></span>
                       ))}.
                     </p>
                   ) : null}
