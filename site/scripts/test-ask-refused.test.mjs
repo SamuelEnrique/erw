@@ -6,7 +6,7 @@
 //   node --test site/scripts/test-ask-refused.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { notLiveWords, refusedAgainNote, refusedRead, refusedWhole, tablesNamed } from "../lib/chat/refused.ts";
+import { REFUSAL_FIRST, REFUSAL_WORDS, notLiveWords, refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withRefusalWords } from "../lib/chat/refused.ts";
 
 test("the refusal of a table the live set lacks says where it is and how to answer", () => {
   const w = notLiveWords("eia_crude_imports_by_country");
@@ -53,4 +53,20 @@ test("a later call that names a refused table is told so, with the refusal's own
   const note = refusedAgainNote("t", w);
   assert.ok(note.startsWith("table t was already refused for this question and no call can read it: do not ask it again."));
   assert.ok(note.endsWith(w));
+});
+
+// Session 5276 (chain 256): a refusal's fixed words, by the loop (the platform set's gp02 of 14 November 2026; oi09 of 13 November)
+test("a refusal that carries none of its fixed words is given the first, and one that has them is left as written", () => {
+  assert.deepEqual(REFUSAL_WORDS, ["not in the warehouse", "license needed", "paused"]);
+  assert.equal(REFUSAL_FIRST, "Not in the warehouse.");
+  const gp02 = "The warehouse does not hold this figure. The CAISO SP15 hub has no 15-minute real-time rows for 7 November 2026 Pacific time.";
+  assert.equal(withRefusalWords(gp02), `Not in the warehouse. ${gp02}`);
+  assert.equal(withRefusalWords("I can't give this figure. The table is on Redivis."), "Not in the warehouse. I can't give this figure. The table is on Redivis.");
+  for (const kept of ["Not in the warehouse. The table holds no hours for that day.", "Not in the warehouse this chat reads: x is on Redivis and not in the live set.",
+    "not in the warehouse: no table holds futures.", "License needed. The only table that holds deals is held.", "NYISO's rows are held for a license (\"license needed\").",
+    "MISO is paused while terms are reviewed, so no MISO figure is shown."]) assert.equal(withRefusalWords(kept), kept, kept);
+  assert.equal(withRefusalWords("  The table holds no row.  "), "Not in the warehouse. The table holds no row.");
+  assert.equal(withRefusalWords(""), "Not in the warehouse.");
+  // the model's own sentence is not changed, and no figure is added
+  assert.ok(!/\d/.test(REFUSAL_FIRST));
 });

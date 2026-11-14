@@ -12,7 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { nearestFor, runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
-import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed } from "./refused";
+import { refusedAgainNote, refusedRead, refusedWhole, tablesNamed, withRefusalWords } from "./refused";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
 import { plainTimes } from "./plaintime";
@@ -55,7 +55,14 @@ export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /
    * write fails the question (an evaluation never spends unrecorded) */
   step?: string; strictLedger?: boolean;
   /** session 1111: record every tool call and its result in the answer (an evaluation only; the route sets it) */
-  record?: boolean };
+  record?: boolean;
+  /** session 5269: an object the loop writes what it has counted into after every model call (AskMeter). An answer that
+   * ends in an error is thrown, and its answer's own count is lost with it, though its model calls were paid for: on 14
+   * November 2026 a question that stopped at the model's output limit was recorded at USD 0 where the ledger held USD
+   * 0.31. A caller that counts spend (an evaluation's runner) reads the meter when the loop throws. */
+  meter?: AskMeter };
+export type AskMeter = { cost_usd?: number | null; tool_calls?: number; usage?: { input: number; output: number; cache_write: number; cache_read: number; requests: number };
+  /** the stop reason of the last model call */ stop?: string | null; trace?: unknown[] };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -364,7 +371,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     }
   };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
-  let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
+  let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false, cutOff = 0;
   // session 2226 (chain 152): an en dash becomes "-" too (a span of years), as warehouse/chat/ask.py nodash; the stored runs hold every answer
   const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ").split(String.fromCharCode(0x2013)).join("-");
   // session 168: the local words the tool results gave for each stamp, and a profile's text with no UTC stamp left in it.
@@ -424,6 +431,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     usage.input += u.input; usage.output += u.output; usage.cache_write += u.cache_write; usage.cache_read += u.cache_read; usage.requests += 1;
     const c = cost(model, u);
     spent = spent === null || c === null ? null : spent + c;
+    // session 5269: what has been counted so far, for a caller that must count an answer that ends in an error
+    if (opts.meter) Object.assign(opts.meter, { cost_usd: spent, tool_calls: calls, usage: { ...usage }, stop: resp.stop_reason, ...(tracing ? { trace: traced } : {}) });
     return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason,
       ...(/haiku-4-5/.test(model) ? {} : { effort: effortOf(role, profile ? profile.effort : spec.effort) }) } };
   };
@@ -438,7 +447,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const looked = new Set<string>();
   // session 1142: the general chat's query results, for the series an answer rests on (lib/chat/generalseries.ts)
   const generalResults: { tool: string; input: Record<string, unknown>; out: Record<string, unknown> }[] = [];
-  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
+  // session 5272: cut_off, the replies of this answer that were cut off at the output limit (left out when there was none)
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent, ...(cutOff ? { cut_off: cutOff } : {}), ...(tracing ? { trace: traced } : {}), ...(readsLog.length ? { reads: readsLog } : {}) });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
   // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
   // a citation, and the profile's own reasons.
@@ -461,6 +471,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), unit_mismatches: c.units.slice(0, 6), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
+    // session 5276: a refusal of the general chat carries its fixed words (lib/chat/refused.ts withRefusalWords)
+    if (!profile && draft.not_in_warehouse) draft = { ...draft, answer: withRefusalWords(draft.answer) };
     const answer = plain(nodash(draft.answer));
     // session 28: each citation's tier is the warehouse's, whatever the model copied
     const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
@@ -646,6 +658,25 @@ export async function ask(question: string, today = new Date().toISOString().sli
       clock.add("writing", "model", ms, note);
       withdraw();
       return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal" as const, ...base(), ...(profile ? profile.finish("model_refusal", null, records) : {}) });
+    }
+    if (resp.stop_reason === "max_tokens") {
+      // Session 5272 (chain 256), as warehouse/chat/ask.py: a reply cut off at the output limit. The model's thinking
+      // counts toward max_tokens whether or not its text is returned, so a call can spend the whole limit thinking and
+      // write nothing: on 14 November 2026 three askings of the platform set ended so, each with its figure already in a
+      // tool result, and the loop threw (an error for the reader, USD 0.27 to 0.31 spent). The cut-off reply is not kept
+      // (a thinking block cut short is no turn of the conversation). Once, the model is told so and its next call may
+      // only write; cut off again, the question ends in words that say what happened, with no figure and no error.
+      clock.add("writing", "model", ms, note);
+      withdraw();
+      messages.pop();
+      cutOff += 1;
+      if (cutOff === 1) {
+        messages.push({ role: "user", content: spec.cut_off });
+        forceWrite = true;
+        continue;
+      }
+      return done({ answer: spec.cut_off_answer, why: spec.cut_off_why, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried,
+        ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
     }
     if (resp.stop_reason !== "end_turn") throw new Error(`stop_reason ${resp.stop_reason}`);
     const draft = JSON.parse(textOf(resp)) as Draft;

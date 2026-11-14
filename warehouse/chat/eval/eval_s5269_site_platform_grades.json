@@ -1,0 +1,224 @@
+{
+ "_about": "eval_s5269_site_platform_run.json graded on questions_platform.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "platform",
+ "asked": 8,
+ "right": 8,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 1.6155,
+ "questions": [
+  {
+   "id": "pr05",
+   "via": "general",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1748033,
+   "seconds": 19.7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": null,
+    "partial": true,
+    "ok": true
+   },
+   "trace_calls": 6
+  },
+  {
+   "id": "tx04",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1088473,
+   "seconds": 15.5,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": null,
+    "partial": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "gp01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "not_in_warehouse",
+   "tool_calls": 9,
+   "retried": false,
+   "cost_usd": 0.1356458,
+   "seconds": 24.3,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 8
+  },
+  {
+   "id": "gp02",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.1887258,
+   "seconds": 29.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 12
+  },
+  {
+   "id": "gp03",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "not_in_warehouse",
+   "tool_calls": 12,
+   "retried": false,
+   "cost_usd": 0.23210340000000002,
+   "seconds": 29,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 11
+  },
+  {
+   "id": "pt01",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 3,
+   "retried": false,
+   "cost_usd": 0.09653370000000001,
+   "seconds": 10.8,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": null,
+    "partial": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "pt02",
+   "via": "general",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 11,
+   "retried": false,
+   "cost_usd": 0.23882940000000003,
+   "seconds": 31.4,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": null,
+    "partial": true,
+    "ok": true
+   },
+   "trace_calls": 10
+  },
+  {
+   "id": "pt03",
+   "via": "general",
+   "grid": "none",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.12684890000000001,
+   "seconds": 15.2,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": null,
+    "partial": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  }
+ ],
+ "loop": "site",
+ "by_kind": {
+  "partial": {
+   "asked": 5,
+   "right": 5
+  },
+  "gap": {
+   "asked": 3,
+   "right": 3
+  }
+ },
+ "by_sector": {
+  "prices": {
+   "asked": 3,
+   "right": 3
+  },
+  "transmission": {
+   "asked": 1,
+   "right": 1
+  },
+  "power": {
+   "asked": 2,
+   "right": 2
+  },
+  "renewables": {
+   "asked": 1,
+   "right": 1
+  },
+  "nuclear": {
+   "asked": 1,
+   "right": 1
+  }
+ }
+}

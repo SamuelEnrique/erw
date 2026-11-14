@@ -16,7 +16,8 @@
 // every question and read first, so a run asked again goes on where it stopped. The cap is checked before each
 // question: the run's own costs plus a reserve (USD 0.30 for the first ten questions, then the dearest so far, at least
 // USD 0.15) must stay under --cap. A question that ends in an error stops the run (session 5251: an error may be a call
-// that was paid for and not recorded, so no further one is made until a person or a session has read it), unless
+// that was paid for and not recorded, so no further one is made until a person or a session has read it; since session
+// 5269 its record holds what the loop had counted when it threw, the cost of its model calls with it, so the cap counts it), unless
 // --keep-going. --dry-run loads the loop, reads the live set's catalogue through the loop's own list_tables and asks
 // nothing. warehouse/chat/eval/eval_site.py runs this and grades the run.
 //
@@ -52,6 +53,16 @@ export function reserve(asked, dearest) {
 
 export const GRID_SLUG = { ERCOT: "ercot", CAISO: "caiso", NYISO: "nyiso", SPP: "spp", "ISO-NE": "isone", MISO: "miso", PJM: "pjm" };
 
+/** Session 5271: what an answer was asked under, kept in its record: the effort of the writing turn (ASK_WRITER_EFFORT
+ *  when the asking set it, as lib/chat/ask.ts effortOf reads it, else the spec's own), the output limit of a call, and
+ *  the thinking switch when one is set. An asking at another effort is then told from one at the spec's by its record. */
+export function askedUnder(env, spec) {
+  // rules: the numbered rules of the prompt the answer was asked under (ten until session 5268, eleven with the rule to
+  // stop), counted in the prompt's own part, before the briefing's first heading
+  return { effort: env.ASK_WRITER_EFFORT || spec.effort, max_tokens: spec.max_tokens, rules: (String(spec.system ?? "").split(/\n# /)[0].match(/^\d+\. /gm) ?? []).length,
+    ...(env.ASK_THINKING ? { thinking: env.ASK_THINKING } : {}) };
+}
+
 /** The run's cost so far: its answers and the answers they superseded. */
 export function costOf(run) {
   return [...(run.questions ?? []), ...(run.superseded ?? [])].reduce((s, x) => s + Number(x.cost_usd ?? 0), 0);
@@ -66,14 +77,20 @@ export function withRecord(run, rec, order) {
 }
 
 /** One answer of the site's loop as a record of the run file (the shape of eval_loop.py's). */
-export function recordOf(q, r, at, error) {
+export function recordOf(q, r, at, error, meter = null) {
   const status = r?.status ?? (error ? "error" : null);
-  const trace = Array.isArray(r?.trace) ? r.trace.map((t) => ({ ...t, is_error: Boolean(t.isError) })) : [];
+  // session 5269: an answer that ended in an error after model calls were made has no result, and the calls were paid
+  // for: the loop's own count when it threw (ask.ts AskMeter) is the record's cost, its calls and its trace
+  const counted = r ? null : meter;
+  const kept = Array.isArray(r?.trace) ? r.trace : Array.isArray(counted?.trace) ? counted.trace : [];
+  const trace = kept.map((t) => ({ ...t, is_error: Boolean(t.isError) }));
   return { id: q.id, grid: q.grid, via: q.via, question: q.question, asked_at_utc: at, http: null, loop: "site",
     model: r?.model ?? null, status, answer: r?.answer ?? null, why: r?.why ?? null, citations: r?.citations ?? null,
-    not_in_warehouse: status === "not_in_warehouse", tool_calls: r?.tool_calls ?? null, retried: Boolean(r?.retried),
-    cost_usd: Number(r?.cost_usd ?? 0), seconds: r?.seconds ?? null, error: error ?? null, refused: status === "refused_unverified",
-    reads: r?.reads ?? null, nearest: r?.nearest ?? null, usage: r?.usage ?? null, trace };
+    not_in_warehouse: status === "not_in_warehouse", tool_calls: r?.tool_calls ?? counted?.tool_calls ?? null, retried: Boolean(r?.retried),
+    cost_usd: Number(r?.cost_usd ?? counted?.cost_usd ?? 0), seconds: r?.seconds ?? null, error: error ?? null, refused: status === "refused_unverified",
+    reads: r?.reads ?? null, nearest: r?.nearest ?? null, usage: r?.usage ?? counted?.usage ?? null, ...(counted?.stop ? { stopped_at: counted.stop } : {}),
+    ...(r?.cut_off ? { cut_off: r.cut_off } : {}),   // session 5272: the replies of this answer cut off at the output limit
+    trace };
 }
 
 async function main() {
@@ -104,6 +121,7 @@ async function main() {
   const order = qs.map((x) => x.id);
   let dearest = Math.max(0, ...run.questions.map((x) => Number(x.cost_usd ?? 0)), ...(run.superseded ?? []).map((x) => Number(x.cost_usd ?? 0)));
   let stopped = null, failed = false;
+  const under = askedUnder(process.env, JSON.parse(fs.readFileSync(path.join(here, "..", "lib", "chat", "spec.json"), "utf8")));
   for (const q of qs) {
     if (only ? !only.has(q.id) : done.has(q.id)) continue;
     const spent = costOf(run);
@@ -111,13 +129,14 @@ async function main() {
     if (spent + keep > cap) { stopped = q.id; console.log(`${q.id}: STOPPED before the call: spent ${spent.toFixed(4)} + reserve ${keep.toFixed(2)} > cap ${cap.toFixed(2)}`); break; }
     const at = new Date().toISOString().replace(/\.\d+Z$/, "Z");
     let r = null, error = null;
+    const meter = {};   // session 5269: the loop's own count, read when it throws
     try {
       r = await ask(q.question, undefined, q.via === "grid" ? GRID_SLUG[q.grid] : null, null, null,
-        { record: true, step: "site_ask_eval", strictLedger: ledger, questionId: crypto.randomBytes(16).toString("hex") });
+        { record: true, step: "site_ask_eval", strictLedger: ledger, questionId: crypto.randomBytes(16).toString("hex"), meter });
     } catch (e) {
       error = `${e?.name ?? "Error"}: ${e?.message ?? e}`.slice(0, 400);
     }
-    const rec = recordOf(q, r, at, error);
+    const rec = { ...recordOf(q, r, at, error, meter), asked_under: under };
     dearest = Math.max(dearest, rec.cost_usd);
     done.set(q.id, rec);
     run = withRecord(run, rec, order);

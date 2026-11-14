@@ -47,7 +47,16 @@ import llm  # noqa: E402  session 30: every Anthropic call goes through the cost
 
 MAX_TOOL_CALLS = 12      # session 1111: 8 until 23 October 2026; 11 of session 320's thirty used all 8
 MAX_TOKENS = 16000
-EFFORT = "high"
+# Session 5276 (chain 256): medium, where it was high. The effort level sets how much the model thinks and how many
+# tool calls it makes; its own documentation names medium as the starting point for work of several tool calls, and Ask
+# ERCOT has run at medium since session 143 (ercot.py). Measured on 14 November 2026 through the site's loop, the effort
+# set for each asking by ASK_WRITER_EFFORT: 61 questions at medium (twelve heavy figure answers, the eight on a short
+# window, nineteen refusals of four kinds, the trader's twenty never asked through that loop, po05 twice more), 60 right
+# (one refusal without its fixed words, which the loop now gives: with_refusal_words), USD 4.53 where the same
+# questions had cost USD 7.35 at high; on nine figure answers asked at both efforts under the same rules, 48 calls and
+# USD 0.87 against 60 and USD 1.13 (docs/reviews/ask-eval-2026-11-13.md). The way back, with no deploy: the server's
+# ASK_WRITER_EFFORT=high (site/lib/chat/ask.ts effortOf); here, this constant.
+EFFORT = "medium"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 # session 1110: the refusal begins with the words the chain of 23 October names
@@ -74,6 +83,7 @@ Rules:
 8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
 9. The site's economics pages and the tables behind them: the battery page (/cost-of-power/battery) reads battery_stack_monthly; the generator page (/cost-of-power/seller) reads merchant_revenue_monthly, whose battery rows (battery_4h_revenue_per_mw and its kin) are the generator page's rule for a battery; the datacenter page (/cost-of-power) reads cost_of_power_monthly. A question that names one of these pages is answered from that page's table.
 10. USD per kW: a query of battery_stack_monthly carries, beside each value in USD per MW, the same figure in USD per kW of rated power as value_usd_per_kw (the table's method note's own conversion, done by the tool). A question asked in USD per kW is answered with value_usd_per_kw, written in USD per kW; never divide or multiply a figure yourself.
+11. Stop when you have the answer. When a tool result holds the figure the question asks for, write the answer. Do not ask the same rows again with another grouping, time zone, aggregation or filter to confirm a figure you already have: the same rows read another way are not a second source. Whether a window is complete is said by the result itself: a query of a series with start and end returns window (steps_held, steps_in_window, whole, and the runs of steps missing), so no count and no regrouping is needed for it; when window.whole is false, say which part is held and give a figure only as the figure of the steps held, never as the whole period's. One check the window cannot make: a row of a table of days, months or years may cover only part of its period, and such a table says so in a variable of its own (the hours or days behind the row, such as da_hours or days_held); where the table has one, read it once before giving the row's figure as the period's. Make any other further call only for something you can name: a figure the results do not hold, or a second figure the question asks for.
 
 Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
@@ -338,6 +348,20 @@ def refused_again_note(table, words):
     return f"table {table} was already refused for this question and no call can read it: do not ask it again. {words}"
 
 
+# Session 5276 (chain 256), as site/lib/chat/refused.ts: a refusal's fixed words, by the loop. Rule 3 asks for the words
+# "not in the warehouse"; a held table's refusal says "license needed" and MISO's "paused". Two of the 135 refusals for
+# want of a figure in the stored runs carried none of the three (oi09 of 13 November 2026, gp02 of 14 November), each
+# right in substance. A refusal of the general chat that carries none is given the first, before the model's own words.
+REFUSAL_WORDS = ("not in the warehouse", "license needed", "paused")
+REFUSAL_FIRST = "Not in the warehouse."
+
+
+def with_refusal_words(answer):
+    """A refusal's text with its fixed words: as it is when it carries one of REFUSAL_WORDS, else REFUSAL_FIRST before it."""
+    low = (answer or "").lower()
+    return answer if any(w in low for w in REFUSAL_WORDS) else f"{REFUSAL_FIRST} {(answer or '').strip()}".strip()
+
+
 def reads_of(name, args):
     """As site/lib/chat/ask.ts readsOf: what one query or compare read, never a figure."""
     def one(a):
@@ -384,6 +408,20 @@ def call_key(name, args):
 
 
 REPEAT_NOTE = "this exact call was already made for this question and its result is above: answer from it; do not call it again"
+
+# Session 5272 (chain 256): a model call that ends at its output limit. The model's thinking counts toward MAX_TOKENS
+# whether or not its text is returned, so a call can spend the whole limit thinking and write nothing. On 14 November
+# 2026 three askings of the platform set ended so (gp01 once, po05 twice: at effort high and at medium, under eleven
+# rules and under ten), each with its figure already in a tool result; the recorded response is one thinking block and no
+# text. Both loops threw on it: the reader got an error and the question's cost was spent (USD 0.27 to 0.31). Now the
+# cut-off reply is dropped, the model is told once, in these words, and its next call may only write; cut off again, the
+# question ends in CUT_OFF_ANSWER, which states no figure. The same words in the site's loop (spec.json cut_off...).
+CUT_OFF = ("Your last reply was cut off at the output limit before anything was written, so none of it was kept. Do not start "
+           "over and do not call a tool: write the answer now, briefly, from the tool results above, in the same JSON format. "
+           "If the results do not hold what the question asks, answer \"not in the warehouse\" and say what is missing.")
+CUT_OFF_ANSWER = ("No answer was written: the model reached its output limit twice before writing one, so nothing is stated here. "
+                  "Try asking for one value, one table and one period at a time.")
+CUT_OFF_WHY = "Why: the reply was cut off at the model's output limit twice, before any answer was written."
 
 
 def cost_usd(model, usage):
@@ -492,7 +530,7 @@ class Asker:
         ran, force_write = set(), False
         record = {"question": question, "grid": self.grid, "model": self.model, "today": today, "retried": False,
                   "first_violations": [], "request_ids": []}
-        final, attempts = None, 0
+        final, attempts, cut_off = None, 0, 0
         while True:
             resp = self._create(messages, allow_tools=len(calls) < MAX_TOOL_CALLS and not force_write)
             u = resp.usage
@@ -567,6 +605,21 @@ class Asker:
                 final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
                 record["status"] = "model_refusal"
                 break
+            if resp.stop_reason == "max_tokens":
+                # session 5272: a reply cut off at the output limit (CUT_OFF, above). It is not kept: a thinking block cut
+                # short is no turn of the conversation. Once, the model is told so and the next call may only write; a
+                # second cut-off ends the question in words that say what happened, with no figure and no error
+                messages.pop()
+                cut_off += 1
+                record["cut_off"] = cut_off
+                if cut_off == 1:
+                    messages.append({"role": "user", "content": CUT_OFF})
+                    force_write = True
+                    continue
+                final = {"answer": CUT_OFF_ANSWER, "citations": [], "not_in_warehouse": False}
+                record["status"] = "refused_unverified"
+                record["why"] = CUT_OFF_WHY
+                break
             if resp.stop_reason != "end_turn":
                 raise RuntimeError(f"stop_reason {resp.stop_reason} (request {resp._request_id})")
             text = "".join(b.text for b in resp.content if b.type == "text")
@@ -588,6 +641,8 @@ class Asker:
             if not bad and not units and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
+                if draft.get("not_in_warehouse") and type(self) is Asker:
+                    final = dict(draft, answer=with_refusal_words(draft["answer"]))   # session 5276: its fixed words, by the loop
                 break
             attempts += 1
             if attempts == 1:
@@ -653,6 +708,8 @@ def export_spec(path):
             "system": SYSTEM, "grid_system": GRID_SYSTEM, "tools": tools.TOOLS, "answer_schema": ANSWER_SCHEMA,
             "max_tool_calls": MAX_TOOL_CALLS, "max_tokens": MAX_TOKENS, "effort": EFFORT,
             "prices": PRICES, "retry": RETRY, "refusal": REFUSAL,
+            # session 5272: the words of a reply cut off at the output limit, once and twice
+            "cut_off": CUT_OFF, "cut_off_answer": CUT_OFF_ANSWER, "cut_off_why": CUT_OFF_WHY,
             # session 30: the full price table (cache writes and reads) and its date, for the site's cost ledger
             "model_prices": llm.prices()["models"], "prices_as_of": llm.prices()["as_of"],
             "aggregations": tools.AGGREGATIONS, "time_groups": tools.TIME_GROUPS,

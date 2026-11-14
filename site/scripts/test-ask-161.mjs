@@ -129,7 +129,18 @@ await test("a series over time is drawn as it was: the hours of a day are not ti
 
 await test("every recorded call returns, from the recorded reads, what it returned from the live set", async () => {
   // session 168: the local words beside each time (lib/chat/plaintime.ts) are newer than the recording and are set apart
-  for (const c of CALLS) assert.deepEqual(JSON.parse(JSON.stringify(await at(c), (k, v) => (k.endsWith("_local") ? undefined : v))), FIX.results[c.id], c.id);
+  // session 5267: so is the window field of a bounded query (lib/chat/window.ts), checked on its own below
+  for (const c of CALLS) assert.deepEqual(JSON.parse(JSON.stringify(await at(c), (k, v) => (k.endsWith("_local") || k === "window" ? undefined : v))), FIX.results[c.id], c.id);
+  // session 5267: what the window field says of the recorded rows. A query of "this week" carries its own week field and
+  // no window; a query bounded by a start and an end says whether its window is whole: four Central days of hours (96 of
+  // 96), seven days of one series (168 of 168), and seven days of every fuel together (each fuel 168 of 168)
+  const win = async (id) => (await at(CALLS.find((c) => c.id === id))).out.window;
+  for (const id of ["held", "by_day", "not_held"]) assert.equal(await win(id), undefined, id);
+  const week = await win("week_rows"), total = await win("total_by_day"), fuels = await win("fuels");
+  assert.deepEqual([week.step, week.steps_held, week.steps_in_window, week.steps_missing, week.whole, week.first_held, week.last_held], ["PT1H", 96, 96, 0, true, "2026-09-28T05:00:00Z", "2026-10-02T04:00:00Z"]);
+  assert.deepEqual([total.step, total.steps_held, total.steps_in_window, total.whole], ["PT1H", 168, 168, true]);
+  assert.ok(fuels.series > 1);
+  assert.deepEqual([fuels.steps_held, fuels.steps_in_window, fuels.whole, fuels.missing], [{ least: 168, most: 168 }, 168, true, undefined]);
 });
 
 await test("this week, when its days are held: one result over those days, each day listed with its rows, the figure worked again here", async () => {

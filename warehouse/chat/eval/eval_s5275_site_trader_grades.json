@@ -1,0 +1,475 @@
+{
+ "_about": "eval_s5275_site_trader_run.json graded on questions_trader.yaml's keys by eval_s1113.py grade_set (no model, no network).",
+ "set": "trader",
+ "asked": 20,
+ "right": 20,
+ "rules": [
+  "refusal_no_table",
+  "table_by_evidence",
+  "sign_in_words",
+  "hold_public_grids"
+ ],
+ "cost_usd": 0.9132,
+ "questions": [
+  {
+   "id": "tr01",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0205993,
+   "seconds": 4.5,
+   "expected": [
+    50.7954
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr02",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.030780000000000002,
+   "seconds": 6.4,
+   "expected": [
+    150.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr03",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0225413,
+   "seconds": 4.7,
+   "expected": [
+    49.9954
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr04",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": true,
+   "cost_usd": 0.042682700000000004,
+   "seconds": 9.3,
+   "expected": [
+    222.74
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr05",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0207123,
+   "seconds": 4.2,
+   "expected": [
+    44.6725
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr06",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.039147100000000004,
+   "seconds": 7,
+   "expected": [
+    58.0027
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "tr07",
+   "via": "grid",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.0321901,
+   "seconds": 7.4,
+   "expected": [
+    32.7471
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr08",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.0350685,
+   "seconds": 7.9,
+   "expected": [
+    43.8409
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr09",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.031318399999999996,
+   "seconds": 6.5,
+   "expected": [
+    69.07
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr10",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0728596,
+   "seconds": 11.1,
+   "expected": [
+    82.8028
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": true,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "tr11",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": true,
+   "cost_usd": 0.0984319,
+   "seconds": 14.9,
+   "expected": [
+    3.2399
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "tr12",
+   "via": "grid",
+   "grid": "CAISO",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.06003170000000001,
+   "seconds": 10.9,
+   "expected": [
+    -10.2643
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  },
+  {
+   "id": "tr13",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0487644,
+   "seconds": 5.3,
+   "expected": [
+    40.5675
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "tr14",
+   "via": "grid",
+   "grid": "SPP",
+   "status": "answered",
+   "tool_calls": 7,
+   "retried": false,
+   "cost_usd": 0.1047713,
+   "seconds": 14.7,
+   "expected": [
+    -17.0059
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 7
+  },
+  {
+   "id": "tr15",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": true,
+   "cost_usd": 0.0356816,
+   "seconds": 8.6,
+   "expected": [
+    23.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr16",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0315408,
+   "seconds": 7.1,
+   "expected": [
+    5.0
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "tr17",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.0655827,
+   "seconds": 8,
+   "expected": [
+    -0.8342
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 4
+  },
+  {
+   "id": "tr18",
+   "via": "grid",
+   "grid": "ERCOT",
+   "status": "answered",
+   "tool_calls": 1,
+   "retried": false,
+   "cost_usd": 0.0195093,
+   "seconds": 3.9,
+   "expected": [
+    49.835
+   ],
+   "ok": true,
+   "grade": {
+    "number": true,
+    "text": null,
+    "table": true,
+    "cited": true,
+    "refusal": true,
+    "ok": true
+   },
+   "trace_calls": 1
+  },
+  {
+   "id": "tr19",
+   "via": "grid",
+   "grid": "NYISO",
+   "status": "answered",
+   "tool_calls": 2,
+   "retried": false,
+   "cost_usd": 0.0450748,
+   "seconds": 8,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": false,
+    "no_figure": false,
+    "ok": true,
+    "hold_answer": true
+   },
+   "trace_calls": 2
+  },
+  {
+   "id": "tr20",
+   "via": "grid",
+   "grid": "MISO",
+   "status": "not_in_warehouse",
+   "tool_calls": 4,
+   "retried": false,
+   "cost_usd": 0.055905,
+   "seconds": 7,
+   "expected": [],
+   "ok": true,
+   "grade": {
+    "number": null,
+    "text": true,
+    "table": null,
+    "cited": null,
+    "refusal": true,
+    "no_figure": true,
+    "ok": true
+   },
+   "trace_calls": 3
+  }
+ ],
+ "loop": "site"
+}

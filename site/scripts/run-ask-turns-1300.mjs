@@ -48,12 +48,14 @@ const db = (url) => {
 // the model, as scripts/test-ask-ready.mjs stands in for it: one streamed reply a call, the script's turns in order
 const sse = (reply) => {
   const ev = (type, data) => `event: ${type}\ndata: ${JSON.stringify({ type, ...data })}\n\n`;
-  const blocks = reply.tools ? reply.tools.map((t, i) => [{ type: "tool_use", id: `toolu_fixture_${i + 1}`, name: t.name, input: {} }, { type: "input_json_delta", partial_json: JSON.stringify(t.input) }])
+  // session 5272: a turn {"cut": true} is a reply that stops at the model's output limit: a thinking block, no text
+  const blocks = reply.cut ? [[{ type: "thinking", thinking: "", signature: "" }, { type: "thinking_delta", thinking: "" }]]
+    : reply.tools ? reply.tools.map((t, i) => [{ type: "tool_use", id: `toolu_fixture_${i + 1}`, name: t.name, input: {} }, { type: "input_json_delta", partial_json: JSON.stringify(t.input) }])
     : [[{ type: "text", text: "" }, { type: "text_delta", text: JSON.stringify(reply.text) }]];
   return ev("message_start", { message: { id: "msg_fixture", type: "message", role: "assistant", model: "claude-sonnet-5-5", content: [], stop_reason: null, stop_sequence: null,
     usage: { input_tokens: 100, output_tokens: 1, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 } } }) +
     blocks.map(([start, delta], index) => ev("content_block_start", { index, content_block: start }) + ev("content_block_delta", { index, delta }) + ev("content_block_stop", { index })).join("") +
-    ev("message_delta", { delta: { stop_reason: reply.tools ? "tool_use" : "end_turn", stop_sequence: null }, usage: { output_tokens: 50 } }) + ev("message_stop", {});
+    ev("message_delta", { delta: { stop_reason: reply.cut ? "max_tokens" : reply.tools ? "tool_use" : "end_turn", stop_sequence: null }, usage: { output_tokens: 50 } }) + ev("message_stop", {});
 };
 
 let script = [], calls = 0, choices = [];
