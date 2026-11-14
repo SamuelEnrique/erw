@@ -1,0 +1,899 @@
+{
+ "group": "east_changes",
+ "changes": [
+  {
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's other electric companies",
+   "state": "MD",
+   "rule_name": "COMAR 20.96.01, Large Load Study and Tariff Requirements (Maryland PSC rulemaking RM 93), under Public Utilities Article 4-212",
+   "affects": "pjm_east-03",
+   "change": "approved",
+   "date": "2026-08-18",
+   "docket": "RM 93 (Maryland Register notice of final action [26-021-F])",
+   "source_url": "https://dsd.maryland.gov/MDRIssues/5319/Assembled.aspx",
+   "source_title": "Maryland Register, Volume 53, Issue 19 (Issue Date: September 18, 2026)",
+   "what": "The Public Service Commission adopted COMAR 20.96.01 Large Load Study and Tariff Requirements on 18 August 2026, as proposed in 53:13 Md. R. 614 (26 June 2026); the row's status moves from proposed to adopted.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Final Action on Regulations, Title 20, Subtitle 96",
+     "quote": "Notice of Final Action [26-021-F]"
+    },
+    {
+     "page": "1",
+     "section": "Final Action on Regulations, Title 20, Subtitle 96",
+     "quote": "On August 18, 2026, the Public Service Commission adopted new Regulations .01-.08 under a new chapter, COMAR 20.96.01 Large Load Study and Tariff Requirements, under a new subtitle, Subtitle 96 Large Load Customers."
+    },
+    {
+     "page": "1",
+     "section": "Final Action on Regulations, Title 20, Subtitle 96",
+     "quote": "This action, which was proposed for adoption in 53:13 Md. R. 614-615 (June 26, 2026), has been adopted as proposed."
+    },
+    {
+     "page": "1",
+     "section": "Issue header",
+     "quote": "Issue Date: September 18, 2026"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Maryland Register as the Division of State Documents publishes it (dsd.maryland.gov, robots allow it), as the row",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland); and Maryland's other electric companies",
+   "state": "MD",
+   "rule_name": "COMAR 20.96.01, Large Load Study and Tariff Requirements (Maryland PSC rulemaking RM 93), under Public Utilities Article 4-212",
+   "affects": "pjm_east-03",
+   "change": "in effect",
+   "date": "2026-09-28",
+   "docket": "RM 93 (Maryland Register notice of final action [26-021-F])",
+   "source_url": "https://dsd.maryland.gov/MDRIssues/5319/Assembled.aspx",
+   "source_title": "Maryland Register, Volume 53, Issue 19 (Issue Date: September 18, 2026)",
+   "what": "The adopted COMAR 20.96.01 took effect on 28 September 2026, the effective date printed in the notice of final action.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Final Action on Regulations, Title 20, Subtitle 96",
+     "quote": "COMAR 20.96.01 Large Load Study and Tariff Requirements"
+    },
+    {
+     "page": "1",
+     "section": "Final Action on Regulations, Title 20, Subtitle 96",
+     "quote": "Effective Date: September 28, 2026."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Maryland Register as the Division of State Documents publishes it (dsd.maryland.gov, robots allow it)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Delmarva Power & Light Company",
+   "state": "DE",
+   "rule_name": "Proposed large load tariff, Delaware PSC Docket No. 25-0826, with the interconnection pause for new large loads",
+   "affects": "pjm_east-02",
+   "change": "other",
+   "date": "2026-08-26",
+   "docket": "not published (House Bill 233; Docket 25-0826 is not named in the release)",
+   "source_url": "https://news.delaware.gov/?p=245793",
+   "source_title": "Governor Matt Meyer Signs Energy Consumer Protection Legislation (Office of the Governor, State of Delaware News, 26 August 2026)",
+   "what": "The Governor signed House Bill 233, which creates a separate utility rate class for large energy-use facilities such as data centers and puts them first in line for curtailment in grid emergencies unless they supply their own generation, with immediate effect; Delmarva's pending tariff in Docket 25-0826 now sits under that law. The bill's own text was not read (the release, not the enrolled act, is the source).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "release header",
+     "quote": "Date Posted: Wednesday, August 26, 2026"
+    },
+    {
+     "page": "1",
+     "section": "release",
+     "quote": "Governor Matt Meyer today signed a package of energy consumer protection bills"
+    },
+    {
+     "page": "1",
+     "section": "The bills today included",
+     "quote": "House Bill 233: Creates a separate utility rate class specifically for large energy-use facilities, like data centers, so that massive projects pay the full cost of infrastructure upgrades rather than shifting those expenses onto residential and small business customers."
+    },
+    {
+     "page": "1",
+     "section": "The bills today included",
+     "quote": "It also prioritizes cutting off these large users first during grid emergencies or blackouts unless they supply their own generation."
+    },
+    {
+     "page": "1",
+     "section": "release",
+     "quote": "All bills will take effect immediately."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Governor's own release on the State of Delaware's news site (news.delaware.gov, robots allow it); the site's terms were not read",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Service Electric and Gas Company; Jersey Central Power & Light Company; Atlantic City Electric Company; Rockland Electric Company (New Jersey's electric public utilities)",
+   "state": "NJ",
+   "rule_name": "Data Center Fair Share Act (P.L. 2026, c.32): large data center rate class and tariff each electric public utility must file under BPU standards (BPU Docket No. EO26080463)",
+   "affects": "northeast-01",
+   "change": "other",
+   "date": "2026-11-04",
+   "docket": "BPU Docket No. EO26080463",
+   "source_url": "https://www.nj.gov/bpu/pdf/publicnotice/Data_Center_Fair_Share_Act_Stakeholder_Meeting_PPT_FINAL_11042026.pdf",
+   "source_title": "Data Center Fair Share Act Stakeholder Meeting, Docket No. EO26080463 (BPU Staff slides, 11/4/26)",
+   "what": "BPU Staff issued a Request for Information on the standards for large data center tariffs and held its stakeholder meeting on 4 November 2026, with written responses due by 5 p.m. on 13 November 2026; no standards order has issued. The RFI notice prints no issue date (it cites FERC's order of 9 October 2026, so it was issued after that day).",
+   "cites": [
+    {
+     "page": "1",
+     "section": "title slide",
+     "quote": "Data Center Fair Share Act Stakeholder Meeting Docket No. EO26080463"
+    },
+    {
+     "page": "1",
+     "section": "title slide",
+     "quote": "11/4/26"
+    },
+    {
+     "page": "3",
+     "section": "Introduction",
+     "quote": "Board Staff issued an RFI to inform standards and future electric utility tariffs for large data center customers."
+    },
+    {
+     "page": "2",
+     "quote": "Written RFI responses are due by 5 p.m. on November 13, 2026."
+    },
+    {
+     "url": "https://www.nj.gov/bpu/pdf/publicnotice/Webposting-Notice-EO26080463-%20Data%20Center%20Fair%20Share%20Act%20RFI.pdf",
+     "page": "1",
+     "section": "Stakeholder Meeting",
+     "quote": "STAKEHOLDER MEETING DATE: Wednesday, November 4, 2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.nj.gov/bpu/pdf/publicnotice/Webposting-Notice-EO26080463-%20Data%20Center%20Fair%20Share%20Act%20RFI.pdf",
+     "page": "1",
+     "quote": "This RFI is issued pursuant to the signing of P.L. 2026, c.32, also known as the Data Center Fair Share Act, into Law.",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the BPU's own notice and stakeholder slides (nj.gov/bpu, robots allow it), as the row",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Consolidated Edison Company of New York; Orange and Rockland Utilities; Niagara Mohawk Power Corporation (National Grid); New York State Electric & Gas; Rochester Gas and Electric; Central Hudson Gas & Electric (New York's PSC-regulated electric utilities)",
+   "state": "NY",
+   "rule_name": "New York large-load proceeding, Case 26-E-0045 (Energize NY Development)",
+   "affects": "northeast-03",
+   "change": "order issued",
+   "date": "2026-09-17",
+   "docket": "Case 26-E-0045",
+   "source_url": "https://content.govdelivery.com/attachments/NYSDPSPO/2026/09/17/file_attachments/3784596/pr26085-PSC%20Adopts%20Draft%20Scope%20for%20Environmental%20Review%20Of%20Data%20Centers%20and%20Large%20Electric%20Loads%20.pdf",
+   "source_title": "PSC Adopts Draft Scope for Environmental Reviews for Data Centers and Large Electric Loads (NY Department of Public Service press release 26085, 09/17/26)",
+   "what": "The Commission issued a SEQRA positive declaration in Case 26-E-0045 and adopted a Draft Scope for a Generic Environmental Impact Statement covering data center and large load interconnections, including the interconnection processes and cost allocation standards for large load customers; comments on the Draft Scope were due 20 October 2026, after which a Final Scope is to be accepted.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "For Immediate Release: 09/17/26"
+    },
+    {
+     "page": "1",
+     "quote": "26085/26-E-0045"
+    },
+    {
+     "page": "1",
+     "quote": "The Public Service Commission (PSC or Commission) today formally issued a positive declaration of potential environmental impacts associated with its review of data center and other large load interconnections under its Energize NY Development Proceeding."
+    },
+    {
+     "page": "1",
+     "quote": "the potential implementation of proposed large load interconnection reforms, including the development and promulgation of interconnection processes and cost allocation standards for data centers and large load customers in the State"
+    },
+    {
+     "page": "1",
+     "quote": "Public Comments on Draft Scope Due on October 20"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the Department of Public Service's own press release as it distributes it through GovDelivery (content.govdelivery.com, robots allow it)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil",
+   "state": "MA",
+   "rule_name": "Executive Order No. 658 and the DPU's directive on data center interconnection requests over 25 MW (D.P.U. 26-DC)",
+   "affects": "northeast-10",
+   "change": "other",
+   "date": "2026-09-08",
+   "docket": "not published (Executive Order No. 658)",
+   "source_url": "https://www.mass.gov/executive-orders/no-658-establishing-requirements-for-responsible-data-center-development-and-operations-in-massachusetts-to-protect-and-support-ratepayers-communities-and-the-environment",
+   "source_title": "Executive Order No. 658: Establishing Requirements for Responsible Data Center Development and Operations in Massachusetts to Protect and Support Ratepayers, Communities, and the Environment",
+   "what": "The Governor issued Executive Order No. 658 on 8 September 2026; Section 3 tells the DPU to continue to prioritize its large load rate schedules so that other ratepayers do not pay distribution upgrades for data center demand.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Date",
+     "quote": "09/08/2026"
+    },
+    {
+     "page": "1",
+     "section": "Section 3",
+     "quote": "should continue to prioritize completion of its work to develop large load rate schedules, as per Executive Order 654 and aligned with the Framework. These rate schedules should ensure that other ratepayers do not pay distribution grid upgrades or any associated infrastructure needed to support data center demand."
+    },
+    {
+     "url": "https://www.mass.gov/doc/directive-to-the-electric-distribution-companies-regarding-data-center-interconnection-requests/download",
+     "page": "1",
+     "quote": "On September 8, 2026, Governor Healey issued Executive Order Number 658",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "internal",
+   "license_basis": "read only on mass.gov, whose Terms of Use ask written permission for uses beyond fair use (as northeast-10)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil",
+   "state": "MA",
+   "rule_name": "Executive Order No. 658 and the DPU's directive on data center interconnection requests over 25 MW (D.P.U. 26-DC)",
+   "affects": "northeast-10",
+   "change": "order issued",
+   "date": "2026-09-24",
+   "docket": "D.P.U. 26-DC",
+   "source_url": "https://www.mass.gov/doc/directive-to-the-electric-distribution-companies-regarding-data-center-interconnection-requests/download",
+   "source_title": "Directive to Electric Distribution Companies regarding data center interconnection requests, pursuant to Executive Order No. 658 (Department of Public Utilities, September 24, 2026)",
+   "what": "The DPU directed Unitil, Eversource (NSTAR Electric) and National Grid to make informational filings in D.P.U. 26-DC on their load projects over 25 MW, their data center projects over 1 MW and the measures they take to eliminate speculative data center projects from their queues, due by 5 p.m. on 23 October 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "September 24, 2026"
+    },
+    {
+     "page": "1",
+     "quote": "the Department should require the EDCs to ensure the legitimacy of data center projects with electricity demand greater than 25 megawatts"
+    },
+    {
+     "page": "2",
+     "quote": "the Department hereby directs Fitchburg Gas and Electric Light Company d/b/a Unitil, NSTAR Electric Company d/b/a Eversource Energy, and Massachusetts Electric Company and Nantucket Electric Company, each d/b/a National Grid to each make an informational filing"
+    },
+    {
+     "page": "4",
+     "quote": "Each EDC shall file its respective company specific informational filing in docket D.P.U. 26-DC"
+    },
+    {
+     "page": "4",
+     "quote": "no later than close of business (5:00 p.m.) on Friday, October 23, 2026."
+    }
+   ],
+   "license": "internal",
+   "license_basis": "read only on mass.gov (Terms of Use ask written permission), as northeast-10; the DPU File Room copy was not reached",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Pennsylvania electric distribution companies (the PUC's model tariff)",
+   "state": "PA",
+   "rule_name": "Pennsylvania PUC Large Load Customer Model Tariff, Docket M-2025-3054271",
+   "affects": "large_load_connection_rules/pa_puc_large_load_model_tariff.yaml",
+   "change": "other",
+   "date": "2026-10-28",
+   "docket": "M-2025-3054271",
+   "source_url": "https://www.puc.pa.gov/docket/M-2025-3054271",
+   "source_title": "Docket Number M-2025-3054271 (PA PUC docket page)",
+   "what": "The Commission's docket for the model tariff records the case closed on 28 October 2026; the last order before it was the Opinion and Order of 16 July 2026 on the petition for reconsideration. Window A's file says the 16 July withdrawal closed the docket; the docket's own action date is 28 October 2026. The model's terms are unchanged.",
+   "cites": [
+    {
+     "page": "1",
+     "section": "Daily Actions",
+     "quote": "10/28/2026"
+    },
+    {
+     "page": "1",
+     "section": "Daily Actions",
+     "quote": "Case Closed - No active tasks exist for this Case"
+    },
+    {
+     "page": "1",
+     "section": "Daily Actions",
+     "quote": "Document Published on Web - Document 'Opinion and Order - 3054271-OSA - 7-16-26 PM - Pet for Recon Clarification - Large Load Cust Model Tariff' is made public"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's own docket page (www.puc.pa.gov, robots allow it), a public record",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens', Wellsboro, Pike County)",
+   "state": "PA",
+   "rule_name": "Tentative Order proposing amendments to 52 Pa. Code 57.51 to 57.54: load control for Computational Load Sites (data centers of 25 MW at a single point of interconnection), Interim Resource Adequacy Service and critical load",
+   "affects": "new",
+   "change": "order issued",
+   "date": "2026-10-01",
+   "docket": "M-2026-3064961",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1952506.pdf",
+   "source_title": "Electric Distribution Company Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Provisions, M-2026-3064961, Tentative Order (Public Meeting held October 1, 2026)",
+   "what": "The PUC entered a Tentative Order proposing that every EDC update its pre-emergency and emergency load control procedures to incorporate PJM's Interim Resource Adequacy Service and not classify data centers as critical load exempt from curtailment, defining a Computational Load Site as a customer of 25 MW at a single point of interconnection or 50 MW at multiple points on a single feeder; comments due 30 days after publication in the Pennsylvania Bulletin.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "Public Meeting held October 1, 2026"
+    },
+    {
+     "page": "1",
+     "quote": "M-2026-3064961"
+    },
+    {
+     "page": "1",
+     "quote": "Tentative Order and Appendix seeking comments on a proposed requirement that all electric distribution companies update their pre-emergency and emergency load control procedures to incorporate Interim Resource Adequacy Service and to ensure that data centers are not classified as critical load exempt from curtailment during these events"
+    },
+    {
+     "page": "8",
+     "section": "Appendix, 57.51 Definitions",
+     "quote": "Is a customer or applicant that has an anticipated maximum peak demand of 25 MW at a single point of interconnection or 50 MW at multiple points of interconnection that are interconnect to a single feeder"
+    },
+    {
+     "page": "6",
+     "section": "Conclusion",
+     "quote": "Comments will be due no later than 30 days after this Tentative Order is published in the Pennsylvania Bulletin, with reply comments due 15 days thereafter."
+    },
+    {
+     "page": "7",
+     "quote": "ORDER ADOPTED: October 1, 2026 ORDER ENTERED: October 1, 2026"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's own order (www.puc.pa.gov, robots allow it), a public record",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens', Wellsboro, Pike County)",
+   "state": "PA",
+   "rule_name": "Tentative Order proposing amendments to 52 Pa. Code 57.51 to 57.54 (M-2026-3064961), as clarified: emergency curtailment of large computational loads, threshold 50 MW",
+   "affects": "new",
+   "change": "amended",
+   "date": "2026-11-05",
+   "docket": "M-2026-3064961",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1957729.pdf",
+   "source_title": "Electric Distribution Company Interim Resource Adequacy Service, Pre-Emergency and Emergency Response Provisions, M-2026-3064961, Clarification Order (Public Meeting held November 5, 2026)",
+   "what": "After FERC rejected PJM's IRAS proposal on 9 October 2026, the PUC's Clarification Order dropped the IRAS pre-emergency curtailment proposal, kept the proposal that EDCs not classify any large load as critical load exempt from emergency curtailment, and changed the Computational Load Site threshold in the modified Appendix to a cumulative peak load of at least 50 MW at a single site within a one-mile radius; comments due 20 days after publication in the Pennsylvania Bulletin, replies 30 days. The Tentative Order had been published in the Pennsylvania Bulletin on 17 October 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "Public Meeting held November 5, 2026"
+    },
+    {
+     "page": "4",
+     "quote": "The October 1st Tentative Order and accompanying Appendix were published in the Pennsylvania Bulletin on Saturday, October 17, 2026."
+    },
+    {
+     "page": "5",
+     "section": "Discussion",
+     "quote": "the Commission is proposing that EDCs do not classify any large load as critical load exempt from curtailment during emergency events"
+    },
+    {
+     "page": "5",
+     "section": "Discussion",
+     "quote": "we are no longer seeking comments on that since PJM"
+    },
+    {
+     "page": "5",
+     "section": "Discussion",
+     "quote": "the Appendix further modifies the definition of large computational load customer to be more consistent with the large load model"
+    },
+    {
+     "page": "6",
+     "section": "Conclusion",
+     "quote": "Comments will be due no later than 20 days after this Tentative Order is published in the Pennsylvania Bulletin, with reply comments due 30 days thereafter"
+    },
+    {
+     "page": "7",
+     "quote": "ORDER ADOPTED: November 5, 2026 ORDER ENTERED: November 5, 2026"
+    },
+    {
+     "url": "https://www.puc.pa.gov/pcdocs/1957733.pdf",
+     "page": "2",
+     "section": "Appendix, 57.51 Definitions, Computational Load Site",
+     "quote": "Is a customer or applicant that has a cumulative peak load quantity of at least 50 MW at a single site behind one or more delivery points/points of interconnection within a one-mile radius",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's own order and appendix (www.puc.pa.gov, robots allow it), public records",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens', Wellsboro, Pike County)",
+   "state": "PA",
+   "rule_name": "PA PUC Technical Conference on Large Computational Load Cost Allocation, Docket M-2026-3065062",
+   "affects": "new",
+   "change": "hearing set",
+   "date": "2026-09-22",
+   "docket": "M-2026-3065062",
+   "source_url": "https://www.puc.pa.gov/electricity/technical-conference-on-large-computational-load-cost-allocation/",
+   "source_title": "Technical Conference on Large Computational Load Cost Allocation (PA PUC page)",
+   "what": "By Secretarial Letter dated 22 September 2026 the PUC announced a technical conference on large computational load cost allocation for 17 November 2026 (from the Vice Chair's motion of 10 September 2026 at M-2026-3064961, whose scanned copy gave the reader no text).",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "Secretarial Letter - The Secretarial Letter announcing the Technical Conference at Docket No. M-2026-3065062. Dated September 22, 2026."
+    },
+    {
+     "page": "1",
+     "quote": "originally scheduled on Tuesday, November 17, 2026"
+    },
+    {
+     "url": "https://www.puc.pa.gov/docket/M-2026-3064961",
+     "page": "1",
+     "section": "Case Description",
+     "quote": "Motion Directing Staff to Issue Tentative Order Pursuant to the Public Utility Commission's Provisions at 52 Pa. Code Section 57.52 (Emergency load control and energy conversation by electric utilities) and Establish a Technical Conference on Large Computational Load Cost Allocation",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's own pages (www.puc.pa.gov, robots allow it)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "All Pennsylvania electric distribution companies (PECO, PPL, Duquesne Light, FirstEnergy Pennsylvania, UGI, Citizens', Wellsboro, Pike County)",
+   "state": "PA",
+   "rule_name": "PA PUC Technical Conference on Large Computational Load Cost Allocation, Docket M-2026-3065062",
+   "affects": "new",
+   "change": "other",
+   "date": "2026-10-28",
+   "docket": "M-2026-3065062",
+   "source_url": "https://www.puc.pa.gov/electricity/technical-conference-on-large-computational-load-cost-allocation/",
+   "source_title": "Technical Conference on Large Computational Load Cost Allocation (PA PUC page)",
+   "what": "By Secretarial Letter dated 28 October 2026 the technical conference set for 17 November 2026 was postponed (no new date printed); initial comments were accepted to 13 November 2026 and post-conference comments are due by 18 December 2026.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "The PUC's Technical Conference regarding large computational load cost allocation originally scheduled on Tuesday, November 17, 2026 has been postponed."
+    },
+    {
+     "page": "1",
+     "quote": "Secretarial Letter - The Secretarial Letter announcing the postponement of the Technical Conference at Docket No. M-2026-3065062. Dated October 28, 2026."
+    },
+    {
+     "page": "1",
+     "quote": "Post-conference comments must be eFiled on or before December 18, 2026 at 4:30 p.m."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's own page (www.puc.pa.gov, robots allow it)",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections (Electric Pa. P.U.C. No. 202, Supplement No. 2, Pages 35C to 35F)",
+   "affects": "pjm_east-01",
+   "change": "amended",
+   "date": "2026-08-27",
+   "docket": "R-2025-3057164",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1946790.pdf",
+   "source_title": "PPL Electric Utilities Corporation, replacement pages for Tariff Supplement No. 2 to Electric Pa. P.U.C. No. 202 (letter of August 27, 2026, with the tariff)",
+   "what": "PPL filed replacement pages correcting typographical or formatting errors in the Compliance Retail Tariff (Supplement No. 2, which carries Rate LP-6) filed on 30 June 2026; the letter does not say which pages changed, and the row's LP-6 values were read from this copy.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "August 27, 2026"
+    },
+    {
+     "page": "1",
+     "quote": "are replacement pages for the Company's Tariff Supplement No. 2 to Electric Pa. P.U.C. No. 202"
+    },
+    {
+     "page": "1",
+     "quote": "The replacement pages correct typographical or formatting errors in the previously-submitted Compliance Retail Tariff."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's docket copy (www.puc.pa.gov, robots allow it), as the row",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections, with PPL's proposed Customer Protection Transmission Rider (CPTR)",
+   "affects": "pjm_east-01",
+   "change": "filed",
+   "date": "2026-09-14",
+   "docket": "P-2026-3065185, P-2026-3065186 and P-2024-3047290",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1958554.pdf",
+   "source_title": "Scheduling Order, Docket Nos. P-2026-3065185, P-2026-3065186, P-2024-3047290 and C-2026-3065756 (Date: November 10, 2026)",
+   "what": "PPL petitioned for a non-bypassable Customer Protection Transmission Rider that would recover NITS and other transmission costs and allocate certain network upgrade costs to Rate LP-6, with the elimination of the Transmission Service Charge and changes to its default service program.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "On September 14, 2026, PPL Electric Utilities Corporation (PPL or Company) filed a Petition at Docket Nos. P-2026-3065185, P-2026-3065186, and P-2024-3047290, seeking approval of: (1) the Company's proposed non-bypassable Customer Protection Transmission Rider (CPTR) to recover all Network Integration Transmission Service (NITS) costs and certain other transmission costs and to allocate certain network upgrade costs to Rate LP-6"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's docket copy of the presiding officers' order (www.puc.pa.gov, robots allow it), a public record",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections (Office of Consumer Advocate's formal complaint)",
+   "affects": "pjm_east-01",
+   "change": "filed",
+   "date": "2026-10-02",
+   "docket": "C-2026-3065756",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1953337.pdf",
+   "source_title": "Pennsylvania Consumer Advocate v. PPL Electric Utilities Corporation, Formal Complaint and Public Statement (October 2, 2026)",
+   "what": "The Office of Consumer Advocate filed a formal complaint against PPL claiming its tariff lacks a separate rate and service class for data centers (computational load entities), mandatory interruptible service and sufficient LP-6 rules against cost shifting, invoking the LP-6 settlement provision that lets parties reopen LP-6 after the model tariff.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "October 2, 2026"
+    },
+    {
+     "page": "11",
+     "quote": "The OCA recognizes the existence of Rate LP-6 in PPL Electric's tariff, which the Commission approved based on a settlement in PPL Electric's 2025 rate case. However, that settlement contained a specific provision allowing the parties to re-open Rate LP-6 after the Commission's issuance of a final model tariff."
+    },
+    {
+     "page": "12",
+     "quote": "(Claim 1): PPL Electric's tariff does not establish a new customer classification for rates and service applicable only to data centers"
+    },
+    {
+     "page": "13",
+     "quote": "(Claim 7): PPL Electric's Rate LP-6 omits sufficient rules and regulations to prevent cost shifting and the shifting of stranded costs risks from data centers onto other ratepayers"
+    },
+    {
+     "url": "https://www.puc.pa.gov/docket/C-2026-3065756",
+     "page": "1",
+     "section": "Date Filed",
+     "quote": "10/2/2026 12:00:00 AM",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's docket copy (www.puc.pa.gov, robots allow it), a public record",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections (Office of Consumer Advocate's amended complaint)",
+   "affects": "pjm_east-01",
+   "change": "amended",
+   "date": "2026-10-21",
+   "docket": "C-2026-3065756",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1958554.pdf",
+   "source_title": "Scheduling Order, Docket Nos. P-2026-3065185, P-2026-3065186, P-2024-3047290 and C-2026-3065756 (Date: November 10, 2026)",
+   "what": "The OCA filed an amended complaint seeking a separate rate and service classification for computational load entities with mandatory interruptible service during emergencies.",
+   "cites": [
+    {
+     "page": "4",
+     "quote": "On October 21, 2026, OCA filed an Amended Complaint at Docket No. C-20263065756."
+    },
+    {
+     "page": "4",
+     "quote": "OCA seeks the establishment of a separate customer rate and service classification for computational load entities that enforces mandatory interruptible service during emergencies"
+    },
+    {
+     "url": "https://www.puc.pa.gov/pcdocs/1956828.pdf",
+     "page": "1",
+     "quote": "October 21, 2026",
+     "date_read": "2026-11-13"
+    },
+    {
+     "url": "https://www.puc.pa.gov/pcdocs/1956828.pdf",
+     "page": "1",
+     "quote": "Amended Formal Complaint and Public Statement",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's docket copies (www.puc.pa.gov, robots allow it), public records",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PPL Electric Utilities Corporation",
+   "state": "PA",
+   "rule_name": "Rate Schedule LP-6, Large Load Interconnections (consolidated CPTR petition and OCA complaint)",
+   "affects": "pjm_east-01",
+   "change": "hearing set",
+   "date": "2026-11-10",
+   "docket": "P-2026-3065185, P-2026-3065186, P-2024-3047290 and C-2026-3065756",
+   "source_url": "https://www.puc.pa.gov/pcdocs/1958554.pdf",
+   "source_title": "Scheduling Order, Docket Nos. P-2026-3065185, P-2026-3065186, P-2024-3047290 and C-2026-3065756 (Date: November 10, 2026)",
+   "what": "At the prehearing conference of 3 November 2026 the presiding officers consolidated PPL's CPTR petition with the OCA complaint, and the Scheduling Order of 10 November 2026 sets a procedural schedule positioning both for Commission decision at the 29 July 2027 public meeting.",
+   "cites": [
+    {
+     "page": "6",
+     "quote": "The prehearing conference convened as scheduled on November 3, 2026."
+    },
+    {
+     "page": "6",
+     "quote": "At the prehearing conference, we consolidated the proceeding at Docket Nos. P2026-3065185, P-2026-3065186, P-2024-3047290 with the proceeding at Docket No. C-20263065756."
+    },
+    {
+     "page": "7",
+     "quote": "we agreed it would be appropriate to position both PPL's Petition and OCA's Complaint for Commission decision at the July 29, 2027 public meeting"
+    },
+    {
+     "page": "17",
+     "quote": "Date: November 10, 2026"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the PA PUC's docket copy (www.puc.pa.gov, robots allow it), a public record",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "state": "OH",
+   "rule_name": "Schedule DCT (Data Center Tariff), P.U.C.O. No. 22, 1st Revised Sheets 223-1 to 223-8",
+   "affects": "aep-01",
+   "change": "in effect",
+   "date": "2026-08-28",
+   "docket": "PUCO Case No. 26-113-EL-ATA (Finding and Order of 5 August 2026); Case No. 25-392-EL-AIR",
+   "source_url": "https://www.aepohio.com/lib/docs/ratesandtariffs/Ohio/November_2026_Ohio_Power_Tariff_Book.pdf",
+   "source_title": "Ohio Power Company tariff book, November 2026 (Schedule DCT, 1st Revised Sheets 223-1 to 223-8)",
+   "what": "The 1st Revised Schedule DCT sheets, issued and effective 28 August 2026 under the PUCO's Finding and Order of 5 August 2026, add Interim Procedures requiring at least 180 days' notice before a DCT customer returns to or starts on the Standard Service Offer, with a separate procurement at the customer's cost. The row and window A's file already carry this date.",
+   "cites": [
+    {
+     "page": "113",
+     "section": "Sheet 223-1",
+     "quote": "1st Revised Sheet No. 223-1 Cancels Original Sheet No. 223-1"
+    },
+    {
+     "page": "113",
+     "section": "Sheet 223-1",
+     "quote": "Filed pursuant to Order dated April 1, 2026 in Case No. 25-392-EL-AIR and August 5, 2026 in Case No. 26113-EL-ATA"
+    },
+    {
+     "page": "113",
+     "section": "Sheet 223-1",
+     "quote": "Issued: August 28, 2026"
+    },
+    {
+     "page": "113",
+     "section": "Sheet 223-1",
+     "quote": "Effective: August 28, 2026"
+    },
+    {
+     "page": "117",
+     "section": "Sheet 223-5",
+     "quote": "the Customer must provide the Company no less than 180 days' advance written notice prior to returning to the SSO"
+    },
+    {
+     "url": "https://content.govdelivery.com/accounts/OHPUC/bulletins/423b896",
+     "page": "1",
+     "quote": "Data center customers will be required to provide AEP Ohio with 180-day notice of their intent to return to default service, known as the Standard Service Offer (SSO).",
+     "date_read": "2026-11-13"
+    }
+   ],
+   "license": "internal",
+   "license_basis": "the sheets were read only on aepohio.com (AEP legal notice: personal use only), as aep-01; the PUCO's bulletin of 5 August 2026 (content.govdelivery.com) is public but predates the window",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Indiana Michigan Power Company",
+   "state": "MI",
+   "rule_name": "Tariff LP (Large Power), Large Load Customers terms (M.P.S.C. 18, First Revised Sheet D-39.00 and Original Sheets D-39.10 to D-39.40)",
+   "affects": "aep-04",
+   "change": "approved",
+   "date": "2026-08-27",
+   "docket": "MPSC Case No. U-21986",
+   "source_url": "https://www.michigan.gov/mpsc/commission/news-releases/2026/08/27/mpsc-approves-siting-settlement-on-ingham-county-solar-project",
+   "source_title": "MPSC news release of August 27, 2026 (MPSC approves Indiana Michigan Power Co. amended data center tariff, directs utility to establish new tariff in next rate case)",
+   "what": "The MPSC approved amendments to I&M's Tariff LP for large load customers of 50 MW or more (15-year term with up to a 5-year ramp, 90 percent minimum billing demand, 65 percent minimum energy, exit fees and more collateral) and required a standalone large load rate in I&M's next general rate case.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "August 27, 2026"
+    },
+    {
+     "page": "1",
+     "quote": "MPSC APPROVES INDIANA MICHIGAN POWER CO. AMENDED DATA CENTER TARIFF, DIRECTS UTILITY TO ESTABLISH NEW TARIFF IN NEXT RATE CASE"
+    },
+    {
+     "page": "1",
+     "quote": "The MPSC today approved amendments to Indiana Michigan Power Co.'s (I&M) large electric load tariff to accommodate data centers and other very large energy users until the utility presents a standalone rate category for very large electricity users in its next general rate case (Case No. U-21986)."
+    },
+    {
+     "page": "1",
+     "quote": "The Commission permitted I&M to amend its large load tariff, or Tariff LP, to allow for large load customers drawing 50 megawatts (MW) or more of electricity."
+    }
+   ],
+   "license": "public",
+   "license_basis": "the MPSC's own release (michigan.gov), as aep-03's public cites",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Indiana Michigan Power Company",
+   "state": "MI",
+   "rule_name": "Tariff LP (Large Power), Large Load Customers terms (M.P.S.C. 18, First Revised Sheet D-39.00 and Original Sheets D-39.10 to D-39.40)",
+   "affects": "aep-04",
+   "change": "in effect",
+   "date": "2026-09-18",
+   "docket": "MPSC Case No. U-21986",
+   "source_url": "https://www.indianamichiganpower.com/lib/docs/ratesandtariffs/Michigan/IM_MI_TB_Bk_19_2026_09_18.pdf",
+   "source_title": "Indiana Michigan Power Company, Michigan tariff book (M.P.S.C. 18 and 19), issued September 18, 2026",
+   "what": "The First Revised Sheet D-39.00 (Large Load Customers, 50 MW and up) took effect for service on and after 18 September 2026 under the MPSC order of 27 August 2026. The row's status cite gives page 4, which is Sheet A-4.00 (the index) with the same footer; the sheet itself is page 96.",
+   "cites": [
+    {
+     "page": "96",
+     "section": "First Revised Sheet No. D-39.00",
+     "quote": "FIRST REVISED SHEET NO. D-39.00 CANCELS ORIGINAL SHEET NO. D-39.00"
+    },
+    {
+     "page": "96",
+     "section": "First Revised Sheet No. D-39.00",
+     "quote": "EFFECTIVE FOR SERVICE RENDERED ON AND AFTER SEPTEMBER 18, 2026"
+    },
+    {
+     "page": "96",
+     "section": "First Revised Sheet No. D-39.00",
+     "quote": "ISSUED UNDER AUTHORITY OF THE MICHIGAN PUBLIC SERVICE COMMISSION DATED AUGUST 27, 2026 IN CASE NO. U-21986"
+    }
+   ],
+   "license": "internal",
+   "license_basis": "read only in I&M's tariff book on indianamichiganpower.com (AEP legal notice: personal use only), as aep-03",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Ameren Illinois Company d/b/a Ameren Illinois",
+   "state": "IL",
+   "rule_name": "Ameren Illinois revisions to terms and conditions for large electric customers, ICC Docket 26-0625",
+   "affects": "ameren_evergy_spp-09",
+   "change": "suspended",
+   "date": "2026-08-19",
+   "docket": "ICC 26-0625 (P2026-0625)",
+   "source_url": "https://icc.illinois.gov/docket/list/suspension-cases",
+   "source_title": "Illinois Commerce Commission, suspension cases list",
+   "what": "The ICC's suspension case on Ameren Illinois's large-customer terms (tariffs filed 10 July 2026) was filed as Docket 26-0625 on 19 August 2026; the suspension ends 6 December 2026 and a resuspension would end 6 June 2027. The list prints no suspension order date.",
+   "cites": [
+    {
+     "page": "1",
+     "quote": "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July 10, 2026)."
+    },
+    {
+     "page": "1",
+     "quote": "Filed: August 19, 2026"
+    },
+    {
+     "page": "1",
+     "quote": "Suspension Ends: December 6, 2026 Resuspension Ends: June 6, 2027"
+    }
+   ],
+   "license": "public",
+   "license_basis": "the ICC's own list page (icc.illinois.gov), as the row",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "no_change": [
+  {
+   "utility": "Delmarva Power & Light Company (DE), Docket 25-0826",
+   "searched": "Delaware PSC news (depsc.delaware.gov/news, read 13 November 2026: items of 9 September, 17 September and 13 October 2026, all on the Delmarva rate case 25-1555 or community solar), the PSC's commission orders and meetings pages (orders since 2016 are on DelaFile, refused); two web searches for a hearing examiner's report or order in 25-0826. No order, report or hearing in 25-0826 found from 15 August to 13 November 2026; the HB 233 signing is entered above."
+  },
+  {
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (Maryland service areas): their own large load rate schedules due 1 September 2026",
+   "searched": "Maryland PSC news, notices and orders, pages 1 to 4 (psc.maryland.gov, items 24 July to 13 November 2026): no item on the large load schedules, PC 72 or RM 93; Maryland OPC's Other Work list (opc.maryland.gov): its last PC 72 item is its comments of 10 August 2026, before the window; Maryland Register issues 53:17 to 53:22. Whether the schedules were filed by 1 September 2026 was not verified: the PSC's docket system bars Claude's agents (not requested). The COMAR 20.96.01 adoption is entered above."
+  },
+  {
+   "utility": "Potomac Electric Power Company (DC)",
+   "searched": "one web search for DC PSC Formal Case No. 1183 and a Pepco large load tariff: FC 1183 is the PJM capacity auction investigation and task force (notice of 18 December 2025, search result only); no DC order or Pepco large load filing found in the window."
+  },
+  {
+   "utility": "PECO Energy Company (PA)",
+   "searched": "the PA PUC model tariff docket M-2025-3054271 page (closed 28 October 2026, no EDC tariff filed there), the M-2026-3064961 docket page, the technical conference page, two web searches for a PECO large load tariff filing in September to November 2026: none found. peco.com barred by Exelon's terms."
+  },
+  {
+   "utility": "FirstEnergy Pennsylvania Electric Company (PA)",
+   "searched": "as for PECO: no FirstEnergy Pennsylvania large load tariff filing found from 15 August to 13 November 2026; the statewide Tentative and Clarification Orders above apply to it."
+  },
+  {
+   "utility": "Duquesne Light Company (PA)",
+   "searched": "as for PECO (PA PUC pages only; duquesnelight.com barred): no Duquesne large load tariff filing found in the window; the statewide orders above apply to it."
+  },
+  {
+   "utility": "UGI Utilities, Citizens' Electric, Wellsboro Electric, Pike County Light & Power (PA)",
+   "searched": "no utility-specific filing found; Citizens' Electric Company of Lewisburg petitioned to intervene in PPL's CPTR proceeding on 23 October 2026 (Scheduling Order p. 4, pcdocs/1958554.pdf), not a rule of its own."
+  },
+  {
+   "utility": "Public Service Electric and Gas Company (PSE&G) and the other New Jersey EDCs",
+   "searched": "the BPU's RFI notice and stakeholder slides (EO26080463, entered above); no utility tariff petition is due until 180 days after the BPU's standards order, which has not issued. PSE&G's own process (northeast-02) has no new document in the window beyond its PJM deck of 21 September 2026, already the row's source."
+  },
+  {
+   "utility": "Consolidated Edison; Orange and Rockland; Niagara Mohawk; NYSEG and RG&E; Central Hudson; LIPA (NY, rows northeast-04 to northeast-09)",
+   "searched": "Case 26-E-0045 docket page (documents.dps.ny.gov: the filing list loads only by postback, so it was not readable), the DPS's EO 62 report (already the rows' source; it prints no filing date), the PSC press release of 17 September 2026 (entered above), one web search for a later order: no Commission order setting large-load terms found in the window."
+  },
+  {
+   "utility": "NSTAR Electric, Massachusetts Electric and Fitchburg Gas and Electric (MA): DPU large load rate schedules",
+   "searched": "E.O. 658 and the DPU directive (entered above); one web search for a DPU large load rate schedule order: none found. The utilities' informational filings due 23 October 2026 were not read (DPU File Room script-driven; nationalgridus.com barred by National Grid's terms; eversource.com barred)."
+  },
+  {
+   "utility": "Central Maine Power Company and Versant Power (ME)",
+   "searched": "Maine PUC case 2026-00142, Commission Initiated Informal Investigation Regarding Development of Large Data Centers (mpuc-cms.maine.gov, read 13 November 2026): case start 5/27/2026; filings in the window are only Summit Natural Gas's motion for protective order (8/12/2026) and the Unitil gas companies' comments (10/2/2026); the Procedural Order Scheduling Workshop is dated 8/11/2026, before the window. No rule or order for the electric utilities. A lead for a future row: the investigation itself (CMP's and Versant's comments of 26 June 2026), not read."
+  },
+  {
+   "utility": "Connecticut Light and Power (Eversource) and United Illuminating (CT)",
+   "searched": "one web search for a New England large load docket in September to October 2026: nothing for Connecticut; PURA's dockets sit on dpuc.state.ct.us, refused by robots in the first pass (not requested)."
+  },
+  {
+   "utility": "Public Service Company of New Hampshire (NH)",
+   "searched": "the same web search: nothing for New Hampshire in the window."
+  },
+  {
+   "utility": "Rhode Island Energy (RI)",
+   "searched": "the same web search: only legislative testimony of May 2026 (search result); no PUC large load docket found."
+  },
+  {
+   "utility": "Green Mountain Power (VT)",
+   "searched": "the same web search: only the Public Service Department's testimony on H.727 of 12 February 2026 (search result); the Vermont PUC refuses this reader by robots (not requested)."
+  },
+  {
+   "utility": "Appalachian Power Company and Wheeling Power Company (WV)",
+   "searched": "one web search for a West Virginia PSC large load or data center tariff order in 2026: none found (results were the Mon Power and Potomac Edison rate filing, the Fort Martin plant application and the February 2026 reconsideration in Case 24-0854-E-42T, none a large load rule change in the window)."
+  },
+  {
+   "utility": "AES Ohio (The Dayton Power and Light Company)",
+   "searched": "PUCO GovDelivery bulletins of 30 July, 5 August and 31 August 2026 (content.govdelivery.com); one web search on the AES Ohio rate case 25-0958-EL-AIR: the settlement was filed 21 July 2026 and no order found in the window (search results only). aes-ohio.com barred by its terms; the PUCO docketing system bars Claude's agents (not requested)."
+  },
+  {
+   "utility": "Ohio Edison, Cleveland Electric Illuminating and Toledo Edison (FirstEnergy Ohio)",
+   "searched": "the same bulletins and two web searches: no PUCO action on a FirstEnergy Ohio data center tariff found in the window; Case 26-697-EL-ATA (a lead from PJM's consultant whitepaper) not readable (PUCO docketing bars Claude's agents)."
+  },
+  {
+   "utility": "Duke Energy Ohio, Inc. (duke-05, Case 26-0755-EL-ATA)",
+   "searched": "PUCO bulletin of 30 July 2026 (the application, before the window) and of 31 August 2026 (nothing on Duke); two web searches: no PUCO order found. A lead (EEI and a tracker, first pass): staff comments in October 2026, not read."
+  },
+  {
+   "utility": "Commonwealth Edison Company (ComEd, IL)",
+   "searched": "one web search for an ICC large load action from September to November 2026: only the order of 19 March 2026 and its follow-up investigation (news); icc.illinois.gov/news answered HTTP 500; the ICC docket pages give a bot check (not requested). No change found in the window."
+  },
+  {
+   "utility": "Indiana Michigan Power Company (IN side) and Old Dominion Electric Cooperative",
+   "searched": "not in this group's states beyond I&M's Michigan side; not searched."
+  }
+ ],
+ "refused": [
+  {
+   "utility": "All Pennsylvania electric distribution companies",
+   "url": "https://www.puc.pa.gov/pcdocs/1949305.pdf",
+   "reason": "no_text: the Vice Chair's motion of 10 September 2026 at M-2026-3064961 is a scanned PDF (2 pages) with no text layer; not read further (its title is quoted from the docket page)"
+  },
+  {
+   "utility": "All Pennsylvania electric distribution companies",
+   "url": "https://www.puc.pa.gov/docket/L-2025-3059032",
+   "reason": "robots.txt not readable (URLError: WinError 10060, connection timed out); not read, not retried"
+  },
+  {
+   "utility": "Consolidated Edison; Orange and Rockland; Niagara Mohawk; NYSEG and RG&E; Central Hudson (NY)",
+   "url": "https://content.govdelivery.com/accounts/NYSDPSPO/bulletins",
+   "reason": "HTTP 404"
+  },
+  {
+   "utility": "Commonwealth Edison Company; Ameren Illinois Company (IL)",
+   "url": "https://icc.illinois.gov/news",
+   "reason": "HTTP 500"
+  },
+  {
+   "utility": "AES Ohio; FirstEnergy Ohio; Duke Energy Ohio (OH)",
+   "url": "https://puco.ohio.gov/wps/portal/gov/puco/news",
+   "reason": "robots allowed, but the page is built by script and the reader saw no news items; WebFetch answered HTTP 404; no value taken"
+  },
+  {
+   "utility": "Baltimore Gas and Electric Company; Potomac Electric Power Company; Delmarva Power & Light Company (MD)",
+   "url": "https://webpscxb.psc.state.md.us/DMS/",
+   "reason": "not requested this pass: the first pass found robots.txt disallowing ClaudeBot, Claude-Web and anthropic-ai on the Maryland PSC's docket system"
+  },
+  {
+   "utility": "Delmarva Power & Light Company (DE)",
+   "url": "https://delafile.delaware.gov/",
+   "reason": "not requested this pass: DelaFile's robots.txt disallows every agent (first pass)"
+  },
+  {
+   "utility": "AES Ohio; FirstEnergy Ohio; Duke Energy Ohio (OH)",
+   "url": "https://dis.puc.state.oh.us/",
+   "reason": "not requested this pass: the PUCO docketing system's robots.txt disallows Claude's agents (first pass)"
+  },
+  {
+   "utility": "Commonwealth Edison Company; Ameren Illinois Company (IL)",
+   "url": "https://icc.illinois.gov/docket/",
+   "reason": "not requested this pass: the ICC docket pages answered with a bot check in the first pass"
+  },
+  {
+   "utility": "Massachusetts Electric Company and Nantucket Electric Company (National Grid, MA)",
+   "url": "https://www.nationalgridus.com/media/pdfs/our-company/dpu/2026/dpu_26-44_vote_and_order_opening_investigation.pdf",
+   "reason": "not requested: National Grid's terms bar this reader (session 2937); a search result only"
+  }
+ ]
+}

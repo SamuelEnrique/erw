@@ -1,0 +1,313 @@
+{
+  "auditor_note": "Independent audit of 28 rows of docs/research/large_load/rows (dominion, southern_florida, aep, entergy, texas) against the cached copies in runs/s5300/docs only; no web request made. Page numbers are the PDF page order of the cached text.txt. Verdicts cover every field holding a value, the status with its date, the docket, and any 'not published' field the cited documents state.",
+  "rows": [
+    {
+      "row_id": "dominion-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Final Order dated 25 November 2025 (p. 9); GS-5 'effective January 1, 2027' (p. 31), so approved and not yet in effect; Q3 2026 10-Q records the appeal pending."},
+        {"field": "docket", "verdict": "ok", "detail": "CASE NO. PUR-2025-00058 on p. 9."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 31 GS-5 Rate Class (25 MW contiguous site, 75% load factor); p. 32 totalization at contiguous locations for minimum demands."},
+        {"field": "min_demand", "verdict": "ok", "detail": "pp. 32 to 34: 85/85/60 percent, PJM capacity excluded from the generation minimum, minimums continue after the term, ramp up to four years with 20% minimum annual ramp, legacy exemptions as worded."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 32 (14 years, ESA on or after 1 January 2027, ramp within the term) and p. 35 (20% at no cost, further 30% if another customer assumes, separate 36-month notice)."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 33: $1.5 million/MW, up to 70% reduction on established credit, guarantees and letters of credit, annual release (text layer '1714th'), interest on cash collateral, ESA on or after 1 January 2027."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p. 32: exit fee covering outstanding minimum charges over the remaining contract duration, subject to capacity reassignment."},
+        {"field": "queue_size", "verdict": "ok", "detail": "PJM deck p. 2 ('Approximately 54GW of capacity under contract (ELOA, CLOA, ESA)'), p. 6 (32,473 / 9,356 / 11,997 MW as of July 2026); ESIG deck p. 3 (~70, ~25, ~45 GW), dated June 16, 2026, presenter an engineer of Dominion's Engineering Analytics and Modeling."}
+      ]
+    },
+    {
+      "row_id": "dominion-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Present-tense description in the letter of 6 January 2026; the date is the letter's, not an effective date (the row's notes say so)."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "The value says the letter states no size and attributes 25 MW / 75% to the 'High load' category; the 10-Q footnote (1) defines the 'High load' revenue line, and the 2025 10-K's own revenue table carries the same footnote, so linking it to the 10-K's 'high load customers' deposit rule is a reasonable reading, transparently labelled. It is not a threshold of the ELOA/CLOA/ESA structure itself."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Spotsylvania answers p. 2: revenue guarantees to recoup distribution cost within 4 years; 'contract dollar minimum' kept until revenues (less taxes, fuel, facilities charges) exceed net investment."},
+        {"field": "collateral", "verdict": "ok", "detail": "Letter p. 2 ($250,000 ELOA deposit; long-lead deposits refunded at energization; ESA assigns collateral); 10-K Note 2 (cash deposits during construction from 2025)."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Letter p. 2 to 3 (reimburse investments if cancelled before energization or no ESA); 10-K Note 2 (deposit retained if equipment cannot be redeployed)."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "Letter p. 2: engineering phase 'typically takes 9 to 12 months'; 90 days to request a CLOA and another 90 days to execute, else cancelled."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Letter p. 2: deposits 'refunded at energization, typically 3 years after the point of order'; study gives an estimated energization date."}
+      ]
+    },
+    {
+      "row_id": "dominion-03",
+      "verdicts": [
+        {"field": "status", "verdict": "unclear", "detail": "'proposed' means filed and pending in this dataset, but the cited words (Final Order pp. 30 to 31) only record hearing testimony about the Company's new queue process and direct the Company to file it in a separate proceeding 'on or before February 2, 2026'. No document read shows the filing was made, its date or its case, or whether the SCC has acted (the notes admit the filing was not read). Missing: the filing itself or a document confirming it. On the words read the status is 'ordered to be filed by 2 February 2026'.", "page": "30 to 31", "words": "the Commission further directs that the Company file its new large load interconnection queue process, along with supporting testimony, in a separate future proceeding at the Commission ... directs that the Company make such a filing on or before February 2, 2026."}
+      ]
+    },
+    {
+      "row_id": "dominion-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "'Schedule HV-1 Effective: 4/1/2023' (p. 1); notes flag that NOVEC changed distribution rates from November 2026."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 1 conditions 1 to 3. Minor: the 115 kV / 12.5 kV clause is 'Standard service'; the sheet also allows service from the primary distribution system with a CIAC (mentioned in the row's collateral 'searched')."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 2 distribution billing demand (highest of 30-minute demand, 5,000 kW, contract minimum); p. 3 minimum monthly distribution charge; p. 1 condition 4."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 1 condition 6."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p. 1 condition 5: ESA with initial effective date not later than 12 months prior to desired service, unless otherwise agreed."},
+        {"field": "queue_size", "verdict": "ok", "detail": "NOVEC PJM deck p. 4 (88 buildings, approx. 1,750 MW), p. 10, p. 22 table headed 'July Capacity (MVA)', DOM-NVEC TOTAL 5,062 (2027) to 15,794 (2047), 'JULY 2026 FORECAST VINTAGE'."}
+      ]
+    },
+    {
+      "row_id": "dominion-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Description of the current process; the date is the PJM meeting date, not an effective date (stated in notes)."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 4: 'dedicated service capacity of greater than or equal to 5 MW'; data center identified during contracting/planning."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 11: non-refundable deposit at pre-construction commitment; CIAC payments begin at construction commitment."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p. 11: 'Construction Commitment [5+ years prior to energization]'; 'Electric Service Obligation [3+ years prior to energization]'."}
+      ]
+    },
+    {
+      "row_id": "dominion-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "News release of July 17, 2026: 'today's filing'; 'If approved by the State Corporation Commission'."}
+      ]
+    },
+    {
+      "row_id": "dominion-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Present-tense contract stages on p. 6 of the 2026 deck; no date given, correctly left blank."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 6 Steps 1 to 3 as worded."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p. 6 Step 2: 'Member reimburses REC investments if the project is canceled'."},
+        {"field": "queue_size", "verdict": "ok", "detail": "2026 deck p. 3 requested capacity 7,423 / 17,367 / 22,426 MW; 2025 deck p. 5 'executed Construction Development Agreements (4.5GW) and Engineering Letters of Authorization (13.9GW) through August 2025'."}
+      ]
+    },
+    {
+      "row_id": "southern_florida-01",
+      "verdicts": [
+        {"field": "status", "verdict": "unclear", "detail": "'in effect' is supported (the 26 August 2026 joint statement applies the January 28, 2025 and April 17, 2025 orders to contracts filed). The date 2025-02-01 is read from the page footer of the revised Rules pages as proposed in the 11 December 2024 filing; the adopted compliance pages (subject of the April 17, 2025 compliance order) were not read, so the effective date as adopted is not confirmed by a post-approval document. Missing: the approved compliance sheet or the order's effective date.", "page": "16 (Dec 2024 filing)", "words": "Paragraphs 13 and 14 added February 1, 2025"},
+        {"field": "docket", "verdict": "ok", "detail": "Docket No. 44280 on the filing (p. 1) and the joint statement."},
+        {"field": "contract_term", "verdict": "ok", "detail": "News release of January 23, 2025 p. 1: 'longer contract lengths (from 5-year contracts to 15-year contracts)'; A1 p. 4 'a longer term of contract'. Faithful to the release's wording."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "D14 p. 16; joint statement pp. 1 to 2. Minor omission: the deficiency is reduced by termination payments and also by the Company's mitigation activities and net benefits, with any unmitigated deficiency left to the Commission's discretion (p. 2)."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "PSC 2025 Annual Report p. 18: contracts provided 'at least 30 days before execution'; no study duration."},
+        {"field": "queue_size", "verdict": "ok", "detail": "Q1 2026 report pp. 5 to 6: 12,400 MW across 31 customers (CES plus RFS) as of March 31, 2026; 3,200 MW added in April not included; 76,200 MW pipeline of which 73,100 MW large load; near-term (winter 2028/2029) 23,600 MW; cover letter dated May 15, 2026, Docket No. 55378."}
+      ]
+    },
+    {
+      "row_id": "southern_florida-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "October 6, 2026 minutes pp. 14 to 18: the Commission voted unanimously to approve the amendment and accept the entire recommendation; a compliance tariff is to follow, so approved, not yet in effect."},
+        {"field": "docket", "verdict": "ok", "detail": "DOCKET 33709 (October minutes p. 14; July minutes p. 14)."},
+        {"field": "study_timeline", "verdict": "wrong", "detail": "Written 'not published (the proposed process names a designated review period with no figure)', citing the July 7 minutes' list of what the proceeding would develop. The October 6, 2026 minutes, which this row cites for its status, adopt the review period with figures: Commission vote on each Petition, deemed approved if no vote within 90 days of filing (the July 8 proposal had sixty calendar days, p. 15), filing at least 120 days before the contract would become void, and best efforts to answer data requests within five business days (p. 16). By this dataset's own use of study_timeline for commission contract review (southern_florida-01, entergy-03) the value is published.", "corrected_value": "Commission vote on each Petition to Contract, with no hearing or intervention; the Petition is deemed approved if the Commission fails to vote within 90 days from its filing; Alabama Power should file the Petition and Confidential Submission at least 120 days before the date the contract would become void for want of Commission approval; Alabama Power to use best efforts to answer Staff and Attorney General data requests within five business days", "page": "17 (also 16) of https://psc.alabama.gov/wp-content/uploads/2026/11/OCTOBER-6-2026-COMMISSION-MEETING-MINUTES.pdf", "words": "AMENDED: DECISION AND REVIEW. Contracts submitted under this process shall be approved or disapproved through a Commission vote; however, if the Commission fails to vote within 90 days from the filing of the Petition, then the Petition is deemed approved. The process would not call for a hearing or intervention. ... However, Alabama Power should file the Petition and provide the Confidential Submission at least 120 days before the date the contract would become void for failing to meet the condition precedent of Commission approval."}
+      ]
+    },
+    {
+      "row_id": "southern_florida-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "p. 1 'Effective Date January, 2006 Billings', Revision Fourteenth."},
+        {"field": "docket", "verdict": "ok", "detail": "p. 1 order dated December 7, 1998 in Docket # 24860."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 1: 'loads of more than 27,000 kW' (the value keeps 'more than'); schedule applies from 3,000 kW at about 90% load factor."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 2 Determination of billing capacity, as worded."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 3 Term of contract: 10 years for new Consumers, not less than 1 year for others, then 1 year notice."}
+      ]
+    },
+    {
+      "row_id": "southern_florida-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Order No. PSC-2026-0022-S-EI issued January 22, 2026, 'Final Order Aproving 2025 Stipulation and Settlement Agreement' (00628-2026 pp. 2 to 3); approved, effective date not read, as the notes say."},
+        {"field": "docket", "verdict": "ok", "detail": "Docket No. 20250011-EI."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Settlement paragraph 6(a)."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Paragraph 6(b) 70%; errata Sheet 8.951 (p. 6) shows the filed 90% and the IGC on Load Ramp Demand then Contract Demand; witness Cohen p. 24 '100% of the IGC and 70% of the demand-based charges'."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet 8.951 (p. 6): not less than 20 years from the In-Service Date including the Load Ramp Period; two years' notice. Paragraph 6(a) to (f) does not modify the term."},
+        {"field": "collateral", "verdict": "ok", "detail": "Paragraph 6(e)(i) to (iii) as worded."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Attributed correctly to FPL's settlement rebuttal testimony filed 10/3/2025, p. 24 (also p. 23: 'accelerated payment of 100% of the IGC for the remaining term')."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "Paragraph 6(f)(i) to (iii). Minor: the six months run from the later of the date FPL provides the Engineering Study or the date the LLCS Tariff becomes effective; the value says only 'after FPL provides the study'."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Paragraph 6(f)(v)."},
+        {"field": "queue_size", "verdict": "wrong", "detail": "The value tags the 2 projected data center accounts as '(large load, LLCS)'. The response that counts them (Request No. 5, p. 7) names no rate schedule; the sentence tying 'large load customers' to LLCS-1 and LLCS-2 (p. 5) answers Request No. 3, about the 'large customers', 'large load customers' and 'large loads' of Data Request #1 No. 15, a different question. Linking the two is an inference the words do not make.", "corrected_value": "No MW pipeline published in the documents read; FPL's responses on its 2026 to 2035 Ten Year Site Plan (filed 14 July 2026) count 32 active data center customer accounts and 2 projected data center customer accounts, the latter based on discussions with potential large power users and FPL's assessment that they are highly likely to begin service in 2028 (no rate schedule stated for them)", "page": "7 (and 5) of https://www.floridapsc.com/library/filings/2026/04335-2026/04335-2026.pdf", "words": "b. The two projected data center customer accounts were based on discussions with potential large power users and FPL's assessment that customers with significant load requirements are highly likely to begin service on FPL's system in 2028."}
+      ]
+    },
+    {
+      "row_id": "southern_florida-05",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Petition filed September 30, 2026; pending."},
+        {"field": "docket", "verdict": "ok", "detail": "DOCKET NO. 20260146-EI on the filing stamp."},
+        {"field": "threshold_mw", "verdict": "wrong", "detail": "'LLCS-2 serves load beyond the first 1 GW' drops the second trigger printed on Sheet 6.880: LLCS-2 applies to load in excess of the first 1 GW under LLCS-1 OR from five years after LLCS-1 opens, whichever is sooner. The 50 MW threshold and the LLCS-1 cap and 1 January 2031 closing are correct.", "corrected_value": "50 MW anticipated monthly peak load at a single location; LLCS-1 limited to a class combined total load of 1 GW (closed to new or incremental load when the 1 GW cap is fully subscribed or on 1 January 2031, whichever occurs sooner); LLCS-2 applies to new or incremental load in excess of the first class combined 1 GW served under LLCS-1, or five years from the date LLCS-1 opens, whichever is sooner", "page": "32 (Original Sheet No. 6.880, LLCS-2, Limitation of Service)", "words": "Service under this schedule shall apply to all new or incremental load with an In-Service Date on or after the original effective date of this schedule in excess of the first class combined total load of 1 GW to be served under rate schedule LLCS-1 or five years from the date the LLCS-1 rate schedule opens , whichever is sooner."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Sheets 6.855 (p. 27), 6.860 (p. 28), 6.865 (p. 29) as worded."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet 6.865 (p. 29); LLCC 5(a) (p. 48) three years' notice after the Initial Term; 5(b)(i) and 5(c)(i) notice to continue or cease at least three years before the end of the Initial Term (p. 48 to 49)."},
+        {"field": "collateral", "verdict": "ok", "detail": "LLCC Section 11 (pp. 55 to 56) as worded."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "LLCC 2(fff) p. 47, 5(c)(ii) p. 49, 5(d) p. 50, 5(b)(ii) p. 49."},
+        {"field": "queue_size", "verdict": "ok", "detail": "Testimony p. 15: no customers qualify as large load customers; no pipeline figure found in 07096 or 07097."}
+      ]
+    },
+    {
+      "row_id": "aep-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "1st Revised Sheets 223-1 to 223-8 issued and effective August 28, 2026 (pp. 113 to 118); DCT itself effective July 23, 2025 (aepohio.com page)."},
+        {"field": "docket", "verdict": "ok", "detail": "Sheet 223-2 (Case No. 24-508-EL-ATA) and Sheet 223-5 (August 5, 2026 Finding and Order in 26-113-EL-ATA)."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheets 223-2, 223-5, 223-6 as worded. Minor: the Load Ramp Period plus 8 years term is printed 'For New Load only'; the value omits that limit."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Sheet 223-6 (p. 118); aepohio.com page on assigning up to 25% of contract capacity in lieu of some or all of the exit fee."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "aepohio.com page (fee $10,000 to $100,000 with the size table: >25 MW to <50 MW $10,000, 50 to <100 MW $50,000, 100 MW+ $100,000; 45 days; 60/45-day study efforts; 60 days to sign; next tranche October 1, 2026 for applications by September 30, 2026); load study letter p. 5 (collateral within 30 days of signing)."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Load study letter p. 4 (Q4 2031 Clusters 1 and 3, 2033 Cluster 2, 'merely a planning estimate'); Sheet 223-2 (service not before sufficient capacity)."},
+        {"field": "queue_size", "verdict": "ok", "detail": "AEP PJM deck p. 2 (signed ESA or LOA only) and p. 6 (AEP Ohio 15,574 MW 2031, 17,116 ultimate); PUCO Chair testimony of 27 May 2026 p. 2 (5,642 MW announced 'In February'; more than 30,000 MW in 2024); load study letter p. 1 (36 sites, 13,022.7 MW by September 8, 2025)."}
+      ]
+    },
+    {
+      "row_id": "aep-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Opinion and Order entered July 9, 2025 (p. 74), paragraph 171 approves and adopts the 10/23 Stipulation as modified (p. 170)."},
+        {"field": "docket", "verdict": "ok", "detail": "Case No. 24-508-EL-ATA."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "10/23 column, pp. 89 to 90 ('greater in the aggregate than 25 MW'); p. 94 aggregation."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 92, 10/23 column, as worded. Note: the 50/65/80/90 percent 'ramp floors' (p. 90 to 91) are floors on contract capacity in ramp years 1 to 4 ('the contract capacity will be no less than'), not billing-demand percentages."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 91, 10/23 column."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 91 (10/23 column) and p. 150 (financial sponsor co-signer modification)."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p. 96 as cited. Minor: the 'flow back' part (pp. 96 to 97, not cited) is a regulatory liability plus a proposal AEP Ohio will advance 'for Commission approval to flow the funds back to the benefit of its retail customers', not an automatic flow-back."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "pp. 94 to 95, 10/23 column."}
+      ]
+    },
+    {
+      "row_id": "aep-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheets 21.3 to 21.6 effective February 19, 2025 (Cause No. 46097); 1st Revised Sheet 21.7 effective June 24, 2026. Cite page note: the status cite labelled 'p.85 Sheet 21.3' is on p. 85, which is First Revised Sheet No. 21 (the general I.P. sheet); the same footer is on Sheet 21.3 at p. 88."},
+        {"field": "docket", "verdict": "ok", "detail": "p. 88 (Cause No. 46097) and p. 92 (30-Day Filing No. 50910)."},
+        {"field": "collateral", "verdict": "ok", "detail": "1st Revised Sheet 21.7 (p. 92) as worded, including the 10 business days and the 50% / $250 million exemption."},
+        {"field": "queue_size", "verdict": "ok", "detail": "AEP PJM deck p. 6: Indiana & Michigan Power 4,330 MW in 2031 and ultimate."}
+      ]
+    },
+    {
+      "row_id": "aep-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet D-39.00 (p. 96) effective for service on and after September 18, 2026, under the MPSC order of August 27, 2026."},
+        {"field": "docket", "verdict": "ok", "detail": "Case No. U-21986."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 96 and the MPSC release."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Sheet D-39.20 (p. 98): 90% of the greater of contract capacity or highest billing demand of 11 months; Base Billing Energy 65% of contract capacity times billing hours."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet D-39.10 (p. 97)."},
+        {"field": "collateral", "verdict": "ok", "detail": "Sheet D-39.40 (p. 100): 50% of the Exit Fee within 10 business days, recalculated annually or on material change; letter of credit or cash."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Sheet D-39.10 (p. 97), 60 months' notice for termination/AES/reduction beyond 10%; 48 months for the one-time 10% reduction after five years."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "Sheet D-39.30 (p. 99) as worded."}
+      ]
+    },
+    {
+      "row_id": "aep-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 8-3 (p. 63) 'Applicable on and after March 18, 2025'; the current sheet effective March 1, 2026. Cite note: the second status cite says 'p.5 Sheet 8-3' but p. 5 is another sheet; the same footer is on p. 63."},
+        {"field": "docket", "verdict": "ok", "detail": "Order of March 18, 2025 in Case No. 2024-00305; sheet issued under Case No. 2025-00257 dated February 28, 2026."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 63."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 63, 90% of the greater of (a), (b), (c)."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 63 as worded."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 63 as worded."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "p. 63: one-time payment equal to five years of minimum billing on permanent closure after the first five years."},
+        {"field": "queue_size", "verdict": "ok", "detail": "AEP PJM deck p. 6 (Kentucky Power 1,033 MW); AEP Q3 2026 10-Q (TeraWulf amended agreement, October 2026, 1 GW contracted demand)."}
+      ]
+    },
+    {
+      "row_id": "aep-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "AEP Q3 2026 10-Q: in the paragraph on the rate case 'In January 2026, PSO filed', 'Further, PSO is seeking approval of new large load special terms and conditions'; large load issues open at hearing; order expected Q4 2026."}
+      ]
+    },
+    {
+      "row_id": "aep-08",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Proposed Order FoF 5 (application October 3, 2025), FoF 20 (settlement September 15, 2026), memo of October 28, 2026 (exceptions due November 12, 2026). Pending. The date is the original application; the settlement terms the fields describe were filed 15 September 2026."},
+        {"field": "docket", "verdict": "ok", "detail": "PUC Docket No. 58796; SOAH Docket No. 473-26-07507."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Proposed Order FoF 35 (p. 8)."},
+        {"field": "min_demand", "verdict": "ok", "detail": "FoF 40 and 41 (p. 9)."},
+        {"field": "contract_term", "verdict": "ok", "detail": "FoF 38, 39 (p. 9) and Attachment A Automatic Renewal (p. 14)."},
+        {"field": "collateral", "verdict": "ok", "detail": "Attachment A p. 14; the days are blank in the form."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Attachment A p. 14. Minor: the trigger is termination by declaring intent or by failing to comply with any material terms, 'including, but not limited to' three months' non-payment; '(or three months' non-payment)' narrows it."}
+      ]
+    },
+    {
+      "row_id": "entergy-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "April 15, 2026 minutes p. 5: filed March 26 under the Lightning Directive; Commission consideration set for December 16, 2026 (p. 6)."},
+        {"field": "docket", "verdict": "ok", "detail": "LPSC Docket No. U-37882."},
+        {"field": "collateral", "verdict": "ok", "detail": "STAFF 1-92 response (p. 103). Minor: the 3 to 5 year initial term is what 'ELL anticipates', not a fixed term."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p. 103: 'service commencement date, which is expected in 2028'."},
+        {"field": "contract_term", "verdict": "unclear", "detail": "Written 'not published', but the row's own source document prints the term, as the intervenor's summary of ELL witness Beauchamp's Table 4 (HSPM/AEO). The row withholds it under a rule for intervenor quotes that is not in the README; if that rule stands the field can stay 'not published', otherwise the words support a value. Missing: confirmation in ELL's own filing.", "page": "38 (Burgess testimony, the row's source_url)", "words": "A 20-year initial term with 3-year non-renewal notice."},
+        {"field": "min_demand", "verdict": "unclear", "detail": "Same as contract_term: the source prints a qualitative minimum charge from ELL's Table 4, secondhand; no figure.", "page": "38", "words": "A minimum monthly charge intended to cover the full incremental cost to serve during the contract."},
+        {"field": "exit_fee", "verdict": "unclear", "detail": "Same as contract_term: the source prints a qualitative early termination fee from ELL's Table 4, secondhand; no figure.", "page": "38", "words": "An early termination fee intended to pay all unrecovered costs"}
+      ]
+    },
+    {
+      "row_id": "entergy-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "August 20, 2025 minutes p. 3: the Commission voted 4:1 to accept the Settlement Agreement filed August 7, 2025."},
+        {"field": "docket", "verdict": "ok", "detail": "U-37425 (minutes p. 2)."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Term sheet p. 19 B.2."},
+        {"field": "collateral", "verdict": "ok", "detail": "Term sheet p. 19 B.3."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Term sheet p. 19 C.2."},
+        {"field": "contract_term", "verdict": "ok", "detail": "'not published' kept: the only statement of a term (Kunkel p. 11, '15-year agreement with up to three 5-year extensions') is an intervenor's description of the ESA filed in October 2024, which the testimony says was being renegotiated and which the settlement did not approve (term sheet p. 18)."}
+      ]
+    },
+    {
+      "row_id": "entergy-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "December 17, 2025 minutes p. 7: 'The directive passed 4:1.'"},
+        {"field": "docket", "verdict": "ok", "detail": "p. 7: requirements of General Order 10-14-2024 (R-34247) considered waived."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 7 factor e."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 7 factor d."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "p. 7 paragraph 2: vote within 8 months of an application (an objective); 60 days' prior contact with the Executive Counsel."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "p. 7 factor a."}
+      ]
+    },
+    {
+      "row_id": "entergy-04",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "February 25, 2026 minutes p. 6: directive to distribute and post the guidelines, no opposition."},
+        {"field": "docket", "verdict": "ok", "detail": "Minutes p. 6 'Undocketed'; technical conference transcript p. 3 'X-37921' as the comment repository."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Minutes p. 6: 'which Staff considers to be a customer, or group of related customers, in excess of 100 MW'."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Guidelines p. 2 section V."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Guidelines p. 2 section IV."},
+        {"field": "collateral", "verdict": "ok", "detail": "Guidelines p. 2 section IV."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Guidelines p. 2 section V."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Guidelines p. 3 section IX and p. 2 section III."}
+      ]
+    },
+    {
+      "row_id": "entergy-06",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Doc. 94 (amended application) and doc. 91 filed 10/19/2026."},
+        {"field": "docket", "verdict": "ok", "detail": "Docket No. 25-055-P."},
+        {"field": "min_demand", "verdict": "ok", "detail": "Elbe p. 5, percent redacted."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Elbe p. 6: 'the Amended Agreement's twenty-year term'."}
+      ]
+    },
+    {
+      "row_id": "entergy-07",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Approval stamps 11/04/2022 (22-032-TF, sheets 69.2 to 69.6) and 12/21/2023 (23-070-TF, sheet 69.1); Effective field blank, as the notes say."},
+        {"field": "docket", "verdict": "ok", "detail": "pp. 342 to 343 stamps."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "p. 342 availability; p. 345 Billing kW not less than 100 kW."},
+        {"field": "min_demand", "verdict": "ok", "detail": "p. 344 (69.5.2). Note: the sheet prints 'The greater of:' above the two billing items and no second alternative; in EAL's other schedules (Nos. 6 to 9) the same block reads billing items 'Or such other amount required by Rate Schedule No. 60', so the customer charge plus demand charge reading is the consistent one. The 10% firm-demand cap (p. 343) is faithful, though it is a cap, not a minimum."},
+        {"field": "contract_term", "verdict": "ok", "detail": "p. 347 (69.9)."},
+        {"field": "collateral", "verdict": "ok", "detail": "p. 347 (69.8) items 1 to 3."}
+      ]
+    },
+    {
+      "row_id": "texas-01",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Texas Register acknowledgment 'Effective Date: 10/08/2026'; adoption order p. 71."},
+        {"field": "docket", "verdict": "ok", "detail": "Project No. 58481, item 218."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "§25.194(b)(1) to (2) and (c)(14), pp. 25 and 28."},
+        {"field": "min_demand", "verdict": "ok", "detail": "§25.194(f)(2)(D) p. 55 and (f)(2)(B)(ii) p. 53."},
+        {"field": "contract_term", "verdict": "ok", "detail": "§25.194(c)(17) p. 28 and preamble p. 60."},
+        {"field": "collateral", "verdict": "ok", "detail": "§25.194(d)(2)(B), (f)(2)(B), (f)(2)(C), pp. 36 to 38, 52 to 55, as worded."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "§25.194(d)(3)(A) to (E) pp. 40 to 42 (forfeiture when the customer neither withdraws nor executes a SLLIA by the deadline), (f)(3) p. 57, (g)(2) to (4) p. 60, (h)(1)(C) p. 63."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "§25.194(d)(2)(A) pp. 35 to 36, (e)(1) p. 43, (e)(2)(A) p. 44."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "§25.194(f) p. 45, (g)(1) p. 59, (f)(3)(C) p. 57. 'ERCOT may reallocate the capacity' is not in the cited words; it is supported by §25.194(k)(1)(D), pp. 69 to 70: 'In a future interconnection study, ERCOT may, in a manner consistent with ERCOT protocols reallocate transmission capacity, including ... (D) a large load customer that fails, by 24 months, to satisfy a milestone'."}
+      ]
+    },
+    {
+      "row_id": "texas-02",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "§25.194 effective 10/08/2026; Oncor's 6.3.2 form effective June 1, 2026, approved APR 17 2026 in Docket 58306. The row is a composite; the date is the rule's."},
+        {"field": "docket", "verdict": "ok", "detail": "10-Q Note 2 (Docket No. 58306, rates effective June 1, 2026); stamped tariff p. 74; Project 58481 filing receipt."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "§25.194(b)(1); 10-Q 'loads of 75 MW or greater'; tariff 6.2.3.6 (p. 70)."},
+        {"field": "contract_term", "verdict": "ok", "detail": "6.3.2 Article III (p. 74); §25.194(f)(2)(D)."},
+        {"field": "collateral", "verdict": "ok", "detail": "§25.194 as in texas-01; 6.3.2 Article I paragraph 2; 10-Q (batch zero $50,000 per MW, cash converted to letters of credit or approved affiliate guarantees; security below credit thresholds)."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "6.3.2 Article I paragraphs 2 and 3 (p. 74), reduced by customer payments; §25.194 (d)(3)(C), (f)(3)(B)."},
+        {"field": "study_timeline", "verdict": "ok", "detail": "§25.194(d)(2)(A), (e)(1), (e)(2)(A)."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "§25.194(f), (g)(1); tariff 5.7.3 (p. 60): residential extensions within 90 days, 'all other extensions ... within the time estimated by Company', estimate within ten Business Days unless mutually agreed."},
+        {"field": "queue_size", "verdict": "ok", "detail": "8-K Exhibit 99.1: 795 requests, approximately 293 GW data centers and 19 GW other including 4 GW crypto; Batch Zero approximately 24 GW base load including 10 GW energized, 21 GW studied load."}
+      ]
+    },
+    {
+      "row_id": "texas-03",
+      "verdicts": [
+        {"field": "status", "verdict": "ok", "detail": "Sheet 6.16 Revision 8th effective 04/28/25 (p. 203); Sheet 6.25 Revision 6th effective 04/23/20 (p. 238)."},
+        {"field": "threshold_mw", "verdict": "ok", "detail": "Sheet 6.16 Subsection 2.3 (p. 203); 60,000 volts in the Sheet 6.25 recital (p. 238) and the definitions (p. 229); demand in MW in section 2 of the form."},
+        {"field": "contract_term", "verdict": "ok", "detail": "Sheet 6.25 section 10 (p. 242)."},
+        {"field": "collateral", "verdict": "ok", "detail": "Sheet 6.16 p. 203; Sheet 6.25 section 5(a), 5(b) (p. 240), and no security clause found in the form (pp. 238 to 243); 10-Q (FEAs executed and financial security posted for Batch Zero, no per-MW amount)."},
+        {"field": "exit_fee", "verdict": "ok", "detail": "Sheet 6.25 section 5(a) (p. 240), 5(b)(ii) (p. 241), section 10 (p. 242)."},
+        {"field": "connection_timeline", "verdict": "ok", "detail": "Sheet 6.25 section 4 and 4(d) (pp. 239 to 240)."},
+        {"field": "queue_size", "verdict": "ok", "detail": "CenterPoint Q3 2026 10-Q: approximately 14 GW originally submitted; 10 GW base load and approximately 2 GW studied load remain."}
+      ]
+    }
+  ]
+}

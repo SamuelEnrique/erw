@@ -94,7 +94,8 @@
    "license_basis": "public version of testimony filed in LPSC Docket U-37882, the copy posted by the filing party (Alliance for Affordable Energy); status from the LPSC's own minutes",
    "erw_overlap": "large_load_tariffs/entergy_louisiana_llhlfps_l.yaml: the customer takes service under LLHLFPS-L (held); this row adds the customer-specific ESA and Rider 1 terms proposed in U-37882. Window A's three Entergy files were read from entergylouisiana.com and entergytexas.com, which the Entergy Corporation Site Terms cover and which bar any robot, spider or scraper (see refused): a license basis for window A to check.",
    "notes": "Values are the AAE/UCS witness's summary of ELL witness Beauchamp's Table 4 (Beauchamp Direct at 18-19, HSPM/AEO) and ELL's discovery response STAFF 1-92 reproduced as an exhibit (p. 103); ELL's own application and testimony were not found on a readable host (the LPSC e-docket's document list loads by a request that answered HTTP 500). The proposal is seven CCCTs of about 5.3 GW plus three BESS (Burgess p. 10). Burgess cites the application as dated March 25, 2026; the LPSC minutes say filed March 26 and Entergy's investor page says March 27. The Sierra Club's Glick testimony (sierraclub.org) was refused. News lead only: Entergy's Q3 2026 call reportedly cited a 7 to 12 GW data center pipeline company-wide (not read in a primary document). Secondhand, kept here and not written as values (session 5300, window A's rule for intervenor quotes): the AAE/UCS witness's summary of ELL's Table 4 (testimony p. 38): \"A 20-year initial term with 3-year non-renewal notice\", \"A minimum monthly charge intended to cover the full incremental cost to serve during the contract\", \"An early termination fee intended to pay all unrecovered costs\"; and (pp. 47 to 48) the Meta Guaranty and the Credit Default Security on a schedule in Appendix E of the ESA. The source is the intervenor's own posted copy of its LPSC filing, not the commission's host.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-01"
   },
   {
    "utility": "Entergy Louisiana, LLC",
@@ -189,7 +190,8 @@
    "license_basis": "the LPSC's e-docket copy of the settlement and the LPSC's minutes; contract term from the public version of intervenor testimony filed in U-37425 (IEEFA's posted copy)",
    "erw_overlap": "large_load_tariffs/entergy_louisiana_llhlfps_l.yaml: the ESA takes service under LLHLFPS-L (held); this row adds the settlement's customer protections.",
    "notes": "The settlement states that ELL did not seek approval of the ESA and Related Agreements (term sheet p. 18). Kunkel's 15-year term and minimum-charge description are of the ESA filed with the October 2024 application; the testimony says the ESA was being renegotiated after Laidley increased its load. The term sheet also records compliance with the Industrial Load Rule (Rule 3, General Order R-34860 of 29 July 2019). The same customer's parent (Meta) is behind Evest LLC in U-37882. Secondhand, kept here and not written as values (session 5300): IEEFA witness Kunkel's direct testimony (https://ieefa.org/sites/default/files/2025-04/U-37425%20--%20Kunkel%20Direct%20Testimony%20%28as%20filed%29%20PUBLIC%20VERSION_0.pdf copy, p. 11): \"The ESA is a 15-year agreement with up to three 5-year extensions (i.e. up to 30 years in total)\", and the minimum monthly charges described as designed to recover the annual revenue requirements of the new infrastructure.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-02"
   },
   {
    "utility": "Louisiana PSC jurisdictional electric utilities (Entergy Louisiana, LLC; Cleco Power LLC; others)",
@@ -283,7 +285,8 @@
    "license_basis": "the LPSC's own published minutes",
    "erw_overlap": "",
    "notes": "Statewide: applies to every LPSC-jurisdictional utility that seeks certification of capacity under it (Entergy Louisiana used it in U-37882; Cleco Power is LPSC-jurisdictional). Entergy New Orleans is regulated by the New Orleans City Council, not the LPSC. Commissioner Lewis's companion directive for a large-load rulemaking was deferred (minutes p. 8). Leads only, not verified in a primary document: an August 19, 2026 letter (Most & Associates for the Alliance for Affordable Energy) asked the LPSC to withdraw the directive, and a lawsuit against it was reported on November 9, 2026.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-03"
   },
   {
    "utility": "Louisiana PSC jurisdictional electric utilities (Entergy Louisiana, LLC; Cleco Power LLC; others)",
@@ -399,7 +402,8 @@
    "license_basis": "the LPSC's own published guidelines, minutes and transcript",
    "erw_overlap": "",
    "notes": "Non-binding: the guidelines' note says failure to address the concerns is a risk on the utility (p. 1). A technical conference on them was held May 7, 2026 (LPSC transcript). The page numbers are the PDF's own order as the reader printed it; the guidelines text runs pp. 1 to 3.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-04"
   },
   {
    "utility": "Entergy Arkansas, LLC",
@@ -484,7 +488,8 @@
    "license_basis": "the Arkansas PSC's e-filing copies",
    "erw_overlap": "",
    "notes": "Order No. 11 (p. 10) sets recommendations for future special rate contracts supported by a shared resource: terms not filed entirely under seal; total facility cost, customer contribution amounts and nature, full ratemaking treatment, term of years and any opt-out provisions disclosed in the application. Doc. 88 is EAL's 16 October 2026 re-filing of application page 6 with redactions removed; the $83 million figure is the requested deferral, not a monthly minimum. The Agreement supports Arkansas Cypress Solar (600 MW PV, 350 MW BESS). An amended agreement is pending (next row). Arkansas has no data center tariff schedule on EAL's filed tariff (APSC complete tariff, last updated 27 October 2026, searched).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-05"
   },
   {
    "utility": "Entergy Arkansas, LLC",
@@ -577,7 +582,8 @@
    "license_basis": "the Arkansas PSC's e-filing copies",
    "erw_overlap": "",
    "notes": "The amendment adds two BESS (Driver 250 MW, Jones Mill 100 MW) to the resources Google supports (Elbe p. 7). The application is filed under the APSC's promotional practice rules and Ark. Code Ann. 23-4-1309 (doc. 94 p. 6). Hearing: docket listing, Order No. 13: The public evidentiary hearing on EAL's Application is scheduled to begin at 9:30 a.m. on January 4, 2027.",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-06"
   },
   {
    "utility": "Entergy Arkansas, LLC",
@@ -690,7 +696,8 @@
    "license_basis": "the Arkansas PSC's filed tariff copy",
    "erw_overlap": "",
    "notes": "A cryptocurrency mining schedule with mandatory interruptible service, not a data center schedule; kept as EAL's only high load density schedule. The sheets print the APSC approval stamp; their Effective field is blank, so the date given is the approval stamp of sheets 69.2 to 69.6. Rates on sheet 69.2: Firm Contract Demand $16.96 per kW, Option A Nonfirm $11.64, Option B Nonfirm $9.70 (p. 343).",
-   "date_read": "2026-11-13"
+   "date_read": "2026-11-13",
+   "row_id": "entergy-07"
   }
  ],
  "refused": [

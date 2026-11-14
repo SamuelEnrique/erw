@@ -7,7 +7,7 @@ key the machine holds; a visitor's chat is the site's loop (site/lib/chat/ask.ts
 which reads the catalogue and the rows a visitor's key reads. This runner asks through that one:
 
     python warehouse/chat/eval/eval_site.py --session 5251 --set platform --cap 2 [--slice a|b] [--only pw01,pw02] [--first 20]
-                                            [--no-ask] [--rules 5251|5201|2223|none] [--no-ledger] [--dry-run]
+                                            [--no-ask] [--rules 5251|5201|2223|none] [--no-ledger] [--dry-run] [--day-cap 20]
 
   questions  the set's YAML (eval_s1113.py SETS) as {"questions": [{id, grid, via, question}]}, written to
              runs/ask_eval/<set>_questions.json (runs/ is not in git); a key is never sent to the asking
@@ -17,6 +17,9 @@ which reads the catalogue and the rows a visitor's key reads. This runner asks t
              the catalogue it listed is in it), written after every question and read first, so an asking goes on where
              it stopped. A question in any earlier session's run of the set is not asked again unless named with --only.
              --cap is THIS session's ceiling in USD (USD 2 a session). --first N asks at most the next N.
+             --day-cap is the UTC day's ceiling over every asking that writes the ledger (session 5263; a chain's
+             USD 20): the day's spend is read whole from the ledger first (day_room), the session's ceiling is cut to
+             what the day has left, and a day that cannot be counted asks nothing.
              --slice a or b asks one half of the set (slices): a question through the site's loop cost USD 0.04 to 0.23 on
              13 November 2026 (USD 0.14 on average), so 134 are about USD 18 and a chain's USD 20 buys the set once; half
              is asked first, the classes of failure it shows are fixed, and the other half, never asked before, is the
@@ -161,6 +164,22 @@ def slices(qs):
     return a, b
 
 
+def day_room(E, day_cap):
+    """Session 5263: (the USD the UTC day has left under --day-cap, the line that says so). The day's spend is the
+    evaluation's step in the site's ledger, read whole (eval_s1113.py spent_today: every row, past the 1,000 a request
+    is answered with), so it counts every asking of the day, by any session and any runner that writes the ledger. A
+    day that cannot be counted, and a ledger that cannot be asked, leave nothing: under --day-cap no question is then
+    asked, where --cap alone would have gone on with the run's own costs."""
+    try:
+        led = E.spent_today()
+    except E.LedgerNotWhole as exc:
+        return 0.0, f"the day's spend is not known ({exc}): nothing is asked under --day-cap"
+    if led is None:
+        return 0.0, "the ledger could not be asked (no keys on this machine, or no answer): nothing is asked under --day-cap"
+    left = max(0.0, day_cap - led[0])
+    return left, f"the day's ledger ({E.STEP}): USD {led[0]:.4f} in {led[1]} calls; USD {left:.4f} left of the day's cap USD {day_cap:.2f}"
+
+
 def node_command(questions_path, run_path, cap_total, ids, label, ledger=True, dry_run=False):
     """The runner's command, run from site/. `ids` are the questions it asks (it asks a named one whether or not this
     session's run holds it, so the caller names only what is due)."""
@@ -291,8 +310,19 @@ def main(argv):
                  "(site/lib/chat/ask.ts ask(), no build, every read with the anon key), every tool call recorded, by eval_site.py and "
                  "site/scripts/eval-ask-site-loop.mjs under the ledger step site_ask_eval.")
         code = 0
+        cap_total = cap
+        if "--day-cap" in argv and "--dry-run" not in argv:
+            # session 5263: the runner's cap is on this session's run file, so it is what the file holds and what the
+            # day has left, whichever is less than --cap
+            if "--no-ledger" in argv:
+                raise SystemExit("--day-cap goes without --no-ledger: an asking that writes no ledger row cannot be counted in the day")
+            left, line = day_room(E, float(val("--day-cap")))
+            print(line)
+            cap_total = min(cap, before + left)
+            if left <= 0:
+                ids = []
         if ids or "--dry-run" in argv:
-            cmd = node_command(qpath, F["run"], cap, ids or [qs[0]["id"]], label, ledger="--no-ledger" not in argv, dry_run="--dry-run" in argv)
+            cmd = node_command(qpath, F["run"], cap_total, ids or [qs[0]["id"]], label, ledger="--no-ledger" not in argv, dry_run="--dry-run" in argv)
             code = subprocess.run(cmd, cwd=SITE, stdin=subprocess.DEVNULL).returncode
         else:
             print("nothing left to ask of what was named")
