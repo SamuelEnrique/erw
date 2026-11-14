@@ -1,0 +1,1045 @@
+{
+ "written_by": "site/scripts/forecast-crosscheck.mjs",
+ "studies": [
+  {
+   "id": "jayhawk_ks",
+   "title": "Jayhawk Wind Energy Project (Bourbon and Crawford Counties, Kansas): economic development report, November 2019",
+   "url": "https://fortscott.biz/wp-content/uploads/2019/12/Jayhawk-Wind-Economic-Development-Report-Final-November-20191.pdf",
+   "request": 50,
+   "method": "JEDI Wind with 2017 IMPLAN state multipliers and the project's own spending and local shares; 25-year life",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "ks",
+    "mw": 195,
+    "capex_2025_usd_per_kw": 1589.3390552584733,
+    "life": 25,
+    "ilr": 1
+   },
+   "published_words": "634 (190 direct) local jobs during construction for the State of Kansas; 43 (9 direct) long-term jobs for the State of Kansas; over $36.7 million in local earnings during construction for the State of Kansas; over $2.2 million in local long-term earnings; over $98.2 million in local output during construction; over $7.5 million in local long-term output",
+   "cost_words": "an investment of almost $250 million",
+   "dollars_of": 2019,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 634,
+     "model": 516.5236063883049,
+     "ratio": 0.8147060037670424
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 190,
+     "model": 76.61186984803906,
+     "ratio": 0.40322036762125824
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 321,
+     "model": 307.9144543838553,
+     "ratio": 0.959235060385842
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 123,
+     "model": 131.99728215641056,
+     "ratio": 1.073148635417972
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 36700000,
+     "model": 27691464.613033973,
+     "ratio": 0.7545358205186369
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 98200000,
+     "model": 78662488.71024625,
+     "ratio": 0.8010436732204302
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 43,
+     "model": 33.93663,
+     "ratio": 0.7892239534883722
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 9,
+     "model": 8.839935,
+     "ratio": 0.9822150000000001
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 2200000,
+     "model": 1900013.1000004485,
+     "ratio": 0.8636423181820221
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 7500000,
+     "model": 5877791.660934946,
+     "ratio": 0.7837055547913261
+    }
+   ]
+  },
+  {
+   "id": "glendive_mt",
+   "title": "Glendive Wind (Prairie County, Montana), NextEra Energy Resources: economic impact summary of a 2024 study by Strategic Economic Research",
+   "url": "https://www.nexteraenergyresources.com/content/dam/neer/us/en/microsites/PDF/glendive-prairie-econ-impact.pdf",
+   "request": 49,
+   "method": "IMPLAN multipliers with NREL's JEDI model, statewide",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "mt",
+    "mw": 800,
+    "capex_2025_usd_per_kw": 1282.9791405816113,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "Approx. 400 construction jobs in the state of Montana",
+   "cost_words": "$1 billion investment in Prairie County; up to 800 megawatts",
+   "dollars_of": 2024,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 400,
+     "model": 1729.8299480860335,
+     "ratio": 4.324574870215084
+    }
+   ]
+  },
+  {
+   "id": "ohio_pv_low",
+   "title": "Measuring the Economic Impacts of Utility-Scale Solar in Ohio, Ohio University (Voinovich School), 31 July 2020: the low scenario",
+   "url": "https://static1.squarespace.com/static/56a8596376d99c0164fc16bd/t/5f50094e9c0ff3029d54bc6c/1599080786155/Measuring+the+Economic+Impacts+of+Utility-Scale+Solar+in+Ohio+---+FINAL%2C+7.31.2020.pdf",
+   "request": 54,
+   "method": "JEDI PV updated with 2018 IMPLAN multipliers and NREL's Q1 2018 one-axis tracker utility cost benchmark; 80 percent Ohio labor and 30 percent Ohio materials; DC capacity; 2018 dollars; 40-year life",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "oh",
+    "mw": 1861.6427135304193,
+    "capex_2025_usd_per_kw": 2431.6352988908748,
+    "life": 40,
+    "ilr": 1.3429
+   },
+   "published_words": "a total of 18,039 one-time construction phase jobs, and 207 annual operations and maintenance (O&M) phase jobs; 8,536 direct construction jobs; roughly $3.2B construction phase economic impacts; up to $22.5M in annual tax revenues",
+   "cost_words": "Project Construction or Installation Cost, Low (2.5 GW): $3,592,192,939",
+   "dollars_of": 2018,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 18039,
+     "model": 19834.457819938645,
+     "ratio": 1.0995320039879508
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 8536,
+     "model": 9881.179648208656,
+     "ratio": 1.1575889934639942
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 207,
+     "model": 733.06,
+     "ratio": 3.541352657004831
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 3200000000,
+     "model": 2434007961.8203573,
+     "ratio": 0.7606274880688617
+    },
+    {
+     "figure": "property:year",
+     "published": 22500000,
+     "model": null,
+     "ratio": null
+    }
+   ]
+  },
+  {
+   "id": "indiana_wind",
+   "title": "Economic Impacts from Indiana's First 1,000 Megawatts of Wind Power, NREL/TP-6A20-60914 (Tegen, Keyser and Flores-Espino, 2014)",
+   "url": "https://docs.nlr.gov/docs/fy14osti/60914.pdf",
+   "request": 78,
+   "method": "JEDI Wind with the seven projects' own expenditures and local shares (1,339 MW built 2008 to 2011; about 20 percent of construction spending and 40 percent of O&M in Indiana), results per 1,000 MW in 2010 real dollars",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "in",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2671.5590261387765,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Supported employment totaling more than 4,400 full-time-equivalent (FTE) jobs in Indiana during the construction periods; Supports approximately 260 ongoing Indiana jobs; Generates more than $8 million in annual property taxes (per 1,000 MW)",
+   "cost_words": "Table 3: construction expenditure USD 2,487 million for the 1,339 MW analyzed (equipment 1,830, materials 331, construction labor 159, development and other 167), scaled to 1,000 MW",
+   "dollars_of": 2010,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 4400,
+     "model": 4537.182059582962,
+     "ratio": 1.0311777408143097
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 260,
+     "model": 232.19600000000003,
+     "ratio": 0.8930615384615386
+    },
+    {
+     "figure": "property:year",
+     "published": 8000000,
+     "model": null,
+     "ratio": null
+    }
+   ]
+  },
+  {
+   "id": "rush_creek_co",
+   "title": "Economic Impacts from Wind Energy in Colorado, Case Study: Rush Creek Wind Farm, NREL/TP-5000-73659 (2019)",
+   "url": "https://docs.nlr.gov/docs/fy19osti/73659.pdf",
+   "request": 80,
+   "method": "JEDI Wind with the project's known costs from Xcel Energy's PUC filings and JEDI's default shares for the rest; Vestas's Colorado turbine factories in the supply chain; 2018 dollars",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "co",
+    "mw": 600,
+    "capex_2025_usd_per_kw": 1466.3070658302192,
+    "life": 25,
+    "ilr": 1
+   },
+   "published_words": "The Rush Creek Wind Farm construction supports an estimated 2,970 FTE jobs [...] the 290 FTEs include 245 FTEs for on-site construction and interconnection labor [...] 1,840 FTEs were local revenue, turbine, and supply chain workers [...] an additional 840 FTE-induced jobs; Supports approximately 180 jobs in Colorado annually",
+   "cost_words": "Table 11: Total Capital Cost $698,137,648; Installed Project Cost $1,164/kW; 600 MW",
+   "dollars_of": 2018,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2970,
+     "model": 1522.8155305827688,
+     "ratio": 0.5127325018797202
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 290,
+     "model": 221.42846459455137,
+     "ratio": 0.7635464296363841
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1840,
+     "model": 877.7359173402943,
+     "ratio": 0.47703038985885565
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 840,
+     "model": 423.650689881906,
+     "ratio": 0.5043460593832214
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 180,
+     "model": 123.43379999999999,
+     "ratio": 0.6857433333333333
+    }
+   ]
+  },
+  {
+   "id": "wyoming_gas",
+   "title": "Estimated Economic Development Impacts from New Generation and Transmission in Wyoming and Colorado, NREL/TP-6A20-57411 (Lantz, Tegen and others, March 2013): the 225 MW gas plant, Wyoming's share",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57411.pdf",
+   "request": 107,
+   "method": "JEDI Natural Gas with IMPLAN 2008 state multipliers and the Wyoming Infrastructure Authority's local shares (24 percent of construction and 39 percent of O&M spending in Wyoming, Table C3); jobs averaged over a three-year build (the cumulative figure is three times the average); dollar year not stated, taken as 2012",
+   "inputs": {
+    "tech": "natural_gas",
+    "state": "wy",
+    "mw": 225,
+    "capex_2025_usd_per_kw": 1721.6255020367664,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Table 6 (annual average over three years, Wyoming, gas): project development and onsite labor 103, turbine, power generation and equipment supply chain 47, induced 40, total 191; Table 7 (Wyoming, gas): onsite 11, supply chain 16, induced 9, total 36; Table 2: Wyoming sales/use tax revenue, gas, $10,200 thousand (6 percent on capital goods and materials)",
+   "cost_words": "Table 1: installed cost $280 million; a natural gas-fired generation facility with a nameplate capacity of 225 MW",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 573,
+     "model": 551.4398124447497,
+     "ratio": 0.9623731456278354
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 309,
+     "model": 234.48194613754615,
+     "ratio": 0.7588412496360717
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 141,
+     "model": 216.82170775341285,
+     "ratio": 1.537742608180233
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 120,
+     "model": 100.13615855379065,
+     "ratio": 0.8344679879482554
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 36,
+     "model": 30.91005,
+     "ratio": 0.8586125
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 11,
+     "model": 11.3958,
+     "ratio": 1.0359818181818181
+    },
+    {
+     "figure": "sales:total",
+     "published": 10200000,
+     "model": 9143971.144,
+     "ratio": 0.8964677592156862
+    }
+   ]
+  },
+  {
+   "id": "wyoming_wind",
+   "title": "The same study: the 900 MW wind plant, Wyoming's share (turbines made in Colorado)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57411.pdf",
+   "request": 107,
+   "method": "JEDI Wind with IMPLAN 2008 multipliers; turbines, blades and nacelles from Colorado (0 percent of turbine spending in Wyoming, 18 percent of all construction spending, Table C1); a 48.5 percent capacity factor for the generation tax; dollar year taken as 2012",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "wy",
+    "mw": 900,
+    "capex_2025_usd_per_kw": 2075.173596205031,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Table 6 (Wyoming, wind): onsite 151, supply chain 569, induced 112, total 832 a year over three years; Table 7 (Wyoming, wind): onsite 41, supply chain 121, induced 55, total 217; Table 2: Wyoming sales/use tax, wind, $74,200 thousand; Table 3: generation tax, wind, $3,800 thousand a year (the $1/MWh tax at a 48.5 percent net capacity factor)",
+   "cost_words": "Table 1: installed cost $1,350 million; a 900-MW wind power plant",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2496,
+     "model": 2573.537437304881,
+     "ratio": 1.0310646784074042
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 453,
+     "model": 476.2058108824144,
+     "ratio": 1.0512269555903189
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1707,
+     "model": 1647.9265889542185,
+     "ratio": 0.9653934323106143
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 336,
+     "model": 449.4050374682482,
+     "ratio": 1.3375149924650245
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 217,
+     "model": 151.083,
+     "ratio": 0.6962350230414747
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 41,
+     "model": 40.7997,
+     "ratio": 0.9951146341463415
+    },
+    {
+     "figure": "sales:total",
+     "published": 74200000,
+     "model": 59615054.73000001,
+     "ratio": 0.803437395283019
+    },
+    {
+     "figure": "property:year4",
+     "published": 3800000,
+     "model": 3823740,
+     "ratio": 1.0062473684210527
+    }
+   ]
+  },
+  {
+   "id": "texas_wind_1000",
+   "title": "Economic Development Impact of 1,000 MW of Wind Energy in Texas, NREL/TP-6A20-50400 (Reategui and Hendrickson, August 2011)",
+   "url": "https://docs.nlr.gov/docs/fy11osti/50400.pdf",
+   "request": 121,
+   "method": "JEDI Wind with costs and local shares from Texas projects' data (Tables 2 to 5); results in 2009 real dollars; out-of-state workers excluded; statewide",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "tx",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2911.2318124587127,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Generated over 2,100 full-time-equivalent (FTE) jobs within the state of Texas; Currently supports approximately 240 permanent Texas jobs; Figure 3: construction phase over 600 FTE jobs (on-site), over 1,000 FTE jobs (local revenue, turbine and supply chain), over 500 FTE jobs (induced); operational phase 60 long-term jobs, 100 jobs, 80 jobs",
+   "cost_words": "This study assumes that 1,000 MW of wind energy represents approximately $2 billion in investment (Table 2: installed project cost $1,650-$2,200/kW, 2009 dollars)",
+   "dollars_of": 2009,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2100,
+     "model": 5058.925378455144,
+     "ratio": 2.40901208497864
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 600,
+     "model": 710.2933691251741,
+     "ratio": 1.1838222818752901
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1000,
+     "model": 2784.4637132759044,
+     "ratio": 2.7844637132759043
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 500,
+     "model": 1564.1682960540647,
+     "ratio": 3.1283365921081296
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 240,
+     "model": 223.679,
+     "ratio": 0.9319958333333334
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 60,
+     "model": 45.333,
+     "ratio": 0.7555499999999999
+    }
+   ]
+  },
+  {
+   "id": "maine_wind_1000",
+   "title": "Maine Economic Impacts from 1,000 MW of New Wind Development, Wind Powering America fact sheet, NREL (Lantz and Tegen), DOE/GO-102008-2672, October 2008",
+   "url": "https://docs.nlr.gov/docs/fy09osti/44146.pdf",
+   "request": 122,
+   "method": "JEDI Wind with inputs from interviews with Maine contacts (developers, contractors, assessors); 2007 constant dollars; construction plus 20 years; totals only (the sheet's direct category is not JEDI's on-site line)",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "me",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2955.714897830379,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "New Local Jobs During Construction: 3,896; New Local Long-term Jobs: 540 (construction phase 2,042 direct and 1,854 indirect and induced; operational phase 254 and 286)",
+   "cost_words": "Data Inputs: Construction Cost $1,980/kW; Operations and Maintenance $24.70/kW/yr",
+   "dollars_of": 2007,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 3896,
+     "model": 5642.5915916914455,
+     "ratio": 1.4483037966353813
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 540,
+     "model": 275.78200000000004,
+     "ratio": 0.5107074074074075
+    }
+   ]
+  },
+  {
+   "id": "georgia_pv_tronox",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Tronox Facility in Savannah, Georgia, NREL/TP-7A30-57958 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57958.pdf",
+   "request": 170,
+   "method": "JEDI PV at state level (Georgia, utility, fixed mount); every installation cost line 100 percent purchased in the state, modules, inverters, mounting and electrical not made there; 2012 dollars",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ga",
+    "mw": 6.071428571428572,
+    "capex_2025_usd_per_kw": 6767.124495835837,
+    "life": 25,
+    "ilr": 1.4
+   },
+   "published_words": "Total Impacts 235.4 (construction); Subtotal 92.2 (project development and on-site); Subtotal 84.2 (module and supply chain); Induced Impacts 59.0; operations: Total Impacts 3.2; PV Project Labor Only 2.0",
+   "cost_words": "Total Project Size - DC Nameplate Capacity (kW) 8,500.0; Installed System Cost $29,698,320; Money Value (Dollar Year) 2012",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 235.4,
+     "model": 178.0894227542293,
+     "ratio": 0.7565396038837269
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 92.2,
+     "model": 86.21161545968039,
+     "ratio": 0.9350500592156225
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 84.2,
+     "model": 57.98945720507363,
+     "ratio": 0.6887108931718958
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 59,
+     "model": 33.888323051473336,
+     "ratio": 0.5743783568046328
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 3.2,
+     "model": 2.4055425,
+     "ratio": 0.75173203125
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 2,
+     "model": 1.569389,
+     "ratio": 0.7846945
+    }
+   ]
+  },
+  {
+   "id": "new_york_pv_lackawanna",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Former Bethlehem Steel Plant Brownfield Site in Lackawanna, New York, NREL/TP-7A40-58194 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/58194.pdf",
+   "request": 171,
+   "method": "JEDI PV at state level (New York, utility, single-axis tracking); installation cost lines 100 percent purchased in the state, equipment not made there; 2012 dollars",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ny",
+    "mw": 1.4725371815638344,
+    "capex_2025_usd_per_kw": 6294.651738350004,
+    "life": 25,
+    "ilr": 1.3582
+   },
+   "published_words": "the total proposed system is estimated to support 49.1 direct and indirect jobs per year for the duration of the procurement and construction period; Subtotal 18.6; Subtotal 17.9; Induced Impacts 12.6; operations Total Impacts 0.7; PV Project Labor Only 0.5",
+   "cost_words": "Project Size - DC Nameplate Capacity (KW) 2,000.0; Installed System Cost $6,700,000; Dollar Year 2012",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 49.1,
+     "model": 34.61343756197102,
+     "ratio": 0.7049579951521592
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 18.6,
+     "model": 18.48415922853739,
+     "ratio": 0.9937720015342681
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 17.9,
+     "model": 9.94363291211765,
+     "ratio": 0.5555102185540587
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 12.6,
+     "model": 6.185645421315974,
+     "ratio": 0.4909242397869821
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 0.7,
+     "model": 0.521478,
+     "ratio": 0.7449685714285714
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 0.5,
+     "model": 0.369268,
+     "ratio": 0.738536
+    }
+   ]
+  },
+  {
+   "id": "mississippi_pv_kerr_mcgee",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Kerr McGee Site in Columbus, Mississippi, NREL/TP-7A30-57251 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57251.pdf",
+   "request": 172,
+   "method": "JEDI PV at state level (Mississippi, large commercial application, not utility); installation lines 100 percent purchased in the state; 2010 dollars (the subagent's read of the dollar year)",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ms",
+    "mw": 3.7037037037037033,
+    "capex_2025_usd_per_kw": 5417.60749873073,
+    "life": 30,
+    "ilr": 1.35
+   },
+   "published_words": "Total Impacts 141.2 (construction); 55.6 on-site; 57.9 supply chain; 27.7 induced; operations Total Impacts 1.5; PV Project Labor Only 0.9",
+   "cost_words": "Total Project Size - DC Nameplate Capacity (kW) 5,000; Project Construction or Installation Cost $13,950,000; Base Installed System Cost ($/kWDC) $2,795",
+   "dollars_of": 2010,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 141.2,
+     "model": 106.06227912496058,
+     "ratio": 0.7511492855875396
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 55.6,
+     "model": 45.562345412500385,
+     "ratio": 0.8194666441097191
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 57.9,
+     "model": 40.96307865331331,
+     "ratio": 0.7074797694872765
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 27.7,
+     "model": 19.536855059146884,
+     "ratio": 0.7053016266840031
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 1.5,
+     "model": 1.486415,
+     "ratio": 0.9909433333333334
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 0.9,
+     "model": 0.9231699999999999,
+     "ratio": 1.0257444444444443
+    }
+   ]
+  },
+  {
+   "id": "colorado_pv_south_spur",
+   "title": "Economic Impact Analysis of the South Spur Solar Project, Strategic Economic Research (Loomis, Loomis, Thankan) for Bechtel, 2025, hosted by Yuma County, Colorado",
+   "url": "https://yumacounty.net/wp-content/uploads/2025/08/South-Spur-Solar-Full-Report.pdf",
+   "request": 187,
+   "method": "IMPLAN, 2022 State of Colorado dataset, with Bechtel's cost estimates and in-state shares (not published); statewide; dollar year not stated (taken as 2025, the report's year); an optional 79 MW battery may or may not be in the investment",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "co",
+    "mw": 158,
+    "capex_2025_usd_per_kw": 1094.9367088607594,
+    "life": 35,
+    "ilr": 1.2821
+   },
+   "published_words": "326 new local jobs during construction for the State of Colorado; 17.3 new local long-term jobs for the State of Colorado (Table 5.1: construction 172 direct, 86 indirect, 68 induced; operations 3.0 onsite, 9.2 indirect, 5.1 induced)",
+   "cost_words": "a 158-megawatt alternating current (MWac) utility-scale solar powered-electric generation facility [...] The total Project represents an investment in excess of $173 million.",
+   "dollars_of": 2025,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 326,
+     "model": 710.0217902928775,
+     "ratio": 2.177980951818643
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 172,
+     "model": 366.896374265549,
+     "ratio": 2.1331184550322617
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 86,
+     "model": 207.86869050945108,
+     "ratio": 2.417077796621524
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 68,
+     "model": 135.25660874571778,
+     "ratio": 1.9890677756723203
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 17.3,
+     "model": 58.7695229006,
+     "ratio": 3.3970822485895953
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 3,
+     "model": 37.4016417212,
+     "ratio": 12.467213907066666
+    }
+   ]
+  },
+  {
+   "id": "nc_wind_nrel",
+   "title": "Economic Benefits, Carbon Dioxide (CO2) Emissions Reductions, and Water Conservation Benefits from 1,000 Megawatts (MW) of New Wind Power in North Carolina, NREL Wind Powering America (Lantz and Tegen), March 2009, NREL/FS-500-44916",
+   "url": "https://docs.nlr.gov/docs/fy09osti/44916.pdf",
+   "request": "s6004 (spot-checked)",
+   "method": "JEDI Wind, North Carolina statewide, 2007 constant dollars, state-specific inputs from interviews",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "nc",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2463.0957481919827,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Construction Phase: 1,628 new jobs [direct]; Indirect and Induced Impacts: Construction Phase: 1,361 new jobs; Operational Phase: 243 new long-term jobs [direct]; New Local Jobs During Construction: 2,989; New Local Long-term Jobs: 457",
+   "cost_words": "Data Inputs: Construction Cost $1,650/kW; O&M $24.70/kW",
+   "dollars_of": 2007,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2989,
+     "model": 4388.318574590311,
+     "ratio": 1.46815609721991
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 1628,
+     "model": 607.0052491559493,
+     "ratio": 0.372853347147389
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 457,
+     "model": 216.19299999999998,
+     "ratio": 0.47307002188183805
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 243,
+     "model": 45.333,
+     "ratio": 0.18655555555555556
+    }
+   ]
+  },
+  {
+   "id": "livingston_il",
+   "title": "Economic Impact Analysis for Livingston County Wind Project in Livingston County, Illinois, Strategic Economic Research for EDF Renewables, November 2021 (the developer's report)",
+   "url": "https://www.edf-re.com/wp-content/uploads/Livingston-County-Wind-refresh-11.29.21.pdf",
+   "request": "s6004 (spot-checked)",
+   "method": "JEDI Wind (W6-28-19) with 2019 State of Illinois IMPLAN multipliers and the developer's in-state shares (not printed); the cost's dollar year is not stated (taken as 2021, the report's year)",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "il",
+    "mw": 255,
+    "capex_2025_usd_per_kw": 1734.6374850112984,
+    "life": 25,
+    "ilr": 1
+   },
+   "published_words": "new local jobs created or retained during construction total [...] 1,277 for the State of Illinois. New local long-term jobs created from the Project total [...] 61 for the State of Illinois. [Table 3: direct 226, indirect 715, induced 336; operations 15, 23, 23.] new local earnings during construction total [...] over $85.1 million for the State of Illinois [...] new local long-term output totals [...] over $12.8 million for the State of Illinois",
+   "cost_words": "The Project represents an investment of $378 million in Livingston County",
+   "dollars_of": 2021,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 1277,
+     "model": 740.3466503971838,
+     "ratio": 0.579754620514631
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 226,
+     "model": 106.72580243588894,
+     "ratio": 0.4722380638756148
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 715,
+     "model": 397.4268889607727,
+     "ratio": 0.5558418027423394
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 336,
+     "model": 236.1939590005221,
+     "ratio": 0.7029582113110777
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 85122945,
+     "model": 50804494.853175364,
+     "ratio": 0.5968366678711053
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 208668268,
+     "model": 132740731.04623899,
+     "ratio": 0.6361328069596044
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 61,
+     "model": 51.58293,
+     "ratio": 0.8456218032786885
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 15,
+     "model": 11.559915,
+     "ratio": 0.770661
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 3621803,
+     "model": 3707094.4577446436,
+     "ratio": 1.0235494469866648
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 12800879,
+     "model": 11420227.125204295,
+     "ratio": 0.8921439789567807
+    }
+   ]
+  },
+  {
+   "id": "corona_nm",
+   "title": "Report on the Economic and Fiscal Impacts of the Corona Wind Projects, New Mexico, Moss Adams LLP for Pattern Development, 28 February 2018 (the developer's report)",
+   "url": "https://patternenergy.com/wp-content/uploads/2021/09/final_fiscal_and_economic_impact_study.pdf",
+   "request": "s6004",
+   "method": "direct construction jobs from the developer's labor hours (2,080 hours a job), every worker wherever from (356 of the 1,186 local to three counties); output by IMPLAN 2015 New Mexico for three counties only (not compared); no indirect or induced jobs",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "nm",
+    "mw": 2200,
+    "capex_2025_usd_per_kw": 1374.7498471921006,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "creating an estimated 1,186 total jobs during construction, with an estimated 356 of those jobs sourced from local labor resources [...] approximately 94 full-time personnel with a payroll estimated to be approximately $4.5 million per year",
+   "cost_words": "approximately $2.4 billion in capital investment for the development of the Corona Wind Projects (dollar year not stated)",
+   "dollars_of": 2018,
+   "lines": [
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 1186,
+     "model": 737.0785102101003,
+     "ratio": 0.6214827236172852
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 94,
+     "model": 99.73259999999999,
+     "ratio": 1.0609851063829787
+    }
+   ]
+  },
+  {
+   "id": "lsu_la_cc",
+   "title": "Moving to the Front of the Lines: The Economic Impact of Independent Power Plant Development in Louisiana, Dismukes, Mesyanzhinov and Olatubi, LSU Center for Energy Studies, October 2001 (Table 4.1's combined cycle plant, Tables 9 and 11)",
+   "url": "https://www.lsu.edu/ces/publications/2001/ipp_study_final.pdf",
+   "request": "s6004 (spot-checked)",
+   "method": "input-output model, Louisiana statewide, 2000 dollars, construction as one year; a construction spending profile with many inputs bought outside Louisiana (direct construction output USD 113.3 million of the USD 360 million cost)",
+   "inputs": {
+    "tech": "natural_gas",
+    "state": "la",
+    "mw": 600,
+    "capex_2025_usd_per_kw": 1063.7309814843468,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "Table 9: Labor Income 7,576,048 / 2,827,361 / 2,820,702 / 13,224,111; Output 113,282,247 / 7,402,114 / 7,855,472 / 128,539,833; Employment 216 / 87 / 116 / 419. Table 11 operations: Employment 30 / 8 / 28 / 66; Labor Income total 3,148,415; Output total 81,235,815. All values, except employment, are in 2000 dollars",
+   "cost_words": "Table 4.1: Combined Cycle, Assumed Capacity 600 MW, Assumed Installed Cost/kW $600 [600 x 600,000 kW; the tables' values are in 2000 dollars]",
+   "dollars_of": 2000,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 419,
+     "model": 1101.8281388640569,
+     "ratio": 2.6296614292698255
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 216,
+     "model": 409.68807051387904,
+     "ratio": 1.8967040301568474
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 87,
+     "model": 406.8762765566455,
+     "ratio": 4.676738810995926
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 116,
+     "model": 285.2641467732013,
+     "ratio": 2.4591736790793215
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 13224111,
+     "model": 64416038.62521601,
+     "ratio": 4.871105409294886
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 128539833,
+     "model": 139659283.730304,
+     "ratio": 1.086505875033337
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 66,
+     "model": 90.021,
+     "ratio": 1.3639545454545454
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 30,
+     "model": 30.3888,
+     "ratio": 1.01296
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 3148415,
+     "model": 3754785.773866902,
+     "ratio": 1.1925955675687296
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 81235815,
+     "model": 9009619.366985606,
+     "ratio": 0.11090698563171436
+    }
+   ]
+  },
+  {
+   "id": "msu_mi_gas",
+   "title": "The Economic Impact of Replacing Coal with Natural Gas for Electricity Production, Knudson, Michigan State University Strategic Marketing Institute Working Paper 01-0811, August 2011 (Table 1, plant construction)",
+   "url": "https://archive.lib.msu.edu/eres/open/naturalgaseconomicimpactstudy.pdf",
+   "request": "s6004",
+   "method": "IMPLAN, Michigan statewide, 2011 dollars; a fleet of about four 250 MW plants a year (1,000 MW), every dollar of spending treated as spent in Michigan (direct output equals the cost); direct is IMPLAN's direct effect, not on-site labor alone",
+   "inputs": {
+    "tech": "natural_gas",
+    "state": "mi",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 1585.4774588371633,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "Table 1: Summary of the Economic Impact of Construction, Scenario I: Plant Construction, Output Per Year (Millions of $) Direct $1,125.0, Total $2,218.2; Employment Direct 9,094, Total 17,346. Output is measured in 2011 dollars",
+   "cost_words": "The cost of installing new gas equipment is $1.12 million per megawatt (MW). Table 1 Plant Construction direct output per year $1,125.0 million",
+   "dollars_of": 2011,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 17346,
+     "model": 3161.2837202987994,
+     "ratio": 0.18224857144579726
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 9094,
+     "model": 1053.3520751027704,
+     "ratio": 0.11582934628356834
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 2218200000,
+     "model": 496223565.3531,
+     "ratio": 0.22370551138450095
+    }
+   ]
+  },
+  {
+   "id": "jedi_geo_co",
+   "title": "Jobs and Economic Development Impact (JEDI) Model Geothermal User Reference Guide, Johnson, Augustine and Goldberg, NREL/TP-6A20-55781, 2012: the worked example of Figure 1 (a 30 MW net binary plant in Colorado, 2010)",
+   "url": "https://docs.nlr.gov/docs/fy12osti/55781.pdf",
+   "request": "s6004 (spot-checked)",
+   "method": "JEDI Geothermal (simple model) with its default Colorado shares, 2010 dollars: JEDI's own example, so a check of the tool's later JEDI multipliers and its cost scaling, not an independent study",
+   "inputs": {
+    "tech": "geothermal",
+    "state": "co",
+    "mw": 30,
+    "capex_2025_usd_per_kw": 5127.671356459882,
+    "life": 30,
+    "ilr": 1
+   },
+   "published_words": "432 full-time equivalent (FTE) jobs are supported, generating over $26 million in earnings and over $61 million in total economic activity during project development and construction. These include a total of 223 FTE jobs from project development [...] 128 from the turbine and supply chain, and 81 from induced impacts [...] 14 full-time operations and maintenance jobs [...] for a total of 24",
+   "cost_words": "Nominal Plant Size (MW net output) 30.0; Installed Project Cost ($/kW) $3,565; Installed Project Cost $106,947,804; Money Value (Dollar Year) 2010",
+   "dollars_of": 2010,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 432,
+     "model": 526.203314825628,
+     "ratio": 1.2180632287630277
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 223,
+     "model": 223.65630617999506,
+     "ratio": 1.0029430770403365
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 128,
+     "model": 185.85635346665697,
+     "ratio": 1.4520027614582576
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 81,
+     "model": 116.69068364854124,
+     "ratio": 1.4406257240560647
+    },
+    {
+     "figure": "construction:total:earnings",
+     "published": 26120000,
+     "model": 30783126.83740265,
+     "ratio": 1.1785270611563037
+    },
+    {
+     "figure": "construction:total:output",
+     "published": 61440000,
+     "model": 80893823.38228819,
+     "ratio": 1.3166312399460969
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 24,
+     "model": 36.17532,
+     "ratio": 1.507305
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 14,
+     "model": 19.277730000000002,
+     "ratio": 1.3769807142857144
+    },
+    {
+     "figure": "operations:total:earnings",
+     "published": 2390000,
+     "model": 3465280.5078600002,
+     "ratio": 1.449908162284519
+    },
+    {
+     "figure": "operations:total:output",
+     "published": 5220000,
+     "model": 7751965.66323,
+     "ratio": 1.4850508933390805
+    }
+   ]
+  }
+ ]
+}

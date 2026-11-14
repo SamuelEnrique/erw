@@ -227,6 +227,30 @@ Session 4301 added the West's utility solar study: South Spur (Colorado, 158 MW 
 
 **A tax check: Minnesota's wind production tax in 2024.** The Center for Rural Affairs' fact sheet of February 2025 ([cfra.org](https://www.cfra.org/sites/default/files/publications/MN%20Wind%20Tax%20Revenue%20Fact%20Sheet%2002-25%20WEB.pdf), request 70; its source the Department of Revenue's county energy production report, which this chain did not read) gives Lincoln County USD 3,914,438.52 of wind production tax on 3,293,278.92 MWh in fiscal 2024, USD 1.189 per MWh: within 1 percent of the statute's USD 1.20 for systems above 12 MW (the rest a smaller system's lower rate), so the tool's rate is the county's. Statewide, USD 16.1 million on 4,928.7 MW of installed capacity (EIA's figure in the same sheet) is USD 3,267 per MW, which at USD 1.20 per MWh implies a fleet capacity factor near 0.31. The tool's default for a new Minnesota wind plant is 0.4197, the median of 19 plants built 2019 to 2024: a new plant produces more than the fleet of all ages (older turbines, smaller systems at lower rates), and the capacity factor is an input a reader with a project's own estimate changes. The fact sheet's other rows are not used: their columns do not align in the text the PDF yields.
 
+### One study per technology per region (session 6004, chain 270)
+
+The owner's instruction of 14 November 2026: one published impact study per technology per region (Northeast, Southeast, Midwest, Plains, Southwest, West) as a cross-check. Two read-only subagents of session 6000 searched (about 120 requests; refusals honoured: the UNT web archive names ClaudeBot, the Texas Comptroller's assets host and UNR's repository answer 403 to the robots file); this chain read four of their fourteen rows again (North Carolina, Illinois, Louisiana, the geothermal guide). Six were usable (a state, a MW, a cost with its year, statewide figures, or a stated narrower area) and are added to `site/scripts/forecast-crosscheck.mjs`; the full output is `docs/reviews/forecast-crosscheck-2026-11-14.json`.
+
+| Study (region) | Project | Figure | Published | Model / published | Why they differ |
+|---|---|---|---:|---:|---|
+| NREL, 1,000 MW of wind in North Carolina, 2009 (Southeast) | 1,000 MW, USD 1,650 per kW of 2007 | construction jobs; on-site; operations; on-site | 2,989; 1,628; 457; 243 | 1.47; 0.37; 0.47; 0.19 | 2007 JEDI with interview inputs: a far larger on-site share than the tool's multipliers |
+| Livingston County Wind, Illinois, 2021 (Midwest) | 255 MW, USD 378 million (year taken as 2021) | construction jobs, earnings, output; operations jobs, earnings, output | 1,277; 85.1 m; 208.7 m; 61; 3.6 m; 12.8 m | 0.58; 0.60; 0.64; 0.85; 1.02; 0.89 | the developer's in-state shares (not printed) above JEDI's defaults |
+| Corona Wind, New Mexico, 2018 (Southwest) | 2,200 MW, USD 2.4 billion | on-site construction; on-site operations | 1,186; 94 | 0.62; 1.06 | the study counts every worker by labor hours, wherever from |
+| LSU, Louisiana combined cycle, 2001 (Southeast) | 600 MW, USD 600 per kW of 2000 | construction jobs; earnings; output; operations jobs; output | 419; 13.2 m; 128.5 m; 66; 81.2 m | 2.63; 4.87; 1.09; 1.36; 0.11 | most equipment bought outside Louisiana (direct construction output USD 113 million of 360); its operations output likely includes the plant's sales (an inference: the study does not say) |
+| MSU, Michigan gas plants, 2011 (Midwest) | 1,000 MW a year, USD 1.125 million per MW | construction jobs; direct; output | 17,346; 9,094; 2,218 m | 0.18; 0.12; 0.22 | every dollar treated as spent in Michigan (direct output equals the cost) |
+| NREL JEDI geothermal guide, Colorado example, 2012 (West) | 30 MW net, USD 3,565 per kW of 2010 | construction jobs; on-site; operations jobs | 432; 223; 24 | 1.22; 1.00; 1.51 | JEDI's own example, not independent: the tool's later multipliers and its cost scaling |
+
+Coverage by technology and region after this session (the studies of sessions 4209 to 4301 and these six):
+
+| | Northeast | Southeast | Midwest | Plains | Southwest | West |
+|---|---|---|---|---|---|---|
+| Wind | Maine (NREL) | North Carolina (NREL) | Indiana (NREL), Illinois | Kansas, Texas (NREL) | New Mexico (Corona) | Montana, Colorado, Wyoming (NREL) |
+| Solar | New York (NREL, 2 MW) | Georgia, Mississippi (NREL, small) | Ohio (Ohio University) | none readable | none readable | Colorado (South Spur) |
+| Gas | none readable | Louisiana (LSU) | Michigan (MSU, a fleet) | none usable | none readable | Wyoming (NREL) |
+| Geothermal | none built | none built | none built | none built | none with a cost | Colorado (JEDI's example) |
+
+Found and not usable, with the reason: Arizona's Topaz study (per million dollars of spending, modules left out) and Yuma County's (one county, storage included); Wolf Hills Solar, Virginia (one county); Somerset Solar, New York (cost redacted); K-Junction Solar, Nebraska (the memo answers 404); Orange County Power Station, Texas (the Beaumont MSA, no MW stated); Ohio University's PORTS combined cycle (eleven counties, jobs as annual averages, no dollar year); IPP Renewed, Utah (no MW, on-site jobs only); NREL's Blue Mountain and Neal Hot Springs geothermal validations (no cost printed); Astoria Replacement, New York (404).
+
 ## 10. What the tool cannot see
 
 - Everything in `economic_impact.md`'s "What JEDI cannot see": gross effects, not net; IMPLAN multipliers of 2014 to 2019; fixed recipes; no displacement.
