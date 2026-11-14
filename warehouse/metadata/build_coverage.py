@@ -1009,6 +1009,16 @@ PUBLIC_SELECTIONS = {
 }
 
 
+# Session 3967 (chain 278): the reverse, a derived table kept internal over public inputs. datacenter_tracker_rollups
+# aggregates datacenter_projects (tier public), whose rows the site holds as "license needed" since 21 October 2026;
+# session 3775 registered the rollups internal for that reason, and once session 3888 named its input on a Derived from
+# line, the rule above asked for public and stopped the daily run of 14 November at this step. Internal is the stricter
+# tier, so the table stays so until the hold is settled; a table not named here still takes its inputs' license.
+INTERNAL_OVER_PUBLIC = {
+    "datacenter_tracker_rollups": "aggregates of datacenter_projects, whose rows the site holds (license needed since 2026-10-21)",
+}
+
+
 def apply_derived(rows):
     """Mark derived tables and check their license against their inputs (Decision 23)."""
     by = {r["table"]: r for r in rows}
@@ -1032,6 +1042,8 @@ def apply_derived(rows):
         want = "internal" if any(lic(t) == "internal" for t in inputs) else "public"
         if r["table"] in PUBLIC_SELECTIONS and r["license"] == "public":
             continue  # session 272: public by the owner's ruling, whatever its input
+        if r["table"] in INTERNAL_OVER_PUBLIC and r["license"] == "internal" and want == "public":
+            continue  # session 3967: kept internal under its input's site hold, a stricter tier than its inputs give
         if r["license"] != want:
             raise ValueError(f"{r['table']}: license {r['license']}, but its inputs make it {want}")
     return rows
