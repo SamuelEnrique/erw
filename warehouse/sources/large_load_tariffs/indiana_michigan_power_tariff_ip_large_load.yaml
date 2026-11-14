@@ -6,6 +6,9 @@
 # (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
 # 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
 # (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
+# Session 3937 (data request row 4): 1st Revised Sheet 21.7, effective 24 June 2026 (IURC 30-Day Filing No. 50910), adds
+# that the collateral is due within 10 business days of contract signing; the 24-times multiplier is unchanged (window P4's
+# research pass, row aep-02, read from IN.gov). Held, as the file is.
 utility: Indiana Michigan Power Company
 eia_id: 9324
 state: IN

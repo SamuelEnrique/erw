@@ -8,6 +8,9 @@
 # (window P4 read the hosts' terms: docs/research/large_load/README.md, "The hosts' terms") and ruling 4 of 6 November
 # 2026: the only source read is a host whose terms bar automated reading, or reproduction without written permission, or
 # (Indiana Michigan Power) IN.gov's statewide terms. Public again once re-read from a commission's own copy.
+# Session 3937 (data request row 6): SRP's data center page says its Agreement for Electric Service sets a 15-year minimum
+# term, where this file reads 'a minimum term as set forth therein' (window P4's research pass, row southwest_california-03).
+# Held, as the file is: SRP's terms forbid reproduction without permission.
 utility: Salt River Project Agricultural Improvement and Power District
 eia_id: 16572
 state: AZ
