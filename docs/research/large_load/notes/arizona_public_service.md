@@ -13,7 +13,7 @@ Group `southwest_california`. Rows in `utilities_<date>.csv`:
 
 Refused or blocked (not read, not retried another way):
 
-- https://images.edocket.azcc.gov/docketpdf/E000044076.pdf: robots.txt not readable (SSL certificate verify failed: hostname mismatch); not read
+- https://images.edocket.azcc.gov/docketpdf/E000044076.pdf: robots.txt not readable (SSL certificate verify failed: a real hostname mismatch); not read, stays refused
 - https://docket.images.azcc.gov/E000044076.pdf: robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents
 - https://s22.q4cdn.com/464697698/files/doc_downloads/2025/06/Jessica-Hobbick-Direct-Testimony-2025-Rate-Case.pdf: robots.txt answered 403: treated as disallow all
 - https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000764622&type=8-K: robots.txt 200: DISALLOWED (the EDGAR archive folders were read instead)

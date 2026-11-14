@@ -27,8 +27,8 @@ GROUP_ORDER = ("dominion", "southern_florida", "aep", "entergy", "texas", "duke"
 COLUMNS = (["row_id", "group", "utility", "state", "iso_region", "rule_name", "docket", "docket_cite", "status",
             "status_date", "status_cite"]
            + [c for f in FIELDS for c in (f, f + "_cite")]
-           + ["source_url", "source_title", "date_read", "quoted_clause", "license", "license_basis", "erw_overlap",
-              "notes_file", "notes"])
+           + ["source_url", "source_title", "date_read", "quoted_clause", "license", "internal_fields", "license_basis",
+              "erw_overlap", "notes_file", "notes"])
 
 
 def slug(s: str) -> str:
@@ -102,6 +102,7 @@ def main() -> int:
                 "date_read": r.get("date_read", ""),
                 "quoted_clause": cite_text(qc, src) if qc.get("quote") else "",
                 "license": r.get("license", ""),
+                "internal_fields": ";".join(r.get("internal_fields") or []),
                 "license_basis": r.get("license_basis", ""),
                 "erw_overlap": r.get("erw_overlap", "") or "none",
                 "notes_file": f"notes/{slug_for(r.get('utility', ''), r.get('notes_slug') or '')}.md",

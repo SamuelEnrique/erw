@@ -763,6 +763,71 @@ class Row182AnotherHubIsAnotherMarket(unittest.TestCase):
         self.assertTrue(brief.names_price("Henry Hub natural gas", " henry hub tops waha as permian flows fall "))
 
 
+class Row183NoQuantityWordsLeftInALine(unittest.TestCase):
+    """Row 183: W44's Policy of the Week read "DOE says it intends to lend up to so Constellation can raise the output of
+    existing nuclear plants ...": the title's "USD 5 billion" taken out of the read, its "up to" left."""
+
+    READ = ("DOE says it intends to lend up to $5 billion so Constellation can raise the output of existing nuclear plants in "
+            "Illinois, Maryland and Pennsylvania. The loan is not final until Constellation meets several conditions.")
+    TITLE = ("Energy Department Announces $5 Billion Loan to Boost Nuclear Power and Help Lower Costs in Illinois, Maryland, "
+             "and Pennsylvania")
+
+    def test_a_figure_after_quantity_words_does_not_go(self):
+        self.assertEqual(brief.without_figures("Firm plans up to 2 GW of solar in Texas over five years.", "Firm plans 2 GW solar push"), "")
+        self.assertEqual(brief.without_figures("The deal is worth about USD 2 billion to the seller in cash.", "Seller agrees USD 2 billion deal"), "")
+        self.assertEqual(brief.without_figures("Utility will add a 500 MW battery near Phoenix by 2027.", "Utility to add 500 MW battery"),
+                         "Utility will add a battery near Phoenix by 2027.")
+        self.assertNotIn("up to so", brief.why_line(self.READ, self.TITLE))
+
+    def test_the_policy_of_the_week_keeps_its_reads_figures(self):
+        import pandas as pd
+        from unittest import mock
+        import roundup
+        acts = pd.DataFrame([{"event_id": "doe:1", "title": self.TITLE, "agency": "DOE", "action_type": "press_release",
+                              "event_date": "2026-10-27", "significance": "8", "why": "", "source_url": "https://www.energy.gov/x",
+                              "docket": ""}])
+        reads = pd.DataFrame([{"action_event_id": "doe:1", "plain_read": self.READ, "timeline": ""}])
+        with mock.patch.object(roundup, "read_table", lambda n: {"policy_actions": acts, "policy_reads": reads}.get(n)), \
+                mock.patch.object(roundup, "week_policy", lambda a, s, c: a.assign(sig=8)):
+            L = roundup.policy_of_the_week(pd.Timestamp("2026-10-26", tz="UTC"), pd.Timestamp("2026-11-02", tz="UTC"), lambda m: None)
+        self.assertTrue(any(ln.startswith("DOE says it intends to lend up to USD 5 billion so Constellation can raise") for ln in L), L)
+
+
+class Row184NoSiteTailOnAPublishersTitle(unittest.TestCase):
+    """Row 184: "AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana - Company Announcement"
+    (W43 on the stack, with no model): the feed's tail kept in the headline; row 119 took it off the also lines only."""
+
+    def test_the_tail(self):
+        self.assertEqual(brief.tail_off("AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana - Company "
+                                        "Announcement", "World Nuclear News"),
+                         "AEP Partners with Amazon and X-energy to Explore Advanced Nuclear Energy in Indiana")
+        self.assertEqual(brief.tail_off("Shell sells stake - Company Announcement - FT.com", "ft.com"), "Shell sells stake")
+        self.assertEqual(brief.tail_off("Oil rises - Reuters", "Reuters"), "Oil rises")
+        self.assertEqual(brief.tail_off("Coal-to-gas switch - a primer", "Utility Dive"), "Coal-to-gas switch - a primer")
+
+    def test_the_headlines_with_no_model(self):
+        import pandas as pd
+        c = pd.DataFrame([{"cluster_id": "a", "titles": ["AEP Partners with Amazon in Indiana - Company Announcement"],
+                           "links": [("World Nuclear News", "https://example.org/a")]}])
+        self.assertEqual(brief.own_titles(c), {"a": "AEP Partners with Amazon in Indiana"})
+
+
+class Row185ACapacityInAnotherForm(unittest.TestCase):
+    """Row 185: "Google enters massive 3.6-GW power deal with Constellation Energy" (W41 on the stack, no model) carried no
+    word that its figure is the outlet's: the scored 3,600 MW was compared as written, and "3.6-GW" was read as no capacity."""
+
+    def test_the_hyphen(self):
+        self.assertEqual(brief.capacities_mw("Google enters massive 3.6-GW power deal"), {3600.0})
+        self.assertEqual(brief.capacities_mw("a 702 MW project and 1GW more"), {702.0, 1000.0})
+
+    def test_the_evidence_line(self):
+        import roundup
+        r = {"cluster_id": "g", "titles": ["Google enters massive 3.6-GW power deal with Constellation Energy"],
+             "why": "Gigawatt-scale nuclear offtake.", "parties": "Google; Constellation Energy", "mw": "3600", "price": "", "n": 11,
+             "sector": "nuclear", "links": [("Utility Dive", "https://example.org/u"), ("WNN", "https://example.org/w")]}
+        self.assertIn("the 3,600 MW is the outlet's figure, not a warehouse table's", roundup.evidence_gap(r, r["titles"][0]))
+
+
 class Row171TheTextEmailNamesTheChartOnce(unittest.TestCase):
     """Row 171: the Digest's plain-text email printed "[chart: Net generation from natural gas in Wyoming: ...] <url>" and
     then the same sentence on the next line (12 November as sent, and every chart since session 232)."""

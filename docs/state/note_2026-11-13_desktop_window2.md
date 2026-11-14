@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`queue/done/228-day-13-november-desktop-window2-landings.md`), lab-desktop's second Claude Code window, unattended from 09:25 UTC. Opus 5.5. Model spend: USD 0.
 
-(Kept current as the chain goes; session 4049 finishes it.)
+Finished at session 4049 (22:05 UTC); the landing desk goes on as chain 230 (`queue/next/230-day-13-november-desktop-window2-landings-continued.md`).
 
 ## Read these first
 
@@ -39,10 +39,21 @@ Energy Research Warehouse (ERW), sessions 4000 onward, for Samuel. Chain 228 (`q
 | desktop w4 6 (Virginia) | `wip/4270-forecast` | `ad7f16ca6` | 0 differences |
 | portable 23, in part (to `5411fef7d`, the security list) | `wip/5150-security` | `ad7f16ca6` | 0 differences |
 | old laptop 11, in part (to `91cc7525c`) | `wip/3457-periodicals` | `ad7f16ca6` | 0 differences |
+| portable 23, the rest (to `f300710e7`), and 24 | `wip/5150-security`, `wip/5072-analysis` | `8d44ea156` | 0 differences |
+| portable 25, in part (to `2adcd44dd`) | `wip/5072-read` | `8d44ea156` | 0 differences |
+| old laptop 11, in part (to `48b5fb1df`) | `wip/3457-periodicals` | `8d44ea156` | 0 differences |
+| portable 25, 26 and 27 (23 whole within 27), in part; old laptop 11, in part | `wip/5072-read` to `986402209`, `wip/5300-large-load` to `33c490eb8`, `wip/5166-security` to `6ecf26bbd`, `wip/3457-periodicals` to `6047f82d1` | `9bd04cfad` | 0 differences |
 
-## Rows that wait, and why
+## Rows that wait, and why (22:05 UTC)
 
-- **Window 4's branch past `ea34a1ea8`** (`93a66d4ee`, code): waits for a new row.
+- **Portable 28 (urgent, P3: the chat read tables the license file holds)** is in its gate (`wip/w2-land-k`, session 4015). It waited 21:34 to 21:59 for the build lock behind window A's `c227-gate4`. Its landing and its proof (`scripts/eval-tool.mjs` on the landed tree) fall to chain 230's first session.
+- **The newer heads of rows that keep moving:**
+  - portable 25 (`c44ca2f59`), 26 (`dab4c005d`) and 27 (`7204e8ba2`);
+  - old laptop 11 (`f2ebae979`).
+  - Each goes in the gate after land-k.
+- **Not requested, so left:**
+  - window 4's code past `ea34a1ea8` (now in its rows 6 and on, landed);
+  - P2's `wip/5157-retire-link` (the owner's word only).
 
 ## The fallback's results
 

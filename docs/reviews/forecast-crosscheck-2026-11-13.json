@@ -374,6 +374,262 @@
      "ratio": 1.0062473684210527
     }
    ]
+  },
+  {
+   "id": "texas_wind_1000",
+   "title": "Economic Development Impact of 1,000 MW of Wind Energy in Texas, NREL/TP-6A20-50400 (Reategui and Hendrickson, August 2011)",
+   "url": "https://docs.nlr.gov/docs/fy11osti/50400.pdf",
+   "request": 121,
+   "method": "JEDI Wind with costs and local shares from Texas projects' data (Tables 2 to 5); results in 2009 real dollars; out-of-state workers excluded; statewide",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "tx",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2911.2318124587127,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "Generated over 2,100 full-time-equivalent (FTE) jobs within the state of Texas; Currently supports approximately 240 permanent Texas jobs; Figure 3: construction phase over 600 FTE jobs (on-site), over 1,000 FTE jobs (local revenue, turbine and supply chain), over 500 FTE jobs (induced); operational phase 60 long-term jobs, 100 jobs, 80 jobs",
+   "cost_words": "This study assumes that 1,000 MW of wind energy represents approximately $2 billion in investment (Table 2: installed project cost $1,650-$2,200/kW, 2009 dollars)",
+   "dollars_of": 2009,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 2100,
+     "model": 5058.925378455144,
+     "ratio": 2.40901208497864
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 600,
+     "model": 710.2933691251741,
+     "ratio": 1.1838222818752901
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 1000,
+     "model": 2784.4637132759044,
+     "ratio": 2.7844637132759043
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 500,
+     "model": 1564.1682960540647,
+     "ratio": 3.1283365921081296
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 240,
+     "model": 223.679,
+     "ratio": 0.9319958333333334
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 60,
+     "model": 45.333,
+     "ratio": 0.7555499999999999
+    }
+   ]
+  },
+  {
+   "id": "maine_wind_1000",
+   "title": "Maine Economic Impacts from 1,000 MW of New Wind Development, Wind Powering America fact sheet, NREL (Lantz and Tegen), DOE/GO-102008-2672, October 2008",
+   "url": "https://docs.nlr.gov/docs/fy09osti/44146.pdf",
+   "request": 122,
+   "method": "JEDI Wind with inputs from interviews with Maine contacts (developers, contractors, assessors); 2007 constant dollars; construction plus 20 years; totals only (the sheet's direct category is not JEDI's on-site line)",
+   "inputs": {
+    "tech": "land_based_wind",
+    "state": "me",
+    "mw": 1000,
+    "capex_2025_usd_per_kw": 2955.714897830379,
+    "life": 20,
+    "ilr": 1
+   },
+   "published_words": "New Local Jobs During Construction: 3,896; New Local Long-term Jobs: 540 (construction phase 2,042 direct and 1,854 indirect and induced; operational phase 254 and 286)",
+   "cost_words": "Data Inputs: Construction Cost $1,980/kW; Operations and Maintenance $24.70/kW/yr",
+   "dollars_of": 2007,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 3896,
+     "model": 5642.5915916914455,
+     "ratio": 1.4483037966353813
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 540,
+     "model": 275.78200000000004,
+     "ratio": 0.5107074074074075
+    }
+   ]
+  },
+  {
+   "id": "georgia_pv_tronox",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Tronox Facility in Savannah, Georgia, NREL/TP-7A30-57958 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57958.pdf",
+   "request": 170,
+   "method": "JEDI PV at state level (Georgia, utility, fixed mount); every installation cost line 100 percent purchased in the state, modules, inverters, mounting and electrical not made there; 2012 dollars",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ga",
+    "mw": 6.071428571428572,
+    "capex_2025_usd_per_kw": 6767.124495835837,
+    "life": 25,
+    "ilr": 1.4
+   },
+   "published_words": "Total Impacts 235.4 (construction); Subtotal 92.2 (project development and on-site); Subtotal 84.2 (module and supply chain); Induced Impacts 59.0; operations: Total Impacts 3.2; PV Project Labor Only 2.0",
+   "cost_words": "Total Project Size - DC Nameplate Capacity (kW) 8,500.0; Installed System Cost $29,698,320; Money Value (Dollar Year) 2012",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 235.4,
+     "model": 178.0894227542293,
+     "ratio": 0.7565396038837269
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 92.2,
+     "model": 86.21161545968039,
+     "ratio": 0.9350500592156225
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 84.2,
+     "model": 57.98945720507363,
+     "ratio": 0.6887108931718958
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 59,
+     "model": 33.888323051473336,
+     "ratio": 0.5743783568046328
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 3.2,
+     "model": 2.4055425,
+     "ratio": 0.75173203125
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 2,
+     "model": 1.569389,
+     "ratio": 0.7846945
+    }
+   ]
+  },
+  {
+   "id": "new_york_pv_lackawanna",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Former Bethlehem Steel Plant Brownfield Site in Lackawanna, New York, NREL/TP-7A40-58194 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/58194.pdf",
+   "request": 171,
+   "method": "JEDI PV at state level (New York, utility, single-axis tracking); installation cost lines 100 percent purchased in the state, equipment not made there; 2012 dollars",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ny",
+    "mw": 1.4725371815638344,
+    "capex_2025_usd_per_kw": 6294.651738350004,
+    "life": 25,
+    "ilr": 1.3582
+   },
+   "published_words": "the total proposed system is estimated to support 49.1 direct and indirect jobs per year for the duration of the procurement and construction period; Subtotal 18.6; Subtotal 17.9; Induced Impacts 12.6; operations Total Impacts 0.7; PV Project Labor Only 0.5",
+   "cost_words": "Project Size - DC Nameplate Capacity (KW) 2,000.0; Installed System Cost $6,700,000; Dollar Year 2012",
+   "dollars_of": 2012,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 49.1,
+     "model": 34.61343756197102,
+     "ratio": 0.7049579951521592
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 18.6,
+     "model": 18.48415922853739,
+     "ratio": 0.9937720015342681
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 17.9,
+     "model": 9.94363291211765,
+     "ratio": 0.5555102185540587
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 12.6,
+     "model": 6.185645421315974,
+     "ratio": 0.4909242397869821
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 0.7,
+     "model": 0.521478,
+     "ratio": 0.7449685714285714
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 0.5,
+     "model": 0.369268,
+     "ratio": 0.738536
+    }
+   ]
+  },
+  {
+   "id": "mississippi_pv_kerr_mcgee",
+   "title": "Feasibility Study of Economics and Performance of Solar Photovoltaics at the Kerr McGee Site in Columbus, Mississippi, NREL/TP-7A30-57251 (2013)",
+   "url": "https://docs.nlr.gov/docs/fy13osti/57251.pdf",
+   "request": 172,
+   "method": "JEDI PV at state level (Mississippi, large commercial application, not utility); installation lines 100 percent purchased in the state; 2010 dollars (the subagent's read of the dollar year)",
+   "inputs": {
+    "tech": "utility_pv",
+    "state": "ms",
+    "mw": 3.7037037037037033,
+    "capex_2025_usd_per_kw": 5417.60749873073,
+    "life": 30,
+    "ilr": 1.35
+   },
+   "published_words": "Total Impacts 141.2 (construction); 55.6 on-site; 57.9 supply chain; 27.7 induced; operations Total Impacts 1.5; PV Project Labor Only 0.9",
+   "cost_words": "Total Project Size - DC Nameplate Capacity (kW) 5,000; Project Construction or Installation Cost $13,950,000; Base Installed System Cost ($/kWDC) $2,795",
+   "dollars_of": 2010,
+   "lines": [
+    {
+     "figure": "construction:total:jobs",
+     "published": 141.2,
+     "model": 106.06227912496058,
+     "ratio": 0.7511492855875396
+    },
+    {
+     "figure": "construction:onsite:jobs",
+     "published": 55.6,
+     "model": 45.562345412500385,
+     "ratio": 0.8194666441097191
+    },
+    {
+     "figure": "construction:supply_chain:jobs",
+     "published": 57.9,
+     "model": 40.96307865331331,
+     "ratio": 0.7074797694872765
+    },
+    {
+     "figure": "construction:induced:jobs",
+     "published": 27.7,
+     "model": 19.536855059146884,
+     "ratio": 0.7053016266840031
+    },
+    {
+     "figure": "operations:total:jobs",
+     "published": 1.5,
+     "model": 1.486415,
+     "ratio": 0.9909433333333334
+    },
+    {
+     "figure": "operations:onsite:jobs",
+     "published": 0.9,
+     "model": 0.9231699999999999,
+     "ratio": 1.0257444444444443
+    }
+   ]
   }
  ]
 }

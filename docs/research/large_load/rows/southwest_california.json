@@ -6,23 +6,28 @@
    "state": "CA",
    "iso_region": "CAISO",
    "rule_name": "Electric Rule No. 30, Retail Service Transmission Facilities, Interim Implementation (50 kV to 230 kV)",
-   "source_url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_RULES_30.pdf",
-   "source_title": "PG&E Electric Rule No. 30, Retail Service Transmission Facilities Interim Implementation (Cal. P.U.C. Sheets 60532-E and following)",
+   "source_url": "https://docs.cpuc.ca.gov/PublishedDocs/Published/G000/M574/K875/574875643.PDF",
+   "source_title": "CPUC Decision 25-07-039 (24 July 2025, issued 28 July 2025), Decision Partly Granting and Partly Denying Pacific Gas and Electric Company's Motion for Interim Implementation of Electric Rule Number 30, A.24-11-007",
    "quoted_clause": {
-    "page": "1",
-    "section": "Applicability",
-    "quote": "This Rule is applicable to Transmission Facilities to furnish Retail ... Service to non-residential Applicants for a Facility at transmission voltages from 50 ... kV up to and including 230 kV."
+    "page": "51",
+    "section": "Ordering Paragraph 1",
+    "quote": "motion for interim implementation of Electric Rule 30 for large transmission-level customers (50-230 kilovolts) seeking retail service is granted in part and denied in part"
    },
    "docket": {
-    "value": "Application 24-11-007 (Advice 7772-E, Decision D.25-07-039)",
+    "value": "Application 24-11-007 (Decision 25-07-039)",
     "cites": [
      {
       "page": "1",
-      "quote": "subject to provisions regarding refunds, accrued interest, and loan repayments ... adopted by the CPUC in a final decision in Application 24-11-007."
+      "quote": "Decision 25-07-039 July 24, 2025"
      },
      {
       "page": "1",
-      "quote": "7772-E D.25-07-039"
+      "quote": "Application 24-11-007"
+     },
+     {
+      "page": "54",
+      "section": "Ordering Paragraph 11",
+      "quote": "Application 24-11-007 remains open."
      }
     ]
    },
@@ -31,12 +36,19 @@
     "date": "2025-12-04",
     "cites": [
      {
-      "page": "1",
-      "quote": "December 4, 2025 December 4, 2025"
+      "page": "54",
+      "section": "Ordering Paragraph 11",
+      "quote": "This order is effective today. Dated July 24, 2025, at San Francisco, California."
      },
      {
-      "page": "1",
-      "quote": "This Rule shall remain in effect until the issuance of a subsequent or final decision"
+      "page": "53",
+      "section": "Ordering Paragraph 3",
+      "quote": "Pacific Gas and Electric Company shall submit a Tier 1 Advice Letter with revised Electric Rule 30 tariff and associated form agreements that will be used for interim implementation of Electric Rule 30 tariff."
+     },
+     {
+      "page": "54",
+      "section": "Ordering Paragraph 8",
+      "quote": "This decision is effective until a subsequent or final decision on Electric Rule 30 is issued"
      },
      {
       "url": "https://docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M613/K880/613880295.PDF",
@@ -48,35 +60,40 @@
    },
    "fields": {
     "threshold_mw": {
-     "value": "no MW size printed; the Rule applies to non-residential Retail Service at transmission voltages from 50 kV up to and including 230 kV",
+     "value": "no MW size printed; large transmission-level customers at 50 to 230 kV seeking retail service",
      "cites": [
       {
-       "page": "1",
-       "section": "Applicability",
-       "quote": "Service to non-residential Applicants for a Facility at transmission voltages from 50 ... kV up to and including 230 kV."
+       "page": "51",
+       "section": "Ordering Paragraph 1",
+       "quote": "for large transmission-level customers (50-230 kilovolts) seeking retail service"
       }
      ]
     },
     "min_demand": {
      "value": "not published",
-     "searched": "Rule 30 Sheets 1 to 22 as filed (grep for minimum, ramp, take-or-pay): no minimum bill, minimum demand or take-or-pay share; the Applicant's 10-year usage forecast (Sheet 22) is held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml"
+     "searched": "D.25-07-039 (Ordering Paragraphs 1 to 11, Findings and Conclusions): no minimum bill, minimum demand or take-or-pay share; the Applicant's 10-year usage forecast in the Rule 30 sheets is held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml"
     },
     "contract_term": {
      "value": "not published",
-     "searched": "Rule 30 Sheets 1 to 22: no service contract term; the Rule says contracts entered into under it stay in effect despite a later decision, subject to the final decision's refund, interest and loan repayment provisions (Sheet 1)"
+     "searched": "D.25-07-039: no service contract term; agreements approved by Tier 2 advice letter during the interim period stay unchanged even if Rule 30 is later modified, except for the deferred refund and loan issues (Ordering Paragraph 5)"
     },
     "collateral": {
-     "value": "no letter of credit, guarantee or other security printed; the Applicant pays an Advance based on the Project Specific Cost Estimate for Facility Types 1 to 3 and provides a pre-funding loan for 100 percent of the Actual Costs of Transmission Network Upgrades (Facility Type 4). PG&E's investor material adds the pipeline stage payments: the Preliminary Engineering Study fee ($500,000) and, at Final Engineering, payment for design and procurement (10% of the total estimated project cost)",
+     "value": "no letter of credit, guarantee or other security named; under interim Rule 30 transmission-level customers provide the full initial costs of Facility Types 1 to 3 (advances and/or actual cost payments), and Type 4 network upgrades proceed only on a pre-funded loan of 100 percent of the project cost, whose full repayment is not guaranteed. PG&E's investor material adds the pipeline stage payments: the Preliminary Engineering Study fee ($500,000) and, at Final Engineering, payment for design and procurement (10% of the total estimated project cost)",
      "cites": [
       {
-       "page": "9",
-       "section": "C.2",
-       "quote": "An Advance is required ... from the Applicant for the design, procurement, construction, and/or ... The Advance is based on the Project Specific Cost Estimate"
+       "page": "52",
+       "section": "Ordering Paragraph 1.b",
+       "quote": "Under interim implementation, PG&E shall ensure that transmission-level customers provide the full initial costs of Facility Types 1-3, including advances and/or actual cost payments."
       },
       {
-       "page": "17",
-       "section": "F.5",
-       "quote": "TRANSMISSION NETWORK UPGRADE PRE-FUNDING LOAN. Applicant ... shall provide a pre-funding loan for 100 percent of the Actual Costs of all ... Transmission Network Upgrades (Facility Type 4)."
+       "page": "52",
+       "section": "Ordering Paragraph 1.c",
+       "quote": "Under interim implementation, Type 4 Facilities will be eligible when transmission-level customers provide 100 percent of the project cost as a pre-funded loan."
+      },
+      {
+       "page": "52",
+       "section": "Ordering Paragraph 1.e",
+       "quote": "The 100 percent repayment of the pre-funded loan for Facility Type 4 is not guaranteed."
       },
       {
        "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000056/q326earningspresentation.htm",
@@ -88,32 +105,16 @@
      ]
     },
     "exit_fee": {
-     "value": "no exit fee as such: if the Applicant terminates before the Transmission Facilities go into service, PG&E keeps the part of the Advance and Actual Cost Payments earned by work performed and returns the excess; an Applicant taking no service by the end of the first calendar year after the facilities are in service forfeits any refund; if load is significantly lower than the Usage Forecast the Applicant pays PG&E's Actual Costs to remove, abandon or replace Excess Facilities, less salvage",
-     "cites": [
-      {
-       "page": "12",
-       "section": "C.7",
-       "quote": "reserves the right to retain the portion of any Advance and/or Actual Cost ... Payments that it has earned based on the work performed for the Applicant"
-      },
-      {
-       "page": "12",
-       "section": "C.8",
-       "quote": "8. FAILURE TO TAKE SERVICE. If the Applicant does not take any electrical ... service from PG&E for any reason by the end of the first calendar year after ... the Transmission Facilities are in service, the Applicant forfeits the right to ... receive any refund under Section D."
-      },
-      {
-       "page": "13",
-       "section": "C.9",
-       "quote": "Usage Forecast, PG&E reserves the right to remove, abandon, or ... replace Excess Facilities and Applicant shall pay PG&E its Actual Costs to ... remove, abandon, or replace the Excess Facilities, less the estimated salvage"
-      }
-     ]
+     "value": "not published",
+     "searched": "D.25-07-039 (Ordering Paragraph 1.d defers all refunds of advances and actual cost payments to the final decision; 1.e denies pre-funded loan repayment during the interim period): no termination or exit charge; the termination terms of the Rule 30 sheets themselves are in notes"
     },
     "study_timeline": {
      "value": "not published",
-     "searched": "Rule 30 Sheets 1 to 22 (grep for study, preliminary, engineering, days): no study duration; PG&E's Q3 2026 investor presentation names the Preliminary Engineering Study and its fee but no duration"
+     "searched": "D.25-07-039 (its only time limits are the CCA notices within 20 business days, Ordering Paragraph 7, and the 15-day compliance filing); PG&E's Q3 2026 investor presentation names the Preliminary Engineering Study and its fee but no duration"
     },
     "connection_timeline": {
      "value": "not published",
-     "searched": "Rule 30 Sheets 1 to 22 and PG&E's Q3 2026 investor presentation: no time to energize printed (the Rule's timed steps, 18 months, 20 business days, 45 calendar days, 10 years, are held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml)"
+     "searched": "D.25-07-039 and PG&E's Q3 2026 investor presentation: no time to energize (the Rule 30 sheets' timed steps are held in large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml)"
     },
     "queue_size": {
      "value": "data center pipeline (applications for new data center load requesting 20 MW or more) of 12,870 MW at September 2026 (12,710 MW at June 2026): 8,350 MW application and preliminary engineering, 3,880 MW final engineering, 400 MW interconnection construction agreement, 240 MW construction; 27, 18 and 3 projects in the first three stages as of 9/30/26",
@@ -143,9 +144,9 @@
     }
    },
    "license": "public",
-   "license_basis": "the CPUC-filed tariff sheets in PG&E's tariff book (robots allow; no terms of use linked on the tariff pages, as window A found); the CPUC's own docket copy for the ALJ ruling; PG&E Corporation's Form 8-K exhibit on sec.gov for the pipeline",
-   "erw_overlap": "large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml holds the same interim Rule 30 (Advice 7772-E, effective 2025-12-04) as four timed steps; no held value differs. This row adds the collateral, exit and queue fields.",
-   "notes": "Final Rule 30 still pending in A.24-11-007 on 13 November 2026: the ALJ ruling of 7 August 2026 (docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M613/K880/613880295.PDF) reopened the record for comments on FERC's show cause order (EL26-71), reply comments due 4 September 2026, after which the record is submitted; no proposed or final decision was found. A partial settlement of 7 May 2026 (PG&E, Cal Advocates, CalCCA, Sierra Club) covers information sharing only (per AReM and Shell's comments, docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M608/K211/608211962.PDF). Customer-specific transmission-level agreements are approved by resolution: draft Resolution E-5455 of 16 July 2026 (Google, 250 MW at 230 kV, San Jose; docs.cpuc.ca.gov/PublishedDocs/Published/G000/M607/K718/607718746.PDF) limits annual refunds to 100 percent of annual net revenues and says Resolutions E-5420, E-5433 and E-5439 limited them to 75 percent; refunds are not one of the eight fields. Refused: the CPUC proceeding page (apps.cpuc.ca.gov, robots) and PG&E's investor PDF host (s21.q4cdn.com, robots 403); the same presentation was read from the SEC copy. The pipeline counts data center load of 20 MW or more at any voltage, not only Rule 30 applicants.",
+   "license_basis": "every value is cited to the CPUC's own docket copies (Decision 25-07-039 and the ALJ ruling of 7 August 2026, docs.cpuc.ca.gov, no robots file) or to PG&E Corporation's Form 8-K exhibit on sec.gov; nothing is cited to pge.com, whose terms bar use in publications without consent",
+   "erw_overlap": "large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml holds the interim Rule 30 sheets (Advice 7772-E, document_date 2025-12-04) as four timed steps, read from pge.com; no held value differs. This row re-cites the rule on D.25-07-039 and adds collateral and queue.",
+   "notes": "The Rule 30 sheets on pge.com (Advice 7772-E, Sheets 1 to 22; internal, PG&E's terms bar use in publications without consent) print what D.25-07-039 does not: an Advance based on the Project Specific Cost Estimate (C.2), PG&E keeping the earned part of advances if the Applicant terminates before the facilities go into service (C.7), forfeiture of refunds if no service is taken by the end of the first calendar year after in-service (C.8), and Excess Facilities removal costs if load falls significantly below the Usage Forecast (C.9); no CPUC host copy of the sheets or of Advice 7772-E was found, so these stay out of the fields. Final Rule 30 still pending in A.24-11-007 on 13 November 2026: the ALJ ruling of 7 August 2026 reopened the record for comments on FERC's show cause order (EL26-71), reply comments due 4 September 2026, after which the record is submitted; no proposed or final decision was found. A partial settlement of 7 May 2026 (PG&E, Cal Advocates, CalCCA, Sierra Club) covers information sharing only (per AReM and Shell's comments, docs.cpuc.ca.gov/PublishedDocs/Efile/G000/M608/K211/608211962.PDF). Customer-specific transmission-level agreements are approved by resolution: draft Resolution E-5455 of 16 July 2026 (Google, 250 MW at 230 kV, San Jose; docs.cpuc.ca.gov/PublishedDocs/Published/G000/M607/K718/607718746.PDF) limits annual refunds to 100 percent of annual net revenues and says Resolutions E-5420, E-5433 and E-5439 limited them to 75 percent; refunds are not one of the eight fields. Refused: the CPUC proceeding page (apps.cpuc.ca.gov, robots) and PG&E's investor PDF host (s21.q4cdn.com, robots 403); the same presentation was read from the SEC copy. The pipeline counts data center load of 20 MW or more at any voltage, not only Rule 30 applicants. Status date basis: held: large_load_connection_rules/pacific_gas_and_electric_electric_rule_30.yaml (the compliance sheets of Advice 7772-E, document_date 2025-12-04); the CPUC documents read give the decision's date and its effect until the final decision, not the sheets' date",
    "date_read": "2026-11-13"
   },
   {
@@ -432,7 +433,8 @@
    },
    "docket": {
     "value": "not published",
-    "searched": "TEP Q3 2026 Form 10-Q prints no ACC docket or decision number for the ESA; the ACC's docket hosts were refused (robots disallow; certificate mismatch)"
+    "cites": [],
+    "searched": "TEP Q3 2026 Form 10-Q prints no ACC docket or decision number for the ESA; the ACC's docket hosts were refused (docket.images.azcc.gov robots disallow; images.edocket.azcc.gov certificate hostname mismatch)"
    },
    "status": {
     "value": "approved",
@@ -546,8 +548,15 @@
     "quote": "The form LLESA is intended to apply to eligible large customers with at least 25 ... MW taking bundled retail electric service under Schedule LGS-3 / GS-3 whose"
    },
    "docket": {
-    "value": "2026 Joint IRP application; the docket number is blank on the posted copy ('Docket No. 26-05___'); 26-05007 per leads, not read in a PUCN document",
+    "value": "PUCN Docket No. 26-05007 (the posted application leaves the number blank, 'Docket No. 26-05___')",
     "cites": [
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/Dktinfo.aspx?Util=Electric",
+      "page": "1",
+      "section": "PUCN Docket Information, Electric",
+      "quote": "26-05007 ... Joint Application of Nevada Power Company d/b/a NV Energy and Sierra Pacific Power Company d/b/a NV Energy for approval of their 2027-2046 Triennial Integrated Resource Plan and 2027-2029 Energy Supply Plan.",
+      "date_read": "2026-11-13"
+     },
      {
       "page": "1",
       "quote": "Docket No. 26-05___"
@@ -556,8 +565,15 @@
    },
    "status": {
     "value": "proposed",
-    "date": "2026-05-06",
+    "date": "2026-05-07",
     "cites": [
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/Dktinfo.aspx?Util=Electric",
+      "page": "1",
+      "section": "PUCN Docket Information, Electric (docket 26-05007 and its date)",
+      "quote": "26-05007 ... 05/07/2026",
+      "date_read": "2026-11-13"
+     },
      {
       "page": "33",
       "quote": "Dated this 6th day of May, 2026."
@@ -569,6 +585,34 @@
      {
       "page": "6",
       "quote": "The statutory period within which this matter must be resolved, therefore, runs ... on Wednesdays, December 2, 2026."
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28386&type=Hearing&docnum=26-05007&meetingdate=10%2F26%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "26-05007 ... 10/26/2026 ... Hearing ... Application for Approval of Resource Plan",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28402&type=Due+-+Phase+3+Rebuttal+Testimony&docnum=26-05007&meetingdate=11%2F2%2F2026+12%3A00%3A00+AM&location=",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "11/02/2026 ... Due - Phase 3 Rebuttal Testimony",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCeventDetail.aspx?recnum=28390&type=Hearing&docnum=26-05007&meetingdate=11%2F16%2F2026+12%3A00%3A00+AM&location=CC+Rm+A+-+LV++Rm+A",
+      "page": "1",
+      "section": "PUCN Calendar, Event Detail",
+      "quote": "26-05007 ... 11/16/2026 ... Hearing",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://pucweb1.state.nv.us/puc2/PUCCalendar.aspx",
+      "page": "1",
+      "section": "PUCN Calendar, November 2026",
+      "quote": "10:00AM - Hearing - 26-05007",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -685,52 +729,52 @@
     }
    },
    "license": "public",
-   "license_basis": "NV Energy's posted copy of its application to the PUCN (the PUCN's docket host was refused); window A's registry reads nvenergy.com as public; no terms of use page was found linked from the script-rendered pages read",
-   "erw_overlap": "large_load_tariffs/nv_energy_llesa.yaml (the June 2026 fact sheet): status 'framework' with effective 2026-06-01 differs, the form LLESA is proposed and pending PUCN approval (application dated 2026-05-06, statutory deadline 2026-12-02); the fact sheet printed no minimum share, term, security or exit figure, which this row adds from the form. Threshold (25 MW) matches and is held.",
-   "notes": "The form adds rate components to bundled Schedule LGS-3 / GS-3 (Wells Direct p. 109). The Companies asked for a deemed approved date of 18 September 2026 for the form (p. 7). Leads (news, not written): PUCN Staff recommended rejecting the form in its current form and opening a separate proceeding; customer-specific LLESA dockets 26-05026 to 26-05030 (AWS, Vantage, Novva and Proton, VIP Landco and Prologis). Customer redlines in the same exhibit reserve positions on the 90 percent minimums and the security (Exhibit G). Clean Transition Tariff: the CTT orders of Dockets 24-05022 and 24-05023 required an exemplar CTT pricing model in an IRP, filed here as Exhibits Wells-Direct-4 and -5 (p. 126); the CTT sheets were not found (nvenergy.com CTT_North.pdf answered 404), so no CTT row. Schedule LGS-X (closed) is held in large_load_tariffs/nv_energy_nevada_power_lgs_x.yaml. Refused: pucweb1.state.nv.us (certificate not verifiable).",
+   "license_basis": "NV Energy's posted copy of its application to the PUCN for the form and its figures; the PUCN's own docket list and calendar (pucweb1.state.nv.us, no robots file) for the docket, filing date and hearings; window A's registry reads nvenergy.com as public; no terms of use page was found linked from the script-rendered nvenergy.com pages read",
+   "erw_overlap": "large_load_tariffs/nv_energy_llesa.yaml (the June 2026 fact sheet): status 'framework' with effective 2026-06-01 differs, the form LLESA is proposed and pending in PUCN Docket 26-05007 (filed 2026-05-07 per the PUCN, application dated 2026-05-06, statutory deadline 2026-12-02, no order found); the fact sheet printed no minimum share, term, security or exit figure, which this row adds from the form. Threshold (25 MW) matches and is held.",
+   "notes": "PUCN record read on 13 November 2026 (pucweb1.state.nv.us, on the coordinator's retry after the certificate fix): the docket list (26-05007 dated 05/07/2026; the customer LLESA dockets 26-05026, 26-05027, 26-05029 and 26-05030 dated 05/29/2026, and 26-05028 dated 06/03/2026) and the calendar (hearings in 26-05007 on 26 to 29 October and 16 to 20 November 2026, Phase 3 rebuttal testimony due 2 November 2026). No order, stipulation or hearing transcript was found: the PUCN's docket detail and document search open only through form postbacks, which this GET-only reader cannot follow, and puc.nv.gov's /uploadedFiles/ newsletters are barred by its robots file. Which phase carries the form LLESA is not stated in a PUCN document read (a lead, the Nevada Conservation League's tracker, puts large-load cost responsibility in Phase 2). The form adds rate components to bundled Schedule LGS-3 / GS-3 (Wells Direct p. 109). The Companies asked for a deemed approved date of 18 September 2026 for the form (p. 7). Leads (news, not written): PUCN Staff recommended rejecting the form in its current form and opening a separate proceeding; Microsoft's rebuttal of 16 October 2026 asked for a replacement large-load tariff. Customer redlines in the same exhibit reserve positions on the 90 percent minimums and the security (Exhibit G). Clean Transition Tariff: the CTT orders of Dockets 24-05022 and 24-05023 required an exemplar CTT pricing model in an IRP, filed here as Exhibits Wells-Direct-4 and -5 (p. 126); the CTT sheets were not found (nvenergy.com CTT_North.pdf answered 404), so no CTT row. Schedule LGS-X (closed) is held in large_load_tariffs/nv_energy_nevada_power_lgs_x.yaml.",
    "date_read": "2026-11-13"
   }
  ],
  "refused": [
   {
+   "utility": "Pacific Gas and Electric Company",
    "url": "https://apps.cpuc.ca.gov/apex/f?p=401:56:0::NO:RP,57,RIR:P5_PROCEEDING_SELECT:A2411007",
-   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai",
-   "utility": "Pacific Gas and Electric Company"
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai"
   },
   {
+   "utility": "Pacific Gas and Electric Company",
    "url": "https://s21.q4cdn.com/673114418/files/doc_financials/2026/q3/Q3-26-Earnings-Presentation.pdf",
-   "reason": "robots.txt answered 403: treated as disallow all (the same presentation was read from sec.gov)",
-   "utility": "Pacific Gas and Electric Company"
+   "reason": "robots.txt answered 403: treated as disallow all (the same presentation was read from sec.gov)"
   },
   {
+   "utility": "Arizona Public Service Company",
    "url": "https://images.edocket.azcc.gov/docketpdf/E000044076.pdf",
-   "reason": "robots.txt not readable (SSL certificate verify failed: hostname mismatch); not read",
-   "utility": "Arizona Public Service Company"
+   "reason": "robots.txt not readable (SSL certificate verify failed: a real hostname mismatch); not read, stays refused"
   },
   {
+   "utility": "Arizona Public Service Company",
    "url": "https://docket.images.azcc.gov/E000044076.pdf",
-   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents",
-   "utility": "Arizona Public Service Company"
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents"
   },
   {
+   "utility": "Arizona Public Service Company",
    "url": "https://s22.q4cdn.com/464697698/files/doc_downloads/2025/06/Jessica-Hobbick-Direct-Testimony-2025-Rate-Case.pdf",
-   "reason": "robots.txt answered 403: treated as disallow all",
-   "utility": "Arizona Public Service Company"
+   "reason": "robots.txt answered 403: treated as disallow all"
   },
   {
+   "utility": "Arizona Public Service Company",
    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000764622&type=8-K",
-   "reason": "robots.txt 200: DISALLOWED (the EDGAR archive folders were read instead)",
-   "utility": "Arizona Public Service Company"
+   "reason": "robots.txt 200: DISALLOWED (the EDGAR archive folders were read instead)"
   },
   {
-   "url": "https://pucweb1.state.nv.us/puc2/Dktinfo.aspx?Util=Electric",
-   "reason": "robots.txt not readable (SSL certificate verify failed: self-signed certificate in chain); not read",
-   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)"
-  },
-  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
    "url": "https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/electric-schedules-north/CTT_North.pdf",
-   "reason": "HTTP 404 (a guessed path; the CTT sheet was not found)",
-   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)"
+   "reason": "HTTP 404 (a guessed path; the CTT sheet was not found)"
+  },
+  {
+   "utility": "Nevada Power Company and Sierra Pacific Power Company (NV Energy)",
+   "url": "https://puc.nv.gov/uploadedFiles/pucnvgov/Content/About/Media_Outreach/PUCNConnection/NewsletterOctober2026.pdf",
+   "reason": "robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot, Claude-User, Claude-Web, Claude-SearchBot, anthropic-ai (the September 2026 newsletter likewise)"
   }
  ],
  "none_found": [

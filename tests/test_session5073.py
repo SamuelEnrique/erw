@@ -13,7 +13,7 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPLIT = re.compile(r"(?<!\\)\|")
 NUM = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
-HEADERS = {"Headline figure", "Headline figure (`page_figures.json` field)", "Card and figure", "Card", "Our figure"}
+HEADERS = {"Headline figure", "Headline figure (`page_figures.json` field)", "Card and figure", "Card", "Our figure", "Figure"}
 NOTES = {"battery": "battery_earns_algorithm", "generator": "generator_earns_algorithm", "datacenter": "datacenter_pays_algorithm"}
 
 
@@ -122,7 +122,8 @@ class Battery(Decision, unittest.TestCase):
         self.check_gaps(crosscheck(self.tool), [
             ("147.68", "55", "+92.68"), ("147.68", "127", "+20.68"), ("87.44", "29.4", "+58.04"), ("2.63", "2.0", "+0.63"),
             ("33", "24", "+9"), ("-40.8", "-37", "-3.8"), ("4.19", "12.08", "-7.89"), ("4.19", "26.67", "-22.48"),
-            ("2.25", "0.40", "+1.85")])
+            ("2.25", "0.40", "+1.85"), ("85.59", "77.3", "+8.29"), ("84.72", "77.3", "+7.42"), ("92.00", "77.3", "+14.70"),
+            ("42.31", "35", "+7.31"), ("42.25", "9", "+33.25")])
 
     def test_the_fall_from_2024_to_2025(self):
         text = crosscheck(self.tool)
@@ -150,7 +151,8 @@ class Generator(Decision, unittest.TestCase):
     def test_gaps(self):
         self.check_gaps(crosscheck(self.tool), [
             ("0.67", "1.275", "-0.605"), ("29.5", "24", "+5.5"), ("29.5", "23.8", "+5.7"), ("39.14", "38", "+1.14"),
-            ("39.14", "78", "-38.86"), ("58.36", "38", "+20.36"), ("58.36", "78", "-19.64")])
+            ("39.14", "78", "-38.86"), ("58.36", "38", "+20.36"), ("58.36", "78", "-19.64"),
+            ("50.42", "52.59", "-2.17"), ("50.42", "79", "-28.58"), ("23.27", "21", "+2.27")])
 
 
 class Datacenter(Decision, unittest.TestCase):
@@ -161,7 +163,8 @@ class Datacenter(Decision, unittest.TestCase):
         self.check_gaps(crosscheck(self.tool), [
             ("32.40", "67.02", "-34.62"), ("30.59", "70.70", "-40.11"), ("150.61", "221.52", "-70.91"),
             ("62.93", "77.30", "-14.37"), ("48.69", "78.01", "-29.32"), ("26.41", "30.42", "-4.01"),
-            ("32.66", "35.34", "-2.68"), ("301.82", "332.87", "-31.05")])
+            ("32.66", "35.34", "-2.68"), ("301.82", "332.87", "-31.05"),
+            ("39.47", "251.10", "-211.63"), ("77.45", "108.10", "-30.65")])
 
     def test_the_carbon_against_egrid(self):
         text = crosscheck(self.tool)

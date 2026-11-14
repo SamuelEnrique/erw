@@ -1,0 +1,545 @@
+{
+ "group": "coops_public_power",
+ "rows": [
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "state": "CO, NM, WY, NE",
+   "iso_region": "SPP (RTO West expansion from 1 April 2026; Eastern Interconnection members served through Basin Electric)",
+   "rule_name": "High Impact Load Tariff and pro forma agreement (HILT), filed with FERC in March 2026 and accepted by FERC in August 2026 (a first version, filed August 2025, was rejected by FERC in October 2025)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1637880/000163788026000052/tris-20260930.htm",
+   "source_title": "Tri-State Generation and Transmission Association, Inc., Form 10-Q for the quarterly period ended September 30, 2026 (SEC EDGAR, filed 6 November 2026)",
+   "quoted_clause": {
+    "section": "MD&A, Recent Developments",
+    "quote": "In March 2026, Tri-State filed with FERC a new High Impact Load Tariff and pro forma agreement to create a repeatable process to address requests to serve high impact loads that have large load requirements, including data centers."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-08",
+    "cites": [
+     {
+      "section": "MD&A, Recent Developments",
+      "quote": "August 2026, FERC accepted Tri-State's tariff and pro forma agreement."
+     },
+     {
+      "section": "MD&A, Recent Developments",
+      "quote": "In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects."
+     },
+     {
+      "section": "MD&A, Overview",
+      "quote": "FERC accepted Tri-State's High Impact Load Tariff, creating a framework to evaluate new high impact load opportunities, including data centers."
+     }
+    ],
+    "note": "FERC's acceptance is dated only to the month; no effective date is printed in the filings read, so the status is approved, with the first review cycle under way since September 2026"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "study_timeline": {
+     "value": "review cycles: the first high impact load review cycle began in September 2026, with the results of Tri-State's evaluation expected in the first half of 2027 (the tariff's own study durations are not published in the documents read)",
+     "cites": [
+      {
+       "section": "MD&A, Recent Developments",
+       "quote": "In September 2026, Tri-State commenced its first review cycle for proposed high impact load projects."
+      },
+      {
+       "section": "MD&A, Recent Developments",
+       "quote": "Results of Tri-State’s evaluation processes, including screening for reliability, affordability, responsibility and transmission planning impacts, are expected in the first half of 2027."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Tri-State Form 10-Q Q3 2026, Q2 2026, Q1 2026 and Q3 2025, Form 10-K 2025 (SEC EDGAR): the filings describe the HILT filing and its acceptance but print none of the tariff's terms; tristate.coop (where Tri-State posts the tariff summary) is not read, its terms bar robots; the FERC filing copy on rtoinsider.com is refused by robots; the FERC order and the 2026 docket number were not found (FERC eLibrary's docket sheet renders no text to the reader, and the web search budget was used up)"
+    },
+    "queue_size": {
+     "value": "seven projects, approximately five gigawatts of potential incremental load by 2034, under the first high impact load cycle and associated BYOR projects (Form 10-Q for the quarter ended 30 September 2026, filed 6 November 2026)",
+     "cites": [
+      {
+       "section": "MD&A, Recent Developments",
+       "quote": "Tri-State has received and is reviewing applications for seven projects with approximately five gigawatts of potential incremental load by 2034 under the high impact load cycle and associated BYOR projects under the BYOR Program."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "SEC EDGAR filings (public); nothing is read from tristate.coop, whose terms bar robots",
+   "erw_overlap": "none (window A holds no registry file for Tri-State)",
+   "notes": "History, from Tri-State's SEC filings: the first HILT was board-approved and filed with FERC in August 2025 and rejected by FERC in October 2025 (Q3 2025 10-Q: \"In August 2025, our Board approved and we filed with FERC a new tariff and pro forma agreement for high impact loads that have large load requirements, including data centers, into our system.\" and \"In October 2025, FERC issued an order rejecting our tariff.\"); the 2026 filing drew a FERC deficiency letter in May 2026 and Tri-State's response in June 2026 (Q2 2026 10-Q). In August 2025 Tri-State also filed BYOR tariff amendments to expand the BYOR Program to high impact loads, accepted by FERC in October 2025 (2025 10-K, Bring Your Own Resource Program). Leads not used as values: Tri-State's own press release of 14 August 2026 on tristate.coop (read before its terms were read; terms bar robots, so not used) and a Colorado news report describe a 45 MW threshold (load additions over 45 MW at request or forecast to exceed 45 MW within four years), a security payment, a minimum term, minimum monthly demand and energy charges, and a 30-day compliance filing on agreements for Eastern Interconnection members; the 2025 filing's FERC docket is ER25-3316 per search results only (its copy on rtoinsider.com is refused by robots). Waits: the FERC order of August 2026 and the 2026 HILT filing (eLibrary accession numbers needed), and the compliance filing.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Basin Electric Power Cooperative",
+   "state": "ND, SD, MT, WY and other member states",
+   "iso_region": "SPP (Upper Missouri zone, most member load); some members' load in the West outside an RTO",
+   "rule_name": "Large Load Commercial Program (adopted by Basin's board in June 2025; market price pass-through rate and capital contribution for qualifying large loads, with phased onboarding procedures)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/720515/000162828026031021/basinelectricpowercooperat.htm",
+   "source_title": "Basin Electric Power Cooperative, prospectus filed under Rule 424(b)(3) (SEC EDGAR, filed 6 May 2026)",
+   "quoted_clause": {
+    "section": "Risk Factors, substantially large loads",
+    "quote": "Under this program, new loads meeting the requirements to be considered a “large load” will be billed under a rate structure that includes a market pass-through component and will be required to contribute a substantial portion of the capital required to build or acquire the assets necessary to serve their load."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "board-adopted program; no FERC or state docket is named in the documents read (Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read)"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-06-13",
+    "cites": [
+     {
+      "url": "https://www.basinelectric.com/News-Center/news-briefs/Basin-Electric-announces-large-load-commercial-program",
+      "section": "news brief, 27 June 2025",
+      "quote": "The large load commercial program opened to applications on June 13.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://www.basinelectric.com/News-Center/news-briefs/Basin-Electric-announces-large-load-commercial-program",
+      "section": "news brief, 27 June 2025",
+      "quote": "The program provides clear and consistent guidance for members navigating large load requests and was adopted by Basin Electric’s Board of Directors in June 2025.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "section": "MD&A, Large Load Commercial Program",
+      "quote": "our Board adopted a “Large Load Commercial Program” in 2025."
+     }
+    ],
+    "note": "the year of the 13 June opening is the news brief's date (27 June 2025)"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read; the Basin Today story says only that some proposed projects would require 50 MW, 100 MW or more, not a threshold"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read; the documents print a market price pass-through rate structure and a capital contribution, but no minimum demand or take-or-pay share"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read; the onboarding procedures name an initial and a final financial screening, a study funding agreement and a $50K non-refundable application fee, but no security amount"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Basin prospectus (424B3, 6 May 2026: Risk Factors and MD&A, Large Load Commercial Program), Form 10-Q Q3 2026, basinelectric.com program page, onboarding procedures one-pager, infographic, news brief of 27 June 2025 and the Basin Today story on the 2026 rate; the program's application materials are on the members-only portal (basinmembers.com, login required), not read"
+    },
+    "study_timeline": {
+     "value": "Phase A (initial screening): 1 to 6 months; Phase B (load interconnection and transmission service studies, power supply studies and generator interconnection studies): 6 to 18 months",
+     "cites": [
+      {
+       "url": "https://www.basinelectric.com/_files/pdf/Large-Load-Program/BEPC-Large-Load-Commercial-Program-One-Pager.Final.pdf",
+       "page": "1",
+       "quote": "Initial Screening Phase 1-6 Months",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.basinelectric.com/_files/pdf/Large-Load-Program/BEPC-Large-Load-Commercial-Program-One-Pager.Final.pdf",
+       "page": "1",
+       "quote": "Load Interconnection and Transmission Service Studies Power Supply Studies and Generator Interconnection Studies $$ 6-18 Months",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "Phase C (project implementation, after the final investment decision and definitive agreements): 60+ months",
+     "cites": [
+      {
+       "url": "https://www.basinelectric.com/_files/pdf/Large-Load-Program/BEPC-Large-Load-Commercial-Program-One-Pager.Final.pdf",
+       "page": "1",
+       "quote": "Phase C This phase involves implementing approved projects. $$$$ 60+ Months",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "members have received requests to commit to provide thousands of megawatts of baseload energy to new large loads (prospectus filed 6 May 2026; no count or exact MW printed); NextEra Energy Resources applied under the program in 2025",
+     "cites": [
+      {
+       "section": "Risk Factors, substantially large loads",
+       "quote": "Our members have received requests to commit to provide thousands of megawatts of baseload energy to new large loads."
+      },
+      {
+       "section": "MD&A, Large Load Commercial Program",
+       "quote": "NextEra Energy Resources submitted an application under our Large Load Commercial Program in 2025."
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the rule, status and queue fields are cited to Basin's SEC prospectus (public); the study and connection timelines and two status cites are read only from basinelectric.com, whose terms of use state \"Any reproduction and distribution of any and all material on this websites without the express written consent of Basin Electric Power Cooperative is strictly prohibited\": treat those fields as internal",
+   "erw_overlap": "none (window A holds no registry file for Basin Electric)",
+   "notes": "Basin's Q3 2026 10-Q: projected capital expenditures exclude loads that qualify as large loads under the program, and the member peak forecast is exclusive of large loads. The onboarding one-pager also lists Phase A requirements (new load application, NDA, ownership and control disclosure, initial financial screening), Decision Point 1 (MOU, study prefunding agreement, $50K non-refundable application fee) and Decision Point 2 (board authorization, definitive agreements, final financial screening). A newer one-pager version on basinmembers.com (\"One-Pager-2-26\") is behind the members-only login and was not read. Lead, outside 2025 to 2026: FERC rejected Basin's proposed cryptocurrency and large load (over 75 MW) rate schedules in 2024 (news reports only; FERC order not read). Basin's NextEra MOU on a 1,450 MW combined-cycle plant in Mercer County is in the prospectus (MD&A, Large Load Commercial Program).",
+   "date_read": "2026-11-13",
+   "internal_fields": [
+    "connection_timeline",
+    "study_timeline"
+   ]
+  },
+  {
+   "utility": "Old Dominion Electric Cooperative",
+   "state": "VA, MD, DE",
+   "iso_region": "PJM",
+   "rule_name": "Formula rate exception: member distribution cooperatives may elect FERC market-based rates, in lieu of the formula rate, for new and expanding loads meeting certain criteria (generally elected for data centers)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/885568/000119312526110107/ck0000885568-20251231.htm",
+   "source_title": "Old Dominion Electric Cooperative, Form 10-K for the fiscal year ended December 31, 2025 (SEC EDGAR, filed 17 March 2026)",
+   "quoted_clause": {
+    "section": "Business, Members (rates)",
+    "quote": "An exception in the formula rate allows our member distribution cooperatives to elect to utilize market-based rates for new and expanding loads that meet certain criteria."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "",
+    "cites": [
+     {
+      "section": "Business, Members",
+      "quote": "In 2025, our member distribution cooperatives elected to utilize market-based rates for five customers."
+     },
+     {
+      "section": "Business, Members",
+      "quote": "Our member distribution cooperatives have generally elected to utilize market-based rates to charge data centers for their power requirements."
+     },
+     {
+      "section": "Regulation, Rate Regulation",
+      "quote": "FERC has granted us authority to charge our member distribution cooperatives utilizing both a formula rate and market-based rates."
+     }
+    ],
+    "note": "in use in 2025 and 2026; the date the exception took effect is not printed in the filings read"
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read (\"certain criteria\" are not defined in the filing)"
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "ODEC Form 10-K 2025 (Business: Members, Wholesale Power Contracts, Regulation; Risk Factors; MD&A) and Form 10-Q Q3 2026 (SEC EDGAR): the criteria for the market-based rate election and any large-load contract terms are not printed; the Virginia SCC is paused and not read; no MW or count of pending large-load requests is printed (five customers were on market-based rates in 2025: served load, not a queue)"
+    }
+   },
+   "license": "public",
+   "license_basis": "SEC EDGAR filings (public)",
+   "erw_overlap": "none (window A holds no registry file for ODEC)",
+   "notes": "Q3 2026 10-Q: market-based rate revenues rose 143.6 percent (three months) and 167.2 percent (nine months), \"primarily due to load growth related to increased member distribution cooperative sales to data centers.\" 10-K: for Virginia members, \"the VSCC must approve any tariff governing the rates and terms of service between the member distribution cooperative and the substantially large load customer\"; ODEC was offered and declined, beginning in 2024, opportunities to purchase the power requirements to serve substantially large loads under the wholesale contract's second exception (purchases from other suppliers with board approval); the VSCC's order of 18 February 2025 let REC serve 13 potential large-load customers through an affiliate for three years (REC and NOVEC are other groups'; the VSCC is paused). The members' own large-load tariffs (NOVEC, REC, SVEC and others) are not ODEC's rules and are not in this row. Status date as the reading group wrote it: 'not published'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Imperial Irrigation District",
+   "state": "CA",
+   "iso_region": "IID balancing authority (outside CAISO)",
+   "rule_name": "Schedule LL, Large Load Tariff (20 MW or more at over 80 percent load factor), with its companion Large Load Queue Service Request Process",
+   "source_url": "https://www.iid.com/home/showpublisheddocument/23987/639250755695530000",
+   "source_title": "Large Load Tariff Schedule LL, Effective September 15, 2026 (Imperial Irrigation District)",
+   "quoted_clause": {
+    "page": "2",
+    "section": "Applicability",
+    "quote": "Any customer with: (1) a monthly expected demand of 20 MW or more and (2) an expected load factor of greater than 80% must take service under this Schedule LL."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "IID board action; no docket or resolution number is printed on Schedule LL or IID's Large Load Customers page"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-09-15",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Effective September 15, 2026"
+     },
+     {
+      "url": "https://www.iid.com/power/rates-regulations/large-load-customers",
+      "section": "Large Load Customers",
+      "quote": "On September 15, 2026, the IID Board of Directors approved Schedule LL, establishing a service process for new or expanded electrical loads that meet the tariff’s Large Load applicability requirements.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "monthly expected demand of 20 MW or more and expected load factor greater than 80 percent; facilities reaching the threshold by expansion are included; IID may aggregate facilities, meters or points of interconnection",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Applicability",
+       "quote": "Any customer with: (1) a monthly expected demand of 20 MW or more and (2) an expected load factor of greater than 80% must take service under this Schedule LL."
+      },
+      {
+       "page": "2",
+       "section": "Applicability",
+       "quote": "The applicability of this Schedule LL applies to facilities that trigger the identified threshold due to expansion."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "monthly energy charge on the higher of actual energy or 85 percent of contracted energy (Minimum Energy Charge); monthly demand charge on the higher of the highest 15-minute peak or 85 percent of Contract Demand (Minimum Demand Charge); a minimum renewable compliance cost charge on the Minimum Energy Charge energy",
+     "cites": [
+      {
+       "page": "5",
+       "section": "Monthly Energy Charge",
+       "quote": "Eighty-five percent (85%) of Customer’s contracted for energy as established in the Electric Service Agreement (“Minimum Energy Charge”)"
+      },
+      {
+       "page": "6",
+       "section": "Monthly Demand Charge",
+       "quote": "Eighty-five percent (85%) of the Contract Demand amount as established in the Electric Service Agreement (“Minimum Demand Charge”)"
+      },
+      {
+       "page": "6",
+       "section": "Renewable Energy Resources",
+       "quote": "The costs associated with the District obtaining the necessary renewable energy associated with Customer’s Minimum Energy Charge energy (“Minimum Renewable Compliance Cost Charge”)."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "initial term of not less than 15 years, set in the Electric Service Agreement; service continues after it unless terminated or modified; termination or modification requires at least 60 months written notice",
+     "cites": [
+      {
+       "page": "4",
+       "section": "Contract Term",
+       "quote": "The contract term will be identified in the Electric Service Agreement between the District and the Customer and will be for a period of not less than fifteen (15) years (the “Initial Contract Term”)."
+      },
+      {
+       "page": "5",
+       "section": "Contract Term",
+       "quote": "If a party wishes to terminate or modify either the Initial Contract Term or an Extension Term, that party must provide a minimum of sixty (60) months written notice to the other party of its intention to discontinue service under the terms of this Schedule LL."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Service Deposit of no less than three months of the highest estimated total monthly charges, in cash unless IID accepts other security; plus a Collateral Requirement of not less than IID's reasonably estimated exposure for up to 60 months, as a parental guaranty (A3 Moody's and A- S&P minimum ratings), standby letter of credit, surety bond or cash, maintained for the full service period; in the queue process, a Facilities Commitment Deposit of 50 percent of IID's preliminary estimate of applicant-funded facilities costs to advance to Phase II, and tiered study deposits of $100,000 (under 50 MW), $150,000 (50 to under 200 MW) or $200,000 (200 MW or more) plus $1,000 per MW of requested peak demand",
+     "cites": [
+      {
+       "page": "4",
+       "section": "Initial Deposit",
+       "quote": "The Service Deposit shall be no less than three (3) months of the Customer’s highest estimated total monthly charges, including energy, demand, and any applicable minimum charges."
+      },
+      {
+       "page": "4",
+       "section": "Initial Deposit",
+       "quote": "The Initial Deposit shall be provided in cash, unless the District, in its sole discretion, agrees to accept an alternative form of security."
+      },
+      {
+       "page": "8",
+       "section": "Collateral Requirements",
+       "quote": "The amount of Collateral Requirement shall not be less than the District’s reasonably estimated exposure associated with serving the Customer for a period of up to sixty (60) months"
+      },
+      {
+       "page": "8",
+       "section": "Collateral Requirements",
+       "quote": "A Parental Guaranty is only acceptable if Customer or its affiliate maintains an investment grade credit rating of: “A3” or higher by Moody’s, and (ii) “A-” or higher by S&P"
+      },
+      {
+       "page": "10",
+       "section": "Collateral Requirements",
+       "quote": "The Collateral Requirement must be maintained for the full period of time that Customer takes service under Schedule LL."
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "12",
+       "section": "7.2 Phase II advancement",
+       "quote": "A payment equal to fifty percent (50%) of IID’s preliminary estimate of the Applicant Funded Facilities Costs identified in the Phase I study report.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "9",
+       "section": "6.2 Tiered Deposit and Replenishment",
+       "quote": "Less than 50 MW $100,000 plus $1,000 for each MW of Requested Peak Demand 50 MW or more, but less than 200 MW $150,000 plus $1,000 for each MW of Requested Peak Demand 200 MW or more $200,000 plus $1,000 for each MW of Requested Peak Demand",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "on termination or a contract capacity reduction during the Initial Contract Term: the remaining Minimum Charge for the terminated or reduced capacity for the rest of the Initial Contract Term, due on the effective date of the termination or reduction",
+     "cites": [
+      {
+       "page": "5",
+       "section": "Exit Fee",
+       "quote": "The Exit Fee will be the remaining Minimum Charge for any terminated or reduced capacity for the remainder of the Initial Contract Term, as defined in the Electric Service Agreement."
+      },
+      {
+       "page": "5",
+       "section": "Exit Fee",
+       "quote": "The Exit Fee must be paid to the District upon the effective date of either the contract termination or capacity reduction."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "completeness notice within 10 Business Days of the Stage 1 submission; Feasibility Assessment targeted within 30 Business Days; Phase I Study Authorization targeted within 20 Business Days of the Queue Position; Phase I System Impact Study report, best efforts within 90 Business Days of the Phase I authorization; Phase II report, best efforts within 90 Business Days of the Phase II authorization; 30 Business Days for the applicant to advance after the Phase I report",
+     "cites": [
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "7",
+       "section": "5 Stage 1",
+       "quote": "Within ten (10) Business Days after receiving the Stage 1 submission, IID will issue a written completeness notice or a deficiency notice identifying each missing requirement.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "7",
+       "section": "5 Stage 1",
+       "quote": "IID will target delivery of a written Feasibility Assessment within thirty (30) Business Days.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "10",
+       "section": "6.4 Study Schedule and Delay",
+       "quote": "Within twenty (20) Business Days after IID assigns the request a Queue Position, or after formation of an applicable cluster, IID will target issuance of the Phase I Study Authorization.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "11",
+       "section": "7.2.1 Phase I Study Report",
+       "quote": "The District will use best efforts to provide the Phase I Study report within ninety (90) Business Days after the Phase I Study Authorization is executed.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "14",
+       "section": "7.3 Phase II",
+       "quote": "The District will use best efforts to provide the Phase II Study report within ninety (90) Business Days after the Phase II Study Authorization is executed.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.iid.com/home/showpublisheddocument/23991/639250755702470000",
+       "page": "12",
+       "section": "7.2 Phase II advancement",
+       "quote": "Within thirty (30) Business Days after IID delivers the Phase I Study Report and the Phase II advancement package, an Applicant seeking to proceed must provide:",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule LL pp. 1 to 10 and the Queue Service Request Process pp. 1 to 25: service begins only after IID's written Energization Authorization (Stage 5); no construction or energization duration is printed (the Phase II report gives a project-specific schedule)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Schedule LL, the Queue Service Request Process (queue positions are confidential), IID's Large Load Customers page and its Data Center Facts page: no count or MW of requests is printed"
+    }
+   },
+   "license": "public",
+   "license_basis": "the public power district's own published rate schedule and procedure; iid.com shows no terms of use restricting reuse",
+   "erw_overlap": "none (window A holds no registry file for IID)",
+   "notes": "The Queue Service Request Process also sets a fixed $20,000 non-refundable application fee, a 10 Business Day cure period, first-ready, first-served administration, and serial or cluster studies. Service under Schedule LL is full requirements service at 69 kV or higher and interruptible at IID's sole discretion (p. 3). The customer pays the actual costs of all studies and bears the cost of substations and upgrades (pp. 2 to 3).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "url": "https://tristate.coop/terms-and-conditions/",
+   "reason": "the site's terms bar robots (\"Use any robot, spider, or other automatic device, process, or means to access the Website for any purpose\"); the terms page and the press release of 14 August 2026 were fetched before the terms were read and are not used as sources"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "url": "https://www.rtoinsider.com/wp-content/uploads/2025/09/ER25-3316-Tri-State-HILT-public.pdf",
+   "reason": "robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "url": "https://www.utilitydive.com/news/ferc-tri-state-large-load-tariff-data-center-doe/804076/",
+   "reason": "HTTP 403 (used only to look for a link to the FERC order)"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "url": "https://www.okenergytoday.com/2025/10/ferc-blocks-tri-state-tariff-for-data-center-power-loads",
+   "reason": "robots.txt not readable (remote end closed connection); not read"
+  },
+  {
+   "utility": "Tri-State Generation and Transmission Association, Inc.",
+   "url": "https://www.ferc.gov/news-events/news",
+   "reason": "HTTP 403 (used only to look for the FERC order)"
+  },
+  {
+   "utility": "Basin Electric Power Cooperative",
+   "url": "https://basinmembers.com//_files/pdfs/Programs/BEPC-Large-Load-Commercial-Program-One-Pager-2-26.pdf",
+   "reason": "members-only site: the request returned the member login page, which states the information is solely for Basin's members; not read further"
+  },
+  {
+   "utility": "JEA",
+   "url": "https://www.jea.com/",
+   "reason": "blocked: the answer looks like a bot check; not retried"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Oglethorpe Power Corporation (and the Georgia EMCs as a group)",
+   "searched": "Oglethorpe Form 10-K 2025 and Form 10-Q Q3 2026 (SEC EDGAR): no large-load tariff or policy; the filings say Georgia loads of 900 kW or more are open to competition at initial operation and some members serve large data centers; the individual EMCs' own rules were not searched"
+  },
+  {
+   "utility": "Great River Energy",
+   "searched": "greatriverenergy.com: home page, site search for \"large load\", economic development page, the 2027 budget and rates post (12 November 2026); no large-load policy or rate found (site terms allow personal, non-commercial viewing only)"
+  },
+  {
+   "utility": "Dairyland Power Cooperative",
+   "searched": "dairylandpower.com: home page and site search for \"large load\" (no results)"
+  },
+  {
+   "utility": "Associated Electric Cooperative, Inc.",
+   "searched": "aeci.org: home page, economic development page and site search for \"large load\" (no results)"
+  },
+  {
+   "utility": "Sacramento Municipal Utility District",
+   "searched": "smud.org: rate information, business rates (largest listed schedule CI-TOD4, 1,000+ kW) and economic development pages; no large-load schedule found"
+  },
+  {
+   "utility": "Colorado Springs Utilities",
+   "searched": "csu.org: home page and business rates page; only the Large Power and Light rate (four megawatts and 75 percent annual load factor), a standard rate rather than a large-load connection rule"
+  }
+ ]
+}

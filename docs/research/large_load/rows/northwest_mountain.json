@@ -1,0 +1,1429 @@
+{
+ "group": "northwest_mountain",
+ "rows": [
+  {
+   "utility": "PacifiCorp (Pacific Power)",
+   "state": "OR",
+   "iso_region": "PACW (PacifiCorp West balancing authority), no RTO",
+   "rule_name": "Schedule 401, Service to New Large Energy Use Facilities (LEUF Agreements), as resolved by the stipulation adopted in Order No. 26-443 (UE 463)",
+   "source_url": "https://apps.puc.state.or.us/orders/2026ords/26-443.pdf",
+   "source_title": "Public Utility Commission of Oregon, Order No. 26-443, UE 463, In the Matter of PacifiCorp, dba Pacific Power, Advice No. 25-015, Schedule 401, Service to New Large Energy Use Facilities (entered 13 November 2026; stipulation of 16 September 2026 attached as Appendix A)",
+   "quoted_clause": {
+    "page": "1",
+    "section": "I. Introduction",
+    "quote": "In this order, we address the proposed large data center tariff of PacifiCorp, dba Pacific Power, submitted in response to House Bill (HB) 3546, the POWER Act"
+   },
+   "docket": {
+    "value": "UE 463 (Oregon PUC)",
+    "cites": [
+     {
+      "page": "41",
+      "section": "VI. Resolution",
+      "quote": "[t]he report will be filed in docket UE 463 no later than March 31 of the year following the reporting year"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-11-13",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "ENTERED Nov 13 2026"
+     },
+     {
+      "page": "1",
+      "quote": "DISPOSITION: STIPULATION ADOPTED"
+     },
+     {
+      "page": "41",
+      "section": "VII. Order",
+      "quote": "2. PacifiCorp, dba Pacific Power, must file new tariffs consistent with this order no later than November 24, 2026, to be effective January 1, 2027."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "20 MW: a facility primarily engaged in NAICS 518210 (data centers) that uses or is able to use 20 MW or more (Schedule 401 as filed: load registering 20,000 kW or greater, or Reserved Capacity of 20,000 kW or greater). Sites with common ownership within 2,500 feet of each other or served by the same substation count as one, and commonly owned data centers anywhere in the territory have their Contract Demand summed",
+     "cites": [
+      {
+       "page": "4",
+       "section": "III. Legal standard",
+       "quote": "a facility that uses or is able to use 20 megawatts or more and is primarily engaged in providing a service described under the 2022 North American Industry Classification System Code 518210"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/UAA/uaa340367027.pdf",
+       "page": "13",
+       "section": "Proposed Original Sheet No. 401-1, Definitions",
+       "quote": "whose electric service load registers 20,000 kW or greater or whose Reserved Capacity is 20,000 kW or greater",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "13",
+       "section": "IV.K Site aggregation",
+       "quote": "If two or more sites have common ownership and are within 2,500 feet of each other or are served by the same substation, the sites will be treated as one for the purpose of capacity allocation and the qualification for a LEUF Agreement"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No minimum percentage is printed. Standard LEUF Agreements carry (1) a Reservation Charge based on Contract Demand, paid monthly over the term and set to recover the full cost of the generation, storage and network facilities needed to serve the load, or, where the customer chooses its own resources, direct reimbursement plus a Portfolio Risk Management Charge based on Contract Demand and a System Firming and Balancing Charge at 33 percent of Schedule 48 System Fixed Generation; (2) a Peak Demand Charge at the OATT Schedule 1, Schedule 3 and NITS rates on the month's highest demand; (3) the Schedule 300 Excess Demand Charge",
+     "cites": [
+      {
+       "page": "10",
+       "section": "IV.E.5 Compensation for generation and storage resources",
+       "quote": "a Reservation Charge based on the Contract Demand and paid monthly during the term"
+      },
+      {
+       "page": "10",
+       "section": "IV.E.5",
+       "quote": "a Portfolio Risk Management Charge that will be based on Contract Demand"
+      },
+      {
+       "page": "10",
+       "section": "IV.E.5",
+       "quote": "a System Firming and Balancing Charge set at 33 percent of System Fixed Generation applicable to Schedule 48"
+      },
+      {
+       "page": "9",
+       "section": "IV.E.3 Peak demand charge",
+       "quote": "a Peak Demand Charge that is based on the customer's highest demand during the month"
+      },
+      {
+       "page": "10",
+       "section": "IV.E.6 Excess demand",
+       "quote": "the New LEUF is subject to the Schedule 300 Excess Demand Charge"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum 10 years, maximum 30 years, inclusive of any ramp period; renewals at least 10 years",
+     "cites": [
+      {
+       "page": "12",
+       "section": "IV.H Contract term and renewals",
+       "quote": "Paragraph 24 of the stipulation sets a minimum 10-year LEUF Agreement term, with a maximum term of 30 years, inclusive of any ramp period. Paragraph 31 provides that LEUF Agreement renewals will be at least 10 years in length."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "At the company's election, sufficient creditworthiness or posted collateral to cover the customer's Exit Fee; creditworthiness means senior unsecured long-term debt rated A- or higher (S&P or Fitch), A (low) or higher (DBRS) or A3 or higher (Moody's), or an equivalent internal rating; the amount is reassessed every two years. Network Upgrades needed for the load are paid up front by the LEUF, except Qualified Network Upgrades (230 kV and above, on the WECC critical path list, with less than 80 percent of known capacity needs from LEUFs), which are paid as a monthly fee on the LEUF's share",
+     "cites": [
+      {
+       "page": "13",
+       "section": "IV.L Collateral and credit requirements",
+       "quote": "Paragraph 29 of the stipulation provides that a LEUF shall, at the company's election, be required to provide sufficient creditworthiness or post collateral to cover the customer's Exit Fee."
+      },
+      {
+       "page": "13",
+       "section": "IV.L",
+       "quote": "The senior unsecured long term debt of a customer has a rating of A- or higher by Standard & Poor's or Fitch, A (low) or higher by DBRS, or A3 or higher by Moody's Investor Services, Inc."
+      },
+      {
+       "page": "13",
+       "section": "IV.L",
+       "quote": "The stipulation states that the amount will be reassessed every two years to reflect the customer's current Exit Fee."
+      },
+      {
+       "page": "7",
+       "section": "IV.E.1 Line extension and network upgrade costs",
+       "quote": "any Network Upgrades (as defined in Rule 13, including bulk transmission) required to serve the New LEUF's load will be paid for upfront by the New LEUF"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit Fee set to recover company-funded infrastructure: net book value of company-funded infrastructure, net cost of customer-specific power or tolling agreements, the Reservation Charge for the remainder of the contract, and the net cost of removing facilities no longer needed; refunded pro rata if another large customer takes the capacity within three years (the removal cost is not refunded)",
+     "cites": [
+      {
+       "page": "11",
+       "section": "IV.E.8 Exit fee",
+       "quote": "The Exit Fee will include the net book value of company-funded infrastructure, the net cost of customer-specific power/tolling agreements, the Reservation Charge for the remainder of the customer's contract, and the net cost of removing facilities no longer needed."
+      },
+      {
+       "page": "11",
+       "section": "IV.E.8",
+       "quote": "If another large customer takes service within three years of an exiting LEUF's departure, the Exit Fee will be refunded by a pro-rata share of the capacity assumed by the new large customer."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "No study deadline is set (the stipulating parties said a standard deadline is not possible). Company practice as testified: initial load interconnection system impact study in no more than six months after the required documents and study payment. LEUF Agreement filed within 45 days of execution; if none is executed within 180 days of completion of the service study, either party may file an unexecuted agreement; Commission review 90 days (standard agreement) or 180 days (non-conforming), extendable for good cause. Engineering studies are funded separately by the LEUF",
+     "cites": [
+      {
+       "page": "40",
+       "section": "V. Discussion, interconnection",
+       "quote": "the length of time needed to complete a study is variable based on the specific attributes of the LEUF request, so it is not possible to establish a standard deadline for when the study must be completed"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "69",
+       "section": "PAC/200, Eller/7",
+       "quote": "The company strives to complete an initial load interconnection system impact study in no more than six months after the customer has submitted required documents and the study payment.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "7",
+       "section": "IV.D Filing timeline",
+       "quote": "within 45 days after execution, a LEUF Agreement will be filed with the Commission for approval. If the parties have not executed a LEUF Agreement within 180 days of completion of the service study, either party may file an unexecuted LEUF Agreement and request Commission resolution of disputed terms."
+      },
+      {
+       "page": "7",
+       "section": "IV.D",
+       "quote": "the Commission will have 90 days to approve or reject a standard LEUF Agreement, or 180 days to approve or reject a non-conforming LEUF Agreement"
+      },
+      {
+       "page": "12",
+       "section": "IV.G Application fee",
+       "quote": "Engineering studies are funded separately and are allocated fully to the New LEUF."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No duration printed. The LEUF Agreement must specify the date or estimated date service begins (Schedule 401 as filed); LEUFs are interconnected in the order in which they execute LEUF Agreements, subject to agreed construction timelines and system constraints",
+     "cites": [
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/UAA/uaa340367027.pdf",
+       "page": "14",
+       "section": "Proposed Original Sheet No. 401-2, Special Condition 3.f",
+       "quote": "The Large Energy Use Facility Agreement shall specify the date or estimated date that the Company will begin to provide service to the Customer.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "14",
+       "section": "IV.N Interconnection of LEUFs",
+       "quote": "LEUF customers will be interconnected in the order in which they execute a LEUF Agreement, subject to agreed-upon construction timelines, and system constraints"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "Oregon: 20 interconnection requests from potential Schedule 401 customers, all above 100 MW, 7 above 250 MW and 3 above 500 MW (PacifiCorp data response of 3 April 2026, filed 11 June 2026); about 4 GW of potential added demand on the Oregon system at the most conservative estimate (company testimony, 11 June 2026). System-wide: over 5,000 MW of new large load requests across PacifiCorp's territory at various stages of study (same testimony)",
+     "cites": [
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "53",
+       "section": "Exhibit PAC/101, Meredith/2",
+       "quote": "UE 463 / PacifiCorp April 3, 2026 GEI Data Request 3",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "53",
+       "section": "Exhibit PAC/101",
+       "quote": "PacifiCorp has received 20 interconnection requests.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "53",
+       "section": "Exhibit PAC/101",
+       "quote": "(a) Of the requests received, how many customers have requested a connected load level (in MW) greater than 100 MW?",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "53",
+       "section": "Exhibit PAC/101",
+       "quote": "(b) Seven.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "53",
+       "section": "Exhibit PAC/101",
+       "quote": "(c) Three.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "23",
+       "section": "PAC/100, Meredith/20",
+       "quote": "At the most conservative estimate, this represents approximately 4 GW of",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "64",
+       "section": "PAC/200, Eller/2",
+       "quote": "My team is currently actively involved in over 5,000 MW of new large load requests across PacifiCorp's service territory at various stages of study",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/HTB/ue463htb346984039.pdf",
+       "page": "1",
+       "section": "cover letter",
+       "quote": "June 11, 2026",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Oregon PUC's order and the commission's eDockets copies (edocs.puc.state.or.us) of PacifiCorp's advice filing and testimony",
+   "erw_overlap": "none: window A holds no Pacific Power Oregon file (its PacifiCorp files are Utah's S.B. 132 and R746-318)",
+   "notes": "Advice No. 25-015 (filed 2 October 2025, asking 1 January 2026) is permanently suspended (Order 26-443, p. 41, ordering paragraph 1); new tariffs consistent with the stipulation are due by 24 November 2026, effective 1 January 2027; the compliance sheets were not filed or read on 13 November 2026, and rehearing may be sought within 60 days. Order No. 25-516 (16 December 2025) suspended the filing for investigation. Other stipulation terms: a 1 cent per kWh community energy benefits charge on LEUFs over 100 MW (the order's page 12 prints '1 cent/kW'); a $25,000 nonrefundable application fee; new incremental resources must be non-emitting; already energized New LEUFs may not exceed their highest measured peak until a LEUF Agreement is approved; PacifiCorp must file a tariff for LEUFs not on Schedule 401 within 60 days of the rate effective date of UE 470; a biennial LEUF report, the first due 31 March 2027; the LEUF queue is reported to the Commission confidentially (no public count yet). DCC opposed the stipulation; ADS and NewSun commented. The Oregon PUC's POWER Act report (2026) says Pacific Power's earlier large load tariff came in UE 433 (row: Rule 13). Leads not used: an Idaho Capital Sun article on the settlement (refused by robots). PacifiCorp's testimony also gives its engineering study thresholds by state (PAC/200, Eller/4 to 6, pp. 66 to 68): 20 MW in Pacific Power states, 25 MW in Rocky Mountain Power states.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PacifiCorp (Pacific Power)",
+   "state": "OR",
+   "iso_region": "PACW (PacifiCorp West balancing authority), no RTO",
+   "rule_name": "Rule 13 (Line Extensions), customers with 50,000 kW or more of Reserved Capacity: Capacity Reservation Charge, Excess Demand Charge and limits on reducing Reserved Capacity, adopted by Order No. 24-447 (UE 433)",
+   "source_url": "https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr333825025.pdf",
+   "source_title": "PacifiCorp, Advice No. 24-024 in compliance with Order No. 24-447, UE 433, Tariff P.U.C. OR No. 36 (sheets issued 27 December 2024, effective 1 January 2025), Oregon PUC eDockets copy",
+   "quoted_clause": {
+    "page": "83",
+    "section": "Rule 13",
+    "quote": "If a Consumer's total Reserved Capacity is 50,000 kW or greater, the Consumer shall be subject to a Capacity Reservation Charge and an Excess Demand Charge."
+   },
+   "docket": {
+    "value": "UE 433 (Oregon PUC)",
+    "cites": [
+     {
+      "page": "74",
+      "section": "Sheet No. R13-1 footer",
+      "quote": "Advice No. 24-024/Docket No. UE 433"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-01-01",
+    "cites": [
+     {
+      "page": "74",
+      "quote": "Third Revision of Sheet No. R13-1 Canceling Second Revision of Sheet No. R13-1 Effective for service on and after January 1, 2025"
+     },
+     {
+      "page": "74",
+      "section": "Rule 13, I.A",
+      "quote": "Beginning July 1, 2025, the Company may charge Consumers a Capacity Reservation"
+     },
+     {
+      "url": "https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr335055026.pdf",
+      "page": "2",
+      "section": "Fifth Revision of Sheet No. R13-2 (Advice No. 25-003)",
+      "quote": "Effective for service on and after March 28, 2025",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50,000 kW of total Reserved Capacity (the Commission rejected the 25,000 kW proposed)",
+     "cites": [
+      {
+       "page": "83",
+       "quote": "If a Consumer's total Reserved Capacity is 50,000 kW or greater, the Consumer shall be subject to a Capacity Reservation Charge and an Excess Demand Charge."
+      },
+      {
+       "url": "https://apps.puc.state.or.us/orders/2024ords/24-447.pdf",
+       "page": "101",
+       "quote": "A threshold of 50,000 kW, which is supported by Staff testimony on excess reserved capacity risks",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Capacity Reservation Charge of $3.68 per kW (as adopted by the order; the current Schedule 300 figure was not read) on Excess Reserved Capacity, defined as 90 percent of Reserved Capacity less the maximum recorded and billed demand in the most recent 12 months, beginning 12 months after Reserved Capacity commences; Excess Demand Charge at three times the capacity reservation charge, no buffer, on demand above Reserved Capacity; both from 1 July 2025",
+     "cites": [
+      {
+       "url": "https://apps.puc.state.or.us/orders/2024ords/24-447.pdf",
+       "page": "99",
+       "quote": "we adopt a capacity reservation charge of $3.68 per kW and a buffer of ten percent, as well as an excess demand charge of three times the capacity reservation charge with no buffer",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr335055026.pdf",
+       "page": "2",
+       "section": "Rule 13, I.G Excess Reserved Capacity",
+       "quote": "Ninety percent of Reserved Capacity, less the maximum recorded and billed Consumer",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://edocs.puc.state.or.us/efdocs/UHR/ue433uhr335055026.pdf",
+       "page": "2",
+       "section": "Rule 13, I.G",
+       "quote": "Excess Reserved Capacity shall begin 12 months",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "75",
+       "section": "Rule 13, I.F Excess Demand Charge",
+       "quote": "Beginning July 1, 2025, Consumers requiring 50,000 kW or more whose maximum"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "No minimum term printed in the sheets read; Reserved Capacity may be reduced by up to 10 percent of total load or 50 MW a year, whichever is smaller, or more by mutual agreement",
+     "cites": [
+      {
+       "page": "83",
+       "quote": "A consumer may reduce Reserved Capacity by up to 10% of the Consumer's total load per year or 50 MW per year, whichever is smaller, or by a larger amount if mutually agreed upon by the Consumer and the Company."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Rule 13 sheets in Advice 24-024 (pp. 74 to 88) and Advice 25-003; Order 24-447 pp. 91 to 105. PacifiCorp's UE 463 testimony (PAC/200, Eller/5 to 6, pp. 67 to 68) says Rule 13 paragraph 3(f) carries credit or collateral and minimum term requirements for customers of 50 MW or more, but no such text or figure was found in the sheets read; a later revision of Rule 13 may hold it"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rule 13 sheets in Advice 24-024 and Advice 25-003; Order 24-447 pp. 91 to 105"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rule 13 sheets in Advice 24-024 and Advice 25-003; Order 24-447 pp. 91 to 105"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rule 13 sheets in Advice 24-024 and Advice 25-003; Order 24-447 pp. 91 to 105"
+    },
+    "queue_size": {
+     "value": "see row: Schedule 401, Service to New Large Energy Use Facilities (LEUF Agreements), as resolved by the stipulation adopted in Order No. 26-443 (UE 463)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Oregon PUC's order and the commission's eDockets copies of PacifiCorp's compliance and housekeeping tariff filings",
+   "erw_overlap": "none",
+   "notes": "Order No. 24-447 entered 19 December 2024. Advice No. 25-003 (filed 20 February 2025, effective 28 March 2025) added the 10 percent buffer to Excess Reserved Capacity. Aggregation of sites is allowed when served by the same transmission line or substation, with no unshared Network Upgrade, and operated by the same legal entity (Rule 13, p. 83). For contracts executed before 1 January 2025, tracking starts 36 months after the capacity delivery date. The Schedule 401 stipulation (row above) applies the Schedule 300 Excess Demand Charge to New LEUFs. Schedule 300's current per-kW rates were not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power)",
+   "state": "UT",
+   "iso_region": "PACE (PacifiCorp East balancing authority), no RTO",
+   "rule_name": "Electric Service Regulation No. 12 (Line Extensions), Very Large New Load Customers (50,000 kVA or more of Reserved Capacity) and special pricing contracts at 200,000 kVA, P.S.C.U. No. 52",
+   "source_url": "https://pscdocs.utah.gov/electric/25docs/25035T05/339730Trf5-9-2025.pdf",
+   "source_title": "Rocky Mountain Power, Utah tariff P.S.C.U. No. 52, tariff sheets filed 9 May 2025 (Public Service Commission of Utah file 25-035-T05), Regulation No. 12 Original Sheets 12R.2, 12R.3 and 12R.12, issued by authority of the Report and Order in Docket No. 24-035-04",
+   "quoted_clause": {
+    "page": "271",
+    "section": "Regulation No. 12, 3(f)",
+    "quote": "Very Large New Load Customers shall be required to pay a Minimum On-Peak Power Charge and Excess Power Charge, unless waived or modified under a special contract."
+   },
+   "docket": {
+    "value": "Utah PSC Docket No. 24-035-04 (Report and Order authorizing the sheets)",
+    "cites": [
+     {
+      "page": "271",
+      "quote": "Issued by authority of Report and Order of the Public Service Commission of Utah in Docket No. 24-035-04"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-04-25",
+    "cites": [
+     {
+      "page": "271",
+      "quote": "FILED: May 9, 2025"
+     },
+     {
+      "page": "271",
+      "quote": "EFFECTIVE: April 25, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "50,000 kVA of Reserved Capacity: new applicants signing after 25 April 2025 for total Reserved Capacity of 50,000 kVA or more, or existing customers adding 50,000 kVA above their 25 April 2025 Reserved Capacity. Customers requiring 200,000 kVA or more total load must take a special pricing contract",
+     "cites": [
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "(1) New Applicants that sign agreements with the Company after April 25, 2025, for total Reserved Capacity of 50,000 kVA or greater."
+      },
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "(2) Existing Customers that sign agreements with the Company for 50,000 kVA of Reserved Capacity above and beyond the Customer's Reserved Capacity as of April 25, 2025."
+      },
+      {
+       "page": "262",
+       "section": "1(h) Extension Limits",
+       "quote": "Customers requiring 200,000 kVA or more, total load, shall enter into special pricing contracts with the Company."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Minimum On-Peak Power Charge: monthly On-Peak Power billed at the higher of actual On-Peak Power usage or 75 percent of Reserved Capacity for the month; Excess Power Charge on usage above Reserved Capacity, priced as in Schedule 31; with a load ramp, both apply from the year Reserved Capacity reaches 50,000 kVA; both may be waived or modified by special contract",
+     "cites": [
+      {
+       "page": "262",
+       "section": "1(k) Minimum On-Peak Power Charge",
+       "quote": "Monthly On-Peak Power charges for Very Large New Load Customers shall be billed as the highest of:"
+      },
+      {
+       "page": "262",
+       "section": "1(k)",
+       "quote": "(2) Seventy-five percent (75%) of the Reserved Capacity for the applicable month."
+      },
+      {
+       "page": "261",
+       "section": "1(d) Excess Power Charge",
+       "quote": "The Excess Power Charge shall be priced consistent with the Excess Power Charge in Schedule 31 and applied to monthly power usage in excess of Reserved Capacity."
+      },
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "For Customers with a load ramp, the Minimum On-Peak Power Charge and Excess Power Charge shall apply the year that the Customer's Reserved Capacity reaches 50,000 kVA."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Minimum five years in addition to the specified load ramp period; Reserved Capacity may be reduced by up to 10 percent or 50,000 kVA a year, whichever is smaller, or more by mutual agreement",
+     "cites": [
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "Very Large New Load Customers are required to enter into contracts with a minimum term of five (5) years in addition to the specified load ramp period."
+      },
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "Very Large New Load Customers may reduce Reserved Capacity by up to 10 percent or 50,000 kVA per year, whichever is smaller, or by an amount mutually agreed upon by the Company and the customer."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Sufficient credit, or posted collateral at the Company's election, to cover the Minimum On-Peak Power Charge for at least five years",
+     "cites": [
+      {
+       "page": "271",
+       "section": "3(f)",
+       "quote": "Very Large New Load Customers are required to have sufficient credit or post collateral, at the Company's election, to cover the Minimum On-Peak Power Charge for at least five years."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Regulation No. 12 sheets 12R.1 to 12R.13 in the 9 May 2025 filing (pp. 260 to 272); window A's S.B. 132 and R746-318 files print no exit fee either"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Regulation No. 12 sheets in the 9 May 2025 filing. For requests of 100 MW or more within five years the statute's clocks apply: held: large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Regulation No. 12 sheets in the 9 May 2025 filing"
+    },
+    "queue_size": {
+     "value": "see row: Schedule 401, Service to New Large Energy Use Facilities (LEUF Agreements), as resolved by the stipulation adopted in Order No. 26-443 (UE 463)"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Public Service Commission of Utah's copy of the filed tariff sheets (pscdocs.utah.gov)",
+   "erw_overlap": "large_load_tariffs/pacificorp_utah_sb132_large_load.yaml, large_load_connection_rules/utah_sb132_large_scale_electric_service.yaml and utah_psc_r746_318_large_scale_electric.yaml cover S.B. 132 and R746-318 at 100 MW; this is a different, tariff-level rule (Regulation No. 12 at 50,000 kVA), so no field repeats them",
+   "notes": "No later revision of Regulation No. 12 was checked (a 2026 Utah rate case may have reissued the sheets). The Utah PSC's large load flexible tariff work (Docket 25-R318-01 with 24-035-43) had produced no order by 13 November 2026: the docket page's latest filings are reply comments of 4 September 2026 (RMP's reply comments printed no queue figure). PacifiCorp's UE 463 testimony (Exhibit PAC/200, Eller/6, p. 68 of the 11 June 2026 filing on edocs.puc.state.or.us) gives the other Rocky Mountain Power thresholds: Utah 25 to 49 MW (engineering study, company policy), 50 to 99 MW (plus tariff provisions), 100 MW or more (special contracts per statute); Wyoming 25 to 199 MW (study and tariff provisions) and 200 MW or more (special contracts per tariff); Idaho 25 to 30 MW (study) and 30 MW or more (special contracts per statute and tariff). The Wyoming and Idaho tariff texts were not read (see none_found). Docket 26-035-05 (a Large Load Service Contract filed 10 February 2026) is a contract, not a rule, and was not read.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Portland General Electric Company",
+   "state": "OR",
+   "iso_region": "PGE balancing authority, no RTO",
+   "rule_name": "Schedule 96, Data Center Standard Service (with Rule I Large Load Customer Agreement), UM 2377: terms of Order No. 26-154 as reconsidered by Order No. 26-309; compliance tariffs approved by Order No. 26-239",
+   "source_url": "https://apps.puc.state.or.us/orders/2026ords/26-154.pdf",
+   "source_title": "Public Utility Commission of Oregon, Order No. 26-154, UM 2377, Investigation into Marginal Cost Study Treatment of Costs for Large Customers and Further Modifications to PGE's Rule C and Rule I (entered 7 May 2026)",
+   "quoted_clause": {
+    "page": "2",
+    "quote": "We include minimum transmission and generation demand provisions of 90 percent of contracted capacity"
+   },
+   "docket": {
+    "value": "UM 2377 (Oregon PUC); compliance Advice No. 26-24",
+    "cites": [
+     {
+      "url": "https://apps.puc.state.or.us/orders/2026ords/26-239.pdf",
+      "page": "2",
+      "section": "Staff report",
+      "quote": "(Docket No. UM 2377/Advice No. 26-24) Compliance filing in PUC Investigation of Large Customer Rates.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07-08",
+    "cites": [
+     {
+      "url": "https://apps.puc.state.or.us/orders/2026ords/26-239.pdf",
+      "page": "1",
+      "quote": "ENTERED Jul 10 2026",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://apps.puc.state.or.us/orders/2026ords/26-239.pdf",
+      "page": "1",
+      "quote": "We approve Portland General Electric Company's Advice No. 26-24 inclusive of errata filed June 30, 2026, and July 2, 2026, updating rate schedules and rules in response to Commission Order No. 26-154.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://apps.puc.state.or.us/orders/2026ords/26-239.pdf",
+      "page": "3",
+      "section": "Staff report",
+      "quote": "Creates Schedule 96, Data Center Standard Service",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://apps.puc.state.or.us/orders/2026ords/26-239.pdf",
+      "page": "5",
+      "section": "Staff report",
+      "quote": "Staff recommends the Commission approve Advice No. 26-24 errata effective for service on July 8, 2026.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "held: large_load_tariffs/portland_general_electric_schedule_96.yaml"
+    },
+    "min_demand": {
+     "value": "held: large_load_tariffs/portland_general_electric_schedule_96.yaml"
+    },
+    "contract_term": {
+     "value": "held: large_load_tariffs/portland_general_electric_schedule_96.yaml"
+    },
+    "collateral": {
+     "value": "System capacity allocation deposit at contract signing equal to two years of minimum transmission demand, refunded 50 percent in year two and 50 percent in year three after energization if the customer meets 80 percent of its allocated system capacity and its contracted flexibility plan; uniform credit requirements in the tariff, including senior long-term debt rated A- (S&P) or A3 (Moody's); surety bonds accepted as collateral",
+     "cites": [
+      {
+       "page": "45",
+       "quote": "charging a system capacity allocation deposit due at contract signing equal to two years of minimum transmission demand that is refundable at 50 percent in year two and 50 percent in year three post energization subject to the customer's meeting 80 percent of their allocated system capacity for distribution, transmission, and generation demands and meeting their contracted flexibility plan"
+      },
+      {
+       "page": "38",
+       "quote": "The credit requirements will include PGE's current requirements of senior long-term debt rating of A- (S&P) or A3 (Moody's). We agree with both PGE and Staff that surety bonds may be accepted as a form of collateral."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "held: large_load_tariffs/portland_general_electric_schedule_96.yaml"
+    },
+    "study_timeline": {
+     "value": "Study results expire after 60 days unless extended (Rule I, Section 2); no study duration printed",
+     "cites": [
+      {
+       "page": "3",
+       "section": "First Partial Stipulation, item 1",
+       "quote": "allow changes to Rule I, Section 2 outlining the expiration period for study results (60 days unless extended)"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Order 26-154 (77 pp.) and Order 26-239 with its staff report. The order sets a Schedule 96 service queue in which a load is not served until a reliable, HB 2021-compliant plan of service is in place (p. 63), with no duration"
+    },
+    "queue_size": {
+     "value": "1.7 GW additional pipeline of large load requests targeting energization beginning in 2028, plus 473 MW under construction across executed contracts with five data center customers (energization 2026, ramping through 2032); customer capacity as of 29 October 2026",
+     "cites": [
+      {
+       "url": "https://investors.portlandgeneral.com/static-files/6d28afef-0921-4bad-b15f-02ba5b8c6489",
+       "page": "8",
+       "section": "Capturing high-tech and data center demand",
+       "quote": "1.7 GW additional pipeline of large load",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://investors.portlandgeneral.com/static-files/6d28afef-0921-4bad-b15f-02ba5b8c6489",
+       "page": "8",
+       "quote": "requests targeting energization beginning in 2028.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://investors.portlandgeneral.com/static-files/6d28afef-0921-4bad-b15f-02ba5b8c6489",
+       "page": "8",
+       "quote": "473 MW under construction across executed",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://investors.portlandgeneral.com/static-files/6d28afef-0921-4bad-b15f-02ba5b8c6489",
+       "page": "8",
+       "quote": "contracts with five data center customers with energization beginning in 2026 and ramping through 2032.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://investors.portlandgeneral.com/static-files/6d28afef-0921-4bad-b15f-02ba5b8c6489",
+       "page": "8",
+       "quote": "(1) Values represent customer capacity as of October 29, 2026.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Oregon PUC's orders (apps.puc.state.or.us). Exception: the queue_size cite is from PGE's investor site (investors.portlandgeneral.com, October 29, 2026 Investor Presentation); PGE's legal notices (portlandgeneral.com/legal-notices) intend site content for personal or noncommercial use, so treat that one field as internal",
+   "erw_overlap": "large_load_tariffs/portland_general_electric_schedule_96.yaml: effective is 2026-05-07 there (the day Order 26-154 was entered, with rates directed by 10 June 2026); the compliance Schedule 96 was approved by Order No. 26-239 (decided 7 July 2026, entered 10 July 2026), effective for service on 8 July 2026. threshold, min_demand, contract_term and exit_fee are held unchanged",
+   "notes": "Order 26-154 also adopts a Schedule 96 queue (p. 63: loads served only once a reliable, HB 2021-compliant plan of service exists; a lower-queued ready load may move ahead), a 1 cent per kWh surcharge for 100 MW or more, and exceedance penalties. Order 26-309 (31 August 2026) kept the terms but for exit fee refunds and adjustments (held). The Oregon PUC's 2026 POWER Act report (oregon.gov) says data centers in PGE's territory saw an average rate increase of 29 percent with Order 26-239. PGE's deck also shows a 420 MW executed contract (energizing 2028). No later UM 2377 order was found.",
+   "date_read": "2026-11-13",
+   "internal_fields": [
+    "queue_size"
+   ]
+  },
+  {
+   "utility": "Idaho Power Company",
+   "state": "ID",
+   "iso_region": "IPCO (Idaho Power balancing authority), no RTO",
+   "rule_name": "Schedule 19 eligibility cap: loads over 20 MW served only under Commission-approved Energy Services Agreements (special contracts), with the pending Petition IPC-E-26-07 on cost of service for New Large Loads",
+   "source_url": "https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2607/CaseFiles/20260331Application.pdf",
+   "source_title": "Idaho Power Company, Petition to Evaluate Class Cost-of-Service Methodology, Consider Alternative Class Cost-of-Service Studies, and Determine Cost of Service Considerations for New Large-Load Customers, Case No. IPC-E-26-07 (received 31 March 2026), Idaho PUC copy",
+   "quoted_clause": {
+    "page": "27",
+    "section": "Petition para. 57",
+    "quote": "Under Schedule 19, if a customer's aggregate power requirements at the same premises exceeds 20 MW, the customer is ineligible for service under that schedule and is required to make special contract arrangements with the Company."
+   },
+   "docket": {
+    "value": "IPC-E-26-07 (petition, pending); each Energy Services Agreement is approved in its own case",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Re: Case No. IPC-E-26-07 Idaho Power Company's Petition to Evaluate Class Cost-of Service Methodology"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "",
+    "cites": [
+     {
+      "page": "27",
+      "section": "Petition para. 60",
+      "quote": "Idaho Power's current framework relies on Commission-approved ESAs for customers above the 20 MW threshold"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Over 20 MW aggregate at the same premises (special contract, Energy Services Agreement); new service requests of 1 MW or more are handled as large-load inquiries with engineering studies",
+     "cites": [
+      {
+       "page": "27",
+       "section": "para. 57",
+       "quote": "Under Schedule 19, if a customer's aggregate power requirements at the same premises exceeds 20 MW, the customer is ineligible for service under that schedule and is required to make special contract arrangements with the Company."
+      },
+      {
+       "page": "26",
+       "section": "para. 56",
+       "quote": "Idaho Power classifies new service requests of 1 megawatt (\"MW\") or greater as large-load inquiries and conducts engineering studies"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No figure printed; ESAs typically include contract demand schedules and minimum billing demand (take-or-pay) provisions",
+     "cites": [
+      {
+       "page": "27",
+       "section": "para. 58",
+       "quote": "ESAs typically incorporate contract demand schedules, minimum billing demand (take-or-pay) provisions, credit support requirements, notice/resizing limits, and termination/make-whole protections"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "No term printed; ESAs typically include notice and resizing limits",
+     "cites": [
+      {
+       "page": "27",
+       "section": "para. 58",
+       "quote": "ESAs typically incorporate contract demand schedules, minimum billing demand (take-or-pay) provisions, credit support requirements, notice/resizing limits, and termination/make-whole protections"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "No figure printed; ESAs typically include credit support requirements, and customer-specific delivery facilities are funded up front (CIAC)",
+     "cites": [
+      {
+       "page": "27",
+       "section": "para. 58",
+       "quote": "ESAs typically incorporate contract demand schedules, minimum billing demand (take-or-pay) provisions, credit support requirements, notice/resizing limits, and termination/make-whole protections"
+      },
+      {
+       "page": "26",
+       "section": "para. 56",
+       "quote": "require up-front customer funding (CIAC) for customer-specific delivery facilities so those costs are not included in rate base"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "No figure printed; ESAs typically include termination and make-whole protections",
+     "cites": [
+      {
+       "page": "27",
+       "section": "para. 58",
+       "quote": "ESAs typically incorporate contract demand schedules, minimum billing demand (take-or-pay) provisions, credit support requirements, notice/resizing limits, and termination/make-whole protections"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Petition IPC-E-26-07 pp. 1 to 27 and its attachments' text (grep for study durations); Schedule 19 sheet not read"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Petition IPC-E-26-07; Schedule 19 sheet not read"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Petition IPC-E-26-07 (127 pp., grep for MW, pipeline, queue); IDACORP's own investor material not read. Lead only: earnings-call summaries (MarketBeat, Quartr) report a large-load pipeline above Idaho Power's 4,000 MW peak"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Idaho PUC's case-file copy of the utility's petition (puc.idaho.gov)",
+   "erw_overlap": "none",
+   "notes": "IPC-E-26-07 asks the Commission to determine cost of service treatment for New Large Loads; the Idaho PUC case page (updated 6 November 2026) lists a Notice of Schedule Order No. 37170 (16 September 2026) and Idaho Power direct testimony of 23 September 2026 (not read); no order. Oregon side: the Oregon PUC's 2026 POWER Act report says Idaho Power is subject to the POWER Act but hosts no large load data centers in its Oregon territory (oregon.gov report, p. 1). Idaho Code 61-335 (next row) governs new large loads of 50 MW under contracts from 1 July 2026. Status date as the reading group wrote it: 'not published'.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Idaho Power Company (the statute binds every Idaho public utility, including Rocky Mountain Power and Avista in Idaho)",
+   "state": "ID",
+   "iso_region": "IPCO (Idaho Power balancing authority), no RTO",
+   "rule_name": "Idaho Code 61-335, New large load and ratepayer protection (added 2026, ch. 335)",
+   "source_url": "https://legislature.idaho.gov/statutesrules/idstat/Title61/T61CH3/SECT61-335",
+   "source_title": "Idaho Statutes, Title 61, Chapter 3, Section 61-335, as the Idaho Legislature publishes it",
+   "quoted_clause": {
+    "page": "1",
+    "section": "61-335(2)",
+    "quote": "A public utility shall provide service to a new large load only pursuant to a commission-approved service contract."
+   },
+   "docket": {
+    "value": "none (statute); 2026 Idaho Session Laws ch. 335",
+    "cites": [
+     {
+      "page": "1",
+      "section": "History",
+      "quote": "[61-335, added 2026, ch. 335, sec. 1, p. 1315.]"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-07-01",
+    "cites": [
+     {
+      "page": "1",
+      "section": "61-335(1)(c)(ii)",
+      "quote": "Is subject to a service contract with a public utility that was entered into on or after July 1, 2026."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "An increase of 50 MW or more in a service entrance's cumulative power requirement in any consecutive 60-month period, under a service contract entered into on or after 1 July 2026; splitting load across service entrances does not change the status",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(1)(c)(i)",
+       "quote": "Results in an increase in a cumulative power requirement of such service entrance of fifty (50) megawatts or more in any consecutive sixty (60) month period"
+      },
+      {
+       "page": "1",
+       "section": "61-335(5)",
+       "quote": "A new large load shall not change its status as such by means of artifice, such as by splitting its load among more than one (1) electric service entrance"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No figure; the new large load must fund its full cost of service, including its share of generation, transmission, substation and distribution investments that would not be needed but for it",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(4)(b)",
+       "quote": "The new large load is responsible for funding its full cost of service, including its share of generation, transmission, substation, and distribution infrastructure investments that would not be placed in service or be required by the public utility but for the new large load."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Idaho Code 61-335 (full section)"
+    },
+    "collateral": {
+     "value": "Financial security, in a form and amount approved by the commission, reasonably sufficient to protect the utility and its other customers from stranded or unrecoverable costs",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(6)",
+       "quote": "Approval of a service contract shall be conditioned on the new large load furnishing financial security, in a form and amount approved by the commission, that is reasonably sufficient to protect the public utility and its other customers from the risk of stranded costs, unrecoverable costs, or unrecoverable investments"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Idaho Code 61-335 (full section)"
+    },
+    "study_timeline": {
+     "value": "Commission review: the commission approves or denies a new large load service contract within 270 days of the utility's filing, which must include a no harm test; no engineering study clock",
+     "cites": [
+      {
+       "page": "1",
+       "section": "61-335(4)",
+       "quote": "The commission shall review and approve or deny a new large load service contract within two hundred seventy (270) days of receiving such filing by the public utility."
+      },
+      {
+       "page": "1",
+       "section": "61-335(3)",
+       "quote": "Such filing shall include a no harm test and other supporting information sufficient to demonstrate compliance with the requirements of this section."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Idaho Code 61-335 (full section)"
+    },
+    "queue_size": {
+     "value": "see row: Schedule 19 eligibility cap: loads over 20 MW served only under Commission-approved Energy Services Agreements (special contracts), with the pending Petition IPC-E-26-07 on cost of service for New Large Loads"
+    }
+   },
+   "license": "public",
+   "license_basis": "a state statute as the Idaho Legislature publishes it (legislature.idaho.gov)",
+   "erw_overlap": "none",
+   "notes": "The statute prints no effective date of its own; 1 July 2026 is the date from which contracts fall under it (61-335(1)(c)(ii)). The commission must issue orders setting guidance to implement it (61-335(8)(a)); none was found. It also applies to Rocky Mountain Power and Avista in Idaho; PacifiCorp's testimony speaks of special contracts in Idaho at 30 MW 'per statute and tariff' (UE 463, PAC/200, Eller/6), a figure this statute does not print.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Utility District No. 2 of Grant County (Grant PUD)",
+   "state": "WA",
+   "iso_region": "GCPD (Grant County PUD balancing authority), no RTO",
+   "rule_name": "Rate Schedule No. 94, New Large Load Service, with Customer Service Policy Section 8 (Large Power Customer Electric Service), policy effective 1 November 2026",
+   "source_url": "https://www.grantpud.org/images/2026/2026-Rates/Customer%20Service%20Policy_Clean_Effective%2020261101.pdf",
+   "source_title": "Grant PUD, Customer Service Policy (clean copy, effective 11/1/2026)",
+   "quoted_clause": {
+    "page": "11",
+    "section": "Section 2, Rate Schedules",
+    "quote": "Service to New Large Loads will only be made pursuant to Rate Schedule No. 94, New Large Load Service."
+   },
+   "docket": {
+    "value": "Grant PUD Commission Resolution 8802 (Rate Schedule No. 94)",
+    "cites": [
+     {
+      "url": "https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf",
+      "page": "1",
+      "quote": "Resolution 8802",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-11-01",
+    "cites": [
+     {
+      "page": "44",
+      "quote": "Effective 11/1/2026"
+     },
+     {
+      "url": "https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf",
+      "page": "1",
+      "quote": "EFFECTIVE: With meter readings on and after January 1, 2016.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "A New Large Load is an increase of more than 10 average MW in a customer's annual average load above its highest annual average load since 2010; Large Power Customers start at 500 kW/kVA, and requests above 20 MVA need more detailed study",
+     "cites": [
+      {
+       "page": "8",
+       "section": "Definition of terms, New Large Load",
+       "quote": "An increase of any load(s) over 10 average MW of a Customer's annual average load (average MW) above the Customer's highest annual average load since 2010."
+      },
+      {
+       "page": "46",
+       "section": "8.4",
+       "quote": "Customers requiring more than 20 MVA of new service require more detailed study."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No minimum demand or take-or-pay printed. Energy charge: the greater of the Mid-C weighted average index price or the largest energy block of Rate Schedule 15, plus a 5 percent premium; the demand charges of the underlying Rate Schedule 14, 15, 16 or 85 still apply",
+     "cites": [
+      {
+       "url": "https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf",
+       "page": "1",
+       "quote": "The Customer's monthly energy charge shall be the greater of: the \"Weighted Average Index Price\" reflected by the Intercontinental Exchange (ICE) Daily Power Indices for the Mid C at peak and off-peak for the month or the largest energy block on Rate Schedule 15 - Large Industrial Service, plus a 5% premium.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf",
+       "page": "1",
+       "quote": "all Demand Charges are still applicable on the underlying Rate Schedule 14, 15, 16, or 85",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Rate Schedule No. 94 (1 p.); Customer Service Policy Sections 8 and 9 (pp. 43 to 50)"
+    },
+    "collateral": {
+     "value": "No security amount printed; an up-front Customer Contribution under a Facilities Contribution Agreement, calculated to prevent shifting long-term costs to other rate classes (it does not reserve capacity); general deposit rules of Section 6.13 apply",
+     "cites": [
+      {
+       "page": "45",
+       "section": "8.4",
+       "quote": "The Customer Contribution is calculated to prevent the shifting of longterm costs within a rate class or group or to other rate classes or groups."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rate Schedule No. 94; Customer Service Policy Sections 6 and 8. Section 8.4 allows a partial refund of the Customer Contribution on cancellation, subject to a 15 percent administrative fee and direct costs, which is not an exit fee"
+    },
+    "study_timeline": {
+     "value": "No study duration printed. A System Impact Study comes first; after the results consultation the customer has 30 calendar days to move into the Facilities Study or terminate the application",
+     "cites": [
+      {
+       "page": "45",
+       "section": "8.4",
+       "quote": "the Customer will have (30) calendar days to decide to move into the Facilities Study phase or terminate the application"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Customer Service Policy Section 8; Grant PUD data center FAQ of 28 August 2026 (which says only that service cannot always be provided as quickly as developers prefer)"
+    },
+    "queue_size": {
+     "value": "Approximately 800 MW of large-load requests in the power application queue (Grant PUD FAQ of 28 August 2026)",
+     "cites": [
+      {
+       "url": "https://www.grantpud.org/blog/data-center-faqs",
+       "page": "1",
+       "quote": "Grant PUD currently has approximately 800 MW of large-load requests in its power application queue.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://www.grantpud.org/blog/data-center-faqs",
+       "page": "1",
+       "quote": "Friday, 28 August 2026",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "Grant PUD's own posted rate schedule, customer service policy and FAQ (a public utility district's board-adopted tariff); the pages read link only a privacy statement, no terms of use",
+   "erw_overlap": "none",
+   "notes": "Pending change: a commission workshop of 18 August 2026 proposed a new Rate Schedule 20 for high-density compute, combining data centers and cryptocurrency from Rates 7, 14, 15 and 17 on 1 April 2027, with a commission vote planned by year-end or January 2027 (grantpud.org/blog/commission-workshop-8-18-2026). Evolving Industry loads (Rate 17) have their own queue, processed after the Large Electric Service Queue (policy 8.1). In 2025 Grant PUD's 8 data center operators used about 280 aMW, about 37 percent of county load (FAQ). Rate Schedule 94 dates from 1 January 2016 (Resolution 8802).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Chelan County (Chelan PUD)",
+   "state": "WA",
+   "iso_region": "CHPD (Chelan County PUD balancing authority), no RTO",
+   "rule_name": "Rate Schedule 4, Large Loads (above 5 aMW), effective 1 August 2025",
+   "source_url": "https://www.chelanpud.org/docs/default-source/default-document-library/electric-rate-schedules290fbeaf9dd5636da1c4ff0800ce4554.pdf",
+   "source_title": "Chelan County PUD, Electric Rate Schedules (Rate Schedule 4, Large Loads, effective August 1, 2025)",
+   "quoted_clause": {
+    "page": "20",
+    "section": "Rate Schedule 4, Availability",
+    "quote": "This schedule applies to Customers with electrical use above 5 annual average megawatts (aMWs), or as warranted by special circumstances not withstanding that another rate schedule might otherwise apply"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Rate Schedule 4 (pp. 20 to 27): no board resolution number printed"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-08-01",
+    "cites": [
+     {
+      "page": "27",
+      "section": "Rate Schedule 4, Effective",
+      "quote": "August 1, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Above 5 annual average MW (aMW), or as warranted by special circumstances; a written contract is required before connection",
+     "cites": [
+      {
+       "page": "20",
+       "quote": "This schedule applies to Customers with electrical use above 5 annual average megawatts (aMWs)"
+      },
+      {
+       "page": "20",
+       "quote": "Service under this Schedule will require a written contractual agreement between the Customer and the District prior to connection of Service"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No take-or-pay share printed. Energy Capacity Charge from the first billing period with demand above 5,000 kW: $10.93/kW on the positive difference of 90 percent of Demand minus average demand; Basic Charge of $0.10/kW of maximum authorized demand above 5,000 kW plus $1,000; other rates and terms by contract",
+     "cites": [
+      {
+       "page": "20",
+       "section": "4.a Energy Capacity Charge",
+       "quote": "The energy capacity charge applies in all billing periods beginning with the first billing period in which Demand first exceeds 5000 kW. The charge is $10.93/kW of the positive difference, if"
+      },
+      {
+       "page": "21",
+       "section": "4.a",
+       "quote": "any, of 90% of the Demand minus the average demand during the billing period"
+      },
+      {
+       "page": "24",
+       "section": "4.j Basic Charge",
+       "quote": "The basic charge is, for each billing period, $0.10/kW multiplied by the amount (in kW), if any, by which Customer's maximum authorized demand exceeds 5,000 kW, plus $1000."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "not published",
+     "searched": "Rate Schedule 4 (pp. 20 to 27): duration, interruption, curtailment and credit requirements are left to the contract (p. 20)"
+    },
+    "collateral": {
+     "value": "Liquidity Risk Charge on all invoiced amounts at a rate set by the customer's lowest credit rating, from 0.50 percent (Aa3/AA- or above) to 3.00 percent (below Baa3/BBB-), the top rate also applying if a rating is withdrawn, the customer defaults or fewer than two agencies rate it; credit requirements otherwise by contract",
+     "cites": [
+      {
+       "page": "25",
+       "section": "4.m Liquidity Risk Charge",
+       "quote": "The liquidity risk charge equals all invoiced amounts in the billing period, except the Transaction Specific Charge (4.n), multiplied by the rate set forth in the level below corresponding to the lowest Rating on the last day of the billing period."
+      },
+      {
+       "page": "25",
+       "section": "4.m table",
+       "quote": "Aa3 or above AA- or above AA- or above 0.50%"
+      },
+      {
+       "page": "25",
+       "section": "4.m table",
+       "quote": "Below Baa3 Below BBB- Below BBB- 3.00%"
+      },
+      {
+       "page": "25",
+       "section": "4.m",
+       "quote": "the liquidity risk charge will be calculated using the rate in level 4 of the table above if, as of the last day of the billing period, (i) a Rating is suspended, withdrawn, or otherwise unavailable from any Rating Agency for a credit related reason"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Rate Schedule 4 (pp. 20 to 27)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule 4 (pp. 20 to 27)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Rate Schedule 4 (pp. 20 to 27)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Rate Schedule 4; Chelan PUD's 'PUD large load approach' commission paper (chelanpud.org, May 2025; grep for MW, requests, queue found none)"
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from chelanpud.org; its terms of use page answered with a bot check and was not read, so the terms are unknown (the PDFs themselves were served normally)",
+   "erw_overlap": "none",
+   "notes": "The schedule also carries a Load Imbalance Charge, Load Following Charge ($13.66 per load-following kW), Demand Exceedance and Excess Energy charges, a Transaction Specific Charge of 6.4 percent, and Transitional Energy Service with a security deposit of three times the highest monthly bill (only for customers whose contract has ended). An older copy of the schedules (effective 19 February 2019 for Schedule 4, $4.38/kW energy capacity charge) is still posted at electric-rate-schedules.pdf; this row uses the August 2025 copy. Leads: Chelan PUD's 2025 Microsoft agreement and large load framework (not read).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "NorthWestern Corporation d/b/a NorthWestern Energy (Montana)",
+   "state": "MT",
+   "iso_region": "NWMT (NorthWestern Energy Montana balancing authority), no RTO",
+   "rule_name": "Large New Load Tariff rule (LNL Rule), new or expanded loads of 5 MW or more, application to the Montana PSC of 31 March 2026",
+   "source_url": "https://www.northwesternenergy.com/about-us/our-company/2026/04/01/northwestern-energy-submits-large-new-load-tariff-proposal-to-strengthen-customer-safeguards-and-support-montana-s-energy-future-and-economic-growth",
+   "source_title": "NorthWestern Energy news release, NorthWestern Energy submits Large New Load Tariff proposal to strengthen customer safeguards and support Montana's energy future and economic growth (31 March 2026)",
+   "quoted_clause": {
+    "page": "1",
+    "quote": "filed an application with the Montana Public Service Commission requesting approval of a Large New Load Tariff rule to establish requirements and contract terms for providing electric service to bundled customers with new or expanded loads of 5 megawatts or greater"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "the news release and NorthWestern's Form 10-Q for the quarter ended 30 June 2026 print no docket number. Lead only: an intervenor motion posted by Earthjustice names Montana PSC Docket 2026.04.023 and the proposed rule as Rule No. 24"
+   },
+   "status": {
+    "value": "proposed",
+    "date": "2026-03-31",
+    "cites": [
+     {
+      "page": "1",
+      "quote": "Sioux Falls, S.D./Butte, Mont. - March 31, 2026 - NorthWestern Corporation"
+     },
+     {
+      "url": "https://northwesternenergy.com/docs/default-source/default-document-library/about-us/investors/financials/form-10-q-q2-2026.pdf",
+      "page": "25",
+      "section": "Montana Large New Load Tariff Rule",
+      "quote": "In March 2026, we filed an application with the MPSC requesting approval of a Large New Load tariff rule (LNL Rule)",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "5 MW or more (standardized study process and required ESA protections); 50 MW or more: the executed Electric Service Agreement must be filed with the Montana PSC for approval before service begins",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "For the largest commitments, 50 megawatts or greater, NorthWestern Energy must file the executed Electric Service Agreement with the Montana Public Service Commission for review and approval before service begins."
+      },
+      {
+       "page": "1",
+       "quote": "For customers with loads between 5 and 49 megawatts, the tariff's standardized process and mandatory protections apply"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Proposed: minimum demand and minimum energy billing requirements (no figure in the documents read)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Minimum demand and minimum energy billing requirements to ensure these customers pay for the capacity and energy needed to serve them"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Proposed: minimum service commitment periods, longer for loads of 50 MW or more (no length in the documents read)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Minimum service commitment periods, including longer minimum terms for customers with very large loads (50 megawatts or greater)"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Proposed: performance assurance and collateral requirements (no amount in the documents read)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Performance assurance and collateral requirements to secure customer payment and performance obligations"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Proposed: termination cost provisions for costs remaining if a customer reduces load or terminates early (no formula in the documents read)",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Termination cost provisions designed to address costs remaining if a customer reduces load or terminates service before the end of the contract term"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "No duration printed; the customer first signs a development agreement and funds studies of system impacts, infrastructure needs and feasibility",
+     "cites": [
+      {
+       "page": "1",
+       "quote": "Under the proposed tariff, prospective large new load customers first enter into a development agreement and fund studies to evaluate system impacts, infrastructure needs, and service feasibility."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "the news release; Form 10-Q (quarter ended 30 June 2026) p. 25"
+    },
+    "queue_size": {
+     "value": "Development agreements with Sabey Data Centers, Atlas Power Holdings and Quantica Infrastructure: combined service requirement expected at 150 MW from late 2027, growing to approximately 1,500 MW or more by 2030 (Form 10-Q for the quarter ended 30 June 2026)",
+     "cites": [
+      {
+       "url": "https://northwesternenergy.com/docs/default-source/default-document-library/about-us/investors/financials/form-10-q-q2-2026.pdf",
+       "page": "25",
+       "section": "Data Center Development",
+       "quote": "The combined energy service requirement associated with these development agreements is currently expected to be 150 megawatts beginning in late 2027, with growth of up to approximately 1,500 megawatts or more by 2030.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://northwesternenergy.com/docs/default-source/default-document-library/about-us/investors/financials/form-10-q-q2-2026.pdf",
+       "page": "25",
+       "section": "Data Center Development",
+       "quote": "In April 2026, we signed a development agreement with Quantica Infrastructure",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from northwesternenergy.com, whose terms of use intend content solely for personal, noncommercial use; the same 10-Q is filed with the SEC (public), but EDGAR's browse path is disallowed to this reader and the filing's Archives address was not found; the Montana PSC's docket copy was not reached",
+   "erw_overlap": "none",
+   "notes": "Status on 13 November 2026: pending; DEQ announced its intervention on 18 June 2026 (news.mt.gov, lead) and intervenors asked the PSC to consolidate the tariff docket with complaint docket 2025.11.084 (Earthjustice-posted filings, leads only). The Form 10-Q for the quarter ended 30 September 2026 was not found on the company's site (HTTP 404). NorthWestern's South Dakota service was not searched for a large-load rule.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy",
+   "state": "WY",
+   "iso_region": "WACM (WAPA Rocky Mountain balancing authority), no RTO",
+   "rule_name": "Large Power Contract Service, Rate Schedule LPCS (Wyo. P.S.C. Tariff No. 14, Sheets 27 to 29)",
+   "source_url": "https://blackhillsenergy.com/sites/blackhillsenergy.com/files/clfp_electric.pdf",
+   "source_title": "Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy, Wyo. P.S.C. Tariff No. 14 (electric), as the company posts it",
+   "quoted_clause": {
+    "page": "27",
+    "section": "LPCS, Applicability",
+    "quote": "This Rate Schedule is applicable for new or existing customer load interconnected with the Company's system with expected capacity requirements of 5,000 kW or greater, in addition to the customer load needed to maintain qualification for service under the Company's ICS or ITS Rate Schedules."
+   },
+   "docket": {
+    "value": "not published (the sheets cite only the last general rate case, Docket No. 20003-214-ER22, Record No. 17072)",
+    "cites": [
+     {
+      "page": "29",
+      "quote": "Docket No. 20003-214-ER22 (Record No. 17072)."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2024-06-01",
+    "cites": [
+     {
+      "page": "27",
+      "quote": "Effective Date: June 1, 2024"
+     },
+     {
+      "page": "27",
+      "quote": "Date Issued: November 26, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "5,000 kW or more of expected capacity, on top of the load that keeps the customer on Rate Schedule ICS or ITS (13,000 kW or more of minimum capacity)",
+     "cites": [
+      {
+       "page": "27",
+       "quote": "with expected capacity requirements of 5,000 kW or greater, in addition to the customer load needed to maintain qualification for service under the Company's ICS or ITS Rate Schedules"
+      },
+      {
+       "page": "23",
+       "section": "Rate Schedule ICS",
+       "quote": "Applicable to large industrial power users whose total minimum capacity requirements are 13,000 kW or greater and taking service at distribution voltage level."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "No minimum bill printed. The customer pays the actual capacity, energy and transmission costs procured for it, a negotiated Microgrid Management Fee per kW of peak demand and a formula administrative cost per kW, and must hold Eligible Capacity Resources of at least 115 percent of its actual peak monthly load",
+     "cites": [
+      {
+       "page": "30",
+       "section": "Monthly Rate, Capacity and Energy Charges",
+       "quote": "are the charges for the energy or capacity procured or generated by the Company on behalf of the Customer billed on a monthly basis based on actual energy or capacity costs including any necessary transmission or ancillary charges"
+      },
+      {
+       "page": "30",
+       "section": "Capacity Requirements",
+       "quote": "the Customer must have Eligible Capacity Resources, as defined in this Rate Schedule, that are greater than or equal to 115% of the Customer's actual peak monthly load served under this Rate Schedule"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "A Confidential Large Power Service Agreement is required and filed confidentially with the Commission; no term printed; four years' notice to transfer load to another schedule; termination on 10 days' notice subject to the Agreement's obligations",
+     "cites": [
+      {
+       "page": "31",
+       "section": "Contract",
+       "quote": "The Agreement shall be filed confidentially with the Commission prior to a customer being billed under this Rate Schedule."
+      },
+      {
+       "page": "31",
+       "section": "Service Transfer and Termination Provisions",
+       "quote": "Customers taking service under this Rate Schedule must provide a minimum of four years' notice in order to transfer load from this Rate Schedule to another applicable Rate Schedule contained in the Company's Tariff."
+      },
+      {
+       "page": "31",
+       "section": "Service Transfer and Termination Provisions",
+       "quote": "Customers may terminate service under this Rate Schedule by providing a minimum of 10 days' notice subject to fulfilling any contractual obligations under the Agreement."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Deposit or other credit support (such as a performance guarantee or letter of credit) as the Company determines",
+     "cites": [
+      {
+       "page": "32",
+       "section": "Credit Support",
+       "quote": "The Company may require a deposit or other credit support from the customer, such as but not limited to, performance guarantee or letter of credit as determined by the Company."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "LPCS Sheets 27 to 29 (pp. 27 to 32): termination is subject to the confidential Agreement's obligations"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "LPCS Sheets 27 to 29 (pp. 27 to 32)"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "LPCS Sheets 27 to 29 (pp. 27 to 32)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "LPCS sheets; Black Hills' data center pages not read for figures. Lead only: a Cowboy State Daily article (22 June 2026) reports about 12 data center sites for roughly eight customers"
+    }
+   },
+   "license": "internal",
+   "license_basis": "read only from blackhillsenergy.com, whose terms of use allow copying for personal or internal use only (otherwise written permission); the Wyoming PSC's copy of Tariff No. 14 was not reached (its docket system is a portal this reader cannot read)",
+   "erw_overlap": "none",
+   "notes": "Existing ICS or ITS load may move to LPCS only as system Excess Load above a 215 MW non-LPCS peak baseline appears, 5 MW minimum (p. 29). ICS requires an initial contract term of at least three years (p. 24). The tariff book also has a Blockchain Interruptible Service schedule (not read). Black Hills Power (South Dakota, Wyoming) and Black Hills Colorado Electric were not searched for large-load rules. Lead: NorthWestern and Black Hills shareholders approved a merger (April 2026).",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "PacifiCorp (Pacific Power)",
+   "url": "https://idahocapitalsun.com/2026/09/23/repub/pacific-power-to-charge-new-oregon-data-centers-for-all-costs-associated-with-growing-energy-need/",
+   "reason": "robots.txt disallows ClaudeBot, Claude-Web and anthropic-ai (a news lead only)"
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power)",
+   "url": "https://wyofile.com/wp-content/uploads/2025/09/pacificorp-order-.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (a WyoFile copy of a Wyoming PSC order on PacifiCorp)"
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power)",
+   "url": "https://www.rockymountainpower.net/terms",
+   "reason": "terms of use: site content may not be used unless permitted in writing by PacifiCorp; no value was read from rockymountainpower.net or pacificpower.net (tariff sheets were read from the commissions' copies instead)"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Douglas County (Douglas PUD)",
+   "url": "https://douglaspud.org/rates/",
+   "reason": "robots.txt not readable (RemoteDisconnected); not read"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Chelan County (Chelan PUD)",
+   "url": "https://www.chelanpud.org/terms-of-use",
+   "reason": "the answer looked like a bot check; not retried"
+  },
+  {
+   "utility": "Umatilla Electric Cooperative",
+   "url": "https://www.umatillaelectric.com/wp-content/uploads/Rate-Schedule-2025-Schedule-6-FINAL.pdf",
+   "reason": "robots.txt disallows the path for every agent (Schedule 6, Large Industrial Rate, over 10,000 kW, effective 1 October 2025, as the co-op's rates page names it)"
+  },
+  {
+   "utility": "NorthWestern Corporation d/b/a NorthWestern Energy (Montana)",
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001993004&type=10-Q&dateb=&owner=include&count=10",
+   "reason": "robots.txt disallows /cgi-bin/ for every agent"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power), Wyoming",
+   "searched": "A rule exists per PacifiCorp's own testimony (UE 463, PAC/200, Eller/6: special contracts at 200 MW or more per tariff, tariff provisions at 25 to 199 MW; settlement in the 2025 Wyoming rate case per news leads), but no primary text was reached: the Wyoming PSC's docket system (psc.wyo.gov hot topics, DMS portal) is not readable by this reader, the WyoFile copy of an order is refused by robots, and rockymountainpower.net's terms require written permission. Wyoming PSC opened an investigation of RMP's large-load tariff compliance in November 2026 (news lead). No row."
+  },
+  {
+   "utility": "PacifiCorp (Rocky Mountain Power), Idaho",
+   "searched": "Idaho PUC copies of RMP's Idaho schedules and rules (puc.idaho.gov tariff files): only Schedules 400 and 401 (individual special contracts) and Regulation 12 with no large-load threshold. PacifiCorp's testimony says special contracts at 30 MW or more per statute and tariff; Idaho Code 61-335 (row above, 50 MW) applies from 1 July 2026. No RMP-specific row."
+  },
+  {
+   "utility": "PacifiCorp (Pacific Power), Washington and California",
+   "searched": "PacifiCorp's UE 463 testimony (PAC/200, Eller/6) mentions only an engineering study threshold of 20 MW by company policy and modified line extension credits in Washington; no large-load tariff found in the searches"
+  },
+  {
+   "utility": "Public Utility District No. 1 of Douglas County (Douglas PUD)",
+   "searched": "web searches (2024 to 2026 news of rate increases for data centers and cryptocurrency, Schedule 1D demand charge changes); douglaspud.org refused (robots not readable). No primary read"
+  },
+  {
+   "utility": "Puget Sound Energy",
+   "searched": "pse.com pending UTC filings page (read 13 November 2026: no large-load schedule among pending electric filings); web searches. Pending elsewhere: the 2026 general rate case UE-260005 (not read) and the UTC's generic large-load docket UE-260162 (opened 7 April 2026, policy statement to follow; not read). Lead: a PSE presentation (April 2026) says a new large load process is being developed and that large load requests over 20 MW in 2025 equaled almost half its peak"
+  },
+  {
+   "utility": "Avista Corporation",
+   "searched": "web searches only. Leads: myavista.com says Avista paused processing large data center applications needing significant new transmission or generation and intends to file a Washington tariff after a UTC policy proceeding; large loads are served by special contracts filed in Washington and Idaho. Idaho Code 61-335 (row above) applies in Idaho"
+  },
+  {
+   "utility": "Public Service Company of New Mexico (PNM)",
+   "searched": "New Mexico PRC presentations to the Legislature (nmlegis.gov, 13 July and 11 August 2026): PNM serves Meta (Los Lunas) under special service contracts (resources approved in PRC Case No. 25-00048-UT, 18 December 2025); no PNM large-load tariff found. The EMNRD presentation of July 2026 names El Paso Electric's proposed Rate No. 50 and No. 51, not PNM's (outside this group). Lead: PNM said in July 2026 it intends to file a large-load tariff"
+  },
+  {
+   "utility": "NorthWestern Energy (South Dakota)",
+   "searched": "not searched beyond the Montana filing"
+  }
+ ]
+}

@@ -162,7 +162,15 @@ def policy_of_the_week(start, cut, log):
     L = [f"**{brief.money_style(policy_title(top['title']))}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, "
          f"{dated(top)}" + (f"; {dockets(top['docket'])}" if top["docket"] else "") + ")", ""]
     # session 577: brief.why_line, so a read without a final stop does not run into its link
-    L.append(brief.why_line(r.get("plain_read") or top["why"], top["title"]) + f" [Source]({top['source_url']})")
+    # session 3493 (faults file row 183): the impact read is the ERW's own sentence under its bold title, its figures kept
+    # (the headline's figure taken out of it left "DOE says it intends to lend up to so Constellation can ...", W44); the
+    # scorer's line keeps the news items' rule
+    read = str(r.get("plain_read") or "").strip()
+    if read:   # its first sentence, as before, with its figures
+        read = brief.why_line(read)
+        end = brief.sentence_end(read)
+        read = read[:end.start() + 1] if end else read
+    L.append((read or brief.why_line(top["why"], top["title"])) + f" [Source]({top['source_url']})")
     if r.get("timeline"):
         L += ["", f"Timeline: {r['timeline']}"]
     also = w.iloc[1:3]
@@ -1750,6 +1758,10 @@ def evidence_gap(r, head="", deal=None, plant=None, bench=None):
     # its cluster held it. With a headline, the figure is the item's when the headline or its printed why line states it
     printed = f"{head} {brief.why_line(r.get('why') or '', head, r.get('mw'))}" if head else f"{head} {titles}"
     said = bool(fig and brief.figures_of(fig) & brief.figures_of(printed))
+    # session 3496 (faults file row 185): a capacity printed in the other unit or with a hyphen is the figure too (W41's
+    # "Google enters massive 3.6-GW power deal ..." beside its scored 3,600 MW carried no word that the figure is the outlet's)
+    if fig and not said and fig.endswith(" MW"):
+        said = brief.capacity_mw(fig[:-3], "MW") in brief.capacities_mw(printed)
     if plant is not None:   # session 1895 (row 64): the table's listing, against the outlet's MW when the headline gives it
         mw_fig = fig if said and fig.endswith(" MW") else ""
         gaps.append(plant_words(plant, mw_fig))

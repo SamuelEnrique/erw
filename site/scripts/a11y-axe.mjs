@@ -7,6 +7,7 @@
 //   node scripts/a11y-axe.mjs <base> <path> [<path> ...]   e.g. http://localhost:3212 "/cost-of-power?view=allgrids"
 //   A11Y_WIDTH=390 node scripts/a11y-axe.mjs ...           the same at another window width (default 1280)
 //   A11Y_DETAIL=1 node scripts/a11y-axe.mjs ...            also the first 30 elements of each rule, as HTML
+//   A11Y_WAIT_MS=4000 node scripts/a11y-axe.mjs ...        wait longer after each load before axe runs (default 2000)
 //
 // Prints one line per rule broken (its impact, id, the number of elements and the first selector) and a total a page;
 // exits 0 when every page was read (whatever it found), 1 when a page could not be read, 2 without a browser.
@@ -25,12 +26,19 @@ const AXE = fs.readFileSync(path.join(here, "..", "node_modules", "axe-core", "a
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa"];
 const width = Number(process.env.A11Y_WIDTH ?? 1280);
 
-const code = await withBrowser(async ({ go, evaluate, unlock }) => {
+// Session 5423: axe runs after the page has hydrated and components/ScrollRegions.tsx has made each scrolling box a
+// stop of the keyboard (it marks them 150 ms after it mounts, and again on every change). Run straight after the load,
+// axe met the Grid's monthly mix table at 390 px before it was marked and reported scrollable-region-focusable, which
+// the same page after a wait does not break. A11Y_WAIT_MS sets the wait (default 2000).
+const WAIT = Number(process.env.A11Y_WAIT_MS ?? 2000);
+
+const code = await withBrowser(async ({ go, evaluate, unlock, sleep }) => {
   await unlock(base);
   let failed = 0;
   for (const p of paths) {
     try {
       await go(base + p);
+      await sleep(WAIT);
       const review = await evaluate(`document.body.innerText.includes("in review") && document.querySelectorAll("main *").length < 60`);
       if (review) { console.log(`${p}: the in-review page, not the page (the internal view did not open)`); failed += 1; continue; }
       await evaluate(AXE + ";true");

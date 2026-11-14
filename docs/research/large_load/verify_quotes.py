@@ -126,6 +126,17 @@ def find(quote: str, meta, pages, page_spec):
 
 def cites_of(row):
     src = row.get("source_url")
+    # a change (changes_*.json) or a law (legislation_*.json) carries its cites at the top
+    for c in row.get("cites") or []:
+        yield "cite", c, c.get("url") or src
+    tm = row.get("threshold_mw")
+    if isinstance(tm, dict):
+        for c in tm.get("cites") or []:
+            yield "threshold_mw", c, c.get("url") or src
+    for name in ("requirements",):
+        for item in row.get(name) or []:
+            for c in item.get("cites") or []:
+                yield name, c, c.get("url") or src
     qc = row.get("quoted_clause")
     if isinstance(qc, dict) and qc.get("quote"):
         yield "quoted_clause", qc, qc.get("url") or src
@@ -159,7 +170,7 @@ def main() -> int:
     for fp in files:
         data = json.load(open(fp, encoding="utf-8"))
         changed = False
-        for ri, row in enumerate(data.get("rows") or []):
+        for ri, row in enumerate((data.get("rows") or []) + (data.get("changes") or []) + (data.get("laws") or [])):
             label = f"{os.path.basename(fp)}#{ri} {row.get('utility', '')[:40]} | {row.get('rule_name', '')[:50]}"
             src = row.get("source_url")
             sdoc = load_doc(src) if src else None

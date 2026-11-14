@@ -24,7 +24,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FOLDER = os.path.join(ROOT, "docs", "research", "large_load")
 FIELDS = ("threshold_mw", "min_demand", "contract_term", "collateral", "exit_fee", "study_timeline",
           "connection_timeline", "queue_size")
-STATUSES = {"proposed", "approved", "in effect"}
+STATUSES = {"proposed", "approved", "in effect", "denied", "withdrawn"}  # a proposal a commission rejected, or the filer withdrew
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 MONTH_OR_DATE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")  # a status date the document states only to the month
 # One cite as build_csv.py writes it: an optional other document's address and read date, then the place (a page,
@@ -99,15 +99,16 @@ class LargeLoadResearch(unittest.TestCase):
                     path = os.path.join(ROOT, "warehouse", "sources", target)
                     self.assertTrue(os.path.exists(path), f"{r['row_id']} {f}: {target} is not in a registry")
 
-    def test_a_see_row_pointer_names_a_row_of_the_same_utility(self):
+    def test_a_see_row_pointer_names_a_row_of_the_same_group(self):
+        # the same utility's row, or the group's row holding a figure a holding company states for several utilities
         names = {}
         for r in self.rows:
-            names.setdefault(r["utility"], set()).add(r["rule_name"])
+            names.setdefault(r["group"], set()).add(r["rule_name"])
         for r in self.rows:
             for f in FIELDS:
                 v = (r[f] or "").strip()
                 if v.startswith("see row: "):
-                    self.assertIn(v[len("see row: "):], names[r["utility"]], f"{r['row_id']} {f}")
+                    self.assertIn(v[len("see row: "):], names[r["group"]], f"{r['row_id']} {f}")
 
     def test_license_and_notes_file(self):
         for r in self.rows:
@@ -124,6 +125,43 @@ class LargeLoadResearch(unittest.TestCase):
     def test_row_ids_are_unique(self):
         ids = [r["row_id"] for r in self.rows]
         self.assertEqual(len(ids), len(set(ids)))
+
+
+CHANGES = {"filed", "approved", "in effect", "amended", "denied", "withdrawn", "suspended", "hearing set",
+           "order issued", "other"}
+LAW_STATUSES = {"introduced", "passed one chamber", "passed", "enacted", "in effect", "vetoed", "died"}
+
+
+def latest(prefix):
+    files = sorted(glob.glob(os.path.join(FOLDER, f"{prefix}_*.csv")))
+    return read_rows(files[-1]) if files else None
+
+
+class SecondAndThirdPasses(unittest.TestCase):
+    def test_every_change_is_dated_and_cited(self):
+        rows = latest("changes")
+        if rows is None:
+            self.skipTest("no changes_<date>.csv yet")
+        for r in rows:
+            self.assertRegex(r["source_url"], r"^https?://", r["change_id"])
+            self.assertRegex(r["date_read"], DATE, r["change_id"])
+            self.assertIn(r["change"], CHANGES, r["change_id"])
+            self.assertTrue(MONTH_OR_DATE.match(r["date"]) or r["date"] == "not published", r["change_id"])
+            self.assertTrue(placed(r["cite"]), f"{r['change_id']}: {r['cite'][:120]}")
+            self.assertIn(r["license"], ("public", "internal"), r["change_id"])
+
+    def test_every_law_is_read_in_its_own_text(self):
+        rows = latest("legislation")
+        if rows is None:
+            self.skipTest("no legislation_<date>.csv yet")
+        for r in rows:
+            self.assertRegex(r["source_url"], r"^https?://", r["law_id"])
+            self.assertRegex(r["date_read"], DATE, r["law_id"])
+            self.assertIn(r["status"], LAW_STATUSES, r["law_id"])
+            self.assertTrue(MONTH_OR_DATE.match(r["status_date"]) or r["status_date"] == "not published", r["law_id"])
+            self.assertTrue(placed(r["status_cite"]), f"{r['law_id']}: {r['status_cite'][:120]}")
+            if valued(r["threshold_mw"]):
+                self.assertTrue(placed(r["threshold_mw_cite"]), r["law_id"])
 
 
 class NoDash(unittest.TestCase):

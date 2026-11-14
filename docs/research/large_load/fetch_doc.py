@@ -56,6 +56,27 @@ REFUSED = {
     "conedison.com": "barred: Con Edison's terms bar automated reading (session 2921)",
     "eversource.com": "barred: Eversource's terms bar automated reading (session 2921)",
     "duquesnelight.com": "barred: Duquesne Light answers with a bot challenge (session 2921)",
+    # session 5300: hosts whose terms bar robots or automated access, read once by this pass's subagents
+    "entergy.com": "barred: the Entergy Corporation Site Terms bar robots, spiders and scrapers (session 5300)",
+    "entergylouisiana.com": "barred: Entergy's Site Terms (session 5300)",
+    "entergyarkansas.com": "barred: Entergy's Site Terms (session 5300)",
+    "entergymississippi.com": "barred: Entergy's Site Terms (session 5300)",
+    "entergytexas.com": "barred: Entergy's Site Terms (session 5300)",
+    "entergyneworleans.com": "barred: Entergy's Site Terms (session 5300)",
+    "entergynewsroom.com": "barred: Entergy's Site Terms (session 5300)",
+    "dominionenergy.com": "barred: Dominion Energy's terms bar spiders, robots and automated programs (session 5300)",
+    "pplelectric.com": "barred: PPL's terms of use bar automated access (session 5300)",
+    "exeloncorp.com": "barred: Exelon's terms bar automated access, for its utilities' sites too (session 5300)",
+    "comed.com": "barred: Exelon's terms (session 5300)",
+    "peco.com": "barred: Exelon's terms (session 5300)",
+    "bge.com": "barred: Exelon's terms (session 5300)",
+    "pepco.com": "barred: Exelon's terms (session 5300)",
+    "delmarva.com": "barred: Exelon's terms (session 5300)",
+    "atlanticcityelectric.com": "barred: Exelon's terms (session 5300)",
+    "fpl.com": "barred: NextEra Energy's terms of use bar bots and spiders (session 5300)",
+    "nexteraenergy.com": "barred: NextEra Energy's terms of use (session 5300)",
+    "centerpointenergy.com": "barred: CenterPoint's terms bar scrapers, robots, bots and spiders (session 5300)",
+    "ameren.com": "barred: Ameren's terms forbid bots (session 5300)",
 }
 
 CHALLENGE = re.compile(

@@ -25,6 +25,12 @@
       "page": "117",
       "section": "Sheet 223-5",
       "quote": "In accordance with the Commission’s August 5, 2026, Finding and Order in Case No. 26-113-EL-ATA, the following Interim Procedures shall apply until otherwise ordered by the Commission."
+     },
+     {
+      "url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+      "page": "74",
+      "quote": "Case No. 24-508-EL-ATA ... OPINION AND ORDER ... Entered in the Journal on July 9, 2025",
+      "date_read": "2026-11-13"
      }
     ]
    },
@@ -195,6 +201,13 @@
        "date_read": "2026-11-13"
       },
       {
+       "url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+       "page": "89",
+       "section": "Opinion and Order, para. 45",
+       "quote": "In its application, AEP Ohio states that there are currently over 50 customers in that queue that comprise the anticipated 30,000 MW of load demand.",
+       "date_read": "2026-11-13"
+      },
+      {
        "url": "https://www.aepohio.com/lib/docs/ratesandtariffs/ohio/AEP-Ohio_DCT_Load_Study_Letter_25.11.7.pdf",
        "page": "1",
        "section": "I. Background",
@@ -205,9 +218,154 @@
     }
    },
    "license": "internal",
-   "license_basis": "Schedule DCT's sheets, the DCT web page and the load study letter were read only on aepohio.com, whose AEP legal notice (aep.com/terms, read 13 November 2026) allows copying for personal use only; PUCO's docket copy sits behind a reCAPTCHA and was not tried. The queue cites (pjm.com, the Ohio legislature's copy of the PUCO Chair's testimony) are public.",
+   "license_basis": "Schedule DCT's sheets, the DCT web page and the load study letter were read only on aepohio.com, whose AEP legal notice (aep.com/terms, read 13 November 2026) allows copying for personal use only; PUCO's docket copy sits behind a reCAPTCHA and was not tried. The queue cites (pjm.com, the Ohio legislature's copy of the PUCO Chair's testimony, the Florida PSC's copy of the PUCO order) are public. The PUCO Opinion and Order of 9 July 2025 is now read from a public commission copy (next row), which prints the same threshold, minimum demand, term, ramp floors, collateral and exit-fee timing.",
    "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml: threshold, min_demand and collateral held with the same values (same November 2026 tariff book). contract_term adds the four-year ramp cap and the three-year notice to the held term (Load Ramp Period plus 8 years); exit_fee, study_timeline, connection_timeline and queue_size are new.",
    "notes": "2026 change: the 1st Revised sheets (effective 28 August 2026) add Interim Procedures from the 5 August 2026 Finding and Order in 26-113-EL-ATA: no less than 180 days' advance written notice to return to or start on SSO, with a separate procurement at the customer's cost (Sheet 223-5, PDF p. 117). AEP company-wide pipeline (public, SEC Form 8-K Exhibit 99.1, 28 October 2026, https://www.sec.gov/Archives/edgar/data/4904/000000490426000069/a3q20268kpressreleaseex991.htm): 'With 15 gigawatts (GW) of new load commitments signed during the third quarter, AEP’s incremental contracted load is expected to grow to 84 GW by 2031. Projects are only included as incremental contracted load if backed by fully executed electric service agreements or letters of agreement.' (not stated per company). AEP 10-Q for Q3 2026 (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm): OHTCo, OPCo and a customer signed agreements in August 2026 for three 765 kV lines to support 'a proposed 10.4 GW data center campus in Piketon, Ohio'. Leads, not verified: OMAEG's appeal of the DCT order is Supreme Court of Ohio Case No. 2025-1458 (news and OMA releases); the court's docket was refused (robots not readable). AEP Ohio's February 2026 Update, the Stipulation and the Opinion and Order sit on dis.puc.state.oh.us (reCAPTCHA, not tried); the February 2026 Update reportedly also gives 12,219 MW signed before the tariff (news, unverified).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Ohio Power Company (AEP Ohio)",
+   "state": "OH",
+   "iso_region": "PJM",
+   "rule_name": "PUCO Opinion and Order in Case No. 24-508-EL-ATA adopting the 10/23 Stipulation (Schedule DCT terms), as modified",
+   "source_url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
+   "source_title": "PUCO Opinion and Order, Case No. 24-508-EL-ATA (entered 9 July 2025), Exhibit D to Walmart's motion in Florida PSC filing 07142-2025 (PDF pp. 74 to 171)",
+   "quoted_clause": {
+    "page": "169",
+    "section": "V. Conclusion, para. 158",
+    "quote": "the Commission directs AEP Ohio to file updated tariffs for Schedule DCT, under which applicable data centers shall be subject to the specified load ramp period, longer contract terms, adjusted minimum demand charges, collateral requirement, capacity reassignment limitations, and new service enrollment process, amongst other 10/23 Stipulation provisions."
+   },
+   "docket": {
+    "value": "PUCO Case No. 24-508-EL-ATA",
+    "cites": [
+     {
+      "page": "74",
+      "quote": "In the Matter of the Application of Ohio Power Company for New Tariffs Related to Data Centers and Mobile Data Centers. ... Case No. 24-508-EL-ATA"
+     }
+    ]
+   },
+   "status": {
+    "value": "approved",
+    "date": "2025-07-09",
+    "cites": [
+     {
+      "page": "74",
+      "quote": "OPINION AND ORDER ... Entered in the Journal on July 9, 2025"
+     },
+     {
+      "page": "170",
+      "section": "VII. Order, para. 171",
+      "quote": "ORDERED, That the 10/23 Stipulation be approved and adopted, subject to modifications consistent with this Order."
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "25 MW: Schedule DCT applies to data center ESAs signed after the effective date for new load or expansion greater in the aggregate than 25 MW",
+     "cites": [
+      {
+       "page": "89",
+       "section": "Summary of the Stipulations, 10/23 Stipulation, Tariff Applicability",
+       "quote": "Schedule Data Center Tariff (DCT) would apply to any data center customer ESA signed after the tariff effective date for a"
+      },
+      {
+       "page": "90",
+       "section": "Summary of the Stipulations, 10/23 Stipulation, Tariff Applicability",
+       "quote": "new load (or expansion of an existing load) greater in the aggregate than 25 MW."
+      },
+      {
+       "page": "94",
+       "section": "Aggregation",
+       "quote": "If there are multiple new facilities at a single location of less than 25 MW, but the aggregate total load is greater than 25 MW, all of those facilities will be subject to Schedule DCT."
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Greater of 85 percent of the highest billing demand of the past 11 months or the contract-capacity schedule (25,001 to 75,000 kW: 15,000 kW plus 85 percent above 25,000 kW; over 75,000 kW: 57,500 kW plus 100 percent above 75,000 kW), capped at 85 percent of total contract capacity; ramp floors 50, 65, 80 and 90 percent in years 1 to 4",
+     "cites": [
+      {
+       "page": "92",
+       "section": "Minimum Demand Charges, 10/23 Stipulation",
+       "quote": "a) 85-percent of the customer's highest previously established monthly billing demand during the past 11 months; or"
+      },
+      {
+       "page": "92",
+       "section": "Minimum Demand Charges, 10/23 Stipulation",
+       "quote": "for customers with 25,001 kW to 75,000 kW of total contract capacity: minimum demand is 15,000 kW plus 85 percent of any capacity above 25,000 kW; or with more than 75,000 kW of total contract capacity, minimum demand is 57,500 kW plus 100 percent of any capacity above 75,000 kW. However, the minimum demand cannot exceed 85 percent of the total contract capacity."
+      },
+      {
+       "page": "91",
+       "section": "Load Ramp Period, 10/23 Stipulation",
+       "quote": "In Year 1: 50-percent contract capacity In Year 2: 65-percent contract capacity In Year 3: 80-percent contract capacity In Year 4: 90-percent contract capacity"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial term equal to the Load Ramp Period (no greater than four years) plus eight years",
+     "cites": [
+      {
+       "page": "91",
+       "section": "Contract Term, 10/23 Stipulation",
+       "quote": "The initial term of the contract will equal the Load Ramp Period (no greater than four years) plus eight years."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "For customers below A-/A3 ratings, a parent guarantee or collateral (letter of credit or cash) equal to 50 percent of the customer's minimum charges under the ESA; the Commission's modification lets the customer's financial sponsor meet it as a co-signer",
+     "cites": [
+      {
+       "page": "91",
+       "section": "Collateral, 10/23 Stipulation",
+       "quote": "Collateral and other tariff requirements will remain the same, as requested in the Company's application (which would require data center customers who have credit ratings less than A- from S&P, A3 from Moody's to provide a parent guarantee or collateral in the form of a letter of credit or cash equal to 50 percent of the customer's minimum charges under the ESA."
+      },
+      {
+       "page": "150",
+       "quote": "We find that, the collateral requirements must either be met by the data center customer or the customer's financial sponsor, so long as the sponsor is a co-signer on the contract with AEP Ohio."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit fee payable only after five contract years excluding the load ramp period (with a three-year ramp, after year eight); exit fee and collateral revenue to flow back to retail customers",
+     "cites": [
+      {
+       "page": "96",
+       "section": "Exit Fees, 10/23 Stipulation",
+       "quote": "Data centers will be eligible to pay the applicable exit fee after the completion of five years of the contract, excluding load ramp period, meaning if there is a load ramp period of three years, the customer may exit after year eight (three year load ramp period and five years of contract)."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Load study fee of $10k to $100k paid within 45 days; reasonable efforts to complete the load study within 60 days if regional transmission upgrades are needed, otherwise 45 days; 60 days to sign the LOA and ESA",
+     "cites": [
+      {
+       "page": "94",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "AEP Ohio will charge a one-time fee for each load study from $10k to $100k to be paid within 45 days or customers will forfeit their spot."
+      },
+      {
+       "page": "95",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "will make reasonable efforts to complete a load study within (i) 60 days if regional transmission upgrades are needed to serve the customer; or (ii) 45 days (for all other situations)."
+      },
+      {
+       "page": "95",
+       "section": "Signing Up New Customers, 10/23 Stipulation",
+       "quote": "4) Customer will have 60 days to sign the LOA and ESA."
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "PUCO Opinion and Order pp. 74 to 171 of the Florida PSC filing: only a 'good faith estimate of energization date' in the ESA and construction through the PJM planning process; no duration printed"
+    },
+    "queue_size": {
+     "value": "see row: Schedule DCT (Data Center Tariff), P.U.C.O. No. 22, 1st Revised Sheets 223-1 to 223-8"
+    }
+   },
+   "license": "public",
+   "license_basis": "The Florida PSC's docket copy (Walmart's motion with the PUCO order as Exhibit D).",
+   "erw_overlap": "large_load_tariffs/aep_ohio_schedule_dct.yaml (internal, the tariff sheets on aepohio.com): the order prints the same 25 MW threshold, 85 percent minimum, Load Ramp Period plus eight years, 50/65/80/90 percent ramp floors and 50 percent collateral; this public commission-hosted copy can serve as the public source for them.",
+   "notes": "The order's summary is a two-column comparison of the 10/10 and 10/23 Stipulations; every quote here is from the 10/23 (adopted) column or the Commission's own findings. The order also directs AEP Ohio 'to cease its temporary service moratorium, consistent with this Order' (para. 158) and records that the moratorium in central Ohio began in March 2023 (para. 45).",
    "date_read": "2026-11-13"
   },
   {
@@ -904,133 +1062,218 @@
    "utility": "Southwestern Electric Power Company (SWEPCO), Texas",
    "state": "TX",
    "iso_region": "SPP",
-   "rule_name": "Electric Service, Large Load Contract (ES-LL Contract), proposed tariff",
-   "source_url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/mtvernontx-meet-4db9bfac3fa0468681008ac335b01f69/ITEM-Attachment-001-30c895bed00e4a838b4485d8fbe45950.pdf",
-   "source_title": "City of Mount Vernon, Texas, Resolution No. 26-03 denying SWEPCO's proposed Electric Service, Large Load Contract tariff",
+   "rule_name": "Contract for Electric Service Texas, Large Load (ES-LL Contract), Tariff Sheet No. VI-10, as revised by the unanimous settlement in PUCT Docket No. 58796",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58796_103_1683248.PDF",
+   "source_title": "Unanimous Stipulation and Settlement Agreement, PUC Docket No. 58796, SOAH Docket No. 473-26-07507 (filed 15 September 2026), with Attachment A (ES-LL Contract) and Attachment B (proposed order)",
    "quoted_clause": {
-    "page": "1",
-    "quote": "it had filed with the Public Utility Commission of Texas (PUCT) an application seeking approval of a tariff it calls its ... (ES-LL Contract)"
+    "page": "13",
+    "section": "Attachment A, Sheet VI-10, Applicability",
+    "quote": "shall apply to any customer whose Contract Capacity (per Schedule 1) for computational load, whether new or incremental load, as of the date of the execution ofthis Contract by the Company and the Customer, is greater than or equal to 75 MW for any single Computational load facility"
    },
    "docket": {
-    "value": "not published",
-    "searched": "Mount Vernon Resolution No. 26-03 and AEP's 10-Q print no PUCT control number; the PUCT interchange was refused (robots not readable)"
+    "value": "PUC Docket No. 58796; SOAH Docket No. 473-26-07507",
+    "cites": [
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "Docket No. 58796 SOAH Docket No. 473-26-07507 - Application of Southwestern Electric Power Company for Authority to Amend Tariffs for Retail Electric Service to Include New Standard Form Contract for Electric Service - Large Load",
+      "date_read": "2026-11-13"
+     }
+    ]
    },
    "status": {
     "value": "proposed",
     "date": "2025-10-03",
     "cites": [
      {
-      "page": "1",
-      "quote": "on about October 3, 2025, it had filed with the Public Utility Commission of Texas (PUCT) an application seeking approval of a tariff it calls its"
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "4",
+      "section": "Proposed Order, Finding of Fact 5",
+      "quote": "On October 3,2025, SWEPCO filed an application for authority to amend its tariffs for retail service to include a new ES-LL Contract under PURA1 § 36.001 and 16 Texas Administrative Code (TAC) § 25.241.",
+      "date_read": "2026-11-13"
      },
      {
-      "page": "1",
-      "quote": "amending its request by proposing a firm, effective date of February 2, 2026"
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "5",
+      "section": "Proposed Order, Finding of Fact 20",
+      "quote": "On September 15, 2026, the parties filed the agreement resolving the issues between themselves.",
+      "date_read": "2026-11-13"
      },
      {
-      "url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm",
-      "page": "1",
-      "quote": "As of September 30, 2026, AEP filed proposals in eight jurisdictions, with six approved and two pending in Oklahoma and SWEPCo-Texas.",
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "Enclosed is the Proposed Order in the above-referenced case.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "2",
+      "quote": "The parties must file corrections or exceptions to the Proposed Order by November 12, 2026.",
+      "date_read": "2026-11-13"
+     },
+     {
+      "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+      "page": "12",
+      "section": "Proposed Order, Finding of Fact 55",
+      "quote": "It is appropriate for the proposed ES-LL Contract to become effective on the date this Order is filed.",
       "date_read": "2026-11-13"
      }
     ]
    },
    "fields": {
     "threshold_mw": {
-     "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "value": "75 MW of Computational load (data centers, cryptocurrency mining) at a single facility, or multiple Computational loads in aggregate treated as a single facility",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "8",
+       "section": "Proposed Order, Finding of Fact 35",
+       "quote": "is greater than or equal to 75 MW for any single Computational load facility or for multiple Computational loads in aggregate that should be considered a single facility for purposes of this Contract.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "8",
+       "section": "Proposed Order, Finding of Fact 35",
+       "quote": "\"Computational load\" means load that primarily consists of power-electronic-based load, specifically Computational load, such as data centers and cryptocurrency mining facilities.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "min_demand": {
-     "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "value": "Billing demand during the Billing Period not less than 90% of the Contract Capacity in Schedule 1; minimum billing energy of Contract Capacity times 70% times billing hours",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 40",
+       "quote": "the Billing Demand for each month shall be the greater of the Billing Demand as calculated in accordance with the \"Determination of Kilowatts ofBilling Demand\" provision of the LLP rate schedule or 90% of the Contract Capacity stated in Schedule 1.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 41",
+       "quote": "Contract Capacity stated in Schedule 1 times 70% times billing hours in the month.",
+       "date_read": "2026-11-13"
+      }
+     ]
     },
     "contract_term": {
-     "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "value": "Initial Contract Term from execution until 18 years from the inception of the Ramp Period (Ramp Period not over five years); then annual renewals until either party gives notice at least five years before the end of the term",
+     "cites": [
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 38",
+       "quote": "The period beginning with the Beginning Date of Step 1 in Schedule 1 until the day prior to the Beginning Date ofthe last populated Step in Schedule 1, not to exceed five years.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://interchange.puc.texas.gov/Documents/58796_109_1697374.PDF",
+       "page": "9",
+       "section": "Proposed Order, Finding of Fact 39",
+       "quote": "The period from the day this Contract is executed until eighteen years (18) from the inception of the Ramp Period.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10, Automatic Renewal",
+       "quote": "this contract shall renew annually for successive one-year tenns (each a\"Renewal Tenn\") until Company or Customer provide the other party notice at least five years prior to the end of the Contract Term or Renewal Term, as applicable."
+      }
+     ]
     },
     "collateral": {
-     "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "value": "24 times the customer's previous maximum monthly non-fuel bill based on the last Step in Schedule 1, provided within a number of days left blank in the form; recomputed annually in the full operations period and updated if 10% greater",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10",
+       "quote": "Collateral Required: Within _ days of executing this contract Customer shall provide collateral in a form acceptable to Company based upon the creditworthiness of Customer. Upon execution of this agreement, the amount of collateral provided shall be equal to 24 times Customer's previous maximum monthly non-fuel bill based on Customer' s last Step ill Schedule 1."
+      },
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10",
+       "quote": "During the full operations period, the amount of collateral to be provided will be recomputed annually and updated if the recomputed value is 10% greater than the current amount held."
+      }
+     ]
     },
     "exit_fee": {
-     "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "value": "Termination Fee on early termination (or three months' non-payment): the future minimum payments for the remaining Ramp Period, Full Operations Period and the five-year notice period, due within 90 days",
+     "cites": [
+      {
+       "page": "14",
+       "section": "Attachment A, Sheet VI-10, Termination Fee",
+       "quote": "then Customer shall owe and pay Company within 90 days of such termination an amount equal to the future minimum payments due under this contract, including any appendices or attachments hereto, for the remaining portions of the Ramp Period, Full Operations Period, and the five year notice period described in the Automatic Renewal provision above, unless the Company and Customer mutually agree otherwise."
+      }
+     ]
     },
     "study_timeline": {
      "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage"
     },
     "connection_timeline": {
      "value": "not published",
-     "searched": "Mount Vernon Resolution No. 26-03 (3 pages); AEP 10-Q for Q3 2026; SWEPCO Texas Rates, Charges and Fees of 1 August 2026 (no ES-LL); the PUCT filing was refused"
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage"
     },
     "queue_size": {
      "value": "not published",
-     "searched": "AEP 10-Q for Q3 2026 and 8-K Exhibit 99.1 (no SWEPCO figure)"
+     "searched": "PUCT Docket No. 58796: the Unanimous Stipulation and Settlement Agreement with Attachment A (ES-LL Contract, Sheet VI-10), the Proposed Order of 28 October 2026 and the public direct testimony of Melissa A. Gage (the testimony gives a hypothetical 500 MW customer and SWEPCO's peak demand history, no pipeline figure); AEP 10-Q for Q3 2026 and 8-K Exhibit 99.1 (no SWEPCO figure)"
     }
    },
    "license": "public",
-   "license_basis": "A Texas municipal regulatory authority's resolution (original jurisdiction under PURA Chapter 33) and AEP's Form 10-Q on SEC EDGAR.",
+   "license_basis": "The PUCT's interchange copies (Docket No. 58796, items 103 and 109); the filing list and AEP's Form 10-Q are public too.",
    "erw_overlap": "",
-   "notes": "Leads, not verified: PUCT Control No. 58796 and a 75 MW threshold (nectarclimate rate guide). The resolution says SWEPCO amended the request on about 29 December 2025 to propose a firm effective date of 2 February 2026; the 10-Q still lists SWEPCo-Texas as pending at 30 September 2026.",
+   "notes": "Status as of 13 November 2026: unanimous settlement filed 15 September 2026 (SWEPCO, Commission Staff, TIEC, OPUC, CARD, Eastman); SOAH remanded the case on 5 October 2026; the PUCT's Proposed Order of 28 October 2026 would approve the tariff with the ES-LL Contract effective on the order date, exceptions due 12 November 2026; no final order in the filing list (109 items, last item 28 October 2026). The settlement revised the Applicability, Ramp Period, Initial Contract Term, Minimum Billing Demand and Minimum Billing Energy sections (Proposed Order, Findings of Fact 35 to 41); the as-filed terms are in Ms. Gage's HSPM exhibit and were not read. Attachment A's text is an OCR copy ('Tenn' for Term, 'ill' for in), quoted as printed. The 10-Q (https://www.sec.gov/Archives/edgar/data/4904/000000490426000072/aep-20260930.htm) listed SWEPCo-Texas as pending at 30 September 2026; the City of Mount Vernon's Resolution No. 26-03 (https://mccmeetingspublic.blob.core.usgovcloudapi.net/mtvernontx-meet-4db9bfac3fa0468681008ac335b01f69/ITEM-Attachment-001-30c895bed00e4a838b4485d8fbe45950.pdf) denied the tariff at the municipal level and the appeals were consolidated into this docket (Proposed Order, Finding of Fact 19).",
    "date_read": "2026-11-13"
   }
  ],
  "refused": [
   {
+   "utility": "Ohio Power Company (AEP Ohio)",
    "url": "https://www.supremecourt.ohio.gov/clerk/ecms/#/caseinfo/2025/1458",
-   "reason": "robots.txt not readable (SSL certificate verify failed); not read",
-   "utility": "Ohio Power Company (AEP Ohio)"
+   "reason": "not retried: a script-built case search page (hash route), not a document page; the first attempt failed only on a certificate check of robots.txt"
   },
   {
-   "url": "https://www.psc.state.fl.us/library/FILINGS/2025/07142-2025/07142-2025.pdf",
-   "reason": "robots.txt not readable (SSL certificate verify failed); not read"
-  },
-  {
-   "url": "https://interchange.puc.texas.gov/search/filings/?UtilityType=A&ControlNumber=58796&ItemMatch=Equal&DocumentType=ALL&SortOrder=Ascending",
-   "reason": "robots.txt not readable (SSL certificate verify failed); not read",
-   "utility": "Southwestern Electric Power Company (SWEPCO), Texas"
-  },
-  {
+   "utility": "Public Service Company of Oklahoma",
    "url": "https://okcfox.com/news/local/occ-approves-pso-rate-changes-exact-bill-impacts-and-refund-eligibility-to-be-determined",
-   "reason": "robots.txt disallows ClaudeBot, Claude-Web, anthropic-ai",
-   "utility": "Public Service Company of Oklahoma"
+   "reason": "robots.txt disallows ClaudeBot, Claude-Web, anthropic-ai"
   },
   {
+   "utility": "Ohio Power Company (AEP Ohio)",
    "url": "https://dis.puc.state.oh.us/ViewImage.aspx?CMID=A1001001A26B12B61453D00940",
-   "reason": "not tried: PUCO docketing has a reCAPTCHA (AEP Ohio's February 2026 Update; also the Stipulation and the Opinion and Order linked from the DCT page)",
-   "utility": "Ohio Power Company (AEP Ohio)"
+   "reason": "not tried: PUCO docketing has a reCAPTCHA (AEP Ohio's February 2026 Update; also the Stipulation and the Opinion and Order linked from the DCT page)"
   },
   {
+   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
    "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/WestVirginia/Current_Tariff_Sheets_Eff_7-1-26.pdf",
-   "reason": "HTTP 404",
-   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)"
+   "reason": "HTTP 404"
   },
   {
+   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)",
    "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/WestVirginia/2025_Base_Case_Tariff_11-17-2025.pdf",
-   "reason": "HTTP 404",
-   "utility": "Appalachian Power Company and Wheeling Power Company (West Virginia)"
+   "reason": "HTTP 404"
   },
   {
+   "utility": "Kingsport Power Company (Tennessee)",
    "url": "https://www.appalachianpower.com/lib/docs/ratesandtariffs/Tennessee/KGPTTariff-11-1-2025FPPARClean.pdf",
-   "reason": "HTTP 404",
-   "utility": "Kingsport Power Company (Tennessee)"
+   "reason": "HTTP 404"
   },
   {
+   "utility": "Public Service Company of Oklahoma",
    "url": "https://www.psoklahoma.com/ratereview.aspx",
-   "reason": "HTTP 404",
-   "utility": "Public Service Company of Oklahoma"
+   "reason": "HTTP 404"
   },
   {
+   "utility": "Appalachian Power Company (Virginia)",
    "url": "scc.virginia.gov (any)",
-   "reason": "not tried: paused publisher (APCo Virginia large-load approval of June 2026 waits)",
-   "utility": "Appalachian Power Company (Virginia)"
+   "reason": "not tried: paused publisher (APCo Virginia large-load approval of June 2026 waits)"
   }
  ],
  "none_found": [
   {
    "utility": "Appalachian Power Company (Virginia)",
-   "searched": "APCo Virginia Tariff 28 (November 1, 2026 update, 158 pages, on appalachianpower.com) searched for large load, data center, MW thresholds, 14-year terms, exit fee and collateral: no large-load terms found. The SCC is paused, so its dockets were not read. Lead (Cardinal News, 31 July 2026, unverified): 'The SCC in June approved new requirements for new large-load customers in Appalachian Power's service territory. These include 14-year contracts and minimum charges'; APCo told the SCC it is in talks with 36 prospective large-load customers in Virginia totalling about 25,000 MW and has contracted 540 MW of data center load there since 2024. This waits for a readable primary copy."
+   "searched": "APCo Virginia Tariff 28 (November 1, 2026 update, 158 pages, on appalachianpower.com) searched for large load, data center, MW thresholds, 14-year terms, exit fee and collateral: no large-load terms found. The SCC is paused, so its dockets were not read. Lead (Cardinal News, 31 July 2026, unverified): 'The SCC in June approved new requirements for new large-load customers in Appalachian Power's service territory. These include 14-year contracts and minimum charges'; APCo told the SCC it is in talks with 36 prospective large-load customers in Virginia totalling about 25,000 MW and has contracted 540 MW of data center load there since 2024. A second lead, on the PUCT's interchange (SWEPCO witness Gage, Docket No. 58796, filed 3 October 2025, https://interchange.puc.texas.gov/Documents/58796_2_1545169.PDF, p. 9, Table 1, unverified as to APCo's own tariff): APCoVA Generation & Transmission Rate Schedule L.P.S., 12-17 years (depends on ramp period), 100 MW individual site or 150 MW aggregated, 42 months cancellation notice. This waits for a readable primary copy."
   },
   {
    "utility": "Southwestern Electric Power Company (Arkansas)",

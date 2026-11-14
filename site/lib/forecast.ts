@@ -35,14 +35,14 @@ export type Params = {
   taxable: { technologies: Record<TechKey, { taxable_share: number | null }> };
   gas: { heat_rate_btu_per_kwh: number; capacity_factor: number; price_usd_per_mmbtu: number | null; btu_per_cf: number };
   /** session 4218: sales tax exemptions read from statutes (sales_exemptions.json); absent in older callers */
-  exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number }>>> };
+  exemptions?: { states: Record<string, Partial<Record<TechKey, { exempt_pct: number; tip?: string }>>> };
 };
 export type IncomeState = {
   name: string; none?: boolean; brackets: { over_usd: number; rate: number }[];
   standard_deduction_single: number | null; personal_exemption_single: number | null; personal_credit_single: number | null;
 };
 export type PropertyRule = {
-  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option" | "own_exempt";
+  id: string; technologies: TechKey[]; kind: "capacity" | "production" | "valuation" | "exempt_years" | "capacity_option" | "own_exempt" | "note";
   /** capacity_option (session 4225, Oregon's solar fee in lieu by county agreement): the statute's range and the default */
   usd_per_mw_min?: number; usd_per_mw_max?: number; default_usd_per_mw?: number;
   /** session 4255 (Wyoming's wind excise): a production tax's first exempt operating years, and a rule that adds to the
@@ -59,6 +59,18 @@ export type PropertyRule = {
   usd_per_mw_year?: number; usd_per_mwh?: number; min_mw?: number;
   tiers?: { min_mw_exclusive?: number; min_mw_ac_exclusive?: number; max_mw?: number; usd_per_mwh: number }[];
   schedule_pct?: number[]; then_pct?: number; requires?: string;
+  /** valuation (session 4291): a statewide levy, USD per 1,000 of taxable value, published by the state (the default of the
+   *  levy input; the reader's county may differ), and the words of its source for the tip */
+  default_levy?: number; levy_words?: string;
+  /** session 4293: the hover words of the rule with its citation, and the reader's own rate's words where it acts on one */
+  tip?: string; own_tip?: string;
+  /** valuation (session 4294): the share of value assessed (a state's assessment ratio), a straight-line depreciation in
+   *  points of value a year with a floor (in place of schedule_pct), and a statutory value per MW in place of the capital cost */
+  assessment_ratio?: number; depr_pct_per_year?: number; floor_pct?: number; usd_per_mw_value?: number;
+  /** own_exempt (session 4295, New York's RPTL 487): the operating years exempt, and the year construction must end before */
+  op_years?: number; built_before?: number;
+  /** the local option's switch and its rate, their hover words */
+  option_tip?: string; rate_tip?: string;
 };
 
 /** The reader's project: one scenario. Percent fields are percents (7 is 7 percent); null is "not given". */
@@ -163,7 +175,7 @@ export function defaults(P: Params, tech: TechKey, state: string): Inputs {
     sales: st ? round((st.state_rate + st.avg_local_rate) * 100, 4) : 0, taxable: share === null || share === undefined ? null : round(share * 100, 4),
     exempt: P.exemptions?.states[state]?.[tech]?.exempt_pct ?? 0, iaval: false,
     optrate: P.property.states[state]?.rules.find((r) => r.kind === "capacity_option" && r.technologies.includes(tech))?.default_usd_per_mw ?? null,
-    levy: null, own: null, ownyears: null,
+    levy: P.property.states[state]?.rules.find((r) => r.kind === "valuation" && r.technologies.includes(tech))?.default_levy ?? null, own: null, ownyears: null,
     heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4),
   };
 }
@@ -223,10 +235,13 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         if (i < (r.years ?? 0)) return { tax: 0, rule: r.id, value: null };
       }
       else if (r.kind === "valuation") {
-        if (!x.iaval) continue;
+        // Iowa's special valuation needs the county's ordinance (the local option); a state's own assessment does not
+        if (r.requires === "option" && !x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
-        const pct = i < (r.schedule_pct ?? []).length ? r.schedule_pct![i] : (r.then_pct ?? 0);
-        value = spend * (pct / 100);
+        const base = r.usd_per_mw_value !== undefined ? x.mw * r.usd_per_mw_value : spend;
+        const pct = r.schedule_pct ? (i < r.schedule_pct.length ? r.schedule_pct[i] : (r.then_pct ?? 0))
+          : Math.max(r.floor_pct ?? 0, 100 - (r.depr_pct_per_year ?? 0) * i);
+        value = base * (pct / 100) * (r.assessment_ratio ?? 1);
         tax += value * (x.levy / 1000); used.push(r.id);
       }
     }
@@ -243,7 +258,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
     // an exemption of part of the base (Florida's 80 percent of a renewable device's value, through 2037) acts on the own rate
     const ex = rules.find((r) => r.kind === "own_exempt" && x.start + x.build + i <= (r.until_year ?? Infinity)
       && (r.requires !== "option" || x.iaval) && (r.years === undefined || x.build + i < r.years)
-      && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw));
+      && (r.above_mw === undefined || x.mw > r.above_mw) && (r.below_mw === undefined || x.mw < r.below_mw)
+      && (r.op_years === undefined || i < r.op_years) && (r.built_before === undefined || x.start + x.build <= r.built_before));
     const exShare = ex?.exempt_steps ? (ex.exempt_steps.find((st) => st.until === undefined || i < st.until)?.share ?? 0) : (ex?.exempt_share ?? 0);
     const taxed = ex ? 1 - exShare : 1;
     return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };
@@ -331,7 +347,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   const exempt = rules.find((r) => r.kind === "exempt_years") ?? (x.iaval ? rules.find((r) => r.kind === "capacity_option") : undefined);
   const propNote = propHeld && propGap && exempt ? `exempt for its first ${exempt.years} years; no rule held after them (the reader's own rate fills them)`
     : propHeld ? (propRule === "own" ? "the reader's own rate" : "the state's statute")
-    : rules.some((r) => r.kind === "valuation") ? (x.iaval ? "the local levy is not given" : "the county's special valuation is off and no other rule is held")
+    : rules.some((r) => r.kind === "valuation") ? (x.iaval || !rules.some((r) => r.kind === "valuation" && r.requires === "option") ? "the local levy is not given" : "the county's special valuation is off and no other rule is held")
     : rules.some((r) => r.kind === "capacity_option") ? "the local option is off and no other rule is held"
     : "no rule held for this state and technology";
   return {

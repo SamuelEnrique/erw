@@ -1,0 +1,1051 @@
+{
+ "group": "tva_southeast",
+ "rows": [
+  {
+   "utility": "Memphis Light, Gas and Water Division (MLGW), a TVA local power company",
+   "state": "TN",
+   "iso_region": "TVA balancing authority, no RTO",
+   "rule_name": "Electric Service Schedule TDC, Time of Use Data Service (TVA's data center rate structure as adopted by MLGW), rate effective 1 October 2026",
+   "source_url": "https://www.mlgw.com/images/content/files/pdf_rates/businessrates26/TDCOct26.pdf",
+   "source_title": "Memphis Light, Gas and Water Division, City of Memphis, Electric Service Schedule TDC, Time of Use Data Service (Rate effective October 1, 2026), 4 pages",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Availability",
+    "quote": "This schedule shall apply to the firm electric power requirements of a customer where the major use of electricity is for activities conducted at the delivery point serving that customer which are ... used, in Tennessee Valley Authority’s (TVA) sole judgment, for the operation of computational equipment."
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Schedule TDC pp. 1 to 4 print no docket, ordinance or TVA Board resolution number; TVA's Board documents on tva.com were refused (robots answered 403)"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-10-01",
+    "cites": [
+     {
+      "page": "1",
+      "section": "header",
+      "quote": "RATE EFFECTIVE OCTOBER 1, 2026"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Applies by use (NAICS 518 or 519 except 519210, NAICS 522320 or 541214, or computational equipment in TVA's judgment), above 1,000 kW; four classes by the higher of on-peak or off-peak contract demand: TDCA over 1,000 kW up to 5,000 kW, TDCB over 5,000 kW up to 15,000 kW, TDCC over 15,000 kW up to 25,000 kW, TDCD over 25,000 kW (the large-load class, over 25 MW)",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Customers Class Description",
+       "quote": "Customers are categorized into the following classes based on the higher of the customer’s current effective on-peak or off-peak contract demand."
+      },
+      {
+       "page": "1",
+       "section": "Customers Class Description",
+       "quote": "Rate Class TDCA TDCB TDCC TDCD"
+      },
+      {
+       "page": "1",
+       "section": "Customers Class Description",
+       "quote": "greater than 1,000 kW 5,000 kW 15,000 kW 25,000 kW"
+      },
+      {
+       "page": "1",
+       "section": "Customers Class Description",
+       "quote": "but not more than 5,000 kW 15,000 kW 25,000 kW"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "On-peak billing demand (and likewise off-peak) not less than a stepped share of the higher of contract demand or the highest billing demand of the preceding 12 months: 30 percent of the first 5,000 kW, 40 percent of the next 20,000 kW, 50 percent of the next 25,000 kW, 60 percent of the next 50,000 kW, 70 percent of the next 100,000 kW, 80 percent of the next 150,000 kW and 85 percent of all kW above 350,000 kW. For contract demand over 5,000 kW, off-peak energy billed at not less than 110 hours (15 percent load factor) of off-peak billing demand. Minimum monthly bill of the service, administrative, demand and energy charges; the Division may require higher minimum bills. TVA reviews the preceding 36 months and adjusts the contract if billing demand is below 75 percent of contract demand",
+     "cites": [
+      {
+       "page": "2",
+       "section": "Determination of On-peak and Off-peak Demands",
+       "quote": "The on-peak billing demand shall in no case be less than the sum of (1) 30 percent of the first 5,000 kW, (2) 40 percent of the next 20,000 kW, (3) 50 percent of the next 25,000 kW, (4) 60 percent of the next 50,000 kW, (5) 70 percent of the next 100,000 kW, (6) 80 percent of the next 150,000 kW, and (7) 85 percent of all kW in excess of 350,000 kW of the higher of the currently effective on-peak contract demand or the highest onpeak billing demand established during the preceding 12 months."
+      },
+      {
+       "page": "2",
+       "section": "Determination of On-peak and Off-peak Demands",
+       "quote": "the off-peak energy for any month shall in no case be less than the product of (1) the off-peak billing demand as calculated in the paragraph below and (2) 110 hours (reflecting a 15 percent load factor applied to the average number of hours in a month)"
+      },
+      {
+       "page": "3",
+       "section": "Minimum Monthly Bill",
+       "quote": "The Division may require minimum bills higher than those stated above."
+      },
+      {
+       "page": "1",
+       "section": "Availability",
+       "quote": "If the customer's on-peak and/or off-peak billing demand is below 75% of the on-peak or off-peak contract demand, whichever is higher, an adjustment to the customer’s contract will be made."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "TDCA: initial term of at least 1 year, then year to year, terminable after the initial term on not less than 90 days' notice. TDCB, TDCC and TDCD: initial term of at least 5 years, renewals or extensions of at least 5 years; after 10 years of service a renewal or extension may provide for termination on not less than 16 months' notice",
+     "cites": [
+      {
+       "page": "3",
+       "section": "Contract Requirement",
+       "quote": "Under TDCA, the contract shall be for an initial term of at least 1 year and extended automatically from year to year thereafter. After the initial term, the TDCA contract may be terminated upon not less than a 90 day notice."
+      },
+      {
+       "page": "3",
+       "section": "Contract Requirement",
+       "quote": "Under the TDCB, TDCC and TDCD rates, the contract shall be for an initial term of at least 5 years and any renewals or extensions of the initial contract shall be for a term of at least 5 years. After 10 years of service, any such contract for the renewal or extension of service may provide for termination upon not less than a 16-month notice."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "not published",
+     "searched": "Schedule TDC pp. 1 to 4 (no deposit, security or guarantee term). A TVA Capacity Commitment Charge for new or expanding data center loads above 5 MW is reported only by news (lead, see notes) and is not printed in the schedule; TVA's own documents were refused"
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule TDC pp. 1 to 4 (termination notice only, no exit or termination charge)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule TDC pp. 1 to 4; MLGW commercial rates page and rates links"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule TDC pp. 1 to 4; MLGW commercial rates page and rates links"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Schedule TDC; MLGW commercial rates page; MLGW CEO letter on proposed rate increases of 19 October 2026 (gas and water rates; mentions a new data center water rate structure, no electric pipeline figure). TVA's large-load pipeline was sought in TVA's Form 10-K for FY2025, Form 10-Q for the quarter ended 30 June 2026 and Form 8-K of 20 August 2026 on SEC EDGAR (none printed); tva.com (IRP, Board materials) refused"
+    }
+   },
+   "license": "public",
+   "license_basis": "MLGW's own posted rate schedule on mlgw.com (robots allow; no terms of use page found on the site; its privacy policy neither bars automated reading nor limits use)",
+   "erw_overlap": "none",
+   "notes": "The schedule carries TVA's terms (TVA-furnished certification form, TVA's sole judgment on computational use, TVA remote meter access, contract demand review by TVA), so it is TVA's wholesale data center rate structure as resold by MLGW. Leads, unverified: 256today.com (August 2026) reports the TVA Board approved a separate data center rate class at its 20 August 2026 meeting in Memphis, effective 1 October 2026 for new and existing facilities and phased in over three fiscal years, with four classes by contract demand and a capacity commitment charge of about 1.5 million USD per MW, paid over three to five years, for new or expanding data centers above 5 MW; other news reports a revised TVA Board policy for new loads above 100 MW. None of this could be read in a TVA document: tva.com and tva.gov answered robots 403, TVA's investor CDN s205.q4cdn.com (the 20 August 2026 Board press release) answered robots 403. TVA's Form 10-Q for the quarter ended 30 June 2026 notes that MLGW's contract with TVA has a five-year termination notice period. Base rates for TDCD at transmission voltage (115 kV and up), summer: on-peak billing demand 14.15 USD per kW, maximum billing demand 2.42 USD per kW (p. 4).",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Kentucky Utilities Company (KU, a PPL company)",
+   "state": "KY",
+   "iso_region": "LG&E and KU balancing authority (LGEE), no RTO",
+   "rule_name": "Rate EHLF, Extremely High Load Factor Service (P.S.C. No. 21, Sheet Nos. 26, 26.1 and 26.2)",
+   "source_url": "https://psc.ky.gov/tariffs/Electric/Kentucky%20Utilities%20Company/Tariff.pdf",
+   "source_title": "Kentucky Utilities Company, Electric Tariff P.S.C. No. 21, as filed in the Kentucky Public Service Commission's tariff library; Standard Rate EHLF, Extremely High Load Factor Service",
+   "quoted_clause": {
+    "page": "35",
+    "section": "Sheet No. 26, Availability",
+    "quote": "Available only for new Customers: 1) with a contract capacity greater than 50 MVA, and 2) an expected average monthly load factor above 85%."
+   },
+   "docket": {
+    "value": "Kentucky PSC Case No. 2025-00113",
+    "cites": [
+     {
+      "page": "36",
+      "section": "Sheet No. 26.1 footer",
+      "quote": "Issued by Authority of an Order of the Public Service Commission in Case No. 2025-00113 dated February 16, 2026"
+     },
+     {
+      "page": "35",
+      "section": "Sheet No. 26 footer",
+      "quote": "Issued by Authority of an Order of the Public Service Commission in Case No. 2025-00113 dated August 14, 2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-02-16",
+    "cites": [
+     {
+      "page": "36",
+      "section": "Sheet No. 26.1 footer",
+      "quote": "DATE EFFECTIVE: With Service Rendered On and After February 16, 2026"
+     },
+     {
+      "page": "35",
+      "section": "Sheet No. 26 footer (First Revision, rates)",
+      "quote": "DATE EFFECTIVE: With Bills Rendered On and After August 14, 2026"
+     },
+     {
+      "url": "https://psc.ky.gov/pscscf/2025%20Cases/2025-00113/20260216_PSC_ORDER.pdf",
+      "page": "310",
+      "section": "Ordering paragraph 65",
+      "quote": "65. The EHLF tariff is approved as proposed in the Stipulation. KU shall include KU’s energy commitments in the EHLF tariff and clarify the language regarding aggregation.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Contract capacity greater than 50 MVA (the tariff states MVA, not MW) and an expected average monthly load factor above 85 percent; new customers only; the Company may aggregate accounts or facilities to apply the threshold. The threshold was 100 MVA as first proposed and was reduced to 50 MVA by the stipulation the PSC approved",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Available only for new Customers: 1) with a contract capacity greater than 50 MVA, and 2) an expected average monthly load factor above 85%."
+      },
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Company has the authority to aggregate accounts for the purpose of accurately evaluating the actual minimum capacity threshold of a customer or facility and require the customer(s) to take service under Rate EHLF when reasonable."
+      },
+      {
+       "url": "https://psc.ky.gov/pscscf/2025%20Cases/2025-00113/20260216_PSC_ORDER.pdf",
+       "page": "278",
+       "section": "Extremely High Load Factor Tariff",
+       "quote": "First, the proposed minimum contract capacity threshold was reduced from 100 to 50 MVA",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly billing demand for the Maximum Load Charge is the greatest of the month's maximum measured load, the highest measured load in the preceding 11 months, or 80 percent of contract capacity. Load ramp and load ramp period are set in each Electric Service Agreement; monthly billing begins 30 days after the customer's stated start date whether or not electricity is being provided",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Rate",
+       "quote": "Where: the monthly billing demand for the Maximum Load Charge is the greater of:"
+      },
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Rate",
+       "quote": "3. 80% of the contract capacity based on the maximum load expected on the system or on facilities specified by Customer."
+      },
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Customer’s initial contract term, load ramp, load ramp period, contract capacity, and other terms of service will be prescribed in the Electric Service Agreement executed between Company and Customer."
+      },
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Monthly billing will begin 30 days after the stated start date provided by the customer within the Electric Service Agreement whether or not electricity is being provided at that time."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Contract Term of not less than 15 years; either party gives at least 60 months' advance written notice to discontinue (the notice does not shorten the initial term except through the Exit Fee); contract capacity may be reduced only after the first 5 years of the initial term, on 60 months' written notice and with a Capacity Reduction Fee",
+     "cites": [
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Contracts under this rate schedule shall be made for an Initial Contract Term of not less than fifteen (15) years."
+      },
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Either party shall give at least 60 months advance written notice to the other party of its intention to discontinue service under the terms of this rate schedule. Such notice shall not reduce the Initial Contract Term except as provided for in the Exit Fee provision."
+      },
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Changes to Contract Capacity",
+       "quote": "Customer must provide Company 60 months advance written notice of a reduction of contract capacity after the first five (5) years of the Initial Contract Term, and such reduction of capacity will be subject to payment of a Capacity Reduction Fee"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Cash or letter of credit equal to 24 months of minimum billed amounts at the largest contract capacity; 12 months if the customer or its guarantor is rated at least A (S&P) and A2 (Moody's) and holds cash and cash equivalents of at least 10 times the requirement. Due at signing of the Electric Service Agreement; an increased requirement after an adverse credit change is due within three business days of written notice. Letter of credit from a bank with assets of at least 10 billion USD rated at least A- and A3",
+     "cites": [
+      {
+       "page": "37",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "Customer or its guarantor shall provide collateral in the form of cash or Letter of Credit equal to 24 months of the minimum billed amounts at the largest contract capacity value."
+      },
+      {
+       "page": "37",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "If Customer or its guarantor has an S&P Credit Rating of at least A and a Moody’s Credit Rating of at least A2 with cash and cash equivalents on its audited balance sheet of at least 10 times the collateral requirement, Customer or its guarantor shall provide cash or a Letter of Credit equal to 12 months of the annual minimum billed amounts at the largest contract capacity value."
+      },
+      {
+       "page": "37",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "The collateral requirement is due at the signing of the Electric Service Agreement. If Company becomes aware of an adverse change to Customer’s or its guarantor’s creditworthiness, Customer or its guarantor shall provide Company the increased collateral requirement due within three business days after written notice."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit Fee on termination before the end of the Initial Contract Term (after the 60 months' notice): the nominal value of the remaining minimum non-fuel revenue over the remaining term, due on the effective date of termination. Capacity Reduction Fee: the nominal value of the remaining minimum non-fuel revenue change from the original contract capacity over the remaining term",
+     "cites": [
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Termination of Contract",
+       "quote": "If Customer provides the required 60 months advance notice of termination prior to expiration of the Initial Contract term, Customer will be subject to payment of an Exit Fee."
+      },
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Termination of Contract",
+       "quote": "The Exit Fee shall be calculated as the nominal value of the remaining minimum non-fuel revenue over the remaining term."
+      },
+      {
+       "page": "36",
+       "section": "Sheet No. 26.1, Changes to Contract Capacity",
+       "quote": "The Capacity Reduction Fee shall be calculated as the nominal value of the remaining minimum non-fuel revenue change from the original contract capacity over the remaining term."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate EHLF Sheet Nos. 26 to 26.2 (PSC tariff library copy, pp. 35 to 37); KU's order of 16 February 2026 in Case 2025-00113, pp. 16 and 271 to 281 and ordering paragraphs p. 310"
+    },
+    "connection_timeline": {
+     "value": "No time to energize published: service under the schedule does not commence until the Company has sufficient capacity to meet the contractual load requirements; the start date and load ramp are set in each Electric Service Agreement",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Sheet No. 26, Availability",
+       "quote": "The terms and conditions of service under this schedule shall apply upon a request for service by an eligible Customer but service to Customers under this schedule will not commence until the Company has sufficient capacity to meet the contractual load requirements."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "More than 6,000 MW of potential data center load in the combined queue of LG&E and KU, as LG&E/KU stated in Case No. 2025-00045 and the PSC recited in its order of 28 October 2025 (the 2025 CPCN load forecast took 1,750 MW of data center load from it; a later expected value given in that case was 2,521 MW of data center and non-data center economic development load)",
+     "cites": [
+      {
+       "url": "https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf",
+       "page": "50",
+       "section": "Discussion and Findings for Load Growth",
+       "quote": "LG&E/KU explained that the 1,750 MW of data center load included in the 2025 CPCN Load Forecast does not consist of specific data center projects; rather, it is a reasonable estimate of how much of the more than 6,000 MW of potential data center load in the companies’ current queue will come to fruition in the near term.",
+       "date_read": "2026-11-13"
+      },
+      {
+       "url": "https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf",
+       "page": "54",
+       "section": "Discussion and Findings for Load Growth",
+       "quote": "the current expected value is 2,521 MW of both data center and non-data center economic development load.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Kentucky PSC's tariff library copy and the PSC's orders on psc.ky.gov (PPL's own sites bar robots and were not read)",
+   "erw_overlap": "none",
+   "notes": "Rates on Sheet No. 26 (First Revision, effective with bills on and after 14 August 2026, order of that date on rehearing): Basic Service Charge 74.00 USD per day, Energy Charge 0.03156 USD per kWh, Maximum Load Charge 20.48 USD per kVA (p. 35). The PSC requires KU to file every Rate EHLF electric service agreement with the Commission (order of 16 February 2026, p. 281 and ordering paragraph 66, p. 310). The order (p. 273) recites KU testimony that a 402 MW EHLF customer meeting the enhanced creditworthiness test would post more than 100 million USD of collateral at signing (KU's own testimony as recited by the PSC; context, not a field value). The stipulation in Case 2025-00045 (CPCN order of 28 October 2025) sets 500 MW of executed Rate EHLF agreements by Mill Creek 6's 2031 in-service date as one cost recovery review metric and defines an 'Eligible Data Center' of 50 to 100 MVA at 75 percent load factor for the Mill Creek 6 offset. PPL's Form 10-Q for the quarter ended 30 September 2026 (sec.gov) confirms the KPSC approved the EHLF tariff in its 16 February 2026 orders.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "Louisville Gas and Electric Company (LG&E, a PPL company)",
+   "state": "KY",
+   "iso_region": "LG&E and KU balancing authority (LGEE), no RTO",
+   "rule_name": "Rate EHLF, Extremely High Load Factor Service (P.S.C. Electric No. 14, Original Sheet Nos. 26, 26.1 and 26.2)",
+   "source_url": "https://psc.ky.gov/tariffs/Electric/Louisville%20Gas%20and%20Electric%20Company/Tariff.pdf",
+   "source_title": "Louisville Gas and Electric Company, Electric Tariff P.S.C. Electric No. 14, as filed in the Kentucky Public Service Commission's tariff library; Standard Rate EHLF, Extremely High Load Factor Service",
+   "quoted_clause": {
+    "page": "33",
+    "section": "Sheet No. 26, Availability",
+    "quote": "Available only for new Customers: 1) with a contract capacity greater than 50 MVA, and 2) an expected average monthly load factor above 85%."
+   },
+   "docket": {
+    "value": "Kentucky PSC Case No. 2025-00114",
+    "cites": [
+     {
+      "page": "33",
+      "section": "Sheet No. 26 footer",
+      "quote": "Issued by Authority of an Order of the Public Service Commission in Case No. 2025-00114 dated February 16, 2026"
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2026-02-16",
+    "cites": [
+     {
+      "page": "34",
+      "section": "Sheet No. 26.1 footer",
+      "quote": "DATE EFFECTIVE: With Service Rendered On and After February 16, 2026"
+     },
+     {
+      "page": "33",
+      "section": "Sheet No. 26 footer",
+      "quote": "DATE EFFECTIVE: With Bills Rendered On and After February 16, 2026"
+     },
+     {
+      "url": "https://psc.ky.gov/pscscf/2025%20Cases/2025-00114/20260216_PSC_ORDER.pdf",
+      "page": "165",
+      "section": "Ordering paragraph 2",
+      "quote": "2. The Stipulation, attached to this Order as Appendix A (without exhibits) and the Amended Stipulation, attached to this Order as Appendix B, are approved with modifications.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Contract capacity greater than 50 MVA (the tariff states MVA, not MW) and an expected average monthly load factor above 85 percent; new customers only; the Company may aggregate accounts or facilities to apply the threshold (50 MVA set by the stipulation the PSC approved)",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Available only for new Customers: 1) with a contract capacity greater than 50 MVA, and 2) an expected average monthly load factor above 85%."
+      },
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Company has the authority to aggregate accounts for the purpose of accurately evaluating the actual minimum capacity threshold of a customer or facility and require the customer(s) to take service under Rate EHLF when reasonable."
+      },
+      {
+       "url": "https://psc.ky.gov/pscscf/2025%20Cases/2025-00114/20260216_PSC_ORDER.pdf",
+       "page": "14",
+       "section": "Stipulation summary",
+       "quote": "The Stipulating Parties agreed LG&E/KU will propose a modification to Rate EHLF (Extremely High Load Factor) to reflect a minimum contract capacity threshold of 50 MVA.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Monthly billing demand for the Maximum Load Charge is the greatest of the month's maximum measured load, the highest measured load in the preceding 11 months, or 80 percent of contract capacity. Load ramp and load ramp period are set in each Electric Service Agreement; monthly billing begins 30 days after the customer's stated start date whether or not electricity is being provided",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Rate",
+       "quote": "Where: the monthly billing demand for the Maximum Load Charge is the greater of:"
+      },
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Rate",
+       "quote": "3. 80% of the contract capacity based on the maximum load expected on the system or on facilities specified by Customer."
+      },
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Availability",
+       "quote": "Customer’s initial contract term, load ramp, load ramp period, contract capacity, and other terms of service will be prescribed in the Electric Service Agreement executed between Company and Customer."
+      },
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Monthly billing will begin 30 days after the stated start date provided by the customer within the Electric Service Agreement whether or not electricity is being provided at that time."
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial Contract Term of not less than 15 years; either party gives at least 60 months' advance written notice to discontinue (the notice does not shorten the initial term except through the Exit Fee); contract capacity may be reduced only after the first 5 years of the initial term, on 60 months' written notice and with a Capacity Reduction Fee",
+     "cites": [
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Contracts under this rate schedule shall be made for an Initial Contract Term of not less than fifteen (15) years."
+      },
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Term of Contract",
+       "quote": "Either party shall give at least 60 months advance written notice to the other party of its intention to discontinue service under the terms of this rate schedule. Such notice shall not reduce the Initial Contract Term except as provided for in the Exit Fee provision."
+      },
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Changes to Contract Capacity",
+       "quote": "Customer must provide Company 60 months advance written notice of a reduction of contract capacity after the first five (5) years of the Initial Contract Term, and such reduction of capacity will be subject to payment of a Capacity Reduction Fee"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Cash or letter of credit equal to 24 months of minimum billed amounts at the largest contract capacity; 12 months if the customer or its guarantor is rated at least A (S&P) and A2 (Moody's) and holds cash and cash equivalents of at least 10 times the requirement. Due at signing of the Electric Service Agreement; an increased requirement after an adverse credit change is due within three business days of written notice. Letter of credit from a bank with assets of at least 10 billion USD rated at least A- and A3",
+     "cites": [
+      {
+       "page": "35",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "Customer or its guarantor shall provide collateral in the form of cash or Letter of Credit equal to 24 months of the minimum billed amounts at the largest contract capacity value."
+      },
+      {
+       "page": "35",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "If Customer or its guarantor has an S&P Credit Rating of at least A and a Moody’s Credit Rating of at least A2 with cash and cash equivalents on its audited balance sheet of at least 10 times the collateral requirement, Customer or its guarantor shall provide cash or a Letter of Credit equal to 12 months of the annual minimum billed amounts at the largest contract capacity value."
+      },
+      {
+       "page": "35",
+       "section": "Sheet No. 26.2, Collateral Requirements",
+       "quote": "The collateral requirement is due at the signing of the Electric Service Agreement. If Company becomes aware of an adverse change to Customer’s or its guarantor’s creditworthiness, Customer or its guarantor shall provide Company the increased collateral requirement due within three business days after written notice."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "Exit Fee on termination before the end of the Initial Contract Term (after the 60 months' notice): the nominal value of the remaining minimum non-fuel revenue over the remaining term, due on the effective date of termination. Capacity Reduction Fee: the nominal value of the remaining minimum non-fuel revenue change from the original contract capacity over the remaining term",
+     "cites": [
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Termination of Contract",
+       "quote": "If Customer provides the required 60 months advance notice of termination prior to expiration of the Initial Contract term, Customer will be subject to payment of an Exit Fee."
+      },
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Termination of Contract",
+       "quote": "The Exit Fee shall be calculated as the nominal value of the remaining minimum non-fuel revenue over the remaining term."
+      },
+      {
+       "page": "34",
+       "section": "Sheet No. 26.1, Changes to Contract Capacity",
+       "quote": "The Capacity Reduction Fee shall be calculated as the nominal value of the remaining minimum non-fuel revenue change from the original contract capacity over the remaining term."
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Rate EHLF Original Sheet Nos. 26 to 26.2 (PSC tariff library copy, pp. 33 to 35); LG&E's order of 16 February 2026 in Case 2025-00114 (EHLF appears only in the stipulation summary, p. 14, and the attached stipulation)"
+    },
+    "connection_timeline": {
+     "value": "No time to energize published: service under the schedule does not commence until the Company has sufficient capacity to meet the contractual load requirements; the start date and load ramp are set in each Electric Service Agreement",
+     "cites": [
+      {
+       "page": "33",
+       "section": "Sheet No. 26, Availability",
+       "quote": "The terms and conditions of service under this schedule shall apply upon a request for service by an eligible Customer but service to Customers under this schedule will not commence until the Company has sufficient capacity to meet the contractual load requirements."
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "More than 6,000 MW of potential data center load in the combined queue of LG&E and KU, as LG&E/KU stated in Case No. 2025-00045 and the PSC recited in its order of 28 October 2025 (the same combined figure as on the KU row; not additive)",
+     "cites": [
+      {
+       "url": "https://psc.ky.gov/order_vault/Orders_2025/202500045_10282025.pdf",
+       "page": "50",
+       "section": "Discussion and Findings for Load Growth",
+       "quote": "LG&E/KU explained that the 1,750 MW of data center load included in the 2025 CPCN Load Forecast does not consist of specific data center projects; rather, it is a reasonable estimate of how much of the more than 6,000 MW of potential data center load in the companies’ current queue will come to fruition in the near term.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    }
+   },
+   "license": "public",
+   "license_basis": "the Kentucky PSC's tariff library copy and the PSC's orders on psc.ky.gov (PPL's own sites bar robots and were not read)",
+   "erw_overlap": "none",
+   "notes": "Rates on Original Sheet No. 26 (effective with bills on and after 16 February 2026; the LG&E tariff library copy read on 13 November 2026 still shows the original sheet): Basic Service Charge 63.55 USD per day, Energy Charge 0.03175 USD per kWh, Maximum Load Charge 19.98 USD per kVA (p. 33). Sheet No. 26 states all EHLF Electric Service Agreements will be filed with the PSC. The PSC's EHLF discussion and findings are in the KU order (Case 2025-00113, pp. 271 to 281); LG&E's order approves the stipulation with modifications. The queue figure is the companies' combined figure: count it once.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "East Kentucky Power Cooperative, Inc. (EKPC), with its 16 owner-member distribution cooperatives",
+   "state": "KY",
+   "iso_region": "PJM",
+   "rule_name": "Rate DCP, Data Center Power, with Attachment A, Dedicated Resource Rider (P.S.C. No. 35, Original Sheet Nos. 103 to 118)",
+   "source_url": "https://psc.ky.gov/tariffs/Electric/East%20Kentucky%20Power%20Cooperative,%20Inc/Tariff.pdf",
+   "source_title": "East Kentucky Power Cooperative, Inc., Tariff P.S.C. No. 35, as filed in the Kentucky Public Service Commission's tariff library; Rate DCP (Data Center Power), Original Sheet Nos. 103 to 118",
+   "quoted_clause": {
+    "page": "142",
+    "section": "Sheet No. 103, III. Eligible Data Center",
+    "quote": "the expected or actual peak of the realtime energy demand of the Data Center is 15,000 kW or greater"
+   },
+   "docket": {
+    "value": "Kentucky PSC Case No. 2025-00140",
+    "cites": [
+     {
+      "page": "143",
+      "section": "Sheet No. 104 footer",
+      "quote": "Issued by authority ofan Order of the Public Service Commission of Kentucky in Case No. 2025-00140 dated October 30, 2025."
+     }
+    ]
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-10-30",
+    "cites": [
+     {
+      "page": "148",
+      "section": "Sheet No. 109 footer",
+      "quote": "Services rendered on or after October 30, 2025"
+     },
+     {
+      "url": "https://psc.ky.gov/order_vault/Orders_2025/202500140_10302025.pdf",
+      "page": "24",
+      "section": "Ordering paragraph 1",
+      "quote": "EKPC’s Rate DCP tariff is approved, as modified in this Order, for service rendered on and after the date of this Order.",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Data centers (including cryptocurrency mining) with expected or actual peak demand of 15,000 kW (15 MW) or more and a monthly load factor of 60 percent or more, aggregated across co-located and grouped facilities of the same customer; above 250,000 kW (250 MW) a Dedicated Resource is required",
+     "cites": [
+      {
+       "page": "142",
+       "section": "Sheet No. 103, III.1(a)",
+       "quote": "the expected or actual peak of the realtime energy demand of the Data Center is 15,000 kW or greater"
+      },
+      {
+       "page": "142",
+       "section": "Sheet No. 103, III.1(b)",
+       "quote": "(b) the expected or actual monthly load factor for the Data Center, as determined by EKPC, is sixty percent (60%) or greater"
+      },
+      {
+       "page": "145",
+       "section": "Sheet No. 106, V.3",
+       "quote": "If the expected or actual peak real-time energy demand of an Eligible Data Center is greater than 250,000 kWs then Qualifying Customer shall have the option of utilizing either"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "not published",
+     "searched": "Rate DCP Sheet Nos. 103 to 118: any minimum billing demand is a term of each special contract (Sheet No. 105, IV.4(d)), with no figure in the tariff; PSC order of 30 October 2025 pp. 1 to 24"
+    },
+    "contract_term": {
+     "value": "Initial term length and renewal periods set in each special contract approved by the PSC; the load ramp schedule may not exceed 5 years",
+     "cites": [
+      {
+       "page": "144",
+       "section": "Sheet No. 105, IV.4",
+       "quote": "(a) the initial term length and any renewal periods, (b) purchase and sale obligations (including contract capacity and load ramp schedule (which load ramp schedule shall not exceed five (5) years))"
+      }
+     ]
+    },
+    "collateral": {
+     "value": "Cash Pre-Payment Deposit equal to a rolling 6 months of expected maximum monthly billings (after 2 years it may be revised, but never below 2 months), replenished within 7 days of a draw; if the customer is not Creditworthy (at least A- or A3 and liquidity above 20 times the amount), additional collateral equal to 18 months of expected maximum monthly billings; further collateral for PJM capacity or planning reserve commitments and for termination damages; a parent guarantee may cover at most 50 percent (guarantor A+ or A1 or higher), 25 percent (A- or A3 or higher) or 0 percent (BBB+ or Baa1 or lower) of the additional requirement. Build-Out Costs (transmission, distribution and EKPC-supplied dedicated resources) are paid up front as a prepayment",
+     "cites": [
+      {
+       "page": "149",
+       "section": "Sheet No. 110, VII.1",
+       "quote": "Qualifying Customer shall deliver and maintain a cash deposit equal to a rolling six (6)-month period of expected maximum monthly billings to the Cooperative, as reasonably determined by EKPC and Cooperative"
+      },
+      {
+       "page": "149",
+       "section": "Sheet No. 110, VII.1",
+       "quote": "under no circumstance will the PrePayment Deposit be less than two (2) months of expected maximum monthly billings."
+      },
+      {
+       "page": "150",
+       "section": "Sheet No. 111, VII.2(a)",
+       "quote": "an amount equal to an 18month period of expected maximum monthly billings for electric service to Qualifying Customer, calculated based on EKPC's then-current rates"
+      },
+      {
+       "page": "152",
+       "section": "Sheet No. 113, VII.5(c)",
+       "quote": "Maximum Percentage of Additional Collateral Requirement 50% 25% 0%"
+      },
+      {
+       "page": "147",
+       "section": "Sheet No. 108, V.6(b)",
+       "quote": "the Build-Out Costs will be payable by Qualifying Customer up-front as a pre-payment based on good faith estimates determined by EKPC and Cooperative"
+      },
+      {
+       "url": "https://psc.ky.gov/order_vault/Orders_2025/202500140_10302025.pdf",
+       "page": "19",
+       "section": "Discussion and Findings, Deposit",
+       "quote": "The Commission finds that EKPC should require at least a six-month period of expected maximum monthly billings instead of two months.",
+       "date_read": "2026-11-13"
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "If the agreements terminate or expire before full recovery of Build-Out Costs, the customer pays EKPC and the cooperative any unreimbursed Build-Out Costs, including costs to terminate or settle underlying agreements; the Pre-Payment Deposit may be drawn for damages from early termination",
+     "cites": [
+      {
+       "page": "147",
+       "section": "Sheet No. 108, V.6(c)",
+       "quote": "In the event that the Facilities Agreement, Dedicated Resource Cost Recovery Agreement and/or Contract terminate or expire prior to full recovery by EKPC and/or Cooperative of all Build-Out Costs, then Qualifying Customer shall pay EKPC and/or Cooperative for any unreimbursed Build-Out Costs incurred by EKPC and/or Cooperative"
+      }
+     ]
+    },
+    "study_timeline": {
+     "value": "Application with a non-refundable fee of 75,000 USD plus 1,000 USD per MW of final expected load over 15 MW, up to 250,000 USD (the applicant also bears Load Study costs above the fee); Load Study requested from PJM within a commercially reasonable time, no fixed duration; EKPC aims (an objective, not an obligation) to develop a resource plan within 180 days of the application; the customer signs the agreements within 60 days of receipt, and EKPC aims to file them with the PSC within 10 business days",
+     "cites": [
+      {
+       "page": "153",
+       "section": "Sheet No. 114, VIII.1",
+       "quote": "The minimum application fee shall be $75,000 and shall be increased by $1 ,000 per additional MW of final expected Data Center Load over 15 MWs, up to $250,000. Applicant is responsible for any costs incurred or accrued as a result of the Load Study process in excess of the application fee."
+      },
+      {
+       "page": "145",
+       "section": "Sheet No. 106, V.2",
+       "quote": "within, as an objective, but not an obligation, one hundred eighty (180) days from the filing of such application for service by the Qualifying Customer."
+      },
+      {
+       "page": "154",
+       "section": "Sheet No. 115, VIII.3",
+       "quote": "Qualifying Customer shall execute the Fac ilities Agreement, Dedicated Resource Cost Recovery Agreement and Contract within sixty (60) days ofreceipt of such agreements from EKPC."
+      },
+      {
+       "page": "154",
+       "section": "Sheet No. 115, VIII.3",
+       "quote": "within ten (10) business days of EKPC's receipt of such signed agreements"
+      }
+     ]
+    },
+    "connection_timeline": {
+     "value": "No time to energize published: EKPC will not begin service until the Selected Resource Mix is obtained, secured and available; load ramp schedule at most 5 years (see contract_term)",
+     "cites": [
+      {
+       "page": "145",
+       "section": "Sheet No. 106, V.2",
+       "quote": "EKPC wi ll not begin commencement of electric service under this Tariff or any Contract, until such Selected Resource Mix is obtained, secured and available"
+      }
+     ]
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Rate DCP Sheet Nos. 103 to 118; PSC order of 30 October 2025 in Case 2025-00140 (no pipeline figure); EKPC's IRP and investor material not read"
+    }
+   },
+   "license": "public",
+   "license_basis": "the Kentucky PSC's tariff library copy and the PSC's order on psc.ky.gov",
+   "erw_overlap": "none",
+   "notes": "Some tariff text is OCR of a scanned filing; quotes keep its spacing errors as printed in the cached text. The PSC's order (pp. 18 to 19) also directed removal of the application fee cap so that each customer bears all its application costs; the filed Sheet No. 114 still prints 'up to $250,000' and adds that the applicant bears Load Study costs above the fee. All Rate DCP special contracts must be approved by the PSC; rates are set in each contract (Sheet No. 109). Below the roughly 20 MW scope line (15 MW threshold), kept because it is the cooperative's data center rule.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "South Carolina Public Service Authority (Santee Cooper)",
+   "state": "SC",
+   "iso_region": "Santee Cooper balancing authority (SC), no RTO",
+   "rule_name": "Schedule L-25-LL, Large Light and Power Experimental Large Load Service (adopted 25 April 2025, superseded by L-27-HIL from 1 February 2027)",
+   "source_url": "https://www.santeecooper.com/Rates/_pdfs/Industrial-Wholesale/L-25-LL-FINAL.pdf",
+   "source_title": "South Carolina Public Service Authority (Santee Cooper), Large Light and Power Experimental Large Load Service Schedule L-25-LL, 12 pages",
+   "quoted_clause": {
+    "page": "1",
+    "section": "Section 1(A), Availability",
+    "quote": "a centralized facility used for the management, storage, processing, and dissemination of data and information through the use of computer systems, servers, networking equipment, and related components that has an aggregate monthly maximum demand of greater than 50,000 kW"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Schedule L-25-LL pp. 1 to 12 print no docket or Board resolution number (a Board-adopted rate of a state agency)"
+   },
+   "status": {
+    "value": "in effect",
+    "date": "2025-04-25",
+    "cites": [
+     {
+      "page": "12",
+      "section": "footer",
+      "quote": "Adopted April 25, 2025 Effective for bills rendered on and after April 25, 2025 Expires no later than April 24, 2029"
+     },
+     {
+      "url": "https://www.santeecooper.com/Rates/Rate-Study/_pdfs/2026RatesDocs/Final-Rates-2027.pdf",
+      "page": "129",
+      "section": "Schedule L-27-HIL footer",
+      "quote": "Supersedes: Schedule L-25-LL, Effective April 25, 2025",
+      "date_read": "2026-11-13"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Mandatory for data centers with aggregate monthly maximum demand greater than 50,000 kW (50 MW), for mobile or portable data processing loads (including cryptocurrency mining) greater than 1,000 kW, and for other high load factor facilities greater than 50,000 kW that do not meet economic development rate criteria",
+     "cites": [
+      {
+       "page": "1",
+       "section": "Section 1(A)",
+       "quote": "a centralized facility used for the management, storage, processing, and dissemination of data and information through the use of computer systems, servers, networking equipment, and related components that has an aggregate monthly maximum demand of greater than 50,000 kW"
+      },
+      {
+       "page": "1",
+       "section": "Section 1(A)",
+       "quote": "has an aggregate monthly demand of greater than 1,000 kW and has load that is portable and/or distributable"
+      },
+      {
+       "page": "1",
+       "section": "Section 1(A)",
+       "quote": "other facilities requiring greater than 50,000 kW with high load factors that do not meet then current economic development rate criteria"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Firm Billing Demand is the greater of on-peak measured demand or Firm Contract Demand times a Minimum Firm Billing Demand Factor of 100 percent in months 1 to 60, 95 percent in months 61 to 120 and 90 percent from month 121; Coincident Peak Billing Demand floor of 50, 65 and 80 percent of contract demand over the same periods; during the first 36 months of a new delivery point the Authority may agree to month-to-month contract demand for a phase-in",
+     "cites": [
+      {
+       "page": "5",
+       "section": "Section 4(A)(1)",
+       "quote": "The Firm Billing Demand for each Billing Month shall be greater of (i) On-Peak Measured Demand, or (ii) the Firm Contract Demand multiplied by the then-current Minimum Firm Billing Demand Factor"
+      },
+      {
+       "page": "9",
+       "section": "Section 4(H)(2)",
+       "quote": "(a) Months 1 through 60: (b) Months 61 through 120: (c) Months 121 and greater:"
+      },
+      {
+       "page": "9",
+       "section": "Section 4(H)(2)",
+       "quote": "100% 95% 90%"
+      },
+      {
+       "page": "9",
+       "section": "Section 4(H)(3)",
+       "quote": "The Customers Minimum Coincident Peak Demand Billing Factor shall be: (a) Months 1 through 60: 50% (b) Months 61 through 120: 65% (c) Months 121 and greater: 80%"
+      },
+      {
+       "page": "7",
+       "section": "Section 4(C)(1)",
+       "quote": "During the first thirty six (36) months of service to a new Delivery Point, the Authority, at its sole option, may agree to adjust the Customer's Large Load Service Contract Demand on a month-to-month basis"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial term of service of not less than 180 months (15 years); no contract demand reduction effective before 15 years of service; reductions on at least one year's written notice, limited to the greater of 10,000 kW or 20 percent in the first year, rising by steps to 100 percent from the fifth year; the schedule itself is experimental and available no later than 24 April 2029",
+     "cites": [
+      {
+       "page": "10",
+       "section": "Section 6(B)(1)",
+       "quote": "(1) An initial term of service of not less than one hundred and eighty (180) months."
+      },
+      {
+       "page": "7",
+       "section": "Section 4(C)(2)",
+       "quote": "by providing prior written notice of such reduction to the Authority at least one year prior to the beginning of the first period to which the notice applies; provided, however, that (i) no such reduction shall become effective before fifteen (15) years of service under the initial Service Agreement term"
+      },
+      {
+       "page": "7",
+       "section": "Section 4(C)(2)(a)",
+       "quote": "(a) For the first twelve-month period to which such notice applies, the maximum reduction shall be the greater of 10,000 kW or 20% of the Large Load Service Contract Demand for such year."
+      },
+      {
+       "page": "11",
+       "section": "Section 7(D)",
+       "quote": "This Schedule is experimental and service provided hereunder shall be available from the Effective Date through no later than April 24, 2029."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "At signing, collateral or financial assurances equal to the first 180 months of Minimum Bills, at least 12 months of it as a cash deposit and the rest as credit facilities, parental guarantees or other assurances acceptable to the Authority, recalculated yearly to all outstanding Minimum Bills; before signing, the customer pays in full all delivery point and transmission costs (interconnection, network upgrades, additional or redundant facilities)",
+     "cites": [
+      {
+       "page": "11",
+       "section": "Section 6(B)(3)",
+       "quote": "Upon the execution of the initial Service Agreement, the Customer shall provide to the Authority collateral and/or financial assurances equivalent to the value of the initial one hundred eighty months (180) months of Minimum Bills"
+      },
+      {
+       "page": "11",
+       "section": "Section 6(B)(3)(a)",
+       "quote": "(a) At least twelve (12) months of Minimum Bills shall be in the form of a mandatory cash deposit"
+      },
+      {
+       "page": "11",
+       "section": "Section 6(B)(3)(b)",
+       "quote": "(b) The remaining collateral and/or financial assurances may be in the form of credit facilities, parental guarantees, or other assurances acceptable to the Authority"
+      },
+      {
+       "page": "10",
+       "section": "Section 6(B)(2)",
+       "quote": "the Customer shall pay in full for all costs associated with the construction of any Delivery Point expenses and Transmission expenses, as determined by the Authority in its sole discretion."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule L-25-LL pp. 1 to 12 (no exit or termination charge; contract demand reductions are limited, see contract_term; the General Terms and Conditions of Large Power Electric Service attached to Schedule L-25 were not read)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule L-25-LL pp. 1 to 12"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule L-25-LL pp. 1 to 12 (a 36-month phase-in of contract demand at the Authority's option, see min_demand; no time to energize)"
+    },
+    "queue_size": {
+     "value": "not published",
+     "searched": "Santee Cooper's 2026 rate study documents: Management's Process Request and Rate Recommendation Report and the Generation, Transmission and Distribution Report (no large-load pipeline figure; the latter names a 230 kV project for a data center of an Edisto Electric Cooperative member, Docket 2025-274-E); Schedule L-25-LL and L-27-HIL"
+    }
+   },
+   "license": "public",
+   "license_basis": "Santee Cooper's own posted rate schedule on santeecooper.com (robots allow; its legal notices page links only its retail service terms and privacy policy, which neither bar automated reading nor limit use)",
+   "erw_overlap": "none",
+   "notes": "Rates: monthly customer charge 3,605.00 USD per delivery point; base demand charge 8,223.00 USD for the first 300 kW and 21.08 USD per kW above; coincident peak demand charge 7.00 USD per kW (pp. 2 to 3). Section 7(D) caps the experimental class at 12 percent of the large industrial class under S.C. Code 58-31-730(F), excluding customers of 100 MW or more. News (SC Daily Gazette, 25 April 2025; lead only) reports the Board's unanimous April 2025 approval.",
+   "date_read": "2026-11-13"
+  },
+  {
+   "utility": "South Carolina Public Service Authority (Santee Cooper)",
+   "state": "SC",
+   "iso_region": "Santee Cooper balancing authority (SC), no RTO",
+   "rule_name": "Schedule L-27-HIL, Large Light and Power High Impact Load Service (adopted 30 October 2026, effective 1 February 2027; supersedes L-25-LL)",
+   "source_url": "https://www.santeecooper.com/Rates/Rate-Study/_pdfs/2026RatesDocs/Final-Rates-2027.pdf",
+   "source_title": "Santee Cooper, Final Rates 2027 (rate schedules adopted 30 October 2026), Schedule L-27-HIL, Large Light and Power High Impact Load Service, pp. 119 to 129",
+   "quoted_clause": {
+    "page": "119",
+    "section": "Section 1(A), Availability",
+    "quote": "a centralized facility used for the management, storage, processing, and dissemination of data and information through the use of computer systems, servers, networking equipment, and related components that has an aggregate monthly maximum demand of greater than 20,000 kW"
+   },
+   "docket": {
+    "value": "not published",
+    "searched": "Schedule L-27-HIL pp. 119 to 129 print no docket or Board resolution number (a Board-adopted rate of a state agency)"
+   },
+   "status": {
+    "value": "approved",
+    "date": "2026-10-30",
+    "cites": [
+     {
+      "page": "129",
+      "section": "footer",
+      "quote": "Adopted October 30, 2026 Effective for bills rendered on and after February 1, 2027"
+     },
+     {
+      "page": "129",
+      "section": "footer",
+      "quote": "Supersedes: Schedule L-25-LL, Effective April 25, 2025"
+     }
+    ]
+   },
+   "fields": {
+    "threshold_mw": {
+     "value": "Mandatory for data centers with aggregate monthly maximum demand greater than 20,000 kW (20 MW), for mobile or portable data processing loads (including cryptocurrency mining) greater than 1,000 kW, and for other high load factor facilities greater than 20,000 kW that do not meet economic development rate criteria (lowered from 50,000 kW under L-25-LL)",
+     "cites": [
+      {
+       "page": "119",
+       "section": "Section 1(A)",
+       "quote": "a centralized facility used for the management, storage, processing, and dissemination of data and information through the use of computer systems, servers, networking equipment, and related components that has an aggregate monthly maximum demand of greater than 20,000 kW"
+      },
+      {
+       "page": "119",
+       "section": "Section 1(A)",
+       "quote": "other facilities requiring greater than 20,000 kW with high load factors that do not meet then current economic development rate criteria"
+      }
+     ]
+    },
+    "min_demand": {
+     "value": "Firm Billing Demand is the greater of on-peak measured demand or Firm Contract Demand times a Minimum Firm Billing Demand Factor of 90 percent; Minimum Coincident Peak Demand Billing Factor of 90 percent; during the first 36 months of a new delivery point the Authority may agree to month-to-month contract demand for a phase-in",
+     "cites": [
+      {
+       "page": "122",
+       "section": "Section 4(A)(1)",
+       "quote": "The Firm Billing Demand for each Billing Month shall be greater of (i) On-Peak Measured Demand, or (ii) the Firm Contract Demand multiplied by the then-current Minimum Firm Billing Demand Factor"
+      },
+      {
+       "page": "126",
+       "section": "Section 4(H)(2)",
+       "quote": "(2) The Customers Minimum Firm Billing Demand Factor shall be 90%"
+      },
+      {
+       "page": "126",
+       "section": "Section 4(H)(3)",
+       "quote": "(3) The Customers Minimum Coincident Peak Demand Billing Factor shall be 90%"
+      },
+      {
+       "page": "124",
+       "section": "Section 4(C)(1)",
+       "quote": "During the first thirty six (36) months of service to a new Delivery Point, the Authority, at its sole option, may agree to adjust the Customer's High Impact Load Service Contract Demand on a month-to-month basis"
+      }
+     ]
+    },
+    "contract_term": {
+     "value": "Initial term of service of not less than 180 months (15 years); no contract demand reduction effective before 15 years of service; reductions on at least one year's written notice, limited to the greater of 4,000 kW or 20 percent in the first year, rising by steps to 100 percent from the fifth year",
+     "cites": [
+      {
+       "page": "127",
+       "section": "Section 6(B)(1)",
+       "quote": "(1) An initial term of service of not less than one hundred and eighty (180) months."
+      },
+      {
+       "page": "124",
+       "section": "Section 4(C)(2)",
+       "quote": "no such reduction shall become effective before fifteen (15) years of service under the initial Service Agreement term"
+      },
+      {
+       "page": "124",
+       "section": "Section 4(C)(2)(a)",
+       "quote": "(a) For the first twelve-month period to which such notice applies, the maximum reduction shall be the greater of 4,000 kW or 20% of the High Impact Load Service Contract Demand for such year."
+      }
+     ]
+    },
+    "collateral": {
+     "value": "At signing, collateral or financial assurances equal to the first 180 months of Minimum Bills, at least 12 months of it as a cash deposit; the rest by a creditworthiness matrix: a guaranty may cover up to 100 percent for a customer or guarantor rated Aaa to A3 (Moody's) or AAA to A- (S&P or Fitch), while Baa1 or BBB+ or lower, or no rating, requires 100 percent letter of credit or cash; recalculated yearly to all outstanding Minimum Bills. Before signing, the customer pays in full all delivery point and transmission costs, with possible later credits if other customers benefit",
+     "cites": [
+      {
+       "page": "127",
+       "section": "Section 6(B)(3)",
+       "quote": "Upon the execution of the initial Service Agreement, the Customer shall provide to the Authority collateral and/or financial assurances equivalent to the value of the initial one hundred eighty months (180) months of Minimum Bills"
+      },
+      {
+       "page": "127",
+       "section": "Section 6(B)(3)(a)",
+       "quote": "(a) At least twelve (12) months of Minimum Bills shall be in the form of a mandatory cash deposit"
+      },
+      {
+       "page": "128",
+       "section": "Section 6(B)(3)(b)",
+       "quote": "The type and percentage of collateral or other financial assurances required shall be based on the Customer’s or Guarantor’s credit rating as specified in such table."
+      },
+      {
+       "page": "128",
+       "section": "Section 6(B)(3)(b), table",
+       "quote": "Aaa to A3"
+      },
+      {
+       "page": "128",
+       "section": "Section 6(B)(3)(b), table",
+       "quote": "100% 0% 0%"
+      },
+      {
+       "page": "127",
+       "section": "Section 6(B)(2)",
+       "quote": "the Customer shall pay in full for all costs associated with the construction of any Delivery Point expenses and Transmission expenses, as determined by the Authority in its sole discretion."
+      }
+     ]
+    },
+    "exit_fee": {
+     "value": "not published",
+     "searched": "Schedule L-27-HIL pp. 119 to 129 (no exit or termination charge; contract demand reductions are limited, see contract_term)"
+    },
+    "study_timeline": {
+     "value": "not published",
+     "searched": "Schedule L-27-HIL pp. 119 to 129"
+    },
+    "connection_timeline": {
+     "value": "not published",
+     "searched": "Schedule L-27-HIL pp. 119 to 129 (a 36-month phase-in of contract demand at the Authority's option, see min_demand; no time to energize)"
+    },
+    "queue_size": {
+     "value": "see row: Schedule L-25-LL, Large Light and Power Experimental Large Load Service (adopted 25 April 2025, superseded by L-27-HIL from 1 February 2027)"
+    }
+   },
+   "license": "public",
+   "license_basis": "Santee Cooper's own posted rate schedule on santeecooper.com (robots allow; its legal notices page links only its retail service terms and privacy policy, which neither bar automated reading nor limit use)",
+   "erw_overlap": "none",
+   "notes": "Rates: monthly customer charge 4,068.00 USD per delivery point (p. 120); the Coincident Peak Billing Demand Charge is recalculated periodically against Santee Cooper's incremental capacity-related production costs (pp. 120 to 121), and a Retail Sufficiency Recovery Charge may be assessed when a Retail Revenue Shortfall exists (pp. 121 to 122). The customer may be called on to reduce load or run onsite backup generation in emergencies (pp. 128 to 129). Management's rate report says the experimental Large Load rate is renamed High Impact Load and made permanent. Principal row for the queue field is the L-25-LL row (status 'in effect' until 1 February 2027); L-27-HIL is the current rule from that date.",
+   "date_read": "2026-11-13"
+  }
+ ],
+ "refused": [
+  {
+   "utility": "Tennessee Valley Authority (TVA)",
+   "url": "https://www.tva.com/newsroom",
+   "reason": "robots.txt answered 403: treated as disallow all (tva.com: Board materials, rate schedules, IRP, large-load policy not read)"
+  },
+  {
+   "utility": "Tennessee Valley Authority (TVA)",
+   "url": "https://www.tva.gov/",
+   "reason": "robots.txt answered 403: treated as disallow all"
+  },
+  {
+   "utility": "Tennessee Valley Authority (TVA)",
+   "url": "https://s205.q4cdn.com/318912997/files/doc_news/2026/Aug/20/20260820-TVA-Board-Press-Release_FINAL.pdf",
+   "reason": "robots.txt answered 403: treated as disallow all (TVA's Board press release of 20 August 2026 on the data center rate and loads above 100 MW)"
+  },
+  {
+   "utility": "Tennessee Valley Authority (TVA)",
+   "url": "https://tva.azureedge.net/",
+   "reason": "robots.txt not readable (getaddrinfo failed); not read"
+  },
+  {
+   "utility": "Tennessee Valley Authority (TVA)",
+   "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001376986&type=10-&dateb=&owner=include&count=40",
+   "reason": "robots.txt 200: DISALLOWED (EDGAR browse path); the Archives directory was used instead"
+  },
+  {
+   "utility": "Huntsville Utilities",
+   "url": "https://www.hsvutil.org/",
+   "reason": "first answer SSL certificate verify failed; retried once after the reader's certificate fix: robots.txt 200: DISALLOWED for ERW-research-reader, *, ClaudeBot and the other Anthropic agents (agents named: Googlebot, Bingbot, FacebookBot, LinkedInBot/1.0, Twitterbot, *)"
+  }
+ ],
+ "none_found": [
+  {
+   "utility": "Tennessee Valley Authority (TVA), wholesale supplier",
+   "searched": "A TVA large-load rule exists by news leads (256today.com and others: Board approval on 20 August 2026 of a data center rate class effective 1 October 2026, a capacity commitment charge for new or expanding data center loads above 5 MW, and a revised policy for new loads above 100 MW), but no TVA document could be read: tva.com, tva.gov and s205.q4cdn.com refused by robots (see refused). Read on SEC EDGAR: TVA Form 10-K for FY2025 (tve-20250930.htm), Form 10-Q for the quarter ended 30 June 2026 (tve-20260630.htm) and Form 8-K of 20 August 2026 (tve-20260820.htm, compensation only): none describes the data center rate, the capacity commitment charge or the 100 MW policy, and none prints a large-load pipeline; TVA's FY2026 Form 10-K was not on EDGAR on 13 November 2026. The retail form of TVA's data center rate is captured in the MLGW Schedule TDC row."
+  },
+  {
+   "utility": "Nashville Electric Service (NES), TVA local power company",
+   "searched": "nespower.com rates page (commercial schedules up to TDGSA of April 2025; no data center or TDC schedule posted), Schedule of Rules and Regulations 2025 (19 pages: commercial deposit up to twice the average bill, no large-load terms), terms of service (no bar)"
+  },
+  {
+   "utility": "EPB (Electric Power Board of Chattanooga), TVA local power company",
+   "searched": "business.epb.com commercial energy rate schedules page (GSA, GSAC, TDGSA, LS, TDMSA, LGS, LMS, DPS, EVC; no data center or TDC schedule posted); epb.com legal page (no bar); epb.com/energy/rates/ answered HTTP 404"
+  },
+  {
+   "utility": "Knoxville Utilities Board (KUB), TVA local power company",
+   "searched": "kub.org business electric rate schedules page (GSA to TDMSA, IP5, IP30, PowerFlex, STP; no data center or TDC schedule posted)"
+  },
+  {
+   "utility": "Huntsville Utilities, TVA local power company",
+   "searched": "hsvutil.org refused by robots (see refused); a news lead (256today.com) quotes its CEO that Huntsville will not use incentives to recruit data centers"
+  },
+  {
+   "utility": "Big Rivers Electric Corporation (KY, MISO)",
+   "searched": "Web search for a Big Rivers large-load or data center tariff (none found). Read Big Rivers' contract filing of 14 April 2026 in Kentucky PSC Case No. 2026-00115 (psc.ky.gov): a single Retail Electric Service Agreement among Big Rivers, Kenergy and Justified DataPower LLC (TeraWulf) for a data center campus at the former Century Hawesville smelter site, not a rule of general application. As filed, it has an initial term of 15 years with a minimum 482 MW take or pay obligation for the first 6 years, Kenergy takes service from Big Rivers under its existing Large Industrial Customer Expansion Rate (LICX) tariff with MISO market pass-through, and credit support is a prepayment or letter of credit for a Planning Year's capacity cost plus collateral of two times the estimated highest monthly bill (filing pp. 3, 16, 20 and 22). News (Spectrum News, 24 August 2026; lead only) reports PSC approval; the approval order was not read."
+  },
+  {
+   "utility": "Oglethorpe Power Corporation and the Georgia EMCs (GA)",
+   "searched": "Web search for an Oglethorpe Power or Georgia EMC large-load or data center tariff or rate schedule of 2025 or 2026: results were Georgia Power's PSC rules only; no published EMC or Oglethorpe large-load rule found"
+  },
+  {
+   "utility": "PowerSouth Energy Cooperative (AL)",
+   "searched": "Web search for a PowerSouth large-load or data center tariff or rate schedule of 2025 or 2026: none found"
+  }
+ ]
+}

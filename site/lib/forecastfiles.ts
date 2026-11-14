@@ -110,12 +110,16 @@ def property_tax(d, i):
             if i < r["years"]:
                 return 0.0
         elif r["kind"] == "valuation":
-            if not x["iaval"]:
+            if r.get("requires") == "option" and not x["iaval"]:
                 continue
             if x["levy"] is None:
                 return None
-            pct = r["schedule_pct"][i] if i < len(r["schedule_pct"]) else r["then_pct"]
-            total += spend * pct / 100 * x["levy"] / 1000; used = True
+            base = mw * r["usd_per_mw_value"] if r.get("usd_per_mw_value") is not None else spend
+            if r.get("schedule_pct") is not None:
+                pct = r["schedule_pct"][i] if i < len(r["schedule_pct"]) else r["then_pct"]
+            else:  # a state's straight line with its floor
+                pct = max(r.get("floor_pct", 0.0), 100 - r.get("depr_pct_per_year", 0.0) * i)
+            total += base * pct / 100 * r.get("assessment_ratio", 1.0) * x["levy"] / 1000; used = True
     if used and adds and x["own"] is not None and x["ownyears"]:
         return total + spend * max(0.0, 1 - i / x["ownyears"]) * x["own"] / 100
     if used:
@@ -125,7 +129,9 @@ def property_tax(d, i):
         for r in d["property"]:
             if (r["kind"] == "own_exempt" and x["start"] + x["build"] + i <= r.get("until_year", 9999)
                     and (r.get("requires") != "option" or x["iaval"]) and (r.get("years") is None or x["build"] + i < r["years"])
-                    and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])):
+                    and (r.get("above_mw") is None or mw > r["above_mw"]) and (r.get("below_mw") is None or mw < r["below_mw"])
+                    and (r.get("op_years") is None or i < r["op_years"])
+                    and (r.get("built_before") is None or x["start"] + x["build"] <= r["built_before"])):
                 share = r.get("exempt_share", 0.0)
                 if r.get("exempt_steps"):  # Virginia's 80, 70 and 60 percent by years in service
                     share = next(st["share"] for st in r["exempt_steps"] if st.get("until") is None or i < st["until"])
@@ -225,9 +231,12 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
         parts.push(`cond(i < ${rl.years}, ${xi.mw} * ${Math.min(rl.usd_per_mw_max ?? Infinity, Math.max(rl.usd_per_mw_min ?? 0, xi.optrate))}, .)`);
       } else if (rl.kind === "exempt_years") {
         exemptYears = rl.years ?? 0;
-      } else if (rl.kind === "valuation" && xi.iaval && xi.levy !== null) {
-        const s = rl.schedule_pct ?? [];
-        valuation = `${spend} * cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct}) / 100 * ${xi.levy} / 1000`;
+      } else if (rl.kind === "valuation" && (rl.requires !== "option" || xi.iaval) && xi.levy !== null) {
+        const s = rl.schedule_pct;
+        const base = rl.usd_per_mw_value !== undefined ? `${xi.mw} * ${rl.usd_per_mw_value}` : spend;
+        const pct = s ? `cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct})`
+          : `max(${rl.floor_pct ?? 0}, 100 - ${rl.depr_pct_per_year ?? 0} * i)`;
+        valuation = `${base} * ${pct} / 100 * ${rl.assessment_ratio ?? 1} * ${xi.levy} / 1000`;
       }
     }
     if (addsFlags.length && addsFlags.every(Boolean) && xi.own !== null && xi.ownyears) parts.push(`${spend} * max(0, 1 - i / ${xi.ownyears}) * ${xi.own} / 100`);
@@ -237,10 +246,12 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
       if (exemptYears !== null) out.push(`replace property = 0 if !build & i < ${exemptYears}`);
       const fx = d.property.find((rl) => rl.kind === "own_exempt");
       // Nevada's abatement only with the option on, for its years from the first construction year
-      const fxOn = fx && (fx.requires !== "option" || xi.iaval) && (fx.above_mw === undefined || xi.mw > fx.above_mw) && (fx.below_mw === undefined || xi.mw < fx.below_mw);
+      const fxOn = fx && (fx.requires !== "option" || xi.iaval) && (fx.above_mw === undefined || xi.mw > fx.above_mw) && (fx.below_mw === undefined || xi.mw < fx.below_mw)
+        && (fx.built_before === undefined || xi.start + xi.build <= fx.built_before);
       const steps = (st: { until?: number; share: number }[]): string => st.length === 1 || st[0].until === undefined ? `${1 - st[0].share}` : `cond(i < ${st[0].until}, ${1 - st[0].share}, ${steps(st.slice(1))})`;
       const taxedShare = !fx || !fxOn ? "1"
         : fx.exempt_steps ? steps(fx.exempt_steps)
+        : fx.op_years !== undefined ? `cond(i < ${fx.op_years}, ${1 - (fx.exempt_share ?? 0)}, 1)`
         : fx.years !== undefined ? `cond(i < ${fx.years - xi.build}, ${1 - (fx.exempt_share ?? 0)}, 1)`
         : fx.until_year === undefined ? `${1 - (fx.exempt_share ?? 0)}` : `cond(year <= ${fx.until_year}, ${1 - (fx.exempt_share ?? 0)}, 1)`;
       if (xi.own !== null && xi.ownyears) out.push(`replace property = ${spend} * max(0, 1 - i / ${xi.ownyears}) * ${taxedShare} * ${xi.own} / 100 if !build${exemptYears !== null ? ` & i >= ${exemptYears}` : ""}`);
