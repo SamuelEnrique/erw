@@ -33,7 +33,15 @@ Long end 1:00. The next file. Memory and disk; `git worktree list`, landed workt
 
 ## Sessions 3994 to 3998: chain 279's other unfinished steps
 
-Long end 1:30 each. Session 3992 writes them here from chain 279's note. Where chain 279 finished everything, these sessions take the next sections' steps early and say so.
+Long end 1:30 each. Written by chain 279's session 3992 on 15 November 2026 at about 19:15 UTC from its note (`docs/state/note_2026-11-15_data_c279.md`). The daily run and the data machine's run of 15 November both committed (the first since 12 November); chain 279's gate h (its last reports, the rename of test 3999 to 3979, the citations) was running at its close: land it first if session 3992's report does not say it landed. Left, in this order; a run not yet in is waiting and skipped:
+
+- **Gate h's landing** (`wip/c279-land-h`, task `3992-landing`, port 3992), if not yet landed: the lander's commands, snapshots before and after.
+- **The Energy Roundup of 15 November** (Sunday evening; last week's started 23:00 UTC) and **the Digest of 16 November** with check-values on `/digest`: the owner's API key is at its limit until 1 December, so their model parts may be refused; say what was published and what was not, at the top of the report.
+- **The daily run of 16 November** (14:00 UTC): its commit through the guard, `package tests` (the rollups' `Source:` line, gate g), the health summary; `supabase_load` will still refuse `datacenter_projects`, `energy_deals` and `news_index` (older than the live copy) and `sources` (the stale IEA row) until the rulings of chain 279's note.
+- **The data machine's run of 16 November** (17:00 UTC): `dm_commit` lands with the replication group put back while test 5502 holds the signature pack's figures.
+- **The CAISO's FERC compliance filing** (due 16 November) for the siting gaps.
+- **Ask request row 6** settles only with `energy_deals`' rebuild (coverage 527, the archive 532).
+- **The Ask weekly run** (USD 4) on or after 19 November, and only once the key answers.
 
 ## Session 3999: the runs of the days since chain 279's last reading
 
