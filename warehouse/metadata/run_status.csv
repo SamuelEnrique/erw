@@ -8803,3 +8803,10 @@ run_id,runner,connector,table,market,status,detail
 20261112T225609Z,github,news_brief,digest,brief,ok,"top 10 with a number 7 of 10 (7 with a scored figure); 262 stories, 246 clusters, 2 call(s), tokens in 4337 out 1742, cost USD 0.0261 + summary USD 0.0053"
 20261112T225629Z,github,news_email,email,daily,ok,"2026-11-12: sent to 1 recipients (1 fixed, 0 subscribers)"
 20261112T225631Z,github,news_shadow_digest,digest,shadow,skipped,SHADOW_MODEL is not set (the kill switch): no shadow call
+20261115T100116Z,github,supabase_vacuum,catalogue,all,ok,0.2 MB -> 0.1 MB
+20261115T100116Z,github,supabase_vacuum,entities,all,ok,79.5 MB -> 78.2 MB
+20261115T100116Z,github,supabase_vacuum,events,all,ok,59.6 MB -> 55.6 MB
+20261115T100116Z,github,supabase_vacuum,headers,all,ok,0.8 MB -> 0.5 MB
+20261115T100116Z,github,supabase_vacuum,series,all,ok,1298.3 MB -> 1227.3 MB
+20261115T100116Z,github,supabase_vacuum,sources,all,ok,0.6 MB -> 0.3 MB
+20261115T100116Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 1535.3 MB -> 1458.3 MB
