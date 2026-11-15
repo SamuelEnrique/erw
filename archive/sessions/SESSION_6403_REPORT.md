@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW). The owner asked again for the queue step and the chain it prints, run unattended until the step exits 3. `git pull --no-edit origin main` found main already up to date. The step (`scripts/chain_queue.py next`, exit 0) took `284-day-18-november-oldlaptop-ask-continued.md` again (taken commit 23e2031c5) and left file 285 for the data machine.
 
-**In one line: the API refused the file's probe (`warehouse/chat/eval/eval_site.py --session 6403 --set heldout --only h30 --cap 0.40 --day-cap 20`, run in `erw-6100` at d2a73f136 with the main copy's interpreter, exit 3), at a cost of USD 0.0000, with the same error: "You have reached your specified API usage limits. You will regain access on 2026-12-01 at 00:00 UTC". No step was done, and file 284 is back in `queue/next/`.**
+**In one line: the API refused the file's probe (`warehouse/chat/eval/eval_site.py --session 6403 --set heldout --only h30 --cap 0.40 --day-cap 20`, run in `erw-6100` at d2a73f136 with the main copy's interpreter, exit 3), at a cost of USD 0.0000, with the same error, which the runner prints cut short: "You have reached your specified API usage limits. You will regain access on 2026-1" (1 December 2026, as the earlier sessions recorded it in full). No step was done, and file 284 is back in `queue/next/`.**
 
 - Precheck: exit 0 ("session 6403"). Freeze: none (`scripts/freeze.py status` exit 0).
 - `runs/s6403/` holds the queue step, precheck, freeze and probe output (`runs/` is not in git).
