@@ -1,6 +1,6 @@
 {
  "first": "2019-01-01",
- "last": "2026-11-10",
+ "last": "2026-11-13",
  "tz": "America/New_York",
  "frame": "day",
  "rule": "Each pair is counted once: its flow is read from the BA whose code sorts first, as that BA reported it (positive = it exported to the other); in an hour it did not report, from the other BA's report with the sign flipped.",
@@ -199,9 +199,9 @@
   },
   "2026": {
    "file": "/network/daily_2026.json",
-   "days": 314,
+   "days": 317,
    "first": "2026-01-01",
-   "last": "2026-11-10",
+   "last": "2026-11-13",
    "links": 160,
    "priced": [
     "CISO",
@@ -221,11 +221,11 @@
     "SWPP"
    ],
    "with_demand": 54,
-   "pair_days": 3507,
-   "pair_days_from_other_side": 4227,
+   "pair_days": 3510,
+   "pair_days_from_other_side": 4265,
    "pair_days_screened": 23,
-   "demand_days_held": 16265,
-   "pair_days_confirmed": 229,
+   "demand_days_held": 16423,
+   "pair_days_confirmed": 232,
    "thin_days": 5,
    "hub_price_days_kept": 238
   }
@@ -240,7 +240,7 @@
   "NSB",
   "WACM"
  ],
- "built": "2026-11-12T22:21:57Z",
+ "built": "2026-11-15T15:40:37Z",
  "source": "eia930_daily_interchange",
  "demand_source": "eia930_daily_demand",
  "demand_band": [
@@ -304,9 +304,9 @@
   "WALC",
   "WAUW"
  ],
- "pair_days_rule": 2773,
- "pair_days_confirmed_both_sides": 1941,
+ "pair_days_rule": 2779,
+ "pair_days_confirmed_both_sides": 1944,
  "pair_days_confirmed_by_hours": 0,
  "agree": 0.05,
- "last_complete": "2026-11-10"
+ "last_complete": "2026-11-13"
 }
