@@ -53,6 +53,7 @@ SOURCE_URL = "https://github.com/SamuelEnrique/erw/blob/main/warehouse/derived/d
 # runs of 7 and 12 November) and committed nothing. Internal, as its one input datacenter_projects is (license needed since
 # 21 October 2026).
 SOURCE = "erw:datacenter_projects"
+METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_tracker_rollups.md"
 SOURCE_ENTRY = dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                     report="The datacenter tracker's rollups by grid, state and operator, from datacenter_projects (docs/methods/datacenter_tracker_rollups.md)",
                     report_url="https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_tracker_rollups.md",
@@ -114,7 +115,11 @@ def main(argv=None):
         "Derived from: datacenter_projects",
         "Columns: entity grid:<grid> (named in the stories, or the state's main grid), state:<XX>, operator:<name> (the operator, else the developer, joined as warehouse/deals/counterparties.py joins names), tracker:all; a sum is of the MW the stories state, any basis; facilities_without_mw counts the rest; a group with no stated MW has no sum.",
         "License: as datacenter_projects (license needed since 2026-10-21).",
-        "Sources: datacenter_projects (the news the ERW scores).",
+        # session 3999 (chain 279): the "Source:" line the package's provenance reads (erw/provenance.py), as every other
+        # derived builder writes it; the plural line it replaced named no source, and the package's test refused the
+        # table's empty sources in the daily run of 15 November 2026
+        f"Source: {SOURCE} ERW derived table, the datacenter tracker's rollups of datacenter_projects, the news the ERW "
+        f"scores (docs/methods/datacenter_tracker_rollups.md), {METHOD_URL}",
     ]
     if args.out:
         os.makedirs(args.out, exist_ok=True)
