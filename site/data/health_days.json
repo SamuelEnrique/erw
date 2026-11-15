@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-14T23:01Z",
+ "written": "2026-11-15T17:16Z",
  "green_days": 0,
- "counted_to": "2026-11-13",
+ "counted_to": "2026-11-14",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3344,6 +3344,164 @@
      "workflow": "local:SU-4QC3QR3",
      "step": "dm_carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 60 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-14": {
+   "rows": 789,
+   "failed": 8,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 104,
+     "skipped": 7,
+     "retried": 1,
+     "failed": 6,
+     "runs": 3
+    },
+    "hourly network": {
+     "ok": 14,
+     "skipped": 11,
+     "retried": 2,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 55,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 2,
+     "runs": 59
+    },
+    "local:lab-desktop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "local:portable-laptop": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 3
+    },
+    "local:samueloldlaptop": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 3
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-14T14:54",
+     "workflow": "daily prices",
+     "step": "portwatch",
+     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: PortWatch chokepoint6 offset 2000 failed after 4 attempts: RuntimeError(\"PortWatch "
+    },
+    {
+     "at": "2026-11-14T15:57",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: news_scores_shadow: sources ['IEA \u2013 International Energy Agency'] are not in /home/runner/work/erw/erw/warehouse/metadata/sources.csv; cannot set its license"
+    },
+    {
+     "at": "2026-11-14T18:21",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_dispatch",
+     "reason": "its tests exited 1 (tests.test_session178); the group was put back as committed"
+    },
+    {
+     "at": "2026-11-14T18:34",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "push to main refused: 2 failing tests: test_session5074.Datacenter.test_the_hourly_window_as_the_do_file_counts_it, test_session5502.TheExpectedValues.test_each_quoted_figure_is_the_page_s"
+    },
+    {
+     "at": "2026-11-14T20:50",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: datacenter_tracker_rollups: license internal, but its inputs make it public"
+    },
+    {
+     "at": "2026-11-14T22:12",
+     "workflow": "daily prices",
+     "step": "news_score",
+     "reason": "news score: model claude-haiku-4-5; calls 0 (16 failed); stories scored 0 of 400; tokens input 0, output 0, cache write 0, cache read 0; cost USD 0.0000; duplicate links rejected 0; clusters 19077 amo"
+    },
+    {
+     "at": "2026-11-14T22:14",
+     "workflow": "daily prices",
+     "step": "policy_score",
+     "reason": "policy_score: 0 newly scored, 2049 of 2062 scored; 404 at significance 5 or more; cost USD 0.0000"
+    },
+    {
+     "at": "2026-11-14T23:01",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "ValueError: datacenter_tracker_rollups: license internal, but its inputs make it public"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-14T15:22",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-14T15:26",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 61 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-14T17:28",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 61 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-14T20:16",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-14T20:20",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 61 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-14T22:28",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-14T22:32",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 61 days old (limit 28)"
     }
    ]
   }
