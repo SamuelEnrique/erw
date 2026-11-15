@@ -13,3 +13,8 @@ Energy Research Warehouse (ERW). Chain 279, data machine (lab-desktop), 15 Novem
 ## For Samuel's ruling
 
 - None new.
+
+## Added after gate h (rides in chain 285's first gate)
+
+- **Gate h** every step passed (suite 9,513 OK at 19:33 UTC); **landed at `e53ff52b6`** (run 43754895408); snapshots `before-6e476933` and `after-6e476933`: 0 differences. Its worktrees removed.
+- **File 285** updated and pushed alone at `e6da03506` (snapshots `before-q285u` and `after-q285u`: 0 differences).
