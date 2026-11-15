@@ -20,4 +20,4 @@ Energy Research Warehouse (ERW). The owner asked again for the queue step and th
 
 - Session 6282's ruling stands: raise the key's monthly limit in the Anthropic console [otherwise chain 284 waits until 1 December], or allow a `hold:` line that `chain_queue.py next` skips until a date [not built].
 - Until the limit is raised, asking for the queue step again repeats this session exactly [one local commit each, no API cost].
-- Local main is now 123 commits ahead of origin/main (the reports and the merge) [not pushed; a push deploys and needs rule 8's snapshots].
+- Local main is now 124 commits ahead of origin/main (the reports and the merge) [not pushed; a push deploys and needs rule 8's snapshots].
