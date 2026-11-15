@@ -1,6 +1,6 @@
 # Session 3989 report: the findings, the Ask weekly run and the records
 
-Energy Research Warehouse (ERW). Chain 279, data machine (lab-desktop), 15 November 2026, 19:02 to 19:20 UTC. Opus 5.5. Model spend USD 0. No request.
+Energy Research Warehouse (ERW). Chain 279, data machine (lab-desktop), 15 November 2026, 19:02 to 19:10 UTC. Opus 5.5. Model spend USD 0. No request.
 
 - **The tables moved** with the data machine's sync at 17:10 UTC, after the daily commit of 15 November (`03a8a9216`) landed: the reading after the move that chain 278 left waiting.
 - **`check.py --tables C:/Users/Shared/Documents/erw/warehouse/output`** (main checkout, 19:02 to 19:08 UTC): **185 of 185 drafts reproduce**. **`check_cards.py`:** 185 of 185 cards hold. **`check_do.py`:** 185 of 185 do-files hold. Count by family 185 before and after; nothing approved. The main checkout left clean.

@@ -327,6 +327,6 @@ Read again by session 3963 at about 14:28 UTC, after chain 267's section, on `wi
 - **PG&E's Rule 30:** held since session 3947 (pge.com's terms); the CAISO rows' hover carries the Board's decision's 3 steps in its place.
 - **Still open:** as chain 267's section.
 ## State on 15 November 2026, evening (chain 279)
-Read again by session 3988 at about 19:22 UTC, after chain 278's section, on `wip/c279-data` (main at `e53f03219`):
+Read again by session 3988 at about 19:10 UTC, after chain 278's section, on `wip/c279-data` (main at `e53f03219`):
 - **Time to connect, CAISO: the FERC compliance filing is still not filed.** The large-loads process page (stakeholdercenter.caiso.com, its robots file answering 404 first in a call of its own) has the same bytes as on 14 November (sha256 `578c69995d9a0388...`): "Nov 16, 2026 FERC filing" still to come. Waiting for 16 November.
 - **No other row moved:** the open rows are held by terms or by script-built portals, as chain 267's section says.
