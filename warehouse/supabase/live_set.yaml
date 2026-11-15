@@ -182,6 +182,11 @@ full:
   # session 348: the six ISOs' queues by entry year (about 1,500 rows: entered, withdrawn, operating, waiting, MW, withdrawal
   # rate, waits), whole, for the map's Queues tab (in review); under review_hold, its source under sources_hold
   - '^iso_queue_statistics$'
+  # session 3984 (chain 279, docs/state/data_requests_ask.md rows 1 and 2): the forecast tool's parameters (768 rows: EIA's
+  # overnight cost, JEDI's construction cost and taxable share, the gas defaults) and the ISOs' reserve margin reports
+  # (5 rows), whole, so the chat's catalogue lists them and its tools read them; no page reads them: under review_hold
+  - '^forecast_tool_parameters$'
+  - '^iso_reserve_margin_reports$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -818,6 +823,8 @@ review_hold:
   - impact_tax_rules                   # session 346, /impact (in review)
   - iso_queue_statistics               # session 348, /map's Queues tab (in review)
   - eia_annual_crosscheck_ba
+  - forecast_tool_parameters           # session 3984, the chat (no page)
+  - iso_reserve_margin_reports         # session 3984, the chat (no page)
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
