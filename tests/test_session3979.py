@@ -1,4 +1,4 @@
-"""Session 3999 (chain 279): datacenter_tracker_rollups' header names its source on a "Source:" line.
+"""Session 3979 (chain 279): datacenter_tracker_rollups' header names its source on a "Source:" line.
 
 The daily run of 15 November 2026 committed (the first since 12 November), and its package tests failed on one table:
 test_fetch_types_and_provenance[datacenter_tracker_rollups], `assert meta["sources"]`, an empty list. The builder wrote

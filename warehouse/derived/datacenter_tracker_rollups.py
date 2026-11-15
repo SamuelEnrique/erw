@@ -115,7 +115,7 @@ def main(argv=None):
         "Derived from: datacenter_projects",
         "Columns: entity grid:<grid> (named in the stories, or the state's main grid), state:<XX>, operator:<name> (the operator, else the developer, joined as warehouse/deals/counterparties.py joins names), tracker:all; a sum is of the MW the stories state, any basis; facilities_without_mw counts the rest; a group with no stated MW has no sum.",
         "License: as datacenter_projects (license needed since 2026-10-21).",
-        # session 3999 (chain 279): the "Source:" line the package's provenance reads (erw/provenance.py), as every other
+        # session 3979 (chain 279): the "Source:" line the package's provenance reads (erw/provenance.py), as every other
         # derived builder writes it; the plural line it replaced named no source, and the package's test refused the
         # table's empty sources in the daily run of 15 November 2026
         f"Source: {SOURCE} ERW derived table, the datacenter tracker's rollups of datacenter_projects, the news the ERW "
