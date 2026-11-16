@@ -31,6 +31,25 @@ export const FIGURES = [
   { v: "n_intervals", label: "15-minute intervals in the period", unit: "count" },
 ] as const;
 
+/** Session 7516 (chain 304, part B): the figures drawn for two hubs side by side (the address's `vs`), in the order
+ *  shown: the peak block first, then the blocks it is read against, then the thesis's tail figures. Each is a row of the
+ *  table for its own hub; the page takes no difference between the two. */
+export const SIDE = [
+  { v: "peak_median", label: "Peak median (16:00 to 21:00)", unit: "USD/MWh" },
+  { v: "peak_q1", label: "Peak Q1", unit: "USD/MWh" },
+  { v: "peak_q3", label: "Peak Q3", unit: "USD/MWh" },
+  { v: "peak_iqr", label: "Peak-block IQR (Q3 minus Q1)", unit: "USD/MWh" },
+  { v: "midday_median", label: "Midday median (12:00 to 16:00)", unit: "USD/MWh" },
+  { v: "peak_minus_midday_median", label: "Peak median minus midday median", unit: "USD/MWh" },
+  { v: "overnight_median", label: "Overnight median (21:00 to 12:00)", unit: "USD/MWh" },
+  { v: "all_median", label: "Median, all intervals", unit: "USD/MWh" },
+  { v: "all_p999", label: "99.9th percentile, all intervals", unit: "USD/MWh" },
+  { v: "all_max", label: "Maximum, all intervals", unit: "USD/MWh" },
+  { v: "n_scarcity", label: "Intervals at or above 1,000 USD/MWh", unit: "count" },
+  { v: "n_negative", label: "Intervals at or below 0 USD/MWh", unit: "count" },
+  { v: "n_intervals", label: "15-minute intervals in the period", unit: "count" },
+] as const;
+
 /** Quarter hours in a full ERCOT operating year (the method note's completeness rule). */
 export function fullYear(y: number): number {
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 35_136 : 35_040;
