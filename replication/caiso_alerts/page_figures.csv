@@ -1,0 +1,635 @@
+key,section,page,ours,difference,status
+series|flex_alert_model|erw:flex_alert_model|pooled_days|2018-07-01T00:00:00Z,"The answer, pooled",38,38.000000,0.000000,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_hours|2018-07-01T00:00:00Z,"The answer, pooled",204,204.000000,0.000000,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",-503.18,-503.184946,-0.004946,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled","-1,274.89",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled",247.38,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_pct|2018-07-01T00:00:00Z,"The answer, pooled",-1.20,-1.201161,-0.001161,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh|2018-07-01T00:00:00Z,"The answer, pooled","-102,649.73",-102649.728900,0.001100,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_lo|2018-07-01T00:00:00Z,"The answer, pooled","-260,077.39",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_hi|2018-07-01T00:00:00Z,"The answer, pooled","50,464.91",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-239.34,-239.337606,0.002394,agrees
+series|flex_alert_model|erw:flex_alert_model|oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,598.56",,,"named: an error over the held-out hours: the tables hold each held-out day's mean error, not its hours"
+series|flex_alert_model|erw:flex_alert_model|oos_mape_pct|2018-07-01T00:00:00Z,"The answer, pooled",3.18,,,"named: an error over the held-out hours: the tables hold each held-out day's mean error, not its hours"
+series|flex_alert_model|erw:flex_alert_model|oos_days|2018-07-01T00:00:00Z,"The answer, pooled",128,128.000000,0.000000,agrees
+series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-272.29,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,917.86",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",-59.00,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled",-756.85,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled",545.72,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-497.09,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,744.53",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",861.16,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled",197.25,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled","1,478.84",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-273.03,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,635.20",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",-460.34,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled","-1,189.51",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled",227.67,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-486.64,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,728.46",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",896.85,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled",233.96,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled","1,510.50",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_chosen_oos_bias_mw|2018-07-01T00:00:00Z,"The answer, pooled",-239.34,-239.337606,0.002394,agrees
+series|flex_alert_model|erw:flex_alert_model|variant_chosen_oos_rmse_mw|2018-07-01T00:00:00Z,"The answer, pooled","1,598.56",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw|2018-07-01T00:00:00Z,"The answer, pooled",-503.18,-503.184946,-0.004946,agrees
+series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw_lo|2018-07-01T00:00:00Z,"The answer, pooled","-1,274.89",,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw_hi|2018-07-01T00:00:00Z,"The answer, pooled",247.38,,,"named: a robustness specification's figure: its 24 refits and 200 replicates need the panel; the method's table, section 6, prints it"
+series|flex_alert_model|erw:flex_alert_model|heldout_threshold_temp_f|2018-07-01T00:00:00Z,"The answer, pooled",87.01,87.008000,-0.002000,agrees
+series|flex_alert_model|erw:flex_alert_model|alert_days_hotter_than_threshold|2018-07-01T00:00:00Z,"The answer, pooled",34,34.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-09T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-09T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-09T00:00:00Z,"Every alert day, ranked",100.49,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-09T00:00:00Z,"Every alert day, ranked",0,0.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-09T00:00:00Z,"Every alert day, ranked","4,379.71",4379.705820,-0.004180,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-09T00:00:00Z,Each alert day through the evening,"4,379.71",4379.705820,-0.004180,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-09T00:00:00Z,"Every alert day, ranked","1,122.42",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-09T00:00:00Z,"Every alert day, ranked","7,742.54",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-09T00:00:00Z,"Every alert day, ranked",9.68,9.682523,0.002523,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-07T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-07T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-07T00:00:00Z,"Every alert day, ranked",93.54,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-07T00:00:00Z,"Every alert day, ranked",3,3.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-07T00:00:00Z,"Every alert day, ranked","2,391.41",2391.412600,0.002600,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-07T00:00:00Z,Each alert day through the evening,"2,391.41",2391.412600,0.002600,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-07T00:00:00Z,"Every alert day, ranked",-449.00,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-07T00:00:00Z,"Every alert day, ranked","5,091.03",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-07T00:00:00Z,"Every alert day, ranked",5.59,5.588142,-0.001858,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-09T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-09T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-09T00:00:00Z,"Every alert day, ranked",90.75,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-09T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-09T00:00:00Z,"Every alert day, ranked","2,159.40",2159.403960,0.003960,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-09T00:00:00Z,Each alert day through the evening,"2,159.40",2159.403960,0.003960,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-09T00:00:00Z,"Every alert day, ranked",-97.84,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-09T00:00:00Z,"Every alert day, ranked","4,425.06",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-09T00:00:00Z,"Every alert day, ranked",4.97,4.968716,-0.001284,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-08T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-08T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-08T00:00:00Z,"Every alert day, ranked",101.43,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-08T00:00:00Z,"Every alert day, ranked",0,0.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-08T00:00:00Z,"Every alert day, ranked","1,835.70",1835.700257,0.000257,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-08T00:00:00Z,Each alert day through the evening,"1,835.70",1835.700257,0.000257,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-08T00:00:00Z,"Every alert day, ranked","-1,004.04",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-08T00:00:00Z,"Every alert day, ranked","4,399.35",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-08T00:00:00Z,"Every alert day, ranked",3.77,3.771298,0.001298,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-16T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-16T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-16T00:00:00Z,"Every alert day, ranked",98.56,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-16T00:00:00Z,"Every alert day, ranked",1,1.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-16T00:00:00Z,"Every alert day, ranked","1,671.61",1671.611129,0.001129,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-16T00:00:00Z,Each alert day through the evening,"1,671.61",1671.611129,0.001129,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-16T00:00:00Z,"Every alert day, ranked",-898.77,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-16T00:00:00Z,"Every alert day, ranked","4,250.52",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-16T00:00:00Z,"Every alert day, ranked",3.88,3.879062,-0.000938,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-10T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-10T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-10T00:00:00Z,"Every alert day, ranked",91.29,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-10T00:00:00Z,"Every alert day, ranked",12,12.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-10T00:00:00Z,"Every alert day, ranked","1,589.60",1589.601360,0.001360,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-10T00:00:00Z,Each alert day through the evening,"1,589.60",1589.601360,0.001360,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-10T00:00:00Z,"Every alert day, ranked",-589.92,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-10T00:00:00Z,"Every alert day, ranked","3,749.19",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-10T00:00:00Z,"Every alert day, ranked",3.89,3.885264,-0.004736,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-04T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-04T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-04T00:00:00Z,"Every alert day, ranked",97.79,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-04T00:00:00Z,"Every alert day, ranked",1,1.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-04T00:00:00Z,"Every alert day, ranked","1,196.25",1196.247380,-0.002620,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-04T00:00:00Z,Each alert day through the evening,"1,196.25",1196.247380,-0.002620,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-04T00:00:00Z,"Every alert day, ranked","-1,556.73",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-04T00:00:00Z,"Every alert day, ranked","3,624.08",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-04T00:00:00Z,"Every alert day, ranked",2.71,2.713942,0.003942,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-18T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-18T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-18T00:00:00Z,"Every alert day, ranked",94.01,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-18T00:00:00Z,"Every alert day, ranked",2,2.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-18T00:00:00Z,"Every alert day, ranked","1,185.69",1185.690086,0.000086,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-18T00:00:00Z,Each alert day through the evening,"1,185.69",1185.690086,0.000086,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-18T00:00:00Z,"Every alert day, ranked","-1,379.41",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-18T00:00:00Z,"Every alert day, ranked","3,570.88",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-18T00:00:00Z,"Every alert day, ranked",2.59,2.589377,-0.000623,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-17T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-17T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-17T00:00:00Z,"Every alert day, ranked",90.46,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-17T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-17T00:00:00Z,"Every alert day, ranked",460.11,460.110314,0.000314,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-17T00:00:00Z,Each alert day through the evening,460.11,460.110314,0.000314,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-17T00:00:00Z,"Every alert day, ranked","-2,013.70",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-17T00:00:00Z,"Every alert day, ranked","2,723.91",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-17T00:00:00Z,"Every alert day, ranked",1.06,1.056723,-0.003277,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-06T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-06T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-06T00:00:00Z,"Every alert day, ranked",100.56,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-06T00:00:00Z,"Every alert day, ranked",0,0.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-06T00:00:00Z,"Every alert day, ranked",258.24,258.239133,-0.000867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-06T00:00:00Z,Each alert day through the evening,258.24,258.239133,-0.000867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-06T00:00:00Z,"Every alert day, ranked","-2,580.17",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-06T00:00:00Z,"Every alert day, ranked","3,015.70",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-06T00:00:00Z,"Every alert day, ranked",0.57,0.570956,0.000956,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-14T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-14T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-14T00:00:00Z,"Every alert day, ranked",91.97,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-14T00:00:00Z,"Every alert day, ranked",8,8.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-14T00:00:00Z,"Every alert day, ranked",106.59,106.588614,-0.001386,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-14T00:00:00Z,Each alert day through the evening,106.59,106.588614,-0.001386,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-14T00:00:00Z,"Every alert day, ranked","-2,181.32",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-14T00:00:00Z,"Every alert day, ranked","2,399.67",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-14T00:00:00Z,"Every alert day, ranked",0.24,0.241495,0.001495,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-29T00:00:00Z,"Every alert day, ranked",18,18.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-29T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-29T00:00:00Z,"Every alert day, ranked",86.40,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-29T00:00:00Z,"Every alert day, ranked",162,,,named: below the held-out threshold the training days' highs are not in the tables (they are in the panel)
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-29T00:00:00Z,"Every alert day, ranked",-69.50,-69.499133,0.000867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-29T00:00:00Z,Each alert day through the evening,-69.50,-69.499133,0.000867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-29T00:00:00Z,"Every alert day, ranked","-2,460.52",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-29T00:00:00Z,"Every alert day, ranked","2,016.33",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-29T00:00:00Z,"Every alert day, ranked",-0.18,-0.174972,0.005028,"named difference: rounded twice: the table holds -0.175 (three decimals) of -0.17497, and the page rounds that to -0.18; from the hours, -0.17 (faults, row 6)"
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-10-15T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-10-15T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-10-15T00:00:00Z,"Every alert day, ranked",85.66,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-10-15T00:00:00Z,"Every alert day, ranked",211,,,named: below the held-out threshold the training days' highs are not in the tables (they are in the panel)
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-15T00:00:00Z,"Every alert day, ranked",-155.15,-155.153086,-0.003086,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-15T00:00:00Z,Each alert day through the evening,-155.15,-155.153086,-0.003086,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-10-15T00:00:00Z,"Every alert day, ranked","-2,440.36",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-10-15T00:00:00Z,"Every alert day, ranked","2,025.36",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-10-15T00:00:00Z,"Every alert day, ranked",-0.44,-0.441629,-0.001629,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2019-07-28T00:00:00Z,"Every alert day, ranked",18,18.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2019-07-28T00:00:00Z,"Every alert day, ranked",24,24.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2019-07-28T00:00:00Z,"Every alert day, ranked",87.33,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2019-07-28T00:00:00Z,"Every alert day, ranked",109,109.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2019-07-28T00:00:00Z,"Every alert day, ranked",-225.50,-225.496467,0.003533,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2019-07-28T00:00:00Z,Each alert day through the evening,-225.50,-225.496467,0.003533,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2019-07-28T00:00:00Z,"Every alert day, ranked","-2,220.79",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2019-07-28T00:00:00Z,"Every alert day, ranked","1,501.22",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2019-07-28T00:00:00Z,"Every alert day, ranked",-0.64,-0.644098,-0.004098,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-28T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-28T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-28T00:00:00Z,"Every alert day, ranked",85.82,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-28T00:00:00Z,"Every alert day, ranked",200,,,named: below the held-out threshold the training days' highs are not in the tables (they are in the panel)
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-28T00:00:00Z,"Every alert day, ranked",-261.84,-261.836020,0.003980,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-28T00:00:00Z,Each alert day through the evening,-261.84,-261.836020,0.003980,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-28T00:00:00Z,"Every alert day, ranked","-2,629.81",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-28T00:00:00Z,"Every alert day, ranked","1,951.82",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-28T00:00:00Z,"Every alert day, ranked",-0.66,-0.664117,-0.004117,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-06-18T00:00:00Z,"Every alert day, ranked",18,18.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-06-18T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-06-18T00:00:00Z,"Every alert day, ranked",88.65,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-06-18T00:00:00Z,"Every alert day, ranked",49,49.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-18T00:00:00Z,"Every alert day, ranked",-494.25,-494.245500,0.004500,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-18T00:00:00Z,Each alert day through the evening,-494.25,-494.245500,0.004500,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-06-18T00:00:00Z,"Every alert day, ranked","-2,886.36",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-06-18T00:00:00Z,"Every alert day, ranked","1,853.36",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-06-18T00:00:00Z,"Every alert day, ranked",-1.29,-1.287396,0.002604,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-01T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-01T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-01T00:00:00Z,"Every alert day, ranked",94.41,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-01T00:00:00Z,"Every alert day, ranked",2,2.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-01T00:00:00Z,"Every alert day, ranked",-658.29,-658.285660,0.004340,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-01T00:00:00Z,Each alert day through the evening,-658.29,-658.285660,0.004340,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-01T00:00:00Z,"Every alert day, ranked","-3,049.66",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-01T00:00:00Z,"Every alert day, ranked","1,618.05",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-01T00:00:00Z,"Every alert day, ranked",-1.46,-1.460102,-0.000102,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-06-17T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-06-17T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-06-17T00:00:00Z,"Every alert day, ranked",87.24,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-06-17T00:00:00Z,"Every alert day, ranked",114,114.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-17T00:00:00Z,"Every alert day, ranked",-760.25,-760.248400,0.001600,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-17T00:00:00Z,Each alert day through the evening,-760.25,-760.248400,0.001600,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-06-17T00:00:00Z,"Every alert day, ranked","-2,866.22",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-06-17T00:00:00Z,"Every alert day, ranked","1,323.66",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-06-17T00:00:00Z,"Every alert day, ranked",-1.96,-1.964946,-0.004946,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-10-01T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-10-01T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-10-01T00:00:00Z,"Every alert day, ranked",92.10,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-10-01T00:00:00Z,"Every alert day, ranked",8,8.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-01T00:00:00Z,"Every alert day, ranked",-761.06,-761.062714,-0.002714,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-01T00:00:00Z,Each alert day through the evening,-761.06,-761.062714,-0.002714,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-10-01T00:00:00Z,"Every alert day, ranked","-3,059.73",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-10-01T00:00:00Z,"Every alert day, ranked","1,475.77",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-10-01T00:00:00Z,"Every alert day, ranked",-1.94,-1.942120,-0.002120,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-15T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-15T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-15T00:00:00Z,"Every alert day, ranked",93.03,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-15T00:00:00Z,"Every alert day, ranked",5,5.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-15T00:00:00Z,"Every alert day, ranked",-763.67,-763.668950,0.001050,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-15T00:00:00Z,Each alert day through the evening,-763.67,-763.668950,0.001050,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-15T00:00:00Z,"Every alert day, ranked","-3,103.00",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-15T00:00:00Z,"Every alert day, ranked","1,751.36",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-15T00:00:00Z,"Every alert day, ranked",-1.79,-1.793194,-0.003194,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-20T00:00:00Z,"Every alert day, ranked",19,19.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-20T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-20T00:00:00Z,"Every alert day, ranked",87.78,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-20T00:00:00Z,"Every alert day, ranked",87,87.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-20T00:00:00Z,"Every alert day, ranked","-1,041.50",-1041.498067,0.001933,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-20T00:00:00Z,Each alert day through the evening,"-1,041.50",-1041.498067,0.001933,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-20T00:00:00Z,"Every alert day, ranked","-3,128.29",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-20T00:00:00Z,"Every alert day, ranked",829.47,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-20T00:00:00Z,"Every alert day, ranked",-2.62,-2.616139,0.003861,agrees
+series|flex_alert_effects|eia930:CISO|value_usd|2023-07-20T00:00:00Z,"Every alert day, ranked","-479,791",-479791.008387,-0.008387,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-19T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-19T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-19T00:00:00Z,"Every alert day, ranked",91.62,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-19T00:00:00Z,"Every alert day, ranked",11,11.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-19T00:00:00Z,"Every alert day, ranked","-1,108.79",-1108.785171,0.004829,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-19T00:00:00Z,Each alert day through the evening,"-1,108.79",-1108.785171,0.004829,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-19T00:00:00Z,"Every alert day, ranked","-3,401.32",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-19T00:00:00Z,"Every alert day, ranked","1,250.41",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-19T00:00:00Z,"Every alert day, ranked",-2.63,-2.630209,-0.000209,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-08-31T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-08-31T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-08-31T00:00:00Z,"Every alert day, ranked",91.11,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-08-31T00:00:00Z,"Every alert day, ranked",13,13.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-31T00:00:00Z,"Every alert day, ranked","-1,251.43",-1251.434720,-0.004720,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-31T00:00:00Z,Each alert day through the evening,"-1,251.43",-1251.434720,-0.004720,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-08-31T00:00:00Z,"Every alert day, ranked","-3,616.15",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-08-31T00:00:00Z,"Every alert day, ranked",948.19,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-08-31T00:00:00Z,"Every alert day, ranked",-2.94,-2.938429,0.001571,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-05T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-05T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-05T00:00:00Z,"Every alert day, ranked",97.50,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-05T00:00:00Z,"Every alert day, ranked",1,1.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-05T00:00:00Z,"Every alert day, ranked","-1,266.05",-1266.049983,0.000017,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-05T00:00:00Z,Each alert day through the evening,"-1,266.05",-1266.049983,0.000017,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-05T00:00:00Z,"Every alert day, ranked","-4,118.91",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-05T00:00:00Z,"Every alert day, ranked","1,339.89",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-05T00:00:00Z,"Every alert day, ranked",-2.79,-2.785653,0.004347,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-09-08T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-09-08T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-09-08T00:00:00Z,"Every alert day, ranked",87.37,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-09-08T00:00:00Z,"Every alert day, ranked",109,109.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-08T00:00:00Z,"Every alert day, ranked","-1,354.95",-1354.946780,0.003220,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-08T00:00:00Z,Each alert day through the evening,"-1,354.95",-1354.946780,0.003220,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-09-08T00:00:00Z,"Every alert day, ranked","-3,831.54",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-09-08T00:00:00Z,"Every alert day, ranked",822.55,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-09-08T00:00:00Z,"Every alert day, ranked",-3.34,-3.335151,0.004849,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-09-09T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-09-09T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2021-09-09T00:00:00Z,"Every alert day, ranked",91.85,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-09-09T00:00:00Z,"Every alert day, ranked",9,9.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-09T00:00:00Z,"Every alert day, ranked","-1,413.44",-1413.436540,0.003460,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-09T00:00:00Z,Each alert day through the evening,"-1,413.44",-1413.436540,0.003460,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-09-09T00:00:00Z,"Every alert day, ranked","-3,545.61",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-09-09T00:00:00Z,"Every alert day, ranked",737.57,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2021-09-09T00:00:00Z,"Every alert day, ranked",-3.53,-3.533365,-0.003365,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-06T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-06T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-06T00:00:00Z,"Every alert day, ranked",98.78,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-06T00:00:00Z,"Every alert day, ranked",1,1.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-06T00:00:00Z,"Every alert day, ranked","-1,452.00",-1451.996200,0.003800,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-06T00:00:00Z,Each alert day through the evening,"-1,452.00",-1451.996200,0.003800,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-06T00:00:00Z,"Every alert day, ranked","-4,565.31",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-06T00:00:00Z,"Every alert day, ranked","1,494.75",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-06T00:00:00Z,"Every alert day, ranked",-3.04,-3.038755,0.001245,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2018-07-24T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2018-07-24T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2018-07-24T00:00:00Z,"Every alert day, ranked",91.06,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2018-07-24T00:00:00Z,"Every alert day, ranked",14,14.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-24T00:00:00Z,"Every alert day, ranked","-1,695.84",-1695.836875,0.003125,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-24T00:00:00Z,Each alert day through the evening,"-1,695.84",-1695.836875,0.003125,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2018-07-24T00:00:00Z,"Every alert day, ranked","-4,206.93",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2018-07-24T00:00:00Z,"Every alert day, ranked",612.51,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2018-07-24T00:00:00Z,"Every alert day, ranked",-3.94,-3.944021,-0.004021,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2019-06-11T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2019-06-11T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2019-06-11T00:00:00Z,"Every alert day, ranked",87.31,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2019-06-11T00:00:00Z,"Every alert day, ranked",110,110.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2019-06-11T00:00:00Z,"Every alert day, ranked","-1,890.81",-1890.810450,-0.000450,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2019-06-11T00:00:00Z,Each alert day through the evening,"-1,890.81",-1890.810450,-0.000450,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2019-06-11T00:00:00Z,"Every alert day, ranked","-4,147.93",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2019-06-11T00:00:00Z,"Every alert day, ranked",332.21,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2019-06-11T00:00:00Z,"Every alert day, ranked",-4.89,-4.888633,0.001367,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2018-07-25T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2018-07-25T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2018-07-25T00:00:00Z,"Every alert day, ranked",89.73,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2018-07-25T00:00:00Z,"Every alert day, ranked",30,30.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-25T00:00:00Z,"Every alert day, ranked","-1,916.16",-1916.158550,0.001450,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-25T00:00:00Z,Each alert day through the evening,"-1,916.16",-1916.158550,0.001450,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2018-07-25T00:00:00Z,"Every alert day, ranked","-4,434.58",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2018-07-25T00:00:00Z,"Every alert day, ranked",306.11,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2018-07-25T00:00:00Z,"Every alert day, ranked",-4.49,-4.487534,0.002466,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-02T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-02T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-02T00:00:00Z,"Every alert day, ranked",92.44,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-02T00:00:00Z,"Every alert day, ranked",8,8.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-02T00:00:00Z,"Every alert day, ranked","-1,997.36",-1997.358240,0.001760,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-02T00:00:00Z,Each alert day through the evening,"-1,997.36",-1997.358240,0.001760,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-02T00:00:00Z,"Every alert day, ranked","-4,704.20",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-02T00:00:00Z,"Every alert day, ranked",350.00,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-02T00:00:00Z,"Every alert day, ranked",-4.71,-4.708148,0.001852,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-03T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-03T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-03T00:00:00Z,"Every alert day, ranked",93.36,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-03T00:00:00Z,"Every alert day, ranked",4,4.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-03T00:00:00Z,"Every alert day, ranked","-1,998.45",-1998.451080,-0.001080,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-03T00:00:00Z,Each alert day through the evening,"-1,998.45",-1998.451080,-0.001080,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-03T00:00:00Z,"Every alert day, ranked","-4,651.72",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-03T00:00:00Z,"Every alert day, ranked",317.79,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-03T00:00:00Z,"Every alert day, ranked",-4.92,-4.916705,0.003295,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-26T00:00:00Z,"Every alert day, ranked",18,18.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-26T00:00:00Z,"Every alert day, ranked",22,22.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-26T00:00:00Z,"Every alert day, ranked",87.93,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-26T00:00:00Z,"Every alert day, ranked",77,78.000000,1.000000,"named difference: a tie: two held-out days have the day's own high, 87.926 F, at the table's three decimals; the builder compared unrounded highs and counted one (faults, row 7)"
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-26T00:00:00Z,"Every alert day, ranked","-2,361.89",-2361.888650,0.001350,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-26T00:00:00Z,Each alert day through the evening,"-2,361.89",-2361.888650,0.001350,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-26T00:00:00Z,"Every alert day, ranked","-4,374.42",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-26T00:00:00Z,"Every alert day, ranked",-269.75,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-26T00:00:00Z,"Every alert day, ranked",-5.97,-5.972153,-0.002153,agrees
+series|flex_alert_effects|eia930:CISO|value_usd|2023-07-26T00:00:00Z,"Every alert day, ranked",-1.33 million,-1329252.218994,747.781006,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2024-07-24T00:00:00Z,"Every alert day, ranked",17,17.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2024-07-24T00:00:00Z,"Every alert day, ranked",24,24.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2024-07-24T00:00:00Z,"Every alert day, ranked",88.12,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2024-07-24T00:00:00Z,"Every alert day, ranked",69,69.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2024-07-24T00:00:00Z,"Every alert day, ranked","-2,413.33",-2413.332129,-0.002129,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2024-07-24T00:00:00Z,Each alert day through the evening,"-2,413.33",-2413.332129,-0.002129,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2024-07-24T00:00:00Z,"Every alert day, ranked","-4,526.22",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2024-07-24T00:00:00Z,"Every alert day, ranked",-638.29,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2024-07-24T00:00:00Z,"Every alert day, ranked",-6.05,-6.054528,-0.004528,agrees
+series|flex_alert_effects|eia930:CISO|value_usd|2024-07-24T00:00:00Z,"Every alert day, ranked",-1.68 million,-1684221.084439,-4221.084439,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-05T00:00:00Z,"Every alert day, ranked",15,15.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-05T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-05T00:00:00Z,"Every alert day, ranked",91.19,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-05T00:00:00Z,"Every alert day, ranked",13,13.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-05T00:00:00Z,"Every alert day, ranked","-2,556.11",-2556.113867,-0.003867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-05T00:00:00Z,Each alert day through the evening,"-2,556.11",-2556.113867,-0.003867,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-05T00:00:00Z,"Every alert day, ranked","-5,331.91",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-05T00:00:00Z,"Every alert day, ranked",-296.13,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-05T00:00:00Z,"Every alert day, ranked",-6.20,-6.198235,0.001765,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-08-17T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-08-17T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-08-17T00:00:00Z,"Every alert day, ranked",83.84,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-08-17T00:00:00Z,"Every alert day, ranked",363,,,named: below the held-out threshold the training days' highs are not in the tables (they are in the panel)
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-17T00:00:00Z,"Every alert day, ranked","-2,597.28",-2597.275720,0.004280,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-17T00:00:00Z,Each alert day through the evening,"-2,597.28",-2597.275720,0.004280,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-08-17T00:00:00Z,"Every alert day, ranked","-5,126.24",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-08-17T00:00:00Z,"Every alert day, ranked",-359.29,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-08-17T00:00:00Z,"Every alert day, ranked",-6.64,-6.644497,-0.004497,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-25T00:00:00Z,"Every alert day, ranked",19,19.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-25T00:00:00Z,"Every alert day, ranked",24,24.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-25T00:00:00Z,"Every alert day, ranked",87.19,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-25T00:00:00Z,"Every alert day, ranked",118,118.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-25T00:00:00Z,"Every alert day, ranked","-2,788.85",-2788.850020,-0.000020,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-25T00:00:00Z,Each alert day through the evening,"-2,788.85",-2788.850020,-0.000020,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-25T00:00:00Z,"Every alert day, ranked","-4,561.55",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-25T00:00:00Z,"Every alert day, ranked",-978.34,,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-25T00:00:00Z,"Every alert day, ranked",-7.41,-7.406370,0.003630,agrees
+series|flex_alert_effects|eia930:CISO|value_usd|2023-07-25T00:00:00Z,"Every alert day, ranked",-1.98 million,-1976096.350945,3903.649055,agrees
+series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-07T00:00:00Z,"Every alert day, ranked",16,16.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-07T00:00:00Z,"Every alert day, ranked",21,21.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-07T00:00:00Z,"Every alert day, ranked",94.48,,,named: the day's population-weighted high: NOAA's hourly readings (noaa_isd_hourly) are not on this machine; the notebook rebuilds it
+series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-07T00:00:00Z,"Every alert day, ranked",2,2.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-07T00:00:00Z,"Every alert day, ranked","-4,170.93",-4170.928260,0.001740,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-07T00:00:00Z,Each alert day through the evening,"-4,170.93",-4170.928260,0.001740,agrees
+series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-07T00:00:00Z,"Every alert day, ranked","-6,934.16",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-07T00:00:00Z,"Every alert day, ranked","-1,417.63",,,"named: the bootstrap's 90 percent interval: 1,000 refits of the 24 hourly models on resampled weeks (seed 20261002) need the panel; the notebook rebuilds it"
+series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-07T00:00:00Z,"Every alert day, ranked",-9.44,-9.441558,-0.001558,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2018-01-01T00:00:00Z,Year by year,2,2.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2018-01-01T00:00:00Z,Year by year,8,8.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2018-01-01T00:00:00Z,Year by year,"-1,806.00",-1805.997712,0.002288,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2018-01-01T00:00:00Z,Year by year,"-3,652.12",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2018-01-01T00:00:00Z,Year by year,166.68,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2018-01-01T00:00:00Z,Year by year,"-14,447.98",-14447.981700,-0.001700,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2019-01-01T00:00:00Z,Year by year,2,2.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2019-01-01T00:00:00Z,Year by year,12,12.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2019-01-01T00:00:00Z,Year by year,"-1,058.15",-1058.153458,-0.003458,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2019-01-01T00:00:00Z,Year by year,"-2,611.33",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2019-01-01T00:00:00Z,Year by year,547.23,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2019-01-01T00:00:00Z,Year by year,"-12,697.84",-12697.841500,-0.001500,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2020-01-01T00:00:00Z,Year by year,11,11.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2020-01-01T00:00:00Z,Year by year,71,71.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2020-01-01T00:00:00Z,Year by year,102.81,102.810501,0.000501,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2020-01-01T00:00:00Z,Year by year,-968.79,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2020-01-01T00:00:00Z,Year by year,"1,150.63",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2020-01-01T00:00:00Z,Year by year,"7,299.55",7299.545600,-0.004400,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2021-01-01T00:00:00Z,Year by year,8,8.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2021-01-01T00:00:00Z,Year by year,36,36.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2021-01-01T00:00:00Z,Year by year,-52.74,-52.737389,0.002611,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2021-01-01T00:00:00Z,Year by year,"-1,001.65",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2021-01-01T00:00:00Z,Year by year,933.36,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2021-01-01T00:00:00Z,Year by year,"-1,898.55",-1898.546000,0.004000,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2022-01-01T00:00:00Z,Year by year,11,11.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2022-01-01T00:00:00Z,Year by year,58,58.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2022-01-01T00:00:00Z,Year by year,-646.47,-646.470371,-0.000371,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2022-01-01T00:00:00Z,Year by year,"-2,066.35",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2022-01-01T00:00:00Z,Year by year,694.37,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2022-01-01T00:00:00Z,Year by year,"-37,495.28",-37495.281500,-0.001500,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2023-01-01T00:00:00Z,Year by year,3,3.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2023-01-01T00:00:00Z,Year by year,12,12.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2023-01-01T00:00:00Z,Year by year,"-2,209.69",-2209.691575,-0.001575,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2023-01-01T00:00:00Z,Year by year,"-3,417.89",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2023-01-01T00:00:00Z,Year by year,-856.97,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2023-01-01T00:00:00Z,Year by year,"-26,516.30",-26516.298900,0.001100,agrees
+series|flex_alert_effects|eia930:CISO|year_days|2024-01-01T00:00:00Z,Year by year,1,1.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_hours|2024-01-01T00:00:00Z,Year by year,7,7.000000,0.000000,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw|2024-01-01T00:00:00Z,Year by year,"-2,413.33",-2413.332129,-0.002129,agrees
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2024-01-01T00:00:00Z,Year by year,"-4,526.22",,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2024-01-01T00:00:00Z,Year by year,-638.29,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2024-01-01T00:00:00Z,Year by year,"-16,893.33",-16893.324900,0.005100,"named difference: rounded twice: the table holds -16,893.325 of -16,893.3249, and the page rounds that to -16,893.33; from the hours, -16,893.32 (faults, row 6)"
+series|flex_alert_model|erw:flex_alert_model|pooled_value_hours|2018-07-01T00:00:00Z,"What it was worth, at the day-ahead price",19,19.000000,0.000000,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_value_usd|2018-07-01T00:00:00Z,"What it was worth, at the day-ahead price",-5.47 million,-5469360.662765,639.337235,agrees
+series|flex_alert_model|erw:flex_alert_model|pooled_value_usd_lo|2018-07-01T00:00:00Z,"What it was worth, at the day-ahead price",-8.04 million,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|pooled_value_usd_hi|2018-07-01T00:00:00Z,"What it was worth, at the day-ahead price",-2.6 million,,,named: the bootstrap's 90 percent interval (as for a day)
+series|flex_alert_model|erw:flex_alert_model|heldout_price_mean_usd_mwh|2018-07-01T00:00:00Z,"What it was worth, at the day-ahead price",137.07,137.074922,0.004922,agrees
+notices|2022-09-09|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-09|types,"Every alert day, ranked","EEA 1, EEA Watch, Flex Alert","EEA 1, EEA Watch, Flex Alert",,agrees
+notices|2020-09-07|alert_hours,"Every alert day, ranked",15:00 to 21:00,15:00 to 21:00,,agrees
+notices|2020-09-07|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2021-07-09|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2021-07-09|types,"Every alert day, ranked","Flex Alert, Stage 2, Warning","Flex Alert, Stage 2, Warning",,agrees
+notices|2022-09-08|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2022-09-08|types,"Every alert day, ranked","EEA 1, EEA 2, EEA Watch, Flex Alert","EEA 1, EEA 2, EEA Watch, Flex Alert",,agrees
+notices|2020-08-16|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-08-16|types,"Every alert day, ranked","Alert, Flex Alert, Warning","Alert, Flex Alert, Warning",,agrees
+notices|2021-07-10|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2021-07-10|types,"Every alert day, ranked","Flex Alert, Warning","Flex Alert, Warning",,agrees
+notices|2022-09-04|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-04|types,"Every alert day, ranked","EEA Watch, Flex Alert","EEA Watch, Flex Alert",,agrees
+notices|2020-08-18|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-08-18|types,"Every alert day, ranked","Alert, Flex Alert, Load interruption, Stage 2, Warning","Alert, Flex Alert, Load interruption, Stage 2, Warning",,agrees
+notices|2020-08-17|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-08-17|types,"Every alert day, ranked","Alert, Flex Alert, Stage 2, Warning","Alert, Flex Alert, Stage 2, Warning",,agrees
+notices|2020-09-06|alert_hours,"Every alert day, ranked",15:00 to 21:00,15:00 to 21:00,,agrees
+notices|2020-09-06|types,"Every alert day, ranked","Alert, Flex Alert, Stage 2, Warning","Alert, Flex Alert, Stage 2, Warning",,agrees
+notices|2020-08-14|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-08-14|types,"Every alert day, ranked","Alert, Flex Alert, Stage 2, Stage 3, Warning","Alert, Flex Alert, Stage 2, Stage 3, Warning",,agrees
+notices|2021-07-29|alert_hours,"Every alert day, ranked",18:00 to 21:00,18:00 to 21:00,,agrees
+notices|2021-07-29|types,"Every alert day, ranked",Warning,Warning,,agrees
+notices|2020-10-15|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-10-15|types,"Every alert day, ranked","Alert, Flex Alert","Alert, Flex Alert",,agrees
+notices|2019-07-28|alert_hours,"Every alert day, ranked",18:00 to 24:00,18:00 to 24:00,,agrees
+notices|2019-07-28|types,"Every alert day, ranked",Warning,Warning,,agrees
+notices|2021-07-28|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2021-07-28|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2021-06-18|alert_hours,"Every alert day, ranked",18:00 to 21:00,18:00 to 21:00,,agrees
+notices|2021-06-18|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2022-09-01|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-01|types,"Every alert day, ranked","EEA Watch, Flex Alert","EEA Watch, Flex Alert",,agrees
+notices|2021-06-17|alert_hours,"Every alert day, ranked",17:00 to 22:00,17:00 to 22:00,,agrees
+notices|2021-06-17|types,"Every alert day, ranked","Flex Alert, Warning","Flex Alert, Warning",,agrees
+notices|2020-10-01|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-10-01|types,"Every alert day, ranked",Alert,"Alert, Flex Alert",,"named difference: the Flex Alert for 1 October 2020 is dated 30 September in caiso_grid_emergencies (the day it was issued), so the page's notices cell for 2020-10-01 lacks it (faults, row 3, data machine)"
+notices|2020-08-15|alert_hours,"Every alert day, ranked",17:00 to 21:00,17:00 to 21:00,,agrees
+notices|2020-08-15|types,"Every alert day, ranked","Alert, Stage 2, Stage 3, Warning","Alert, Stage 2, Stage 3, Warning",,agrees
+notices|2023-07-20|alert_hours,"Every alert day, ranked",19:00 to 22:00,19:00 to 22:00,,agrees
+notices|2023-07-20|types,"Every alert day, ranked",EEA 1,EEA 1,,agrees
+notices|2020-08-19|alert_hours,"Every alert day, ranked",15:00 to 22:00,15:00 to 22:00,,agrees
+notices|2020-08-19|types,"Every alert day, ranked","Alert, Flex Alert","Alert, Flex Alert",,agrees
+notices|2022-08-31|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-08-31|types,"Every alert day, ranked","EEA 1, EEA Watch, Flex Alert","EEA 1, EEA Watch, Flex Alert",,agrees
+notices|2022-09-05|alert_hours,"Every alert day, ranked",16:00 to 22:00,16:00 to 22:00,,agrees
+notices|2022-09-05|types,"Every alert day, ranked","EEA 1, EEA 2, EEA Watch, Flex Alert","EEA 1, EEA 2, EEA Watch, Flex Alert",,agrees
+notices|2021-09-08|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2021-09-08|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2021-09-09|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2021-09-09|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2022-09-06|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-06|types,"Every alert day, ranked","EEA 1, EEA 2, EEA 3, EEA Watch, Flex Alert","EEA 1, EEA 2, EEA 3, EEA Watch, Flex Alert",,agrees
+notices|2018-07-24|alert_hours,"Every alert day, ranked",17:00 to 21:00,17:00 to 21:00,,agrees
+notices|2018-07-24|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2019-06-11|alert_hours,"Every alert day, ranked",16:00 to 22:00,16:00 to 22:00,,agrees
+notices|2019-06-11|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2018-07-25|alert_hours,"Every alert day, ranked",17:00 to 21:00,17:00 to 21:00,,agrees
+notices|2018-07-25|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2022-09-02|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-02|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2022-09-03|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-03|types,"Every alert day, ranked","EEA Watch, Flex Alert","EEA Watch, Flex Alert",,agrees
+notices|2023-07-26|alert_hours,"Every alert day, ranked",18:00 to 22:00,18:00 to 22:00,,agrees
+notices|2023-07-26|types,"Every alert day, ranked",EEA Watch,EEA Watch,,agrees
+notices|2024-07-24|alert_hours,"Every alert day, ranked",17:00 to 24:00,17:00 to 24:00,,agrees
+notices|2024-07-24|types,"Every alert day, ranked",EEA Watch,EEA Watch,,agrees
+notices|2020-09-05|alert_hours,"Every alert day, ranked",15:00 to 21:00,15:00 to 21:00,,agrees
+notices|2020-09-05|types,"Every alert day, ranked","Flex Alert, Stage 2, Warning","Flex Alert, Stage 2, Warning",,agrees
+notices|2022-08-17|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-08-17|types,"Every alert day, ranked",Flex Alert,Flex Alert,,agrees
+notices|2023-07-25|alert_hours,"Every alert day, ranked",19:00 to 24:00,19:00 to 24:00,,agrees
+notices|2023-07-25|types,"Every alert day, ranked",EEA Watch,EEA Watch,,agrees
+notices|2022-09-07|alert_hours,"Every alert day, ranked",16:00 to 21:00,16:00 to 21:00,,agrees
+notices|2022-09-07|types,"Every alert day, ranked","EEA 1, EEA 2, EEA Watch, Flex Alert","EEA 1, EEA 2, EEA Watch, Flex Alert",,agrees
+chart|2018-07-24|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2018-07-24|gw_bottom,Each alert day through the evening,31 GW,31 GW,,agrees
+chart|2018-07-24|alert_boxes,Each alert day through the evening,4,4,,agrees
+chart|2018-07-25|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2018-07-25|gw_bottom,Each alert day through the evening,31 GW,31 GW,,agrees
+chart|2018-07-25|alert_boxes,Each alert day through the evening,4,4,,agrees
+chart|2019-06-11|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2019-06-11|gw_bottom,Each alert day through the evening,29 GW,29 GW,,agrees
+chart|2019-06-11|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2019-07-28|gw_top,Each alert day through the evening,40 GW,40 GW,,agrees
+chart|2019-07-28|gw_bottom,Each alert day through the evening,27 GW,27 GW,,agrees
+chart|2019-07-28|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2020-08-14|gw_top,Each alert day through the evening,49 GW,49 GW,,agrees
+chart|2020-08-14|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2020-08-14|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-08-15|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2020-08-15|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2020-08-15|alert_boxes,Each alert day through the evening,4,4,,agrees
+chart|2020-08-16|gw_top,Each alert day through the evening,49 GW,49 GW,,agrees
+chart|2020-08-16|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2020-08-16|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-08-17|gw_top,Each alert day through the evening,48 GW,48 GW,,agrees
+chart|2020-08-17|gw_bottom,Each alert day through the evening,33 GW,33 GW,,agrees
+chart|2020-08-17|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-08-18|gw_top,Each alert day through the evening,52 GW,52 GW,,agrees
+chart|2020-08-18|gw_bottom,Each alert day through the evening,33 GW,33 GW,,agrees
+chart|2020-08-18|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-08-19|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2020-08-19|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2020-08-19|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-09-05|gw_top,Each alert day through the evening,46 GW,46 GW,,agrees
+chart|2020-09-05|gw_bottom,Each alert day through the evening,27 GW,27 GW,,agrees
+chart|2020-09-05|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2020-09-06|gw_top,Each alert day through the evening,51 GW,51 GW,,agrees
+chart|2020-09-06|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2020-09-06|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2020-09-07|gw_top,Each alert day through the evening,48 GW,48 GW,,agrees
+chart|2020-09-07|gw_bottom,Each alert day through the evening,30 GW,30 GW,,agrees
+chart|2020-09-07|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2020-10-01|gw_top,Each alert day through the evening,44 GW,44 GW,,agrees
+chart|2020-10-01|gw_bottom,Each alert day through the evening,27 GW,27 GW,,agrees
+chart|2020-10-01|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2020-10-15|gw_top,Each alert day through the evening,40 GW,40 GW,,agrees
+chart|2020-10-15|gw_bottom,Each alert day through the evening,25 GW,25 GW,,agrees
+chart|2020-10-15|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2021-06-17|gw_top,Each alert day through the evening,42 GW,42 GW,,agrees
+chart|2021-06-17|gw_bottom,Each alert day through the evening,28 GW,28 GW,,agrees
+chart|2021-06-17|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2021-06-18|gw_top,Each alert day through the evening,42 GW,42 GW,,agrees
+chart|2021-06-18|gw_bottom,Each alert day through the evening,28 GW,28 GW,,agrees
+chart|2021-06-18|alert_boxes,Each alert day through the evening,3,3,,agrees
+chart|2021-07-09|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2021-07-09|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2021-07-09|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2021-07-10|gw_top,Each alert day through the evening,44 GW,44 GW,,agrees
+chart|2021-07-10|gw_bottom,Each alert day through the evening,30 GW,30 GW,,agrees
+chart|2021-07-10|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2021-07-28|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2021-07-28|gw_bottom,Each alert day through the evening,28 GW,28 GW,,agrees
+chart|2021-07-28|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2021-07-29|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2021-07-29|gw_bottom,Each alert day through the evening,29 GW,29 GW,,agrees
+chart|2021-07-29|alert_boxes,Each alert day through the evening,3,3,,agrees
+chart|2021-09-08|gw_top,Each alert day through the evening,45 GW,45 GW,,agrees
+chart|2021-09-08|gw_bottom,Each alert day through the evening,28 GW,28 GW,,agrees
+chart|2021-09-08|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2021-09-09|gw_top,Each alert day through the evening,45 GW,45 GW,,agrees
+chart|2021-09-09|gw_bottom,Each alert day through the evening,28 GW,28 GW,,agrees
+chart|2021-09-09|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-08-17|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2022-08-17|gw_bottom,Each alert day through the evening,31 GW,31 GW,,agrees
+chart|2022-08-17|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-08-31|gw_top,Each alert day through the evening,47 GW,47 GW,,agrees
+chart|2022-08-31|gw_bottom,Each alert day through the evening,29 GW,29 GW,,agrees
+chart|2022-08-31|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-01|gw_top,Each alert day through the evening,50 GW,50 GW,,agrees
+chart|2022-09-01|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2022-09-01|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-02|gw_top,Each alert day through the evening,46 GW,46 GW,,agrees
+chart|2022-09-02|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2022-09-02|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-03|gw_top,Each alert day through the evening,45 GW,45 GW,,agrees
+chart|2022-09-03|gw_bottom,Each alert day through the evening,30 GW,30 GW,,agrees
+chart|2022-09-03|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-04|gw_top,Each alert day through the evening,48 GW,48 GW,,agrees
+chart|2022-09-04|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2022-09-04|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-05|gw_top,Each alert day through the evening,50 GW,50 GW,,agrees
+chart|2022-09-05|gw_bottom,Each alert day through the evening,35 GW,35 GW,,agrees
+chart|2022-09-05|alert_boxes,Each alert day through the evening,6,6,,agrees
+chart|2022-09-06|gw_top,Each alert day through the evening,53 GW,53 GW,,agrees
+chart|2022-09-06|gw_bottom,Each alert day through the evening,35 GW,35 GW,,agrees
+chart|2022-09-06|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-07|gw_top,Each alert day through the evening,50 GW,50 GW,,agrees
+chart|2022-09-07|gw_bottom,Each alert day through the evening,34 GW,34 GW,,agrees
+chart|2022-09-07|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2022-09-08|gw_top,Each alert day through the evening,55 GW,55 GW,,agrees
+chart|2022-09-08|gw_bottom,Each alert day through the evening,35 GW,35 GW,,agrees
+chart|2022-09-08|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|2022-09-09|gw_top,Each alert day through the evening,53 GW,53 GW,,agrees
+chart|2022-09-09|gw_bottom,Each alert day through the evening,34 GW,34 GW,,agrees
+chart|2022-09-09|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2023-07-20|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2023-07-20|gw_bottom,Each alert day through the evening,27 GW,27 GW,,agrees
+chart|2023-07-20|alert_boxes,Each alert day through the evening,3,3,,agrees
+chart|2023-07-25|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2023-07-25|gw_bottom,Each alert day through the evening,27 GW,27 GW,,agrees
+chart|2023-07-25|alert_boxes,Each alert day through the evening,5,5,,agrees
+chart|2023-07-26|gw_top,Each alert day through the evening,43 GW,43 GW,,agrees
+chart|2023-07-26|gw_bottom,Each alert day through the evening,30 GW,30 GW,,agrees
+chart|2023-07-26|alert_boxes,Each alert day through the evening,4,4,,agrees
+chart|2024-07-24|gw_top,Each alert day through the evening,45 GW,45 GW,,agrees
+chart|2024-07-24|gw_bottom,Each alert day through the evening,32 GW,32 GW,,agrees
+chart|2024-07-24|alert_boxes,Each alert day through the evening,7,7,,agrees
+chart|check|labels,chart,"-4,704 / 0 / 4,704 / 87.0 F / 99.5 F, the day's highest weighted temperature","-4,704 / 0 / 4,704 / 87.0 F / 99.5 F, the day's highest weighted temperature",,agrees
+chart|year|labels,chart,"-4,526 / -2,263 / 0 / 575 / 1,151 / 2018 / 2019 / 2020 / 2021 / 2022 / 2023 / 2024","-4,526 / -2,263 / 0 / 575 / 1,151 / 2018 / 2019 / 2020 / 2021 / 2022 / 2023 / 2024",,agrees
+chart|check|dots,chart,128,128,,agrees
+words|days_priced,words,4,4,,agrees
+words|days_shown,words,38,38,,agrees
+words|ran,words,above,above,,agrees
+words|zero,words,includes zero,includes zero,,agrees
+words|last_alert,words,2024-07-24,2024-07-24,,agrees
+words|report_ends,words,2026-10-08,2026-10-08,,agrees
+words|later_alert_days,words,0,0,,agrees
+words|h1_years,head,2018 to 2024,2018 to 2024,,agrees
