@@ -19,7 +19,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 11 | `/events` and its nine event pages | samueloldlaptop | done line (branch `wip/7531-events`, head `6895f7876`, landing row 29 of `docs/state/landing_request_oldlaptop.md`) |
 | 12 | `/grid/caiso/alerts` | samueloldlaptop | done line (branch `wip/7532-caiso-alerts`, head `ac362d6f6`, landing row 30 of `docs/state/landing_request_oldlaptop.md`) |
 | 13 | `/learn/bill` | samueloldlaptop | done line (branch `wip/7533-learn-bill`, head `09eafa96e`, landing row 31 of `docs/state/landing_request_oldlaptop.md`) |
-| 14 | `/learn/problems` | samueloldlaptop | claimed |
+| 14 | `/learn/problems` | samueloldlaptop | done line (branch `wip/7534-learn-problems-b`, head `430032463`, landing row 32 of `docs/state/landing_request_oldlaptop.md`) |
 | 15 | `/play/battery` | samueloldlaptop | claimed |
 | 16 | `/play/ev` | samueloldlaptop | done line (branch `wip/7536-play-ev`, head `95943ca8e`, landing row 34 of `docs/state/landing_request_oldlaptop.md`) |
 | 17 | `/board` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h); read: samueloldlaptop (in work, session 7538, branch `wip/7538-board-read`) |

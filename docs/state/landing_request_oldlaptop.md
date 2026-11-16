@@ -36,6 +36,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 31 | `wip/7533-learn-bill` | `09eafa96e` | `7533-learn-bill` | 7533 | 2026-11-16 | `tests/test_session7533_bill.py` (11 passed) and `site/scripts/test-bill-render.mjs` (53 of 53, the page's parts drawn to HTML without a build); `bill-figures.mjs --check` (the whole page drawn on the committed rows, 439 figures as committed); 54 older test files that name the page, its library, its rules file, `components/Num.tsx` or the decisions blocks, or sweep the notes, each in its own process: all pass (699 tests in the 55 files); `check-methods.mjs` 544 of 544; `replication/bill/replicate.py`: 669 of 669 figures over 20 cases, exit 0; a narrow `tsc` with one message outside the change (`app/network/Network.tsx`, `three`); not built here (memory); `check-values` and `check-routes` not run | requested |
 | 29 | `wip/7531-events` | `6895f7876` | `7531-events` | 7531 | 2026-11-16 | `site/scripts/test-events-render.mjs` (42 of 42, the ten pages drawn to HTML without a build on the public rows beside the replication); `tests/test_session7531_events.py` with `test_session241a`, `test_session319`, `test_session92`: 47 passed, 15 skipped by their own rules (tables not on this machine); `replication/events/replicate.py` 1,176 of 1,176; not built here (memory) | requested |
 | 34 | `wip/7536-play-ev` | `95943ca8e` | `7536-play-ev` | 7536 | 2026-11-16 | `tests/test_session7536_ev_game.py` (9 passed) and `site/scripts/test-ev-game-render.mjs` (21 of 21, the game and the fold drawn to HTML without a build); `ev-game-figures.mjs --check` (5,141 figures as committed); 21 older test files that name the page, `lib/ev.ts`, the decisions blocks, the notes or the usage promise, each in its own process: all pass (`test_session294` updated for the credit's opening line); `test-ev.mjs` pass; `check-methods.mjs` 544 of 544; `replication/ev_game/replicate.py` on this machine's tables: 5,141 of 5,141 figures, prices 102 of 104 with 2 named, exit 0; `tsc`: no message in `app/play/ev`; not built here (memory); `check-values` and `check-routes` not run | requested |
+| 32 | `wip/7534-learn-problems-b` | `430032463` | `7534-learn-problems` | 7534 | 2026-11-16 | `tests/test_session7534_problem_sets.py` (8 passed) and `site/scripts/test-problem-sets-render.mjs` (5 sets, 15 choices, the note's list equal); the 22 older test files that name the problem sets: 231 passed, 34 skipped by their own rules (one pin of `test_session288` moved to the new words, its reason in the file); `replication/problem_sets/replicate.py` 146 of 146 live and 89 of 92 of the edition (3 named), exit 0; not built here (memory); `check-values` and `check-routes` not run | requested |
 
 ## Row 1: what it holds
 
@@ -402,3 +403,23 @@ Branch `wip/7202-key-refusal` from `origin/main`. Report: `archive/sessions/SESS
 - **Before landing:** a site build of the merged commit (none made here); `check-values` on `/play/ev` (the four `ev|US|` keys, unchanged values); `check-methods.mjs` with a base URL.
 - **Snapshot differences to expect:** none on the 25 addresses (every page is in review; a visitor sees the in-review page). With the review cookie, on `/play/ev`: the new closed fold "Decisions in this game" under the game; the opening figures unchanged ("3.2 years", "$5,131"). **Tables:** none.
 - **After the landing:** rows 126 to 130 of `docs/state/browser_reads_wanted.md`. Row 99 of `docs/state/data_requests_done_line.md` is the data machine's and does not hold this row; after it, `site/scripts/ev-game-figures.mjs` must be run again and `page_figures.*` committed (the replication refuses a figures file read from an older price file).
+
+## Row 32: what it holds (chain 304, session 7534, the problem sets at the done line)
+
+- **Stacked on** origin/main `dd2dabe11` (one squashed commit). Report: `archive/sessions/SESSION_7534_REPORT.md` on the branch.
+- **The branch was squashed and renamed** by the coordinator (session 7530): the session's first commit `710c68ce5` on `wip/7534-learn-problems` saved 702 rows of `cost_of_power_monthly` for ISO-NE, MISO and NYISO, which a license holds, in `replication/problem_sets/live_rows.csv`; the next commit removed them. The repository is public, so the six commits were put into one (`430032463`, the same files as the old head `d25fdbd3d`) on `wip/7534-learn-problems-b`, and the old remote branch was deleted (no force push). The old commits stay reachable on GitHub by their hash until GitHub collects them: for Samuel's ruling whether to ask GitHub to purge them. Land `wip/7534-learn-problems-b` only.
+- **What changes:** `site/lib/problems.ts` (set D question 1 reads 45 days and sums the seven latest days held; set B
+  question 2's words "The table's public rows hold"; set D question 5's days of the month; set D question 4's New
+  Mexico step from the rules file with its period); the new `site/app/learn/problems/Decisions.tsx`, mounted at the foot
+  of `site/app/learn/problems/page.tsx` and `[slug]/page.tsx` (a fold, server-drawn words, no handler); the note, the
+  replication folder, the two reviews, the scripts `site/scripts/problem-sets-*.mjs` and `test-problem-sets-render.mjs`,
+  the test, and one pin of `tests/test_session288.py`.
+- **What does not change:** every check key and figure of sets A, B, C and E; the editions' files; `site/lib/release.ts`;
+  every table.
+- **Before landing:** a build (the first of the three site files); `check-values` on the problem sets (set D question
+  1's keys change with its window: `series_sum|storage_daily_cycle|...|<first of the seven days>|...`). Decide ruling 1
+  (the held rows in the branch's history) before the merge; a squash keeps them off main.
+- **Snapshot differences to expect:** none on the 25 addresses. With the review cookie: `/learn/problems` gains the
+  fold; each set's page gains its fold; `storage-and-taxes` question 1 its days and figures, question 5 its words,
+  question 4's New Mexico step; `prices-and-your-bill` question 2 its first words. **Tables:** none.
+- **After the landing:** browser reads rows 106 to 110; data requests rows 79 and 80.
