@@ -339,13 +339,13 @@
   "rt|energy|priced": "every one",
   "basis|from": "2026-09-28",
   "rt|coverage_sentence": "Held: February to August 2026, 186 operating days.",
-  "basis|sentence": "It is not from the months above: it is the week of node prices ERCOT's public list held when it was read, from 28 September 2026, at the 293 settlement points storage resources are settled at."
+  "basis|sentence": "It is not from the months above: it is the 21 whole days of node prices kept from ERCOT's public list, which holds seven days at a time, from 28 September 2026, at the 293 settlement points storage resources are settled at."
  },
  "drawn": {
   "looked": 217,
   "found": 217,
   "missing": [],
   "offers_bytes": 15172,
-  "rt_bytes": 20602
+  "rt_bytes": 20651
  }
 }
