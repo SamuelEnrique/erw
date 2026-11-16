@@ -82,7 +82,7 @@ STORAGE_WORD = re.compile(r"storage|batter|\bbess\b", re.I)
 NAMED = [
     (re.compile(r"^mw\|(energy|capacity|tolling)\|mw\|(buyer|seller)\|\d+\|place$"),
      "the megawatts view's 'Place by contracts' is ranked by contracts then name; the view it points to ranks by contracts, then rows, then name. "
-     "Parties tied on contracts stand at different places in the two (faults row 5, the data machine's builder)."),
+     "Parties tied on contracts stand at different places in the two (faults row 7, the data machine's builder)."),
 ]
 
 
@@ -445,6 +445,8 @@ def compute(rows, history, ceiling, load_day, today, near=True):
             for r in of:
                 of_party[shown_as[group[r.buyer]] if role == "buyer" else r.company].add(r.contract)
             out = []
+            name_of = (lambda x: x) if role == "buyer" else (lambda x: seller_name[x])
+            by_name = {x: i for i, x in enumerate(sorted(of_party, key=lambda x: (-len(of_party[x]), name_of(x))), 1)}   # by contracts, then name: not the largest view's order
             for party, cs in of_party.items():
                 have = [stated[c] for c in cs if c in stated]
                 if have:
@@ -457,6 +459,7 @@ def compute(rows, history, ceiling, load_day, today, near=True):
                 W[f"{k}|party|mw|{role}|{i}"] = p["name"]
                 F[f"{k}|mw|{role}|{i}|mw"], F[f"{k}|mw|{role}|{i}|with"], F[f"{k}|mw|{role}|{i}|contracts"] = p["mw"], p["with"], p["contracts"]
                 F[f"{k}|mw|{role}|{i}|place"] = largest_rank[(role, slug)][p["key"]]        # its place in the largest view
+                F[f"check|by_name|{k}|mw|{role}|{i}|place"] = by_name[p["key"]]
 
     # ---- view 4: what the filings state (the note, section 7)
     k = "terms"
@@ -508,13 +511,16 @@ def compute(rows, history, ceiling, load_day, today, near=True):
 
     # ---- a server that holds no token (what a visitor's request can ever reach): no figure, no row
     F["no_token|figures_drawn"] = F["no_token|table_rows_drawn"] = 0
-    return F, W, {"cutoff": cutoff, "filed_for": filed_for, "live": len(live), "doubtful": dict(doubtful)}
+    companies = {q: len(s["companies"]) for q, s in history.items()}
+    companies[newest] = len({r.company for r in rows})
+    return F, W, {"cutoff": cutoff, "filed_for": filed_for, "live": len(live), "doubtful": dict(doubtful), "companies": companies}
 
 
 def read_history(path):
     """{quarter: {product or all: the contracts in force}} of the quarters before the newest."""
     sets = defaultdict(lambda: defaultdict(set))
     for r in rows_of(path):
+        sets[r["x_quarter"]]["companies"].add(r["x_company_id"])
         if r["x_actual_termination_date"].strip() != "":
             continue
         c = r["x_company_id"] + "|" + r["x_contract_unique_id"]
@@ -522,7 +528,7 @@ def read_history(path):
         slug = THREE.get(r["x_product_name"].strip().upper())
         if slug:
             sets[r["x_quarter"]][slug].add(c)
-    return {q: {p: s.get(p, set()) for p in ("all", "energy", "capacity", "tolling")} for q, s in sets.items()}
+    return {q: {p: s.get(p, set()) for p in ("all", "energy", "capacity", "tolling", "companies")} for q, s in sets.items()}
 
 
 def largest_station(path):
@@ -609,6 +615,13 @@ def main(argv):
     theirs, their_words = shown["figures"], shown["words"]
     checks = {k: v for k, v in mine.items() if k.startswith("check|") or k.startswith("panel|oldest_quarter")}
     mine = {k: v for k, v in mine.items() if k not in checks}
+    by_name = {k[len("check|by_name|"):]: v for k, v in checks.items() if k.startswith("check|by_name|")}
+    checks = {k: v for k, v in checks.items() if not k.startswith("check|by_name|")}
+    checks["check|place_by_contracts|cells_of_the_megawatts_view"] = len(by_name)
+    checks["check|place_by_contracts|cells_the_same_as_a_rank_by_contracts_then_name"] = sum(1 for k, v in by_name.items() if theirs.get(k) == v)
+    checks["check|place_by_contracts|cells_the_same_as_the_largest_view"] = sum(1 for k in by_name if theirs.get(k) == mine.get(k))
+    for q, n in sorted(facts["companies"].items()):
+        checks[f"check|companies_with_a_contract_row|{q}"] = n
     if a.no_near:
         theirs = {k: v for k, v in theirs.items() if not k.endswith("|doubtful")}
     lines, bad, named = [], 0, 0

@@ -62,7 +62,7 @@ export const CONTRACTS_DECISIONS: ContractDecision[] = [
   { key: "mw-ceiling", session: "session 125",
     text: "A row that states more megawatts than the largest power station operating in the United States is left out of the megawatts ranking and counted: it is another unit filed under MW.",
     def: "6,809 MW.",
-    source: "U.S. Energy Information Administration, Preliminary Monthly Electric Generator Inventory (Form EIA-860M), operating generators, vintage 2026-08, nameplate summed by plant." },
+    source: "U.S. Energy Information Administration, EIA-860M, Inventory of Operating Generators, vintage 2026-08 (the same figure in the inventory as of September 2026), nameplate capacity summed by plant." },
   { key: "mw-per-contract", session: "session 125",
     text: "A contract's megawatts are the largest any of its rows states, then added up by party: its rows repeat the quantity by period and by product.",
     def: "The largest row. The \"MW filed\" column of the largest buyers and sellers is the other count: every row's MW added up, as filed, with no ceiling.",
