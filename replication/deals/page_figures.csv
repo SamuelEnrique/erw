@@ -1,0 +1,1126 @@
+# ERW, the deal tracker: every figure of the pages on the live set's rows of 2026-11-16T09:49:48Z (replication/deals/replicate.py --write)
+key,page,replication,tolerance
+capital|n_rows,529,590,0.5
+deals|ai_deals|buyer|-,16,16,0.5
+deals|ai_deals|buyer|AirTrunk,2,2,0.5
+deals|ai_deals|buyer|Alcoa,1,1,0.5
+deals|ai_deals|buyer|Alphabet,1,1,0.5
+deals|ai_deals|buyer|Amazon,9,9,0.5
+deals|ai_deals|buyer|Amazon data center unit,1,1,0.5
+deals|ai_deals|buyer|Anthropic,9,9,0.5
+deals|ai_deals|buyer|Apollo,3,3,0.5
+deals|ai_deals|buyer|Apollo; Blackstone,1,1,0.5
+deals|ai_deals|buyer|Apterra Infrastructure Capital,1,1,0.5
+deals|ai_deals|buyer|Aramco,1,1,0.5
+deals|ai_deals|buyer|Ardian,1,1,0.5
+deals|ai_deals|buyer|Argentum AI,1,1,0.5
+deals|ai_deals|buyer|BKV,1,1,0.5
+deals|ai_deals|buyer|Babcock; Wilcox,1,1,0.5
+deals|ai_deals|buyer|Banks,2,2,0.5
+deals|ai_deals|buyer|Berkshire,1,1,0.5
+deals|ai_deals|buyer|Black Hills,1,1,0.5
+deals|ai_deals|buyer|Blackstone,3,3,0.5
+deals|ai_deals|buyer|Blackstone data center vehicle,1,1,0.5
+deals|ai_deals|buyer|Blackstone's QTS,1,1,0.5
+deals|ai_deals|buyer|Blackstone; Goldman,1,1,0.5
+deals|ai_deals|buyer|Blue Energy,1,1,0.5
+deals|ai_deals|buyer|Bridge Data Centres,1,1,0.5
+deals|ai_deals|buyer|Brookfield,1,1,0.5
+deals|ai_deals|buyer|Brookfield; Nvidia,1,1,0.5
+deals|ai_deals|buyer|CDC,1,1,0.5
+deals|ai_deals|buyer|Calibrant Energy,1,1,0.5
+deals|ai_deals|buyer|ChronoScale,1,1,0.5
+deals|ai_deals|buyer|Cipher,1,1,0.5
+deals|ai_deals|buyer|Core Scientific,1,1,0.5
+deals|ai_deals|buyer|CoreWeave,3,3,0.5
+deals|ai_deals|buyer|Creekstone,1,1,0.5
+deals|ai_deals|buyer|CyrusOne,1,1,0.5
+deals|ai_deals|buyer|Data4,1,1,0.5
+deals|ai_deals|buyer|DataVolt,1,1,0.5
+deals|ai_deals|buyer|DayOne,2,2,0.5
+deals|ai_deals|buyer|Deutsche Telekom,1,1,0.5
+deals|ai_deals|buyer|Diamondback,1,1,0.5
+deals|ai_deals|buyer|Duos,1,1,0.5
+deals|ai_deals|buyer|Eaton,2,2,0.5
+deals|ai_deals|buyer|Edged Compute,1,1,0.5
+deals|ai_deals|buyer|Enerflex,1,1,0.5
+deals|ai_deals|buyer|Energy Vault,1,1,0.5
+deals|ai_deals|buyer|Fermi,3,3,0.5
+deals|ai_deals|buyer|Flex,1,1,0.5
+deals|ai_deals|buyer|Forgent Power Solutions,1,1,0.5
+deals|ai_deals|buyer|G42,1,1,0.5
+deals|ai_deals|buyer|GDS,1,1,0.5
+deals|ai_deals|buyer|GE Vernova,1,1,0.5
+deals|ai_deals|buyer|GIP,1,1,0.5
+deals|ai_deals|buyer|Google,14,14,0.5
+deals|ai_deals|buyer|Google-Linked Data Centers,1,1,0.5
+deals|ai_deals|buyer|Humain,1,1,0.5
+deals|ai_deals|buyer|Hut 8,2,2,0.5
+deals|ai_deals|buyer|I Squared,1,1,0.5
+deals|ai_deals|buyer|Jane Street,1,1,0.5
+deals|ai_deals|buyer|KKR,2,2,0.5
+deals|ai_deals|buyer|Macquarie,1,1,0.5
+deals|ai_deals|buyer|Marvell Technology,1,1,0.5
+deals|ai_deals|buyer|Matter Venture Partners; Tyche Partners,1,1,0.5
+deals|ai_deals|buyer|Meta,7,7,0.5
+deals|ai_deals|buyer|Meta-backed data centre,1,1,0.5
+deals|ai_deals|buyer|Microsoft,11,11,0.5
+deals|ai_deals|buyer|Mistral,2,2,0.5
+deals|ai_deals|buyer|Morgan Stanley; JPMorgan,1,1,0.5
+deals|ai_deals|buyer|NTT Data,1,1,0.5
+deals|ai_deals|buyer|Nebius,2,2,0.5
+deals|ai_deals|buyer|NextEra,1,1,0.5
+deals|ai_deals|buyer|Nscale,1,1,0.5
+deals|ai_deals|buyer|Nvidia,9,9,0.5
+deals|ai_deals|buyer|Nvidia; Amazon; Microsoft,1,1,0.5
+deals|ai_deals|buyer|Nvidia; Dell,1,1,0.5
+deals|ai_deals|buyer|Oklo,1,1,0.5
+deals|ai_deals|buyer|Omnia,1,1,0.5
+deals|ai_deals|buyer|Omnia; Casa dos Ventos,1,1,0.5
+deals|ai_deals|buyer|OpenAI,8,8,0.5
+deals|ai_deals|buyer|OpenAI; SoftBank,1,1,0.5
+deals|ai_deals|buyer|Oracle,2,2,0.5
+deals|ai_deals|buyer|PDG,1,1,0.5
+deals|ai_deals|buyer|Pembina,1,1,0.5
+deals|ai_deals|buyer|Pimco,1,1,0.5
+deals|ai_deals|buyer|Pimco; Blue Owl,1,1,0.5
+deals|ai_deals|buyer|Related,1,1,0.5
+deals|ai_deals|buyer|Related Digital,1,1,0.5
+deals|ai_deals|buyer|Rune,1,1,0.5
+deals|ai_deals|buyer|Sequoia,1,1,0.5
+deals|ai_deals|buyer|SoftBank,3,3,0.5
+deals|ai_deals|buyer|Solaria,1,1,0.5
+deals|ai_deals|buyer|Solstice,1,1,0.5
+deals|ai_deals|buyer|SpaceX,1,1,0.5
+deals|ai_deals|buyer|Stack,1,1,0.5
+deals|ai_deals|buyer|TPG,2,2,0.5
+deals|ai_deals|buyer|Tallgrass,1,1,0.5
+deals|ai_deals|buyer|Telehouse,1,1,0.5
+deals|ai_deals|buyer|TeraWulf,1,1,0.5
+deals|ai_deals|buyer|Third Point,1,1,0.5
+deals|ai_deals|buyer|US government,3,3,0.5
+deals|ai_deals|buyer|US hyperscaler,1,1,0.5
+deals|ai_deals|buyer|Verizon,1,1,0.5
+deals|ai_deals|buyer|Vertiv,2,2,0.5
+deals|ai_deals|buyer|Vistra,1,1,0.5
+deals|ai_deals|buyer|Vnet,1,1,0.5
+deals|ai_deals|buyer|Voltus,1,1,0.5
+deals|ai_deals|buyer|Vultr,1,1,0.5
+deals|ai_deals|buyer|Wall Street banks,1,1,0.5
+deals|ai_deals|buyer|Welspun,1,1,0.5
+deals|ai_deals|buyer|Williams,1,1,0.5
+deals|ai_deals|buyer|a Leading Frontier AI Lab,1,1,0.5
+deals|ai_deals|buyer|allies,1,1,0.5
+deals|ai_deals|buyer|bond investors,1,1,0.5
+deals|ai_deals|buyer|investors,4,4,0.5
+deals|ai_deals|buyer|junk debt market investors,1,1,0.5
+deals|ai_deals|buyer|junk-bond investors,1,1,0.5
+deals|ai_deals|buyer|lenders,1,1,0.5
+deals|ai_deals|buyer|undisclosed US data center developer,1,1,0.5
+deals|ai_deals|grid|-,201,201,0.5
+deals|ai_deals|grid|ERCOT,8,8,0.5
+deals|ai_deals|grid|MISO,2,2,0.5
+deals|ai_deals|grid|PJM,5,5,0.5
+deals|ai_deals|grid|SPP,1,1,0.5
+deals|ai_deals|quarter|2025-Q1,18,18,0.5
+deals|ai_deals|quarter|2025-Q2,2,2,0.5
+deals|ai_deals|quarter|2025-Q4,15,15,0.5
+deals|ai_deals|quarter|2026-Q1,65,65,0.5
+deals|ai_deals|quarter|2026-Q2,51,51,0.5
+deals|ai_deals|quarter|2026-Q3,17,17,0.5
+deals|ai_deals|quarter|2026-Q4,49,49,0.5
+deals|ai_deals|supply|capital,104,104,0.5
+deals|ai_deals|supply|compute,30,30,0.5
+deals|ai_deals|supply|gas,13,13,0.5
+deals|ai_deals|supply|grid,26,26,0.5
+deals|ai_deals|supply|nuclear,11,11,0.5
+deals|ai_deals|supply|other,24,24,0.5
+deals|ai_deals|supply|renewables_storage,9,9,0.5
+deals|ai_mw|buyer|-,5000,5000.0,0.005
+deals|ai_mw|buyer|AirTrunk,1000,1000.0,0.005
+deals|ai_mw|buyer|BKV,1200,1200.0,0.005
+deals|ai_mw|buyer|ChronoScale,50,50.0,0.005
+deals|ai_mw|buyer|CoreWeave,22.5,22.5,0.005
+deals|ai_mw|buyer|Creekstone,280,280.0,0.005
+deals|ai_mw|buyer|CyrusOne,380,380.0,0.005
+deals|ai_mw|buyer|Duos,20,20.0,0.005
+deals|ai_mw|buyer|Enerflex,450,450.0,0.005
+deals|ai_mw|buyer|Fermi,822,822.0,0.005
+deals|ai_mw|buyer|Google,1248,1248.0,0.005
+deals|ai_mw|buyer|NTT Data,900,900.0,0.005
+deals|ai_mw|buyer|Nebius,50,50.0,0.005
+deals|ai_mw|buyer|Oklo,1200,1200.0,0.005
+deals|ai_mw|buyer|Oracle,2800,2800.0,0.005
+deals|ai_mw|buyer|Telehouse,65,65.0,0.005
+deals|ai_mw|buyer|undisclosed US data center developer,620,620.0,0.005
+deals|ai_mw|grid|-,14635.5,14635.5,0.005
+deals|ai_mw|grid|ERCOT,1472,1472.0,0.005
+deals|ai_mw|quarter|2025-Q1,5000,5000.0,0.005
+deals|ai_mw|quarter|2026-Q1,810,810.0,0.005
+deals|ai_mw|quarter|2026-Q2,2800,2800.0,0.005
+deals|ai_mw|quarter|2026-Q4,7497.5,7497.5,0.005
+deals|ai_mw|supply|capital,65,65.0,0.005
+deals|ai_mw|supply|compute,92.5,92.5,0.005
+deals|ai_mw|supply|gas,6070,6070.0,0.005
+deals|ai_mw|supply|grid,6912,6912.0,0.005
+deals|ai_mw|supply|nuclear,1200,1200.0,0.005
+deals|ai_mw|supply|other,222,222.0,0.005
+deals|ai_mw|supply|renewables_storage,1546,1546.0,0.005
+deals|ai_tagged,217,217,0.5
+deals|ai_top_mw|1,5000,5000.0,0.005
+deals|ai_top_mw|10,450,450.0,0.005
+deals|ai_top_mw|2,2800,2800.0,0.005
+deals|ai_top_mw|3,1200,1200.0,0.005
+deals|ai_top_mw|4,1200,1200.0,0.005
+deals|ai_top_mw|5,1000,1000.0,0.005
+deals|ai_top_mw|6,900,900.0,0.005
+deals|ai_top_mw|7,702,702.0,0.005
+deals|ai_top_mw|8,620,620.0,0.005
+deals|ai_top_mw|9,600,600.0,0.005
+deals|ai_top_usd|1,200000000000,200000000000.0,5000000.0
+deals|ai_top_usd|10,27000000000,27000000000.0,5000000.0
+deals|ai_top_usd|2,100000000000,100000000000.0,5000000.0
+deals|ai_top_usd|3,100000000000,100000000000.0,5000000.0
+deals|ai_top_usd|4,52000000000,52000000000.0,5000000.0
+deals|ai_top_usd|5,45000000000,45000000000.0,5000000.0
+deals|ai_top_usd|6,40000000000,40000000000.0,5000000.0
+deals|ai_top_usd|7,38000000000,38000000000.0,5000000.0
+deals|ai_top_usd|8,33000000000,33000000000.0,5000000.0
+deals|ai_top_usd|9,30000000000,30000000000.0,5000000.0
+deals|ai_usd|buyer|-,125758000000,125758000000.0,5000000.0
+deals|ai_usd|buyer|AirTrunk,3000000000,3000000000.0,5000000.0
+deals|ai_usd|buyer|Alcoa,315000000,315000000.0,5000.0
+deals|ai_usd|buyer|Amazon,98400000000,98400000000.0,5000000.0
+deals|ai_usd|buyer|Anthropic,425150000000,425150000000.0,5000000.0
+deals|ai_usd|buyer|Apollo,53500000000,53500000000.0,5000000.0
+deals|ai_usd|buyer|Apollo; Blackstone,35000000000,35000000000.0,5000000.0
+deals|ai_usd|buyer|Apterra Infrastructure Capital,1500000000,1500000000.0,5000000.0
+deals|ai_usd|buyer|Aramco,2600000000,2600000000.0,5000000.0
+deals|ai_usd|buyer|Argentum AI,2500000000,2500000000.0,5000000.0
+deals|ai_usd|buyer|BKV,800000000,800000000.0,5000.0
+deals|ai_usd|buyer|Babcock; Wilcox,2400000000,2400000000.0,5000000.0
+deals|ai_usd|buyer|Banks,17000000000,17000000000.0,5000000.0
+deals|ai_usd|buyer|Berkshire,10000000000,10000000000.0,5000000.0
+deals|ai_usd|buyer|Black Hills,1800000000,1800000000.0,5000000.0
+deals|ai_usd|buyer|Blackstone,5650000000,5650000000.0,5000000.0
+deals|ai_usd|buyer|Blackstone data center vehicle,1750000000,1750000000.0,5000000.0
+deals|ai_usd|buyer|Blackstone; Goldman,1500000000,1500000000.0,5000000.0
+deals|ai_usd|buyer|Blue Energy,380000000,380000000.0,5000.0
+deals|ai_usd|buyer|Bridge Data Centres,6600000000,6600000000.0,5000000.0
+deals|ai_usd|buyer|Brookfield; Nvidia,10000000000,10000000000.0,5000000.0
+deals|ai_usd|buyer|Calibrant Energy,145000000,145000000.0,5000.0
+deals|ai_usd|buyer|Core Scientific,3300000000,3300000000.0,5000000.0
+deals|ai_usd|buyer|CoreWeave,9670000000,9670000000.0,5000000.0
+deals|ai_usd|buyer|DataVolt,5000000000,5000000000.0,5000000.0
+deals|ai_usd|buyer|DayOne,10670000000,10670000000.0,5000000.0
+deals|ai_usd|buyer|Deutsche Telekom,1200000000,1200000000.0,5000000.0
+deals|ai_usd|buyer|Duos,700000000,700000000.0,5000.0
+deals|ai_usd|buyer|Eaton,10900000000,10900000000.0,5000000.0
+deals|ai_usd|buyer|Fermi,15000000000,15000000000.0,5000000.0
+deals|ai_usd|buyer|Flex,4400000000,4400000000.0,5000000.0
+deals|ai_usd|buyer|G42,1000000000,1000000000.0,5000000.0
+deals|ai_usd|buyer|GDS,3400000000,3400000000.0,5000000.0
+deals|ai_usd|buyer|GE Vernova,9000000000,9000000000.0,5000000.0
+deals|ai_usd|buyer|Google,49000000000,49000000000.0,5000000.0
+deals|ai_usd|buyer|Google-Linked Data Centers,5700000000,5700000000.0,5000000.0
+deals|ai_usd|buyer|Humain,1200000000,1200000000.0,5000000.0
+deals|ai_usd|buyer|Hut 8,10000000000,10000000000.0,5000000.0
+deals|ai_usd|buyer|I Squared,225000000,225000000.0,5000.0
+deals|ai_usd|buyer|Jane Street,6000000000,6000000000.0,5000000.0
+deals|ai_usd|buyer|KKR,11500000000,11500000000.0,5000000.0
+deals|ai_usd|buyer|Macquarie,5000000000,5000000000.0,5000000.0
+deals|ai_usd|buyer|Marvell Technology,3250000000,3250000000.0,5000000.0
+deals|ai_usd|buyer|Matter Venture Partners; Tyche Partners,110000000,110000000.0,5000.0
+deals|ai_usd|buyer|Meta,30000000000,30000000000.0,5000000.0
+deals|ai_usd|buyer|Meta-backed data centre,3000000000,3000000000.0,5000000.0
+deals|ai_usd|buyer|Microsoft,49700000000,49700000000.0,5000000.0
+deals|ai_usd|buyer|Mistral,2230000000,2230000000.0,5000000.0
+deals|ai_usd|buyer|Nebius,3750000000,3750000000.0,5000000.0
+deals|ai_usd|buyer|NextEra,66800000000,66800000000.0,5000000.0
+deals|ai_usd|buyer|Nvidia,29900000000,29900000000.0,5000000.0
+deals|ai_usd|buyer|Nvidia; Amazon; Microsoft,40000000000,40000000000.0,5000000.0
+deals|ai_usd|buyer|Nvidia; Dell,2400000000,2400000000.0,5000000.0
+deals|ai_usd|buyer|Omnia,9000000000,9000000000.0,5000000.0
+deals|ai_usd|buyer|Omnia; Casa dos Ventos,2000000000,2000000000.0,5000000.0
+deals|ai_usd|buyer|OpenAI,159900000000,159900000000.0,5000000.0
+deals|ai_usd|buyer|OpenAI; SoftBank,1000000000,1000000000.0,5000000.0
+deals|ai_usd|buyer|PDG,5000000000,5000000000.0,5000000.0
+deals|ai_usd|buyer|Pembina,1600000000,1600000000.0,5000000.0
+deals|ai_usd|buyer|Pimco,14000000000,14000000000.0,5000000.0
+deals|ai_usd|buyer|Pimco; Blue Owl,1400000000,1400000000.0,5000000.0
+deals|ai_usd|buyer|Related,8000000000,8000000000.0,5000000.0
+deals|ai_usd|buyer|Related Digital,16000000000,16000000000.0,5000000.0
+deals|ai_usd|buyer|Rune,40000000,40000000.0,5000.0
+deals|ai_usd|buyer|Sequoia,1000000000,1000000000.0,5000000.0
+deals|ai_usd|buyer|SoftBank,82000000000,82000000000.0,5000000.0
+deals|ai_usd|buyer|Solstice,14500000000,14500000000.0,5000000.0
+deals|ai_usd|buyer|SpaceX,1250000000000,1250000000000.0,5000000000.0
+deals|ai_usd|buyer|Stack,2100000000,2100000000.0,5000000.0
+deals|ai_usd|buyer|TeraWulf,19000000000,19000000000.0,5000000.0
+deals|ai_usd|buyer|Third Point,3360000000,3360000000.0,5000000.0
+deals|ai_usd|buyer|US government,5600000000,5600000000.0,5000000.0
+deals|ai_usd|buyer|US hyperscaler,7500000000,7500000000.0,5000000.0
+deals|ai_usd|buyer|Verizon,2000000000,2000000000.0,5000000.0
+deals|ai_usd|buyer|Vertiv,3600000000,3600000000.0,5000000.0
+deals|ai_usd|buyer|Vistra,4700000000,4700000000.0,5000000.0
+deals|ai_usd|buyer|Voltus,225000000,225000000.0,5000.0
+deals|ai_usd|buyer|Vultr,1000000000,1000000000.0,5000000.0
+deals|ai_usd|buyer|Wall Street banks,200000000000,200000000000.0,5000000.0
+deals|ai_usd|buyer|Welspun,580000000,580000000.0,5000.0
+deals|ai_usd|buyer|investors,44930000000,44930000000.0,5000000.0
+deals|ai_usd|buyer|junk-bond investors,900000000,900000000.0,5000.0
+deals|ai_usd|buyer|lenders,1300000000,1300000000.0,5000000.0
+deals|ai_usd|grid|-,3026188000000,3026188000000.0,5000000000.0
+deals|ai_usd|grid|ERCOT,17800000000,17800000000.0,5000000.0
+deals|ai_usd|grid|MISO,16000000000,16000000000.0,5000000.0
+deals|ai_usd|grid|PJM,2000000000,2000000000.0,5000000.0
+deals|ai_usd|quarter|2025-Q1,97700000000,97700000000.0,5000000.0
+deals|ai_usd|quarter|2025-Q2,258000000,258000000.0,5000.0
+deals|ai_usd|quarter|2025-Q4,121820000000,121820000000.0,5000000.0
+deals|ai_usd|quarter|2026-Q1,1655830000000,1655830000000.0,5000000000.0
+deals|ai_usd|quarter|2026-Q2,619135000000,619135000000.0,5000000.0
+deals|ai_usd|quarter|2026-Q3,292900000000,292900000000.0,5000000.0
+deals|ai_usd|quarter|2026-Q4,274345000000,274345000000.0,5000000.0
+deals|ai_usd|supply|capital,2196443000000,2196443000000.0,5000000000.0
+deals|ai_usd|supply|compute,405050000000,405050000000.0,5000000.0
+deals|ai_usd|supply|gas,16310000000,16310000000.0,5000000.0
+deals|ai_usd|supply|grid,46100000000,46100000000.0,5000000.0
+deals|ai_usd|supply|nuclear,119980000000,119980000000.0,5000000.0
+deals|ai_usd|supply|other,277920000000,277920000000.0,5000000.0
+deals|ai_usd|supply|renewables_storage,185000000,185000000.0,5000.0
+deals|ai_with_mw|buyer|-,1,1,0.005
+deals|ai_with_mw|buyer|AirTrunk,1,1,0.005
+deals|ai_with_mw|buyer|Alcoa,0,0,0.005
+deals|ai_with_mw|buyer|Alphabet,0,0,0.005
+deals|ai_with_mw|buyer|Amazon,0,0,0.005
+deals|ai_with_mw|buyer|Amazon data center unit,0,0,0.005
+deals|ai_with_mw|buyer|Anthropic,0,0,0.005
+deals|ai_with_mw|buyer|Apollo,0,0,0.005
+deals|ai_with_mw|buyer|Apollo; Blackstone,0,0,0.005
+deals|ai_with_mw|buyer|Apterra Infrastructure Capital,0,0,0.005
+deals|ai_with_mw|buyer|Aramco,0,0,0.005
+deals|ai_with_mw|buyer|Ardian,0,0,0.005
+deals|ai_with_mw|buyer|Argentum AI,0,0,0.005
+deals|ai_with_mw|buyer|BKV,1,1,0.005
+deals|ai_with_mw|buyer|Babcock; Wilcox,0,0,0.005
+deals|ai_with_mw|buyer|Banks,0,0,0.005
+deals|ai_with_mw|buyer|Berkshire,0,0,0.005
+deals|ai_with_mw|buyer|Black Hills,0,0,0.005
+deals|ai_with_mw|buyer|Blackstone,0,0,0.005
+deals|ai_with_mw|buyer|Blackstone data center vehicle,0,0,0.005
+deals|ai_with_mw|buyer|Blackstone's QTS,0,0,0.005
+deals|ai_with_mw|buyer|Blackstone; Goldman,0,0,0.005
+deals|ai_with_mw|buyer|Blue Energy,0,0,0.005
+deals|ai_with_mw|buyer|Bridge Data Centres,0,0,0.005
+deals|ai_with_mw|buyer|Brookfield,0,0,0.005
+deals|ai_with_mw|buyer|Brookfield; Nvidia,0,0,0.005
+deals|ai_with_mw|buyer|CDC,0,0,0.005
+deals|ai_with_mw|buyer|Calibrant Energy,0,0,0.005
+deals|ai_with_mw|buyer|ChronoScale,1,1,0.005
+deals|ai_with_mw|buyer|Cipher,0,0,0.005
+deals|ai_with_mw|buyer|Core Scientific,0,0,0.005
+deals|ai_with_mw|buyer|CoreWeave,1,1,0.005
+deals|ai_with_mw|buyer|Creekstone,1,1,0.005
+deals|ai_with_mw|buyer|CyrusOne,1,1,0.005
+deals|ai_with_mw|buyer|Data4,0,0,0.005
+deals|ai_with_mw|buyer|DataVolt,0,0,0.005
+deals|ai_with_mw|buyer|DayOne,0,0,0.005
+deals|ai_with_mw|buyer|Deutsche Telekom,0,0,0.005
+deals|ai_with_mw|buyer|Diamondback,0,0,0.005
+deals|ai_with_mw|buyer|Duos,1,1,0.005
+deals|ai_with_mw|buyer|Eaton,0,0,0.005
+deals|ai_with_mw|buyer|Edged Compute,0,0,0.005
+deals|ai_with_mw|buyer|Enerflex,1,1,0.005
+deals|ai_with_mw|buyer|Energy Vault,0,0,0.005
+deals|ai_with_mw|buyer|Fermi,2,2,0.005
+deals|ai_with_mw|buyer|Flex,0,0,0.005
+deals|ai_with_mw|buyer|Forgent Power Solutions,0,0,0.005
+deals|ai_with_mw|buyer|G42,0,0,0.005
+deals|ai_with_mw|buyer|GDS,0,0,0.005
+deals|ai_with_mw|buyer|GE Vernova,0,0,0.005
+deals|ai_with_mw|buyer|GIP,0,0,0.005
+deals|ai_with_mw|buyer|Google,3,3,0.005
+deals|ai_with_mw|buyer|Google-Linked Data Centers,0,0,0.005
+deals|ai_with_mw|buyer|Humain,0,0,0.005
+deals|ai_with_mw|buyer|Hut 8,0,0,0.005
+deals|ai_with_mw|buyer|I Squared,0,0,0.005
+deals|ai_with_mw|buyer|Jane Street,0,0,0.005
+deals|ai_with_mw|buyer|KKR,0,0,0.005
+deals|ai_with_mw|buyer|Macquarie,0,0,0.005
+deals|ai_with_mw|buyer|Marvell Technology,0,0,0.005
+deals|ai_with_mw|buyer|Matter Venture Partners; Tyche Partners,0,0,0.005
+deals|ai_with_mw|buyer|Meta,0,0,0.005
+deals|ai_with_mw|buyer|Meta-backed data centre,0,0,0.005
+deals|ai_with_mw|buyer|Microsoft,0,0,0.005
+deals|ai_with_mw|buyer|Mistral,0,0,0.005
+deals|ai_with_mw|buyer|Morgan Stanley; JPMorgan,0,0,0.005
+deals|ai_with_mw|buyer|NTT Data,1,1,0.005
+deals|ai_with_mw|buyer|Nebius,1,1,0.005
+deals|ai_with_mw|buyer|NextEra,0,0,0.005
+deals|ai_with_mw|buyer|Nscale,0,0,0.005
+deals|ai_with_mw|buyer|Nvidia,0,0,0.005
+deals|ai_with_mw|buyer|Nvidia; Amazon; Microsoft,0,0,0.005
+deals|ai_with_mw|buyer|Nvidia; Dell,0,0,0.005
+deals|ai_with_mw|buyer|Oklo,1,1,0.005
+deals|ai_with_mw|buyer|Omnia,0,0,0.005
+deals|ai_with_mw|buyer|Omnia; Casa dos Ventos,0,0,0.005
+deals|ai_with_mw|buyer|OpenAI,0,0,0.005
+deals|ai_with_mw|buyer|OpenAI; SoftBank,0,0,0.005
+deals|ai_with_mw|buyer|Oracle,1,1,0.005
+deals|ai_with_mw|buyer|PDG,0,0,0.005
+deals|ai_with_mw|buyer|Pembina,0,0,0.005
+deals|ai_with_mw|buyer|Pimco,0,0,0.005
+deals|ai_with_mw|buyer|Pimco; Blue Owl,0,0,0.005
+deals|ai_with_mw|buyer|Related,0,0,0.005
+deals|ai_with_mw|buyer|Related Digital,0,0,0.005
+deals|ai_with_mw|buyer|Rune,0,0,0.005
+deals|ai_with_mw|buyer|Sequoia,0,0,0.005
+deals|ai_with_mw|buyer|SoftBank,0,0,0.005
+deals|ai_with_mw|buyer|Solaria,0,0,0.005
+deals|ai_with_mw|buyer|Solstice,0,0,0.005
+deals|ai_with_mw|buyer|SpaceX,0,0,0.005
+deals|ai_with_mw|buyer|Stack,0,0,0.005
+deals|ai_with_mw|buyer|TPG,0,0,0.005
+deals|ai_with_mw|buyer|Tallgrass,0,0,0.005
+deals|ai_with_mw|buyer|Telehouse,1,1,0.005
+deals|ai_with_mw|buyer|TeraWulf,0,0,0.005
+deals|ai_with_mw|buyer|Third Point,0,0,0.005
+deals|ai_with_mw|buyer|US government,0,0,0.005
+deals|ai_with_mw|buyer|US hyperscaler,0,0,0.005
+deals|ai_with_mw|buyer|Verizon,0,0,0.005
+deals|ai_with_mw|buyer|Vertiv,0,0,0.005
+deals|ai_with_mw|buyer|Vistra,0,0,0.005
+deals|ai_with_mw|buyer|Vnet,0,0,0.005
+deals|ai_with_mw|buyer|Voltus,0,0,0.005
+deals|ai_with_mw|buyer|Vultr,0,0,0.005
+deals|ai_with_mw|buyer|Wall Street banks,0,0,0.005
+deals|ai_with_mw|buyer|Welspun,0,0,0.005
+deals|ai_with_mw|buyer|Williams,0,0,0.005
+deals|ai_with_mw|buyer|a Leading Frontier AI Lab,0,0,0.005
+deals|ai_with_mw|buyer|allies,0,0,0.005
+deals|ai_with_mw|buyer|bond investors,0,0,0.005
+deals|ai_with_mw|buyer|investors,0,0,0.005
+deals|ai_with_mw|buyer|junk debt market investors,0,0,0.005
+deals|ai_with_mw|buyer|junk-bond investors,0,0,0.005
+deals|ai_with_mw|buyer|lenders,0,0,0.005
+deals|ai_with_mw|buyer|undisclosed US data center developer,1,1,0.005
+deals|ai_with_mw|grid|-,17,17,0.005
+deals|ai_with_mw|grid|ERCOT,3,3,0.005
+deals|ai_with_mw|grid|MISO,0,0,0.005
+deals|ai_with_mw|grid|PJM,0,0,0.005
+deals|ai_with_mw|grid|SPP,0,0,0.005
+deals|ai_with_mw|quarter|2025-Q1,1,1,0.005
+deals|ai_with_mw|quarter|2025-Q2,0,0,0.005
+deals|ai_with_mw|quarter|2025-Q4,0,0,0.005
+deals|ai_with_mw|quarter|2026-Q1,3,3,0.005
+deals|ai_with_mw|quarter|2026-Q2,1,1,0.005
+deals|ai_with_mw|quarter|2026-Q3,0,0,0.005
+deals|ai_with_mw|quarter|2026-Q4,15,15,0.005
+deals|ai_with_mw|supply|capital,1,1,0.005
+deals|ai_with_mw|supply|compute,3,3,0.005
+deals|ai_with_mw|supply|gas,3,3,0.005
+deals|ai_with_mw|supply|grid,8,8,0.005
+deals|ai_with_mw|supply|nuclear,1,1,0.005
+deals|ai_with_mw|supply|other,1,1,0.005
+deals|ai_with_mw|supply|renewables_storage,3,3,0.005
+deals|ai_with_usd|buyer|-,4,4,0.005
+deals|ai_with_usd|buyer|AirTrunk,1,1,0.005
+deals|ai_with_usd|buyer|Alcoa,1,1,0.005
+deals|ai_with_usd|buyer|Alphabet,0,0,0.005
+deals|ai_with_usd|buyer|Amazon,4,4,0.005
+deals|ai_with_usd|buyer|Amazon data center unit,0,0,0.005
+deals|ai_with_usd|buyer|Anthropic,8,8,0.005
+deals|ai_with_usd|buyer|Apollo,3,3,0.005
+deals|ai_with_usd|buyer|Apollo; Blackstone,1,1,0.005
+deals|ai_with_usd|buyer|Apterra Infrastructure Capital,1,1,0.005
+deals|ai_with_usd|buyer|Aramco,1,1,0.005
+deals|ai_with_usd|buyer|Ardian,0,0,0.005
+deals|ai_with_usd|buyer|Argentum AI,1,1,0.005
+deals|ai_with_usd|buyer|BKV,1,1,0.005
+deals|ai_with_usd|buyer|Babcock; Wilcox,1,1,0.005
+deals|ai_with_usd|buyer|Banks,2,2,0.005
+deals|ai_with_usd|buyer|Berkshire,1,1,0.005
+deals|ai_with_usd|buyer|Black Hills,1,1,0.005
+deals|ai_with_usd|buyer|Blackstone,2,2,0.005
+deals|ai_with_usd|buyer|Blackstone data center vehicle,1,1,0.005
+deals|ai_with_usd|buyer|Blackstone's QTS,0,0,0.005
+deals|ai_with_usd|buyer|Blackstone; Goldman,1,1,0.005
+deals|ai_with_usd|buyer|Blue Energy,1,1,0.005
+deals|ai_with_usd|buyer|Bridge Data Centres,1,1,0.005
+deals|ai_with_usd|buyer|Brookfield,0,0,0.005
+deals|ai_with_usd|buyer|Brookfield; Nvidia,1,1,0.005
+deals|ai_with_usd|buyer|CDC,0,0,0.005
+deals|ai_with_usd|buyer|Calibrant Energy,1,1,0.005
+deals|ai_with_usd|buyer|ChronoScale,0,0,0.005
+deals|ai_with_usd|buyer|Cipher,0,0,0.005
+deals|ai_with_usd|buyer|Core Scientific,1,1,0.005
+deals|ai_with_usd|buyer|CoreWeave,2,2,0.005
+deals|ai_with_usd|buyer|Creekstone,0,0,0.005
+deals|ai_with_usd|buyer|CyrusOne,0,0,0.005
+deals|ai_with_usd|buyer|Data4,0,0,0.005
+deals|ai_with_usd|buyer|DataVolt,1,1,0.005
+deals|ai_with_usd|buyer|DayOne,2,2,0.005
+deals|ai_with_usd|buyer|Deutsche Telekom,1,1,0.005
+deals|ai_with_usd|buyer|Diamondback,0,0,0.005
+deals|ai_with_usd|buyer|Duos,1,1,0.005
+deals|ai_with_usd|buyer|Eaton,2,2,0.005
+deals|ai_with_usd|buyer|Edged Compute,0,0,0.005
+deals|ai_with_usd|buyer|Enerflex,0,0,0.005
+deals|ai_with_usd|buyer|Energy Vault,0,0,0.005
+deals|ai_with_usd|buyer|Fermi,1,1,0.005
+deals|ai_with_usd|buyer|Flex,1,1,0.005
+deals|ai_with_usd|buyer|Forgent Power Solutions,0,0,0.005
+deals|ai_with_usd|buyer|G42,1,1,0.005
+deals|ai_with_usd|buyer|GDS,1,1,0.005
+deals|ai_with_usd|buyer|GE Vernova,1,1,0.005
+deals|ai_with_usd|buyer|GIP,0,0,0.005
+deals|ai_with_usd|buyer|Google,3,3,0.005
+deals|ai_with_usd|buyer|Google-Linked Data Centers,1,1,0.005
+deals|ai_with_usd|buyer|Humain,1,1,0.005
+deals|ai_with_usd|buyer|Hut 8,1,1,0.005
+deals|ai_with_usd|buyer|I Squared,1,1,0.005
+deals|ai_with_usd|buyer|Jane Street,1,1,0.005
+deals|ai_with_usd|buyer|KKR,2,2,0.005
+deals|ai_with_usd|buyer|Macquarie,1,1,0.005
+deals|ai_with_usd|buyer|Marvell Technology,1,1,0.005
+deals|ai_with_usd|buyer|Matter Venture Partners; Tyche Partners,1,1,0.005
+deals|ai_with_usd|buyer|Meta,2,2,0.005
+deals|ai_with_usd|buyer|Meta-backed data centre,1,1,0.005
+deals|ai_with_usd|buyer|Microsoft,3,3,0.005
+deals|ai_with_usd|buyer|Mistral,2,2,0.005
+deals|ai_with_usd|buyer|Morgan Stanley; JPMorgan,0,0,0.005
+deals|ai_with_usd|buyer|NTT Data,0,0,0.005
+deals|ai_with_usd|buyer|Nebius,1,1,0.005
+deals|ai_with_usd|buyer|NextEra,1,1,0.005
+deals|ai_with_usd|buyer|Nscale,0,0,0.005
+deals|ai_with_usd|buyer|Nvidia,5,5,0.005
+deals|ai_with_usd|buyer|Nvidia; Amazon; Microsoft,1,1,0.005
+deals|ai_with_usd|buyer|Nvidia; Dell,1,1,0.005
+deals|ai_with_usd|buyer|Oklo,0,0,0.005
+deals|ai_with_usd|buyer|Omnia,1,1,0.005
+deals|ai_with_usd|buyer|Omnia; Casa dos Ventos,1,1,0.005
+deals|ai_with_usd|buyer|OpenAI,3,3,0.005
+deals|ai_with_usd|buyer|OpenAI; SoftBank,1,1,0.005
+deals|ai_with_usd|buyer|Oracle,0,0,0.005
+deals|ai_with_usd|buyer|PDG,1,1,0.005
+deals|ai_with_usd|buyer|Pembina,1,1,0.005
+deals|ai_with_usd|buyer|Pimco,1,1,0.005
+deals|ai_with_usd|buyer|Pimco; Blue Owl,1,1,0.005
+deals|ai_with_usd|buyer|Related,1,1,0.005
+deals|ai_with_usd|buyer|Related Digital,1,1,0.005
+deals|ai_with_usd|buyer|Rune,1,1,0.005
+deals|ai_with_usd|buyer|Sequoia,1,1,0.005
+deals|ai_with_usd|buyer|SoftBank,2,2,0.005
+deals|ai_with_usd|buyer|Solaria,0,0,0.005
+deals|ai_with_usd|buyer|Solstice,1,1,0.005
+deals|ai_with_usd|buyer|SpaceX,1,1,0.005
+deals|ai_with_usd|buyer|Stack,1,1,0.005
+deals|ai_with_usd|buyer|TPG,0,0,0.005
+deals|ai_with_usd|buyer|Tallgrass,0,0,0.005
+deals|ai_with_usd|buyer|Telehouse,0,0,0.005
+deals|ai_with_usd|buyer|TeraWulf,1,1,0.005
+deals|ai_with_usd|buyer|Third Point,1,1,0.005
+deals|ai_with_usd|buyer|US government,3,3,0.005
+deals|ai_with_usd|buyer|US hyperscaler,1,1,0.005
+deals|ai_with_usd|buyer|Verizon,1,1,0.005
+deals|ai_with_usd|buyer|Vertiv,2,2,0.005
+deals|ai_with_usd|buyer|Vistra,1,1,0.005
+deals|ai_with_usd|buyer|Vnet,0,0,0.005
+deals|ai_with_usd|buyer|Voltus,1,1,0.005
+deals|ai_with_usd|buyer|Vultr,1,1,0.005
+deals|ai_with_usd|buyer|Wall Street banks,1,1,0.005
+deals|ai_with_usd|buyer|Welspun,1,1,0.005
+deals|ai_with_usd|buyer|Williams,0,0,0.005
+deals|ai_with_usd|buyer|a Leading Frontier AI Lab,0,0,0.005
+deals|ai_with_usd|buyer|allies,0,0,0.005
+deals|ai_with_usd|buyer|bond investors,0,0,0.005
+deals|ai_with_usd|buyer|investors,4,4,0.005
+deals|ai_with_usd|buyer|junk debt market investors,0,0,0.005
+deals|ai_with_usd|buyer|junk-bond investors,1,1,0.005
+deals|ai_with_usd|buyer|lenders,1,1,0.005
+deals|ai_with_usd|buyer|undisclosed US data center developer,0,0,0.005
+deals|ai_with_usd|grid|-,117,117,0.005
+deals|ai_with_usd|grid|ERCOT,3,3,0.005
+deals|ai_with_usd|grid|MISO,1,1,0.005
+deals|ai_with_usd|grid|PJM,2,2,0.005
+deals|ai_with_usd|grid|SPP,0,0,0.005
+deals|ai_with_usd|quarter|2025-Q1,10,10,0.005
+deals|ai_with_usd|quarter|2025-Q2,1,1,0.005
+deals|ai_with_usd|quarter|2025-Q4,11,11,0.005
+deals|ai_with_usd|quarter|2026-Q1,32,32,0.005
+deals|ai_with_usd|quarter|2026-Q2,32,32,0.005
+deals|ai_with_usd|quarter|2026-Q3,14,14,0.005
+deals|ai_with_usd|quarter|2026-Q4,23,23,0.005
+deals|ai_with_usd|supply|capital,72,72,0.005
+deals|ai_with_usd|supply|compute,17,17,0.005
+deals|ai_with_usd|supply|gas,5,5,0.005
+deals|ai_with_usd|supply|grid,5,5,0.005
+deals|ai_with_usd|supply|nuclear,6,6,0.005
+deals|ai_with_usd|supply|other,16,16,0.005
+deals|ai_with_usd|supply|renewables_storage,2,2,0.005
+deals|chart_ai|2025-Q1|ai_mw,5000,5000.0,0.005
+deals|chart_ai|2025-Q1|all_mw,5000,5000.0,0.005
+deals|chart_ai|2025-Q1|share,100,100.0,0.05
+deals|chart_ai|2025-Q2|ai_mw,0,0,0.005
+deals|chart_ai|2025-Q2|all_mw,0,0,0.005
+deals|chart_ai|2025-Q4|ai_mw,0,0,0.005
+deals|chart_ai|2025-Q4|all_mw,0,0,0.005
+deals|chart_ai|2026-Q1|ai_mw,810,810.0,0.005
+deals|chart_ai|2026-Q1|all_mw,1710,1710.0,0.005
+deals|chart_ai|2026-Q1|share,47.4,47.4,0.05
+deals|chart_ai|2026-Q2|ai_mw,2800,2800.0,0.005
+deals|chart_ai|2026-Q2|all_mw,5800,5800.0,0.005
+deals|chart_ai|2026-Q2|share,48.3,48.3,0.05
+deals|chart_ai|2026-Q3|ai_mw,0,0,0.005
+deals|chart_ai|2026-Q3|all_mw,7520,7520.0,0.005
+deals|chart_ai|2026-Q3|share,0,0.0,0.05
+deals|chart_ai|2026-Q4|ai_mw,7497.5,7497.5,0.005
+deals|chart_ai|2026-Q4|all_mw,23089,23089.0,0.005
+deals|chart_ai|2026-Q4|share,32.5,32.5,0.05
+deals|chart_mw|2025-Q1|gas,5000,5000.0,0.005
+deals|chart_mw|2025-Q1|grid,0,0,0.005
+deals|chart_mw|2025-Q1|nuclear,0,0,0.005
+deals|chart_mw|2025-Q1|other,0,0,0.005
+deals|chart_mw|2025-Q1|renewables_storage,0,0,0.005
+deals|chart_mw|2025-Q1|without,32,32,0.005
+deals|chart_mw|2025-Q2|gas,0,0,0.005
+deals|chart_mw|2025-Q2|grid,0,0,0.005
+deals|chart_mw|2025-Q2|nuclear,0,0,0.005
+deals|chart_mw|2025-Q2|other,0,0,0.005
+deals|chart_mw|2025-Q2|renewables_storage,0,0,0.005
+deals|chart_mw|2025-Q2|without,9,9,0.005
+deals|chart_mw|2025-Q4|gas,0,0,0.005
+deals|chart_mw|2025-Q4|grid,0,0,0.005
+deals|chart_mw|2025-Q4|nuclear,0,0,0.005
+deals|chart_mw|2025-Q4|other,0,0,0.005
+deals|chart_mw|2025-Q4|renewables_storage,0,0,0.005
+deals|chart_mw|2025-Q4|without,50,50,0.005
+deals|chart_mw|2026-Q1|gas,900,900.0,0.005
+deals|chart_mw|2026-Q1|grid,660,660.0,0.005
+deals|chart_mw|2026-Q1|nuclear,0,0,0.005
+deals|chart_mw|2026-Q1|other,0,0,0.005
+deals|chart_mw|2026-Q1|renewables_storage,150,150.0,0.005
+deals|chart_mw|2026-Q1|without,111,111,0.005
+deals|chart_mw|2026-Q2|gas,3000,3000.0,0.005
+deals|chart_mw|2026-Q2|grid,2800,2800.0,0.005
+deals|chart_mw|2026-Q2|nuclear,0,0,0.005
+deals|chart_mw|2026-Q2|other,0,0,0.005
+deals|chart_mw|2026-Q2|renewables_storage,0,0,0.005
+deals|chart_mw|2026-Q2|without,91,91,0.005
+deals|chart_mw|2026-Q3|gas,1700,1700.0,0.005
+deals|chart_mw|2026-Q3|grid,230,230.0,0.005
+deals|chart_mw|2026-Q3|nuclear,190,190.0,0.005
+deals|chart_mw|2026-Q3|other,5400,5400.0,0.005
+deals|chart_mw|2026-Q3|renewables_storage,0,0,0.005
+deals|chart_mw|2026-Q3|without,80,80,0.005
+deals|chart_mw|2026-Q4|gas,2682,2682.0,0.005
+deals|chart_mw|2026-Q4|grid,3452,3452.0,0.005
+deals|chart_mw|2026-Q4|nuclear,12030,12030.0,0.005
+deals|chart_mw|2026-Q4|other,441.5,441.5,0.005
+deals|chart_mw|2026-Q4|renewables_storage,4483.5,4483.5,0.005
+deals|chart_mw|2026-Q4|without,173,173,0.005
+deals|chart_party|American Electric Power|mw,1662,1662.0,0.005
+deals|chart_party|ArcLight Capital Partners|mw,5400,5400.0,0.005
+deals|chart_party|Bloom Energy|mw,3700,3700.0,0.005
+deals|chart_party|Constellation Energy|mw,4060,4060.0,0.005
+deals|chart_party|Dynamis|mw,1700,1700.0,0.005
+deals|chart_party|Eskom|mw,3000,3000.0,0.005
+deals|chart_party|Google|mw,4848,4848.0,0.005
+deals|chart_party|InfraBridge|mw,5400,5400.0,0.005
+deals|chart_party|Oracle|mw,2800,2800.0,0.005
+deals|chart_party|Siemens Energy|mw,1700,1700.0,0.005
+deals|comp_deals|grid|-,551,551,0.5
+deals|comp_deals|grid|CAISO,1,1,0.5
+deals|comp_deals|grid|ERCOT,11,11,0.5
+deals|comp_deals|grid|ISO-NE,1,1,0.5
+deals|comp_deals|grid|MISO,9,9,0.5
+deals|comp_deals|grid|PJM,10,10,0.5
+deals|comp_deals|grid|SPP,2,2,0.5
+deals|comp_deals|technology|-,273,273,0.5
+deals|comp_deals|technology|AI,2,2,0.5
+deals|comp_deals|technology|AI chips,1,1,0.5
+deals|comp_deals|technology|AI cloud,1,1,0.5
+deals|comp_deals|technology|FSRU,1,1,0.5
+deals|comp_deals|technology|LNG,62,62,0.5
+deals|comp_deals|technology|battery,1,1,0.5
+deals|comp_deals|technology|battery swap,1,1,0.5
+deals|comp_deals|technology|behind-the-meter power generation,1,1,0.5
+deals|comp_deals|technology|biocarbon,1,1,0.5
+deals|comp_deals|technology|biogas,1,1,0.5
+deals|comp_deals|technology|carbon capture,1,1,0.5
+deals|comp_deals|technology|clean power,1,1,0.5
+deals|comp_deals|technology|coal,2,2,0.5
+deals|comp_deals|technology|copper,1,1,0.5
+deals|comp_deals|technology|data center,33,33,0.5
+deals|comp_deals|technology|data center cooling,1,1,0.5
+deals|comp_deals|technology|fuel cell,1,1,0.5
+deals|comp_deals|technology|fuel cells,2,2,0.5
+deals|comp_deals|technology|fusion,4,4,0.5
+deals|comp_deals|technology|gallium,1,1,0.5
+deals|comp_deals|technology|gas,46,46,0.5
+deals|comp_deals|technology|gas engine,1,1,0.5
+deals|comp_deals|technology|gas pipeline,2,2,0.5
+deals|comp_deals|technology|generator,1,1,0.5
+deals|comp_deals|technology|geothermal,3,3,0.5
+deals|comp_deals|technology|lithium,2,2,0.5
+deals|comp_deals|technology|microgrid,1,1,0.5
+deals|comp_deals|technology|nuclear,53,53,0.5
+deals|comp_deals|technology|oil,35,35,0.5
+deals|comp_deals|technology|oil and gas,10,10,0.5
+deals|comp_deals|technology|pipeline,1,1,0.5
+deals|comp_deals|technology|rare earths,4,4,0.5
+deals|comp_deals|technology|renewable,1,1,0.5
+deals|comp_deals|technology|renewables,3,3,0.5
+deals|comp_deals|technology|renewables and energy storage,1,1,0.5
+deals|comp_deals|technology|shale,1,1,0.5
+deals|comp_deals|technology|solar,13,13,0.5
+deals|comp_deals|technology|solar thermal,1,1,0.5
+"deals|comp_deals|technology|solar, wind, storage",1,1,0.5
+deals|comp_deals|technology|solar-plus-storage,2,2,0.5
+deals|comp_deals|technology|storage,3,3,0.5
+deals|comp_deals|technology|superconducting power delivery,1,1,0.5
+deals|comp_deals|technology|uranium,2,2,0.5
+deals|comp_deals|technology|virtual power plant,1,1,0.5
+deals|comp_deals|technology|water,1,1,0.5
+deals|comp_deals|technology|wind,3,3,0.5
+deals|comp_deals|type|behind_the_meter,4,4,0.5
+deals|comp_deals|type|debt,56,56,0.5
+deals|comp_deals|type|equity_raise,84,84,0.5
+deals|comp_deals|type|fuel_supply,60,60,0.5
+deals|comp_deals|type|joint_venture,32,32,0.5
+deals|comp_deals|type|lease,12,12,0.5
+deals|comp_deals|type|m_and_a,151,151,0.5
+deals|comp_deals|type|nuclear_restart,1,1,0.5
+deals|comp_deals|type|offtake,27,27,0.5
+deals|comp_deals|type|other,91,91,0.5
+deals|comp_deals|type|ppa,39,39,0.5
+deals|comp_deals|type|project_finance,25,25,0.5
+deals|comp_deals|type|smr,3,3,0.5
+deals|comp_deals|year|2025,92,92,0.5
+deals|comp_deals|year|2026,493,493,0.5
+deals|comp_median_mw|grid|-,600,600.0,0.005
+deals|comp_median_mw|grid|ERCOT,222,222.0,0.005
+deals|comp_median_mw|technology|-,330,330.0,0.005
+deals|comp_median_mw|technology|data center,50,50.0,0.005
+deals|comp_median_mw|technology|gas,896,896.0,0.005
+deals|comp_median_mw|technology|nuclear,1080,1080.0,0.005
+deals|comp_median_mw|technology|solar,322,322.0,0.005
+deals|comp_median_mw|type|behind_the_meter,450,450.0,0.005
+deals|comp_median_mw|type|lease,22.5,22.5,0.005
+deals|comp_median_mw|type|m_and_a,892,892.0,0.005
+deals|comp_median_mw|type|offtake,50,50.0,0.005
+deals|comp_median_mw|type|other,810,810.0,0.005
+deals|comp_median_mw|type|ppa,452.5,452.5,0.005
+deals|comp_median_mw|year|2026,479.5,479.5,0.005
+deals|comp_with_mw|grid|-,35,35,0.005
+deals|comp_with_mw|grid|CAISO,0,0,0.005
+deals|comp_with_mw|grid|ERCOT,3,3,0.005
+deals|comp_with_mw|grid|ISO-NE,0,0,0.005
+deals|comp_with_mw|grid|MISO,0,0,0.005
+deals|comp_with_mw|grid|PJM,1,1,0.005
+deals|comp_with_mw|grid|SPP,0,0,0.005
+deals|comp_with_mw|technology|-,10,10,0.005
+deals|comp_with_mw|technology|AI,0,0,0.005
+deals|comp_with_mw|technology|AI chips,0,0,0.005
+deals|comp_with_mw|technology|AI cloud,0,0,0.005
+deals|comp_with_mw|technology|FSRU,0,0,0.005
+deals|comp_with_mw|technology|LNG,0,0,0.005
+deals|comp_with_mw|technology|battery,0,0,0.005
+deals|comp_with_mw|technology|battery swap,0,0,0.005
+deals|comp_with_mw|technology|behind-the-meter power generation,0,0,0.005
+deals|comp_with_mw|technology|biocarbon,0,0,0.005
+deals|comp_with_mw|technology|biogas,0,0,0.005
+deals|comp_with_mw|technology|carbon capture,0,0,0.005
+deals|comp_with_mw|technology|clean power,0,0,0.005
+deals|comp_with_mw|technology|coal,0,0,0.005
+deals|comp_with_mw|technology|copper,0,0,0.005
+deals|comp_with_mw|technology|data center,5,5,0.005
+deals|comp_with_mw|technology|data center cooling,0,0,0.005
+deals|comp_with_mw|technology|fuel cell,1,1,0.005
+deals|comp_with_mw|technology|fuel cells,1,1,0.005
+deals|comp_with_mw|technology|fusion,0,0,0.005
+deals|comp_with_mw|technology|gallium,0,0,0.005
+deals|comp_with_mw|technology|gas,8,8,0.005
+deals|comp_with_mw|technology|gas engine,0,0,0.005
+deals|comp_with_mw|technology|gas pipeline,0,0,0.005
+deals|comp_with_mw|technology|generator,0,0,0.005
+deals|comp_with_mw|technology|geothermal,2,2,0.005
+deals|comp_with_mw|technology|lithium,0,0,0.005
+deals|comp_with_mw|technology|microgrid,0,0,0.005
+deals|comp_with_mw|technology|nuclear,6,6,0.005
+deals|comp_with_mw|technology|oil,0,0,0.005
+deals|comp_with_mw|technology|oil and gas,0,0,0.005
+deals|comp_with_mw|technology|pipeline,0,0,0.005
+deals|comp_with_mw|technology|rare earths,0,0,0.005
+deals|comp_with_mw|technology|renewable,0,0,0.005
+deals|comp_with_mw|technology|renewables,0,0,0.005
+deals|comp_with_mw|technology|renewables and energy storage,0,0,0.005
+deals|comp_with_mw|technology|shale,0,0,0.005
+deals|comp_with_mw|technology|solar,4,4,0.005
+deals|comp_with_mw|technology|solar thermal,0,0,0.005
+"deals|comp_with_mw|technology|solar, wind, storage",1,1,0.005
+deals|comp_with_mw|technology|solar-plus-storage,1,1,0.005
+deals|comp_with_mw|technology|storage,0,0,0.005
+deals|comp_with_mw|technology|superconducting power delivery,0,0,0.005
+deals|comp_with_mw|technology|uranium,0,0,0.005
+deals|comp_with_mw|technology|virtual power plant,0,0,0.005
+deals|comp_with_mw|technology|water,0,0,0.005
+deals|comp_with_mw|technology|wind,0,0,0.005
+deals|comp_with_mw|type|behind_the_meter,3,3,0.005
+deals|comp_with_mw|type|debt,2,2,0.005
+deals|comp_with_mw|type|equity_raise,0,0,0.005
+deals|comp_with_mw|type|fuel_supply,2,2,0.005
+deals|comp_with_mw|type|joint_venture,2,2,0.005
+deals|comp_with_mw|type|lease,3,3,0.005
+deals|comp_with_mw|type|m_and_a,3,3,0.005
+deals|comp_with_mw|type|nuclear_restart,0,0,0.005
+deals|comp_with_mw|type|offtake,3,3,0.005
+deals|comp_with_mw|type|other,6,6,0.005
+deals|comp_with_mw|type|ppa,14,14,0.005
+deals|comp_with_mw|type|project_finance,0,0,0.005
+deals|comp_with_mw|type|smr,1,1,0.005
+deals|comp_with_mw|year|2025,1,1,0.005
+deals|comp_with_mw|year|2026,38,38,0.005
+deals|comp_with_price|grid|-,0,0,0.005
+deals|comp_with_price|grid|CAISO,0,0,0.005
+deals|comp_with_price|grid|ERCOT,0,0,0.005
+deals|comp_with_price|grid|ISO-NE,0,0,0.005
+deals|comp_with_price|grid|MISO,0,0,0.005
+deals|comp_with_price|grid|PJM,0,0,0.005
+deals|comp_with_price|grid|SPP,0,0,0.005
+deals|comp_with_price|technology|-,0,0,0.005
+deals|comp_with_price|technology|AI,0,0,0.005
+deals|comp_with_price|technology|AI chips,0,0,0.005
+deals|comp_with_price|technology|AI cloud,0,0,0.005
+deals|comp_with_price|technology|FSRU,0,0,0.005
+deals|comp_with_price|technology|LNG,0,0,0.005
+deals|comp_with_price|technology|battery,0,0,0.005
+deals|comp_with_price|technology|battery swap,0,0,0.005
+deals|comp_with_price|technology|behind-the-meter power generation,0,0,0.005
+deals|comp_with_price|technology|biocarbon,0,0,0.005
+deals|comp_with_price|technology|biogas,0,0,0.005
+deals|comp_with_price|technology|carbon capture,0,0,0.005
+deals|comp_with_price|technology|clean power,0,0,0.005
+deals|comp_with_price|technology|coal,0,0,0.005
+deals|comp_with_price|technology|copper,0,0,0.005
+deals|comp_with_price|technology|data center,0,0,0.005
+deals|comp_with_price|technology|data center cooling,0,0,0.005
+deals|comp_with_price|technology|fuel cell,0,0,0.005
+deals|comp_with_price|technology|fuel cells,0,0,0.005
+deals|comp_with_price|technology|fusion,0,0,0.005
+deals|comp_with_price|technology|gallium,0,0,0.005
+deals|comp_with_price|technology|gas,0,0,0.005
+deals|comp_with_price|technology|gas engine,0,0,0.005
+deals|comp_with_price|technology|gas pipeline,0,0,0.005
+deals|comp_with_price|technology|generator,0,0,0.005
+deals|comp_with_price|technology|geothermal,0,0,0.005
+deals|comp_with_price|technology|lithium,0,0,0.005
+deals|comp_with_price|technology|microgrid,0,0,0.005
+deals|comp_with_price|technology|nuclear,0,0,0.005
+deals|comp_with_price|technology|oil,0,0,0.005
+deals|comp_with_price|technology|oil and gas,0,0,0.005
+deals|comp_with_price|technology|pipeline,0,0,0.005
+deals|comp_with_price|technology|rare earths,0,0,0.005
+deals|comp_with_price|technology|renewable,0,0,0.005
+deals|comp_with_price|technology|renewables,0,0,0.005
+deals|comp_with_price|technology|renewables and energy storage,0,0,0.005
+deals|comp_with_price|technology|shale,0,0,0.005
+deals|comp_with_price|technology|solar,0,0,0.005
+deals|comp_with_price|technology|solar thermal,0,0,0.005
+"deals|comp_with_price|technology|solar, wind, storage",0,0,0.005
+deals|comp_with_price|technology|solar-plus-storage,0,0,0.005
+deals|comp_with_price|technology|storage,0,0,0.005
+deals|comp_with_price|technology|superconducting power delivery,0,0,0.005
+deals|comp_with_price|technology|uranium,0,0,0.005
+deals|comp_with_price|technology|virtual power plant,0,0,0.005
+deals|comp_with_price|technology|water,0,0,0.005
+deals|comp_with_price|technology|wind,0,0,0.005
+deals|comp_with_price|type|behind_the_meter,0,0,0.005
+deals|comp_with_price|type|debt,0,0,0.005
+deals|comp_with_price|type|equity_raise,0,0,0.005
+deals|comp_with_price|type|fuel_supply,0,0,0.005
+deals|comp_with_price|type|joint_venture,0,0,0.005
+deals|comp_with_price|type|lease,0,0,0.005
+deals|comp_with_price|type|m_and_a,0,0,0.005
+deals|comp_with_price|type|nuclear_restart,0,0,0.005
+deals|comp_with_price|type|offtake,0,0,0.005
+deals|comp_with_price|type|other,0,0,0.005
+deals|comp_with_price|type|ppa,0,0,0.005
+deals|comp_with_price|type|project_finance,0,0,0.005
+deals|comp_with_price|type|smr,0,0,0.005
+deals|comp_with_price|year|2025,0,0,0.005
+deals|comp_with_price|year|2026,0,0,0.005
+deals|month_ai_pct|2026-11,26,26,0.5
+deals|month_count|2026-11,39,39,0.5
+deals|month_mw|2026-11,5301.5,5301.5,0.5
+deals|priced,0,0,0.5
+table|filter|ai|no,372,372,0.5
+table|filter|ai|yes,218,218,0.5
+table|filter|kind|behind_the_meter,5,5,0.5
+table|filter|kind|capital,159,159,0.5
+table|filter|kind|compute_capacity,32,32,0.5
+table|filter|kind|fuel_supply,59,59,0.5
+table|filter|kind|gas_buildout,12,12,0.5
+table|filter|kind|m_and_a,155,155,0.5
+table|filter|kind|nuclear_restart_uprate,4,4,0.5
+table|filter|kind|offtake,16,16,0.5
+table|filter|kind|other,76,76,0.5
+table|filter|kind|ppa,33,33,0.5
+table|filter|kind|project_finance,21,21,0.5
+table|filter|kind|smr,7,7,0.5
+table|filter|kind|storage,11,11,0.5
+table|filter|kind|transmission,0,0,0.5
+table|filter|mw_from|500,20,20,0.5
+table|filter|price|yes,0,0,0.5
+table|filter|stage|announced,140,140,0.5
+table|filter|stage|cancelled,10,10,0.5
+table|filter|stage|closed,84,84,0.5
+table|filter|stage|financed,5,5,0.5
+table|filter|stage|none,97,97,0.5
+table|filter|stage|operating,0,0,0.5
+table|filter|stage|rumored,60,60,0.5
+table|filter|stage|signed,194,194,0.5
+table|filter|stage|under_construction,0,0,0.5
+table|month_with_mw|2026-11,8,8,0.5
+table|rows,590,590,0.5
+table|sure_max,0.95,0.95,0.5
+table|sure_min,0.3,0.3,0.5
+table|with_flags,14,14,0.5
+table|with_mw,40,40,0.5
+table|with_usd,300,300,0.5
+tracker|deals,585,585,0.5
+tracker|folded,5,5,0.5
+tracker|grid|CAISO,1,1,0.5
+tracker|grid|ERCOT,11,11,0.5
+tracker|grid|ISO-NE,1,1,0.5
+tracker|grid|MISO,9,9,0.5
+tracker|grid|NYISO,0,0,0.5
+tracker|grid|PJM,10,10,0.5
+tracker|grid|SPP,2,2,0.5
+tracker|kind|behind_the_meter,5,5,0.5
+tracker|kind|gas,12,12,0.5
+tracker|kind|nuclear_restart,1,1,0.5
+tracker|kind|smr,5,5,0.5
+tracker|month|2025-01,11,11,0.5
+tracker|month|2025-02,8,8,0.5
+tracker|month|2025-03,14,14,0.5
+tracker|month|2025-04,9,9,0.5
+tracker|month|2025-05,0,0,0.5
+tracker|month|2025-06,0,0,0.5
+tracker|month|2025-07,0,0,0.5
+tracker|month|2025-08,0,0,0.5
+tracker|month|2025-09,0,0,0.5
+tracker|month|2025-10,17,17,0.5
+tracker|month|2025-11,22,22,0.5
+tracker|month|2025-12,11,11,0.5
+tracker|month|2026-01,32,32,0.5
+tracker|month|2026-02,41,41,0.5
+tracker|month|2026-03,42,42,0.5
+tracker|month|2026-04,38,38,0.5
+tracker|month|2026-05,32,32,0.5
+tracker|month|2026-06,23,23,0.5
+tracker|month|2026-07,15,15,0.5
+tracker|month|2026-08,10,10,0.5
+tracker|month|2026-09,59,59,0.5
+tracker|month|2026-10,162,162,0.5
+tracker|month|2026-11,39,39,0.5
+tracker|mw,43119,43119.0,0.005
+tracker|party|AEP,4,4,0.5
+tracker|party|AMD,3,3,0.5
+tracker|party|AirTrunk,5,5,0.5
+tracker|party|Alphabet,2,2,0.5
+tracker|party|Amazon,14,14,0.5
+tracker|party|American Electric Power,2,2,0.5
+tracker|party|Anthropic,17,17,0.5
+tracker|party|Apollo,5,5,0.5
+tracker|party|Applied Digital,3,3,0.5
+tracker|party|AtkinsRéalis,2,2,0.5
+tracker|party|Azerbaijan,2,2,0.5
+tracker|party|BP,6,6,0.5
+tracker|party|BWX Technologies,2,2,0.5
+tracker|party|Bain,2,2,0.5
+tracker|party|Baker Hughes,3,3,0.5
+tracker|party|Banks,2,2,0.5
+tracker|party|BlackRock,2,2,0.5
+tracker|party|Blackstone,11,11,0.5
+tracker|party|Bloom Energy,3,3,0.5
+tracker|party|Blue Owl,2,2,0.5
+tracker|party|Broadcom,2,2,0.5
+tracker|party|Brookfield,6,6,0.5
+tracker|party|Carlyle,2,2,0.5
+tracker|party|Centrus,2,2,0.5
+tracker|party|Cerebras,4,4,0.5
+tracker|party|Cheniere,2,2,0.5
+tracker|party|Chevron,7,7,0.5
+tracker|party|Cipher,2,2,0.5
+tracker|party|ConocoPhillips,2,2,0.5
+tracker|party|Constellation,4,4,0.5
+tracker|party|Constellation Energy,3,3,0.5
+tracker|party|CoreWeave,8,8,0.5
+tracker|party|DNO,2,2,0.5
+tracker|party|DOE,2,2,0.5
+tracker|party|DayOne,3,3,0.5
+tracker|party|Delfin Midstream,2,2,0.5
+tracker|party|Department of Energy,3,3,0.5
+tracker|party|Devon Energy,3,3,0.5
+tracker|party|Diamondback,4,4,0.5
+tracker|party|ECP,2,2,0.5
+tracker|party|EDF,3,3,0.5
+tracker|party|EIG,3,3,0.5
+tracker|party|EQT,2,2,0.5
+tracker|party|Eaton,3,3,0.5
+tracker|party|Energy Transfer,3,3,0.5
+tracker|party|Engine No. 1,2,2,0.5
+tracker|party|Eni,8,8,0.5
+tracker|party|Equinor,5,5,0.5
+tracker|party|Exxon,2,2,0.5
+tracker|party|Fermi,4,4,0.5
+tracker|party|Firmus,2,2,0.5
+tracker|party|France,2,2,0.5
+tracker|party|GE Vernova,6,6,0.5
+tracker|party|Glenfarne,2,2,0.5
+tracker|party|Google,26,26,0.5
+tracker|party|Hoegh Evi,2,2,0.5
+tracker|party|Hut 8,3,3,0.5
+tracker|party|I Squared,2,2,0.5
+tracker|party|IREN,2,2,0.5
+tracker|party|India,3,3,0.5
+tracker|party|Innio,2,2,0.5
+tracker|party|Inpex,3,3,0.5
+tracker|party|Japex,2,2,0.5
+tracker|party|Jera,3,3,0.5
+tracker|party|KKR,12,12,0.5
+tracker|party|Ksi Lisims LNG,2,2,0.5
+tracker|party|LS Power,3,3,0.5
+tracker|party|Liberty,2,2,0.5
+tracker|party|Lukoil,2,2,0.5
+tracker|party|Lynas,2,2,0.5
+tracker|party|MARA,2,2,0.5
+tracker|party|Macquarie,3,3,0.5
+tracker|party|Matador,2,2,0.5
+tracker|party|Mercuria,2,2,0.5
+tracker|party|Meta,10,10,0.5
+tracker|party|Microsoft,14,14,0.5
+tracker|party|MidOcean Energy,2,2,0.5
+tracker|party|Mistral,2,2,0.5
+tracker|party|Mitsubishi,4,4,0.5
+tracker|party|NEXTDC,2,2,0.5
+tracker|party|Nebius,6,6,0.5
+tracker|party|NextEra,4,4,0.5
+tracker|party|NiSource,3,3,0.5
+tracker|party|Nscale,6,6,0.5
+tracker|party|Nvidia,15,15,0.5
+tracker|party|OpenAI,15,15,0.5
+tracker|party|Oracle,6,6,0.5
+tracker|party|Ovintiv,2,2,0.5
+tracker|party|PDG,2,2,0.5
+tracker|party|Petrobras,3,3,0.5
+tracker|party|Petronas,3,3,0.5
+tracker|party|Phillips 66,2,2,0.5
+tracker|party|Polskie Elektrownie Jądrowe,3,3,0.5
+tracker|party|Qatar,5,5,0.5
+tracker|party|QatarEnergy,8,8,0.5
+tracker|party|Quantum,2,2,0.5
+tracker|party|Radiant,2,2,0.5
+tracker|party|SGE,4,4,0.5
+tracker|party|SLB OneSubsea,2,2,0.5
+tracker|party|Sempra,3,3,0.5
+tracker|party|Shell,10,10,0.5
+tracker|party|Siemens Energy,2,2,0.5
+tracker|party|SoftBank,6,6,0.5
+tracker|party|South Korea,2,2,0.5
+tracker|party|SpaceX,4,4,0.5
+tracker|party|Stack,2,2,0.5
+tracker|party|Switch,3,3,0.5
+tracker|party|TPG,4,4,0.5
+tracker|party|Targa Resources,2,2,0.5
+tracker|party|TeraWulf,2,2,0.5
+tracker|party|Total,2,2,0.5
+tracker|party|TotalEnergies,16,16,0.5
+tracker|party|Trafigura,3,3,0.5
+tracker|party|US,8,8,0.5
+tracker|party|USA Rare Earth,2,2,0.5
+tracker|party|Ukraine,2,2,0.5
+tracker|party|Uniper,2,2,0.5
+tracker|party|Venezuela,2,2,0.5
+tracker|party|Venture Global,7,7,0.5
+tracker|party|Vertiv,2,2,0.5
+tracker|party|Viper,2,2,0.5
+tracker|party|Vistra,3,3,0.5
+tracker|party|Voltus,2,2,0.5
+tracker|party|Westinghouse,3,3,0.5
+tracker|party|Williams,2,2,0.5
+tracker|party|Woodside,3,3,0.5
+tracker|party|Worley,2,2,0.5
+tracker|party|Xcel,2,2,0.5
+tracker|party|bond investors,2,2,0.5
+tracker|party|investors,8,8,0.5
+tracker|party|xAI,4,4,0.5
+tracker|status|announced,138,138,0.5
+tracker|status|cancelled,10,10,0.5
+tracker|status|closed,87,87,0.5
+tracker|status|rumored,59,59,0.5
+tracker|status|signed,194,194,0.5
+tracker|technology|AI,2,2,0.5
+tracker|technology|AI chips,1,1,0.5
+tracker|technology|AI cloud,1,1,0.5
+tracker|technology|FSRU,1,1,0.5
+tracker|technology|LNG,62,62,0.5
+tracker|technology|battery,1,1,0.5
+tracker|technology|battery swap,1,1,0.5
+tracker|technology|behind-the-meter power generation,1,1,0.5
+tracker|technology|biocarbon,1,1,0.5
+tracker|technology|biogas,1,1,0.5
+tracker|technology|carbon capture,1,1,0.5
+tracker|technology|clean power,1,1,0.5
+tracker|technology|coal,2,2,0.5
+tracker|technology|copper,1,1,0.5
+tracker|technology|data center,33,33,0.5
+tracker|technology|data center cooling,1,1,0.5
+tracker|technology|fuel cell,1,1,0.5
+tracker|technology|fuel cells,2,2,0.5
+tracker|technology|fusion,4,4,0.5
+tracker|technology|gallium,1,1,0.5
+tracker|technology|gas,46,46,0.5
+tracker|technology|gas engine,1,1,0.5
+tracker|technology|gas pipeline,2,2,0.5
+tracker|technology|generator,1,1,0.5
+tracker|technology|geothermal,3,3,0.5
+tracker|technology|lithium,2,2,0.5
+tracker|technology|microgrid,1,1,0.5
+tracker|technology|not stated,273,273,0.5
+tracker|technology|nuclear,53,53,0.5
+tracker|technology|oil,35,35,0.5
+tracker|technology|oil and gas,10,10,0.5
+tracker|technology|pipeline,1,1,0.5
+tracker|technology|rare earths,4,4,0.5
+tracker|technology|renewable,1,1,0.5
+tracker|technology|renewables,3,3,0.5
+tracker|technology|renewables and energy storage,1,1,0.5
+tracker|technology|shale,1,1,0.5
+tracker|technology|solar,13,13,0.5
+tracker|technology|solar thermal,1,1,0.5
+"tracker|technology|solar, wind, storage",1,1,0.5
+tracker|technology|solar-plus-storage,2,2,0.5
+tracker|technology|storage,3,3,0.5
+tracker|technology|superconducting power delivery,1,1,0.5
+tracker|technology|uranium,2,2,0.5
+tracker|technology|virtual power plant,1,1,0.5
+tracker|technology|water,1,1,0.5
+tracker|technology|wind,3,3,0.5
+tracker|type|acquisition,151,151,0.5
+tracker|type|offtake,27,27,0.5
+tracker|type|other,343,343,0.5
+tracker|type|ppa,39,39,0.5
+tracker|type|project_finance,25,25,0.5
+tracker|type|tolling,0,0,0.5
+tracker|view|ai,217,217,0.5
+tracker|view|storage,11,11,0.5
+tracker|with_dollars,298,298,0.5
+tracker|with_grid,34,34,0.5
+tracker|with_mw,39,39,0.5
+tracker|with_other_price,2,2,0.5
+tracker|with_price,0,0,0.5
+tracker|with_state,52,52,0.5
+tracker|year|2025,92,92,0.5
+tracker|year|2026,493,493,0.5

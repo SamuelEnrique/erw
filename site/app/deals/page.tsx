@@ -16,7 +16,7 @@ import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
-import { rowOf } from "@/lib/dealsview";
+import { monthBlock, rowOf } from "@/lib/dealsview";
 import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { AiView } from "./ai/view";
@@ -100,16 +100,11 @@ async function DealsView() {
 // 2235 where the row has them, each older row's own columns where it does not).
 
 function Body({ rows, month: current, companies }: { rows: Deal[]; month: string; companies: string[] }) {
-  // session 49: at the start of a month with no deals yet, the previous month, labeled
-  const prev = new Date(Date.UTC(Number(current.slice(0, 4)), Number(current.slice(5, 7)) - 2, 1)).toISOString().slice(0, 7);
-  const empty = !rows.some((d) => d.date.slice(0, 7) === current);
-  const month = empty ? prev : current;
-  const inMonth = rows.filter((d) => d.date.slice(0, 7) === month);
-  const mw = inMonth.reduce((a, d) => a + (d.mw ?? 0), 0);
-  const withMw = inMonth.filter((d) => d.mw !== null).length;
-  const aiPct = inMonth.length ? Math.round((100 * inMonth.filter((d) => d.aiPower).length) / inMonth.length) : null;
+  // session 49: at the start of a month with no deals yet, the previous month, labeled. Session 7404 (chain 303): the
+  // arithmetic is lib/dealsview.ts monthBlock (unchanged), so Node can run what the page runs
+  const { month, empty, deals: nDeals, mw, withMw, aiPct } = monthBlock(rows, current);
   const cells = [
-    { k: `Deals in ${month}`, v: <Num check={`deals|month_count|${month}`} raw={inMonth.length}>{count(inMonth.length)}</Num> },
+    { k: `Deals in ${month}`, v: <Num check={`deals|month_count|${month}`} raw={nDeals}>{count(nDeals)}</Num> },
     {
       k: `MW announced in ${month}`,
       v: (

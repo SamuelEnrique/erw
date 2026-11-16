@@ -5873,6 +5873,7 @@ friction_index_weekly,kind_permit_denied,series variable,count
 friction_index_weekly,kind_political_opposition,series variable,count
 friction_index_weekly,kind_protest,series variable,count
 friction_index_weekly,kind_rate_case,series variable,count
+friction_index_weekly,opposition_events,series variable,count
 friction_index_weekly,opposition_stories,series variable,count
 gas_balance_weekly,consumption,series variable,MMcf
 gas_balance_weekly,dry_production,series variable,MMcf

@@ -41,3 +41,7 @@ intervals it shows reach the real-time tables with the daily run.
 Each number `/prices` shows carries its key (`site/components/Num.tsx`), which `site/scripts/check-values.mjs` checks against the live set and `site/scripts/check-methods.mjs` against this note (session 409). The keys the sections above do not name:
 
 - `iso_dam_hub_prices`, `nyiso_dam_zone_prices`, `isone_dam_zone_prices`, `lmp_dam`, `spp_dam`: the column "Day-ahead this hour, USD/MWh", each grid's day-ahead table and variable as `site/data/markets.json` names them: `spp_dam` in `iso_dam_hub_prices` for ERCOT; `lmp_dam` in `iso_dam_hub_prices` for CAISO, MISO and SPP, in `nyiso_dam_zone_prices` for NYISO and in `isone_dam_zone_prices` for ISO-NE.
+
+## The replication (session 7011, chain 301)
+
+`replication/prices/replicate.py` reads the live set as the pages do (the public anon key; `latest_prices` and each market's day-ahead and real-time rows of the last 30 days, as `site/data/markets.json` names them) and compares every row with the warehouse's own table: on 16 November 2026 at 11:25 UTC, 74,258 of 74,258 prices equal, the "day-ahead this hour" rule included; 6 live rows were newer than the warehouse's copy and not compared; MISO, NYISO and ISO-NE show no row to the anon key. `replicate.do` reads five of those prices from the tables in Stata, its expected values at its top.

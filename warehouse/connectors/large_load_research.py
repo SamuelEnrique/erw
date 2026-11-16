@@ -49,8 +49,10 @@ import iso_prices as ip  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RESEARCH = os.path.join(ROOT, "docs", "research", "large_load")
-FILES = {"rules": "utilities_2026-11-13.csv", "changes": "changes_2026-11-13.csv", "laws": "legislation_2026-11-13.csv"}
-NAMES = {"rules": "utility_large_load_rules", "changes": "utility_large_load_rule_changes", "laws": "state_large_load_laws"}
+FILES = {"rules": "utilities_2026-11-13.csv", "changes": "changes_2026-11-13.csv", "laws": "legislation_2026-11-13.csv",
+         "totals": "utilities_2026-11-13.csv"}
+NAMES = {"rules": "utility_large_load_rules", "changes": "utility_large_load_rule_changes", "laws": "state_large_load_laws",
+         "totals": "utility_large_load_queue_totals"}
 SOURCE = "research:large_load_2026-11-13"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/large_load_research.md"
 README_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/research/large_load/README.md"
@@ -76,7 +78,7 @@ def split_fields(cell):
 def check(kind, d):
     """The problems that stop a table: what a row must hold, said row by row."""
     bad = []
-    idc = {"rules": "row_id", "changes": "change_id", "laws": "law_id"}[kind]
+    idc = {"rules": "row_id", "changes": "change_id", "laws": "law_id", "totals": "row_id"}[kind]
     if not d[idc].is_unique:
         bad.append(f"{FILES[kind]}: {idc} not unique")
     for _, r in d.iterrows():
@@ -87,7 +89,7 @@ def check(kind, d):
             bad.append(f"{rid}: source_url {r['source_url']!r}")
         if not DATE_RE.match(r["date_read"]):
             bad.append(f"{rid}: date_read {r['date_read']!r}")
-        if kind == "rules":
+        if kind in ("rules", "totals"):
             if r["status"] not in RULE_STATUSES:
                 bad.append(f"{rid}: status {r['status']!r}")
             for f in split_fields(r["internal_fields"]):
@@ -165,11 +167,60 @@ def laws_rows(d):
     return pd.DataFrame(out), held
 
 
-BUILD = {"rules": rules_rows, "changes": changes_rows, "laws": laws_rows}
+MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
+AS_OF = re.compile(rf"\b(?:({MONTHS})\s+(\d{{1,2}}),\s+(20\d\d)|(\d{{1,2}})\s+({MONTHS})\s+(20\d\d))\b")
+NOT_A_FIGURE = re.compile(r"^(not published|see row:|held:)|\bno (single queue|mw pipeline|pipeline) figure published|^no mw pipeline published", re.I)
+
+
+def as_of(text):
+    """The first full date the figure's own words print (\"at September 30, 2026\", \"(29 September 2026)\"), or ""."""
+    m = AS_OF.search(text or "")
+    if not m:
+        return ""
+    if m.group(1):
+        mon, day, year = m.group(1), m.group(2), m.group(3)
+    else:
+        day, mon, year = m.group(4), m.group(5), m.group(6)
+    return f"{year}-{MONTHS.split('|').index(mon) + 1:02d}-{int(day):02d}"
+
+
+def totals_rows(d):
+    """Session 7008 (chain 301, goal 2): the queue figures the research read, one row a utility (or commission) and the
+    figure as printed with its cite: a total of requested or committed load, or a count of requests. No publisher among
+    them prints a dated list of load requests with its own identifiers that could be followed by large_load_waits' rule
+    (each prints a total), so each is kept as a dated total. A row that points to another row ("see row:"), prints
+    "not published", or names a registry file is not a figure; a row whose license is internal, or whose queue_size is
+    among its internal_fields, is held and named in the header with its reason."""
+    out, held = [], []
+    for _, r in d.iterrows():
+        fig = " ".join((r["queue_size"] or "").split())
+        if not fig or NOT_A_FIGURE.search(fig):
+            continue
+        if r["license"] != "public":
+            held.append(f"{r['row_id']} ({r['utility']}: its source asks written permission or allows personal use only)")
+            continue
+        if "queue_size" in split_fields(r["internal_fields"]):
+            held.append(f"{r['row_id']} ({r['utility']}: the figure rests only on a host whose terms ask permission)")
+            continue
+        day = as_of(fig)
+        date, kind = (day, "the figure's own date") if day else (r["date_read"], "date read")
+        out.append({
+            "event_id": f"llqueue:{r['row_id']}", "event_date": date, "event_type": "large_load_queue_total", "parties": r["utility"],
+            "entity_ids": "", "mw": "", "price": "", "currency": "", "status": "as printed", "source": SOURCE,
+            "source_url": (r["queue_size_cite"].split()[0] if r["queue_size_cite"].startswith("http") else r["source_url"]),
+            "x_row_id": r["row_id"], "x_group": r["group"], "x_utility": r["utility"], "x_state": r["state"],
+            "x_iso_region": r["iso_region"], "x_figure": fig, "x_figure_cite": " ".join((r["queue_size_cite"] or "").split()),
+            "x_date_kind": kind, "x_source_title": r["source_title"], "x_date_read": r["date_read"],
+            "x_license_basis": r["license_basis"]})
+    return pd.DataFrame(out), held
+
+
+BUILD = {"rules": rules_rows, "changes": changes_rows, "laws": laws_rows, "totals": totals_rows}
 WHAT = {
     "rules": "US utilities' (and two state commissions') large-load connection rules, one row a rule (session 3937, chain 267)",
     "changes": "changes to US utilities' large-load rules, 15 August to 13 November 2026, one row a filing, order or event (session 3937, chain 267)",
     "laws": "US states' large-load laws and bills of the 2025 and 2026 sessions, one row a law or bill (session 3937, chain 267)",
+    "totals": "US utilities' large-load queues as each publisher prints them: a dated total of requested or committed load, or a count of requests, one row a publisher (session 7008, chain 301)",
 }
 SHAPE = {
     "rules": "event_id llrule:<row_id>; event_date the status date the documents print, else the day read (x_date_kind); event_type "
@@ -180,6 +231,10 @@ SHAPE = {
                "registry file of the ERW, or 'new'; x_cite the page and words",
     "laws": "event_id lllaw:<law_id>; event_date the status date printed, else the day read (x_date_kind); event_type large_load_law; status "
             "introduced, passed one chamber, passed, enacted, in effect, vetoed or died; x_requirements the duties by topic, as printed",
+    "totals": "event_id llqueue:<row_id> (the rules file's row); event_date the first full date the figure's words print, else the day "
+              "read (x_date_kind); event_type large_load_queue_total; status 'as printed'; x_figure the figure in the publisher's words "
+              "(a phrase: MW, GW, a count of requests or customers, never summed here) with x_figure_cite (page and words); source_url "
+              "the document the figure stands in",
 }
 
 

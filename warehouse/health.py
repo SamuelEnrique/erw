@@ -46,6 +46,9 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
         is 75. warehouse/run_daily.sh asks before each model step; the digest and the Roundup are then written with
         --no-model (without the model-written parts) and still publish. A budget that cannot be read never switches a
         step off: the step runs, and a failed row of erw_health says the budget could not be read.
+        Session 7202: the key's own usage limit is not this cap. It is known only when the API answers, so the step
+        runs, is refused at its first call, and ends as skipped with exit 75 and the line "<step> SKIPPED: the key's
+        limit: ... access returns <date>" (warehouse/llm.py, finish): one skipped row of erw_health, never retried.
 """
 
 import argparse

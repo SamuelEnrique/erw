@@ -36,7 +36,10 @@ table rows behind it (the rows are reachable on `/attention`: the cell's stories
   (62 of 1,708), transmission 3.7 (10 of 270).
 - **Week by week** the data center figure holds: 10.2, 9.0, 9.0 and 10.4 percent in the four full weeks (17, 15, 19
   and 20 opposition stories of 167, 166, 210 and 192), then 30.2 percent in the part week of 2 to 6 November 2026 (19
-  of 63), the week of the ballot measures on data center moratoria in Texas, Georgia and Iowa.
+  of 63), the week of the midterm elections. (Corrected by session 7003, the attention review's row 18: none of the
+  week's 19 opposition stories names a ballot measure in Texas, Georgia or Iowa; they are the election results,
+  attack ads, polls, OpenAI's response, Australia's inquiry and Wyoming. The five weeks together, 90 of 799 or 11.3
+  percent, are in `site/data/attention.json` `together`.)
 - **What the opposition is:** protest 30, political opposition 25, other 12, moratorium 12, lawsuit 4, rate case 4,
   permit denied 3.
 
@@ -77,7 +80,8 @@ table rows behind it (the rows are reachable on `/attention`: the cell's stories
   coverage was written, not how the sector fared.
 
 - **Chart:** the mean tone by sector (a dot a sector on a -1 to 1 axis), with the tone of the opposition stories and
-  of the others marked separately (opposition stories average -0.67 against +0.23 for the rest, so the sector gap is
+  of the others marked separately (opposition stories average -0.69 against +0.18 for the rest, as above; corrected by
+  session 7003, the attention review's row 20, from -0.67 and +0.23, which matched no cut of the table; so the sector gap is
   not only the friction gap).
 - **Link table:** `attention_story_links`, `tone` by `sector`.
 - **Caveat:** tone is the classification's weakest field (0.87 against the hand labels); the finding needs the second

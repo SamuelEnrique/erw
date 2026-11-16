@@ -3,8 +3,9 @@
 The Attention Index says how much of a week's energy coverage a sector or a place got. The Friction Index says how much
 of that coverage reported opposition: a moratorium or ban, a lawsuit, a protest, a permit denied, a fight over rates, an
 elected official or government against a project, in whatever words the stories used. Both are counts of a model's
-reading of each story's title and summary, by week, sector and place, from the first week the warehouse's news corpus
-holds (January 2025). They measure what the feeds the ERW reads wrote about, not what happened, and not why.
+reading of each story's title and summary, by week, sector and place. The denominators run from the first week the
+warehouse's news corpus holds (January 2025); the stories are classified so far from the week of 2026-10-05 (8,119 of
+27,419 stories on 16 November 2026), and the indices are drawn only for classified weeks. They measure what the feeds the ERW reads wrote about, not what happened, and not why.
 
 - Code: `warehouse/derived/attention_classify.py` (the classification, one story at a time) and
   `warehouse/derived/attention_index.py` (the counting; no model touches a number)
@@ -125,7 +126,19 @@ and on tone for 73.3. Agreement is not accuracy; it says where a second reading 
 
 - **One corpus.** The indices count the 43 feeds the ERW reads (the outlets' own feeds and Google News searches,
   `warehouse/news/feeds.yaml`), nothing else. A sector or a place a feed does not cover does not appear. Four outlets
-  (Reuters, the Financial Times, Bloomberg and the Wall Street Journal) are three quarters of the rows.
+  (Reuters, the Financial Times, Bloomberg and the Wall Street Journal) are 75.8 percent of the corpus (20,779 of
+  27,419 stories) and 64.5 percent of the link table's 8,120 classified rows (5,234), on 16 November 2026.
+- **Stories, not events.** The Friction Index counts stories: several outlets reporting one act count several times
+  (on 16 November 2026, the 250 energy opposition stories of the classified weeks are 214 events, a news cluster of
+  the scorer counted once and a story clustered with none as its own). `friction_index_weekly` carries
+  `opposition_events` (distinct clusters) beside `opposition_stories` (session 7003).
+- **What counts as opposition.** The review of 12 November 2026 read the 82 distinct opposition stories of ten cells
+  and found 10 that report no opposition to a project, plant, line, policy, permit, lease or rate (a commercial
+  arbitration, a government's own policy, a short seller's report, geopolitics, an endorsement) and 6 more of the
+  wrong kind (a withdrawal drawn as a denial, polls drawn as protests), 7 of the 10 in oil and LNG. The accuracy above
+  (0.985 on 200 labeled stories) does not hold for the opposition rows of those cells. Prompt version 4 (session 7003)
+  writes those exclusions and the kinds of a poll and a withdrawal; the rows classified under version 3 keep their
+  reading until a run classifies them again.
 - **English only.** The feeds are English-language; coverage in other languages is not read.
 - **The feeds' own bias.** What rises in the index is what these outlets chose to write about and how Google News
   ranked it; the ERW adds a reading, not a correction.
@@ -135,13 +148,25 @@ and on tone for 73.3. Agreement is not accuracy; it says where a second reading 
   stated only in the body is missed; a state is set for a small share of stories (17 of 200 in the labeled set).
 - **A model's reading.** Every row is a model's; the accuracy above is measured on 200 stories and holds no better
   than that. The `fixed` column shows where code emptied an answer.
-- **A week in progress** is partial and is drawn so; the feeds also date a few stories after the day they were read,
-  which the tables keep as given.
+- **A week in progress** is partial and is drawn so. A feed item dated more than a day after the ERW read it (a listing
+  of a coming event) is left out of every week (session 7003: two on 16 November 2026); the link table keeps the one
+  such row classified before.
+- **What rose** sets a week's index beside the mean of the classified weeks among the four before (a week the
+  classifier has not reached is no zero; a classified week with no story in the cell is); fewer than four are said,
+  and a week with none before has no row (session 7003).
 - **No point of view.** The page and the tables say what the coverage did, not what anyone should do.
 - **No record of the deciding bodies.** The indices read the news, not the agendas, minutes or dockets of planning
   commissions and siting boards; the probe of 6 November 2026 (`docs/reviews/local-permitting-estimate-2026-11-06.md`)
   found one machine-readable door (Legistar's web API, where a client switched it on) and two state docket systems
   that bar AI agents by name (`dis.puc.state.oh.us`, `apps.psc.wi.gov`), which the ERW does not read.
+
+## Replication
+
+`replication/attention/replicate.py` (session 7007) recomputes every figure of `site/data/attention.json` from the
+public tables (`attention_story_links`, and the corpus rows of `attention_index_weekly` for the denominators) and the
+cluster ids of `news_stories`, by this note's words and not from the builder's code: the cells, each kind's count, what
+rose, the classified weeks together, the places, the denominators and the counts. On 16 November 2026: 3,407 of 3,407
+equal. `replicate.do` rebuilds five headline figures in Stata, its expected values at its top.
 
 ## Provenance
 

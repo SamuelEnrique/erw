@@ -1,5 +1,5 @@
 {
- "retrieved_at": "2026-10-24T15:06:36Z",
+ "retrieved_at": "2026-11-16T11:56:29Z",
  "timezone": "America/New_York",
  "reports": [
   {
@@ -11,62 +11,6 @@
    "page": "https://www.eia.gov/petroleum/supply/weekly/schedule.php",
    "covers": "the week ending the Friday before",
    "exceptions": [
-    {
-     "week_ending": "2024-12-27",
-     "date": "2025-01-02",
-     "day": "Thursday",
-     "time": "11:00",
-     "holiday": "New Year's Day"
-    },
-    {
-     "week_ending": "2025-01-17",
-     "date": "2025-01-23",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "Martin Luther King Jr. Day"
-    },
-    {
-     "week_ending": "2025-02-14",
-     "date": "2025-02-20",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "President's Day"
-    },
-    {
-     "week_ending": "2025-05-23",
-     "date": "2025-05-29",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "Memorial Day"
-    },
-    {
-     "week_ending": "2025-08-29",
-     "date": "2025-09-04",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "Labor Day"
-    },
-    {
-     "week_ending": "2025-10-10",
-     "date": "2025-10-16",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "Columbus Day"
-    },
-    {
-     "week_ending": "2025-11-07",
-     "date": "2025-11-13",
-     "day": "Thursday",
-     "time": "12:00",
-     "holiday": "Veterans Day"
-    },
-    {
-     "week_ending": "2025-12-19",
-     "date": "2025-12-29",
-     "day": "Monday",
-     "time": "17:00",
-     "holiday": "Christmas"
-    },
     {
      "week_ending": "2026-01-16",
      "date": "2026-01-22",
@@ -108,9 +52,58 @@
      "day": "Thursday",
      "time": "12:00",
      "holiday": "Veterans Day"
+    },
+    {
+     "week_ending": "2027-01-15",
+     "date": "2027-01-21",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Martin Luther King Jr. Day"
+    },
+    {
+     "week_ending": "2027-02-12",
+     "date": "2027-02-18",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "President's Day"
+    },
+    {
+     "week_ending": "2027-05-28",
+     "date": "2027-06-03",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Memorial Day"
+    },
+    {
+     "week_ending": "2027-07-02",
+     "date": "2027-07-08",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Independence Day"
+    },
+    {
+     "week_ending": "2027-09-03",
+     "date": "2027-09-09",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Labor Day"
+    },
+    {
+     "week_ending": "2027-10-08",
+     "date": "2027-10-14",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Columbus Day"
+    },
+    {
+     "week_ending": "2028-01-14",
+     "date": "2028-01-20",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Martin Luther King Jr. Day"
     }
    ],
-   "read": "the page's holiday table, 14 alternate dates"
+   "read": "the page's holiday table, 13 alternate dates"
   },
   {
    "id": "wngsr",

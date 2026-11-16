@@ -68,7 +68,9 @@ class Part0(unittest.TestCase):
 
     def test_deals_shows_the_previous_month_when_this_one_has_none(self):
         p = src("site", "app", "deals", "page.tsx")
-        self.assertRegex(p, r"empty \? prev : current")
+        # session 7404 (chain 303): the month's arithmetic moved, unchanged, to lib/dealsview.ts (monthBlock), which the page calls
+        self.assertIn("monthBlock(rows, current)", p)
+        self.assertRegex(src("site", "lib", "dealsview.ts"), r"empty \? prev : current")
         self.assertIn("the month before", p)
 
 

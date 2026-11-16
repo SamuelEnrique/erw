@@ -107,6 +107,13 @@ def build(stories, classified, now):
     """The three tables and the page's data, from the stories and the classified rows."""
     stories = stories.copy()
     stories["_when"] = pd.to_datetime(stories["event_date"], utc=True, format="ISO8601")
+    # session 7003 (found on the way, attention faults row 25): a feed item dated more than a day after the ERW read it
+    # is a listing of a coming event ("Data Center World Middle East", dated 2026-11-17, read 2026-10-24), not that
+    # week's news: it is left out of every week, so no week ahead of the corpus is drawn
+    if "retrieved_at" in stories.columns:
+        read_at = pd.to_datetime(stories["retrieved_at"], utc=True, format="ISO8601", errors="coerce")
+        ahead = read_at.notna() & (stories["_when"] > read_at + pd.Timedelta(days=1))
+        stories = stories[~ahead].copy()
     stories["week"] = week_of(stories["_when"])
     zero = stories["significance"].str.strip() == "0"
     done = stories["event_id"].isin(set(classified["event_id"]))
@@ -115,7 +122,10 @@ def build(stories, classified, now):
              .join(stories[zero & ~done].groupby("week").size().rename("stories_unsent_zero")).fillna(0).astype(int))
     weeks["stories_judged"] = weeks["stories_classified"] + weeks["stories_unsent_zero"]
 
-    c = classified.merge(stories[["event_id", "week"]], on="event_id", how="inner")
+    cl = stories["cluster_id"] if "cluster_id" in stories.columns else ""
+    c = classified.merge(stories[["event_id", "week"]].assign(cluster_id=cl), on="event_id", how="inner")
+    # session 7001 (attention faults row 16): an event is a news cluster; a story the scorer clustered with none is its own
+    c["event_key"] = [x if str(x).strip() else e for x, e in zip(c["cluster_id"].fillna(""), c["event_id"])]
     c["geo"] = ["US-" + s if s else ("US" if u else "") for s, u in zip(c["state"], c["us"])]
     # session 3403: no em or en dash in any file the ERW writes (an outlet's name carries one: "IEA" with a dash)
     for col in ("source", "headline", "place"):
@@ -161,6 +171,7 @@ def build(stories, classified, now):
             att.append(srow(entity, "tone_mean", week, round(float(gw["tone"].mean()), 4), "ratio", geo))
             opp = gw[gw["opposition"]]
             fri.append(srow(entity, "opposition_stories", week, len(opp), "count", geo))
+            fri.append(srow(entity, "opposition_events", week, int(opp["event_key"].nunique()), "count", geo))
             fri.append(srow(entity, "friction_index", week, round(100.0 * len(opp) / n, 4), "pct", geo))
             counts = opp["kind"].value_counts()
             for k in OPP_KINDS:
@@ -181,14 +192,14 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
     si = {s: i for i, s in enumerate(SECTORS)}
     cells = []  # [sector_i, geo_i, week_i, stories, attention_index, opposition_stories, friction_index, tone_mean]
     a = att[att["variable"].isin(["stories", "attention_index", "tone_mean"])].pivot_table(index=["entity", "ts_utc"], columns="variable", values="value", aggfunc="first")
-    f = fri[fri["variable"].isin(["opposition_stories", "friction_index"])].pivot_table(index=["entity", "ts_utc"], columns="variable", values="value", aggfunc="first")
+    f = fri[fri["variable"].isin(["opposition_stories", "opposition_events", "friction_index"])].pivot_table(index=["entity", "ts_utc"], columns="variable", values="value", aggfunc="first")
     j = a.join(f, how="left").reset_index()
     for r in j.itertuples():
         _, sector, geo = r.entity.split(":")
         if sector not in si or geo not in gi:
             continue
         cells.append([si[sector], gi[geo], wi[r.ts_utc], int(r.stories), float(r.attention_index), int(r.opposition_stories),
-                      float(r.friction_index), float(r.tone_mean)])
+                      float(r.friction_index), float(r.tone_mean), int(r.opposition_events)])
     kinds = {}
     for r in fri[fri["variable"].str.startswith("kind_")].itertuples():
         if r.value:
@@ -207,8 +218,14 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
     # "rising this week" lists are read, not computed, on the page. rows: [week_i, kind, sector_i or state, this, mean_before, change]
     att_i = {(r.entity, r.ts_utc): float(r.value) for r in att[att["variable"] == "attention_index"].itertuples()}
     rising = []
+    # session 7001 (attention faults row 7): the weeks before are the classified weeks among the four before (a week the
+    # classifier has not reached is no zero); a classified week where the cell has no row counts as zero; fewer than
+    # four: the mean of those, their count the row's last element; none: no row
+    classified_weeks = {w for w, r in weeks.iterrows() if int(r.stories_classified) > 0}
     for w_i, week in enumerate(week_list):
-        before = week_list[max(0, w_i - 4):w_i]
+        before = [b for b in week_list[max(0, w_i - 4):w_i] if b in classified_weeks]
+        if not before:
+            continue
         for sector in SECTORS:
             e = f"attention:{sector}:all"
             this = att_i.get((e, week))
@@ -216,7 +233,7 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
                 continue
             prev = [att_i.get((e, b), 0.0) for b in before]
             mean = round(sum(prev) / len(prev), 4) if prev else 0.0
-            rising.append([w_i, "sector", si[sector], this, mean, round(this - mean, 4)])
+            rising.append([w_i, "sector", si[sector], this, mean, round(this - mean, 4), len(before)])
         for st_code in states:
             e = f"attention:energy:US-{st_code}"
             this = att_i.get((e, week))
@@ -224,9 +241,29 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
                 continue
             prev = [att_i.get((e, b), 0.0) for b in before]
             mean = round(sum(prev) / len(prev), 4) if prev else 0.0
-            rising.append([w_i, "state", st_code, this, mean, round(this - mean, 4)])
+            rising.append([w_i, "state", st_code, this, mean, round(this - mean, 4), len(before)])
+    # session 7001 (attention faults row 18): each sector's figures over the classified weeks together (geo all and US):
+    # [sector_i, geo_i, weeks, stories, opposition_stories, opposition_events, friction_index, tone_mean,
+    # tone_mean_opposition, tone_mean_rest], so the page can draw a memo's figure over the weeks
+    together = []
+    cw = c[c["week"].isin(classified_weeks)]
+    for sector in SECTORS:
+        s_ = cw[cw["sector"].isin(ENERGY)] if sector == "energy" else cw[cw["sector"] == sector]
+        for geo_key, g in (("all", s_), ("US", s_[s_["us"]])):
+            if not len(g):
+                continue
+            o, rest = g[g["opposition"]], g[~g["opposition"]]
+            together.append([si[sector], gi[geo_key], int(g["week"].nunique()), int(len(g)), int(len(o)),
+                             int(o["event_key"].nunique()), round(100.0 * len(o) / len(g), 4), round(float(g["tone"].mean()), 4),
+                             round(float(o["tone"].mean()), 4) if len(o) else None,
+                             round(float(rest["tone"].mean()), 4) if len(rest) else None])
     data = dict(built=now, note=header_note, weeks=week_list, sectors=SECTORS, geos=geos, states=states,
-                denominators=denominators, cells=cells, kinds=kinds, places=places, rising=rising,
+                denominators=denominators, cells=cells, kinds=kinds, places=places, rising=rising, together=together,
+                columns=dict(cells=["sector", "geo", "week", "stories", "attention_index", "opposition_stories",
+                                    "friction_index", "tone_mean", "opposition_events"],
+                             rising=["week", "kind", "sector_or_state", "this", "mean_before", "change", "weeks_before"],
+                             together=["sector", "geo", "weeks", "stories", "opposition_stories", "opposition_events",
+                                       "friction_index", "tone_mean", "tone_mean_opposition", "tone_mean_rest"]),
                 counts=dict(stories=int(len(c)), opposition=int(c["opposition"].sum()), weeks_with_stories=int(c["week"].nunique())),
                 model=sorted(c["model_id"].unique().tolist()), tables=[LINKS, ATT, FRI])
     os.makedirs(os.path.join(site_dir, "data"), exist_ok=True)
@@ -235,7 +272,8 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
         fh.write("\n")
     # the stories, one short record each, one file a week (site/public/attention/stories/<monday>.json, fetched when a
     # reader opens a week's hover), newest first within the week; the hover finds a cell's stories by sector, geo and week
-    cols = ["id", "date", "outlet", "url", "headline", "sector", "state", "opposition", "kind", "tone", "place"]
+    # session 7001 (attention faults row 2): us (0 or 1), so the page can list the United States cell's stories
+    cols = ["id", "date", "outlet", "url", "headline", "sector", "state", "opposition", "kind", "tone", "place", "us"]
     out = os.path.join(site_dir, "public", "attention", "stories")
     os.makedirs(out, exist_ok=True)
     for old in glob.glob(os.path.join(out, "*.json")):
@@ -243,7 +281,7 @@ def site_files(links, att, fri, weeks, c, site_dir, now, header_note):
     n_st = 0
     for week, g in links.sort_values("event_date", ascending=False).groupby("week"):
         st = [[r.story_event_id, r.event_date[:10], r.source, r.source_url, r.headline, r.sector, r.state,
-               1 if r.opposition == "true" else 0, r.kind, int(r.tone), r.place] for r in g.itertuples()]
+               1 if r.opposition == "true" else 0, r.kind, int(r.tone), r.place, 1 if r.us == "true" else 0] for r in g.itertuples()]
         n_st += len(st)
         with open(os.path.join(out, week[:10] + ".json"), "w", encoding="utf-8", newline="\n") as fh:
             json.dump(dict(built=now, week=week, columns=cols, rows=st), fh, ensure_ascii=False, separators=(",", ":"))

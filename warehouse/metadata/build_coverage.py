@@ -120,14 +120,14 @@ TIER_RULES = [
     ("model_extracted", r"^large_load_rules(_internal)?$"),
     ("model_extracted", r"^large_load_rule_reads$"),
     # session 155: durations the ERW's code computes between dated copies of public queues (no model reads anything)
-    ("derived", r"^large_load_waits$"),
+    ("derived", r"^(large_load_waits|large_load_wait_summary)$"),   # session 7008: the summary that names no request
     # session 255: the statements whose source document is public, as facts with a link (the figures are the research
     # agent's, each proved by code in large_load_statements), and the license verdict the ERW's code gives each document
     ("model_extracted", r"^large_load_public$"),
     ("derived", r"^large_load_document_verdicts$"),
     # session 3937: the research pass of 13 and 14 November 2026 (window P4, AI research sessions), every cite matched in its
     # document by the pass's own code (docs/research/large_load/verify_quotes.py) and every rules row read by five auditors
-    ("model_extracted", r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws)$"),
+    ("model_extracted", r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws|utility_large_load_queue_totals)$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -146,7 +146,7 @@ SECTOR_RULES = [
     (r"^utility_service_territories$", "power"),  # session 667: EIA-861 service territories, utility by county
     (r"^utility_large_load_tariffs$", "power"),  # session 2871: large loads' filed tariffs, a figure a row (the registry)
     (r"^large_load_connection_rules$", "power;datacenters"),
-    (r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws)$", "power;datacenters"),  # session 3937: the large-load research pass  # session 2924: the steps a document states to connect a large load (the registry)
+    (r"^(utility_large_load_rules|utility_large_load_rule_changes|state_large_load_laws|utility_large_load_queue_totals)$", "power;datacenters"),  # session 3937: the large-load research pass  # session 2924: the steps a document states to connect a large load (the registry)
     (r"^iso_reserve_margin_reports$", "power"),  # session 3798: grid operators' reserve margins as their assessments print them (the registry)
     (r"^generator_pipeline_by_grid$", "power"),  # session 2951: EIA-860M's pipeline by grid and its monthly moves (derived)
     (r"^iso_queue_snapshot_summary$", "power"),  # session 2953: the ISO queues summarized from their own snapshots (derived)
@@ -575,7 +575,7 @@ SECTOR_RULES = [
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
     (r"^large_load_rule(s|s_internal|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
-    (r"^large_load_waits$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
+    (r"^(large_load_waits|large_load_wait_summary)$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
     (r"^large_load_(public|document_verdicts)$", "power;datacenters"),  # session 255: the statements whose document is public, and each document's license verdict (internal until ruled)
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
     (r"^(attention_story_links|attention_index_weekly|friction_index_weekly)$", "news;datacenters"),  # session 3402: the Attention and Friction indices

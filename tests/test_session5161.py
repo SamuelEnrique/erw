@@ -130,7 +130,10 @@ class TheWorkflows(unittest.TestCase):
 
 
 # Whatever a browser-side file imports is in a script any visitor can fetch, whatever the page's status.
-CLIENT_DATA = {"data/license_status.json": "the license status of each table: public words, printed on the pages"}
+CLIENT_DATA = {"data/license_status.json": "the license status of each table: public words, printed on the pages",
+               # session 7009 (chain 301's desk, the old laptop's row 15): the large-load rules panel's file, read: the public
+               # rows of the research tables and the held rows' ids and utilities, as the tables' headers name them
+               "data/siting/large_load_rules.json": "the large-load rules, laws and changes the All grids tab and the monitor draw: public rows"}
 IMPORT = re.compile(r"""(?:^|\n)\s*(?:import|export)\s+(?!type\b)(?:[^'";]*?\sfrom\s+)?['"]([^'"]+)['"]|\bimport\(\s*['"]([^'"]+)['"]\s*\)""")
 
 

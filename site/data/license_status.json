@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-14",
+ "written": "2026-11-16",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -4534,6 +4534,10 @@
     "/data"
    ]
   },
+  "utility_large_load_queue_totals": {
+   "status": "public",
+   "pages": []
+  },
   "utility_large_load_rule_changes": {
    "status": "public",
    "pages": [
@@ -4600,7 +4604,7 @@
    ]
   }
  },
- "internal_tables": 115,
+ "internal_tables": 116,
  "pages": {
   "/": {
    "label": "Home",

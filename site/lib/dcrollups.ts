@@ -9,8 +9,10 @@ export type FacRow = { entity_id: string; capacity_mw: number | string | null; s
 
 export type Rollup = { value: string; facilities: number; counted: number; mw: number | null; withMw: number; without: number };
 
+// session 7400 (chain 303, datacenter faults row 15): Puerto Rico added, so this list is lib/largeload.ts's US_STATES
+// (the 50 states, the District of Columbia and Puerto Rico) and a rollup counts the rows the top block counts
 const STATES = new Set(("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC " +
-  "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY").split(" "));
+  "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR").split(" "));
 const num = (v: unknown): number | null => (v === null || v === undefined || v === "" || !Number.isFinite(Number(v)) ? null : Number(v));
 
 /** A row the sums count: a named US state, a status other than withdrawn (cancelled). */

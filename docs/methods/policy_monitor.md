@@ -538,6 +538,30 @@ owner, not pulled):
 | BOEM lease sales' results (the bids) | the Register prints the notices of sale, not the results | BOEM's lease sale statistics pages |
 | Virginia's commission | paused: its robots file disallows every automated request | none while the pause stands |
 
+**The replication (session 7006).** `replication/policy/replicate.py` groups the documents of `policy_actions` into
+records by this section's words alone (and the same-day RIN split of session 7002), and recomputes each record of
+`monitor.json`: its documents, count, dates, body, title, instrument, status, significance and the sector of the
+document that has it, every step, the next step, the figure, the sources, and the documents of the plain read and the
+significance. On 16 November 2026 it found one fault (row 32 of the review): 27 DOE releases kept from earlier runs
+carry no fields in the table, and the file derived them as it was built; `policy_sources.fill_bare` now reads them from
+their own rows before the write. `replicate.do` rebuilds five document counts in Stata, its expected values at its top.
+Since session 7002 the file also carries `plain_doc` (the document a plain read is of) and `significance_doc` (the
+document that scored the highest significance, with the scorer's why), and 1,033 of 1,523 records hold dated steps,
+the fields of 1,792 documents read from their printed texts.
+
+**The rule changes (session 7009).** FERC's orders in the grid operators' large-load dockets, and the commissions' and
+operators' steps beside them, are not printed in the Federal Register. The research pass of 13 November holds 15 of them
+(`utility_large_load_rule_changes`, group `operators_federal`), each with its document; `monitor_site.py` reads them as
+documents of the monitor by written rules: the body by the docket (a FERC docket, ER or EL, is FERC's unless the step
+is a board's approval, which is its operator's; an ERCOT revision request, NPRR or PGRR, is ERCOT's even beside a PUC
+project number; a Texas PUC project number the PUCT's; a Pennsylvania PUC docket, M- or C-, the PA PUC's; else the
+party's), the instrument and status by the kind of change (order issued: an order, issued; filed: an application,
+filed; approved: an approval, issued; amended: an order, issued; in effect: an order, effective; suspended: an order,
+stayed; hearing set: a meeting, scheduled; other: a notice, issued), the title the rule's name, no significance and no
+sector (not scored). On 16 November they joined 12 records, five of them records of FERC dockets the monitor held
+(EL26-71, EL26-67, ER26-3591); the file holds 2,078 documents and 1,533 records, and the replication reads 23,269 of
+23,269 equal.
+
 ## 17. What chains 169 and 178 changed in the fields, and how well they hold (sessions 3122 to 3145)
 
 Section 14 describes the fields as session 3056 wrote them. Since then:
@@ -555,6 +579,18 @@ Section 14 describes the fields as session 3056 wrote them. Since then:
 
 **The third sample** (sessions 3151 to 3154, chain 186; `docs/reviews/policy-audit-2026-11-06-third.md`): 80 more actions never used to write a rule (rows 801 to 1200 of the newest), read with the rules as chain 178 left them. Before that sample's own fixes: the dates held for 43 of 52 rows that state a step (83%; 86% on the fresh sample), the instrument for 74 of 80 (93%; 89%), the status for 78 of 80, the figure for 13 of 15 rows with an own figure (two per-acre rates taken wrongly), the scope for 78 of 80; the places and bodies with no fault found. Each sample brought wordings the last did not hold (hearings EPA "will hold", compliance and payment dates, releases that announce a decision or a meeting, rates and ranges), and each was fixed with its own words as a test: the rules now read `filing_due` from compliance filings, a payment's "due date" and an extended deadline; an agency's own deadline for its final rule as `decision_due`; objections and hearing requests as interventions; a release's title for the meeting or decision it announces; no figure from a rate, a range or a change; and a pesticide's tolerance or an official sworn in as out of scope. Two guards keep a filing deadline from restating a comment deadline and keep a date a party asks for, expects or plans out of the steps. The honest rate of a fresh sample has stayed near 85% to 93% by class; a fourth sample would measure these fixes the same way.
 
+
+## 18. The states' laws on large loads, under the monitor's records (chain 302, sessions 7201 and 7204, 16 November 2026)
+
+- **What it is.** Under the records of `/policy?view=monitor`, the rows of `state_large_load_laws` (`docs/methods/large_load_research.md`): 27 laws and bills of the 2025 and 2026 sessions and 1 held, one row each, with the status and its date (the text's cite on hover), the effective date, the smallest load the text names, and what it requires topic by topic, each topic's words and cite on hover. A topic a law names twice is numbered. They are not records of the monitor and take no part in its filters' counts, its calendar or its charts.
+- **It follows the State filter.** The address `/policy?view=monitor&state=TX#large-load-laws` opens on a state's laws; the All grids tab links a rule's state so.
+- **A state with no row is never said to have no law.** The research's legislation files record, by state, what was searched where nothing was found, the legislatures whose sites could not be read, and one bill that was read and is withheld (Texas S.B. 6: its copy sits on a path the legislature's robots file disallows). The block says "none found where searched", "not read", "S.B. 6, read and not shown" (a row of its own, its cells blank) or "not searched", with what was searched on hover. Where the research's words hold a lead from the news, which is not verified, they are not carried and the hover names the research file. The builder (`warehouse/derived/large_load_rules_page.py`, `law_searches`) writes them; 22 states have such a record, and Alaska and Hawaii none.
+- **A chosen state links its utilities' own rules** on the All grids tab (`/cost-of-power?view=allgrids&rstate=<ST>#large-load-rules`), with their count and the count of changes in 90 days; there the State filter chooses the changes too.
+- **A held law** (Indiana's, read on a site whose terms ask permission) is its state and bill and four blank cells that say "license needed".
+- **The State filter's hover says what a record is:** a federal action or a release of one of four bodies. A state commission's own dockets are not records, and a grid operator's action that names no state is under Grid.
+- **Counts:** `largeload|laws|public`, `|held`, `|status|<status>`, each drawn with its key and counted again from the same file by `scripts/check-values.mjs`.
+- **Read as a regulator's staffer for ten states:** `docs/reviews/policy-read-2026-11-16.md` (11 rows: 5 fixed on the site, 4 asked of the data machine, 2 for a ruling).
+- **Tests:** `site/scripts/test-large-load-rules.mjs`, `site/scripts/test-large-load-render.mjs` (the block drawn to HTML for no state, Maryland, Virginia, Texas, and Georgia with Arizona and Hawaii), `tests/test_session7204_policy_read.py`.
 
 ## License (chain 229, 13 November 2026)
 

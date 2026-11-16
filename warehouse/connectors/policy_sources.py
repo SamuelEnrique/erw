@@ -820,6 +820,22 @@ def with_recheck(s, path=None):
     return s.reset_index()
 
 
+def fill_bare(f, held, log=print):
+    """Session 7006 (policy faults row 32, found by replication/policy/replicate.py): a held row this run does not list
+    (a release the feed's window has passed, kept by the merge) and that carries no fields gets them from its own row
+    (its record and summary, as fields.derive reads any row with no text), so the table holds the fields of every row
+    and the monitor's file derives none of its own (27 DOE releases on 16 November 2026). Returns the frame to write."""
+    listed = set(f["event_id"])
+    bare = [dict(r) for e, r in held.items() if e not in listed and not str(r.get("fields_from") or "").strip()]
+    if not bare:
+        return f
+    for r in bare:
+        r.update(pf.derive(r, "", None))
+    f = pd.concat([f, pd.DataFrame(bare).reindex(columns=COLS).fillna("")], ignore_index=True)
+    log(f"{len(bare)} held rows not listed this run had no fields: read from their own rows")
+    return f[COLS].sort_values(["event_date", "event_id"]).reset_index(drop=True)
+
+
 def held_table():
     """{event_id: row} of the table held (any columns it has), {} when there is none."""
     path = os.path.join(ip.OUT_DIR, NAME + ".csv")
@@ -957,6 +973,7 @@ def main(argv=None):
             "guessed: a field neither states is empty (docs/methods/policy_monitor.md, section 14).",
         ] + ([f"Absent inputs: {', '.join(absent)} (failed this run; their rows from earlier runs are kept)"] if absent else []) + [
             "License: public (US and state government publications)."]
+        f = fill_bare(f, held, log)   # session 7006 (policy faults row 32)
         widen_held(log)
         ip.write_csv(f, NAME, header, log, cols=COLS, key=["event_id"], time_col="event_date")
         ip.update_sources([

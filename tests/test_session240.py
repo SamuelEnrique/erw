@@ -141,7 +141,8 @@ class Datacenters(unittest.TestCase):
         self.assertIn('label="Facilities held"', b)
         self.assertIn('label="Megawatts stated"', b)
         self.assertIn('label="First reported this week"', b)
-        self.assertIn("6 * DAY", b)                                           # the seven days that end today
+        self.assertIn("6 * DAY", src("site", "lib", "dctop.ts"))             # the seven days that end today (session 7400: the arithmetic moved to the library)
+        self.assertIn("topBlock(rows, today)", b)
 
     def test_what_is_not_held_is_said(self):
         b = src("site", "app", "datacenters", "Body.tsx")
@@ -152,7 +153,8 @@ class Datacenters(unittest.TestCase):
     def test_the_list_is_grouped_by_operator_and_keeps_its_rows_and_filters(self):
         t = src("site", "app", "datacenters", "DatacentersTable.tsx")
         self.assertIn("export function byOperator(rows: Facility[]): OperatorGroup[]", t)
-        self.assertIn("Number(!a.operator) - Number(!b.operator) || b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator)", t)      # the largest first, the rows with no operator stated last
+        self.assertIn("return operatorGroups(rows);", t)                      # session 7400: the grouping is lib/dctop.ts's
+        self.assertIn("Number(!a.operator) - Number(!b.operator) || b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator)", src("site", "lib", "dctop.ts"))      # the largest first, the rows with no operator stated last
         self.assertIn("<FoldRows ", t)
         self.assertIn("check={`datacenters|operator_count|${g.operator}`}", t)
         self.assertIn("check={`datacenters|operator_mw|${g.operator}`}", t)
