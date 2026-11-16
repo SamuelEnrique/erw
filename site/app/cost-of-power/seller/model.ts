@@ -19,7 +19,7 @@ import {
   type Inputs, type Snapshot,
 } from "@/lib/merchant";
 import { BATTERY_DEG, BATTERY_DEG_SOURCE, KEYS as SCENARIO_KEYS, SOLAR_DEG, SOLAR_DEG_SOURCE, SPECS, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, type Key as ScenarioKey } from "@/lib/seller/finance";
-import { ASSETS, GRIDS, PAUSED, sentence, spanOf, spans, years } from "@/lib/seller2";
+import { ASSETS, GRIDS, PAUSED, lastTwelve as modelTwelve, sentence, spanOf, spans, years } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -114,6 +114,10 @@ export type CapRow = {
  * for a battery and a gas peaker, whose figures are this page's model at each hub and carry no key of the capture file. */
 export type CapView = { fuel: Fuel | null; years: string[]; rows: CapRow[]; chart: (CapCell & { label: string })[] };
 
+/** Session 7520: the hours of a span priced below zero at the hub chosen and the hours priced, each a year (a long-run
+ * average is over `years` years). */
+export type BelowZero = { hours: number; priced: number; years: number };
+
 export type FormGridOf = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string; zone?: boolean }[] };
 
 /** Session 353: a point the grid names a load zone, not a trading hub (the form groups them): ERCOT's LZ_, ISO-NE's
@@ -182,6 +186,28 @@ export async function modelOf(q: Record<string, string | undefined>) {
   const s = spans(ms1);
   const ys = years(ms1);
   const line = sentence({ grid: iso, asset: x.asset }, s, atHub ? at : undefined);
+
+  // Session 7520 (the read of 16 November 2026, rows 1 and 2): the hours priced below zero at the hub chosen, over the
+  // spans of the table "The last twelve months beside the long-run averages". A reader asking what a wind plant's hours
+  // below zero were met a link to the curtailment page and no figure. The count is of the model's own hourly price (the
+  // hour's mean, the price every figure of the span is priced at) over the span's held months: an hour counts when its
+  // price is below zero, as "Where free energy is" counts it (data/curtailment/free_energy.json, "below zero"); a
+  // long-run average is hours a year. The price alone: what share of the fleet's energy was sold in those hours is not
+  // in the page's files, which hold the fleet by the month (docs/methods/generator_earns_algorithm.md, section 4.9).
+  const below = (rows: typeof ms1, yearsCovered: number): BelowZero | null => {
+    if (!rows.length) return null;
+    const pi = priced.isos[iso];
+    let hours = 0, pricedHours = 0;
+    for (const r of rows) {
+      const mm = pi.months[r.m];
+      if (!mm) return null;
+      for (let i = mm.i0; i < mm.i1; i++) { const p = pi.price[i]; if (p === null || p === undefined) continue; pricedHours++; if (p < 0) hours++; }
+    }
+    return { hours: hours / yearsCovered, priced: pricedHours / yearsCovered, years: yearsCovered };
+  };
+  const heldIn = (yy: string[]) => ms1.filter((r) => r.held && yy.includes(r.m.slice(0, 4)));
+  const t12 = modelTwelve(ms1);
+  const belowZero = { twelve: t12 ? below(t12, 1) : null, three: s.threeYears ? below(heldIn(s.threeYears), 3) : null, every: s.everyYears.length ? below(heldIn(s.everyYears), s.everyYears.length) : null };
 
   // Session 1893 (session 1885's fault 1, the walk of 13 November 2026): the headline mixed two twelve-month windows.
   // Revenue and debt coverage said "Oct 2025 to Sep 2026" (the model's months, merchant_snapshot.json) while the capture
@@ -431,7 +457,7 @@ export async function modelOf(q: Record<string, string | undefined>) {
   return {
     clampedWords,
     q, snap, open, iso, asked, costsOf, A, x, scenarioParams, g, a, cg, hub, mainHub, he, atHub, at, key, k, D, sizeLabel, fuel, peaker, money, bmw, dur, strat,
-    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, cap, mk, other, why, mine, yearRows, capCut, capHubs, capHub, capSpan, capWords, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
+    ms, sm, st, held, monthRows, annual, ms1, ms1Main, s, ys, line, belowZero, cap, mk, other, why, mine, yearRows, capCut, capHubs, capHub, capSpan, capWords, capView, plant, hybrid, bg, batt, battWhy, plantTotal, both, COMBINED,
     hf, pair, pairSpan, fromPlant, plantName, DA_PLANT, DA_BATTERY, DA_PAIR, DA_ADDED, above, KEPT, grids, defaults, threeWhy, everyWhy, twelveWhy, facts,
     pyWs, pyRead: pyRead?.ok ?? false, pyOffered: !!pyConfig, win,
     node, nodeOffered, nodeWhy, nodeReadWhy, nbAsked, shape,
