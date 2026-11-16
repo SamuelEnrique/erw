@@ -1,5 +1,7 @@
 import { Fold } from "@/components/tool/ToolPage";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { DEAL_TRACKER_DECISIONS } from "@/lib/decisions";
 
 // Session 465: the deal tracker's decisions, in the form roadmap item 2 asks of a finished tool: every choice the
 // pages make about the deals, one line each, with the session that made it and the ruling where one exists. Words only,
@@ -28,7 +30,14 @@ export const DECISIONS: { choice: string; session: string; ruling?: string }[] =
 export function DealsDecisions() {
   return (
     <div className="mb-8 border-t border-rule" data-deals-decisions={DECISIONS.length}>
-      <Fold title={`Decisions (${DECISIONS.length})`}>
+      {/* session 7405 (chain 303): the choices that move the tracker's figures, in the five tools' form, each with its
+          default and its source on hover (lib/decisions.ts, the shared block); session 465's list of every choice with
+          its session stays under it */}
+      <DecisionsBlock id="7405" title="Decisions on this page (each with its default and its source on hover)" items={DEAL_TRACKER_DECISIONS} />
+      <p className="mb-2 mt-2 max-w-3xl text-xs text-muted" data-tracker-method="1">
+        Each is described in <Link href="/data/methods/deal_tracker" className="underline">the tracker&apos;s method note</Link>, view by view.
+      </p>
+      <Fold title={`Every choice, with the session that made it (${DECISIONS.length})`}>
         <ol className="max-w-3xl list-decimal space-y-1.5 pl-5">
           {DECISIONS.map((d) => (
             <li key={d.choice}>
