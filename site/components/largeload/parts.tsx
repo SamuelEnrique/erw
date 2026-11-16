@@ -19,11 +19,11 @@ export function Tip({ tip, children, plain, className = "", data }: { tip: React
 }
 /** A held row's cell or a withheld field: nothing printed, "license needed" on hover and to a screen reader. `data-license-held`
  * names the table, as the site's held figures do (components/Num.tsx), so the value checker passes it by and a test counts it. */
-export function Blank({ tip, table = RULES_TABLE, what }: { tip: string; table?: string; what: string }) {
+export function Blank({ tip, table = RULES_TABLE, what, label = LICENSE_NEEDED }: { tip: string; table?: string; what: string; label?: string }) {
   const id = useId();
   return (
-    <span className="tip relative block" data-license-held={table} data-llr-blank={what}>
-      <button type="button" aria-label={`${what}: ${LICENSE_NEEDED}`} aria-describedby={id} data-tip-trigger="1" className="block h-5 w-full min-w-[2.5rem] cursor-help">{String.fromCharCode(160)}</button>
+    <span className="tip relative block" {...(label === LICENSE_NEEDED ? { "data-license-held": table } : { "data-not-shown": table })} data-llr-blank={what}>
+      <button type="button" aria-label={`${what}: ${label}`} aria-describedby={id} data-tip-trigger="1" className="block h-5 w-full min-w-[2.5rem] cursor-help">{String.fromCharCode(160)}</button>
       <span role="tooltip" id={id} data-tp="">{tip}</span>
     </span>
   );

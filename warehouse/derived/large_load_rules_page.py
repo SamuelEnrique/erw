@@ -26,6 +26,13 @@ What it writes, and what it does not:
   inside one grid). A utility the research read and found no rule for is in NO_RULE, with the research note's own
   words (docs/research/large_load/notes/<slug>.md, its "No large-load rule found" line).
 
+- What the research records for a state with no law in the table (session 7204): the two files of
+  docs/research/large_load/legislation/ list, by state, what was searched where no law was found (`none_found`) and a
+  bill that was read and is withheld (`withheld`: Texas S.B. 6, whose copy sits on a path the legislature's robots
+  file disallows). They are written as `law_searches`, one a state that has no row in the laws table, so the page can
+  say "none found", "not read" or "read and not shown" in place of nothing. The research's own words are carried
+  except where they hold a lead from the news, which is not verified: there the page names the file.
+
 No request is made to anyone and no model is called. It writes nothing but the one site file.
 
     python warehouse/derived/large_load_rules_page.py                 # tables from warehouse/output
@@ -228,6 +235,36 @@ def note_line(slug):
     return line
 
 
+LEAD = re.compile(r"\bnews\b|\blead\b|unconfirmed|described in", re.I)
+LEGISLATION = ("midwest_northeast.json", "south_west.json")
+
+
+def law_searches(have):
+    """What the research's legislation files record for each state with no row in the laws table: [{state, kind, bill,
+    words, source}], kind "none found", "not read" or "withheld". `have` is the states the table holds a row for."""
+    out = []
+    for name in LEGISLATION:
+        rel = f"docs/research/large_load/legislation/{name}"
+        with open(os.path.join(RESEARCH, "legislation", name), encoding="utf-8") as fh:
+            d = json.load(fh)
+        for x in d.get("withheld", []):
+            if x["state"] in have:
+                raise ValueError(f"{rel}: {x['state']} {x['bill']} is withheld by the research and the table holds a row for the state")
+            out.append({"state": x["state"], "kind": "withheld", "bill": x["bill"], "words": " ".join(x["reason"].split()), "source": rel})
+        for x in d.get("none_found", []):
+            if x["state"] in have:
+                continue   # the state has a law in the table: what else was searched there is the research's own note
+            words = " ".join(x["searched"].split())
+            # "not read": the research says so in its first words, or that it read nothing (a site that answered 404)
+            kind = "not read" if words.lower().startswith("not read") or "nothing read" in words.lower() else "none found"
+            # a lead from the news is not verified: its words stay in the research file, and the page names the file
+            out.append({"state": x["state"], "kind": kind, "bill": "", "words": "" if LEAD.search(words) else words, "source": rel})
+    states = [x["state"] for x in out]
+    if len(states) != len(set(states)):
+        raise ValueError(f"the legislation files name a state twice: {sorted(s for s in set(states) if states.count(s) > 1)}")
+    return sorted(out, key=lambda x: x["state"])
+
+
 def build(in_dir=OUTPUT):
     paths = {t: os.path.join(in_dir, f"{t}.csv") for t in (RULES, CHANGES, LAWS)}
     for t, p in paths.items():
@@ -305,6 +342,7 @@ def build(in_dir=OUTPUT):
         "rules": rules, "held_rules": held_rules,
         "changes": changes, "held_changes": held_changes,
         "laws": laws, "held_laws": held_laws,
+        "law_searches": law_searches({x["state"] for x in laws} | {x["state"] for x in held_laws}),
         "eia": eia, "statewide": STATEWIDE,
         "counts": {"rules": count(rules, "status", RULE_STATUSES), "laws": count(laws, "status", LAW_STATUSES),
                    "changes": len(changes), "held": {"rules": len(held_rules), "changes": len(held_changes), "laws": len(held_laws)}},

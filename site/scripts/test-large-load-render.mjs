@@ -158,7 +158,9 @@ ok(hubs.length === 48 && !bad.length, `each of the ${hubs.length} hub and zone r
 ok(tally.opens >= 15 && tally.grid === 1 && tally.opens + tally.state + tally.found + tally.read + tally.grid === 48, "the tally sums to the rows");
 
 // ---- the states' laws in the monitor
-const lawsProp = { laws: file.laws, held: file.held_laws, built: file.built, retrieved: file.retrieved };
+const byState = (rows) => { const o = {}; for (const r of rows) for (const s of L.statesOf(r.state)) o[s] = (o[s] ?? 0) + 1; return o; };
+const lawsProp = { laws: file.laws, held: file.held_laws, built: file.built, retrieved: file.retrieved, searches: file.law_searches,
+  rules: byState([...file.rules, ...file.held_rules]), changes: byState(file.changes) };
 const laws = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: [], clearStates: () => {} }));
 ok(laws.includes('id="large-load-laws"') && count(laws, /data-law="/g) === 28 && count(laws, /data-law-held="1"/g) === 1 && count(laws, /data-license-held="state_large_load_laws"/g) === 4, "the 27 laws and bills and the 1 held, whose four cells are blank");
 const lawKeys = [...laws.matchAll(/data-check="(largeload\|[^"]+)" data-raw="([^"]+)"/g)];
@@ -166,9 +168,17 @@ ok(lawKeys.length >= 8 && lawKeys.every(([, k, raw]) => Number(raw) === L.largeL
 ok(file.laws.every((l) => laws.includes(`href="${l.url.replace(/&/g, "&amp;")}"`) && L.requirementsOf(l).every((p) => laws.includes(`data-law-topic="${p.topic}"`))), "every law links its own text, and each requirement is a topic with its words and cite on hover");
 const md = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["MD"], clearStates: () => {} }));
 ok(count(md, /data-law="/g) === 2 && text(md).includes("2 of 28 shown (the State filter: MD;"), "the monitor's State filter chooses the laws: Maryland's two");
-const none = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["TX"], clearStates: () => {} }));
-ok(none.includes('data-laws-none="1"') && text(none).includes("No law or bill on large loads was read for TX"), "a state with no law read says so");
-ok(!/href="data:/.test(laws) && laws.length < 200_000, `the laws weigh ${Math.round(laws.length / 1000)} thousand characters`);
+// session 7204 (the read of /policy): a state with no row is never "no law": what the research found, or did not reach
+const txLaws = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["TX"], clearStates: () => {} }));
+ok(text(txLaws).includes("TX: S.B. 6, read and not shown") && txLaws.includes('data-law-withheld="TX"') && count(txLaws, /data-not-shown="state_large_load_laws"/g) === 4 && count(txLaws, /aria-label="[^"]*: not shown"/g) === 4 && !/was read for/.test(text(txLaws)),
+  "Texas: S.B. 6 is a row, the bill named and its four cells blank, not shown; the page does not say no law was read");
+ok(!txLaws.includes("data-license-held"), "a bill withheld for a robots file is not called license needed");
+const gaAz = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["GA", "AZ", "HI"], clearStates: () => {} }));
+const said = [...gaAz.matchAll(/data-law-search="([^"]+)" data-law-search-state="([A-Z]{2})"/g)].map((m) => `${m[2]} ${m[1]}`).join("; ");
+ok(said === "GA not read; AZ none found; HI not searched" && ["GA: ", "AZ: ", "HI: "].every((w) => text(gaAz).includes(w)) && !gaAz.includes("<table"), "Georgia not read, Arizona none found where searched, Hawaii not searched: each in place, with no table drawn");
+ok(text(txLaws).includes(`The utilities' own large-load rules: ${L.largeLoadStat(file, "largeload|rules|state|TX")} in TX`) && txLaws.includes('href="/cost-of-power?view=allgrids&amp;rstate=TX#large-load-rules"') && /\(\d+ changes? in the last 90 days\)/.test(text(txLaws)), "a chosen state links its utilities' own rules on the All grids tab, with their count and the changes'");
+ok(count(laws, /data-law-withheld="TX"/g) === 1 && laws.includes('data-laws-searched="22"') && count(laws, /data-law-search-state="/g) === 22 && laws.includes('data-laws-rules="all"'), "with no state chosen: Texas's withheld bill is a row, and one line names the 22 states with no row and what the read found in each");
+ok(!/href="data:/.test(laws) && laws.length < 220_000, `the laws weigh ${Math.round(laws.length / 1000)} thousand characters`);
 sound(laws, "the laws");
 
 console.log(`${n - failed} of ${n} passed`);

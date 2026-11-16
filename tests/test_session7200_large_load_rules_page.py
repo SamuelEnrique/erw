@@ -135,6 +135,21 @@ class ThePageFile(unittest.TestCase):
             for f in r["withheld"]:
                 self.assertEqual(r["fields"][f], {"kind": "withheld"}, (r["id"], f))
 
+    def test_a_state_with_no_law_has_what_the_research_records(self):
+        """Session 7204: law_searches, from the research's legislation files: none of them a state with a row, no lead
+        from the news carried, and Texas S.B. 6 (read, withheld for a robots file) named."""
+        s = self.file["law_searches"]
+        have = {x["state"] for x in self.file["laws"]} | {x["state"] for x in self.file["held_laws"]}
+        self.assertEqual(len(s), 22)
+        self.assertFalse(have & {x["state"] for x in s})
+        self.assertEqual([(x["state"], x["bill"]) for x in s if x["kind"] == "withheld"], [("TX", "S.B. 6")])
+        self.assertEqual(sorted(x["state"] for x in s if x["kind"] == "not read"), ["CA", "GA", "KY", "NH", "OK", "TN"])
+        for x in s:
+            self.assertIsNone(page.LEAD.search(x["words"]), x["state"])
+            self.assertTrue(os.path.exists(os.path.join(ROOT, *x["source"].split("/"))), x["source"])
+        # a state whose words hold a lead from the news carries none: the page names the research file
+        self.assertEqual(sorted(x["state"] for x in s if not x["words"]), ["GA", "IL", "ME", "NH", "OK"])
+
     def test_every_eia_number_is_one_the_tab_names(self):
         with open(UTILITY_FILE, encoding="utf-8") as fh:
             u = json.load(fh)

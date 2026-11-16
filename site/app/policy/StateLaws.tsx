@@ -10,10 +10,13 @@
 import { useMemo } from "react";
 import { Blank, Tip } from "@/components/largeload/parts";
 import { Download } from "@/components/largeload/Download";
-import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, cut, dateWords, lawStatusTip, lawsCsv, pythonReader, requirementsOf, stataReader,
-  type HeldLaw, type Law } from "@/lib/largeloadrules";
+import { SiteLink } from "@/components/SiteLink";
+import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, NOT_SHOWN, cut, dateWords, lawSearchOf, lawStatusTip, lawsCsv, pythonReader, requirementsOf, rulesHref, stataReader,
+  type HeldLaw, type Law, type LawSearch } from "@/lib/largeloadrules";
 
-export type LawsProp = { laws: Law[]; held: HeldLaw[]; built: string; retrieved: Record<string, string> };
+// session 7204: `searches` is what the research records for a state with no law in the table; `rules` and `changes`
+// count the utilities' rules and their changes by state (the All grids tab's table), for the line that links them
+export type LawsProp = { laws: Law[]; held: HeldLaw[]; built: string; retrieved: Record<string, string>; searches?: LawSearch[]; rules?: Record<string, number>; changes?: Record<string, number> };
 const HELD_TIP = (bill: string) => `${LICENSE_NEEDED}: the ERW read ${bill} on a site whose terms ask permission before it is shown. The bill is counted and its values are not printed.`;
 const WHAT = "the states' large-load laws as filtered on /policy?view=monitor";
 
@@ -22,6 +25,13 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
   const laws = useMemo(() => file.laws.filter((l) => keep(l.state)), [file, states]);   // eslint-disable-line react-hooks/exhaustive-deps
   const held = useMemo(() => file.held.filter((l) => keep(l.state)), [file, states]);   // eslint-disable-line react-hooks/exhaustive-deps
   const total = file.laws.length + file.held.length, shown = laws.length + held.length;
+  // session 7204 (the read of /policy, rows 1 and 2): a chosen state with no row in the table is never "no law": the
+  // research found none where it searched, could not read the site, read a bill it does not show, or did not search
+  const haveLaw = new Set([...file.laws, ...file.held].map((l) => l.state));
+  const without = states.filter((s) => !haveLaw.has(s)).map((s) => ({ state: s, ...lawSearchOf(file.searches, s) }));
+  const notShown = without.filter((w) => w.kind === "withheld");
+  const others = (file.searches ?? []).filter((x) => !haveLaw.has(x.state));
+  const ruleStates = (states.length ? states : []).filter((s) => (file.rules?.[s] ?? 0) > 0);
   const byStatus = LAW_STATUSES.map((s) => [s, file.laws.filter((l) => l.status === s).length] as const).filter(([, n]) => n);
   return (
     <section className="mt-8" id={LAWS_ANCHOR} aria-label="State laws on large loads" data-llr="laws" data-laws-shown={shown}>
@@ -36,9 +46,23 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
         <Download make={() => pythonReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
         <Download make={() => stataReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
       </p>
-      {shown === 0 ? (
-        <p className="text-sm" data-laws-none="1">No law or bill on large loads was read for {states.join(", ")}: <Tip tip={`${LAWS_TABLE} holds laws and bills of ${new Set([...file.laws, ...file.held].map((l) => l.state)).size} states. A state with none here may have one the ERW did not read.`}>{total} are held for other states</Tip>.</p>
-      ) : (
+      {without.length ? (
+        <p className="mb-2 text-sm" data-laws-without={without.map((w) => w.state).join(",")}>
+          {without.map((w, i) => <span key={w.state} data-law-search={w.kind} data-law-search-state={w.state}>{i ? "; " : ""}{w.state}: <Tip tip={w.tip}>{w.kind === "withheld" ? `${w.bill}, ${w.words}` : w.words}</Tip></span>)}.
+          {" "}<Tip tip={`${LAWS_TABLE} has rows for ${haveLaw.size} states. A state with none is not a state with no law: the hover on each says what the ERW's read found, or did not reach.`}>The table has {total} rows for other states</Tip>.
+        </p>
+      ) : null}
+      {ruleStates.length ? (
+        <p className="mb-2 text-sm" data-laws-rules="1">
+          The utilities&apos; own large-load rules: {ruleStates.map((s, i) => <span key={s}>{i ? ", " : ""}<SiteLink href={rulesHref(s)} gate="plain" data-laws-rules-state={s}>{file.rules![s]} in {s}</SiteLink>{file.changes?.[s] ? ` (${file.changes[s]} ${file.changes[s] === 1 ? "change" : "changes"} in the last 90 days)` : ""}</span>)}, on What a datacenter pays.
+        </p>
+      ) : null}
+      {!states.length && file.rules ? (
+        <p className="mb-2 text-sm" data-laws-rules="all">
+          <SiteLink href={rulesHref()} gate="plain">The utilities&apos; own large-load rules</SiteLink>, by state, are on What a datacenter pays.
+        </p>
+      ) : null}
+      {shown === 0 && !notShown.length ? null : (
         <div className="overflow-x-auto" role="region" aria-label="State laws on large loads, the table" tabIndex={0}>
           <table className="w-full text-sm" style={{ minWidth: 860 }} data-laws-table="1">
             <caption className="sr-only">State laws and bills on large electric loads, one row each: the state, the bill, its status and date, its effective date, the smallest load it names, and what it requires</caption>
@@ -68,10 +92,27 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
                   {["Status", "Effective", "Smallest load", "Requires"].map((h) => <td key={h} className="py-1 pr-3"><Blank tip={HELD_TIP(l.bill)} table={LAWS_TABLE} what={h} /></td>)}
                 </tr>
               ))}
+              {/* session 7204: a bill the research read and withholds (Texas S.B. 6: its copy sits on a path the legislature's
+                  robots file disallows) is a row of its state: the bill named, its cells blank, the reason on hover */}
+              {(states.length ? notShown : others.filter((x) => x.kind === "withheld").map((x) => ({ state: x.state, ...lawSearchOf(file.searches, x.state) }))).map((w) => (
+                <tr key={`${w.state}-${w.bill}`} className="border-b border-rule/60 align-top" data-law-withheld={w.state} data-law-state={w.state}>
+                  <td className="py-1 pr-3">{w.state}</td>
+                  <td className="py-1 pr-3">{w.bill}</td>
+                  {["Status", "Effective", "Smallest load", "Requires"].map((h) => <td key={h} className="py-1 pr-3"><Blank tip={w.tip} table={LAWS_TABLE} what={h} label={NOT_SHOWN} /></td>)}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       )}
+      {/* session 7204: with no state chosen, the states the table has no row for, each with what the read found */}
+      {!states.length && others.length ? (
+        <p className="mt-2 text-xs" data-laws-searched={others.length}>
+          No row for {others.length} states the ERW searched:{" "}
+          {others.map((x, i) => { const w = lawSearchOf(file.searches, x.state); return <span key={x.state} data-law-search={w.kind} data-law-search-state={x.state}>{i ? ", " : ""}<Tip tip={w.tip}>{x.state}{w.kind === "none found" ? "" : ` (${w.kind === "withheld" ? `${w.bill}, ${w.words}` : w.words})`}</Tip></span>; })}.
+          {" "}A state named with nothing after it: <Tip tip="No law or bill on large loads was found where the ERW searched. It is not proof that none exists: each state's hover says what was searched.">none found where searched</Tip>.
+        </p>
+      ) : null}
     </section>
   );
 }

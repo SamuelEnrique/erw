@@ -116,8 +116,11 @@ class TheTab(unittest.TestCase):
     def test_held_and_withheld_are_blank_with_license_needed(self):
         parts = src("site", "components", "largeload", "parts.tsx")
         blank = re.search(r"export function Blank\(.*?\n}\n", parts, re.S).group(0)
-        self.assertIn("data-license-held={table}", blank)
-        self.assertIn("aria-label={`${what}: ${LICENSE_NEEDED}`}", blank)
+        # session 7204: the cell says "license needed" unless told another word (a bill withheld for a robots file is
+        # "not shown", and is then not marked as held for a license)
+        self.assertIn('label = LICENSE_NEEDED', blank)
+        self.assertIn('{...(label === LICENSE_NEEDED ? { "data-license-held": table } : { "data-not-shown": table })}', blank)
+        self.assertIn("aria-label={`${what}: ${label}`}", blank)
         self.assertIn("String.fromCharCode(160)", blank, "the cell prints nothing: a space the width of the cell")
         self.assertIn('if (d.kind === "withheld" || d.kind === "held") return <Blank', parts)
         t = src("site", "app", "cost-of-power", "LargeLoadRules.tsx")
@@ -163,7 +166,8 @@ class TheMonitor(unittest.TestCase):
         m = src("site", "app", "policy", "MonitorView.tsx")
         self.assertIn("{laws ? <StateLaws file={laws} states={f.states} clearStates={() => put({ ...f, states: [] })} /> : null}", m)
         p = src("site", "app", "policy", "page.tsx")
-        self.assertIn("laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved }}", p)
+        # session 7204: the block also takes what the research records for a state with no law, and the rules' counts by state
+        self.assertIn("laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],", p)
         self.assertIn('<TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />', p)
         s = src("site", "app", "policy", "StateLaws.tsx")
         self.assertIn("id={LAWS_ANCHOR}", s)

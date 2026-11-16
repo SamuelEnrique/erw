@@ -32,9 +32,13 @@ export type Law = {
   status_cite: string; threshold: string; threshold_cite: string; requirements: string; url: string; doc: string; read: string; notes: string;
 };
 export type HeldLaw = { id: string; bill: string; state: string };
+/** Session 7204: what the research records for a state with no row in the laws table: what was searched and found
+ * nothing, that the legislature's site could not be read, or a bill that was read and is withheld (not shown). */
+export type LawSearch = { state: string; kind: "none found" | "not read" | "withheld"; bill: string; words: string; source: string };
 export type RulesFile = {
   tables: string[]; built: string; retrieved: Record<string, string>; method: string; fields: string[];
   rules: Rule[]; held_rules: HeldRule[]; changes: Change[]; held_changes: HeldChange[]; laws: Law[]; held_laws: HeldLaw[];
+  law_searches?: LawSearch[];
   eia: Record<string, { rules: string[]; none?: string; note?: string }>;
   statewide: Record<string, { state: string; grid: string | null }>;
   counts: { rules: Record<string, number>; laws: Record<string, number>; changes: number; held: { rules: number; changes: number; laws: number } };
@@ -231,6 +235,22 @@ export function lawsOf(file: Pick<RulesFile, "laws" | "held_laws">, states: stri
   const keep = (s: string) => !states.length || states.includes(s);
   return { laws: file.laws.filter((l) => keep(l.state)), held: file.held_laws.filter((l) => keep(l.state)) };
 }
+/** Session 7204: what the page says of a state the laws table holds no row for. Never "no law": the research found
+ * none where it searched, could not read some legislatures' sites, read and withheld one bill, and did not search two
+ * states at all. `words` is the hover: the research's own, or the file where they hold a lead from the news. */
+export const NOT_SHOWN = "not shown";
+export const SEARCH_WORDS: Record<LawSearch["kind"] | "not searched", string> = { "none found": "none found where searched", "not read": "not read", withheld: "read and not shown", "not searched": "not searched" };
+export function lawSearchOf(searches: LawSearch[] | undefined, state: string): { kind: LawSearch["kind"] | "not searched"; bill: string; words: string; tip: string } {
+  const s = (searches ?? []).find((x) => x.state === state);
+  if (!s) return { kind: "not searched", bill: "", words: SEARCH_WORDS["not searched"], tip: `The ERW's read of the states' laws on large loads (13 and 14 November 2026) did not search ${state}. It may have a law.` };
+  if (s.kind === "withheld")
+    return { kind: s.kind, bill: s.bill, words: SEARCH_WORDS.withheld, tip: `${NOT_SHOWN}: the ERW read ${state} ${s.bill}, and its values are not printed. ${s.words}` };
+  const where = s.words ? `What was searched: ${s.words}` : `What was searched is in the research file (${s.source}); its words hold a lead from the news, which is not verified and is not printed here.`;
+  return { kind: s.kind, bill: "", words: SEARCH_WORDS[s.kind], tip: s.kind === "not read" ? `The legislature's own site could not be read, so ${state} is not ruled out. ${where}` : `No law or bill on large loads was found for ${state} where the ERW searched. It is not proof that none exists. ${where}` };
+}
+/** The address of the utilities' rules of a state, on the All grids tab. */
+export const rulesHref = (state?: string) => `/cost-of-power?view=allgrids${state ? `&rstate=${encodeURIComponent(state)}` : ""}#${RULES_ANCHOR}`;
+
 /** The states with a law or a bill, for the tab's link to /policy. */
 export const lawStates = (file: Pick<RulesFile, "laws" | "held_laws">): string[] => [...new Set([...file.laws.map((l) => l.state), ...file.held_laws.map((l) => l.state)].filter(Boolean))].sort();
 export const lawsHref = (state?: string) => `/policy?view=monitor${state ? `&state=${encodeURIComponent(state)}` : ""}#${LAWS_ANCHOR}`;

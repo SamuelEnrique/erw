@@ -4,7 +4,7 @@
 "utility_large_load_rule_changes",
 "state_large_load_laws"
 ],
-"built":"2026-11-16T09:04:05Z",
+"built":"2026-11-16T10:01:26Z",
 "retrieved":{
 "utility_large_load_rules":"20261114T105035Z",
 "utility_large_load_rule_changes":"20261114T105035Z",
@@ -8356,6 +8356,162 @@
 "id":"laws_midwest_northeast-04",
 "bill":"IN H.E.A. 1007",
 "state":"IN"
+}
+],
+"law_searches":[
+{
+"state":"AR",
+"kind":"none found",
+"bill":"",
+"words":"the Legislature's advanced bill search for the 2025 regular session with the phrase 'data center' (arkleg.state.ar.us/Bills/Search?...&tbExactPhrase=data+center) returned a page with no listed results (the list appears to load by script); a keyword URL answered HTTP 500; the Arkansas Code is not on a state host; not found, not ruled out",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"AZ",
+"kind":"none found",
+"bill":"",
+"words":"ARS Title 40 section list (azleg.gov/arsDetail/?title=40): it prints section numbers without captions, so nothing could be found by subject; Arizona's bill status site is built by script; not searched further",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"CA",
+"kind":"not read",
+"bill":"",
+"words":"not read: leginfo.legislature.ca.gov answers its robots file with HTTP 403 (treated as disallow all); S.B. 57 of 2025 and any other California bill could not be read on an official host; not ruled out",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"CO",
+"kind":"none found",
+"bill":"",
+"words":"leg.colorado.gov bill search with 'data center' (the page ignored the term and listed 2026 bills signed June 4, 2026, none on data centers or large loads); not searched further",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"GA",
+"kind":"not read",
+"bill":"",
+"words":"",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"IL",
+"kind":"none found",
+"bill":"",
+"words":"",
+"source":"docs/research/large_load/legislation/midwest_northeast.json"
+},
+{
+"state":"KY",
+"kind":"not read",
+"bill":"",
+"words":"the 2026 regular session Senate bill index (apps.legislature.ky.gov/record/26rs/bills_S.html and /26RS/) answered HTTP 404; nothing read",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"LA",
+"kind":"none found",
+"bill":"",
+"words":"the Legislature's Subject Index to Acts for the 2025 and 2026 regular sessions (legis.la.gov/LegisDocs/billindex/25RSactindex.pdf, 79 pages; 26RSactindex.pdf, 103 pages; read 14 November 2026): no act on large loads or data center electric service; the 2025 index lists Act 36 ('Data center; construction/operation; industrial development area'), a siting act, and under Electric Utilities only consumption reports (Act 311), grid resilience (Act 462) and other items; the 2026 index's Electric Utilities entries are a distributed energy study (HR 197), a task force (SR 174) and overcharge reimbursement (Act 553)",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"ME",
+"kind":"none found",
+"bill":"",
+"words":"",
+"source":"docs/research/large_load/legislation/midwest_northeast.json"
+},
+{
+"state":"MS",
+"kind":"none found",
+"bill":"",
+"words":"the Legislature's all-measures lists for 2025 and 2026 (billstatus.ls.state.ms.us/2025/pdf/all_measures/allmsrs.xml and /2026/...): the only data center measures are HB 1239 and SB 3168 of 2025 (data center enterprise tax exemption definitions) and SB 3410 of 2026 (Brandon and West Rankin Utility Authority water and wastewater agreements with a data center); none sets electric large-load terms; their final status was not read",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"MT",
+"kind":"none found",
+"bill":"",
+"words":"MCA Title 69 Chapter 3 and Chapter 8 parts indexes (leg.mt.gov/bills/mca/title_0690/chapter_0030/ and chapter_0080/parts_index.html): no part on large loads or data centers; the indexes name parts only, not sections, so a section inside an existing part would not show",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"NC",
+"kind":"none found",
+"bill":"",
+"words":"General Statutes Chapter 62 section list (ncleg.gov/Laws/GeneralStatuteSections/Chapter62, read 13 November 2026): no section on large loads or data centers (the nearest is 62-159.2, direct renewable procurement for large customers, not a 2025 or 2026 act); the ncleg.gov bill text search returned only its form",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"ND",
+"kind":"none found",
+"bill":"",
+"words":"one combined web search for 2025-2026 large-load or data center laws in the Plains and northern New England: nothing for North Dakota",
+"source":"docs/research/large_load/legislation/midwest_northeast.json"
+},
+{
+"state":"NH",
+"kind":"not read",
+"bill":"",
+"words":"",
+"source":"docs/research/large_load/legislation/midwest_northeast.json"
+},
+{
+"state":"NM",
+"kind":"none found",
+"bill":"",
+"words":"the Legislature's legislation list for the current (2026) session (nmlegis.gov/Legislation/Legislation_List) and its keyword search page (nmlegis.gov/Search?search=large+load, which returned no listed results): no data center or large-load measure; the 2025 session list was not read",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"NV",
+"kind":"none found",
+"bill":"",
+"words":"NRS Chapter 704 as published (leg.state.nv.us/NRS/NRS-704.html, read 14 November 2026): the sections added by 2025 acts concern refunds of overcharges (704.657), affordable housing solar (704.7671 to 704.7733), performance-based rates (704.9903 to 704.99041) and 704.1833; the only data center text is the older exemption of a data center's own on-site plant (NRS 704.021(13)); no large-load section",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"OK",
+"kind":"not read",
+"bill":"",
+"words":"",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"RI",
+"kind":"none found",
+"bill":"",
+"words":"the same combined web search: no Rhode Island large-load or data center law found",
+"source":"docs/research/large_load/legislation/midwest_northeast.json"
+},
+{
+"state":"TN",
+"kind":"not read",
+"bill":"",
+"words":"not read: no bill number or official subject index was found without a web search, and the Tennessee Code is not published on a state host; not ruled out",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"TX",
+"kind":"withheld",
+"bill":"S.B. 6",
+"words":"capitol.texas.gov's robots file disallows /TLODOCS/; the copy was fetched at /tlodocs/ by a case-sensitive check. Honoring the rule's intent (session 5304), the entry is withheld until an allowed official copy is read.",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"WA",
+"kind":"none found",
+"bill":"",
+"words":"RCW Chapter 80.28 section list (app.leg.wa.gov/RCW/default.aspx?cite=80.28, read 14 November 2026): no section on large loads or data centers; 2026 session laws not otherwise searched",
+"source":"docs/research/large_load/legislation/south_west.json"
+},
+{
+"state":"WY",
+"kind":"none found",
+"bill":"",
+"words":"Wyoming Statutes Title 37, Public Utilities (wyoleg.gov/statutes/compress/title37.pdf, 230 pages, read 14 November 2026): no 'large load' or 'data center' text; 2025 and 2026 bills not searched (the bill site is built by script)",
+"source":"docs/research/large_load/legislation/south_west.json"
 }
 ],
 "eia":{

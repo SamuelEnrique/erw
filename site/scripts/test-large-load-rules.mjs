@@ -100,6 +100,19 @@ ok(L.lawsOf(file, ["MD"]).laws.length === 2 && L.lawsOf(file, ["IN"]).held.lengt
 ok(L.lawStates(file).includes("IN") && L.lawStates(file).length === 26 && L.lawsHref("TX") === "/policy?view=monitor&state=TX#large-load-laws", "26 states have a law or a bill; the tab's link to one");
 ok(L.largeLoadStat(file, "largeload|laws|state|MD") === 2 && L.largeLoadStat(file, "largeload|laws|state|IN") === 1, "the laws of a state count the held one");
 
+// a state with no law in the table (session 7204): what the research records, never "no law"
+const have = new Set([...file.laws, ...file.held_laws].map((l) => l.state)), searches = file.law_searches;
+ok(searches.length === 22 && searches.every((x) => !have.has(x.state)) && new Set(searches.map((x) => x.state)).size === 22, "22 states with no row in the laws table have a record of what the research searched, none of them a state with a law");
+ok(have.size + searches.length === 48 && ["AK", "HI"].every((s) => !have.has(s) && !searches.some((x) => x.state === s)), "26 states with a row and 22 with a record: every state but Alaska and Hawaii");
+ok(searches.every((x) => ["none found", "not read", "withheld"].includes(x.kind)) && searches.filter((x) => x.kind === "withheld").map((x) => `${x.state} ${x.bill}`).join() === "TX S.B. 6", "each is none found, not read or withheld; the one withheld bill is Texas S.B. 6");
+ok(searches.every((x) => !/\bnews\b|\blead\b|unconfirmed|described in/i.test(x.words)) && searches.filter((x) => !x.words).length === 5 && searches.every((x) => x.source.startsWith("docs/research/large_load/legislation/")), "no lead from the news is carried: five states' words stay in the research file, which is named");
+const txS = L.lawSearchOf(searches, "TX"), ga = L.lawSearchOf(searches, "GA"), azS = L.lawSearchOf(searches, "AZ"), hi = L.lawSearchOf(searches, "HI");
+ok(txS.kind === "withheld" && txS.bill === "S.B. 6" && txS.words === "read and not shown" && txS.tip.startsWith("not shown: the ERW read TX S.B. 6") && txS.tip.includes("robots file"), "Texas: S.B. 6 was read and is not shown, the reason in the hover");
+ok(ga.kind === "not read" && ga.tip.includes("is not ruled out") && ga.tip.includes("docs/research/large_load/legislation/south_west.json"), "Georgia: not read, not ruled out, the research file named");
+ok(azS.kind === "none found" && azS.words === "none found where searched" && azS.tip.includes("It is not proof that none exists.") && azS.tip.includes("What was searched: ARS Title 40"), "Arizona: none found where searched, with what was searched");
+ok(hi.kind === "not searched" && hi.tip.includes("did not search HI"), "a state the research did not search says so");
+ok(L.rulesHref("VA") === "/cost-of-power?view=allgrids&rstate=VA#large-load-rules" && L.rulesHref() === "/cost-of-power?view=allgrids#large-load-rules", "the link from a state's laws to its utilities' rules");
+
 // the downloads
 const parse = (text) => { const rows = []; let row = [], cell = "", q = false;
   for (let i = 0; i < text.length; i++) { const ch = text[i];
