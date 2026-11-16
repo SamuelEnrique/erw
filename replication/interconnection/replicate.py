@@ -56,6 +56,13 @@ HELD_FROM = "2026-10-21"
 # "What it draws": the four statuses, in the page's order, and the two counts.
 STATUSES = ["operating", "withdrawn", "waiting", "status_not_stated"]
 STATUS_HEAD = ["Reached operation", "Withdrawn", "Still waiting", "Status not stated"]
+# "What a queue does not hold" (session 7518): ERCOT's first and third groups are headed by what they are, in its own
+# view (the headlines, the chart, the table of years); the six queues' table keeps the common words and says so in a tip
+OWN_HEAD = {"ercot": {"operating": "Agreement signed", "waiting": "No agreement yet"}}
+# "What it draws", 5 (session 7518): in positions the six queues' table also draws these three rows of the entry year
+QUEUE_COLUMNS = [("withdrawal_rate", "Withdrawn, share of entered"), ("wait_years_median", "Median wait, years"), ("wait_positions", "Waits counted")]
+# "Where the other queues are counted" (session 7518): the queues Berkeley Lab's Queued Up counts on /queues that this page does not show
+QUEUED_UP = {"pjm", "miso", "nyiso", "isone"}
 MEASURES = {"positions": "positions", "mw": "MW"}
 # the table's note, "What counts": the statuses of the queue connector that make each group
 GROUPS = {"operating": {"completed"}, "withdrawn": {"withdrawn"}, "waiting": {"active", "suspended"}, "status_not_stated": {""}}
@@ -177,15 +184,19 @@ def expected_view(S, held, q):
     prefix = "mw" if measure == "mw" else "positions"
     third = "withdrawal_rate" if S.has(queue, "withdrawal_rate") else f"{prefix}_waiting"
     unit = MEASURES[measure]
-    third_label = "Withdrawn, share of positions entered" if third == "withdrawal_rate" else f"Still waiting, {unit}"
+    own = [OWN_HEAD.get(queue, {}).get(s, h) for s, h in zip(STATUSES, STATUS_HEAD)]
+    third_label = "Withdrawn, share of positions entered" if third == "withdrawal_rate" else f"{own[2]}, {unit}"
+    extra = [] if measure == "mw" else QUEUE_COLUMNS
     cell = lambda qq, y, v: key_of(qq, y, v) if (qq, y, v) in S.value else "not held"
     out.update({
         "asked": asked, "lo": lo, "hi": hi, "years": len(years),
         "marked": [f"{y} (partial)" for y in years if S.partial(queue, y)],
         "headlines": [
             {"label": f"{label}, {NAME[queue]}, entered {hi}", "key": cell(queue, hi, v), "note_key": (cell(queue, lo, v) if lo != hi else None)}
-            for v, label in ((f"{prefix}_entered", f"Entered, {unit}"), (f"{prefix}_operating", f"Reached operation, {unit}"), (third, third_label))],
-        "years_head": ["Entry year", "Entered"] + STATUS_HEAD + ([] if measure == "mw" else ["Withdrawn, share of entered", "Median wait, years", "Waits counted"]),
+            for v, label in ((f"{prefix}_entered", f"Entered, {unit}"), (f"{prefix}_operating", f"{own[0]}, {unit}"), (third, third_label))],
+        "years_head": ["Entry year", "Entered"] + own + ([] if measure == "mw" else ["Withdrawn, share of entered", "Median wait, years", "Waits counted"]),
+        "queues_head": ["Queue", "Entered"] + STATUS_HEAD + [label for _v, label in extra],
+        "own_words_rows": sorted(NAME[k] for k in OWN_HEAD if k not in held),
         "years_rows": [
             {"label": f"{y}{' (partial)' if S.partial(queue, y) else ''}", "muted": S.partial(queue, y),
              "cells": [cell(queue, y, f"{prefix}_entered")] + [cell(queue, y, f"{prefix}_{s}") for s in STATUSES]
@@ -193,7 +204,8 @@ def expected_view(S, held, q):
             for y in span],
         "queues_rows": [
             {"label": name, "highlight": False, "cells": ["license needed"]} if k in held else
-            {"label": name, "highlight": k == queue, "cells": [cell(k, hi, f"{prefix}_entered")] + [cell(k, hi, f"{prefix}_{s}") for s in STATUSES]}
+            {"label": name, "highlight": k == queue, "cells": [cell(k, hi, f"{prefix}_entered")] + [cell(k, hi, f"{prefix}_{s}") for s in STATUSES]
+             + [cell(k, hi, v) for v, _label in extra]}
             for k, name in QUEUES],
         "undated": S.undated.get(queue),
         "charts": [f"{NAME[queue]}'s queue by entry year and status, {lo} to {hi}, {unit}"]
@@ -214,6 +226,11 @@ def compare_view(S, held, v):
     want("queue chosen", f.get("queue", {}).get("chosen"), e["queue"])
     want("count chosen", f.get("measure", {}).get("chosen"), e["measure"])
     want("address not held, said", sorted(re.findall(r"queue|measure|first year|last year", v["asked_unknown"] or "")), sorted(e["asked"]))
+    # session 7518: an address that asks for PJM is told where PJM is counted; a held queue's line points to the same page
+    if "asked_pjm" in v:
+        want("PJM asked for, said where it is counted", bool(v["asked_pjm"]) and "/queues?grid=pjm&tech=all" in v["links"], v["q"].get("queue") == "pjm")
+    if e["held"] and "held_elsewhere" in v:
+        want("a held queue, said where Queued Up counts it", v["held_elsewhere"], e["queue"] if e["queue"] in QUEUED_UP else None)
     if e["held"]:
         want("figures of a held queue", v["keyed"], 0)
         want("the held line", bool(v["held_line"]) and "license needed" in v["held_line"], True)
@@ -232,8 +249,13 @@ def compare_view(S, held, v):
     yt = v["years_table"] or {"head": [], "rows": []}
     want("the years table's columns", yt["head"], e["years_head"])
     want("the years table's rows", [(r["label"], r["muted"], r["cells"]) for r in yt["rows"]], [(r["label"], r["muted"], r["cells"]) for r in e["years_rows"]])
-    qt = v["queues_table"] or {"rows": []}
+    qt = v["queues_table"] or {"rows": [], "head": []}
+    want("the six queues' columns", qt.get("head"), e["queues_head"])
     want("the six queues' rows", [(r["label"], r["highlight"], r["cells"]) for r in qt["rows"]], [(r["label"], r["highlight"], r["cells"]) for r in e["queues_rows"]])
+    want("the queues whose row says its statuses have words of their own", sorted(r["label"] for r in qt["rows"] if r.get("label_tip")), e["own_words_rows"])
+    if "wait_tip" in v:
+        want("the wait's chart says whose waits it counts", bool(v["wait_tip"]), S.has(e["queue"], "wait_years_median"))
+        want("the line on the load side, with its two pages", bool(v["load_side"]) and "/datacenters" in v["links"] and "/cost-of-power?view=allgrids" in v["links"], True)
     want("the header's count of positions with no queue date", v["undated_line"], [f"{e['undated']:,}", NAME[e["queue"]]] if e["undated"] is not None else None)
     want("charts", v["charts"], e["charts"])
     # "What a queue does not hold": one line for each queue the page shows that has one

@@ -48,16 +48,24 @@ For the queue and the count chosen, with `lo` and `hi` the earlier and later of 
 1. **Three headline numbers, for entry year `hi`,** each with entry year `lo`'s figure under it when the two differ:
    `positions_entered` (or `mw_entered`), `positions_operating` (or `mw_operating`), and `withdrawal_rate`. A queue
    with no `withdrawal_rate` row at all (ERCOT) shows `positions_waiting` (or `mw_waiting`) third. The share is by
-   count in both counts.
+   count in both counts. The second number is labelled "Reached operation" and, for ERCOT, "Agreement signed"; ERCOT's
+   third is labelled "No agreement yet" ("ERCOT's two statuses", below; session 7518).
 2. **The stacked bars:** one bar an entry year from `lo` to `hi`, its four parts the rows `<count>_operating`,
    `<count>_withdrawn`, `<count>_waiting` and `<count>_status_not_stated`. A part with no row has no part.
 3. **Two lines, where the queue holds them:** `withdrawal_rate` by entry year, and `wait_years_median` by entry year.
 4. **The table "Every entry year":** one row a year from `lo` to `hi`: entered, the four statuses, and in positions
    also `withdrawal_rate`, `wait_years_median` and `wait_positions` ("Waits counted"). Under it, the header's count of
    the queue's positions with no queue date.
-5. **The table "The six queues":** entry year `hi` for each queue, entered and the four statuses.
+5. **The table "The six queues":** entry year `hi` for each queue, entered and the four statuses; and, in positions
+   (since session 7518), the same year's `withdrawal_rate`, `wait_years_median` and `wait_positions`, so that the three
+   queues shown stand side by side on the share and the wait of one entry year. Its columns keep the common words
+   ("Reached operation", "Still waiting"); ERCOT's name in it carries a tip that says what the two are for ERCOT.
 6. **One line on what the queue does not hold** (below), the freshness lines, the decisions block, the method link,
    the downloads and the source line.
+7. **Since session 7518:** a tip beside the wait chart's title ("Whose wait", below); two lines above the decisions
+   block, one on Berkeley Lab's Queued Up as another source and one on the load side ("Where the other queues and the
+   load side are", below); and, on a held queue's line and at an address that asks for `queue=pjm`, a link to the
+   same grid on `/queues`.
 
 `wait_years_mean` is in the table and not on the page.
 
@@ -102,6 +110,53 @@ One line above the figures, for the queue chosen (`NOT_HELD` in `site/lib/explor
 - **SPP:** its wait reads its Commercial Operation Date, which its queue also fills for positions not yet built.
 - **MISO, ISO-NE:** no in-service date, so no wait (both are held, below).
 
+### ERCOT's two statuses (session 7518)
+
+ERCOT's report has no status word. The queue connector reads it through the library gridstatus (0.36.0, `ercot.py`),
+which writes "Completed" for a position whose "IA Signed" day is filled and "Active" for one whose day is empty, takes
+the queue date from "Screening Study Started", the proposed in-service date from "Projected COD" and the actual one
+from "Approved for Synchronization". So for ERCOT:
+
+- `positions_operating` and `mw_operating` are the positions **whose interconnection agreement is signed**, built or
+  not. On this machine's copy of ERCOT's queue (the pull of 30 September 2026, 1,778 rows, 580 of them "Completed"),
+  the 44 such positions of entry year 2025 all have a projected operation day still to come and none a day of approval
+  to synchronize; of the 116 of entry year 2022, 107 have a projected day still to come and 15 a day of approval.
+  Berkeley Lab's Queued Up counts 17 requests of entry year 2022 in operation at the end of 2025, where the table holds
+  115 "operating".
+- `positions_waiting` and `mw_waiting` are the positions with no signed agreement.
+- `wait_positions` is the positions with a signed agreement and a day of approval to synchronize, and the wait runs
+  from the day the screening study started to that day.
+
+The page therefore heads the two "Agreement signed" and "No agreement yet" for ERCOT (`STATUS_WORDS` in
+`site/lib/explore/interconnection.ts`), in the headline numbers, the stacked chart and the table of years, and says so
+in ERCOT's line; the variables keep their names. The table itself is not changed here: a row for the data machine asks
+that ERCOT's operating group be read from the report's own day of approval to synchronize
+(`docs/reviews/interconnection-read-2026-11-16.md`, row 1). Until session 7518 the page, this note and the table's
+note called the group "Reached operation" and gave "Completed" as ERCOT's own word.
+
+### Whose wait (session 7518)
+
+A year's median counts only its positions that have already reached operation with both dates. A position still
+waiting is in no wait, and if it is built its wait will be longer than the time since it entered: a recent entry
+year's median stands on its fastest positions and is not final (CAISO, entry year 2020: 1.27 years over 5 positions,
+with 36 of the year's 153 still waiting). The tip beside the wait chart's title says so, and names the two other pages
+that count a wait another way, both from Berkeley Lab's Queued Up and both by the year a plant came online: `/queues`
+(the median over all years, and by operation year) and the "Time to connect" column of `/cost-of-power?view=allgrids`
+(the plants that came online in the last three whole years). For one queue the three do not give one number, and are
+not meant to: SPP, entry year 2018, 4.40 years over 2 positions here; 4.06 years over 272 requests of every year on
+`/queues`; 84.6 months (7.05 years) over the 30 that came online from 2023 to 2025 on the All grids tab.
+
+### Where the other queues and the load side are (session 7518)
+
+- PJM, and the three held queues: Berkeley Lab's Queued Up counts them on `/queues` (`?grid=pjm`, `miso`, `nyiso`,
+  `isone`), under its own license (CC BY 4.0). A held queue's line and an address that asks for PJM link there. No
+  figure of a held queue is drawn here and no hold is lifted: the link is to another source on another page.
+- Queued Up's count for a queue and an entry year is not this page's (two sources, pulled ten months apart): SPP,
+  entered 2018, 150 positions here and 135 requests there; CAISO, entered 2021, 361 on both, 255 withdrawn here and 220
+  there. The line above the decisions block says the two are different sources.
+- A large load's request is in no figure of this page. The line under it points to ERCOT's large-load status on
+  `/datacenters` and to the "Time to connect" column of the All grids tab.
+
 ## Assumptions, each with its default and its source
 
 The list the page carries as its decisions block; the table's note has the rule behind each.
@@ -109,7 +164,7 @@ The list the page carries as its decisions block; the table's note has the rule 
 | Assumption | Default | Source |
 |---|---|---|
 | A queue is one pull of the operator's report, not a history | the pull the table was last built from (19 October 2026 for CAISO, ERCOT, SPP and ISO-NE; 26 September 2026 for NYISO and MISO) | the header's "Inputs read" line |
-| Status groups | operating: completed; withdrawn: withdrawn (SPP also TERMINATED); waiting: active and suspended; else status not stated | `energy_projects.md`, "What counts" |
+| Status groups | operating: completed; withdrawn: withdrawn (SPP also TERMINATED); waiting: active and suspended; else status not stated. For ERCOT "completed" is a signed interconnection agreement, and the page heads it so ("ERCOT's two statuses", above) | `energy_projects.md`, "What counts"; gridstatus 0.36.0, `ercot.py` |
 | Entry year | the year of the queue date; no date, no year (the header counts them) | the same |
 | Withdrawn share | withdrawn over entered, by count | the same |
 | Wait | days from `queue_date` to `actual_in_service_date` over 365.25, operating positions with both dates in order; the median | the same |
@@ -172,6 +227,11 @@ the ERW last pulled them"; session 7509 changed it to the pull the table was bui
   of 19 October (ERCOT 1,778 rows here, 1,758 read; SPP 3,076 and 3,078; CAISO 2,278 both, one position of 2019
   withdrawn between the pulls). Whether the four agree on the pull the table read cannot be shown on this machine: a
   row for the data machine (fault 8).
+- Since session 7518 part A also holds, view by view: ERCOT's own words in its headlines and its table of years; the
+  six queues' columns (three more in positions) and the tip on ERCOT's row; the wait chart's tip; the line on the load
+  side with its two links; the link to `/queues` on a held queue's line and at an address that asks for PJM. The
+  counts did not move (730 figures: the three new columns draw rows the queues' own views already drew; 284 views).
+  `site/scripts/interconnection-figures.mjs --only=<address>;<address>` draws the named addresses alone.
 - `replicate.do`: the five headline figures in Stata, expected values at its top.
 - `cross_check.py`: the arithmetic of the next section.
 - `page_figures.json`, `page_figures.csv`: the figures of the three queues shown, the page's text beside the table's
@@ -196,6 +256,8 @@ side is each operator's own report as pulled on 19 October 2026. No figure is ad
 | CAISO | entered 2023, requests | 4 | 594 | -590 | CAISO's public report does not list them (fault 1) |
 | CAISO | still waiting, every entry year, MW | 73,848 | 190,717 | -116,869 | the same 2023 requests; the sum is the cross-check's, never the page's |
 | ERCOT | entered 2000 to 2020, requests | 198 | 1,553 | -1,355 | ERCOT's report lists no withdrawn position (795 in Queued Up) and 136 of the 459 that reached operation (fault 2) |
+| ERCOT | entered 2022: `positions_operating` against requests in operation | 115 | 17 | +98 | the table's group is a signed agreement, not operation ("ERCOT's two statuses"; session 7518) |
+| ERCOT | entered 2020: the same | 46 | 60 | -14 | the same, and ERCOT's report no longer lists most plants that operate |
 | ERCOT | entered 2025, requests | 354 | 387 | -33 | the same, less so for a recent year |
 | ERCOT | entered 2025, MW | 104,175 | 106,525 | -2,350 | |
 | ERCOT | still waiting, every entry year, MW | 298,304 | 408,108 | -109,803 | not established here: the pulls are ten months apart |

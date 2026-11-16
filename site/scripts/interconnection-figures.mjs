@@ -129,6 +129,13 @@ async function main() {
   views.push({ q: { queue: "caiso", from: "2020", to: "2010" }, why: "the years the other way round" });
   views.push({ q: { queue: "spp", measure: "mw", from: "2019", to: "2019" }, why: "one year alone" });
   views.push({ q: { queue: "pjm", measure: "gw", from: "1066", to: "2999" }, why: "an address the table does not hold" });
+  // session 7518 (chain 304, part B): --only=<query>;<query> draws the named addresses and no other ("queue=spp&from=2018&to=2018;queue=pjm"),
+  // for a reader's case read start to finish and for a test that needs a few views, not the 284
+  const only = flags.find((f) => f.startsWith("--only="))?.slice(7);
+  if (only !== undefined) {
+    views.length = 0;
+    for (const one of only.split(";")) views.push({ q: Object.fromEntries(new URLSearchParams(one)), why: "named by --only" });
+  }
 
   const out = { table_file: tableFile, table_rows: T[TABLE].rows.length, held, views: [], keyed: {}, conflicts: [] };
   const htmlDir = flags.find((f) => f.startsWith("--html="))?.slice(7);
@@ -138,7 +145,9 @@ async function main() {
     const head = [...m[0].matchAll(/<th scope="col"[^>]*>([\s\S]*?)<\/th>/g)].map((x) => text(x[1]));
     const body = m[0].slice(m[0].indexOf("<tbody>"));
     const rows = [...body.matchAll(/<tr class="([^"]*)">([\s\S]*?)<\/tr>/g)].map((r) => ({
-      label: text(r[2].match(/<th scope="row"[^>]*>([\s\S]*?)<\/th>/)?.[1] ?? ""),
+      // session 7518: a row's label may carry a tip (ERCOT's status words in the six queues' table); the label is the words before it
+      label: text((r[2].match(/<th scope="row"[^>]*>([\s\S]*?)<\/th>/)?.[1] ?? "").replace(/<span class="tip[\s\S]*$/, "")),
+      label_tip: text(r[2].match(/<th scope="row"[^>]*>[\s\S]*?<span role="tooltip"[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? "") || null,
       muted: /\btext-muted\b/.test(r[1]), highlight: /\bfont-semibold\b/.test(r[1]),
       cells: [...r[2].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => {
         const k = c[1].match(/data-check="([^"]+)"/);
@@ -184,7 +193,14 @@ async function main() {
       fresh_state: html.match(/data-fresh="([^"]+)"/)?.[1] ?? null,
       built_line: page.match(/The table's header says it was built at ([^.]*)\./)?.[1] ?? null,
       undated_line: page.match(/The table's header counts ([\d,]+) of ([A-Z-]+)'s positions with no queue date/)?.slice(1, 3) ?? null,
-      charts: [...html.matchAll(/<figcaption[^>]*>\s*<span[^>]*>([\s\S]*?)<\/span>/g)].map((m) => text(m[1])),
+      // session 7518: a chart's title may carry a tip (the wait's); the title is the words before it
+      charts: [...html.matchAll(/<figcaption[^>]*>\s*<span[^>]*>([\s\S]*?)<\/span>/g)].map((m) => text(m[1].replace(/<span class="tip[\s\S]*$/, ""))),
+      wait_tip: text(html.match(/<span role="tooltip" id="tip-wait-counts"[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? "") || null,
+      load_side: text(html.match(/<p[^>]*data-load-side="1"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "") || null,
+      related: text(html.match(/<p[^>]*data-related-view="1"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "") || null,
+      asked_pjm: text(html.match(/<span data-asked-pjm="1">([\s\S]*?)<\/span>/)?.[1] ?? "") || null,
+      held_elsewhere: html.match(/data-held-elsewhere="([^"]*)"/)?.[1] ?? null,
+      links: [...new Set([...html.matchAll(/href="(\/(?:queues|datacenters|cost-of-power|map)[^"]*)"/g)].map((m) => decode(m[1])))],
       status_chart: /data-queue-status-chart="/.test(html),
       decisions: (html.match(/data-decision="/g) ?? []).length,
       titles: [...html.matchAll(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/g)].map((m) => text(m[1])),
