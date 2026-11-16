@@ -1,0 +1,415 @@
+{
+ "_about": "The ERCOT peak premium explorer (/explore/ercot-peak-premium): every figure the page draws for every hub, every period (the whole year and each month) and every year it offers, as the page's own code draws it on the two tables (site/scripts/peak-premium-figures.mjs), beside the replication's value (replication/ercot_peak_premium/replicate.py, written from docs/methods/ercot_peak_premium.md). A figure's check key is series|<table>|<hub>|<variable>|<period>. The tolerance is half the last digit shown: 0.005 for a price or a ratio, 0.5 for a count. The figures themselves are in page_figures.csv, one line each.",
+ "tables": {
+  "annual_rows": 2016,
+  "monthly_rows": 23688,
+  "last_input_interval": "2026-09-28T04:45:00Z",
+  "built": "Retrieved: 20260929T005555Z (UTC) by warehouse/derived/ercot_peak_premium.py"
+ },
+ "views": 550,
+ "views_as_the_note_says": 550,
+ "figures": 24786,
+ "figures_inside_the_tolerance": 24786,
+ "opening": {
+  "hub": "ercot:HB_HUBAVG",
+  "period": "the whole year",
+  "first_year": 2015,
+  "second_year": 2025,
+  "figures": [
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_iqr|2025-01-01T00:00:00Z",
+    "page": "34.12",
+    "replication": 34.12,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_iqr|2015-01-01T00:00:00Z",
+    "page": "7.64",
+    "replication": 7.64,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_minus_midday_median|2025-01-01T00:00:00Z",
+    "page": "14.52",
+    "replication": 14.52,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_minus_midday_median|2015-01-01T00:00:00Z",
+    "page": "-0.16",
+    "replication": -0.16,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2025-01-01T00:00:00Z",
+    "page": "25.68",
+    "replication": 25.68,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2015-01-01T00:00:00Z",
+    "page": "20.49",
+    "replication": 20.49,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_min|2015-01-01T00:00:00Z",
+    "page": "-11.58",
+    "replication": -11.58,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_q1|2015-01-01T00:00:00Z",
+    "page": "17.32",
+    "replication": 17.32,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_median|2015-01-01T00:00:00Z",
+    "page": "19.10",
+    "replication": 19.1,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_q3|2015-01-01T00:00:00Z",
+    "page": "21.72",
+    "replication": 21.72,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_max|2015-01-01T00:00:00Z",
+    "page": "849.44",
+    "replication": 849.44,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_min|2025-01-01T00:00:00Z",
+    "page": "-31.88",
+    "replication": -31.88,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_q1|2025-01-01T00:00:00Z",
+    "page": "19.21",
+    "replication": 19.21,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_median|2025-01-01T00:00:00Z",
+    "page": "24.79",
+    "replication": 24.79,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_q3|2025-01-01T00:00:00Z",
+    "page": "32.74",
+    "replication": 32.74,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|overnight_max|2025-01-01T00:00:00Z",
+    "page": "3,553.10",
+    "replication": 3553.1,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_min|2015-01-01T00:00:00Z",
+    "page": "-3.98",
+    "replication": -3.98,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_q1|2015-01-01T00:00:00Z",
+    "page": "20.38",
+    "replication": 20.38,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_median|2015-01-01T00:00:00Z",
+    "page": "24.28",
+    "replication": 24.28,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_q3|2015-01-01T00:00:00Z",
+    "page": "29.71",
+    "replication": 29.71,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_max|2015-01-01T00:00:00Z",
+    "page": "1,207.89",
+    "replication": 1207.89,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_min|2025-01-01T00:00:00Z",
+    "page": "-18.25",
+    "replication": -18.25,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_q1|2025-01-01T00:00:00Z",
+    "page": "15.18",
+    "replication": 15.1775,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_median|2025-01-01T00:00:00Z",
+    "page": "22.52",
+    "replication": 22.515,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_q3|2025-01-01T00:00:00Z",
+    "page": "29.52",
+    "replication": 29.5225,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_max|2025-01-01T00:00:00Z",
+    "page": "330.35",
+    "replication": 330.35,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_min|2015-01-01T00:00:00Z",
+    "page": "7.57",
+    "replication": 7.57,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_q1|2015-01-01T00:00:00Z",
+    "page": "20.85",
+    "replication": 20.85,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_median|2015-01-01T00:00:00Z",
+    "page": "24.12",
+    "replication": 24.12,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_q3|2015-01-01T00:00:00Z",
+    "page": "28.49",
+    "replication": 28.49,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_max|2015-01-01T00:00:00Z",
+    "page": "1,538.66",
+    "replication": 1538.66,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_min|2025-01-01T00:00:00Z",
+    "page": "-16.13",
+    "replication": -16.13,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_q1|2025-01-01T00:00:00Z",
+    "page": "24.91",
+    "replication": 24.91,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_median|2025-01-01T00:00:00Z",
+    "page": "37.04",
+    "replication": 37.035,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_q3|2025-01-01T00:00:00Z",
+    "page": "59.03",
+    "replication": 59.03,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_max|2025-01-01T00:00:00Z",
+    "page": "2,350.31",
+    "replication": 2350.31,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_min|2015-01-01T00:00:00Z",
+    "page": "-11.58",
+    "replication": -11.58,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_q1|2015-01-01T00:00:00Z",
+    "page": "17.99",
+    "replication": 17.99,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2015-01-01T00:00:00Z",
+    "page": "20.49",
+    "replication": 20.49,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_q3|2015-01-01T00:00:00Z",
+    "page": "24.52",
+    "replication": 24.52,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_max|2015-01-01T00:00:00Z",
+    "page": "1,538.66",
+    "replication": 1538.66,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_min|2025-01-01T00:00:00Z",
+    "page": "-31.88",
+    "replication": -31.88,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_q1|2025-01-01T00:00:00Z",
+    "page": "19.37",
+    "replication": 19.37,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2025-01-01T00:00:00Z",
+    "page": "25.68",
+    "replication": 25.68,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_q3|2025-01-01T00:00:00Z",
+    "page": "36.44",
+    "replication": 36.44,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_max|2025-01-01T00:00:00Z",
+    "page": "3,553.10",
+    "replication": 3553.1,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2015-01-01T00:00:00Z",
+    "page": "20.49",
+    "replication": 20.49,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_median|2025-01-01T00:00:00Z",
+    "page": "25.68",
+    "replication": 25.68,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_p999|2015-01-01T00:00:00Z",
+    "page": "583.96",
+    "replication": 583.9574,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|all_p999|2025-01-01T00:00:00Z",
+    "page": "311.80",
+    "replication": 311.80047,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|worst_interval_multiple|2015-01-01T00:00:00Z",
+    "page": "28.50",
+    "replication": 28.499629,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|worst_interval_multiple|2025-01-01T00:00:00Z",
+    "page": "12.14",
+    "replication": 12.141763,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_iqr|2015-01-01T00:00:00Z",
+    "page": "7.64",
+    "replication": 7.64,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_iqr|2025-01-01T00:00:00Z",
+    "page": "34.12",
+    "replication": 34.12,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_minus_midday_median|2015-01-01T00:00:00Z",
+    "page": "-0.16",
+    "replication": -0.16,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|peak_minus_midday_median|2025-01-01T00:00:00Z",
+    "page": "14.52",
+    "replication": 14.52,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_min|2015-01-01T00:00:00Z",
+    "page": "-3.98",
+    "replication": -3.98,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|midday_min|2025-01-01T00:00:00Z",
+    "page": "-18.25",
+    "replication": -18.25,
+    "tolerance": 0.005
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_scarcity|2015-01-01T00:00:00Z",
+    "page": "5",
+    "replication": 5.0,
+    "tolerance": 0.5
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_scarcity|2025-01-01T00:00:00Z",
+    "page": "9",
+    "replication": 9.0,
+    "tolerance": 0.5
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_negative|2015-01-01T00:00:00Z",
+    "page": "297",
+    "replication": 297.0,
+    "tolerance": 0.5
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_negative|2025-01-01T00:00:00Z",
+    "page": "959",
+    "replication": 959.0,
+    "tolerance": 0.5
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_intervals|2015-01-01T00:00:00Z",
+    "page": "35,040",
+    "replication": 35040.0,
+    "tolerance": 0.5
+   },
+   {
+    "key": "series|ercot_peak_premium_annual|ercot:HB_HUBAVG|n_intervals|2025-01-01T00:00:00Z",
+    "page": "35,040",
+    "replication": 35040.0,
+    "tolerance": 0.5
+   }
+  ]
+ },
+ "headline": [
+  "the page opens on HB_HUBAVG, the whole year, 2015 against 2025",
+  "1. peak-block IQR, USD/MWh: 34.12 in 2025 (7.64 in 2015)",
+  "2. peak median minus midday median, USD/MWh: 14.52 in 2025 (-0.16 in 2015)",
+  "3. median of all intervals, USD/MWh: 25.68 in 2025 (20.49 in 2015)",
+  "4. 99.9th percentile, USD/MWh, and the worst-interval multiple: 311.80 and 12.14 in 2025 (583.96 and 28.50 in 2015)",
+  "5. intervals at or above 1,000 USD/MWh, and at or below 0: 9 and 959 in 2025 (5 and 297 in 2015)"
+ ],
+ "named_differences": [],
+ "not_replicated": "the points of the three charts as a browser draws them (the same rows as the figures: a browser read), and the days since the tables were last computed (it moves with the day the page is read)"
+}

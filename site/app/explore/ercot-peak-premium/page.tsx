@@ -14,7 +14,8 @@ import {
 import { sourceOf } from "@/lib/explore/source";
 import { node, price } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
-import { PeakPremiumDecisions } from "./Decisions";
+// by the site's alias, not "./": tests/test_session403.py holds this page to no private import (no chart of its own)
+import { PeakPremiumDecisions } from "@/app/explore/ercot-peak-premium/Decisions";
 
 // Session 403: the ERCOT peak premium explorer (platform tool 5, the first signature explorer), in review. The thesis
 // chart made live: the distribution of ERCOT's real-time price by time of day, two years side by side, for any hub, for

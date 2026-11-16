@@ -122,6 +122,9 @@ async function main() {
   // a year against itself, and an address the tables do not hold
   views.push({ q: { hub: P.THESIS_HUB, from: "2021", to: "2021" }, why: "one year alone" });
   views.push({ q: { hub: "ercot:HB_NOWHERE", month: "13", from: "1999", to: "2031" }, why: "an address the tables do not hold" });
+  // December of the newest year against 2015: a month the monthly table may not hold yet, so its cells say "not held"
+  const newest = Math.max(...annual.filter((r) => r.variable === "n_intervals").map((r) => new Date(r.ts_utc).getUTCFullYear()));
+  views.push({ q: { hub: P.THESIS_HUB, month: "12", from: "2015", to: String(newest) }, why: "a month of the newest year" });
 
   const out = { annual_file: annualFile, monthly_file: monthlyFile, annual_rows: annual.length, monthly_rows: T[P.MONTHLY].rows.length, views: [], keyed: {}, conflicts: [] };
   const htmlDir = flags.find((f) => f.startsWith("--html="))?.slice(7);
