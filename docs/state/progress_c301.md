@@ -29,47 +29,58 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 | companies | 21 | done (b67b7cf92, rebuild 347fde024, wip/c301-data); lands with the chain | 7001 |
 | companies | 22 | done (b67b7cf92, rebuild 347fde024, wip/c301-data); lands with the chain | 7001 |
 | companies | 23 | done (b67b7cf92, rebuild 347fde024, wip/c301-data); lands with the chain | 7001 |
-| companies | 24 | done (b67b7cf92, rebuild 347fde024, wip/c301-data); lands with the chain | 7001 |
-| policy | 5 | open | |
-| policy | 7 | open | |
-| policy | 12 | open | |
-| policy | 13 | open | |
-| policy | 15 | open | |
-| policy | 18 | open | |
-| policy | 25 | open | |
-| attention | 2 | open | |
-| attention | 7 | open | |
-| attention | 15 | open | |
-| attention | 16 | open | |
-| attention | 17 | open | |
-| attention | 18 | open | |
-| attention | 20 | open | |
-| battery | 7 | open | |
-| battery | 10 | open | |
-| generator | 2 | open | |
-| grid | 2 | open | |
-| datacenter cost | 4 | open | |
-| periodicals | 48 | open | |
-| periodicals | 61 | open | |
-| periodicals | 77 | open | |
-| periodicals | 129 | open | |
+| companies | 24 | done (rebuild 347fde024; gate a passed, landing as task/7002-landing) | 7001 |
+| policy | 5 | not a fault now: monitor.json built 2026-11-15 | 7002 |
+| policy | 7 | done (ef3c63cc1, rebuild 0a710ba33, wip/c301-data; gate a passed, landing as task/7002-landing) | 7002 |
+| policy | 12 | done (ef3c63cc1, rebuild 0a710ba33, wip/c301-data; gate a passed, landing as task/7002-landing) | 7002 |
+| policy | 13 | done (ef3c63cc1, rebuild 0a710ba33, wip/c301-data; gate a passed, landing as task/7002-landing) | 7002 |
+| policy | 15 | data side done (0a710ba33); page change in data_ready_c301.md row 7 | 7002 |
+| policy | 18 | done (ef3c63cc1, rebuild 0a710ba33, wip/c301-data; gate a passed, landing as task/7002-landing) | 7002 |
+| policy | 25 | check done (ef3c63cc1); needs the key for the read redone, about USD 0.02 | 7002 |
+| attention | 2 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| attention | 7 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| attention | 15 | prompt v4 done; needs the key to classify again, about USD 0.10 | 7003 |
+| attention | 16 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| attention | 17 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| attention | 18 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| attention | 20 | done (wip/c301-data, after gate a); rides in gate b | 7003 |
+| battery | 7 | not a fault now: battery_stack_monthly holds October 2026 (chain 267) | 7004 |
+| battery | 10 | not a fault now: price_years_by_window rebuilt 14 November (CAISO 79.80) | 7004 |
+| generator | 2 | ruling: data_requests_five_tools row 2 (six tests vs 7 October CSV); default steps off | 7004 |
+| grid | 2 | not a fault now: chain 278 wrote the five files 14 November | 7004 |
+| datacenter cost | 4 | not a fault now: LZ_NORTH 34.07 (price_years_by_window, 14 November) | 7004 |
+| periodicals | 48 | not a fault now: US48 to 2026-11-14 in the live set | 7004 |
+| periodicals | 61 | waiting: CAISO, SPP, EIA-930 days of 5 to 9 November being refilled (lock); ERCOT a ruling | 7004 |
+| periodicals | 77 | needs the key: datacenter re-extraction, about USD 0.70 | 7004 |
+| periodicals | 129 | ruling: Google News titles (ruling 3); default titles as held | 7004 |
 
 ## Goal 2: the large-load waits
 
-- open
+- Robots and terms read again; new copies pulled: NYISO, Bonneville, Alberta October and November 2026 (111 of 300 requests). Code for the summary table and the dated totals on wip/c301-data (7008). Waiting for the data lock: --write, the two new tables, registrations. (7008)
 
 ## Goal 3: the CAISO's FERC compliance filing on large loads
 
-- open
+- 16 November about 09:45 UTC: not filed (the process page's bytes unchanged, sha256 578c69995d9a0388). Checked again at a later session's start. (7004)
 
 ## Goal 4: replication mirrors (companies, policy, attention)
 
-- open
+- companies: replicate.py 381,721 of 381,721; replicate.do (7005)
+- policy: replicate.py found row 32 (27 kept DOE rows without fields; fill_bare); N of N after the next pull; replicate.do (7006)
+- attention: replicate.py 3,407 of 3,407; replicate.do (7007)
 
 ## Needs the key
+
+- Policy row 25: the BOEM read redone, about USD 0.02.
+- Attention row 15: opposition rows classified again under prompt v4, about USD 0.10 (all rows USD 2.20).
+- Periodicals row 77: datacenter_projects re-extraction, about USD 0.70.
 
 - Deals rows 10, 11, 13: the re-extraction of the 899 stories behind energy_deals with the v2 prompt (Sonnet 5.5), about USD 3. Until then the rows stand (held whole under the license hold).
 
 ## For Samuel's ruling
+
+- Generator row 2: the six landing tests and 7 October's CSV (default: steps off, page ends September 2026).
+- Periodicals row 129: Google News titles cut at 128 (default: as held).
+- ERCOT's price days of 7 to 9 November: only through the paths ruling 2 freezes (default: not refilled).
+- large_load_wait_summary: Bonneville's and Grant County PUD's terms unclear for derived statistics (default internal).
 
 ## Decisions made without you
