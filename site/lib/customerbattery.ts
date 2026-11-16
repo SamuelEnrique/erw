@@ -102,3 +102,20 @@ export function usd(v: number): string {
 export function qty(v: number, digits = 0): string {
   return v.toLocaleString("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
+
+// Session 7504 (chain 304): what the reader typed is printed back as typed. Until this session the page printed a
+// typed size, peak or count of days with qty(v) (no decimals) and a typed demand charge with usd(v) (whole dollars),
+// so a demand charge of 5.36 read "At $5 per kW that is $1,072 a month" beside a figure made with 5.36, and a 13.5 kWh
+// battery read "14 kWh". The arithmetic was right; the number printed beside it was not the one it used.
+/** A number the reader typed, as typed: grouped, never rounded to a whole number. */
+export function typed(v: number): string {
+  return v.toLocaleString("en-US", { maximumFractionDigits: 6 });
+}
+/** A rate in dollars the reader typed: whole dollars as they are, otherwise to the cent or as far as was typed. */
+export function rate(v: number): string {
+  return `$${v.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(v) ? 0 : 2, maximumFractionDigits: 6 })}`;
+}
+/** The values a field takes, in words. A field that refuses zero says so (it said "0 to 1,000,000" and refused 0). */
+export function range(f: Field): string {
+  return f.min === 0 && !f.zero ? `more than 0, up to ${qty(f.max)}` : `${qty(f.min)} to ${qty(f.max)}`;
+}

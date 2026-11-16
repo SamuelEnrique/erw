@@ -1,0 +1,152 @@
+{
+  "about": "ERW, What a battery saves a customer (/battery/customer): the cases of the replication (session 7504, chain 304). The page reads no table, so a case is what a reader would type. The rates of a tariff case are the publisher's, as its document prints them, with the document, its effective date and the time it was read. The customer and the battery of a case are not data: they are the case, chosen inside the tariff's class, and said as such. Method: docs/methods/battery_customer.md.",
+  "read_by": "session 7504, with the User-Agent 'ERW research project, github.com/SamuelEnrique/erw'; each host's robots file and terms were read first (the note, 'The hosts read').",
+  "fields": ["peakKw", "demandCharge", "peakRate", "offPeakRate", "batteryKw", "batteryKwh", "peakHours", "days", "roundTrip"],
+  "cases": [
+    {
+      "id": "opens",
+      "kind": "the page as it opens",
+      "name": "The page as it opens: three starting values, six fields empty",
+      "typed": { "peakKw": "", "demandCharge": "", "peakRate": "", "offPeakRate": "", "batteryKw": "", "batteryKwh": "", "peakHours": "2", "days": "21", "roundTrip": "86" }
+    },
+    {
+      "id": "browser-proof",
+      "kind": "the page's own check case",
+      "name": "The numbers the browser proof types (site/scripts/check-no-request.mjs): not a tariff",
+      "typed": { "peakKw": "500", "demandCharge": "18", "peakRate": "0.22", "offPeakRate": "0.09", "batteryKw": "200", "batteryKwh": "800", "peakHours": "4", "days": "22", "roundTrip": "85" }
+    },
+    {
+      "id": "seattle-md-city-tou",
+      "kind": "tariff",
+      "name": "Seattle City Light, Medium General Service, City of Seattle (C), Time of Use",
+      "utility": "Seattle City Light", "state": "WA",
+      "schedule": "Medium Business Rates (50 to 999 kW), Time of Use Rate Pricing, City of Seattle (C)",
+      "document": "Seattle City Light, Business Rates, 'Current Rates'",
+      "url": "https://www.seattle.gov/city-light/business-solutions/business-billing-and-account-information/business-rates",
+      "effective": "The page's current rates as read; it prints no effective date for the table and says the 4 percent Rate Stabilization Account surcharge was removed on April 1, 2026",
+      "read_utc": "2026-11-16T11:06:29Z",
+      "printed": { "peak_demand_usd_per_kw": 5.36, "off_peak_demand_usd_per_kw": 0.31, "peak_energy_usd_per_kwh": 0.1218, "mid_peak_energy_usd_per_kwh": 0.1066, "off_peak_energy_usd_per_kwh": 0.0609, "peak_energy_hours": "5 p.m. to 9 p.m., Monday through Saturday, except on observed holidays", "off_peak_energy_hours": "midnight to 6 a.m. every day", "peak_demand_hours": "Monday through Saturday, 6 a.m. to midnight, excluding observed holidays" },
+      "how_typed": "Demand charge: the peak demand charge. Peak rate: the peak energy charge. Off-peak rate: the off-peak energy charge (the battery charges between midnight and 6 a.m.; the mid-peak rate is not used). Peak 4 hours: the peak energy window. Days 26: 2026 has 313 days from Monday to Saturday, less the six holidays the page names for large service, over twelve months is 25.6. The customer (a 400 kW peak) and the battery (100 kW, 400 kWh) are the case, not data.",
+      "typed": { "peakKw": "400", "demandCharge": "5.36", "peakRate": "0.1218", "offPeakRate": "0.0609", "batteryKw": "100", "batteryKwh": "400", "peakHours": "4", "days": "26", "roundTrip": "86" }
+    },
+    {
+      "id": "seattle-md-downtown-tou",
+      "kind": "tariff",
+      "name": "Seattle City Light, Medium General Service, Downtown Network (D), Time of Use",
+      "utility": "Seattle City Light", "state": "WA",
+      "schedule": "Medium Business Rates (50 to 999 kW), Time of Use Rate Pricing, Downtown Network (D)",
+      "document": "Seattle City Light, Business Rates, 'Current Rates'",
+      "url": "https://www.seattle.gov/city-light/business-solutions/business-billing-and-account-information/business-rates",
+      "effective": "The page's current rates as read; it prints no effective date for the table and says the 4 percent Rate Stabilization Account surcharge was removed on April 1, 2026",
+      "read_utc": "2026-11-16T11:06:29Z",
+      "printed": { "peak_demand_usd_per_kw": 12.19, "off_peak_demand_usd_per_kw": 0.31, "peak_energy_usd_per_kwh": 0.1360, "mid_peak_energy_usd_per_kwh": 0.1190, "off_peak_energy_usd_per_kwh": 0.0680 },
+      "how_typed": "As the City of Seattle case, with the Downtown Network column. The same customer and battery.",
+      "typed": { "peakKw": "400", "demandCharge": "12.19", "peakRate": "0.1360", "offPeakRate": "0.0680", "batteryKw": "100", "batteryKwh": "400", "peakHours": "4", "days": "26", "roundTrip": "86" }
+    },
+    {
+      "id": "seattle-lg-city",
+      "kind": "tariff",
+      "name": "Seattle City Light, Large General Service, City of Seattle (C)",
+      "utility": "Seattle City Light", "state": "WA",
+      "schedule": "Large Business Rates (1,000 to 9,999 kW), City of Seattle (C)",
+      "document": "Seattle City Light, Business Rates, 'Current Rates'",
+      "url": "https://www.seattle.gov/city-light/business-solutions/business-billing-and-account-information/business-rates",
+      "effective": "The page's current rates as read; it prints no effective date for the table and says the 4 percent Rate Stabilization Account surcharge was removed on April 1, 2026",
+      "read_utc": "2026-11-16T11:06:29Z",
+      "printed": { "peak_demand_usd_per_kw": 5.18, "off_peak_demand_usd_per_kw": 0.31, "peak_energy_usd_per_kwh": 0.1186, "off_peak_energy_usd_per_kwh": 0.0593, "peak_hours": "Monday through Saturday, 6 a.m. to 10 p.m., excluding New Year's Day, Memorial Day, Independence Day, Labor Day, Thanksgiving Day, and Christmas Day" },
+      "how_typed": "Demand charge: the peak demand charge. Peak and off-peak rates: the two energy charges. Peak 4 hours and days 26 as the medium case; the tariff's peak period is 16 hours long, and how long the customer's own peak lasts inside it is the case's. The customer (a 2,000 kW peak) and the battery (500 kW, 2,000 kWh) are the case, not data.",
+      "typed": { "peakKw": "2000", "demandCharge": "5.18", "peakRate": "0.1186", "offPeakRate": "0.0593", "batteryKw": "500", "batteryKwh": "2000", "peakHours": "4", "days": "26", "roundTrip": "86" }
+    },
+    {
+      "id": "srp-e32-summer-peak",
+      "kind": "tariff",
+      "name": "Salt River Project, E-32 Time-of-Use General Service, summer peak (July and August)",
+      "utility": "Salt River Project", "state": "AZ",
+      "schedule": "E-32, Standard Price Plan for Time-of-Use General Service, Summer Peak",
+      "document": "Salt River Project Agricultural Improvement and Power District, E-32 Standard Price Plan for Time-of-Use General Service (2025_Ratebook_E-32_with_TCA.pdf), pages 2 and 3",
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt1f5b0eb44368dc55/6a2153d37b55fc2c3651cae7/2025_Ratebook_E-32_with_TCA.pdf",
+      "effective": "November 2025 billing cycle; the Transmission Cost Adjustment's decrease from the January 2026 billing cycle",
+      "read_utc": "2026-11-16T11:06:40Z",
+      "printed": { "on_peak_demand_usd_per_kw": 6.75, "shoulder_off_peak_demand_usd_per_kw": 1.02, "on_peak_energy_usd_per_kwh": 0.1924, "shoulder_energy_usd_per_kwh": 0.1267, "off_peak_energy_usd_per_kwh": 0.1093, "on_peak_hours": "5 p.m. to 10 p.m., Mountain Standard Time, Monday through Friday", "off_peak_hours": "8 a.m. to 3 p.m., daily", "demand": "the maximum thirty-minute integrated kW in the on-peak period, and in the combined shoulder-peak and off-peak periods; charges on all kW over 5 kW" },
+      "how_typed": "Demand charge: the on-peak kW total. Peak rate: the on-peak kWh total. Off-peak rate: the off-peak kWh total (the battery charges from 8 a.m. to 3 p.m.; the shoulder rate is not used). Peak 5 hours: the on-peak window. Days 22: July 2026 has 23 weekdays and August 21. The 5 kW the plan leaves uncharged is below the peak after the battery and changes nothing. The customer (a 400 kW peak) and the battery (100 kW, 400 kWh) are the case, not data.",
+      "typed": { "peakKw": "400", "demandCharge": "6.75", "peakRate": "0.1924", "offPeakRate": "0.1093", "batteryKw": "100", "batteryKwh": "400", "peakHours": "5", "days": "22", "roundTrip": "86" }
+    },
+    {
+      "id": "srp-e32-summer",
+      "kind": "tariff",
+      "name": "Salt River Project, E-32 Time-of-Use General Service, summer (May, June, September, October)",
+      "utility": "Salt River Project", "state": "AZ",
+      "schedule": "E-32, Standard Price Plan for Time-of-Use General Service, Summer",
+      "document": "Salt River Project Agricultural Improvement and Power District, E-32 Standard Price Plan for Time-of-Use General Service (2025_Ratebook_E-32_with_TCA.pdf), pages 2 and 3",
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt1f5b0eb44368dc55/6a2153d37b55fc2c3651cae7/2025_Ratebook_E-32_with_TCA.pdf",
+      "effective": "November 2025 billing cycle; the Transmission Cost Adjustment's decrease from the January 2026 billing cycle",
+      "read_utc": "2026-11-16T11:06:40Z",
+      "printed": { "on_peak_demand_usd_per_kw": 5.05, "shoulder_off_peak_demand_usd_per_kw": 1.02, "on_peak_energy_usd_per_kwh": 0.1319, "shoulder_energy_usd_per_kwh": 0.1058, "off_peak_energy_usd_per_kwh": 0.0803 },
+      "how_typed": "As the summer peak case, with the Summer tables. Days 22: May 2026 has 21 weekdays, June, September and October 22 each.",
+      "typed": { "peakKw": "400", "demandCharge": "5.05", "peakRate": "0.1319", "offPeakRate": "0.0803", "batteryKw": "100", "batteryKwh": "400", "peakHours": "5", "days": "22", "roundTrip": "86" }
+    },
+    {
+      "id": "srp-e32-winter",
+      "kind": "tariff",
+      "name": "Salt River Project, E-32 Time-of-Use General Service, winter (November through April)",
+      "utility": "Salt River Project", "state": "AZ",
+      "schedule": "E-32, Standard Price Plan for Time-of-Use General Service, Winter",
+      "document": "Salt River Project Agricultural Improvement and Power District, E-32 Standard Price Plan for Time-of-Use General Service (2025_Ratebook_E-32_with_TCA.pdf), pages 2 and 4",
+      "url": "https://www.srpnet.com/v3/assets/bltefc1fc708dcc94e7/blt1f5b0eb44368dc55/6a2153d37b55fc2c3651cae7/2025_Ratebook_E-32_with_TCA.pdf",
+      "effective": "November 2025 billing cycle; the Transmission Cost Adjustment's decrease from the January 2026 billing cycle",
+      "read_utc": "2026-11-16T11:06:40Z",
+      "printed": { "on_peak_demand_usd_per_kw": 4.45, "shoulder_off_peak_demand_usd_per_kw": 1.02, "on_peak_energy_usd_per_kwh": 0.0982, "shoulder_energy_usd_per_kwh": 0.0857, "off_peak_energy_usd_per_kwh": 0.0609 },
+      "how_typed": "As the summer peak case, with the Winter tables. Days 22: the six winter months of 2026 hold 130 weekdays, 21.7 a month.",
+      "typed": { "peakKw": "400", "demandCharge": "4.45", "peakRate": "0.0982", "offPeakRate": "0.0609", "batteryKw": "100", "batteryKwh": "400", "peakHours": "5", "days": "22", "roundTrip": "86" }
+    },
+    {
+      "id": "austin-sv2",
+      "kind": "tariff",
+      "name": "Austin Energy, Secondary Voltage, demand of 10 kW to under 300 kW, inside the city limits",
+      "utility": "Austin Energy", "state": "TX",
+      "schedule": "Secondary Voltage (Demand greater than or equal to 10 kW but less than 300 kW), Inside City Limits",
+      "document": "City of Austin, Electric Tariff (October 1, 2026), City-of-Austin-Electric-Tariff-FY-2026-2027.pdf, the page numbered 12; Billed kW on the page numbered 9",
+      "url": "https://austinenergy.com/-/media/Project/Websites/shared/PDFs/Rates/City-of-Austin-Electric-Tariff-FY-2026-2027.pdf",
+      "effective": "All usage on bills rendered on or after October 1, 2026",
+      "read_utc": "2026-11-16T11:06:40Z",
+      "printed": { "demand_usd_per_billed_kw": 10.32, "regulatory_usd_per_billed_kw": 5.03, "energy_usd_per_kwh": 0.02029, "power_supply_adjustment_usd_per_kwh": 0.03912, "customer_assistance_usd_per_kwh": 0.00174, "service_area_lighting_usd_per_kwh": 0.00272, "energy_efficiency_services_usd_per_kwh": 0.00410, "billed_kw": "the metered kilowatt demand during the 15-minute interval of greatest use during the billing month, adjusted for power factor" },
+      "how_typed": "Demand charge 15.35: the demand charge and the regulatory charge, both on each billed kW (10.32 + 5.03). Both energy rates 0.06797: the tariff has one price for every hour, the sum of the five charges per kWh (0.02029 + 0.03912 + 0.00174 + 0.00272 + 0.00410). Peak 2 hours and days 21: the page's starting values. The customer (a 200 kW peak) and the battery (50 kW, 100 kWh) are the case, not data.",
+      "typed": { "peakKw": "200", "demandCharge": "15.35", "peakRate": "0.06797", "offPeakRate": "0.06797", "batteryKw": "50", "batteryKwh": "100", "peakHours": "2", "days": "21", "roundTrip": "86" }
+    },
+    {
+      "id": "austin-sv3",
+      "kind": "tariff",
+      "name": "Austin Energy, Secondary Voltage, demand of 300 kW or more, inside the city limits",
+      "utility": "Austin Energy", "state": "TX",
+      "schedule": "Secondary Voltage (Demand greater than or equal to 300 kW), Inside City Limits",
+      "document": "City of Austin, Electric Tariff (October 1, 2026), City-of-Austin-Electric-Tariff-FY-2026-2027.pdf, the page numbered 13",
+      "url": "https://austinenergy.com/-/media/Project/Websites/shared/PDFs/Rates/City-of-Austin-Electric-Tariff-FY-2026-2027.pdf",
+      "effective": "All usage on bills rendered on or after October 1, 2026",
+      "read_utc": "2026-11-16T11:06:40Z",
+      "printed": { "demand_usd_per_billed_kw": 13.19, "regulatory_usd_per_billed_kw": 5.03, "energy_usd_per_kwh": 0.01932, "power_supply_adjustment_usd_per_kwh": 0.03912, "customer_assistance_usd_per_kwh": 0.00174, "service_area_lighting_usd_per_kwh": 0.00272, "energy_efficiency_services_usd_per_kwh": 0.00410 },
+      "how_typed": "Demand charge 18.22 (13.19 + 5.03). Both energy rates 0.067 (0.01932 + 0.03912 + 0.00174 + 0.00272 + 0.00410). Peak 2 hours and days 21: the page's starting values. The customer (a 1,000 kW peak) and the battery (250 kW, 500 kWh) are the case, not data.",
+      "typed": { "peakKw": "1000", "demandCharge": "18.22", "peakRate": "0.067", "offPeakRate": "0.067", "batteryKw": "250", "batteryKwh": "500", "peakHours": "2", "days": "21", "roundTrip": "86" }
+    },
+    {
+      "id": "sce-tou-gs-2-b-2013-summer",
+      "kind": "tariff, as a federal laboratory's report prints it (historic)",
+      "name": "Southern California Edison, TOU-GS-2 Option B, summer, circa April 2013, as NREL's report prints it",
+      "utility": "Southern California Edison", "state": "CA",
+      "schedule": "TOU-GS-2 Option B, summer (June 1 to October 1), circa April 2013",
+      "document": "J. Neubauer and M. Simpson, Deployment of Behind-The-Meter Energy Storage for Demand Charge Reduction, National Renewable Energy Laboratory, NREL/TP-5400-63162, January 2015, Table 1 (page 2) and Table 2 (page 3). The tariff sheet itself was not read: no request was made of Southern California Edison.",
+      "url": "https://docs.nlr.gov/docs/fy15osti/63162.pdf",
+      "effective": "Circa April 2013 (the report's words); not a rate in force today",
+      "read_utc": "2026-11-16T11:06:29Z",
+      "printed": { "facility_demand_usd_per_kw": 13.94, "summer_on_peak_demand_usd_per_kw": 16.20, "summer_mid_peak_demand_usd_per_kw": 4.95, "summer_on_peak_energy_usd_per_kwh": 0.1466, "summer_mid_peak_energy_usd_per_kwh": 0.0895, "summer_off_peak_energy_usd_per_kwh": 0.0582, "summer_on_peak_hours": "noon to 6:00 p.m." },
+      "how_typed": "Demand charge 30.14: the facility-related charge and the summer on-peak time-related charge, both on a peak that falls in the on-peak hours (13.94 + 16.20). Peak rate: summer on-peak energy. Off-peak rate: summer off-peak energy. Peak 4 hours: the longest battery of the report. Days 21. The customer (a 400 kW peak) and the battery (100 kW, 400 kWh) are the case, not data.",
+      "typed": { "peakKw": "400", "demandCharge": "30.14", "peakRate": "0.1466", "offPeakRate": "0.0582", "batteryKw": "100", "batteryKwh": "400", "peakHours": "4", "days": "21", "roundTrip": "86" }
+    },
+    {
+      "id": "decimals",
+      "kind": "the page's own check case",
+      "name": "Numbers with decimals, for what the page prints back: not a tariff",
+      "how_typed": "The Seattle City Light medium case with a battery of 13.5 kWh and 5 kW, a peak of 62.5 kW, a peak of 1.5 hours and 25.6 days: made to show that a typed number is printed as typed.",
+      "typed": { "peakKw": "62.5", "demandCharge": "5.36", "peakRate": "0.1218", "offPeakRate": "0.0609", "batteryKw": "5", "batteryKwh": "13.5", "peakHours": "1.5", "days": "25.6", "roundTrip": "86" }
+    }
+  ]
+}
