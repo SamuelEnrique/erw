@@ -25,10 +25,10 @@ export const FIELDS: Field[] = [
   { key: "peakKw", label: "Your peak demand", unit: "kW", hint: "The highest demand on your bill in a month.", min: 0, max: 1e6 },
   { key: "demandCharge", label: "Demand charge", unit: "USD per kW a month", hint: "What your tariff charges for each kW of that peak.", min: 0, max: 500, zero: true },
   { key: "peakRate", label: "Energy rate, peak hours", unit: "USD per kWh", hint: "In dollars: 0.25 is 25 cents.", min: 0, max: 5, zero: true },
-  { key: "offPeakRate", label: "Energy rate, off-peak hours", unit: "USD per kWh", hint: "The rate in the hours the battery would charge.", min: 0, max: 5, zero: true },
+  { key: "offPeakRate", label: "Energy rate, off-peak hours", unit: "USD per kWh", hint: "The rate in the hours the battery would charge, in dollars.", min: 0, max: 5, zero: true },
   { key: "batteryKw", label: "Battery power", unit: "kW", hint: "How fast it can discharge.", min: 0, max: 1e6 },
   { key: "batteryKwh", label: "Battery energy", unit: "kWh", hint: "How much it holds. Energy over power is its duration.", min: 0, max: 1e7 },
-  { key: "peakHours", label: "How long your peak lasts", unit: "hours", hint: "The battery must hold its discharge this long to lower the peak.", start: "2", min: 0, max: 24 },
+  { key: "peakHours", label: "How long your peak lasts", unit: "hours", hint: "How long your own demand stays near its highest, in the hours your demand charge counts. The battery must hold its discharge this long to lower the peak.", start: "2", min: 0, max: 24 },
   { key: "days", label: "Days a month it runs", unit: "days", hint: "The days with peak-rate hours: about 21 if weekends are off-peak.", start: "21", min: 0, max: 31, zero: true },
   { key: "roundTrip", label: "Round trip", unit: "percent", hint: "Of each kWh put in, how much comes back out.", start: "86", min: 1, max: 100 },
 ];
@@ -118,4 +118,13 @@ export function rate(v: number): string {
 /** The values a field takes, in words. A field that refuses zero says so (it said "0 to 1,000,000" and refused 0). */
 export function range(f: Field): string {
   return f.min === 0 && !f.zero ? `more than 0, up to ${qty(f.max)}` : `${qty(f.min)} to ${qty(f.max)}`;
+}
+
+// Session 7513 (chain 304, part B): the line under a field whose typed value is refused. A tariff sheet can print its
+// energy rates in cents (Southern California Edison's, as NREL/TP-5400-63162 prints it: 14.66 cents per kWh). Typed so,
+// 14.66 is over the field's limit and was refused with "(0 to 5)" alone, in the place of the one hint that said the
+// field takes dollars; the off-peak field never said it. A refused rate is now told the unit as well as the range.
+/** What a refused field says: its range, and for a rate per kWh that the field takes dollars. */
+export function refusal(f: Field): string {
+  return `Not a number this page can use (${range(f)}).${f.unit === "USD per kWh" ? " The rate is typed in dollars: 12 cents is 0.12." : ""}`;
 }

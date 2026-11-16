@@ -10,13 +10,17 @@ import { Tip } from "@/components/tool/ToolPage";
 // by the server, the same for everyone, and it makes no request: the page's promise that nothing typed is sent or
 // stored is untouched (the tips are CSS alone, and the one link does not prefetch on this page). Every choice a reader
 // can change is changed in place, in the field the line names.
+// Session 7513 (chain 304, part B): two sources say more. The hours: the period a demand charge counts is not the
+// peak-rate hours (Seattle City Light's is 18 hours long). The round trip: the site's three battery pages set side by
+// side (86 here and on What a battery earns, 90 in the home battery game, lib/battery.ts), held by
+// site/scripts/test-battery-customer-read.mjs.
 export type CustomerBatteryDecision = { key: string; text: string; def: string; source: string };
 
 export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
   { key: "peak-hours",
     text: "The battery must hold its discharge through the whole of your peak. What comes off the peak is the smallest of three: the battery's power, its energy divided by the hours the peak lasts, and the peak itself. Change the hours in the field \"How long your peak lasts\".",
     def: "2 hours.",
-    source: "No published source: a starting value of session 88. The peak-rate hours of the tariffs read for the replication are longer: 4 hours at Seattle City Light (5 p.m. to 9 p.m.), 5 at Salt River Project (5 p.m. to 10 p.m.)." },
+    source: "No published source: a starting value of session 88. The peak-rate hours of the tariffs read for the replication are longer: 4 hours at Seattle City Light (5 p.m. to 9 p.m.), 5 at Salt River Project (5 p.m. to 10 p.m.). The hours a demand charge counts can be longer still: Seattle City Light's peak demand charge counts 6 a.m. to midnight, Monday to Saturday. The hours to type are those your own demand stays near its highest inside them." },
   { key: "knows-the-peak",
     text: "The battery knows when the peak comes and is full when it does, in every month: all of the smallest of the three comes off the meter's peak, and the load outside the peak's hours is taken to be lower than the peak by at least that much.",
     def: "All of it: a battery of 4 hours takes its whole power off a peak of 4 hours or less.",
@@ -32,7 +36,7 @@ export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
   { key: "round-trip",
     text: "Of each kWh put into the battery, the share that comes back out. The energy bought off-peak is the energy discharged divided by it. Change it in the field \"Round trip\".",
     def: "86 percent.",
-    source: "Lazard, Levelized Cost of Energy+, June 2025 (storage, page 43): 86 percent is the low end of its range. The Annual Technology Baseline 2025 of the National Laboratory of the Rockies gives 85 percent. Both are figures for batteries on the grid, the same as on What a battery earns; no figure for a customer's battery was read." },
+    source: "Lazard, Levelized Cost of Energy+, June 2025 (storage, page 43): 86 percent is the low end of its range. The Annual Technology Baseline 2025 of the National Laboratory of the Rockies gives 85 percent. Both are figures for batteries on the grid, the same 86 percent as on What a battery earns. The home battery game of this site starts at 90 percent, inside the 88 to 91 percent the same Lazard report gives for a home battery standing alone. No figure for a commercial customer's battery was read." },
   { key: "days",
     text: "The days a month the battery runs: the days that have peak-rate hours. Change them in the field \"Days a month it runs\".",
     def: "21 days.",
