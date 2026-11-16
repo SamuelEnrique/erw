@@ -37,6 +37,7 @@ source of every document, once each).
 import argparse
 import os
 import re
+from collections import defaultdict
 import sys
 
 import pandas as pd
@@ -100,10 +101,40 @@ def group(rows):
 
     rows = sorted(rows, key=lambda r: (r["event_date"][:10], r["event_id"]))
     keys_of = {}
+    # session 7001 (policy faults row 13): two actions in one docket with their own RINs are two records (EPA's final
+    # partial repeal, 2060-AW55, and its proposed rescission, 2060-AX00, both EPA-HQ-OAR-2025-0124, 17 September
+    # 2026). A docket with two documents of the same day that carry different RINs (two actions published together)
+    # is split by RIN: each document's docket key becomes "<key>.<RIN>", and a document of that docket with no RIN
+    # joins the RIN of the docket's latest earlier document (else its first RIN). RINs that differ on different days
+    # stay one record (EPA's steam electric guidelines, 2040-AG48 and 2040-AG41, phases of one rulemaking: the graded
+    # thirty of tests/test_policy_records.py).
+    raw = {r["event_id"]: proceeding_ids(r.get("docket", ""), r.get("body") or r.get("agency", "")) for r in rows}
+    rins, same_day = defaultdict(set), defaultdict(set)
+    day_of = {r["event_id"]: r["event_date"][:10] for r in rows}
+    for e, keys in raw.items():
+        mine = [k[4:] for k in keys if k.startswith("rin:")]
+        for k in keys:
+            if not k.startswith("rin:"):
+                rins[k].update(mine)
+                same_day[(k, day_of[e])].update(mine)
+    together = {k for (k, _), v in same_day.items() if len(v) >= 2}
+    split = {k: sorted(v) for k, v in rins.items() if k in together}
+    last_rin = {}
+    for r in rows:
+        e = r["event_id"]
+        mine = [k[4:] for k in raw[e] if k.startswith("rin:")]
+        keys = []
+        for k in raw[e]:
+            if k in split:
+                rin = mine[0] if mine else last_rin.get(k, split[k][0])
+                last_rin[k] = rin
+                k = f"{k}.{rin}"
+            keys.append(k)
+        raw[e] = keys
     for r in rows:
         e = r["event_id"]
         parent.setdefault(e, e)
-        keys = proceeding_ids(r.get("docket", ""), r.get("body") or r.get("agency", ""))
+        keys = raw[e]
         keys_of[e] = keys
         for k in keys:
             parent.setdefault("key=" + k, "key=" + k)
