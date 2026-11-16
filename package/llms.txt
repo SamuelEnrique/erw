@@ -775,9 +775,9 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-16T09:17:54Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-16T09:13:00Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-16T10:32:07Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-16T10:30:56Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
-652 tables: 480 public, 172 held. Spans and rows move daily: erw.coverage() gives today's.
+654 tables: 480 public, 174 held. Spans and rows move daily: erw.coverage() gives today's.
 
 Each public line: table: description. Unit. Period (UTC days of the first and last interval). Granularity. License (verdict; publishers). Method note (path in the repository; "none yet" where no note names the table). Download: the site's /api/download for a table the live set holds (its window in brackets; the full history on Redivis), else the table in the Redivis dataset `datapages.erw` (Stanford, https://stanford.redivis.com/datasets/b9wm-3hb080mtm; an unreleased draft until a person releases a version, read with the dataset's access), else none yet. A description cut short ends in [...]; the full title is the table's provenance header.
 
@@ -905,7 +905,7 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `eia923_fuel_receipts`: EIA-923 Schedule 2, each plant's fuel receipts and their cost, delivery by delivery, a month (session 900). Unit: not recorded in the release records (read the table's unit column). Period: 2025-01-01 to 2025-12-01. Granularity: events, one row each. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia923_receipts.md. Download: Redivis datapages.erw, table eia923_fuel_receipts.
 - `eia923_plant_fuel_annual`: Form EIA-923, each power plant's net generation and fuel consumed, by fuel, a year (session 510). Unit: TBtu, MWh. Period: 2001-01-01 to 2024-01-01. Granularity: yearly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia923_plant_fuel_annual.md. Download: Redivis datapages.erw, table eia923_plant_fuel_annual.
 - `eia923_plant_fuel_monthly`: EIA-923, each plant's monthly net generation and fuel consumed, by prime mover and fuel (session 897). Unit: TBtu, MWh. Period: 2025-01-01 to 2025-12-01. Granularity: monthly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia923_monthly.md. Download: Redivis datapages.erw, table eia923_plant_fuel_monthly.
-- `eia930_all_demand`: eia:electricity/rto/region-data (the source report). Unit: MW. Period: 2026-08-26 to 2026-11-14. Granularity: hourly. License: public (EIA). Method: docs/methods/eia930_all_demand.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_all_demand (35 days).
+- `eia930_all_demand`: eia:electricity/rto/region-data (the source report). Unit: MW. Period: 2026-08-26 to 2026-11-15. Granularity: hourly. License: public (EIA). Method: docs/methods/eia930_all_demand.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_all_demand (35 days).
 - `eia930_all_emissions`: U.S. Energy Information Administration (EIA), Form EIA-930, Hourly Electric Grid Monitor: per-balancing-authority workbooks, sheet Published Hourly Data (estimated CO2 emissions) (the source report). Unit: tCO2. Period: 2018-07-02 to 2026-11-12. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_all_emissions.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_all_emissions (35 days).
 - `eia930_all_generation`: eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data (the source report). Unit: MW. Period: 2026-08-26 to 2026-11-14. Granularity: hourly. License: public (EIA). Method: docs/methods/eia930_all_generation.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_all_generation (35 days).
 - `eia930_all_history`: EIA-930 hourly demand and net generation from EIA's six-month files, the seven ISO balancing authorities (session 49). Unit: MW. Period: 2018-01-01 to 2018-07-01. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_all_history.md. Download: Redivis datapages.erw, table eia930_all_history.
@@ -917,7 +917,7 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `eia930_demand_growth`: demand growth since 2019, annual and peak demand of the seven ISO balancing authorities and the Lower 48 (session 97). Unit: pct, MW, count. Period: 2019-01-01 to 2026-01-01. Granularity: yearly. License: public (Energy Research Warehouse (ERW), derived). Method: docs/methods/eia930_demand_growth.md. Download: Redivis datapages.erw, table eia930_demand_growth.
 - `eia930_demand_weather`: demand growth with the weather taken out, the seven ISO balancing authorities, by year (session 126). Unit: MW, pct, count. Period: 2019-01-01 to 2026-01-01. Granularity: yearly. License: public (Energy Research Warehouse (ERW), derived). Method: docs/methods/demand_weather.md. Download: Redivis datapages.erw, table eia930_demand_weather.
 - `eia930_event_hourly_interchange`: hourly interchange of every pair and hourly demand of every balancing authority, EIA-930, for the two historical stories of /network (session 68). Unit: MW. Period: 2021-02-07 to 2025-06-29. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_event_hourly_interchange.md. Download: Redivis datapages.erw, table eia930_event_hourly_interchange.
-- `eia930_generation_latest`: U.S. Energy Information Administration (EIA), Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by energy source, U.S. Energy Information Administration (EIA), Form EIA-930, Hourly Electric Grid Monitor [...]. Unit: MW. Period: 2026-11-13 to 2026-11-15. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/generation_mix.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_generation_latest (whole).
+- `eia930_generation_latest`: U.S. Energy Information Administration (EIA), Form EIA-930, Hourly Electric Grid Monitor: hourly net generation by energy source, U.S. Energy Information Administration (EIA), Form EIA-930, Hourly Electric Grid Monitor [...]. Unit: MW. Period: 2026-11-14 to 2026-11-15. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/generation_mix.md. Download: https://erw-flame.vercel.app/api/download?table=eia930_generation_latest (whole).
 - `eia930_subba_demand_hourly`: EIA-930, demand by sub-region (sub-balancing-authority), hourly, the last 90 whole days (session 602). Unit: MW. Period: 2026-07-24 to 2026-10-21. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_subba_demand.md. Download: Redivis datapages.erw, table eia930_subba_demand_hourly.
 - `eia930_subba_demand_hourly_2019`: EIA-930, demand by sub-region (sub-balancing-authority), hourly, 2019 (session 612). Unit: MW. Period: 2019-01-01 to 2019-12-31. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_subba_demand.md. Download: Redivis datapages.erw, table eia930_subba_demand_hourly_2019.
 - `eia930_subba_demand_hourly_2020`: EIA-930, demand by sub-region (sub-balancing-authority), hourly, 2020 (session 612). Unit: MW. Period: 2020-01-01 to 2020-12-31. Granularity: hourly. License: public (U.S. Energy Information Administration (EIA)). Method: docs/methods/eia930_subba_demand.md. Download: Redivis datapages.erw, table eia930_subba_demand_hourly_2020.
@@ -1264,7 +1264,7 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `weather_obs_hourly`: National Weather Service (NWS, NOAA), Station observations (api.weather.gov) (the source report). Unit: degF, mph. Period: 2026-09-21 to 2026-11-15. Granularity: hourly. License: public (National Weather Service (NWS, NOAA)). Method: docs/methods/weather_obs_hourly.md. Download: https://erw-flame.vercel.app/api/download?table=weather_obs_hourly (whole).
 - `wfigs_wildfires`: National Interagency Fire Center (NIFC), Wildland Fire Interagency Geospatial Services (WFIGS), Incident Locations: every wildfire of 1,000 acres or more discovered from 2015 (session 2134). Unit: not recorded in the release records (read the table's unit column). Period: 2015-01-18 to 2026-10-21. Granularity: events, one row each. License: public (National Interagency Fire Center (NIFC)). Method: docs/methods/wfigs_wildfires.md. Download: Redivis datapages.erw, table wfigs_wildfires.
 
-### 10.2 Held tables (172): license needed, no figures
+### 10.2 Held tables (174): license needed, no figures
 
 Not served by the site, the live set or Redivis; erw.license(t) gives the reason in one sentence.
 
@@ -1383,6 +1383,7 @@ Not served by the site, the live set or Redivis; erw.license(t) gives the reason
 - `large_load_rules`: license needed (unsettled)
 - `large_load_rules_internal`: license needed (internal)
 - `large_load_statements`: license needed (internal)
+- `large_load_wait_summary`: license needed (internal)
 - `large_load_waits`: license needed (internal)
 - `lbnl_hybrid_plants`: license needed (internal)
 - `makstat_macedonia_electricity_monthly`: license needed (internal)
@@ -1434,6 +1435,7 @@ Not served by the site, the live set or Redivis; erw.license(t) gives the reason
 - `treasury_1603_awards`: license needed (internal)
 - `usace_nid_dams`: license needed (unsettled)
 - `usaspending_doe_obligations`: license needed (internal)
+- `utility_large_load_queue_totals`: license needed (unsettled)
 - `utility_large_load_rule_changes`: license needed (unsettled)
 - `utility_large_load_rules`: license needed (unsettled)
 - `utility_large_load_tariffs`: license needed (unsettled)
