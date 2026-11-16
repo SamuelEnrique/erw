@@ -422,6 +422,8 @@ export async function modelOf(q: Record<string, string | undefined>) {
     captureLabel: fuel ? "Capture price and rate" : peaker ? "Price while running, and rate" : "Price while selling, and rate",
     captureWhy: fuel ? why(capHub, fuel, mk) : twelveWhy,
     lowest: sm.worst[0] ? { month: longMonth(sm.worst[0].m), usd: sm.worst[0].revenue, months: sm.n } : null,
+    // session 7523 (the read, row 6): the months held, so a scenario with an energy contract finds its own worst month
+    heldMonths: fuel ? ms.filter((r) => r.held).map((r) => ({ m: r.m, usd: r.revenue, mwh: r.energy })) : undefined,
     contract: fuel ? "energy" : "toll",
     battery: pair ? { withIt: Math.round(pair.pair), without: Math.round(pair.plant), words: `${pairSpan}, a ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery, priced at ${g.at}` } : null,
     batteryWhy: !fuel ? "A battery beside the plant is modeled for a solar or a wind plant." : !BATTERY_GRIDS.includes(iso) ? battWhy
