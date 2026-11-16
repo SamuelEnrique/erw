@@ -69,6 +69,16 @@ const upper = (t) => cents(exact(t).demandSaved * 0.15 * 12);
 ok(upper(T(P, ...rates("seattle-md-city-tou"), 100, 400, 4, 26, 86)) === 964.8 && upper(T(P, ...rates("seattle-md-downtown-tou"), 100, 400, 4, 26, 86)) === 2194.2,
   "part A, row 6, on the 4 hour unit: at NREL's 85 percent the year is $964.80 lower in the City and $2,194.20 lower Downtown");
 
+// the read's two smaller figures: the days left at the starting 21, and the mid-peak rate when the peak is outside 5 to 9 p.m.
+const yearOf = (...v) => exact(T(P, ...v)).yearSaved;
+const city = rates("seattle-md-city-tou"), mid = cases["seattle-md-city-tou"].printed.mid_peak_energy_usd_per_kwh;
+ok(Math.round(yearOf(...city, 55, 110, 4, 26, 86) - yearOf(...city, 55, 110, 4, 21, 86)) === 337, "case 1: the days left at the starting 21 take $337 off the small battery's year");
+ok(Math.round(yearOf(...city, 55, 110, 4, 26, 86) - yearOf(city[0], mid, city[2], 55, 110, 4, 26, 86)) === 522 && Math.round(yearOf(...city, 100, 400, 4, 26, 86) - yearOf(city[0], mid, city[2], 100, 400, 4, 26, 86)) === 1897,
+  "row 6: discharged at the mid-peak rate the year is $522 lower for the small battery and $1,897 lower for the unit");
+ok(lib.usd(247 * 6.75) === "$1,667" && (247 - 5) * 6.75 === 1633.5, "row 5: the page's demand charge before, $1,667, against the plan's own (all kW over 5 kW), $1,633.50");
+const cent = draw(T(P, ...[city[0]], 4.9, 2.5, 55, 110, 4, 26, 86));
+ok(cent.includes("$5,847 a month, $70,169 a year"), "row 4 (a ruling, not changed): 4.9 and 2.5 typed for cents are taken as dollars, $70,169 a year");
+
 // 2. a rate typed in cents
 const asPrinted = draw(T(P, 30.14, 14.66, 5.82, 55, 110, 2, 21, 86));
 const said = "Not a number this page can use (0 to 5). The rate is typed in dollars: 12 cents is 0.12.";
