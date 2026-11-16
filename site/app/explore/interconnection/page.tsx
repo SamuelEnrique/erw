@@ -63,6 +63,9 @@ export default async function InterconnectionExplorer({ searchParams }: { search
   const fresh = (
     <Freshness
       tables={[TABLE, `${iso}_interconnection_queue`]}
+      // session 7509: the queues are pulled once a week (warehouse/run_daily.sh, Mondays UTC), so the frame's three days
+      // called the queue's table stale on four days of every seven; eight days is a missed weekly pull
+      staleAfterDays={8}
       detail={built ? <>The table&apos;s header says it was built at {longTime(built)}{retrieved ? <>, from {name}&apos;s queue as the ERW retrieved it on {longDay(retrieved)}</> : null}.</> : <>The table&apos;s header could not be read, so when it was built is not shown.</>}
     />
   );

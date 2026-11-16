@@ -182,6 +182,10 @@ From the copy held in `warehouse/raw/lbnl_queues/20261002T091624Z/` (Berkeley La
 
 The operating counts and the waits agree within a few positions and about a month. The other counts differ: CAISO's current report holds 148 fewer positions of those years than LBNL counted (113 fewer withdrawn, 36 fewer still waiting, one more operating). LBNL builds its file from many years of each ISO's reports; the ERW holds the current one. The withdrawal rate of those years is close all the same: 78.3 percent here (1,379 of 1,762), 78.1 percent in LBNL's counts (1,492 of 1,910).
 
+**On the rebuilt table (session 7509, 16 November 2026).** The figures above are the first build's. On the table as rebuilt on 21 October 2026, CAISO's requests entered 2000 to 2020 are 1,910, Berkeley Lab's own count: 249 operating (232 in LBNL), 1,504 withdrawn (1,492), 157 still waiting (186), a withdrawn share of 78.7 percent against 78.1. For entry year 2023 the table holds 4 CAISO positions where LBNL counts 594 requests (CAISO's public report does not list them), and ERCOT's 198 positions of 2000 to 2020 stand against 1,553 in LBNL (ERCOT's report lists no withdrawn position). The whole comparison, for CAISO, ERCOT and SPP, is in [`interconnection_explorer.md`](interconnection_explorer.md), "The cross-check" (`replication/interconnection/cross_check.py`).
+
+**When an MW row is written (session 7509).** `mw_<status>` has a row only when at least one position of that status and entry year states a capacity; `positions_<status>` is always written, 0 included. A status with no position in a year therefore has a count of 0 and no MW row.
+
 ### The explorer (session 405, 21 October 2026)
 
 `/explore/interconnection`, in review and not in the menu, the third signature explorer (platform tool 5), on the frame of `/explore/ercot-peak-premium` (session 403). It draws this table as it stands and computes no figure: every number is one row of `iso_queue_statistics` with that row's check key, or the one count the table's header states for the queue (its positions with no queue date), with a `series_hdr|` key that `site/scripts/check-values.mjs` reads from the header.

@@ -218,6 +218,7 @@ def compare_view(S, held, v):
         want("figures of a held queue", v["keyed"], 0)
         want("the held line", bool(v["held_line"]) and "license needed" in v["held_line"], True)
         want("a year filter of a held queue", "from" in f or "to" in f, False)
+        want("the decisions drawn under a hold", v.get("decisions"), 12)
         return bad
     want("first entry year chosen", f["from"]["chosen"], str(e["lo"]))
     want("last entry year chosen", f["to"]["chosen"], str(e["hi"]))
@@ -235,6 +236,9 @@ def compare_view(S, held, v):
     want("the six queues' rows", [(r["label"], r["highlight"], r["cells"]) for r in qt["rows"]], [(r["label"], r["highlight"], r["cells"]) for r in e["queues_rows"]])
     want("the header's count of positions with no queue date", v["undated_line"], [f"{e['undated']:,}", NAME[e["queue"]]] if e["undated"] is not None else None)
     want("charts", v["charts"], e["charts"])
+    # "What a queue does not hold": one line for each queue the page shows that has one
+    want("the line on what the queue does not hold", v["not_held_line"], e["queue"] if e["queue"] in ("caiso", "ercot", "spp", "miso", "isone") else None)
+    want("the decisions drawn", v.get("decisions"), 12)
     keys = [h["key"] for h in e["headlines"]] + [h["note_key"] for h in e["headlines"] if h["note_key"]]
     keys += [c for r in e["years_rows"] for c in r["cells"]] + [c for r in e["queues_rows"] for c in r["cells"]]
     mine = sorted(k for k in keys if k.startswith("series|")) + ([f"series_hdr|{TABLE}|iso:{e['queue']}|Positions with no queue date|{NAME[e['queue']]}"] if e["undated"] is not None else [])

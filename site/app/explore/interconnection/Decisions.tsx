@@ -55,9 +55,9 @@ export const INTERCONNECTION_DECISIONS: InterconnectionDecision[] = [
     def: "Two decimals, a whole value included (550.00 MW, a share of 1.00).",
     source: "Session 7509; until then a value that happened to be whole was written without its decimals." },
   { key: "freshness",
-    text: "How old the table is comes from the site's catalogue and from the table's own header; the page calls a table stale when it was last computed more than three days ago.",
-    def: "Three days. The table is rebuilt on the data machine, not in the daily cloud run that pulls the queues, so it can be older than the queue tables it was built from.",
-    source: "Session 403 (the explorers' shared frame); the header lines \"Retrieved\" and \"Inputs read\" of iso_queue_statistics." },
+    text: "How old the table is comes from the site's catalogue and from the table's own header; the page calls a table stale when it was last computed more than eight days ago.",
+    def: "Eight days: the queues are pulled once a week, on Mondays, so eight days is a missed pull (the other explorers use three). The table is rebuilt on the data machine, not in the daily cloud run that pulls the queues, so it can be older than the queue tables it was built from.",
+    source: "Session 403 (the explorers' shared frame) and session 7509 (eight days); warehouse/run_daily.sh; the header lines \"Retrieved\" and \"Inputs read\" of iso_queue_statistics." },
 ];
 
 export function InterconnectionDecisions() {

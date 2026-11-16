@@ -14,7 +14,10 @@ export const QUEUES: [string, string][] = [["caiso", "CAISO"], ["ercot", "ERCOT"
 
 /** What a queue does not hold, in the method note's words (the same lines as the map's Queues tab). */
 export const NOT_HELD: Record<string, string> = {
-  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held.",
+  // session 7509 (chain 304): what "Entered" does not hold for CAISO and ERCOT, found by the cross-check against Berkeley
+  // Lab's Queued Up (docs/methods/interconnection_explorer.md, "The cross-check"); the map's tab keeps its own lines
+  caiso: "CAISO's public queue report lists only a few of the requests that entered in 2023 and none that entered later, so its counts for 2023 are the report's rows, far fewer than the requests made that year; Berkeley Lab's Queued Up, on the interconnection queue page, counts them.",
+  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held, and \"Entered\" counts the positions of an entry year that are still in the report, not every request made that year.",
   miso: "MISO's queue holds no in-service date, so no wait is held.",
   isone: "ISO-NE's queue holds no in-service date, so no wait is held.",
   spp: "SPP's wait reads its Commercial Operation Date, which its queue fills for active and withdrawn positions too: for an operating position it may be the date requested, not achieved.",
