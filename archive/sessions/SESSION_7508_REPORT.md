@@ -87,7 +87,7 @@ Each file in its own process, one at a time: `ERW_SPEND_CAP_USD=0 C:\Users\lossa
 ## Landing request
 
 - Head: the commit that holds this report on `wip/7508-demand-growth` (the reply names it).
-- Tests: `tests/test_session7508_demand_growth.py` (13) and the twelve older files above (112 tests, 5 skipped), all pass.
+- Tests: `tests/test_session7508_demand_growth.py` (13) and the twelve older files above (102 tests, 5 skipped), all pass.
 - Changes: `/explore/demand-growth` (in review): the decisions block, a percent to two decimals, no unit beside "not held", the hover's month names, stale after 35 days. New: `replication/demand_growth/`, `site/scripts/demand-growth-figures.mjs`, the faults file, the note's section, the test.
 - Does not change: any table, any shared explore file, `release.ts`, any other page. A snapshot of the live pages differs on none (the page is in review). `check-values` reads the same keys; three texts gain ".00".
 
