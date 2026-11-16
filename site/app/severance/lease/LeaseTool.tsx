@@ -143,6 +143,10 @@ export function LeaseTool({ rules, prices, initial }: { rules: Rules; prices: Pr
           <div>
             <h3 className="mb-1 text-base">May qualify: the largest potential savings first</h3>
             {a.opportunities.length === 0 ? <p className="text-muted">No rule&apos;s thresholds are met by the numbers in the file.</p> : (
+              // session 7600 (the browser read of 16 November): the table's own frame scrolls sideways. Its five columns
+              // cannot be drawn narrower than about 390 px, so on a phone the whole page was 16 px wider than the screen
+              // once a file was loaded
+              <div className="overflow-x-auto" data-lease-flagged="1">
               <table className="w-full text-left text-xs">
                 <thead><tr className="border-b border-rule"><th className="py-1">Well</th><th>Rule</th><th>Months</th><th className="text-right">Savings</th><th>Source</th></tr></thead>
                 <tbody>
@@ -157,6 +161,7 @@ export function LeaseTool({ rules, prices, initial }: { rules: Rules; prices: Pr
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
 
