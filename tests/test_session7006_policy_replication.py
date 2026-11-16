@@ -27,7 +27,7 @@ def quiet(*a, **k):
     return None
 
 
-class Row26FillBare(unittest.TestCase):
+class Row32FillBare(unittest.TestCase):
     def test_a_kept_row_without_fields_gets_them(self):
         cols = ps.COLS
         listed = pd.DataFrame([dict({c: "" for c in cols}, event_id="doe:1", event_date="2026-11-01", fields_from="title")])

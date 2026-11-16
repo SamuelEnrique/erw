@@ -821,7 +821,7 @@ def with_recheck(s, path=None):
 
 
 def fill_bare(f, held, log=print):
-    """Session 7006 (policy faults row 26, found by replication/policy/replicate.py): a held row this run does not list
+    """Session 7006 (policy faults row 32, found by replication/policy/replicate.py): a held row this run does not list
     (a release the feed's window has passed, kept by the merge) and that carries no fields gets them from its own row
     (its record and summary, as fields.derive reads any row with no text), so the table holds the fields of every row
     and the monitor's file derives none of its own (27 DOE releases on 16 November 2026). Returns the frame to write."""
@@ -973,7 +973,7 @@ def main(argv=None):
             "guessed: a field neither states is empty (docs/methods/policy_monitor.md, section 14).",
         ] + ([f"Absent inputs: {', '.join(absent)} (failed this run; their rows from earlier runs are kept)"] if absent else []) + [
             "License: public (US and state government publications)."]
-        f = fill_bare(f, held, log)   # session 7006 (policy faults row 26)
+        f = fill_bare(f, held, log)   # session 7006 (policy faults row 32)
         widen_held(log)
         ip.write_csv(f, NAME, header, log, cols=COLS, key=["event_id"], time_col="event_date")
         ip.update_sources([
