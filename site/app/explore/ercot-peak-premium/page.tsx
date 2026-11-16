@@ -114,11 +114,17 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
   // session 7516: a period not yet over carries its mark wherever it heads a figure (the headline numbers, the tables'
   // period cells and column heads), not only in the filters and the chart's note: 2026 so far is not 2025's twelve months
   const mark = (y: number) => `${when(y)}${partial(y) ? " (partial)" : ""}`;
-  const key = (variable: string, y: number, e: string = hub) => `series|${table}|${e}|${variable}|${isoKey(periodTs(y, month))}`;
-  const N = ({ v, y, unit, e = hub }: { v: string; y: number; unit: string; e?: string }) => {
-    const x = valueOf(e === hub ? rows : vsRows, v, periodTs(y, month));
-    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y, e)} raw={x} source={sourceOf(key(v, y, e), node(e))}>{fig(x, unit)}</Num>;
+  // one figure writer, made once a hub (session 7516: the second hub's figures are written by the same lines as the first's)
+  const writer = (hub: string, rows: Row[]) => {
+    const key = (variable: string, y: number) => `series|${table}|${hub}|${variable}|${isoKey(periodTs(y, month))}`;
+    const N = ({ v, y, unit }: { v: string; y: number; unit: string }) => {
+      const x = valueOf(rows, v, periodTs(y, month));
+      return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>;
+    };
+    return { key, N };
   };
+  const { key, N } = writer(hub, rows);
+  const Nvs = writer(vs, vsRows).N;
   // session 7507: a figure the table does not hold is "not held" alone: its unit is drawn only beside a figure
   const has = (v: string, y: number) => valueOf(rows, v, periodTs(y, month)) !== undefined;
   const yearOpt = (y: number) => ({ value: String(y), label: `${y}${held(y) === undefined ? " (not held)" : partial(y) ? " (partial)" : ""}` });
@@ -204,7 +210,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
               head={["Figure", ...pair.flatMap((y) => [`${name}, ${mark(y)}`, `${node(vs)}, ${mark(y)}`])]}
               rows={SIDE.map((f) => ({
                 key: f.v, highlight: f.v === "peak_median" || f.v === "peak_iqr",
-                cells: [f.label, ...pair.flatMap((y) => [<N key={`a${y}`} v={f.v} y={y} unit={f.unit} />, <N key={`b${y}`} v={f.v} y={y} unit={f.unit} e={vs} />])],
+                cells: [f.label, ...pair.flatMap((y) => [<N key={`a${y}`} v={f.v} y={y} unit={f.unit} />, <Nvs key={`b${y}`} v={f.v} y={y} unit={f.unit} />])],
               }))} />
           )}
         </ToolSection>
