@@ -98,7 +98,9 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
               rules: countByState([...ll.rules, ...ll.held_rules].map((r) => r.state)), changes: countByState(ll.changes.map((c) => c.state)) }} />
           <Cite tables={["policy_actions", "policy_reads"]} note="One row a proceeding: the documents of policy_actions that name it, grouped by warehouse/policy/records.py; body, instrument, status, dates, next step and figure by the written rules of warehouse/policy/fields.py; the impact sentence's clause a model's, kept only when its words stand in the text" />
         </Section>
-        <TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />
+        {/* session 7019 (done-line request 9): state_large_load_laws is in the Redivis draft but out of release v1 (its license verdict is
+            unsettled), so the line would promise a release file that is not there; the laws block's own CSV hands over its rows */}
+        <TableDownloads tables={["policy_actions", "policy_reads"]} />
         <Related href="/policy" />
       </div>
       </Brand>

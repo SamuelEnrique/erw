@@ -168,7 +168,8 @@ class TheMonitor(unittest.TestCase):
         p = src("site", "app", "policy", "page.tsx")
         # session 7204: the block also takes what the research records for a state with no law, and the rules' counts by state
         self.assertIn("laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],", p)
-        self.assertIn('<TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />', p)
+        # session 7019 (done-line request 9): out of release v1, the table leaves the downloads line; the block's CSV stays
+        self.assertNotIn('"state_large_load_laws"]} />', p)
         s = src("site", "app", "policy", "StateLaws.tsx")
         self.assertIn("id={LAWS_ANCHOR}", s)
         self.assertIn('<Blank tip={HELD_TIP(l.bill)} table={LAWS_TABLE} what={h} />', s)
