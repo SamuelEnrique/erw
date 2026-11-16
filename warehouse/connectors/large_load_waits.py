@@ -1640,11 +1640,10 @@ def do_pull_current(raw, net, log, ip=None, only=()):
             if not n:
                 log(f"current grantpud: the page answered {st} with {len(content):,} bytes and links no queue file: {page_text(content)[:160]!r}")
         if on("bpa"):   # session 165: the workbook Bonneville's interconnection page links
-            if CURRENT["bpa"] in held:
-                log(f"current bpa: {CURRENT['bpa']} is already saved from the publisher; not asked for again")
-            else:
-                st, content, fname = do_fetch_current(raw, net, log, "bpa", CURRENT["bpa"])
-                log(f"current bpa: {st}, {len(content):,} bytes, {fname}")
+            # session 7008 (chain 301, goal 2): Bonneville publishes its workbook again at this one address, as NYISO
+            # does, so it is asked on every pull like NYISO's (one request); a file whose sha256 is held is one copy
+            st, content, fname = do_fetch_current(raw, net, log, "bpa", CURRENT["bpa"])
+            log(f"current bpa: {st}, {len(content):,} bytes, {fname}")
         if on("aeso"):   # session 165: the newest monthly file among those Alberta's project reporting page links, and no other
             st, content, _ = do_fetch_current(raw, net, log, "aeso", CURRENT["aeso_page"], kind="page that links the current copy", rows_reserve=0)
             links = {}
@@ -1655,12 +1654,18 @@ def do_pull_current(raw, net, log, ip=None, only=()):
             if not links:
                 log(f"current aeso: the page answered {st} with {len(content):,} bytes and links no monthly list: {page_text(content)[:160]!r}")
             else:
-                url = links[max(links)]
-                if url in held:
-                    log(f"current aeso: {url} is already saved from the publisher; not asked for again")
-                else:
+                # session 7008 (chain 301, goal 2): every monthly file newer than the newest month already held, so a
+                # month published between two pulls is not skipped (October 2026, between 9 October and 16 November);
+                # on a first pull, the newest file alone, as before
+                held_months = [aeso_month(u) for u in held if "aeso.ca/" in u and aeso_month(u)]
+                newer = sorted({m for m in links if held_months and m > min(held_months)} | {max(links)})
+                for m in newer:
+                    url = links[m]
+                    if url in held:
+                        log(f"current aeso: {url} is already saved from the publisher; not asked for again")
+                        continue
                     st, body, fname = do_fetch_current(raw, net, log, "aeso", url)
-                    log(f"current aeso: {url} -> {st}, {len(body):,} bytes, {fname} (the newest of {len(links)} monthly files the page links)")
+                    log(f"current aeso: {url} -> {st}, {len(body):,} bytes, {fname} (of {len(links)} monthly files the page links)")
         if not on("ercot"):
             return
         if paused("ercot"):
