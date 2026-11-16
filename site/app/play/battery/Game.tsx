@@ -388,7 +388,7 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
  * checked against) and no battery at all; each with what it earned, what it bought and sold, and the average price of
  * each (tally: simulate()'s own path). One sentence under it says why the battery earns what it does. Until then the end
  * was three lines (session 66's EndLines); the hour lost the most is now its own line, on Normal and Hard. */
-function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: Tally; none: number; rules: Rules; big: boolean }) {
+export function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: Tally; none: number; rules: Rules; big: boolean }) {
   const p = (v: number | null) => (v === null ? "" : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
   const kwh = (v: number) => v.toFixed(2);  // session 290: the unit is in the column's head, so a cell fits 390 px
   // session 2402: each row's hover names where its figures come from: the game's own model (lib/battery.ts, simulate and
@@ -423,7 +423,7 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
       <p className="mt-1 text-xs text-muted">Under each amount, its average price in USD per MWh{rules.emergency ? "; on Hard the emergency hour's prices are a game rule" : ""}. {none !== 0 ? "No battery: the roof's power alone, sold as it is made." : "With no battery nothing is bought or sold, and nothing is earned."}</p>
       <p className={`mt-2 ${big ? "text-base" : "text-sm"}`} data-end-why>
         {spread !== null
-          ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh it sells` : ""}. It starts half full, so it can sell more than it buys.</>
+          ? <>A battery earns the spread: the perfect battery bought at an average of {p(perfect.buyPrice)} and sold at {p(perfect.sellPrice)} USD per MWh, {p(spread)} apart, and loses {Math.round((1 - rules.eta ** 2) * 100)} percent of the energy on the round trip{rules.deg > 0 ? `, plus ${usd(rules.deg)} of wear on each kWh it draws out of the battery (each kWh sold is less, after the loss on the way out)` : ""}. It starts half full, so it can sell more than it buys.</>
           : perfect.soldKwh > 0
             ? <>The perfect battery only sold, at an average of {p(perfect.sellPrice)} USD per MWh: no price that day paid for charging again after the round trip&apos;s loss. It starts half full.</>
             : <>No hour that day paid for the round trip: the perfect battery&apos;s best play was to wait.</>}
@@ -435,7 +435,7 @@ function EndTable({ mine, perfect, none, rules, big }: { mine: Tally; perfect: T
 /** Session 66: the one hour where the player lost the most against the perfect battery, with what it did then and at
  * what price (worstHour over simulate()'s earnings per interval). Session 290: a line under the end table (it was the
  * third of session 66's three lines). */
-function WorstHour({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Result; perfect: Result }) {
+export function WorstHour({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Result; perfect: Result }) {
   const w = worstHour(level.price, mine, perfect, rules);
   const from = (i: number) => clock(level.tz, level.ts_utc[i]);
   const to = (i: number) => clock(level.tz, new Date(Date.parse(level.ts_utc[i]) + 15 * 60_000).toISOString());
@@ -458,7 +458,7 @@ function WorstHour({ level, rules, mine, perfect }: { level: GameLevel; rules: R
 }
 
 /** Why a play ended early, in words. Session 66: lights out costs money, and the note says what and why. */
-function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
+export function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
   if (mine.why === "bankrupt") {
     return <p className="mt-1 text-sm" role="status">Out of money at {at}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>;
   }
@@ -495,7 +495,7 @@ const PREVIEW_MS = 5000;
 // Session 3600 (ruling 2: the average and some of the variance): the numbers come from lib/battery.ts's glance(), which
 // adds the day's typical range (the average plus or minus one standard deviation) under the three; each number carries
 // the prices' source as a hover.
-function Preview({ level, hard, onDone, hover }: { level: GameLevel; hard: boolean; onDone: () => void; hover: string }) {
+export function Preview({ level, hard, onDone, hover }: { level: GameLevel; hard: boolean; onDone: () => void; hover: string }) {
   const gl = glance(level.price);
   const avg = gl?.avg ?? 0, lo = gl?.lo ?? 0, hi = gl?.hi ?? 0;  // a level always holds a whole day; gl is null only for none, never drawn
   const [left, setLeft] = useState(PREVIEW_MS);
@@ -542,11 +542,59 @@ function Preview({ level, hard, onDone, hover }: { level: GameLevel; hard: boole
   );
 }
 
-/** Session 289: the one page's three modes, in a line each (Samuel's ruling 16 of 14 October 2026). */
+/** Session 7535 (chain 304): the end's money in detail, the two fleets and the rules played, moved out of Game unchanged
+ * so that site/scripts/battery-game-figures.mjs can draw it for the replication (replication/battery_game/). */
+export function EndDetail({ result, perfect, easy, server }: { result: { mine: Result; rules: Rules; preset: string }; perfect: Result; easy: boolean; server: string }) {
+  return (
+    <p className="mt-2 text-sm" data-end-detail>
+      {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
+      <span className="cursor-help border-b border-dotted border-muted" title={`A fictional fleet of ${FLEET.toLocaleString("en-US")} homes, each with this battery and each playing as you did: your score times ${FLEET.toLocaleString("en-US")}, and the perfect battery's times the same. A game rule, not a real fleet's earnings.`} data-fleet-end="1">Your fleet of {FLEET.toLocaleString("en-US")} homes</span>: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
+      {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null} <span className="text-muted">{server}</span>
+    </p>
+  );
+}
+
+/** Session 7535 (chain 304): the debrief under the end table on Normal and Hard (the day's real peak and low, the fleet
+ * call's hour, and what the perfect battery did), moved out of Game unchanged so that it can be drawn for the
+ * replication. `best` is the perfect plan (optimum's actions), `vppFirst` the first interval of the fleet call's hour. */
+export function Debrief({ level, result, best, vppFirst }: { level: GameLevel; result: { rules: Rules }; best: Action[]; vppFirst: number }) {
+  const peak = level.price.indexOf(Math.max(...level.price)), low = level.price.indexOf(Math.min(...level.price));
+  const charged = runs(best,level.ts_utc, 1, level.tz), discharged = runs(best, level.ts_utc, -1, level.tz);
+  const G = GRIDS[level.grid];
+  const ev = level.grid === "ERCOT" ? eventPageFor(level.date) : null;
+  return (
+    <p className="mt-2 max-w-3xl text-sm" data-debrief>
+      On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
+      was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vppFirst])}. Knowing every
+      price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
+      sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
+      The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
+      {ev ? <> What happened that day on the grid: <Link href={ev.href}>{ev.label}</Link>.</> : null}
+    </p>
+  );
+}
+
+/** Session 7535: the words of Hard's notice about the house's need in the outage against the backup reserve (Samuel's
+ * ruling 2a), moved out of Game unchanged so that it can be read for the replication. `need` is the charge the house
+ * takes from the battery in the outage (simulate's outageNeedKwh), kWh. */
+export function keepWordsFor(need: number, rules: Rules): string {
+  const reserveOk = rules.reserveKwh + 1e-9 >= need;
+  return need > 0
+    ? reserveOk
+      ? `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds ${rules.reserveKwh.toFixed(2)} kWh, enough by itself, so sell down to the reserve line.`
+      : `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds only ${rules.reserveKwh.toFixed(2)} kWh, so keep at least ${need.toFixed(2)} kWh.`
+    : rules.solarKw > 0 ? "Today the roof carries the house through the outage." : "";
+}
+/** Session 7535: what the outage banner says a dark house would pay, USD: the unserved energy of the whole outage (the
+ * house's need, less the roof, which is the battery's need times its one-way efficiency) at the value of lost load. */
+export const outageChargeFor = (need: number, rules: Rules) => (need * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000;
+
+/** Session 289: the one page's three modes, in a line each (Samuel's ruling 16 of 14 October 2026). Session 7535: Hard's
+ * wear is charged on each kWh drawn out of the battery, not on each kWh sold (faults file, row 1). */
 const MODE_LINE: Record<Difficulty, string> = {
   easy: "The whole day's prices show ahead of time. Charge when the line is low, sell when it is high.",
   normal: "No forecast: the day arrives fifteen minutes at a time. Once, in the dearest hour, the grid calls the fleet.",
-  hard: "No forecast, a backup reserve, wear on every kWh sold, and a grid emergency that ends in a two-hour outage.",
+  hard: "No forecast, a backup reserve, wear on every kWh drawn out of the battery, and a grid emergency that ends in a two-hour outage.",
 };
 const MODES = ["easy", "normal", "hard"] as const;
 
@@ -907,12 +955,9 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
   const blocked = playing && hud.control === -1 && atReserve;
   // session 289 (Samuel's ruling 2a): on Hard the fleet call's notice names the emergency, and both say how much charge
   // the house will need in the outage against the reserve, so "sell then" and "keep charge" no longer contradict
-  const need = perfect.outageNeedKwh, reserveOk = rules.reserveKwh + 1e-9 >= need;
-  const keepWords = need > 0
-    ? reserveOk
-      ? `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds ${rules.reserveKwh.toFixed(2)} kWh, enough by itself, so sell down to the reserve line.`
-      : `The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds only ${rules.reserveKwh.toFixed(2)} kWh, so keep at least ${need.toFixed(2)} kWh.`
-    : rules.solarKw > 0 ? "Today the roof carries the house through the outage." : "";
+  // session 7535: the words are keepWordsFor's (moved out unchanged, so the replication reads them)
+  const need = perfect.outageNeedKwh;
+  const keepWords = keepWordsFor(need, rules);
   const post = async () => {
     if (!result) return;
     setPosted("Posting...");
@@ -925,11 +970,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
     setTop(j.top); setTopFor({ date: level.date, preset: j.preset }); setPosted("Posted.");
   };
 
-  // the debrief, from the level's prices and the optimum under the rules played
-  const peak = level.price.indexOf(Math.max(...level.price)), low = level.price.indexOf(Math.min(...level.price));
+  // the debrief (Debrief, session 7535), from the level's prices and the optimum under the rules played
   const at = (i: number | null) => (i === null ? "" : clock(level.tz, level.ts_utc[Math.min(n - 1, i)]));
-  const charged = runs(best.actions, level.ts_utc, 1, level.tz), discharged = runs(best.actions, level.ts_utc, -1, level.tz);
-  const G = GRIDS[level.grid];
   const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
   const ev = level.grid === "ERCOT" ? eventPageFor(level.date) : null;  // session 46: a famous ERCOT day inside an /events window links to it
   // session 290: the end table's rows, from the finished play's own rules
@@ -982,7 +1024,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
               {inOutage ? (
                 <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
                   Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
-                  and you pay for the power the house needed in the whole outage ({usd((perfect.outageNeedKwh * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000)}): a dark house in a grid emergency is what the battery is there to prevent.
+                  and you pay for the power the house needed in the whole outage ({usd(outageChargeFor(perfect.outageNeedKwh, rules))}): a dark house in a grid emergency is what the battery is there to prevent.
                 </div>
               ) : inSpike ? (
                 <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">
@@ -1046,21 +1088,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
           {ends ? <EndTable mine={ends.mine} perfect={ends.perfect} none={ends.none} rules={result.rules} big={easy} /> : null}
           <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
           {!easy ? <WorstHour level={level} rules={result.rules} mine={result.mine} perfect={perfect} /> : null}
-          <p className="mt-2 text-sm">
-            {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
-            <span className="cursor-help border-b border-dotted border-muted" title={`A fictional fleet of ${FLEET.toLocaleString("en-US")} homes, each with this battery and each playing as you did: your score times ${FLEET.toLocaleString("en-US")}, and the perfect battery's times the same. A game rule, not a real fleet's earnings.`} data-fleet-end="1">Your fleet of {FLEET.toLocaleString("en-US")} homes</span>: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
-            {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null} <span className="text-muted">{server}</span>
-          </p>
-          {!easy ? (
-            <p className="mt-2 max-w-3xl text-sm">
-              On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
-              was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vpp.first])}. Knowing every
-              price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
-              sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
-              The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
-              {ev ? <> What happened that day on the grid: <Link href={ev.href}>{ev.label}</Link>.</> : null}
-            </p>
-          ) : null}
+          <EndDetail result={result} perfect={perfect} easy={easy} server={server} />
+          {!easy ? <Debrief level={level} result={result} best={best.actions} vppFirst={vpp.first} /> : null}
           {!easy ? <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} earned={{ mine: result.mine.score, perfect: perfect.score }} /> : null}
           <ShareCard level={level} score={result.mine.score} optimal={perfect.score} none={ends?.none ?? 0} preset={result.preset} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">

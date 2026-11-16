@@ -412,6 +412,11 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
       }
       for (const a of [1, 0, -1] as Action[]) {
         const x = step(n.soc, a, P[i], r);
+        // session 7535 (docs/reviews/battery-game-faults-2026-11-16.md, row 3): a charge into a full battery or a sale
+        // from an empty one (or one at its reserve) moves nothing and is waiting in every respect (no cash, no wear, no
+        // delivery, the roof's money the same); it is not kept as a move, so the debrief and the replay never say the
+        // perfect battery "charged" through hours it sat full. The score is unchanged.
+        if (a !== 0 && x.soc === n.soc) continue;
         const value = n.value + x.cash - x.wear + roofSale(sun[i], P[i], x.soc - n.soc, r).usd + (inVpp ? (x.delivered * bonusPrice) / 1000 : 0);
         if (r.money0 + value < 0) { endAt({ soc: x.soc, value, prev: n, a }, i); continue; }  // bankrupt: the game ends
         const k = Math.round(x.soc * 1e9);
