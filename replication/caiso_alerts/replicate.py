@@ -52,6 +52,17 @@ ISO_WIDE = {"ISO", "CAISO Grid"}  # the report's two spellings of the whole area
 SHORT = {"flex_alert": "Flex Alert", "eea_watch": "EEA Watch", "eea1": "EEA 1", "eea2": "EEA 2", "eea3": "EEA 3", "alert": "Alert",
          "warning": "Warning", "stage1": "Stage 1", "stage2": "Stage 2", "stage3": "Stage 3", "load_interruption": "Load interruption"}
 VARIANTS = ["minimal", "base", "base_prev24sq", "base_cdh_dew", "chosen"]
+# Differences found and explained (docs/reviews/caiso-alerts-faults-2026-11-16.md): each is printed as named, never as agreeing
+NAMED_DIFF = {
+    "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-29T00:00:00Z":
+        "rounded twice: the table holds -0.175 (three decimals) of -0.17497, and the page rounds that to -0.18; from the hours, -0.17 (faults, row 6)",
+    "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2024-01-01T00:00:00Z":
+        "rounded twice: the table holds -16,893.325 of -16,893.3249, and the page rounds that to -16,893.33; from the hours, -16,893.32 (faults, row 6)",
+    "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-26T00:00:00Z":
+        "a tie: two held-out days have the day's own high, 87.926 F, at the table's three decimals; the builder compared unrounded highs and counted one (faults, row 7)",
+    "notices|2020-10-01|types":
+        "the Flex Alert for 1 October 2020 is dated 30 September in caiso_grid_emergencies (the day it was issued), so the page's notices cell for 2020-10-01 lacks it (faults, row 3, data machine)",
+}
 MONTHS = {m: i for i, m in enumerate(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], 1)}
 
 
@@ -104,6 +115,11 @@ def window(n):
     if m:
         g = m.groups()
         return (f"{g[2]}-{int(g[0]):02d}-{int(g[1]):02d}", clock(g[3])), (f"{g[6]}-{int(g[4]):02d}-{int(g[5]):02d}", clock(g[7]))
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4}) (\d{1,2}:\d{2}):\d{2} through (\d{1,2}:\d{2}):\d{2}", tf)
+    if m:  # the day is the text's, not the row's (method, section 3: the Flex Alert dated 2020-09-30 is for 2020-10-01)
+        g = m.groups()
+        d = f"{g[2]}-{int(g[0]):02d}-{int(g[1]):02d}"
+        return (d, clock(g[3])), (d, clock(g[4]))
     m = re.match(r"([A-Z][a-z]+) (\d{1,2}) at (\d{1,2}:\d{2} [AP]M) to ([A-Z][a-z]+) (\d{1,2}) at (\d{1,2}:\d{2} [AP]M)", tf)
     if m:
         y = n["event_date"][:4]
@@ -116,6 +132,9 @@ def alert_days(notices):
     out = defaultdict(lambda: {"types": set(), "iso": set(), "rows": []})
     for n in notices:
         d = n["event_date"][:10]
+        w = window(n) if n["event_type"] in ALERT else None
+        if w and w[0][0] == w[1][0] and w[0][0] != d and not n["x_start"]:
+            d = w[0][0]  # a single-day window whose text names another day than the row's: the text's day
         out[d]["types"].add(n["event_type"])
         out[d]["rows"].append(n)
         if n["event_type"] in ALERT and n["x_region"] in ISO_WIDE:
@@ -288,6 +307,8 @@ def rebuild(series, notices):
     ours["words|ran"] = "below" if sum(cut) >= 0 else "above"
     ours["words|last_alert"] = days[-1]
     ours["words|h1_years"] = f"{days[0][:4]} to {days[-1][:4]}"
+    ours["words|report_ends"] = max(n["event_date"][:10] for n in notices)
+    ours["words|later_alert_days"] = len({n["event_date"][:10] for n in notices if n["event_type"] in ALERT and n["event_date"][:10] > days[-1]})
     for v in ("pooled_reduction_mw_lo", "pooled_reduction_mw_hi", "pooled_reduction_mwh_lo", "pooled_reduction_mwh_hi", "pooled_value_usd_lo", "pooled_value_usd_hi"):
         named[key(MODEL, M, v, T0)] = "the bootstrap's 90 percent interval (as for a day)"
     lo, hi = mod["pooled_reduction_mw_lo"], mod["pooled_reduction_mw_hi"]
@@ -380,11 +401,12 @@ def compare(ours, named, fig):
     s = next(x for x in fig["svgs"] if x["label"].startswith("Model error"))
     out.append(("chart|check|dots", "chart", str(s["circles"]), str(ours["chart|check|dots"]), "", "agrees" if s["circles"] == ours["chart|check|dots"] else "DIFFERS"))
     w = fig["words"]
-    for k, got in (("words|days_priced", w["days_priced"]), ("words|days_shown", w["days_shown"]), ("words|ran", w["ran"]), ("words|zero", w["zero"]), ("words|last_alert", w["last_alert"])):
+    for k, got in (("words|days_priced", w["days_priced"]), ("words|days_shown", w["days_shown"]), ("words|ran", w["ran"]), ("words|zero", w["zero"]), ("words|last_alert", w["last_alert"]),
+                   ("words|report_ends", w.get("report_ends")), ("words|later_alert_days", w.get("later_alert_days"))):
         out.append((k, "words", str(got), str(ours[k]), "", "agrees" if str(got) == str(ours[k]) else "DIFFERS"))
     h1y = (re.search(r"(\d{4} to \d{4})", w["h1"]) or [None, None])[1] if w["h1"] else None
     out.append(("words|h1_years", "head", str(h1y), ours["words|h1_years"], "", "agrees" if h1y == ours["words|h1_years"] else "DIFFERS"))
-    return out
+    return [r[:5] + ("named difference: " + NAMED_DIFF[r[0]],) if r[5] == "DIFFERS" and r[0] in NAMED_DIFF else r for r in out]
 
 
 def crosscheck(notices):
@@ -450,13 +472,15 @@ def main():
             w.writeheader()
             w.writerows(cc)
     agree = sum(1 for r in rows if r[5] == "agrees")
-    nm = sum(1 for r in rows if r[5].startswith("named"))
+    nd = [r for r in rows if r[5].startswith("named difference")]
+    nm = sum(1 for r in rows if r[5].startswith("named: "))
     bad = [r for r in rows if r[5] in ("DIFFERS", "NOT REBUILT")]
     print(f"tables as retrieved: {', '.join(f'{k} {v}' for k, v in fig['tables'].items())}")
     for n in notes:
         print(n)
-    print(f"figures of the page: {len(rows)}; rebuilt {agree + len(bad)}: {agree} of {agree + len(bad)} agree inside half the last shown digit; named {nm}; failed {len(bad)}")
-    for r in bad:
+    print(f"figures of the page: {len(rows)}. Rebuilt from the public tables: {agree + len(nd) + len(bad)}, of which {agree} agree inside half the "
+          f"page's last shown digit, {len(nd)} differ and are named, {len(bad)} fail. Not rebuildable from the public tables, named: {nm}.")
+    for r in nd + bad:
         print("  " + " | ".join(r))
     ok_cc = sum(1 for r in cc if r["agrees"] == "yes")
     print(f"CAISO's own yearly day counts (revision 10/09/2026), 2018 to 2026: {ok_cc} of {len(cc)} year-type counts equal the notices table's")

@@ -115,11 +115,15 @@ export function figuresOf(html) {
     h1: text((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) ?? ["", ""])[1]),
     ran: (t.match(/demand served ran (below|above) what the weather/) ?? [])[1] ?? null,
     zero: (t.match(/The interval (includes zero|excludes zero)/) ?? [])[1] ?? null,
-    last_alert: (t.match(/from July 2018 to ([\d-]+) ?, ranked/) ?? [])[1] ?? null,
+    last_alert: (t.match(/from July 2018 to (\d{4}-\d{2}-\d{2})/) ?? [])[1] ?? null,
     days_priced: held ? Number(held[1]) : null,
     days_shown: held ? Number(held[2]) : null,
     oasis_months: Number((t.match(/OASIS serves (\d+) months of history/) ?? [])[1] ?? NaN),
-    report_ends: (t.match(/History Report runs to ([\d-]+)/) ?? [])[1] ?? null,
+    // session 7532: the last caution says how far CAISO's notices run, and how many alert days lie after the scorecard's last
+    report_ends: (t.match(/as the warehouse holds it, runs to ([\d-]+) ?;/) ?? [])[1] ?? null,
+    later_alert_days: /it lists no Flex Alert or emergency notice after/.test(t) ? 0 : Number((t.match(/it lists (\d+) days? with a Flex Alert/) ?? [])[1] ?? NaN),
+    tip_left_out: /One alert day of CAISO's notices is not in the table: 2021-07-12/.test(t),
+    decisions: (html.match(/data-decision="/g) ?? []).length,
   };
   // the charts' axis labels (svg text), by chart
   const svgs = [...html.matchAll(/<svg[^>]*aria-label="([^"]+)"[^>]*>([\s\S]*?)<\/svg>/g)].map((m) => ({

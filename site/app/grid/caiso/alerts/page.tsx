@@ -4,6 +4,8 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
+import { Tip } from "@/components/tool/ToolPage";
+import { AlertsDecisions } from "./Decisions";
 import type { SeriesRow } from "@/lib/data";
 import { EFFECTS, MODEL, VARIANTS, effects, key, model, pacificHour, shape, type Day } from "@/lib/flexalerts";
 import { shown } from "@/lib/format";
@@ -31,8 +33,10 @@ const usdShort = (v: number) => {
   const t = (x: number) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
   if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
   if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
-  return v.toLocaleString("en-US");
+  return Math.round(v).toLocaleString("en-US");  // session 7532: whole dollars (it printed "-479,791.004" for 2023-07-20)
 };
+// Session 7532: the notice types that make an alert day (docs/methods/flex_alert_scorecard.md, section 3)
+const ALERT_TYPES = new Set(["flex_alert", "eea_watch", "eea1", "eea2", "eea3", "alert", "warning", "stage1", "stage2", "stage3", "load_interruption"]);
 function Usd({ r, table = EFFECTS }: { r?: SeriesRow; table?: string }) {
   return r ? <span data-format="usd"><Num check={key(r, table)} raw={r.value}>{usdShort(r.value)}</Num></span> : <span className="text-muted">not held</span>;
 }
@@ -117,7 +121,7 @@ function CheckChart({ pts }: { pts: { t: number; e: number }[] }) {
 }
 
 export default async function FlexAlertScorecard() {
-  const [eff, mod, ns] = await Promise.all([attempt(effects), attempt(model), attempt(() => gridNotices("2018-07-01", "2025-10-31"))]);
+  const [eff, mod, ns] = await Promise.all([attempt(effects), attempt(model), attempt(() => gridNotices("2018-07-01", new Date().toISOString().slice(0, 10)))]);
   if (!eff.ok || !mod.ok) {
     return (
       <Brand>
@@ -143,12 +147,17 @@ export default async function FlexAlertScorecard() {
   const yrs = [...years.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   const checkPts = heldout.filter((h) => h.err && h.temp).map((h) => ({ t: h.temp!.value, e: h.err!.value }));
   const lastAlert = days.at(-1)?.day;
+  // Session 7532: the years in the title, and how far CAISO's notices run, from the rows (the title said "2018 to 2024" and
+  // the last caution said the report ran to 2025-04-30 while the table held the report revised on 9 October 2026)
+  const firstYear = days[0]?.day.slice(0, 4), lastYear = lastAlert?.slice(0, 4);
+  const noticesEnd = (ns.ok ? ns.data : []).reduce((m, n) => (n.event_date.slice(0, 10) > m ? n.event_date.slice(0, 10) : m), "");
+  const laterAlertDays = lastAlert ? [...new Set((ns.ok ? ns.data : []).filter((n) => ALERT_TYPES.has(n.event_type) && n.event_date.slice(0, 10) > lastAlert).map((n) => n.event_date.slice(0, 10)))].sort() : [];
 
   return (
     <Brand>
     <div>
       <p className="mb-1 text-xs text-muted"><Link href="/grid?grid=caiso">CAISO</Link> / <Link href="/grid?grid=caiso#reliability">Reliability</Link> / Flex Alert scorecard</p>
-      <h1 className="mb-2 text-3xl">The Flex Alert scorecard: CAISO, 2018 to 2024</h1>
+      <h1 className="mb-2 text-3xl">The Flex Alert scorecard: CAISO, {firstYear && lastYear ? `${firstYear} to ${lastYear}` : "2018 to 2024"}</h1>
       <p className="mb-4 max-w-3xl">
         When California&apos;s grid runs short, CAISO asks people to use less power: a <strong>Flex Alert</strong>, and in worse hours an Energy Emergency
         Alert or stage emergency. Whether those calls cut demand, and by how much, is argued over, because the state pays for the alerts and for the
@@ -208,7 +217,12 @@ export default async function FlexAlertScorecard() {
 
       <Section title="Every alert day, ranked" aside="flex_alert_effects">
         <p className="mb-2 max-w-3xl text-sm">
-          Each day CAISO called a Flex Alert or a grid emergency for its whole area, from July 2018 to {lastAlert ?? "the last day held"}, ranked by the
+          Each day CAISO called a Flex Alert or a grid emergency for its whole area, from July 2018 to {lastAlert ?? "the last day held"}
+          <Tip id="alerts-left-out" label="the alert day that is not scored">
+            One alert day of CAISO&apos;s notices is not in the table: 2021-07-12 (a Flex Alert, 16:00 to 21:00) lacks a complete day of demand and
+            weather and is not scored (the method, section 3; the run of 2 October 2026). So 2021 shows 8 days, as CAISO counts 8 Flex Alert days, but
+            not the same 8: the table&apos;s include 2021-07-29, a Warning with no Flex Alert.
+          </Tip>, ranked by the
           estimated cut in its alert hours (predicted less actual demand, MW, averaged over the hours). The hours are the Flex Alert&apos;s where there was one,
           else the emergency&apos;s; a day with none stated takes 16:00 to 21:00 and is marked. &ldquo;Days as hot&rdquo; counts the non-alert days in the
           model&apos;s training set at least as hot: where it is small, the model is extrapolating.
@@ -309,7 +323,10 @@ export default async function FlexAlertScorecard() {
           <li><strong>Hourly data blurs short cuts.</strong> A conservation text can drop demand for twenty minutes; an hourly mean dilutes it.</li>
           <li><strong>Demand is demand served</strong> (EIA-930, CAISO&apos;s balancing authority), net of rooftop solar behind the meter; the year effects absorb
             its growth. Weather is three airports, weighted 0.5 Los Angeles, 0.3 Sacramento, 0.2 Fresno: it can miss a coastal fog or a storm&apos;s clouds.</li>
-          <li><strong>The alert days end in 2024:</strong> CAISO&apos;s <a href={GEHR}>Grid Emergencies History Report</a> runs to 2025-04-30, so the 2025 season has none here.</li>
+          <li data-alerts-end={noticesEnd || "unread"}><strong>The alert days end in {lastYear ?? "the last year held"}:</strong> CAISO&apos;s <a href={GEHR}>Grid Emergencies History Report</a>,{" "}
+            {!ns.ok || !noticesEnd ? <>whose notices could not be read here: how far it runs is not said.</>
+              : laterAlertDays.length === 0 ? <>as the warehouse holds it, runs to {noticesEnd}; it lists no Flex Alert or emergency notice after {lastAlert}, so the seasons since have none here.</>
+              : <>as the warehouse holds it, runs to {noticesEnd}; it lists {laterAlertDays.length} {laterAlertDays.length === 1 ? "day" : "days"} with a Flex Alert or emergency notice after {lastAlert} ({laterAlertDays.join(", ")}) that the scorecard does not yet hold.</>}</li>
           <li><strong>The value is a lower bound</strong> at day-ahead prices, set before the day; real-time prices on alert evenings were often higher.</li>
         </ul>
         <p className="mt-3 max-w-3xl text-sm">
@@ -318,6 +335,7 @@ export default async function FlexAlertScorecard() {
         </p>
       </Section>
       <Cite tables={[EFFECTS, MODEL, "caiso_grid_emergencies", "noaa_isd_hourly", "caiso_dam_alert_day_hub_prices"]} note="California ISO, Grid Emergencies History Report and OASIS PRC_LMP (credit the California ISO); EIA-930; NOAA NCEI Integrated Surface Database" />
+      <AlertsDecisions />
     </div>
     </Brand>
   );
