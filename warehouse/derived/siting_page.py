@@ -97,7 +97,9 @@ MIN_N = 5
 UTILITY_TABLE = "eia861_utility_sales"
 # session 718: the data machine's tables of chain 043, wired in where they answer a column better
 DURATIONS_TABLE, PEAKCAP_TABLE, TERRITORY_TABLE = "interconnection_durations", "grid_peak_vs_capacity", "utility_service_territories"
-DURATION_GRIDS = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso", "isone": "isone", "spp": "spp", "miso": "miso", "pjm": "pjm"}
+DURATION_GRIDS = {"ercot": "ercot", "caiso": "caiso", "nyiso": "nyiso", "isone": "isone", "spp": "spp", "miso": "miso", "pjm": "pjm",
+                  # session 7009 (data request 25): Berkeley Lab's two regions outside the ISOs, for the rows beyond the seven grids
+                  "west": "west", "southeast": "southeast"}
 # a county the row's name is a place in, where it names one: the county's own utilities serve the row there. The hubs'
 # counties are the data machine's choice in session 681 (Harris, Los Angeles, New York, Suffolk, Allegheny, Marion,
 # Sedgwick); a zone takes the county of the city it is named for
@@ -115,8 +117,18 @@ ROW_COUNTY = {
 }
 UTILITY_STATES = [("TX", "ERCO"), ("CA", "CISO"), ("NY", "NYIS"), ("CT", "ISNE"), ("ME", "ISNE"), ("MA", "ISNE"), ("NH", "ISNE"), ("RI", "ISNE"), ("VT", "ISNE"),
                   ("KS", "SWPP"), ("OK", "SWPP"), ("AR", "MISO"), ("IL", "MISO"), ("IN", "MISO"), ("LA", "MISO"), ("MI", "MISO"), ("MN", "MISO"), ("MS", "MISO"), ("TX", "MISO")]
+# session 7009 (chain 301; the old laptop's data request 25): the balancing authorities outside the seven grids that a
+# large-load rule read names (Arizona Public Service, SRP, TEP, NV Energy, Southern Company, Duke's two Carolinas
+# authorities, FPL, Tampa Electric, TVA, PacifiCorp's two, Portland General, Idaho Power, Bonneville, Public Service of
+# Colorado), each in the state of its rule, so the tab can give them rows with no hub price
+OUTSIDE_STATES = [("AZ", "AZPS"), ("AZ", "SRP"), ("AZ", "TEPC"), ("NV", "NEVP"), ("GA", "SOCO"), ("AL", "SOCO"), ("NC", "DUK"),
+                  ("SC", "DUK"), ("NC", "CPLE"), ("FL", "FPL"), ("FL", "TEC"), ("TN", "TVA"), ("OR", "PACW"), ("UT", "PACE"),
+                  ("OR", "PGE"), ("ID", "IPCO"), ("OR", "BPAT"), ("WA", "BPAT"), ("CO", "PSCO")]
+UTILITY_STATES = UTILITY_STATES + OUTSIDE_STATES
 EGRID_TABLE, HOURLY_TABLE, HOURLY_VAR = "egrid_power_plants", "carbon_intensity_hourly", "intensity_demand"
-SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "MROW", "SRMW", "RFCW", "RFCM", "SRMV"]
+SUBREGIONS = ["ERCT", "CAMX", "NYUP", "NYCW", "NYLI", "NEWE", "SPNO", "SPSO", "MROW", "SRMW", "RFCW", "RFCM", "SRMV",
+              # session 7009 (data request 25): the eGRID subregions of the balancing authorities outside the seven grids
+              "AZNM", "SRSO", "SRVC", "FRCC", "SRTV", "NWPP", "RMPA"]
 HOURLY_GRIDS = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "isone": "ISNE", "spp": "SWPP"}
 PLANNED_TABLE, STATECAP_TABLE = "eia860m_planned_generators", "eia_state_capacity_annual"
 BA_GRIDS = {"ERCO": "ercot", "CISO": "caiso", "NYIS": "nyiso", "ISNE": "isone", "SWPP": "spp", "MISO": "miso", "PJM": "pjm"}
