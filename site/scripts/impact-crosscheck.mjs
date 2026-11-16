@@ -15,7 +15,7 @@ const S = await import("../lib/severance.ts");
 
 const args = process.argv.slice(2);
 const jsonAt = args.indexOf("--json");
-const jediFile = args.find((a, i) => !a.startsWith("--") && i !== jsonAt + 1);
+const jediFile = args.find((a, i) => !a.startsWith("--") && (jsonAt < 0 || i !== jsonAt + 1));
 
 function readRows(file) {
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/).filter((l) => l && !l.startsWith("#"));

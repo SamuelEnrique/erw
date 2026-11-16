@@ -66,3 +66,7 @@ Chain 229, session 4103 (13 November 2026): the Louisiana Department of Revenue'
 - Any property-tax rate, abatement or exemption: seven rows state that none is held.
 - Severance rules of any state but Texas, Louisiana and New Mexico, and any rule read after 30 September 2026.
 - A row for each New Mexico ad valorem district: the districts' rates are a JSON list in `x_detail` of the two ad valorem rows (`x_rate` "district").
+
+## How `/impact` uses these rules (session 7506, chain 304, 16 November 2026)
+
+The forecast tool on `/impact` does not read this table: it reads the gas rules of `site/data/severance_rules.json`, the record this table is built from, and only for a gas plant whose reader gives a share of its fuel produced in the state (default 0, so the page as it opens computes none). It takes the base rates and fees of gas and no option: Texas 7.5 percent of value and USD 0.000667 per Mcf, Louisiana USD 0.1514 per Mcf, New Mexico 3.75, 4 and 0.19 percent of value; New Mexico's district ad valorem tax is not counted (no district is given), and nothing is deducted from value (`docs/methods/forecast.md`, sections 7 and 12.1). The seven `property_tax_rule` rows ("no rule held") describe session 346's search and are no longer what the page shows: its property tax rules are `site/data/forecast/property_rules.json`, read from statutes since 13 November 2026 (`forecast.md`, section 4). Whether a figure computed from a rate of this held table is itself held is a ruling (`docs/reviews/impact-faults-2026-11-16.md`, row 10).

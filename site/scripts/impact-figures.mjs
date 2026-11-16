@@ -31,7 +31,7 @@ const args = process.argv.slice(2);
 const checkOnly = args.includes("--check");
 const outAt = args.indexOf("--out");
 const out = outAt >= 0 && args[outAt + 1] ? path.resolve(args[outAt + 1]) : home;
-const jediFile = args.find((a, i) => !a.startsWith("--") && i !== outAt + 1);
+const jediFile = args.find((a, i) => !a.startsWith("--") && (outAt < 0 || i !== outAt + 1));
 if (!jediFile || !fs.existsSync(jediFile)) {
   console.error("give the path of nlr_jedi_multipliers.csv (warehouse/output, or the page's download)");
   process.exitCode = 2;
