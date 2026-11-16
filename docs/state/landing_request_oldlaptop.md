@@ -32,6 +32,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 26 | `wip/7519-battery-read` | `060b5ea99` | `7519-battery-read` | 7519 | 2026-11-16 | `site/scripts/test-battery-read.mjs` (25 of 25, with `battery_stack_monthly` and `battery_stack_stress_daily` on the machine); the 49 test files that name the changed files, each in its own process: 48 pass, `tests/test_session148.py` fails in `site/scripts/test-ask-speed.mjs` (`/ask`), as on the base `wip/7500-done-line`; not built here (memory) | landed at `492752123` (chain 301's desk gate j, session 7020, sixteen rows in one stack) |
 | 27 | `wip/7520-seller-read` | `0dec91ea1` | `7520-seller-read` | 7520 | 2026-11-16 | `site/scripts/test-seller-read.mjs` (new, 14 of 14, no server); the 46 test files that name the changed files, each in its own process: all pass; `test-seller-finance.mjs`, `test-seller-hubs.mjs`, `test-capture.mjs`, `test-hybrid.mjs` pass; not run here (they need a server): `check-seller-scenarios.mjs`, `check-values.mjs`, `check-decisions-face.mjs`; not built here (memory) | landed at `492752123` (chain 301's desk gate j, session 7020, sixteen rows in one stack) |
 | 28 | `wip/7521-cost-of-power-read` | `581e27a02` | `7521-cost-of-power-read` | 7521 | 2026-11-16 | `site/scripts/test-cost-of-power-read.mjs` (new, 17 of 17, the page drawn to HTML with the warehouse's tables, no server); the 12 Python test files and 3 node scripts that name the changed files, each in its own process: all pass; not built here and no type check (memory) | landed at `492752123` (chain 301's desk gate j, session 7020, sixteen rows in one stack) |
+| 30 | `wip/7532-caiso-alerts` | `ac362d6f6` | `7532-caiso-alerts` | 7532 | 2026-11-16 | `tests/test_session7532_caiso_alerts.py` (15 passed) and `site/scripts/test-caiso-alerts-render.mjs` (30 of 30, the whole page drawn to HTML with its own function, without a build); the older test files that name the page or its libraries, `test_session58`, `60`, `118`, `241a`, `246`, `254`, `310`, `322` (116 run, OK, 8 skipped by their own rules); the note sweeps `test_session142`, `147`, `158`, `160`: OK; `tsc` with the site's settings on `page.tsx` and `Decisions.tsx`, exit 0; `replication/caiso_alerts/replicate.py` on this machine's tables and again on the rows beside it: 471 rebuilt, 467 agree, 4 named, 0 fail, 163 named as panel-only, exit 0; not built here (memory); `check-values` and `check-routes` not run | requested |
 
 ## Row 1: what it holds
 
@@ -324,3 +325,28 @@ Branch `wip/7202-key-refusal` from `origin/main`. Report: `archive/sessions/SESS
 - **Before landing:** a site build of the merged commit (no type check could run here); `check-values` reads the default view as before plus, on a PJM or MISO address only, one `largeload|rules|grid|...` key; the carbon card's grid mean now carries `co2:window:grid` twice on the page (the sentence and the card), same value.
 - **Snapshot differences to expect:** none on the 25 addresses (the page is in review). With the review cookie, `/cost-of-power`: the carbon card's note gains a month list where a month is missing (ERCOT: "December 2025"), and the third card's grid figure gains two decimals. **Tables:** none.
 - **After the landing:** browser rows 73 to 75; data requests 44 to 48 are the data machine's and do not hold this row.
+
+## Row 30: what it holds (chain 304, session 7532, the Flex Alert scorecard at the done line)
+
+- **Stacked on** origin/main at `dd2dabe11`. Report: `archive/sessions/SESSION_7532_REPORT.md` on the branch.
+- **What changes:** `/grid/caiso/alerts` (`site/app/grid/caiso/alerts/page.tsx`, the new `Decisions.tsx`): a dollar
+  figure under a million in whole dollars (2023-07-20 read "-479,791.004"); the title's years from the rows; the last
+  caution says how far CAISO's notices run and whether any alert day follows the last scored one, from the rows (it
+  said "runs to 2025-04-30"), and the notices are read to the day the page is drawn (they stopped at 2025-10-31); a
+  hover beside the ranked table's lead names 2021-07-12 as not scored; the fold "Decisions on this page" (11 choices,
+  server-drawn words, no handler, no state, no new request). New: `docs/methods/caiso_alerts.md`,
+  `replication/caiso_alerts/`, `docs/reviews/caiso-alerts-faults-2026-11-16.md`,
+  `docs/reviews/caiso-alerts-crosscheck-2026-11-16.md`, `site/scripts/caiso-alerts-figures.mjs`,
+  `site/scripts/test-caiso-alerts-render.mjs`, `tests/test_session7532_caiso_alerts.py`; a dated line in
+  `docs/methods/flex_alert_scorecard.md`.
+- **What does not change:** every figure the page draws from the two tables (the 433 checked numbers are the same rows
+  and keys), the charts, the sections, `site/lib/flexalerts.ts`, `site/lib/reliability.ts`, `site/lib/release.ts`, every
+  table.
+- **Before landing:** a build on the landing machine (the first build of the page's two files; `tsc` passed here), and
+  `check-values` on `/grid/caiso/alerts` (the same keys as before). The notices read now ends on the day drawn instead
+  of 2025-10-31: 320 rows instead of 314 on this machine's table.
+- **Snapshot differences to expect:** none on the 25 addresses (the page is not among them; every page is in review).
+  With the review cookie: `/grid/caiso/alerts` differs by the title's words (the same years), the 2023-07-20 value cell,
+  the hover by the ranked lead, the last caution's words, and the fold at the foot; `/data/methods/caiso_alerts` is new.
+  **Tables:** none.
+- **After the landing:** rows 86 to 89 of `docs/state/browser_reads_wanted.md`; data request row 59.

@@ -94,7 +94,7 @@ Samuel's words, typed into this machine's session at about 22:00 UTC: tools 11 t
 | # | Tool | Branch | State | Session |
 |---:|---|---|---|---|
 | 11 | `/events` and its nine event pages | `wip/7531-events` | open | |
-| 12 | `/grid/caiso/alerts` | `wip/7532-caiso-alerts` | open | |
+| 12 | `/grid/caiso/alerts` | `wip/7532-caiso-alerts` | done `ac362d6f6` on `wip/7532-caiso-alerts` (landing row 30): the note `docs/methods/caiso_alerts.md` (new, the page as a reader meets it) and a dated line in `flex_alert_scorecard.md`; the replication 467 of 471 rebuilt figures inside half the last digit, 4 named differences (two double roundings, one tie, one dating fault), 0 failed, 163 named as panel-only, the alert days rebuilt from CAISO's notices (39 by the rule, 38 scored); the cross-check against CAISO's Grid Emergencies History Report of 9 October 2026 (66 of 71 year-kind counts equal; CAISO's summary says 5 EEA 2 days in 2022, its records 4) and the EIA's account of 6 September 2022; the decisions block, 11 choices; faults: 11 found, 3 fixed, 1 data machine, 2 notes completed, 5 rulings | 7532 |
 | 13 | `/learn/bill` | `wip/7533-learn-bill` | open | |
 | 14 | `/learn/problems` | `wip/7534-learn-problems` | open | |
 | 15 | `/play/battery` | `wip/7535-play-battery` | open | |
