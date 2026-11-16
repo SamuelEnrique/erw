@@ -26,12 +26,30 @@ Environment:
   ERW_SPEND_CAP_USD  a cap for the session: before each call, if the ledger's total for ERW_SESSION has
                      reached it, the call is refused (SpendCapReached) and nothing is sent.
   ERW_LEDGER         0 turns the ledger off (tests); the calls still go through.
+
+The key's own limit (session 7202, chain 302). On 15 November 2026 the API answered every scheduled call with HTTP 400,
+"You have reached your specified API usage limits. You will regain access on 2026-12-01 at 00:00 UTC": the news and the
+policy scoring were recorded as failed, and the Roundup's job skipped its commit and its email after a failed step. The
+daily cap (warehouse/health.py budget) is the ERW's own rule and is asked before a step; this refusal is the key's, and
+is known only when the API answers. So the client knows it:
+
+  - a call the API refuses with those words raises KeyLimitReached, and the refusal is kept for the process: every
+    later call (messages.create, messages.stream, models.list) raises it again and no request is sent. No retry.
+  - finish(connector, rc), which every scheduled model step returns through, ends such a step as skipped: the step's
+    status rows become "skipped" with "the key's limit" and the date access returns as the API printed it, one line
+    "<connector> SKIPPED: the key's limit: ..." is printed last, and the exit is 75, the skip exit of
+    warehouse/health.py (one row of erw_health, status skipped; no failure, so no alert).
+  - refused_today(connector, day) says whether a step was ended so on a day (the status file of the same run, or
+    warehouse/metadata/run_status.csv): the Digest and the Roundup write no issue on a day the scoring was refused.
 """
 
 import datetime as dt
+import json
 import os
+import re
 import sys
 import threading
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
@@ -56,6 +74,131 @@ REGISTRY = {"source": SOURCE, "publisher": "Anthropic", "report": "Messages API 
 
 class SpendCapReached(RuntimeError):
     """The session's ledger total reached ERW_SPEND_CAP_USD; no further model call is made."""
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# the key's own usage limit (session 7202): recognised once, then no further call; the step ends as skipped
+# ---------------------------------------------------------------------------------------------------------------------
+KEY_MARK = "the key's limit"
+SKIP_EXIT = 75          # warehouse/health.py's SKIP: a step that ends so is recorded as skipped, never retried
+LIMIT_WORDS = "reached your specified api usage limits"
+_KEY_LIMIT = None       # {"returns": "2026-12-01 at 00:00 UTC", "words": the API's own sentence}
+_T0 = time.time()
+
+
+class KeyLimitReached(RuntimeError):
+    """The API refused a call because the key reached its usage limit; this process sends no further call."""
+
+
+def api_words(exc):
+    """The API's own sentence in an SDK error (its body's message where there is one), on one line."""
+    msg = getattr(exc, "message", None) or str(exc)
+    body = getattr(exc, "body", None)
+    if isinstance(body, dict):
+        msg = (body.get("error") or {}).get("message") or msg
+    return " ".join(str(msg).split())
+
+
+def key_limit_of(exc):
+    """{'returns', 'words'} when exc is the API's usage-limit refusal, else None. The date is the API's own, as printed
+    ("2026-12-01 at 00:00 UTC", or the day alone); empty when the sentence names none."""
+    if isinstance(exc, KeyLimitReached):
+        return dict(_KEY_LIMIT) if _KEY_LIMIT else {"returns": "", "words": str(exc)}
+    words = api_words(exc)
+    if LIMIT_WORDS not in words.lower():
+        return None
+    m = re.search(r"regain access on (\d{4}-\d{2}-\d{2})(?: at (\d{2}:\d{2}) UTC)?", words)
+    returns = "" if not m else m.group(1) + (f" at {m.group(2)} UTC" if m.group(2) else "")
+    return {"returns": returns, "words": words[:300]}
+
+
+def key_limit():
+    """The refusal this process met, or None."""
+    return dict(_KEY_LIMIT) if _KEY_LIMIT else None
+
+
+def key_line(k=None):
+    """The one line a skipped step's status, its log and its row of erw_health carry."""
+    k = k or _KEY_LIMIT or {"returns": "", "words": ""}
+    back = f"access returns {k['returns']}" if k.get("returns") else "the API names no day on which access returns"
+    return f"{KEY_MARK}: the Anthropic API key has reached its usage limit; {back}; no model call is sent until then"
+
+
+def reset_key_limit():
+    """Forget the refusal (a test's own; a process that met the refusal never asks again)."""
+    global _KEY_LIMIT
+    _KEY_LIMIT = None
+
+
+def guarded(fn, *args, **kwargs):
+    """Call the SDK. After a usage-limit refusal no request is sent; the refusal itself is raised as KeyLimitReached."""
+    global _KEY_LIMIT
+    if _KEY_LIMIT is not None:
+        raise KeyLimitReached(f"{key_line()} (the API's words: {_KEY_LIMIT['words']})")
+    try:
+        return fn(*args, **kwargs)
+    except Exception as exc:  # noqa: BLE001  the SDK's error classes are not imported here; the words decide
+        k = key_limit_of(exc)
+        if k is None:
+            raise
+        _KEY_LIMIT = k
+        raise KeyLimitReached(f"{key_line()} (the API's words: {k['words']})") from exc
+
+
+def finish(connector, rc, out=None):
+    """What a scheduled model step exits with. No refusal met: rc, and nothing else happens. The key refused: the
+    step's status rows of this run (runs/status/<connector>.json) that say ok or failed become skipped, with the key's
+    line before what they said; "<connector> SKIPPED: <the line>" is printed last; and the exit is SKIP_EXIT."""
+    if _KEY_LIMIT is None:
+        return rc
+    line = key_line()
+    path = os.path.join(ip.STATUS_DIR, f"{connector}.json")
+    try:
+        if os.path.exists(path) and os.path.getmtime(path) >= _T0 - 1:   # this process's own status, not an older run's
+            with open(path, encoding="utf-8") as f:
+                st = json.load(f)
+            for r in st.get("results", []):
+                if r.get("status") in ("ok", "failed"):
+                    was = str(r.get("detail") or "")
+                    r["status"] = "skipped"
+                    r["detail"] = (line if was.startswith(KEY_MARK) or not was else f"{line}; before the refusal: {was}")[:400]
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(st, f, indent=1)
+    except (OSError, ValueError) as exc:
+        sys.stderr.write(f"llm: the status of {connector} could not be rewritten ({type(exc).__name__}); the exit still says skipped\n")
+    (out or print)(f"{connector} SKIPPED: {line}")
+    sys.stdout.flush()
+    return SKIP_EXIT
+
+
+def refused_today(connector="news_score", day=None, status_dir=None, csv_path=None):
+    """The key's line when `connector` was ended as skipped for the key's limit on `day` (YYYY-MM-DD, default today,
+    UTC), else None. Read from the step's status file where this run wrote one today, and from the run history
+    (warehouse/metadata/run_status.csv, which the daily job commits) for another job's run. The newest run of the day
+    decides: a later run that scored is not a refused day."""
+    day = (day or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")).replace("-", "")
+    found = []   # (run_id, status, detail)
+    path = os.path.join(status_dir or ip.STATUS_DIR, f"{connector}.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            st = json.load(f)
+        for r in st.get("results", []):
+            found.append((str(st.get("run_id", "")), str(r.get("status", "")), str(r.get("detail", ""))))
+    except (OSError, ValueError):
+        pass
+    try:
+        import csv
+        with open(csv_path or os.path.join(ROOT, "warehouse", "metadata", "run_status.csv"), encoding="utf-8", newline="") as f:
+            for r in csv.DictReader(f):
+                if r.get("connector") == connector:
+                    found.append((r.get("run_id", ""), r.get("status", ""), r.get("detail", "")))
+    except OSError:
+        pass
+    today = sorted(x for x in found if x[0].startswith(day))
+    if not today:
+        return None
+    _, status, detail = today[-1]
+    return detail if status == "skipped" and detail.startswith(KEY_MARK) else None
 
 
 def prices():
@@ -216,7 +359,7 @@ class _Stream:
         self._owner, self._manager, self._model, self._stream = owner, manager, model, None
 
     def __enter__(self):
-        self._stream = self._manager.__enter__()
+        self._stream = guarded(self._manager.__enter__)   # session 7202: the request is sent here
         return self._stream
 
     def __exit__(self, *exc):
@@ -237,7 +380,7 @@ class _Messages:
     def create(self, **kwargs):
         o = self._owner
         check_cap()
-        resp = self._inner.create(**kwargs)
+        resp = guarded(self._inner.create, **kwargs)   # session 7202: the key's own usage limit, known once
         row = record(o.step, getattr(resp, "model", None) or kwargs.get("model", ""), resp.usage,
                      getattr(resp, "_request_id", None), o.log)
         o.calls.append(row)
@@ -251,12 +394,27 @@ class _Messages:
         return getattr(self._inner, name)
 
 
+class _Models:
+    """models.list (the scripts' pick of a model) asks the API too: the same refusal, the same answer (session 7202)."""
+
+    def __init__(self, owner):
+        self._owner = owner
+
+    def list(self, *args, **kwargs):
+        return guarded(self._owner._client.models.list, *args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(self._owner._client.models, name)
+
+
 class LedgerClient:
     """The Anthropic client, with messages.create recorded in the ledger. .calls holds this client's rows."""
 
     def __init__(self, client, step, log=None):
         self._client, self.step, self.log, self.calls = client, step, log, []
         self.messages = _Messages(self)
+        if hasattr(client, "models"):
+            self.models = _Models(self)
 
     def __getattr__(self, name):
         return getattr(self._client, name)
