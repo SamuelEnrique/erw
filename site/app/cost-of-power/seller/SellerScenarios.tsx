@@ -69,7 +69,7 @@ export type Facts = {
   /** the lowest month of every month held, USD for the reader's size */
   lowest: { month: string; usd: number; months: number } | null;
   /** session 7523 (the read, row 6): every month held, its revenue in USD and energy in MWh for the reader's size, so a
-   * scenario with an energy contract finds its own worst month (absent: the market's worst month alone is drawn) */
+   * scenario with an energy contract finds its own lowest month (absent: the market's lowest month alone is drawn) */
   heldMonths?: { m: string; usd: number; mwh: number }[];
   /** the contract's form: a price for a share of the energy (solar, wind), or a toll on a share of the capacity */
   contract: "energy" | "toll";
