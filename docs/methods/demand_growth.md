@@ -221,7 +221,6 @@ The choices made on `/explore/demand-growth`, one line each with its session; se
 6. 2026-10-23, 2201: the brand's bar chart (`site/components/tool/GroupedBars.tsx`, drawn on the server) is wrapped in `BarsHover.tsx`, a client component that draws the brand's hover card for the group under the pointer or the keyboard's arrows; the SVG, its `<title>` a group and every figure are as before, and the card's words are written on the server. The seller page and the datacenter grids view, which draw the same chart, gain the card the same way.
 7. 2026-10-23, session 2204: on reading, nothing of the page's type, color, tables or charts stood outside `docs/brand.md` (`site/app/tokens.css` carries the explorer's frame to the brand); no change.
 
-<<<<<<< HEAD
 ## The replication (session 7014, chain 301)
 
 `replication/demand/replicate.py` rebuilds every figure of `site/data/demand_growth.json` from EIA-930's nine workbooks by this note alone (the hour dated by its start, California's late hours set back, the screen, the 95 and 90 percent rules, the year to date, the change from 2019 on the last whole year's row) and the counts of hours left out. On the workbooks saved on 2 November 2026: 24,241 of 24,245 equal. The four others are the Lower 48's: one more hour apart from its neighbours (the workbook's last hour, 2026-11-02 04:00 UTC, partly summed on the day of the fetch) and the means of September and October 2026 and the year to date, which move with each day's workbook while EIA fills in the balancing authorities' late hours (October: 460,798.6 MW on 2 November, 460,894.6 in the page built from the fetch of 6 November, 461,062.9 on 9 November). Three rules the note leaves implicit and the replication found: an hour's four neighbours are the nearest hours held and above zero; the hours left out are counted from 2019 to the workbook's last row, EIA's blank last day included (so every area counts 24 blank hours more than its record holds); California's emptied hour of 2 December 2025 has no row and is not counted. The change of a month, hour or cell from 2019 is the change of the two printed means (one decimal). `replicate.do` rebuilds five figures of ERCOT in Stata, its expected values at its top.
@@ -269,7 +268,7 @@ The as-metered view draws these at its foot (`site/lib/decisions.ts`, `DEMAND_DE
 - Signed off by:
 - Date:
 - Items of the section above ruled, and how:
-=======
+
 ## The tool as a reader meets it (session 7508, 16 November 2026: the done line)
 
 This section is the explorer `/explore/demand-growth` as a reader meets it: every view, the row each figure is, how it is written, the rule the rows are built by in full, the replication, what published figures stand against it, and the choices on the page. It completes the sections above and replaces none of them. Where the list "Decisions of the explorer" above and this section differ, this section is the page as it stands on `wip/7508-demand-growth`.
@@ -434,4 +433,3 @@ The page's figure stays the table's (+4.45 percent): the decisions' line on sale
 ### The replication after this session
 
 `replicate.py` writes the new line from this section's words and the second headline's line with its months. As run on 16 November 2026 on the page drawn with the site's own code: "/explore/demand-growth: 35943 of 35943 slots of text on 315 views equal the replication's (3296 distinct checked figures; 777 of 777 growth figures recomputed from the MW rows)". `california_charging.py` prints the two windows above; `tests/test_session7517_demand_growth_read.py` holds the decisions' words to it.
->>>>>>> 39dc57835

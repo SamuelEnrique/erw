@@ -204,6 +204,10 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
               const vs = GROWTH.map((s) => val(e, s.v, y));
               return {
                 label: String(y), values: vs.map((v) => v ?? null),
+                // session 7601 (the browser read of 16 November, faults row 20): the card's own words, a figure a series.
+                // The chart draws no label on its bars (fmt gives none: three bars a year are too close), and the card
+                // took its figure from the same fmt, so every line of every card read "percent" with no number
+                cards: vs.map((v) => (v === undefined ? "not held" : `${signedText(v)} percent`)),
                 title: `${grid.name}, ${y}: ${GROWTH.map((s, k) => `${s.name[0].toLowerCase()}${s.name.slice(1)} ${vs[k] === undefined ? "not held" : signedText(vs[k]!) + " percent"}`).join("; ")}`,
               };
             })} />
