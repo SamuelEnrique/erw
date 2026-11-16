@@ -340,6 +340,24 @@ def page_figures(rows_dir, today, page_file):
     return json.loads(got.stdout)
 
 
+def headline(rows_dir):
+    """The do-file's five lines (replicate.do), step for step on the same two CSVs: the mirror a reader without Stata runs."""
+    def table(name):
+        with open(os.path.join(rows_dir, name), encoding="utf-8", newline="") as f:
+            return list(csv.DictReader(line for line in f if not line.startswith("#")))
+    fac, n_counted, mws = table("facilities_slim.csv"), 0, []
+    for r in fac:
+        us = r["country"] == "US" or (r["country"] == "" and r["state"] in US)
+        if us and r["status"].lower() not in ("withdrawn", "cancelled"):
+            n_counted += 1
+            if r["capacity_mw"] != "":
+                mws.append(float(r["capacity_mw"]))
+    approved = sorted((r["day"], float(r["value"])) for r in table("ercot_large_load.csv") if r["variable"] == "approved_to_energize_mw")
+    return [("1. facilities held", len(fac), ""), ("2. counted in the sums (a named US state, not cancelled)", n_counted, ""),
+            ("3. megawatts stated by the counted facilities", sum(mws), ""), ("4. counted facilities that state megawatts", len(mws), ""),
+            ("5. ERCOT, megawatts approved to energize, newest report", approved[-1][1], f" ({approved[-1][0]})")]
+
+
 def name_of(key):
     p = key.split("|")
     if p[0] == "series":
@@ -353,7 +371,16 @@ def main(argv):
     ap.add_argument("--page")
     ap.add_argument("--today")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--headline", action="store_true", help="only the do-file's five lines, from the two CSVs it reads")
     a = ap.parse_args(argv[1:])
+    if a.headline:
+        try:
+            for words, value, more in headline(os.path.abspath(a.rows)):
+                print(f"{words}{more}: {round(value):,}")
+        except (OSError, ValueError, KeyError, IndexError) as exc:
+            print(f"the inputs could not be read: {exc}")
+            return 2
+        return 0
     try:
         rows_dir = os.path.abspath(a.rows)
         stamp = load(os.path.join(rows_dir, "retrieved.json"))

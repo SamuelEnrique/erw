@@ -12,8 +12,11 @@ of it is not published by this repository's replication either):
                                       of the queues that are not held (ERCOT's, CAISO's and SPP's on 16 November 2026)
     rows/queue_active.json            the active positions of the grids that hold such a site
     rows/retrieved.json               when, from where, and how many rows of each
+    rows/facilities_slim.csv          for the do-file: one line a facility, the ten fields the sums read, no free text
+    rows/ercot_large_load.csv         for the do-file: day, variable, value
 
     python replication/datacenter_tracker/fetch_rows.py
+    python replication/datacenter_tracker/fetch_rows.py --csv-only   # the two do-file CSVs again from rows/*.json, no request
 
 SUPABASE_URL and SUPABASE_ANON_KEY are read from the environment, else from the repository's .env. Standard library
 only. Exit 0 when every read answered, 2 when one did not (nothing is written then: no partial file).
@@ -87,7 +90,40 @@ def flat(rows):
     return head, body
 
 
+SLIM = ["entity_id", "state", "country", "status", "capacity_mw", "operator", "kind", "grid", "first_story_day", "energized_year", "planned_year"]
+
+
+def write_slim(stamp):
+    """The do-file's two CSVs, from the JSON already in rows/: plain fields only, so Stata reads them without quoting rules."""
+    with open(os.path.join(ROWS, "datacenter_facilities.json"), encoding="utf-8") as f:
+        fac = json.load(f)
+    with open(os.path.join(ROWS, "ercot_large_load_status.json"), encoding="utf-8") as f:
+        load = json.load(f)
+    plain = lambda v: "" if v is None else " ".join(str(v).replace(",", " ").replace('"', "").split())
+    with open(os.path.join(ROWS, "facilities_slim.csv"), "w", encoding="utf-8", newline="") as f:
+        f.write(f"# ERW replication, datacenter_facilities as the live set served it at {stamp} (held: license needed; not for redistribution)" + chr(10))
+        w = csv.writer(f, lineterminator=chr(10))
+        w.writerow(SLIM)
+        for r in fac:
+            x = r.get("extra") or {}
+            w.writerow([plain(v) for v in (r["entity_id"], x.get("state"), x.get("country"), r.get("status"), r.get("capacity_mw"), r.get("operator"),
+                                           x.get("kind"), x.get("grid"), (x.get("first_story_at") or "")[:10], x.get("energized_year"), x.get("planned_year"))])
+    with open(os.path.join(ROWS, "ercot_large_load.csv"), "w", encoding="utf-8", newline="") as f:
+        f.write(f"# ERW replication, ercot_large_load_status as the live set served it at {stamp} (ERCOT, Large Load Interconnection Status Update)" + chr(10))
+        w = csv.writer(f, lineterminator=chr(10))
+        w.writerow(["day", "variable", "value"])
+        for r in load:
+            w.writerow([r["ts_utc"][:10], r["variable"], r["value"]])
+    return len(fac), len(load)
+
+
 def main():
+    if "--csv-only" in sys.argv:
+        with open(os.path.join(ROWS, "retrieved.json"), encoding="utf-8") as f:
+            stamp = json.load(f)["retrieved_at"]
+        n, m = write_slim(stamp)
+        print(f"written from rows/*.json of {stamp}: facilities_slim.csv ({n} rows), ercot_large_load.csv ({m} rows)")
+        return 0
     held = held_tables()
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     try:
@@ -129,6 +165,7 @@ def main():
                             "datacenter_facilities": len(fac), "ercot_large_load_status": len(load), "queue_sites": len(site_rows),
                             "queue_active": len(active), "queues_read": read_grids, "queues_held": held_grids,
                             "vintage": max((r.get("vintage") or "" for r in fac), default="")})
+    write_slim(now)
     print(f"{now}: datacenter_facilities {len(fac)} rows; ercot_large_load_status {len(load)}; queue sites {len(site_rows)} "
           f"(read: {', '.join(read_grids)}; held, not read: {', '.join(held_grids)}); active positions {len(active)}; written to {ROWS}")
     return 0
