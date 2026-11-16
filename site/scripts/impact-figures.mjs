@@ -8,7 +8,7 @@
 // values are computed here with the page's own functions and the page's own rule of which states are shown, and each
 // shown state's name is then looked for in the drawn chart. No server, no network, no click.
 //
-//   cd site; node --import ./scripts/tsx-register.mjs scripts/impact-figures.mjs <nlr_jedi_multipliers.csv> [--check]
+//   cd site; node --import ./scripts/tsx-register.mjs scripts/impact-figures.mjs <nlr_jedi_multipliers.csv> [--check] [--out <folder>]
 //
 // Writes replication/impact/page_figures.json and page_figures.csv; with --check it writes nothing and exits 1 when the
 // files on disk differ from what the page draws today.
@@ -19,7 +19,7 @@ import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const out = path.join(here, "..", "..", "replication", "impact");
+const home = path.join(here, "..", "..", "replication", "impact");   // projects.csv is read here; --out names another folder for the two files
 const F = await import("../lib/forecast.ts");
 const D = await import("../lib/forecastdata.ts");
 const U = await import("../lib/forecastui.ts");
@@ -29,7 +29,9 @@ const { Forecast } = await import("../app/impact/Forecast.tsx");
 
 const args = process.argv.slice(2);
 const checkOnly = args.includes("--check");
-const jediFile = args.find((a) => !a.startsWith("--"));
+const outAt = args.indexOf("--out");
+const out = outAt >= 0 && args[outAt + 1] ? path.resolve(args[outAt + 1]) : home;
+const jediFile = args.find((a, i) => !a.startsWith("--") && i !== outAt + 1);
 if (!jediFile || !fs.existsSync(jediFile)) {
   console.error("give the path of nlr_jedi_multipliers.csv (warehouse/output, or the page's download)");
   process.exitCode = 2;
@@ -80,7 +82,7 @@ function main() {
     const r = S.compute(rules, { state: st, product: "gas", volume, price });
     return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);
   };
-  const projects = readCsv(path.join(out, "projects.csv"));
+  const projects = readCsv(path.join(home, "projects.csv"));
 
   // ---- the addresses: the default, the named projects, and the seven addresses check-values reads (the note, section 11)
   const cases = [{ id: "default", what: "the page as it opens: 200 MW of land-based wind in Texas, A and B alike", query: {} }];
@@ -184,7 +186,7 @@ function main() {
   } else {
     fs.writeFileSync(jf, json);
     fs.writeFileSync(cf, csv);
-    console.log(`wrote ${figures.length} figures of ${cases.length} addresses (${figures.filter((f) => f.page === null).length} drawn with no number) to replication/impact/page_figures.json and .csv`);
+    console.log(`wrote ${figures.length} figures of ${cases.length} addresses (${figures.filter((f) => f.page === null).length} drawn with no number) to page_figures.json and .csv in ${out}`);
   }
   if (bad) process.exitCode = 1;
 }

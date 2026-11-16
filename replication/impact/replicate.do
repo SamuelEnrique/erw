@@ -125,19 +125,14 @@ local b = build
 local n = build + life
 
 forvalues t = 1/`b' {
-
     scalar pv_taxes = pv_taxes + (sales_tax / build) / (1 + rate / 100)^(`t' - 1)
-
     scalar pv_earn = pv_earn + (c_earn / build) / (1 + rate / 100)^(`t' - 1)
-
 }
 
 local first = `b' + 1
 
 forvalues t = `first'/`n' {
-
     scalar pv_earn = pv_earn + o_earn / (1 + rate / 100)^(`t' - 1)
-
 }
 
 display "the default project: 200 MW of land-based wind in Texas, 2027, 1 construction year, 25 operating years, 7 percent real"

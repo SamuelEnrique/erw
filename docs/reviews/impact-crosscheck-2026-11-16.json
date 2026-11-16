@@ -1,0 +1,281 @@
+{
+ "written_by": "site/scripts/impact-crosscheck.mjs, session 7506 (chain 304), 16 November 2026; continues docs/reviews/forecast-crosscheck-2026-11-14.json",
+ "documents": {
+  "NREL/CP-500-40085": {
+   "publisher": "National Renewable Energy Laboratory (now the National Laboratory of the Rockies)",
+   "title": "JEDI II: Jobs and Economic Development Impacts from Coal, Natural Gas, and Wind Power (Tegen, Goldberg and Milligan), conference paper NREL/CP-500-40085",
+   "date": "June 2006",
+   "url": "https://docs.nlr.gov/docs/fy06osti/40085.pdf",
+   "read": "2026-11-16, PDF page 11 (Figure 4), pages 8 and 9 (inputs)",
+   "dollars": "2005",
+   "inputs": "wind 680 MW, capacity factor 35 percent, construction $1400/kW; gas 270 MW, capacity factor 87 percent, 40 percent of its gas from Colorado, $7/MMBtu, installed cost not stated"
+  },
+  "Nevada, application 26-0814G": {
+   "publisher": "State of Nevada: Governor's Office of Energy (the Director's findings and order), Department of Taxation (two fiscal notes), Governor's Finance Office, Budget Division (fiscal note)",
+   "title": "Renewable energy tax abatement application 26-0814G, ORNI 56 LLC, Lone Mountain Geothermal Power Project, Esmeralda County (NRS 701A.300 to 701A.390)",
+   "date": "fiscal notes 19 and 24 August 2026; order signed 4 November 2026",
+   "url": "https://www.energy.nv.gov/programs/renewable-energy-tax-abatement-reta-program/renewable-energy-tax-abatement-projects-2026/",
+   "read": "2026-11-16",
+   "inputs": "36 MW AC nameplate (30 MW net in the property tax note), capital investment USD 178,446,043 (USD 4957 per kW; dollar year not stated, taken as 2025); the tool's defaults otherwise (2 construction years, 40 operating years); for the property tax the reader's own rate 1.0917 percent of cost, falling to 0 over 60 years, the local option on"
+  }
+ },
+ "inputs": {
+  "wind_co": {
+   "tech": "land_based_wind",
+   "state": "co",
+   "mw": 680,
+   "capex": 2213.2945371593964,
+   "start": 2027,
+   "build": 1,
+   "life": 25,
+   "local": 100,
+   "om": 100,
+   "rate": 7,
+   "cf": 0.3915,
+   "ilr": 1,
+   "sales": 7.89,
+   "taxable": 81.9282,
+   "exempt": 36.76,
+   "iaval": false,
+   "optrate": null,
+   "levy": null,
+   "own": null,
+   "ownyears": null,
+   "heat": 6266,
+   "instate": 0,
+   "gasprice": 3.5267
+  },
+  "gas_co": {
+   "tech": "natural_gas",
+   "state": "co",
+   "mw": 270,
+   "capex": 892.68,
+   "start": 2027,
+   "build": 2,
+   "life": 40,
+   "local": 100,
+   "om": 100,
+   "rate": 7,
+   "cf": 0.65,
+   "ilr": 1,
+   "sales": 7.89,
+   "taxable": 60.5882,
+   "exempt": 0,
+   "iaval": false,
+   "optrate": null,
+   "levy": null,
+   "own": null,
+   "ownyears": null,
+   "heat": 6266,
+   "instate": 0,
+   "gasprice": 3.5267
+  },
+  "geothermal_nv": {
+   "tech": "geothermal",
+   "state": "nv",
+   "mw": 36,
+   "capex": 4956.834527777778,
+   "start": 2027,
+   "build": 2,
+   "life": 40,
+   "local": 100,
+   "om": 100,
+   "rate": 7,
+   "cf": null,
+   "ilr": 1,
+   "sales": 8.24,
+   "taxable": null,
+   "exempt": 0,
+   "iaval": true,
+   "optrate": null,
+   "levy": null,
+   "own": 1.091685,
+   "ownyears": 60,
+   "heat": 6266,
+   "instate": 0,
+   "gasprice": 3.5267
+  }
+ },
+ "rows": [
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "Colorado wind, 680 MW at USD 1,400 per kW of 2005: construction jobs, total",
+   "ours": 2605.069081331608,
+   "theirs": 1618,
+   "ours_over_theirs": 1.61,
+   "quote": "Colorado wind [...] During construction period [...] Total Impacts (Direct, Indirect, Induced) 1,618 $58.55 $183.90 (PDF page 11)",
+   "why": "two releases of the model twelve years apart: the paper ran JEDI II with IMPLAN's 2001 state data and its own Colorado inputs (it prints no local share for wind's equipment); the tool holds the 2018 release of JEDI Wind (2016 state data) at JEDI's default Colorado shares, and scales JEDI's 2017 cost mix to the paper's cost, USD 2,213 per kW in 2025 dollars. The paper does not say enough to split the gap between the two"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: construction jobs, direct (the tool: on site)",
+   "ours": 378.7960099285603,
+   "theirs": 866,
+   "ours_over_theirs": 0.44,
+   "quote": "Direct Impacts 866 $32.85 $108.79; Construction Sector Only 830",
+   "why": "the two lines are not the same thing: the paper's direct line is nearly all its construction sector (830 of the 866); the tool's on-site line is JEDI Wind's project development and onsite labor. Direct and indirect together: the paper 1,222, the tool 1,880 (1.54)"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: construction jobs, indirect (the tool: supply chain)",
+   "ours": 1501.5362359499893,
+   "theirs": 356,
+   "ours_over_theirs": 4.22,
+   "quote": "Indirect Impacts 356 $12.96 $35.01",
+   "why": "see the line above: the split between direct and indirect differs between the two releases (an inference from the two lines' names; the paper does not define its direct line further)"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: construction jobs, induced",
+   "ours": 724.736050645481,
+   "theirs": 395,
+   "ours_over_theirs": 1.83,
+   "quote": "Induced Impacts 395 $12.74 $40.10",
+   "why": "two releases of the model twelve years apart: the paper ran JEDI II with IMPLAN's 2001 state data and its own Colorado inputs (it prints no local share for wind's equipment); the tool holds the 2018 release of JEDI Wind (2016 state data) at JEDI's default Colorado shares, and scales JEDI's 2017 cost mix to the paper's cost, USD 2,213 per kW in 2025 dollars. The paper does not say enough to split the gap between the two"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: construction earnings, USD million of 2005",
+   "ours": 122.61821837395388,
+   "theirs": 58.55,
+   "ours_over_theirs": 2.09,
+   "quote": "Total Impacts (Direct, Indirect, Induced) 1,618 $58.55 $183.90; the table prints no unit, the paper's charts are in millions of 2005 dollars (an inference: USD 36,200 a job-year)",
+   "why": "two releases of the model twelve years apart: the paper ran JEDI II with IMPLAN's 2001 state data and its own Colorado inputs (it prints no local share for wind's equipment); the tool holds the 2018 release of JEDI Wind (2016 state data) at JEDI's default Colorado shares, and scales JEDI's 2017 cost mix to the paper's cost, USD 2,213 per kW in 2025 dollars. The paper does not say enough to split the gap between the two"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: construction output, USD million of 2005",
+   "ours": 323.38938633976505,
+   "theirs": 183.9,
+   "ours_over_theirs": 1.76,
+   "quote": "the same line",
+   "why": "two releases of the model twelve years apart: the paper ran JEDI II with IMPLAN's 2001 state data and its own Colorado inputs (it prints no local share for wind's equipment); the tool holds the 2018 release of JEDI Wind (2016 state data) at JEDI's default Colorado shares, and scales JEDI's 2017 cost mix to the paper's cost, USD 2,213 per kW in 2025 dollars. The paper does not say enough to split the gap between the two"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: operating jobs a year, total",
+   "ours": 139.89164,
+   "theirs": 259,
+   "ours_over_theirs": 0.54,
+   "quote": "During operating years (annual) [...] Total Impacts (Direct, Indirect, Induced) 259 $12.69 $26.60",
+   "why": "the paper's 88 plant workers for 680 MW are 0.13 a MW; the 2018 release's default in Colorado is 0.045 on-site operating jobs a MW (nlr_jedi_multipliers)"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: operating jobs a year, plant workers (the tool: on site)",
+   "ours": 30.826439999999998,
+   "theirs": 88,
+   "ours_over_theirs": 0.35,
+   "quote": "Plant Workers Only 88 $6.73",
+   "why": "the same"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: operating earnings a year, USD million of 2005",
+   "ours": 6.866077350662086,
+   "theirs": 12.69,
+   "ours_over_theirs": 0.54,
+   "quote": "Total Impacts (Direct, Indirect, Induced) 259 $12.69 $26.60",
+   "why": "follows the jobs"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: operating output a year, USD million of 2005",
+   "ours": 20.49562459347287,
+   "theirs": 26.6,
+   "ours_over_theirs": 0.77,
+   "quote": "the same line",
+   "why": "follows the jobs"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "Colorado gas, 270 MW: operating jobs a year, plant workers (the tool: on site)",
+   "ours": 13.67496,
+   "theirs": 14,
+   "ours_over_theirs": 0.98,
+   "quote": "Colorado natural gas [...] Plant Workers Only 14 $1.61 $1.61",
+   "why": "the paper states no installed cost, so only the operating lines, which do not scale with cost, are set beside it"
+  },
+  {
+   "document": "NREL/CP-500-40085",
+   "figure": "the same: operating jobs a year, total",
+   "ours": 44.725229999999996,
+   "theirs": 369,
+   "ours_over_theirs": 0.12,
+   "quote": "Total Impacts (Direct, Indirect, Induced) 369 $17.17 $68.81",
+   "why": "the paper buys 40 percent of the plant's gas from Colorado wells at USD 7 per MMBtu, which JEDI counts as local spending; the tool's default, JEDI's saved share, is 0 percent"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "construction jobs: the tool's on-site job-years; the order's full-time construction jobs",
+   "ours": 259.44579293637764,
+   "theirs": 211,
+   "ours_over_theirs": 1.23,
+   "quote": "the Facility would create an estimated 211 full-time construction jobs over the course of construction which would pay an average hourly wage of $60.00 per hour (Director's order, 4 November 2026, page 2)",
+   "why": "the order counts workers employed, at least 155 in the second quarter of construction; the tool counts job-years of 2,080 hours. The order's Nevada payroll at its wage is 87 job-years (10,857,600 / 60 / 2,080)"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "construction earnings on site, USD",
+   "ours": 22837581.780272577,
+   "theirs": 10857600,
+   "ours_over_theirs": 2.1,
+   "quote": "Construction Payroll in Nevada residents $10,857,600.00 (order, page 4); dollar year not stated, taken as 2025",
+   "why": "the order counts the payroll of Nevada residents only (at least 50 percent of the construction employees); JEDI's on-site line also holds project development and benefits"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "operating jobs on site, each year",
+   "ours": 23.133276000000002,
+   "theirs": 0,
+   "ours_over_theirs": null,
+   "quote": "the Facility would create approximately 0 full-time operational jobs (order, page 2); Operational Payroll in Nevada: $0.00 (page 4)",
+   "why": "the applicant states no operating employee at the plant; JEDI's 2016 geothermal model staffs every plant"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "property tax due before abatement, first operating year, USD",
+   "ours": 1948068.68452455,
+   "theirs": 1948119,
+   "ours_over_theirs": 1,
+   "quote": "Total Taxes Due, First Year After Completion: $ 1,948,119 (Department of Taxation, property tax fiscal note, worksheets of 24 August 2026, page 3)",
+   "why": "the same base and rate by construction: the rate typed is the note's own (USD 3.1191 per 100 on 35 percent of value); the note's taxable value is USD 178,450,621, the order's investment USD 178,446,043"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "property tax paid after the 55 percent abatement, first operating year, USD",
+   "ours": 876630.9080360475,
+   "theirs": 876653,
+   "ours_over_theirs": 1,
+   "quote": "Total Taxes Available to Local Governments after abatement: $ 876,653 (the same page)",
+   "why": "the tool's rule for NRS 701A.370 (55 percent abated) gives the Department's figure"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "property tax due before abatement, 20 years, USD",
+   "ours": 32792489.522829928,
+   "theirs": 33410592,
+   "ours_over_theirs": 0.98,
+   "quote": "Total Taxes Due during Period of Abatement (20 years): $ 33,410,592",
+   "why": "the Department depreciates improvements 1.5 percent a year and personal property by its manual's schedule (taxable value USD 127.6 million in 2048); the tool's value falls in a straight line over the 60 years typed"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "property tax paid after abatement, the first 20 operating years, USD",
+   "ours": 16238775.876082566,
+   "theirs": 15034766,
+   "ours_over_theirs": 1.08,
+   "quote": "Total Taxes Available to Local Governments after abatement: $ 15,034,766 (20 years)",
+   "why": "the tool counts the abatement's 20 years from the first construction year, so operating years 19 and 20 are taxed in full; the Department abates 20 fiscal years from 2028-29"
+  },
+  {
+   "document": "Nevada, application 26-0814G",
+   "figure": "sales and use tax on the build, USD",
+   "ours": "not held (JEDI's geothermal model has no sales tax line)",
+   "theirs": 405537,
+   "ours_over_theirs": null,
+   "quote": "purchase a total of $4,736,195.00 [...] during the first fiscal year [...] $1,184,049.00 [...] during the second year; Sales Tax Rate 6.850% (Department of Taxation, sales and use tax fiscal impact, 19 August 2026): 5,920,244 at 6.85 percent, of which USD 251,610 abated",
+   "why": "the tool holds no taxable share for geothermal. The two Nevada notes disagree on the base: the Budget Division's note of the same month states purchases subject to the tax of USD 86,426,913, 48 percent of the investment"
+  }
+ ]
+}

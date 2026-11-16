@@ -18,6 +18,7 @@ here, with the same word; a figure the page does not draw must not exist here.
     python replication/impact/replicate.py --in-dir warehouse/output
     python replication/impact/replicate.py --in-dir warehouse/output --headline   # the five figures of replicate.do
     python replication/impact/replicate.py --in-dir warehouse/output --rows       # writes rows/ for replicate.do
+    python replication/impact/replicate.py --figures <another page_figures.json>   # the page's figures drawn elsewhere
 
 Exit 0 when every figure matches, 1 when one does not, 2 when an input cannot be read. Standard library only.
 """
@@ -575,6 +576,7 @@ def write_rows(P, jedi, jedi_path):
 def main(argv):
     in_dir = os.environ.get("ERW_OUTPUT_DIR") or os.path.join(ROOT, "warehouse", "output")
     jedi_path = None
+    figures = os.path.join(HERE, "page_figures.json")
     args = list(argv)
     while args:
         a = args.pop(0)
@@ -582,6 +584,8 @@ def main(argv):
             in_dir = args.pop(0)
         elif a == "--jedi" and args:
             jedi_path = args.pop(0)
+        elif a == "--figures" and args:
+            figures = args.pop(0)
         elif a in ("--headline", "--rows"):
             pass
         else:
@@ -591,7 +595,7 @@ def main(argv):
     try:
         P = Params()
         jedi = read_jedi(jedi_path)
-        pf = load("page_figures.json", HERE)
+        pf = load(os.path.basename(figures), os.path.dirname(os.path.abspath(figures)))
     except (OSError, ValueError, KeyError) as e:
         print(f"an input could not be read: {e}")
         return 2
