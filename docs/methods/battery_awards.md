@@ -188,3 +188,36 @@ of the page with its default and its source on hover (`site/app/cost-of-power/ba
   file, row 4).
 - **The weeks from 6 December 2025 to 31 January 2026 in real time** (the pull's ceiling).
 - **The fleet's share of what ERCOT bought of each service** for these months (section 5).
+
+## 8. Added by the read of 16 November 2026 (session 7514)
+
+The page was read as a lender's analyst reads it
+([`docs/reviews/battery-awards-read-2026-11-16.md`](../reviews/battery-awards-read-2026-11-16.md)). Six things were
+added to the page; none changes a figure it had.
+
+- **A month's ancillary award by service** (the hover of each month's ancillary cell in "By month"): the table's
+  `revenue_regup_usd_per_mw`, `revenue_regdn_usd_per_mw`, `revenue_rrs_usd_per_mw`, `revenue_ecrs_usd_per_mw` and
+  `revenue_nspin_usd_per_mw` over 1,000, two decimals each, and the ancillary figure as a whole percent of the month's
+  total. A month that lacks one of the five has no hover.
+- **The five services together** (the last row of the ancillary table, and the sentence under it): the sum of the five
+  rows' awards and of the model's, over the months of the offers section; the same two over the number of months, per
+  kW a month; and the model's over the awards. With the tables of this machine: 2.78 and 15.66 over January to July
+  2026, 0.40 and 2.24 per kW a month, 5.64 times. They are the figures `site/data/battery_awards_beside.json` holds for
+  `dayahead_2h` (0.3965, 2.2369, 5.6411), which the battery page draws; the test holds the two to the fourth decimal.
+- **ECRS** carries its name, ERCOT Contingency Reserve Service, on hover in both service tables.
+- **The fleet's MW beside the EIA's count** (the hover of the MW line of "What is counted"): a sixth read,
+  `storage_buildout_monthly`, entity `iso:ercot`, the variables `battery_operating_mw`, `battery_operating_units` and
+  `battery_operating_mwh_per_mw`, for the newest month the awards table holds whole. July 2026: 18,070 MW in 257
+  generators holding 1.65 MWh per MW, against 21,365 MW in 332 resources here; 3,296 MW, 18 percent. When the table
+  cannot be read the hover says so and no other line of the page changes.
+- **The MWh beside the storage page's** (a sentence under the MWh table): words only. This page adds each resource's
+  own discharge and charge; the storage page's daily cycle (`storage_daily_cycle`, from EIA-930) is the fleet's net
+  output by hour. July 2026: 847,905 MWh discharged here, 705,980 there.
+- **Where the node part stops** (its last paragraph): words and two links, to the ERCOT node list of the All grids tab
+  (`/cost-of-power?view=allgrids&rows=nodes`) and to the battery page.
+
+The whole page is drawn without a build by `site/scripts/battery-awards-page.mjs` (the page's own function, its reads
+answered from CSV rows), and `site/scripts/test-battery-awards-read.mjs` holds the six on the public rows beside the
+replication (`monthly_rows.csv` and, for the EIA's count, `inventory_rows.csv`). The replication's 307 figures are the
+page's as it stood before these six: the added figures are held by that test and are not yet recomputed by
+`replicate.py`.
