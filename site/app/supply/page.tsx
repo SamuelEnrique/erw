@@ -4,6 +4,8 @@ import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Band, Trend } from "@/components/supply/SupplyCharts";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
 import { HEADLINE, PLACEHOLDER, choiceOf, dateWords, easternNow, fmt, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
 
@@ -207,6 +209,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
 
       {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
       {/* session 333: the tables to download, as CSV with a Python and a Stata reader (session 328's shared line) */}
+      <DecisionsBlock id="7018-supply" title="Decisions on this page (each with its default and its source on hover)" items={SUPPLY_DECISIONS} />
       <TableDownloads tables={TABLES} />
     </div>
     </Brand>

@@ -194,3 +194,45 @@ These terms forbid republishing. The session read the header line of one ICE fil
   file. The grid operators' day-ahead load rows the file also reads are not an ERW table of their own. **On 20 October
   2026 none of the five is in the site's live catalogue** (all five are public in `warehouse/metadata/coverage.csv`), so
   the line says the tables are not in the site's live set and names Redivis; once they are loaded, it offers them.
+
+## The cross-checks (session 7018, chain 301)
+
+EIA's weekly estimate of US crude oil production (the page's weekly production row, `WCRFPUS2`), averaged over the report weeks ending in each month, beside EIA's Petroleum Supply Monthly for the same month (its monthly survey, `eia_crude_production_state_monthly`, `MCRFPUS`), thousand barrels a day:
+
+| Month | Weekly estimate, mean (weeks) | Petroleum Supply Monthly | Difference |
+|---|---|---|---|
+| February 2026 | 13,711.5 (4) | 13,711 | 0.5 (0.00 percent) |
+| March 2026 | 13,665.0 (4) | 13,726 | -61.0 (-0.44 percent) |
+| April 2026 | 13,590.8 (4) | 13,981 | -390.2 (-2.79 percent) |
+| May 2026 | 13,681.4 (5) | 13,811 | -129.6 (-0.94 percent) |
+| June 2026 | 13,808.5 (4) | 13,844 | -35.5 (-0.26 percent) |
+| July 2026 | 13,823.8 (5) | 13,948 | -124.2 (-0.89 percent) |
+
+EIA rounds its weekly estimate and revises it in its monthly data (the note's "Notes on the series"); the weekly row ran below the survey in every month from March, by 0.3 to 2.8 percent. A reader who wants the survey's figure takes the monthly. The weekly stocks, storage and trade rows are EIA's own figures and the replication recomputes every figure of the page from them (5,125 of 5,125); EIA's headline pages for a week were read on 16 November 2026 and carried another week's text than the tables', so they are not set beside them here.
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot (`site/lib/decisions.ts`, `SUPPLY_DECISIONS`), each choice's default and source on hover:
+
+1. Every series is set against three values, each actually held: the period before, the same time last year and the five-year average; nothing is filled or estimated, and a comparison not held reads "not held". **Default:** The week or month before, last year, and the five-year average. **Source:** docs/methods/supply_and_trade.md, "The three comparisons". (session 134)
+2. A weekly year is 52 weeks, so a comparison is always the same weekday: last year is the value 364 days back or the nearest within 3 days, and over five years the date drifts five or six days from the calendar's. **Default:** 52 weeks back, or the nearest value within 3 days. **Source:** docs/methods/supply_and_trade.md, "The three comparisons"; EIA's own report weeks follow the same idea. (session 134)
+3. The five-year average is the mean of the values 52, 104, 156, 208 and 260 weeks back (the same month of the five years before), given only when all five are held, with their lowest and highest beside it. **Default:** All five years held, or no average. **Source:** docs/methods/supply_and_trade.md, "The three comparisons". (session 134)
+4. The surprise is the period's change less the mean of the same change in the five years before, marked outside when beyond their lowest or highest; the page never says "against expectations", since no analysts' consensus is held. **Default:** Against the five-year average change, never a consensus. **Source:** docs/methods/supply_and_trade.md, "The surprise": the analysts' polls are licensed. (session 134)
+5. Tighter or looser is written only where the direction has a reading: more in storage, more production or more imports is looser, more exports or more fuel burned is tighter; refinery runs, the reserve and positioning carry none. **Default:** A reading only for the series whose direction has one. **Source:** docs/methods/supply_and_trade.md, "The three comparisons". (session 134)
+6. Stocks are shown in million barrels and natural gas trade in Bcf a day (the month's volume over its days), so months of different length compare; commercial crude excludes the Strategic Petroleum Reserve. **Default:** Million barrels; Bcf a day; commercial crude without the reserve. **Source:** EIA's Weekly Petroleum Status Report and Natural Gas Monthly, converted as docs/methods/supply_and_trade.md, "Notes on the series", says. (session 134)
+7. An LNG terminal is listed by name when it shipped at least 5,000 MMcf in a month of the last twelve; every other point of exit is one row, the total less the terminals named. **Default:** 5,000 MMcf in a month of the last twelve. **Source:** EIA's natural gas exports by point of exit; docs/methods/supply_and_trade.md, "Notes on the series". (session 134)
+8. Fuel burned for power is derived, not reported: each grid's hourly gas, coal and oil generation, summed over whole local days, times a stated fleet heat rate (natural gas 7.6 MMBtu per MWh), so a grid's real fleet differs. **Default:** Stated fleet heat rates; whole local days only. **Source:** EIA-930's hourly generation by fuel; EIA's Electric Power Annual, Table 8.1, for the heat rates. (session 134)
+9. Positioning is the CFTC's managed money, futures only, and its net; Brent is the NYMEX contract the CFTC reports, not ICE's, whose terms forbid copying its own report. **Default:** Managed money's net, futures only; NYMEX Brent. **Source:** CFTC, Disaggregated Commitments of Traders; ICE Futures Europe's terms of use. (session 134)
+10. Day-ahead energy cleared is each operator's own figure, as a week's mean of seven whole local days ending Friday, a day counting only when every hour of it is held; the operators define it differently and are not summed. **Default:** Seven whole local days ending Friday; never summed across operators. **Source:** ERCOT, CAISO, NYISO, ISO-NE and SPP day-ahead market reports, as docs/methods/supply_and_trade.md, "Day-ahead energy cleared", lists them. (session 136)
+11. Weekly natural gas production is not shown: EIA publishes none of its own, and the weekly supply figures in its Natural Gas Weekly Update are S&P Global's, so the row reads "licensed source needed". **Default:** The row greyed, licensed source needed. **Source:** EIA's Natural Gas Weekly Update credits S&P Global for its weekly supply figures. (session 134)
+
+## What waits for the owner (session 7018)
+
+- Weekly natural gas production (S&P Global's, a license) and an analysts' consensus for the surprise (licensed polls).
+- ICE's Brent positioning (ICE's terms).
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:
