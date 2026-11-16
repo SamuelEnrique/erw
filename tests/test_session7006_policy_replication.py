@@ -1,5 +1,5 @@
 """Session 7006 (chain 301): what the policy monitor's replication (replication/policy/replicate.py) found, policy
-faults row 26: a held row of policy_actions the feed no longer lists and that carries no fields gets them from its own
+faults row 32: a held row of policy_actions the feed no longer lists and that carries no fields gets them from its own
 row before the write, so the table and the monitor's file agree. Also: the replication's grouping on rows written here
 (MADE UP: no such documents). No network, no data lock.
 
