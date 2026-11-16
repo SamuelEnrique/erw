@@ -67,6 +67,13 @@ None of the 38 days needed the default.
 
 **The result.** This gives 39 alert days from 2018-07-24 to 2024-07-24. One, 2021-07-12, lacks complete data and is left out, leaving **38 alert days and 204 alert hours**. The report ends 2025-04-30, so the 2025 season has no alert days.
 
+*Session 7532, 16 November 2026:* the sentence above describes the report as this run of 2 October 2026 read it. The
+report revised on 9 October 2026 (held in `caiso_grid_emergencies` since 13 October, and read again from CAISO on 16
+November) runs to 2026-10-08 and lists no Flex Alert, EEA Watch, Energy Emergency Alert or other alert-day notice after
+2024-07-24: its notices of 2025 and 2026 are Restricted Maintenance Operations (8 days) and one transmission emergency.
+So the 2025 and 2026 seasons have no alert days, and the tables need no new day. The page now says how far the notices
+run from the rows ([`caiso_alerts.md`](caiso_alerts.md), section 2).
+
 ## 4. The counterfactual model
 
 **The regression.** For each local hour h (24 separate regressions), ordinary least squares on the training days:
