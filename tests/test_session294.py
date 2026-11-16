@@ -75,7 +75,10 @@ class ThePage(unittest.TestCase):
         self.assertNotIn('<p className="max-w-3xl text-xs text-muted">', self.g)   # no visible grey note
 
     def test_the_credit_is_off_by_default_and_says_why(self):
-        self.assertIn("const [creditOn, setCreditOn] = useState(false);", self.g)
+        # session 7536: the game takes an optional `start` (what it opens with, for drawing a player's case); the page
+        # passes none, so the credit still opens off (tests/test_session7536_ev_game.py draws it)
+        self.assertIn("const [creditOn, setCreditOn] = useState(start?.creditOn ?? false);", self.g)
+        self.assertNotIn("start=", src("site", "app", "play", "ev", "page.tsx"))
         self.assertIn("{NO_CREDIT_LINE}", self.g)
         self.assertIn('NO_CREDIT_LINE = "No federal credit for cars bought after 30 September 2025."', src("site", "lib", "ev.ts"))
         self.assertIn("your family's own assumption", src("site", "lib", "ev.ts"))

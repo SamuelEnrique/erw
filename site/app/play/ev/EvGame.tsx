@@ -112,13 +112,18 @@ function CostChart({ rows, cross, years }: { rows: { year: number; gas: number; 
   );
 }
 
-export function EvGame({ states, us, built }: { states: StatePrices[]; us: StatePrices; built: string }) {
-  const [code, setCode] = useState("US");
-  const [v, setV] = useState<Record<Key, number>>(Object.fromEntries(Object.entries(DEFAULTS).map(([k, d]) => [k, d.value])) as Record<Key, number>);
-  const [creditOn, setCreditOn] = useState(false);
-  const [gasOver, setGasOver] = useState<number | null>(null);
-  const [powerOver, setPowerOver] = useState<number | null>(null);
-  const [publicCents, setPublicCents] = useState<string>("");
+/** Session 7536 (chain 304): what the game opens with, when not its defaults. The page passes none, so a visitor always
+ *  opens on the United States at the defaults; site/scripts/ev-game-figures.mjs draws the game with a state chosen and
+ *  fields moved through it, as if a player had done so, to read every figure for the replication (replication/ev_game/). */
+export type EvStart = { code?: string; v?: Partial<Record<Key, number>>; creditOn?: boolean; gas?: number | null; power?: number | null; publicCents?: string };
+
+export function EvGame({ states, us, built, start }: { states: StatePrices[]; us: StatePrices; built: string; start?: EvStart }) {
+  const [code, setCode] = useState(start?.code ?? "US");
+  const [v, setV] = useState<Record<Key, number>>({ ...(Object.fromEntries(Object.entries(DEFAULTS).map(([k, d]) => [k, d.value])) as Record<Key, number>), ...(start?.v ?? {}) });
+  const [creditOn, setCreditOn] = useState(start?.creditOn ?? false);
+  const [gasOver, setGasOver] = useState<number | null>(start?.gas ?? null);
+  const [powerOver, setPowerOver] = useState<number | null>(start?.power ?? null);
+  const [publicCents, setPublicCents] = useState<string>(start?.publicCents ?? "");
   const set = (k: Key) => (x: number) => setV({ ...v, [k]: x });
   const st = states.find((s) => s.code === code) ?? null;
   const place = st ?? us;
@@ -190,13 +195,15 @@ export function EvGame({ states, us, built }: { states: StatePrices[]; us: State
               <div className="border-t-2 border-accent pt-2" data-payback>
                 <div className="text-xs uppercase tracking-wide text-muted">Payback<span className="normal-case tracking-normal"><Tip id="ev-payback-tip" label="Payback">How many years until the money saved on fuel adds up to what the EV costs more to buy{creditOn ? ", after the credit" : ""}: {usd(r.extra)}. &quot;At once&quot; when the EV costs no more; &quot;never&quot; when it saves nothing a year.</Tip></span></div>
                 <div className="mt-1 font-serif text-3xl tabular-nums text-ink">
-                  {r.payback === null ? "never" : r.payback === 0 ? "at once" : k && k.payback !== null ? <><Num check={ck("payback")} raw={k.payback}>{String(k.payback)}</Num> years</> : `${n2(r.payback, 1)} years`}
+                  {/* session 7536: the keyed payback printed to one decimal, as every other payback is (String() printed a whole 3.0 as "3") */}
+                  {r.payback === null ? "never" : r.payback === 0 ? "at once" : k && k.payback !== null ? <><Num check={ck("payback")} raw={k.payback}>{n2(k.payback, 1)}</Num> years</> : `${n2(r.payback, 1)} years`}
                 </div>
               </div>
               <div className="border-t-2 border-accent pt-2" data-npv>
                 <div className="text-xs uppercase tracking-wide text-muted">Net present value, {x.years} year{x.years === 1 ? "" : "s"}<span className="normal-case tracking-normal"><Tip id="ev-npv-tip" label="Net present value">What choosing the EV is worth today: each year&apos;s saving on fuel, counted for less the later it comes (at {n2(x.rate, 1)} percent a year), added up, less what the EV costs more to buy. Above zero, the EV comes out ahead at these prices; below zero, the gasoline car does. Left out: repairs and maintenance, insurance, a home charger, state incentives, and what each car is worth when sold.</Tip></span></div>
                 <div className="mt-1 font-serif text-3xl tabular-nums text-ink">
-                  {k && k.npv >= 0 ? <>$<Num check={ck("npv")} raw={k.npv}>{k.npv.toLocaleString("en-US")}</Num></> : usd(r.npv)}
+                  {/* session 7536: a keyed value below zero keeps its key too (the sign before the dollar, as usd() writes it) */}
+                  {k ? <>{k.npv < 0 ? "-" : ""}$<Num check={ck("npv")} raw={k.npv}>{Math.abs(k.npv).toLocaleString("en-US")}</Num></> : usd(r.npv)}
                 </div>
               </div>
             </div>
@@ -220,7 +227,10 @@ export function EvGame({ states, us, built }: { states: StatePrices[]; us: State
             </figure>
           </>
         ) : (
-          <p className="mb-6 text-base" data-ev-waiting>Type a public charger&apos;s price on the left to see the results.</p>
+          // session 7536: the line names what is missing; a state without a held price asked for a public charger's price
+          <p className="mb-6 text-base" data-ev-waiting>{gas === null || power === null
+            ? `The warehouse holds no ${power === null ? "electricity" : "gasoline"} price for ${where}, so the game has no results to show there.`
+            : "Type a public charger's price on the left to see the results."}</p>
         )}
         <details className="border-b border-rule py-2" data-parents>
           <summary className="cursor-pointer font-serif text-lg text-accent">Every number, for your parents</summary>
