@@ -479,7 +479,7 @@ def lease_sums(lines, rows):
 def sample_lease(rules, book, out, words):
     path = os.path.join(HERE, "sample_lease.csv")
     with open(path, encoding="utf-8", newline="") as f:
-        text = f.read()
+        text = f.read().replace("\r\n", "\n")      # a Windows checkout may hold the file with CRLF; the page's sample has LF
     words["lease|sample|sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
     rows = read_lease(text, rules)
     lines = analyse(rules, rows, book)
