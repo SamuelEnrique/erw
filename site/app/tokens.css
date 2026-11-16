@@ -1256,3 +1256,56 @@ body:has(.brand-a) > footer :focus-visible {
   font-family: var(--font-sans);
   font-size: 12px;
 }
+
+/* chain 305 (session 7600): the browser read of the large-load rules, 16 November 2026 (docs/reviews/large-load-on-site/
+   browser-read-2026-11-16.md). Row 3: a hover that holds a long address or a file's path broke at no place and grew a
+   sideways scroll bar inside its own box: it breaks anywhere now, and scrolls only down. Rows 1 and 2: the box is
+   placed against the window by components/largeload/TipPlace.tsx (position fixed, set on the element); what stands
+   here is the placing before the page's script has loaded. */
+.brand-a [data-llr] span.tip > [role="tooltip"][data-tp],
+.brand-a [data-allgrids] [data-llr] span.tip > [role="tooltip"][data-tp] {
+  overflow-wrap: anywhere;
+  overflow-x: hidden;
+}
+/* row 4: a table's first column stays in place while the rest scrolls ("its first column stays in place", above), and
+   the cells that scroll under it hold hovers, which are drawn above a column with no level of its own: at 390 px the
+   utility's name and the cells' words stood printed over each other. The column takes a level, as session 1072 gave
+   the hub table's */
+.brand-a [data-llr] .overflow-x-auto table th:first-child {
+  z-index: 1;
+}
+/* row 10: the lines the hub table's cells draw for a row's rule, and the laws' documents, are targets a finger can
+   meet: 24 px high (WCAG 2.2, target size), where a line of captions was 18 */
+.brand-a [data-allgrids] tbody td [data-llr="cell"] :is(a, button[data-tip-trigger]),
+.brand-a [data-llr="laws"] td :is(a[data-law-doc], button[data-tip-trigger]) {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+}
+/* row 4, its other half: a hover that opens from the first column itself is drawn inside that column's level, so the
+   rows after it (each a level of its own) covered its box: the column under the mouse or the keyboard stands above */
+.brand-a [data-llr] .overflow-x-auto table th:first-child:is(:hover, :focus-within) {
+  z-index: 4;
+}
+/* row 10, the rest: the table's A and B buttons and a rule's name beside them, and (on production before this stack)
+   the hub table's utility names: each a target 24 px high. And the policy monitor's table of the figures stated by
+   month, whose rows stood 16 px apart with a record's link in each: its rows take the room a finger needs between
+   two links (24 px from one to the next) */
+.brand-a [data-llr] button[data-llr-set] {
+  min-width: 24px;
+  min-height: 24px;
+}
+.brand-a [data-llr] button[data-llr-open],
+.brand-a [data-allgrids] tbody td [data-util-name] > button[data-tip-trigger] {
+  min-height: 24px;
+}
+.brand-a [data-chart="policy-figures"] tbody td {
+  padding-block: 4px;
+}
+/* row 4, the last of it: chain 302 raised a hovered trigger a level so its box stood above its neighbours. The box is
+   now placed against the window, on the page's own level 20, and needs no raised trigger; and a raised trigger in a
+   cell that had scrolled part under the first column was drawn over the column's words. A cell's trigger keeps its
+   place under the column */
+.brand-a [data-llr] .overflow-x-auto table td .tip:is(:hover, :focus-within) {
+  z-index: auto;
+}

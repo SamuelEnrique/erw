@@ -1,0 +1,55 @@
+"use client";
+// Chain 305 (session 7600, the browser read of 16 November 2026, rows 1 and 2): where the hovers of the large-load
+// rules are drawn. A hover's box here holds a document's words and its cite, so it is wide, and its trigger stands
+// inside a table that scrolls sideways. Placed by the style sheet alone (under its trigger, inside the table's frame),
+// a box near the frame's bottom or right edge was cut by the frame, which grew scroll bars; one whose trigger stood in
+// the right third of the window ran past the window's edge; and at 390 px nearly every box of the tables did (144 of
+// 147 measured). This places the open box against the window, where no frame cuts it: under its trigger where it fits,
+// above where there is more room, never past an edge (lib/largeloadrules.ts, placeTip). It listens once for the whole
+// page and draws nothing. Without it (before the page's script has loaded) the style sheet's placing stands.
+import { useEffect } from "react";
+import { placeTip } from "@/lib/largeloadrules";
+
+const TIP = "[data-llr] span.tip";
+
+export function TipPlace() {
+  useEffect(() => {
+    let open: HTMLElement | null = null;
+    const box = (tip: HTMLElement) => tip.querySelector<HTMLElement>(':scope > [role="tooltip"][data-tp]');
+    const place = (tip: HTMLElement) => {
+      const b = box(tip), trigger = tip.querySelector<HTMLElement>(":scope > button") ?? tip;
+      if (!b) return;
+      // measured as the style sheet sizes it, with no limit of ours left on it from the last time
+      b.style.position = "fixed"; b.style.right = "auto"; b.style.bottom = "auto"; b.style.left = "0px"; b.style.top = "0px"; b.style.maxHeight = "";
+      const size = b.getBoundingClientRect();
+      if (!size.width || !size.height) return;                // not shown: nothing to place
+      const p = placeTip(trigger.getBoundingClientRect(), { width: size.width, height: size.height }, { width: document.documentElement.clientWidth, height: window.innerHeight });
+      b.style.left = `${p.left}px`; b.style.top = `${p.top}px`; b.style.maxHeight = `${p.maxHeight}px`;
+      b.setAttribute("data-tp-placed", p.above ? "above" : "below");
+      open = tip;
+    };
+    const inBox = (t: EventTarget | null) => !!(t instanceof Element && t.closest('[role="tooltip"][data-tp]'));
+    const over = (e: Event) => {
+      const tip = e.target instanceof Element ? e.target.closest<HTMLElement>(TIP) : null;
+      // the mouse moving on into the open box itself (to scroll a long one) leaves it where it is
+      if (tip && !(tip === open && inBox(e.target))) place(tip);
+    };
+    // the page or a table's frame scrolled under an open box: it follows its trigger, or closes with the hover. The
+    // box's own scroll (a long cite) moves nothing
+    const moved = (e: Event) => {
+      if (inBox(e.target)) return;
+      if (open && open.isConnected && open.matches(":hover, :focus-within")) place(open); else open = null;
+    };
+    document.addEventListener("pointerover", over, true);
+    document.addEventListener("focusin", over, true);
+    document.addEventListener("scroll", moved, { capture: true, passive: true });
+    window.addEventListener("resize", moved);
+    return () => {
+      document.removeEventListener("pointerover", over, true);
+      document.removeEventListener("focusin", over, true);
+      document.removeEventListener("scroll", moved, true);
+      window.removeEventListener("resize", moved);
+    };
+  }, []);
+  return null;
+}

@@ -204,6 +204,14 @@ export function lineOf(file: Pick<RulesFile, "rules" | "held_rules">, id: string
 }
 /** A date as the table prints it: a day, a month, or "not published". */
 export const dateWords = (d: string) => (/^\d{4}-\d{2}(-\d{2})?$/.test(d) ? d : d || NOT_PUBLISHED);
+/** Session 7600 (the browser read of 16 November, row 6): a status and its date in one line. Where the document prints
+ * no date the line says whose "not published" it is ("in effect, date not published"), not "in effect, not published",
+ * which read as the rule itself not being published. */
+export const statusDateWords = (date: string) => (/^\d{4}-\d{2}(-\d{2})?$/.test(date) ? date : `date ${dateWords(date)}`);
+export const statusWords = (status: string, date: string) => `${status}, ${statusDateWords(date)}`;
+/** Session 7600 (row 5): names in the order met, each once: a row of the tab names a utility once however many of its
+ * roles (the zone's own utility, the county's wires utility) carry it. */
+export const uniqueNames = (names: string[]): string[] => [...new Set(names.map((n) => n.trim()).filter(Boolean))];
 export function statusTip(r: Rule): string {
   return `${STATUS_TIP[r.status] ?? ""} ${r.date_kind === "date read" ? `No date of its own is printed: ${dateWords(r.status_date)} is the day or the month the document was read or dated.` : `Dated ${dateWords(r.status_date)} in the document.`} ${r.status_cite}`.trim();
 }
@@ -221,6 +229,35 @@ export function affectsOf(file: Pick<RulesFile, "rules" | "held_rules">, c: Pick
 export const groupWords = (g: string) => CHANGE_GROUPS.find(([k]) => k === g)?.[1] ?? g;
 export function filterChanges(rows: Change[], groups: string[], states: string[] = []): Change[] {
   return rows.filter((c) => (!groups.length || groups.includes(c.group)) && (!states.length || statesOf(c.state).some((s) => states.includes(s))));
+}
+/** Session 7600 (the browser read, row 8): the date a change is ordered by is the date its row draws. A change whose
+ * document prints a month only is drawn as that month ("2026-09"), and the file dates it to the day it was read (13
+ * November): ordered by that day, seven months stood above 13 November in a list headed "newest first". Here a month is
+ * ordered as its month, above the days of the same month (its day is not known), and rows of one date keep the file's
+ * order. */
+export const changeOrderKey = (c: Pick<Change, "date" | "date_printed" | "date_kind">): string => {
+  const drawnDate = c.date_kind === "date read" || c.date_printed !== c.date ? c.date_printed || c.date : c.date;
+  return /^\d{4}-\d{2}$/.test(drawnDate) ? `${drawnDate}-99` : drawnDate;
+};
+export function orderChanges<T extends Pick<Change, "date" | "date_printed" | "date_kind">>(rows: T[]): T[] {
+  return rows.map((c, i) => ({ c, i, k: changeOrderKey(c) })).sort((a, b) => (a.k < b.k ? 1 : a.k > b.k ? -1 : a.i - b.i)).map((x) => x.c);
+}
+
+/** Session 7600 (the browser read, rows 1 and 2): where a hover's box is drawn. The boxes of this section are wide (a
+ * document's words and its cite) and their triggers stand inside tables that scroll sideways, so a box placed under its
+ * trigger by the style sheet alone was cut by the table's frame and by the window's edge (at 390 px, nearly every one).
+ * The page places the box against the window instead: under the trigger where it fits, above it where there is more
+ * room, never past an edge, and no taller than the room it has. Sizes in CSS pixels; `trigger` is the trigger's box in
+ * the window, `tip` the box's own size, `win` the window's. */
+export type TipPlace = { left: number; top: number; maxHeight: number; above: boolean };
+export function placeTip(trigger: { left: number; top: number; right: number; bottom: number }, tip: { width: number; height: number }, win: { width: number; height: number }, margin = 8, gap = 2): TipPlace {
+  const width = Math.min(tip.width, Math.max(0, win.width - 2 * margin));
+  const left = Math.max(margin, Math.min(trigger.left, win.width - margin - width));
+  const below = Math.max(0, win.height - margin - (trigger.bottom + gap)), over = Math.max(0, trigger.top - gap - margin);
+  const above = tip.height > below && over > below;
+  const maxHeight = Math.max(0, Math.floor(above ? over : below));
+  const height = Math.min(tip.height, maxHeight);
+  return { left: Math.round(left), top: Math.round(above ? trigger.top - gap - height : trigger.bottom + gap), maxHeight, above };
 }
 
 /** A law's requirements, as the table writes them: "topic: words [cite] || topic: words [cite]". */
@@ -294,10 +331,14 @@ export function rulesCsv(rows: Line[], file: Pick<RulesFile, "built" | "retrieve
 }
 export const CHANGE_CSV_COLS = ["change_id", "date", "date_printed", "date_kind", "region", "utility", "state", "rule", "affects", "docket", "kind", "what", "cite", "source_url", "source_title", "date_read"];
 export const CHANGES_CSV_NAME = "erw-large-load-rule-changes.csv";
-export function changesCsv(rows: Change[], file: Pick<RulesFile, "built" | "retrieved">, address: string): string {
-  return [`# Energy Research Warehouse (ERW): changes to US utilities' large-load rules, 15 August to 13 November 2026, the rows shown on ${address}. Table ${CHANGES_TABLE} (retrieved ${file.retrieved?.[CHANGES_TABLE] ?? ""}); the page file was built ${file.built}. Method: docs/methods/large_load_research.md.`,
+/** Session 7600 (the browser read, row 9): `held` are the changes held for a license that the table draws under the
+ * rows (their utility named, every other cell blank): the file carries them the same way, as the rules' and the laws'
+ * files carry their held rows, so the file has the rows the reader sees. */
+export function changesCsv(rows: Change[], file: Pick<RulesFile, "built" | "retrieved">, address: string, held: HeldChange[] = []): string {
+  return [`# Energy Research Warehouse (ERW): changes to US utilities' large-load rules, 15 August to 13 November 2026, the rows shown on ${address}. Table ${CHANGES_TABLE} (retrieved ${file.retrieved?.[CHANGES_TABLE] ?? ""}); the page file was built ${file.built}.${held.length ? ` A row marked "${LICENSE_NEEDED}" is held: its publisher's terms ask permission.` : ""} Method: docs/methods/large_load_research.md.`,
     CHANGE_CSV_COLS.join(","),
-    ...rows.map((c) => [c.id, c.date, c.date_printed, c.date_kind, groupWords(c.group), c.utility, c.state, c.rule, c.affects, c.docket, c.kind, c.what, c.cite, c.url, c.title, c.read].map(csvCell).join(","))].join("\n") + "\n";
+    ...rows.map((c) => [c.id, c.date, c.date_printed, c.date_kind, groupWords(c.group), c.utility, c.state, c.rule, c.affects, c.docket, c.kind, c.what, c.cite, c.url, c.title, c.read].map(csvCell).join(",")),
+    ...held.map((h) => [h.id, "", "", "", "", h.utility, "", LICENSE_NEEDED, "", "", LICENSE_NEEDED, LICENSE_NEEDED, "", "", "", ""].map(csvCell).join(","))].join("\n") + "\n";
 }
 export const LAW_CSV_COLS = ["law_id", "state", "bill", "session", "title", "status", "status_date", "date_kind", "effective_date", "status_cite", "threshold", "threshold_cite", "requirements", "source_url", "source_title", "date_read", "notes"];
 export const LAWS_CSV_NAME = "erw-state-large-load-laws.csv";

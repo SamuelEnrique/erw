@@ -115,7 +115,10 @@ ok(count(changesHtml, /data-llr-change="/g) === 12 + 4 && count(changesHtml, /da
 ok(count(changesHtml, /data-llr-region="/g) === 6 && L.CHANGE_GROUPS.every(([k, w]) => text(changesHtml).includes(`${w} (${L.largeLoadStat(file, `largeload|changes|group|${k}`)})`)), "the regions, each with its count");
 const south = table({ region: "south_changes" });
 ok(text(south).includes(`${L.largeLoadStat(file, "largeload|changes|group|south_changes")} of 94 changes, South`), "the address's region sets the changes' filter");
-const firstChange = file.changes[0];
+// session 7600 (the browser read of 16 November, row 8): the newest change is the newest by the date its row draws. The
+// file's first row is a change whose document prints a month ("2026-09") and which the file dates to the day it was
+// read; the page now orders it as its month, so the first row drawn is the first of lib's own order
+const firstChange = L.orderChanges(file.changes)[0];
 ok(changesHtml.includes(`data-llr-change="${firstChange.id}"`) && text(changesHtml).includes(firstChange.what.replace(/\s+/g, " ")) && changesHtml.includes(`href="${firstChange.url.replace(/&/g, "&amp;")}"`), "the newest change is first, with what happened in the document's words and its document linked");
 ok(count(first, /data-llr-affects="/g) >= 5, "a change names the rule it changed as a button that opens it");
 

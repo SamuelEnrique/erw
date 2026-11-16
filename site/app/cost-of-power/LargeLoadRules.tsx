@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import {
   CHANGES_ANCHOR, CHANGES_CSV_NAME, CHANGE_CSV_COLS, CHANGE_GROUPS, CHANGE_KIND_WORDS, FIELDS, FIELD_HEAD, FIELD_TIP, GRID_WORDS, HELD_STATUS, LICENSE_NEEDED,
   RULES_CSV_NAME, RULE_CSV_COLS, RULE_SORTS, STATUS_TIP, CHANGES_TABLE, affectsOf, changesCsv, dateWords, filterChanges, filterLines, groupWords,
-  lawStates, lawsHref, lineOf, lines, pythonReader, ruleOptions, rulesCsv, sortLines, stataReader, statesOf, statusTip,
+  lawStates, lawsHref, lineOf, lines, orderChanges, pythonReader, ruleOptions, rulesCsv, sortLines, stataReader, statesOf, statusTip, statusWords,
   type Change, type Line, type RuleSort, type RulesFile,
 } from "@/lib/largeloadrules";
 
@@ -60,7 +60,11 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
   const drawnRows = useMemo(() => { const i = shown.findIndex((r) => r.id === open); return shown.slice(0, Math.max(limit, i + 1)); }, [shown, limit, open]);
   // session 7204 (the read of /policy, row 3): the rules' State filter chooses the changes too, so a reader who came for
   // one state's rules sees that state's changes under them; the region's buttons narrow further
-  const changes = useMemo(() => filterChanges(FILE.changes, region ? [region] : [], st ? [st] : []), [region, st]);
+  // session 7600 (the browser read, row 8): newest first by the date each row draws (a month as its month)
+  const changes = useMemo(() => orderChanges(filterChanges(FILE.changes, region ? [region] : [], st ? [st] : [])), [region, st]);
+  // session 7600 (row 9): the changes held for a license that are drawn under the rows, counted in the line and carried
+  // in the file. With a state chosen a held change's state is not known, so none is drawn
+  const heldChanges = useMemo(() => (st ? [] : FILE.held_changes.filter((h) => !region || h.id.startsWith(`${region}-`))), [region, st]);
 
   // a link of the page that names a state, a grid, a status, a rule or A and B (the tab's cells, the row's panel) sets it
   // here; a navigation that names none (the hub table's sort, the load's form) leaves the table as the reader set it
@@ -204,8 +208,8 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
         })}
       </div>
       <p className="mb-2 text-sm" role="status" data-llr-changes-shown={changes.length}>
-        {changes.length} of {FILE.changes.length} changes{region ? `, ${groupWords(region)}` : ""}{st ? <>, {st} (the State filter above; <button type="button" className="underline" onClick={() => { setSt(""); setLimit(PAGE); }} data-llr-changes-all="1">every state</button>)</> : null}, newest first: <Tip tip={`Filings, orders, effective dates, amendments, denials, suspensions and hearings from 15 August to 13 November 2026, each read in its own document (${CHANGES_TABLE}). A change dated to a month is drawn as that month.`}>15 August to 13 November 2026</Tip>.
-        {" "}<Download make={() => changesCsv(changes, FILE, address)} name={CHANGES_CSV_NAME} mark={{ "data-llr-csv": "changes" }}>CSV of these</Download>,{" "}
+        {changes.length} of {FILE.changes.length} changes{region ? `, ${groupWords(region)}` : ""}{heldChanges.length ? <>, and <span data-llr-changes-held={heldChanges.length}>{heldChanges.length}</span> <Tip tip={`${LICENSE_NEEDED}: read in a document whose publisher's terms ask permission before it is shown. Each is a row under the others: its utility is named and every other cell is blank. They are not among the ${FILE.changes.length}.`}>held</Tip></> : null}{st ? <>, {st} (the State filter above; <button type="button" className="underline" onClick={() => { setSt(""); setLimit(PAGE); }} data-llr-changes-all="1">every state</button>)</> : null}, newest first: <Tip tip={`Filings, orders, effective dates, amendments, denials, suspensions and hearings from 15 August to 13 November 2026, each read in its own document (${CHANGES_TABLE}). A change dated to a month is drawn as that month.`}>15 August to 13 November 2026</Tip>.
+        {" "}<Download make={() => changesCsv(changes, FILE, address, heldChanges)} name={CHANGES_CSV_NAME} mark={{ "data-llr-csv": "changes" }}>CSV of these</Download>,{" "}
         <Download make={() => pythonReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
         <Download make={() => stataReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
       </p>
@@ -216,7 +220,7 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
           <tbody>
             {changes.slice(0, changeLimit).map((c) => <ChangeRow key={c.id} c={c} openRule={openRule} />)}
             {/* a held change is its utility's name alone: with a state chosen its state is not known, so it is not drawn */}
-            {(st ? [] : FILE.held_changes.filter((h) => !region || h.id.startsWith(`${region}-`))).map((h) => (
+            {heldChanges.map((h) => (
               <tr key={h.id} className="border-b border-rule align-top" data-llr-change={h.id} data-llr-held="1">
                 <td className="px-2 py-1.5"><Blank tip={HELD_ROW_TIP(h.utility)} table={CHANGES_TABLE} what="Date" /></td>
                 <td className="px-2 py-1.5"><Blank tip={HELD_ROW_TIP(h.utility)} table={CHANGES_TABLE} what="Region" /></td>
@@ -286,7 +290,7 @@ function AbRules({ a, b, clearA, clearB }: { a?: Line; b?: Line; clearA: () => v
   );
   const rows: [string, (l: Line) => ReactNode][] = [
     ["Rule", (l) => <a href={l.rule!.url} title={`${l.rule!.title}, read ${l.rule!.read}`}>{l.rule!.name}</a>],
-    ["Status", (l) => <Tip tip={statusTip(l.rule!)}>{l.rule!.status}, {dateWords(l.rule!.status_date)}</Tip>],
+    ["Status", (l) => <Tip tip={statusTip(l.rule!)}>{statusWords(l.rule!.status, l.rule!.status_date)}</Tip>],
     ...FIELDS.map((f): [string, (l: Line) => ReactNode] => [FIELD_HEAD[f], (l) => <FieldView rule={l.rule!} f={f} whole />]),
   ];
   return (
