@@ -117,7 +117,10 @@ def hourly(s, freq):
     if freq == "PT1H":
         return s
     g = s.groupby(s.index.floor("h"))
-    return g.mean()[g.size() == 4]
+    # session 7012 (chain 301; found by replication/compare): an hour whose four prices sum to zero is an hour of zero,
+    # not below it; the mean is rounded to 9 places so the float sum's noise (-4e-19) does not decide the share of
+    # negative hours (ERCOT Houston's twelve months to September 2026 counted 143 for 142)
+    return g.mean()[g.size() == 4].round(9)
 
 
 def window_hours(start, end, tz):

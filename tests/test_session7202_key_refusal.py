@@ -52,6 +52,12 @@ def src(*parts):
         return f.read()
 
 
+def _read_json(path):
+    """A status file read and closed (session 7009: an unclosed file's ResourceWarning was the last line of the output)."""
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
 class Refusal(Exception):
     """The SDK's BadRequestError as the scripts meet it: HTTP 400 with the API's sentence in its body."""
     status_code = 400
@@ -191,7 +197,7 @@ class TheStepEnds(Base):
         self.assertEqual(rc, llm.SKIP_EXIT)
         line = "the key's limit: the Anthropic API key has reached its usage limit; access returns 2026-12-01 at 00:00 UTC; no model call is sent until then"
         self.assertEqual(out.getvalue().strip().splitlines()[-1], f"policy_score SKIPPED: {line}")
-        rows = json.load(open(path, encoding="utf-8"))["results"]
+        rows = _read_json(path)["results"]
         self.assertEqual([r["status"] for r in rows], ["skipped", "skipped", "gap"])
         self.assertEqual(rows[0]["detail"], f"{line}; before the refusal: 0 newly scored, 2049 of 2063 scored")
         self.assertEqual((rows[1]["detail"], rows[2]["detail"]), (line, "a known gap"))
@@ -203,7 +209,7 @@ class TheStepEnds(Base):
         self.refuse()
         with mock.patch.object(ip, "STATUS_DIR", self.tmp), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(llm.finish("deals", 0), 75)
-        self.assertEqual(json.load(open(path, encoding="utf-8"))["results"][0]["status"], "ok")
+        self.assertEqual(_read_json(path)["results"][0]["status"], "ok")
 
     def test_every_scheduled_model_step_exits_through_it(self):
         for parts, call in STEPS.items():
@@ -261,7 +267,7 @@ class TheScorer(Base):
             with mock.patch.object(score.llm, "client", lambda step, log=None, api_key=None, **k: llm.wrap(stub, step, log)), \
                     mock.patch.object(ip, "load_key", lambda *a, **k: "not-a-key"), contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
                 rc = score.main(["--out-dir", self.tmp, "--days", "2"])
-                status = json.load(open(os.path.join(ip.STATUS_DIR, "news_score.json"), encoding="utf-8"))["results"][0]
+                status = _read_json(os.path.join(ip.STATUS_DIR, "news_score.json"))["results"][0]
                 end = llm.finish("news_score", rc)
         finally:
             ip.OUT_DIR, ip.LOG_DIR, ip.RAW_DIR, ip.METADATA_DIR, ip.STATUS_DIR = saved
@@ -323,7 +329,7 @@ class NoIssueOnARefusedDay(Base):
         with mock.patch.object(ip, "STATUS_DIR", self.tmp), mock.patch.object(ip, "LOG_DIR", self.tmp), mock.patch.object(brief, "DIGEST_DIR", digests), \
                 mock.patch.object(brief.llm, "client", never), mock.patch.object(ip, "read_series", never), contextlib.redirect_stdout(out):
             rc = brief.main(["--date", self.DAY])
-            status = json.load(open(os.path.join(self.tmp, "news_brief.json"), encoding="utf-8"))["results"][0]
+            status = _read_json(os.path.join(self.tmp, "news_brief.json"))["results"][0]
             end = llm.finish("news_brief", rc)
         self.assertEqual((rc, end), (75, 75))
         self.assertFalse(os.path.exists(digests), "no issue, and no latest.md")
@@ -360,10 +366,10 @@ class NoIssueOnARefusedDay(Base):
             log = "".join(open(os.path.join(self.tmp, f), encoding="utf-8").read() for f in os.listdir(self.tmp) if f.endswith(".log"))
             if "no scored stories in the window" in log:
                 self.skipTest("no scored story in the window on this copy")
-            status = json.load(open(os.path.join(self.tmp, "news_brief.json"), encoding="utf-8"))["results"][0]
+            status = _read_json(os.path.join(self.tmp, "news_brief.json"))["results"][0]
             before = status["status"]
             end = llm.finish("news_brief", rc)
-            status = json.load(open(os.path.join(self.tmp, "news_brief.json"), encoding="utf-8"))["results"][0]
+            status = _read_json(os.path.join(self.tmp, "news_brief.json"))["results"][0]
         self.assertIsNotNone(llm.key_limit(), log[-1500:])
         self.assertEqual(stub.sent, 1, "one refused request, then none")
         self.assertFalse(os.path.exists(out_path), "no issue is written when the Digest's own call is refused")
@@ -387,7 +393,7 @@ class NoIssueOnARefusedDay(Base):
         with mock.patch.object(ip, "STATUS_DIR", self.tmp), mock.patch.object(ip, "LOG_DIR", self.tmp), mock.patch.object(roundup, "ROUNDUP_DIR", weeks), \
                 mock.patch.object(roundup.brief.llm, "client", never), mock.patch.object(ip, "read_series", never), contextlib.redirect_stdout(out):
             rc = roundup.main([])
-            status = json.load(open(os.path.join(self.tmp, "news_roundup.json"), encoding="utf-8"))["results"][0]
+            status = _read_json(os.path.join(self.tmp, "news_roundup.json"))["results"][0]
         self.assertEqual(rc, 75)
         self.assertFalse(os.path.exists(weeks))
         self.assertEqual(status["status"], "skipped")

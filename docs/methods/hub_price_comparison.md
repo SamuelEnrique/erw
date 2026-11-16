@@ -91,6 +91,15 @@ python warehouse/derived/price_compare.py --out-dir DIR      # a trial: nothing 
 
 The table is rebuilt whole each run: the windows move with the last whole month.
 
+## The replication (session 7012, chain 301)
+
+`replication/compare/replicate.py` recomputes every figure of `site/data/price_compare.json` from the tables above by
+this note alone (their order, each grid's local time, the four quarters of a real-time hour, ISO-NE's better-held form,
+the 95 and 90 percent floors): 578 of 578 equal on the file rebuilt on 16 November 2026. It found one fault, now fixed:
+an hour of real time whose four prices sum to zero is an hour of zero, and the builder rounds its mean to 9 places so the
+float sum's noise does not count it as negative (`docs/reviews/price-compare-faults-2026-11-16.md`). `replicate.do`
+rebuilds five ERCOT figures of the twelve months in Stata, its expected values at its top.
+
 ## Checks
 
 `tests/test_session96.py`: the measures on prices made for the test (the mean, the two shares, the spread of a known
