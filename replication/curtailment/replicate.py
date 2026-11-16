@@ -29,6 +29,7 @@ import calendar
 import csv
 import datetime as dt
 import json
+import math
 import os
 import sys
 from collections import defaultdict
@@ -222,8 +223,37 @@ def main(argv=None):
                     check(f"ercot day {day} {fuel} {k}", m.get(f"{fuel}_{mk}", 0.0), tf[k])
             if "share_pct" in tf and m.get(f"{fuel}_l"):
                 check(f"ercot day {day} {fuel} share_pct", 100 * m[f"{fuel}_b"] / m[f"{fuel}_l"], tf["share_pct"])
+    # part three (session 7019): CAISO's shares of the months whose output is CAISO's own supply data (basis
+    # caiso_fuel_supply): curtailed over curtailed plus solar and wind output, over the Pacific days both tables hold
+    shares_n = 0
+    sp = os.path.join(a.site, "data", "curtailment", "shares.json")
+    if os.path.exists(sp):
+        with open(sp, encoding="utf-8") as f:
+            sh = json.load(f)["grids"]["caiso"]["months"]
+        cur, cdays = defaultdict(float), set()
+        for r in rows_of(os.path.join(a.tables, "caiso_curtailment_daily.csv")):
+            if r["variable"] in ("curtailed_solar_mwh", "curtailed_wind_mwh") and r["value"] not in ("", None):
+                cur[r["ts_utc"][:10]] += float(r["value"])
+                cdays.add(r["ts_utc"][:10])
+        out, hrs = defaultdict(float), defaultdict(set)
+        for r in rows_of(os.path.join(a.tables, "caiso_fuel_supply.csv")):
+            if r["variable"] in ("solar_mw", "wind_mw") and r["value"] not in ("", None):
+                t = utc(r["ts_utc"]).astimezone(PT)
+                out[t.date().isoformat()] += float(r["value"])
+                hrs[t.date().isoformat()].add((t.hour, t.utcoffset()))
+        for m, s_ in sorted(sh.items()):
+            if s_.get("basis") != "caiso_fuel_supply" or "share_pct" not in s_:
+                continue
+            days = [d for d in cdays if d.startswith(m) and d in out]
+            c, o = math.fsum(cur[d] for d in days), math.fsum(out[d] for d in days)
+            shares_n += 1
+            check(f"shares caiso {m} days_held", len(days), s_["days_held"])
+            check(f"shares caiso {m} hours_held", sum(len(hrs[d]) for d in days), s_["hours_held"])
+            check(f"shares caiso {m} curtailed_mwh", c, s_["curtailed_mwh"])
+            check(f"shares caiso {m} output_mwh", o, s_["output_mwh"])
+            check(f"shares caiso {m} share_pct", 100 * c / (c + o) if c + o else None, s_["share_pct"])
     print(f"Curtailment: California's profile (built {prof['built']}, months {prof['first']} to {prof['last']}) and "
-          f"Texas's hours (built {erc['built']}) against the tables in {a.tables}. The table holds {len(newer)} whole "
+          f"Texas's hours (built {erc['built']}) and CAISO's shares of {shares_n} months on CAISO's own supply data against the tables in {a.tables}. The table holds {len(newer)} whole "
           f"month(s) newer than the profile's last: {', '.join(newer) or 'none'}")
     for x in misses[:a.show]:
         print("  " + x)
