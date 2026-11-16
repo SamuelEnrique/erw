@@ -1,0 +1,2527 @@
+{
+ "about": "ERW, What a battery saves a customer (/battery/customer): every number the page's calculator prints for each case of cases.json, read off the calculator drawn to HTML by site/scripts/battery-customer-figures.mjs. 'shown' is the page's text; 'tolerance' is half of its last shown digit. Written by session 7504; rewrite with the script, never by hand.",
+ "figures": 331,
+ "cases": [
+  {
+   "id": "opens",
+   "name": "The page as it opens: three starting values, six fields empty",
+   "typed": {
+    "peakKw": "",
+    "demandCharge": "",
+    "peakRate": "",
+    "offPeakRate": "",
+    "batteryKw": "",
+    "batteryKwh": "",
+    "peakHours": "2",
+    "days": "21",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "waiting_needed",
+     "name": "As it opens: fields still needed",
+     "shown": "6",
+     "value": 6,
+     "tolerance": 0.5
+    },
+    {
+     "key": "waiting_fields",
+     "name": "As it opens: fields in all",
+     "shown": "9",
+     "value": 9,
+     "tolerance": 0.5
+    },
+    {
+     "key": "start_peakHours",
+     "name": "As it opens: the starting value of peakHours",
+     "shown": "2",
+     "value": 2,
+     "tolerance": 0.5
+    },
+    {
+     "key": "start_days",
+     "name": "As it opens: the starting value of days",
+     "shown": "21",
+     "value": 21,
+     "tolerance": 0.5
+    },
+    {
+     "key": "start_roundTrip",
+     "name": "As it opens: the starting value of roundTrip",
+     "shown": "86",
+     "value": 86,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "browser-proof",
+   "name": "The numbers the browser proof types (site/scripts/check-no-request.mjs): not a tariff",
+   "typed": {
+    "peakKw": "500",
+    "demandCharge": "18",
+    "peakRate": "0.22",
+    "offPeakRate": "0.09",
+    "batteryKw": "200",
+    "batteryKwh": "800",
+    "peakHours": "4",
+    "days": "22",
+    "roundTrip": "85"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "200",
+     "value": 200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "800",
+     "value": 800,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$5,608",
+     "value": 5608,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$67,302",
+     "value": 67302,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$3,600",
+     "value": 3600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$2,008",
+     "value": 2008,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$67,302",
+     "value": 67302,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$5,608",
+     "value": 5608,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$3,600",
+     "value": 3600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "200.0",
+     "value": 200,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$9,000",
+     "value": 9000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$2,008",
+     "value": 2008,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "800",
+     "value": 800,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "941",
+     "value": 941,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "4",
+     "value": 4,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "200",
+     "value": 200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "200.0",
+     "value": 200,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "200.0",
+     "value": 200,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$18",
+     "value": 18,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$3,600",
+     "value": 3600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "800",
+     "value": 800,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "941",
+     "value": 941,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$91",
+     "value": 91,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$2,008",
+     "value": 2008,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "seattle-md-city-tou",
+   "name": "Seattle City Light, Medium General Service, City of Seattle (C), Time of Use",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "5.36",
+    "peakRate": "0.1218",
+    "offPeakRate": "0.0609",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "4",
+    "days": "26",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$1,066",
+     "value": 1066,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$12,795",
+     "value": 12795,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$536",
+     "value": 536,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$530",
+     "value": 530,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$12,795",
+     "value": 12795,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$1,066",
+     "value": 1066,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$536",
+     "value": 536,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$2,144",
+     "value": 2144,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$530",
+     "value": 530,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "4",
+     "value": 4,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$5.36",
+     "value": 5.36,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$536",
+     "value": 536,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$20",
+     "value": 20,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$530",
+     "value": 530,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "seattle-md-downtown-tou",
+   "name": "Seattle City Light, Medium General Service, Downtown Network (D), Time of Use",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "12.19",
+    "peakRate": "0.1360",
+    "offPeakRate": "0.0680",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "4",
+    "days": "26",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$1,811",
+     "value": 1811,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$21,733",
+     "value": 21733,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$1,219",
+     "value": 1219,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$592",
+     "value": 592,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$21,733",
+     "value": 21733,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$1,811",
+     "value": 1811,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$1,219",
+     "value": 1219,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$4,876",
+     "value": 4876,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$592",
+     "value": 592,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "4",
+     "value": 4,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$12.19",
+     "value": 12.19,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$1,219",
+     "value": 1219,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$23",
+     "value": 23,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$592",
+     "value": 592,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "seattle-lg-city",
+   "name": "Seattle City Light, Large General Service, City of Seattle (C)",
+   "typed": {
+    "peakKw": "2000",
+    "demandCharge": "5.18",
+    "peakRate": "0.1186",
+    "offPeakRate": "0.0593",
+    "batteryKw": "500",
+    "batteryKwh": "2000",
+    "peakHours": "4",
+    "days": "26",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "2,000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$5,172",
+     "value": 5172,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$62,059",
+     "value": 62059,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$2,590",
+     "value": 2590,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$2,582",
+     "value": 2582,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$62,059",
+     "value": 62059,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$5,172",
+     "value": 5172,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$2,590",
+     "value": 2590,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "500.0",
+     "value": 500,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "2,000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$10,360",
+     "value": 10360,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$2,582",
+     "value": 2582,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "2,000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "2,326",
+     "value": 2326,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "4",
+     "value": 4,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "500.0",
+     "value": 500,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "2,000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "500.0",
+     "value": 500,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$5.18",
+     "value": 5.18,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$2,590",
+     "value": 2590,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "2,000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "2,326",
+     "value": 2326,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$99",
+     "value": 99,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$2,582",
+     "value": 2582,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "srp-e32-summer-peak",
+   "name": "Salt River Project, E-32 Time-of-Use General Service, summer peak (July and August)",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "6.75",
+    "peakRate": "0.1924",
+    "offPeakRate": "0.1093",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "5",
+    "days": "22",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$1,115",
+     "value": 1115,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$13,376",
+     "value": 13376,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$540",
+     "value": 540,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$575",
+     "value": 575,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$13,376",
+     "value": 13376,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$1,115",
+     "value": 1115,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$540",
+     "value": 540,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$2,700",
+     "value": 2700,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$575",
+     "value": 575,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "5",
+     "value": 5,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's energy",
+     "value": "the battery's energy",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$6.75",
+     "value": 6.75,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$540",
+     "value": 540,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$26",
+     "value": 26,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$575",
+     "value": 575,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "srp-e32-summer",
+   "name": "Salt River Project, E-32 Time-of-Use General Service, summer (May, June, September, October)",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "5.05",
+    "peakRate": "0.1319",
+    "offPeakRate": "0.0803",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "5",
+    "days": "22",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$743",
+     "value": 743,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$8,917",
+     "value": 8917,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$404",
+     "value": 404,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$339",
+     "value": 339,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$8,917",
+     "value": 8917,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$743",
+     "value": 743,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$404",
+     "value": 404,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$2,020",
+     "value": 2020,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$339",
+     "value": 339,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "5",
+     "value": 5,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's energy",
+     "value": "the battery's energy",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$5.05",
+     "value": 5.05,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$404",
+     "value": 404,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$15",
+     "value": 15,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$339",
+     "value": 339,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "srp-e32-winter",
+   "name": "Salt River Project, E-32 Time-of-Use General Service, winter (November through April)",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "4.45",
+    "peakRate": "0.0982",
+    "offPeakRate": "0.0609",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "5",
+    "days": "22",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$597",
+     "value": 597,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$7,164",
+     "value": 7164,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$356",
+     "value": 356,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$241",
+     "value": 241,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$7,164",
+     "value": 7164,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$597",
+     "value": 597,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$356",
+     "value": 356,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$1,780",
+     "value": 1780,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$241",
+     "value": 241,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "5",
+     "value": 5,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's energy",
+     "value": "the battery's energy",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$4.45",
+     "value": 4.45,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$356",
+     "value": 356,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$241",
+     "value": 241,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "22",
+     "value": 22,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "austin-sv2",
+   "name": "Austin Energy, Secondary Voltage, demand of 10 kW to under 300 kW, inside the city limits",
+   "typed": {
+    "peakKw": "200",
+    "demandCharge": "15.35",
+    "peakRate": "0.06797",
+    "offPeakRate": "0.06797",
+    "batteryKw": "50",
+    "batteryKwh": "100",
+    "peakHours": "2",
+    "days": "21",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "50",
+     "value": 50,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "2.0",
+     "value": 2,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$744",
+     "value": 744,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$8,931",
+     "value": 8931,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$768",
+     "value": 768,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "-$23",
+     "value": -23,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$8,931",
+     "value": 8931,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$744",
+     "value": 744,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$768",
+     "value": 768,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "50.0",
+     "value": 50,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "200",
+     "value": 200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$3,070",
+     "value": 3070,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "-$23",
+     "value": -23,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "116",
+     "value": 116,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "21",
+     "value": 21,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "2",
+     "value": 2,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "50",
+     "value": 50,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "50.0",
+     "value": 50,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "200",
+     "value": 200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "50.0",
+     "value": 50,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$15.35",
+     "value": 15.35,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$768",
+     "value": 768,
+     "tolerance": 0.5
+    },
+    {
+     "key": "noshift_break_even",
+     "name": "The energy, when moving it does not pay: the peak rate it would take (USD per kWh)",
+     "shown": "$0.079",
+     "value": 0.079,
+     "tolerance": 0.0005
+    },
+    {
+     "key": "noshift_kwh",
+     "name": "The energy, when moving it does not pay: kWh a day for the peak",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "noshift_month",
+     "name": "The energy, when moving it does not pay: the cost a month (USD)",
+     "shown": "-$23",
+     "value": -23,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "austin-sv3",
+   "name": "Austin Energy, Secondary Voltage, demand of 300 kW or more, inside the city limits",
+   "typed": {
+    "peakKw": "1000",
+    "demandCharge": "18.22",
+    "peakRate": "0.067",
+    "offPeakRate": "0.067",
+    "batteryKw": "250",
+    "batteryKwh": "500",
+    "peakHours": "2",
+    "days": "21",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "250",
+     "value": 250,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "2.0",
+     "value": 2,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$4,440",
+     "value": 4440,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$53,286",
+     "value": 53286,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$4,555",
+     "value": 4555,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "-$115",
+     "value": -115,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$53,286",
+     "value": 53286,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$4,440",
+     "value": 4440,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$4,555",
+     "value": 4555,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "250.0",
+     "value": 250,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "1,000",
+     "value": 1000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$18,220",
+     "value": 18220,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "-$115",
+     "value": -115,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "581",
+     "value": 581,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "21",
+     "value": 21,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "2",
+     "value": 2,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "250",
+     "value": 250,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "250.0",
+     "value": 250,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "1,000",
+     "value": 1000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "250.0",
+     "value": 250,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$18.22",
+     "value": 18.22,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$4,555",
+     "value": 4555,
+     "tolerance": 0.5
+    },
+    {
+     "key": "noshift_break_even",
+     "name": "The energy, when moving it does not pay: the peak rate it would take (USD per kWh)",
+     "shown": "$0.078",
+     "value": 0.078,
+     "tolerance": 0.0005
+    },
+    {
+     "key": "noshift_kwh",
+     "name": "The energy, when moving it does not pay: kWh a day for the peak",
+     "shown": "500",
+     "value": 500,
+     "tolerance": 0.5
+    },
+    {
+     "key": "noshift_month",
+     "name": "The energy, when moving it does not pay: the cost a month (USD)",
+     "shown": "-$115",
+     "value": -115,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "sce-tou-gs-2-b-2013-summer",
+   "name": "Southern California Edison, TOU-GS-2 Option B, summer, circa April 2013, as NREL's report prints it",
+   "typed": {
+    "peakKw": "400",
+    "demandCharge": "30.14",
+    "peakRate": "0.1466",
+    "offPeakRate": "0.0582",
+    "batteryKw": "100",
+    "batteryKwh": "400",
+    "peakHours": "4",
+    "days": "21",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "4.0",
+     "value": 4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$3,677",
+     "value": 3677,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$44,124",
+     "value": 44124,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$3,014",
+     "value": 3014,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$663",
+     "value": 663,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$44,124",
+     "value": 44124,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$3,677",
+     "value": 3677,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$3,014",
+     "value": 3014,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$12,056",
+     "value": 12056,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$663",
+     "value": 663,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "21",
+     "value": 21,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "4",
+     "value": 4,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "100",
+     "value": 100,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$30.14",
+     "value": 30.14,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$3,014",
+     "value": 3014,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "400",
+     "value": 400,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "465",
+     "value": 465,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$32",
+     "value": 32,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$663",
+     "value": 663,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "21",
+     "value": 21,
+     "tolerance": 0.5
+    }
+   ]
+  },
+  {
+   "id": "decimals",
+   "name": "Numbers with decimals, for what the page prints back: not a tariff",
+   "typed": {
+    "peakKw": "62.5",
+    "demandCharge": "5.36",
+    "peakRate": "0.1218",
+    "offPeakRate": "0.0609",
+    "batteryKw": "5",
+    "batteryKwh": "13.5",
+    "peakHours": "1.5",
+    "days": "25.6",
+    "roundTrip": "86"
+   },
+   "figures": [
+    {
+     "key": "sum_battery_kw",
+     "name": "The summary: the battery's power, as typed (kW)",
+     "shown": "5",
+     "value": 5,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_battery_kwh",
+     "name": "The summary: the battery's energy, as typed (kWh)",
+     "shown": "13.5",
+     "value": 13.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_hours",
+     "name": "The summary: the battery's duration (hours)",
+     "shown": "2.7",
+     "value": 2.7,
+     "tolerance": 0.05
+    },
+    {
+     "key": "sum_month",
+     "name": "The summary: saved a month (USD)",
+     "shown": "$44",
+     "value": 44,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_year",
+     "name": "The summary: saved a year (USD)",
+     "shown": "$533",
+     "value": 533,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_demand",
+     "name": "The summary: a month from a lower peak (USD)",
+     "shown": "$27",
+     "value": 27,
+     "tolerance": 0.5
+    },
+    {
+     "key": "sum_energy",
+     "name": "The summary: a month from moving energy (USD)",
+     "shown": "$18",
+     "value": 18,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_year",
+     "name": "Saved a year (USD)",
+     "shown": "$533",
+     "value": 533,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_month",
+     "name": "Saved a year: its line, a month (USD)",
+     "shown": "$44",
+     "value": 44,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_demand",
+     "name": "From shaving the peak (USD a month)",
+     "shown": "$27",
+     "value": 27,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_shaved_kw",
+     "name": "From shaving the peak: kW off the peak",
+     "shown": "5.0",
+     "value": 5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_peak_kw",
+     "name": "From shaving the peak: the peak, as typed (kW)",
+     "shown": "62.5",
+     "value": 62.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_demand_before",
+     "name": "From shaving the peak: the demand charge before (USD a month)",
+     "shown": "$335",
+     "value": 335,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_energy",
+     "name": "From shifting energy (USD a month)",
+     "shown": "$18",
+     "value": 18,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_out_kwh",
+     "name": "From shifting energy: kWh a day out",
+     "shown": "14",
+     "value": 14,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_in_kwh",
+     "name": "From shifting energy: kWh a day in",
+     "shown": "16",
+     "value": 16,
+     "tolerance": 0.5
+    },
+    {
+     "key": "tile_days",
+     "name": "From shifting energy: the days, as typed",
+     "shown": "25.6",
+     "value": 25.6,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_hours",
+     "name": "The peak: its hours, as typed",
+     "shown": "1.5",
+     "value": 1.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_power_kw",
+     "name": "The peak: what the battery's power allows (kW)",
+     "shown": "5",
+     "value": 5,
+     "tolerance": 0.5
+    },
+    {
+     "key": "how_energy_kw",
+     "name": "The peak: what the battery's energy allows (kW)",
+     "shown": "9.0",
+     "value": 9,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_peak_kw",
+     "name": "The peak: the peak, as typed (kW)",
+     "shown": "62.5",
+     "value": 62.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_shaved_kw",
+     "name": "The peak: what comes off (kW)",
+     "shown": "5.0",
+     "value": 5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "how_limit",
+     "name": "The peak: what set it",
+     "shown": "the battery's power",
+     "value": "the battery's power",
+     "tolerance": null
+    },
+    {
+     "key": "how_demand_charge",
+     "name": "The peak: the demand charge, as typed (USD per kW)",
+     "shown": "$5.36",
+     "value": 5.36,
+     "tolerance": 0.005
+    },
+    {
+     "key": "how_demand",
+     "name": "The peak: saved a month (USD)",
+     "shown": "$27",
+     "value": 27,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_out_kwh",
+     "name": "The energy: kWh a day out in the peak hours",
+     "shown": "14",
+     "value": 14,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_in_kwh",
+     "name": "The energy: kWh a day in off-peak",
+     "shown": "16",
+     "value": 16,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_per_day",
+     "name": "The energy: USD a day",
+     "shown": "$1",
+     "value": 1,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_month",
+     "name": "The energy: USD over the days",
+     "shown": "$18",
+     "value": 18,
+     "tolerance": 0.5
+    },
+    {
+     "key": "shift_days",
+     "name": "The energy: the days, as typed",
+     "shown": "25.6",
+     "value": 25.6,
+     "tolerance": 0.05
+    }
+   ]
+  }
+ ]
+}
