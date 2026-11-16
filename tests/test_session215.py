@@ -134,7 +134,11 @@ class TheComponents(unittest.TestCase):
                  # site's own files; a figure of an internal table is drawn as "license needed" by the tab itself, with no key
                  "allgrids",
                  # session 2248 (chain 156): the datacenter page's charts, grids view and timeline, held by datacenter_facilities
-                 "dcchart", "dcgrid", "dctime"}
+                 "dcchart", "dcgrid", "dctime",
+                 # session 7201 (chain 302): the counts of US utilities' large-load rules, their changes and the states' laws
+                 # (largeload|rules|..., |changes|..., |laws|...), read from the site's own file of public rows; a held row is
+                 # drawn blank with "license needed" by the page itself, with no key
+                 "largeload"}
         found = set()
         for dirpath, _, files in os.walk(os.path.join(ROOT, "site", "app")):
             if "_retired" in dirpath:
