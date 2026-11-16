@@ -9,6 +9,9 @@ Energy Research Warehouse (ERW), session 75. Table: `shoulder_hours_monthly` (se
 ## Inputs
 
 - **Hourly demand, solar, wind and battery output:** EIA-930, the per-balancing-authority workbooks the emissions connector saved (`warehouse/raw/eia930_emissions/<run>/<BA>.xlsx`, sheet "Published Hourly Data"). EIA's Adjusted columns are used: solar is SUN plus SNB (solar with integrated storage), wind is WND plus WNB. An hour is dated by its start (EIA's "UTC time" is the hour's end). No request is made.
+- **California's late hours (session 82, stated here by session 7503).** In EIA's California workbook every value whose hour starts from 2023-10-31T23:00Z up to, not including, 2025-12-02T23:00Z belongs to the hour before the one it is stamped with (`docs/methods/eia930_caiso_break.md`, "The late hours"). Such a value is read one hour earlier; the first of them lands on an hour that holds its own value and is dropped, and the hour 2025-12-02T22:00Z is then empty and is not filled. Texas's stamps are right throughout.
+- **An impossible hour of demand is a blank (session 103, stated here by session 7503):** rule A of `docs/methods/impossible_hours.md`, applied to demand over the hours read (stamps of 2018 and later). Its day is then not a complete day. Solar, wind and battery output are not screened.
+- **Local time** is the grid's clock time, daylight saving included (America/Chicago, America/Los_Angeles). A day the clocks change has 23 or 25 hours: it counts as a complete day of the month's average when every one of its hours is held (the hour that comes twice enters its local hour twice), and it is never ranked among the worst days.
 - **California** stops after November 2025. EIA's generation series for California changed on 16 December 2025 (`docs/methods/eia930_caiso_break.md`). Its solar and wind did not break there, but this table does not mix a changed series in. CAISO's own supply by fuel (`caiso_fuel_supply`) begins in June 2025, too late to carry the history.
 - **CAISO's battery output:** `caiso_battery_storage` (CAISO's own, 5-minute, from August 2025), the hour's mean. EIA reports no battery series for California.
 - **CAISO's curtailment:** `caiso_curtailment_daily`, curtailed solar plus curtailed wind. ERCOT's is not held.
@@ -32,7 +35,8 @@ A complete day holds every hour of demand, solar and wind. A month with fewer th
 - **Evening shoulder:** from the first hour after solar's highest hour in which solar is below half of that highest value, to the first hour, after net load has risen above its daily mean, in which net load is back at or below that mean.
   - If net load stays above the mean to midnight, the shoulder ends at midnight (`shoulder_runs_to_midnight` 1).
   - If net load does not rise above its mean after the start, the shoulder is 0 hours.
-  - Its MWh (`shoulder_mwh_above_mean`) are the sum, over its hours, of net load less the mean.
+  - Its MWh (`shoulder_mwh_above_mean`) are the sum, over its hours, of net load less the mean, counting only the hours in which net load is above the mean: an early hour of the shoulder in which net load has not yet risen above its mean adds nothing and takes nothing away (session 7503 found the sentence without this clause; the table has always been built this way, and in a winter month the two readings differ: California, December 2022, 31,836 MWh against 30,183, about 5 percent).
+  - The shoulder's length counts those early hours: it runs from the start, not from the hour net load rises above the mean.
 - **The fleet against it:**
   - `fleet_hours` = MWh over MW, the fleet's average duration;
   - `shoulder_hours_covered` = the smaller of the shoulder's length and `fleet_hours`: the hours the fleet can run at its rated power through the shoulder;
@@ -50,7 +54,7 @@ Session 75's shoulder runs to midnight in California and, since 2025, in Texas, 
 - `day_shoulder_hours_needed`: its energy above the mean over the fleet's MW of that month. Where EIA has not yet published the month's fleet it is not written, and the year's mean of the ten is written only when all ten have it;
 - what the batteries did, where every hour of the day holds their output: `day_battery_discharge_mwh` (their output in the shoulder's hours, discharging only), `day_battery_peak_mw`, and `day_battery_hours`, that discharge over the fleet's MW.
 
-A day of 23 or 25 local hours is not ranked.
+A day of 23 or 25 local hours is not ranked. Nor is a day with no shoulder (0 hours: net load does not rise above the day's mean after the start). `year_days_ranked` counts the days that can be ranked: complete, 24 hours, with a shoulder of at least one hour. It is therefore fewer than the year's complete days (ERCOT 2019: 351 days ranked; 12 further complete days of 24 hours have a shoulder of 0 hours).
 
 **California has two sources, as two entities, never mixed.** `iso:caiso` is EIA-930 through November 2025, as before. `iso:caiso_own` is CAISO's own supply by fuel (`caiso_fuel_supply`) from June 2025: solar and wind are CAISO's, battery output is its batteries source, and demand is the sum of its thirteen sources (imports and batteries net), the load the supply serves. The two overlap from June to November 2025 and differ there: CAISO's own solar is larger than EIA's (`docs/methods/eia930_caiso_break.md`), and the sum of CAISO's sources is not EIA's demand.
 
@@ -101,3 +105,21 @@ Each number `/shoulder` shows carries its key (`site/components/Num.tsx`), which
 ## Checks against the table (session 2424)
 
 Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `shoulder_hours_monthly` 27,197 rows, January 2019 to 6 October 2026, 192 variables. By entity and freq: `iso:ercot` 11,891 monthly, 1,192 daily, 210 yearly; `iso:caiso` (EIA-930) 10,011, 995 and 189; `iso:caiso_own` (CAISO's own supply by fuel) 2,345, 312 and 52, the two California entities kept apart as the section on California's two sources says. Units MW, MWh, count, hour and ratio; geo US-TX and US-CA; no key given twice, every value a number. The table section's "`iso:ercot` or `iso:caiso`" predates `iso:caiso_own`, which the later section names. The Tables line was added so that the finder of held tables with no note sees it.
+
+## Rules stated in full (session 7503)
+
+Session 7503 (chain 304, 16 November 2026) recomputed the table two ways without the builder's code: every derived figure from the table's own average day (`replication/shoulder/replicate.py`), and every month and year of the two EIA grids from EIA's hourly workbooks (`replication/shoulder/from_hourly.py`: 22,092 of 22,092 values equal the table's rows). The recomputation needed these rules, which the sections above did not state or stated loosely. They are the builder's, unchanged:
+
+- **Hours.** An hour figure is a local hour of the day, 0 to 23, the hour's start; an end hour is the first hour after the run, so a run to midnight ends at 24 and a length is the end less the start.
+- **Ties.** The lowest hour of net load, the highest hour of solar and the evening's highest hour of net load are each the earliest hour that holds the value.
+- **The midday surplus** extends hour by hour, both ways from the lowest hour, while net load is below the mean, and stops at the day's edges.
+- **The second measure** extends both ways from the evening peak while net load is above the midpoint, backward no further than the first shoulder's start and forward no further than the day's last hour. `shoulder2_level_mw` is the midpoint.
+- **The fleet of `iso:caiso_own`** is California's (`iso:caiso` in `storage_buildout_monthly`): one fleet, two sources of hours.
+- **`fleet_hours`** is written to four decimals, and the hours covered are the smaller of the shoulder's length and that written value.
+- **`curtailed_mwh_per_day`** is the month's curtailed solar plus curtailed wind over the days of the month that `caiso_curtailment_daily` holds.
+- **A yearly mean** is over the year's months that hold the figure, each month counted once whatever its length. `year_worst10_mean_shoulder_hours_needed`, `year_worst10_mean_shoulder2_hours_needed` and `year_worst10_mean_battery_hours` are written only when all ten days have the figure.
+- **A ranked day's battery figures** are of the shoulder's hours only (`day_battery_discharge_mwh`: the hours in which output is above zero).
+- **Texas's battery series changes meaning.** EIA-930's battery column for ERCOT begins on 23 October 2024 and holds discharge only (never below zero) until 15 December 2025; from that day it is net of charging. A month before December 2025 therefore shows no charging in its average day, and December 2025 holds both. California's battery output is CAISO's own and is net throughout.
+- **Four decimals.** Every value is written to four decimals. A figure recomputed from the table's own average day can differ from the table's in the fourth decimal of a sum over 24 hours.
+
+The copy of the table on the machine that ran this (built 4 October 2026) holds 27,201 rows: by entity and freq as the section above counts, but 316 daily rows for `iso:caiso_own`. The warehouse's copy is newer (`warehouse/metadata/coverage.csv`: 27,489 rows to 17 October 2026, built 3 November 2026).
