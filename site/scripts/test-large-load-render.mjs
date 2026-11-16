@@ -169,6 +169,11 @@ ok(laws.includes('id="large-load-laws"') && count(laws, /data-law="/g) === 28 &&
 const lawKeys = [...laws.matchAll(/data-check="(largeload\|[^"]+)" data-raw="([^"]+)"/g)];
 ok(lawKeys.length >= 8 && lawKeys.every(([, k, raw]) => Number(raw) === L.largeLoadStat(file, k)), `the laws' ${lawKeys.length} counts are each the file's`);
 ok(file.laws.every((l) => laws.includes(`href="${l.url.replace(/&/g, "&amp;")}"`) && L.requirementsOf(l).every((p) => laws.includes(`data-law-topic="${p.topic}"`))), "every law links its own text, and each requirement is a topic with its words and cite on hover");
+// session 7204: a topic a law names twice is numbered in place
+const va = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["VA"], clearStates: () => {} }));
+const vaLaw = file.laws.find((l) => l.state === "VA"), vaTopics = L.requirementsOf(vaLaw).map((p) => p.topic);
+const twice = vaTopics.find((t) => vaTopics.filter((x) => x === t).length > 1);
+ok(twice && text(va).includes(`${twice} (1 of 2)`) && text(va).includes(`${twice} (2 of 2)`) && count(va, /data-law-topic="/g) === vaTopics.length, `Virginia's law names "${twice}" twice: the two are numbered, and each requirement is drawn once`);
 const md = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["MD"], clearStates: () => {} }));
 ok(count(md, /data-law="/g) === 2 && text(md).includes("2 of 28 shown (the State filter: MD;"), "the monitor's State filter chooses the laws: Maryland's two");
 // session 7204 (the read of /policy): a state with no row is never "no law": what the research found, or did not reach

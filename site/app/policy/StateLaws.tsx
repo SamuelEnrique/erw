@@ -81,7 +81,10 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
                     ? <Tip tip={`${l.threshold} As the text prints it: ${l.threshold_cite}`} data={{ "law-threshold": "1" }}>{cut(l.threshold, 90)}</Tip>
                     : <Tip tip={`The text read names no smallest load. ${l.threshold_cite.replace(/^searched:\s*/i, "Searched: ")}`.trim()}>not published</Tip>}</td>
                   <td className="py-1 pr-3" data-law-requires={l.id}>
-                    {requirementsOf(l).map((p, i) => <span key={i} className="mr-2 inline-block"><Tip tip={`${p.words} As the text prints it: ${p.cite}`} data={{ "law-topic": p.topic }}>{p.topic}</Tip></span>)}
+                    {/* session 7204 (the read of /policy, row 9): a topic a law names twice is numbered, so two requirements
+                        under one topic do not read as one word drawn twice */}
+                    {requirementsOf(l).map((p, i, all) => { const same = all.filter((x) => x.topic === p.topic).length, nth = all.slice(0, i + 1).filter((x) => x.topic === p.topic).length;
+                      return <span key={i} className="mr-2 inline-block"><Tip tip={`${p.words} As the text prints it: ${p.cite}`} data={{ "law-topic": p.topic }}>{same > 1 ? `${p.topic} (${nth} of ${same})` : p.topic}</Tip></span>; })}
                   </td>
                 </tr>
               ))}
