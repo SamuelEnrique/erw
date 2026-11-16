@@ -24,7 +24,8 @@ def open_rows(tool):
         m = re.match(r"^\| (\d+) \|", line)
         if m:
             state = line.rstrip(" |").rsplit("|", 1)[-1].strip()
-            if not state.startswith("fixed") and state != "not a fault":
+            # session 7004 (chain 301): a row the data machine found right later reads "not a fault now (...)"
+            if not state.startswith("fixed") and not state.startswith("not a fault"):
                 rows.append((int(m.group(1)), state))
     return rows
 

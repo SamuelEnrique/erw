@@ -65,3 +65,25 @@ class TheReplicationsGrouping(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Request28RuleChanges(unittest.TestCase):
+    """Session 7009 (the old laptop's data request 28): the grid operators' and FERC's large-load steps as documents."""
+
+    def test_bodies_and_kinds(self):
+        import monitor_site as MS
+        self.assertEqual(MS.change_body("ER26-3515-000", "order issued", "PJM Interconnection, L.L.C."), "FERC")
+        self.assertEqual(MS.change_body("EL26-71-000", "approved", "California Independent System Operator"), "CAISO")
+        self.assertEqual(MS.change_body("PGRR 145; PUC Project No. 59142", "other", "Electric Reliability Council of Texas"), "ERCOT")
+        self.assertEqual(MS.change_body("Project No. 59142", "order issued", "Electric Reliability Council of Texas"), "PUCT")
+        self.assertEqual(MS.change_body("M-2026-3064961", "amended", "Pennsylvania Public Utility Commission"), "PA PUC")
+        ch = pd.DataFrame([dict(event_id="llchange:x-01", event_date="2026-10-09", parties="PJM Interconnection, L.L.C.",
+                                status="order issued", x_group="operators_federal", x_docket="ER26-3515-000",
+                                x_rule_name="PJM Tariff definition of Large Load", x_what="FERC accepted", source_url="https://x",
+                                x_state=""),
+                           dict(event_id="llchange:y-01", event_date="2026-10-09", parties="Duke", status="filed",
+                                x_group="duke", x_docket="", x_rule_name="r", x_what="w", source_url="https://y", x_state="")])
+        a = MS.change_actions(ch)
+        self.assertEqual(list(a["event_id"]), ["llchange:x-01"], "only the operators_federal group")
+        self.assertEqual((a.iloc[0]["body"], a.iloc[0]["instrument"], a.iloc[0]["action_status"]), ("FERC", "order", "issued"))
+        self.assertEqual(a.iloc[0]["sector"], "", "not scored, so no sector")

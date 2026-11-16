@@ -1,0 +1,338 @@
+{
+ "built": "2026-11-16T10:49:27Z",
+ "method": "warehouse/derived/ercot_zone_wires.py (its docstring says what the zones are and are not)",
+ "source": "ercot_node_wires_utilities (569 settlement points; retrieved 20261023T112845Z); EIA-861 service territories and ERCOT's CDR report through it",
+ "zones": {
+  "COASTAL": {
+   "node_counties": 9,
+   "wires": [
+    {
+     "utility": "AEP Texas Central Company (3278)",
+     "counties": 8,
+     "named": [
+      "CALHOUN",
+      "CAMERON",
+      "KENEDY",
+      "MATAGORDA",
+      "NUECES",
+      "REFUGIO",
+      "SAN PATRICIO",
+      "WILLACY"
+     ]
+    },
+    {
+     "utility": "CenterPoint Energy (8901)",
+     "counties": 2,
+     "named": [
+      "BRAZORIA",
+      "MATAGORDA"
+     ]
+    },
+    {
+     "utility": "Nueces Electric Cooperative (13830)",
+     "counties": 2,
+     "named": [
+      "KENEDY",
+      "NUECES"
+     ]
+    },
+    {
+     "utility": "Texas-New Mexico Power Co (40051)",
+     "counties": 2,
+     "named": [
+      "BRAZORIA",
+      "MATAGORDA"
+     ]
+    }
+   ]
+  },
+  "HOUSTON": {
+   "node_counties": 5,
+   "wires": [
+    {
+     "utility": "CenterPoint Energy (8901)",
+     "counties": 5,
+     "named": [
+      "CHAMBERS",
+      "FORT BEND",
+      "GALVESTON",
+      "HARRIS",
+      "WALLER"
+     ]
+    },
+    {
+     "utility": "Texas-New Mexico Power Co (40051)",
+     "counties": 1,
+     "named": [
+      "GALVESTON"
+     ]
+    }
+   ]
+  },
+  "NORTH": {
+   "node_counties": 39,
+   "wires": [
+    {
+     "utility": "Oncor Electric Delivery Company LLC (44372)",
+     "counties": 36,
+     "named": [
+      "ANGELINA",
+      "BELL",
+      "BOSQUE",
+      "BROWN",
+      "CHEROKEE",
+      "COLLIN",
+      "COMANCHE",
+      "COOKE",
+      "DALLAS",
+      "DELTA",
+      "DENTON",
+      "EASTLAND",
+      "ELLIS",
+      "ERATH",
+      "FALLS",
+      "FANNIN",
+      "FREESTONE",
+      "HENDERSON",
+      "HILL",
+      "HOOD",
+      "HOPKINS",
+      "HUNT",
+      "JACK",
+      "JOHNSON",
+      "KAUFMAN",
+      "LAMAR",
+      "LIMESTONE",
+      "MCLENNAN",
+      "MILLS",
+      "NACOGDOCHES",
+      "NAVARRO",
+      "PALO PINTO",
+      "RUSK",
+      "SOMERVELL",
+      "TARRANT",
+      "WISE"
+     ]
+    },
+    {
+     "utility": "Texas-New Mexico Power Co (40051)",
+     "counties": 19,
+     "named": [
+      "BOSQUE",
+      "COLLIN",
+      "COMANCHE",
+      "COOKE",
+      "DALLAS",
+      "DENTON",
+      "EASTLAND",
+      "ERATH",
+      "FANNIN",
+      "HILL",
+      "HOOD",
+      "HUNT",
+      "JACK",
+      "JOHNSON",
+      "LAMAR",
+      "MCLENNAN",
+      "PALO PINTO",
+      "ROBERTSON",
+      "SOMERVELL"
+     ]
+    },
+    {
+     "utility": "AEP Texas North Company (20404)",
+     "counties": 2,
+     "named": [
+      "BROWN",
+      "EASTLAND"
+     ]
+    }
+   ]
+  },
+  "PANHANDLE": {
+   "node_counties": 15,
+   "wires": [
+    {
+     "utility": "AEP Texas North Company (20404)",
+     "counties": 4,
+     "named": [
+      "BRISCOE",
+      "CHILDRESS",
+      "DICKENS",
+      "MOTLEY"
+     ]
+    }
+   ]
+  },
+  "SOUTH": {
+   "node_counties": 37,
+   "wires": [
+    {
+     "utility": "AEP Texas Central Company (3278)",
+     "counties": 24,
+     "named": [
+      "ATASCOSA",
+      "BEE",
+      "BROOKS",
+      "CALDWELL",
+      "COLORADO",
+      "DIMMIT",
+      "FRIO",
+      "GOLIAD",
+      "GUADALUPE",
+      "HIDALGO",
+      "JACKSON",
+      "JIM HOGG",
+      "JIM WELLS",
+      "KARNES",
+      "KINNEY",
+      "LA SALLE",
+      "MAVERICK",
+      "STARR",
+      "UVALDE",
+      "VICTORIA",
+      "WEBB",
+      "WHARTON",
+      "WILSON",
+      "ZAPATA"
+     ]
+    },
+    {
+     "utility": "Oncor Electric Delivery Company LLC (44372)",
+     "counties": 7,
+     "named": [
+      "BASTROP",
+      "BURNET",
+      "HIDALGO",
+      "MASON",
+      "MILAM",
+      "TRAVIS",
+      "WILLIAMSON"
+     ]
+    },
+    {
+     "utility": "CenterPoint Energy (8901)",
+     "counties": 3,
+     "named": [
+      "AUSTIN",
+      "COLORADO",
+      "WHARTON"
+     ]
+    },
+    {
+     "utility": "AEP Texas North Company (20404)",
+     "counties": 2,
+     "named": [
+      "KIMBLE",
+      "MASON"
+     ]
+    },
+    {
+     "utility": "Nueces Electric Cooperative (13830)",
+     "counties": 2,
+     "named": [
+      "BROOKS",
+      "JIM WELLS"
+     ]
+    }
+   ]
+  },
+  "WEST": {
+   "node_counties": 43,
+   "wires": [
+    {
+     "utility": "Oncor Electric Delivery Company LLC (44372)",
+     "counties": 32,
+     "named": [
+      "ANDREWS",
+      "ARCHER",
+      "BAYLOR",
+      "BORDEN",
+      "CLAY",
+      "CONCHO",
+      "CRANE",
+      "CULBERSON",
+      "DAWSON",
+      "ECTOR",
+      "FISHER",
+      "GLASSCOCK",
+      "HOWARD",
+      "KENT",
+      "LYNN",
+      "MARTIN",
+      "MIDLAND",
+      "MITCHELL",
+      "NOLAN",
+      "PECOS",
+      "REAGAN",
+      "REEVES",
+      "SCURRY",
+      "SHACKELFORD",
+      "STERLING",
+      "TOM GREEN",
+      "UPTON",
+      "WARD",
+      "WICHITA",
+      "WILBARGER",
+      "WINKLER",
+      "YOUNG"
+     ]
+    },
+    {
+     "utility": "AEP Texas North Company (20404)",
+     "counties": 26,
+     "named": [
+      "ARCHER",
+      "BAYLOR",
+      "BREWSTER",
+      "CALLAHAN",
+      "CONCHO",
+      "CRANE",
+      "CROCKETT",
+      "FISHER",
+      "FOARD",
+      "HASKELL",
+      "JONES",
+      "KENT",
+      "KNOX",
+      "NOLAN",
+      "PECOS",
+      "REAGAN",
+      "REEVES",
+      "RUNNELS",
+      "SCHLEICHER",
+      "SHACKELFORD",
+      "STERLING",
+      "TAYLOR",
+      "TOM GREEN",
+      "UPTON",
+      "WICHITA",
+      "WILBARGER"
+     ]
+    },
+    {
+     "utility": "Texas-New Mexico Power Co (40051)",
+     "counties": 9,
+     "named": [
+      "ARCHER",
+      "BAYLOR",
+      "CLAY",
+      "CROCKETT",
+      "PECOS",
+      "REEVES",
+      "WARD",
+      "WINKLER",
+      "YOUNG"
+     ]
+    },
+    {
+     "utility": "AEP Texas Central Company (3278)",
+     "counties": 1,
+     "named": [
+      "VAL VERDE"
+     ]
+    }
+   ]
+  }
+ }
+}

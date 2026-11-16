@@ -72,9 +72,64 @@ def impact_reads(path=IMPACT):
     return {r["event_id"]: (r["impact"], r["quote"], r["model"]) for r in rows if r.get("kept") == "yes" and r.get("impact")}
 
 
-def build(actions, reads=None, impacts=None, today=None):
-    """The file's content (a dict) from the frames of policy_actions and policy_reads."""
+# Session 7009 (chain 301; the old laptop's data request 28): FERC's orders in the grid operators' large-load dockets,
+# and the commissions' and operators' steps beside them, are not in the Federal Register, so they were no records. The
+# research pass of 13 November holds 15 of them (utility_large_load_rule_changes, group operators_federal), each with its
+# document. Each is a document of the monitor by these written rules: its body by its docket (a FERC docket, ER or EL, is
+# FERC's, unless the step is a board's approval, which is its operator's; a Texas PUC project number the PUCT's; an
+# ERCOT revision request, NPRR or PGRR, ERCOT's; a Pennsylvania PUC docket, M- or C-, the PA PUC's; else the party's), its
+# instrument and status by its kind of change (CHANGE_KIND), its title the rule's name, its date the change's.
+CHANGE_KIND = {"order issued": ("order", "issued"), "filed": ("application", "filed"), "approved": ("approval", "issued"),
+               "amended": ("order", "issued"), "in effect": ("order", "effective"), "suspended": ("order", "stayed"),
+               "hearing set": ("meeting", "scheduled"), "other": ("notice", "issued")}
+SHORT = {"Electric Reliability Council of Texas": "ERCOT", "California Independent System Operator": "CAISO",
+         "PJM Interconnection": "PJM", "Southwest Power Pool": "SPP"}
+
+
+def change_body(docket, status, party):
+    d = docket or ""
+    if re.match(r"\s*E[LR]\d{2}-\d", d):
+        if status == "approved":
+            return next((v for k, v in SHORT.items() if party.startswith(k)), party)
+        return "FERC"
+    if re.match(r"\s*(NPRR|PGRR)", d):    # a revision request first: "PGRR 145; PUC Project No. 59142" is ERCOT's step
+        return "ERCOT"
+    if re.search(r"\bProject No\.\s*\d", d):
+        return "PUCT"
+    if re.match(r"\s*[MC]-20\d\d-", d):
+        return "PA PUC"
+    return next((v for k, v in SHORT.items() if party.startswith(k)), party)
+
+
+def change_actions(changes):
+    """The documents of the 15 rows (or as many as the table holds), shaped as policy_actions' rows."""
+    if changes is None or not len(changes):
+        return pd.DataFrame()
+    out = []
+    for r in changes.fillna("").to_dict("records"):
+        if r.get("x_group") != "operators_federal":
+            continue
+        inst, st = CHANGE_KIND.get(r["status"], ("notice", "issued"))
+        body = change_body(r["x_docket"], r["status"], r["parties"])
+        out.append({"event_id": r["event_id"], "event_date": r["event_date"][:10], "event_type": "large_load_rule_change",
+                    "agency": body, "body": body, "parties": r["parties"], "title": r["x_rule_name"],
+                    "docket": r["x_docket"], "source_url": r["source_url"], "status": r["status"], "abstract": r["x_what"],
+                    "instrument": inst, "action_status": st, "dates": "", "dates_evidence": "", "next_step": "",
+                    "next_step_date": "", "next_step_evidence": "", "figure_value": "", "figure_unit": "", "figure_evidence": "",
+                    "docket_ids": "", "fields_from": "utility_large_load_rule_changes", "scope": "", "states": r.get("x_state", ""),
+                    "sector": "", "significance": "", "why": "", "related_urls": "", "news_story_ids": "",
+                    "news_story_urls": ""})
+    return pd.DataFrame(out)
+
+
+def build(actions, reads=None, impacts=None, today=None, changes=None):
+    """The file's content (a dict) from the frames of policy_actions and policy_reads (and, session 7009, the rule
+    changes of the grid operators' and FERC's large-load dockets)."""
     a = actions.copy().fillna("")
+    extra = change_actions(changes)
+    if len(extra):
+        a = pd.concat([a, extra.reindex(columns=sorted(set(a.columns) | set(extra.columns))).fillna("")],
+                      ignore_index=True).fillna("")
     for c in pf.FIELD_COLS:
         if c not in a.columns:
             a[c] = ""
@@ -194,7 +249,9 @@ def main(argv=None):
         return 0
     reads_path = os.path.join(args.in_dir, "policy_reads.csv")
     reads = read(reads_path) if os.path.exists(reads_path) else None
-    return write(build(read(path), reads, impact_reads()), args.out, args.daily)
+    cp = os.path.join(args.in_dir, "utility_large_load_rule_changes.csv")
+    changes = read(cp) if os.path.exists(cp) else None
+    return write(build(read(path), reads, impact_reads(), changes=changes), args.out, args.daily)
 
 
 if __name__ == "__main__":

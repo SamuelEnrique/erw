@@ -32,6 +32,9 @@ UNREAD_PUBLIC_KNOWN = {
     # of 6 November 2026 as utility_large_load_tariffs is (each written row a commission's copy, a filed tariff book, an SEC
     # filing, a grid operator's posted document or a legislature's text; rows whose only host asks permission not written)
     "state_large_load_laws", "utility_large_load_rule_changes", "utility_large_load_rules",
+    # session 7008 (chain 301): the fourth table of the same research file, the utilities' dated queue totals, by the
+    # same ruling and the same row-level holds
+    "utility_large_load_queue_totals",
 }
 
 

@@ -549,6 +549,19 @@ Since session 7002 the file also carries `plain_doc` (the document a plain read 
 document that scored the highest significance, with the scorer's why), and 1,033 of 1,523 records hold dated steps,
 the fields of 1,792 documents read from their printed texts.
 
+**The rule changes (session 7009).** FERC's orders in the grid operators' large-load dockets, and the commissions' and
+operators' steps beside them, are not printed in the Federal Register. The research pass of 13 November holds 15 of them
+(`utility_large_load_rule_changes`, group `operators_federal`), each with its document; `monitor_site.py` reads them as
+documents of the monitor by written rules: the body by the docket (a FERC docket, ER or EL, is FERC's unless the step
+is a board's approval, which is its operator's; an ERCOT revision request, NPRR or PGRR, is ERCOT's even beside a PUC
+project number; a Texas PUC project number the PUCT's; a Pennsylvania PUC docket, M- or C-, the PA PUC's; else the
+party's), the instrument and status by the kind of change (order issued: an order, issued; filed: an application,
+filed; approved: an approval, issued; amended: an order, issued; in effect: an order, effective; suspended: an order,
+stayed; hearing set: a meeting, scheduled; other: a notice, issued), the title the rule's name, no significance and no
+sector (not scored). On 16 November they joined 12 records, five of them records of FERC dockets the monitor held
+(EL26-71, EL26-67, ER26-3591); the file holds 2,078 documents and 1,533 records, and the replication reads 23,269 of
+23,269 equal.
+
 ## 17. What chains 169 and 178 changed in the fields, and how well they hold (sessions 3122 to 3145)
 
 Section 14 describes the fields as session 3056 wrote them. Since then:

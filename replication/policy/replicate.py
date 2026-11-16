@@ -182,6 +182,37 @@ def main(argv=None):
     except (OSError, ValueError, KeyError) as exc:
         print(f"the inputs could not be read: {exc}")
         return 2
+    # session 7009: the grid operators' and FERC's large-load steps of utility_large_load_rule_changes (group
+    # operators_federal) are documents too, by the method's written rules (section 16, "The rule changes")
+    cp = os.path.join(a.tables, "utility_large_load_rule_changes.csv")
+    if os.path.exists(cp):
+        kind = {"order issued": ("order", "issued"), "filed": ("application", "filed"), "approved": ("approval", "issued"),
+                "amended": ("order", "issued"), "in effect": ("order", "effective"), "suspended": ("order", "stayed"),
+                "hearing set": ("meeting", "scheduled"), "other": ("notice", "issued")}
+        short = {"Electric Reliability Council of Texas": "ERCOT", "California Independent System Operator": "CAISO",
+                 "PJM Interconnection": "PJM", "Southwest Power Pool": "SPP"}
+
+        def party(p):
+            return next((v for k, v in short.items() if p.startswith(k)), p)
+
+        for r in rows(cp):
+            if r["x_group"] != "operators_federal":
+                continue
+            d = r["x_docket"]
+            if re.match(r"\s*E[LR]\d{2}-\d", d):
+                body = party(r["parties"]) if r["status"] == "approved" else "FERC"
+            elif re.match(r"\s*(NPRR|PGRR)", d):
+                body = "ERCOT"
+            elif re.search(r"Project No\.\s*\d", d):
+                body = "PUCT"
+            elif re.match(r"\s*[MC]-20\d\d-", d):
+                body = "PA PUC"
+            else:
+                body = party(r["parties"])
+            inst, st = kind.get(r["status"], ("notice", "issued"))
+            docs.append(dict(event_id=r["event_id"], event_date=r["event_date"][:10], docket=d, body=body, agency=body,
+                             title=r["x_rule_name"], instrument=inst, action_status=st, dates="", figure_value="",
+                             figure_unit="", significance="", sector="", source_url=r["source_url"]))
     by_id = {d["event_id"]: d for d in docs}
     rid = group(docs)
     recs = defaultdict(list)
