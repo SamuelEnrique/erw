@@ -68,6 +68,20 @@ Beside the groups: the top twelve tiles (`TOP_TWELVE`), the week's table by hub 
 
 Every number on the page carries a key (`data-n`, the row's id and the figure's name). `site/scripts/check-board.mjs` checks the file first (`boardFileChecks`: a key per cell, the numbers and sources, a floor a group, the placeholders' words with no digit, the new figures' consistency; `--file` alone, with no server) and then every marked number of the served page against the file; `check-board-v4.mjs` the same for the earlier marks. The daily run refuses a board its tests refuse (`tests.test_session132`, `240`, `1118`, `1139`), and `page_keep.py` takes a row only where it is no older and no shorter than the one held. Since session 3889 (13 November 2026) it takes or keeps Henry Hub's row and every spark spread and implied heat rate as one set (`BOARD_TOGETHER`): a spread takes the newest gas day up to 4 days back, so a kept spread beside a newer gas row was no longer its inputs, and on 12 and 13 November the board's tests refused the runner's board for it. The rows' CSV (`/board/rows`) carries every figure with its source, and its Python and Stata readers (`/board/rows/python`, `/board/rows/stata`) read it as it is. The tests: `tests/test_board_1601.py` to `test_board_1616.py`, each on real rows of the tables (`tests/fixtures/board_16NN/`) or, where a rule needs dates placed around a year's end, on series made in memory and said so.
 
+### The replication (session 7010, chain 301)
+
+`replication/board/replicate.py` recomputes, from each row's public series file (`site/public/board/s/<id>.json`, what the
+workbench draws) and these columns' rules alone, every figure of `site/data/board.json` that rests on a series: the latest
+and its date, the day, week, month, year and YTD moves with their bases and percents, the 7-day and 30-day means and
+counts, the 30-day low and high, the 12-month mean and the one-year range. A monthly (quarterly) row's moves are by
+calendar period: the month before, the same month (quarter) a year before, December (the fourth quarter) for YTD, and
+none where that period is not held. A second part checks the power rows' series against the warehouse's hourly tables
+(`iso_dam_hub_prices`, `iso_rtm_hub_prices`): each complete local day's mean, an hour of real time being the mean of its
+four 15-minute intervals. On the file built 15 November 2026: 30,587 of 30,587 equal (1,204 rows, 1,616 days of power
+checked; 111 rows have no series file). The file carries a percent beside some moves the page does not show
+(`PERCENT(row)` in `site/components/board/BoardView.tsx` decides). `replicate.do` rebuilds five day-ahead figures in
+Stata from `iso_dam_hub_prices.csv`, its expected values at its top.
+
 ### What the board cannot show, and why, publisher by publisher
 
 | Publisher | What | Why | What would supply it |
