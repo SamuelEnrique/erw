@@ -13,6 +13,12 @@ Started by the queue step (`310-resume-chain-301.md` taken at `5eed3497e`; the p
 - **Gate l** (`wip/c301-last`, `34b9cc9eb`: sessions 7019 to 7021 with gate k's one fix) passed every step at 19:11 UTC. Landed through `task/7022-landing` (run 43938253588), merged at `1f7bd79c9`. Snapshots `before-34b9cc9e` and `after-34b9cc9e`, the second after Vercel's status read success: **0 differences** (expected: every page is in review).
 - The queue push before it (`d3a145d91`): `after-e6ffcaa6` against `before-34b9cc9e`: **0 differences**. No before snapshot was taken just before that push (a queue file only); the last after snapshot stands for it.
 
+## Gates m, n and o (`wip/c301-final`)
+
+- **Gate m** (`9c26cc668`, 21:24 UTC) failed 13 tests. (a) Test 3298: `package/llms.txt` had been written before the package's table catalogue, so its public list lacked the two new tables; written again. (b) Test 190's replication (10): lock3 had rebuilt every datacenter year file after the daily run had built its export, so the two disagreed; the year files put back to main's and only `texas_delivery.json` carried. (c) Test 190's note test pinned the 2026 matrices as "filed"; the test and the two method notes (`datacenter_pays_algorithm.md`, `datacenter_cost.md`) now say approved by the Order of 5 November. (d) Test 720: the siting cards price ERCOT's transmission at the Commission's newest approved rate, now 2026's: `siting-card.mjs` wrote the cards again (8.62 USD per MWh where 2025's 7.83 stood; HB_WEST all-in 41.83 from 41.04, LZ_AEN 47.63 from 46.83, a year at 1 GW USD 329,818,140 from 323,536,168).
+- **Gate n** (`7f40348f1`, 21:48) failed one test, 3701: Research's replication figures (`replication/analysis/page_figures.*`) still held the cards' old callouts; `figures_of_the_page.py` wrote them again (78 figures).
+- **Gate o** (`2e2f5a994`, 22:12): see Landings.
+
 ## The daily run's refused push (the race the landed retry fixes)
 
 - The data machine's own daily run (17:00 UTC) pulled at about 19:33 and ran its guard's suite; gate l merged at 19:34, so its one push was refused ("fetch first"), as `landing-races-daily-push` describes. The landing had been pushed at 19:20, while the run was in its page files. The retry that fixes this landed with gate l itself, after the run had started.
