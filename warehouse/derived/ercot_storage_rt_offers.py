@@ -194,6 +194,13 @@ def main(argv=None):
             "License: public (ERCOT's terms allow raw data to be used, reproduced and redistributed in compilations, charts and analyses, https://www.ercot.com/help/terms).",
         ]
         ip.write_csv(s, NAME, header, log)
+        # session 7022: the rows name SOURCE, which coverage must find in sources.csv to set the table's license (as
+        # ercot_node_peak_premium.py registers its own); the publisher's report stays in the header's Source line
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
+                                report="ERCOT storage fleet's real-time energy offers to sell by price band, by month, from ERCOT's "
+                                       "60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED, NP3-965-ER)",
+                                report_url=METHOD_URL, document_list="docs/methods/ercot_storage_realtime.md", license="public",
+                                tables=[NAME])])
         print(f"{NAME}: {len(s):,} rows, months {', '.join(sorted(months))}")
         rc = 0
     except Exception as exc:
