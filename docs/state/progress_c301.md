@@ -61,6 +61,7 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 
 ## Goal 3: the CAISO's FERC compliance filing on large loads
 
+- 16 November 19:23 UTC: not filed (the same bytes, sha256 578c69995d9a0388; the robots file 404 in a call of its own). (7022)
 - 16 November 15:08 UTC: not filed (the same bytes, sha256 578c69995d9a0388). (7017)
 
 - 16 November about 09:45 UTC: not filed (the process page's bytes unchanged, sha256 578c69995d9a0388). Checked again at a later session's start. (7004)
@@ -82,6 +83,8 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 - Gate h landed at `0bd9c936c` (run 43905489885), 0 differences; it raced the GitHub daily run's push (fixed at the cause in the workflow and in the data machine's run). (7020, 7021)
 - Gate j (the desk's sixteen rows: old laptop 17 to 28, portable 34 to 37, `e6ffcaa68`) landed at `492752123` (run 43922473644), snapshots `before-e6ffcaa6` and `after-e6ffcaa6`: 0 differences. (7021)
 - Gate k (`wip/c301-last`, `22996d826`: sessions 7019 to 7021) started 18:14 UTC. Later work on `wip/c301-final` (worktree `erw-c301x`). (7021)
+- Gate k failed on test 90 alone (fixed in `8472d9416`); gate l (`34b9cc9eb`, the same with the fix) passed every step at 19:11 UTC. (7021)
+- Session 7022 (the resume file 310 taken by the queue step; pointer 311 pushed at `d3a145d91`): gate l landed through `task/7022-landing` (run 43938253588), merged at `1f7bd79c9`. Freeze: none. Snapshots `before-34b9cc9e` and `after-34b9cc9e` (the second after the deploy's status read success): 0 differences. The queue push before it, `after-e6ffcaa6` against `before-34b9cc9e`: 0 differences. (7022)
 
 ## The eight lab-desktop tools of the done line
 
@@ -106,6 +109,9 @@ Each has `replication/<tool>/replicate.py` and `replicate.do` (not run: no Stata
 - Done in session 7021: 13 (the page figures, 25,110 of 25,110), 18 (every queue in full); 36's tables rebuilt daily on the data machine from now (`dm_peak_premium`).
 - Waiting for the data lock (the data machine's daily run holds it from 17:00 UTC): `runs/c301/lock2.sh` (requests 31, 35, 30), then the two new tables' registrations.
 - Open: none unread; the writes above.
+- Marked in the request file by session 7022 (done in 7016 to 7020, not marked then): 4 (in part: the contracts' load waits), 6, 8, 24, 32, 36, 25 (a). (7022)
+- Done in session 7022: 5 (the shoulder replication on the warehouse's tables: 21,592 of 21,593; 22,230 of 22,230 from EIA's hours of 16 November); 45 (code: the 2026 matrices approved by the Commission's Order of 5 November 2026, Docket No. 59080 item 88; the table and the page file wait for the lock). (7022)
+- Open after session 7022's reads: 28 (the impact rules' rebuild, the lock), 30, 31, 35 (`runs/c301/lock2.sh`, the lock), 20 (the contracts' next pull), 25 (b), 37 to 44, 46 (waiting: ERCOT publishes summer 2026's four intervals by 1 December), 47, 48. (7022)
 
 ## Needs the key
 
