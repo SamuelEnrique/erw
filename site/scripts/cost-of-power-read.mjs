@@ -4,10 +4,13 @@
 // (read only), as scripts/demand-growth-figures.mjs of session 7508 does for its page. Nothing is asked of a server.
 // Each case writes <id>.html, <id>.txt (the words a reader sees, hovers in brackets) and summary.json (the model's figures).
 //   node --import ./scripts/tsx-register.mjs scripts/cost-of-power-read.mjs <tables dir> <out dir> [case ...]
+// Session 7524: drawer(dir) is exported, so scripts/test-cost-of-power-read.mjs draws the same page the same way; the
+// cases run only when this file is the one node was given.
 import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
 import { register } from "node:module";
+import { pathToFileURL } from "node:url";
 import { createElement as h } from "react";
 
 register(`data:text/javascript,${encodeURIComponent(`
@@ -21,9 +24,12 @@ export async function load(url, context, next) {
   return next(url, context);
 }`)}`);
 
-const [dir, outDir, ...only] = process.argv.slice(2);
-if (!dir || !outDir) { console.error("usage: cost-of-power-read.mjs <tables dir> <out dir> [case ...]"); process.exitCode = 2; }
-else await main();
+const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+const [dir, outDir, ...only] = direct ? process.argv.slice(2) : [];
+if (direct) {
+  if (!dir || !outDir) { console.error("usage: cost-of-power-read.mjs <tables dir> <out dir> [case ...]"); process.exitCode = 2; }
+  else await main();
+}
 
 /** One line of a CSV into its fields (quotes, doubled quotes). */
 function fields(line) {
@@ -38,8 +44,8 @@ function fields(line) {
   return out;
 }
 /** The rows of a table file a filter keeps, read line by line (the two largest files are hundreds of megabytes). */
-async function readTable(name, keep) {
-  const rl = readline.createInterface({ input: fs.createReadStream(path.join(dir, `${name}.csv`), "utf-8"), crlfDelay: Infinity });
+async function readTable(from, name, keep) {
+  const rl = readline.createInterface({ input: fs.createReadStream(path.join(from, `${name}.csv`), "utf-8"), crlfDelay: Infinity });
   let cols = null; const rows = []; let pending = "";
   for await (const raw of rl) {
     if (!cols && raw.startsWith("#")) continue;
@@ -56,10 +62,11 @@ async function readTable(name, keep) {
   return rows;
 }
 
-async function main() {
-  fs.mkdirSync(outDir, { recursive: true });
+/** The page drawn as a visitor's request would draw it, its reads of the live set answered from the table files in
+ * `dir` (read only): { draw(query) -> HTML, textOf(HTML) -> words, M (the page's model), log (each read answered) }. */
+export async function drawer(dir) {
   const cache = new Map();
-  const table = (name, keep = {}) => { if (!cache.has(name)) cache.set(name, readTable(name, keep)); return cache.get(name); };
+  const table = (name, keep = {}) => { if (!cache.has(name)) cache.set(name, readTable(dir, name, keep)); return cache.get(name); };
   const BAS = ["eia930:ERCO", "eia930:CISO", "eia930:NYIS", "eia930:ISNE", "eia930:SWPP"];
   const KEEP = {
     carbon_intensity_hourly: { pre: (l) => BAS.some((b) => l.startsWith(`${b},intensity_demand,`)) },
@@ -131,7 +138,12 @@ async function main() {
     s = s.replace(/<option[^>]*>/g, "\n  option: ").replace(/<\/(td|th)>/g, " | ").replace(/<\/(p|div|tr|li|h1|h2|h3|h4|section|table|summary|label|legend|caption|details|form|nav|option)>/g, "\n");
     return decode(s.replace(/<[^>]+>/g, " ")).split("\n").map((l) => l.replace(/\s+/g, " ").trim()).filter(Boolean).join("\n");
   };
+  return { draw, textOf, M, log };
+}
 
+async function main() {
+  fs.mkdirSync(outDir, { recursive: true });
+  const { draw, textOf, M, log } = await drawer(dir);
   const CASES = {
     c1_rt: { grid: "ercot", region: "LZ_WEST", mw: "300", run: "flat", buy: "rt" },
     c1_da: { grid: "ercot", region: "LZ_WEST", mw: "300", run: "flat", buy: "da" },

@@ -25,6 +25,14 @@ import { GRID_STATE, leadingNumber, statedStat, stageWords, type Stated, type St
 import type { ReactNode } from "react";
 
 const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
+/** Session 7524 (the read of 16 November 2026, row 6): months (YYYY-MM) by name, "November 2025, January 2026 and
+ * October 2026". California's twelve-month carbon stood on 6 of 12 months, the six named nowhere. */
+export function monthList(ms: string[]): string {
+  const n = ms.map(monthName);
+  return n.length < 2 ? n.join("") : `${n.slice(0, -1).join(", ")} and ${n.at(-1)}`;
+}
+// Session 7524 (the read, row 7): the card "Its own hours against the grid's average" wrote the grid's mean whole (151)
+// beside the sentence's 150.52 for the same figure; both are now the same key, written by lib/format's shown.
 /** A number of the answers with its check key: the figure is statOf's, by the stat's name, so that the page's raw value
  * and check-values' recomputation are one definition; the text is lib/format's shown (a whole number, else two
  * decimals), or USD short inside data-format="usd", as check-values reads them. */
@@ -170,11 +178,11 @@ export function HowClean({ a, f, b }: { a: Answers; f: AnswerFacts; b?: SiteB })
       </p>
       <HeadlineRow>
         <HeadlineNumber label="This load's carbon, last twelve months" value={<><N pre={f.pre} stat={`co2:l12:kg:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted">kg CO2 per MWh</span></>}
-          note={<>{f.gridName}&apos;s intensity of consumed electricity, month by month, weighted by this load&apos;s energy in each month{l.months < l.of ? ` (${l.of - l.months} of the twelve months ${l.of - l.months === 1 ? "has" : "have"} no intensity in the table and ${l.of - l.months === 1 ? "is" : "are"} left out)` : ""}; scenario A runs {wayLabel(w.a)}.</>} />
+          note={<>{f.gridName}&apos;s intensity of consumed electricity, month by month, weighted by this load&apos;s energy in each month{l.months < l.of ? <span data-carbon-left={l.of - l.months}>{` (${l.of - l.months} of the twelve months ${l.of - l.months === 1 ? "has" : "have"} no intensity in the table and ${l.of - l.months === 1 ? "is" : "are"} left out${l.left?.length ? `: ${monthList(l.left)}` : ""}${win.hours ? "; the hour-by-hour figure beside it is over every hour the hourly table holds, those months' included" : ""})`}</span> : ""}; scenario A runs {wayLabel(w.a)}.</>} />
         <HeadlineNumber label="Tonnes of CO2 a year" value={<N pre={f.pre} stat={`co2:l12:tonnes:${w.a}`} a={a} />}
           note={<>for {f.size}: the rate of the {l.months} of {l.of} months with an intensity, on the year&apos;s {whole(l.energy * a.mw)} MWh.{w.differ ? <span data-answer-b="clean"> Scenario B ({wayLabel(w.b)}): {c.l12[w.b].tonnesPerMw === null ? "not held" : <><N pre={f.pre} stat={`co2:l12:tonnes:${w.b}`} a={a} /> tonnes</>}.</span> : null}</>} />
-        <HeadlineNumber label="Its own hours against the grid's average" value={win.ways[w.a] !== null && win.grid !== null ? <><N pre={f.pre} stat={`co2:window:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted">against {whole(win.grid)}</span></> : <span className="text-muted">not held</span>}
-          note={<>kg per MWh over the {whole(win.hours)} hours the hourly table holds ({win.from?.slice(0, 10)} to {win.to?.slice(0, 10)}): flat {win.ways.flat === null ? "not held" : whole(win.ways.flat)}, flexible {win.ways.flex === null ? "not held" : whole(win.ways.flex)}, shifting {win.ways.shift === null ? "not held" : whole(win.ways.shift)}.</>} />
+        <HeadlineNumber label="Its own hours against the grid's average" value={win.ways[w.a] !== null && win.grid !== null ? <><N pre={f.pre} stat={`co2:window:${w.a}`} a={a} /><span className="ml-1 font-sans text-sm text-muted" data-carbon-grid-mean="1">against <N pre={f.pre} stat="co2:window:grid" a={a} /></span></> : <span className="text-muted">not held</span>}
+          note={<>kg per MWh over the {whole(win.hours)} hours the hourly table holds ({win.from?.slice(0, 10)} to {win.to?.slice(0, 10)}): flat {win.ways.flat === null ? "not held" : shown(win.ways.flat)}, flexible {win.ways.flex === null ? "not held" : shown(win.ways.flex)}, shifting {win.ways.shift === null ? "not held" : shown(win.ways.shift)}.</>} />
       </HeadlineRow>
       <ToolTable caption={`${f.gridName}'s carbon intensity of consumed electricity by year`} minWidth={520} head={["Year", "kg CO2 per MWh, the mean of its months", "Months held"]}
         rows={c.years.map((r) => ({ key: String(r.y), muted: r.months < 12, cells: [String(r.y), <N key="k" pre={f.pre} stat={`co2:year:${r.y}`} a={a} />, `${r.months} of 12`] }))} />
@@ -264,6 +272,12 @@ export function HowSoon({ a, f, rules, b, stated = null, lists = null }: { a: An
     <p className="mb-4 max-w-3xl text-sm" data-answer-b-site="soon">
       Scenario B&apos;s site is in {b.f.gridName}: {lb && b.a ? <>by its own report of {dayOf(lb.day)}, <N pre={b.f.pre} stat={`ll:report:${lb.day}:approved`} a={b.a} /> MW of large load was approved to energize.</>
         : <>{b.f.gridName} publishes no figure of large load waiting or energized that the warehouse holds as a public table, so none is stated, and no wait is estimated.</>}
+    </p>
+  ) : b ? (
+    // session 7524 (the read of 16 November 2026, row 9): B at another site of the same grid met a line for B under "Will
+    // the power be there?" and "How clean?" and none here; every figure of this section is the grid's, so it is B's too
+    <p className="mb-4 max-w-3xl text-sm" data-answer-b-site="soon" data-answer-b-same-grid="1">
+      Scenario B&apos;s site, {b.f.place}, is in the same grid: every figure here is {f.gridName}&apos;s as a whole, the same for both sites. No figure of a site&apos;s own wait is held.
     </p>
   ) : null;
   if (!l || !l.latest) {
