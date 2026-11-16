@@ -1,0 +1,7 @@
+# What a generator earns read as the reader it is for (chain 304, part B, session 7520, 16 November 2026)
+
+**The reader.** A fund analyst underwriting a solar or a wind plant (a lender's or an equity fund's): the page's own questions are a lender's (debt coverage, the worst month, the contract price at which coverage reaches 1.25 times) and an investor's (NPV, IRR, the breakeven PPA price), and its one tool the reader owns is a contract set against the merchant case. A developer pricing a merchant tail reads the same rows; an AI lab's energy lead is served by the buyer's page beside it.
+**The five cases.** (1) A 200 MW solar plant at ERCOT's West hub (`HB_WEST`) against one at CAISO's SP15 (`TH_SP15_GEN-APND`), October 2025 to September 2026: revenue per kW, the price received and the capture rate. (2) A 300 MW wind plant at `HB_WEST` over the same months: the hours priced at or below zero and what they do to revenue. (3) The 200 MW solar plant at `HB_WEST` under a 15-year contract for all its energy at USD 38 per MWh (the low end of Lazard's solar cost range, June 2025) against the same plant merchant. (4) A 100 MW gas plant at ERCOT's Houston hub (`HB_HOUSTON`): its margin over fuel, by year and by month. (5) The solar plant of case 1 in 2024 against 2025: is the capture rate falling.
+**How it was read.** Written below, with what was not seen.
+
+(The read is in progress: the rows follow in the next commit of this branch.)
