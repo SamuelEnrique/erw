@@ -7,6 +7,8 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | Branch | Worktree | Holds | Landing request row |
 |---|---|---|---|
 | `wip/7500-done-line` | `erw-7500` | the base of every tool's branch: `wip/7200-large-load` (landing row 15, not landed; it holds the tools that draw a page to HTML without a build) with origin/main merged at `a4ba0dbd5` | none of its own |
+| `wip/7501-contracts` | `erw-7501` | tool 1, the contracts page | 18 |
+| `wip/7502-severance` | `erw-7502` | tool 2, the severance tool | 17 |
 
 ## The ground (session 7500)
 
@@ -24,8 +26,8 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 
 | # | Tool | State | Session |
 |---:|---|---|---|
-| 1 | `/contracts` | open | 7501 |
-| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | open | 7502 |
+| 1 | `/contracts` | done `118e668fa` on `wip/7501-contracts` (landing row 18): the note `docs/methods/contracts.md` (the name, price and megawatts rules written out as patterns); the replication from the two source tables, 2,539 of 2,615 figures inside the tolerance and 76 named (one data fault: the megawatts view's "place by contracts" is ranked another way than the largest view's, data requests row 4), 785 of 785 words the same; the cross-check (filers 3,704 and 4,010 against FERC's 3,672 of Order No. 917, a quarter and four quarters earlier; the megawatts ceiling equals EIA-860M's largest station; nothing published stands against the counts by product or the largest parties; `www.ferc.gov` answered 403 and was not worked around); the decisions fold (19 choices); 13 faults: 5 site fixed, 1 note completed, 1 data machine, 6 rulings; browser reads rows 5 to 8. No party's name or row of the internal table is committed | 7501 |
+| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | done `c247ad4e1` on `wip/7502-severance` (landing row 17): the note completed; the replication 612 of 612 figures (the calculator at its default and 46 named cases, the Lease tab's sample, four real leases by totals only); the cross-check (Texas's rates and 20 certified periods equal the Comptroller's to the cent; the base rule on EIA's production is 22 to 23 percent above the Comptroller's oil tax collections, said in the note); the decisions fold (14 choices); 8 faults: 2 site fixed, 3 data machine (data requests rows 2 and 3), 3 rulings; browser reads rows 1 to 4. Not done: the finder's replication (its three files are not on this machine: data request row 3); Louisiana's and New Mexico's collections | 7502 |
 | 3 | `/shoulder` | open | 7503 |
 | 4 | `/battery/customer` | open | 7504 |
 | 5 | `/cost-of-power/battery/awards` | open | 7505 |
