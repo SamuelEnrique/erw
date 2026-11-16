@@ -111,3 +111,43 @@ the page shows, against the site's copy, on the built site.
 ## The replication (session 7014, chain 301)
 
 `replication/queues/replicate.py` rebuilds every figure of `site/data/queues.json` from `lbnl_interconnection_queue` by this note alone (the 76 views, the years entered, the operation years, the whole file and the counts): 17,254 of 17,254 equal on 16 November 2026. One rule the note leaves implicit: Berkeley Lab writes the region `ISO-NE`, and its grid is `isone`. `replicate.do` rebuilds five figures of the whole United States in Stata, its expected values at its top. The file is the 2026 edition's, built 4 October 2026; the next edition replaces it whole.
+
+## The cross-checks (session 7018, chain 301)
+
+Berkeley Lab's own summary of the same edition, "Queued Up: 2026 Edition, Characteristics of Power Plants Seeking Transmission Interconnection As of the End of 2025" (https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics, read 16 November 2026): "As of the end of 2025, there were ~8,200 projects actively seeking grid interconnection in the U.S., representing 1,312 GW of generation and approximately 749 GW of storage", and "solar (773 GW, -19%), storage (749 GW, -16%) and wind (220 GW, -19%)", "natural gas capacity (253 GW, +86%)". The file's active requests, by the parts of each request (type and MW of each part):
+
+| Figure | Berkeley Lab's summary | The file, active requests |
+|---|---|---|
+| Active | ~8,200 projects | 8,513 requests |
+| Solar | 773 GW | 772.6 GW |
+| Natural gas | 253 GW | 252.8 GW |
+| Wind | 220 GW | 219.7 GW (onshore 196.3, offshore 23.4) |
+| Storage | approximately 749 GW | 552.7 GW (battery 544.1, other storage 8.6) |
+
+Solar, gas and wind agree within 0.4 GW. Storage does not: the summary does not say on that page how its storage figure is built, and the difference (about 196 GW) is not reconciled here. The page's own technology groups count a request once by its cleaned type (a solar and storage hybrid is "solar with storage"), so its figures by group are not the summary's figures by part. The count of active requests is 4 percent above the summary's approximate count of projects.
+
+The replication recomputes every figure of the page's file from the table (17,254 of 17,254).
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot (`site/lib/decisions.ts`, `QUEUES_DECISIONS`), each choice's default and source on hover:
+
+1. Every figure is from Berkeley Lab's yearly Queued Up data file, one row a request through the end of 2025; a newer request is not in it, and the next edition replaces every figure. **Default:** The 2026 edition, through 2025. **Source:** Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file (CC BY 4.0). (session 95)
+2. A request is counted once, under the region of the queue that holds it: the seven ISOs, Berkeley Lab's West and Southeast outside them, and the United States as every request of the file. **Default:** Berkeley Lab's region; the US as every request. **Source:** The data file's region field; docs/methods/interconnection_queue_summary.md, "Grids and technologies". (session 95)
+3. Technologies follow Berkeley Lab's cleaned type: solar, solar with storage, storage alone, onshore wind, offshore wind and gas each on its own, and every other type and hybrid in one "other"; storage alone and solar with storage are kept apart from solar. **Default:** Seven groups from the cleaned type, hybrids apart. **Source:** The data file's cleaned type field (type_clean). (session 95)
+4. A request's MW is the sum of its parts as filed (all parts of a hybrid together); a request with no positive capacity is counted and adds no MW. **Default:** Every part's MW summed; none filled. **Source:** The data file's capacity of each part. (session 95)
+5. Status is Berkeley Lab's: active, suspended, operational and withdrawn; a request of unknown status is counted as entered and in no status, and suspended requests are not in the active figures. **Default:** Berkeley Lab's four statuses; unknown counted as entered only. **Source:** The data file's queue status field. (session 95)
+6. Completion and withdrawal shares are taken over requests that entered from 2000 to five years before the edition's last year, with a known status, so recent years, still mostly open, do not read as a low completion rate. **Default:** Entered 2000 to 2020 for the 2026 edition. **Source:** docs/methods/interconnection_queue_summary.md, "Past requests". (session 95)
+7. A share is written only from at least 20 past requests and a median only from at least 5 dated ones; below that the cell reads "not held", since one project would move a smaller share by five points or more. **Default:** 20 requests for a share; 5 for a median. **Source:** docs/methods/interconnection_queue_summary.md, "When a figure is not written". (session 95)
+8. Years to operation are the days from the request to the operation date over 365.25, for requests that reached operation with both dates in order; a request dated the other way round is left out, and ISO-NE, whose operating requests carry no date, has no median. **Default:** Dated requests only, both dates in order. **Source:** The data file's request and operation dates. (session 95)
+9. The figures are of what the queues record: operators keep finished and withdrawn requests for different lengths of time, and the file holds no cost, developer, network upgrade or reason for a withdrawal, and no forecast of what will be built. **Default:** What the queues record, nothing inferred. **Source:** docs/methods/interconnection_queue_summary.md, "What the table does not hold". (session 95)
+
+## What waits for the owner (session 7018)
+
+- The storage difference against Berkeley Lab's summary (552.7 GW in the file's parts, approximately 749 GW in the summary): a question for Berkeley Lab, or a reading of its slide deck.
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:
