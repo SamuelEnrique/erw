@@ -140,8 +140,11 @@ def hold_together(decisions, old_by, new_by, sets):
     place; a row only the held file has counts as kept. Returns the ids moved from new to old."""
     moved = []
     for members in sets:
+        # session 7050 (chain 370, done-line request 119): a row the new build does not make at all (ISO-NE's and NYISO's
+        # spreads since their prices are held for license) is kept as it was, but it is no longer one build's row with
+        # the others, so it anchors nothing: from 4 November it held Henry Hub and every spread at their old build
         anchors = sorted(i for i in members if i in old_by and old_by[i].get("status") == "ok"
-                         and (i not in new_by or decisions.get(i, ("new",))[0] == "old"))
+                         and i in new_by and decisions.get(i, ("new",))[0] == "old")
         if not anchors:
             continue
         for i in sorted(members):

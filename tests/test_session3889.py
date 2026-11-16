@@ -56,6 +56,20 @@ class TheSetIsOneBuild(unittest.TestCase):
         self.assertIn("one build's rows together", why["caiso-th-sp15-gen-apnd-spark"])
         self.assertEqual(why["ercot-hb-hubavg-spark"], "the new build's history is shorter (78 points against 2867)")
 
+    def test_a_row_the_new_build_does_not_make_keeps_nothing_else(self):
+        # session 7050 (done-line request 119): ISO-NE's heat rate, held for license, is in the held file only; it is kept,
+        # and Henry Hub and the other spreads are taken from the new build
+        ids = [(GAS, "gas"), ("ercot-hb-hubavg-spark", "spark"), ("ercot-hb-hubavg-heat", "spark")]
+        old = body([row(i, t="2026-11-03", group=g) for i, g in ids] + [row("isone-h-internal-hub-heat", t="2026-10-20", group="spark")], "held")
+        new = body([row(i, t="2026-11-11", group=g) for i, g in ids], "built")
+        n = {i: 2867 for i, _ in ids}
+        rows, _, kept, taken = self.merge(old, new, n, n)
+        by = {r["id"]: r["mark"] for r in rows}
+        for rid, _ in ids:
+            self.assertEqual(by[rid], "built", rid)
+        self.assertEqual(by["isone-h-internal-hub-heat"], "held")
+        self.assertEqual(dict(kept)["isone-h-internal-hub-heat"], "only the held file has it")
+
     def test_the_hubs_prices_and_same_day_rows_are_still_chosen_alone(self):
         rows, _, kept, taken = self.twelfth_of_november()
         by = {r["id"]: r["mark"] for r in rows}
