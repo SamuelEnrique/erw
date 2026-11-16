@@ -91,6 +91,10 @@ Written by `check_companies.py --crosscheck` to `docs/reviews/companies-crossche
 
 `/deals/capital` (platform tool 11, its first view; `warehouse/derived/capital_page.py`, `site/data/capital.json`) draws the capital rows of `energy_deals` (deal types project_finance, m_and_a, debt, equity_raise): by quarter and type, the rows, the USD stated summed and the rows with no USD; the same by segment (the deal's technology) and by the kind of the company that brings the money (the buyer: the acquirer of an M&A, the lender or the investor of a financing, its kind from `company_directory`; "not named" when no buyer is named; a deal with buyers of two kinds counts once in each; `buyers`, the distinct buyer companies a kind's figures are of, session 7001); the share of deals that state a USD amount; the twenty largest by USD with their stories. Nothing is filled in. While `energy_deals` is held, the file holds the hold and the table's row count only and the page says so.
 
+## Replication
+
+`replication/companies/replicate.py` (session 7005) recomputes every figure of the page files from the public rows of `company_links` with each MW, county and status read from the input table's own row (EIA-860M, EIA-860's owner schedule, the ERCOT queue, the NRC list, EIA-861's territories), by the rules above, not from the page builder's code, and compares each with the shard's and the index's: 381,721 of 381,721 equal on the tables of 16 November 2026. `replication/companies/replicate.do` rebuilds five headline figures in Stata from `company_links.csv`, its expected values at its top. A reader of the tables in pandas should not use `comment="#"`: it drops the rows whose names hold a "#".
+
 ## What it cannot say
 
 - **Corporate families.** EIA files name operating companies, not their holding companies; a parent is known only where the NRC, a deal's "X's Y" or the reviewed file says so. American Electric Power's operating utilities are separate rows with no parent.
