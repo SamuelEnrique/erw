@@ -107,3 +107,7 @@ statuses, a request with no year, the past window, a share only from 20 requests
 never from a date before the request); the table as built against the file, counted again by hand for three views;
 the site's copy equal to the table; and the page's choices, run in Node. `site/scripts/check-queues.mjs`: every number
 the page shows, against the site's copy, on the built site.
+
+## The replication (session 7014, chain 301)
+
+`replication/queues/replicate.py` rebuilds every figure of `site/data/queues.json` from `lbnl_interconnection_queue` by this note alone (the 76 views, the years entered, the operation years, the whole file and the counts): 17,254 of 17,254 equal on 16 November 2026. One rule the note leaves implicit: Berkeley Lab writes the region `ISO-NE`, and its grid is `isone`. `replicate.do` rebuilds five figures of the whole United States in Stata, its expected values at its top. The file is the 2026 edition's, built 4 October 2026; the next edition replaces it whole.
