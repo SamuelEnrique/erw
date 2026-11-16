@@ -775,9 +775,9 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-16T19:50:08Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-16T18:57:03Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-16T21:14:21Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-16T20:49:38Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
-654 tables: 480 public, 174 held. Spans and rows move daily: erw.coverage() gives today's.
+656 tables: 480 public, 176 held. Spans and rows move daily: erw.coverage() gives today's.
 
 Each public line: table: description. Unit. Period (UTC days of the first and last interval). Granularity. License (verdict; publishers). Method note (path in the repository; "none yet" where no note names the table). Download: the site's /api/download for a table the live set holds (its window in brackets; the full history on Redivis), else the table in the Redivis dataset `datapages.erw` (Stanford, https://stanford.redivis.com/datasets/b9wm-3hb080mtm; an unreleased draft until a person releases a version, read with the dataset's access), else none yet. A description cut short ends in [...]; the full title is the table's provenance header.
 
@@ -1264,7 +1264,7 @@ Each public line: table: description. Unit. Period (UTC days of the first and la
 - `weather_obs_hourly`: National Weather Service (NWS, NOAA), Station observations (api.weather.gov) (the source report). Unit: degF, mph. Period: 2026-09-21 to 2026-11-15. Granularity: hourly. License: public (National Weather Service (NWS, NOAA)). Method: docs/methods/weather_obs_hourly.md. Download: https://erw-flame.vercel.app/api/download?table=weather_obs_hourly (whole).
 - `wfigs_wildfires`: National Interagency Fire Center (NIFC), Wildland Fire Interagency Geospatial Services (WFIGS), Incident Locations: every wildfire of 1,000 acres or more discovered from 2015 (session 2134). Unit: not recorded in the release records (read the table's unit column). Period: 2015-01-18 to 2026-10-21. Granularity: events, one row each. License: public (National Interagency Fire Center (NIFC)). Method: docs/methods/wfigs_wildfires.md. Download: Redivis datapages.erw, table wfigs_wildfires.
 
-### 10.2 Held tables (174): license needed, no figures
+### 10.2 Held tables (176): license needed, no figures
 
 Not served by the site, the live set or Redivis; erw.license(t) gives the reason in one sentence.
 
@@ -1313,6 +1313,8 @@ Not served by the site, the live set or Redivis; erw.license(t) gives the reason
 - `erb_zambia_electricity_annual`: license needed (internal)
 - `erc_mongolia_electricity_annual`: license needed (internal)
 - `ercot_node_prices_hourly`: license needed (internal)
+- `ercot_peak_premium_node_monthly`: license needed (unsettled)
+- `ercot_storage_rt_offers_monthly`: license needed (unsettled)
 - `eru_czech_electricity`: license needed (internal)
 - `esco_georgia_electricity_monthly`: license needed (internal)
 - `eso_cayman_electricity_annual`: license needed (internal)
