@@ -199,3 +199,7 @@ The owner's rule (7 October 2026): the schematic of tiles becomes a true map onl
 - **Downloads** (session 331): under the page, the tables the source line names for the grid chosen, each as the live
   set's CSV with a Python and a Stata reader of that CSV, or named with its place on Redivis where the live set does
   not hold it (session 328's shared line).
+
+## The replication (session 7014, chain 301)
+
+`replication/curtailment/replicate.py` rebuilds California's profile (`curtailment_profile.json`) from `caiso_curtailment_intervals` and `caiso_battery_storage`, and Texas's hours and days (`curtailment/ercot.json`) from `ercot_wind_solar_hsl_hourly`, by the notes alone: 11,515 of 11,515 equal on 16 November 2026, after its findings (`docs/reviews/curtailment-faults-2026-11-16.md`). The profile was a month behind: a put-back of 6 November left the monthly mark moved and the file not built. Since session 7014 the profile and the mix are built on the data machine each day. One rule the note left implicit: a Texas fuel's hour counts in its day's sums when that fuel has both its values, while the day's held hours count only hours with all four. `replicate.do` rebuilds five figures of California in Stata, its expected values at its top. Shares, free energy and worth (`shares.json`, `free_energy.json`, `worth.json`) are not yet replicated.
