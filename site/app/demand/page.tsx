@@ -16,6 +16,8 @@ import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { Tabs } from "@/components/tool/Tabs";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { DEMAND_DECISIONS } from "@/lib/decisions";
 import { ConsumptionView } from "../consumption/view";
 
 // Demand growth, one page at one address (session 152), in review (lib/release.ts). Two views, both in the address
@@ -232,6 +234,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
             </ToolSection>
           ) : null}
 
+          <DecisionsBlock id="7018-demand" title="Decisions on this page (each with its default and its source on hover)" items={DEMAND_DECISIONS} />
           <SourceLine tables={[TABLE]} note={<>Derived from EIA Form EIA-930, hourly demand (public domain); built {file.built.slice(0, 10)}. This page is in review and reads the site&apos;s own copy of the table.</>} />
         </div>
       </div>
