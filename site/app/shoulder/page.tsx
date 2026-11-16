@@ -7,6 +7,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
 import { GRIDS, TABLE, checkKey, choices, completeMonths, dayKey, dayName, hourName, monthName, monthOf, opening, shown, view, type Row, type View } from "@/lib/shoulder";
+import { ShoulderDecisions } from "./Decisions";
 import { shoulderRows } from "./read";
 
 // Session 75: "The shoulder hours". Solar floods the middle of the day and demand peaks in the evening; how long is the
@@ -180,7 +181,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 </ChartFrame>
               </ToolSection>
 
-              <ToolSection title="By month since 2019">
+              {/* session 7503: the heading names the grid's first month held; it said "since 2019" for CAISO's own data, held from June 2025 */}
+              <ToolSection title={`By month since ${monthName(v.months[0] ?? v.month)}`}>
                 <ChartFrame title="The shoulder's length and the hours the fleet covers, hours" legend={[{ label: "Evening shoulder", color: COLOR.net_load }, { label: "Hours the fleet covers", color: COLOR.covered }]}
                   note="The fleet covers the smaller of the shoulder's length and its own duration (its MWh over its MW). Hover for each month.">
                   <MonthChart v={v} />
@@ -188,14 +190,14 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
               </ToolSection>
 
               <ToolSection title="A shoulder that ends inside the evening, and the worst days" id="worst"
-                note={<>The second measure is the run of hours around the evening&apos;s highest net load in which net load is above the midpoint between its daily mean and that peak. The worst days are the ten complete days of the year with the most evening shoulder energy above the day&apos;s own mean; a day of 23 or 25 hours is not ranked.</>}>
+                note={<>The second measure is the run of hours around the evening&apos;s highest net load in which net load is above the midpoint between its daily mean and that peak. The worst days are the ten complete days of the year with the most evening shoulder energy above the day&apos;s own mean; a day of 23 or 25 hours is not ranked, nor a day with no shoulder.</>}>
                 <HeadlineRow>
                   <HeadlineNumber label="The shoulder, second measure" value={<V row={v.get("shoulder2_hours")} />} unit="hours"
                     note={<><Hr row={v.get("shoulder2_start_hour")} /> to <Hr row={v.get("shoulder2_end_hour")} />{toMidnight2 ? ", still above the midpoint at midnight" : ""}, on the average day of {monthName(v.month)}. <V row={v.get("shoulder2_mwh_above_midpoint")} unit="MWh" /> above the midpoint.</>} />
                   <HeadlineNumber label="Hours needed, second measure" value={<V row={v.get("shoulder2_hours_needed")} />} unit="hours"
                     note={<>At the fleet&apos;s power, to deliver the energy above the midpoint. The evening peak is <V row={v.get("evening_peak_mw")} unit="MW" /> at <Hr row={v.get("evening_peak_hour")} />.</>} />
-                  <HeadlineNumber label={`The ten worst days of ${v.year.year}`} value={<V row={v.year.get("year_worst10_mean_shoulder_hours_needed")} />} unit="hours needed"
-                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> complete days; the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>} />
+                  <HeadlineNumber label={`The ten worst days of ${v.year.year}`} value={<V row={v.year.get("year_worst10_mean_shoulder_hours_needed")} />} unit={worstNeeded ? "hours needed" : undefined}
+                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> days (complete, of 24 hours, with a shoulder); the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>} />
                 </HeadlineRow>
                 {v.worst.length === 0 ? (
                   <p className="max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" data-worst="none">The worst days of {v.year.year} are not held for {grid.name}: the table has no ranked day for it.</p>
@@ -238,12 +240,14 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                     <li><strong>The average day:</strong> for each local hour, the mean over the month&apos;s complete days (every hour of demand, solar and wind held) of EIA-930&apos;s hourly demand, solar (SUN and SNB), wind (WND and WNB) and battery output. A month with fewer than 90 percent of its days complete is not shown.</li>
                     <li><strong>Net load:</strong> demand less solar and wind.</li>
                     <li><strong>The midday surplus:</strong> the run of hours around net load&apos;s lowest hour in which net load is below its daily mean; its MWh are the sum, over those hours, of the mean less net load.</li>
-                    <li><strong>The evening shoulder:</strong> from the first hour after solar&apos;s highest hour in which solar is below half of that highest value, to the first hour, after net load has risen above its daily mean, in which net load is back at or below that mean. If net load stays above the mean to midnight, the shoulder ends at midnight and the page says so. Its MWh are the sum, over its hours, of net load less the mean.</li>
+                    <li><strong>The evening shoulder:</strong> from the first hour after solar&apos;s highest hour in which solar is below half of that highest value, to the first hour, after net load has risen above its daily mean, in which net load is back at or below that mean. If net load stays above the mean to midnight, the shoulder ends at midnight and the page says so. Its MWh are the sum, over its hours, of net load less the mean, counting only the hours in which net load is above the mean; its length counts every hour from its start.</li>
                     <li><strong>The fleet:</strong> the batteries operating that month in EIA&apos;s monthly generator inventory (EIA-860M), their MW and MWh. Its hours are its MWh over its MW. <em>Hours covered</em> is the smaller of the shoulder&apos;s length and the fleet&apos;s hours; <em>hours needed</em> is the shoulder&apos;s MWh above the mean over the fleet&apos;s MW.</li>
                     <li><strong>The second measure:</strong> the run of hours around the evening&apos;s highest net load (the highest from the shoulder&apos;s start to midnight) in which net load is above the midpoint between its daily mean and that peak; its MWh are the sum, over those hours, of net load less the midpoint. Hours covered and hours needed are computed against it as against the first.</li>
-                    <li><strong>The worst days:</strong> each complete day of 24 local hours is measured as the average day is, on its own hours and against its own mean. The ten with the most shoulder energy above the mean in each local year are ranked. <em>Hours needed</em> on a day is its shoulder energy over the fleet&apos;s MW of that month; where the month&apos;s fleet is not published yet it is not given, and the year&apos;s figure is the mean over all ten or is not given. <em>Batteries discharged</em> is the fleet&apos;s output in the shoulder&apos;s hours, where every hour of the day holds it; <em>batteries ran</em> is that over the fleet&apos;s MW.</li>
-                    <li><strong>California, EIA-930:</strong> {GRIDS[1].note}</li>
+                    <li><strong>The worst days:</strong> each complete day of 24 local hours is measured as the average day is, on its own hours and against its own mean. The ten with the most shoulder energy above the mean in each local year are ranked; a day with no shoulder is not ranked and is not in the count of days ranked. <em>Hours needed</em> on a day is its shoulder energy over the fleet&apos;s MW of that month; where the month&apos;s fleet is not published yet it is not given, and the year&apos;s figure is the mean over all ten or is not given. <em>Batteries discharged</em> is the fleet&apos;s output in the shoulder&apos;s hours, where every hour of the day holds it; <em>batteries ran</em> is that over the fleet&apos;s MW.</li>
+                    <li><strong>California, EIA-930:</strong> {GRIDS[1].note} Its values from 1 November 2023 to 2 December 2025 are read one hour earlier than EIA stamps them: over that period EIA&apos;s solar matches CAISO&apos;s own at that shift.</li>
                     <li><strong>California, CAISO&apos;s own data:</strong> {GRIDS[2].note}</li>
+                    <li><strong>Texas&apos;s battery output:</strong> EIA-930&apos;s series as published, discharge only from 23 October 2024 to 15 December 2025 and net of charging from then.</li>
+                    <li><strong>Demand:</strong> an hour of demand that could not have happened (zero, or more than a quarter away from the four hours around it) is a blank, and its day is not a complete day.</li>
                   </ul>
                 </Fold>
                 <Fold title="What this cannot see">
@@ -260,6 +264,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
           )}
         </div>
       </div>
+      {/* session 7503: the choices that move the page's figures, each with its default and its source on hover */}
+      <ShoulderDecisions />
       <SourceLine tables={[TABLE, "storage_buildout_monthly", "caiso_battery_storage", "caiso_curtailment_daily", "caiso_fuel_supply"]}
         note={<>Derived by the ERW from EIA Form EIA-930 hourly demand and generation by energy source (the per-BA workbooks), CAISO&apos;s supply by fuel and EIA-860M. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
     </ToolPage>

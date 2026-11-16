@@ -335,8 +335,10 @@ def headline(T, out=print):
     m.update(against_fleet(m, T.fleet.get((fleet_entity, "mw", month)), T.fleet.get((fleet_entity, "mwh", month))))
     year = month[:4]
     ten = [d for (e, v, d) in T.t if e == entity and v == "worst_rank" and d.startswith(year)]
-    needed = [round(T.t[(entity, "day_shoulder_mwh_above_mean", d)] / T.fleet[(fleet_entity, "mw", d[:7])], 4) for d in ten]
+    needed = [round(T.t[(entity, "day_shoulder_mwh_above_mean", d)] / T.fleet[(fleet_entity, "mw", d[:7])], 4) for d in ten if (fleet_entity, "mw", d[:7]) in T.fleet]
     out(f"ERCOT, {MONTH_NAMES[int(month[5:]) - 1]} {month[:4]} (the month the page opens on)")
+    if not needed:
+        needed = [float("nan")]
     out(f"1. the evening shoulder, hours: {m['shoulder_hours']} (from {m['shoulder_start_hour']:02d}:00 to {m['shoulder_end_hour']:02d}:00)")
     out(f"2. net load above its daily mean in the shoulder, MWh: {m['shoulder_mwh_above_mean']:,.2f}")
     out(f"3. the fleet's hours at full power (MWh over MW), and the hours of the shoulder it covers: {m['fleet_hours']:.2f} and {m['shoulder_hours_covered']:.2f}")
