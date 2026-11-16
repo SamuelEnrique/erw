@@ -21,13 +21,15 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 |---|---|---|
 | The large-load pages of chain 302, built here from `wip/7200-large-load` (not landed), read at 1280 and 390 px | done (`wip/7600-large-load-read`: 15 numbered rows in `docs/reviews/large-load-on-site/browser-read-2026-11-16.md`; 12 site faults fixed with tests, 2 requests of the data machine (rows 8 and 9), 1 ruling with its default; 17 of 17 figures in their table rows; axe, no rule broken; landing row 34 of `docs/state/landing_request_portable.md`) | 7600 |
 | `docs/state/browser_reads_wanted.md`, rows 1 to 14 (the old laptop's `/severance`, `/contracts`, `/shoulder`, `/cost-of-power/battery/awards`) | done (`b137693bb`: 8 seen, 6 with a fault. The shared "i" mark's box past a phone's screen, fixed for every page on `wip/7600-large-load-read`; one sentence of `/shoulder`, fixed on `wip/7600-shoulder-read`, landing row 35; index and 24 screenshots in `docs/reviews/browser-reads-2026-11-16/`) | 7600 |
-| `docs/state/browser_reads_wanted.md`, rows 15 to 31 (added by the old laptop from 11:40 UTC: `/impact`, the three explorers) | open (read at the start of session 7601, as the chain says) | |
+| `docs/state/browser_reads_wanted.md`, rows 15 to 31 (the old laptop's `/impact` and its three explorers) | done (`ce9be9911`: 13 seen, 4 with a fault: three the shared mark's; one of its own and on production too, the demand growth chart's hover card drew no figure, fixed on `wip/7601-demand-growth-read`, landing row 36) | 7601 |
+| `docs/state/browser_reads_wanted.md`, rows 32 on (added by the old laptop from 12:35 UTC) | open (read at the start of session 7602) | |
+| The snapshots of the live pages around session 7600's pushes to main (`c305-before`, `c305-after-7600`) | done (25 pages, 0 differences; every push held state and queue files only) | 7600 |
 
 ## Part B: the done line for this machine's seven tools
 
 | Tool | State | Session |
 |---|---|---|
-| `/map` | open | |
+| `/map` | done line (`wip/7601-map` at `884c94071`: the note, the replication (the units 3,790 of 3,790 against EIA's own workbook; 301 queue figures named), the cross-check (18 of 27 technologies the same as EIA's table), 11 decisions on the page, the browser read, 8 faults: 3 fixed, 3 requests (rows 32 to 34), 2 rulings; landing row 37) | 7601 |
 | `/events` and its nine event pages | open | |
 | `/grid/caiso/alerts` | open | |
 | `/learn/bill` | open | |

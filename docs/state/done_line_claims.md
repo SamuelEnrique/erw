@@ -15,7 +15,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 7 | `/explore/ercot-peak-premium` | samueloldlaptop | done line (branch `wip/7507-peak-premium`, head `a6184f8d2`, landing row 22 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 8 | `/explore/demand-growth` | samueloldlaptop | done line (branch `wip/7508-demand-growth`, head `66e294497`, landing row 23 of `docs/state/landing_request_oldlaptop.md`) |
 | 9 | `/explore/interconnection` | samueloldlaptop | done line (branch `wip/7509-interconnection`, head `da5dfd8cb`, landing row 24 of `docs/state/landing_request_oldlaptop.md`) |
-| 10 | `/map` | portable-laptop | claimed |
+| 10 | `/map` | portable-laptop | done line (branch `wip/7601-map`, head `884c94071`, landing row 37 of `docs/state/landing_request_portable.md`) |
 | 11 | `/events` and its nine event pages | portable-laptop | claimed |
 | 12 | `/grid/caiso/alerts` | portable-laptop | claimed |
 | 13 | `/learn/bill` | portable-laptop | claimed |
