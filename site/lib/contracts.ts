@@ -177,6 +177,30 @@ export function termYears(r: Contract): number | null {
   return Number.isFinite(y) && y >= 0 ? y : null;
 }
 
+/** Session 7510: the days of a term the page draws as under one year (0.9 years or less to its one decimal), the first
+ * and the last day both counted, so that a strip of one month reads 30 days beside its "0.1 years"; null for a longer
+ * term or for none. */
+export function termDays(r: Contract): number | null {
+  const y = termYears(r);
+  return y === null || Number(y.toFixed(1)) >= 1 ? null : Math.round(y * 365.25) + 1;
+}
+
+/** Session 7510: a count's noun, "row" for 1 and "rows" for any other count. */
+export const some = (n: number, one: string, many = `${one}s`) => (n === 1 ? one : many);
+
+/** Session 7510: the seven grids' balancing authority codes that are not the grid's own name, as lib/gridtool.ts names
+ * them (CISO is CAISO, SWPP is SPP): the page gives the name on hover. A code the site names nowhere stays as filed. */
+export function baName(code: string, grids: readonly { ba: string; label: string; name: string }[]): string | null {
+  const g = grids.find((x) => x.ba === code);
+  return g && g.label !== code ? `${g.name} (${g.label})` : null;
+}
+
+/** Session 7510: the quarter an address names when it is none of the quarters listed (the page then shows its newest
+ * quarter and says so); null when the address names none, names a listed one, or holds anything but plain characters. */
+export function quarterNotListed(q: string | undefined, held: string[]): string | null {
+  return q && !held.includes(q) && /^[A-Za-z0-9 _-]{1,20}$/.test(q) ? q : null;
+}
+
 /** What the filer wrote for the price: the number with its units, or the words. Never both invented. */
 export function rateText(r: Contract): { text: string; numeric: boolean } {
   const n = (r.rate ?? "").trim();

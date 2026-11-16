@@ -106,11 +106,11 @@ async function main() {
     if (s) for (const m of s[1].matchAll(/data-n="([^"]+)">([^<]*)</g)) put(`${k}|${m[1]}`, num(m[2]));
     put(`${k}|headline_rows`, after(t, "Contract rows signed that quarter"));
     put(`${k}|headline_priced`, after(t, "Rows with a price as a number"));
-    put(`${k}|headline_unpriced`, num((t.match(/The other ([\d,]+) give words/) ?? [])[1] ?? ""));
+    put(`${k}|headline_unpriced`, num((t.match(/The other ([\d,]+) gives? words/) ?? [])[1] ?? ""));   // session 7510: "The other 1 gives words"
     put(`${k}|headline_affiliate`, after(t, "Between affiliates"));
     put(`${k}|table_rows_drawn`, (html.match(/<tbody>([\s\S]*?)<\/tbody>/)?.[1].match(/<tr\b/g) ?? []).length);
     put(`${k}|as_filed_marks`, (html.match(/data-as-filed="1"/g) ?? []).length);
-    const years = [...html.matchAll(/\((\d+\.\d) years\)/g)].map((m) => Number(m[1]));
+    const years = [...t.matchAll(/\((\d+\.\d) years(?: ?: [\d,]+ days?)? ?\)/g)].map((m) => Number(m[1]));   // session 7510: a term under a year also gives its days, in a span of its own
     put(`${k}|terms_in_years_drawn`, years.length);
     if (years.length) put(`${k}|longest_term_years_drawn`, Math.max(...years));
     return html;

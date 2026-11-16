@@ -4,8 +4,9 @@ import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarters,
-  rateText, termYears, viewOf, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+import { GRID_CHOICES } from "@/lib/gridtool";
+import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baName, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarterNotListed, quarters,
+  rateText, some, termDays, termYears, viewOf, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
@@ -48,6 +49,8 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const every = summary.ok ? quarters(summary.data) : [];
   const { upTo: held, laterRows, laterLast } = listed(every, summary.ok ? filedQuarter(summary.data) : null);
   const { quarter, product, ba } = choices(q, held.map((h) => h.quarter));
+  // session 7510 (the page read as its reader, docs/reviews/contracts-read-2026-11-16.md): an address that names a quarter the page does not list says so
+  const notListed = v.view === "quarter" ? quarterNotListed(q.q, held.map((h) => h.quarter)) : null;
   const read = quarter && v.view === "quarter" ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
   const all: Contract[] = read?.ok ? read.data : [];
   const rows = filter(all, product, ba);
@@ -84,9 +87,11 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
           <aside>
             <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].quarter.replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}${(summary.data.last ?? "") > today ? " as filed" : ""}.`}>
               <nav aria-label="Quarter signed" className="mb-4 text-sm">
-                <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed</div>
+                {/* session 7510: the count beside a quarter is every product's and every authority's, and says so; a quarter's link keeps the balancing authority chosen, so one region is followed quarter by quarter */}
+                <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed<Tip id="contracts-quarter-rows" label="the rows beside each quarter"><span className="normal-case tracking-normal" data-quarter-rows="1">The rows beside
+                  each quarter are every product&apos;s, delivered anywhere: the count does not follow the product or the balancing authority chosen. The sentence beside the panel counts the rows of the choice.</span></Tip></div>
                 {held.slice(0, 12).map((h) => (
-                  <div key={h.quarter}><Link href={href(h.quarter, product.slug)} aria-current={h.quarter === quarter ? "true" : undefined} className={item(h.quarter === quarter)}>{h.quarter.replace("-", " ")}</Link>{" "}
+                  <div key={h.quarter}><Link href={href(h.quarter, product.slug, ba)} aria-current={h.quarter === quarter ? "true" : undefined} className={item(h.quarter === quarter)}>{h.quarter.replace("-", " ")}</Link>{" "}
                     <span className="text-xs text-muted">{count(h.rows)} rows</span>
                     {/* session 7501: the oldest quarter listed is held in part (the 1,000 days end inside it), and says so on hover */}
                     {heldFrom(h.quarter, summary.data.first) ? <Tip id={`contracts-part-${h.quarter}`} label={`${h.quarter.replace("-", " ")}, held in part`}><span data-held-from={h.quarter}>Held
@@ -98,15 +103,21 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
               </nav>
               <nav aria-label="Product" className="mb-4 text-sm">
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Product</div>
-                {PRODUCTS.map((p) => <div key={p.slug}><Link href={href(quarter, p.slug)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
+                {PRODUCTS.map((p) => <div key={p.slug}><Link href={href(quarter, p.slug, ba)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
               </nav>
               <nav aria-label="Delivered in" className="text-sm">
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Delivered in</div>
                 <div><Link href={href(quarter, product.slug)} aria-current={!ba ? "true" : undefined} className={item(!ba)}>Every balancing authority</Link></div>
                 {bas.slice(0, 14).map((b) => (
                   <div key={b.ba}><Link href={href(quarter, product.slug, b.ba)} aria-current={b.ba === ba ? "true" : undefined} className={item(b.ba === ba)}>{b.ba}</Link>{" "}
-                    <span className="text-xs text-muted">{count(b.rows)}</span></div>
+                    <span className="text-xs text-muted">{count(b.rows)}</span>
+                    {/* session 7510: a grid's code that is not its name says the name on hover (CISO, SWPP) */}
+                    {baName(b.ba, GRID_CHOICES) ? <Tip id={`contracts-ba-${b.ba}`} label={`the balancing authority ${b.ba}`}><span data-ba-name={b.ba}>{b.ba} is the balancing authority code
+                      of {baName(b.ba, GRID_CHOICES)}. The codes are the filers&apos;, as FERC&apos;s form lists them.</span></Tip> : null}</div>
                 ))}
+                {/* session 7510: the authority chosen stays in the list when it is not one of the entries above (no row of it this quarter, or an entry past the fourteenth) */}
+                {ba && !bas.slice(0, 14).some((b) => b.ba === ba) ? <div data-ba-chosen={ba}><Link href={href(quarter, product.slug, ba)} aria-current="true" className={item(true)}>{ba}</Link>{" "}
+                  <span className="text-xs text-muted">{count(rows.length)}</span></div> : null}
               </nav>
             </InputPanel>
           </aside>
@@ -115,28 +126,32 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-contracts="unavailable">The contracts signed in {quarter.replace("-", " ")} could not be read: {read ? read.reason : "no quarter"}.</p>
             ) : (
               <>
+                {notListed ? <p className="mb-4 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-quarter-not-listed={notListed}>Quarter signed: &quot;{notListed}&quot; is not listed here, so {quarter.replace("-", " ")} is
+                  shown. The list is by quarter, one at a time: a year is its four quarters.</p> : null}
+                {/* session 7510: one row is "1 row ... was signed", not "1 rows ... were" */}
                 <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                  Among the contracts filed with FERC, <span data-n="rows">{count(c.rows)}</span> rows of {product.label.toLowerCase()}{ba ? ` delivered in ${ba}` : ""} were
-                  signed in {quarter.replace("-", " ")}: <span data-n="agreements">{count(c.agreements)}</span> agreements between <span data-n="sellers">{count(c.sellers)}</span> sellers
-                  and <span data-n="buyers">{count(c.buyers)}</span> buyers. <span data-n="priced">{count(c.priced)}</span> of the rows state a price as a number.
+                  Among the contracts filed with FERC, <span data-n="rows">{count(c.rows)}</span> {some(c.rows, "row")} of {product.label.toLowerCase()}{ba ? ` delivered in ${ba}` : ""} {some(c.rows, "was", "were")}{" "}
+                  signed in {quarter.replace("-", " ")}: <span data-n="agreements">{count(c.agreements)}</span> {some(c.agreements, "agreement")} between <span data-n="sellers">{count(c.sellers)}</span> {some(c.sellers, "seller")}{" "}
+                  and <span data-n="buyers">{count(c.buyers)}</span> {some(c.buyers, "buyer")}. <span data-n="priced">{count(c.priced)}</span> of the rows {some(c.priced, "states", "state")} a price as a number.
                 </p>
                 <HeadlineRow>
-                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} agreements; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
-                  <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} give words: a market-based rate, a formula, or nothing.</>} />
+                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, "agreement")}; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
+                  <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} {some(c.rows - c.priced, "gives", "give")} words: a market-based rate, a formula, or nothing.</>} />
                   <HeadlineNumber label="Between affiliates" value={count(c.affiliate)} note="Rows the seller marked as a contract with an affiliate." />
                 </HeadlineRow>
                 <ToolSection title={`Signed in ${quarter.replace("-", " ")}`} note={rows.length > SHOWN ? `The first ${SHOWN} of ${count(rows.length)} rows, newest first. Narrow by product or balancing authority to see the rest.` : "Newest first. Every cell is as the seller filed it."}>
                   <ToolTable caption={`Contracts signed in ${quarter.replace("-", " ")}, as filed with FERC`} minWidth={980} words
                     head={["Signed", "Seller", "Buyer", "Product", "Term", "Quantity", "Price, as filed", "Delivered"]}
                     rows={rows.slice(0, SHOWN).map((r) => {
-                      const t = termYears(r), rate = rateText(r);
+                      const t = termYears(r), days = termDays(r), rate = rateText(r);
                       return {
                         key: r.event_id,
                         cells: [<>{r.event_date}{r.event_date > today ? <span className="text-muted" data-as-filed="1"> as filed</span> : null}</>, r.seller ?? "", <>{r.buyer ?? ""}{(r.affiliate ?? "").toUpperCase() === "Y" ? <span className="text-muted"> (affiliate)</span> : null}</>,
                           <>{r.product ?? ""}{r.class && r.class !== "N/A" ? <span className="text-muted">, {r.class}</span> : null}{r.term && r.term !== "N/A" ? <span className="text-muted">, {r.term}</span> : null}</>,
-                          <>{fercDate(r.commencement) || "not stated"} to {fercDate(r.termination) || "no end filed"}{t !== null ? <span className="text-muted"> ({t.toFixed(1)} years)</span> : null}</>,
+                          <>{fercDate(r.commencement) || "not stated"} to {fercDate(r.termination) || "no end filed"}{t !== null ? <span className="text-muted"> ({t.toFixed(1)} years{days !== null ? <span data-term-days={days}>: {count(days)} {some(days, "day")}</span> : null})</span> : null}</>,
                           (r.quantity ?? "").trim() === "" ? <span className="text-muted">not stated</span> : `${r.quantity} ${r.units ?? ""}`,
-                          rate.numeric ? rate.text : <span className="text-muted">{rate.text}</span>,
+                          // session 7510: a number filed with no unit says so (it stood as a bare number)
+                          rate.numeric ? <>{rate.text}{(r.rate_units ?? "").trim() === "" ? <span className="text-muted" data-no-unit="1"> (no unit filed)</span> : null}</> : <span className="text-muted">{rate.text}</span>,
                           <>{(r.pod_ba ?? "").trim() || <span className="text-muted">not stated</span>}{r.pod_location ? <span className="text-muted">, {r.pod_location}</span> : null}</>],
                       };
                     })} />
@@ -149,8 +164,11 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                   <li><strong>The record:</strong> FERC&apos;s Electric Quarterly Reports. Public utilities, and other sellers with more than a small presence in the market, file the terms of their agreements each quarter. This page reads the contract files of one quarter&apos;s filings and nothing of the transactions.</li>
                   <li><strong>Signed:</strong> the contract&apos;s execution date. A row whose execution date cannot be read is left out, not guessed.</li>
                   <li><strong>Product:</strong> FERC&apos;s product name, with the class (F firm, NF non-firm, UP unit power) and the term (LT long, ST short) where filed.</li>
-                  <li><strong>Term:</strong> the filed commencement and termination dates; the years between them when both are dates.</li>
-                  <li><strong>Price, as filed:</strong> the rate and its units when the filer gave a number; otherwise the filer&apos;s own description, in grey.</li>
+                  <li><strong>Term:</strong> the filed commencement and termination dates; the years between them when both are dates. A term under one year also gives its days, the first and the last both counted: a strip of one month is 0.1 years and 30 days.</li>
+                  <li data-fold-quantity="1"><strong>Quantity:</strong> the number and its units as filed: megawatts (MW), megawatt-hours (MWH), or megawatts by the month, the day or the year (MW-MO, MW-DAY, MW-YR). Most rows state none.</li>
+                  <li><strong>Price, as filed:</strong> the rate and its units when the filer gave a number; otherwise the filer&apos;s own description, in grey. The units are the filer&apos;s: dollars per megawatt-hour ($/MWH), or per kilowatt or megawatt by the month, the day or the year ($/KW-MO, $/MW-DAY). One price filed in two units is not converted: 3 $/KW-MO and 3,000 $/MW-MO are the same price. A number filed with no unit says so.</li>
+                  <li data-fold-repeat="1"><strong>Rows that differ only in their price:</strong> one agreement can file a row for each year, month or peak period of its price. The period of a row is in FERC&apos;s file and is not shown here yet.</li>
+                  <li data-fold-operator="1"><strong>A market operator as the buyer:</strong> a sale into an organized market is filed with the operator as its customer. Such a row is the seller&apos;s agreement with the market, not a contract with a user of the power.</li>
                   <li><strong>Delivered:</strong> the balancing authority and the point of delivery, as filed. Many rows state neither.</li>
                   <li><strong>A company with more than one filing in the quarter</strong> is read from its newest filing.</li>
                 </ul>
@@ -310,7 +328,7 @@ function MwView({ summary, reason, product }: { summary: Summary | null; reason:
               <li><strong>Stated:</strong> the row&apos;s quantity when its units are MW, or kW divided by 1,000. A quantity in megawatt-hours, per month, per day, or with no units is not a number of megawatts and is not converted. A quantity of zero is not a quantity.</li>
               <li><strong>Per contract, the largest MW any row states,</strong> then added up by party. Adding the rows would count one contract once for each period and product it lists.</li>
               <li><strong>Left out, and counted:</strong> a contract stating more than {count(ceiling)} MW. No single contract is for more than the largest station in the country; the figure is another unit filed under MW. Across every product {count(T.mw.rows_over)} rows do.</li>
-              <li><strong>A figure under that ceiling can be mislabelled too,</strong> and nothing in the filing can tell. A person should read the contract before quoting one row.</li>
+              <li><strong>A figure under that ceiling can be mislabelled too,</strong> and nothing in the filing can tell. The contract itself, not its row here, is the record of its size.</li>
               <li><strong>Most of the book is absent.</strong> A full-requirements sale or a sale into an organized market states no megawatts. The largest buyers by contracts are mostly not here.</li>
             </ul>
           </Fold>
