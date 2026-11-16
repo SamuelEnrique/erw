@@ -20,7 +20,8 @@ The page stays in review. The read: `docs/reviews/battery-awards-read-2026-11-16
   July 2026). Two are now said on the page; the hours are a ruling (row 8).
 - **All changes are in the tool's own files.** No other page's file was edited (`/storage`, `/supply`, `/shoulder`, the
   battery page).
-- **Not finished:** `replication/battery_awards/replicate.py` does not yet recompute the added figures (45 by service,
+- **Not finished at the hand-back, done since (see "Added after the hand-back" at the end):**
+  `replication/battery_awards/replicate.py` did not yet recompute the added figures (45 by service,
   6 of the five together, 5 in the MW hover). They are held by the new test on the committed public rows, which is the
   page's own library, not an independent computation, except the five together, held to the battery page's file.
 - **How it was read:** the whole page drawn by its own function, reads answered from the tables of this machine
@@ -179,3 +180,36 @@ those of this machine's tables; the live set's may be of a later build (part A, 
 
 - The battery page's paragraph "At its own node" and its fold are small grey text, which the page standard of 16
   November forbids; not touched here.
+
+## Added after the hand-back
+
+The coordinator asked that the replication recompute the figures this read added. Done; it replaces the "Not
+finished" line under "At the top".
+
+- **The count was 66, not the 56 this report gave:** 45 by service, 9 monthly ancillary shares (in the same hovers,
+  left out of the first count), 7 of the five together (the "7 months" was left out too) and 5 of the EIA's count. The
+  MWh sentence and the node paragraph add no figure of their own.
+- **As printed** by `replicate.py --tables C:/Users/lossa/Documents/erw/warehouse/output --write`, and the same again
+  on the public rows beside it with no argument:
+  - `monthly_rows.csv: 1699 rows of the five public tables`
+  - `inventory_rows.csv: 27 rows of storage_buildout_monthly`
+  - `The page: 373 of 373 figures within half the page's last shown digit, 0 named, 0 failed`
+  - `The file battery_awards_beside.json: 24 of 24 figures within half the file's last digit, 0 named, 0 failed`
+- **How:** `replicate.py` computes the 66 from the tables (or `monthly_rows.csv` and `inventory_rows.csv`) by the
+  rules now written in the method note's section 8, not by the page's library. The page's side is
+  `site/scripts/battery-awards-figures.mjs`, extended: 373 figures, 224 of 224 found in the two drawn sections. The
+  read test finds each of the 66 in its own place on the whole drawn page.
+- **Part 3 was not run again** (the monthly tables from ERCOT's disclosure rows, 297 of 297): nothing it reads
+  changed, and `source_rows.csv` is as session 7505 wrote it.
+- **One figure sits on the edge of its tolerance:** the difference of the two fleets is 3,295.5 MW by the tables and
+  the page draws 3,296. It passes at exactly half the last digit.
+- **Counts updated** where 307 was pinned: the note's section 5 (373 of 373, with 7505's 307 said beside it),
+  `tests/test_session7505_battery_awards.py`, and one dated sentence in part A's faults file (its rows untouched).
+- **Tests, each in its own process, all exit 0:** `test-battery-awards-read.mjs` 42 of 42;
+  `test-battery-awards-render.mjs` 25 of 25; `battery-awards-figures.mjs` 373 figures, 224 of 224;
+  `test-usage.mjs` 16; `test_session7505_battery_awards` 12; `115_page` 12; `116_page` 20; `120` 30; `120_page` 15;
+  `178` 30; `241a` 17; `408` 7; `585` 6; the four note sweeps 42, 65, 58 and 40.
+- **Head:** the work is `daf6b18dd`; this section is the commit after it, which the reply names.
+- **Landing request, changed lines:** the test file now counts 42; `replicate.py`, `page_figures.json`,
+  `page_figures.csv`, `battery-awards-figures.mjs`, `tests/test_session7505_battery_awards.py` and part A's faults
+  file are added to "What changes". `replicate.do` is unchanged and still not run (no Stata on this machine).
