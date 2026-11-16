@@ -17,7 +17,9 @@ tables alone, not from the page's code. Standard library only. Three parts:
         [--awards <ercot_dam_esr_awards.csv>] [--sced <ercot_sced_esr_hourly.csv>] [--hub <ercot_all_hub_prices_history.csv>]
         [--write]
 
---write rewrites page_figures.csv and source_rows.csv beside this file. Exit 0 when every figure passes, 1 when one
+Without --tables, parts 1 and 2 run on monthly_rows.csv beside this file: the rows of the five tables that the page
+reads, copied by --write, so the replication runs on any copy of the repository. --write rewrites monthly_rows.csv,
+page_figures.csv and source_rows.csv beside this file. Exit 0 when every figure passes, 1 when one
 does not, 2 on bad input. Every table read here is public (ERCOT's terms, quoted in the tables' headers).
 """
 from __future__ import annotations
@@ -47,10 +49,21 @@ NAMED: dict[str, str] = {}
 CENTS = 0.03
 
 
-def table(folder: str, name: str, entity: str) -> tuple[dict[str, dict[str, float]], dict[str, str]]:
-    """One entity's rows of a series table: {month YYYY-MM: {variable: value}}, and the header's stamps."""
+ROWS = os.path.join(HERE, "monthly_rows.csv")   # the public rows the page reads, as --write copies them from the tables
+
+
+def table(folder: str | None, name: str, entity: str) -> tuple[dict[str, dict[str, float]], dict[str, str]]:
+    """One entity's rows of a series table: {month YYYY-MM: {variable: value}}, and the header's stamps. With no
+    folder, from monthly_rows.csv beside this file."""
     out: dict[str, dict[str, float]] = defaultdict(dict)
     head: dict[str, str] = {}
+    if folder is None:
+        with open(ROWS, encoding="utf-8", newline="") as f:
+            for r in csv.DictReader(f):
+                if r["table"] == name and r["entity"] == entity:
+                    out[r["ts_utc"][:7]][r["variable"]] = float(r["value"])
+                    head["ts"] = r["ts_utc"][:10]
+        return out, head
     with open(os.path.join(folder, name + ".csv"), encoding="utf-8", newline="") as f:
         lines = []
         for line in f:
@@ -250,6 +263,29 @@ def beside(folder: str) -> dict[str, float]:
     return out
 
 
+def copy_rows(folder: str) -> int:
+    """monthly_rows.csv: the rows of the five public tables that the page and the beside file read, from the awards
+    table's first month on, so the replication and the do-file run on a copy with no warehouse."""
+    keep = {"ercot_storage_dam_awards_monthly": FLEET, "ercot_storage_dam_offers_monthly": FLEET, "ercot_storage_rt_monthly": FLEET,
+            "ercot_storage_node_basis": NODES, "battery_stack_monthly": MODEL}
+    first = min(table(folder, "ercot_storage_dam_awards_monthly", FLEET)[0])
+    model = re.compile(r"^(dayahead_2h_(days_held|days_in_month|discharged_mwh_per_mw|revenue_\w+_usd_per_mw)|(foresight|dayahead)_[248]h_(days_held|days_in_month|revenue_ancillary_usd_per_mw))$")
+    n = 0
+    with open(ROWS, "w", encoding="utf-8", newline="") as f:
+        wr = csv.writer(f, lineterminator="\n")
+        wr.writerow(["table", "entity", "variable", "ts_utc", "value", "unit", "retrieved"])
+        for name, entity in keep.items():
+            stamp = table(folder, name, entity)[1].get("retrieved", "")
+            with open(os.path.join(folder, name + ".csv"), encoding="utf-8", newline="") as g:
+                rows = [r for r in csv.DictReader(line for line in g if not line.startswith("#"))
+                        if r["entity"] == entity and r["value"] != "" and (name == "ercot_storage_node_basis" or r["ts_utc"][:7] >= first)
+                        and (name != "battery_stack_monthly" or model.match(r["variable"]))]
+            for r in sorted(rows, key=lambda r: (r["variable"], r["ts_utc"])):
+                wr.writerow([name, entity, r["variable"], r["ts_utc"], r["value"], r["unit"], stamp])
+                n += 1
+    return n
+
+
 def decimals(shown: str) -> int:
     s = shown.replace(",", "")
     return len(s.split(".")[1]) if "." in s else 0
@@ -425,15 +461,20 @@ def from_disclosure(folder: str, awards_path: str, sced_path: str | None, hub_pa
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--tables", default=os.path.join(ROOT, "warehouse", "output"), help="the folder of the warehouse's CSV tables")
+    ap.add_argument("--tables", help="the folder of the warehouse's CSV tables; without it, monthly_rows.csv beside this file (the same rows, copied by --write)")
     ap.add_argument("--awards", help="ercot_dam_esr_awards.csv (part 3)")
     ap.add_argument("--sced", help="ercot_sced_esr_hourly.csv (part 3)")
     ap.add_argument("--hub", help="ercot_all_hub_prices_history.csv, for the real-time hub prices (part 3)")
     ap.add_argument("--write", action="store_true", help="rewrite page_figures.csv and source_rows.csv")
     a = ap.parse_args()
-    if not os.path.isfile(os.path.join(a.tables, "ercot_storage_dam_awards_monthly.csv")):
-        print(f"no ercot_storage_dam_awards_monthly.csv in {a.tables}: give --tables", file=sys.stderr)
+    if a.tables and not os.path.isfile(os.path.join(a.tables, "ercot_storage_dam_awards_monthly.csv")):
+        print(f"no ercot_storage_dam_awards_monthly.csv in {a.tables}", file=sys.stderr)
         return 2
+    if (a.awards or a.write) and not a.tables:
+        print("--awards and --write need --tables (the tables' headers hold the days they were built on)", file=sys.stderr)
+        return 2
+    if a.write:
+        print(f"monthly_rows.csv: {copy_rows(a.tables)} rows of the five public tables")
     page = json.load(open(os.path.join(HERE, "page_figures.json"), encoding="utf-8"))
     ours, words = page_figures(a.tables)
     rows, ok, named = compare(ours, page["figures"])

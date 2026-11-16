@@ -147,3 +147,15 @@ months are compared.
 4. **Still not disclosed after that:** contracts and tolls, the charges and make-whole payments of the private
    settlement statement, station power. Even with the real-time side the figure would be market revenue at posted
    prices, 60 days behind, not cash received.
+
+## Session 7505 (16 November 2026): what counts as an award, and where the days stop
+
+- **An award printed as zero is not an award.** `resource_hours_energy_award` counts the resource-hours whose Awarded
+  Quantity is not blank and not zero; `resources_with_award` counts the resources with one award of any kind that is
+  not zero in the month. ERCOT prints a zero beside a price for many hours of a resource that sold nothing. Recomputed
+  under that rule from the rows of `ercot_dam_esr_awards`, both counts equal this table's in all nine months
+  (`replication/battery_awards/source_rows.csv`).
+- **The days stop in late August 2026.** The disclosure is served under ERCOT's `/misapp` and `/misdownload` paths,
+  which its robots file disallows; under the owner's ruling 2 of 6 November 2026 no new request goes there. The rows by
+  resource and hour end on 29 August 2026.
+- The tool as a reader meets it, its replication and its cross-check are in [`battery_awards.md`](battery_awards.md).

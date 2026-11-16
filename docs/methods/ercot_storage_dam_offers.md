@@ -168,3 +168,13 @@ asked for twice.
   offered on paper cannot be read as MWh deliverable.
 - **What the market would have paid had more cleared.**
 - **Which service an unawarded block would have gone to.**
+
+## Session 7505 (16 November 2026): two sentences above that no longer hold
+
+- "The standing daily pull" says the tables "stay 60 days behind ERCOT's calendar and no further". Since the owner's
+  ruling 2 of 6 November 2026 no new request goes to ERCOT's `/misapp` and `/misdownload` paths, which its robots file
+  disallows, so the daily table ends where the last pull left it and falls further behind each day.
+- "What the offers still cannot show" says the warehouse does not hold the 60-Day SCED Disclosure. It has held the
+  storage file of it since session 120 ([`ercot_storage_realtime.md`](ercot_storage_realtime.md)), for the fleet and
+  not yet set beside each resource's offers.
+- The tool as a reader meets it, its replication and its cross-check are in [`battery_awards.md`](battery_awards.md).
