@@ -103,3 +103,12 @@ export function partialYear(year: number, retrieved: string | null, now = new Da
   const y = retrieved ? new Date(retrieved).getUTCFullYear() : now.getUTCFullYear();
   return year >= y;
 }
+
+/** Session 7509 (chain 304): how a figure is written, by its variable. A count of positions is whole; MW, the withdrawn
+ *  share and a wait in years always carry two decimals. Until then lib/format.ts's shown() wrote a value that happened
+ *  to be whole without them: "550" above "162.10" in the MW column, a share of "1" above "0.86". The text still begins
+ *  with what scripts/check-values.mjs expects of the raw value. */
+export function figureText(variable: string, v: number): string {
+  const whole = variable.startsWith("positions_") || variable === "wait_positions";
+  return whole ? Math.round(v).toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}

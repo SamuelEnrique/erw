@@ -1,0 +1,2131 @@
+{
+ "_about": "The interconnection queue explorer (/explore/interconnection): every figure the page draws for each queue it shows (CAISO, ERCOT, SPP), in positions and in MW, for every first and last entry year it offers, as the page's own code draws it on iso_queue_statistics (site/scripts/interconnection-figures.mjs), beside the replication's reading of the table (replication/interconnection/replicate.py, written from docs/methods/interconnection_explorer.md). A figure's check key is series|iso_queue_statistics|<queue>:queue_<entry year>|<variable>|<year>. The tolerance is half the last digit shown: 0.5 for a count, 0.005 for MW, a share or a wait in years. The figures are in page_figures.csv, one line each. NYISO, MISO and ISO-NE are held (license needed): none of their figures is drawn or kept.",
+ "table": {
+  "rows": 1511,
+  "built": "Retrieved: 20261021T071417Z (UTC) by warehouse/derived/iso_queue_statistics.py",
+  "inputs_retrieved": {
+   "caiso": "2026-10-19",
+   "ercot": "2026-10-19",
+   "nyiso": "2026-09-26",
+   "miso": "2026-09-26",
+   "spp": "2026-10-19",
+   "isone": "2026-10-19"
+  },
+  "positions_with_no_queue_date": {
+   "caiso": 0,
+   "ercot": 1,
+   "spp": 48
+  }
+ },
+ "held": [
+  "isone",
+  "miso",
+  "nyiso"
+ ],
+ "views": 284,
+ "views_as_the_note_says": 284,
+ "figures": 730,
+ "figures_inside_the_tolerance": 730,
+ "queue_years_whose_statuses_make_up_the_entered": 139,
+ "opening": {
+  "queue": "caiso",
+  "count": "positions",
+  "headlines": [
+   {
+    "label": "Entered, positions, CAISO, entered 2023",
+    "key": "series|iso_queue_statistics|caiso:queue_2023|positions_entered|2023-01-01T00:00:00Z",
+    "page": "4",
+    "first_year": "1"
+   },
+   {
+    "label": "Reached operation, positions, CAISO, entered 2023",
+    "key": "series|iso_queue_statistics|caiso:queue_2023|positions_operating|2023-01-01T00:00:00Z",
+    "page": "0",
+    "first_year": "1"
+   },
+   {
+    "label": "Withdrawn, share of positions entered, CAISO, entered 2023",
+    "key": "series|iso_queue_statistics|caiso:queue_2023|withdrawal_rate|2023-01-01T00:00:00Z",
+    "page": "1.00",
+    "first_year": "0.00"
+   }
+  ]
+ },
+ "views_list": [
+  {
+   "address": "",
+   "why": "the page as it opens",
+   "figures": 218,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions",
+   "why": "no year named",
+   "figures": 218,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=1999",
+   "why": "a first entry year",
+   "figures": 218,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=1999",
+   "why": "a last entry year",
+   "figures": 22,
+   "cells_not_held": 5,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2000",
+   "why": "a first entry year",
+   "figures": 210,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2000",
+   "why": "a last entry year",
+   "figures": 33,
+   "cells_not_held": 5,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2001",
+   "why": "a first entry year",
+   "figures": 202,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2001",
+   "why": "a last entry year",
+   "figures": 40,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2002",
+   "why": "a first entry year",
+   "figures": 195,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2002",
+   "why": "a last entry year",
+   "figures": 48,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2003",
+   "why": "a first entry year",
+   "figures": 187,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2003",
+   "why": "a last entry year",
+   "figures": 56,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2004",
+   "why": "a first entry year",
+   "figures": 179,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2004",
+   "why": "a last entry year",
+   "figures": 64,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2005",
+   "why": "a first entry year",
+   "figures": 171,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2005",
+   "why": "a last entry year",
+   "figures": 72,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2006",
+   "why": "a first entry year",
+   "figures": 163,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2006",
+   "why": "a last entry year",
+   "figures": 80,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2007",
+   "why": "a first entry year",
+   "figures": 155,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2007",
+   "why": "a last entry year",
+   "figures": 88,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2008",
+   "why": "a first entry year",
+   "figures": 147,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2008",
+   "why": "a last entry year",
+   "figures": 96,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2009",
+   "why": "a first entry year",
+   "figures": 139,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2009",
+   "why": "a last entry year",
+   "figures": 104,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2010",
+   "why": "a first entry year",
+   "figures": 131,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2010",
+   "why": "a last entry year",
+   "figures": 112,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2011",
+   "why": "a first entry year",
+   "figures": 123,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2011",
+   "why": "a last entry year",
+   "figures": 120,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2012",
+   "why": "a first entry year",
+   "figures": 115,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2012",
+   "why": "a last entry year",
+   "figures": 128,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2013",
+   "why": "a first entry year",
+   "figures": 107,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2013",
+   "why": "a last entry year",
+   "figures": 140,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2014",
+   "why": "a first entry year",
+   "figures": 99,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2014",
+   "why": "a last entry year",
+   "figures": 148,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2015",
+   "why": "a first entry year",
+   "figures": 91,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2015",
+   "why": "a last entry year",
+   "figures": 156,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2016",
+   "why": "a first entry year",
+   "figures": 83,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2016",
+   "why": "a last entry year",
+   "figures": 164,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2017",
+   "why": "a first entry year",
+   "figures": 75,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2017",
+   "why": "a last entry year",
+   "figures": 172,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2018",
+   "why": "a first entry year",
+   "figures": 67,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2018",
+   "why": "a last entry year",
+   "figures": 180,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2019",
+   "why": "a first entry year",
+   "figures": 59,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2019",
+   "why": "a last entry year",
+   "figures": 188,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2020",
+   "why": "a first entry year",
+   "figures": 51,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2020",
+   "why": "a last entry year",
+   "figures": 196,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2021",
+   "why": "a first entry year",
+   "figures": 43,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2021",
+   "why": "a last entry year",
+   "figures": 204,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2022",
+   "why": "a first entry year",
+   "figures": 35,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2022",
+   "why": "a last entry year",
+   "figures": 211,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&from=2023",
+   "why": "a first entry year",
+   "figures": 25,
+   "cells_not_held": 2,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=positions&to=2023",
+   "why": "a last entry year",
+   "figures": 218,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw",
+   "why": "no year named",
+   "figures": 106,
+   "cells_not_held": 41,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=1999",
+   "why": "a first entry year",
+   "figures": 106,
+   "cells_not_held": 41,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=1999",
+   "why": "a last entry year",
+   "figures": 10,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2000",
+   "why": "a first entry year",
+   "figures": 104,
+   "cells_not_held": 38,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2000",
+   "why": "a last entry year",
+   "figures": 17,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2001",
+   "why": "a first entry year",
+   "figures": 100,
+   "cells_not_held": 37,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2001",
+   "why": "a last entry year",
+   "figures": 18,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2002",
+   "why": "a first entry year",
+   "figures": 99,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2002",
+   "why": "a last entry year",
+   "figures": 23,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2003",
+   "why": "a first entry year",
+   "figures": 96,
+   "cells_not_held": 31,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2003",
+   "why": "a last entry year",
+   "figures": 28,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2004",
+   "why": "a first entry year",
+   "figures": 92,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2004",
+   "why": "a last entry year",
+   "figures": 32,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2005",
+   "why": "a first entry year",
+   "figures": 88,
+   "cells_not_held": 29,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2005",
+   "why": "a last entry year",
+   "figures": 36,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2006",
+   "why": "a first entry year",
+   "figures": 84,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2006",
+   "why": "a last entry year",
+   "figures": 40,
+   "cells_not_held": 22,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2007",
+   "why": "a first entry year",
+   "figures": 80,
+   "cells_not_held": 27,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2007",
+   "why": "a last entry year",
+   "figures": 44,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2008",
+   "why": "a first entry year",
+   "figures": 76,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2008",
+   "why": "a last entry year",
+   "figures": 48,
+   "cells_not_held": 24,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2009",
+   "why": "a first entry year",
+   "figures": 72,
+   "cells_not_held": 25,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2009",
+   "why": "a last entry year",
+   "figures": 52,
+   "cells_not_held": 25,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2010",
+   "why": "a first entry year",
+   "figures": 68,
+   "cells_not_held": 24,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2010",
+   "why": "a last entry year",
+   "figures": 56,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2011",
+   "why": "a first entry year",
+   "figures": 64,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2011",
+   "why": "a last entry year",
+   "figures": 61,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2012",
+   "why": "a first entry year",
+   "figures": 60,
+   "cells_not_held": 22,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2012",
+   "why": "a last entry year",
+   "figures": 64,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2013",
+   "why": "a first entry year",
+   "figures": 56,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2013",
+   "why": "a last entry year",
+   "figures": 71,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2014",
+   "why": "a first entry year",
+   "figures": 52,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2014",
+   "why": "a last entry year",
+   "figures": 74,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2015",
+   "why": "a first entry year",
+   "figures": 48,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2015",
+   "why": "a last entry year",
+   "figures": 79,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2016",
+   "why": "a first entry year",
+   "figures": 44,
+   "cells_not_held": 18,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2016",
+   "why": "a last entry year",
+   "figures": 84,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2017",
+   "why": "a first entry year",
+   "figures": 40,
+   "cells_not_held": 17,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2017",
+   "why": "a last entry year",
+   "figures": 88,
+   "cells_not_held": 29,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2018",
+   "why": "a first entry year",
+   "figures": 36,
+   "cells_not_held": 16,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2018",
+   "why": "a last entry year",
+   "figures": 92,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2019",
+   "why": "a first entry year",
+   "figures": 32,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2019",
+   "why": "a last entry year",
+   "figures": 97,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2020",
+   "why": "a first entry year",
+   "figures": 28,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2020",
+   "why": "a last entry year",
+   "figures": 100,
+   "cells_not_held": 32,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2021",
+   "why": "a first entry year",
+   "figures": 24,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2021",
+   "why": "a last entry year",
+   "figures": 104,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2022",
+   "why": "a first entry year",
+   "figures": 19,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2022",
+   "why": "a last entry year",
+   "figures": 103,
+   "cells_not_held": 39,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&from=2023",
+   "why": "a first entry year",
+   "figures": 15,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&measure=mw&to=2023",
+   "why": "a last entry year",
+   "figures": 106,
+   "cells_not_held": 41,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions",
+   "why": "no year named",
+   "figures": 93,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2013",
+   "why": "a first entry year",
+   "figures": 93,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2013",
+   "why": "a last entry year",
+   "figures": 24,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2014",
+   "why": "a first entry year",
+   "figures": 87,
+   "cells_not_held": 31,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2014",
+   "why": "a last entry year",
+   "figures": 33,
+   "cells_not_held": 5,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2015",
+   "why": "a first entry year",
+   "figures": 81,
+   "cells_not_held": 29,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2015",
+   "why": "a last entry year",
+   "figures": 39,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2016",
+   "why": "a first entry year",
+   "figures": 75,
+   "cells_not_held": 27,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2016",
+   "why": "a last entry year",
+   "figures": 45,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2017",
+   "why": "a first entry year",
+   "figures": 69,
+   "cells_not_held": 25,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2017",
+   "why": "a last entry year",
+   "figures": 51,
+   "cells_not_held": 11,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2018",
+   "why": "a first entry year",
+   "figures": 63,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2018",
+   "why": "a last entry year",
+   "figures": 57,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2019",
+   "why": "a first entry year",
+   "figures": 57,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2019",
+   "why": "a last entry year",
+   "figures": 63,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2020",
+   "why": "a first entry year",
+   "figures": 51,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2020",
+   "why": "a last entry year",
+   "figures": 69,
+   "cells_not_held": 17,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2021",
+   "why": "a first entry year",
+   "figures": 45,
+   "cells_not_held": 17,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2021",
+   "why": "a last entry year",
+   "figures": 75,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2022",
+   "why": "a first entry year",
+   "figures": 39,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2022",
+   "why": "a last entry year",
+   "figures": 81,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2023",
+   "why": "a first entry year",
+   "figures": 33,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2023",
+   "why": "a last entry year",
+   "figures": 87,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2024",
+   "why": "a first entry year",
+   "figures": 27,
+   "cells_not_held": 11,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2024",
+   "why": "a last entry year",
+   "figures": 88,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2025",
+   "why": "a first entry year",
+   "figures": 18,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2025",
+   "why": "a last entry year",
+   "figures": 93,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&from=2026",
+   "why": "a first entry year",
+   "figures": 26,
+   "cells_not_held": 12,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=positions&to=2026",
+   "why": "a last entry year",
+   "figures": 98,
+   "cells_not_held": 36,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw",
+   "why": "no year named",
+   "figures": 50,
+   "cells_not_held": 37,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2013",
+   "why": "a first entry year",
+   "figures": 50,
+   "cells_not_held": 37,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2013",
+   "why": "a last entry year",
+   "figures": 15,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2014",
+   "why": "a first entry year",
+   "figures": 48,
+   "cells_not_held": 34,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2014",
+   "why": "a last entry year",
+   "figures": 18,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2015",
+   "why": "a first entry year",
+   "figures": 47,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2015",
+   "why": "a last entry year",
+   "figures": 23,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2016",
+   "why": "a first entry year",
+   "figures": 44,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2016",
+   "why": "a last entry year",
+   "figures": 27,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2017",
+   "why": "a first entry year",
+   "figures": 41,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2017",
+   "why": "a last entry year",
+   "figures": 30,
+   "cells_not_held": 17,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2018",
+   "why": "a first entry year",
+   "figures": 38,
+   "cells_not_held": 24,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2018",
+   "why": "a last entry year",
+   "figures": 33,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2019",
+   "why": "a first entry year",
+   "figures": 35,
+   "cells_not_held": 22,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2019",
+   "why": "a last entry year",
+   "figures": 37,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2020",
+   "why": "a first entry year",
+   "figures": 32,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2020",
+   "why": "a last entry year",
+   "figures": 39,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2021",
+   "why": "a first entry year",
+   "figures": 29,
+   "cells_not_held": 18,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2021",
+   "why": "a last entry year",
+   "figures": 42,
+   "cells_not_held": 25,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2022",
+   "why": "a first entry year",
+   "figures": 26,
+   "cells_not_held": 16,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2022",
+   "why": "a last entry year",
+   "figures": 43,
+   "cells_not_held": 29,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2023",
+   "why": "a first entry year",
+   "figures": 23,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2023",
+   "why": "a last entry year",
+   "figures": 47,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2024",
+   "why": "a first entry year",
+   "figures": 20,
+   "cells_not_held": 12,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2024",
+   "why": "a last entry year",
+   "figures": 48,
+   "cells_not_held": 34,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2025",
+   "why": "a first entry year",
+   "figures": 14,
+   "cells_not_held": 10,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2025",
+   "why": "a last entry year",
+   "figures": 50,
+   "cells_not_held": 37,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&from=2026",
+   "why": "a first entry year",
+   "figures": 20,
+   "cells_not_held": 12,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=ercot&measure=mw&to=2026",
+   "why": "a last entry year",
+   "figures": 53,
+   "cells_not_held": 39,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=nyiso&measure=positions",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=nyiso&measure=mw",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=miso&measure=positions",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=miso&measure=mw",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions",
+   "why": "no year named",
+   "figures": 229,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=1999",
+   "why": "a first entry year",
+   "figures": 229,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=1999",
+   "why": "a last entry year",
+   "figures": 21,
+   "cells_not_held": 6,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2000",
+   "why": "a first entry year",
+   "figures": 222,
+   "cells_not_held": 8,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2000",
+   "why": "a last entry year",
+   "figures": 31,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2001",
+   "why": "a first entry year",
+   "figures": 215,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2001",
+   "why": "a last entry year",
+   "figures": 39,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2002",
+   "why": "a first entry year",
+   "figures": 207,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2002",
+   "why": "a last entry year",
+   "figures": 47,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2003",
+   "why": "a first entry year",
+   "figures": 199,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2003",
+   "why": "a last entry year",
+   "figures": 55,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2004",
+   "why": "a first entry year",
+   "figures": 191,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2004",
+   "why": "a last entry year",
+   "figures": 63,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2005",
+   "why": "a first entry year",
+   "figures": 183,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2005",
+   "why": "a last entry year",
+   "figures": 71,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2006",
+   "why": "a first entry year",
+   "figures": 175,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2006",
+   "why": "a last entry year",
+   "figures": 79,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2007",
+   "why": "a first entry year",
+   "figures": 167,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2007",
+   "why": "a last entry year",
+   "figures": 87,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2008",
+   "why": "a first entry year",
+   "figures": 159,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2008",
+   "why": "a last entry year",
+   "figures": 95,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2009",
+   "why": "a first entry year",
+   "figures": 151,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2009",
+   "why": "a last entry year",
+   "figures": 103,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2010",
+   "why": "a first entry year",
+   "figures": 143,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2010",
+   "why": "a last entry year",
+   "figures": 111,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2011",
+   "why": "a first entry year",
+   "figures": 135,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2011",
+   "why": "a last entry year",
+   "figures": 119,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2012",
+   "why": "a first entry year",
+   "figures": 127,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2012",
+   "why": "a last entry year",
+   "figures": 127,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2013",
+   "why": "a first entry year",
+   "figures": 119,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2013",
+   "why": "a last entry year",
+   "figures": 139,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2014",
+   "why": "a first entry year",
+   "figures": 111,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2014",
+   "why": "a last entry year",
+   "figures": 147,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2015",
+   "why": "a first entry year",
+   "figures": 103,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2015",
+   "why": "a last entry year",
+   "figures": 155,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2016",
+   "why": "a first entry year",
+   "figures": 95,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2016",
+   "why": "a last entry year",
+   "figures": 163,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2017",
+   "why": "a first entry year",
+   "figures": 87,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2017",
+   "why": "a last entry year",
+   "figures": 171,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2018",
+   "why": "a first entry year",
+   "figures": 79,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2018",
+   "why": "a last entry year",
+   "figures": 179,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2019",
+   "why": "a first entry year",
+   "figures": 71,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2019",
+   "why": "a last entry year",
+   "figures": 187,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2020",
+   "why": "a first entry year",
+   "figures": 63,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2020",
+   "why": "a last entry year",
+   "figures": 195,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2021",
+   "why": "a first entry year",
+   "figures": 55,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2021",
+   "why": "a last entry year",
+   "figures": 203,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2022",
+   "why": "a first entry year",
+   "figures": 47,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2022",
+   "why": "a last entry year",
+   "figures": 211,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2023",
+   "why": "a first entry year",
+   "figures": 39,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2023",
+   "why": "a last entry year",
+   "figures": 219,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2024",
+   "why": "a first entry year",
+   "figures": 31,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2024",
+   "why": "a last entry year",
+   "figures": 222,
+   "cells_not_held": 8,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2025",
+   "why": "a first entry year",
+   "figures": 20,
+   "cells_not_held": 7,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2025",
+   "why": "a last entry year",
+   "figures": 229,
+   "cells_not_held": 9,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&from=2026",
+   "why": "a first entry year",
+   "figures": 30,
+   "cells_not_held": 8,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=positions&to=2026",
+   "why": "a last entry year",
+   "figures": 236,
+   "cells_not_held": 10,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw",
+   "why": "no year named",
+   "figures": 106,
+   "cells_not_held": 51,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=1999",
+   "why": "a first entry year",
+   "figures": 106,
+   "cells_not_held": 51,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=1999",
+   "why": "a last entry year",
+   "figures": 9,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2000",
+   "why": "a first entry year",
+   "figures": 104,
+   "cells_not_held": 48,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2000",
+   "why": "a last entry year",
+   "figures": 14,
+   "cells_not_held": 18,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2001",
+   "why": "a first entry year",
+   "figures": 103,
+   "cells_not_held": 44,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2001",
+   "why": "a last entry year",
+   "figures": 18,
+   "cells_not_held": 19,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2002",
+   "why": "a first entry year",
+   "figures": 100,
+   "cells_not_held": 42,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2002",
+   "why": "a last entry year",
+   "figures": 22,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2003",
+   "why": "a first entry year",
+   "figures": 97,
+   "cells_not_held": 40,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2003",
+   "why": "a last entry year",
+   "figures": 26,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2004",
+   "why": "a first entry year",
+   "figures": 94,
+   "cells_not_held": 38,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2004",
+   "why": "a last entry year",
+   "figures": 29,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2005",
+   "why": "a first entry year",
+   "figures": 91,
+   "cells_not_held": 36,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2005",
+   "why": "a last entry year",
+   "figures": 32,
+   "cells_not_held": 25,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2006",
+   "why": "a first entry year",
+   "figures": 88,
+   "cells_not_held": 34,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2006",
+   "why": "a last entry year",
+   "figures": 35,
+   "cells_not_held": 27,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2007",
+   "why": "a first entry year",
+   "figures": 85,
+   "cells_not_held": 32,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2007",
+   "why": "a last entry year",
+   "figures": 38,
+   "cells_not_held": 29,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2008",
+   "why": "a first entry year",
+   "figures": 82,
+   "cells_not_held": 30,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2008",
+   "why": "a last entry year",
+   "figures": 41,
+   "cells_not_held": 31,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2009",
+   "why": "a first entry year",
+   "figures": 79,
+   "cells_not_held": 28,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2009",
+   "why": "a last entry year",
+   "figures": 44,
+   "cells_not_held": 33,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2010",
+   "why": "a first entry year",
+   "figures": 76,
+   "cells_not_held": 26,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2010",
+   "why": "a last entry year",
+   "figures": 47,
+   "cells_not_held": 35,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2011",
+   "why": "a first entry year",
+   "figures": 73,
+   "cells_not_held": 24,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2011",
+   "why": "a last entry year",
+   "figures": 52,
+   "cells_not_held": 35,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2012",
+   "why": "a first entry year",
+   "figures": 69,
+   "cells_not_held": 23,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2012",
+   "why": "a last entry year",
+   "figures": 54,
+   "cells_not_held": 38,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2013",
+   "why": "a first entry year",
+   "figures": 66,
+   "cells_not_held": 21,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2013",
+   "why": "a last entry year",
+   "figures": 61,
+   "cells_not_held": 36,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2014",
+   "why": "a first entry year",
+   "figures": 62,
+   "cells_not_held": 20,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2014",
+   "why": "a last entry year",
+   "figures": 63,
+   "cells_not_held": 39,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2015",
+   "why": "a first entry year",
+   "figures": 59,
+   "cells_not_held": 18,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2015",
+   "why": "a last entry year",
+   "figures": 67,
+   "cells_not_held": 40,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2016",
+   "why": "a first entry year",
+   "figures": 56,
+   "cells_not_held": 16,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2016",
+   "why": "a last entry year",
+   "figures": 72,
+   "cells_not_held": 40,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2017",
+   "why": "a first entry year",
+   "figures": 52,
+   "cells_not_held": 15,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2017",
+   "why": "a last entry year",
+   "figures": 76,
+   "cells_not_held": 41,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2018",
+   "why": "a first entry year",
+   "figures": 48,
+   "cells_not_held": 14,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2018",
+   "why": "a last entry year",
+   "figures": 80,
+   "cells_not_held": 42,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2019",
+   "why": "a first entry year",
+   "figures": 44,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2019",
+   "why": "a last entry year",
+   "figures": 86,
+   "cells_not_held": 41,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2020",
+   "why": "a first entry year",
+   "figures": 39,
+   "cells_not_held": 13,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2020",
+   "why": "a last entry year",
+   "figures": 89,
+   "cells_not_held": 43,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2021",
+   "why": "a first entry year",
+   "figures": 35,
+   "cells_not_held": 12,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2021",
+   "why": "a last entry year",
+   "figures": 93,
+   "cells_not_held": 44,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2022",
+   "why": "a first entry year",
+   "figures": 31,
+   "cells_not_held": 11,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2022",
+   "why": "a last entry year",
+   "figures": 95,
+   "cells_not_held": 47,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2023",
+   "why": "a first entry year",
+   "figures": 27,
+   "cells_not_held": 10,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2023",
+   "why": "a last entry year",
+   "figures": 101,
+   "cells_not_held": 46,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2024",
+   "why": "a first entry year",
+   "figures": 22,
+   "cells_not_held": 10,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2024",
+   "why": "a last entry year",
+   "figures": 104,
+   "cells_not_held": 48,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2025",
+   "why": "a first entry year",
+   "figures": 14,
+   "cells_not_held": 10,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2025",
+   "why": "a last entry year",
+   "figures": 106,
+   "cells_not_held": 51,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2026",
+   "why": "a first entry year",
+   "figures": 20,
+   "cells_not_held": 12,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&to=2026",
+   "why": "a last entry year",
+   "figures": 110,
+   "cells_not_held": 52,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=isone&measure=positions",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=isone&measure=mw",
+   "why": "no year named",
+   "figures": 0,
+   "cells_not_held": 0,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=caiso&from=2020&to=2010",
+   "why": "the years the other way round",
+   "figures": 109,
+   "cells_not_held": 1,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=spp&measure=mw&from=2019&to=2019",
+   "why": "one year alone",
+   "figures": 21,
+   "cells_not_held": 3,
+   "as_the_note_says": true
+  },
+  {
+   "address": "queue=pjm&measure=gw&from=1066&to=2999",
+   "why": "an address the table does not hold",
+   "figures": 218,
+   "cells_not_held": 4,
+   "as_the_note_says": true
+  }
+ ],
+ "named_differences": {},
+ "table_from_the_queue_tables": {
+  "caiso": {
+   "rows_in_the_queue_table": 2278,
+   "rows_the_statistics_read": 2278,
+   "statistics_rows": 309,
+   "computed_rows": 309,
+   "equal": 304,
+   "differ": 5,
+   "undated": 0,
+   "undated_in_header": 0,
+   "held": false,
+   "queue_table_retrieved": "2026-09-30",
+   "statistics_read_the_pull_of": "2026-10-19",
+   "same_run": false
+  },
+  "ercot": {
+   "rows_in_the_queue_table": 1778,
+   "rows_the_statistics_read": 1758,
+   "statistics_rows": 134,
+   "computed_rows": 134,
+   "equal": 63,
+   "differ": 71,
+   "undated": 0,
+   "undated_in_header": 1,
+   "held": false,
+   "queue_table_retrieved": "2026-09-30",
+   "statistics_read_the_pull_of": "2026-10-19",
+   "same_run": false
+  },
+  "nyiso": {
+   "rows_in_the_queue_table": 1814,
+   "rows_the_statistics_read": 1814,
+   "statistics_rows": 352,
+   "computed_rows": 352,
+   "equal": 352,
+   "differ": 0,
+   "undated": 0,
+   "undated_in_header": 0,
+   "held": true,
+   "queue_table_retrieved": "2026-09-26",
+   "statistics_read_the_pull_of": "2026-09-26",
+   "same_run": true
+  },
+  "miso": {
+   "rows_in_the_queue_table": 3881,
+   "rows_the_statistics_read": 3881,
+   "statistics_rows": 113,
+   "computed_rows": 113,
+   "equal": 113,
+   "differ": 0,
+   "undated": 6,
+   "undated_in_header": 6,
+   "held": true,
+   "queue_table_retrieved": "2026-09-30",
+   "statistics_read_the_pull_of": "2026-09-26",
+   "same_run": false
+  },
+  "spp": {
+   "rows_in_the_queue_table": 3076,
+   "rows_the_statistics_read": 3078,
+   "statistics_rows": 342,
+   "computed_rows": 342,
+   "equal": 311,
+   "differ": 31,
+   "undated": 48,
+   "undated_in_header": 48,
+   "held": false,
+   "queue_table_retrieved": "2026-09-30",
+   "statistics_read_the_pull_of": "2026-10-19",
+   "same_run": false
+  },
+  "isone": {
+   "rows_in_the_queue_table": 1751,
+   "rows_the_statistics_read": 1751,
+   "statistics_rows": 261,
+   "computed_rows": 261,
+   "equal": 245,
+   "differ": 16,
+   "undated": 0,
+   "undated_in_header": 0,
+   "held": true,
+   "queue_table_retrieved": "2026-09-30",
+   "statistics_read_the_pull_of": "2026-10-19",
+   "same_run": false
+  }
+ }
+}

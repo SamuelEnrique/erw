@@ -1,0 +1,4 @@
+# The tables are copied here by fetch_rows.py and are not in git: iso_queue_statistics and three of the six queue
+# tables are held (license needed), and no row of a held table is committed.
+*
+!.gitignore

@@ -9,13 +9,15 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } 
 import { headers } from "@/lib/data";
 import { choose, isoKey, longDay, longTime, type Params } from "@/lib/explore";
 import {
-  MEASURES, METHOD, NOT_HELD, QUEUES, STATUSES, TABLE, UNDATED, builtAt, entityOf, faultyBuild, headerCount, headerKey,
+  MEASURES, METHOD, NOT_HELD, QUEUES, STATUSES, TABLE, UNDATED, builtAt, entityOf, faultyBuild, figureText, headerCount, headerKey,
   inputRetrieved, partialYear, valueOf, yearOf, yearTs, type Measure, type Row,
 } from "@/lib/explore/interconnection";
 import { sourceOf } from "@/lib/explore/source";
 import { shown } from "@/lib/format";
 import { LICENSE_NEEDED, licenseHeldGrid, licenseTitle } from "@/lib/license";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+// by the site's alias, not "./": tests/test_session405.py holds this page to no private import
+import { InterconnectionDecisions } from "@/app/explore/interconnection/Decisions";
 
 // Session 405: the interconnection explorer (platform tool 5, the third signature explorer), in review. The six ISO
 // queues by the year a position entered and what became of it (reached operation, withdrawn, still waiting, status not
@@ -31,6 +33,10 @@ import { HOURLY, attempt, rest } from "@/lib/supabase";
 // own queue table and the method note; the header's count names the header line it is read from), each headline number a
 // Tip with the same words, and the stacked chart (SeriesChart) the brand's hover card. A held queue's figures stay
 // "license needed", with no source words: Num draws the hold before the source.
+// Session 7509 (chain 304, the done line): a figure is written by its variable (lib/explore/interconnection.ts,
+// figureText: positions whole; MW, the share and the wait always with two decimals); the two year filters show the
+// years as the page reads them (the earlier first) when the address names them the other way round; and the choices
+// that move the figures are a decisions block at the foot (./Decisions.tsx), under a held queue's line too.
 export const metadata: Metadata = { title: "Interconnection queue explorer" };
 export const dynamic = "force-dynamic";
 
@@ -73,7 +79,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
     </p>
   ) : null;
 
-  const frame = (filters: React.ReactNode, body: React.ReactNode) => (
+  const frame = (filters: React.ReactNode, body: React.ReactNode, decisions = false) => (
     <ExploreFrame
       id="interconnection"
       title="Interconnection queues"
@@ -82,9 +88,10 @@ export default async function InterconnectionExplorer({ searchParams }: { search
       filters={filters}
       method={{ href: METHOD, label: "Energy projects, Queue statistics" }}
       tables={[TABLE]}
-      sourceNote={<>Derived by the ERW from the six ISOs&apos; queue tables (<code className="font-mono">{iso}_interconnection_queue</code> for this one), as the ERW last pulled them. This page is in review.</>}
+      sourceNote={<>Derived by the ERW from the six ISOs&apos; queue tables (<code className="font-mono">{iso}_interconnection_queue</code> for this one), as the ERW held them when this table was built{retrieved ? <>: {name}&apos;s as pulled on {longDay(retrieved)}</> : null}. This page is in review.</>}
     >
       {body}
+      {decisions ? <InterconnectionDecisions /> : null}
     </ExploreFrame>
   );
 
@@ -107,8 +114,8 @@ export default async function InterconnectionExplorer({ searchParams }: { search
         { name: "queue", label: "Queue", value: iso, options: QUEUES.map(([k, n]) => ({ value: k, label: `${n}${licenseHeldGrid(k) ? ` (${LICENSE_NEEDED})` : ""}` })) },
         { name: "measure", label: "Count", value: measure, options: MEASURES.map((m) => ({ value: m.key, label: m.label })) },
         ...(years.length ? [
-          { name: "from", label: "First entry year", value: fromS, options: years.map(yearOpt) },
-          { name: "to", label: "Last entry year", value: toS, options: years.map(yearOpt) },
+          { name: "from", label: "First entry year", value: String(lo), options: years.map(yearOpt) },
+          { name: "to", label: "Last entry year", value: String(hi), options: years.map(yearOpt) },
         ] : []),
       ]}
       reset={{ href: PATH, defaults: `${QUEUES[0][1]}'s queue, in positions, every entry year it holds to the newest complete one` }}
@@ -122,7 +129,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
       <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-license-held={TABLE} title={licenseTitle(TABLE)}>
         {name}&apos;s queue is held: {LICENSE_NEEDED}. Its figures are not shown; the queues of {QUEUES.filter(([k]) => !licenseHeldGrid(k)).map(([, n]) => n).join(", ").replace(/, (?=[^,]*$)/, " and ")} are.
       </p>
-    ));
+    ), true);
   }
   if (!read?.ok || rows.length === 0) {
     return frame(filters, <>{notHeld}<NoData what={TABLE} reason={read && !read.ok ? read.reason : `no row for ${name}`} /></>);
@@ -140,7 +147,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
   const sourceWords = (q: string, y: number, v: string) => sourceOf(key(q, y, v), `${queueName(q)}'s queue, entry year ${y}`);
   const N = ({ q = iso, y, v, from = rows }: { q?: string; y: number; v: string; from?: Row[] }) => {
     const x = valueOf(from, q, y, v);
-    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(q, y, v)} raw={x} source={sourceWords(q, y, v)}>{shown(x)}</Num>;
+    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(q, y, v)} raw={x} source={sourceWords(q, y, v)}>{figureText(v, x)}</Num>;
   };
   // the tip beside a headline's label: the figure's source, in the brand's keyboard-reachable tip
   const tipOf = (v: string, label: string) => <Tip id={`source-${v}`} label={`where ${label.toLowerCase()} comes from`}>{sourceWords(iso, hi, v)}</Tip>;
@@ -210,6 +217,7 @@ export default async function InterconnectionExplorer({ searchParams }: { search
         The same table is drawn one queue at a time on the <Link href={`/map?tab=queues&iso=${iso}`}>map&apos;s Queues tab</Link>; Berkeley Lab&apos;s
         Queued Up, by grid and technology, is on <Link href="/queues">the interconnection queue page</Link>.
       </p>
+      <InterconnectionDecisions />
     </>
   );
   return frame(filters, body);
