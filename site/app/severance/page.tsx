@@ -109,7 +109,7 @@ async function CalculatorView() {
                   <li key={o.id} className="text-muted">
                     {p}, {o.name}: {o.what}.{o.how_long ? ` ${o.how_long}.` : ""} <a href={rules.sources[o.cite].url}>{rules.sources[o.cite].title}</a>
                     {o.code ? <>; <a href={rules.sources[o.code.cite].url}>{o.code.section}</a></> : null}
-                    {o.certified ? <> Latest certified price: ${o.certified.prices[0].price} for {o.certified.as_of} (2005 dollars).</> : null}
+                    {o.certified ? <> Latest certified price: ${o.certified.prices[0].price.toFixed(2)} for {o.certified.as_of} (2005 dollars).</> : null}
                   </li>
                 )),
                 ...pr.fees.map((f) => (

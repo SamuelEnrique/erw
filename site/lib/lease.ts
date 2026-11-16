@@ -250,6 +250,13 @@ function optionOf(rules: Rules, state: string, product: Product, id: string): Op
   return rules.states[state]?.products[product]?.options.find((o) => o.id === id);
 }
 
+/** Session 7511 (docs/reviews/severance-read-2026-11-16.md, row 2): the words of a Texas low-producing flag whose month
+ * has no certified price in the rules file. They say what the file holds and to which month, not what the Comptroller
+ * has or has not published: the file is read on a day, and the Comptroller certifies a month after it. */
+function notHeld(o: Option, month: string): string {
+  return `no certified price for ${month} is held in the rules file${o.certified ? ` (its latest is ${o.certified.as_of})` : ""}: no credit computed`;
+}
+
 /** The calculator's input for one well-month and product at the base rate (no option). */
 export function baseInput(rules: Rules, r: WellMonth, product: Product, price: number): Input {
   const x: Input = { state: r.state, product, volume: r.vol[product] ?? 0, price };
@@ -347,8 +354,8 @@ function flagsFor(c: Ctx, r: WellMonth, product: Product, x: Input, base: number
           const o = optionOf(c.rules, "TX", "oil", "tx_lp_oil")!;
           const cp = c.engine.creditPct(o, { period: r.month });
           const extra = [cp.price !== undefined
-            ? `certified price for ${r.month}: $${cp.price} (2005 dollars), a ${cp.pct} percent credit`
-            : `no certified price is published for ${r.month} in the rules file: no credit computed`];
+            ? `certified price for ${r.month}: $${cp.price.toFixed(2)} (2005 dollars), a ${cp.pct} percent credit`
+            : notHeld(o, r.month)];
           const parts = [];
           if (byRate) parts.push(`the lease averages ${n2(t.perWellDay)} bbl per well per day over ${t.months.join(", ")} (${t.wells} wells), under 15`);
           if (byWater) parts.push(`${n2(t.oilPerWater! * 100)}% oil per barrel of produced water, under 5%`);
@@ -363,8 +370,8 @@ function flagsFor(c: Ctx, r: WellMonth, product: Product, x: Input, base: number
         if (g.perDay <= 90) {
           const o = optionOf(c.rules, "TX", "gas", "tx_lp_gas")!;
           const cp = c.engine.creditPct(o, { period: r.month });
-          add("tx_lp_gas", `${n2(g.perDay)} Mcf per day over ${g.months.join(", ")}${g.prior ? "" : " (the well did not produce in each of the three months before, so this month)"}, 90 or less`, [
-            cp.price !== undefined ? `certified price for ${r.month}: $${cp.price} (2005 dollars), a ${cp.pct} percent credit` : `no certified price is published for ${r.month}: no credit computed`,
+          add("tx_lp_gas", `${n2(g.perDay)} Mcf per day over ${g.months.join(", ")}${g.prior ? "" : " (the file does not hold gas in each of the three months before, so this month is the one tested)"}, 90 or less`, [
+            cp.price !== undefined ? `certified price for ${r.month}: $${cp.price.toFixed(2)} (2005 dollars), a ${cp.pct} percent credit` : notHeld(o, r.month),
             ...(r.facts.wellType ? [] : ["for a gas well only: casinghead gas is not eligible (well_type not given)"]),
             "cannot be reported with high-cost gas for the same well and period",
           ]);

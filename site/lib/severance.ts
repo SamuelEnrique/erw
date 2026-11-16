@@ -130,7 +130,7 @@ export function compute(rules: Rules, x: Input): Result {
     } else if (opt.kind === "credit_tier") {
       const c = creditPct(opt, x.option!);
       tax = first.tax * (1 - c.pct / 100);
-      effect = `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price} for ${c.period}, 2005 dollars)` : ""}`;
+      effect = `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price.toFixed(2)} for ${c.period}, 2005 dollars)` : ""}`;
     }
     withTotal = rest + tax;
     applied.push({ id: opt.id, name: opt.name, effect, cite: opt.cite });
@@ -140,7 +140,7 @@ export function compute(rules: Rules, x: Input): Result {
   if (cr) {
     const c = creditPct(cr, x.credit!);
     withTotal = withTotal * (1 - c.pct / 100);
-    applied.push({ id: cr.id, name: cr.name, effect: `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price} for ${c.period}, 2005 dollars)` : ""}`, cite: cr.cite });
+    applied.push({ id: cr.id, name: cr.name, effect: `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price.toFixed(2)} for ${c.period}, 2005 dollars)` : ""}`, cite: cr.cite });
   }
   const fees = p.fees.map((f) => ({ id: f.id, name: f.name, amount: x.volume * f.per_unit, cite: f.cite }));
   return { gross, taxable, perUnitValue, base, baseTotal, withTotal, savings: baseTotal - withTotal, applied, fees };
