@@ -2,7 +2,7 @@
 // (/explore/demand-growth), as the page itself draws it, for every grid (8) and every window (39): 312 views, the
 // page as it opens, and an address the table does not hold.
 //
-//   node --import ./scripts/tsx-register.mjs scripts/demand-growth-figures.mjs <eia930_demand_growth.csv> <out.json> [--coverage=<coverage.csv>] [--opening] [--html=<dir>]
+//   node --import ./scripts/tsx-register.mjs scripts/demand-growth-figures.mjs <eia930_demand_growth.csv> <out.json> [--coverage=<coverage.csv>] [--opening] [--grids=ercot,us48] [--html=<dir>]
 //
 // The page (app/explore/demand-growth/page.tsx) is drawn to HTML with the site's own code, once a view. Its reads of
 // the live set (lib/supabase.ts: the rows of the table, its header lines, the catalogue) are answered here, in the
@@ -41,7 +41,7 @@ export async function load(url, context, next) {
 
 const [tableFile, outFile, ...flags] = process.argv.slice(2);
 if (!tableFile || !outFile) {
-  console.error("usage: node --import ./scripts/tsx-register.mjs scripts/demand-growth-figures.mjs <eia930_demand_growth.csv> <out.json> [--coverage=<coverage.csv>] [--opening] [--html=<dir>]");
+  console.error("usage: node --import ./scripts/tsx-register.mjs scripts/demand-growth-figures.mjs <eia930_demand_growth.csv> <out.json> [--coverage=<coverage.csv>] [--opening] [--grids=ercot,us48] [--html=<dir>]");
   process.exitCode = 2;
 } else {
   await main();
@@ -116,7 +116,8 @@ async function main() {
   };
 
   const views = [{ q: {}, why: "the page as it opens" }];
-  const grids = flags.includes("--opening") ? D.GRIDS.slice(0, 1) : D.GRIDS;
+  const only = flags.find((f) => f.startsWith("--grids="))?.slice(8).split(",");   // --grids=ercot,us48: those grids' views only
+  const grids = only ? D.GRIDS.filter((g) => only.includes(g.slug)) : flags.includes("--opening") ? D.GRIDS.slice(0, 1) : D.GRIDS;
   for (const g of grids) for (const w of D.WINDOWS) views.push({ q: { grid: g.slug, window: w.slug }, why: "a grid and a window" });
   views.push({ q: { grid: "ercot", window: "avg", extra: "1" }, why: "the default named" });
   views.push({ q: { grid: "tva", window: "m13" }, why: "an address the table does not hold" });
@@ -145,7 +146,7 @@ async function main() {
       slots[`${k}.unit`] = unit ? text(unit[1]) : "";
       if (m[3] !== undefined) slots[`${k}.note`] = text(m[3]);
     });
-    // the three bar charts' hover lines, one a group
+    // the three bar charts' hover lines, one a group (and the order the headline chart's bars are drawn in)
     const charts = {};
     for (const m of html.matchAll(/<svg[^>]*data-bars="([^"]+)"[^>]*>([\s\S]*?)<\/svg>/g)) {
       const n = { "growth-by-grid": "bar1", "growth-by-window": "bar2", "demand-by-year": "bar3" }[m[1]];
@@ -157,6 +158,7 @@ async function main() {
         slots[`${n}.${decode(g[1])}.drawn`] = sub.join(" | ");
         charts[m[1]]++;
       }
+      if (n === "bar1") slots["bar1.order"] = [...m[2].matchAll(/<g data-group="([^"]*)">/g)].map((g) => decode(g[1])).join(" | ");
     }
     // the two tables: "Every grid" (its caption begins "Growth since") and the grid's years
     const tables = [...html.matchAll(/<table[^>]*>([\s\S]*?)<\/table>/g)].map((m) => {
