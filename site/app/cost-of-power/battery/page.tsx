@@ -19,6 +19,7 @@ import { STORAGE_VARS as nodeVars, storageRows } from "@/lib/nodebasisread";
 import { CostTabs } from "../Tabs";
 import { Income } from "./Income";
 import { V } from "./nums";
+import { NODE_LIST, placeNotes } from "./place";
 import { internalView, reviewRows, rowsOf, stressRowsOf } from "./read";
 import { BatteryCharts, BatteryDecisions, BatteryHeadline, BatterySensitivity, Scenarios } from "./Scenarios";
 import { Settings } from "./Settings";
@@ -136,6 +137,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
     : !nodeMonths ? `node_basis_summary does not hold the storage nodes for every one of the battery's last twelve months (${monthName(l12m[0])} to ${monthName(l12m[11])}).` : "";
   // session 263: what the address asked for and the page does not show as asked is said, in one line, never replaced in silence
   const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];
+  // session 7519 (the read as a developer choosing between two nodes, row 1): a hub, a zone or a node named in the
+  // address is not held by this tool, and the status line says so (place.ts)
+  asItWas.push(...placeNotes(q, g));
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const key = inputsKey(x);
   const held = ms.filter((r) => r.held);
@@ -251,6 +255,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                     Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}, not the battery&apos;s own node; reserves are paid for being held and are assumed never called.
                     {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held; leave it out of your window to see the average without it.</> : null}
                     {" "}<Link href={`${ALGORITHM}#cannot-see`}>What else the model cannot see</Link>.
+                    {/* session 7519 (the read, row 2): where the site holds a settlement point by its name, and two side by side */}
+                    {x.grid === "ercot" ? <span data-node-list="1"> A settlement point by ERCOT&apos;s own name, and two of them side by side (day-ahead prices against the hub average, not a battery&apos;s income): <Link href={NODE_LIST}>the ERCOT node list</Link>.</span> : null}
                   </p>
                   {nodeMonths ? (
                     <div className="mt-2 max-w-3xl text-xs text-muted" data-node-band="storage">
