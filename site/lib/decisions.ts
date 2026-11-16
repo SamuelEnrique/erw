@@ -4,7 +4,9 @@
 // section "The decisions on the page"); tests/test_session462.py and test_session463.py hold the two to one list. Words
 // only: nothing here is computed, and no figure of a page reads it. A choice is listed as the page makes it today; where
 // a later session changed an earlier one, the later is named.
-export type Decision = { key: string; text: string; session: string; ruling?: string };
+// Session 7402 (chain 303): `def` (the default the page stands on) and `source` (where the choice comes from), where a
+// list gives them, are drawn as a hover tip after the line; a list without them is drawn as before.
+export type Decision = { key: string; text: string; session: string; ruling?: string; def?: string; source?: string };
 
 /** /cost-of-power, "What a datacenter pays" (docs/methods/datacenter_pays_algorithm.md, section 12). */
 export const DATACENTER_DECISIONS: Decision[] = [
@@ -141,4 +143,61 @@ export const BATTERY_DECISIONS: Decision[] = [
     text: "The investment tax credit and the stress repeats are scenario assumptions, 0 by default." },
   { key: "grids", session: "sessions 86 and 89",
     text: "ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license." },
+];
+
+// Session 7402 (chain 303): the two trackers' decisions, in the same form, with two fields more: the default the page
+// stands on and the source of the choice, drawn as a hover tip after the line (components/tool/DecisionsBlock.tsx).
+// The lists are the choices that move the trackers' figures; each tracker's method note carries its list word for word
+// (docs/methods/datacenter_tracker.md, section 12; docs/methods/deal_tracker.md), held by tests/test_session7402_trackers.py.
+
+/** /datacenters, the datacenter power tracker (docs/methods/datacenter_tracker.md, section 12). */
+export const DATACENTER_TRACKER_DECISIONS: Decision[] = [
+  { key: "counted", session: "session 166",
+    text: "A sum counts a facility in a named US state whose status is not withdrawn; every other facility stays in the list and is in no sum.",
+    def: "The 50 states, the District of Columbia and Puerto Rico; a facility with no US state stated is left out, whether it is abroad or a US site whose source names no state.",
+    source: "No source the ERW reads records a country, so the state is the only test (docs/methods/datacenter_facilities.md, \"Country, and what the tracker's totals count\")." },
+  { key: "mw-stated", session: "sessions 16 and 22",
+    text: "Megawatts are only what a source states in words; a facility that states none is counted beside the sum, never added as zero and never estimated.",
+    def: "No estimate: most facilities state no MW, and the count that state it is printed beside every sum.",
+    source: "Session 16's ruling: nothing inferred beyond the stated words; each number is kept only where its quoted words are in the story or on the operator's page." },
+  { key: "mw-basis", session: "session 2236",
+    text: "A sum adds megawatts of every basis: IT load, a facility's total, one tenant's share, a phase, or a figure whose basis the words do not say.",
+    def: "One sum, with each row's basis shown in the list; most stated MW have no basis stated.",
+    source: "The basis is read from the story's own words (mw_basis, docs/methods/datacenter_projects.md); no public source gives a rule to convert one basis to another." },
+  { key: "mw-range", session: "sessions 15 and 22",
+    text: "Where the words give a range or a ceiling, the table keeps one number, the one read from the quoted words (\"up to 495 MW\" is 495); no midpoint is taken and no range is kept.",
+    def: "The number as read; no rule prefers the lower or the upper end.",
+    source: "The check of every number: it must be one of the numbers in the quoted words (warehouse/deals/extract.py, verified)." },
+  { key: "queue-mw", session: "session 22",
+    text: "An interconnection-queue position's megawatts are the generation or storage it asks to connect, not a datacenter's load: they are shown on the power side and are in no facility sum.",
+    def: "Never summed with the facilities.",
+    source: "The grid operators' queues are queues of generation (docs/methods/datacenter_facilities.md, \"Queue rows\")." },
+  { key: "status", session: "sessions 16, 17 and 166",
+    text: "A status is kept only where a source states it: planned is announced, applied or permitted; operating only where a story or the operator's page says so. Most operators' listed sites carry none, so the megawatts by status are not a measure of what is running.",
+    def: "No status is given to a facility whose sources state none.",
+    source: "Session 17's ruling: a status without its words is left empty; the entities vocabulary of docs/datastandard.md." },
+  { key: "grid", session: "sessions 2236 and 2243",
+    text: "A facility's grid is the grid operator a story names, else its queue position's, else the grid that serves most of its state; a state split between grids is given none.",
+    def: "Texas to ERCOT, California to CAISO, New York to NYISO, New England to ISO-NE, eight jurisdictions to PJM, five states to MISO, three to SPP; every other state to no grid.",
+    source: "A reading of the state, not a fact of the story; the basis is shown a row (grid_basis: named, queue or state)." },
+  { key: "one-facility", session: "session 22",
+    text: "Two rows are one facility when they share an operator and a place: the same state and the same county or city, or within 25 km. An operator's separately listed sites are never merged.",
+    def: "25 km; a row with only a state is never merged.",
+    source: "docs/methods/datacenter_facilities.md, \"Deduplication\"." },
+  { key: "by-operator", session: "session 240",
+    text: "The views by operator read the operator a source names; a facility whose sources name only a developer is in \"operator not stated\", which holds most of the megawatts stated.",
+    def: "The operator alone; the developer is shown in the facility's own row.",
+    source: "The warehouse's own rollup table reads the operator, else the developer (docs/methods/datacenter_tracker_rollups.md); whether the page should is the owner's to rule." },
+  { key: "ercot-words", session: "session 106",
+    text: "ERCOT's large loads are the figures its monthly report states in words, dated by the report's first page; nothing is read off a chart, and ERCOT's megawatts are never added to the facilities'.",
+    def: "Three figures a report: approved to energize, observed (each load's own peak), observed together.",
+    source: "ERCOT, Large Load Interconnection Status Update, 28 May 2025 to 19 June 2026 (docs/methods/ercot_large_load_status.md)." },
+  { key: "timeline", session: "sessions 2245 and 1855",
+    text: "The wait from first reported to energized is the difference of two stated years, only where a facility states both; a median needs three such facilities.",
+    def: "Whole years; no wait is estimated from one date.",
+    source: "The first story's date and the year a story says the facility is to be energized or come online (energized_year, else the older planned_year)." },
+  { key: "hold", session: "sessions 215 and 467", ruling: "the owner's ruling of 12 October 2026",
+    text: "From 21 October 2026 the facilities are held whole for a license; the page draws the hold's sentence where they would be, and the queue sites, ERCOT's section and the prices, which rest on public sources.",
+    def: "Held whole; no row is shown.",
+    source: "warehouse/metadata/license_status.csv: the news outlets' and the operators' terms ask for permission." },
 ];

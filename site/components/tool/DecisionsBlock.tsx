@@ -4,6 +4,7 @@
 // are data (lib/decisions.ts), so the page and its method note can be checked against one list. Words only: no figure
 // of the block is a checked number, and nothing on the page is computed from it.
 import type { Decision } from "@/lib/decisions";
+import { Tip } from "@/components/tool/ToolPage";
 
 // Session 5001 (chain 233): `open` draws the fold open to start, for the battery page, which has nothing collapsed (the
 // owner's ruling of 12 October 2026); the other pages pass nothing and are as they were.
@@ -15,6 +16,13 @@ export function DecisionsBlock({ id, title, items, open = false }: { id: string;
         {items.map((d) => (
           <li key={d.key} data-decision={d.key}>
             {d.text} <span className="text-xs text-muted">({d.session}{d.ruling ? `; ${d.ruling}` : ""})</span>
+            {/* session 7402 (chain 303): a choice's default and its source, on hover, tap or focus, where the list gives them */}
+            {d.def || d.source ? (
+              <Tip id={`decision-${id}-${d.key}`} label="this choice's default and source">
+                {d.def ? <span className="block" data-decision-default={d.key}><strong>Default:</strong> {d.def}</span> : null}
+                {d.source ? <span className="block" data-decision-source={d.key}><strong>Source:</strong> {d.source}</span> : null}
+              </Tip>
+            ) : null}
           </li>
         ))}
       </ul>
