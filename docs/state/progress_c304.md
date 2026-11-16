@@ -44,12 +44,22 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 
 ## Part B: each tool read as the reader it is for
 
+Each read is on its tool's own branch, after the tool's part A; its commits move the head of the tool's landing row.
+
 | # | Tool | State | Session |
 |---:|---|---|---|
-| 1 to 9 | this machine's nine tools, in the table's order | open | |
-| 10 | `/cost-of-power/battery` | open | |
-| 11 | `/cost-of-power/seller` | open | |
-| 12 | `/cost-of-power` | open | |
+| B1 | `/contracts` | done `f1417cfe7` on `wip/7501-contracts` (landing row 18, its head moved): the reader is a credit analyst at a fund lending against contracted power plants; five cases (a 15-year energy contract delivered in SPP signed in 2025 Q3; a resource adequacy capacity contract in CAISO; what a Southeast buyer pays for capacity since January 2024; a tolling agreement for a battery in California; the standing book of the first case's buyer); `docs/reviews/contracts-read-2026-11-16.md`, 22 rows: 11 site fixed with a test (a click on a quarter or a product dropped the balancing authority chosen; a rate filed as 0 was counted as a price with no word, 302 of 1,315 numbers; a term under a year gives its days; a number with no unit says so), 4 data machine (data requests rows 19 to 22: the row's period and peak columns, which tell apart 326 of 564 rows that look the same but for the price), 2 browser, 5 rulings; browser reads rows 32 to 34; `/deals`, `/cost-of-power/seller` and `/companies` share no figure with the page. Read from the page drawn to HTML, no build, no browser; no party's name in any file | 7510 |
+| B2 | `/severance` with `/severance/finder` and `/severance/lease/real` | open | 7511 |
+| B3 | `/shoulder` | open | 7512 |
+| B4 | `/battery/customer` | open | 7513 |
+| B5 | `/cost-of-power/battery/awards` | open | 7514 |
+| B6 | `/impact` | open | 7515 |
+| B7 | `/explore/ercot-peak-premium` | open | 7516 |
+| B8 | `/explore/demand-growth` | open | 7517 |
+| B9 | `/explore/interconnection` | open | 7518 |
+| B10 | `/cost-of-power/battery` | open | 7519 |
+| B11 | `/cost-of-power/seller` | open | 7520 |
+| B12 | `/cost-of-power` | open | 7521 |
 
 ## Part C: the other machines' tools read, if parts A and B are done and no new file waits
 

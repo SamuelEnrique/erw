@@ -6,7 +6,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 
 | # | Tool | Machine | State |
 |---:|---|---|---|
-| 1 | `/contracts` | samueloldlaptop | done line (branch `wip/7501-contracts`, head `118e668fa`, landing row row 18 of `docs/state/landing_request_oldlaptop.md`) |
+| 1 | `/contracts` | samueloldlaptop | done line (branch `wip/7501-contracts`, head `118e668fa`, landing row row 18 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | done line (branch `wip/7502-severance`, head `c247ad4e1`, landing row row 17 of `docs/state/landing_request_oldlaptop.md`) |
 | 3 | `/shoulder` | samueloldlaptop | done line (branch `wip/7503-shoulder`, head `7820907a4`, landing row row 19 of `docs/state/landing_request_oldlaptop.md`) |
 | 4 | `/battery/customer` | samueloldlaptop | claimed |
