@@ -49,9 +49,9 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | The signature pack `docs/reviews/trackers-signature-pack-2026-11-16.md` | done `7a39daafa` (a file only: nothing published) | 7407 |
 | The note `docs/state/note_2026-11-17_portable_c303.md` | done `7a39daafa` | 7407 |
 | The landing request row for the final stack | done: row 33, `wip/7400-trackers` at `7a39daafa` (main merged at `e77e1ed3a`), requested | 7407 |
-| The resume file removed from `queue/next/` | done (the commit after this one, alone) | 7407 |
-| The after snapshot of the live pages and its comparison (rule 8) | open | |
-| `chain_queue.py next` (exit 3 expected) | open | |
+| The resume file removed from `queue/next/` | done `07ebc2690` (alone) | 7407 |
+| The after snapshot of the live pages and its comparison (rule 8) | done: `runs/snapshots/c303-after`, 25 pages, 0 failed, 10:19 UTC; `compare c303-before c303-after`: **0 differences in all** (expected: every push of this chain to main held a queue file, this file or a landing row, and no page is live) | 7407 |
+| `chain_queue.py next` (exit 3 expected) | done: exit 3, "queue/next/ holds nothing for portable-laptop" (the one file left, 310, is the data machine's). **CHAIN DONE.** This line's own push is the chain's last: a docs file, after the snapshot above | 7407 |
 
 ## Needs the key
 
