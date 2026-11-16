@@ -107,3 +107,39 @@ average day, an hour of real time only from four quarter hours, a window with to
 a window across a clock change); a paused publisher's hubs are named and carry no row; the table as built against the
 price tables for two hubs, computed again by hand; the site's copy equal to the table; and the page's choices and its
 ordering, run in Node. `site/scripts/check-prices-compare.mjs`: every number the page shows, against the site's copy.
+
+## The cross-checks (session 7018, chain 301)
+
+The comparison is computed from the operators' own prices; no second public publisher of the same hub averages is held (ICE's indices, as EIA republishes them, are internal). What stands:
+
+| Check | Result |
+|---|---|
+| Every figure of the page's file recomputed from the price tables by this note (the replication) | 578 of 578 equal, after one fault fixed (an hour of zero counted below zero) |
+| The board's EIA closes for the same months beside the World Bank's monthly averages (fuels, not power) | `docs/methods/price_board.md`, "The cross-checks" |
+
+Not yet read: the operators' own annual market reports (ERCOT's and CAISO's average day-ahead hub prices for a year), which would set a published yearly average beside the twelve months.
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot (`site/lib/decisions.ts`, `COMPARE_DECISIONS`), each choice's default and source on hover:
+
+1. A hub or zone price is an average over many points of a grid: the price at one substation differs by congestion and losses, and a buyer pays delivery and capacity on top. The page compares markets, not locations. **Default:** Hubs and zones only; no nodal or delivered price. **Source:** The operators' hub and zone definitions; docs/methods/hub_price_comparison.md, its opening paragraph. (session 96)
+2. Two windows, each in the grid's own local time: the twelve months and the last whole month, both ending with the last calendar month that every hub of the history holds to its end, so no hub is compared over a month another lacks. **Default:** Twelve months and the last whole month, ending with the last month every hub holds. **Source:** docs/methods/hub_price_comparison.md, "The two windows". (session 96)
+3. A market of a hub is written when at least 95 percent of the window's hours are held, and a grid's carbon intensity when 90 percent of its days are; below that the cell names what is held, and nothing is filled. **Default:** 95 percent of the hours; 90 percent of the days for carbon. **Source:** docs/methods/hub_price_comparison.md, "When a figure is not written". (session 96)
+4. A real-time hour is the mean of its four 15-minute prices, themselves means of the operator's five-minute prices, and counts only when all four are held; ISO-NE's two real-time series are never mixed, the one holding more of the window is used whole. **Default:** Four 15-minute means an hour, all four held; one ISO-NE series a window. **Source:** The operators' real-time prices; docs/methods/hub_price_comparison.md, "The measures". (session 96)
+5. The share of hours below zero counts an hour whose mean, rounded to nine places, is below zero, so an hour of four prices that sum to exactly zero is not negative. **Default:** Below zero after rounding the hour's mean to nine places. **Source:** docs/reviews/price-compare-faults-2026-11-16.md, row 1; warehouse/derived/price_compare.py, hourly(). (sessions 96 and 7012)
+6. The share of hours priced above USD 200 per MWh is the page's measure of scarce hours: one round threshold for every grid, not each operator's own scarcity signal. **Default:** USD 200 per MWh on every grid. **Source:** The page's own choice; docs/methods/hub_price_comparison.md, "The measures". (session 96)
+7. The day spread is taken on the average day of the window: the mean price of each local hour of the day, then the mean of its four dearest hours less the mean of its four cheapest, which need not be next to each other. **Default:** Four dearest less four cheapest hours of the average day. **Source:** docs/methods/hub_price_comparison.md, "The measures": what four hours of storage could shift on an average day. (session 96)
+8. The carbon intensity beside a hub is its grid's average generation by day, the same figure for every hub of a grid, not the marginal plant's and not the hub's own. **Default:** The grid's average carbon intensity of generation. **Source:** EIA-930's hourly emissions by balancing authority, California by the warehouse's join. (session 96)
+9. MISO's hubs are held and not shown while its terms are reviewed, and PJM's prices are not held at all: each is named with the reason and no number. **Default:** MISO held without a figure; PJM not held. **Source:** MISO's terms of use (docs/methods/miso_pause.md); PJM's market data license. (session 96)
+
+## What waits for the owner (session 7018)
+
+- MISO's hubs (its terms, under review) and PJM's prices (a license).
+- Whether a grid's own scarcity signal should stand beside the round USD 200 threshold.
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:
