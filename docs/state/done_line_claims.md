@@ -8,7 +8,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 |---:|---|---|---|
 | 1 | `/contracts` | samueloldlaptop | done line (branch `wip/7501-contracts`, head `f1417cfe7`, landing row 18 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | done line (branch `wip/7502-severance`, head `0580b9670`, landing row 17 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
-| 3 | `/shoulder` | samueloldlaptop | done line (branch `wip/7503-shoulder`, head `7820907a4`, landing row 19 of `docs/state/landing_request_oldlaptop.md`) |
+| 3 | `/shoulder` | samueloldlaptop | done line (branch `wip/7503-shoulder`, head `179767c18`, landing row 19 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 4 | `/battery/customer` | samueloldlaptop | done line (branch `wip/7504-battery-customer`, head `76261ed94`, landing row 25 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 5 | `/cost-of-power/battery/awards` | samueloldlaptop | done line (branch `wip/7505-battery-awards`, head `73837e331`, landing row 20 of `docs/state/landing_request_oldlaptop.md`) |
 | 6 | `/impact` | samueloldlaptop | done line (branch `wip/7506-impact`, head `946db9195`, landing row 21 of `docs/state/landing_request_oldlaptop.md`) |
