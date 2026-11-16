@@ -250,11 +250,13 @@ export function orderChanges<T extends Pick<Change, "date" | "date_printed" | "d
  * room, never past an edge, and no taller than the room it has. Sizes in CSS pixels; `trigger` is the trigger's box in
  * the window, `tip` the box's own size, `win` the window's. */
 export type TipPlace = { left: number; top: number; maxHeight: number; above: boolean };
-export function placeTip(trigger: { left: number; top: number; right: number; bottom: number }, tip: { width: number; height: number }, win: { width: number; height: number }, margin = 8, gap = 2): TipPlace {
+export function placeTip(trigger: { left: number; top: number; right: number; bottom: number }, tip: { width: number; height: number }, win: { width: number; height: number }, margin = 8, gap = 2, prefer: "below" | "above" = "below"): TipPlace {
   const width = Math.min(tip.width, Math.max(0, win.width - 2 * margin));
   const left = Math.max(margin, Math.min(trigger.left, win.width - margin - width));
   const below = Math.max(0, win.height - margin - (trigger.bottom + gap)), over = Math.max(0, trigger.top - gap - margin);
-  const above = tip.height > below && over > below;
+  // `prefer` above: the mark heads something that must stay in sight while its box is open (a headline's figure,
+  // under its label): the box opens above the mark whenever the whole of it fits there
+  const above = (prefer === "above" && over >= tip.height) || (tip.height > below && over > below);
   const maxHeight = Math.max(0, Math.floor(above ? over : below));
   const height = Math.min(tip.height, maxHeight);
   return { left: Math.round(left), top: Math.round(above ? trigger.top - gap - height : trigger.bottom + gap), maxHeight, above };

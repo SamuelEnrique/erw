@@ -56,6 +56,15 @@ const placer = src("../components/largeload/TipPlace.tsx");
 ok(/^"use client";/.test(placer) && placer.includes("placeTip(") && placer.includes('"pointerover"') && placer.includes('"focusin"') && placer.includes('position = "fixed"'), "rows 1 and 2: the placer sets the open box against the window on a hover and on a focus");
 ok(placer.includes('"scroll"') && placer.includes("inBox(e.target)"), "the box follows its trigger when the page or a table's frame scrolls, and the box's own scroll moves nothing");
 const sectionHtml = renderToStaticMarkup(h(LargeLoadSection, { q: { llrow: "ercot:LZ_AEN" }, x: X ?? S.DEFAULT_INPUTS ?? {} }));
+{
+  const win = { width: 390, height: 844 }, mark = { left: 123, top: 414, right: 139, bottom: 430 }, boxSize = { width: 288, height: 86 };
+  const under = L.placeTip(mark, boxSize, win), over = L.placeTip(mark, boxSize, win, 8, 2, "above");
+  ok(!under.above && over.above && over.top + 86 <= mark.top && over.left === under.left, `row 14: a headline's mark opens its box above it, clear of the figure under the label (its foot at ${over.top + 86}, the mark at ${mark.top})`);
+  ok(!L.placeTip({ left: 123, top: 40, right: 139, bottom: 56 }, boxSize, win, 8, 2, "above").above, "row 14: with no room above for the whole box, it opens under the mark as any other");
+  ok(/data-tip-open="above"/.test(src("../components/tool/ToolPage.tsx")) && src("../components/largeload/TipPlace.tsx").includes(`tip.closest('[data-tip-open="above"]')`), "row 14: the headline's slot says so, and the placer reads it");
+}
+// ---- row 15: the lease tab's table of flagged rules scrolls in its own frame (the page was 406 px wide on a 390 px screen)
+ok(/<div className="overflow-x-auto" data-lease-flagged="1">\s*<table className="w-full text-left text-xs">\s*<thead><tr className="border-b border-rule"><th className="py-1">Well<\/th>/.test(src("../app/severance/lease/LeaseTool.tsx").replace(/\r\n/g, "\n")), "row 15: the lease tool's table of the rules a file may qualify for is inside a frame that scrolls sideways");
 const layout = src("../app/layout.tsx");
 ok((layout.match(/<TipPlace \/>/g) ?? []).length === 1 && !src("../app/cost-of-power/LargeLoadSection.tsx").includes("<TipPlace />") && !src("../app/policy/StateLaws.tsx").includes("<TipPlace />"), "the placer is mounted once, in the site's layout, so it is on both pages (and on every page that draws the shared mark)");
 // the old laptop's rows 1, 7, 9, 10 and 12 (docs/state/browser_reads_wanted.md): the shared "i" mark's box, 288 px wide,

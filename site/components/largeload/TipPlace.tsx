@@ -31,7 +31,9 @@ export function TipPlace() {
       b.style.position = "fixed"; b.style.right = "auto"; b.style.bottom = "auto"; b.style.left = "0px"; b.style.top = "0px"; b.style.maxHeight = "";
       const size = b.getBoundingClientRect();
       if (!size.width || !size.height) return;                // not shown: nothing to place
-      const p = placeTip(trigger.getBoundingClientRect(), { width: size.width, height: size.height }, { width: document.documentElement.clientWidth, height: window.innerHeight });
+      // a headline's mark (components/tool/ToolPage.tsx, HeadlineNumber) opens above it: under it stands the figure
+      const prefer = tip.closest('[data-tip-open="above"]') ? "above" : "below";
+      const p = placeTip(trigger.getBoundingClientRect(), { width: size.width, height: size.height }, { width: document.documentElement.clientWidth, height: window.innerHeight }, 8, 2, prefer);
       b.style.left = `${p.left}px`; b.style.top = `${p.top}px`; b.style.maxHeight = `${p.maxHeight}px`; b.style.overflowY = "auto";
       b.setAttribute("data-tp-placed", p.above ? "above" : "below");
       open = tip;
