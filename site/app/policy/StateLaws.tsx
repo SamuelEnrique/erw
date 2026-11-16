@@ -9,11 +9,11 @@
 // shown is lib/largeloadrules.ts, tested by scripts/test-large-load-rules.mjs.
 import { useMemo } from "react";
 import { Blank, Tip } from "@/components/largeload/parts";
+import { Download } from "@/components/largeload/Download";
 import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, cut, dateWords, lawStatusTip, lawsCsv, pythonReader, requirementsOf, stataReader,
   type HeldLaw, type Law } from "@/lib/largeloadrules";
 
 export type LawsProp = { laws: Law[]; held: HeldLaw[]; built: string; retrieved: Record<string, string> };
-const dataHref = (text: string, type: string) => `data:${type};charset=utf-8,${encodeURIComponent(text)}`;
 const HELD_TIP = (bill: string) => `${LICENSE_NEEDED}: the ERW read ${bill} on a site whose terms ask permission before it is shown. The bill is counted and its values are not printed.`;
 const WHAT = "the states' large-load laws as filtered on /policy?view=monitor";
 
@@ -22,7 +22,6 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
   const laws = useMemo(() => file.laws.filter((l) => keep(l.state)), [file, states]);   // eslint-disable-line react-hooks/exhaustive-deps
   const held = useMemo(() => file.held.filter((l) => keep(l.state)), [file, states]);   // eslint-disable-line react-hooks/exhaustive-deps
   const total = file.laws.length + file.held.length, shown = laws.length + held.length;
-  const csv = useMemo(() => lawsCsv(laws, held, file, "/policy?view=monitor"), [laws, held, file]);
   const byStatus = LAW_STATUSES.map((s) => [s, file.laws.filter((l) => l.status === s).length] as const).filter(([, n]) => n);
   return (
     <section className="mt-8" id={LAWS_ANCHOR} aria-label="State laws on large loads" data-llr="laws" data-laws-shown={shown}>
@@ -33,9 +32,9 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
         {byStatus.map(([s, n], i) => <span key={s}>{i ? ", " : ""}<span data-check={`largeload|laws|status|${s}`} data-raw={n}>{n}</span> <Tip tip={LAW_STATUS_TIP[s]}>{s}</Tip></span>)}
         {file.held.length ? <>, and <span data-check="largeload|laws|held" data-raw={file.held.length}>{file.held.length}</span> <Tip tip={`${LICENSE_NEEDED}: read on a site whose terms ask permission before it is shown.`}>held</Tip></> : null}.
         {" "}{shown} of {total} shown{states.length ? <> (the State filter: {states.join(", ")}; <button type="button" className="underline" onClick={clearStates} data-laws-all="1">every state</button>)</> : null}
-        {" · "}<a href={dataHref(csv, "text/csv")} download={LAWS_CSV_NAME} data-laws-csv="1">CSV of these</a>,{" "}
-        <a href={dataHref(pythonReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT), "text/x-python")} download="erw-state-large-load-laws.py" data-download="python">Python</a>,{" "}
-        <a href={dataHref(stataReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT), "text/plain")} download="erw-state-large-load-laws.do" data-download="stata">Stata</a>
+        {" · "}<Download make={() => lawsCsv(laws, held, file, "/policy?view=monitor")} name={LAWS_CSV_NAME} mark={{ "data-laws-csv": "1" }}>CSV of these</Download>,{" "}
+        <Download make={() => pythonReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
+        <Download make={() => stataReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
       </p>
       {shown === 0 ? (
         <p className="text-sm" data-laws-none="1">No law or bill on large loads was read for {states.join(", ")}: <Tip tip={`${LAWS_TABLE} holds laws and bills of ${new Set([...file.laws, ...file.held].map((l) => l.state)).size} states. A state with none here may have one the ERW did not read.`}>{total} are held for other states</Tip>.</p>

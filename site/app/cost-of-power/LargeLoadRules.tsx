@@ -11,6 +11,7 @@
 import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react";
 import fileJson from "@/data/siting/large_load_rules.json";
 import { Blank, FieldView, HELD_ROW_TIP, HeldCard, RuleCard, Tip } from "@/components/largeload/parts";
+import { Download } from "@/components/largeload/Download";
 import { SiteLink } from "@/components/SiteLink";
 import {
   CHANGES_ANCHOR, CHANGES_CSV_NAME, CHANGE_CSV_COLS, CHANGE_GROUPS, CHANGE_KIND_WORDS, FIELDS, FIELD_HEAD, FIELD_TIP, GRID_WORDS, HELD_STATUS, LICENSE_NEEDED,
@@ -22,7 +23,7 @@ import {
 const FILE = fileJson as unknown as RulesFile;
 const ALL = lines(FILE);
 const LAW_STATES = lawStates(FILE);
-const PAGE = 20, CHANGE_PAGE = 12;
+const PAGE = 12, CHANGE_PAGE = 12;
 const HEADS: Record<string, [string, string]> = {
   utility: ["Utility and rule", "The utility, or the commission whose rule binds a state's utilities, and the rule's name. Press a name to open the rule in full."],
   state: ["State", "The state or states the rule applies in."],
@@ -32,7 +33,6 @@ const HEADS: Record<string, [string, string]> = {
   ...Object.fromEntries(FIELDS.map((f) => [f, [FIELD_HEAD[f], FIELD_TIP[f]]])),
 };
 const COLS: RuleSort[] = ["utility", "state", "grid", "status", "date", ...FIELDS];
-const dataHref = (text: string, type: string) => `data:${type};charset=utf-8,${encodeURIComponent(text)}`;
 
 export type Opened = { state: string; grid: string; status: string; find: string; sort: string; dir: string; a: string; b: string; rule: string; region: string };
 
@@ -103,8 +103,6 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
     const s = statesOf(state).filter((x) => LAW_STATES.includes(x));
     return s.length ? <span data-llr-laws={s.join(",")}>State law: {s.map((x, i) => <Fragment key={x}>{i ? ", " : ""}<SiteLink href={lawsHref(x)} gate="plain">{x}</SiteLink></Fragment>)}</span> : null;
   };
-  const csv = useMemo(() => rulesCsv(shown, FILE, address), [shown, address]);
-  const changeCsv = useMemo(() => changesCsv(changes, FILE, address), [changes, address]);
   const sel = "border border-rule bg-panel px-2 py-1 text-sm text-ink";
   const la = a ? lineOf(FILE, a) : undefined, lb = b ? lineOf(FILE, b) : undefined;
 
@@ -138,9 +136,9 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
       <p className="mb-2 text-sm" role="status" data-llr-shown={shown.length} data-llr-sort={`${by}|${dir}`}>
         {shown.length} of {ALL.length} rules shown{st || gr || su || nq.trim() ? ` (${[st, gr ? GRID_WORDS[gr] : "", su === HELD_STATUS ? LICENSE_NEEDED : su, nq.trim() ? `names holding "${nq.trim()}"` : ""].filter(Boolean).join(", ")})` : ""},
         sorted by {HEADS[by][0].toLowerCase()}, {by === "date" ? (dir === "asc" ? "earliest first" : "latest first") : dir === "asc" ? "A to Z" : "Z to A"}; a row with nothing printed in that column last.
-        {" "}<a href={dataHref(csv, "text/csv")} download={RULES_CSV_NAME} data-llr-csv="rules">CSV of these</a>,{" "}
-        <a href={dataHref(pythonReader(RULES_CSV_NAME, RULE_CSV_COLS, "the large-load rules as filtered on /cost-of-power?view=allgrids"), "text/x-python")} download="erw-large-load-rules.py" data-download="python">Python</a>,{" "}
-        <a href={dataHref(stataReader(RULES_CSV_NAME, RULE_CSV_COLS, "the large-load rules as filtered on /cost-of-power?view=allgrids"), "text/plain")} download="erw-large-load-rules.do" data-download="stata">Stata</a>
+        {" "}<Download make={() => rulesCsv(shown, FILE, address)} name={RULES_CSV_NAME} mark={{ "data-llr-csv": "rules" }}>CSV of these</Download>,{" "}
+        <Download make={() => pythonReader(RULES_CSV_NAME, RULE_CSV_COLS, "the large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rules.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
+        <Download make={() => stataReader(RULES_CSV_NAME, RULE_CSV_COLS, "the large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rules.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
       </p>
       <div className="overflow-x-auto" role="region" aria-label="Large-load rules by utility" tabIndex={0}>
         <table className="w-full border-collapse text-left text-sm" style={{ minWidth: 1500 }} data-llr-rules="1">
@@ -205,9 +203,9 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
       </div>
       <p className="mb-2 text-sm" role="status" data-llr-changes-shown={changes.length}>
         {changes.length} of {FILE.changes.length} changes{region ? `, ${groupWords(region)}` : ""}, newest first: <Tip tip={`Filings, orders, effective dates, amendments, denials, suspensions and hearings from 15 August to 13 November 2026, each read in its own document (${CHANGES_TABLE}). A change dated to a month is drawn as that month.`}>15 August to 13 November 2026</Tip>.
-        {" "}<a href={dataHref(changeCsv, "text/csv")} download={CHANGES_CSV_NAME} data-llr-csv="changes">CSV of these</a>,{" "}
-        <a href={dataHref(pythonReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids"), "text/x-python")} download="erw-large-load-rule-changes.py" data-download="python">Python</a>,{" "}
-        <a href={dataHref(stataReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids"), "text/plain")} download="erw-large-load-rule-changes.do" data-download="stata">Stata</a>
+        {" "}<Download make={() => changesCsv(changes, FILE, address)} name={CHANGES_CSV_NAME} mark={{ "data-llr-csv": "changes" }}>CSV of these</Download>,{" "}
+        <Download make={() => pythonReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
+        <Download make={() => stataReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
       </p>
       <div className="overflow-x-auto" role="region" aria-label="Changes to large-load rules" tabIndex={0}>
         <table className="w-full border-collapse text-left text-sm" style={{ minWidth: 760 }} data-llr-changes="1">

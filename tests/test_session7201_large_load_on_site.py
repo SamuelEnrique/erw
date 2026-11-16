@@ -51,6 +51,38 @@ class TheLibrary(unittest.TestCase):
         self.assertRegex(self.out, r"(?m)^ok   a held row of the file is its name and place only")
 
 
+@unittest.skipUnless(NODE, "node is not installed")
+@unittest.skipUnless(os.path.isdir(os.path.join(SITE, "node_modules")), "site/node_modules is not on this copy")
+class TheComponentsDrawn(unittest.TestCase):
+    """The components drawn to HTML without a build (site/scripts/test-large-load-render.mjs, scripts/tsx-loader.mjs)."""
+
+    @classmethod
+    def setUpClass(cls):
+        r = subprocess.run([NODE, "--import", "./scripts/tsx-register.mjs", "scripts/test-large-load-render.mjs"], cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=600)
+        cls.code, cls.out, cls.err = r.returncode, r.stdout, r.stderr
+
+    def test_every_component_draws_and_every_check_passes(self):
+        self.assertEqual(self.code, 0, self.out[-3000:] + self.err[-1500:])
+        self.assertNotIn("FAIL", self.out)
+        m = re.search(r"(\d+) of (\d+) passed", self.out)
+        self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= 50, self.out[-500:])
+
+    def test_the_blank_cells_are_counted_in_the_drawn_pages(self):
+        self.assertRegex(self.out, r"(?m)^ok   the rules table draws 228 blank cells that say license needed: 220 of the 22 held rows, 8 fields of public rows")
+        self.assertRegex(self.out, r"(?m)^ok   the changes open on the newest 12 of 94, and the 4 held are drawn blank \(16 cells\)")
+        self.assertRegex(self.out, r"(?m)^ok   the 27 laws and bills and the 1 held, whose four cells are blank")
+        self.assertRegex(self.out, r"(?m)^ok   \d+ values and cites of held rows and withheld fields, searched for in the drawn pages: none found")
+
+    def test_every_hub_row_draws_its_rule_line(self):
+        m = re.search(r"(?m)^ok   each of the 48 hub and zone rows draws its rule line in both cells: (\d+) open a utility's rule, (\d+) the state's rule alone, (\d+) say no rule found, (\d+) no rule read", self.out)
+        self.assertTrue(m, self.out[-800:])
+        self.assertEqual(sum(int(x) for x in m.groups()), 48)
+
+    def test_the_section_is_light(self):
+        m = re.search(r"with no row opened the section draws no panel and weighs (\d+) thousand characters", self.out)
+        self.assertTrue(m and int(m.group(1)) < 260, self.out[-800:])
+
+
 class TheTab(unittest.TestCase):
     def test_the_two_cells_draw_the_rows_rule(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")
@@ -113,10 +145,14 @@ class TheTab(unittest.TestCase):
     def test_the_table_answers_to_the_mouse(self):
         t = src("site", "app", "cost-of-power", "LargeLoadRules.tsx")
         for mark in ('data-llr-filter="state"', 'data-llr-filter="grid"', 'data-llr-filter="status"', "data-llr-head={k}", 'data-llr-set="a"', 'data-llr-set="b"',
-                     'data-llr-csv="rules"', 'data-download="python"', 'data-download="stata"', 'data-llr-csv="changes"', "data-llr-affects={af.id}", "data-llr-region={k || \"all\"}"):
+                     '"data-llr-csv": "rules"', '"data-download": "python"', '"data-download": "stata"', '"data-llr-csv": "changes"', "data-llr-affects={af.id}", "data-llr-region={k || \"all\"}"):
             self.assertIn(mark, t)
         self.assertIn("window.history.replaceState", t, "the filters, the sort, A and B and the open rule are kept in the address")
         self.assertNotIn("fetch(", t)
+        # a download is made on the click: a link whose address held the file put the whole CSV into the page's HTML
+        self.assertNotIn("data:${type}", t)
+        self.assertNotIn("data:${type}", src("site", "app", "policy", "StateLaws.tsx"))
+        self.assertIn("new Blob([make()], { type })", src("site", "components", "largeload", "Download.tsx"))
         self.assertNotIn("title={", t.replace('title={`${l.rule!.title}, read ${l.rule!.read}`}', "").replace('title={`${c.title}, read ${c.read}`}', ""),
                          "an explanation is a tip a keyboard reaches; a title is kept for a link's document only")
 
