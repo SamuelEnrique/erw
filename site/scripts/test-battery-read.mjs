@@ -72,6 +72,8 @@ function draw(query, months = ms, dur = 4, strat = "foresight") {
       h(S.Scenarios, { x })));
 }
 
+const plainDrawHas = (s) => draw("").includes(s);
+
 // ---- rows 1 and 2 (case 1: two ERCOT nodes): a place the address names is said, and the node list is linked
 const ercot = B.gridOf("ercot"), caiso = B.gridOf("caiso");
 const west = P.placeNotes({ grid: "ercot", hub: "HB_WEST" }, ercot);
@@ -84,8 +86,11 @@ const page = read("app", "cost-of-power", "battery", "page.tsx");
 ok(page.includes("asItWas.push(...placeNotes(q, g));") && page.includes("const asItWas = [...typedNotes(q, asked), ...scenarioNotes(q, defaultsOf(COSTS[asked.dur]), offered)];"), "row 1: the page's status line carries the sentence, after session 263's");
 ok(P.NODE_LIST === "/cost-of-power?view=allgrids&rows=nodes" && /x\.grid === "ercot" \? <span data-node-list="1">[^<]*<Link href=\{NODE_LIST\}>the ERCOT node list<\/Link>/.test(page), "row 2: under the income table ERCOT's page links the site's list of settlement points by name");
 ok(read("app", "cost-of-power", "AllGridsView.tsx").includes('rows: "nodes"') && read("app", "cost-of-power", "AllGridsView.tsx").includes("data-node-pair"), "row 2: the All grids tab still holds the node list and its two nodes side by side");
-// row 6: the awards line links the page that holds the awards
-ok(page.includes('const AWARDS = "/cost-of-power/battery/awards";') && /data-awards-page="1">[^<]*<Link href=\{AWARDS\}>/.test(page) && fs.existsSync(path.join(here, "..", "app", "cost-of-power", "battery", "awards", "page.tsx")), "row 6: the line beside ERCOT's awards links the awards page");
+// row 6 (a ruling, the default taken): the line beside ERCOT's awards does not link the awards page. Sessions 115, 116,
+// 120 and 178 hold that this page names nothing of it (tests/test_session178.py and three more); the rule is the owner's
+ok(!page.includes("battery/awards") && page.includes("data-awards-beside"), "row 6: the awards line is drawn and the page still names nothing of the awards page (the rule of sessions 115 to 178, left to the owner)");
+// row 8: ECRS is spelled out on hover, as every other service is in place
+ok(read("app", "cost-of-power", "battery", "Income.tsx").includes('ecrs: "ERCOT Contingency Reserve Service"') && plainDrawHas('title="ERCOT Contingency Reserve Service"'), "row 8: the income table's ECRS row gives the service's name on hover");
 
 // ---- row 3: no figure is written "-0"
 const zeroYear = ms.map((r) => (r.m.startsWith("2024") ? { ...r, energy: -300 / 12, total: r.ancillary - 300 / 12 } : r));   // a hand case: a year whose energy is USD -0.30 per kW
@@ -127,6 +132,18 @@ if (fs.existsSync(file)) {
   ok(y18 && y18.energy < 0 && html.includes('data-energy-below-zero="1"'), `rows 3 and 5, the table: ERCOT, 2 hours, the day-ahead schedule, 2018 energy USD ${y18 ? two(y18.energy / 1000) : "?"} per kW is below zero and the row says how`);
   ok(!/[>\s:]-0[<\s,]/.test(html), "row 3, the table: the same view draws no \"-0\"");
 } else console.log(`skip the table's two cases: ${file} is not on this machine`);
+
+// ---- row 7: the method note's worked example of a stress repeat, beside what the page draws from the stress table
+const note = fs.readFileSync(path.join(here, "..", "..", "docs", "methods", "battery_earns_algorithm.md"), "utf-8");
+ok(note.includes("### 11.4 The page read as its reader (session 7519, 16 November 2026)") && note.includes("USD 3,105.51 per kW, so a repeat adds USD 155.28 per kW a year and takes NPV from USD -697.80 to +462.02 per kW") && note.includes("+583.43"), "row 7: the note gives the stress repeat as the page draws it, and keeps session 297's three figures as written");
+const stressFile = path.join(dir, "battery_stack_stress_daily.csv");
+if (fs.existsSync(stressFile)) {
+  const uri = fs.readFileSync(stressFile, "utf-8").split(/\r?\n/).filter((l) => l.startsWith("ercot:HB_HUBAVG,foresight_4h_revenue_total_usd_per_mw,") && l.endsWith(",uri_2021")).map((l) => Number(l.split(",")[3]));
+  const peak = uri.reduce((a, v) => a + v, 0) / 1000;
+  const d = F.defaultsOf(B.COSTS[4]);
+  const base = F.resultOf(d, market, { peak, hours: 4 }), one = F.resultOf({ ...d, stress: 1 }, market, { peak, hours: 4 });
+  ok(uri.length === 18 && two(peak) === "3,105.51" && two(peak / d.life) === "155.28" && two(base.npv) === "-697.80" && two(one.npv) === "462.02", `row 7, the table: Uri's window is USD ${two(peak)} per kW over ${uri.length} days, and one repeat takes NPV from ${two(base.npv)} to ${two(one.npv)}`);
+} else console.log(`skip the stress table's case: ${stressFile} is not on this machine`);
 
 console.log(`${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;

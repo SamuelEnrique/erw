@@ -19,6 +19,8 @@ import { useView } from "./ViewState";
 
 const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 export type EventChoice = { event: string; short: string; label: string };
+// session 7519 (the read, row 8): the one service the table names by its initials alone, spelled out on hover
+const SPELLED: Record<string, string> = { ecrs: "ERCOT Contingency Reserve Service" };
 type Col = { key: string; head: string; sub: string; usd: (s: string) => string; kw: (s: string) => string; value: (s: string) => number | null; partial?: boolean; label: string };
 
 export function Income({ ms, x, pre, gridName, products, capacityWords, events, em }: {
@@ -110,7 +112,7 @@ export function Income({ ms, x, pre, gridName, products, capacityWords, events, 
               ? <span key="n" data-energy-below-zero="1">Energy (charge low, sell high)<Tip id="energy-below-zero" label="an energy figure below zero">A figure below zero: over that span the battery paid more for the energy it charged than it was paid for the energy it sold. The model charges to hold stored energy behind its upward reserves, starts each day empty, loses what is left at midnight, and returns {Math.round(RTE * 100)} percent of what it charges; where the reserves paid more than that energy cost, the total is higher for it and the energy row is below zero.</Tip></span>
               : "Energy (charge low, sell high)", ...line("energy")] },
             { key: "anc", cells: ["Ancillary services", ...line("ancillary")] },
-            ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4">{p.label}</span>, ...line(p.key)] })),
+            ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4" title={SPELLED[p.key]}>{p.label}</span>, ...line(p.key)] })),
             { key: "cap", cells: ["Capacity"], wide: capacityWords },
             { key: "total", highlight: true, cells: ["Total, split hour by hour with no double counting", ...line("total")] },
             ...(v.units === "kw" ? [] : [{ key: "kw", cells: ["Total, USD per kW", ...cols.map((c) => <span key={c.key}><V pre={pre} s={c.kw("total")} v={perKw(c.value("total"))} /></span>)] }]),

@@ -94,7 +94,6 @@ const ALGORITHM = "/data/methods/battery_earns_algorithm";
 const DISPATCH = "/battery/erw_2026_battery_dispatch.csv", DO_FILE = "/battery/erw_2026_battery_replication.do", MIRROR = "/battery/erw_2026_battery_replication.py";
 const MONTHS_CSV = "/cost-of-power/battery/months.csv";
 const STRESS_DOWNLOAD = "/api/download?table=battery_stack_stress_daily";
-const AWARDS = "/cost-of-power/battery/awards";
 
 export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
@@ -239,8 +238,6 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       Day-ahead ancillary services, {monthName(beside.first)} to {monthName(beside.last)}: this model takes USD <Num check={`bsa|${x.strat}_${x.dur}h|model`} raw={beside.model}>{two(beside.model)}</Num> per
                       kW a month; ERCOT&apos;s storage resources were awarded USD <Num check={`bsa|${x.strat}_${x.dur}h|fleet`} raw={beside.fleet}>{two(beside.fleet)}</Num> per kW of their power a month;
                       the model is <Num check={`bsa|${x.strat}_${x.dur}h|ratio`} raw={beside.ratio}>{two(beside.ratio)}</Num> times the awards. <Link href={ALGORITHM}>How this is counted</Link>.
-                      {/* session 7519 (the read, row 6): the page that holds the awards themselves was not linked from the line that cites them */}
-                      {" "}<span data-awards-page="1">The awards themselves, by month and by service: <Link href={AWARDS}>What Texas&apos;s batteries were awarded day-ahead</Link>.</span>
                     </p>
                   ) : null}
                   {/* session 257: for CAISO, the market monitor's real fleet plays the part of ERCOT's awards line */}
