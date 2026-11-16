@@ -550,7 +550,29 @@ export function gridExtremes(file: BoardFile, market: "da" | "rt") {
   const most = Math.max(...n.values());
   const dayAt = [...n.entries()].filter(([, k]) => k === most).map(([t]) => t).sort().at(-1)!;
   const on = rows.flatMap((r) => { const p = sparkOf(r).find((x) => x.t === dayAt); return p ? [{ row: r, v: p.v }] : []; }).sort((a, b) => a.v - b.v);
-  return { day: dayAt, low: on[0], high: on[on.length - 1], grids: on.length };
+  // session 7538 (the board read, row 4): the grids compared, by name, so the strip can say "of 3 grids" and name them
+  return { day: dayAt, low: on[0], high: on[on.length - 1], grids: on.length, priced: [...new Set(on.map((o) => gridOfRow(o.row)))].sort() };
+}
+/** Session 7538 (the board read, row 4): the hover of the strip's lowest and highest grid: which grids were compared on
+ *  the day, and which are not on the board and why, in the page's own status words. Pure. */
+export function gridExtremesWords(ex: { day: string; grids: number; priced: string[] }, held: string[] = []): string {
+  const out = [...held.filter((g) => g !== "MISO" && g !== "PJM").sort().map((g) => `${g} (license needed)`), "MISO (paused while its terms are reviewed)", "PJM (licensed source needed)"];
+  return `Among the main hubs of the ${ex.grids} ${ex.grids === 1 ? "grid" : "grids"} priced on ${dateWords(ex.day)}: ${ex.priced.join(", ")}. Not on the board: ${out.join(", ")}.`;
+}
+/** Session 7538 (the board read, rows 1 and 5): a headline cell's date words, the same rule as the top block's tile
+ *  (closeAge): the value's date, " (stale)" past the method's threshold, and the age's words for its hover. Pure. */
+export function headDate(row: Row, built: string): { words: string; stale: boolean; title: string | undefined } {
+  const age = closeAge(row, built);
+  const stale = !!age?.stale;
+  return { words: `${dateWords(row.last!.t, row.freq)}${stale ? " (stale)" : ""}`, stale, title: age?.words };
+}
+/** Session 7538 (the board read, row 9): a week-table figure dated before the build: "stale" past the power groups'
+ *  3 days (the week's figures are a market's daily figures), with the age's words; null when it is current. Pure. */
+export function weekStale(t: string, built: string): string | null {
+  const days = ageDays(t, built);
+  return days > STALE_POWER_DAYS
+    ? `${days} days before the board was built on ${dateWords(built)}. Stale: a market's daily figure is marked stale past ${STALE_POWER_DAYS} days (docs/methods/price_board.md)`
+    : null;
 }
 /** The prices nearest the top and the bottom of their own one-year range (spreads left out). */
 export function rangeExtremes(file: BoardFile) {
