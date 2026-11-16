@@ -18,6 +18,10 @@ What counts, in each ISO's own words (the queue connector's STATUS_MAP, warehous
   lists active and completed positions only, so ERCOT has no withdrawn count and no withdrawal rate: not held.
 - operating: ERCOT, NYISO and ISO-NE Completed; CAISO COMPLETED; MISO Done and LEGACY: Done; SPP IA FULLY
   EXECUTED/COMMERCIAL OPERATION.
+  Session 7022: ERCOT's "Completed" was gridstatus's word for a filled "IA Signed" day, a signed agreement; from the
+  queue connector's next pull ERCOT is operating only with its day of approval to synchronize (iso_status "Approved for
+  Synchronization"), and a signed agreement alone is waiting ("IA Signed"). The pulls before it still count the
+  agreements as operating; the statistics follow the queue table as pulled.
 - still waiting: every other status of the map (active or suspended): ERCOT and CAISO and NYISO and ISO-NE Active; MISO
   Active, Pending Revision Approval, Pending Transfer; SPP's study stages, IA PENDING, IA FULLY EXECUTED/ON SCHEDULE and
   ON SUSPENSION.
