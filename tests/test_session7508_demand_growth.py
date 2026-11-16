@@ -21,6 +21,24 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
 REPLICATION = os.path.join(ROOT, "replication", "demand_growth")
+
+# chain 301 (session 7020, the landing desk): several replication folders hold modules of the same name (replicate,
+# from_hourly, ...); in one suite process the first one loaded was reused by the next test file. This takes this folder's.
+_SHARED_NAMES = ("replicate", "from_hourly", "fetch_rows", "cross_check", "crosscheck", "extract_hours", "california_charging")
+
+
+def _fresh(name):
+    import importlib
+    here = os.path.abspath(REPLICATION)
+    for n in set(_SHARED_NAMES) | {name}:
+        m = sys.modules.get(n)
+        if m is not None and os.path.dirname(os.path.abspath(getattr(m, "__file__", "") or "")) != here:
+            del sys.modules[n]
+    if REPLICATION in sys.path:
+        sys.path.remove(REPLICATION)
+    sys.path.insert(0, REPLICATION)
+    return importlib.import_module(name)
+
 ROWS = os.path.join(REPLICATION, "table_rows.csv")
 EM_DASH, EN_DASH = chr(0x2014), chr(0x2013)
 MINE = (
@@ -147,8 +165,7 @@ class TheFilesOfTheDoneLine(unittest.TestCase):
 
     def test_the_hourly_rule_on_hours_made_for_the_test(self):
         import pandas as pd
-        sys.path.insert(0, REPLICATION)
-        import from_hourly
+        from_hourly = _fresh("from_hourly")
         idx = pd.date_range("2024-06-01", periods=12, freq="h", tz="UTC")
         s = pd.Series([100, 102, 104, 300, 108, 110, 0, 114, None, 118, 126, 122], index=idx, dtype=float)
         used, left = from_hourly.screen(s)

@@ -23,6 +23,24 @@ SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
 FIXTURE = os.path.join(ROOT, "tests", "fixtures", "session7507")
 REPLICATION = os.path.join(ROOT, "replication", "ercot_peak_premium")
+
+# chain 301 (session 7020, the landing desk): several replication folders hold modules of the same name (replicate,
+# from_hourly, ...); in one suite process the first one loaded was reused by the next test file. This takes this folder's.
+_SHARED_NAMES = ("replicate", "from_hourly", "fetch_rows", "cross_check", "crosscheck", "extract_hours", "california_charging")
+
+
+def _fresh(name):
+    import importlib
+    here = os.path.abspath(REPLICATION)
+    for n in set(_SHARED_NAMES) | {name}:
+        m = sys.modules.get(n)
+        if m is not None and os.path.dirname(os.path.abspath(getattr(m, "__file__", "") or "")) != here:
+            del sys.modules[n]
+    if REPLICATION in sys.path:
+        sys.path.remove(REPLICATION)
+    sys.path.insert(0, REPLICATION)
+    return importlib.import_module(name)
+
 EM_DASH, EN_DASH = chr(0x2014), chr(0x2013)
 COVERAGE = os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")   # the catalogue the freshness line is read from
 MINE = (
@@ -41,9 +59,7 @@ def src(*parts):
 
 
 def module(name):
-    if REPLICATION not in sys.path:
-        sys.path.insert(0, REPLICATION)
-    return __import__(name)
+    return _fresh(name)
 
 
 def decision_keys():

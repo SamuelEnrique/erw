@@ -22,6 +22,24 @@ SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
 FIXTURE = os.path.join(ROOT, "tests", "fixtures", "session7503")
 REPLICATION = os.path.join(ROOT, "replication", "shoulder")
+
+# chain 301 (session 7020, the landing desk): several replication folders hold modules of the same name (replicate,
+# from_hourly, ...); in one suite process the first one loaded was reused by the next test file. This takes this folder's.
+_SHARED_NAMES = ("replicate", "from_hourly", "fetch_rows", "cross_check", "crosscheck", "extract_hours", "california_charging")
+
+
+def _fresh(name):
+    import importlib
+    here = os.path.abspath(REPLICATION)
+    for n in set(_SHARED_NAMES) | {name}:
+        m = sys.modules.get(n)
+        if m is not None and os.path.dirname(os.path.abspath(getattr(m, "__file__", "") or "")) != here:
+            del sys.modules[n]
+    if REPLICATION in sys.path:
+        sys.path.remove(REPLICATION)
+    sys.path.insert(0, REPLICATION)
+    return importlib.import_module(name)
+
 EM_DASH, EN_DASH = chr(0x2014), chr(0x2013)
 MINE = (
     ("site", "app", "shoulder", "page.tsx"), ("site", "app", "shoulder", "Decisions.tsx"), ("site", "scripts", "shoulder-figures.mjs"),
@@ -45,9 +63,7 @@ def text_of(html):
 
 
 def replication():
-    sys.path.insert(0, REPLICATION)
-    import replicate
-    return replicate
+    return _fresh("replicate")
 
 
 def decision_keys():

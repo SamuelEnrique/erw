@@ -30,6 +30,24 @@ MINE = (
     ("site", "scripts", "peak-premium-figures.mjs"),
 )
 REPLICATION = os.path.join(ROOT, "replication", "ercot_peak_premium")
+
+# chain 301 (session 7020, the landing desk): several replication folders hold modules of the same name (replicate,
+# from_hourly, ...); in one suite process the first one loaded was reused by the next test file. This takes this folder's.
+_SHARED_NAMES = ("replicate", "from_hourly", "fetch_rows", "cross_check", "crosscheck", "extract_hours", "california_charging")
+
+
+def _fresh(name):
+    import importlib
+    here = os.path.abspath(REPLICATION)
+    for n in set(_SHARED_NAMES) | {name}:
+        m = sys.modules.get(n)
+        if m is not None and os.path.dirname(os.path.abspath(getattr(m, "__file__", "") or "")) != here:
+            del sys.modules[n]
+    if REPLICATION in sys.path:
+        sys.path.remove(REPLICATION)
+    sys.path.insert(0, REPLICATION)
+    return importlib.import_module(name)
+
 KINDS = {"site", "data machine", "browser", "ruling", "license", "key"}
 
 
@@ -85,9 +103,7 @@ class TheFiles(unittest.TestCase):
     def test_one_list_of_thirteen_in_the_note_the_replication_and_the_page(self):
         note = src("docs", "methods", "ercot_peak_premium.md").split("### 10. The section of two hubs and the marks")[1]
         in_note = re.findall(r"^\| \d+ \| `([a-z0-9_]+)` \|", note, re.M)
-        if REPLICATION not in sys.path:
-            sys.path.insert(0, REPLICATION)
-        rep = __import__("replicate")
+        rep = _fresh("replicate")
         self.assertEqual(in_note, rep.SIDE)
         self.assertEqual(in_note, [v for v, _ in side_variables()])
         self.assertNotIn("peakpremium", src("replication", "ercot_peak_premium", "replicate.py"))    # not from the page's library
