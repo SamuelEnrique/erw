@@ -36,12 +36,20 @@ export function fullYear(y: number): number {
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 35_136 : 35_040;
 }
 
-/** Whether a month's interval count is short of a full month. A full month holds its days times 96 quarter hours, four
- *  fewer in the month the clocks go forward and four more in the month they go back (America/Chicago), so a count
- *  below days times 96 less four is a month not over: the newest month of the table, which the header calls partial. */
-export function partialMonth(y: number, m: number, n: number): boolean {
+/** Quarter hours in a full calendar month of America/Chicago: its days times 96, four fewer in the month the clocks go
+ *  forward (March) and four more in the month they go back (November), as the United States has set them since 2007
+ *  (the tables start in 2015). */
+export function fullMonth(y: number, m: number): number {
   const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  return n < days * 96 - 4;
+  return days * 96 + (m === 3 ? -4 : m === 11 ? 4 : 0);
+}
+
+/** Whether a month's interval count is short of a full month: the newest month of the table, which the header calls
+ *  partial. Session 7507 (chain 304): held to the month's exact count. Until then the rule was "below days times 96
+ *  less four" for every month, so a month up to an hour short (two hours in November) was drawn as complete and could
+ *  become a view's default second year. */
+export function partialMonth(y: number, m: number, n: number): boolean {
+  return n < fullMonth(y, m);
 }
 
 /** The label timestamp of a period, as the tables write it: a year's first day, or a month's. */

@@ -12,8 +12,9 @@ import {
   ANNUAL, BLOCKS, FIGURES, MONTHLY, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
 } from "@/lib/explore/peakpremium";
 import { sourceOf } from "@/lib/explore/source";
-import { node, shown } from "@/lib/format";
+import { node, price } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { PeakPremiumDecisions } from "./Decisions";
 
 // Session 403: the ERCOT peak premium explorer (platform tool 5, the first signature explorer), in review. The thesis
 // chart made live: the distribution of ERCOT's real-time price by time of day, two years side by side, for any hub, for
@@ -33,8 +34,10 @@ export const dynamic = "force-dynamic";
 const PATH = "/explore/ercot-peak-premium";
 const SELECT = "entity,variable,ts_utc,value";
 
+// Session 7507 (chain 304): a price or a ratio is always written with two decimals. Until then a value that happened to
+// be a whole number of dollars was written without them ("509" in a column of "1,538.66": lib/format.ts, shown).
 function fig(v: number, unit: string): string {
-  return unit === "count" ? Math.round(v).toLocaleString("en-US") : shown(v);
+  return unit === "count" ? Math.round(v).toLocaleString("en-US") : price(v);
 }
 
 export default async function PeakPremiumExplorer({ searchParams }: { searchParams: Promise<Params> }) {
@@ -105,6 +108,8 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
     const x = valueOf(rows, v, periodTs(y, month));
     return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>;
   };
+  // session 7507: a figure the table does not hold is "not held" alone: its unit is drawn only beside a figure
+  const has = (v: string, y: number) => valueOf(rows, v, periodTs(y, month)) !== undefined;
   const yearOpt = (y: number) => ({ value: String(y), label: `${y}${held(y) === undefined ? " (not held)" : partial(y) ? " (partial)" : ""}` });
   const asked = [badHub && "hub", badMonth && "month", badFrom && "first year", badTo && "second year"].filter(Boolean);
 
@@ -143,9 +148,9 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
     <>
       <HeadlineRow>
         {[["peak_iqr", "Peak-block IQR"], ["peak_minus_midday_median", "Peak median minus midday median"], ["all_median", "Median, all intervals"]].map(([v, label]) => (
-          <HeadlineNumber key={v} label={`${label}, ${name}, ${when(to)}`} value={<N v={v} y={to} unit="USD/MWh" />} unit="USD/MWh"
+          <HeadlineNumber key={v} label={`${label}, ${name}, ${when(to)}`} value={<N v={v} y={to} unit="USD/MWh" />} unit={has(v, to) ? "USD/MWh" : undefined}
             tip={<Tip id={`source-${v}`} label={`where ${label.toLowerCase()} comes from`}>{sourceOf(key(v, to), name)}</Tip>}
-            note={from !== to ? <>{when(from)}: <N v={v} y={from} unit="USD/MWh" /> USD/MWh</> : undefined} />
+            note={from !== to ? <>{when(from)}: <N v={v} y={from} unit="USD/MWh" />{has(v, from) ? " USD/MWh" : null}</> : undefined} />
         ))}
       </HeadlineRow>
 
@@ -200,6 +205,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
         The same two tables are drawn one hub and one year at a time on the <Link href="/prices?tab=ercot">ERCOT tab of Prices</Link>; this
         explorer sets two years side by side, as the thesis does, and reads one calendar month across the years.
       </p>
+      <PeakPremiumDecisions />
     </>
   );
   // session 1496 (chain 158): the hub's rows of the table drawn, over the years drawn, as a download of their own
