@@ -1066,17 +1066,18 @@
      "rate": 0.0445
     }
    ],
-   "standard_deduction_single": 966.0,
+   "standard_deduction_single": null,
    "standard_deduction_text": "$966 credit",
    "personal_exemption_single": null,
-   "personal_credit_single": null,
+   "personal_credit_single": 966.0,
    "personal_exemption_text": "n.a.",
    "official": {
     "source": "Utah Code 59-10-104 as amended by S.B. 60 (2026 General Session)",
     "url": "https://le.utah.gov/Session/2026/bills/enrolled/SB0060.pdf",
     "read": "2026-11-13, subagent of session 4291",
     "quote": "the tax is an amount equal to the product of: (a) the resident individual's state taxable income for that taxable year; and (b) 4.45%. ... retrospective operation for a taxable year beginning on or after January 1, 2026"
-   }
+   },
+   "credit_note": "session 7016 (done-line request 10): the table prints Utah's $966 in the deduction's column as a credit; held as a credit against the tax, by warehouse/forecast/params.py's corrected rule applied to the text this file stores (the page the file was built from is not saved on the data machine)"
   },
   "va": {
    "name": "Virginia",
