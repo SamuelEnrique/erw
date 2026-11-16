@@ -74,8 +74,9 @@ class TheComponentsDrawn(unittest.TestCase):
         self.assertRegex(self.out, r"(?m)^ok   \d+ values and cites of held rows and withheld fields, searched for in the drawn pages: none found")
 
     def test_every_hub_row_draws_its_rule_line(self):
-        m = re.search(r"(?m)^ok   each of the 48 hub and zone rows draws its rule line in both cells: (\d+) open a utility's rule, (\d+) the state's rule alone, (\d+) say no rule found, (\d+) no rule read", self.out)
+        m = re.search(r"(?m)^ok   each of the 48 hub and zone rows draws its rule line in both cells: (\d+) open a utility's rule, (\d+) the state's rule alone, (\d+) say no rule found, (\d+) no rule read, (\d+) is a grid's one row and opens the grid's rules", self.out)
         self.assertTrue(m, self.out[-800:])
+        # session 7203: PJM's one row is counted apart: it opens the rules read across the grid
         self.assertEqual(sum(int(x) for x in m.groups()), 48)
 
     def test_the_section_is_light(self):
