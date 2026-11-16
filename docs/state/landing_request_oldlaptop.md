@@ -34,6 +34,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 28 | `wip/7521-cost-of-power-read` | `581e27a02` | `7521-cost-of-power-read` | 7521 | 2026-11-16 | `site/scripts/test-cost-of-power-read.mjs` (new, 17 of 17, the page drawn to HTML with the warehouse's tables, no server); the 12 Python test files and 3 node scripts that name the changed files, each in its own process: all pass; not built here and no type check (memory) | landed at `492752123` (chain 301's desk gate j, session 7020, sixteen rows in one stack) |
 | 30 | `wip/7532-caiso-alerts` | `ac362d6f6` | `7532-caiso-alerts` | 7532 | 2026-11-16 | `tests/test_session7532_caiso_alerts.py` (15 passed) and `site/scripts/test-caiso-alerts-render.mjs` (30 of 30, the whole page drawn to HTML with its own function, without a build); the older test files that name the page or its libraries, `test_session58`, `60`, `118`, `241a`, `246`, `254`, `310`, `322` (116 run, OK, 8 skipped by their own rules); the note sweeps `test_session142`, `147`, `158`, `160`: OK; `tsc` with the site's settings on `page.tsx` and `Decisions.tsx`, exit 0; `replication/caiso_alerts/replicate.py` on this machine's tables and again on the rows beside it: 471 rebuilt, 467 agree, 4 named, 0 fail, 163 named as panel-only, exit 0; not built here (memory); `check-values` and `check-routes` not run | requested |
 | 31 | `wip/7533-learn-bill` | `09eafa96e` | `7533-learn-bill` | 7533 | 2026-11-16 | `tests/test_session7533_bill.py` (11 passed) and `site/scripts/test-bill-render.mjs` (53 of 53, the page's parts drawn to HTML without a build); `bill-figures.mjs --check` (the whole page drawn on the committed rows, 439 figures as committed); 54 older test files that name the page, its library, its rules file, `components/Num.tsx` or the decisions blocks, or sweep the notes, each in its own process: all pass (699 tests in the 55 files); `check-methods.mjs` 544 of 544; `replication/bill/replicate.py`: 669 of 669 figures over 20 cases, exit 0; a narrow `tsc` with one message outside the change (`app/network/Network.tsx`, `three`); not built here (memory); `check-values` and `check-routes` not run | requested |
+| 29 | `wip/7531-events` | `6895f7876` | `7531-events` | 7531 | 2026-11-16 | `site/scripts/test-events-render.mjs` (42 of 42, the ten pages drawn to HTML without a build on the public rows beside the replication); `tests/test_session7531_events.py` with `test_session241a`, `test_session319`, `test_session92`: 47 passed, 15 skipped by their own rules (tables not on this machine); `replication/events/replicate.py` 1,176 of 1,176; not built here (memory) | requested |
 
 ## Row 1: what it holds
 
@@ -366,3 +367,24 @@ Branch `wip/7202-key-refusal` from `origin/main`. Report: `archive/sessions/SESS
 - **Before landing:** a site build on the landing machine (the first whole build of `Num.tsx` with the change). `check-values` on `/learn/bill` and `/learn/problems/prices-and-your-bill`: the `bill|` keys come back as checked numbers. `check-methods.mjs` with a base URL.
 - **Snapshot differences to expect:** none on the 25 addresses (every page is in review; a visitor is shown the in-review page). With the review cookie: on `/learn/bill` the 15 card figures change from "license needed" to numbers, the fold is new, and two kWh words change in the calculator; on `/learn/problems/prices-and-your-bill` the bill figures change from "license needed" to numbers. **Tables:** none.
 - **After the landing:** rows 96 to 101 of `docs/state/browser_reads_wanted.md`. Row 69 of `docs/state/data_requests_done_line.md` is the data machine's and does not hold this row.
+
+## Row 29: what it holds (chain 304, session 7531, /events and its nine event pages at the done line)
+
+- **From** origin/main `dd2dabe11`. Report: `archive/sessions/SESSION_7531_REPORT.md` on the branch.
+- **What changes:** `site/app/events/page.tsx` (the COVID-19 card reads from the week of 2020-03-22; the decisions
+  fold), `covid-2020/page.tsx` (the baseline words: 2019 and 2018 for the seven ISO grids, the Lower 48 2019; a 2018
+  line in each ISO grid's small chart; the chart's unit), `ercot-heat-2023/page.tsx` (a paragraph quoting ERCOT's
+  release of 14 September 2023; one sentence's words), the nine event pages (the decisions fold after the event study
+  block), the new `site/app/events/Decisions.tsx`. New: `site/scripts/events-pages.mjs`, `events-page-loader.mjs`,
+  `events-page-register.mjs`, `test-events-render.mjs`; `replication/events/` (replicate.py, replicate.do, the rows,
+  page_figures, statements); `docs/reviews/events-faults-2026-11-16.md`, `events-crosscheck-2026-11-16.md`;
+  `docs/methods/events.md` and `event_study.md` extended; `tests/test_session7531_events.py`.
+- **What does not change:** any figure's value or check key except the index's COVID-19 card (its key moves from the
+  week of 2020-03-01 to 2020-05-17), every table, `EventWindow.tsx`, `EventStudy.tsx`, `lib/eventstudy.ts`,
+  `site/lib/release.ts`, `site/data/license_status.json` and the hold.
+- **Before landing:** a site build of the merged commit (none was made here); `check-values` reads the pages as before
+  (the index's COVID-19 card's new key is a row of the live set: `series|event_window_daily|eia930:US48|demand_pct_vs_baseline_week|2020-05-17T00:00:00Z|covid_2020`, held today by fault 1, so drawn "license needed").
+- **Snapshot differences to expect:** none on the 25 addresses (every page is in review). With the review cookie:
+  the ten event addresses gain the decisions fold; `/events` the card's words and date; `/events/covid-2020` its words
+  and a 2018 line; `/events/ercot-heat-2023` one paragraph. **Tables:** none.
+- **After the landing:** rows 76 to 83 of `docs/state/browser_reads_wanted.md`. Data requests rows 49 and 50.
