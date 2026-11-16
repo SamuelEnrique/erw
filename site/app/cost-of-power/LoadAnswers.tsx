@@ -276,7 +276,7 @@ export function HowSoon({ a, f, rules, b, stated = null, lists = null }: { a: An
   ) : b ? (
     // session 7524 (the read of 16 November 2026, row 9): B at another site of the same grid met a line for B under "Will
     // the power be there?" and "How clean?" and none here; every figure of this section is the grid's, so it is B's too
-    <p className="mb-4 max-w-3xl text-sm" data-answer-b-site="soon" data-answer-b-same-grid="1">
+    <p className="mb-4 max-w-3xl text-sm" data-answer-b-same-grid="1">
       Scenario B&apos;s site, {b.f.place}, is in the same grid: every figure here is {f.gridName}&apos;s as a whole, the same for both sites. No figure of a site&apos;s own wait is held.
     </p>
   ) : null;
