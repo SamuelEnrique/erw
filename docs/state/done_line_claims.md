@@ -12,9 +12,9 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 4 | `/battery/customer` | samueloldlaptop | claimed |
 | 5 | `/cost-of-power/battery/awards` | samueloldlaptop | done line (branch `wip/7505-battery-awards`, head `73837e331`, landing row row 20 of `docs/state/landing_request_oldlaptop.md`) |
 | 6 | `/impact` | samueloldlaptop | done line (branch `wip/7506-impact`, head `946db9195`, landing row row 21 of `docs/state/landing_request_oldlaptop.md`) |
-| 7 | `/explore/ercot-peak-premium` | samueloldlaptop | claimed |
-| 8 | `/explore/demand-growth` | samueloldlaptop | claimed |
-| 9 | `/explore/interconnection` | samueloldlaptop | claimed |
+| 7 | `/explore/ercot-peak-premium` | samueloldlaptop | done line (branch `wip/7507-peak-premium`, head `b35e64e9a`, landing row row 22 of `docs/state/landing_request_oldlaptop.md`) |
+| 8 | `/explore/demand-growth` | samueloldlaptop | done line (branch `wip/7508-demand-growth`, head `66e294497`, landing row row 23 of `docs/state/landing_request_oldlaptop.md`) |
+| 9 | `/explore/interconnection` | samueloldlaptop | done line (branch `wip/7509-interconnection`, head `da5dfd8cb`, landing row row 24 of `docs/state/landing_request_oldlaptop.md`) |
 | 10 | `/map` | portable-laptop | claimed |
 | 11 | `/events` and its nine event pages | portable-laptop | claimed |
 | 12 | `/grid/caiso/alerts` | portable-laptop | claimed |
