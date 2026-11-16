@@ -143,7 +143,7 @@ export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: Ma
             const grid = f.grids[f.g[i]];
             return `<div style="max-width:17rem;white-space:normal"><strong>${name}</strong><br/>`
               + `${what}, ${mw === null ? "MW not stated" : `${one(mw)} MW${kind === KIND.queue ? " requested" : ""}`}<br/>`
-              + `<span style="color:${muted}">${kind === KIND.queue ? "Queue position, " : ""}${st2}, ${f.states[f.s[i]] || "state not stated"}${grid.slug === "none" ? "" : `, ${grid.name}`}${f.d[i] ? `, ${dateOf(f.d[i])}` : ""}. Click for its card.</span></div>`;
+              + `<span style="color:${muted}">${kind === KIND.queue ? "Queue position, " : ""}${st2}, ${f.states[f.s[i]] || "state not stated"}${grid.slug === "none" ? "" : `, ${grid.name}`}${f.d[i] ? `, ${dateOf(f.d[i])} (${DATE_WORDS[kind]})` : ""}. Click for its card.</span></div>`;
           },
         },
         geo: {
