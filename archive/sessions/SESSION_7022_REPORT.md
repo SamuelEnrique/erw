@@ -16,7 +16,7 @@ Started by the queue step (`310-resume-chain-301.md` taken at `5eed3497e`; the p
 ## The daily run's refused push (the race the landed retry fixes)
 
 - The data machine's own daily run (17:00 UTC) pulled at about 19:33 and ran its guard's suite; gate l merged at 19:34, so its one push was refused ("fetch first"), as `landing-races-daily-push` describes. The landing had been pushed at 19:20, while the run was in its page files. The retry that fixes this landed with gate l itself, after the run had started.
-- Under the data lock (taken at 19:49 UTC when the run released it): the run's commit rebased onto `1f7bd79c9`. Twelve files conflicted, every one a page file or metadata that both session 7020's writes (carried by gate l) and the daily run had rebuilt; the daily run's side, built later from the same tables, was taken; `package/llms.txt` written again by `scripts/build_llms.py`. The guard ran again on the rebased commit (`d2ec8ec58`) through `runs/c301/s7022/guard_push.sh`.
+- Under the data lock (taken at 19:49 UTC when the run released it): the run's commit rebased onto `1f7bd79c9`. Twelve files conflicted, every one a page file or metadata that both session 7020's writes (carried by gate l) and the daily run had rebuilt; the daily run's side, built later from the same tables, was taken; `package/llms.txt` written again by `scripts/build_llms.py`. The guard ran again on the rebased commit (`d2ec8ec58`) through `runs/c301/s7022/guard_push.sh`: passed at 20:14:46 UTC, pushed at 20:14:52. Snapshots `after-34b9cc9e` (the state before the push) and `after-d2ec8ec5` (after Vercel's status read success): **0 differences** (expected).
 
 ## Done-line requests (`docs/state/data_requests_done_line.md`)
 
