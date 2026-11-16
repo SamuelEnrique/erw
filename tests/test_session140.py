@@ -145,17 +145,19 @@ class Delivery(unittest.TestCase):
             self.assertTrue({"transmission", "distribution"} <= kinds, u)   # transmission and distribution apart, for each utility
         self.assertNotIn("per_mwh", json.dumps(f))   # the per-MWh figure is computed on the page, in its own row, from the printed factor
 
-    def test_the_commissions_matrix_is_as_printed_and_2026_is_not_called_approved(self):
+    # session 7022: the Commission's Order filed 5 November 2026 (Docket No. 59080, item 88) approves both 2026 matrices;
+    # until it, this test held 2026 to "filed" (not approved). The figures are the same; only their status moved
+    def test_the_commissions_matrix_is_as_printed_and_2026_is_approved_since_the_order_of_5_november(self):
         f = json.loads(src("site", "data", "datacenter", "texas_delivery.json"))
         m = f["matrix"]
         self.assertEqual(len(m), 45)   # three matrices (2025; 2026 A and B) by three statewide figures and three for each of four utilities
         rate = {(r["year"], r["matrix"]): r for r in m if r["quantity"] == "postage_stamp_rate"}
         self.assertEqual((rate[("2025", "")]["value"], rate[("2025", "")]["status"]), (68.547301, "approved"))
-        self.assertEqual((rate[("2026", "A")]["value"], rate[("2026", "A")]["status"]), (75.52727, "filed"))
+        self.assertEqual((rate[("2026", "A")]["value"], rate[("2026", "A")]["status"]), (75.52727, "approved"))
         for r in m:
             self.assertTrue(r["sentence"] and r["url"].startswith("https://interchange.puc.texas.gov/") and r["page"] and r["document"] and r["filed"], r["quantity"])
             self.assertIn(re.sub(r"[^0-9.]", "", r["value_as_written"]).rstrip("."), re.sub(r"[ ,]", "", r["sentence"]), r["quantity"])   # the figure stands in its line
-            self.assertEqual(r["status"], "approved" if r["year"] == "2025" else "filed")
+            self.assertEqual(r["status"], "approved")
         self.assertEqual({r["scope"] for r in m}, {"ERCOT", "Oncor", "CenterPoint Energy Houston Electric", "AEP Texas", "Texas-New Mexico Power"})
         self.assertEqual(f["license"], "internal")
 

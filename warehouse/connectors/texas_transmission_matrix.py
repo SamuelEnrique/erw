@@ -7,7 +7,9 @@ figure as the Commission's document prints it). Internal.
 What it holds. For calendar years 2025 (Docket No. 57491, Commission Staff's Final Transmission Charge Matrix, item
 51, filed 20 March 2025, approved by the Order of item 58 filed 5 June 2025) and 2026 (Docket No. 59080, Commission
 Staff's Final Transmission Charge Matrices A and B, item 50, filed 16 March 2026, NOT approved: the docket was
-remanded on 4 June 2026 and has no signed order in the filing list read on 7 October 2026): each transmission owner's
+remanded on 4 June 2026 and has no signed order in the filing list read on 7 October 2026; session 7022 read the
+filing list again on 16 November 2026: item 88, the Commission's Order filed 5 November 2026, approves matrix A for
+billing from 1 January to 11 March 2026 and matrix B from 12 March 2026, so both are approved since): each transmission owner's
 transmission cost of service (TCOS) and access fee (USD per kW of average 4CP), each load entity's average 4CP (kW),
 the TOTAL line, the Total ERCOT Postage Stamp Rate and the hourly export rate, from the matrix's Parameters sheet
 (Attachment A, two pages); and the average 4CP load the 2025 Order states. Nothing is computed, except one check
@@ -148,6 +150,15 @@ doc("proposed_2026", "puc_59080_86_1687248.pdf",
     "Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the "
     "Electric Reliability Council of Texas, Inc., item 86: Proposed Order on Remand with Memorandum",
     INTERCHANGE + "/Documents/59080_86_1687248.PDF", "proposed", "59080", "86", "9/25/2026")
+# Session 7022 (chain 301, 16 November 2026): the filing list read again (runs/c301/s7022/puct/, not a document of this
+# table): item 88, "ORDER", filed 11/5/2026, and item 89 its final mail log. The Order is read by a person for its
+# ordering paragraphs 1 and 2; no figure is taken from it. Two requests (16 of the 20 allowed).
+doc("item_59080_88", "puc_59080_item_88.html", "PUC Interchange, Docket No. 59080, item 88 (the page that links its files)",
+    INTERCHANGE + "/search/documents/?controlNumber=59080&itemNumber=88", "list", "59080", "88", "11/5/2026")
+doc("order_2026", "puc_59080_88_1699841.pdf",
+    "Docket No. 59080, Commission Staff's Petition to Set 2026 Wholesale Transmission Service Charges for the "
+    "Electric Reliability Council of Texas, Inc., item 88: Order",
+    INTERCHANGE + "/Documents/59080_88_1699841.PDF", "order", "59080", "88", "11/5/2026")
 # The Commission's own pages on reuse, linked from its Site Policies page (read in session 138, an index).
 doc("puc_link_policy", "puc_link_policy.html", "Public Utility Commission of Texas, Link Policy",
     "https://www.puc.texas.gov/agency/about/policies/LinkPolicy/", "terms")
@@ -347,19 +358,22 @@ READS = {
                         docket_status="approved by the Commission's Order filed 2025-06-05 (Docket No. 57491, item 58): "
                                       "\"The Commission approves the 2025 final transmission-charge matrix included as "
                                       "attachment A to Commission Staffs March 20, 2025 filing\""),
+    # session 7022: approved by the Order filed 2026-11-05 (item 88), ordering paragraph 1, read in its text layer
     "attach_2026_a": dict(year="2026", matrix="A", docket="59080", item="50", date_filed="2026-03-16", zip="native_2026",
-                          scan="matrix_2026", scan_offset=4, status="filed",
-                          docket_status="not approved: no signed order sets the 2026 charges in the filing list read "
-                                        "2026-10-07 (86 items); the proceeding was remanded on 2026-06-04 (item 62); the "
-                                        "Proposed Order on Remand filed 2026-09-25 (item 86, not signed) would approve "
-                                        "matrix A \"effective for billing beginning January 1, 2026 through March 11, 2026\""),
+                          scan="matrix_2026", scan_offset=4, status="approved",
+                          docket_status="approved by the Commission's Order filed 2026-11-05 (Docket No. 59080, item 88): "
+                                        "\"The Commission approves the 2026 final transmission-charge matrix A, included as "
+                                        "attachment A to Commission Staff s March 16, 2026 filing, for use by the TSPs in "
+                                        "calculating the transmission charges for transmission customers in the ERCOT region "
+                                        "for billings beginning January 1, 2026 through March 11, 2026\""),
+    # session 7022: approved by the same Order, ordering paragraph 2 (before it: filed, not approved; remanded 2026-06-04)
     "attach_2026_b": dict(year="2026", matrix="B", docket="59080", item="50", date_filed="2026-03-16", zip="native_2026",
-                          scan="matrix_2026", scan_offset=28, status="filed",
-                          docket_status="not approved: no signed order sets the 2026 charges in the filing list read "
-                                        "2026-10-07 (86 items); the proceeding was remanded on 2026-06-04 (item 62); the "
-                                        "Proposed Order on Remand filed 2026-09-25 (item 86, not signed) would approve "
-                                        "matrix B \"to replace matrix A\" from March 12, 2026 (it includes the City of "
-                                        "Caldwell's load)"),
+                          scan="matrix_2026", scan_offset=28, status="approved",
+                          docket_status="approved by the Commission's Order filed 2026-11-05 (Docket No. 59080, item 88): "
+                                        "\"The Commission approves the 2026 final transmission-charge matrix B, included as "
+                                        "attachment B to Commission Staff's March 16, 2026 filing, for use by the TSPs in "
+                                        "calculating the transmission charges for transmission customers in the ERCOT region "
+                                        "for billings beginning on March 12, 2026\" (it includes the City of Caldwell's load)"),
     "order_2025": dict(year="2025", matrix="", docket="57491", item="58", date_filed="2025-06-05", zip="",
                        scan="", scan_offset=0, status="approved",
                        docket_status="the Commission's signed Order, filed 2025-06-05"),
