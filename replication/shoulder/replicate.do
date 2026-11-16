@@ -6,7 +6,19 @@
 
 * This do-file has not been run: Stata is not installed on the machine that wrote it. "python replicate.py --headline" follows it step for step on the same two files and printed the lines below.
 
-* Expected values, on shoulder_hours_monthly as built on 4 October 2026 (27,201 rows) and the fleet as held on 3 October 2026. ERCOT, August 2026, the month the page opens on:
+* Expected values, on shoulder_hours_monthly as built on 3 November 2026 (27,489 rows), the warehouse's copy (session 7022, chain 301, the data machine). ERCOT, September 2026, the month the page opens on:
+
+*   1. the evening shoulder, hours: 6 (from 18:00 to 24:00)
+
+*   2. net load above its daily mean in the shoulder, MWh: 64,370.37
+
+*   3. the fleet's hours at full power (MWh over MW), and the hours of the shoulder it covers: 1.65 and 1.65
+
+*   4. hours the fleet would need to deliver all of it: 3.35
+
+*   5. the same on the ten worst days of 2026, their mean: 6.76 (9 days)
+
+* On the copy of 4 October 2026 (27,201 rows, the fleet as held on 3 October 2026) (the test's small fixture, tests/fixtures/session7503, prints the same lines), ERCOT, August 2026, the month the page opened on then:
 
 *   1. the evening shoulder, hours: 5 (from 19:00 to 24:00)
 
