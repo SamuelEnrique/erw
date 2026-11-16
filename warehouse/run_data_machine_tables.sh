@@ -114,6 +114,11 @@ if ! declare -F soft_step > /dev/null; then   # run by itself: what warehouse/ru
 fi
 
 # step name | table | cadence | the command after the interpreter
+# Session 7015 (chain 301): dm_mix_profile writes the mix's page files too (--snapshot), and dm_curtailment_profile the
+# curtailment profile and its page file, from the full tables here: the runner's monthly build of them, from restored
+# tables shorter than the history, was put back on 6 November and neither page was built again that month (their tests
+# run as a group in run_data_machine.sh). dm_queue_statistics (done-line request 16) builds the queue statistics from
+# the six queues as the runner last pulled them, rebuilt from the archive (--restore).
 TABLE_STEPS=(
   "dm_eia930_total_interchange|eia930_daily_total_interchange|daily|warehouse/connectors/eia930_daily_total_interchange.py"
   "dm_caiso_ws_forecast|caiso_wind_solar_forecast|daily|warehouse/connectors/caiso_wind_solar_forecast.py --start SINCE"
@@ -135,13 +140,15 @@ TABLE_STEPS=(
   "dm_noaa_weather|noaa_grid_weather_hourly,noaa_grid_weather_daily,noaa_grid_weather_stations,noaa_station_weather_hourly|weekly|warehouse/connectors/noaa_grid_weather.py --refresh"
   "dm_zone_history_pull|-|weekly|warehouse/connectors/zone_price_history.py --pull --iso caiso --recent 9"
   "dm_zone_history_write|iso_zone_prices_history|weekly|warehouse/connectors/zone_price_history.py --write --iso caiso --recent 9"
-  "dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py"
+  "dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py --snapshot"
+  "dm_curtailment_profile|caiso_curtailment_profile|weekly|warehouse/derived/curtailment_profile.py --snapshot"
+  "dm_queue_statistics|iso_queue_statistics|weekly|warehouse/derived/queue_statistics.py --restore"
   "dm_nuclear_outages_gen|eia_nuclear_outages_generator_daily|daily|warehouse/connectors/eia_nuclear_outages_generator.py --new-days"
   "dm_nuclear_fleet|nuclear_fleet_status|daily|warehouse/derived/nuclear_fleet_status.py"
 )
 # session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
 # only those a live-set rule names, and writes what changed)
-WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records|eia_nuclear_outages_generator_daily|nuclear_fleet_status)$'
+WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records|eia_nuclear_outages_generator_daily|nuclear_fleet_status|caiso_curtailment_profile|iso_queue_statistics)$'
 
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds

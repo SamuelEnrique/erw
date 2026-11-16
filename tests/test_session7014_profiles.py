@@ -3,6 +3,7 @@ monthly job. The runner built them from its restored tables, which lack months t
 the files of 6 November back, demand growth's file (the monthly mark) stayed, and neither page was built again that
 month: on 16 November /curtailment's profile read 5 October and /mix/v2 19 October. No request, no model call."""
 import os
+import shutil
 import subprocess
 import sys
 import unittest
@@ -46,18 +47,27 @@ class TheSteps(unittest.TestCase):
         self.assertEqual(rc, 0)
 
     def test_the_data_machine_builds_tests_puts_back_and_stores_them(self):
+        t = src("warehouse", "run_data_machine_tables.sh")
+        # the weekly table steps build both with their page files, and store their tables (validator, coverage, archive,
+        # Redivis draft) and load them with the week's live set
+        self.assertIn('"dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py --snapshot"', t)
+        self.assertIn('"dm_curtailment_profile|caiso_curtailment_profile|weekly|warehouse/derived/curtailment_profile.py --snapshot"', t)
+        live = [ln for ln in t.splitlines() if ln.startswith("WEEKLY_LIVE=")][0]
+        for name in ("caiso_curtailment_profile", "generation_mix_hourly_profile", "generation_mix_records"):
+            self.assertIn(name, live)
         s = src("warehouse", "run_data_machine.sh")
-        self.assertIn('soft_step dm_mix_profile "$PYTHON" warehouse/scheduled.py mix_profile', s)
-        self.assertIn('soft_step dm_curtailment_profile "$PYTHON" warehouse/scheduled.py curtailment_profile', s)
+        self.assertNotIn("warehouse/scheduled.py mix_profile", s)          # built once, by the table step
+        self.assertIn('grep -qE "^(dm_mix_profile|dm_curtailment_profile) ok" "$status"', s)
         self.assertIn('group dm_monthly_profiles "dm_mix_profile dm_curtailment_profile"', s)
         self.assertIn("tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page", s)
-        self.assertIn('PROFILES="generation_mix_hourly_profile generation_mix_records caiso_curtailment_profile"', s)
-        self.assertIn("site/data/curtailment_profile.json site/data/mix)", s)
+        self.assertIn("site/data/curtailment_profile.json site/data/mix   #", s)   # in the day's commit
         self.assertLess(s.index("dm_monthly_profiles"), s.index("# ---- 4. the commit"))
-        if os.name != "nt" or os.path.exists(r"C:\Program Files\Git\bin\bash.exe"):
-            bash = r"C:\Program Files\Git\bin\bash.exe" if os.name == "nt" else "bash"
-            r = subprocess.run([bash, "-n", os.path.join(ROOT, "warehouse", "run_data_machine.sh")], capture_output=True, text=True)
-            self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertLess(s.index(". warehouse/run_data_machine_tables.sh"), s.index("group dm_monthly_profiles"))
+        bash = shutil.which("bash") or (r"C:\Program Files\Git\bin\bash.exe" if os.name == "nt" else None)
+        if bash and os.path.exists(bash):
+            for f in ("run_data_machine.sh", "run_data_machine_tables.sh"):
+                r = subprocess.run([bash, "-n", os.path.join(ROOT, "warehouse", f)], capture_output=True, text=True)
+                self.assertEqual(r.returncode, 0, r.stderr)
 
 
 if __name__ == "__main__":

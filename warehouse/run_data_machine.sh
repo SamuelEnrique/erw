@@ -97,8 +97,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
             site/data/seller/hybrid.json site/public/seller/prices
             site/data/board.json site/public/board
-            site/data/map.json site/data/map_v2.json   # session 349: the map's copy (dm_project_map)
-            site/data/curtailment_profile.json site/data/mix)   # session 7014: the monthly profiles (dm_monthly_profiles)
+            site/data/curtailment_profile.json site/data/mix   # session 7014: the profiles' page files (dm_monthly_profiles)
+            site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
@@ -476,26 +476,11 @@ group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter
   site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
   replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md \
   replication/analysis/page_figures.json replication/analysis/page_figures.csv
-# Session 7014 (chain 301): the mix and curtailment profiles, built here from the full tables (they were monthly builds
-# of the runner, on its restored, shorter tables, and a put-back of 6 November left both pages a month behind). Their
-# tests are the monthly job's; a refused build is put back whole. Their tables are then validated, covered and archived.
-soft_step dm_mix_profile "$PYTHON" warehouse/scheduled.py mix_profile
-soft_step dm_curtailment_profile "$PYTHON" warehouse/scheduled.py curtailment_profile
-if group dm_monthly_profiles "dm_mix_profile dm_curtailment_profile"     "tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page" --     site/data/curtailment_profile.json site/data/mix; then
-  PROFILES="generation_mix_hourly_profile generation_mix_records caiso_curtailment_profile"
-  PROFILE_RX="^($(echo $PROFILES | tr ' ' '|'))\$"
-  PROFILE_FILES=""; for t in $PROFILES; do PROFILE_FILES="$PROFILE_FILES warehouse/output/$t.csv"; done
-  "$PYTHON" warehouse/validate/erw_validate.py --json $PROFILE_FILES > runs/data_machine_profiles_validate.json 2> runs/data_machine_profiles_validate.err
-  rc=$?
-  if [ "$rc" -ne 0 ]; then
-    echo "dm_profile_stores failed: erw_validate.py exited $rc on $PROFILES" >> "$status"
-    "$PYTHON" warehouse/health.py record --step "dm_profile_stores" --status failed --reason "erw_validate.py exit $rc"
-  elif ! "$PYTHON" warehouse/metadata/build_coverage.py --reports runs/data_machine_profiles_validate.json --only "$PROFILE_RX" > runs/data_machine_profiles_coverage.out 2>&1; then
-    echo "dm_profile_stores failed: build_coverage.py on $PROFILES; the archive was not run" >> "$status"
-    "$PYTHON" warehouse/health.py record --step "dm_profile_stores" --status failed --reason "build_coverage.py failed"
-  else
-    soft_step dm_profile_archive "$PYTHON" warehouse/archive/archive.py write --tables "$PROFILE_RX"
-  fi
+# Session 7014 (chain 301): the mix and curtailment profiles' page files, built by the weekly table steps above
+# (dm_mix_profile, dm_curtailment_profile in warehouse/run_data_machine_tables.sh, which also store their tables): on a
+# week they ran, the monthly job's tests of those files, and a refused build is put back whole.
+if grep -qE "^(dm_mix_profile|dm_curtailment_profile) ok" "$status"; then
+  group dm_monthly_profiles "dm_mix_profile dm_curtailment_profile"     "tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page" --     site/data/curtailment_profile.json site/data/mix
 fi
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------

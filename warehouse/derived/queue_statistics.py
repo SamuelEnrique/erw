@@ -64,7 +64,8 @@ def stats(q, iso):
         groups["withdrawn"] = s == "withdrawn"
     for k, m in groups.items():
         out[f"positions_{k}"] = (float(m.sum()), "count")
-        out[f"mw_{k}"] = (float(mw[m].sum(min_count=1)) if mw[m].notna().any() else None, "MW")
+        # session 7015 (done-line request 17): no position is 0 MW, not "not held"; positions without a figure stay unwritten
+        out[f"mw_{k}"] = (0.0 if not m.any() else float(mw[m].sum(min_count=1)) if mw[m].notna().any() else None, "MW")
     if "withdrawn" in groups and out["positions_entered"][0]:
         out["withdrawal_rate"] = (out["positions_withdrawn"][0] / out["positions_entered"][0], "ratio")
     if iso not in NO_IN_SERVICE:
@@ -89,10 +90,33 @@ def rule_words(iso, variable):
     return "the queue connector's status (STATUS_MAP of warehouse/connectors/iso_queues.py)"
 
 
+def restore_inputs(run=None):
+    """Session 7015 (chain 301, done-line request 16): the queues are pulled by the GitHub runner on Mondays and reach the
+    data machine only through the archive; on 16 November 2026 this machine's copies were of 19 October and 26 September
+    while the archive held the pulls of 5 November, and the statistics stood at 21 October. Each table is rebuilt from the
+    bucket into runs/queue_inputs; a table that cannot be rebuilt stops the build (nothing is built from a mix of dates)."""
+    import subprocess
+    run = run or subprocess.run
+    out = os.path.join(ip.ROOT, "runs", "queue_inputs")
+    os.makedirs(out, exist_ok=True)
+    for iso in ISOS:
+        name = f"{iso}_interconnection_queue"
+        r = run([sys.executable, os.path.join(ip.ROOT, "warehouse", "archive", "restore.py"), name, "--from-bucket",
+                 "--out", os.path.join(out, name + ".csv")], cwd=ip.ROOT)
+        if r.returncode != 0:
+            raise SystemExit(f"{name}: could not be rebuilt from the archive (restore.py exit {r.returncode}); nothing built")
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Interconnection queue statistics by ISO and entry year (session 348)")
     ap.add_argument("--inputs", default=ip.OUT_DIR, help="the folder holding the <iso>_interconnection_queue.csv tables")
+    ap.add_argument("--restore", action="store_true",
+                    help="session 7015: first rebuild the six queue tables from the archive bucket (the runner's newest pulls) "
+                         "into runs/queue_inputs and build from there; this machine's copies are not touched")
     a = ap.parse_args(argv)
+    if a.restore:
+        a.inputs = restore_inputs()
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
