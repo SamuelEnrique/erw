@@ -122,3 +122,8 @@ Each number `/storage` and `/grid` show carries its key (`site/components/Num.ts
 - `storage_buildout_monthly`, `battery_operating_mw_<lt2h, 2to4h, 4to6h, ge6h>`, `battery_operating_mwh_<lt2h, 2to4h, 4to6h, ge6h>`, `battery_operating_mw_energy_not_reported`: the bars by duration at each year's end, in MW or in MWh as the measure chosen (`measure=mwh`), and the MW of the units with no energy value, which cannot be drawn in MWh; the folded table "The numbers behind both charts, year by year" gives each, with the year's total and average hours.
 - `storage_buildout_monthly`, `solar_operating_mw`, `battery_mwh_per_solar_mw`: the chart "Storage against solar" and the same folded table: the grid's operating solar MW and the MWh of batteries per MW of solar at each year's end.
 - `storage_buildout_monthly`, `battery_planned_mw`, `battery_planned_mw_online_<year>`: the table "By grid": each grid's planned MW, all years together and by the year expected online, beside its operating MW, MWh, average hours and twelve months' additions.
+
+## The replication (session 7014, chain 301)
+
+`replication/storage/replicate.py` reads the live set as the page does (the anon key: the fleet, the daily cycle, EIA-930's and CAISO's battery output, the buildout and the owners) and compares every row with the warehouse's tables, and recomputes the fleet's sums from the warehouse: 63,075 of 63,075 equal on 16 November 2026 after one fix (`docs/reviews/storage-faults-2026-11-16.md`: CAISO's revised battery values had reached the live set and not the tables of record). `replicate.do` rebuilds five sums of the fleet in Stata, its expected values at its top.
+
