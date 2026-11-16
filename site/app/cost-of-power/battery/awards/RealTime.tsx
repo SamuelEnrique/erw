@@ -138,6 +138,10 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               }))} />
             <p className="mt-3 max-w-3xl text-sm">The last column is the first measure of what the hub price misses. It is day-ahead, where the warehouse holds both prices: the price at the resources&apos; own
               settlement points less the hub average&apos;s, weighted by the MWh sold and by the MWh bought. Selling above the hub and buying below it is what a node that moves more than the hub gives a battery.</p>
+            {/* session 7514 (the read of 16 November 2026, row 6): the storage page counts the same energy another way; what each counts */}
+            <p className="mt-2 max-w-3xl text-sm" data-rt-other-count="1">The MWh here add up each resource&apos;s own discharge and its own charge, from ERCOT&apos;s Telemetered Net Output. <Link href="/storage">The storage page</Link>&apos;s
+              daily cycle counts the fleet another way: its net output hour by hour, from EIA-930, in which a battery charging while another discharges cancels. A net count is the smaller of the two, so that page&apos;s MWh for a month
+              stand below these.</p>
           </div>
         ) : null}
 

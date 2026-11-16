@@ -88,6 +88,12 @@ ok(tipWithout.includes("Its figure could not be read here") && !/\d{2},\d{3} MW/
 ok(linesWithout.length === lines.length && lines.every((l, i) => l === linesWithout[i] || l.startsWith("[tip] The storage page")), "row 5: and every other line of the page is unchanged");
 ok(A.inventoryOf(held.get(A.INVENTORY_TABLE), "2027-01") === null, "row 5: a month the EIA's table does not hold gives no figure");
 
+// ---- row 6: the fleet's MWh here and on the storage page: what each counts, said where the MWh are drawn
+const other = ent((html.match(/<p[^>]*data-rt-other-count="1"[^>]*>([\s\S]*?)<\/p>/) ?? ["", ""])[1]).replace(/<[^>]+>/g, "");
+ok(other.includes("add up each resource's own discharge and its own charge, from ERCOT's Telemetered Net Output") && other.includes("its net output hour by hour, from EIA-930")
+  && other.includes("A net count is the smaller of the two") && html.includes('<a href="/storage" data-site-link="1">The storage page</a>'), "row 6: under the MWh table the page says how the storage page's daily cycle counts the same energy, and links it");
+ok(html.indexOf('data-rt-other-count="1"') > html.indexOf("Real-time energy and day-ahead energy by month, MWh") && html.indexOf('data-rt-other-count="1"') < html.indexOf("Real-time ancillary awards: held, and not valued"), "row 6: the sentence stands with the MWh table it speaks of");
+
 // ---- the page drops nothing it had: every figure session 7505's replication found on the page is on it still
 const fig = JSON.parse(file("..", "replication", "battery_awards", "page_figures.json"));
 const plain = text.replace(/\[title: [^\]]*\]/g, "");
@@ -99,7 +105,7 @@ for (const kept of ["What this is not.", "What is counted", "By month", "By year
 // ---- the page standard
 const dash = [String.fromCharCode(0x2014), String.fromCharCode(0x2013)];
 ok(!dash.some((c) => html.includes(c)), "no em dash and no en dash on the drawn page");
-const added = [tip, further, tipOf("2026-07"), lines.find((l) => l.startsWith("The five together, over")) ?? ""].join(" ");
+const added = [tip, further, other, tipOf("2026-07"), lines.find((l) => l.startsWith("The five together, over")) ?? ""].join(" ");
 ok(!/\b(should|recommend|we advise|best choice|better node|prefer)\b/i.test(added), "what this session added states facts and takes no view");
 
 console.log(`${n - failed} of ${n} passed`);
