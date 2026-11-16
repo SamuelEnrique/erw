@@ -119,6 +119,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const toMidnight2 = v?.get("shoulder2_runs_to_midnight")?.value === 1;
   const worstNeeded = v?.year.get("year_worst10_mean_shoulder_hours_needed");
   const nightLow = (v?.get("midday_low_hour")?.value ?? 12) < 8;   // session 7503: the day's lowest hour of net load falls before 08:00
+  const neededRow = v?.get("shoulder_hours_needed"), fleetHoursRow = v?.get("fleet_hours");
   const href = (g: string, m: string) => `/shoulder?grid=${g}&month=${m}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
@@ -187,7 +188,9 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 <HeadlineNumber label="The evening shoulder" value={<V row={v.get("shoulder_hours")} />} unit="hours"
                   note={<><Hr row={v.get("shoulder_start_hour")} /> to <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? ", cut at midnight: net load stays above its daily mean" : ""}. <V row={v.get("shoulder_mwh_above_mean")} unit="MWh" /> of net load above the day&apos;s mean.</>} />
                 <HeadlineNumber label="Hours the battery fleet covers" value={<V row={v.get("shoulder_hours_covered")} />} unit="hours"
-                  note={<><V row={v.get("fleet_mw")} unit="MW" /> holding <V row={v.get("fleet_mwh")} unit="MWh" />. At that power, all of the shoulder&apos;s MWh above the mean would take <V row={v.get("shoulder_hours_needed")} unit="hours" />.</>} />
+                  note={<><V row={v.get("fleet_mw")} unit="MW" /> holding <V row={v.get("fleet_mwh")} unit="MWh" />. At that power, all of the shoulder&apos;s MWh above the mean would take <V row={v.get("shoulder_hours_needed")} unit="hours" />{neededRow && fleetHoursRow
+                    // session 7512: the two figures set against each other in words, since "covers 3.43 of 6 hours" beside "would need 3.27 hours" left the reader to work out which way it fell
+                    ? <span data-needed-against-held={neededRow.value < fleetHoursRow.value ? "less" : neededRow.value > fleetHoursRow.value ? "more" : "same"}>, {neededRow.value < fleetHoursRow.value ? "less than" : neededRow.value > fleetHoursRow.value ? "more than" : "the same as"} the <V row={fleetHoursRow} /> hours it holds</span> : null}.</>} />
                 {/* session 7503: the run is around net load's lowest hour of the whole day; in most Texas months that hour is before dawn, and the tip says so */}
                 <HeadlineNumber label="The midday surplus" value={<V row={v.get("midday_surplus_mwh")} />} unit="MWh"
                   tip={nightLow ? <Tip id="shoulder-night-low" label="when this month's lowest hour falls"><span data-night-low={v.month}>In this month net load is lowest at {hourName(v.get("midday_low_hour")!.value)}, before the sun is up: the hours counted here run around that hour, so they are mostly the night&apos;s and the morning&apos;s, not only the midday&apos;s.</span></Tip> : undefined}

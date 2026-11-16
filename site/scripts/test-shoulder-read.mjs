@@ -122,6 +122,12 @@ ok(words(aug).includes("CAISO's own demand leaves the fleet's charging out; over
   && hours.filter((h) => hourOf("iso:caiso_own", "battery", h) < -1000).every((h) => { const g = hourOf("iso:caiso", "demand", h) - hourOf("iso:caiso_own", "demand", h), c = -hourOf("iso:caiso_own", "battery", h); return Math.abs(g - c) / c < 0.15; }),
   `row 7: the tip says why the two differ, and the rows bear it out: August 2025, EIA-930's demand above the sum of CAISO's sources by ${two(Math.round(gap))} MWh a day, the batteries' charging ${two(Math.round(charged))} MWh`);
 
+// row 8: hours needed against the hours the fleet holds, said in words beside the two figures
+const head2 = (html) => words((html.match(/Hours the battery fleet covers[\s\S]*?The midday surplus/) ?? [""])[0]);
+ok(o26.includes('data-needed-against-held="less"') && head2(o26).includes("would take 3.27 hours , less than the 3.43 hours it holds ."), "row 8: California, April 2026: \"would take 3.27 hours, less than the 3.43 hours it holds\"");
+ok(e25.includes('data-needed-against-held="more"') && head2(e25).includes("would take 4.30 hours , more than the 1.52 hours it holds ."), "row 8: ERCOT, August 2025: \"would take 4.30 hours, more than the 1.52 hours it holds\"");
+ok(c24.includes('data-needed-against-held="more"') && head2(c24).includes("would take 4.13 hours , more than the 3.39 hours it holds ."), "row 8: California, April 2024: 4.13 hours against 3.39 held");
+
 // ---- the price: the page holds none, says so, and sends the reader to the page that does, for the grid shown
 const ready = B.GRIDS.filter((g) => g.ready && g.hub && g.from);
 const tight = (s) => words(s).replace(/ ([;:.,])/g, "$1");   // a tag's end leaves a space before the mark that follows it
@@ -129,9 +135,9 @@ const priceWords = `What a battery of 2, 4 or 8 hours earned, month by month, is
 for (const [name, html, grid] of [["ERCOT", e25, "ercot"], ["CAISO by EIA-930", c25, "caiso"], ["CAISO's own data", o26, "caiso"]]) {
   const li = (html.match(/<li data-no-price="([a-z]+)">([\s\S]*?)<\/li>/) ?? ["", "", ""]);
   ok(li[1] === grid && tight(li[2]).startsWith("A price. The page counts hours and MWh, not what an hour of the evening is worth.") && tight(li[2]).includes(priceWords) && (html.match(new RegExp(`href="/cost-of-power/battery\\?grid=${grid}"`, "g")) ?? []).length === 2 && !html.includes('href="/cost-of-power/battery"'),
-    `rows 8 and 9: ${name}: "What this cannot see" opens with the price, and both links to the battery page carry grid=${grid}`);
+    `rows 9 and 10: ${name}: "What this cannot see" opens with the price, and both links to the battery page carry grid=${grid}`);
 }
-ok(ready.length === 2 && priceWords.includes("ERCOT at its hub average from 2018; CAISO at SP15, one hub of the grid from August 2023") && B.DURATIONS.join(",") === "2,4,8", "row 9: what the battery page holds is read from its own library (2, 4 and 8 hours; ERCOT from 2018, CAISO at SP15 from August 2023)");
+ok(ready.length === 2 && priceWords.includes("ERCOT at its hub average from 2018; CAISO at SP15, one hub of the grid from August 2023") && B.DURATIONS.join(",") === "2,4,8", "row 10: what the battery page holds is read from its own library (2, 4 and 8 hours; ERCOT from 2018, CAISO at SP15 from August 2023)");
 
 // ---- nothing the page had is dropped, and nothing is written that should not be
 for (const [name, html] of [["ERCOT, August 2025", e25], ["ERCOT, August 2023", e23], ["CAISO by EIA-930, August 2025", c25], ["CAISO's own data, April 2026", o26]]) {
