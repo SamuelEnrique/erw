@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { kw, list, monthName, pct, span, usd, whole } from "@/lib/storageawards";
+import { SERVICE_FULL, kw, list, monthName, pct, span, usd, whole } from "@/lib/storageawards";
 import { BASIS_TABLE, RT_TABLE, rtAncillary, rtEnergy, rtTotal, type Basis, type RtMonth } from "@/lib/storagerealtime";
 
 // Session 120: the real-time side, one section added to /cost-of-power/battery/awards. What the fleet did in real time,
@@ -58,6 +58,11 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
     const total = rtTotal(ms), energy = rtEnergy(ms), anc = rtAncillary(ms);
     const partial = ms.filter((r) => !r.complete);
     const first = ms[0], last = ms[ms.length - 1];
+    // Session 7505: the node table was one week when the section was written and holds more now (21 whole days on
+    // 16 November 2026), while the words still said "one week" beside "Over the 21 whole days held". The words follow
+    // the table's own whole_days: a week or less reads as it did, more is said as its days.
+    const week = basis === null || basis.wholeDays === null || basis.wholeDays <= 7;
+    const nodeDays = basis !== null && basis.wholeDays !== null ? whole(basis.wholeDays) : "";
     body = (
       <div className="space-y-6" data-rt-months={ms.map((r) => r.m).join(",")}>
         <div className="max-w-3xl space-y-2 text-sm">
@@ -133,6 +138,10 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               }))} />
             <p className="mt-3 max-w-3xl text-sm">The last column is the first measure of what the hub price misses. It is day-ahead, where the warehouse holds both prices: the price at the resources&apos; own
               settlement points less the hub average&apos;s, weighted by the MWh sold and by the MWh bought. Selling above the hub and buying below it is what a node that moves more than the hub gives a battery.</p>
+            {/* session 7514 (the read of 16 November 2026, row 6): the storage page counts the same energy another way; what each counts */}
+            <p className="mt-2 max-w-3xl text-sm" data-rt-other-count="1">The MWh here add up each resource&apos;s own discharge and its own charge, from ERCOT&apos;s Telemetered Net Output. <Link href="/storage">The storage page</Link>&apos;s
+              daily cycle counts the fleet another way: its net output hour by hour, from EIA-930, in which a battery charging while another discharges cancels. A net count is the smaller of the two, so that page&apos;s MWh for a month
+              stand below these.</p>
           </div>
         ) : null}
 
@@ -141,7 +150,7 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
             <h3 className="mb-2 font-serif text-lg">Real-time ancillary awards: held, and not valued</h3>
             <ToolTable caption="Ancillary service awards in real time and day-ahead, MW for an hour" minWidth={620}
               head={["Service", "Awarded in real time", "Awarded day-ahead", "Real time less day-ahead"]}
-              rows={anc.map((a) => ({ key: a.key, cells: [<span key="s" data-rt-service={a.key}>{a.label}</span>, mwh(a.realTime), mwh(a.dayAhead),
+              rows={anc.map((a) => ({ key: a.key, cells: [<span key="s" data-rt-service={a.key}>{SERVICE_FULL[a.key] ? <abbr title={SERVICE_FULL[a.key]}>{a.label}</abbr> : a.label}</span>, mwh(a.realTime), mwh(a.dayAhead),
                 <span key="i" data-rt-imbalance={a.key} data-rt-raw={a.imbalance}>{(a.imbalance > 0 ? "+" : "") + mwh(a.imbalance)}</span>] }))} />
             <p className="mt-3 max-w-3xl text-sm">Each figure is a MW awarded for an hour, added up over {span(ms.map((r) => r.m))}, {first.m === last.m ? "the month" : "every month"} held. Since 5 December 2025 ERCOT awards ancillary
               services in real time as well, at each dispatch run, and pays or charges a resource the difference between its real-time award and its day-ahead award at the service&apos;s real-time price.
@@ -150,14 +159,15 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
         ) : null}
 
         <div data-rt-basis={basis ? "1" : "none"}>
-          <h3 className="mb-2 font-serif text-lg">What the hub price misses: one real week at the batteries&apos; own nodes</h3>
+          <h3 className="mb-2 font-serif text-lg" data-rt-basis-days={week ? "week" : nodeDays}>What the hub price misses: {week ? "one real week" : `${nodeDays} real days`} at the batteries&apos; own nodes</h3>
           {basisUnread !== null ? (
             <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table of node prices against the hub could not be read, so no number is shown here: {basisUnread}</p>
           ) : basis === null ? (
             <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table <code className="font-mono">{BASIS_TABLE}</code> is not loaded in the site&apos;s database, so no number is shown here.</p>
           ) : (
             <div className="max-w-3xl space-y-2 text-sm">
-              <p>This is the second measure, and it is real time. It is not from the months above: it is the week of node prices ERCOT&apos;s public list held when it was read,
+              <p>This is the second measure, and it is real time. It is not from the months above: it is {week ? <>the week of node prices ERCOT&apos;s public list held when it was read</>
+                  : <>the {nodeDays} whole days of node prices kept from ERCOT&apos;s public list, which holds seven days at a time</>},
                 from {new Date(`${basis.from}T12:00:00Z`).toLocaleString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}, at the {whole(basis.nodes)} settlement points storage resources are settled at.</p>
               {basis.spreadHub !== null && basis.spreadMedian !== null && basis.wholeDays !== null && basis.nodesWithSpread !== null ? (
                 <p data-rt-spread="1">Take a day&apos;s four dearest hours of real-time prices less its four cheapest: what moving four hours of energy a day could capture, before losses. Over the {whole(basis.wholeDays)} whole
@@ -168,8 +178,14 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               {basis.meanAbsDifference !== null ? (
                 <p>At the median point, the real-time price stood USD {two(basis.meanAbsDifference)} per MWh away from the hub average in the average interval, one way or the other.</p>
               ) : null}
-              <p>One week is one week. It says which way the stand-in errs and roughly by how much in one week of early autumn; it is not applied to any figure above, and nothing above is adjusted by it.
+              <p>{week ? <>One week is one week. It says which way the stand-in errs and roughly by how much in one week of early autumn;</>
+                  : <>It is {nodeDays} days of one autumn. It says which way the stand-in errs and roughly by how much over those days;</>} it is not applied to any figure above, and nothing above is adjusted by it.
                 To value a disclosed day at its own node, the node prices have to be kept from the day they are posted, before the list drops them.</p>
+              {/* session 7514 (the read of 16 November 2026, row 4): where the page stops for a reader with two nodes in hand, and where the site goes on */}
+              <p data-rt-nodes-further="1">No settlement point is named on this page: the figures above are the {whole(basis.nodes)} points&apos; median and middle eight tenths. Each point by ERCOT&apos;s name, with its day-ahead price against
+                the hub and its four-hour swing over twelve months, is a row of <Link href="/cost-of-power?view=allgrids&rows=nodes">the ERCOT node list on the All grids tab</Link>, which can be searched by name. The storage
+                points&apos; day-ahead spread against the hub, month by month, is on <Link href="/cost-of-power/battery">the battery page</Link> under &quot;At its own node&quot;. Each point&apos;s own real-time spread over
+                the{nodeDays ? ` ${nodeDays}` : ""} days measured here is a row of the table <code className="font-mono">{BASIS_TABLE}</code> (the variable spread_node), which no page draws by point.</p>
             </div>
           )}
         </div>
