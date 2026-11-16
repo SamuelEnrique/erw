@@ -200,8 +200,8 @@ class TheNote(unittest.TestCase):
         self.assertIn(f"Oncor {tcrf['Oncor'][0]} gives {tcrf['Oncor'][1]}; AEP Texas {tcrf['AEP Texas'][0]} gives {tcrf['AEP Texas'][1]}", n)
         self.assertEqual(sorted(tcrf), ["AEP Texas", "Oncor"])
         m = {y: (v, per, status) for y, v, per, status in lib["matrix"]}
-        self.assertIn(f"{m['2025'][0]} gives {m['2025'][1]} (2025, approved); {m['2026'][0]} gives {m['2026'][1]} (2026, filed, not approved)", n)
-        self.assertEqual((m["2025"][2], m["2026"][2]), ("approved", "filed"))
+        self.assertIn(f"{m['2025'][0]} gives {m['2025'][1]} (2025, approved); {m['2026'][0]} gives {m['2026'][1]} (2026, approved)", n)   # session 7022: the Order of 5 November 2026
+        self.assertEqual((m["2025"][2], m["2026"][2]), ("approved", "approved"))
 
     def test_it_states_the_code_rules_it_describes(self):
         lib, builder, reader = src("site", "lib", "datacenter.ts"), src("warehouse", "derived", "datacenter_page.py"), src("warehouse", "derived", "price_compare.py")

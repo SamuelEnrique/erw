@@ -304,7 +304,7 @@ and no total delivery cost is given: the riders held may not be all that apply t
 57491, item 51, filed 20 March 2025, approved by the Commission's Order of 5 June 2025, item 58) and for 2026 (Docket
 59080, item 50, filed 16 March 2026: matrices A and B). **The 2026 matrices are not approved**: the docket was
 remanded on 4 June 2026 and has no signed order (a proposed order on remand of 25 September 2026 is unsigned), so
-every 2026 figure is marked "filed, not approved". The filed documents are scans with no text; the same attachments
+every 2026 figure was marked "filed, not approved". Since session 7022 they are approved: the Commission's Order filed 5 November 2026 (item 88) approves matrix A for bills of 1 January to 11 March 2026 and matrix B from 12 March, each row's `docket_status` quoting its ordering paragraph. The filed documents are scans with no text; the same attachments
 were read from each item's file of native documents, and each row keeps the scan's address and page beside it. Each
 page that holds the matrix was read by a Claude model (12 calls, USD 0.67); 855 figures were returned and 855 kept,
 each with its line found in the page's text. The 47 providers' costs sum to the printed total in both years.
