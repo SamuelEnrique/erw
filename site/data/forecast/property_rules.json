@@ -1051,6 +1051,7 @@
      ],
      "kind": "own_exempt",
      "exempt_share": 0.55,
+     "abates": "tax",
      "years": 20,
      "requires": "option",
      "cite": "nv_701a",

@@ -1,0 +1,1070 @@
+# ERW, the demand growth explorer: the page beside the replication (replication/demand_growth/replicate.py --write); 35943 of 35943 slots over every view; held here, the page as it opens and each view's three headline numbers
+view,slot,page,replication,inside
+the page as it opens,bar1.CAISO,CAISO: +4.45 percent from 2019 to 2025,CAISO: +4.45 percent from 2019 to 2025,yes
+the page as it opens,bar1.CAISO.drawn,+4.45 | CAISO,+4.45 | CAISO,yes
+the page as it opens,bar1.ERCOT,ERCOT: +27.22 percent from 2019 to 2025,ERCOT: +27.22 percent from 2019 to 2025,yes
+the page as it opens,bar1.ERCOT.drawn,+27.22 | ERCOT | shown below,+27.22 | ERCOT | shown below,yes
+the page as it opens,bar1.ISO-NE,ISO-NE: -2.54 percent from 2019 to 2025,ISO-NE: -2.54 percent from 2019 to 2025,yes
+the page as it opens,bar1.ISO-NE.drawn,-2.54 | ISO-NE,-2.54 | ISO-NE,yes
+the page as it opens,bar1.Lower 48,Lower 48: +7.03 percent from 2019 to 2025,Lower 48: +7.03 percent from 2019 to 2025,yes
+the page as it opens,bar1.Lower 48.drawn,+7.03 | Lower 48,+7.03 | Lower 48,yes
+the page as it opens,bar1.MISO,MISO: +2.20 percent from 2019 to 2025,MISO: +2.20 percent from 2019 to 2025,yes
+the page as it opens,bar1.MISO.drawn,+2.20 | MISO,+2.20 | MISO,yes
+the page as it opens,bar1.NYISO,NYISO: -2.73 percent from 2019 to 2025,NYISO: -2.73 percent from 2019 to 2025,yes
+the page as it opens,bar1.NYISO.drawn,-2.73 | NYISO,-2.73 | NYISO,yes
+the page as it opens,bar1.PJM,PJM: +5.37 percent from 2019 to 2025,PJM: +5.37 percent from 2019 to 2025,yes
+the page as it opens,bar1.PJM.drawn,+5.37 | PJM,+5.37 | PJM,yes
+the page as it opens,bar1.SPP,SPP: +11.14 percent from 2019 to 2025,SPP: +11.14 percent from 2019 to 2025,yes
+the page as it opens,bar1.SPP.drawn,+11.14 | SPP,+11.14 | SPP,yes
+the page as it opens,bar1.order,ERCOT | SPP | Lower 48 | PJM | CAISO | MISO | ISO-NE | NYISO,ERCOT | SPP | Lower 48 | PJM | CAISO | MISO | ISO-NE | NYISO,yes
+the page as it opens,bar2.2020,"ERCOT, 2020: average hour, whole year -0.96 percent; highest hour, whole year -0.49 percent; the year so far (January to October) -1.32 percent","ERCOT, 2020: average hour, whole year -0.96 percent; highest hour, whole year -0.49 percent; the year so far (January to October) -1.32 percent",yes
+the page as it opens,bar2.2020.drawn, |  |  | 2020, |  |  | 2020,yes
+the page as it opens,bar2.2021,"ERCOT, 2021: average hour, whole year +2.31 percent; highest hour, whole year -1.42 percent; the year so far (January to October) +2.31 percent","ERCOT, 2021: average hour, whole year +2.31 percent; highest hour, whole year -1.42 percent; the year so far (January to October) +2.31 percent",yes
+the page as it opens,bar2.2021.drawn, |  |  | 2021, |  |  | 2021,yes
+the page as it opens,bar2.2022,"ERCOT, 2022: average hour, whole year +12.23 percent; highest hour, whole year +7.11 percent; the year so far (January to October) +11.85 percent","ERCOT, 2022: average hour, whole year +12.23 percent; highest hour, whole year +7.11 percent; the year so far (January to October) +11.85 percent",yes
+the page as it opens,bar2.2022.drawn, |  |  | 2022, |  |  | 2022,yes
+the page as it opens,bar2.2023,"ERCOT, 2023: average hour, whole year +16.46 percent; highest hour, whole year +14.62 percent; the year so far (January to October) +16.87 percent","ERCOT, 2023: average hour, whole year +16.46 percent; highest hour, whole year +14.62 percent; the year so far (January to October) +16.87 percent",yes
+the page as it opens,bar2.2023.drawn, |  |  | 2023, |  |  | 2023,yes
+the page as it opens,bar2.2024,"ERCOT, 2024: average hour, whole year +20.51 percent; highest hour, whole year +14.77 percent; the year so far (January to October) +20.47 percent","ERCOT, 2024: average hour, whole year +20.51 percent; highest hour, whole year +14.77 percent; the year so far (January to October) +20.47 percent",yes
+the page as it opens,bar2.2024.drawn, |  |  | 2024, |  |  | 2024,yes
+the page as it opens,bar2.2025,"ERCOT, 2025: average hour, whole year +27.22 percent; highest hour, whole year +12.16 percent; the year so far (January to October) +26.97 percent","ERCOT, 2025: average hour, whole year +27.22 percent; highest hour, whole year +12.16 percent; the year so far (January to October) +26.97 percent",yes
+the page as it opens,bar2.2025.drawn, |  |  | 2025, |  |  | 2025,yes
+the page as it opens,bar2.2026,"ERCOT, 2026: average hour, whole year not held; highest hour, whole year not held; the year so far (January to October) +33.34 percent","ERCOT, 2026: average hour, whole year not held; highest hour, whole year not held; the year so far (January to October) +33.34 percent",yes
+the page as it opens,bar2.2026.drawn, | 2026, | 2026,yes
+the page as it opens,bar3.2019,"ERCOT, 2019: 43,798 MW","ERCOT, 2019: 43,798 MW",yes
+the page as it opens,bar3.2019.drawn,"43,798 | 2019","43,798 | 2019",yes
+the page as it opens,bar3.2020,"ERCOT, 2020: 43,377 MW","ERCOT, 2020: 43,377 MW",yes
+the page as it opens,bar3.2020.drawn,"43,377 | 2020","43,377 | 2020",yes
+the page as it opens,bar3.2021,"ERCOT, 2021: 44,808 MW","ERCOT, 2021: 44,808 MW",yes
+the page as it opens,bar3.2021.drawn,"44,808 | 2021","44,808 | 2021",yes
+the page as it opens,bar3.2022,"ERCOT, 2022: 49,156 MW","ERCOT, 2022: 49,156 MW",yes
+the page as it opens,bar3.2022.drawn,"49,156 | 2022","49,156 | 2022",yes
+the page as it opens,bar3.2023,"ERCOT, 2023: 51,007 MW","ERCOT, 2023: 51,007 MW",yes
+the page as it opens,bar3.2023.drawn,"51,007 | 2023","51,007 | 2023",yes
+the page as it opens,bar3.2024,"ERCOT, 2024: 52,780 MW","ERCOT, 2024: 52,780 MW",yes
+the page as it opens,bar3.2024.drawn,"52,780 | 2024","52,780 | 2024",yes
+the page as it opens,bar3.2025,"ERCOT, 2025: 55,717 MW","ERCOT, 2025: 55,717 MW",yes
+the page as it opens,bar3.2025.drawn,"55,717 | 2025","55,717 | 2025",yes
+the page as it opens,grid.caiso.base,"24,476","24,476",yes
+the page as it opens,grid.caiso.growth,+4.45,+4.45,yes
+the page as it opens,grid.caiso.latest,"25,565","25,565",yes
+the page as it opens,grid.caiso.name,CAISO,CAISO,yes
+the page as it opens,grid.ercot.base,"43,798","43,798",yes
+the page as it opens,grid.ercot.growth,+27.22,+27.22,yes
+the page as it opens,grid.ercot.latest,"55,717","55,717",yes
+the page as it opens,grid.ercot.name,ERCOT,ERCOT,yes
+the page as it opens,grid.head,"Grid | 2019, MW | 2025, MW | Growth since 2019, percent","Grid | 2019, MW | 2025, MW | Growth since 2019, percent",yes
+the page as it opens,grid.isone.base,"13,503","13,503",yes
+the page as it opens,grid.isone.growth,-2.54,-2.54,yes
+the page as it opens,grid.isone.latest,"13,160","13,160",yes
+the page as it opens,grid.isone.name,ISO-NE,ISO-NE,yes
+the page as it opens,grid.miso.base,"74,147","74,147",yes
+the page as it opens,grid.miso.growth,+2.20,+2.20,yes
+the page as it opens,grid.miso.latest,"75,780","75,780",yes
+the page as it opens,grid.miso.name,MISO,MISO,yes
+the page as it opens,grid.nyiso.base,"17,789","17,789",yes
+the page as it opens,grid.nyiso.growth,-2.73,-2.73,yes
+the page as it opens,grid.nyiso.latest,"17,304","17,304",yes
+the page as it opens,grid.nyiso.name,NYISO,NYISO,yes
+the page as it opens,grid.pjm.base,"91,354","91,354",yes
+the page as it opens,grid.pjm.growth,+5.37,+5.37,yes
+the page as it opens,grid.pjm.latest,"96,257","96,257",yes
+the page as it opens,grid.pjm.name,PJM,PJM,yes
+the page as it opens,grid.spp.base,"30,764","30,764",yes
+the page as it opens,grid.spp.growth,+11.14,+11.14,yes
+the page as it opens,grid.spp.latest,"34,191","34,191",yes
+the page as it opens,grid.spp.name,SPP,SPP,yes
+the page as it opens,grid.us48.base,"458,599","458,599",yes
+the page as it opens,grid.us48.growth,+7.03,+7.03,yes
+the page as it opens,grid.us48.latest,"490,819","490,819",yes
+the page as it opens,grid.us48.name,Lower 48,Lower 48,yes
+the page as it opens,h1.label,"Growth since 2019, average demand, ERCOT, 2025","Growth since 2019, average demand, ERCOT, 2025",yes
+the page as it opens,h1.note,"2019: 43,798 MW; 2025: 55,717 MW","2019: 43,798 MW; 2025: 55,717 MW",yes
+the page as it opens,h1.unit,percent,percent,yes
+the page as it opens,h1.value,+27.22,+27.22,yes
+the page as it opens,h2.label,"Average demand, ERCOT, 2025","Average demand, ERCOT, 2025",yes
+the page as it opens,h2.note,"2019: 43,798 MW","2019: 43,798 MW",yes
+the page as it opens,h2.unit,MW,MW,yes
+the page as it opens,h2.value,"55,717","55,717",yes
+the page as it opens,h3.label,"The year so far: growth since 2019, ERCOT, 2026 so far (January to October)","The year so far: growth since 2019, ERCOT, 2026 so far (January to October)",yes
+the page as it opens,h3.unit,percent,percent,yes
+the page as it opens,h3.value,+33.34,+33.34,yes
+the page as it opens,year.2019.0,2019,2019,yes
+the page as it opens,year.2019.1,"43,798","43,798",yes
+the page as it opens,year.2019.2,base year,base year,yes
+the page as it opens,year.2019.3,base year,base year,yes
+the page as it opens,year.2019.4,"8,760","8,760",yes
+the page as it opens,year.2019.5,"8,760","8,760",yes
+the page as it opens,year.2020.0,2020,2020,yes
+the page as it opens,year.2020.1,"43,377","43,377",yes
+the page as it opens,year.2020.2,-0.96,-0.96,yes
+the page as it opens,year.2020.3,-0.96,-0.96,yes
+the page as it opens,year.2020.4,"8,784","8,784",yes
+the page as it opens,year.2020.5,"8,784","8,784",yes
+the page as it opens,year.2021.0,2021,2021,yes
+the page as it opens,year.2021.1,"44,808","44,808",yes
+the page as it opens,year.2021.2,+2.31,+2.31,yes
+the page as it opens,year.2021.3,+3.30,+3.30,yes
+the page as it opens,year.2021.4,"8,760","8,760",yes
+the page as it opens,year.2021.5,"8,760","8,760",yes
+the page as it opens,year.2022.0,2022,2022,yes
+the page as it opens,year.2022.1,"49,156","49,156",yes
+the page as it opens,year.2022.2,+12.23,+12.23,yes
+the page as it opens,year.2022.3,+9.70,+9.70,yes
+the page as it opens,year.2022.4,"8,760","8,760",yes
+the page as it opens,year.2022.5,"8,760","8,760",yes
+the page as it opens,year.2023.0,2023,2023,yes
+the page as it opens,year.2023.1,"51,007","51,007",yes
+the page as it opens,year.2023.2,+16.46,+16.46,yes
+the page as it opens,year.2023.3,+3.77,+3.77,yes
+the page as it opens,year.2023.4,"8,760","8,760",yes
+the page as it opens,year.2023.5,"8,760","8,760",yes
+the page as it opens,year.2024.0,2024,2024,yes
+the page as it opens,year.2024.1,"52,780","52,780",yes
+the page as it opens,year.2024.2,+20.51,+20.51,yes
+the page as it opens,year.2024.3,+3.48,+3.48,yes
+the page as it opens,year.2024.4,"8,784","8,784",yes
+the page as it opens,year.2024.5,"8,784","8,784",yes
+the page as it opens,year.2025.0,2025,2025,yes
+the page as it opens,year.2025.1,"55,717","55,717",yes
+the page as it opens,year.2025.2,+27.22,+27.22,yes
+the page as it opens,year.2025.3,+5.57,+5.57,yes
+the page as it opens,year.2025.4,"8,736","8,736",yes
+the page as it opens,year.2025.5,"8,760","8,760",yes
+the page as it opens,year.head,"Year | MW | Growth since 2019, percent | On the year before, percent | Hours used | Hours in the year","Year | MW | Growth since 2019, percent | On the year before, percent | Hours used | Hours in the year",yes
+grid=ercot&window=avg,h1.value,+27.22,+27.22,yes
+grid=ercot&window=avg,h2.value,"55,717","55,717",yes
+grid=ercot&window=avg,h3.value,+33.34,+33.34,yes
+grid=ercot&window=peak,h1.value,+12.16,+12.16,yes
+grid=ercot&window=peak,h2.value,"83,597","83,597",yes
+grid=ercot&window=peak,h3.value,+33.34,+33.34,yes
+grid=ercot&window=ytd,h1.value,+33.34,+33.34,yes
+grid=ercot&window=ytd,h2.value,"59,723","59,723",yes
+grid=ercot&window=ytd,h3.value,+27.22,+27.22,yes
+grid=ercot&window=m01,h1.value,+35.69,+35.69,yes
+grid=ercot&window=m01,h2.value,"54,348","54,348",yes
+grid=ercot&window=m01,h3.value,"+14,294","+14,294",yes
+grid=ercot&window=m02,h1.value,+32.93,+32.93,yes
+grid=ercot&window=m02,h2.value,"51,551","51,551",yes
+grid=ercot&window=m02,h3.value,"+12,771","+12,771",yes
+grid=ercot&window=m03,h1.value,+24.79,+24.79,yes
+grid=ercot&window=m03,h2.value,"46,702","46,702",yes
+grid=ercot&window=m03,h3.value,"+9,277","+9,277",yes
+grid=ercot&window=m04,h1.value,+36.25,+36.25,yes
+grid=ercot&window=m04,h2.value,"50,744","50,744",yes
+grid=ercot&window=m04,h3.value,"+13,501","+13,501",yes
+grid=ercot&window=m05,h1.value,+28.51,+28.51,yes
+grid=ercot&window=m05,h2.value,"55,370","55,370",yes
+grid=ercot&window=m05,h3.value,"+12,285","+12,285",yes
+grid=ercot&window=m06,h1.value,+28.49,+28.49,yes
+grid=ercot&window=m06,h2.value,"62,744","62,744",yes
+grid=ercot&window=m06,h3.value,"+13,913","+13,913",yes
+grid=ercot&window=m07,h1.value,+21.97,+21.97,yes
+grid=ercot&window=m07,h2.value,"64,309","64,309",yes
+grid=ercot&window=m07,h3.value,"+11,585","+11,585",yes
+grid=ercot&window=m08,h1.value,+18.02,+18.02,yes
+grid=ercot&window=m08,h2.value,"66,399","66,399",yes
+grid=ercot&window=m08,h3.value,"+10,136","+10,136",yes
+grid=ercot&window=m09,h1.value,+17.85,+17.85,yes
+grid=ercot&window=m09,h2.value,"61,090","61,090",yes
+grid=ercot&window=m09,h3.value,"+9,254","+9,254",yes
+grid=ercot&window=m10,h1.value,+33.68,+33.68,yes
+grid=ercot&window=m10,h2.value,"55,064","55,064",yes
+grid=ercot&window=m10,h3.value,"+13,875","+13,875",yes
+grid=ercot&window=m11,h1.value,+28.37,+28.37,yes
+grid=ercot&window=m11,h2.value,"49,306","49,306",yes
+grid=ercot&window=m11,h3.value,"+10,898","+10,898",yes
+grid=ercot&window=m12,h1.value,+28.39,+28.39,yes
+grid=ercot&window=m12,h2.value,"50,436","50,436",yes
+grid=ercot&window=m12,h3.value,"+11,154","+11,154",yes
+grid=ercot&window=h00,h1.value,+31.02,+31.02,yes
+grid=ercot&window=h00,h2.value,"50,915","50,915",yes
+grid=ercot&window=h00,h3.value,"+12,055","+12,055",yes
+grid=ercot&window=h01,h1.value,+31.63,+31.63,yes
+grid=ercot&window=h01,h2.value,"49,137","49,137",yes
+grid=ercot&window=h01,h3.value,"+11,808","+11,808",yes
+grid=ercot&window=h02,h1.value,+31.80,+31.80,yes
+grid=ercot&window=h02,h2.value,"47,991","47,991",yes
+grid=ercot&window=h02,h3.value,"+11,578","+11,578",yes
+grid=ercot&window=h03,h1.value,+31.72,+31.72,yes
+grid=ercot&window=h03,h2.value,"47,351","47,351",yes
+grid=ercot&window=h03,h3.value,"+11,403","+11,403",yes
+grid=ercot&window=h04,h1.value,+31.03,+31.03,yes
+grid=ercot&window=h04,h2.value,"47,443","47,443",yes
+grid=ercot&window=h04,h3.value,"+11,235","+11,235",yes
+grid=ercot&window=h05,h1.value,+28.98,+28.98,yes
+grid=ercot&window=h05,h2.value,"48,477","48,477",yes
+grid=ercot&window=h05,h3.value,"+10,892","+10,892",yes
+grid=ercot&window=h06,h1.value,+26.16,+26.16,yes
+grid=ercot&window=h06,h2.value,"50,238","50,238",yes
+grid=ercot&window=h06,h3.value,"+10,418","+10,418",yes
+grid=ercot&window=h07,h1.value,+25.19,+25.19,yes
+grid=ercot&window=h07,h2.value,"51,259","51,259",yes
+grid=ercot&window=h07,h3.value,"+10,314","+10,314",yes
+grid=ercot&window=h08,h1.value,+25.39,+25.39,yes
+grid=ercot&window=h08,h2.value,"52,535","52,535",yes
+grid=ercot&window=h08,h3.value,"+10,636","+10,636",yes
+grid=ercot&window=h09,h1.value,+25.36,+25.36,yes
+grid=ercot&window=h09,h2.value,"54,252","54,252",yes
+grid=ercot&window=h09,h3.value,"+10,977","+10,977",yes
+grid=ercot&window=h10,h1.value,+25.15,+25.15,yes
+grid=ercot&window=h10,h2.value,"55,983","55,983",yes
+grid=ercot&window=h10,h3.value,"+11,251","+11,251",yes
+grid=ercot&window=h11,h1.value,+25.26,+25.26,yes
+grid=ercot&window=h11,h2.value,"57,645","57,645",yes
+grid=ercot&window=h11,h3.value,"+11,626","+11,626",yes
+grid=ercot&window=h12,h1.value,+25.80,+25.80,yes
+grid=ercot&window=h12,h2.value,"59,245","59,245",yes
+grid=ercot&window=h12,h3.value,"+12,152","+12,152",yes
+grid=ercot&window=h13,h1.value,+26.17,+26.17,yes
+grid=ercot&window=h13,h2.value,"60,722","60,722",yes
+grid=ercot&window=h13,h3.value,"+12,594","+12,594",yes
+grid=ercot&window=h14,h1.value,+26.47,+26.47,yes
+grid=ercot&window=h14,h2.value,"61,790","61,790",yes
+grid=ercot&window=h14,h3.value,"+12,932","+12,932",yes
+grid=ercot&window=h15,h1.value,+26.78,+26.78,yes
+grid=ercot&window=h15,h2.value,"62,596","62,596",yes
+grid=ercot&window=h15,h3.value,"+13,223","+13,223",yes
+grid=ercot&window=h16,h1.value,+26.96,+26.96,yes
+grid=ercot&window=h16,h2.value,"63,229","63,229",yes
+grid=ercot&window=h16,h3.value,"+13,428","+13,428",yes
+grid=ercot&window=h17,h1.value,+26.67,+26.67,yes
+grid=ercot&window=h17,h2.value,"63,430","63,430",yes
+grid=ercot&window=h17,h3.value,"+13,354","+13,354",yes
+grid=ercot&window=h18,h1.value,+26.04,+26.04,yes
+grid=ercot&window=h18,h2.value,"62,923","62,923",yes
+grid=ercot&window=h18,h3.value,"+13,000","+13,000",yes
+grid=ercot&window=h19,h1.value,+25.63,+25.63,yes
+grid=ercot&window=h19,h2.value,"61,615","61,615",yes
+grid=ercot&window=h19,h3.value,"+12,571","+12,571",yes
+grid=ercot&window=h20,h1.value,+25.24,+25.24,yes
+grid=ercot&window=h20,h2.value,"60,297","60,297",yes
+grid=ercot&window=h20,h3.value,"+12,152","+12,152",yes
+grid=ercot&window=h21,h1.value,+25.97,+25.97,yes
+grid=ercot&window=h21,h2.value,"58,680","58,680",yes
+grid=ercot&window=h21,h3.value,"+12,096","+12,096",yes
+grid=ercot&window=h22,h1.value,+27.72,+27.72,yes
+grid=ercot&window=h22,h2.value,"56,132","56,132",yes
+grid=ercot&window=h22,h3.value,"+12,182","+12,182",yes
+grid=ercot&window=h23,h1.value,+29.64,+29.64,yes
+grid=ercot&window=h23,h2.value,"53,327","53,327",yes
+grid=ercot&window=h23,h3.value,"+12,193","+12,193",yes
+grid=caiso&window=avg,h1.value,+4.45,+4.45,yes
+grid=caiso&window=avg,h2.value,"25,565","25,565",yes
+grid=caiso&window=avg,h3.value,+10.98,+10.98,yes
+grid=caiso&window=peak,h1.value,+0.03,+0.03,yes
+grid=caiso&window=peak,h2.value,"43,860","43,860",yes
+grid=caiso&window=peak,h3.value,+10.98,+10.98,yes
+grid=caiso&window=ytd,h1.value,+10.98,+10.98,yes
+grid=caiso&window=ytd,h2.value,"27,348","27,348",yes
+grid=caiso&window=ytd,h3.value,+4.45,+4.45,yes
+grid=caiso&window=m01,h1.value,+4.99,+4.99,yes
+grid=caiso&window=m01,h2.value,"23,906","23,906",yes
+grid=caiso&window=m01,h3.value,"+1,136","+1,136",yes
+grid=caiso&window=m02,h1.value,+4.95,+4.95,yes
+grid=caiso&window=m02,h2.value,"23,221","23,221",yes
+grid=caiso&window=m02,h3.value,"+1,096","+1,096",yes
+grid=caiso&window=m03,h1.value,+14.05,+14.05,yes
+grid=caiso&window=m03,h2.value,"22,280","22,280",yes
+grid=caiso&window=m03,h3.value,"+2,744","+2,744",yes
+grid=caiso&window=m04,h1.value,+3.36,+3.36,yes
+grid=caiso&window=m04,h2.value,"22,771","22,771",yes
+grid=caiso&window=m04,h3.value,+740,+740,yes
+grid=caiso&window=m05,h1.value,+9.93,+9.93,yes
+grid=caiso&window=m05,h2.value,"24,569","24,569",yes
+grid=caiso&window=m05,h3.value,"+2,219","+2,219",yes
+grid=caiso&window=m06,h1.value,+3.50,+3.50,yes
+grid=caiso&window=m06,h2.value,"26,895","26,895",yes
+grid=caiso&window=m06,h3.value,+911,+911,yes
+grid=caiso&window=m07,h1.value,-2.01,-2.01,yes
+grid=caiso&window=m07,h2.value,"28,425","28,425",yes
+grid=caiso&window=m07,h3.value,-583,-583,yes
+grid=caiso&window=m08,h1.value,+2.66,+2.66,yes
+grid=caiso&window=m08,h2.value,"31,025","31,025",yes
+grid=caiso&window=m08,h3.value,+803,+803,yes
+grid=caiso&window=m09,h1.value,+4.73,+4.73,yes
+grid=caiso&window=m09,h2.value,"29,728","29,728",yes
+grid=caiso&window=m09,h3.value,"+1,344","+1,344",yes
+grid=caiso&window=m10,h1.value,+4.99,+4.99,yes
+grid=caiso&window=m10,h2.value,"24,931","24,931",yes
+grid=caiso&window=m10,h3.value,"+1,186","+1,186",yes
+grid=caiso&window=m11,h1.value,+3.22,+3.22,yes
+grid=caiso&window=m11,h2.value,"23,935","23,935",yes
+grid=caiso&window=m11,h3.value,+748,+748,yes
+grid=caiso&window=m12,h1.value,+3.34,+3.34,yes
+grid=caiso&window=m12,h2.value,"24,905","24,905",yes
+grid=caiso&window=m12,h3.value,+806,+806,yes
+grid=caiso&window=h00,h1.value,+6.95,+6.95,yes
+grid=caiso&window=h00,h2.value,"23,788","23,788",yes
+grid=caiso&window=h00,h3.value,"+1,546","+1,546",yes
+grid=caiso&window=h01,h1.value,+7.21,+7.21,yes
+grid=caiso&window=h01,h2.value,"22,855","22,855",yes
+grid=caiso&window=h01,h3.value,"+1,538","+1,538",yes
+grid=caiso&window=h02,h1.value,+7.07,+7.07,yes
+grid=caiso&window=h02,h2.value,"22,193","22,193",yes
+grid=caiso&window=h02,h3.value,"+1,466","+1,466",yes
+grid=caiso&window=h03,h1.value,+6.58,+6.58,yes
+grid=caiso&window=h03,h2.value,"21,789","21,789",yes
+grid=caiso&window=h03,h3.value,"+1,345","+1,345",yes
+grid=caiso&window=h04,h1.value,+4.96,+4.96,yes
+grid=caiso&window=h04,h2.value,"21,714","21,714",yes
+grid=caiso&window=h04,h3.value,"+1,027","+1,027",yes
+grid=caiso&window=h05,h1.value,+3.49,+3.49,yes
+grid=caiso&window=h05,h2.value,"22,406","22,406",yes
+grid=caiso&window=h05,h3.value,+755,+755,yes
+grid=caiso&window=h06,h1.value,+2.93,+2.93,yes
+grid=caiso&window=h06,h2.value,"23,676","23,676",yes
+grid=caiso&window=h06,h3.value,+674,+674,yes
+grid=caiso&window=h07,h1.value,+6.23,+6.23,yes
+grid=caiso&window=h07,h2.value,"25,177","25,177",yes
+grid=caiso&window=h07,h3.value,"+1,476","+1,476",yes
+grid=caiso&window=h08,h1.value,+11.99,+11.99,yes
+grid=caiso&window=h08,h2.value,"26,611","26,611",yes
+grid=caiso&window=h08,h3.value,"+2,849","+2,849",yes
+grid=caiso&window=h09,h1.value,+13.91,+13.91,yes
+grid=caiso&window=h09,h2.value,"27,043","27,043",yes
+grid=caiso&window=h09,h3.value,"+3,302","+3,302",yes
+grid=caiso&window=h10,h1.value,+12.73,+12.73,yes
+grid=caiso&window=h10,h2.value,"26,798","26,798",yes
+grid=caiso&window=h10,h3.value,"+3,026","+3,026",yes
+grid=caiso&window=h11,h1.value,+11.06,+11.06,yes
+grid=caiso&window=h11,h2.value,"26,508","26,508",yes
+grid=caiso&window=h11,h3.value,"+2,640","+2,640",yes
+grid=caiso&window=h12,h1.value,+8.25,+8.25,yes
+grid=caiso&window=h12,h2.value,"26,141","26,141",yes
+grid=caiso&window=h12,h3.value,"+1,992","+1,992",yes
+grid=caiso&window=h13,h1.value,+5.22,+5.22,yes
+grid=caiso&window=h13,h2.value,"25,945","25,945",yes
+grid=caiso&window=h13,h3.value,"+1,286","+1,286",yes
+grid=caiso&window=h14,h1.value,+1.98,+1.98,yes
+grid=caiso&window=h14,h2.value,"25,844","25,844",yes
+grid=caiso&window=h14,h3.value,+502,+502,yes
+grid=caiso&window=h15,h1.value,-1.14,-1.14,yes
+grid=caiso&window=h15,h2.value,"25,912","25,912",yes
+grid=caiso&window=h15,h3.value,-299,-299,yes
+grid=caiso&window=h16,h1.value,-2.07,-2.07,yes
+grid=caiso&window=h16,h2.value,"26,709","26,709",yes
+grid=caiso&window=h16,h3.value,-565,-565,yes
+grid=caiso&window=h17,h1.value,-1.46,-1.46,yes
+grid=caiso&window=h17,h2.value,"28,066","28,066",yes
+grid=caiso&window=h17,h3.value,-417,-417,yes
+grid=caiso&window=h18,h1.value,-0.62,-0.62,yes
+grid=caiso&window=h18,h2.value,"28,778","28,778",yes
+grid=caiso&window=h18,h3.value,-180,-180,yes
+grid=caiso&window=h19,h1.value,-0.47,-0.47,yes
+grid=caiso&window=h19,h2.value,"28,781","28,781",yes
+grid=caiso&window=h19,h3.value,-135,-135,yes
+grid=caiso&window=h20,h1.value,-0.38,-0.38,yes
+grid=caiso&window=h20,h2.value,"28,336","28,336",yes
+grid=caiso&window=h20,h3.value,-109,-109,yes
+grid=caiso&window=h21,h1.value,+1.33,+1.33,yes
+grid=caiso&window=h21,h2.value,"27,631","27,631",yes
+grid=caiso&window=h21,h3.value,+363,+363,yes
+grid=caiso&window=h22,h1.value,+3.32,+3.32,yes
+grid=caiso&window=h22,h2.value,"26,206","26,206",yes
+grid=caiso&window=h22,h3.value,+841,+841,yes
+grid=caiso&window=h23,h1.value,+4.82,+4.82,yes
+grid=caiso&window=h23,h2.value,"24,657","24,657",yes
+grid=caiso&window=h23,h3.value,"+1,134","+1,134",yes
+grid=pjm&window=avg,h1.value,+5.37,+5.37,yes
+grid=pjm&window=avg,h2.value,"96,257","96,257",yes
+grid=pjm&window=avg,h3.value,+8.34,+8.34,yes
+grid=pjm&window=peak,h1.value,+5.41,+5.41,yes
+grid=pjm&window=peak,h2.value,"160,560","160,560",yes
+grid=pjm&window=peak,h3.value,+8.34,+8.34,yes
+grid=pjm&window=ytd,h1.value,+8.34,+8.34,yes
+grid=pjm&window=ytd,h2.value,"99,399","99,399",yes
+grid=pjm&window=ytd,h3.value,+5.37,+5.37,yes
+grid=pjm&window=m01,h1.value,+9.31,+9.31,yes
+grid=pjm&window=m01,h2.value,"110,211","110,211",yes
+grid=pjm&window=m01,h3.value,"+9,390","+9,390",yes
+grid=pjm&window=m02,h1.value,+6.48,+6.48,yes
+grid=pjm&window=m02,h2.value,"102,009","102,009",yes
+grid=pjm&window=m02,h3.value,"+6,207","+6,207",yes
+grid=pjm&window=m03,h1.value,-2.73,-2.73,yes
+grid=pjm&window=m03,h2.value,"86,802","86,802",yes
+grid=pjm&window=m03,h3.value,"-2,435","-2,435",yes
+grid=pjm&window=m04,h1.value,+6.21,+6.21,yes
+grid=pjm&window=m04,h2.value,"82,616","82,616",yes
+grid=pjm&window=m04,h3.value,"+4,830","+4,830",yes
+grid=pjm&window=m05,h1.value,-0.07,-0.07,yes
+grid=pjm&window=m05,h2.value,"82,273","82,273",yes
+grid=pjm&window=m05,h3.value,-54,-54,yes
+grid=pjm&window=m06,h1.value,+14.18,+14.18,yes
+grid=pjm&window=m06,h2.value,"103,844","103,844",yes
+grid=pjm&window=m06,h3.value,"+12,894","+12,894",yes
+grid=pjm&window=m07,h1.value,+6.26,+6.26,yes
+grid=pjm&window=m07,h2.value,"116,171","116,171",yes
+grid=pjm&window=m07,h3.value,"+6,842","+6,842",yes
+grid=pjm&window=m08,h1.value,+0.58,+0.58,yes
+grid=pjm&window=m08,h2.value,"101,273","101,273",yes
+grid=pjm&window=m08,h3.value,+583,+583,yes
+grid=pjm&window=m09,h1.value,+0.30,+0.30,yes
+grid=pjm&window=m09,h2.value,"91,576","91,576",yes
+grid=pjm&window=m09,h3.value,+273,+273,yes
+grid=pjm&window=m10,h1.value,+5.79,+5.79,yes
+grid=pjm&window=m10,h2.value,"83,666","83,666",yes
+grid=pjm&window=m10,h3.value,"+4,577","+4,577",yes
+grid=pjm&window=m11,h1.value,+2.79,+2.79,yes
+grid=pjm&window=m11,h2.value,"89,346","89,346",yes
+grid=pjm&window=m11,h3.value,"+2,424","+2,424",yes
+grid=pjm&window=m12,h1.value,+14.64,+14.64,yes
+grid=pjm&window=m12,h2.value,"105,276","105,276",yes
+grid=pjm&window=m12,h3.value,"+13,445","+13,445",yes
+grid=pjm&window=h00,h1.value,+8.05,+8.05,yes
+grid=pjm&window=h00,h2.value,"89,121","89,121",yes
+grid=pjm&window=h00,h3.value,"+6,637","+6,637",yes
+grid=pjm&window=h01,h1.value,+8.60,+8.60,yes
+grid=pjm&window=h01,h2.value,"86,948","86,948",yes
+grid=pjm&window=h01,h3.value,"+6,889","+6,889",yes
+grid=pjm&window=h02,h1.value,+8.67,+8.67,yes
+grid=pjm&window=h02,h2.value,"85,477","85,477",yes
+grid=pjm&window=h02,h3.value,"+6,817","+6,817",yes
+grid=pjm&window=h03,h1.value,+8.60,+8.60,yes
+grid=pjm&window=h03,h2.value,"84,689","84,689",yes
+grid=pjm&window=h03,h3.value,"+6,703","+6,703",yes
+grid=pjm&window=h04,h1.value,+8.24,+8.24,yes
+grid=pjm&window=h04,h2.value,"84,971","84,971",yes
+grid=pjm&window=h04,h3.value,"+6,472","+6,472",yes
+grid=pjm&window=h05,h1.value,+7.47,+7.47,yes
+grid=pjm&window=h05,h2.value,"86,998","86,998",yes
+grid=pjm&window=h05,h3.value,"+6,050","+6,050",yes
+grid=pjm&window=h06,h1.value,+6.21,+6.21,yes
+grid=pjm&window=h06,h2.value,"91,015","91,015",yes
+grid=pjm&window=h06,h3.value,"+5,321","+5,321",yes
+grid=pjm&window=h07,h1.value,+5.69,+5.69,yes
+grid=pjm&window=h07,h2.value,"94,560","94,560",yes
+grid=pjm&window=h07,h3.value,"+5,093","+5,093",yes
+grid=pjm&window=h08,h1.value,+5.29,+5.29,yes
+grid=pjm&window=h08,h2.value,"96,282","96,282",yes
+grid=pjm&window=h08,h3.value,"+4,841","+4,841",yes
+grid=pjm&window=h09,h1.value,+4.49,+4.49,yes
+grid=pjm&window=h09,h2.value,"97,002","97,002",yes
+grid=pjm&window=h09,h3.value,"+4,164","+4,164",yes
+grid=pjm&window=h10,h1.value,+3.75,+3.75,yes
+grid=pjm&window=h10,h2.value,"97,762","97,762",yes
+grid=pjm&window=h10,h3.value,"+3,534","+3,534",yes
+grid=pjm&window=h11,h1.value,+3.46,+3.46,yes
+grid=pjm&window=h11,h2.value,"98,618","98,618",yes
+grid=pjm&window=h11,h3.value,"+3,296","+3,296",yes
+grid=pjm&window=h12,h1.value,+3.49,+3.49,yes
+grid=pjm&window=h12,h2.value,"99,614","99,614",yes
+grid=pjm&window=h12,h3.value,"+3,362","+3,362",yes
+grid=pjm&window=h13,h1.value,+3.60,+3.60,yes
+grid=pjm&window=h13,h2.value,"100,670","100,670",yes
+grid=pjm&window=h13,h3.value,"+3,496","+3,496",yes
+grid=pjm&window=h14,h1.value,+3.69,+3.69,yes
+grid=pjm&window=h14,h2.value,"101,383","101,383",yes
+grid=pjm&window=h14,h3.value,"+3,610","+3,610",yes
+grid=pjm&window=h15,h1.value,+3.77,+3.77,yes
+grid=pjm&window=h15,h2.value,"102,190","102,190",yes
+grid=pjm&window=h15,h3.value,"+3,713","+3,713",yes
+grid=pjm&window=h16,h1.value,+3.99,+3.99,yes
+grid=pjm&window=h16,h2.value,"103,655","103,655",yes
+grid=pjm&window=h16,h3.value,"+3,976","+3,976",yes
+grid=pjm&window=h17,h1.value,+4.20,+4.20,yes
+grid=pjm&window=h17,h2.value,"105,641","105,641",yes
+grid=pjm&window=h17,h3.value,"+4,256","+4,256",yes
+grid=pjm&window=h18,h1.value,+4.40,+4.40,yes
+grid=pjm&window=h18,h2.value,"106,021","106,021",yes
+grid=pjm&window=h18,h3.value,"+4,471","+4,471",yes
+grid=pjm&window=h19,h1.value,+4.61,+4.61,yes
+grid=pjm&window=h19,h2.value,"105,139","105,139",yes
+grid=pjm&window=h19,h3.value,"+4,637","+4,637",yes
+grid=pjm&window=h20,h1.value,+4.55,+4.55,yes
+grid=pjm&window=h20,h2.value,"103,532","103,532",yes
+grid=pjm&window=h20,h3.value,"+4,502","+4,502",yes
+grid=pjm&window=h21,h1.value,+4.82,+4.82,yes
+grid=pjm&window=h21,h2.value,"100,581","100,581",yes
+grid=pjm&window=h21,h3.value,"+4,622","+4,622",yes
+grid=pjm&window=h22,h1.value,+5.74,+5.74,yes
+grid=pjm&window=h22,h2.value,"96,140","96,140",yes
+grid=pjm&window=h22,h3.value,"+5,222","+5,222",yes
+grid=pjm&window=h23,h1.value,+6.92,+6.92,yes
+grid=pjm&window=h23,h2.value,"92,152","92,152",yes
+grid=pjm&window=h23,h3.value,"+5,962","+5,962",yes
+grid=miso&window=avg,h1.value,+2.20,+2.20,yes
+grid=miso&window=avg,h2.value,"75,780","75,780",yes
+grid=miso&window=avg,h3.value,+4.88,+4.88,yes
+grid=miso&window=peak,h1.value,+3.21,+3.21,yes
+grid=miso&window=peak,h2.value,"120,343","120,343",yes
+grid=miso&window=peak,h3.value,+4.88,+4.88,yes
+grid=miso&window=ytd,h1.value,+4.88,+4.88,yes
+grid=miso&window=ytd,h2.value,"78,318","78,318",yes
+grid=miso&window=ytd,h3.value,+2.20,+2.20,yes
+grid=miso&window=m01,h1.value,+4.89,+4.89,yes
+grid=miso&window=m01,h2.value,"81,526","81,526",yes
+grid=miso&window=m01,h3.value,"+3,804","+3,804",yes
+grid=miso&window=m02,h1.value,+2.67,+2.67,yes
+grid=miso&window=m02,h2.value,"77,178","77,178",yes
+grid=miso&window=m02,h3.value,"+2,004","+2,004",yes
+grid=miso&window=m03,h1.value,-5.01,-5.01,yes
+grid=miso&window=m03,h2.value,"66,981","66,981",yes
+grid=miso&window=m03,h3.value,"-3,532","-3,532",yes
+grid=miso&window=m04,h1.value,+1.41,+1.41,yes
+grid=miso&window=m04,h2.value,"66,408","66,408",yes
+grid=miso&window=m04,h3.value,+923,+923,yes
+grid=miso&window=m05,h1.value,-1.37,-1.37,yes
+grid=miso&window=m05,h2.value,"68,006","68,006",yes
+grid=miso&window=m05,h3.value,-943,-943,yes
+grid=miso&window=m06,h1.value,+8.48,+8.48,yes
+grid=miso&window=m06,h2.value,"82,101","82,101",yes
+grid=miso&window=m06,h3.value,"+6,419","+6,419",yes
+grid=miso&window=m07,h1.value,+5.32,+5.32,yes
+grid=miso&window=m07,h2.value,"90,515","90,515",yes
+grid=miso&window=m07,h3.value,"+4,573","+4,573",yes
+grid=miso&window=m08,h1.value,+2.68,+2.68,yes
+grid=miso&window=m08,h2.value,"84,196","84,196",yes
+grid=miso&window=m08,h3.value,"+2,196","+2,196",yes
+grid=miso&window=m09,h1.value,-1.80,-1.80,yes
+grid=miso&window=m09,h2.value,"76,343","76,343",yes
+grid=miso&window=m09,h3.value,"-1,401","-1,401",yes
+grid=miso&window=m10,h1.value,+2.95,+2.95,yes
+grid=miso&window=m10,h2.value,"69,402","69,402",yes
+grid=miso&window=m10,h3.value,"+1,991","+1,991",yes
+grid=miso&window=m11,h1.value,-2.64,-2.64,yes
+grid=miso&window=m11,h2.value,"68,979","68,979",yes
+grid=miso&window=m11,h3.value,"-1,871","-1,871",yes
+grid=miso&window=m12,h1.value,+7.47,+7.47,yes
+grid=miso&window=m12,h2.value,"77,559","77,559",yes
+grid=miso&window=m12,h3.value,"+5,390","+5,390",yes
+grid=miso&window=h00,h1.value,+3.76,+3.76,yes
+grid=miso&window=h00,h2.value,"69,082","69,082",yes
+grid=miso&window=h00,h3.value,"+2,500","+2,500",yes
+grid=miso&window=h01,h1.value,+3.78,+3.78,yes
+grid=miso&window=h01,h2.value,"67,301","67,301",yes
+grid=miso&window=h01,h3.value,"+2,454","+2,454",yes
+grid=miso&window=h02,h1.value,+3.78,+3.78,yes
+grid=miso&window=h02,h2.value,"66,252","66,252",yes
+grid=miso&window=h02,h3.value,"+2,412","+2,412",yes
+grid=miso&window=h03,h1.value,+3.66,+3.66,yes
+grid=miso&window=h03,h2.value,"65,865","65,865",yes
+grid=miso&window=h03,h3.value,"+2,325","+2,325",yes
+grid=miso&window=h04,h1.value,+3.25,+3.25,yes
+grid=miso&window=h04,h2.value,"66,478","66,478",yes
+grid=miso&window=h04,h3.value,"+2,091","+2,091",yes
+grid=miso&window=h05,h1.value,+2.44,+2.44,yes
+grid=miso&window=h05,h2.value,"68,571","68,571",yes
+grid=miso&window=h05,h3.value,"+1,634","+1,634",yes
+grid=miso&window=h06,h1.value,+1.54,+1.54,yes
+grid=miso&window=h06,h2.value,"71,661","71,661",yes
+grid=miso&window=h06,h3.value,"+1,089","+1,089",yes
+grid=miso&window=h07,h1.value,+1.16,+1.16,yes
+grid=miso&window=h07,h2.value,"73,933","73,933",yes
+grid=miso&window=h07,h3.value,+849,+849,yes
+grid=miso&window=h08,h1.value,+0.88,+0.88,yes
+grid=miso&window=h08,h2.value,"75,353","75,353",yes
+grid=miso&window=h08,h3.value,+655,+655,yes
+grid=miso&window=h09,h1.value,+0.54,+0.54,yes
+grid=miso&window=h09,h2.value,"76,548","76,548",yes
+grid=miso&window=h09,h3.value,+410,+410,yes
+grid=miso&window=h10,h1.value,+0.46,+0.46,yes
+grid=miso&window=h10,h2.value,"77,730","77,730",yes
+grid=miso&window=h10,h3.value,+352,+352,yes
+grid=miso&window=h11,h1.value,+0.78,+0.78,yes
+grid=miso&window=h11,h2.value,"78,865","78,865",yes
+grid=miso&window=h11,h3.value,+613,+613,yes
+grid=miso&window=h12,h1.value,+1.19,+1.19,yes
+grid=miso&window=h12,h2.value,"79,886","79,886",yes
+grid=miso&window=h12,h3.value,+939,+939,yes
+grid=miso&window=h13,h1.value,+1.48,+1.48,yes
+grid=miso&window=h13,h2.value,"80,726","80,726",yes
+grid=miso&window=h13,h3.value,"+1,178","+1,178",yes
+grid=miso&window=h14,h1.value,+1.81,+1.81,yes
+grid=miso&window=h14,h2.value,"81,196","81,196",yes
+grid=miso&window=h14,h3.value,"+1,441","+1,441",yes
+grid=miso&window=h15,h1.value,+2.20,+2.20,yes
+grid=miso&window=h15,h2.value,"81,763","81,763",yes
+grid=miso&window=h15,h3.value,"+1,757","+1,757",yes
+grid=miso&window=h16,h1.value,+2.55,+2.55,yes
+grid=miso&window=h16,h2.value,"82,764","82,764",yes
+grid=miso&window=h16,h3.value,"+2,061","+2,061",yes
+grid=miso&window=h17,h1.value,+2.71,+2.71,yes
+grid=miso&window=h17,h2.value,"83,687","83,687",yes
+grid=miso&window=h17,h3.value,"+2,207","+2,207",yes
+grid=miso&window=h18,h1.value,+2.66,+2.66,yes
+grid=miso&window=h18,h2.value,"83,476","83,476",yes
+grid=miso&window=h18,h3.value,"+2,163","+2,163",yes
+grid=miso&window=h19,h1.value,+2.46,+2.46,yes
+grid=miso&window=h19,h2.value,"82,348","82,348",yes
+grid=miso&window=h19,h3.value,"+1,974","+1,974",yes
+grid=miso&window=h20,h1.value,+2.16,+2.16,yes
+grid=miso&window=h20,h2.value,"80,760","80,760",yes
+grid=miso&window=h20,h3.value,"+1,709","+1,709",yes
+grid=miso&window=h21,h1.value,+2.30,+2.30,yes
+grid=miso&window=h21,h2.value,"78,122","78,122",yes
+grid=miso&window=h21,h3.value,"+1,759","+1,759",yes
+grid=miso&window=h22,h1.value,+3.00,+3.00,yes
+grid=miso&window=h22,h2.value,"74,782","74,782",yes
+grid=miso&window=h22,h3.value,"+2,179","+2,179",yes
+grid=miso&window=h23,h1.value,+3.53,+3.53,yes
+grid=miso&window=h23,h2.value,"71,570","71,570",yes
+grid=miso&window=h23,h3.value,"+2,442","+2,442",yes
+grid=spp&window=avg,h1.value,+11.14,+11.14,yes
+grid=spp&window=avg,h2.value,"34,191","34,191",yes
+grid=spp&window=avg,h3.value,+16.22,+16.22,yes
+grid=spp&window=peak,h1.value,+7.72,+7.72,yes
+grid=spp&window=peak,h2.value,"54,411","54,411",yes
+grid=spp&window=peak,h3.value,+16.22,+16.22,yes
+grid=spp&window=ytd,h1.value,+16.22,+16.22,yes
+grid=spp&window=ytd,h2.value,"36,076","36,076",yes
+grid=spp&window=ytd,h3.value,+11.14,+11.14,yes
+grid=spp&window=m01,h1.value,+14.74,+14.74,yes
+grid=spp&window=m01,h2.value,"36,382","36,382",yes
+grid=spp&window=m01,h3.value,"+4,674","+4,674",yes
+grid=spp&window=m02,h1.value,+11.86,+11.86,yes
+grid=spp&window=m02,h2.value,"35,324","35,324",yes
+grid=spp&window=m02,h3.value,"+3,745","+3,745",yes
+grid=spp&window=m03,h1.value,+5.31,+5.31,yes
+grid=spp&window=m03,h2.value,"29,853","29,853",yes
+grid=spp&window=m03,h3.value,"+1,506","+1,506",yes
+grid=spp&window=m04,h1.value,+12.60,+12.60,yes
+grid=spp&window=m04,h2.value,"29,822","29,822",yes
+grid=spp&window=m04,h3.value,"+3,338","+3,338",yes
+grid=spp&window=m05,h1.value,+12.60,+12.60,yes
+grid=spp&window=m05,h2.value,"30,776","30,776",yes
+grid=spp&window=m05,h3.value,"+3,444","+3,444",yes
+grid=spp&window=m06,h1.value,+15.31,+15.31,yes
+grid=spp&window=m06,h2.value,"36,146","36,146",yes
+grid=spp&window=m06,h3.value,"+4,801","+4,801",yes
+grid=spp&window=m07,h1.value,+12.29,+12.29,yes
+grid=spp&window=m07,h2.value,"40,827","40,827",yes
+grid=spp&window=m07,h3.value,"+4,468","+4,468",yes
+grid=spp&window=m08,h1.value,+8.46,+8.46,yes
+grid=spp&window=m08,h2.value,"39,189","39,189",yes
+grid=spp&window=m08,h3.value,"+3,056","+3,056",yes
+grid=spp&window=m09,h1.value,+1.45,+1.45,yes
+grid=spp&window=m09,h2.value,"34,284","34,284",yes
+grid=spp&window=m09,h3.value,+491,+491,yes
+grid=spp&window=m10,h1.value,+16.12,+16.12,yes
+grid=spp&window=m10,h2.value,"31,737","31,737",yes
+grid=spp&window=m10,h3.value,"+4,407","+4,407",yes
+grid=spp&window=m11,h1.value,+6.23,+6.23,yes
+grid=spp&window=m11,h2.value,"30,956","30,956",yes
+grid=spp&window=m11,h3.value,"+1,814","+1,814",yes
+grid=spp&window=m12,h1.value,+17.92,+17.92,yes
+grid=spp&window=m12,h2.value,"34,926","34,926",yes
+grid=spp&window=m12,h3.value,"+5,307","+5,307",yes
+grid=spp&window=h00,h1.value,+12.64,+12.64,yes
+grid=spp&window=h00,h2.value,"31,538","31,538",yes
+grid=spp&window=h00,h3.value,"+3,540","+3,540",yes
+grid=spp&window=h01,h1.value,+12.93,+12.93,yes
+grid=spp&window=h01,h2.value,"30,813","30,813",yes
+grid=spp&window=h01,h3.value,"+3,529","+3,529",yes
+grid=spp&window=h02,h1.value,+13.12,+13.12,yes
+grid=spp&window=h02,h2.value,"30,375","30,375",yes
+grid=spp&window=h02,h3.value,"+3,523","+3,523",yes
+grid=spp&window=h03,h1.value,+13.21,+13.21,yes
+grid=spp&window=h03,h2.value,"30,167","30,167",yes
+grid=spp&window=h03,h3.value,"+3,521","+3,521",yes
+grid=spp&window=h04,h1.value,+13.02,+13.02,yes
+grid=spp&window=h04,h2.value,"30,281","30,281",yes
+grid=spp&window=h04,h3.value,"+3,489","+3,489",yes
+grid=spp&window=h05,h1.value,+12.37,+12.37,yes
+grid=spp&window=h05,h2.value,"30,948","30,948",yes
+grid=spp&window=h05,h3.value,"+3,408","+3,408",yes
+grid=spp&window=h06,h1.value,+11.23,+11.23,yes
+grid=spp&window=h06,h2.value,"32,097","32,097",yes
+grid=spp&window=h06,h3.value,"+3,239","+3,239",yes
+grid=spp&window=h07,h1.value,+10.90,+10.90,yes
+grid=spp&window=h07,h2.value,"33,073","33,073",yes
+grid=spp&window=h07,h3.value,"+3,250","+3,250",yes
+grid=spp&window=h08,h1.value,+10.83,+10.83,yes
+grid=spp&window=h08,h2.value,"33,713","33,713",yes
+grid=spp&window=h08,h3.value,"+3,295","+3,295",yes
+grid=spp&window=h09,h1.value,+10.44,+10.44,yes
+grid=spp&window=h09,h2.value,"34,235","34,235",yes
+grid=spp&window=h09,h3.value,"+3,237","+3,237",yes
+grid=spp&window=h10,h1.value,+10.16,+10.16,yes
+grid=spp&window=h10,h2.value,"34,796","34,796",yes
+grid=spp&window=h10,h3.value,"+3,208","+3,208",yes
+grid=spp&window=h11,h1.value,+10.11,+10.11,yes
+grid=spp&window=h11,h2.value,"35,318","35,318",yes
+grid=spp&window=h11,h3.value,"+3,243","+3,243",yes
+grid=spp&window=h12,h1.value,+10.24,+10.24,yes
+grid=spp&window=h12,h2.value,"35,816","35,816",yes
+grid=spp&window=h12,h3.value,"+3,326","+3,326",yes
+grid=spp&window=h13,h1.value,+10.23,+10.23,yes
+grid=spp&window=h13,h2.value,"36,286","36,286",yes
+grid=spp&window=h13,h3.value,"+3,369","+3,369",yes
+grid=spp&window=h14,h1.value,+10.37,+10.37,yes
+grid=spp&window=h14,h2.value,"36,603","36,603",yes
+grid=spp&window=h14,h3.value,"+3,438","+3,438",yes
+grid=spp&window=h15,h1.value,+10.57,+10.57,yes
+grid=spp&window=h15,h2.value,"36,907","36,907",yes
+grid=spp&window=h15,h3.value,"+3,527","+3,527",yes
+grid=spp&window=h16,h1.value,+10.70,+10.70,yes
+grid=spp&window=h16,h2.value,"37,220","37,220",yes
+grid=spp&window=h16,h3.value,"+3,597","+3,597",yes
+grid=spp&window=h17,h1.value,+10.87,+10.87,yes
+grid=spp&window=h17,h2.value,"37,501","37,501",yes
+grid=spp&window=h17,h3.value,"+3,677","+3,677",yes
+grid=spp&window=h18,h1.value,+10.74,+10.74,yes
+grid=spp&window=h18,h2.value,"37,433","37,433",yes
+grid=spp&window=h18,h3.value,"+3,632","+3,632",yes
+grid=spp&window=h19,h1.value,+10.56,+10.56,yes
+grid=spp&window=h19,h2.value,"36,924","36,924",yes
+grid=spp&window=h19,h3.value,"+3,526","+3,526",yes
+grid=spp&window=h20,h1.value,+10.28,+10.28,yes
+grid=spp&window=h20,h2.value,"36,283","36,283",yes
+grid=spp&window=h20,h3.value,"+3,381","+3,381",yes
+grid=spp&window=h21,h1.value,+10.35,+10.35,yes
+grid=spp&window=h21,h2.value,"35,409","35,409",yes
+grid=spp&window=h21,h3.value,"+3,320","+3,320",yes
+grid=spp&window=h22,h1.value,+11.16,+11.16,yes
+grid=spp&window=h22,h2.value,"34,091","34,091",yes
+grid=spp&window=h22,h3.value,"+3,422","+3,422",yes
+grid=spp&window=h23,h1.value,+12.12,+12.12,yes
+grid=spp&window=h23,h2.value,"32,740","32,740",yes
+grid=spp&window=h23,h3.value,"+3,539","+3,539",yes
+grid=nyiso&window=avg,h1.value,-2.73,-2.73,yes
+grid=nyiso&window=avg,h2.value,"17,304","17,304",yes
+grid=nyiso&window=avg,h3.value,-3.64,-3.64,yes
+grid=nyiso&window=peak,h1.value,+4.80,+4.80,yes
+grid=nyiso&window=peak,h2.value,"31,857","31,857",yes
+grid=nyiso&window=peak,h3.value,-3.64,-3.64,yes
+grid=nyiso&window=ytd,h1.value,-3.64,-3.64,yes
+grid=nyiso&window=ytd,h2.value,"17,247","17,247",yes
+grid=nyiso&window=ytd,h3.value,-2.73,-2.73,yes
+grid=nyiso&window=m01,h1.value,+1.75,+1.75,yes
+grid=nyiso&window=m01,h2.value,"19,048","19,048",yes
+grid=nyiso&window=m01,h3.value,+328,+328,yes
+grid=nyiso&window=m02,h1.value,+1.05,+1.05,yes
+grid=nyiso&window=m02,h2.value,"18,349","18,349",yes
+grid=nyiso&window=m02,h3.value,+191,+191,yes
+grid=nyiso&window=m03,h1.value,-8.21,-8.21,yes
+grid=nyiso&window=m03,h2.value,"15,747","15,747",yes
+grid=nyiso&window=m03,h3.value,"-1,409","-1,409",yes
+grid=nyiso&window=m04,h1.value,-3.76,-3.76,yes
+grid=nyiso&window=m04,h2.value,"14,897","14,897",yes
+grid=nyiso&window=m04,h3.value,-581,-581,yes
+grid=nyiso&window=m05,h1.value,-4.57,-4.57,yes
+grid=nyiso&window=m05,h2.value,"14,818","14,818",yes
+grid=nyiso&window=m05,h3.value,-710,-710,yes
+grid=nyiso&window=m06,h1.value,+2.70,+2.70,yes
+grid=nyiso&window=m06,h2.value,"18,375","18,375",yes
+grid=nyiso&window=m06,h3.value,+483,+483,yes
+grid=nyiso&window=m07,h1.value,-2.71,-2.71,yes
+grid=nyiso&window=m07,h2.value,"21,868","21,868",yes
+grid=nyiso&window=m07,h3.value,-610,-610,yes
+grid=nyiso&window=m08,h1.value,-9.39,-9.39,yes
+grid=nyiso&window=m08,h2.value,"18,390","18,390",yes
+grid=nyiso&window=m08,h3.value,"-1,905","-1,905",yes
+grid=nyiso&window=m09,h1.value,-6.54,-6.54,yes
+grid=nyiso&window=m09,h2.value,"16,336","16,336",yes
+grid=nyiso&window=m09,h3.value,"-1,142","-1,142",yes
+grid=nyiso&window=m10,h1.value,-4.83,-4.83,yes
+grid=nyiso&window=m10,h2.value,"14,967","14,967",yes
+grid=nyiso&window=m10,h3.value,-760,-760,yes
+grid=nyiso&window=m11,h1.value,-3.22,-3.22,yes
+grid=nyiso&window=m11,h2.value,"16,130","16,130",yes
+grid=nyiso&window=m11,h3.value,-537,-537,yes
+grid=nyiso&window=m12,h1.value,+5.09,+5.09,yes
+grid=nyiso&window=m12,h2.value,"18,718","18,718",yes
+grid=nyiso&window=m12,h3.value,+906,+906,yes
+grid=nyiso&window=h00,h1.value,+2.37,+2.37,yes
+grid=nyiso&window=h00,h2.value,"15,979","15,979",yes
+grid=nyiso&window=h00,h3.value,+370,+370,yes
+grid=nyiso&window=h01,h1.value,+2.73,+2.73,yes
+grid=nyiso&window=h01,h2.value,"15,407","15,407",yes
+grid=nyiso&window=h01,h3.value,+409,+409,yes
+grid=nyiso&window=h02,h1.value,+2.73,+2.73,yes
+grid=nyiso&window=h02,h2.value,"15,019","15,019",yes
+grid=nyiso&window=h02,h3.value,+399,+399,yes
+grid=nyiso&window=h03,h1.value,+2.59,+2.59,yes
+grid=nyiso&window=h03,h2.value,"14,818","14,818",yes
+grid=nyiso&window=h03,h3.value,+374,+374,yes
+grid=nyiso&window=h04,h1.value,+2.38,+2.38,yes
+grid=nyiso&window=h04,h2.value,"14,890","14,890",yes
+grid=nyiso&window=h04,h3.value,+346,+346,yes
+grid=nyiso&window=h05,h1.value,+1.68,+1.68,yes
+grid=nyiso&window=h05,h2.value,"15,393","15,393",yes
+grid=nyiso&window=h05,h3.value,+255,+255,yes
+grid=nyiso&window=h06,h1.value,+0.15,+0.15,yes
+grid=nyiso&window=h06,h2.value,"16,334","16,334",yes
+grid=nyiso&window=h06,h3.value,+24,+24,yes
+grid=nyiso&window=h07,h1.value,-1.75,-1.75,yes
+grid=nyiso&window=h07,h2.value,"17,060","17,060",yes
+grid=nyiso&window=h07,h3.value,-304,-304,yes
+grid=nyiso&window=h08,h1.value,-4.30,-4.30,yes
+grid=nyiso&window=h08,h2.value,"17,260","17,260",yes
+grid=nyiso&window=h08,h3.value,-776,-776,yes
+grid=nyiso&window=h09,h1.value,-6.94,-6.94,yes
+grid=nyiso&window=h09,h2.value,"17,201","17,201",yes
+grid=nyiso&window=h09,h3.value,"-1,283","-1,283",yes
+grid=nyiso&window=h10,h1.value,-8.62,-8.62,yes
+grid=nyiso&window=h10,h2.value,"17,168","17,168",yes
+grid=nyiso&window=h10,h3.value,"-1,619","-1,619",yes
+grid=nyiso&window=h11,h1.value,-9.23,-9.23,yes
+grid=nyiso&window=h11,h2.value,"17,221","17,221",yes
+grid=nyiso&window=h11,h3.value,"-1,751","-1,751",yes
+grid=nyiso&window=h12,h1.value,-9.07,-9.07,yes
+grid=nyiso&window=h12,h2.value,"17,333","17,333",yes
+grid=nyiso&window=h12,h3.value,"-1,729","-1,729",yes
+grid=nyiso&window=h13,h1.value,-8.53,-8.53,yes
+grid=nyiso&window=h13,h2.value,"17,536","17,536",yes
+grid=nyiso&window=h13,h3.value,"-1,635","-1,635",yes
+grid=nyiso&window=h14,h1.value,-7.64,-7.64,yes
+grid=nyiso&window=h14,h2.value,"17,788","17,788",yes
+grid=nyiso&window=h14,h3.value,"-1,472","-1,472",yes
+grid=nyiso&window=h15,h1.value,-6.15,-6.15,yes
+grid=nyiso&window=h15,h2.value,"18,233","18,233",yes
+grid=nyiso&window=h15,h3.value,"-1,194","-1,194",yes
+grid=nyiso&window=h16,h1.value,-4.53,-4.53,yes
+grid=nyiso&window=h16,h2.value,"18,899","18,899",yes
+grid=nyiso&window=h16,h3.value,-898,-898,yes
+grid=nyiso&window=h17,h1.value,-2.99,-2.99,yes
+grid=nyiso&window=h17,h2.value,"19,586","19,586",yes
+grid=nyiso&window=h17,h3.value,-604,-604,yes
+grid=nyiso&window=h18,h1.value,-1.64,-1.64,yes
+grid=nyiso&window=h18,h2.value,"19,817","19,817",yes
+grid=nyiso&window=h18,h3.value,-331,-331,yes
+grid=nyiso&window=h19,h1.value,-0.80,-0.80,yes
+grid=nyiso&window=h19,h2.value,"19,758","19,758",yes
+grid=nyiso&window=h19,h3.value,-159,-159,yes
+grid=nyiso&window=h20,h1.value,-0.80,-0.80,yes
+grid=nyiso&window=h20,h2.value,"19,392","19,392",yes
+grid=nyiso&window=h20,h3.value,-156,-156,yes
+grid=nyiso&window=h21,h1.value,-0.64,-0.64,yes
+grid=nyiso&window=h21,h2.value,"18,720","18,720",yes
+grid=nyiso&window=h21,h3.value,-121,-121,yes
+grid=nyiso&window=h22,h1.value,+0.11,+0.11,yes
+grid=nyiso&window=h22,h2.value,"17,746","17,746",yes
+grid=nyiso&window=h22,h3.value,+20,+20,yes
+grid=nyiso&window=h23,h1.value,+1.23,+1.23,yes
+grid=nyiso&window=h23,h2.value,"16,751","16,751",yes
+grid=nyiso&window=h23,h3.value,+204,+204,yes
+grid=isone&window=avg,h1.value,-2.54,-2.54,yes
+grid=isone&window=avg,h2.value,"13,160","13,160",yes
+grid=isone&window=avg,h3.value,-1.20,-1.20,yes
+grid=isone&window=peak,h1.value,+8.03,+8.03,yes
+grid=isone&window=peak,h2.value,"25,898","25,898",yes
+grid=isone&window=peak,h3.value,-1.20,-1.20,yes
+grid=isone&window=ytd,h1.value,-1.20,-1.20,yes
+grid=isone&window=ytd,h2.value,"13,308","13,308",yes
+grid=isone&window=ytd,h3.value,-2.54,-2.54,yes
+grid=isone&window=m01,h1.value,+2.07,+2.07,yes
+grid=isone&window=m01,h2.value,"15,171","15,171",yes
+grid=isone&window=m01,h3.value,+308,+308,yes
+grid=isone&window=m02,h1.value,+2.06,+2.06,yes
+grid=isone&window=m02,h2.value,"14,660","14,660",yes
+grid=isone&window=m02,h3.value,+296,+296,yes
+grid=isone&window=m03,h1.value,-7.69,-7.69,yes
+grid=isone&window=m03,h2.value,"12,176","12,176",yes
+grid=isone&window=m03,h3.value,"-1,014","-1,014",yes
+grid=isone&window=m04,h1.value,-6.67,-6.67,yes
+grid=isone&window=m04,h2.value,"11,035","11,035",yes
+grid=isone&window=m04,h3.value,-788,-788,yes
+grid=isone&window=m05,h1.value,-5.68,-5.68,yes
+grid=isone&window=m05,h2.value,"10,859","10,859",yes
+grid=isone&window=m05,h3.value,-654,-654,yes
+grid=isone&window=m06,h1.value,+4.23,+4.23,yes
+grid=isone&window=m06,h2.value,"13,384","13,384",yes
+grid=isone&window=m06,h3.value,+544,+544,yes
+grid=isone&window=m07,h1.value,-3.59,-3.59,yes
+grid=isone&window=m07,h2.value,"15,986","15,986",yes
+grid=isone&window=m07,h3.value,-596,-596,yes
+grid=isone&window=m08,h1.value,-10.18,-10.18,yes
+grid=isone&window=m08,h2.value,"13,494","13,494",yes
+grid=isone&window=m08,h3.value,"-1,530","-1,530",yes
+grid=isone&window=m09,h1.value,-4.90,-4.90,yes
+grid=isone&window=m09,h2.value,"11,932","11,932",yes
+grid=isone&window=m09,h3.value,-615,-615,yes
+grid=isone&window=m10,h1.value,-4.14,-4.14,yes
+grid=isone&window=m10,h2.value,"11,434","11,434",yes
+grid=isone&window=m10,h3.value,-494,-494,yes
+grid=isone&window=m11,h1.value,-2.66,-2.66,yes
+grid=isone&window=m11,h2.value,"12,704","12,704",yes
+grid=isone&window=m11,h3.value,-347,-347,yes
+grid=isone&window=m12,h1.value,+5.90,+5.90,yes
+grid=isone&window=m12,h2.value,"15,112","15,112",yes
+grid=isone&window=m12,h3.value,+842,+842,yes
+grid=isone&window=h00,h1.value,+4.38,+4.38,yes
+grid=isone&window=h00,h2.value,"12,183","12,183",yes
+grid=isone&window=h00,h3.value,+512,+512,yes
+grid=isone&window=h01,h1.value,+3.43,+3.43,yes
+grid=isone&window=h01,h2.value,"11,836","11,836",yes
+grid=isone&window=h01,h3.value,+392,+392,yes
+grid=isone&window=h02,h1.value,+2.54,+2.54,yes
+grid=isone&window=h02,h2.value,"11,652","11,652",yes
+grid=isone&window=h02,h3.value,+289,+289,yes
+grid=isone&window=h03,h1.value,+2.14,+2.14,yes
+grid=isone&window=h03,h2.value,"11,596","11,596",yes
+grid=isone&window=h03,h3.value,+244,+244,yes
+grid=isone&window=h04,h1.value,+2.00,+2.00,yes
+grid=isone&window=h04,h2.value,"11,736","11,736",yes
+grid=isone&window=h04,h3.value,+230,+230,yes
+grid=isone&window=h05,h1.value,+1.74,+1.74,yes
+grid=isone&window=h05,h2.value,"12,138","12,138",yes
+grid=isone&window=h05,h3.value,+208,+208,yes
+grid=isone&window=h06,h1.value,+0.10,+0.10,yes
+grid=isone&window=h06,h2.value,"12,866","12,866",yes
+grid=isone&window=h06,h3.value,+13,+13,yes
+grid=isone&window=h07,h1.value,-1.87,-1.87,yes
+grid=isone&window=h07,h2.value,"13,308","13,308",yes
+grid=isone&window=h07,h3.value,-253,-253,yes
+grid=isone&window=h08,h1.value,-5.18,-5.18,yes
+grid=isone&window=h08,h2.value,"13,073","13,073",yes
+grid=isone&window=h08,h3.value,-713,-713,yes
+grid=isone&window=h09,h1.value,-8.49,-8.49,yes
+grid=isone&window=h09,h2.value,"12,624","12,624",yes
+grid=isone&window=h09,h3.value,"-1,171","-1,171",yes
+grid=isone&window=h10,h1.value,-10.67,-10.67,yes
+grid=isone&window=h10,h2.value,"12,339","12,339",yes
+grid=isone&window=h10,h3.value,"-1,473","-1,473",yes
+grid=isone&window=h11,h1.value,-11.50,-11.50,yes
+grid=isone&window=h11,h2.value,"12,250","12,250",yes
+grid=isone&window=h11,h3.value,"-1,591","-1,591",yes
+grid=isone&window=h12,h1.value,-11.41,-11.41,yes
+grid=isone&window=h12,h2.value,"12,292","12,292",yes
+grid=isone&window=h12,h3.value,"-1,583","-1,583",yes
+grid=isone&window=h13,h1.value,-10.77,-10.77,yes
+grid=isone&window=h13,h2.value,"12,503","12,503",yes
+grid=isone&window=h13,h3.value,"-1,510","-1,510",yes
+grid=isone&window=h14,h1.value,-9.31,-9.31,yes
+grid=isone&window=h14,h2.value,"12,842","12,842",yes
+grid=isone&window=h14,h3.value,"-1,318","-1,318",yes
+grid=isone&window=h15,h1.value,-6.78,-6.78,yes
+grid=isone&window=h15,h2.value,"13,451","13,451",yes
+grid=isone&window=h15,h3.value,-979,-979,yes
+grid=isone&window=h16,h1.value,-3.77,-3.77,yes
+grid=isone&window=h16,h2.value,"14,392","14,392",yes
+grid=isone&window=h16,h3.value,-564,-564,yes
+grid=isone&window=h17,h1.value,-1.42,-1.42,yes
+grid=isone&window=h17,h2.value,"15,318","15,318",yes
+grid=isone&window=h17,h3.value,-220,-220,yes
+grid=isone&window=h18,h1.value,+0.06,+0.06,yes
+grid=isone&window=h18,h2.value,"15,702","15,702",yes
+grid=isone&window=h18,h3.value,+10,+10,yes
+grid=isone&window=h19,h1.value,+0.79,+0.79,yes
+grid=isone&window=h19,h2.value,"15,644","15,644",yes
+grid=isone&window=h19,h3.value,+123,+123,yes
+grid=isone&window=h20,h1.value,+0.91,+0.91,yes
+grid=isone&window=h20,h2.value,"15,272","15,272",yes
+grid=isone&window=h20,h3.value,+137,+137,yes
+grid=isone&window=h21,h1.value,+1.45,+1.45,yes
+grid=isone&window=h21,h2.value,"14,548","14,548",yes
+grid=isone&window=h21,h3.value,+208,+208,yes
+grid=isone&window=h22,h1.value,+2.50,+2.50,yes
+grid=isone&window=h22,h2.value,"13,570","13,570",yes
+grid=isone&window=h22,h3.value,+330,+330,yes
+grid=isone&window=h23,h1.value,+3.67,+3.67,yes
+grid=isone&window=h23,h2.value,"12,701","12,701",yes
+grid=isone&window=h23,h3.value,+450,+450,yes
+grid=us48&window=avg,h1.value,+7.03,+7.03,yes
+grid=us48&window=avg,h2.value,"490,819","490,819",yes
+grid=us48&window=avg,h3.value,+10.24,+10.24,yes
+grid=us48&window=peak,h1.value,not held,not held,yes
+grid=us48&window=peak,h2.value,not held,not held,yes
+grid=us48&window=peak,h3.value,+10.24,+10.24,yes
+grid=us48&window=ytd,h1.value,+10.24,+10.24,yes
+grid=us48&window=ytd,h2.value,"510,597","510,597",yes
+grid=us48&window=ytd,h3.value,+7.03,+7.03,yes
+grid=us48&window=m01,h1.value,+12.22,+12.22,yes
+grid=us48&window=m01,h2.value,"527,684","527,684",yes
+grid=us48&window=m01,h3.value,"+57,452","+57,452",yes
+grid=us48&window=m02,h1.value,+8.23,+8.23,yes
+grid=us48&window=m02,h2.value,"490,084","490,084",yes
+grid=us48&window=m02,h3.value,"+37,261","+37,261",yes
+grid=us48&window=m03,h1.value,+2.15,+2.15,yes
+grid=us48&window=m03,h2.value,"431,484","431,484",yes
+grid=us48&window=m03,h3.value,"+9,077","+9,077",yes
+grid=us48&window=m04,h1.value,+8.56,+8.56,yes
+grid=us48&window=m04,h2.value,"432,269","432,269",yes
+grid=us48&window=m04,h3.value,"+34,094","+34,094",yes
+grid=us48&window=m05,h1.value,+5.01,+5.01,yes
+grid=us48&window=m05,h2.value,"451,073","451,073",yes
+grid=us48&window=m05,h3.value,"+21,524","+21,524",yes
+grid=us48&window=m06,h1.value,+12.03,+12.03,yes
+grid=us48&window=m06,h2.value,"534,116","534,116",yes
+grid=us48&window=m06,h3.value,"+57,363","+57,363",yes
+grid=us48&window=m07,h1.value,+8.00,+8.00,yes
+grid=us48&window=m07,h2.value,"585,648","585,648",yes
+grid=us48&window=m07,h3.value,"+43,361","+43,361",yes
+grid=us48&window=m08,h1.value,+3.95,+3.95,yes
+grid=us48&window=m08,h2.value,"549,253","549,253",yes
+grid=us48&window=m08,h3.value,"+20,859","+20,859",yes
+grid=us48&window=m09,h1.value,+1.63,+1.63,yes
+grid=us48&window=m09,h2.value,"498,455","498,455",yes
+grid=us48&window=m09,h3.value,"+7,996","+7,996",yes
+grid=us48&window=m10,h1.value,+6.77,+6.77,yes
+grid=us48&window=m10,h2.value,"447,210","447,210",yes
+grid=us48&window=m10,h3.value,"+28,361","+28,361",yes
+grid=us48&window=m11,h1.value,+4.07,+4.07,yes
+grid=us48&window=m11,h2.value,"445,486","445,486",yes
+grid=us48&window=m11,h3.value,"+17,418","+17,418",yes
+grid=us48&window=m12,h1.value,+11.72,+11.72,yes
+grid=us48&window=m12,h2.value,"495,274","495,274",yes
+grid=us48&window=m12,h3.value,"+51,968","+51,968",yes
+grid=us48&window=h00,h1.value,+8.99,+8.99,yes
+grid=us48&window=h00,h2.value,"466,011","466,011",yes
+grid=us48&window=h00,h3.value,"+38,445","+38,445",yes
+grid=us48&window=h01,h1.value,+9.70,+9.70,yes
+grid=us48&window=h01,h2.value,"448,009","448,009",yes
+grid=us48&window=h01,h3.value,"+39,615","+39,615",yes
+grid=us48&window=h02,h1.value,+10.03,+10.03,yes
+grid=us48&window=h02,h2.value,"434,617","434,617",yes
+grid=us48&window=h02,h3.value,"+39,622","+39,622",yes
+grid=us48&window=h03,h1.value,+10.04,+10.04,yes
+grid=us48&window=h03,h2.value,"425,621","425,621",yes
+grid=us48&window=h03,h3.value,"+38,830","+38,830",yes
+grid=us48&window=h04,h1.value,+9.91,+9.91,yes
+grid=us48&window=h04,h2.value,"422,720","422,720",yes
+grid=us48&window=h04,h3.value,"+38,130","+38,130",yes
+grid=us48&window=h05,h1.value,+9.31,+9.31,yes
+grid=us48&window=h05,h2.value,"427,329","427,329",yes
+grid=us48&window=h05,h3.value,"+36,398","+36,398",yes
+grid=us48&window=h06,h1.value,+8.12,+8.12,yes
+grid=us48&window=h06,h2.value,"441,275","441,275",yes
+grid=us48&window=h06,h3.value,"+33,122","+33,122",yes
+grid=us48&window=h07,h1.value,+7.06,+7.06,yes
+grid=us48&window=h07,h2.value,"457,097","457,097",yes
+grid=us48&window=h07,h3.value,"+30,149","+30,149",yes
+grid=us48&window=h08,h1.value,+6.21,+6.21,yes
+grid=us48&window=h08,h2.value,"469,347","469,347",yes
+grid=us48&window=h08,h3.value,"+27,451","+27,451",yes
+grid=us48&window=h09,h1.value,+5.42,+5.42,yes
+grid=us48&window=h09,h2.value,"479,677","479,677",yes
+grid=us48&window=h09,h3.value,"+24,670","+24,670",yes
+grid=us48&window=h10,h1.value,+4.97,+4.97,yes
+grid=us48&window=h10,h2.value,"489,635","489,635",yes
+grid=us48&window=h10,h3.value,"+23,165","+23,165",yes
+grid=us48&window=h11,h1.value,+5.01,+5.01,yes
+grid=us48&window=h11,h2.value,"499,520","499,520",yes
+grid=us48&window=h11,h3.value,"+23,824","+23,824",yes
+grid=us48&window=h12,h1.value,+5.39,+5.39,yes
+grid=us48&window=h12,h2.value,"509,077","509,077",yes
+grid=us48&window=h12,h3.value,"+26,019","+26,019",yes
+grid=us48&window=h13,h1.value,+5.65,+5.65,yes
+grid=us48&window=h13,h2.value,"517,342","517,342",yes
+grid=us48&window=h13,h3.value,"+27,644","+27,644",yes
+grid=us48&window=h14,h1.value,+5.84,+5.84,yes
+grid=us48&window=h14,h2.value,"523,818","523,818",yes
+grid=us48&window=h14,h3.value,"+28,914","+28,914",yes
+grid=us48&window=h15,h1.value,+6.11,+6.11,yes
+grid=us48&window=h15,h2.value,"529,787","529,787",yes
+grid=us48&window=h15,h3.value,"+30,487","+30,487",yes
+grid=us48&window=h16,h1.value,+6.39,+6.39,yes
+grid=us48&window=h16,h2.value,"536,601","536,601",yes
+grid=us48&window=h16,h3.value,"+32,245","+32,245",yes
+grid=us48&window=h17,h1.value,+6.60,+6.60,yes
+grid=us48&window=h17,h2.value,"544,208","544,208",yes
+grid=us48&window=h17,h3.value,"+33,689","+33,689",yes
+grid=us48&window=h18,h1.value,+6.60,+6.60,yes
+grid=us48&window=h18,h2.value,"547,738","547,738",yes
+grid=us48&window=h18,h3.value,"+33,900","+33,900",yes
+grid=us48&window=h19,h1.value,+6.48,+6.48,yes
+grid=us48&window=h19,h2.value,"545,726","545,726",yes
+grid=us48&window=h19,h3.value,"+33,189","+33,189",yes
+grid=us48&window=h20,h1.value,+6.28,+6.28,yes
+grid=us48&window=h20,h2.value,"539,564","539,564",yes
+grid=us48&window=h20,h3.value,"+31,902","+31,902",yes
+grid=us48&window=h21,h1.value,+6.47,+6.47,yes
+grid=us48&window=h21,h2.value,"528,220","528,220",yes
+grid=us48&window=h21,h3.value,"+32,097","+32,097",yes
+grid=us48&window=h22,h1.value,+7.11,+7.11,yes
+grid=us48&window=h22,h2.value,"509,600","509,600",yes
+grid=us48&window=h22,h3.value,"+33,806","+33,806",yes
+grid=us48&window=h23,h1.value,+7.97,+7.97,yes
+grid=us48&window=h23,h2.value,"487,093","487,093",yes
+grid=us48&window=h23,h3.value,"+35,976","+35,976",yes

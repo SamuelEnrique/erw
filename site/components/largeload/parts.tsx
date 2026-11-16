@@ -4,7 +4,7 @@
 // explanation or a source is a hover tip, never grey text; a held row or a withheld field is drawn blank with "license
 // needed" on hover; the tool states the document's words and takes no view.
 import { useId, type ReactNode } from "react";
-import { FIELDS, FIELD_HEAD, FIELD_TIP, GRID_WORDS, LICENSE_NEEDED, RULES_TABLE, UPGRADES_TIP, UPGRADES_WORDS, dateWords, drawn, statusTip,
+import { FIELDS, FIELD_HEAD, FIELD_TIP, GRID_WORDS, LICENSE_NEEDED, RULES_TABLE, UPGRADES_TIP, UPGRADES_WORDS, drawn, statusTip, statusWords,
   type FieldId, type HeldRule, type Rule } from "@/lib/largeloadrules";
 
 /** A hover tip a keyboard reaches: the trigger is a button its tip describes (app/tokens.css, ".tip" and "[data-llr]"). */
@@ -60,12 +60,19 @@ export function RuleCard({ rule, onSee, lawsHref, actions }: { rule: Rule; onSee
         <a href={rule.url} title={`${rule.title}, read ${rule.read}`} data-rule-doc={rule.id}>{rule.name}</a>
         {rule.clause ? <> <Tip tip={`The words that make it a large-load rule: ${rule.clause}`} data={{ "llr-clause": "1" }}>its clause</Tip></> : null}
       </p>
+      {/* session 7600 (the browser read, rows 6 and 7): the status, the docket and what else the row holds are a line
+          each. As one sentence, a long docket took the line whole and left the sentence's period and "The ERW's notes"
+          at the head of the next (". The ERW's notes"). A status with no date printed says so of the date. */}
       <p className="mt-0.5" data-rule-status={rule.id}>
-        Status: <Tip tip={statusTip(rule)}>{rule.status}, {dateWords(rule.status_date)}</Tip>
-        {rule.docket && rule.docket !== "not published" ? <>. Docket: <Tip tip={rule.docket_cite || "The docket as the document names it."}>{rule.docket}</Tip></> : null}
-        {lawsHref ? <>. {lawsHref}</> : null}
-        {rule.notes ? <>. <Tip tip={rule.notes} data={{ "llr-notes": "1" }}>The ERW&apos;s notes</Tip></> : null}
+        Status: <Tip tip={statusTip(rule)}>{statusWords(rule.status, rule.status_date)}</Tip>
       </p>
+      {rule.docket && rule.docket !== "not published" ? <p className="mt-0.5" data-rule-docket={rule.id}>Docket: <Tip tip={rule.docket_cite || "The docket as the document names it."}>{rule.docket}</Tip></p> : null}
+      {lawsHref || rule.notes ? (
+        <p className="mt-0.5" data-rule-more={rule.id}>
+          {lawsHref}{lawsHref && rule.notes ? ". " : null}
+          {rule.notes ? <Tip tip={rule.notes} data={{ "llr-notes": "1" }}>The ERW&apos;s notes</Tip> : null}
+        </p>
+      ) : null}
       <table className="mt-2 w-full border-collapse text-sm" data-rule-fields={rule.id}>
         <caption className="sr-only">{rule.utility}: the rule&apos;s terms as the document prints them</caption>
         <tbody>

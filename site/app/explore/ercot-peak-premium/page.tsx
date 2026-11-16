@@ -9,11 +9,13 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } 
 import { headers } from "@/lib/data";
 import { MONTHS, choose, isoKey, longTime, type Params } from "@/lib/explore";
 import {
-  ANNUAL, BLOCKS, FIGURES, MONTHLY, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
+  ANNUAL, BLOCKS, FIGURES, MONTHLY, SIDE, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
 } from "@/lib/explore/peakpremium";
 import { sourceOf } from "@/lib/explore/source";
-import { node, shown } from "@/lib/format";
+import { node, price } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+// by the site's alias, not "./": tests/test_session403.py holds this page to no private import (no chart of its own)
+import { PeakPremiumDecisions } from "@/app/explore/ercot-peak-premium/Decisions";
 
 // Session 403: the ERCOT peak premium explorer (platform tool 5, the first signature explorer), in review. The thesis
 // chart made live: the distribution of ERCOT's real-time price by time of day, two years side by side, for any hub, for
@@ -33,8 +35,10 @@ export const dynamic = "force-dynamic";
 const PATH = "/explore/ercot-peak-premium";
 const SELECT = "entity,variable,ts_utc,value";
 
+// Session 7507 (chain 304): a price or a ratio is always written with two decimals. Until then a value that happened to
+// be a whole number of dollars was written without them ("509" in a column of "1,538.66": lib/format.ts, shown).
 function fig(v: number, unit: string): string {
-  return unit === "count" ? Math.round(v).toLocaleString("en-US") : shown(v);
+  return unit === "count" ? Math.round(v).toLocaleString("en-US") : price(v);
 }
 
 export default async function PeakPremiumExplorer({ searchParams }: { searchParams: Promise<Params> }) {
@@ -72,6 +76,10 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
 
   const hubs = Array.from(new Set(counts.data.map((r) => r.entity))).sort();
   const [hub, badHub] = choose(sp, "hub", hubs, hubs.includes(THESIS_HUB) ? THESIS_HUB : hubs[0]);
+  // Session 7516 (chain 304, part B): a second hub beside the first (`vs` in the address; none by default), for the
+  // reader who sets two hubs side by side for one period. The same hub twice is no second hub.
+  const [vsS, badVs] = choose(sp, "vs", ["", ...hubs], "");
+  const vs = vsS !== hub ? vsS : "";
   const hubRows = counts.data.filter((r) => r.entity === hub);
   const years = Array.from(new Set(hubRows.map((r) => new Date(r.ts_utc).getUTCFullYear()))).sort((a, b) => a - b);
   const [monthS, badMonth] = choose(sp, "month", ["", ...MONTHS.map((_, i) => String(i + 1))], "");
@@ -79,14 +87,17 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
   const table = month ? MONTHLY : ANNUAL;
 
   // the hub's rows of the table the filters name: every year of the annual table, or the one month in every year
-  const [read, monthly] = await Promise.all([
-    attempt(() => rest<Row>("series", {
-      select: SELECT, table_name: `eq.${table}`, entity: `eq.${hub}`, order: "variable,ts_utc",
-      ...(month ? { ts_utc: `in.(${years.map((y) => `"${periodTs(y, month)}"`).join(",")})` } : {}),
-    }, HOURLY)),
+  const hubRead = (e: string) => attempt(() => rest<Row>("series", {
+    select: SELECT, table_name: `eq.${table}`, entity: `eq.${e}`, order: "variable,ts_utc",
+    ...(month ? { ts_utc: `in.(${years.map((y) => `"${periodTs(y, month)}"`).join(",")})` } : {}),
+  }, HOURLY));
+  const [read, monthly, vsRead] = await Promise.all([
+    hubRead(hub),
     attempt(() => rest<Row>("series", { select: SELECT, table_name: `eq.${MONTHLY}`, entity: `eq.${hub}`, variable: "in.(peak_median,midday_median,overnight_median)", order: "variable,ts_utc" }, HOURLY)),
+    vs ? hubRead(vs) : Promise.resolve(null),
   ]);
   const rows = read.ok ? read.data : [];
+  const vsRows = vsRead && vsRead.ok ? vsRead.data : [];
   const held = (y: number) => valueOf(rows, "n_intervals", periodTs(y, month));
   const partial = (y: number) => {
     const n = held(y);
@@ -100,13 +111,24 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
   const from = Number(fromS), to = Number(toS);
   const pair = from === to ? [to] : [from, to];
   const when = (y: number) => (month ? `${MONTHS[month - 1]} ${y}` : String(y));
-  const key = (variable: string, y: number) => `series|${table}|${hub}|${variable}|${isoKey(periodTs(y, month))}`;
-  const N = ({ v, y, unit }: { v: string; y: number; unit: string }) => {
-    const x = valueOf(rows, v, periodTs(y, month));
-    return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>;
+  // session 7516: a period not yet over carries its mark wherever it heads a figure (the headline numbers, the tables'
+  // period cells and column heads), not only in the filters and the chart's note: 2026 so far is not 2025's twelve months
+  const mark = (y: number) => `${when(y)}${partial(y) ? " (partial)" : ""}`;
+  // one figure writer, made once a hub (session 7516: the second hub's figures are written by the same lines as the first's)
+  const writer = (hub: string, rows: Row[]) => {
+    const key = (variable: string, y: number) => `series|${table}|${hub}|${variable}|${isoKey(periodTs(y, month))}`;
+    const N = ({ v, y, unit }: { v: string; y: number; unit: string }) => {
+      const x = valueOf(rows, v, periodTs(y, month));
+      return x === undefined ? <span className="text-muted">not held</span> : <Num check={key(v, y)} raw={x} source={sourceOf(key(v, y), node(hub))}>{fig(x, unit)}</Num>;
+    };
+    return { key, N };
   };
+  const { key, N } = writer(hub, rows);
+  const Nvs = writer(vs, vsRows).N;
+  // session 7507: a figure the table does not hold is "not held" alone: its unit is drawn only beside a figure
+  const has = (v: string, y: number) => valueOf(rows, v, periodTs(y, month)) !== undefined;
   const yearOpt = (y: number) => ({ value: String(y), label: `${y}${held(y) === undefined ? " (not held)" : partial(y) ? " (partial)" : ""}` });
-  const asked = [badHub && "hub", badMonth && "month", badFrom && "first year", badTo && "second year"].filter(Boolean);
+  const asked = [badHub && "hub", badMonth && "month", badFrom && "first year", badTo && "second year", badVs && "second hub"].filter(Boolean);
 
   const filters = (
     <FilterForm
@@ -116,6 +138,7 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
         { name: "month", label: "Period", value: monthS, options: [{ value: "", label: "Whole year" }, ...MONTHS.map((m, i) => ({ value: String(i + 1), label: m }))] },
         { name: "from", label: "First year", value: fromS, options: years.map(yearOpt) },
         { name: "to", label: "Second year", value: toS, options: years.map(yearOpt) },
+        { name: "vs", label: "Beside hub", value: vs, options: [{ value: "", label: "None" }, ...hubs.filter((h) => h !== hub).map((h) => ({ value: h, label: node(h) }))] },
       ]}
       reset={{ href: PATH, defaults: `${node(THESIS_HUB)}, the whole year, the first year held against the newest complete one (the thesis's comparison)` }}
       note={asked.length ? <span data-asked-unknown="1">The address asked for a {asked.join(" and a ")} the tables do not hold; the page shows the default in its place.</span> : undefined}
@@ -143,9 +166,9 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
     <>
       <HeadlineRow>
         {[["peak_iqr", "Peak-block IQR"], ["peak_minus_midday_median", "Peak median minus midday median"], ["all_median", "Median, all intervals"]].map(([v, label]) => (
-          <HeadlineNumber key={v} label={`${label}, ${name}, ${when(to)}`} value={<N v={v} y={to} unit="USD/MWh" />} unit="USD/MWh"
+          <HeadlineNumber key={v} label={`${label}, ${name}, ${mark(to)}`} value={<N v={v} y={to} unit="USD/MWh" />} unit={has(v, to) ? "USD/MWh" : undefined}
             tip={<Tip id={`source-${v}`} label={`where ${label.toLowerCase()} comes from`}>{sourceOf(key(v, to), name)}</Tip>}
-            note={from !== to ? <>{when(from)}: <N v={v} y={from} unit="USD/MWh" /> USD/MWh</> : undefined} />
+            note={from !== to ? <>{mark(from)}: <N v={v} y={from} unit="USD/MWh" />{has(v, from) ? " USD/MWh" : null}</> : undefined} />
         ))}
       </HeadlineRow>
 
@@ -164,15 +187,34 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
           head={["Block", "Period", "Min", "Q1", "Median", "Q3", "Max"]}
           rows={boxes.map(({ b, y }) => ({
             key: `${b.key}-${y}`, highlight: b.key === "peak",
-            cells: [<span key="b">{b.label} <span className="text-xs font-normal text-muted">{b.hours}</span></span>, when(y), ...STATS.map((k) => <N key={k} v={`${b.key}_${k}`} y={y} unit="USD/MWh" />)],
+            cells: [<span key="b">{b.label} <span className="text-xs font-normal text-muted">{b.hours}</span></span>, mark(y), ...STATS.map((k) => <N key={k} v={`${b.key}_${k}`} y={y} unit="USD/MWh" />)],
           }))} />
       </ToolSection>
 
       <ToolSection title={`The thesis's figures, ${name}`} note="Each figure is one row of the table, as the method note defines it; the page computes none of them.">
         <ToolTable caption={`${name}: the thesis's figures in ${pair.map(when).join(" and ")}`} minWidth={360}
-          head={["Figure", ...pair.map(when)]}
+          head={["Figure", ...pair.map(mark)]}
           rows={FIGURES.map((f) => ({ key: f.v, cells: [f.label, ...pair.map((y) => <N key={y} v={f.v} y={y} unit={f.unit} />)] }))} />
       </ToolSection>
+
+      {vs ? (
+        <ToolSection id="two-hubs" title={`Two hubs side by side: ${name} and ${node(vs)}`}>
+          <p className="mb-2 max-w-3xl text-sm" data-two-hubs={`${hub}|${vs}`}>
+            The same rows for each hub, {pair.map(mark).join(" and ")}.
+            <Tip id="two-hubs" label="how the two hubs are set side by side">
+              Each figure is one row of the table for its own hub. The page takes no difference between the two: the difference of two hubs&apos; medians is not the median of the price difference between them from interval to interval, which these tables do not hold.
+            </Tip>
+          </p>
+          {vsRows.length === 0 ? <NoData what={table} reason={vsRead && !vsRead.ok ? vsRead.reason : `no row for ${node(vs)}`} /> : (
+            <ToolTable caption={`${name} and ${node(vs)}: the peak block and the thesis's figures in ${pair.map(when).join(" and ")}`} minWidth={pair.length > 1 ? 640 : 420}
+              head={["Figure", ...pair.flatMap((y) => [`${name}, ${mark(y)}`, `${node(vs)}, ${mark(y)}`])]}
+              rows={SIDE.map((f) => ({
+                key: f.v, highlight: f.v === "peak_median" || f.v === "peak_iqr",
+                cells: [f.label, ...pair.flatMap((y) => [<N key={`a${y}`} v={f.v} y={y} unit={f.unit} />, <Nvs key={`b${y}`} v={f.v} y={y} unit={f.unit} />])],
+              }))} />
+          )}
+        </ToolSection>
+      ) : null}
 
       <ChartFrame title={`${name} ${month ? `in ${MONTHS[month - 1]} of each year` : "by year"}: the peak premium`}
         note={<>One point a {month ? "year's " + MONTHS[month - 1] : "year"}{lastHeld !== undefined && partial(lastHeld) ? `; ${when(lastHeld)} is partial` : ""}.</>}>
@@ -199,7 +241,10 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
       <p className="max-w-3xl text-sm" data-related-view="1">
         The same two tables are drawn one hub and one year at a time on the <Link href="/prices?tab=ercot">ERCOT tab of Prices</Link>; this
         explorer sets two years side by side, as the thesis does, and reads one calendar month across the years.
+        {" "}<span data-nodes-elsewhere="1">It holds the six hubs and no node: ERCOT&apos;s storage nodes are set against the hub average, month by month, on
+        the <Link href="/cost-of-power/battery">battery page</Link> (ERCOT, HB_HUBAVG).</span>
       </p>
+      <PeakPremiumDecisions />
     </>
   );
   // session 1496 (chain 158): the hub's rows of the table drawn, over the years drawn, as a download of their own

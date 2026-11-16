@@ -12,7 +12,7 @@ import { MARKETS, freeEnergyHref, hubAt, hubName, monthName as shortMonth, signe
 import { LICENSE_NEEDED, licenseGridTitle, licenseHeldGrid } from "@/lib/license";
 import { ASSET_NAMES } from "@/lib/merchant";
 import { isOldParam, isScenarioParam } from "@/lib/seller/finance";
-import { usd, whole, type Span } from "@/lib/seller2";
+import { spanOf, usd, whole, type Span } from "@/lib/seller2";
 import { CostTabs } from "../Tabs";
 import { ParamChoice } from "@/components/tool/ParamChoice";
 import { PriceYearsNav } from "@/components/tool/PriceYearsNav";
@@ -138,12 +138,34 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const spanCell = (span: "twelve" | "three" | "every", v: Span | null, f: (v: Span) => string, id: string, whyNone: string) => {
     if (!v) return <Missing why={whyNone} />;
     const raw = id === "revenue" ? v.revenue_kw : id === "energy" ? v.energy : id === "capture" ? v.capture : id === "flat" ? v.flat : v.rate;
-    return raw === null ? f(v) : spanNum(span, id, raw, f(v));
+    const cell = raw === null ? f(v) : spanNum(span, id, raw, f(v));
+    // session 7523 (the read, row 9): a long-run capture rate is the rate of the span's mean prices, which one high year can
+    // lift above every other year's own rate (ERCOT solar at the West hub: 101 for 2023 to 2025, the years 139, 75 and 66).
+    // Each year's own rate, from the same months, on hover.
+    if (id === "rate" && span !== "twelve" && fuel) {
+      const yy = span === "three" ? s.threeYears ?? [] : s.everyYears;
+      const own = yy.map((y) => { const r = spanOf(M.ms1.filter((m) => m.held && m.m.startsWith(y)), 1); return r && r.rate !== null ? `${y} ${whole(r.rate)}` : `${y} not held`; });
+      if (own.length) return <span className="cursor-help border-b border-dotted border-muted" data-rate-years={span}
+        title={`The capture price of the span over its price of every hour, each the mean of the span's years, so a year of high prices weighs most. Each year's own rate, in percent, weighed as this table weighs (the chart below weighs by generation, and can differ by a point): ${own.join(", ")}.`}>{cell}</span>;
+    }
+    return cell;
   };
   const spanRow = (label: string, f: (v: Span) => string, id: string, highlight = false) => ({
     key: id, highlight, cells: [label, <span key="t" data-seller2={`twelve|${id}`}>{spanCell("twelve", s.twelve, f, id, M.twelveWhy)}</span>, <span key="3" data-seller2={`three|${id}`}>{spanCell("three", s.three, f, id, M.threeWhy)}</span>,
       <span key="e" data-seller2={`every|${id}`}>{spanCell("every", s.every, f, id, M.everyWhy)}</span>],
   });
+  // session 7523 (the read of 16 November 2026, rows 1 and 2, model.ts belowZero): the hours priced below zero at the hub
+  // chosen, a year, over each span; the count and the hours priced on hover. A plant's own energy in those hours is not
+  // in the page's files (the fleet is held by the month), so the row is the price's alone and says so.
+  const belowCell = (span: "twelve" | "three" | "every", whyNone: string) => {
+    const b = M.belowZero[span];
+    if (!b) return <Missing why={whyNone} />;
+    const yy = span === "three" ? s.threeYears ?? [] : span === "every" ? s.everyYears : [];
+    const per = span === "twelve" ? "over the twelve months" : yy.length === 1 ? `in ${yy[0]}` : `a year, the mean of ${yy.length} years, ${yy[0]} to ${yy.at(-1)}`;
+    return <span data-below-zero={span} data-raw={Math.round(b.hours)} className="cursor-help border-b border-dotted border-muted"
+      title={`${whole(b.hours)} of ${whole(b.priced)} hours priced at ${at} were below zero, ${per}: the hour's price as the model prices it (the mean of the hour's intervals). The price alone: what share of a plant's own energy was made in those hours is not in this page's files.`}>{whole(b.hours)}</span>;
+  };
+  const belowRow = { key: "below", highlight: false, cells: ["Hours priced below zero, a year", <span key="t">{belowCell("twelve", M.twelveWhy)}</span>, <span key="3">{belowCell("three", M.threeWhy)}</span>, <span key="e">{belowCell("every", M.everyWhy)}</span>] };
   // the two downloads take the page's own parameters and scenario A's, as this request has them
   const query = new URLSearchParams();
   for (const [n, v] of Object.entries(q)) if (v !== undefined && (["iso", "hub", "asset", "mw", "mwh", "hr", "vom", "bmw", "dur", "strat"].includes(n) || isScenarioParam(n) || isOldParam(n))) query.set(n, v);
@@ -264,6 +286,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                       spanRow(peaker ? "Price while running, USD per MWh" : "Capture price, USD per MWh", (v) => (v.capture !== null ? usd(v.capture) : "not held"), "capture"),
                       spanRow("Price of every hour, USD per MWh", (v) => usd(v.flat), "flat"),
                       spanRow(peaker ? "Price while running over every hour's, percent" : "Capture rate, percent", (v) => (v.rate !== null ? whole(v.rate) : "not held"), "rate"),
+                      ...(fuel ? [belowRow] : []),
                     ]} />
                   {/* session 5501 (generator faults row 4): two capture prices stood on the face with nothing to say why, the spans
                       table's 23.20 and 32.10 beside the headline's 23.27 and 32.17 (docs/methods/generator_earns_algorithm.md,

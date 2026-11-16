@@ -1,0 +1,4 @@
+# The rows the replication reads are copied from warehouse/output at run time (copy_rows.py) and never committed with
+# it: ferc_eqr_contracts and its sister tables are internal (session 83's ruling; FERC's terms not yet read by a person).
+*
+!.gitignore

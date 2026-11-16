@@ -3,8 +3,10 @@
 // this component's memory only: no form is submitted, nothing is put in the address, no request is made and nothing
 // is stored (scripts/check-no-request.mjs drives a real browser through this page and counts the requests: none).
 // The arithmetic is lib/customerbattery.ts, which imports nothing.
+// Session 7504: a typed number is printed back as typed (typed, rate), and a refused one is told its range in words.
 import { useState } from "react";
-import { FIELDS, qty, readAll, saving, usd } from "@/lib/customerbattery";
+// Session 7513: a refused rate is told that the field takes dollars (inDollars), not its range alone.
+import { FIELDS, inDollars, qty, range, rate, readAll, saving, typed, usd } from "@/lib/customerbattery";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
@@ -29,7 +31,7 @@ export function Calc() {
                   aria-invalid={bad(f.key) ? "true" : undefined}
                   onChange={(e) => setText((t) => ({ ...t, [f.key]: e.target.value }))}
                 />
-                <span className={`block text-xs ${bad(f.key) ? "text-accent" : "text-muted"}`}>{bad(f.key) ? `Not a number this page can use (${f.min} to ${qty(f.max)}).` : f.hint}</span>
+                <span className={`block text-xs ${bad(f.key) ? "text-accent" : "text-muted"}`}>{bad(f.key) ? `Not a number this page can use (${range(f)}).${inDollars(f)}` : f.hint}</span>
               </label>
             ))}
           </div>
@@ -44,7 +46,7 @@ export function Calc() {
         ) : (
           <>
             <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-result="summary">
-              On your numbers, a {qty(x.batteryKw)} kW battery holding {qty(x.batteryKwh)} kWh ({qty(s.hours, 1)} hours) lowers the bill by{" "}
+              On your numbers, a {typed(x.batteryKw)} kW battery holding {typed(x.batteryKwh)} kWh ({qty(s.hours, 1)} hours) lowers the bill by{" "}
               <span data-n="month">{usd(s.monthSaved)}</span> a month, <span data-n="year">{usd(s.yearSaved)}</span> a year:{" "}
               <span data-n="demand">{usd(s.demandSaved)}</span> a month from a lower peak and <span data-n="energy">{usd(s.energySaved)}</span> a month from moving energy.
             </p>
@@ -57,12 +59,12 @@ export function Calc() {
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">From shaving the peak</div>
                 <div className="font-serif text-3xl">{usd(s.demandSaved)}<span className="text-base text-muted"> a month</span></div>
-                <div className="text-xs text-muted">{qty(s.shavedKw, 1)} kW off a {qty(x.peakKw)} kW peak; the demand charge was {usd(s.demandBefore)} a month.</div>
+                <div className="text-xs text-muted">{qty(s.shavedKw, 1)} kW off a {typed(x.peakKw)} kW peak; the demand charge was {usd(s.demandBefore)} a month.</div>
               </div>
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">From shifting energy</div>
                 <div className="font-serif text-3xl">{usd(s.energySaved)}<span className="text-base text-muted"> a month</span></div>
-                <div className="text-xs text-muted">{qty(s.dischargedKwh)} kWh a day out at the peak rate, {qty(s.chargedKwh)} kWh a day in at the off-peak rate, {qty(x.days)} days.</div>
+                <div className="text-xs text-muted">{qty(s.dischargedKwh)} kWh a day out at the peak rate, {qty(s.chargedKwh)} kWh a day in at the off-peak rate, {typed(x.days)} days.</div>
               </div>
             </div>
 
@@ -70,16 +72,16 @@ export function Calc() {
               <h2 className="mb-3 border-b border-rule pb-1 font-serif text-xl text-accent">How the two numbers are made</h2>
               <ul className="max-w-3xl list-disc space-y-2 pl-5 text-sm">
                 <li>
-                  <strong>The peak.</strong> To lower your peak the battery must discharge through all {qty(x.peakHours, 1)} hours of it. Its power allows {qty(x.batteryKw)} kW;
-                  its energy allows {qty(x.batteryKwh / x.peakHours, 1)} kW for that long; your peak is {qty(x.peakKw)} kW. The smallest of the three is what comes off:{" "}
+                  <strong>The peak.</strong> To lower your peak the battery must discharge through all {typed(x.peakHours)} hours of it. Its power allows {typed(x.batteryKw)} kW;
+                  its energy allows {qty(x.batteryKwh / x.peakHours, 1)} kW for that long; your peak is {typed(x.peakKw)} kW. The smallest of the three is what comes off:{" "}
                   <strong>{qty(s.shavedKw, 1)} kW</strong>, set by {s.limit === "power" ? "the battery's power" : s.limit === "energy" ? "the battery's energy" : "your peak itself"}.
-                  At {usd(x.demandCharge)} per kW that is {usd(s.demandSaved)} a month.
+                  At {rate(x.demandCharge)} per kW that is {usd(s.demandSaved)} a month.
                 </li>
                 <li>
                   <strong>The energy.</strong>{" "}
                   {s.shifts ? (
                     <>Each day it runs, the battery puts out {qty(s.dischargedKwh)} kWh in the peak hours and takes in {qty(s.chargedKwh)} kWh off-peak (more, because of the round
-                      trip). That is {usd(s.shiftPerDay)} a day, {usd(s.energySaved)} over {qty(x.days)} days.</>
+                      trip). That is {usd(s.shiftPerDay)} a day, {usd(s.energySaved)} over {typed(x.days)} days.</>
                   ) : (
                     <>At your rates moving energy does not pay: each kWh out at the peak rate costs more than it saves once the round trip is counted (the peak rate would
                       have to pass ${qty(s.breakEvenRate, 3)} per kWh). So the battery is run only for the peak, {qty(s.cyclesForPeak)} kWh a day, and the energy it loses

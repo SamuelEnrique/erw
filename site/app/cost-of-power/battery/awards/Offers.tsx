@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { OFFERS_TABLE, list, pct, span, usd, whole, type Gap } from "@/lib/storageawards";
+import { OFFERS_TABLE, SERVICE_FULL, list, pct, span, usd, whole, type Gap } from "@/lib/storageawards";
 
 // Session 116: the one section added to /cost-of-power/battery/awards. What the fleet offered day-ahead, from
 // ercot_storage_dam_offers_monthly (warehouse/derived, from the Energy Bid/Offer Curves of ERCOT's 60d_DAM_ESR_Data and
@@ -44,6 +44,13 @@ export function OffersSection({ gap, unread, loaded }: {
     const noGap = g.services.filter((s) => s.gapKw <= 0);
     const lo = Math.min(...g.services.map((s) => s.awardOfOffer)), hi = Math.max(...g.services.map((s) => s.awardOfOffer));
     const soldOfClearing = e.atClearingPerMwDay > 0 ? e.soldPerMwDay / e.atClearingPerMwDay : null;
+    // Session 7514 (the read of 16 November 2026, row 2): the five services together. The battery page sets the same two
+    // sums side by side per kW a month ("Day-ahead ancillary services ... the model is N times the awards",
+    // data/battery_awards_beside.json) while this page gave them by service only, over the months added up: a reader of
+    // both met 22 percent here and "5.64 times" there with nothing to join them. The row and the sentence are the sums
+    // of the rows above them, and the same sums per month.
+    const five = { awards: g.services.reduce((a, s) => a + s.awardsKw, 0), model: g.services.reduce((a, s) => a + s.modelKw, 0) };
+    const n = g.months.length;
     body = (
       <div className="space-y-6" data-offers-gap="1" data-offers-months={g.months.join(",")}>
         <div className="max-w-3xl space-y-2 text-sm">
@@ -99,12 +106,22 @@ export function OffersSection({ gap, unread, loaded }: {
               <>The model&apos;s<span className="mt-0.5 block text-xs opacity-80">2-hour battery, day-ahead schedule, USD per kW</span></>,
               <>Gap<span className="mt-0.5 block text-xs opacity-80">USD per kW</span></>,
               <>Offered and unawarded, at the clearing price<span className="mt-0.5 block text-xs opacity-80">USD per kW; overlaps between services</span></>]}
-            rows={g.services.map((s) => ({
+            rows={[...g.services.map((s) => ({
               key: s.key,
-              cells: [<span key="s" data-offers-service={s.key}>{s.label}</span>, pct(s.offerShare, 1), pct(s.atOrBelowClearingShare, 1), pct(s.awardShare, 1), pct(s.awardOfOffer, 1),
-                usd(s.awardsKw), usd(s.modelKw), usd(s.gapKw), <span key="u" data-offers-unawarded={s.key} data-offers-raw={s.unawardedKw}>{usd(s.unawardedKw)}</span>],
-            }))} />
+              cells: [<span key="s" data-offers-service={s.key}>{SERVICE_FULL[s.key] ? <abbr title={SERVICE_FULL[s.key]}>{s.label}</abbr> : s.label}</span>, pct(s.offerShare, 1), pct(s.atOrBelowClearingShare, 1), pct(s.awardShare, 1), pct(s.awardOfOffer, 1),
+                usd(s.awardsKw), usd(s.modelKw), usd(s.gapKw), <span key="u" data-offers-unawarded={s.key} data-offers-raw={s.unawardedKw}>{usd(s.unawardedKw)}</span>] as ReactNode[],
+            })),
+            // the shares and the last column are left empty: a block priced for several services is under each of them
+            { key: "five", highlight: true, cells: [<span key="s" data-offers-service="five">The five together</span>, "", "", "", "",
+              <span key="a" data-offers-five="awards" data-offers-raw={five.awards}>{usd(five.awards)}</span>, <span key="m" data-offers-five="model" data-offers-raw={five.model}>{usd(five.model)}</span>,
+              usd(five.model - five.awards), ""] as ReactNode[] }]} />
           <div className="mt-3 max-w-3xl space-y-2 text-sm">
+            {five.awards > 0 && n > 0 ? (
+              <p data-offers-five-month="1">The five together, over the {n === 1 ? "month" : `${n} months`}: USD {usd(five.awards)} per kW awarded against the model&apos;s USD {usd(five.model)}. Per kW a month that is
+                USD <span data-offers-five-per-month="awards" data-offers-raw={five.awards / n}>{usd(five.awards / n)}</span> against USD <span data-offers-five-per-month="model" data-offers-raw={five.model / n}>{usd(five.model / n)}</span>,
+                the model&apos;s {usd(five.model / five.awards)} times the awards. <Link href="/cost-of-power/battery?dur=2&strat=dayahead">The battery page</Link> sets the same two sums side by side, per kW a month, for a
+                2-hour battery on the day-ahead schedule. The share under &quot;By year&quot; counts energy as well; this line is ancillary services alone.</p>
+            ) : null}
             <p>{hi <= 1 / 3 ? "In every service the fleet offered several times what it was awarded" : "In every service the fleet offered more than it was awarded"}: between {pct(lo)} and {pct(hi)} of
               the offered capacity was awarded. Counting each block once, whichever services it was priced for, ancillary offers came to {pct(g.asOfferShareOfLimit)} of the fleet&apos;s limit-hours
               and awards to {pct(g.asAwardShareOfLimit)} (MW offered or awarded over MW of limit, hour by hour; a resource&apos;s blocks can add up to more than its limit).</p>

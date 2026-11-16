@@ -37,7 +37,7 @@ import { SeriesChart } from "@/components/tool/SeriesChart";
 import { HeadlineNumber, HeadlineRow, Tip } from "@/components/tool/ToolPage";
 import { badMonth, coverage, inputsKey, last36, lastTwelve, monthName, sumOf, usdShort, type Inputs, type Month, type Year } from "@/lib/batterystack";
 import {
-  KEYS, MODEL, OPTIONS, SPECS, bound, cellTotals, clampWords, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, npvPerEquity, parseScenarios, paybackYear,
+  KEYS, MODEL, OPTIONS, SPECS, bound, cellTotals, clampWords, contractYear, coverage as coverageOf, debtUsd, defaultsOf, differenceWords, differing, equityIn, flows, isOldParam, isScenarioParam, merchantShare, npvPerEquity, parseScenarios, paybackYear,
   noRangeOf, projection, rangesOf, resultOf, scenarioQuery, sensitivityIn, sensitivityKeys, stepState, stepsOffered, type Assumptions, type Ctx, type Key, type Mode, type Scenarios as Both, type StepCase, type StepState, type Steps,
 } from "@/lib/battery/finance";
 import { CHARTS, HEADS, isViewParam, viewQuery, type View as PageView } from "@/lib/battery/view";
@@ -226,10 +226,14 @@ export function BatteryCharts({ ms, x, ys, upper, brokenNote, strategyLine }: {
   const kw = win ? (model ? win.value : null) : l12 ? sumOf(l12, "total") / 1000 : null;
   const rows = kw === null ? [] : projection(a, kw, ctx);
   const yearsOf = rows.map((r) => ({ label: String(r.t) }));
-  const money = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  // session 7519 (the read, row 3): a figure between -0.5 and 0 was written "-0" (ERCOT, 2 hours, the day-ahead
+  // schedule, 2018: energy USD -0.50 per kW), in the year chart's hover and, through the chart's own format, on its axis
+  // and in its table; a figure that rounds to zero is written "0"
+  const money = (n: number) => { const s = n.toLocaleString("en-US", { maximumFractionDigits: 0 }); return s === "-0" ? "0" : s; };
+  const whole = (n: number) => (Math.round(n) || 0).toLocaleString("en-US");
   const charts: Record<string, ReactNode> = {
     revenue: (
-      <SeriesChart key="revenue" id="years" title="Revenue by year, USD per kW" unit="USD per kW" kind="stacked" scale={v.scale} partialWords="Incomplete year"
+      <SeriesChart key="revenue" id="years" title="Revenue by year, USD per kW" unit="USD per kW" kind="stacked" scale={v.scale} partialWords="Incomplete year" fmt={whole}
         categories={ys.map((y) => ({ label: y.y, sub: y.complete ? undefined : `${y.months} months`, partial: !y.complete }))}
         series={[{ name: "Energy", color: "var(--color-accent)", values: ys.map((y) => y.energy / 1000) }, { name: "Ancillary services", color: "var(--color-ink)", values: ys.map((y) => y.ancillary / 1000) }]}
         says={(i) => `${ys[i].y}: energy ${money(ys[i].energy / 1000)}, ancillary ${money(ys[i].ancillary / 1000)} USD per kW${ys[i].complete ? "" : ` (${ys[i].months} months held)`}`}
@@ -390,8 +394,40 @@ export function Scenarios({ x }: { x: Inputs }) {
         ) : null}
         chart={null}
       />
+      <ContractLine cols={[cols.a, cols.b]} />
       <YearsLine ws={ws} a={s.a} ctx={ctx} size={size} scale={scale} />
     </>
+  );
+}
+
+/** Session 7519 (the read as a merchant developer, row 4: a toll against merchant). A scenario with a contract showed
+ * "Revenue, last twelve months" as the market's alone, the same figure as the merchant scenario beside it, and the
+ * contract's own income nowhere: the reader had to multiply the price by twelve. One sentence a contracted scenario,
+ * under the table: what the contract pays a year per kW of the whole battery (share x price x 12, section 11.1's C),
+ * the market on the rest, the two together beside the same battery with no contract, and in how many of the months
+ * the market paid a kW of this battery more than the contract's price for the month. Facts of the months the page
+ * holds; no sentence says which to choose. Drawn only where a scenario holds a contract, so the default page (fully
+ * merchant) is what it was. No check key: the table holds no contract (as the coverage with a contract carries none). */
+function ContractLine({ cols }: { cols: { p: View; y: Assumptions; rev: Revenue | null }[] }) {
+  const with_ = cols.filter((c) => c.y.cshare > 0 && c.rev && c.rev.l12 !== null);
+  if (!with_.length) return null;
+  return (
+    <p className="mt-3 max-w-3xl text-sm" data-contract-line={with_.map((c) => c.p).join("+")}>
+      {with_.map((c, i) => {
+        const rev = c.rev!, market = rev.l12!;
+        const paid = contractYear(c.y), rest = merchantShare(c.y) * market;
+        const twelve = lastTwelve(rev.months) ?? [], held = rev.months.filter((r) => r.held && r.total !== null);
+        const above = (ms: Month[]) => ms.filter((r) => r.total! / 1000 > c.y.cprice).length;
+        return (
+          <span key={c.p} data-contract-of={c.p} data-contract-year={paid} data-contract-rest={rest} data-above-twelve={twelve.length ? above(twelve) : ""} data-above-held={above(held)} data-months-held={held.length}>
+            {i ? " " : ""}Scenario {c.p.toUpperCase()}&apos;s contract pays USD {num(paid)} per kW of the battery a year ({plain(c.y.cshare)} percent of its power at USD {plain(c.y.cprice)} per kW-month, twelve months), and the
+            market on the rest USD {num(rest)}: USD {num(paid + rest)} in all, beside USD {num(market)} for the same battery with no contract (the row &quot;Revenue&quot; above).
+            {twelve.length === 12 ? <> In {above(twelve)} of the last twelve months ({monthName(twelve[0].m)} to {monthName(twelve[11].m)}) the market paid a kW of this battery more than USD {plain(c.y.cprice)} for the month;</> : <> No twelve consecutive months are held;</>}
+            {" "}in {above(held)} of the {held.length} months held.
+          </span>
+        );
+      })}
+    </p>
   );
 }
 

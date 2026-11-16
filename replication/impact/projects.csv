@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW), replication/impact: ten real planned projects the replication runs through /impact (session 7506, 16 November 2026)
+# Source: U.S. Energy Information Administration, EIA-860M Monthly Update to the Annual Electric Generator Report, Inventory of Planned Generators as of September 2026 (sheet Planned), https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx
+# Read from the ERW table eia860m_planned_generators (vintage 2026-09, retrieved 2026-10-24T14:49:59Z, public, EIA-PD); nothing was requested by this session
+# One row a plant and technology, as the page's Planned project list groups them: mw is the nameplate MW of the plant's planned generators of the technology added (AC for solar), planned_year the earliest planned operation year, generators their count, eia_status EIA's status codes (P planned; L regulatory approvals pending; T approvals received; U under construction to 50 percent; V over 50 percent; TS testing)
+id,plant_id,name,tech,state,county,mw,planned_year,generators,eia_technology,eia_status,operator
+62437-land_based_wind,62437,Dodge County Wind,land_based_wind,mn,Dodge,228,2027,1,Onshore Wind Turbine,T,"Dodge County Wind, LLC"
+64847-land_based_wind,64847,Rail Tie Wind,land_based_wind,wy,Albany,504,2029,1,Onshore Wind Turbine,L,Repsol Renewables NA
+64835-land_based_wind,64835,Silver Queen Wind Farm,land_based_wind,ia,Crawford,252,2028,1,Onshore Wind Turbine,L,"Silver Queen Wind Farm, LLC"
+68076-utility_pv,68076,Rocky Run Solar,utility_pv,va,Brunswick,300,2028,1,Solar Photovoltaic,P,Dominion Renewable Energy
+69981-utility_pv,69981,"Grant Solar, LLC",utility_pv,sd,McCook,99,2027,1,Solar Photovoltaic,L,Geronimo Power
+68305-utility_pv,68305,Gigawatt Solar,utility_pv,tx,Parker,773,2028,2,Solar Photovoltaic,P,Gigawatt Solar LLC
+69566-natural_gas,69566,CPV Basin Ranch Energy Center,natural_gas,tx,Ward,1445,2029,2,Natural Gas Fired Combined Cycle,U,CPV Basin Ranch
+68214-natural_gas,68214,Franklin Farms 1&2,natural_gas,la,Richland,1560.6,2028,4,Natural Gas Fired Combined Cycle,L,Entergy Louisiana LLC
+68068-geothermal,68068,Cape Generating Station,geothermal,ut,Beaver,86,2027,2,Geothermal,TS+V,Cape HoldCo LLC
+66618-geothermal,66618,Fish Lake Geothermal,geothermal,nv,Esmeralda,26.5,2027,5,Geothermal,P,Fish Lake Geothermal LLC

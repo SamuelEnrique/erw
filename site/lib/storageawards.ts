@@ -25,6 +25,10 @@ export const PRODUCTS: { key: string; label: string }[] = [
   { key: "ecrs", label: "ECRS" }, { key: "nspin", label: "Non-Spin" },
 ];
 
+/** Session 7514 (the read of 16 November 2026, row 3): a service the page names by its initials, in full, for the
+ * hover of the cell that names it. */
+export const SERVICE_FULL: Record<string, string> = { ecrs: "ERCOT Contingency Reserve Service" };
+
 /** A row of a series table as the live set serves it. */
 export type Row = { variable: string; ts_utc: string; value: number | string };
 
@@ -168,6 +172,38 @@ export function summary(ms: Month[]): string | null {
   const fleet = r.resources !== null && r.mw !== null ? `${whole(r.resources)} storage resources with ${whole(r.mw)} MW between them` : "the storage fleet";
   return `In ${monthName(r.m)}, ERCOT's disclosure lists ${fleet}; their day-ahead awards came to USD ${kw(r.total)} per kW for the month, `
     + `${kw(r.energy)} from energy net of charging and ${kw(r.ancillary)} from ancillary services.`;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 7514 (chain 304, part B: the page read as a lender's analyst reads it,
+// docs/reviews/battery-awards-read-2026-11-16.md). Two things the page read and did not draw, or drew with no word of
+// the site's other count beside it.
+
+/** Row 1 of the read: a month's ancillary award by service, as the hover of the month's ancillary cell. The page has
+ * always read the five (VARIABLES) and drew them only added up. Null when the month lacks one of the five. */
+export function servicesOf(r: Month): string | null {
+  if (PRODUCTS.some((p) => r.products[p.key] === null || r.products[p.key] === undefined)) return null;
+  const parts = PRODUCTS.map((p) => `${p.label}${SERVICE_FULL[p.key] ? ` (${SERVICE_FULL[p.key]})` : ""} ${kw(r.products[p.key]!)}`);
+  const share = r.total !== 0 ? `; ancillary services are ${Math.round((r.ancillary / r.total) * 100)} percent of the month's ${kw(r.total)}` : "";
+  return `${monthName(r.m)}, USD per kW awarded day-ahead: ${parts.join(", ")}${share}. Each is rounded to the cent, so the five can stand a cent from the cell. `
+    + "Each award at its service's day-ahead clearing price (ERCOT, 60-Day DAM Disclosure, NP3-966-ER).";
+}
+
+/** Row 5 of the read: the other count of ERCOT's storage fleet the site draws (/storage, from the EIA's monthly
+ * inventory, Form EIA-860M, as storage_buildout_monthly holds it), for one month, to stand beside this page's MW. */
+export const INVENTORY_TABLE = "storage_buildout_monthly";
+export const INVENTORY_ENTITY = "iso:ercot";
+export const INVENTORY_VARIABLES = ["battery_operating_mw", "battery_operating_units", "battery_operating_mwh_per_mw"];
+export type Inventory = { m: string; mw: number; units: number | null; hours: number | null };
+export function inventoryOf(rows: Row[], m: string): Inventory | null {
+  const g = new Map<string, number>();
+  for (const r of rows) {
+    const v = num(r.value);
+    if (v !== null && r.ts_utc.slice(0, 7) === m) g.set(r.variable, v);
+  }
+  const mw = g.get("battery_operating_mw");
+  if (mw === undefined || !(mw > 0)) return null;
+  return { m, mw, units: g.get("battery_operating_units") ?? null, hours: g.get("battery_operating_mwh_per_mw") ?? null };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { Blank, Tip } from "@/components/largeload/parts";
 import { Download } from "@/components/largeload/Download";
 import { SiteLink } from "@/components/SiteLink";
-import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, NOT_SHOWN, cut, dateWords, lawSearchOf, lawStatusTip, lawsCsv, pythonReader, requirementsOf, rulesHref, stataReader,
+import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, NOT_SHOWN, cut, dateWords, lawSearchOf, lawStatusTip, lawsCsv, pythonReader, requirementsOf, rulesHref, stataReader, statusDateWords,
   type HeldLaw, type Law, type LawSearch } from "@/lib/largeloadrules";
 
 // session 7204: `searches` is what the research records for a state with no law in the table; `rules` and `changes`
@@ -31,6 +31,9 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
   const without = states.filter((s) => !haveLaw.has(s)).map((s) => ({ state: s, ...lawSearchOf(file.searches, s) }));
   const notShown = without.filter((w) => w.kind === "withheld");
   const others = (file.searches ?? []).filter((x) => !haveLaw.has(x.state));
+  // session 7600 (the browser read, row 9): the bills read and not shown that the table draws as rows, counted in the
+  // line above it: with every state, 29 rows stood under "28 of 28 shown"
+  const withheldRows = states.length ? notShown : others.filter((x) => x.kind === "withheld").map((x) => ({ state: x.state, ...lawSearchOf(file.searches, x.state) }));
   const ruleStates = (states.length ? states : []).filter((s) => (file.rules?.[s] ?? 0) > 0);
   const byStatus = LAW_STATUSES.map((s) => [s, file.laws.filter((l) => l.status === s).length] as const).filter(([, n]) => n);
   return (
@@ -41,7 +44,7 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
         <Tip tip={`Laws and bills of the 2025 and 2026 sessions that set terms for large electric loads, each read in the legislature's own text or the state code (${LAWS_TABLE}, written ${file.retrieved[LAWS_TABLE]?.slice(0, 8).replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3") ?? ""}). Each value is the text's own words with its page or section on hover.`}>laws and bills</Tip>:{" "}
         {byStatus.map(([s, n], i) => <span key={s}>{i ? ", " : ""}<span data-check={`largeload|laws|status|${s}`} data-raw={n}>{n}</span> <Tip tip={LAW_STATUS_TIP[s]}>{s}</Tip></span>)}
         {file.held.length ? <>, and <span data-check="largeload|laws|held" data-raw={file.held.length}>{file.held.length}</span> <Tip tip={`${LICENSE_NEEDED}: read on a site whose terms ask permission before it is shown.`}>held</Tip></> : null}.
-        {" "}{shown} of {total} shown{states.length ? <> (the State filter: {states.join(", ")}; <button type="button" className="underline" onClick={clearStates} data-laws-all="1">every state</button>)</> : null}
+        {" "}{shown} of {total} shown{withheldRows.length ? <>, and <span data-laws-not-shown={withheldRows.length}>{withheldRows.length}</span> <Tip tip={`A bill the ERW read and does not show (${withheldRows.map((w) => `${w.state} ${w.bill}`).join(", ")}): its row names the bill and its cells are blank, with the reason on hover. It is not a row of ${LAWS_TABLE}, so it is not among the ${total}.`}>read and not shown</Tip></> : null}{states.length ? <> (the State filter: {states.join(", ")}; <button type="button" className="underline" onClick={clearStates} data-laws-all="1">every state</button>)</> : null}
         {" · "}<Download make={() => lawsCsv(laws, held, file, "/policy?view=monitor")} name={LAWS_CSV_NAME} mark={{ "data-laws-csv": "1" }}>CSV of these</Download>,{" "}
         <Download make={() => pythonReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
         <Download make={() => stataReader(LAWS_CSV_NAME, LAW_CSV_COLS, WHAT)} name="erw-state-large-load-laws.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
@@ -75,7 +78,7 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
                     <a href={l.url} title={`${l.doc}, read ${l.read}`} data-law-doc={l.id}>{l.bill}</a>
                     <span className="block text-xs">{l.title.length > 120 ? <Tip tip={l.title} plain>{cut(l.title, 118)}</Tip> : l.title}{l.notes ? <> <Tip tip={l.notes} data={{ "llr-notes": "1" }}>notes</Tip></> : null}</span>
                   </td>
-                  <td className="py-1 pr-3"><Tip tip={lawStatusTip(l)} data={{ "law-status": l.status }}>{l.status}</Tip><span className="block whitespace-nowrap text-xs tabular-nums">{dateWords(l.status_date)}</span></td>
+                  <td className="py-1 pr-3"><Tip tip={lawStatusTip(l)} data={{ "law-status": l.status }}>{l.status}</Tip><span className="block whitespace-nowrap text-xs tabular-nums">{statusDateWords(l.status_date)}</span></td>
                   <td className="whitespace-nowrap py-1 pr-3 tabular-nums">{dateWords(l.effective)}</td>
                   <td className="py-1 pr-3" style={{ minWidth: "11rem" }}>{l.threshold && l.threshold !== "not published"
                     ? <Tip tip={`${l.threshold} As the text prints it: ${l.threshold_cite}`} data={{ "law-threshold": "1" }}>{cut(l.threshold, 90)}</Tip>
@@ -97,7 +100,7 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
               ))}
               {/* session 7204: a bill the research read and withholds (Texas S.B. 6: its copy sits on a path the legislature's
                   robots file disallows) is a row of its state: the bill named, its cells blank, the reason on hover */}
-              {(states.length ? notShown : others.filter((x) => x.kind === "withheld").map((x) => ({ state: x.state, ...lawSearchOf(file.searches, x.state) }))).map((w) => (
+              {withheldRows.map((w) => (
                 <tr key={`${w.state}-${w.bill}`} className="border-b border-rule/60 align-top" data-law-withheld={w.state} data-law-state={w.state}>
                   <td className="py-1 pr-3">{w.state}</td>
                   <td className="py-1 pr-3">{w.bill}</td>

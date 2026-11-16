@@ -184,3 +184,16 @@ stay internal** until a person has read the Commission's statement.
 ## Checks (session 2361)
 
 Counted from `warehouse/output` by `runs/c110/s2361/check_eqr.py` (counts only): `ferc_eqr_contracts_history` 571,115 rows, three quarters (2026 Q1 190,816, 2025 Q4 190,249, 2025 Q3 190,050), no event_id twice; `ferc_eqr_contract_terms` 186,873 rows, one for each row of `ferc_eqr_contracts` (2026 Q2); `ferc_eqr_party_mw` 812 rows (sellers 429, buyers 383); `ferc_eqr_quarter_changes` 68 rows, 2025 Q3 to 2026 Q2. The shapes are the table above's. The Tables line was added so that the finder of held tables with no note sees them.
+
+## Read again for the page's note (session 7501, 16 November 2026)
+
+- The exact patterns of the price rule, of a megawatt stated and of the ceiling are written out in
+  [`contracts.md`](contracts.md), sections 6 and 7, and computed again from the rows by `replication/contracts/`.
+- **`x_rank_contracts` is not the rank of `ferc_eqr_party_totals`.** This table ranks a party by contracts, then name;
+  that one by contracts, then rows, then name. For a party tied on contracts the two places differ: of the 105 cells
+  the page draws as "Place by contracts", 29 are the place in the other view. Asked of the data machine
+  (`docs/reviews/contracts-faults-2026-11-16.md`, row 7).
+- **The tolling tag counts every row filed**: 382 rows of 217 contracts, one of them terminated; 216 are in force, the
+  figure of the changes table.
+- **The megawatts of this note are not the "MW filed" of the largest buyers and sellers.** That column adds every row
+  whose units are exactly MW, with no ceiling: two of its cells for energy hold a row above 6,809 MW.

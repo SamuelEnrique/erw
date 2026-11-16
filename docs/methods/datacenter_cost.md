@@ -706,6 +706,32 @@ allows; whether one quoted sentence of an order is inside that exception is the 
 works of the United States government, but every page of ferc.gov answered a browser check and no terms page of
 the Commission, the Federal Register or govinfo.gov was read, so by the rule FERC stands as not quoted.
 
+## The view read as its reader (sessions 7521 and 7524, 16 November 2026)
+
+Chain 304, part B: "Your load" read as the energy lead of an AI lab sizing a 300 MW site, for five cases (Abilene in
+ERCOT's West zone, flat and flexible; the same site with the four summer peaks; Dallas and Fort Worth against
+Abilene; NP15 against SP15; Loudoun County in PJM): [the read](../reviews/datacenter-cost-read-2026-11-16.md), 23
+rows. No figure moved. What the view shows since, and from where:
+
+- **The months a twelve-month carbon leaves out are named.** `l12Carbon` (`site/lib/datacenter/answers.ts`) returns,
+  beside each way's rate, the months of the twelve with energy and no row in `carbon_intensity_monthly` (`left`), and
+  the card names them. On the day of the read California's figure stood on 6 of 12 months (November 2025, January to
+  April 2026 and October 2026 left out: 128.31 kg per MWh against 150.52 over the hours held), ERCOT's on 11.
+- **The grid's hourly mean is one figure.** The card "Its own hours against the grid's average" draws the sentence's
+  key (`co2:window:grid`) and writes the three ways with `shown`, where it wrote them whole.
+- **What the flexibility saves, split.** The dollar figure's hover splits the fall of the bill against a flat load:
+  `(flat - per) x energy x MW`, the lower price on the energy bought, and `flat x (held - energy) x MW`, the energy
+  not bought at the flat load's price. The two add to `(flatCost - cost) x MW` exactly (`span` in `lib/datacenter.ts`:
+  `flat = flatCost / held`). Not drawn for a shifting load, which buys the same energy.
+- **The four peaks' intervals in the grid's standard time** beside UTC (`std_hours_behind_utc`, `std_name` of the
+  price index), the clock of every other hour on the page.
+- **B in the same grid under "How soon?"**: one line says the section is the grid's as a whole, the same for both.
+- **A grid the page prices nowhere** (PJM, MISO, the price index's `blank`): a line under the box gives the index's
+  words for why, says the rules in motion are that grid's and every other figure the grid shown, and links the All
+  grids tab's large-load rules filtered by the grid, with the count under the key `largeload|rules|grid|<grid>`.
+- **Checks:** `site/scripts/test-cost-of-power-read.mjs` (17; the drawn cases need the warehouse's table files, which
+  `site/scripts/cost-of-power-read.mjs`'s `drawer` answers the page's reads from, read only).
+
 ## Tests
 
 `site/scripts/test-datacenter.mjs`, on saved real samples (`tests/fixtures/session138`: ERCOT HB_HUBAVG, every hour of

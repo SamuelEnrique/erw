@@ -107,3 +107,12 @@ database that serves the summary from a file kept out of git (`warehouse/supabas
 ## Checks (session 2361)
 
 Counted from `warehouse/output` by `runs/c110/s2361/check_eqr.py` (counts only): `ferc_eqr_buyer_names` 17,955 rows, `ferc_eqr_buyer_doubtful` 1,281 pairs (near spelling 687, an extra clause 349, a different legal form 245), `ferc_eqr_party_totals` 12,290 rows (buyers 7,833, sellers 4,457; energy 7,341, capacity 4,719, tolling 230); every row of quarter 2026 Q2, the quarter of `ferc_eqr_contracts` (186,873 rows). The shapes are the table above's. The Tables line was added so that the finder of held tables with no note sees them.
+
+## Read again for the page's note (session 7501, 16 November 2026)
+
+The six rules are written out with their exact lists (the characters taken out, the long legal forms, the order) in
+[`contracts.md`](contracts.md), section 5, and applied again to the 17,955 names by `replication/contracts/replicate.py`:
+13,836 groups, 6,460 names in a group of more than one, 1,281 doubtful pairs (245, 349 and 687 by reason), the counts
+of this note. One detail this note did not give: rule 4 writes Company as Co everywhere, so the holding back of "Co"
+after City, Town, Village, County or Borough changes nothing in a name's key; it matters only in rule 6, where such a
+"Co" is not taken for a legal form.

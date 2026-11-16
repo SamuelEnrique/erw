@@ -202,3 +202,14 @@ Each number `/impact` shows carries its key (`site/components/Num.tsx`), which `
 - `impact|...|state:<state>:construction:total:jobs`: the same project built in another state, from that state's per-MW figure, in the table of every state.
 - `impact|...|state_rank:construction:jobs`: the state's place among the 51 (1 is the most) by JEDI's per-MW construction jobs for the technology.
 - `impact|...|swing:<lever>:<phase>:jobs`: the total jobs of the phase (construction, operations, or life) when one lever moves: the MW up by half, the cost or the local share up 25 points, or the life up five years.
+
+## 4. The page since 13 November 2026, and where its replication is (session 7506, chain 304)
+
+Since session 4213 `/impact` is the forecast tool, "Local impact": the same table, `nlr_jedi_multipliers`, read for every state, now by year over the project's life, with taxes and present values, for two scenarios. Its method is `docs/methods/forecast.md` (internal), which extends this note. What changed against the sections above:
+
+- **Section 2, severance.** The page now computes a severance figure for a gas plant, on the share of its fuel the reader says is produced in the state (default 0), with the rates of `forecast.md`, sections 7 and 12.1. It still computes none at the default.
+- **Section 2, property tax.** "No rule held" is no longer the whole answer: every state and the District of Columbia hold a rule read from a statute or a cited note saying why none gives a figure (`forecast.md`, section 4).
+- **Section 3, the keys.** The page's figures carry `forecast|...` keys (`forecast.md`, section 11), not the `impact|...` keys above, which were session 347's page.
+- **Cost.** Section 1 says JEDI's per-MW figures at its default cost are a floor for today's prices. The forecast scales construction with the reader's capital cost (EIA's 2023 overnight cost by default, in 2025 dollars), so it is no longer a floor: at USD 1,482 per kW a Texas wind plant's spending is 0.75 of JEDI's default cost in the same dollars (USD 1,527,788 per MW of 2017 is USD 1,969 per kW of 2025).
+
+The replication of the page (`replication/impact/`, 7593 of 7593 figures of seventeen addresses), the cross-check against published studies (twenty-two in `docs/reviews/forecast-crosscheck-2026-11-14.json`, two more in `docs/reviews/impact-crosscheck-2026-11-16.json`) and the sign-off block are in `forecast.md`, sections 9 and 12.

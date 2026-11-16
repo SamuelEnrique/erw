@@ -151,6 +151,7 @@ The status is the queue connector's (`STATUS_MAP` of `warehouse/connectors/iso_q
 | SPP | WITHDRAWN, TERMINATED | IA FULLY EXECUTED/COMMERCIAL OPERATION | IA FULLY EXECUTED/ON SCHEDULE, IA PENDING, DISIS STAGE, FACILITY STUDY STAGE, SPECIAL STUDY, ERAS, ICS; and IA FULLY EXECUTED/ON SUSPENSION (suspended) |
 | ISO-NE | Withdrawn | Completed | Active |
 
+- **ERCOT's "Completed" is not ERCOT's word (session 7518, 16 November 2026).** ERCOT's report has no status column. The library the connector reads it through (gridstatus 0.36.0, `ercot.py`) writes "Completed" when the report's "IA Signed" day is filled and "Active" when it is empty, and takes the actual in-service date from "Approved for Synchronization". So ERCOT's operating group in `iso_queue_statistics` is the positions with a signed interconnection agreement, built or not (on the pull of 30 September 2026, all 44 of entry year 2025 have a projected operation day still to come), and its waiting group those with none. The table is unchanged; `/explore/interconnection` heads the two "Agreement signed" and "No agreement yet" for ERCOT, and a request to the data machine asks for the group to be read from the day of approval to synchronize ([`interconnection_explorer.md`](interconnection_explorer.md), "ERCOT's two statuses"). What the library's "Completed" stands on for NYISO and ISO-NE was not read.
 - **Status not stated.** A position the ISO lists with no status (SPP's affected-system requests, and rows of other ISOs whose status cell is blank) is counted as `positions_status_not_stated`, in none of the three.
 - **The entry year** is the year of the ISO's queue date. A position with no queue date is in no year and is counted in the table's header: ERCOT 1, CAISO 0, NYISO 0, MISO 6, SPP 48, ISO-NE 0 (the rebuild of 21 October 2026, below).
 - **The withdrawal rate** is withdrawn positions over positions entered, by count. ERCOT has none (above).
@@ -181,6 +182,10 @@ From the copy held in `warehouse/raw/lbnl_queues/20261002T091624Z/` (Berkeley La
 | the same: mean, months | 94.46 | 91.88 |
 
 The operating counts and the waits agree within a few positions and about a month. The other counts differ: CAISO's current report holds 148 fewer positions of those years than LBNL counted (113 fewer withdrawn, 36 fewer still waiting, one more operating). LBNL builds its file from many years of each ISO's reports; the ERW holds the current one. The withdrawal rate of those years is close all the same: 78.3 percent here (1,379 of 1,762), 78.1 percent in LBNL's counts (1,492 of 1,910).
+
+**On the rebuilt table (session 7509, 16 November 2026).** The figures above are the first build's. On the table as rebuilt on 21 October 2026, CAISO's requests entered 2000 to 2020 are 1,910, Berkeley Lab's own count: 249 operating (232 in LBNL), 1,504 withdrawn (1,492), 157 still waiting (186), a withdrawn share of 78.7 percent against 78.1. For entry year 2023 the table holds 4 CAISO positions where LBNL counts 594 requests (CAISO's public report does not list them), and ERCOT's 198 positions of 2000 to 2020 stand against 1,553 in LBNL (ERCOT's report lists no withdrawn position). The whole comparison, for CAISO, ERCOT and SPP, is in [`interconnection_explorer.md`](interconnection_explorer.md), "The cross-check" (`replication/interconnection/cross_check.py`).
+
+**When an MW row is written (session 7509).** `mw_<status>` has a row only when at least one position of that status and entry year states a capacity; `positions_<status>` is always written, 0 included. A status with no position in a year therefore has a count of 0 and no MW row.
 
 ### The explorer (session 405, 21 October 2026)
 

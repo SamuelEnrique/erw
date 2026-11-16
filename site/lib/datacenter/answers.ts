@@ -100,7 +100,9 @@ export type IntensityRow = { ts_utc: string; value: number };
 export type Carbon = {
   /** the last twelve months at the grid's monthly average, for each way: kg per MWh consumed over the months of the
    * twelve whose intensity is held (`months` of `of`), and tonnes a year per MW at that rate on the year's energy */
-  l12: Record<Way, { kgPerMwh: number | null; tonnesPerMw: number | null; energy: number; months: number; of: number }>;
+  l12: Record<Way, { kgPerMwh: number | null; tonnesPerMw: number | null; energy: number; months: number; of: number; left?: string[] }>;
+  // session 7524 (the read of 16 November 2026, row 6): `left` names the months of the twelve (YYYY-MM) with energy and
+  // no intensity in the table, which the rate leaves out; the page names them beside the figure
   /** the hours held hour by hour: the window, the hours counted (price and intensity both held), each way's own-hours intensity, the grid's mean over the same hours */
   window: { from: string | null; to: string | null; hours: number; ways: Record<Way, number | null>; grid: number | null };
   /** the grid's intensity by calendar year: the mean of its months held */
@@ -120,15 +122,16 @@ export function l12Carbon(monthly: IntensityRow[], months: Record<Way, MonthEner
   const out = {} as Carbon["l12"];
   for (const k of WAYS) {
     let kg = 0, energy = 0, all = 0, n = 0;
+    const left: string[] = [];
     for (const m of l12) {
       const row = months[k].find((r) => r.m === m), v = by.get(m);
       if (!row) continue;
       all += row.energy;
-      if (v === undefined) continue;
+      if (v === undefined) { left.push(m); continue; }
       kg += row.energy * v; energy += row.energy; n++;
     }
     const rate = energy > 0 ? kg / energy : null;
-    out[k] = { kgPerMwh: rate, tonnesPerMw: rate === null ? null : (rate * all) / 1000, energy: all, months: n, of: l12.length };
+    out[k] = { kgPerMwh: rate, tonnesPerMw: rate === null ? null : (rate * all) / 1000, energy: all, months: n, of: l12.length, left };
   }
   return out;
 }

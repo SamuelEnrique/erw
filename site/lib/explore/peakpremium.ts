@@ -31,17 +31,44 @@ export const FIGURES = [
   { v: "n_intervals", label: "15-minute intervals in the period", unit: "count" },
 ] as const;
 
+/** Session 7516 (chain 304, part B): the figures drawn for two hubs side by side (the address's `vs`), in the order
+ *  shown: the peak block first, then the blocks it is read against, then the thesis's tail figures. Each is a row of the
+ *  table for its own hub; the page takes no difference between the two. */
+export const SIDE = [
+  { v: "peak_median", label: "Peak median (16:00 to 21:00)", unit: "USD/MWh" },
+  { v: "peak_q1", label: "Peak Q1", unit: "USD/MWh" },
+  { v: "peak_q3", label: "Peak Q3", unit: "USD/MWh" },
+  { v: "peak_iqr", label: "Peak-block IQR (Q3 minus Q1)", unit: "USD/MWh" },
+  { v: "midday_median", label: "Midday median (12:00 to 16:00)", unit: "USD/MWh" },
+  { v: "peak_minus_midday_median", label: "Peak median minus midday median", unit: "USD/MWh" },
+  { v: "overnight_median", label: "Overnight median (21:00 to 12:00)", unit: "USD/MWh" },
+  { v: "all_median", label: "Median, all intervals", unit: "USD/MWh" },
+  { v: "all_p999", label: "99.9th percentile, all intervals", unit: "USD/MWh" },
+  { v: "all_max", label: "Maximum, all intervals", unit: "USD/MWh" },
+  { v: "n_scarcity", label: "Intervals at or above 1,000 USD/MWh", unit: "count" },
+  { v: "n_negative", label: "Intervals at or below 0 USD/MWh", unit: "count" },
+  { v: "n_intervals", label: "15-minute intervals in the period", unit: "count" },
+] as const;
+
 /** Quarter hours in a full ERCOT operating year (the method note's completeness rule). */
 export function fullYear(y: number): number {
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 35_136 : 35_040;
 }
 
-/** Whether a month's interval count is short of a full month. A full month holds its days times 96 quarter hours, four
- *  fewer in the month the clocks go forward and four more in the month they go back (America/Chicago), so a count
- *  below days times 96 less four is a month not over: the newest month of the table, which the header calls partial. */
-export function partialMonth(y: number, m: number, n: number): boolean {
+/** Quarter hours in a full calendar month of America/Chicago: its days times 96, four fewer in the month the clocks go
+ *  forward (March) and four more in the month they go back (November), as the United States has set them since 2007
+ *  (the tables start in 2015). */
+export function fullMonth(y: number, m: number): number {
   const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  return n < days * 96 - 4;
+  return days * 96 + (m === 3 ? -4 : m === 11 ? 4 : 0);
+}
+
+/** Whether a month's interval count is short of a full month: the newest month of the table, which the header calls
+ *  partial. Session 7507 (chain 304): held to the month's exact count. Until then the rule was "below days times 96
+ *  less four" for every month, so a month up to an hour short (two hours in November) was drawn as complete and could
+ *  become a view's default second year. */
+export function partialMonth(y: number, m: number, n: number): boolean {
+  return n < fullMonth(y, m);
 }
 
 /** The label timestamp of a period, as the tables write it: a year's first day, or a month's. */
