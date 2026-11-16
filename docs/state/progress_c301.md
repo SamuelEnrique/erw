@@ -79,6 +79,9 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 - Gate f (`wip/c301-tail`, `f04c808e3`) failed on test 204 alone (the order of `DATA_MACHINE`), fixed on `wip/c301-after`. (7015, 7016)
 - Gate g (`wip/c301-after`, `4f2d076f5`) started 14:12 UTC; lands after 16:15 UTC. Later work on `wip/c301-later`. (7016)
 - Gate g passed (14:46 UTC); gate h (`wip/c301-later`, `44d82be7a`, gate g's content and the eight tools' done line) passed every step at 15:44 UTC; it lands at 16:15 UTC alone. Later work on `wip/c301-last`. (7018, 7019)
+- Gate h landed at `0bd9c936c` (run 43905489885), 0 differences; it raced the GitHub daily run's push (fixed at the cause in the workflow and in the data machine's run). (7020, 7021)
+- Gate j (the desk's sixteen rows: old laptop 17 to 28, portable 34 to 37, `e6ffcaa68`) landed at `492752123` (run 43922473644), snapshots `before-e6ffcaa6` and `after-e6ffcaa6`: 0 differences. (7021)
+- Gate k (`wip/c301-last`, `22996d826`: sessions 7019 to 7021) started 18:14 UTC. Later work on `wip/c301-final` (worktree `erw-c301x`). (7021)
 
 ## The eight lab-desktop tools of the done line
 
@@ -93,13 +96,15 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 | 23 | `/curtailment` | 11,515 of 11,515 | the profile and `/mix/v2` a month behind (fixed at the cause); ERCOT's limit at the autumn hour (ruling) | 7014 |
 | 24 | `/queues` | 17,254 of 17,254 | none | 7014 |
 
-Each has `replication/<tool>/replicate.py` and `replicate.do` (not run: no Stata here). Not yet: the browser read of each as its reader, and the curtailment shares, free energy and worth files.
+Each has `replication/<tool>/replicate.py` and `replicate.do` (not run: no Stata here). Since session 7020 the curtailment replication also covers CAISO's shares of 2026 and, in `free_energy.py`, where free energy is (507 of 561 on the file of 15 November, every difference ERCOT's 15 October, filled since). Not yet: the browser read of each as its reader, SPP's shares, and the worth file.
 
 ## The done line's data requests (`docs/state/data_requests_done_line.md`)
 
 - Done: 4 (code; the rebuild waits for the data lock), 7, 10, 11, 12, 13, 14 (answered), 15, 16, 17, 18, 24, 26, 27, 29, 33 (code; the tables at the next vintage), 34. (7015 to 7017)
 - Done or answered in session 7019: 2, 3, 23 (the old laptop's files), 5, 28 (wait for their branches), 9, 19 (migration 037 for a person to apply), 20, 21, 22 (for Samuel), 6 and 25 (a) (the register's site copy waits for the lock), 8 (the tables wait for the lock); code and trials for 30, 31, 35, 36. (7019)
 - Waiting for the data lock (the GitHub daily run holds it from 14:10 UTC): `runs/c301/lock_all.sh` (requests 4, 6, 8, 20, 31, 32, 36), then the two new tables of 30 and 35 with their registrations.
+- Done in session 7021: 13 (the page figures, 25,110 of 25,110), 18 (every queue in full); 36's tables rebuilt daily on the data machine from now (`dm_peak_premium`).
+- Waiting for the data lock (the data machine's daily run holds it from 17:00 UTC): `runs/c301/lock2.sh` (requests 31, 35, 30), then the two new tables' registrations.
 - Open: none unread; the writes above.
 
 ## Needs the key
