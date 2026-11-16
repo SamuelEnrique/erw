@@ -1,0 +1,4444 @@
+{
+ "note": "The severance tool's figures, the replication beside the page's own functions on the same rows (session 7502). A real lease (keys real|A to real|D) is named by the rule that picks it, never by its id; only totals are held.",
+ "rules_version": "2026-09-30.2",
+ "drawn_at": "2026-11-16T12:00:00.000Z",
+ "inside": 612,
+ "named": 0,
+ "differ": 0,
+ "figures": [
+  {
+   "key": "calc|LA-condensate-base|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-base|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-base|line|la_cond",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-base|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-base|with",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|effect|la_cond_deep",
+   "replication": 100,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|line|la_cond",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|savings",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-condensate-la_cond_deep|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-base|with",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|effect|la_gas_deep",
+   "replication": 100,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|savings",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_deep|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|effect|la_gas_horizontal",
+   "replication": 100,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|savings",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_horizontal|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|effect|la_gas_inactive",
+   "replication": 3.785,
+   "page": 3.785,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|savings",
+   "replication": 1135.5,
+   "page": 1135.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_inactive|with",
+   "replication": 378.5,
+   "page": 378.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|effect|la_gas_incapable",
+   "replication": 1.3,
+   "page": 1.3,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|savings",
+   "replication": 1384.0,
+   "page": 1384,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_incapable|with",
+   "replication": 130.0,
+   "page": 130,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|effect|la_gas_lowpress",
+   "replication": 3.0,
+   "page": 3,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|savings",
+   "replication": 1214.0,
+   "page": 1214,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_lowpress|with",
+   "replication": 300.0,
+   "page": 300,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|base",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|effect|la_gas_orphan",
+   "replication": 1.8925,
+   "page": 1.8925,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|line|la_gas",
+   "replication": 1514.0,
+   "page": 1514,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|savings",
+   "replication": 1324.75,
+   "page": 1324.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-gas-la_gas_orphan|with",
+   "replication": 189.25,
+   "page": 189.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-base|with",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|base",
+   "replication": 19611.15,
+   "page": 19611.15,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|effect|la_oil_horizontal",
+   "replication": 80,
+   "page": 80,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|gross",
+   "replication": 306210.0,
+   "page": 306210,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|line|la_oil",
+   "replication": 19611.15,
+   "page": 19611.15,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|savings",
+   "replication": 15688.920000000002,
+   "page": 15688.920000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|taxable",
+   "replication": 301710.0,
+   "page": 301710,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-horizontal-post2025|with",
+   "replication": 3922.2299999999996,
+   "page": 3922.2299999999996,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|effect|la_incapable",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|savings",
+   "replication": 6379.375,
+   "page": 6379.375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_incapable|with",
+   "replication": 6379.375,
+   "page": 6379.375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|effect|la_oil_deep",
+   "replication": 100,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|savings",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_deep|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|effect|la_oil_horizontal",
+   "replication": 80,
+   "page": 80,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|savings",
+   "replication": 10207.0,
+   "page": 10207,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_horizontal|with",
+   "replication": 2551.7499999999995,
+   "page": 2551.7499999999995,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|effect|la_oil_inactive",
+   "replication": 3.125,
+   "page": 3.125,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|savings",
+   "replication": 9569.0625,
+   "page": 9569.0625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_inactive|with",
+   "replication": 3189.6875,
+   "page": 3189.6875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|effect|la_oil_orphan",
+   "replication": 1.5650000000000002,
+   "page": 1.565,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|savings",
+   "replication": 11161.3545,
+   "page": 11161.3545,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_oil_orphan|with",
+   "replication": 1597.3955,
+   "page": 1597.3955,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|effect|la_orphan_enh",
+   "replication": 100,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|savings",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_orphan_enh|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|base",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|effect|la_stripper",
+   "replication": 3.125,
+   "page": 3.125,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|line|la_oil",
+   "replication": 12758.75,
+   "page": 12758.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|savings",
+   "replication": 9569.0625,
+   "page": 9569.0625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-la_stripper|with",
+   "replication": 3189.6875,
+   "page": 3189.6875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|base",
+   "replication": 6634.55,
+   "page": 6634.55,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|line|la_oil",
+   "replication": 6634.55,
+   "page": 6634.55,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-post2025|with",
+   "replication": 6634.55,
+   "page": 6634.55,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|base",
+   "replication": 450.0,
+   "page": 450,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|effect|la_stripper",
+   "replication": 3.125,
+   "page": 3.125,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|gross",
+   "replication": 3600,
+   "page": 3600,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|line|la_oil",
+   "replication": 450.0,
+   "page": 450,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|savings",
+   "replication": 450.0,
+   "page": 450,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|taxable",
+   "replication": 3600.0,
+   "page": 3600,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-stripper-18|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|base",
+   "replication": 12571.25,
+   "page": 12571.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|line|la_oil",
+   "replication": 12571.25,
+   "page": 12571.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|taxable",
+   "replication": 100570.0,
+   "page": 100570,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|LA-oil-transport|with",
+   "replication": 12571.25,
+   "page": 12571.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|base",
+   "replication": 2374.0600000000004,
+   "page": 2374.06,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|line|nm_adval_gas",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|line|nm_cons_gas",
+   "replication": 56.81000000000001,
+   "page": 56.81000000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|line|nm_school_gas",
+   "replication": 1196.0000000000002,
+   "page": 1196.0000000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|line|nm_sev_gas",
+   "replication": 1121.25,
+   "page": 1121.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-base|with",
+   "replication": 2374.0600000000004,
+   "page": 2374.06,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|base",
+   "replication": 7585.7383875,
+   "page": 7585.7383875000005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|gross",
+   "replication": 89700.0,
+   "page": 89700,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|line|nm_adval_gas",
+   "replication": 1353.8308875,
+   "page": 1353.8308875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|line|nm_cons_gas",
+   "replication": 149.12625,
+   "page": 149.12625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|line|nm_school_gas",
+   "replication": 3139.5,
+   "page": 3139.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|line|nm_sev_gas",
+   "replication": 2943.28125,
+   "page": 2943.28125,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|taxable",
+   "replication": 78487.5,
+   "page": 78487.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-gas-district|with",
+   "replication": 7585.7383875,
+   "page": 7585.7383875000005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|base",
+   "replication": 7287.798,
+   "page": 7287.798,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|line|nm_adval",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|line|nm_cons_oil",
+   "replication": 244.968,
+   "page": 244.968,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|line|nm_school_oil",
+   "replication": 3215.205,
+   "page": 3215.205,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|line|nm_sev",
+   "replication": 3827.625,
+   "page": 3827.625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-base|with",
+   "replication": 7287.798,
+   "page": 7287.798,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|base",
+   "replication": 22621.008574999996,
+   "page": 22621.008574999996,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|gross",
+   "replication": 255174.99999999997,
+   "page": 255174.99999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|line|nm_adval",
+   "replication": 4401.513575,
+   "page": 4401.513575,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|line|nm_cons_oil",
+   "replication": 612.4199999999998,
+   "page": 612.4199999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|line|nm_school_oil",
+   "replication": 8038.012499999999,
+   "page": 8038.012499999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|line|nm_sev",
+   "replication": 9569.062499999998,
+   "page": 9569.062499999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|taxable",
+   "replication": 255174.99999999997,
+   "page": 255174.99999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-high|with",
+   "replication": 22621.008574999996,
+   "page": 22621.008574999996,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|base",
+   "replication": 17332.186703124997,
+   "page": 17332.186703124997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|gross",
+   "replication": 255174.99999999997,
+   "page": 255174.99999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|line|nm_adval",
+   "replication": 1568.6285781249999,
+   "page": 1568.6285781249999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|line|nm_cons_oil",
+   "replication": 529.8674999999998,
+   "page": 529.8674999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|line|nm_school_oil",
+   "replication": 6954.510937499999,
+   "page": 6954.510937499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|line|nm_sev",
+   "replication": 8279.179687499998,
+   "page": 8279.179687499998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|taxable",
+   "replication": 220778.12499999997,
+   "page": 220778.12499999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|NM-oil-district-low|with",
+   "replication": 17332.186703124997,
+   "page": 17332.186703124997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|line|tx_cond",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-condensate-base|with",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-base|with",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|effect|tx_hcg",
+   "replication": 5.624999999999999,
+   "page": 5.625,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|savings",
+   "replication": 560.625,
+   "page": 560.625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-0.5|with",
+   "replication": 1681.875,
+   "page": 1681.875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|effect|tx_hcg",
+   "replication": 3.0,
+   "page": 3,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|savings",
+   "replication": 1345.5,
+   "page": 1345.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-1.2|with",
+   "replication": 897.0000000000001,
+   "page": 897.0000000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|effect|tx_hcg",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-hcg-2.5|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|base",
+   "replication": 448.5,
+   "page": 448.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|effect|tx_lp_gas",
+   "replication": 100.0,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|fee|tx_gas_fee",
+   "replication": 1.3339999999999999,
+   "page": 1.3339999999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|gross",
+   "replication": 5980.0,
+   "page": 5980,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|line|tx_gas",
+   "replication": 448.5,
+   "page": 448.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|savings",
+   "replication": 448.5,
+   "page": 448.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|taxable",
+   "replication": 5980.0,
+   "page": 5980,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-lp-2025-05|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|effect|tx_flared",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_flared|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|effect|tx_gas_inactive",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_gas_inactive|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|effect|tx_hcg",
+   "replication": 3.75,
+   "page": 3.75,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|savings",
+   "replication": 1121.25,
+   "page": 1121.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_hcg|with",
+   "replication": 1121.25,
+   "page": 1121.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|effect|tx_lp_gas",
+   "replication": 100.0,
+   "page": 100,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_lp_gas|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|effect|tx_restim",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_restim|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|base",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|effect|tx_would_flare",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|fee|tx_gas_fee",
+   "replication": 6.67,
+   "page": 6.67,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|gross",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|line|tx_gas",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|savings",
+   "replication": 2242.5,
+   "page": 2242.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|taxable",
+   "replication": 29900.000000000004,
+   "page": 29900.000000000004,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-gas-tx_would_flare|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|effect|tx_eor_co2",
+   "replication": 1.8399999999999999,
+   "page": 1.84,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|savings",
+   "replication": 2817.1320000000005,
+   "page": 2817.1320000000005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-co2-20|with",
+   "replication": 1878.088,
+   "page": 1878.088,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|base",
+   "replication": 3220.0,
+   "page": 3220,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|effect|tx_eor",
+   "replication": 2.3,
+   "page": 2.3,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|effect|tx_lp_oil",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|gross",
+   "replication": 70000,
+   "page": 70000,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|line|tx_oil",
+   "replication": 3220.0,
+   "page": 3220,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|savings",
+   "replication": 1610.0,
+   "page": 1610,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|taxable",
+   "replication": 70000,
+   "page": 70000,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-eor-credit-2026-08|with",
+   "replication": 1610.0,
+   "page": 1610,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|base",
+   "replication": 46.0,
+   "page": 46,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|gross",
+   "replication": 500.0,
+   "page": 500,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|line|tx_oil",
+   "replication": 46.0,
+   "page": 46,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|taxable",
+   "replication": 500.0,
+   "page": 500,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-floor|with",
+   "replication": 46.0,
+   "page": 46,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|effect|tx_eor_co2",
+   "replication": 1.15,
+   "page": 1.15,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|savings",
+   "replication": 3521.415,
+   "page": 3521.415,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor_co2|with",
+   "replication": 1173.805,
+   "page": 1173.805,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|effect|tx_eor",
+   "replication": 2.3,
+   "page": 2.3,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|savings",
+   "replication": 2347.61,
+   "page": 2347.61,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_eor|with",
+   "replication": 2347.61,
+   "page": 2347.61,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|effect|tx_lp_oil",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_lp_oil|with",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|effect|tx_oil_inactive",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 5e-05,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|savings",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|TX-oil-tx_oil_inactive|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|base",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|fee|tx_oil_fee",
+   "replication": 6.25,
+   "page": 6.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|gross",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|line|tx_oil",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|taxable",
+   "replication": 102070.0,
+   "page": 102070,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "calc|default|with",
+   "replication": 4695.22,
+   "page": 4695.22,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|prices|gas_months",
+   "replication": 47,
+   "page": 47,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|prices|oil_months",
+   "replication": 47,
+   "page": 47,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|base",
+   "replication": 114457.18592425,
+   "page": 114457.18592425,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-LA-1|with",
+   "replication": 1359.5769999999998,
+   "page": 1359.5769999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-LA-2|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-LA-3|with",
+   "replication": 32206.395,
+   "page": 32206.395,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-NM-1|with",
+   "replication": 34169.6280005,
+   "page": 34169.6280005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-NM-2|with",
+   "replication": 13708.25292375,
+   "page": 13708.25292375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-NM-3|with",
+   "replication": 965.0268,
+   "page": 965.0268,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-TX-1|with",
+   "replication": 5578.1737,
+   "page": 5578.1737,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-TX-2|with",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|well|FICTIONAL-TX-3|with",
+   "replication": 7527.6,
+   "page": 7527.6,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|best_ticked|with",
+   "replication": 95514.65342425,
+   "page": 95514.65342425,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|fees",
+   "replication": 73.7956,
+   "page": 73.7956,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|lines",
+   "replication": 31,
+   "page": 31,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|base",
+   "replication": 90.84,
+   "page": 90.84,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|with",
+   "replication": 90.84,
+   "page": 90.84,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|base",
+   "replication": 2354.7,
+   "page": 2354.7,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|best",
+   "replication": 1766.0249999999999,
+   "page": 1766.0249999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|price",
+   "replication": 79.99,
+   "page": 79.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|with",
+   "replication": 2354.7,
+   "page": 2354.7,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|base",
+   "replication": 87.812,
+   "page": 87.812,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|with",
+   "replication": 87.812,
+   "page": 87.812,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|base",
+   "replication": 2369.0,
+   "page": 2369,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|best",
+   "replication": 1776.75,
+   "page": 1776.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|with",
+   "replication": 2369.0,
+   "page": 2369,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|base",
+   "replication": 392.45,
+   "page": 392.45,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|best",
+   "replication": 392.45,
+   "page": 392.45,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|price",
+   "replication": 79.99,
+   "page": 79.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|with",
+   "replication": 392.45,
+   "page": 392.45,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|base",
+   "replication": 908.4000000000001,
+   "page": 908.4000000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|best",
+   "replication": 908.4000000000001,
+   "page": 908.4000000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|with",
+   "replication": 908.4000000000001,
+   "page": 908.4000000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|base",
+   "replication": 391.40000000000003,
+   "page": 391.40000000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|best",
+   "replication": 391.40000000000003,
+   "page": 391.40000000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|with",
+   "replication": 391.40000000000003,
+   "page": 391.40000000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|base",
+   "replication": 878.12,
+   "page": 878.12,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|best",
+   "replication": 878.12,
+   "page": 878.12,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|with",
+   "replication": 878.12,
+   "page": 878.12,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|base",
+   "replication": 302.8,
+   "page": 302.8,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|with",
+   "replication": 302.8,
+   "page": 302.8,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|base",
+   "replication": 15815.734999999999,
+   "page": 15815.734999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|price",
+   "replication": 79.99,
+   "page": 79.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|with",
+   "replication": 15815.734999999999,
+   "page": 15815.734999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|base",
+   "replication": 287.66,
+   "page": 287.66,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|with",
+   "replication": 287.66,
+   "page": 287.66,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|base",
+   "replication": 15800.200000000003,
+   "page": 15800.200000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|with",
+   "replication": 15800.200000000003,
+   "page": 15800.200000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|base",
+   "replication": 1332.3696075,
+   "page": 1332.3696075,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|with",
+   "replication": 1332.3696075,
+   "page": 1332.3696075,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|base",
+   "replication": 15738.918669499999,
+   "page": 15738.918669499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|price",
+   "replication": 79.99,
+   "page": 79.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|with",
+   "replication": 15738.918669499999,
+   "page": 15738.918669499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|base",
+   "replication": 1214.295786,
+   "page": 1214.295786,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|with",
+   "replication": 1214.295786,
+   "page": 1214.295786,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|base",
+   "replication": 15884.0439375,
+   "page": 15884.0439375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|with",
+   "replication": 15884.0439375,
+   "page": 15884.0439375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|base",
+   "replication": 7114.5025875,
+   "page": 7114.502587499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|with",
+   "replication": 7114.5025875,
+   "page": 7114.502587499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|base",
+   "replication": 6593.75033625,
+   "page": 6593.750336250001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|with",
+   "replication": 6593.75033625,
+   "page": 6593.750336250001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|base",
+   "replication": 66.4578,
+   "page": 66.4578,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|with",
+   "replication": 66.4578,
+   "page": 66.4578,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|base",
+   "replication": 898.569,
+   "page": 898.569,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|with",
+   "replication": 898.569,
+   "page": 898.569,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|base",
+   "replication": 353.25,
+   "page": 353.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|fees",
+   "replication": 1.0005,
+   "page": 1.0005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|price",
+   "replication": 3.14,
+   "page": 3.14,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|with",
+   "replication": 353.25,
+   "page": 353.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|base",
+   "replication": 1638.5292000000002,
+   "page": 1638.5292000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|fees",
+   "replication": 2.625,
+   "page": 2.625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|price",
+   "replication": 84.81,
+   "page": 84.81,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|with",
+   "replication": 1638.5292000000002,
+   "page": 1638.5292000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|base",
+   "replication": 316.4625,
+   "page": 316.4625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|fees",
+   "replication": 0.96715,
+   "page": 0.96715,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|with",
+   "replication": 316.4625,
+   "page": 316.4625,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|base",
+   "replication": 1471.8159999999998,
+   "page": 1471.8159999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|fees",
+   "replication": 2.5,
+   "page": 2.5,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|price",
+   "replication": 79.99,
+   "page": 79.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|with",
+   "replication": 1471.8159999999998,
+   "page": 1471.8159999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|base",
+   "replication": 292.95,
+   "page": 292.95,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|fees",
+   "replication": 0.9338,
+   "page": 0.9338,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|with",
+   "replication": 292.95,
+   "page": 292.95,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|base",
+   "replication": 1505.1660000000002,
+   "page": 1505.1660000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|best",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|fees",
+   "replication": 2.4375,
+   "page": 2.4375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|price",
+   "replication": 83.9,
+   "page": 83.9,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|with",
+   "replication": 1505.1660000000002,
+   "page": 1505.1660000000002,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|base",
+   "replication": 565.1999999999999,
+   "page": 565.1999999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|best",
+   "replication": 565.1999999999999,
+   "page": 565.1999999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|fees",
+   "replication": 1.6007999999999998,
+   "page": 1.6007999999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|price",
+   "replication": 3.14,
+   "page": 3.14,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|with",
+   "replication": 565.1999999999999,
+   "page": 565.1999999999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|base",
+   "replication": 501.97499999999997,
+   "page": 501.97499999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|best",
+   "replication": 501.97499999999997,
+   "page": 501.97499999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|fees",
+   "replication": 1.5340999999999998,
+   "page": 1.5340999999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|with",
+   "replication": 501.97499999999997,
+   "page": 501.97499999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|base",
+   "replication": 470.8125,
+   "page": 470.8125,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|best",
+   "replication": 470.8125,
+   "page": 470.8125,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|fees",
+   "replication": 1.5007499999999998,
+   "page": 1.5007499999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|with",
+   "replication": 470.8125,
+   "page": 470.8125,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|base",
+   "replication": 9821.25,
+   "page": 9821.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|best",
+   "replication": 5892.75,
+   "page": 5892.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|fees",
+   "replication": 30.014999999999997,
+   "page": 30.014999999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|price",
+   "replication": 2.91,
+   "page": 2.91,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|with",
+   "replication": 9821.25,
+   "page": 9821.25,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|base",
+   "replication": 8997.75,
+   "page": 8997.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|best",
+   "replication": 5398.65,
+   "page": 5398.65,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|fees",
+   "replication": 28.680999999999997,
+   "page": 28.680999999999997,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|price",
+   "replication": 2.79,
+   "page": 2.79,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|with",
+   "replication": 8997.75,
+   "page": 8997.75,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-1|la_incapable|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-1|la_incapable|savings",
+   "replication": 2361.85,
+   "page": 2361.85,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-1|la_stripper|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-1|la_stripper|savings",
+   "replication": 3542.7749999999996,
+   "page": 3542.7749999999996,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_cond_deep|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_cond_deep|savings",
+   "replication": 783.85,
+   "page": 783.85,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_deep|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_deep|savings",
+   "replication": 1786.52,
+   "page": 1786.52,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_horizontal|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_horizontal|savings",
+   "replication": 1786.52,
+   "page": 1786.52,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_incapable|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-LA-2|la_gas_incapable|savings",
+   "replication": 1633.1200000000001,
+   "page": 1633.1200000000001,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-1|tx_lp_oil|months",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-1|tx_lp_oil|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-2|tx_lp_gas|months",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-2|tx_lp_gas|savings",
+   "replication": 1537.9875,
+   "page": 1537.9875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-3|tx_hcg|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|may|FICTIONAL-TX-3|tx_hcg|savings",
+   "replication": 11291.4,
+   "page": 11291.4,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|opportunities",
+   "replication": 9,
+   "page": 9,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|potential",
+   "replication": 18942.5325,
+   "page": 18942.532499999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|rows_to_check",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|wells",
+   "replication": 9,
+   "page": 9,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-1|base",
+   "replication": 4902.352,
+   "page": 4902.352,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-1|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-1|potential",
+   "replication": 3542.7749999999996,
+   "page": 3542.7749999999996,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-2|base",
+   "replication": 2570.3700000000003,
+   "page": 2570.3700000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-2|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-2|potential",
+   "replication": 2570.3700000000003,
+   "page": 2570.3700000000003,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-3|base",
+   "replication": 32206.395,
+   "page": 32206.395,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-3|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-LA-3|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-1|base",
+   "replication": 34169.6280005,
+   "page": 34169.6280005,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-1|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-1|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-2|base",
+   "replication": 13708.25292375,
+   "page": 13708.25292375,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-2|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-2|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-3|base",
+   "replication": 965.0268,
+   "page": 965.0268,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-3|months",
+   "replication": 1,
+   "page": 1,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-NM-3|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-1|base",
+   "replication": 5578.1737,
+   "page": 5578.1737,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-1|months",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-1|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-2|base",
+   "replication": 1537.9875,
+   "page": 1537.9875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-2|months",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-2|potential",
+   "replication": 1537.9875,
+   "page": 1537.9875,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-3|base",
+   "replication": 18819.0,
+   "page": 18819,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-3|months",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|well|FICTIONAL-TX-3|potential",
+   "replication": 11291.4,
+   "page": 11291.4,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "lease|sample|with",
+   "replication": 114457.18592425,
+   "page": 114457.18592425,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "price|gas|days",
+   "replication": 22,
+   "page": 22,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "price|gas|value",
+   "replication": 2.99,
+   "page": 2.99,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "price|oil|days",
+   "replication": 22,
+   "page": 22,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "price|oil|value",
+   "replication": 102.07,
+   "page": 102.07,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|base",
+   "replication": 20545664.54447,
+   "page": 20545664.54447,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|fees",
+   "replication": 41708.38310499999,
+   "page": 41708.38310499999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|lines",
+   "replication": 48,
+   "page": 48,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|months",
+   "replication": 24,
+   "page": 24,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|rows_to_check",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|A|with",
+   "replication": 20545664.54447,
+   "page": 20545664.54447,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|base",
+   "replication": 1277185.05313,
+   "page": 1277185.05313,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|fees",
+   "replication": 1383.8902659999999,
+   "page": 1383.8902659999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|lines",
+   "replication": 48,
+   "page": 48,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|months",
+   "replication": 24,
+   "page": 24,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|rows_to_check",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|B|with",
+   "replication": 1277185.05313,
+   "page": 1277185.05313,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|base",
+   "replication": 4920.82312,
+   "page": 4920.82312,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|fees",
+   "replication": 12.075158999999998,
+   "page": 12.075158999999998,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|lines",
+   "replication": 48,
+   "page": 48,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|may|tx_lp_oil|months",
+   "replication": 24,
+   "page": 24,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|may|tx_lp_oil|savings",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|months",
+   "replication": 24,
+   "page": 24,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|rows_to_check",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|C|with",
+   "replication": 4920.82312,
+   "page": 4920.82312,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|base",
+   "replication": 826729.36597,
+   "page": 826729.36597,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|fees",
+   "replication": 940.3972969999999,
+   "page": 940.3972969999999,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|lines",
+   "replication": 48,
+   "page": 48,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|months",
+   "replication": 24,
+   "page": 24,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|potential",
+   "replication": 0.0,
+   "page": 0,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|rows_to_check",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|D|with",
+   "replication": 826729.36597,
+   "page": 826729.36597,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "real|leases",
+   "replication": 4828,
+   "page": 4828,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "real|operators",
+   "replication": 64,
+   "page": 64,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|LA|base",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|LA|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|LA|options",
+   "replication": 14,
+   "page": 14,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|NM|base",
+   "replication": 8,
+   "page": 8,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|NM|fees",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|NM|options",
+   "replication": 0,
+   "page": 0,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|TX|base",
+   "replication": 3,
+   "page": 3,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|TX|fees",
+   "replication": 2,
+   "page": 2,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|TX|options",
+   "replication": 10,
+   "page": 10,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|tx_lp_gas|latest_certified",
+   "replication": 1.36,
+   "page": 1.36,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "rules|tx_lp_gas|periods",
+   "replication": 20,
+   "page": 20,
+   "tolerance": 0.0,
+   "state": "inside"
+  },
+  {
+   "key": "rules|tx_lp_oil|latest_certified",
+   "replication": 53.55,
+   "page": 53.55,
+   "tolerance": 0.005,
+   "state": "inside"
+  },
+  {
+   "key": "rules|tx_lp_oil|periods",
+   "replication": 20,
+   "page": 20,
+   "tolerance": 0.0,
+   "state": "inside"
+  }
+ ],
+ "words": {
+  "lease|sample|line|FICTIONAL-LA-1|2026-07|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-LA-1|2026-07|oil|flags": {
+   "replication": "la_incapable;la_stripper",
+   "page": "la_incapable;la_stripper"
+  },
+  "lease|sample|line|FICTIONAL-LA-1|2026-08|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-LA-1|2026-08|oil|flags": {
+   "replication": "la_incapable;la_stripper",
+   "page": "la_incapable;la_stripper"
+  },
+  "lease|sample|line|FICTIONAL-LA-2|2026-07|condensate|flags": {
+   "replication": "la_cond_deep",
+   "page": "la_cond_deep"
+  },
+  "lease|sample|line|FICTIONAL-LA-2|2026-07|gas|flags": {
+   "replication": "la_gas_deep;la_gas_horizontal;la_gas_incapable",
+   "page": "la_gas_deep;la_gas_horizontal;la_gas_incapable"
+  },
+  "lease|sample|line|FICTIONAL-LA-2|2026-08|condensate|flags": {
+   "replication": "la_cond_deep",
+   "page": "la_cond_deep"
+  },
+  "lease|sample|line|FICTIONAL-LA-2|2026-08|gas|flags": {
+   "replication": "la_gas_deep;la_gas_horizontal;la_gas_incapable",
+   "page": "la_gas_deep;la_gas_horizontal;la_gas_incapable"
+  },
+  "lease|sample|line|FICTIONAL-LA-3|2026-07|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-LA-3|2026-07|oil|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-LA-3|2026-08|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-LA-3|2026-08|oil|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-NM-1|2026-07|gas|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-1|2026-07|oil|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-1|2026-08|gas|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-1|2026-08|oil|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-2|2026-07|gas|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-2|2026-08|gas|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-3|2026-08|gas|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-NM-3|2026-08|oil|flags": {
+   "replication": "nm_district",
+   "page": "nm_district"
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-06|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-06|oil|flags": {
+   "replication": "tx_lp_oil",
+   "page": "tx_lp_oil"
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-07|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-07|oil|flags": {
+   "replication": "tx_lp_oil",
+   "page": "tx_lp_oil"
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-08|gas|flags": {
+   "replication": "",
+   "page": ""
+  },
+  "lease|sample|line|FICTIONAL-TX-1|2026-08|oil|flags": {
+   "replication": "tx_lp_oil",
+   "page": "tx_lp_oil"
+  },
+  "lease|sample|line|FICTIONAL-TX-2|2026-06|gas|flags": {
+   "replication": "tx_lp_gas",
+   "page": "tx_lp_gas"
+  },
+  "lease|sample|line|FICTIONAL-TX-2|2026-07|gas|flags": {
+   "replication": "tx_lp_gas",
+   "page": "tx_lp_gas"
+  },
+  "lease|sample|line|FICTIONAL-TX-2|2026-08|gas|flags": {
+   "replication": "tx_lp_gas",
+   "page": "tx_lp_gas"
+  },
+  "lease|sample|line|FICTIONAL-TX-3|2026-07|gas|flags": {
+   "replication": "tx_hcg",
+   "page": "tx_hcg"
+  },
+  "lease|sample|line|FICTIONAL-TX-3|2026-08|gas|flags": {
+   "replication": "tx_hcg",
+   "page": "tx_hcg"
+  },
+  "lease|sample|sha256": {
+   "replication": "5de5c2c764d4dfbe50326c7bfecbe0014e25201a83e47cf3ebd007beff882dd8",
+   "page": "5de5c2c764d4dfbe50326c7bfecbe0014e25201a83e47cf3ebd007beff882dd8"
+  },
+  "price|gas|month": {
+   "replication": "2026-10",
+   "page": "2026-10"
+  },
+  "price|oil|month": {
+   "replication": "2026-10",
+   "page": "2026-10"
+  },
+  "rules|tx_lp_gas|latest_period": {
+   "replication": "2026-08",
+   "page": "2026-08"
+  },
+  "rules|tx_lp_oil|latest_period": {
+   "replication": "2026-08",
+   "page": "2026-08"
+  },
+  "rules|version": {
+   "replication": "2026-09-30.2",
+   "page": "2026-09-30.2"
+  }
+ }
+}

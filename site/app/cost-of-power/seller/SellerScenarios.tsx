@@ -68,6 +68,9 @@ export type Facts = {
   capture: { price: number; flat: number; ratio: number; words: string } | null; captureLabel: string; captureWhy: string;
   /** the lowest month of every month held, USD for the reader's size */
   lowest: { month: string; usd: number; months: number } | null;
+  /** session 7523 (the read, row 6): every month held, its revenue in USD and energy in MWh for the reader's size, so a
+   * scenario with an energy contract finds its own lowest month (absent: the market's lowest month alone is drawn) */
+  heldMonths?: { m: string; usd: number; mwh: number }[];
   /** the contract's form: a price for a share of the energy (solar, wind), or a toll on a share of the capacity */
   contract: "energy" | "toll";
   /** the co-optimized pair and the plant alone at day-ahead prices, USD for the reader's sizes */
@@ -224,6 +227,16 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
       (c) => {
         if (!f.lowest) return none(f.twelveWhy);
         const cover = monthCoverage(c.y, f.lowest.usd / scale);
+        // session 7523 (the read, row 6): a scenario with an energy contract as generated has its own worst month, the
+        // contract's share paid at its price on the month's energy and the market on the rest, as the coverage row counts
+        // it; the market's worst month stays in the note. A block is drawn as before (its monthly volume is not held here).
+        if (f.contract === "energy" && c.y.cshare > 0 && !block && f.heldMonths?.length) {
+          const sh = c.y.cshare / 100;
+          const withIt = f.heldMonths.map((h) => ({ m: h.m, usd: (1 - sh) * h.usd + sh * h.mwh * c.y.cprice }));
+          const w = withIt.reduce((lo, h) => (h.usd < lo.usd ? h : lo), withIt[0]);
+          const cw = monthCoverage(c.y, w.usd / scale);
+          return { v: usd(w.usd), raw: w.usd, note: `${longMonth(w.m)}, of ${withIt.length} months, with the contract (${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} per MWh on that month's energy, the market on the rest)${cw === null ? "" : `; coverage that month ${num(cw)} times`}. In the market alone: ${f.lowest.month}, ${usd(f.lowest.usd)}${cover === null ? "" : `, ${num(cover)} times`}` };
+        }
         return { v: usd(f.lowest.usd), raw: f.lowest.usd, note: `${f.lowest.month}, of ${f.lowest.months} months; ${cover === null ? "no debt" : `coverage that month ${num(cover)} times, in the market`}` };
       }),
     row("coverage", "Debt coverage", "last twelve months: the contract plus the market on the rest, less fixed O&M, over debt payments",

@@ -78,7 +78,10 @@ class TheNumber(unittest.TestCase):
     def test_the_headline_number_takes_a_tip_after_its_label(self):
         s = src("site", "components", "tool", "ToolPage.tsx")
         self.assertIn("tip?: ReactNode", s)
-        self.assertIn('{label}{tip ? <span className="normal-case tracking-normal">{tip}</span> : null}', s)
+        # session 7600 (the browser read of 16 November 2026): the slot also says where its box opens. Kept inside a
+        # narrow window, a headline's box stood over the figure under its label, so it opens above the mark
+        # (data-tip-open, read by components/largeload/TipPlace.tsx). The slot is where it was, after the label
+        self.assertIn('{label}{tip ? <span className="normal-case tracking-normal" data-tip-open="above">{tip}</span> : null}', s)
 
 
 class ThePages(unittest.TestCase):

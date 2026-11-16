@@ -28,3 +28,27 @@ export async function monthMeans(entity: string, name: string, unit: string, per
   }
   return out;
 }
+
+/** Session 7502 (chain 304): the first instant the calculator's default price asks the table from: the first day (UTC)
+ * of the month three months before the month of `now`. A month boundary, so every month read is read whole. */
+export function latestMonthSince(now: number = Date.now()): string {
+  const d = new Date(now);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 3, 1)).toISOString().slice(0, 10) + "T00:00:00Z";
+}
+
+/** The calculator's default price (moved here from app/severance/page.tsx in session 7502, so a script can run it): the
+ * mean of the latest complete calendar month of an EIA daily spot series. A month is complete once a later month's
+ * first day is held. Until session 7502 the rows were asked for from 75 days before now: when the table ran more than
+ * about two weeks behind, the "complete" month began mid-month and its mean left out the month's first days
+ * (docs/reviews/severance-faults-2026-11-16.md, row 1). Now the read begins on a month's first day. Null when no
+ * complete month is held in the three months before this one: the page then says "not held: enter a price". */
+export async function latestMonthMean(entity: string, now: number = Date.now()): Promise<{ value: number; month: string; n: number } | null> {
+  const rows = await series(T, { entity, variable: "spot_price", since: latestMonthSince(now) });
+  if (!rows.length) return null;
+  const last = rows.map((r) => r.ts_utc.slice(0, 7)).sort().pop()!;
+  const months = [...new Set(rows.map((r) => r.ts_utc.slice(0, 7)))].sort().filter((m) => m < last);
+  const m = months.pop();
+  if (!m) return null;
+  const xs = rows.filter((r) => r.ts_utc.startsWith(m)).map((r) => r.value);
+  return { value: Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 100) / 100, month: m, n: xs.length };
+}

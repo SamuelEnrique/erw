@@ -4,7 +4,7 @@ import { Brand } from "@/components/Brand";
 import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
 import rulesJson from "@/data/severance_rules.json";
-import { series } from "@/lib/data";
+import { latestMonthMean } from "@/lib/leaseprices";
 import type { Rules } from "@/lib/severance";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
@@ -12,6 +12,7 @@ import { ToolPage } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { one, tabOf } from "@/lib/tabs";
 import { Calculator } from "./Calculator";
+import { SeveranceDecisions } from "./Decisions";
 import { LeaseView } from "./lease/view";
 
 // Session 40: severance tax engine v0 (Texas, Louisiana, New Mexico). The rules live in data/severance_rules.json, each
@@ -23,19 +24,10 @@ export const revalidate = 3600;
 const rules = rulesJson as unknown as Rules;
 const T = "eia_fuel_spot_prices";
 
-/** The mean of the latest complete calendar month of an EIA daily spot series (a month is complete once a later
- * month's first day is held). */
-async function monthMean(entity: string): Promise<{ value: number; month: string; n: number } | null> {
-  const since = new Date(Date.now() - 75 * 86_400_000).toISOString().slice(0, 10) + "T00:00:00Z";
-  const rows = await series(T, { entity, variable: "spot_price", since });
-  if (!rows.length) return null;
-  const last = rows.map((r) => r.ts_utc.slice(0, 7)).sort().pop()!;
-  const months = [...new Set(rows.map((r) => r.ts_utc.slice(0, 7)))].sort().filter((m) => m < last);
-  const m = months.pop();
-  if (!m) return null;
-  const xs = rows.filter((r) => r.ts_utc.startsWith(m)).map((r) => r.value);
-  return { value: Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 100) / 100, month: m, n: xs.length };
-}
+// The mean of the latest complete calendar month of an EIA daily spot series (a month is complete once a later month's
+// first day is held): session 7502 moved it to lib/leaseprices.ts (latestMonthMean), unchanged but for where its read
+// begins, a month's first day, so the month averaged is always whole.
+const monthMean = (entity: string) => latestMonthMean(entity);
 
 // Session 239: one page, two tabs (lib/tabs.ts): the calculator (what this page drew, below) and the lease tool (what
 // /severance/lease drew; it redirects to its tab). The tab is in the address, ?tab=lease. Both tabs promise that
@@ -50,6 +42,9 @@ export default async function Severance({ searchParams }: { searchParams: Promis
         <div data-severance={tab}>
           <Tabs page="/severance" active={tab} />
           {tab === "lease" ? <LeaseView /> : <CalculatorView />}
+          {/* session 7502: the choices that move a figure of either tab, each with its default and its source on hover; above
+              the downloads, which stay the last thing of the sheet (tests/test_session334.py) */}
+          <SeveranceDecisions />
           {/* session 334: the one table both tabs read (their default prices), as CSV with a Python and a Stata reader (session
               328's shared line); the tax rules are the site's own file, each with its citation */}
           <TableDownloads tables={[T]} />
@@ -114,7 +109,7 @@ async function CalculatorView() {
                   <li key={o.id} className="text-muted">
                     {p}, {o.name}: {o.what}.{o.how_long ? ` ${o.how_long}.` : ""} <a href={rules.sources[o.cite].url}>{rules.sources[o.cite].title}</a>
                     {o.code ? <>; <a href={rules.sources[o.code.cite].url}>{o.code.section}</a></> : null}
-                    {o.certified ? <> Latest certified price: ${o.certified.prices[0].price} for {o.certified.as_of} (2005 dollars).</> : null}
+                    {o.certified ? <> Latest certified price: ${o.certified.prices[0].price.toFixed(2)} for {o.certified.as_of} (2005 dollars).</> : null}
                   </li>
                 )),
                 ...pr.fees.map((f) => (

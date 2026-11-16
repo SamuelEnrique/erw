@@ -1,0 +1,32 @@
+# The project map (`/map`) at the done line: the faults found, 16 November 2026
+
+Energy Research Warehouse (ERW). Session 7601, chain 305 (`queue/done/305-night-16-november-portable-done-line-and-browser-reads.md`, part B), the portable laptop. The tool was taken through the five parts of the done line: its note (`docs/methods/map.md`), its replication (`replication/map/`), its cross-check (the note's section 12), its decisions block (on the page) and a read in a browser at 1280 and 390 px (`docs/reviews/map-done-line/`).
+
+States: `fixed` (a site or a note fault, fixed on `wip/7601-map` with a test); `data machine` (not this machine's to fix: a request row in `docs/state/data_requests_done_line.md`); `ruling` (a default taken, in plain words).
+
+| # | Where (the cell or the click) | Fault | Fix or default | State |
+|---:|---|---|---|---|
+| 1 | `/map`, the queue positions: the sentence's "3,709 queue positions, 761,479 MW requested", the tiles by status, the table by technology, the triangles | The page's file, built 15 November, holds the queue positions of 26 October; the live set's `energy_projects`, which the page's own download line names, holds those of 5 November. 3,631 positions are in both, 70 with a field that differs (47 a megawatt figure); 78 are only on the map and 53 only in the live set. 301 of the tab's 6,094 figures over 123 views differ for it, each named in `replication/map/page_figures.csv` | Request row 32: rebuild the file from the current table | data machine |
+| 2 | A unit's card: Cranberry Point Energy Storage (plant 62844) and Silver Queen Wind Farm (plant 64835) | The card's id reads `eia860:62844:` and `eia860:64835:`, cut short: EIA's workbook gives the text "NA" as their generator id, and the tables hold nothing there. Their other fields are EIA's | Request row 33: read the workbook's "NA" as the text it is | data machine |
+| 3 | The note and the count `counts.without_balancing_authority` (973) | The note called them units with a blank balancing authority. EIA leaves 727 blank and writes "NA" for 246 (196 of them in Puerto Rico). They are "Outside the seven ISOs" either way; the count is right and its words were not | The note's section 4 says both; the decisions block's line on a unit's grid says both on hover | fixed |
+| 4 | The sentence, "761,479 MW requested" | The file keeps a queue position's megawatts to one decimal and the page sums the file: the table's own figures sum to 761,478.2. A megawatt in 761 thousand | Said in the note's section 7. Request row 34: keep the megawatts as the table states them, or rule that it stands | data machine |
+| 5 | A mark's hover and the same row's card | The hover of Monticello Nuclear Facility reads "685.0 MW" and its card "685 MW": one figure in two forms | The card writes one decimal, as the hover does (`site/lib/projectmap.ts`, `cardOf`) | fixed |
+| 6 | The Projects tab's last line, "energy_projects held: license needed; datacenter_facilities held: license needed", and the second paragraph, "Their count is held (license needed)" | The same tab draws 3,709 queue positions and 278 datacenters from its own copy of those two tables, each with its name, megawatts and, for a datacenter, its stories on a click. One of the two is wrong. It is row 7 of `docs/reviews/datacenter-faults-2026-11-11.md`, still open; the queue positions of ISO-NE (415 on the map) are the same question for `energy_projects` | Default taken: nothing changed. The hold is not lifted and not worked around by this work: the replication reads the rows as the site does and writes counts and sums alone | ruling |
+| 7 | The panel "Choose" | One view at a time: two states, or two grids, cannot be set side by side as A and B on the tab (the page rule asks for A and B wherever a reader would compare). Two addresses in two windows do it today | Default taken: not built | ruling |
+| 8 | The tab's "i" marks, 18 of them with every fold open, at 390 px | On this branch alone a mark right of the first 100 px runs its box past the screen: the site's shared mark's own fault, on production on every page that draws it | Fixed for every page on `wip/7600-large-load-read` (landing row 34), not here; read with it: 0 of 18 past an edge at 1280 and at 390 px | fixed |
+
+## What was read in the browser, and how it came out
+
+On a build of this branch with `wip/7600-large-load-read`, in the internal view, at 1280 by 900 and at 390 by 844 as a phone (`docs/reviews/map-done-line/`):
+
+- **Ten addresses**, each figure drawn (the sentence, every tile, every cell of the table by technology, the count of rows drawn and not drawn) read against the page's figures file: 424 figures at each width, none differs.
+- **The controls:** Clear and Select all of Kind; one grid; one technology; a size from 100; letters typed as a size (the address does not move); Reset. The address, the lists' summaries and the sentence follow each one.
+- **A unit's card:** the mouse moved over the drawing until a mark's hover showed (Prairie Island, "Nuclear, 593.1 MW, Operating, MN, MISO, 1974-10"), then pressed: the card opens with its twelve fields and one request is made, to `/map/card`.
+- **The Queues tab:** CAISO's 25 entry years drawn; NYISO reads "NYISO's queue is held: license needed. Its figures are not shown."
+- **The Resources tab:** opens with its 19 switches; the page is as wide as the window.
+- **The decisions block:** closed as the page opens; 11 lines; each mark's box holds "Default:", "Source:" and "Made in:"; no line is grey.
+- **No sideways scroll** at 390 px in any of the above. **axe** (WCAG 2.0 to 2.2, A and AA): no rule broken on the three tabs at either width, as on production.
+
+## What published figures stand against
+
+The note's section 12. EIA's Electric Power Monthly, Table 6.1 (net summer capacity in service at the end of August 2026, read 16 November 2026) beside the same operating units' net summer capacity in the September 2026 workbook: 18 of 27 technologies the same to the tenth of a megawatt; the rest a month of change (solar photovoltaic 2,967.1 MW more, batteries 1,610.8 MW more); every technology together 1,324,124.6 against 1,318,801.0 MW, 0.40 percent. The map's own measure, nameplate, is 1,423,491.7 MW for the same units. No figure is adjusted to match.

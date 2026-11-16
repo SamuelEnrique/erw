@@ -276,3 +276,114 @@ A flag means a lease **may** qualify, never that it qualifies. Not tax advice.
   reader of that CSV (session 328's shared line). The tax rules are the site's own file
   (`site/data/severance_rules.json`), each with the statute or agency page it cites; the lease tool's files are built in
   the reader's browser from what the reader enters, as before.
+
+## The tool as a reader meets it (session 7502, 16 November 2026)
+
+This section completes the note for the done line of chain 304: every view, every figure with its table and rule, every choice with its default and source, and what the tool does not hold. The replication (`replication/severance/replicate.py`) is written from this section and the rules file.
+
+### The views
+
+| Address | What it shows | Who sees it |
+|---|---|---|
+| `/severance` | The calculator: one month of one product in one state. Under it, "Every rule, with its source" | in review, like every page |
+| `/severance?tab=lease` | The lease tool: a file of wells and months, read in the browser | the same |
+| `/severance/lease/real` | "Load a real lease": the lease tool opened on one lease of `rrc_lease_production_monthly`, or on one lease of the statewide table when the finder opens it | internal (404 without the token or the cookie) |
+| `/severance/finder` | The refund finder: totals of `severance_screen_summary.json` | internal |
+
+Both tabs end with the downloads of `eia_fuel_spot_prices` and, since session 7502, a fold "Decisions on this page".
+
+### How to read the rules file
+
+`site/data/severance_rules.json` holds, for each state and product:
+
+- `unit`: bbl or Mcf.
+- `base`: the taxes at the base rate, in the order the page lists them. Each has a `basis` (`pct_value`: a share of the taxable value; `per_unit`: dollars a unit of volume) and a `rate`: a number; `variant` (Louisiana oil: the rate of the well's completion, from `variants`, the first when none is chosen); or `district` (New Mexico's ad valorem production rate, from the district chosen, 0 when none is). `min_per_unit` (Texas oil, 0.046) is a floor in dollars a unit.
+- `fees`: dollars a unit, shown apart.
+- `options`: the reduced rates and exemptions (`group` `rate`, one at a time) and the credit that stacks (`group` `credit`, Texas oil only). The `kind` says how each changes the tax (below).
+- `value_deduction` (a state's): the products whose value takes a deduction, and `royalty` true for New Mexico.
+
+### How a figure is computed (the calculator, and each line of the lease tool)
+
+1. **Gross value** = volume x price.
+2. **Taxable value.** Louisiana oil and condensate: gross less volume x the transport fee per barrel. New Mexico oil and gas: gross less gross x the royalty percent, less volume x trucking per unit. Elsewhere: gross. Never below zero. The page shows the taxable value only when it differs from the gross.
+3. **Each base tax** = taxable value x rate (`pct_value`) or volume x rate (`per_unit`). Texas oil takes the greater of that and volume x 0.046.
+4. **Tax at the base rate** = the sum of the base taxes.
+5. **One reduced rate** replaces the first base tax only, by its `kind`:
+   - `rate`: taxable value x the option's rate; zero when the option has `exempt_below_price` and the taxable value per unit is below it (Louisiana's stripper well under USD 20 a barrel);
+   - `per_unit`: volume x the option's rate (Louisiana gas);
+   - `rate_param`: taxable value x the option's rate x (1 less the parameter percent); the parameter's default when none is typed (Texas enhanced recovery with anthropogenic CO2: 2.3 percent x (1 less 50 percent));
+   - `exempt_pct`: the first base tax x (1 less `pct` percent);
+   - `hcg_ratio`: taxable value x the greater of zero and (base rate less base rate x ratio / 2), the ratio's default 1.0;
+   - `credit_tier`: the first base tax x (1 less the credit percent).
+6. **The credit percent** of a Texas low-producing credit is read from the certified price of the report period in `certified.prices`: the first of `bounds` whose `above` the price is over sets the percent, and the last bound has no floor. A period the file does not hold earns no credit. The calculator's default period is the first the file lists, its latest.
+7. **The credit** (Texas low-producing oil lease) multiplies the tax after the reduced rate by (1 less its percent).
+8. **Savings** = tax at the base rate less tax with the exemptions chosen. **Fees** = volume x each fee, apart.
+
+Nothing is rounded before display. A dollar figure is shown to the cent, a rate to four decimals of a percent or of a cent.
+
+### Default prices
+
+- **The calculator:** the daily rows of `eia_fuel_spot_prices` (`variable` `spot_price`; `eia:wti_cushing` for oil and condensate, `eia:henry_hub` for gas) are read from the first day of the month three months before the month the page is drawn in. The default is the mean of the latest complete month, rounded to the cent, half up. A month is complete once a later month is held. With no complete month in that window the page says "not held: enter a price" and computes nothing until one is typed. (Until session 7502 the read began 75 days before the day drawn; see the faults file, row 1.)
+- **The lease tool:** the mean of each calendar month since January 2023, rounded to the cent, the latest month held included and labelled as possibly partial. A line whose month has no mean and no price in the file is not computed and is listed under "Rows to check".
+- The calculator opens on Texas, oil, 1,000 bbl, the default price, nothing ticked, no deduction, Louisiana's completion "before July 1, 2025", no New Mexico district.
+
+### The lease file
+
+- One row a state, well and month; a second row of the same three is reported and not used.
+- A well fact given on any row of a well holds for its other rows: `completion_date`, `depth_ft`, `horizontal`, `well_type`, `inactive_months`, `hcg_cost_ratio`, `nm_district`, `royalty_pct`, `trucking_per_unit`, `transport_per_bbl`. A row's own `days_produced`, `water_cut_pct`, volumes, prices and `exemptions` are that row's alone.
+- A line is drawn for each product of a row with a volume over zero. Its base tax is step 4 with the well's facts (Louisiana's oil rate from the completion date; New Mexico's district, royalty and trucking; Louisiana's transport).
+- A flag's saving is the base tax less the tax with that rule alone, the rule's report period being the production month and the high-cost ratio the well's. The line's best is the largest saving of its flags; a well's potential is the sum of its lines' bests; the lease's is the sum of its wells'.
+- "Tick the best flagged rule of each well" ticks, for each well and product, the flagged reduced rate with the largest total saving over the file (and the credit when it saves anything). A rule that saves nothing is not ticked.
+- The Louisiana windows count whole months from the month of completion (that month is month 0): deep wells under 24; horizontal wells under 24, or under 18 for gas from a well completed on or after July 1, 2025. Texas high-cost gas: under 120. With no completion date a window is not checked and the rule is flagged.
+
+### Load a real lease (internal)
+
+- `rrc_lease_production_monthly`: one Permian county (Martin), August 2024 to July 2026, months with a filed report only. **License: internal.**
+- The page states the county's counts: leases (distinct `entity`) and operators (distinct `x_operator_no`).
+- A lease becomes the tool's file: Texas, one well, one row a month held; oil = `oil_bbl`; gas = `gas_mcf` plus `casinghead_gas_mcf`; condensate = `condensate_bbl`; `well_type` gas when the RRC's code is G, else oil; no price, so each month takes the warehouse's mean.
+- So an oil lease's casinghead gas is taxed as gas and is never flagged as a low-producing gas well, and the low-producing oil test reads the lease as one well.
+- **The replication's four real leases** are picked by rule, and named by the rule only: A, the oil lease with the most oil over the table; B, the gas lease with the most gas; C, among oil leases with one well listed and oil in each of 24 months, the one with the least oil; D, among gas leases with gas in each of 24 months, the one with the least gas. A tie goes to the smaller lease id. Only each lease's totals are written.
+
+### The refund finder (internal): not replicated here
+
+`severance_screen_summary.json`, `severance_screen_flags.csv.gz` and `rrc_lease_production_statewide` are built on the data machine and are not on the machine of session 7502. The page draws the summary's totals as they are (whole dollars, counts); it computes nothing from them. Its replication waits on those files (the faults file, row 4).
+
+### The choices that move a figure
+
+The page's fold "Decisions on this page" lists these 14, each with its default and its source on hover (`site/app/severance/Decisions.tsx`). Each is changed in place, in the box or list named.
+
+| Choice | Default | Source | Changed where |
+|---|---|---|---|
+| A hub price stands for the value at the well | the latest complete month's mean: WTI Cushing, Henry Hub | EIA daily spot prices | the price box; a file's price columns |
+| One Mcf is priced as one MMBtu | 1 to 1 | a choice of session 40 | the price box |
+| Texas oil's floor of 4.6 cents a barrel; none for condensate | the greater of the two for oil | Tax Code Sec. 202.052(a); Sec. 201.055(b) | not a setting |
+| One reduced rate a well and month; the oil credit stacks | none ticked | the Comptroller's pages | the list of rules |
+| A low-producing credit follows the certified price (2005 dollars) | the latest period held, August 2026 | the Comptroller's certified prices; Secs. 201.059(b), 202.058(c) | the report period list |
+| High-cost gas by cost ratio; the 50 percent cap not tracked | ratio 1.0, so 3.75 percent | Sec. 201.057(c) | the ratio box; `hcg_cost_ratio` |
+| Louisiana oil by completion date | before July 1, 2025: 12.5 percent | La. R.S. 47:633 | the completion list; `completion_date` |
+| Louisiana gas by volume at the year's rate | 15.14 cents per Mcf, fiscal 2027 | RIB No. 26-013, RIB No. 26-014 | not a setting |
+| Deductions only where the rule states them | 0 | La. R.S. 47:633; TRD | the deduction boxes |
+| New Mexico's ad valorem rate by district | not chosen: left out | TRD's table, April to August 2026 | the district list; `nm_district` |
+| No tax rounded on its own | none | TRD's calculation note says New Mexico rounds each | not a setting |
+| Texas's two fees apart | apart | the Comptroller's pages | not a setting |
+| A flag is the file's numbers meeting a threshold; the best one a line | nothing ticked | each rule's cited page | the ticks under a well |
+| A gas well's three months before, when it produced in each | three months | the Comptroller's page; session 57 | not a setting |
+
+### The cross-check (16 November 2026)
+
+`replication/severance/crosscheck.py` and `crosscheck.json`. The robots file and the terms of each host were read first: `comptroller.texas.gov` allows `/taxes/` and `/transparency/` and its policies pages state no bar on automated reading; `www.eia.gov` allows `/dnav/` and states its publications are in the public domain; `legis.la.gov` has no robots file; `www.tax.newmexico.gov` allows every path. Each request carried the User-Agent "ERW research project, github.com/SamuelEnrique/erw". No figure was adjusted.
+
+| What | Ours | Theirs | Publisher, document, date | Difference and why |
+|---|---|---|---|---|
+| Texas oil, gas and condensate rates; the two fees; the enhanced recovery rate | 4.6, 7.5, 4.6 percent; USD 0.00625 and 0.000667; 2.3 percent | the same | Texas Comptroller, Crude Oil Production Tax and Natural Gas Production Tax pages, read 16 November 2026 | none |
+| Texas certified prices, January 2025 to August 2026 | 20 periods each for oil and gas | the same 20, to the cent | Texas Comptroller, low-producing oil leases and gas wells pages, read 16 November 2026 | none |
+| The latest certified period | August 2026 | September 2026: oil USD 48.59 (no credit), gas USD 1.23 (100 percent credit) | the same pages | the rules file was read on 30 September 2026; one period is newer (faults file, row 2) |
+| Louisiana oil 12.5 percent before July 1, 2025, incapable 6.25, stripper 10 barrels and USD 20, the gas base of 7 cents, horizontal 24 and 18 months | as the rules file | the statute's words | La. R.S. 47:633, legis.la.gov, read 16 November 2026 | none |
+| Texas oil production tax, fiscal 2025 | USD 6,621,844,278 (4.6 percent of EIA's Texas production, August 2024 to July 2025, at EIA's Texas first purchase price) | USD 5,383,668,225 | Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025; EIA, Texas Field Production of Crude Oil (released 30 October 2026) and Texas Crude Oil First Purchase Price (released 2 November 2026) | ours is 23 percent above. Not measured here: EIA's crude holds lease condensate (taxed under the gas tax), enhanced recovery pays 2.3 percent, exempt royalty pays nothing, collections are cash |
+| The same, fiscal 2026 | USD 7,175,971,817 | USD 5,876,551,070 | the same documents, fiscal 2026 | ours is 22 percent above, for the same reasons |
+| The same at the tool's default price (WTI Cushing monthly means) | USD 6,729,074,711 (2025); 7,215,622,875 (2026) | as above | as above | 25 and 23 percent above: the hub price is above the first purchase price |
+| Texas natural gas production tax | USD 2,749,852,795 (2025); 3,531,268,715 (2026): 7.5 percent of EIA's marketed production at Henry Hub | USD 2,479,282,624; 2,434,406,070 | Texas Comptroller, the same workbook; EIA, Texas Natural Gas Marketed Production (released 30 October 2026) | 11 and 45 percent above. Not measured here: Henry Hub is not the price at a Texas well, high-cost gas and the low-producing credit, marketing costs; theirs also holds the condensate tax |
+| New Mexico's rates | TRD's table | none to stand against | TRD's page states no rate in words; the table is the only source read | said so |
+| Louisiana collections, New Mexico collections | not computed | not read | | no published production and collections were set side by side for these two states in this session |
+
+**What the collections lines say.** The base rule on a hub or first purchase price gives a ceiling, not a forecast of what a state collects: 22 to 25 percent above for Texas oil in two fiscal years. A reader estimating a state's revenue from this tool should expect that gap.

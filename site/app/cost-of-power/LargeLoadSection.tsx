@@ -7,7 +7,7 @@
 import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { HeldCard, RuleCard, Tip } from "@/components/largeload/parts";
-import { LICENSE_NEEDED, CHANGES_ANCHOR, RULES_ANCHOR, RULES_TABLE, CHANGES_TABLE, LAWS_TABLE, RULE_STATUSES, STATUS_TIP, lawStates, lawsHref, lineOf, lines, rowRules, statesOf, type RowRules } from "@/lib/largeloadrules";
+import { LICENSE_NEEDED, CHANGES_ANCHOR, RULES_ANCHOR, RULES_TABLE, CHANGES_TABLE, LAWS_TABLE, RULE_STATUSES, STATUS_TIP, lawStates, lawsHref, lineOf, lines, rowRules, statesOf, statusWords, uniqueNames, type RowRules } from "@/lib/largeloadrules";
 import { GRID_NAMES, rowOf, rowUtilities, sitingHref, type Row, type SitingInputs } from "@/lib/siting";
 import { LARGE_LOAD, SITING_FILES } from "@/lib/sitingdata";
 import { LargeLoadRules, type Opened } from "./LargeLoadRules";
@@ -18,7 +18,8 @@ const stamp = (s: string) => (/^\d{8}T/.test(s) ? `${s.slice(0, 4)}-${s.slice(4,
 
 export function rulesOfRow(r: Row): RowRules & { state: string | null; names: string[] } {
   const { state, utilities } = rowUtilities(SITING_FILES, r);
-  return { ...rowRules(LARGE_LOAD, utilities, state, r.grid), state, names: utilities.map((u) => u.name) };
+  // session 7600 (the browser read, row 5): a utility the row names in two roles is named once
+  return { ...rowRules(LARGE_LOAD, utilities, state, r.grid), state, names: uniqueNames(utilities.map((u) => u.name)) };
 }
 /** The address that opens a row's rule under the table. */
 export const rowRuleHref = (x: SitingInputs, r: Row) => `${sitingHref(x)}&llrow=${encodeURIComponent(r.id)}#${ROW_ANCHOR}`;
@@ -54,7 +55,7 @@ export function RuleLine({ r, x, cell }: { r: Row; x: SitingInputs; cell: "utili
       </span>
     );
   }
-  const what = `${first.utility}${first.rule ? `: ${first.rule.status}, ${first.rule.status_date}` : `: ${LICENSE_NEEDED}`}${ids.length > 1 ? `, and ${ids.length - 1} more` : ""}. Opens under the table.`;
+  const what = `${first.utility}${first.rule ? `: ${statusWords(first.rule.status, first.rule.status_date)}` : `: ${LICENSE_NEEDED}`}${ids.length > 1 ? `, and ${ids.length - 1} more` : ""}. Opens under the table.`;
   if (cell === "utility") {
     const label = rr.own.length ? (ids.length === 1 ? "large-load rule" : `${ids.length} large-load rules`) : ids.length === 1 ? "state's large-load rule" : `${ids.length} state large-load rules`;
     return <span className="block text-xs" data-llr="cell" data-utility-rule={ids.length}><SiteLink href={rowRuleHref(x, r)} gate="plain" title={what} data-llr-open-row={r.id}>{label}</SiteLink></span>;
@@ -131,6 +132,8 @@ export function LargeLoadSection({ q, x }: { q: Record<string, string | undefine
         <SiteLink href={lawsHref()} gate="plain"><Num check="largeload|laws|public" raw={f.laws.length}>{f.laws.length}</Num> state laws and bills</SiteLink> on Policy ({LAWS_TABLE}).
       </p>
       {row ? <RowPanel r={row} x={x} /> : null}
+      {/* session 7600: this section's hovers, and the hub table's rule lines', are placed against the window by
+          components/largeload/TipPlace.tsx, mounted once in app/layout.tsx */}
       <LargeLoadRules opened={opened} address={sitingHref(x)} />
     </section>
   );

@@ -26,6 +26,8 @@ import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { DATACENTER_DECISIONS } from "@/lib/decisions";
 import { largeLoadStatements } from "@/lib/largeloadpublic";
 import { GRID_STATE, listsOf, statedOf, type Stated, type Statement } from "@/lib/datacenter/statements";
+import { RULES_ANCHOR, lines } from "@/lib/largeloadrules";
+import { LARGE_LOAD } from "@/lib/sitingdata";
 
 // Session 138: "What a datacenter pays", the mirror of /cost-of-power/battery for a buyer. A load the reader describes
 // (grid, region, size, how it runs, how it buys) and four questions: what it will cost, whether the power is there, how
@@ -148,6 +150,26 @@ function outsideOf(q: Record<string, string | undefined>, x: Inputs, gridName: s
   return out;
 }
 
+/** Session 7524 (chain 304, part B, the read of 16 November 2026, row 12). An address that names PJM or MISO, whose
+ * prices the page does not show, met one line ('Grid: "pjm" is not held here, so ERCOT is shown.') and then ERCOT's
+ * figures, with one card under "How soon?" (the rules in motion) that is the grid asked for. This line says why the
+ * grid is not priced (the index's own words), that the rules in motion are that grid's and every other figure the grid
+ * shown, and where the grid's large-load rules are read (the All grids tab's table, filtered by the grid, as its grid
+ * panel links it: lib/largeloadrules.ts). The count is the rules file's (largeload|rules|grid|<grid>, the key the All
+ * grids tab's panel carries). */
+function BlankGrid({ asked, shown: shownName }: { asked: string | undefined; shown: string }) {
+  const id = (asked ?? "").trim().toLowerCase();
+  const b = INDEX.blank[id];
+  if (!b) return null;
+  const n = lines(LARGE_LOAD).filter((l) => l.grid === id).length;
+  return (
+    <p className="mt-2 text-xs leading-snug" role="note" data-blank-grid={id}>
+      {b.name}&apos;s prices are not shown on this page: {b.words}. The rules in motion under &quot;How soon?&quot; are {b.name}&apos;s; every other figure is {shownName}&apos;s.
+      {n ? <> {b.name}&apos;s large-load rules are on the All grids tab: <Link href={`/cost-of-power?view=allgrids&rgrid=${id}#${RULES_ANCHOR}`} data-blank-grid-rules={id}><Num check={`largeload|rules|grid|${id}`} raw={n}>{n}</Num> rules read in {b.name}</Link>, by state.</> : null}
+    </p>
+  );
+}
+
 async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
   const M = await loadModel(asked, buyGiven, gridAsked, q);
   // session 265b: the large-load statements on a public document for the load's grid (large_load_public, public by the
@@ -183,6 +205,8 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
             <LoadForm key={hrefOf(x)} x={x} grids={M.grids} blank={INDEX.blank} />
             {/* session 265: a typed value outside its bounds is brought inside them, and this line says so */}
             {outsideOf(q, x, g?.name).length ? <p className="mt-3 text-xs leading-snug" role="status" data-clamped="1">{outsideOf(q, x, g?.name).join(" ")}</p> : null}
+            {/* session 7524 (the read of 16 November 2026, row 12): an address naming a grid the page prices nowhere */}
+            <BlankGrid asked={q.grid} shown={g?.name ?? x.grid.toUpperCase()} />
             {/* session 352: the price years the scenarios are priced on (price_years_by_window, the page's own run at its defaults) */}
             {M.pyOffered ? <PriceYearsNav ws={M.pyWs} read={M.pyRead} value={M.win?.id ?? "last_12"} unit="USD per MWh, a flat load" path="/cost-of-power" /> : null}
             {/* session 354: ERCOT's four summer peaks, counted in the flexible way's cost or not (ercot_4cp_intervals) */}
@@ -234,7 +258,12 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                     { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{l12Span ?? ""}</div>] },
                     ...(flex ? [
                       { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <div key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</div>] },
-                      { key: "saved", cells: [<Hover key="h" why={rule}>What the flexibility saves</Hover>, perMwh(saved, noYear), usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
+                      // session 7524 (the read of 16 November 2026, row 3): the dollars are the bill's fall, and for a load
+                      // that turns off most of it is energy not bought (compute not run), not a lower price; the hover splits the two
+                      { key: "saved", cells: [<Hover key="h" why={rule}>What the flexibility saves</Hover>, perMwh(saved, noYear),
+                        s12 && saved !== null && s12.flat !== null && x.run !== "shift"
+                          ? <span key="u" data-saved-split="1"><Hover why={`Of the USD ${usdShort((s12.flatCost - s12.cost) * x.mw)} less than a flat load: USD ${usdShort(saved * s12.energy * x.mw)} is the lower price on the ${whole(s12.energy * x.mw)} MWh bought (USD ${two(saved)} per MWh), and USD ${usdShort(s12.flat * (s12.held - s12.energy) * x.mw)} is the ${whole((s12.held - s12.energy) * x.mw)} MWh not bought, at the flat load's USD ${two(s12.flat)} per MWh: power the site did not use, so work it did not do in those hours.`}>USD {usdShort((s12.flatCost - s12.cost) * x.mw)}</Hover></span>
+                          : usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
                         <div key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</div>] },
                       { key: "foreseen", cells: [<Hover key="h" why={FORESEEN_WHY}>This load, {FORESEEN}</Hover>, <span key="p" data-foreseen="per">{perMwh(sh12?.per ?? null, noYear)}</span>, usd(sh12 ? sh12.cost * x.mw : null, noYear),
                         <div key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</div>] },
@@ -334,7 +363,7 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                       <summary className="cursor-pointer py-1">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
                       <ul className="mt-1 space-y-1">
                         {M.cp.summers.map((k) => (
-                          <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC, ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : iv.w === 1 ? "on" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
+                          <li key={k.year}>{k.year}: {k.intervals.map((iv, i) => <span key={iv.ts}>{i ? "; " : ""}{iv.ts.slice(5, 10)} {iv.ts.slice(11, 16)} UTC (<span data-cp-local="1">{new Date(Date.parse(iv.ts) - (g?.std_hours_behind_utc ?? 6) * 3600000).toISOString().slice(11, 16)} {g?.std_name ?? "US Central standard time"}</span>), ERCOT <Num check={`series|ercot_4cp_intervals|ercot:system|cp4_load_mw|${iv.ts}`} raw={iv.mw}>{whole(iv.mw)}</Num> MW, the load {iv.w === null ? "not held" : iv.w === 0 ? "off" : iv.w === 1 ? "on" : `${two(100 * iv.w)} percent on`}</span>)}{k.avoided === null ? "" : `: avoided ${two(100 * k.avoided)} percent`}</li>
                         ))}
                       </ul>
                     </details>

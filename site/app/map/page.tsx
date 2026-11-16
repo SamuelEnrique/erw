@@ -16,6 +16,7 @@ import { Num, heldBy } from "@/components/Num";   // session 1855 (datacenter fa
 import { HOURLY, attempt, restCount } from "@/lib/supabase";
 import { ProjectMap } from "./ProjectMap";
 import { QUEUE_TABLE, QueuesView } from "./QueuesView";
+import { MapDecisions } from "./Decisions";
 
 // Session 167: the project map, one page. Version 2's layout and data (session 105: the "Choose" panel, the summary
 // sentence, the totals by status, the map with hover, the source line) with what version 1 offered carried over
@@ -70,6 +71,8 @@ async function ProjectsView() {
         </p>
       ) : null}
       <ProjectMap file={faceOf(f)} statesGeo={feature(topo, topo.objects.states)} />
+      {/* session 7601: the choices that move the tab's figures, each with its default and its source on hover */}
+      <MapDecisions />
       <SourceLine tables={f.tables}
         note={<>U.S. Energy Information Administration, Form EIA-860M, {f.vintage} (public domain), retrieved {f.retrieved.slice(0, 10)}; the ISOs&apos; queues as energy_projects holds them, {f.vintages.queue}; the datacenter tracker, {f.vintages.datacenter}. This page is in review and reads the site&apos;s own copy of the tables, built {f.built.slice(0, 10)}.</>} />
     </>

@@ -1,0 +1,2 @@
+# Fixture of tests/test_session7507_peak_premium.py: the live window, with no row (the two months of the fixture are in the history).
+entity,variable,ts_utc,value,market

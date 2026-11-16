@@ -99,3 +99,14 @@ were checked to be exactly the day the window had passed. A loader that knew the
 - **The four views** (the contracts by the quarter signed, the largest, those ranked by megawatts stated, what the
   filings state) keep their "Choose" panels; the quarters they read
   are named in each panel's note. Future dates read "as filed" (session 304).
+
+## The page as a reader meets it (session 7501, 16 November 2026)
+
+- [`contracts.md`](contracts.md) is the note of `/contracts` as a whole: each view, each figure's table and rule, what
+  a visitor sees and what the internal view sees, the cross-check and the decisions on the page. The replication is
+  `replication/contracts/`; the faults found are in `docs/reviews/contracts-faults-2026-11-16.md`.
+- **Two counts of this note, made exact.** The live set of the load of 5 October 2026 holds 18,989 rows, executed on or
+  after 9 January 2024, so the oldest quarter the page lists (2024 Q1) is held in part: 1,404 of the 1,546 rows the file
+  holds for it. And of the 18,989, 10,956 file no number: 10,907 file words and 49 file neither.
+- **A balancing authority is compared in capitals** on the page since session 7501, as a product name is: the file
+  writes PSCO and PSCo (731 and 37 rows), HUB and Hub (659 and 2).

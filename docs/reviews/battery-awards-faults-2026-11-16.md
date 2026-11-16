@@ -1,0 +1,42 @@
+# What Texas's batteries were awarded day-ahead (`/cost-of-power/battery/awards`): faults found, 16 November 2026
+
+Energy Research Warehouse (ERW), session 7505 (chain 304, part A), on samueloldlaptop. Found while taking the tool to
+the done line: the method note ([`docs/methods/battery_awards.md`](../methods/battery_awards.md)), the replication
+(`replication/battery_awards/`), the cross-check and the decisions block. The page is in review; no visitor sees it.
+
+**What was checked.** Every figure the page shows, as the page's own functions give it on the tables of this machine
+(`site/scripts/battery-awards-figures.mjs`: 307 figures, and the 217 of the offers and real-time sections found in
+those sections drawn to HTML), against an independent computation from the notes: 307 of 307 inside half the page's
+last shown digit. The two monthly tables behind them, against ERCOT's disclosure rows by resource and hour: 297 of 297
+rows. So no figure of the page is wrong on the rows it was computed on. The faults are in the page's words, in the
+notes, and in how far the tables reach.
+
+*Added by session 7514, the same day:* the read of the page as its reader
+([`battery-awards-read-2026-11-16.md`](battery-awards-read-2026-11-16.md)) added 66 figures to the page, and the
+replication now recomputes them with the 307 above: 373 of 373, 224 of them found in the two drawn sections. The rows
+below are as part A wrote them.
+
+**The rows this machine holds.** `ercot_storage_dam_awards_monthly` and `ercot_storage_dam_offers_monthly` as retrieved
+on 5 October 2026 (operating days to 5 August), `ercot_storage_rt_monthly` of 5 October (186 matched days),
+`ercot_storage_node_basis` of 19 October, `battery_stack_monthly` of 21 October. The worktree has no key to the live
+set, so what the built page reads there was not seen (row 4).
+
+| # | Kind | The cell or click | What is wrong | What was done |
+|---|---|---|---|---|
+| 1 | site, fixed | The last part of "The real-time side": the heading "What the hub price misses: one real week at the batteries' own nodes", its first sentence ("the week of node prices ERCOT's public list held when it was read") and its last paragraph ("One week is one week ... in one week of early autumn") | The table has held 21 whole days since 19 October 2026 (`whole_days` 21, 293 points), and the same paragraph prints "Over the 21 whole days held": the page called 21 days one week three times | `RealTime.tsx`: the words follow `whole_days`. Seven or fewer reads as it did; more is said as its days ("21 real days", "the 21 whole days of node prices kept from ERCOT's public list, which holds seven days at a time", "It is 21 days of one autumn"). Held by `site/scripts/test-battery-awards-render.mjs` (five checks marked "fault 1") and `tests/test_session7505_battery_awards.py` |
+| 2 | note, completed | "Why the two differ": "held a day-ahead energy award in 7.0 percent of its hours (127,958 of 1,833,357 resource-hours)" and "252 of the 332 resources held a day-ahead award of any kind" | The table's note did not say whether an award ERCOT prints as zero counts. The two counts cannot be recomputed from the disclosure without the rule | The rule is in `docs/methods/battery_awards.md`, section 2, and in a dated section of `ercot_storage_dam_awards.md`: a zero is not an award. Under it both counts equal the table's in all nine months |
+| 3 | note, completed | The offers note, "The standing daily pull" and "What the offers still cannot show" | It says the tables "stay 60 days behind ERCOT's calendar and no further" and that the warehouse does not hold the SCED disclosure. Neither holds: no new request goes to ERCOT's disallowed paths since the ruling of 6 November 2026, and the storage file of the SCED disclosure is held since session 120 | A dated section at the end of `ercot_storage_dam_offers.md`; `battery_awards.md`, section 7 |
+| 4 | data machine | "By month", the row August 2026 ("5 of 31", partial); "The real-time side", "Held: February to August 2026, 186 operating days" | On this machine the three monthly tables are built on operating days to 5 August 2026, while the rows they are derived from reach 29 August (`ercot_dam_esr_awards`, 267 days) and 27 August (`ercot_sced_esr_hourly`, 208 days). The tables' notes record later builds on the data machine (252 rows on 24 October; 196 matched days in session 310). Whether the live set holds the later build was not seen from here | Not fixed here (no builder is run on this machine). One row for `docs/state/data_requests_done_line.md`: rebuild the three monthly tables from the rows held, which needs no request to ERCOT, load them, and say which days the live set holds. After it, `battery-awards-figures.mjs` and the replication are run again on the new rows |
+| 5 | ruling | The page's lead ("60 days after the day") and every "Days held" cell | The page does not say that the disclosure is no longer pulled, so its newest month stays August 2026 and partial for good. A reader on 16 November expects days to the middle of September | Default taken: no change to the page's words; the method note says it (section 7). The other choice is one sentence in the lead with the last operating day held, computed from the table |
+| 6 | ruling | Every table and section of the page | The page standard of 16 November 2026 asks for explanations as hover tips, never grey text. The page carries grey notes: seven notes under sections, the chart and the input panel, 9 `text-muted` marks and 15 small sub-labels in column heads across `page.tsx`, `Offers.tsx` and `RealTime.tsx` ("not held", "whole month", "the model's month is partial", the months left out). Older tests hold several of these words where they are | Default taken: left as they are; the new decisions block follows the standard (no grey text, tips only). Moving the notes into tips changes the page's structure and what three test files pin, and wants a browser |
+| 7 | ruling | "By month" and "By year", the column "The model's" | The model beside the awards is fixed at one 2-hour battery on the day-ahead schedule, while the battery page opens on 4 hours with perfect foresight, and `site/data/battery_awards_beside.json` already holds six cases. The standard asks for two cases side by side where a reader would compare | Default taken: 2 hours and the day-ahead schedule stay (the market monitor's 17,000 MW and 31,500 MWh give the fleet about 1.9 hours; a day-ahead schedule is the like of a day-ahead award). The other choice is a second column for the 4-hour battery, from rows the page already reads |
+| 8 | ruling | "What the offers still cannot show", second point: "That is another report, and it is not in these tables" | True of the offers tables, and the page's next section shows that report for the fleet. A reader meets "it is not in these tables" one screen above the real-time side | Default taken: unchanged, since the sentence is true as written and a change of the page's words is the owner's. The other choice: end it with a link to the real-time section, as "Why the two differ" does |
+| 9 | ruling | Every figure of the page | No figure of the page is drawn through the site's checked-number component, so `check-values` checks none of them against the database (`site/scripts/check-values.mjs` says so where it adds the page). The replication now holds them, off the built site | Default taken: not changed on a machine that cannot build or run `check-values`. For a session that can: draw the page's cells through `Num` and add their keys |
+
+**Counts.** Site faults fixed: 1 (row 1). Notes completed: 2 (rows 2 and 3). Data machine: 1 (row 4). Rulings: 5 (rows 5 to 9).
+
+**Not faults, and checked.** The file `site/data/battery_awards_beside.json` (built 10 October 2026) equals the two
+tables of this machine in all 24 figures. The gap's three parts add up to the gap, and their shares (41, 62 and -3
+percent) to 100. The year's model figure stands only beside whole months of both tables. ERCOT's robots file disallows
+the paths the disclosure is served from: known, and ruled on 6 November 2026 (ruling 2); this session asked ERCOT for
+its robots file only.

@@ -1,0 +1,38 @@
+# U.S. Energy Information Administration, Electric Power Monthly, Table 6.1, Electric Generating Summer Capacity Changes (MW), July 2026 to August 2026: utility-scale facilities, each cell as the page prints it (public domain). Source: https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=table_6_01. Retrieved 2026-11-16T12:44:25Z.
+technology,in_service_end_of_prior_month_mw,additions_mw,reductions_mw,in_service_end_of_month_mw,month
+Onshore Wind (Summer Capacity),"164,490.0",569.5,0.2,"165,059.3",August 2026
+Offshore Wind (Summer Capacity),971.3,0.0,0.0,971.3,August 2026
+Wind (Summer Capacity),"165,461.3",569.5,0.2,"166,030.6",August 2026
+Solar Photovoltaic,"165,367.0","1,310.0",0.0,"166,677.0",August 2026
+Solar Thermal without Energy Storage,986.4,0.0,0.0,986.4,August 2026
+Solar Thermal with Energy Storage,405.6,0.0,0.0,405.6,August 2026
+Solar Subtotal,"166,759.0","1,310.0",0.0,"168,069.0",August 2026
+Conventional Hydroelectric,"80,046.2",0.0,0.0,"80,046.2",August 2026
+Wood/Wood Waste Biomass,"7,099.2",0.0,0.0,"7,099.2",August 2026
+Landfill Gas,"1,486.3",0.0,9.6,"1,476.7",August 2026
+Municipal Solid Waste,"1,891.4",0.0,0.0,"1,891.4",August 2026
+Other Waste Biomass,586.9,0.0,1.5,585.4,August 2026
+Biomass Sources Subtotal,"11,063.8",0.0,11.1,"11,052.7",August 2026
+Geothermal,"2,683.9",0.0,0.0,"2,683.9",August 2026
+Renewable Sources Subtotal,"426,014.2","1,879.5",11.3,"427,882.4",August 2026
+Natural Gas Fired Combined Cycle,"295,138.4",0.0,0.0,"295,138.4",August 2026
+Natural Gas Fired Combustion Turbine,"136,564.7",133.2,27.0,"136,670.9",August 2026
+Natural Gas Steam Turbine,"77,143.3",0.0,0.0,"77,143.3",August 2026
+Natural Gas Internal Combustion Engine,"7,259.3",68.7,0.0,"7,328.0",August 2026
+Natural Gas with Compressed Air Storage,25.0,0.0,0.0,25.0,August 2026
+Other Natural Gas,343.6,0.0,0.0,343.6,August 2026
+Natural Gas Subtotal,"516,474.3",201.9,27.0,"516,649.2",August 2026
+Conventional Steam Coal,"167,235.5",0.0,0.0,"167,235.5",August 2026
+Coal Integrated Gasification Combined Cycle,555.0,0.0,0.0,555.0,August 2026
+Coal Subtotal,"167,790.5",0.0,0.0,"167,790.5",August 2026
+Petroleum Coke,"1,311.3",0.0,0.0,"1,311.3",August 2026
+Petroleum Liquids,"26,288.7",15.0,0.0,"26,303.7",August 2026
+Other Gases,"1,772.3",0.0,0.0,"1,772.3",August 2026
+Fossil Fuels Subtotal,"713,637.1",216.9,27.0,"713,827.0",August 2026
+Hydroelectric Pumped Storage,"23,035.1",28.0,0.0,"23,063.1",August 2026
+Flywheels,47.0,0.0,0.0,47.0,August 2026
+Batteries,"53,353.6",743.4,0.0,"54,097.0",August 2026
+Energy Storage Subtotal,"76,435.7",771.4,0.0,"77,207.1",August 2026
+Nuclear,"98,423.3",0.0,0.0,"98,423.3",August 2026
+All Other,"1,461.2",0.0,0.0,"1,461.2",August 2026
+All Other,8.0,0.0,0.0,8.0,August 2026
