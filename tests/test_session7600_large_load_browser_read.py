@@ -40,7 +40,7 @@ class TheFixesDrawn(unittest.TestCase):
         self.assertTrue(m and m.group(1) == m.group(2) and int(m.group(2)) >= 40, self.out[-500:])
 
     def test_each_site_row_of_the_read_has_its_check(self):
-        for row in list(range(1, 11)) + [14]:
+        for row in list(range(1, 11)) + [14, 15]:
             self.assertRegex(self.out, rf"(?m)^ok   rows? (\d+ and )?{row}\b", f"row {row} of the read is held on the drawn components")
 
     def test_a_box_is_inside_the_window_at_both_widths(self):
@@ -53,7 +53,7 @@ class TheRead(unittest.TestCase):
         doc = src(*READ)
         rows = re.findall(r"(?m)^\| (\d+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| (site|data machine|ruling) \| ([^|]+) \|$", doc)
         self.assertEqual([int(r[0]) for r in rows], list(range(1, len(rows) + 1)), "the rows are numbered in order")
-        self.assertGreaterEqual(len(rows), 14)
+        self.assertGreaterEqual(len(rows), 15)
         for n, _, _, _, kind, state in rows:
             if kind == "site":
                 self.assertTrue(state.strip().startswith("fixed"), f"row {n}: a site fault is fixed")
