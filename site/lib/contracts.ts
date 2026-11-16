@@ -127,14 +127,40 @@ export function listed(held: { quarter: string; rows: number; priced: number }[]
 export function choices(q: Record<string, string | undefined>, held: string[]) {
   const quarter = q.q && held.includes(q.q) ? q.q : held[0] ?? null;
   const product = PRODUCTS.find((p) => p.slug === q.product) ?? PRODUCTS[0];
-  const ba = q.ba && /^[A-Za-z0-9 ._-]{1,40}$/.test(q.ba) ? q.ba : null;
+  const ba = q.ba && /^[A-Za-z0-9 ._-]{1,40}$/.test(q.ba) ? baOf(q.ba) : null;   // session 7501: as the panel names it
   return { quarter, product, ba };
 }
 
 const up = (v: string | null) => (v ?? "").trim().toUpperCase();
 
+/** Session 7501: a balancing authority is compared as the panel lists it (byBa below): trimmed, and "not stated" for a
+ * row that files none. Until then the panel's largest entry, "not stated", opened a list of no rows: the filter looked
+ * for a row whose balancing authority was the words "not stated". */
 export function filter(rows: Contract[], product: Product, ba: string | null): Contract[] {
-  return rows.filter((r) => product.match(up(r.product)) && (!ba || (r.pod_ba ?? "") === ba));
+  return rows.filter((r) => product.match(up(r.product)) && (!ba || baOf(r.pod_ba) === baOf(ba)));
+}
+
+/** Session 7501: a balancing authority as the panel names it: FERC's code trimmed and in capitals (filers write "PSCO"
+ * and "PSCo", "HUB" and "Hub": one authority, as a product's two spellings are one product), "not stated" for none. */
+export function baOf(v: string | null): string {
+  const s = up(v);
+  return s === "" || s === "NOT STATED" ? "not stated" : s;
+}
+
+/** Session 7501: the day a listed quarter is held from, when that is after the quarter's first day (the live set keeps
+ * the rows executed in the 1,000 days before a load, so the oldest quarter listed is held in part); null for a quarter
+ * held whole or when no first day is known. */
+export function heldFrom(quarter: string, first: string | null): string | null {
+  if (!first || !/^\d{4}-\d{2}-\d{2}$/.test(first)) return null;
+  const d = quarterDates(quarter);
+  return first > d.from && first < d.to ? first : null;
+}
+
+/** Session 7501: the contracts in force of one product in the newest quarter filed for (the last row of "Contracts new
+ * and gone"); null when the summary holds no such row. */
+export function inForce(t: Terms, product: string): number | null {
+  const c = changesOf(t, product).at(-1);
+  return c ? c.contracts_in_force : null;
 }
 
 /** "20250723" as FERC files a date, to "2025-07-23"; anything else as filed. */
@@ -173,6 +199,6 @@ export function counts(rows: Contract[]) {
 /** The delivery balancing authorities of the rows, most rows first. */
 export function byBa(rows: Contract[]): { ba: string; rows: number }[] {
   const m = new Map<string, number>();
-  for (const r of rows) m.set((r.pod_ba ?? "").trim() || "not stated", (m.get((r.pod_ba ?? "").trim() || "not stated") ?? 0) + 1);
+  for (const r of rows) m.set(baOf(r.pod_ba), (m.get(baOf(r.pod_ba)) ?? 0) + 1);   // session 7501: one authority, whatever its capitals
   return [...m.entries()].map(([ba, n]) => ({ ba, rows: n })).sort((a, b) => b.rows - a.rows || a.ba.localeCompare(b.ba));
 }

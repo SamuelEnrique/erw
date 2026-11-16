@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
-import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, largestHref, listed, mwHref, quarterDates, quarters,
+import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarters,
   rateText, termYears, viewOf, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
 // Session 83: "Where power contracts are being struck". A credit investor asked where bilateral power contracts are
@@ -20,12 +21,18 @@ export const dynamic = "force-dynamic";
 const SHOWN = 400;
 const count = (v: number) => v.toLocaleString("en-US");
 
-function Limits({ rows, priced }: { rows: number | null; priced: number | null }) {
+// Session 7501 (chain 304): the count in the second limit is of the rows that file no number, and says so: until then it
+// read "do" (give their price as words), which counted the rows that file neither words nor a number among those that
+// give words. "Held here" is said on hover: the rows the first view lists, not the whole quarter's file the other three
+// views read (the two counts stood on one page under one name).
+function Limits({ rows, priced, first }: { rows: number | null; priced: number | null; first?: string | null }) {
   return (
     <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm" data-limits="3">
       <li><strong>No column says what technology a contract is for.</strong> Solar, wind or storage can be read only from a seller&apos;s name; a utility or a marketer selling from a portfolio says nothing about the source.</li>
       <li><strong>About half the rows give their price as words, not a number.</strong>{rows !== null && priced !== null ? <> Of the {count(rows)} rows held
-        here, <span data-n="unpriced">{count(rows - priced)}</span> do.</> : null} &quot;Market Based Rate&quot; or a formula is what the filer wrote; the column below shows it as filed and never fills one in.</li>
+        here<Tip id="contracts-held-here" label="the rows held here"><span data-held-here="1">The rows the first view lists: the contracts signed{first ? ` since ${first}` : ""}, the
+        1,000 days before the table was last loaded. The other three views read every row of the newest quarter&apos;s file, whenever it was signed.</span></Tip>, <span data-n="unpriced">{count(rows - priced)}</span> file
+        no number.</> : null} &quot;Market Based Rate&quot; or a formula is what the filer wrote; the column below shows it as filed and never fills one in.</li>
       <li><strong>Every agreement in force is filed again each quarter.</strong> A contract here is new because its execution date is recent, not because it appears in this filing. One agreement is one row per product, so it can have several rows.</li>
     </ul>
   );
@@ -46,7 +53,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const rows = filter(all, product, ba);
   const c = counts(rows);
   const bas = byBa(filter(all, product, null));
-  const ercot = summary.ok ? summary.data.by_ba.find((b) => b.ba === "ERCO")?.rows ?? 0 : 0;
+  const ercot = summary.ok ? summary.data.by_ba.filter((b) => baOf(b.ba) === "ERCO").reduce((a, b) => a + b.rows, 0) : 0;   // session 7501: whatever its capitals
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   return (
@@ -58,7 +65,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
           ERCOT are outside the Commission&apos;s jurisdiction. See also <SiteLink href="/deals">deals from the news</SiteLink>.</>} />
       <div className="mb-8 border-l-2 border-accent bg-paper px-4 py-3">
         <div className="mb-2 text-xs uppercase tracking-wide text-muted">Three limits of this record</div>
-        <Limits rows={summary.ok ? summary.data.rows : null} priced={summary.ok ? summary.data.priced : null} />
+        <Limits rows={summary.ok ? summary.data.rows : null} priced={summary.ok ? summary.data.priced : null} first={summary.ok ? summary.data.first : null} />
       </div>
       <nav aria-label="View" className="mb-6 flex flex-wrap gap-x-6 gap-y-1 border-b border-rule pb-3 text-sm" data-view={v.view}>
         <Link href="/contracts" aria-current={v.view === "quarter" ? "true" : undefined} className={item(v.view === "quarter")}>Contracts by the quarter signed</Link>
@@ -75,12 +82,16 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       ) : (
         <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
           <aside>
-            <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].quarter.replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}.`}>
+            <InputPanel title="Choose" reset={{ href: "/contracts", defaults: `the newest quarter listed${held[0] ? ` (${held[0].quarter.replace("_", " ")})` : ""}, energy, capacity and tolling, every balancing authority.` }} note={`Filed for ${summary.data.quarters.map((x) => x.replace("_", " ")).join(", ")}. The rows held were executed from ${summary.data.first} to ${summary.data.last}${(summary.data.last ?? "") > today ? " as filed" : ""}.`}>
               <nav aria-label="Quarter signed" className="mb-4 text-sm">
                 <div className="mb-1 text-xs uppercase tracking-wide text-muted">Quarter signed</div>
                 {held.slice(0, 12).map((h) => (
                   <div key={h.quarter}><Link href={href(h.quarter, product.slug)} aria-current={h.quarter === quarter ? "true" : undefined} className={item(h.quarter === quarter)}>{h.quarter.replace("-", " ")}</Link>{" "}
-                    <span className="text-xs text-muted">{count(h.rows)} rows</span></div>
+                    <span className="text-xs text-muted">{count(h.rows)} rows</span>
+                    {/* session 7501: the oldest quarter listed is held in part (the 1,000 days end inside it), and says so on hover */}
+                    {heldFrom(h.quarter, summary.data.first) ? <Tip id={`contracts-part-${h.quarter}`} label={`${h.quarter.replace("-", " ")}, held in part`}><span data-held-from={h.quarter}>Held
+                      from {heldFrom(h.quarter, summary.data.first)}, not from the quarter&apos;s first day: the list keeps the contracts signed in the 1,000 days before the table was last loaded. The
+                      rows signed earlier in this quarter are in the table and are not counted here.</span></Tip> : null}</div>
                 ))}
                 {laterRows > 0 ? <p className="mt-2 text-xs text-muted" data-later={laterRows}>{count(laterRows)} rows carry an execution date after the quarter they were
                   filed for (the latest in {laterLast?.replace("-", " ")}): signed after the quarter closed, or mistyped. They are held as filed and not listed.</p> : null}
@@ -158,6 +169,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
           </div>
         </div>
       )}
+      <ContractsDecisions />
       <SourceLine tables={[TABLE]}
         note={<>Federal Energy Regulatory Commission, Electric Quarterly Reports, the contract files of one quarter&apos;s filings (eqrreportviewer.ferc.gov). An internal table: this page is read only in the internal view. Methods: <Link href="/data/methods/ferc_eqr_contracts">the contracts</Link>, <Link href="/data/methods/eqr_buyers">the buyers</Link>, <Link href="/data/methods/eqr_terms">the terms</Link>.</>} />
     </ToolPage>
@@ -339,7 +351,8 @@ function TermsView({ summary, reason }: { summary: Summary | null; reason: strin
       </ToolSection>
       <ToolSection title="Tolling and storage, from the product fields" note="A tag is given only from FERC's product fields: product name, product type, class, term and increment.">
         <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm">
-          <li><strong>Tolling:</strong> <span data-n="tag|tolling_rows">{count(T.tags.tolling_rows)}</span> rows of <span data-n="tag|tolling_contracts">{count(T.tags.tolling_contracts)}</span> contracts carry the product name Tolling Energy.</li>
+          <li><strong>Tolling:</strong> <span data-n="tag|tolling_rows">{count(T.tags.tolling_rows)}</span> rows of <span data-n="tag|tolling_contracts">{count(T.tags.tolling_contracts)}</span> contracts carry the product name Tolling Energy{inForce(T, "tolling") !== null ? <Tip id="contracts-tolling-in-force" label="the tolling contracts counted">
+            <span data-tolling-in-force={inForce(T, "tolling") ?? undefined}>Every row filed is counted here, a terminated contract&apos;s too. {count(inForce(T, "tolling") ?? 0)} of the contracts are in force: the figure of the table below and of the other two views.</span></Tip> : null}.</li>
           <li><strong>Storage:</strong> <span data-n="tag|storage_rows">{count(T.tags.storage_rows)}</span> rows. FERC&apos;s product list has no storage product, so no product field names storage or a battery, and no row is tagged.</li>
           <li><strong>Where the words do stand:</strong> in <span data-n="tag|elsewhere">{count(T.tags.storage_words_rows)}</span> rows, outside the product fields: {STORAGE_FIELDS.map((f, i) => (
             <span key={f.key}>{i ? ", " : ""}{f.label} (<span data-n={`tag|${f.key}`}>{count(T.tags.storage_words_elsewhere[f.key] ?? 0)}</span>)</span>))}. These are not tagged: a seller named

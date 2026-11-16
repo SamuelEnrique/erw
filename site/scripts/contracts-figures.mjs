@@ -61,6 +61,7 @@ async function main() {
   const figures = {}, words = {};
   let pages = 0;
   const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+  const plain = (s) => s.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
   const num = (s) => { const v = Number(String(s).replace(/,/g, "")); return Number.isFinite(v) ? v : null; };
   const draw = async (q, name) => {
     const html = renderToStaticMarkup(await Page({ searchParams: Promise.resolve(q) }));
@@ -72,7 +73,7 @@ async function main() {
   const marked = (html, prefix) => {
     for (const m of html.matchAll(/<span[^>]*\bdata-n="([^"]+)"[^>]*>([^<]*)<\/span>/g)) {
       const v = num(m[2]);
-      if (v !== null) figures[`${prefix}|${m[1].replace(/&amp;/g, "&")}`] = v;
+      if (v !== null && m[1] !== "unpriced") figures[`${prefix}|${m[1].replace(/&amp;/g, "&")}`] = v;   // the limits box is on every view: read once, below
     }
   };
   /** A headline cell's value by its label: the first number after the label in the page's text. */
@@ -92,10 +93,11 @@ async function main() {
   put("limits|rows_held", after(t0, "Of the "));
   const ercot = t0.match(/([\d,]+) of the ([\d,]+) rows held here name ERCOT/);
   if (ercot) { put("cannot_see|ercot_rows", num(ercot[1])); put("cannot_see|rows_held", num(ercot[2])); }
-  const span = t0.match(/The rows held were executed from (\S+) to (\S+?)\.? /);
-  if (span) { words["panel|first"] = span[1]; words["panel|last"] = span[2].replace(/\.$/, ""); }
+  const span = t0.match(/The rows held were executed from (\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/);
+  if (span) { words["panel|first"] = span[1]; words["panel|last"] = span[2]; }
   words["panel|filed_for"] = (t0.match(/Filed for ([^.]+)\./) ?? [])[1] ?? "";
   words["panel|as_filed_marks_in_note"] = /executed from \S+ to \S+ as filed/.test(t0) ? "yes" : "no";
+  words["panel|oldest_quarter_from"] = (open.match(/data-held-from="[^"]+">Held\s+from (?:<!-- -->)?(\d{4}-\d{2}-\d{2})/) ?? [])[1] ?? "";
 
   const quarterPage = async (quarter, product, ba) => {
     const html = await draw({ q: quarter, product: product.slug, ...(ba ? { ba } : {}) }, `quarter-${quarter}-${product.slug}${ba ? `-${ba.replace(/[^A-Za-z0-9]/g, "_")}` : ""}`);
@@ -104,7 +106,7 @@ async function main() {
     if (s) for (const m of s[1].matchAll(/data-n="([^"]+)">([^<]*)</g)) put(`${k}|${m[1]}`, num(m[2]));
     put(`${k}|headline_rows`, after(t, "Contract rows signed that quarter"));
     put(`${k}|headline_priced`, after(t, "Rows with a price as a number"));
-    put(`${k}|headline_unpriced`, after(t, "The other "));
+    put(`${k}|headline_unpriced`, num((t.match(/The other ([\d,]+) give words/) ?? [])[1] ?? ""));
     put(`${k}|headline_affiliate`, after(t, "Between affiliates"));
     put(`${k}|table_rows_drawn`, (html.match(/<tbody>([\s\S]*?)<\/tbody>/)?.[1].match(/<tr\b/g) ?? []).length);
     put(`${k}|as_filed_marks`, (html.match(/data-as-filed="1"/g) ?? []).length);
@@ -118,10 +120,10 @@ async function main() {
       const html = await quarterPage(h.quarter, p, null);
       // the panel's "Delivered in" list: the balancing authorities of the quarter and product, most rows first
       const nav = html.match(/<nav aria-label="Delivered in"[\s\S]*?<\/nav>/)?.[0] ?? "";
-      const bas = [...nav.matchAll(/<a [^>]*>([^<]+)<\/a>\s*(?:<!-- -->)?\s*<span[^>]*>([\d,]+)<\/span>/g)].map((m) => ({ ba: m[1].replace(/&amp;/g, "&"), rows: num(m[2]) }));
+      const bas = [...nav.matchAll(/<a [^>]*>([^<]+)<\/a>\s*(?:<!-- -->)?\s*<span[^>]*>([\d,]+)<\/span>/g)].map((m) => ({ ba: plain(m[1]), rows: num(m[2]) }));
       put(`panel|ba_listed|${h.quarter}|${p.slug}`, bas.length);
       bas.forEach((b, i) => { put(`panel|ba_rows|${h.quarter}|${p.slug}|${i + 1}`, b.rows); words[`panel|ba_name|${h.quarter}|${p.slug}|${i + 1}`] = b.ba; });
-      if (h === held[0] && p.slug === "power") for (const b of bas) if (/^[A-Za-z0-9 ._-]{1,40}$/.test(b.ba) && b.ba !== "not stated") await quarterPage(h.quarter, p, b.ba);
+      if (h === held[0] && p.slug === "power") for (const b of bas) if (/^[A-Za-z0-9 ._-]{1,40}$/.test(b.ba)) await quarterPage(h.quarter, p, b.ba);
     }
   }
 
@@ -133,7 +135,7 @@ async function main() {
     put(`largest|${p.slug}|product_rows`, after(tb, "Contracts in force ") === null ? null : num((tb.match(/([\d,]+) product rows/) ?? [])[1] ?? ""));
     put(`largest|${p.slug}|listed_top`, num((tb.match(/The first (\d+) of/) ?? [])[1] ?? ""));
     words[`largest|${p.slug}|quarter`] = (tb.match(/Contracts in force in the filings for (\d{4} Q[1-4])/) ?? [])[1] ?? "";
-    for (const m of big.matchAll(/data-party="([^"]+)">([^<]*)</g)) words[`largest|${p.slug}|party|${m[1]}`] = m[2];
+    for (const m of big.matchAll(/data-party="([^"]+)">([^<]*)</g)) words[`largest|${p.slug}|party|${m[1]}`] = plain(m[2]);
     put(`largest|${p.slug}|cells_none_filed`, (big.match(/>none filed</g) ?? []).length);
     const mw = await draw({ view: "mw", product: p.slug }, `mw-${p.slug}`);
     marked(mw, `mw|${p.slug}`);
@@ -142,7 +144,7 @@ async function main() {
     put(`mw|${p.slug}|rows_over_every_product`, num((tm.match(/Across every product ([\d,]+) rows do/) ?? [])[1] ?? ""));
     put(`mw|${p.slug}|in_force_in_headline`, num((tm.match(/Of ([\d,]+) in force\./) ?? [])[1] ?? ""));
     words[`mw|${p.slug}|quarter`] = (tm.match(/Contracts in force in the filings for (\d{4} Q[1-4])/) ?? [])[1] ?? "";
-    for (const m of mw.matchAll(/data-party="([^"]+)">([^<]*)</g)) words[`mw|${p.slug}|party|${m[1]}`] = m[2];
+    for (const m of mw.matchAll(/data-party="([^"]+)">([^<]*)</g)) words[`mw|${p.slug}|party|${m[1]}`] = plain(m[2]);
   }
 
   // 4. what the filings state
