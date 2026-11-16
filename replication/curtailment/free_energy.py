@@ -118,6 +118,11 @@ def main(argv=None):
             basis = "rt" if len(held.get("rt", {})) >= near * n_in else "da"
             x = held[basis]
             what = f"{g} {l['id']} {wname}"
+            if "missing" in theirs:   # neither market holds 95 percent of the window: the counts held, and no figure
+                check(f"{what} rt_hours_held", len(held.get("rt", {})), theirs.get("rt_hours_held", 0))
+                check(f"{what} da_hours_held", len(held.get("da", {})), theirs.get("da_hours_held", 0))
+                check(f"{what} not written", max(len(held.get("rt", {})), len(held.get("da", {}))) < near * n_in, True)
+                continue
             check(f"{what} basis", basis, theirs.get("basis"))
             check(f"{what} hours_in_window", n_in, theirs.get("hours_in_window"))
             check(f"{what} hours_held", len(x), theirs.get("hours_held"))
