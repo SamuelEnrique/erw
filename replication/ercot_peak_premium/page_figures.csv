@@ -22,7 +22,7 @@ annual,HB_BUSAVG,all_median,2022,"44.23",44.230000,0.005
 annual,HB_BUSAVG,all_median,2023,"21.17",21.170000,0.005
 annual,HB_BUSAVG,all_median,2024,"19.39",19.390000,0.005
 annual,HB_BUSAVG,all_median,2025,"25.11",25.110000,0.005
-annual,HB_BUSAVG,all_median,2026,"24.45",24.450000,0.005
+annual,HB_BUSAVG,all_median,2026,"25.04",25.040000,0.005
 annual,HB_BUSAVG,all_min,2015,"-11.58",-11.580000,0.005
 annual,HB_BUSAVG,all_min,2016,"-108.81",-108.810000,0.005
 annual,HB_BUSAVG,all_min,2017,"-27.58",-27.580000,0.005
@@ -46,7 +46,7 @@ annual,HB_BUSAVG,all_p999,2022,"3,024.83",3024.834880,0.005
 annual,HB_BUSAVG,all_p999,2023,"4,574.17",4574.170780,0.005
 annual,HB_BUSAVG,all_p999,2024,"886.84",886.839850,0.005
 annual,HB_BUSAVG,all_p999,2025,"314.55",314.546880,0.005
-annual,HB_BUSAVG,all_p999,2026,"764.21",764.206150,0.005
+annual,HB_BUSAVG,all_p999,2026,"698.02",698.021280,0.005
 annual,HB_BUSAVG,all_q1,2015,"17.96",17.960000,0.005
 annual,HB_BUSAVG,all_q1,2016,"15.39",15.390000,0.005
 annual,HB_BUSAVG,all_q1,2017,"18.21",18.210000,0.005
@@ -58,7 +58,7 @@ annual,HB_BUSAVG,all_q1,2022,"27.78",27.780000,0.005
 annual,HB_BUSAVG,all_q1,2023,"15.81",15.810000,0.005
 annual,HB_BUSAVG,all_q1,2024,"13.39",13.390000,0.005
 annual,HB_BUSAVG,all_q1,2025,"19.62",19.620000,0.005
-annual,HB_BUSAVG,all_q1,2026,"18.16",18.160000,0.005
+annual,HB_BUSAVG,all_q1,2026,"18.47",18.470000,0.005
 annual,HB_BUSAVG,all_q3,2015,"24.48",24.482500,0.005
 annual,HB_BUSAVG,all_q3,2016,"21.90",21.900000,0.005
 annual,HB_BUSAVG,all_q3,2017,"23.53",23.530000,0.005
@@ -70,7 +70,7 @@ annual,HB_BUSAVG,all_q3,2022,"65.43",65.425000,0.005
 annual,HB_BUSAVG,all_q3,2023,"27.59",27.590000,0.005
 annual,HB_BUSAVG,all_q3,2024,"25.38",25.380000,0.005
 annual,HB_BUSAVG,all_q3,2025,"35.57",35.572500,0.005
-annual,HB_BUSAVG,all_q3,2026,"33.74",33.742500,0.005
+annual,HB_BUSAVG,all_q3,2026,"35.45",35.450000,0.005
 annual,HB_BUSAVG,midday_max,2015,"1,089.21",1089.210000,0.005
 annual,HB_BUSAVG,midday_max,2016,"891.86",891.860000,0.005
 annual,HB_BUSAVG,midday_max,2017,"709.73",709.730000,0.005
@@ -94,7 +94,7 @@ annual,HB_BUSAVG,midday_median,2022,"45.82",45.820000,0.005
 annual,HB_BUSAVG,midday_median,2023,"22.11",22.110000,0.005
 annual,HB_BUSAVG,midday_median,2024,"18.48",18.480000,0.005
 annual,HB_BUSAVG,midday_median,2025,"22.47",22.465000,0.005
-annual,HB_BUSAVG,midday_median,2026,"20.45",20.450000,0.005
+annual,HB_BUSAVG,midday_median,2026,"20.88",20.875000,0.005
 annual,HB_BUSAVG,midday_min,2015,"-0.81",-0.810000,0.005
 annual,HB_BUSAVG,midday_min,2016,"-48.75",-48.750000,0.005
 annual,HB_BUSAVG,midday_min,2017,"-0.91",-0.910000,0.005
@@ -118,7 +118,7 @@ annual,HB_BUSAVG,midday_q1,2022,"25.89",25.890000,0.005
 annual,HB_BUSAVG,midday_q1,2023,"13.92",13.917500,0.005
 annual,HB_BUSAVG,midday_q1,2024,"10.65",10.647500,0.005
 annual,HB_BUSAVG,midday_q1,2025,"15.65",15.647500,0.005
-annual,HB_BUSAVG,midday_q1,2026,"14.06",14.057500,0.005
+annual,HB_BUSAVG,midday_q1,2026,"14.15",14.145000,0.005
 annual,HB_BUSAVG,midday_q3,2015,"29.71",29.710000,0.005
 annual,HB_BUSAVG,midday_q3,2016,"29.03",29.025000,0.005
 annual,HB_BUSAVG,midday_q3,2017,"30.92",30.922500,0.005
@@ -130,7 +130,7 @@ annual,HB_BUSAVG,midday_q3,2022,"76.93",76.925000,0.005
 annual,HB_BUSAVG,midday_q3,2023,"32.40",32.400000,0.005
 annual,HB_BUSAVG,midday_q3,2024,"24.11",24.112500,0.005
 annual,HB_BUSAVG,midday_q3,2025,"29.25",29.252500,0.005
-annual,HB_BUSAVG,midday_q3,2026,"27.74",27.742500,0.005
+annual,HB_BUSAVG,midday_q3,2026,"28.79",28.792500,0.005
 annual,HB_BUSAVG,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_BUSAVG,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_BUSAVG,n_intervals,2017,"35,040",35040.000000,0.5
@@ -142,7 +142,7 @@ annual,HB_BUSAVG,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_BUSAVG,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_BUSAVG,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_BUSAVG,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_BUSAVG,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_BUSAVG,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_BUSAVG,n_negative,2015,"302",302.000000,0.5
 annual,HB_BUSAVG,n_negative,2016,"676",676.000000,0.5
 annual,HB_BUSAVG,n_negative,2017,"207",207.000000,0.5
@@ -154,7 +154,7 @@ annual,HB_BUSAVG,n_negative,2022,"625",625.000000,0.5
 annual,HB_BUSAVG,n_negative,2023,"680",680.000000,0.5
 annual,HB_BUSAVG,n_negative,2024,"981",981.000000,0.5
 annual,HB_BUSAVG,n_negative,2025,"940",940.000000,0.5
-annual,HB_BUSAVG,n_negative,2026,"601",601.000000,0.5
+annual,HB_BUSAVG,n_negative,2026,"652",652.000000,0.5
 annual,HB_BUSAVG,n_scarcity,2015,"3",3.000000,0.5
 annual,HB_BUSAVG,n_scarcity,2016,"1",1.000000,0.5
 annual,HB_BUSAVG,n_scarcity,2017,"0",0.000000,0.5
@@ -190,7 +190,7 @@ annual,HB_BUSAVG,overnight_median,2022,"41.04",41.040000,0.005
 annual,HB_BUSAVG,overnight_median,2023,"19.83",19.830000,0.005
 annual,HB_BUSAVG,overnight_median,2024,"17.95",17.950000,0.005
 annual,HB_BUSAVG,overnight_median,2025,"24.21",24.210000,0.005
-annual,HB_BUSAVG,overnight_median,2026,"23.82",23.820000,0.005
+annual,HB_BUSAVG,overnight_median,2026,"24.31",24.310000,0.005
 annual,HB_BUSAVG,overnight_min,2015,"-11.58",-11.580000,0.005
 annual,HB_BUSAVG,overnight_min,2016,"-108.81",-108.810000,0.005
 annual,HB_BUSAVG,overnight_min,2017,"-27.58",-27.580000,0.005
@@ -214,7 +214,7 @@ annual,HB_BUSAVG,overnight_q1,2022,"27.00",27.000000,0.005
 annual,HB_BUSAVG,overnight_q1,2023,"15.15",15.150000,0.005
 annual,HB_BUSAVG,overnight_q1,2024,"12.66",12.660000,0.005
 annual,HB_BUSAVG,overnight_q1,2025,"19.33",19.327500,0.005
-annual,HB_BUSAVG,overnight_q1,2026,"17.98",17.980000,0.005
+annual,HB_BUSAVG,overnight_q1,2026,"18.31",18.307500,0.005
 annual,HB_BUSAVG,overnight_q3,2015,"21.68",21.680000,0.005
 annual,HB_BUSAVG,overnight_q3,2016,"19.70",19.700000,0.005
 annual,HB_BUSAVG,overnight_q3,2017,"21.07",21.070000,0.005
@@ -226,7 +226,7 @@ annual,HB_BUSAVG,overnight_q3,2022,"55.80",55.800000,0.005
 annual,HB_BUSAVG,overnight_q3,2023,"24.24",24.240000,0.005
 annual,HB_BUSAVG,overnight_q3,2024,"22.48",22.482500,0.005
 annual,HB_BUSAVG,overnight_q3,2025,"31.94",31.942500,0.005
-annual,HB_BUSAVG,overnight_q3,2026,"31.22",31.220000,0.005
+annual,HB_BUSAVG,overnight_q3,2026,"33.06",33.060000,0.005
 annual,HB_BUSAVG,peak_iqr,2015,"7.73",7.730000,0.005
 annual,HB_BUSAVG,peak_iqr,2016,"9.08",9.082500,0.005
 annual,HB_BUSAVG,peak_iqr,2017,"9.62",9.620000,0.005
@@ -238,7 +238,7 @@ annual,HB_BUSAVG,peak_iqr,2022,"46.96",46.957500,0.005
 annual,HB_BUSAVG,peak_iqr,2023,"33.37",33.367500,0.005
 annual,HB_BUSAVG,peak_iqr,2024,"24.19",24.192500,0.005
 annual,HB_BUSAVG,peak_iqr,2025,"33.64",33.642500,0.005
-annual,HB_BUSAVG,peak_iqr,2026,"24.75",24.752500,0.005
+annual,HB_BUSAVG,peak_iqr,2026,"26.09",26.090000,0.005
 annual,HB_BUSAVG,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_BUSAVG,peak_max,2016,"1,468.34",1468.340000,0.005
 annual,HB_BUSAVG,peak_max,2017,"800.74",800.740000,0.005
@@ -262,7 +262,7 @@ annual,HB_BUSAVG,peak_median,2022,"59.50",59.500000,0.005
 annual,HB_BUSAVG,peak_median,2023,"27.80",27.795000,0.005
 annual,HB_BUSAVG,peak_median,2024,"26.77",26.765000,0.005
 annual,HB_BUSAVG,peak_median,2025,"36.12",36.115000,0.005
-annual,HB_BUSAVG,peak_median,2026,"33.01",33.010000,0.005
+annual,HB_BUSAVG,peak_median,2026,"34.62",34.620000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2015,"-0.14",-0.140000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2016,"0.07",0.065000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2017,"0.42",0.420000,0.005
@@ -274,7 +274,7 @@ annual,HB_BUSAVG,peak_minus_midday_median,2022,"13.68",13.680000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2023,"5.69",5.685000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2024,"8.29",8.285000,0.005
 annual,HB_BUSAVG,peak_minus_midday_median,2025,"13.65",13.650000,0.005
-annual,HB_BUSAVG,peak_minus_midday_median,2026,"12.56",12.560000,0.005
+annual,HB_BUSAVG,peak_minus_midday_median,2026,"13.75",13.745000,0.005
 annual,HB_BUSAVG,peak_min,2015,"5.92",5.920000,0.005
 annual,HB_BUSAVG,peak_min,2016,"2.09",2.090000,0.005
 annual,HB_BUSAVG,peak_min,2017,"3.67",3.670000,0.005
@@ -298,7 +298,7 @@ annual,HB_BUSAVG,peak_q1,2022,"34.72",34.715000,0.005
 annual,HB_BUSAVG,peak_q1,2023,"20.51",20.510000,0.005
 annual,HB_BUSAVG,peak_q1,2024,"19.84",19.840000,0.005
 annual,HB_BUSAVG,peak_q1,2025,"24.68",24.677500,0.005
-annual,HB_BUSAVG,peak_q1,2026,"23.57",23.570000,0.005
+annual,HB_BUSAVG,peak_q1,2026,"24.36",24.360000,0.005
 annual,HB_BUSAVG,peak_q3,2015,"28.46",28.460000,0.005
 annual,HB_BUSAVG,peak_q3,2016,"26.68",26.682500,0.005
 annual,HB_BUSAVG,peak_q3,2017,"29.92",29.920000,0.005
@@ -310,7 +310,7 @@ annual,HB_BUSAVG,peak_q3,2022,"81.67",81.672500,0.005
 annual,HB_BUSAVG,peak_q3,2023,"53.88",53.877500,0.005
 annual,HB_BUSAVG,peak_q3,2024,"44.03",44.032500,0.005
 annual,HB_BUSAVG,peak_q3,2025,"58.32",58.320000,0.005
-annual,HB_BUSAVG,peak_q3,2026,"48.32",48.322500,0.005
+annual,HB_BUSAVG,peak_q3,2026,"50.45",50.450000,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2015,"25.66",25.660944,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2016,"26.43",26.425310,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2017,"22.64",22.638742,0.005
@@ -322,7 +322,7 @@ annual,HB_BUSAVG,worst_interval_multiple,2022,"68.39",68.388761,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2023,"216.07",216.068530,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2024,"45.74",45.736970,0.005
 annual,HB_BUSAVG,worst_interval_multiple,2025,"12.53",12.526757,0.005
-annual,HB_BUSAVG,worst_interval_multiple,2026,"31.26",31.255875,0.005
+annual,HB_BUSAVG,worst_interval_multiple,2026,"27.88",27.876249,0.005
 annual,HB_HOUSTON,all_max,2015,"3,118.00",3118.000000,0.005
 annual,HB_HOUSTON,all_max,2016,"2,050.57",2050.570000,0.005
 annual,HB_HOUSTON,all_max,2017,"3,159.68",3159.680000,0.005
@@ -346,7 +346,7 @@ annual,HB_HOUSTON,all_median,2022,"46.59",46.590000,0.005
 annual,HB_HOUSTON,all_median,2023,"21.62",21.620000,0.005
 annual,HB_HOUSTON,all_median,2024,"19.95",19.950000,0.005
 annual,HB_HOUSTON,all_median,2025,"26.28",26.280000,0.005
-annual,HB_HOUSTON,all_median,2026,"26.48",26.480000,0.005
+annual,HB_HOUSTON,all_median,2026,"27.47",27.470000,0.005
 annual,HB_HOUSTON,all_min,2015,"-11.58",-11.580000,0.005
 annual,HB_HOUSTON,all_min,2016,"-77.75",-77.750000,0.005
 annual,HB_HOUSTON,all_min,2017,"-96.68",-96.680000,0.005
@@ -370,7 +370,7 @@ annual,HB_HOUSTON,all_p999,2022,"3,169.05",3169.046750,0.005
 annual,HB_HOUSTON,all_p999,2023,"4,575.16",4575.158470,0.005
 annual,HB_HOUSTON,all_p999,2024,"886.53",886.534750,0.005
 annual,HB_HOUSTON,all_p999,2025,"318.29",318.287230,0.005
-annual,HB_HOUSTON,all_p999,2026,"476.41",476.414900,0.005
+annual,HB_HOUSTON,all_p999,2026,"459.93",459.926430,0.005
 annual,HB_HOUSTON,all_q1,2015,"18.13",18.130000,0.005
 annual,HB_HOUSTON,all_q1,2016,"15.53",15.530000,0.005
 annual,HB_HOUSTON,all_q1,2017,"18.84",18.840000,0.005
@@ -382,7 +382,7 @@ annual,HB_HOUSTON,all_q1,2022,"30.70",30.700000,0.005
 annual,HB_HOUSTON,all_q1,2023,"16.82",16.820000,0.005
 annual,HB_HOUSTON,all_q1,2024,"14.67",14.670000,0.005
 annual,HB_HOUSTON,all_q1,2025,"21.09",21.090000,0.005
-annual,HB_HOUSTON,all_q1,2026,"21.11",21.110000,0.005
+annual,HB_HOUSTON,all_q1,2026,"21.60",21.600000,0.005
 annual,HB_HOUSTON,all_q3,2015,"24.73",24.730000,0.005
 annual,HB_HOUSTON,all_q3,2016,"22.41",22.410000,0.005
 annual,HB_HOUSTON,all_q3,2017,"26.42",26.420000,0.005
@@ -394,7 +394,7 @@ annual,HB_HOUSTON,all_q3,2022,"69.42",69.420000,0.005
 annual,HB_HOUSTON,all_q3,2023,"27.79",27.790000,0.005
 annual,HB_HOUSTON,all_q3,2024,"25.37",25.370000,0.005
 annual,HB_HOUSTON,all_q3,2025,"36.92",36.922500,0.005
-annual,HB_HOUSTON,all_q3,2026,"36.04",36.042500,0.005
+annual,HB_HOUSTON,all_q3,2026,"37.80",37.800000,0.005
 annual,HB_HOUSTON,midday_max,2015,"3,118.00",3118.000000,0.005
 annual,HB_HOUSTON,midday_max,2016,"2,050.57",2050.570000,0.005
 annual,HB_HOUSTON,midday_max,2017,"2,204.63",2204.630000,0.005
@@ -418,7 +418,7 @@ annual,HB_HOUSTON,midday_median,2022,"52.83",52.830000,0.005
 annual,HB_HOUSTON,midday_median,2023,"23.48",23.480000,0.005
 annual,HB_HOUSTON,midday_median,2024,"20.13",20.125000,0.005
 annual,HB_HOUSTON,midday_median,2025,"25.75",25.750000,0.005
-annual,HB_HOUSTON,midday_median,2026,"26.36",26.360000,0.005
+annual,HB_HOUSTON,midday_median,2026,"27.15",27.150000,0.005
 annual,HB_HOUSTON,midday_min,2015,"5.61",5.610000,0.005
 annual,HB_HOUSTON,midday_min,2016,"0.01",0.010000,0.005
 annual,HB_HOUSTON,midday_min,2017,"-96.68",-96.680000,0.005
@@ -442,7 +442,7 @@ annual,HB_HOUSTON,midday_q1,2022,"28.98",28.977500,0.005
 annual,HB_HOUSTON,midday_q1,2023,"15.74",15.740000,0.005
 annual,HB_HOUSTON,midday_q1,2024,"12.94",12.940000,0.005
 annual,HB_HOUSTON,midday_q1,2025,"19.77",19.770000,0.005
-annual,HB_HOUSTON,midday_q1,2026,"17.95",17.947500,0.005
+annual,HB_HOUSTON,midday_q1,2026,"18.98",18.977500,0.005
 annual,HB_HOUSTON,midday_q3,2015,"29.61",29.612500,0.005
 annual,HB_HOUSTON,midday_q3,2016,"30.59",30.592500,0.005
 annual,HB_HOUSTON,midday_q3,2017,"33.45",33.452500,0.005
@@ -454,7 +454,7 @@ annual,HB_HOUSTON,midday_q3,2022,"82.19",82.185000,0.005
 annual,HB_HOUSTON,midday_q3,2023,"34.97",34.965000,0.005
 annual,HB_HOUSTON,midday_q3,2024,"25.43",25.430000,0.005
 annual,HB_HOUSTON,midday_q3,2025,"34.80",34.800000,0.005
-annual,HB_HOUSTON,midday_q3,2026,"35.97",35.970000,0.005
+annual,HB_HOUSTON,midday_q3,2026,"37.62",37.615000,0.005
 annual,HB_HOUSTON,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_HOUSTON,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_HOUSTON,n_intervals,2017,"35,040",35040.000000,0.5
@@ -466,7 +466,7 @@ annual,HB_HOUSTON,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_HOUSTON,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_HOUSTON,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_HOUSTON,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_HOUSTON,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_HOUSTON,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_HOUSTON,n_negative,2015,"293",293.000000,0.5
 annual,HB_HOUSTON,n_negative,2016,"666",666.000000,0.5
 annual,HB_HOUSTON,n_negative,2017,"195",195.000000,0.5
@@ -478,7 +478,7 @@ annual,HB_HOUSTON,n_negative,2022,"438",438.000000,0.5
 annual,HB_HOUSTON,n_negative,2023,"591",591.000000,0.5
 annual,HB_HOUSTON,n_negative,2024,"742",742.000000,0.5
 annual,HB_HOUSTON,n_negative,2025,"658",658.000000,0.5
-annual,HB_HOUSTON,n_negative,2026,"474",474.000000,0.5
+annual,HB_HOUSTON,n_negative,2026,"487",487.000000,0.5
 annual,HB_HOUSTON,n_scarcity,2015,"11",11.000000,0.5
 annual,HB_HOUSTON,n_scarcity,2016,"14",14.000000,0.5
 annual,HB_HOUSTON,n_scarcity,2017,"47",47.000000,0.5
@@ -514,7 +514,7 @@ annual,HB_HOUSTON,overnight_median,2022,"42.73",42.730000,0.005
 annual,HB_HOUSTON,overnight_median,2023,"20.17",20.170000,0.005
 annual,HB_HOUSTON,overnight_median,2024,"18.42",18.420000,0.005
 annual,HB_HOUSTON,overnight_median,2025,"24.31",24.305000,0.005
-annual,HB_HOUSTON,overnight_median,2026,"24.63",24.630000,0.005
+annual,HB_HOUSTON,overnight_median,2026,"25.25",25.250000,0.005
 annual,HB_HOUSTON,overnight_min,2015,"-11.58",-11.580000,0.005
 annual,HB_HOUSTON,overnight_min,2016,"-77.75",-77.750000,0.005
 annual,HB_HOUSTON,overnight_min,2017,"-72.68",-72.680000,0.005
@@ -538,7 +538,7 @@ annual,HB_HOUSTON,overnight_q1,2022,"29.59",29.590000,0.005
 annual,HB_HOUSTON,overnight_q1,2023,"15.91",15.910000,0.005
 annual,HB_HOUSTON,overnight_q1,2024,"13.73",13.730000,0.005
 annual,HB_HOUSTON,overnight_q1,2025,"20.27",20.270000,0.005
-annual,HB_HOUSTON,overnight_q1,2026,"20.29",20.290000,0.005
+annual,HB_HOUSTON,overnight_q1,2026,"20.76",20.760000,0.005
 annual,HB_HOUSTON,overnight_q3,2015,"21.85",21.850000,0.005
 annual,HB_HOUSTON,overnight_q3,2016,"19.79",19.790000,0.005
 annual,HB_HOUSTON,overnight_q3,2017,"21.77",21.772500,0.005
@@ -550,7 +550,7 @@ annual,HB_HOUSTON,overnight_q3,2022,"57.85",57.852500,0.005
 annual,HB_HOUSTON,overnight_q3,2023,"24.16",24.160000,0.005
 annual,HB_HOUSTON,overnight_q3,2024,"22.36",22.360000,0.005
 annual,HB_HOUSTON,overnight_q3,2025,"31.99",31.992500,0.005
-annual,HB_HOUSTON,overnight_q3,2026,"31.76",31.762500,0.005
+annual,HB_HOUSTON,overnight_q3,2026,"33.43",33.432500,0.005
 annual,HB_HOUSTON,peak_iqr,2015,"7.16",7.162500,0.005
 annual,HB_HOUSTON,peak_iqr,2016,"9.62",9.622500,0.005
 annual,HB_HOUSTON,peak_iqr,2017,"10.09",10.092500,0.005
@@ -562,7 +562,7 @@ annual,HB_HOUSTON,peak_iqr,2022,"46.40",46.395000,0.005
 annual,HB_HOUSTON,peak_iqr,2023,"33.43",33.432500,0.005
 annual,HB_HOUSTON,peak_iqr,2024,"22.70",22.697500,0.005
 annual,HB_HOUSTON,peak_iqr,2025,"30.63",30.632500,0.005
-annual,HB_HOUSTON,peak_iqr,2026,"22.17",22.170000,0.005
+annual,HB_HOUSTON,peak_iqr,2026,"23.06",23.057500,0.005
 annual,HB_HOUSTON,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_HOUSTON,peak_max,2016,"1,631.89",1631.890000,0.005
 annual,HB_HOUSTON,peak_max,2017,"1,656.70",1656.700000,0.005
@@ -586,7 +586,7 @@ annual,HB_HOUSTON,peak_median,2022,"63.39",63.385000,0.005
 annual,HB_HOUSTON,peak_median,2023,"28.26",28.260000,0.005
 annual,HB_HOUSTON,peak_median,2024,"26.90",26.895000,0.005
 annual,HB_HOUSTON,peak_median,2025,"37.99",37.985000,0.005
-annual,HB_HOUSTON,peak_median,2026,"36.11",36.110000,0.005
+annual,HB_HOUSTON,peak_median,2026,"37.60",37.600000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2015,"-0.27",-0.265000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2016,"-0.06",-0.060000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2017,"-0.79",-0.790000,0.005
@@ -598,7 +598,7 @@ annual,HB_HOUSTON,peak_minus_midday_median,2022,"10.56",10.555000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2023,"4.78",4.780000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2024,"6.77",6.770000,0.005
 annual,HB_HOUSTON,peak_minus_midday_median,2025,"12.24",12.235000,0.005
-annual,HB_HOUSTON,peak_minus_midday_median,2026,"9.75",9.750000,0.005
+annual,HB_HOUSTON,peak_minus_midday_median,2026,"10.45",10.450000,0.005
 annual,HB_HOUSTON,peak_min,2015,"7.57",7.570000,0.005
 annual,HB_HOUSTON,peak_min,2016,"2.09",2.090000,0.005
 annual,HB_HOUSTON,peak_min,2017,"-3.15",-3.150000,0.005
@@ -622,7 +622,7 @@ annual,HB_HOUSTON,peak_q1,2022,"37.48",37.477500,0.005
 annual,HB_HOUSTON,peak_q1,2023,"21.59",21.587500,0.005
 annual,HB_HOUSTON,peak_q1,2024,"20.96",20.960000,0.005
 annual,HB_HOUSTON,peak_q1,2025,"27.86",27.857500,0.005
-annual,HB_HOUSTON,peak_q1,2026,"27.32",27.320000,0.005
+annual,HB_HOUSTON,peak_q1,2026,"28.06",28.060000,0.005
 annual,HB_HOUSTON,peak_q3,2015,"28.25",28.252500,0.005
 annual,HB_HOUSTON,peak_q3,2016,"27.41",27.412500,0.005
 annual,HB_HOUSTON,peak_q3,2017,"31.29",31.292500,0.005
@@ -634,7 +634,7 @@ annual,HB_HOUSTON,peak_q3,2022,"83.87",83.872500,0.005
 annual,HB_HOUSTON,peak_q3,2023,"55.02",55.020000,0.005
 annual,HB_HOUSTON,peak_q3,2024,"43.66",43.657500,0.005
 annual,HB_HOUSTON,peak_q3,2025,"58.49",58.490000,0.005
-annual,HB_HOUSTON,peak_q3,2026,"49.49",49.490000,0.005
+annual,HB_HOUSTON,peak_q3,2026,"51.12",51.117500,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2015,"30.10",30.099058,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2016,"39.06",39.057579,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2017,"59.89",59.890234,0.005
@@ -646,7 +646,7 @@ annual,HB_HOUSTON,worst_interval_multiple,2022,"68.02",68.019892,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2023,"211.62",211.616951,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2024,"44.44",44.437832,0.005
 annual,HB_HOUSTON,worst_interval_multiple,2025,"12.11",12.111386,0.005
-annual,HB_HOUSTON,worst_interval_multiple,2026,"17.99",17.991499,0.005
+annual,HB_HOUSTON,worst_interval_multiple,2026,"16.74",16.742862,0.005
 annual,HB_HUBAVG,all_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_HUBAVG,all_max,2016,"1,479.50",1479.500000,0.005
 annual,HB_HUBAVG,all_max,2017,"1,161.52",1161.520000,0.005
@@ -670,7 +670,7 @@ annual,HB_HUBAVG,all_median,2022,"44.02",44.020000,0.005
 annual,HB_HUBAVG,all_median,2023,"21.37",21.370000,0.005
 annual,HB_HUBAVG,all_median,2024,"19.60",19.600000,0.005
 annual,HB_HUBAVG,all_median,2025,"25.68",25.680000,0.005
-annual,HB_HUBAVG,all_median,2026,"24.61",24.610000,0.005
+annual,HB_HUBAVG,all_median,2026,"25.38",25.380000,0.005
 annual,HB_HUBAVG,all_min,2015,"-11.58",-11.580000,0.005
 annual,HB_HUBAVG,all_min,2016,"-52.36",-52.360000,0.005
 annual,HB_HUBAVG,all_min,2017,"-20.00",-20.000000,0.005
@@ -694,7 +694,7 @@ annual,HB_HUBAVG,all_p999,2022,"2,996.79",2996.794430,0.005
 annual,HB_HUBAVG,all_p999,2023,"4,559.43",4559.426040,0.005
 annual,HB_HUBAVG,all_p999,2024,"883.62",883.622600,0.005
 annual,HB_HUBAVG,all_p999,2025,"311.80",311.800470,0.005
-annual,HB_HUBAVG,all_p999,2026,"677.25",677.254450,0.005
+annual,HB_HUBAVG,all_p999,2026,"627.46",627.455770,0.005
 annual,HB_HUBAVG,all_q1,2015,"17.99",17.990000,0.005
 annual,HB_HUBAVG,all_q1,2016,"15.32",15.320000,0.005
 annual,HB_HUBAVG,all_q1,2017,"18.23",18.230000,0.005
@@ -706,7 +706,7 @@ annual,HB_HUBAVG,all_q1,2022,"27.15",27.150000,0.005
 annual,HB_HUBAVG,all_q1,2023,"15.54",15.540000,0.005
 annual,HB_HUBAVG,all_q1,2024,"13.24",13.240000,0.005
 annual,HB_HUBAVG,all_q1,2025,"19.37",19.370000,0.005
-annual,HB_HUBAVG,all_q1,2026,"17.47",17.470000,0.005
+annual,HB_HUBAVG,all_q1,2026,"17.97",17.970000,0.005
 annual,HB_HUBAVG,all_q3,2015,"24.52",24.520000,0.005
 annual,HB_HUBAVG,all_q3,2016,"21.98",21.980000,0.005
 annual,HB_HUBAVG,all_q3,2017,"23.90",23.902500,0.005
@@ -718,7 +718,7 @@ annual,HB_HUBAVG,all_q3,2022,"65.64",65.640000,0.005
 annual,HB_HUBAVG,all_q3,2023,"28.43",28.430000,0.005
 annual,HB_HUBAVG,all_q3,2024,"26.19",26.192500,0.005
 annual,HB_HUBAVG,all_q3,2025,"36.44",36.440000,0.005
-annual,HB_HUBAVG,all_q3,2026,"34.03",34.032500,0.005
+annual,HB_HUBAVG,all_q3,2026,"36.09",36.090000,0.005
 annual,HB_HUBAVG,midday_max,2015,"1,207.89",1207.890000,0.005
 annual,HB_HUBAVG,midday_max,2016,"900.70",900.700000,0.005
 annual,HB_HUBAVG,midday_max,2017,"862.29",862.290000,0.005
@@ -742,7 +742,7 @@ annual,HB_HUBAVG,midday_median,2022,"45.09",45.090000,0.005
 annual,HB_HUBAVG,midday_median,2023,"21.90",21.895000,0.005
 annual,HB_HUBAVG,midday_median,2024,"18.27",18.270000,0.005
 annual,HB_HUBAVG,midday_median,2025,"22.52",22.515000,0.005
-annual,HB_HUBAVG,midday_median,2026,"20.46",20.455000,0.005
+annual,HB_HUBAVG,midday_median,2026,"21.21",21.210000,0.005
 annual,HB_HUBAVG,midday_min,2015,"-3.98",-3.980000,0.005
 annual,HB_HUBAVG,midday_min,2016,"0.01",0.010000,0.005
 annual,HB_HUBAVG,midday_min,2017,"-4.66",-4.660000,0.005
@@ -766,7 +766,7 @@ annual,HB_HUBAVG,midday_q1,2022,"25.21",25.207500,0.005
 annual,HB_HUBAVG,midday_q1,2023,"13.56",13.560000,0.005
 annual,HB_HUBAVG,midday_q1,2024,"10.30",10.300000,0.005
 annual,HB_HUBAVG,midday_q1,2025,"15.18",15.177500,0.005
-annual,HB_HUBAVG,midday_q1,2026,"13.66",13.660000,0.005
+annual,HB_HUBAVG,midday_q1,2026,"14.05",14.047500,0.005
 annual,HB_HUBAVG,midday_q3,2015,"29.71",29.710000,0.005
 annual,HB_HUBAVG,midday_q3,2016,"29.36",29.362500,0.005
 annual,HB_HUBAVG,midday_q3,2017,"31.25",31.250000,0.005
@@ -778,7 +778,7 @@ annual,HB_HUBAVG,midday_q3,2022,"77.10",77.100000,0.005
 annual,HB_HUBAVG,midday_q3,2023,"32.59",32.585000,0.005
 annual,HB_HUBAVG,midday_q3,2024,"24.28",24.277500,0.005
 annual,HB_HUBAVG,midday_q3,2025,"29.52",29.522500,0.005
-annual,HB_HUBAVG,midday_q3,2026,"28.27",28.270000,0.005
+annual,HB_HUBAVG,midday_q3,2026,"29.60",29.600000,0.005
 annual,HB_HUBAVG,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_HUBAVG,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_HUBAVG,n_intervals,2017,"35,040",35040.000000,0.5
@@ -790,7 +790,7 @@ annual,HB_HUBAVG,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_HUBAVG,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_HUBAVG,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_HUBAVG,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_HUBAVG,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_HUBAVG,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_HUBAVG,n_negative,2015,"297",297.000000,0.5
 annual,HB_HUBAVG,n_negative,2016,"680",680.000000,0.5
 annual,HB_HUBAVG,n_negative,2017,"258",258.000000,0.5
@@ -802,7 +802,7 @@ annual,HB_HUBAVG,n_negative,2022,"636",636.000000,0.5
 annual,HB_HUBAVG,n_negative,2023,"708",708.000000,0.5
 annual,HB_HUBAVG,n_negative,2024,"992",992.000000,0.5
 annual,HB_HUBAVG,n_negative,2025,"959",959.000000,0.5
-annual,HB_HUBAVG,n_negative,2026,"609",609.000000,0.5
+annual,HB_HUBAVG,n_negative,2026,"654",654.000000,0.5
 annual,HB_HUBAVG,n_scarcity,2015,"5",5.000000,0.5
 annual,HB_HUBAVG,n_scarcity,2016,"1",1.000000,0.5
 annual,HB_HUBAVG,n_scarcity,2017,"1",1.000000,0.5
@@ -838,7 +838,7 @@ annual,HB_HUBAVG,overnight_median,2022,"40.81",40.810000,0.005
 annual,HB_HUBAVG,overnight_median,2023,"20.09",20.085000,0.005
 annual,HB_HUBAVG,overnight_median,2024,"18.21",18.210000,0.005
 annual,HB_HUBAVG,overnight_median,2025,"24.79",24.790000,0.005
-annual,HB_HUBAVG,overnight_median,2026,"23.96",23.960000,0.005
+annual,HB_HUBAVG,overnight_median,2026,"24.56",24.560000,0.005
 annual,HB_HUBAVG,overnight_min,2015,"-11.58",-11.580000,0.005
 annual,HB_HUBAVG,overnight_min,2016,"-52.36",-52.360000,0.005
 annual,HB_HUBAVG,overnight_min,2017,"-20.00",-20.000000,0.005
@@ -862,7 +862,7 @@ annual,HB_HUBAVG,overnight_q1,2022,"26.39",26.390000,0.005
 annual,HB_HUBAVG,overnight_q1,2023,"14.87",14.870000,0.005
 annual,HB_HUBAVG,overnight_q1,2024,"12.56",12.560000,0.005
 annual,HB_HUBAVG,overnight_q1,2025,"19.21",19.210000,0.005
-annual,HB_HUBAVG,overnight_q1,2026,"17.44",17.440000,0.005
+annual,HB_HUBAVG,overnight_q1,2026,"17.90",17.900000,0.005
 annual,HB_HUBAVG,overnight_q3,2015,"21.72",21.720000,0.005
 annual,HB_HUBAVG,overnight_q3,2016,"19.71",19.712500,0.005
 annual,HB_HUBAVG,overnight_q3,2017,"21.13",21.130000,0.005
@@ -874,7 +874,7 @@ annual,HB_HUBAVG,overnight_q3,2022,"56.01",56.010000,0.005
 annual,HB_HUBAVG,overnight_q3,2023,"24.95",24.950000,0.005
 annual,HB_HUBAVG,overnight_q3,2024,"23.20",23.200000,0.005
 annual,HB_HUBAVG,overnight_q3,2025,"32.74",32.740000,0.005
-annual,HB_HUBAVG,overnight_q3,2026,"31.56",31.562500,0.005
+annual,HB_HUBAVG,overnight_q3,2026,"33.59",33.592500,0.005
 annual,HB_HUBAVG,peak_iqr,2015,"7.64",7.640000,0.005
 annual,HB_HUBAVG,peak_iqr,2016,"9.23",9.232500,0.005
 annual,HB_HUBAVG,peak_iqr,2017,"9.50",9.502500,0.005
@@ -886,7 +886,7 @@ annual,HB_HUBAVG,peak_iqr,2022,"48.10",48.100000,0.005
 annual,HB_HUBAVG,peak_iqr,2023,"33.72",33.720000,0.005
 annual,HB_HUBAVG,peak_iqr,2024,"25.07",25.067500,0.005
 annual,HB_HUBAVG,peak_iqr,2025,"34.12",34.120000,0.005
-annual,HB_HUBAVG,peak_iqr,2026,"24.64",24.642500,0.005
+annual,HB_HUBAVG,peak_iqr,2026,"26.31",26.310000,0.005
 annual,HB_HUBAVG,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_HUBAVG,peak_max,2016,"1,479.50",1479.500000,0.005
 annual,HB_HUBAVG,peak_max,2017,"793.30",793.300000,0.005
@@ -910,7 +910,7 @@ annual,HB_HUBAVG,peak_median,2022,"58.74",58.740000,0.005
 annual,HB_HUBAVG,peak_median,2023,"28.39",28.390000,0.005
 annual,HB_HUBAVG,peak_median,2024,"27.20",27.200000,0.005
 annual,HB_HUBAVG,peak_median,2025,"37.04",37.035000,0.005
-annual,HB_HUBAVG,peak_median,2026,"32.75",32.745000,0.005
+annual,HB_HUBAVG,peak_median,2026,"34.66",34.660000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2015,"-0.16",-0.160000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2016,"0.03",0.030000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2017,"0.09",0.090000,0.005
@@ -922,7 +922,7 @@ annual,HB_HUBAVG,peak_minus_midday_median,2022,"13.65",13.650000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2023,"6.50",6.495000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2024,"8.93",8.930000,0.005
 annual,HB_HUBAVG,peak_minus_midday_median,2025,"14.52",14.520000,0.005
-annual,HB_HUBAVG,peak_minus_midday_median,2026,"12.29",12.290000,0.005
+annual,HB_HUBAVG,peak_minus_midday_median,2026,"13.45",13.450000,0.005
 annual,HB_HUBAVG,peak_min,2015,"7.57",7.570000,0.005
 annual,HB_HUBAVG,peak_min,2016,"2.09",2.090000,0.005
 annual,HB_HUBAVG,peak_min,2017,"6.36",6.360000,0.005
@@ -946,7 +946,7 @@ annual,HB_HUBAVG,peak_q1,2022,"33.63",33.630000,0.005
 annual,HB_HUBAVG,peak_q1,2023,"20.42",20.420000,0.005
 annual,HB_HUBAVG,peak_q1,2024,"19.79",19.787500,0.005
 annual,HB_HUBAVG,peak_q1,2025,"24.91",24.910000,0.005
-annual,HB_HUBAVG,peak_q1,2026,"23.15",23.147500,0.005
+annual,HB_HUBAVG,peak_q1,2026,"24.21",24.210000,0.005
 annual,HB_HUBAVG,peak_q3,2015,"28.49",28.490000,0.005
 annual,HB_HUBAVG,peak_q3,2016,"26.74",26.740000,0.005
 annual,HB_HUBAVG,peak_q3,2017,"29.88",29.882500,0.005
@@ -958,7 +958,7 @@ annual,HB_HUBAVG,peak_q3,2022,"81.73",81.730000,0.005
 annual,HB_HUBAVG,peak_q3,2023,"54.14",54.140000,0.005
 annual,HB_HUBAVG,peak_q3,2024,"44.86",44.855000,0.005
 annual,HB_HUBAVG,peak_q3,2025,"59.03",59.030000,0.005
-annual,HB_HUBAVG,peak_q3,2026,"47.79",47.790000,0.005
+annual,HB_HUBAVG,peak_q3,2026,"50.52",50.520000,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2015,"28.50",28.499629,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2016,"27.76",27.759970,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2017,"27.59",27.594059,0.005
@@ -970,7 +970,7 @@ annual,HB_HUBAVG,worst_interval_multiple,2022,"68.08",68.078020,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2023,"213.36",213.356389,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2024,"45.08",45.082786,0.005
 annual,HB_HUBAVG,worst_interval_multiple,2025,"12.14",12.141763,0.005
-annual,HB_HUBAVG,worst_interval_multiple,2026,"27.52",27.519482,0.005
+annual,HB_HUBAVG,worst_interval_multiple,2026,"24.72",24.722450,0.005
 annual,HB_NORTH,all_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_NORTH,all_max,2016,"1,443.25",1443.250000,0.005
 annual,HB_NORTH,all_max,2017,"943.84",943.840000,0.005
@@ -994,7 +994,7 @@ annual,HB_NORTH,all_median,2022,"44.37",44.370000,0.005
 annual,HB_NORTH,all_median,2023,"20.78",20.780000,0.005
 annual,HB_NORTH,all_median,2024,"18.99",18.990000,0.005
 annual,HB_NORTH,all_median,2025,"24.45",24.450000,0.005
-annual,HB_NORTH,all_median,2026,"24.12",24.120000,0.005
+annual,HB_NORTH,all_median,2026,"24.60",24.600000,0.005
 annual,HB_NORTH,all_min,2015,"-29.61",-29.610000,0.005
 annual,HB_NORTH,all_min,2016,"-147.73",-147.730000,0.005
 annual,HB_NORTH,all_min,2017,"-73.57",-73.570000,0.005
@@ -1018,7 +1018,7 @@ annual,HB_NORTH,all_p999,2022,"3,094.01",3094.009470,0.005
 annual,HB_NORTH,all_p999,2023,"4,677.51",4677.510480,0.005
 annual,HB_NORTH,all_p999,2024,"915.16",915.158900,0.005
 annual,HB_NORTH,all_p999,2025,"340.06",340.056290,0.005
-annual,HB_NORTH,all_p999,2026,"841.81",841.814400,0.005
+annual,HB_NORTH,all_p999,2026,"760.71",760.710910,0.005
 annual,HB_NORTH,all_q1,2015,"17.88",17.880000,0.005
 annual,HB_NORTH,all_q1,2016,"15.49",15.490000,0.005
 annual,HB_NORTH,all_q1,2017,"18.07",18.070000,0.005
@@ -1030,7 +1030,7 @@ annual,HB_NORTH,all_q1,2022,"28.12",28.117500,0.005
 annual,HB_NORTH,all_q1,2023,"15.58",15.580000,0.005
 annual,HB_NORTH,all_q1,2024,"12.79",12.790000,0.005
 annual,HB_NORTH,all_q1,2025,"19.40",19.397500,0.005
-annual,HB_NORTH,all_q1,2026,"18.30",18.300000,0.005
+annual,HB_NORTH,all_q1,2026,"18.37",18.370000,0.005
 annual,HB_NORTH,all_q3,2015,"24.41",24.410000,0.005
 annual,HB_NORTH,all_q3,2016,"21.65",21.650000,0.005
 annual,HB_NORTH,all_q3,2017,"22.73",22.730000,0.005
@@ -1042,7 +1042,7 @@ annual,HB_NORTH,all_q3,2022,"65.38",65.382500,0.005
 annual,HB_NORTH,all_q3,2023,"26.71",26.710000,0.005
 annual,HB_NORTH,all_q3,2024,"24.58",24.582500,0.005
 annual,HB_NORTH,all_q3,2025,"34.77",34.772500,0.005
-annual,HB_NORTH,all_q3,2026,"33.45",33.452500,0.005
+annual,HB_NORTH,all_q3,2026,"34.92",34.920000,0.005
 annual,HB_NORTH,midday_max,2015,"1,089.20",1089.200000,0.005
 annual,HB_NORTH,midday_max,2016,"898.20",898.200000,0.005
 annual,HB_NORTH,midday_max,2017,"709.73",709.730000,0.005
@@ -1066,7 +1066,7 @@ annual,HB_NORTH,midday_median,2022,"45.44",45.435000,0.005
 annual,HB_NORTH,midday_median,2023,"22.10",22.100000,0.005
 annual,HB_NORTH,midday_median,2024,"18.61",18.610000,0.005
 annual,HB_NORTH,midday_median,2025,"22.11",22.110000,0.005
-annual,HB_NORTH,midday_median,2026,"20.57",20.570000,0.005
+annual,HB_NORTH,midday_median,2026,"20.39",20.390000,0.005
 annual,HB_NORTH,midday_min,2015,"-12.39",-12.390000,0.005
 annual,HB_NORTH,midday_min,2016,"-147.73",-147.730000,0.005
 annual,HB_NORTH,midday_min,2017,"-70.53",-70.530000,0.005
@@ -1090,7 +1090,7 @@ annual,HB_NORTH,midday_q1,2022,"26.15",26.145000,0.005
 annual,HB_NORTH,midday_q1,2023,"14.02",14.017500,0.005
 annual,HB_NORTH,midday_q1,2024,"10.09",10.087500,0.005
 annual,HB_NORTH,midday_q1,2025,"15.10",15.097500,0.005
-annual,HB_NORTH,midday_q1,2026,"13.44",13.437500,0.005
+annual,HB_NORTH,midday_q1,2026,"12.83",12.827500,0.005
 annual,HB_NORTH,midday_q3,2015,"29.63",29.630000,0.005
 annual,HB_NORTH,midday_q3,2016,"27.96",27.960000,0.005
 annual,HB_NORTH,midday_q3,2017,"30.02",30.022500,0.005
@@ -1102,7 +1102,7 @@ annual,HB_NORTH,midday_q3,2022,"76.08",76.082500,0.005
 annual,HB_NORTH,midday_q3,2023,"31.48",31.482500,0.005
 annual,HB_NORTH,midday_q3,2024,"23.82",23.820000,0.005
 annual,HB_NORTH,midday_q3,2025,"28.38",28.380000,0.005
-annual,HB_NORTH,midday_q3,2026,"27.28",27.280000,0.005
+annual,HB_NORTH,midday_q3,2026,"27.73",27.725000,0.005
 annual,HB_NORTH,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_NORTH,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_NORTH,n_intervals,2017,"35,040",35040.000000,0.5
@@ -1114,7 +1114,7 @@ annual,HB_NORTH,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_NORTH,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_NORTH,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_NORTH,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_NORTH,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_NORTH,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_NORTH,n_negative,2015,"421",421.000000,0.5
 annual,HB_NORTH,n_negative,2016,"685",685.000000,0.5
 annual,HB_NORTH,n_negative,2017,"327",327.000000,0.5
@@ -1126,7 +1126,7 @@ annual,HB_NORTH,n_negative,2022,"585",585.000000,0.5
 annual,HB_NORTH,n_negative,2023,"658",658.000000,0.5
 annual,HB_NORTH,n_negative,2024,"1,004",1004.000000,0.5
 annual,HB_NORTH,n_negative,2025,"999",999.000000,0.5
-annual,HB_NORTH,n_negative,2026,"941",941.000000,0.5
+annual,HB_NORTH,n_negative,2026,"1,133",1133.000000,0.5
 annual,HB_NORTH,n_scarcity,2015,"3",3.000000,0.5
 annual,HB_NORTH,n_scarcity,2016,"1",1.000000,0.5
 annual,HB_NORTH,n_scarcity,2017,"0",0.000000,0.5
@@ -1162,7 +1162,7 @@ annual,HB_NORTH,overnight_median,2022,"41.30",41.295000,0.005
 annual,HB_NORTH,overnight_median,2023,"19.46",19.460000,0.005
 annual,HB_NORTH,overnight_median,2024,"17.53",17.530000,0.005
 annual,HB_NORTH,overnight_median,2025,"23.51",23.510000,0.005
-annual,HB_NORTH,overnight_median,2026,"23.53",23.530000,0.005
+annual,HB_NORTH,overnight_median,2026,"23.93",23.930000,0.005
 annual,HB_NORTH,overnight_min,2015,"-29.61",-29.610000,0.005
 annual,HB_NORTH,overnight_min,2016,"-23.63",-23.630000,0.005
 annual,HB_NORTH,overnight_min,2017,"-73.57",-73.570000,0.005
@@ -1186,7 +1186,7 @@ annual,HB_NORTH,overnight_q1,2022,"27.14",27.140000,0.005
 annual,HB_NORTH,overnight_q1,2023,"14.79",14.790000,0.005
 annual,HB_NORTH,overnight_q1,2024,"11.97",11.970000,0.005
 annual,HB_NORTH,overnight_q1,2025,"19.15",19.150000,0.005
-annual,HB_NORTH,overnight_q1,2026,"18.31",18.307500,0.005
+annual,HB_NORTH,overnight_q1,2026,"18.44",18.440000,0.005
 annual,HB_NORTH,overnight_q3,2015,"21.63",21.630000,0.005
 annual,HB_NORTH,overnight_q3,2016,"19.61",19.610000,0.005
 annual,HB_NORTH,overnight_q3,2017,"20.91",20.910000,0.005
@@ -1198,7 +1198,7 @@ annual,HB_NORTH,overnight_q3,2022,"55.75",55.750000,0.005
 annual,HB_NORTH,overnight_q3,2023,"23.28",23.280000,0.005
 annual,HB_NORTH,overnight_q3,2024,"21.91",21.910000,0.005
 annual,HB_NORTH,overnight_q3,2025,"31.41",31.410000,0.005
-annual,HB_NORTH,overnight_q3,2026,"30.83",30.830000,0.005
+annual,HB_NORTH,overnight_q3,2026,"32.27",32.270000,0.005
 annual,HB_NORTH,peak_iqr,2015,"8.00",8.002500,0.005
 annual,HB_NORTH,peak_iqr,2016,"8.85",8.850000,0.005
 annual,HB_NORTH,peak_iqr,2017,"9.88",9.882500,0.005
@@ -1210,7 +1210,7 @@ annual,HB_NORTH,peak_iqr,2022,"47.07",47.065000,0.005
 annual,HB_NORTH,peak_iqr,2023,"33.11",33.112500,0.005
 annual,HB_NORTH,peak_iqr,2024,"23.45",23.447500,0.005
 annual,HB_NORTH,peak_iqr,2025,"35.17",35.170000,0.005
-annual,HB_NORTH,peak_iqr,2026,"26.07",26.072500,0.005
+annual,HB_NORTH,peak_iqr,2026,"27.47",27.465000,0.005
 annual,HB_NORTH,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_NORTH,peak_max,2016,"1,443.25",1443.250000,0.005
 annual,HB_NORTH,peak_max,2017,"810.38",810.380000,0.005
@@ -1234,7 +1234,7 @@ annual,HB_NORTH,peak_median,2022,"59.85",59.850000,0.005
 annual,HB_NORTH,peak_median,2023,"27.14",27.140000,0.005
 annual,HB_NORTH,peak_median,2024,"26.07",26.065000,0.005
 annual,HB_NORTH,peak_median,2025,"34.82",34.820000,0.005
-annual,HB_NORTH,peak_median,2026,"33.00",33.000000,0.005
+annual,HB_NORTH,peak_median,2026,"34.46",34.460000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2015,"0.03",0.025000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2016,"0.44",0.440000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2017,"1.22",1.220000,0.005
@@ -1246,7 +1246,7 @@ annual,HB_NORTH,peak_minus_midday_median,2022,"14.42",14.415000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2023,"5.04",5.040000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2024,"7.46",7.455000,0.005
 annual,HB_NORTH,peak_minus_midday_median,2025,"12.71",12.710000,0.005
-annual,HB_NORTH,peak_minus_midday_median,2026,"12.43",12.430000,0.005
+annual,HB_NORTH,peak_minus_midday_median,2026,"14.07",14.070000,0.005
 annual,HB_NORTH,peak_min,2015,"0.40",0.400000,0.005
 annual,HB_NORTH,peak_min,2016,"-10.21",-10.210000,0.005
 annual,HB_NORTH,peak_min,2017,"-6.94",-6.940000,0.005
@@ -1270,7 +1270,7 @@ annual,HB_NORTH,peak_q1,2022,"35.48",35.477500,0.005
 annual,HB_NORTH,peak_q1,2023,"20.29",20.290000,0.005
 annual,HB_NORTH,peak_q1,2024,"19.38",19.377500,0.005
 annual,HB_NORTH,peak_q1,2025,"23.39",23.390000,0.005
-annual,HB_NORTH,peak_q1,2026,"23.27",23.265000,0.005
+annual,HB_NORTH,peak_q1,2026,"23.85",23.847500,0.005
 annual,HB_NORTH,peak_q3,2015,"28.47",28.472500,0.005
 annual,HB_NORTH,peak_q3,2016,"26.54",26.540000,0.005
 annual,HB_NORTH,peak_q3,2017,"29.78",29.782500,0.005
@@ -1282,7 +1282,7 @@ annual,HB_NORTH,peak_q3,2022,"82.54",82.542500,0.005
 annual,HB_NORTH,peak_q3,2023,"53.40",53.402500,0.005
 annual,HB_NORTH,peak_q3,2024,"42.83",42.825000,0.005
 annual,HB_NORTH,peak_q3,2025,"58.56",58.560000,0.005
-annual,HB_NORTH,peak_q3,2026,"49.34",49.337500,0.005
+annual,HB_NORTH,peak_q3,2026,"51.31",51.312500,0.005
 annual,HB_NORTH,worst_interval_multiple,2015,"25.32",25.315358,0.005
 annual,HB_NORTH,worst_interval_multiple,2016,"25.95",25.951783,0.005
 annual,HB_NORTH,worst_interval_multiple,2017,"19.60",19.600283,0.005
@@ -1294,7 +1294,7 @@ annual,HB_NORTH,worst_interval_multiple,2022,"69.73",69.732014,0.005
 annual,HB_NORTH,worst_interval_multiple,2023,"225.10",225.096751,0.005
 annual,HB_NORTH,worst_interval_multiple,2024,"48.19",48.191622,0.005
 annual,HB_NORTH,worst_interval_multiple,2025,"13.91",13.908233,0.005
-annual,HB_NORTH,worst_interval_multiple,2026,"34.90",34.901095,0.005
+annual,HB_NORTH,worst_interval_multiple,2026,"30.92",30.923208,0.005
 annual,HB_SOUTH,all_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_SOUTH,all_max,2016,"1,509.68",1509.680000,0.005
 annual,HB_SOUTH,all_max,2017,"1,301.29",1301.290000,0.005
@@ -1318,7 +1318,7 @@ annual,HB_SOUTH,all_median,2022,"43.52",43.520000,0.005
 annual,HB_SOUTH,all_median,2023,"21.45",21.450000,0.005
 annual,HB_SOUTH,all_median,2024,"19.44",19.440000,0.005
 annual,HB_SOUTH,all_median,2025,"25.26",25.260000,0.005
-annual,HB_SOUTH,all_median,2026,"24.95",24.950000,0.005
+annual,HB_SOUTH,all_median,2026,"25.88",25.880000,0.005
 annual,HB_SOUTH,all_min,2015,"-67.73",-67.730000,0.005
 annual,HB_SOUTH,all_min,2016,"-251.00",-251.000000,0.005
 annual,HB_SOUTH,all_min,2017,"-138.97",-138.970000,0.005
@@ -1342,7 +1342,7 @@ annual,HB_SOUTH,all_p999,2022,"2,733.88",2733.881270,0.005
 annual,HB_SOUTH,all_p999,2023,"4,352.41",4352.408540,0.005
 annual,HB_SOUTH,all_p999,2024,"875.59",875.589700,0.005
 annual,HB_SOUTH,all_p999,2025,"347.24",347.238410,0.005
-annual,HB_SOUTH,all_p999,2026,"634.38",634.377400,0.005
+annual,HB_SOUTH,all_p999,2026,"598.46",598.456150,0.005
 annual,HB_SOUTH,all_q1,2015,"18.03",18.030000,0.005
 annual,HB_SOUTH,all_q1,2016,"15.33",15.330000,0.005
 annual,HB_SOUTH,all_q1,2017,"18.43",18.430000,0.005
@@ -1354,7 +1354,7 @@ annual,HB_SOUTH,all_q1,2022,"28.16",28.160000,0.005
 annual,HB_SOUTH,all_q1,2023,"16.60",16.600000,0.005
 annual,HB_SOUTH,all_q1,2024,"14.30",14.300000,0.005
 annual,HB_SOUTH,all_q1,2025,"19.37",19.370000,0.005
-annual,HB_SOUTH,all_q1,2026,"18.06",18.060000,0.005
+annual,HB_SOUTH,all_q1,2026,"18.77",18.770000,0.005
 annual,HB_SOUTH,all_q3,2015,"24.53",24.530000,0.005
 annual,HB_SOUTH,all_q3,2016,"22.11",22.110000,0.005
 annual,HB_SOUTH,all_q3,2017,"24.20",24.200000,0.005
@@ -1366,7 +1366,7 @@ annual,HB_SOUTH,all_q3,2022,"64.23",64.232500,0.005
 annual,HB_SOUTH,all_q3,2023,"27.90",27.900000,0.005
 annual,HB_SOUTH,all_q3,2024,"25.26",25.260000,0.005
 annual,HB_SOUTH,all_q3,2025,"35.98",35.982500,0.005
-annual,HB_SOUTH,all_q3,2026,"34.53",34.530000,0.005
+annual,HB_SOUTH,all_q3,2026,"36.34",36.340000,0.005
 annual,HB_SOUTH,midday_max,2015,"1,392.68",1392.680000,0.005
 annual,HB_SOUTH,midday_max,2016,"1,298.36",1298.360000,0.005
 annual,HB_SOUTH,midday_max,2017,"1,039.39",1039.390000,0.005
@@ -1390,7 +1390,7 @@ annual,HB_SOUTH,midday_median,2022,"44.80",44.795000,0.005
 annual,HB_SOUTH,midday_median,2023,"22.59",22.590000,0.005
 annual,HB_SOUTH,midday_median,2024,"18.55",18.550000,0.005
 annual,HB_SOUTH,midday_median,2025,"21.72",21.715000,0.005
-annual,HB_SOUTH,midday_median,2026,"19.36",19.355000,0.005
+annual,HB_SOUTH,midday_median,2026,"20.53",20.530000,0.005
 annual,HB_SOUTH,midday_min,2015,"-67.73",-67.730000,0.005
 annual,HB_SOUTH,midday_min,2016,"-4.53",-4.530000,0.005
 annual,HB_SOUTH,midday_min,2017,"-102.64",-102.640000,0.005
@@ -1414,7 +1414,7 @@ annual,HB_SOUTH,midday_q1,2022,"25.53",25.530000,0.005
 annual,HB_SOUTH,midday_q1,2023,"15.23",15.230000,0.005
 annual,HB_SOUTH,midday_q1,2024,"11.18",11.175000,0.005
 annual,HB_SOUTH,midday_q1,2025,"14.00",13.997500,0.005
-annual,HB_SOUTH,midday_q1,2026,"13.05",13.047500,0.005
+annual,HB_SOUTH,midday_q1,2026,"13.61",13.610000,0.005
 annual,HB_SOUTH,midday_q3,2015,"29.43",29.430000,0.005
 annual,HB_SOUTH,midday_q3,2016,"29.23",29.230000,0.005
 annual,HB_SOUTH,midday_q3,2017,"31.40",31.400000,0.005
@@ -1426,7 +1426,7 @@ annual,HB_SOUTH,midday_q3,2022,"75.38",75.380000,0.005
 annual,HB_SOUTH,midday_q3,2023,"32.45",32.452500,0.005
 annual,HB_SOUTH,midday_q3,2024,"24.52",24.520000,0.005
 annual,HB_SOUTH,midday_q3,2025,"30.29",30.292500,0.005
-annual,HB_SOUTH,midday_q3,2026,"29.49",29.492500,0.005
+annual,HB_SOUTH,midday_q3,2026,"31.25",31.250000,0.005
 annual,HB_SOUTH,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_SOUTH,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_SOUTH,n_intervals,2017,"35,040",35040.000000,0.5
@@ -1438,7 +1438,7 @@ annual,HB_SOUTH,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_SOUTH,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_SOUTH,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_SOUTH,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_SOUTH,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_SOUTH,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_SOUTH,n_negative,2015,"294",294.000000,0.5
 annual,HB_SOUTH,n_negative,2016,"679",679.000000,0.5
 annual,HB_SOUTH,n_negative,2017,"247",247.000000,0.5
@@ -1450,7 +1450,7 @@ annual,HB_SOUTH,n_negative,2022,"867",867.000000,0.5
 annual,HB_SOUTH,n_negative,2023,"779",779.000000,0.5
 annual,HB_SOUTH,n_negative,2024,"1,054",1054.000000,0.5
 annual,HB_SOUTH,n_negative,2025,"1,068",1068.000000,0.5
-annual,HB_SOUTH,n_negative,2026,"650",650.000000,0.5
+annual,HB_SOUTH,n_negative,2026,"675",675.000000,0.5
 annual,HB_SOUTH,n_scarcity,2015,"5",5.000000,0.5
 annual,HB_SOUTH,n_scarcity,2016,"4",4.000000,0.5
 annual,HB_SOUTH,n_scarcity,2017,"5",5.000000,0.5
@@ -1486,7 +1486,7 @@ annual,HB_SOUTH,overnight_median,2022,"40.49",40.490000,0.005
 annual,HB_SOUTH,overnight_median,2023,"20.06",20.060000,0.005
 annual,HB_SOUTH,overnight_median,2024,"18.24",18.240000,0.005
 annual,HB_SOUTH,overnight_median,2025,"24.26",24.260000,0.005
-annual,HB_SOUTH,overnight_median,2026,"24.34",24.340000,0.005
+annual,HB_SOUTH,overnight_median,2026,"25.08",25.080000,0.005
 annual,HB_SOUTH,overnight_min,2015,"-11.58",-11.580000,0.005
 annual,HB_SOUTH,overnight_min,2016,"-251.00",-251.000000,0.005
 annual,HB_SOUTH,overnight_min,2017,"-138.97",-138.970000,0.005
@@ -1510,7 +1510,7 @@ annual,HB_SOUTH,overnight_q1,2022,"27.41",27.410000,0.005
 annual,HB_SOUTH,overnight_q1,2023,"15.84",15.840000,0.005
 annual,HB_SOUTH,overnight_q1,2024,"13.63",13.627500,0.005
 annual,HB_SOUTH,overnight_q1,2025,"19.40",19.400000,0.005
-annual,HB_SOUTH,overnight_q1,2026,"18.80",18.800000,0.005
+annual,HB_SOUTH,overnight_q1,2026,"19.36",19.360000,0.005
 annual,HB_SOUTH,overnight_q3,2015,"21.75",21.750000,0.005
 annual,HB_SOUTH,overnight_q3,2016,"19.73",19.730000,0.005
 annual,HB_SOUTH,overnight_q3,2017,"21.22",21.220000,0.005
@@ -1522,7 +1522,7 @@ annual,HB_SOUTH,overnight_q3,2022,"55.16",55.160000,0.005
 annual,HB_SOUTH,overnight_q3,2023,"24.51",24.510000,0.005
 annual,HB_SOUTH,overnight_q3,2024,"22.48",22.480000,0.005
 annual,HB_SOUTH,overnight_q3,2025,"31.73",31.732500,0.005
-annual,HB_SOUTH,overnight_q3,2026,"31.86",31.862500,0.005
+annual,HB_SOUTH,overnight_q3,2026,"33.64",33.640000,0.005
 annual,HB_SOUTH,peak_iqr,2015,"7.22",7.220000,0.005
 annual,HB_SOUTH,peak_iqr,2016,"9.39",9.390000,0.005
 annual,HB_SOUTH,peak_iqr,2017,"9.59",9.590000,0.005
@@ -1534,7 +1534,7 @@ annual,HB_SOUTH,peak_iqr,2022,"43.02",43.020000,0.005
 annual,HB_SOUTH,peak_iqr,2023,"30.83",30.825000,0.005
 annual,HB_SOUTH,peak_iqr,2024,"24.93",24.932500,0.005
 annual,HB_SOUTH,peak_iqr,2025,"33.55",33.550000,0.005
-annual,HB_SOUTH,peak_iqr,2026,"24.24",24.242500,0.005
+annual,HB_SOUTH,peak_iqr,2026,"25.28",25.275000,0.005
 annual,HB_SOUTH,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_SOUTH,peak_max,2016,"1,509.68",1509.680000,0.005
 annual,HB_SOUTH,peak_max,2017,"836.71",836.710000,0.005
@@ -1558,7 +1558,7 @@ annual,HB_SOUTH,peak_median,2022,"58.52",58.515000,0.005
 annual,HB_SOUTH,peak_median,2023,"27.75",27.750000,0.005
 annual,HB_SOUTH,peak_median,2024,"26.56",26.560000,0.005
 annual,HB_SOUTH,peak_median,2025,"37.12",37.120000,0.005
-annual,HB_SOUTH,peak_median,2026,"33.24",33.240000,0.005
+annual,HB_SOUTH,peak_median,2026,"34.91",34.910000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2015,"-0.27",-0.270000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2016,"0.11",0.105000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2017,"0.13",0.125000,0.005
@@ -1570,7 +1570,7 @@ annual,HB_SOUTH,peak_minus_midday_median,2022,"13.72",13.720000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2023,"5.16",5.160000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2024,"8.01",8.010000,0.005
 annual,HB_SOUTH,peak_minus_midday_median,2025,"15.41",15.405000,0.005
-annual,HB_SOUTH,peak_minus_midday_median,2026,"13.89",13.885000,0.005
+annual,HB_SOUTH,peak_minus_midday_median,2026,"14.38",14.380000,0.005
 annual,HB_SOUTH,peak_min,2015,"7.57",7.570000,0.005
 annual,HB_SOUTH,peak_min,2016,"2.09",2.090000,0.005
 annual,HB_SOUTH,peak_min,2017,"7.57",7.570000,0.005
@@ -1594,7 +1594,7 @@ annual,HB_SOUTH,peak_q1,2022,"34.58",34.580000,0.005
 annual,HB_SOUTH,peak_q1,2023,"21.21",21.210000,0.005
 annual,HB_SOUTH,peak_q1,2024,"19.82",19.817500,0.005
 annual,HB_SOUTH,peak_q1,2025,"25.62",25.620000,0.005
-annual,HB_SOUTH,peak_q1,2026,"22.91",22.905000,0.005
+annual,HB_SOUTH,peak_q1,2026,"24.16",24.160000,0.005
 annual,HB_SOUTH,peak_q3,2015,"28.17",28.170000,0.005
 annual,HB_SOUTH,peak_q3,2016,"26.95",26.950000,0.005
 annual,HB_SOUTH,peak_q3,2017,"30.08",30.080000,0.005
@@ -1606,7 +1606,7 @@ annual,HB_SOUTH,peak_q3,2022,"77.60",77.600000,0.005
 annual,HB_SOUTH,peak_q3,2023,"52.04",52.035000,0.005
 annual,HB_SOUTH,peak_q3,2024,"44.75",44.750000,0.005
 annual,HB_SOUTH,peak_q3,2025,"59.17",59.170000,0.005
-annual,HB_SOUTH,peak_q3,2026,"47.15",47.147500,0.005
+annual,HB_SOUTH,peak_q3,2026,"49.44",49.435000,0.005
 annual,HB_SOUTH,worst_interval_multiple,2015,"28.58",28.580933,0.005
 annual,HB_SOUTH,worst_interval_multiple,2016,"29.40",29.397675,0.005
 annual,HB_SOUTH,worst_interval_multiple,2017,"32.20",32.197996,0.005
@@ -1618,7 +1618,7 @@ annual,HB_SOUTH,worst_interval_multiple,2022,"62.82",62.818963,0.005
 annual,HB_SOUTH,worst_interval_multiple,2023,"202.91",202.909489,0.005
 annual,HB_SOUTH,worst_interval_multiple,2024,"45.04",45.040622,0.005
 annual,HB_SOUTH,worst_interval_multiple,2025,"13.75",13.746572,0.005
-annual,HB_SOUTH,worst_interval_multiple,2026,"25.43",25.425948,0.005
+annual,HB_SOUTH,worst_interval_multiple,2026,"23.12",23.124272,0.005
 annual,HB_WEST,all_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_WEST,all_max,2016,"1,457.53",1457.530000,0.005
 annual,HB_WEST,all_max,2017,"944.12",944.120000,0.005
@@ -1642,7 +1642,7 @@ annual,HB_WEST,all_median,2022,"42.40",42.400000,0.005
 annual,HB_WEST,all_median,2023,"21.64",21.640000,0.005
 annual,HB_WEST,all_median,2024,"19.90",19.900000,0.005
 annual,HB_WEST,all_median,2025,"27.00",27.000000,0.005
-annual,HB_WEST,all_median,2026,"24.13",24.130000,0.005
+annual,HB_WEST,all_median,2026,"24.89",24.890000,0.005
 annual,HB_WEST,all_min,2015,"-13.40",-13.400000,0.005
 annual,HB_WEST,all_min,2016,"-23.63",-23.630000,0.005
 annual,HB_WEST,all_min,2017,"-21.84",-21.840000,0.005
@@ -1666,7 +1666,7 @@ annual,HB_WEST,all_p999,2022,"3,098.11",3098.113270,0.005
 annual,HB_WEST,all_p999,2023,"4,601.00",4600.998830,0.005
 annual,HB_WEST,all_p999,2024,"923.79",923.794350,0.005
 annual,HB_WEST,all_p999,2025,"355.60",355.598320,0.005
-annual,HB_WEST,all_p999,2026,"868.58",868.581550,0.005
+annual,HB_WEST,all_p999,2026,"788.12",788.115370,0.005
 annual,HB_WEST,all_q1,2015,"17.88",17.880000,0.005
 annual,HB_WEST,all_q1,2016,"15.12",15.120000,0.005
 annual,HB_WEST,all_q1,2017,"17.71",17.707500,0.005
@@ -1678,7 +1678,7 @@ annual,HB_WEST,all_q1,2022,"22.92",22.920000,0.005
 annual,HB_WEST,all_q1,2023,"13.75",13.750000,0.005
 annual,HB_WEST,all_q1,2024,"10.36",10.357500,0.005
 annual,HB_WEST,all_q1,2025,"16.38",16.380000,0.005
-annual,HB_WEST,all_q1,2026,"10.21",10.210000,0.005
+annual,HB_WEST,all_q1,2026,"12.07",12.067500,0.005
 annual,HB_WEST,all_q3,2015,"24.45",24.450000,0.005
 annual,HB_WEST,all_q3,2016,"21.58",21.580000,0.005
 annual,HB_WEST,all_q3,2017,"22.67",22.670000,0.005
@@ -1690,7 +1690,7 @@ annual,HB_WEST,all_q3,2022,"64.92",64.920000,0.005
 annual,HB_WEST,all_q3,2023,"31.36",31.360000,0.005
 annual,HB_WEST,all_q3,2024,"29.69",29.692500,0.005
 annual,HB_WEST,all_q3,2025,"40.30",40.302500,0.005
-annual,HB_WEST,all_q3,2026,"34.92",34.920000,0.005
+annual,HB_WEST,all_q3,2026,"37.33",37.330000,0.005
 annual,HB_WEST,midday_max,2015,"1,089.25",1089.250000,0.005
 annual,HB_WEST,midday_max,2016,"898.40",898.400000,0.005
 annual,HB_WEST,midday_max,2017,"709.73",709.730000,0.005
@@ -1714,7 +1714,7 @@ annual,HB_WEST,midday_median,2022,"38.33",38.325000,0.005
 annual,HB_WEST,midday_median,2023,"20.44",20.440000,0.005
 annual,HB_WEST,midday_median,2024,"16.99",16.990000,0.005
 annual,HB_WEST,midday_median,2025,"20.39",20.385000,0.005
-annual,HB_WEST,midday_median,2026,"15.74",15.740000,0.005
+annual,HB_WEST,midday_median,2026,"16.03",16.030000,0.005
 annual,HB_WEST,midday_min,2015,"-1.60",-1.600000,0.005
 annual,HB_WEST,midday_min,2016,"-19.83",-19.830000,0.005
 annual,HB_WEST,midday_min,2017,"-11.56",-11.560000,0.005
@@ -1738,7 +1738,7 @@ annual,HB_WEST,midday_q1,2022,"14.87",14.865000,0.005
 annual,HB_WEST,midday_q1,2023,"8.73",8.730000,0.005
 annual,HB_WEST,midday_q1,2024,"2.09",2.087500,0.005
 annual,HB_WEST,midday_q1,2025,"5.65",5.647500,0.005
-annual,HB_WEST,midday_q1,2026,"-0.18",-0.180000,0.005
+annual,HB_WEST,midday_q1,2026,"0.02",0.020000,0.005
 annual,HB_WEST,midday_q3,2015,"29.64",29.642500,0.005
 annual,HB_WEST,midday_q3,2016,"27.64",27.642500,0.005
 annual,HB_WEST,midday_q3,2017,"29.88",29.875000,0.005
@@ -1750,7 +1750,7 @@ annual,HB_WEST,midday_q3,2022,"74.59",74.592500,0.005
 annual,HB_WEST,midday_q3,2023,"31.87",31.870000,0.005
 annual,HB_WEST,midday_q3,2024,"23.62",23.622500,0.005
 annual,HB_WEST,midday_q3,2025,"28.07",28.072500,0.005
-annual,HB_WEST,midday_q3,2026,"26.16",26.162500,0.005
+annual,HB_WEST,midday_q3,2026,"26.82",26.815000,0.005
 annual,HB_WEST,n_intervals,2015,"35,040",35040.000000,0.5
 annual,HB_WEST,n_intervals,2016,"35,136",35136.000000,0.5
 annual,HB_WEST,n_intervals,2017,"35,040",35040.000000,0.5
@@ -1762,7 +1762,7 @@ annual,HB_WEST,n_intervals,2022,"35,040",35040.000000,0.5
 annual,HB_WEST,n_intervals,2023,"35,040",35040.000000,0.5
 annual,HB_WEST,n_intervals,2024,"35,136",35136.000000,0.5
 annual,HB_WEST,n_intervals,2025,"35,040",35040.000000,0.5
-annual,HB_WEST,n_intervals,2026,"25,916",25916.000000,0.5
+annual,HB_WEST,n_intervals,2026,"30,528",30528.000000,0.5
 annual,HB_WEST,n_negative,2015,"637",637.000000,0.5
 annual,HB_WEST,n_negative,2016,"1,310",1310.000000,0.5
 annual,HB_WEST,n_negative,2017,"1,583",1583.000000,0.5
@@ -1774,7 +1774,7 @@ annual,HB_WEST,n_negative,2022,"4,266",4266.000000,0.5
 annual,HB_WEST,n_negative,2023,"3,132",3132.000000,0.5
 annual,HB_WEST,n_negative,2024,"3,699",3699.000000,0.5
 annual,HB_WEST,n_negative,2025,"2,724",2724.000000,0.5
-annual,HB_WEST,n_negative,2026,"3,709",3709.000000,0.5
+annual,HB_WEST,n_negative,2026,"3,997",3997.000000,0.5
 annual,HB_WEST,n_scarcity,2015,"3",3.000000,0.5
 annual,HB_WEST,n_scarcity,2016,"1",1.000000,0.5
 annual,HB_WEST,n_scarcity,2017,"0",0.000000,0.5
@@ -1810,7 +1810,7 @@ annual,HB_WEST,overnight_median,2022,"40.55",40.550000,0.005
 annual,HB_WEST,overnight_median,2023,"20.56",20.560000,0.005
 annual,HB_WEST,overnight_median,2024,"18.83",18.830000,0.005
 annual,HB_WEST,overnight_median,2025,"27.13",27.130000,0.005
-annual,HB_WEST,overnight_median,2026,"24.26",24.260000,0.005
+annual,HB_WEST,overnight_median,2026,"24.95",24.950000,0.005
 annual,HB_WEST,overnight_min,2015,"-13.40",-13.400000,0.005
 annual,HB_WEST,overnight_min,2016,"-23.63",-23.630000,0.005
 annual,HB_WEST,overnight_min,2017,"-21.84",-21.840000,0.005
@@ -1834,7 +1834,7 @@ annual,HB_WEST,overnight_q1,2022,"22.76",22.757500,0.005
 annual,HB_WEST,overnight_q1,2023,"14.01",14.010000,0.005
 annual,HB_WEST,overnight_q1,2024,"10.36",10.360000,0.005
 annual,HB_WEST,overnight_q1,2025,"17.94",17.940000,0.005
-annual,HB_WEST,overnight_q1,2026,"14.26",14.260000,0.005
+annual,HB_WEST,overnight_q1,2026,"15.13",15.130000,0.005
 annual,HB_WEST,overnight_q3,2015,"21.65",21.650000,0.005
 annual,HB_WEST,overnight_q3,2016,"19.62",19.620000,0.005
 annual,HB_WEST,overnight_q3,2017,"20.96",20.960000,0.005
@@ -1846,7 +1846,7 @@ annual,HB_WEST,overnight_q3,2022,"56.77",56.770000,0.005
 annual,HB_WEST,overnight_q3,2023,"27.01",27.010000,0.005
 annual,HB_WEST,overnight_q3,2024,"26.78",26.780000,0.005
 annual,HB_WEST,overnight_q3,2025,"38.03",38.030000,0.005
-annual,HB_WEST,overnight_q3,2026,"33.42",33.420000,0.005
+annual,HB_WEST,overnight_q3,2026,"35.76",35.762500,0.005
 annual,HB_WEST,peak_iqr,2015,"7.99",7.990000,0.005
 annual,HB_WEST,peak_iqr,2016,"8.90",8.902500,0.005
 annual,HB_WEST,peak_iqr,2017,"9.38",9.380000,0.005
@@ -1858,7 +1858,7 @@ annual,HB_WEST,peak_iqr,2022,"55.37",55.365000,0.005
 annual,HB_WEST,peak_iqr,2023,"39.98",39.975000,0.005
 annual,HB_WEST,peak_iqr,2024,"32.09",32.085000,0.005
 annual,HB_WEST,peak_iqr,2025,"42.37",42.365000,0.005
-annual,HB_WEST,peak_iqr,2026,"34.52",34.522500,0.005
+annual,HB_WEST,peak_iqr,2026,"35.71",35.710000,0.005
 annual,HB_WEST,peak_max,2015,"1,538.66",1538.660000,0.005
 annual,HB_WEST,peak_max,2016,"1,457.53",1457.530000,0.005
 annual,HB_WEST,peak_max,2017,"810.56",810.560000,0.005
@@ -1882,7 +1882,7 @@ annual,HB_WEST,peak_median,2022,"56.57",56.570000,0.005
 annual,HB_WEST,peak_median,2023,"28.95",28.950000,0.005
 annual,HB_WEST,peak_median,2024,"28.56",28.555000,0.005
 annual,HB_WEST,peak_median,2025,"39.03",39.030000,0.005
-annual,HB_WEST,peak_median,2026,"31.43",31.425000,0.005
+annual,HB_WEST,peak_median,2026,"33.51",33.505000,0.005
 annual,HB_WEST,peak_minus_midday_median,2015,"0.01",0.005000,0.005
 annual,HB_WEST,peak_minus_midday_median,2016,"0.17",0.165000,0.005
 annual,HB_WEST,peak_minus_midday_median,2017,"0.52",0.520000,0.005
@@ -1894,7 +1894,7 @@ annual,HB_WEST,peak_minus_midday_median,2022,"18.25",18.245000,0.005
 annual,HB_WEST,peak_minus_midday_median,2023,"8.51",8.510000,0.005
 annual,HB_WEST,peak_minus_midday_median,2024,"11.57",11.565000,0.005
 annual,HB_WEST,peak_minus_midday_median,2025,"18.65",18.645000,0.005
-annual,HB_WEST,peak_minus_midday_median,2026,"15.69",15.685000,0.005
+annual,HB_WEST,peak_minus_midday_median,2026,"17.48",17.475000,0.005
 annual,HB_WEST,peak_min,2015,"-1.59",-1.590000,0.005
 annual,HB_WEST,peak_min,2016,"-20.68",-20.680000,0.005
 annual,HB_WEST,peak_min,2017,"-21.00",-21.000000,0.005
@@ -1918,7 +1918,7 @@ annual,HB_WEST,peak_q1,2022,"27.43",27.427500,0.005
 annual,HB_WEST,peak_q1,2023,"18.75",18.747500,0.005
 annual,HB_WEST,peak_q1,2024,"17.55",17.545000,0.005
 annual,HB_WEST,peak_q1,2025,"20.98",20.980000,0.005
-annual,HB_WEST,peak_q1,2026,"14.40",14.400000,0.005
+annual,HB_WEST,peak_q1,2026,"16.46",16.460000,0.005
 annual,HB_WEST,peak_q3,2015,"28.49",28.490000,0.005
 annual,HB_WEST,peak_q3,2016,"26.10",26.102500,0.005
 annual,HB_WEST,peak_q3,2017,"29.01",29.010000,0.005
@@ -1930,7 +1930,7 @@ annual,HB_WEST,peak_q3,2022,"82.79",82.792500,0.005
 annual,HB_WEST,peak_q3,2023,"58.72",58.722500,0.005
 annual,HB_WEST,peak_q3,2024,"49.63",49.630000,0.005
 annual,HB_WEST,peak_q3,2025,"63.35",63.345000,0.005
-annual,HB_WEST,peak_q3,2026,"48.92",48.922500,0.005
+annual,HB_WEST,peak_q3,2026,"52.17",52.170000,0.005
 annual,HB_WEST,worst_interval_multiple,2015,"25.69",25.692399,0.005
 annual,HB_WEST,worst_interval_multiple,2016,"26.14",26.138486,0.005
 annual,HB_WEST,worst_interval_multiple,2017,"20.48",20.479634,0.005
@@ -1942,7 +1942,7 @@ annual,HB_WEST,worst_interval_multiple,2022,"73.07",73.068709,0.005
 annual,HB_WEST,worst_interval_multiple,2023,"212.62",212.615473,0.005
 annual,HB_WEST,worst_interval_multiple,2024,"46.42",46.421827,0.005
 annual,HB_WEST,worst_interval_multiple,2025,"13.17",13.170308,0.005
-annual,HB_WEST,worst_interval_multiple,2026,"36.00",35.995920,0.005
+annual,HB_WEST,worst_interval_multiple,2026,"31.66",31.663936,0.005
 monthly,HB_BUSAVG,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_BUSAVG,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_BUSAVG,all_max,2015-03,"681.47",681.470000,0.005
@@ -2084,6 +2084,8 @@ monthly,HB_BUSAVG,all_max,2026-06,"212.34",212.340000,0.005
 monthly,HB_BUSAVG,all_max,2026-07,"345.20",345.200000,0.005
 monthly,HB_BUSAVG,all_max,2026-08,"780.65",780.650000,0.005
 monthly,HB_BUSAVG,all_max,2026-09,"551.05",551.050000,0.005
+monthly,HB_BUSAVG,all_max,2026-10,"434.24",434.240000,0.005
+monthly,HB_BUSAVG,all_max,2026-11,"614.97",614.970000,0.005
 monthly,HB_BUSAVG,all_median,2015-01,"22.10",22.100000,0.005
 monthly,HB_BUSAVG,all_median,2015-02,"20.61",20.605000,0.005
 monthly,HB_BUSAVG,all_median,2015-03,"22.31",22.310000,0.005
@@ -2224,7 +2226,9 @@ monthly,HB_BUSAVG,all_median,2026-05,"23.88",23.880000,0.005
 monthly,HB_BUSAVG,all_median,2026-06,"26.19",26.190000,0.005
 monthly,HB_BUSAVG,all_median,2026-07,"25.59",25.590000,0.005
 monthly,HB_BUSAVG,all_median,2026-08,"25.45",25.450000,0.005
-monthly,HB_BUSAVG,all_median,2026-09,"32.11",32.110000,0.005
+monthly,HB_BUSAVG,all_median,2026-09,"32.01",32.005000,0.005
+monthly,HB_BUSAVG,all_median,2026-10,"32.09",32.090000,0.005
+monthly,HB_BUSAVG,all_median,2026-11,"33.36",33.355000,0.005
 monthly,HB_BUSAVG,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_BUSAVG,all_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_BUSAVG,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -2366,6 +2370,8 @@ monthly,HB_BUSAVG,all_min,2026-06,"5.80",5.800000,0.005
 monthly,HB_BUSAVG,all_min,2026-07,"4.49",4.490000,0.005
 monthly,HB_BUSAVG,all_min,2026-08,"6.60",6.600000,0.005
 monthly,HB_BUSAVG,all_min,2026-09,"-24.01",-24.010000,0.005
+monthly,HB_BUSAVG,all_min,2026-10,"-12.39",-12.390000,0.005
+monthly,HB_BUSAVG,all_min,2026-11,"1.16",1.160000,0.005
 monthly,HB_BUSAVG,all_p999,2015-01,"238.18",238.179000,0.005
 monthly,HB_BUSAVG,all_p999,2015-02,"802.70",802.698830,0.005
 monthly,HB_BUSAVG,all_p999,2015-03,"509.36",509.361770,0.005
@@ -2506,7 +2512,9 @@ monthly,HB_BUSAVG,all_p999,2026-05,"156.09",156.090000,0.005
 monthly,HB_BUSAVG,all_p999,2026-06,"177.94",177.944250,0.005
 monthly,HB_BUSAVG,all_p999,2026-07,"215.23",215.227250,0.005
 monthly,HB_BUSAVG,all_p999,2026-08,"544.46",544.459250,0.005
-monthly,HB_BUSAVG,all_p999,2026-09,"474.17",474.166130,0.005
+monthly,HB_BUSAVG,all_p999,2026-09,"466.23",466.225970,0.005
+monthly,HB_BUSAVG,all_p999,2026-10,"261.09",261.090000,0.005
+monthly,HB_BUSAVG,all_p999,2026-11,"449.31",449.306390,0.005
 monthly,HB_BUSAVG,all_q1,2015-01,"20.17",20.170000,0.005
 monthly,HB_BUSAVG,all_q1,2015-02,"18.34",18.340000,0.005
 monthly,HB_BUSAVG,all_q1,2015-03,"19.56",19.560000,0.005
@@ -2647,7 +2655,9 @@ monthly,HB_BUSAVG,all_q1,2026-05,"18.38",18.380000,0.005
 monthly,HB_BUSAVG,all_q1,2026-06,"21.39",21.390000,0.005
 monthly,HB_BUSAVG,all_q1,2026-07,"22.02",22.017500,0.005
 monthly,HB_BUSAVG,all_q1,2026-08,"21.49",21.490000,0.005
-monthly,HB_BUSAVG,all_q1,2026-09,"25.94",25.940000,0.005
+monthly,HB_BUSAVG,all_q1,2026-09,"25.48",25.475000,0.005
+monthly,HB_BUSAVG,all_q1,2026-10,"21.01",21.005000,0.005
+monthly,HB_BUSAVG,all_q1,2026-11,"20.37",20.365000,0.005
 monthly,HB_BUSAVG,all_q3,2015-01,"24.31",24.312500,0.005
 monthly,HB_BUSAVG,all_q3,2015-02,"23.63",23.632500,0.005
 monthly,HB_BUSAVG,all_q3,2015-03,"25.86",25.862500,0.005
@@ -2788,7 +2798,9 @@ monthly,HB_BUSAVG,all_q3,2026-05,"31.76",31.762500,0.005
 monthly,HB_BUSAVG,all_q3,2026-06,"34.25",34.252500,0.005
 monthly,HB_BUSAVG,all_q3,2026-07,"32.52",32.520000,0.005
 monthly,HB_BUSAVG,all_q3,2026-08,"36.40",36.397500,0.005
-monthly,HB_BUSAVG,all_q3,2026-09,"40.23",40.227500,0.005
+monthly,HB_BUSAVG,all_q3,2026-09,"40.35",40.347500,0.005
+monthly,HB_BUSAVG,all_q3,2026-10,"43.34",43.335000,0.005
+monthly,HB_BUSAVG,all_q3,2026-11,"46.01",46.005000,0.005
 monthly,HB_BUSAVG,midday_max,2015-01,"44.66",44.660000,0.005
 monthly,HB_BUSAVG,midday_max,2015-02,"76.97",76.970000,0.005
 monthly,HB_BUSAVG,midday_max,2015-03,"292.10",292.100000,0.005
@@ -2930,6 +2942,8 @@ monthly,HB_BUSAVG,midday_max,2026-06,"64.41",64.410000,0.005
 monthly,HB_BUSAVG,midday_max,2026-07,"62.52",62.520000,0.005
 monthly,HB_BUSAVG,midday_max,2026-08,"78.57",78.570000,0.005
 monthly,HB_BUSAVG,midday_max,2026-09,"105.34",105.340000,0.005
+monthly,HB_BUSAVG,midday_max,2026-10,"79.46",79.460000,0.005
+monthly,HB_BUSAVG,midday_max,2026-11,"74.49",74.490000,0.005
 monthly,HB_BUSAVG,midday_median,2015-01,"21.63",21.630000,0.005
 monthly,HB_BUSAVG,midday_median,2015-02,"20.57",20.565000,0.005
 monthly,HB_BUSAVG,midday_median,2015-03,"24.76",24.755000,0.005
@@ -3070,7 +3084,9 @@ monthly,HB_BUSAVG,midday_median,2026-05,"20.18",20.180000,0.005
 monthly,HB_BUSAVG,midday_median,2026-06,"22.89",22.885000,0.005
 monthly,HB_BUSAVG,midday_median,2026-07,"24.70",24.700000,0.005
 monthly,HB_BUSAVG,midday_median,2026-08,"25.90",25.895000,0.005
-monthly,HB_BUSAVG,midday_median,2026-09,"32.23",32.225000,0.005
+monthly,HB_BUSAVG,midday_median,2026-09,"31.58",31.580000,0.005
+monthly,HB_BUSAVG,midday_median,2026-10,"24.35",24.350000,0.005
+monthly,HB_BUSAVG,midday_median,2026-11,"20.48",20.475000,0.005
 monthly,HB_BUSAVG,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_BUSAVG,midday_min,2015-02,"4.88",4.880000,0.005
 monthly,HB_BUSAVG,midday_min,2015-03,"17.15",17.150000,0.005
@@ -3212,6 +3228,8 @@ monthly,HB_BUSAVG,midday_min,2026-06,"9.41",9.410000,0.005
 monthly,HB_BUSAVG,midday_min,2026-07,"8.57",8.570000,0.005
 monthly,HB_BUSAVG,midday_min,2026-08,"12.28",12.280000,0.005
 monthly,HB_BUSAVG,midday_min,2026-09,"15.16",15.160000,0.005
+monthly,HB_BUSAVG,midday_min,2026-10,"-12.01",-12.010000,0.005
+monthly,HB_BUSAVG,midday_min,2026-11,"5.50",5.500000,0.005
 monthly,HB_BUSAVG,midday_q1,2015-01,"19.97",19.970000,0.005
 monthly,HB_BUSAVG,midday_q1,2015-02,"18.59",18.592500,0.005
 monthly,HB_BUSAVG,midday_q1,2015-03,"21.89",21.892500,0.005
@@ -3352,7 +3370,9 @@ monthly,HB_BUSAVG,midday_q1,2026-05,"15.85",15.845000,0.005
 monthly,HB_BUSAVG,midday_q1,2026-06,"18.99",18.992500,0.005
 monthly,HB_BUSAVG,midday_q1,2026-07,"21.52",21.522500,0.005
 monthly,HB_BUSAVG,midday_q1,2026-08,"21.69",21.687500,0.005
-monthly,HB_BUSAVG,midday_q1,2026-09,"27.34",27.342500,0.005
+monthly,HB_BUSAVG,midday_q1,2026-09,"26.89",26.890000,0.005
+monthly,HB_BUSAVG,midday_q1,2026-10,"14.16",14.157500,0.005
+monthly,HB_BUSAVG,midday_q1,2026-11,"14.60",14.597500,0.005
 monthly,HB_BUSAVG,midday_q3,2015-01,"22.97",22.970000,0.005
 monthly,HB_BUSAVG,midday_q3,2015-02,"22.90",22.900000,0.005
 monthly,HB_BUSAVG,midday_q3,2015-03,"28.00",27.995000,0.005
@@ -3493,7 +3513,9 @@ monthly,HB_BUSAVG,midday_q3,2026-05,"24.53",24.532500,0.005
 monthly,HB_BUSAVG,midday_q3,2026-06,"29.09",29.087500,0.005
 monthly,HB_BUSAVG,midday_q3,2026-07,"28.57",28.572500,0.005
 monthly,HB_BUSAVG,midday_q3,2026-08,"35.36",35.357500,0.005
-monthly,HB_BUSAVG,midday_q3,2026-09,"39.20",39.197500,0.005
+monthly,HB_BUSAVG,midday_q3,2026-09,"38.56",38.555000,0.005
+monthly,HB_BUSAVG,midday_q3,2026-10,"35.37",35.370000,0.005
+monthly,HB_BUSAVG,midday_q3,2026-11,"32.34",32.342500,0.005
 monthly,HB_BUSAVG,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_BUSAVG,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_BUSAVG,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -3634,7 +3656,9 @@ monthly,HB_BUSAVG,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_BUSAVG,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_BUSAVG,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_BUSAVG,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_BUSAVG,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_BUSAVG,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_BUSAVG,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_BUSAVG,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_BUSAVG,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_BUSAVG,n_negative,2015-02,"30",30.000000,0.5
 monthly,HB_BUSAVG,n_negative,2015-03,"39",39.000000,0.5
@@ -3776,6 +3800,8 @@ monthly,HB_BUSAVG,n_negative,2026-06,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_negative,2026-07,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_negative,2026-08,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_negative,2026-09,"1",1.000000,0.5
+monthly,HB_BUSAVG,n_negative,2026-10,"51",51.000000,0.5
+monthly,HB_BUSAVG,n_negative,2026-11,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2015-03,"0",0.000000,0.5
@@ -3917,6 +3943,8 @@ monthly,HB_BUSAVG,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_BUSAVG,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_BUSAVG,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_BUSAVG,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_BUSAVG,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_BUSAVG,overnight_max,2015-02,"849.63",849.630000,0.005
 monthly,HB_BUSAVG,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -4058,6 +4086,8 @@ monthly,HB_BUSAVG,overnight_max,2026-06,"212.34",212.340000,0.005
 monthly,HB_BUSAVG,overnight_max,2026-07,"345.20",345.200000,0.005
 monthly,HB_BUSAVG,overnight_max,2026-08,"780.65",780.650000,0.005
 monthly,HB_BUSAVG,overnight_max,2026-09,"346.84",346.840000,0.005
+monthly,HB_BUSAVG,overnight_max,2026-10,"434.24",434.240000,0.005
+monthly,HB_BUSAVG,overnight_max,2026-11,"614.97",614.970000,0.005
 monthly,HB_BUSAVG,overnight_median,2015-01,"22.02",22.020000,0.005
 monthly,HB_BUSAVG,overnight_median,2015-02,"20.32",20.315000,0.005
 monthly,HB_BUSAVG,overnight_median,2015-03,"20.71",20.705000,0.005
@@ -4198,7 +4228,9 @@ monthly,HB_BUSAVG,overnight_median,2026-05,"23.28",23.280000,0.005
 monthly,HB_BUSAVG,overnight_median,2026-06,"25.82",25.820000,0.005
 monthly,HB_BUSAVG,overnight_median,2026-07,"24.60",24.600000,0.005
 monthly,HB_BUSAVG,overnight_median,2026-08,"23.71",23.710000,0.005
-monthly,HB_BUSAVG,overnight_median,2026-09,"29.85",29.850000,0.005
+monthly,HB_BUSAVG,overnight_median,2026-09,"29.64",29.635000,0.005
+monthly,HB_BUSAVG,overnight_median,2026-10,"31.21",31.205000,0.005
+monthly,HB_BUSAVG,overnight_median,2026-11,"32.38",32.380000,0.005
 monthly,HB_BUSAVG,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_BUSAVG,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_BUSAVG,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -4340,6 +4372,8 @@ monthly,HB_BUSAVG,overnight_min,2026-06,"5.80",5.800000,0.005
 monthly,HB_BUSAVG,overnight_min,2026-07,"4.49",4.490000,0.005
 monthly,HB_BUSAVG,overnight_min,2026-08,"6.60",6.600000,0.005
 monthly,HB_BUSAVG,overnight_min,2026-09,"-24.01",-24.010000,0.005
+monthly,HB_BUSAVG,overnight_min,2026-10,"-5.81",-5.810000,0.005
+monthly,HB_BUSAVG,overnight_min,2026-11,"1.16",1.160000,0.005
 monthly,HB_BUSAVG,overnight_q1,2015-01,"19.90",19.900000,0.005
 monthly,HB_BUSAVG,overnight_q1,2015-02,"17.98",17.977500,0.005
 monthly,HB_BUSAVG,overnight_q1,2015-03,"18.94",18.940000,0.005
@@ -4480,7 +4514,9 @@ monthly,HB_BUSAVG,overnight_q1,2026-05,"17.91",17.910000,0.005
 monthly,HB_BUSAVG,overnight_q1,2026-06,"22.20",22.197500,0.005
 monthly,HB_BUSAVG,overnight_q1,2026-07,"21.35",21.347500,0.005
 monthly,HB_BUSAVG,overnight_q1,2026-08,"20.46",20.460000,0.005
-monthly,HB_BUSAVG,overnight_q1,2026-09,"24.50",24.497500,0.005
+monthly,HB_BUSAVG,overnight_q1,2026-09,"24.09",24.085000,0.005
+monthly,HB_BUSAVG,overnight_q1,2026-10,"20.72",20.722500,0.005
+monthly,HB_BUSAVG,overnight_q1,2026-11,"20.21",20.212500,0.005
 monthly,HB_BUSAVG,overnight_q3,2015-01,"24.29",24.292500,0.005
 monthly,HB_BUSAVG,overnight_q3,2015-02,"23.25",23.250000,0.005
 monthly,HB_BUSAVG,overnight_q3,2015-03,"24.22",24.222500,0.005
@@ -4621,7 +4657,9 @@ monthly,HB_BUSAVG,overnight_q3,2026-05,"30.56",30.562500,0.005
 monthly,HB_BUSAVG,overnight_q3,2026-06,"32.03",32.032500,0.005
 monthly,HB_BUSAVG,overnight_q3,2026-07,"30.13",30.125000,0.005
 monthly,HB_BUSAVG,overnight_q3,2026-08,"29.65",29.650000,0.005
-monthly,HB_BUSAVG,overnight_q3,2026-09,"35.51",35.512500,0.005
+monthly,HB_BUSAVG,overnight_q3,2026-09,"35.61",35.605000,0.005
+monthly,HB_BUSAVG,overnight_q3,2026-10,"42.12",42.117500,0.005
+monthly,HB_BUSAVG,overnight_q3,2026-11,"40.59",40.587500,0.005
 monthly,HB_BUSAVG,peak_iqr,2015-01,"4.55",4.545000,0.005
 monthly,HB_BUSAVG,peak_iqr,2015-02,"5.99",5.992500,0.005
 monthly,HB_BUSAVG,peak_iqr,2015-03,"5.58",5.580000,0.005
@@ -4762,7 +4800,9 @@ monthly,HB_BUSAVG,peak_iqr,2026-05,"15.66",15.657500,0.005
 monthly,HB_BUSAVG,peak_iqr,2026-06,"17.97",17.965000,0.005
 monthly,HB_BUSAVG,peak_iqr,2026-07,"15.36",15.360000,0.005
 monthly,HB_BUSAVG,peak_iqr,2026-08,"32.83",32.827500,0.005
-monthly,HB_BUSAVG,peak_iqr,2026-09,"33.81",33.807500,0.005
+monthly,HB_BUSAVG,peak_iqr,2026-09,"31.42",31.420000,0.005
+monthly,HB_BUSAVG,peak_iqr,2026-10,"28.75",28.747500,0.005
+monthly,HB_BUSAVG,peak_iqr,2026-11,"45.92",45.917500,0.005
 monthly,HB_BUSAVG,peak_max,2015-01,"281.82",281.820000,0.005
 monthly,HB_BUSAVG,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_BUSAVG,peak_max,2015-03,"621.64",621.640000,0.005
@@ -4904,6 +4944,8 @@ monthly,HB_BUSAVG,peak_max,2026-06,"113.33",113.330000,0.005
 monthly,HB_BUSAVG,peak_max,2026-07,"214.87",214.870000,0.005
 monthly,HB_BUSAVG,peak_max,2026-08,"484.00",484.000000,0.005
 monthly,HB_BUSAVG,peak_max,2026-09,"551.05",551.050000,0.005
+monthly,HB_BUSAVG,peak_max,2026-10,"304.38",304.380000,0.005
+monthly,HB_BUSAVG,peak_max,2026-11,"253.28",253.280000,0.005
 monthly,HB_BUSAVG,peak_median,2015-01,"23.08",23.075000,0.005
 monthly,HB_BUSAVG,peak_median,2015-02,"21.40",21.395000,0.005
 monthly,HB_BUSAVG,peak_median,2015-03,"24.65",24.645000,0.005
@@ -5044,7 +5086,9 @@ monthly,HB_BUSAVG,peak_median,2026-05,"29.86",29.855000,0.005
 monthly,HB_BUSAVG,peak_median,2026-06,"33.17",33.170000,0.005
 monthly,HB_BUSAVG,peak_median,2026-07,"33.34",33.340000,0.005
 monthly,HB_BUSAVG,peak_median,2026-08,"43.47",43.465000,0.005
-monthly,HB_BUSAVG,peak_median,2026-09,"50.35",50.345000,0.005
+monthly,HB_BUSAVG,peak_median,2026-09,"48.94",48.940000,0.005
+monthly,HB_BUSAVG,peak_median,2026-10,"41.76",41.760000,0.005
+monthly,HB_BUSAVG,peak_median,2026-11,"54.08",54.080000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2015-01,"1.45",1.445000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2015-02,"0.83",0.830000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2015-03,"-0.11",-0.110000,0.005
@@ -5185,7 +5229,9 @@ monthly,HB_BUSAVG,peak_minus_midday_median,2026-05,"9.68",9.675000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2026-06,"10.29",10.285000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2026-07,"8.64",8.640000,0.005
 monthly,HB_BUSAVG,peak_minus_midday_median,2026-08,"17.57",17.570000,0.005
-monthly,HB_BUSAVG,peak_minus_midday_median,2026-09,"18.12",18.120000,0.005
+monthly,HB_BUSAVG,peak_minus_midday_median,2026-09,"17.36",17.360000,0.005
+monthly,HB_BUSAVG,peak_minus_midday_median,2026-10,"17.41",17.410000,0.005
+monthly,HB_BUSAVG,peak_minus_midday_median,2026-11,"33.61",33.605000,0.005
 monthly,HB_BUSAVG,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_BUSAVG,peak_min,2015-02,"7.21",7.210000,0.005
 monthly,HB_BUSAVG,peak_min,2015-03,"17.87",17.870000,0.005
@@ -5327,6 +5373,8 @@ monthly,HB_BUSAVG,peak_min,2026-06,"15.71",15.710000,0.005
 monthly,HB_BUSAVG,peak_min,2026-07,"13.61",13.610000,0.005
 monthly,HB_BUSAVG,peak_min,2026-08,"15.64",15.640000,0.005
 monthly,HB_BUSAVG,peak_min,2026-09,"18.78",18.780000,0.005
+monthly,HB_BUSAVG,peak_min,2026-10,"-12.39",-12.390000,0.005
+monthly,HB_BUSAVG,peak_min,2026-11,"13.54",13.540000,0.005
 monthly,HB_BUSAVG,peak_q1,2015-01,"21.28",21.277500,0.005
 monthly,HB_BUSAVG,peak_q1,2015-02,"19.29",19.287500,0.005
 monthly,HB_BUSAVG,peak_q1,2015-03,"22.32",22.322500,0.005
@@ -5467,7 +5515,9 @@ monthly,HB_BUSAVG,peak_q1,2026-05,"24.21",24.207500,0.005
 monthly,HB_BUSAVG,peak_q1,2026-06,"24.40",24.397500,0.005
 monthly,HB_BUSAVG,peak_q1,2026-07,"25.91",25.912500,0.005
 monthly,HB_BUSAVG,peak_q1,2026-08,"27.96",27.962500,0.005
-monthly,HB_BUSAVG,peak_q1,2026-09,"35.30",35.297500,0.005
+monthly,HB_BUSAVG,peak_q1,2026-09,"35.75",35.747500,0.005
+monthly,HB_BUSAVG,peak_q1,2026-10,"29.86",29.860000,0.005
+monthly,HB_BUSAVG,peak_q1,2026-11,"36.23",36.230000,0.005
 monthly,HB_BUSAVG,peak_q3,2015-01,"25.82",25.822500,0.005
 monthly,HB_BUSAVG,peak_q3,2015-02,"25.28",25.280000,0.005
 monthly,HB_BUSAVG,peak_q3,2015-03,"27.90",27.902500,0.005
@@ -5608,7 +5658,9 @@ monthly,HB_BUSAVG,peak_q3,2026-05,"39.87",39.865000,0.005
 monthly,HB_BUSAVG,peak_q3,2026-06,"42.36",42.362500,0.005
 monthly,HB_BUSAVG,peak_q3,2026-07,"41.27",41.272500,0.005
 monthly,HB_BUSAVG,peak_q3,2026-08,"60.79",60.790000,0.005
-monthly,HB_BUSAVG,peak_q3,2026-09,"69.11",69.105000,0.005
+monthly,HB_BUSAVG,peak_q3,2026-09,"67.17",67.167500,0.005
+monthly,HB_BUSAVG,peak_q3,2026-10,"58.61",58.607500,0.005
+monthly,HB_BUSAVG,peak_q3,2026-11,"82.15",82.147500,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2015-01,"10.78",10.777330,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2015-02,"38.96",38.956507,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2015-03,"22.83",22.831097,0.005
@@ -5749,7 +5801,9 @@ monthly,HB_BUSAVG,worst_interval_multiple,2026-05,"6.54",6.536432,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2026-06,"6.79",6.794359,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2026-07,"8.41",8.410600,0.005
 monthly,HB_BUSAVG,worst_interval_multiple,2026-08,"21.39",21.393291,0.005
-monthly,HB_BUSAVG,worst_interval_multiple,2026-09,"14.77",14.766930,0.005
+monthly,HB_BUSAVG,worst_interval_multiple,2026-09,"14.57",14.567285,0.005
+monthly,HB_BUSAVG,worst_interval_multiple,2026-10,"8.14",8.136179,0.005
+monthly,HB_BUSAVG,worst_interval_multiple,2026-11,"13.47",13.470436,0.005
 monthly,HB_HOUSTON,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_HOUSTON,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_HOUSTON,all_max,2015-03,"681.47",681.470000,0.005
@@ -5891,6 +5945,8 @@ monthly,HB_HOUSTON,all_max,2026-06,"208.96",208.960000,0.005
 monthly,HB_HOUSTON,all_max,2026-07,"344.74",344.740000,0.005
 monthly,HB_HOUSTON,all_max,2026-08,"780.46",780.460000,0.005
 monthly,HB_HOUSTON,all_max,2026-09,"452.68",452.680000,0.005
+monthly,HB_HOUSTON,all_max,2026-10,"468.89",468.890000,0.005
+monthly,HB_HOUSTON,all_max,2026-11,"276.19",276.190000,0.005
 monthly,HB_HOUSTON,all_median,2015-01,"22.51",22.510000,0.005
 monthly,HB_HOUSTON,all_median,2015-02,"20.89",20.885000,0.005
 monthly,HB_HOUSTON,all_median,2015-03,"22.21",22.205000,0.005
@@ -6031,7 +6087,9 @@ monthly,HB_HOUSTON,all_median,2026-05,"25.77",25.770000,0.005
 monthly,HB_HOUSTON,all_median,2026-06,"29.16",29.160000,0.005
 monthly,HB_HOUSTON,all_median,2026-07,"27.40",27.395000,0.005
 monthly,HB_HOUSTON,all_median,2026-08,"27.84",27.840000,0.005
-monthly,HB_HOUSTON,all_median,2026-09,"33.48",33.475000,0.005
+monthly,HB_HOUSTON,all_median,2026-09,"33.68",33.675000,0.005
+monthly,HB_HOUSTON,all_median,2026-10,"34.98",34.975000,0.005
+monthly,HB_HOUSTON,all_median,2026-11,"33.52",33.520000,0.005
 monthly,HB_HOUSTON,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_HOUSTON,all_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_HOUSTON,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -6173,6 +6231,8 @@ monthly,HB_HOUSTON,all_min,2026-06,"-52.24",-52.240000,0.005
 monthly,HB_HOUSTON,all_min,2026-07,"8.55",8.550000,0.005
 monthly,HB_HOUSTON,all_min,2026-08,"13.16",13.160000,0.005
 monthly,HB_HOUSTON,all_min,2026-09,"11.71",11.710000,0.005
+monthly,HB_HOUSTON,all_min,2026-10,"-57.31",-57.310000,0.005
+monthly,HB_HOUSTON,all_min,2026-11,"9.30",9.300000,0.005
 monthly,HB_HOUSTON,all_p999,2015-01,"261.87",261.867000,0.005
 monthly,HB_HOUSTON,all_p999,2015-02,"801.61",801.610210,0.005
 monthly,HB_HOUSTON,all_p999,2015-03,"508.90",508.898870,0.005
@@ -6313,7 +6373,9 @@ monthly,HB_HOUSTON,all_p999,2026-05,"155.63",155.631750,0.005
 monthly,HB_HOUSTON,all_p999,2026-06,"177.47",177.467620,0.005
 monthly,HB_HOUSTON,all_p999,2026-07,"223.06",223.055750,0.005
 monthly,HB_HOUSTON,all_p999,2026-08,"477.41",477.409250,0.005
-monthly,HB_HOUSTON,all_p999,2026-09,"354.70",354.699110,0.005
+monthly,HB_HOUSTON,all_p999,2026-09,"347.56",347.559590,0.005
+monthly,HB_HOUSTON,all_p999,2026-10,"270.54",270.540000,0.005
+monthly,HB_HOUSTON,all_p999,2026-11,"220.63",220.634900,0.005
 monthly,HB_HOUSTON,all_q1,2015-01,"20.54",20.540000,0.005
 monthly,HB_HOUSTON,all_q1,2015-02,"18.55",18.547500,0.005
 monthly,HB_HOUSTON,all_q1,2015-03,"19.57",19.570000,0.005
@@ -6454,7 +6516,9 @@ monthly,HB_HOUSTON,all_q1,2026-05,"20.62",20.620000,0.005
 monthly,HB_HOUSTON,all_q1,2026-06,"24.66",24.660000,0.005
 monthly,HB_HOUSTON,all_q1,2026-07,"23.41",23.410000,0.005
 monthly,HB_HOUSTON,all_q1,2026-08,"23.02",23.017500,0.005
-monthly,HB_HOUSTON,all_q1,2026-09,"27.29",27.287500,0.005
+monthly,HB_HOUSTON,all_q1,2026-09,"27.16",27.157500,0.005
+monthly,HB_HOUSTON,all_q1,2026-10,"24.98",24.977500,0.005
+monthly,HB_HOUSTON,all_q1,2026-11,"27.16",27.160000,0.005
 monthly,HB_HOUSTON,all_q3,2015-01,"24.63",24.630000,0.005
 monthly,HB_HOUSTON,all_q3,2015-02,"23.91",23.905000,0.005
 monthly,HB_HOUSTON,all_q3,2015-03,"25.69",25.690000,0.005
@@ -6595,7 +6659,9 @@ monthly,HB_HOUSTON,all_q3,2026-05,"33.87",33.872500,0.005
 monthly,HB_HOUSTON,all_q3,2026-06,"37.85",37.850000,0.005
 monthly,HB_HOUSTON,all_q3,2026-07,"35.00",35.000000,0.005
 monthly,HB_HOUSTON,all_q3,2026-08,"38.47",38.472500,0.005
-monthly,HB_HOUSTON,all_q3,2026-09,"43.24",43.237500,0.005
+monthly,HB_HOUSTON,all_q3,2026-09,"43.54",43.542500,0.005
+monthly,HB_HOUSTON,all_q3,2026-10,"45.20",45.197500,0.005
+monthly,HB_HOUSTON,all_q3,2026-11,"44.11",44.112500,0.005
 monthly,HB_HOUSTON,midday_max,2015-01,"42.99",42.990000,0.005
 monthly,HB_HOUSTON,midday_max,2015-02,"238.79",238.790000,0.005
 monthly,HB_HOUSTON,midday_max,2015-03,"291.84",291.840000,0.005
@@ -6737,6 +6803,8 @@ monthly,HB_HOUSTON,midday_max,2026-06,"92.96",92.960000,0.005
 monthly,HB_HOUSTON,midday_max,2026-07,"65.83",65.830000,0.005
 monthly,HB_HOUSTON,midday_max,2026-08,"84.63",84.630000,0.005
 monthly,HB_HOUSTON,midday_max,2026-09,"106.37",106.370000,0.005
+monthly,HB_HOUSTON,midday_max,2026-10,"115.61",115.610000,0.005
+monthly,HB_HOUSTON,midday_max,2026-11,"200.11",200.110000,0.005
 monthly,HB_HOUSTON,midday_median,2015-01,"22.05",22.050000,0.005
 monthly,HB_HOUSTON,midday_median,2015-02,"20.76",20.760000,0.005
 monthly,HB_HOUSTON,midday_median,2015-03,"24.44",24.440000,0.005
@@ -6877,7 +6945,9 @@ monthly,HB_HOUSTON,midday_median,2026-05,"24.84",24.840000,0.005
 monthly,HB_HOUSTON,midday_median,2026-06,"32.35",32.345000,0.005
 monthly,HB_HOUSTON,midday_median,2026-07,"28.82",28.820000,0.005
 monthly,HB_HOUSTON,midday_median,2026-08,"33.50",33.500000,0.005
-monthly,HB_HOUSTON,midday_median,2026-09,"38.96",38.955000,0.005
+monthly,HB_HOUSTON,midday_median,2026-09,"39.05",39.045000,0.005
+monthly,HB_HOUSTON,midday_median,2026-10,"33.71",33.705000,0.005
+monthly,HB_HOUSTON,midday_median,2026-11,"32.16",32.155000,0.005
 monthly,HB_HOUSTON,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_HOUSTON,midday_min,2015-02,"13.97",13.970000,0.005
 monthly,HB_HOUSTON,midday_min,2015-03,"17.15",17.150000,0.005
@@ -7019,6 +7089,8 @@ monthly,HB_HOUSTON,midday_min,2026-06,"14.48",14.480000,0.005
 monthly,HB_HOUSTON,midday_min,2026-07,"17.95",17.950000,0.005
 monthly,HB_HOUSTON,midday_min,2026-08,"20.51",20.510000,0.005
 monthly,HB_HOUSTON,midday_min,2026-09,"19.05",19.050000,0.005
+monthly,HB_HOUSTON,midday_min,2026-10,"-0.59",-0.590000,0.005
+monthly,HB_HOUSTON,midday_min,2026-11,"11.96",11.960000,0.005
 monthly,HB_HOUSTON,midday_q1,2015-01,"20.85",20.847500,0.005
 monthly,HB_HOUSTON,midday_q1,2015-02,"19.46",19.462500,0.005
 monthly,HB_HOUSTON,midday_q1,2015-03,"21.81",21.810000,0.005
@@ -7159,7 +7231,9 @@ monthly,HB_HOUSTON,midday_q1,2026-05,"20.27",20.272500,0.005
 monthly,HB_HOUSTON,midday_q1,2026-06,"26.97",26.967500,0.005
 monthly,HB_HOUSTON,midday_q1,2026-07,"25.49",25.487500,0.005
 monthly,HB_HOUSTON,midday_q1,2026-08,"27.27",27.267500,0.005
-monthly,HB_HOUSTON,midday_q1,2026-09,"30.77",30.772500,0.005
+monthly,HB_HOUSTON,midday_q1,2026-09,"30.97",30.970000,0.005
+monthly,HB_HOUSTON,midday_q1,2026-10,"22.79",22.792500,0.005
+monthly,HB_HOUSTON,midday_q1,2026-11,"27.07",27.067500,0.005
 monthly,HB_HOUSTON,midday_q3,2015-01,"23.73",23.730000,0.005
 monthly,HB_HOUSTON,midday_q3,2015-02,"22.95",22.952500,0.005
 monthly,HB_HOUSTON,midday_q3,2015-03,"27.23",27.227500,0.005
@@ -7300,7 +7374,9 @@ monthly,HB_HOUSTON,midday_q3,2026-05,"31.66",31.657500,0.005
 monthly,HB_HOUSTON,midday_q3,2026-06,"42.08",42.082500,0.005
 monthly,HB_HOUSTON,midday_q3,2026-07,"36.17",36.170000,0.005
 monthly,HB_HOUSTON,midday_q3,2026-08,"39.89",39.890000,0.005
-monthly,HB_HOUSTON,midday_q3,2026-09,"46.75",46.747500,0.005
+monthly,HB_HOUSTON,midday_q3,2026-09,"47.22",47.222500,0.005
+monthly,HB_HOUSTON,midday_q3,2026-10,"46.41",46.405000,0.005
+monthly,HB_HOUSTON,midday_q3,2026-11,"44.74",44.742500,0.005
 monthly,HB_HOUSTON,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_HOUSTON,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_HOUSTON,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -7441,7 +7517,9 @@ monthly,HB_HOUSTON,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_HOUSTON,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_HOUSTON,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_HOUSTON,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_HOUSTON,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_HOUSTON,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_HOUSTON,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_HOUSTON,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_HOUSTON,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_HOUSTON,n_negative,2015-02,"30",30.000000,0.5
 monthly,HB_HOUSTON,n_negative,2015-03,"39",39.000000,0.5
@@ -7583,6 +7661,8 @@ monthly,HB_HOUSTON,n_negative,2026-06,"3",3.000000,0.5
 monthly,HB_HOUSTON,n_negative,2026-07,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_negative,2026-08,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_negative,2026-09,"0",0.000000,0.5
+monthly,HB_HOUSTON,n_negative,2026-10,"13",13.000000,0.5
+monthly,HB_HOUSTON,n_negative,2026-11,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2015-03,"0",0.000000,0.5
@@ -7724,6 +7804,8 @@ monthly,HB_HOUSTON,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_HOUSTON,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_HOUSTON,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_HOUSTON,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_HOUSTON,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_HOUSTON,overnight_max,2015-02,"848.32",848.320000,0.005
 monthly,HB_HOUSTON,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -7865,6 +7947,8 @@ monthly,HB_HOUSTON,overnight_max,2026-06,"208.96",208.960000,0.005
 monthly,HB_HOUSTON,overnight_max,2026-07,"344.74",344.740000,0.005
 monthly,HB_HOUSTON,overnight_max,2026-08,"780.46",780.460000,0.005
 monthly,HB_HOUSTON,overnight_max,2026-09,"340.65",340.650000,0.005
+monthly,HB_HOUSTON,overnight_max,2026-10,"468.89",468.890000,0.005
+monthly,HB_HOUSTON,overnight_max,2026-11,"149.10",149.100000,0.005
 monthly,HB_HOUSTON,overnight_median,2015-01,"22.29",22.285000,0.005
 monthly,HB_HOUSTON,overnight_median,2015-02,"20.44",20.440000,0.005
 monthly,HB_HOUSTON,overnight_median,2015-03,"20.72",20.720000,0.005
@@ -8005,7 +8089,9 @@ monthly,HB_HOUSTON,overnight_median,2026-05,"24.02",24.020000,0.005
 monthly,HB_HOUSTON,overnight_median,2026-06,"26.42",26.415000,0.005
 monthly,HB_HOUSTON,overnight_median,2026-07,"25.21",25.210000,0.005
 monthly,HB_HOUSTON,overnight_median,2026-08,"24.15",24.150000,0.005
-monthly,HB_HOUSTON,overnight_median,2026-09,"30.38",30.375000,0.005
+monthly,HB_HOUSTON,overnight_median,2026-09,"30.25",30.250000,0.005
+monthly,HB_HOUSTON,overnight_median,2026-10,"32.24",32.240000,0.005
+monthly,HB_HOUSTON,overnight_median,2026-11,"32.03",32.025000,0.005
 monthly,HB_HOUSTON,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_HOUSTON,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_HOUSTON,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -8147,6 +8233,8 @@ monthly,HB_HOUSTON,overnight_min,2026-06,"-52.24",-52.240000,0.005
 monthly,HB_HOUSTON,overnight_min,2026-07,"8.55",8.550000,0.005
 monthly,HB_HOUSTON,overnight_min,2026-08,"13.16",13.160000,0.005
 monthly,HB_HOUSTON,overnight_min,2026-09,"11.71",11.710000,0.005
+monthly,HB_HOUSTON,overnight_min,2026-10,"-57.31",-57.310000,0.005
+monthly,HB_HOUSTON,overnight_min,2026-11,"9.30",9.300000,0.005
 monthly,HB_HOUSTON,overnight_q1,2015-01,"20.09",20.090000,0.005
 monthly,HB_HOUSTON,overnight_q1,2015-02,"18.05",18.050000,0.005
 monthly,HB_HOUSTON,overnight_q1,2015-03,"18.98",18.980000,0.005
@@ -8287,7 +8375,9 @@ monthly,HB_HOUSTON,overnight_q1,2026-05,"19.67",19.667500,0.005
 monthly,HB_HOUSTON,overnight_q1,2026-06,"23.42",23.420000,0.005
 monthly,HB_HOUSTON,overnight_q1,2026-07,"22.41",22.407500,0.005
 monthly,HB_HOUSTON,overnight_q1,2026-08,"21.62",21.620000,0.005
-monthly,HB_HOUSTON,overnight_q1,2026-09,"24.96",24.957500,0.005
+monthly,HB_HOUSTON,overnight_q1,2026-09,"24.76",24.760000,0.005
+monthly,HB_HOUSTON,overnight_q1,2026-10,"23.59",23.585000,0.005
+monthly,HB_HOUSTON,overnight_q1,2026-11,"25.42",25.417500,0.005
 monthly,HB_HOUSTON,overnight_q3,2015-01,"24.45",24.452500,0.005
 monthly,HB_HOUSTON,overnight_q3,2015-02,"23.34",23.335000,0.005
 monthly,HB_HOUSTON,overnight_q3,2015-03,"24.17",24.170000,0.005
@@ -8428,7 +8518,9 @@ monthly,HB_HOUSTON,overnight_q3,2026-05,"30.68",30.677500,0.005
 monthly,HB_HOUSTON,overnight_q3,2026-06,"32.91",32.912500,0.005
 monthly,HB_HOUSTON,overnight_q3,2026-07,"30.26",30.262500,0.005
 monthly,HB_HOUSTON,overnight_q3,2026-08,"29.91",29.905000,0.005
-monthly,HB_HOUSTON,overnight_q3,2026-09,"35.83",35.825000,0.005
+monthly,HB_HOUSTON,overnight_q3,2026-09,"36.07",36.065000,0.005
+monthly,HB_HOUSTON,overnight_q3,2026-10,"42.15",42.147500,0.005
+monthly,HB_HOUSTON,overnight_q3,2026-11,"37.89",37.887500,0.005
 monthly,HB_HOUSTON,peak_iqr,2015-01,"4.39",4.392500,0.005
 monthly,HB_HOUSTON,peak_iqr,2015-02,"5.81",5.810000,0.005
 monthly,HB_HOUSTON,peak_iqr,2015-03,"5.54",5.540000,0.005
@@ -8569,7 +8661,9 @@ monthly,HB_HOUSTON,peak_iqr,2026-05,"15.43",15.432500,0.005
 monthly,HB_HOUSTON,peak_iqr,2026-06,"16.48",16.482500,0.005
 monthly,HB_HOUSTON,peak_iqr,2026-07,"14.61",14.607500,0.005
 monthly,HB_HOUSTON,peak_iqr,2026-08,"24.67",24.670000,0.005
-monthly,HB_HOUSTON,peak_iqr,2026-09,"29.88",29.875000,0.005
+monthly,HB_HOUSTON,peak_iqr,2026-09,"27.67",27.667500,0.005
+monthly,HB_HOUSTON,peak_iqr,2026-10,"24.18",24.182500,0.005
+monthly,HB_HOUSTON,peak_iqr,2026-11,"19.02",19.020000,0.005
 monthly,HB_HOUSTON,peak_max,2015-01,"282.81",282.810000,0.005
 monthly,HB_HOUSTON,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_HOUSTON,peak_max,2015-03,"621.07",621.070000,0.005
@@ -8711,6 +8805,8 @@ monthly,HB_HOUSTON,peak_max,2026-06,"111.25",111.250000,0.005
 monthly,HB_HOUSTON,peak_max,2026-07,"222.87",222.870000,0.005
 monthly,HB_HOUSTON,peak_max,2026-08,"453.30",453.300000,0.005
 monthly,HB_HOUSTON,peak_max,2026-09,"452.68",452.680000,0.005
+monthly,HB_HOUSTON,peak_max,2026-10,"278.73",278.730000,0.005
+monthly,HB_HOUSTON,peak_max,2026-11,"276.19",276.190000,0.005
 monthly,HB_HOUSTON,peak_median,2015-01,"23.69",23.685000,0.005
 monthly,HB_HOUSTON,peak_median,2015-02,"22.15",22.145000,0.005
 monthly,HB_HOUSTON,peak_median,2015-03,"24.53",24.530000,0.005
@@ -8851,7 +8947,9 @@ monthly,HB_HOUSTON,peak_median,2026-05,"33.55",33.545000,0.005
 monthly,HB_HOUSTON,peak_median,2026-06,"36.04",36.035000,0.005
 monthly,HB_HOUSTON,peak_median,2026-07,"36.04",36.035000,0.005
 monthly,HB_HOUSTON,peak_median,2026-08,"42.44",42.435000,0.005
-monthly,HB_HOUSTON,peak_median,2026-09,"50.37",50.370000,0.005
+monthly,HB_HOUSTON,peak_median,2026-09,"49.33",49.325000,0.005
+monthly,HB_HOUSTON,peak_median,2026-10,"43.81",43.805000,0.005
+monthly,HB_HOUSTON,peak_median,2026-11,"48.09",48.085000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2015-01,"1.64",1.635000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2015-02,"1.39",1.385000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2015-03,"0.09",0.090000,0.005
@@ -8992,7 +9090,9 @@ monthly,HB_HOUSTON,peak_minus_midday_median,2026-05,"8.71",8.705000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2026-06,"3.69",3.690000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2026-07,"7.22",7.215000,0.005
 monthly,HB_HOUSTON,peak_minus_midday_median,2026-08,"8.94",8.935000,0.005
-monthly,HB_HOUSTON,peak_minus_midday_median,2026-09,"11.42",11.415000,0.005
+monthly,HB_HOUSTON,peak_minus_midday_median,2026-09,"10.28",10.280000,0.005
+monthly,HB_HOUSTON,peak_minus_midday_median,2026-10,"10.10",10.100000,0.005
+monthly,HB_HOUSTON,peak_minus_midday_median,2026-11,"15.93",15.930000,0.005
 monthly,HB_HOUSTON,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_HOUSTON,peak_min,2015-02,"15.20",15.200000,0.005
 monthly,HB_HOUSTON,peak_min,2015-03,"17.87",17.870000,0.005
@@ -9134,6 +9234,8 @@ monthly,HB_HOUSTON,peak_min,2026-06,"22.02",22.020000,0.005
 monthly,HB_HOUSTON,peak_min,2026-07,"17.03",17.030000,0.005
 monthly,HB_HOUSTON,peak_min,2026-08,"18.70",18.700000,0.005
 monthly,HB_HOUSTON,peak_min,2026-09,"22.03",22.030000,0.005
+monthly,HB_HOUSTON,peak_min,2026-10,"-0.10",-0.100000,0.005
+monthly,HB_HOUSTON,peak_min,2026-11,"19.12",19.120000,0.005
 monthly,HB_HOUSTON,peak_q1,2015-01,"21.77",21.770000,0.005
 monthly,HB_HOUSTON,peak_q1,2015-02,"19.68",19.680000,0.005
 monthly,HB_HOUSTON,peak_q1,2015-03,"22.01",22.010000,0.005
@@ -9274,7 +9376,9 @@ monthly,HB_HOUSTON,peak_q1,2026-05,"26.89",26.890000,0.005
 monthly,HB_HOUSTON,peak_q1,2026-06,"29.73",29.727500,0.005
 monthly,HB_HOUSTON,peak_q1,2026-07,"28.65",28.650000,0.005
 monthly,HB_HOUSTON,peak_q1,2026-08,"31.91",31.905000,0.005
-monthly,HB_HOUSTON,peak_q1,2026-09,"37.22",37.215000,0.005
+monthly,HB_HOUSTON,peak_q1,2026-09,"37.67",37.670000,0.005
+monthly,HB_HOUSTON,peak_q1,2026-10,"34.44",34.440000,0.005
+monthly,HB_HOUSTON,peak_q1,2026-11,"39.33",39.327500,0.005
 monthly,HB_HOUSTON,peak_q3,2015-01,"26.16",26.162500,0.005
 monthly,HB_HOUSTON,peak_q3,2015-02,"25.49",25.490000,0.005
 monthly,HB_HOUSTON,peak_q3,2015-03,"27.55",27.550000,0.005
@@ -9415,7 +9519,9 @@ monthly,HB_HOUSTON,peak_q3,2026-05,"42.32",42.322500,0.005
 monthly,HB_HOUSTON,peak_q3,2026-06,"46.21",46.210000,0.005
 monthly,HB_HOUSTON,peak_q3,2026-07,"43.26",43.257500,0.005
 monthly,HB_HOUSTON,peak_q3,2026-08,"56.58",56.575000,0.005
-monthly,HB_HOUSTON,peak_q3,2026-09,"67.09",67.090000,0.005
+monthly,HB_HOUSTON,peak_q3,2026-09,"65.34",65.337500,0.005
+monthly,HB_HOUSTON,peak_q3,2026-10,"58.62",58.622500,0.005
+monthly,HB_HOUSTON,peak_q3,2026-11,"58.35",58.347500,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2015-01,"11.63",11.633363,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2015-02,"38.38",38.382102,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2015-03,"22.92",22.918211,0.005
@@ -9556,7 +9662,9 @@ monthly,HB_HOUSTON,worst_interval_multiple,2026-05,"6.04",6.039261,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2026-06,"6.09",6.085995,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2026-07,"8.14",8.142207,0.005
 monthly,HB_HOUSTON,worst_interval_multiple,2026-08,"17.15",17.148321,0.005
-monthly,HB_HOUSTON,worst_interval_multiple,2026-09,"10.60",10.595941,0.005
+monthly,HB_HOUSTON,worst_interval_multiple,2026-09,"10.32",10.320997,0.005
+monthly,HB_HOUSTON,worst_interval_multiple,2026-10,"7.74",7.735239,0.005
+monthly,HB_HOUSTON,worst_interval_multiple,2026-11,"6.58",6.582187,0.005
 monthly,HB_HUBAVG,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_HUBAVG,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_HUBAVG,all_max,2015-03,"681.47",681.470000,0.005
@@ -9698,6 +9806,8 @@ monthly,HB_HUBAVG,all_max,2026-06,"210.72",210.720000,0.005
 monthly,HB_HUBAVG,all_max,2026-07,"349.05",349.050000,0.005
 monthly,HB_HUBAVG,all_max,2026-08,"780.68",780.680000,0.005
 monthly,HB_HUBAVG,all_max,2026-09,"457.68",457.680000,0.005
+monthly,HB_HUBAVG,all_max,2026-10,"438.35",438.350000,0.005
+monthly,HB_HUBAVG,all_max,2026-11,"565.21",565.210000,0.005
 monthly,HB_HUBAVG,all_median,2015-01,"22.19",22.185000,0.005
 monthly,HB_HUBAVG,all_median,2015-02,"20.71",20.705000,0.005
 monthly,HB_HUBAVG,all_median,2015-03,"22.26",22.255000,0.005
@@ -9838,7 +9948,9 @@ monthly,HB_HUBAVG,all_median,2026-05,"23.84",23.835000,0.005
 monthly,HB_HUBAVG,all_median,2026-06,"26.58",26.580000,0.005
 monthly,HB_HUBAVG,all_median,2026-07,"25.78",25.780000,0.005
 monthly,HB_HUBAVG,all_median,2026-08,"25.83",25.825000,0.005
-monthly,HB_HUBAVG,all_median,2026-09,"32.47",32.465000,0.005
+monthly,HB_HUBAVG,all_median,2026-09,"32.35",32.345000,0.005
+monthly,HB_HUBAVG,all_median,2026-10,"33.10",33.100000,0.005
+monthly,HB_HUBAVG,all_median,2026-11,"35.05",35.045000,0.005
 monthly,HB_HUBAVG,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_HUBAVG,all_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_HUBAVG,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -9980,6 +10092,8 @@ monthly,HB_HUBAVG,all_min,2026-06,"5.39",5.390000,0.005
 monthly,HB_HUBAVG,all_min,2026-07,"6.37",6.370000,0.005
 monthly,HB_HUBAVG,all_min,2026-08,"8.33",8.330000,0.005
 monthly,HB_HUBAVG,all_min,2026-09,"3.43",3.430000,0.005
+monthly,HB_HUBAVG,all_min,2026-10,"-11.33",-11.330000,0.005
+monthly,HB_HUBAVG,all_min,2026-11,"4.03",4.030000,0.005
 monthly,HB_HUBAVG,all_p999,2015-01,"238.00",238.002750,0.005
 monthly,HB_HUBAVG,all_p999,2015-02,"800.59",800.594000,0.005
 monthly,HB_HUBAVG,all_p999,2015-03,"507.41",507.409010,0.005
@@ -10120,7 +10234,9 @@ monthly,HB_HUBAVG,all_p999,2026-05,"155.44",155.441750,0.005
 monthly,HB_HUBAVG,all_p999,2026-06,"177.32",177.318090,0.005
 monthly,HB_HUBAVG,all_p999,2026-07,"208.09",208.087500,0.005
 monthly,HB_HUBAVG,all_p999,2026-08,"547.41",547.406000,0.005
-monthly,HB_HUBAVG,all_p999,2026-09,"377.06",377.057540,0.005
+monthly,HB_HUBAVG,all_p999,2026-09,"375.02",375.024260,0.005
+monthly,HB_HUBAVG,all_p999,2026-10,"259.03",259.034500,0.005
+monthly,HB_HUBAVG,all_p999,2026-11,"424.95",424.947620,0.005
 monthly,HB_HUBAVG,all_q1,2015-01,"20.24",20.240000,0.005
 monthly,HB_HUBAVG,all_q1,2015-02,"18.41",18.407500,0.005
 monthly,HB_HUBAVG,all_q1,2015-03,"19.56",19.557500,0.005
@@ -10261,7 +10377,9 @@ monthly,HB_HUBAVG,all_q1,2026-05,"17.30",17.300000,0.005
 monthly,HB_HUBAVG,all_q1,2026-06,"21.07",21.067500,0.005
 monthly,HB_HUBAVG,all_q1,2026-07,"22.00",21.997500,0.005
 monthly,HB_HUBAVG,all_q1,2026-08,"21.71",21.710000,0.005
-monthly,HB_HUBAVG,all_q1,2026-09,"26.50",26.495000,0.005
+monthly,HB_HUBAVG,all_q1,2026-09,"25.86",25.860000,0.005
+monthly,HB_HUBAVG,all_q1,2026-10,"22.02",22.020000,0.005
+monthly,HB_HUBAVG,all_q1,2026-11,"21.45",21.450000,0.005
 monthly,HB_HUBAVG,all_q3,2015-01,"24.36",24.360000,0.005
 monthly,HB_HUBAVG,all_q3,2015-02,"23.63",23.630000,0.005
 monthly,HB_HUBAVG,all_q3,2015-03,"25.83",25.830000,0.005
@@ -10402,7 +10520,9 @@ monthly,HB_HUBAVG,all_q3,2026-05,"32.19",32.192500,0.005
 monthly,HB_HUBAVG,all_q3,2026-06,"34.49",34.487500,0.005
 monthly,HB_HUBAVG,all_q3,2026-07,"32.66",32.662500,0.005
 monthly,HB_HUBAVG,all_q3,2026-08,"36.61",36.610000,0.005
-monthly,HB_HUBAVG,all_q3,2026-09,"40.88",40.880000,0.005
+monthly,HB_HUBAVG,all_q3,2026-09,"41.05",41.045000,0.005
+monthly,HB_HUBAVG,all_q3,2026-10,"44.56",44.562500,0.005
+monthly,HB_HUBAVG,all_q3,2026-11,"48.02",48.015000,0.005
 monthly,HB_HUBAVG,midday_max,2015-01,"44.70",44.700000,0.005
 monthly,HB_HUBAVG,midday_max,2015-02,"106.54",106.540000,0.005
 monthly,HB_HUBAVG,midday_max,2015-03,"291.04",291.040000,0.005
@@ -10544,6 +10664,8 @@ monthly,HB_HUBAVG,midday_max,2026-06,"64.49",64.490000,0.005
 monthly,HB_HUBAVG,midday_max,2026-07,"61.08",61.080000,0.005
 monthly,HB_HUBAVG,midday_max,2026-08,"78.69",78.690000,0.005
 monthly,HB_HUBAVG,midday_max,2026-09,"79.25",79.250000,0.005
+monthly,HB_HUBAVG,midday_max,2026-10,"79.10",79.100000,0.005
+monthly,HB_HUBAVG,midday_max,2026-11,"69.58",69.580000,0.005
 monthly,HB_HUBAVG,midday_median,2015-01,"21.70",21.700000,0.005
 monthly,HB_HUBAVG,midday_median,2015-02,"20.57",20.565000,0.005
 monthly,HB_HUBAVG,midday_median,2015-03,"24.76",24.755000,0.005
@@ -10684,7 +10806,9 @@ monthly,HB_HUBAVG,midday_median,2026-05,"20.20",20.195000,0.005
 monthly,HB_HUBAVG,midday_median,2026-06,"23.46",23.455000,0.005
 monthly,HB_HUBAVG,midday_median,2026-07,"24.89",24.890000,0.005
 monthly,HB_HUBAVG,midday_median,2026-08,"26.19",26.185000,0.005
-monthly,HB_HUBAVG,midday_median,2026-09,"33.39",33.390000,0.005
+monthly,HB_HUBAVG,midday_median,2026-09,"32.36",32.355000,0.005
+monthly,HB_HUBAVG,midday_median,2026-10,"26.17",26.165000,0.005
+monthly,HB_HUBAVG,midday_median,2026-11,"25.53",25.530000,0.005
 monthly,HB_HUBAVG,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_HUBAVG,midday_min,2015-02,"7.30",7.300000,0.005
 monthly,HB_HUBAVG,midday_min,2015-03,"17.16",17.160000,0.005
@@ -10826,6 +10950,8 @@ monthly,HB_HUBAVG,midday_min,2026-06,"10.42",10.420000,0.005
 monthly,HB_HUBAVG,midday_min,2026-07,"10.06",10.060000,0.005
 monthly,HB_HUBAVG,midday_min,2026-08,"12.42",12.420000,0.005
 monthly,HB_HUBAVG,midday_min,2026-09,"14.32",14.320000,0.005
+monthly,HB_HUBAVG,midday_min,2026-10,"-8.40",-8.400000,0.005
+monthly,HB_HUBAVG,midday_min,2026-11,"8.28",8.280000,0.005
 monthly,HB_HUBAVG,midday_q1,2015-01,"20.08",20.080000,0.005
 monthly,HB_HUBAVG,midday_q1,2015-02,"18.71",18.707500,0.005
 monthly,HB_HUBAVG,midday_q1,2015-03,"21.84",21.842500,0.005
@@ -10966,7 +11092,9 @@ monthly,HB_HUBAVG,midday_q1,2026-05,"15.05",15.045000,0.005
 monthly,HB_HUBAVG,midday_q1,2026-06,"17.59",17.592500,0.005
 monthly,HB_HUBAVG,midday_q1,2026-07,"21.54",21.540000,0.005
 monthly,HB_HUBAVG,midday_q1,2026-08,"22.43",22.427500,0.005
-monthly,HB_HUBAVG,midday_q1,2026-09,"28.49",28.485000,0.005
+monthly,HB_HUBAVG,midday_q1,2026-09,"27.69",27.692500,0.005
+monthly,HB_HUBAVG,midday_q1,2026-10,"15.29",15.290000,0.005
+monthly,HB_HUBAVG,midday_q1,2026-11,"16.03",16.032500,0.005
 monthly,HB_HUBAVG,midday_q3,2015-01,"22.97",22.970000,0.005
 monthly,HB_HUBAVG,midday_q3,2015-02,"22.89",22.890000,0.005
 monthly,HB_HUBAVG,midday_q3,2015-03,"27.95",27.952500,0.005
@@ -11107,7 +11235,9 @@ monthly,HB_HUBAVG,midday_q3,2026-05,"24.84",24.842500,0.005
 monthly,HB_HUBAVG,midday_q3,2026-06,"30.44",30.437500,0.005
 monthly,HB_HUBAVG,midday_q3,2026-07,"28.59",28.592500,0.005
 monthly,HB_HUBAVG,midday_q3,2026-08,"35.85",35.852500,0.005
-monthly,HB_HUBAVG,midday_q3,2026-09,"40.37",40.370000,0.005
+monthly,HB_HUBAVG,midday_q3,2026-09,"39.66",39.662500,0.005
+monthly,HB_HUBAVG,midday_q3,2026-10,"37.48",37.482500,0.005
+monthly,HB_HUBAVG,midday_q3,2026-11,"34.61",34.612500,0.005
 monthly,HB_HUBAVG,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_HUBAVG,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_HUBAVG,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -11248,7 +11378,9 @@ monthly,HB_HUBAVG,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_HUBAVG,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_HUBAVG,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_HUBAVG,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_HUBAVG,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_HUBAVG,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_HUBAVG,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_HUBAVG,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_HUBAVG,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_HUBAVG,n_negative,2015-02,"30",30.000000,0.5
 monthly,HB_HUBAVG,n_negative,2015-03,"39",39.000000,0.5
@@ -11390,6 +11522,8 @@ monthly,HB_HUBAVG,n_negative,2026-06,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_negative,2026-07,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_negative,2026-08,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_negative,2026-09,"0",0.000000,0.5
+monthly,HB_HUBAVG,n_negative,2026-10,"45",45.000000,0.5
+monthly,HB_HUBAVG,n_negative,2026-11,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2015-03,"0",0.000000,0.5
@@ -11531,6 +11665,8 @@ monthly,HB_HUBAVG,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_HUBAVG,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_HUBAVG,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_HUBAVG,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_HUBAVG,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_HUBAVG,overnight_max,2015-02,"849.44",849.440000,0.005
 monthly,HB_HUBAVG,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -11672,6 +11808,8 @@ monthly,HB_HUBAVG,overnight_max,2026-06,"210.72",210.720000,0.005
 monthly,HB_HUBAVG,overnight_max,2026-07,"349.05",349.050000,0.005
 monthly,HB_HUBAVG,overnight_max,2026-08,"780.68",780.680000,0.005
 monthly,HB_HUBAVG,overnight_max,2026-09,"343.52",343.520000,0.005
+monthly,HB_HUBAVG,overnight_max,2026-10,"438.35",438.350000,0.005
+monthly,HB_HUBAVG,overnight_max,2026-11,"565.21",565.210000,0.005
 monthly,HB_HUBAVG,overnight_median,2015-01,"22.11",22.110000,0.005
 monthly,HB_HUBAVG,overnight_median,2015-02,"20.39",20.385000,0.005
 monthly,HB_HUBAVG,overnight_median,2015-03,"20.71",20.705000,0.005
@@ -11812,7 +11950,9 @@ monthly,HB_HUBAVG,overnight_median,2026-05,"23.13",23.125000,0.005
 monthly,HB_HUBAVG,overnight_median,2026-06,"26.16",26.160000,0.005
 monthly,HB_HUBAVG,overnight_median,2026-07,"24.74",24.735000,0.005
 monthly,HB_HUBAVG,overnight_median,2026-08,"24.02",24.020000,0.005
-monthly,HB_HUBAVG,overnight_median,2026-09,"30.10",30.100000,0.005
+monthly,HB_HUBAVG,overnight_median,2026-09,"29.89",29.885000,0.005
+monthly,HB_HUBAVG,overnight_median,2026-10,"31.72",31.715000,0.005
+monthly,HB_HUBAVG,overnight_median,2026-11,"34.13",34.130000,0.005
 monthly,HB_HUBAVG,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_HUBAVG,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_HUBAVG,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -11954,6 +12094,8 @@ monthly,HB_HUBAVG,overnight_min,2026-06,"5.39",5.390000,0.005
 monthly,HB_HUBAVG,overnight_min,2026-07,"6.37",6.370000,0.005
 monthly,HB_HUBAVG,overnight_min,2026-08,"8.33",8.330000,0.005
 monthly,HB_HUBAVG,overnight_min,2026-09,"3.43",3.430000,0.005
+monthly,HB_HUBAVG,overnight_min,2026-10,"-11.33",-11.330000,0.005
+monthly,HB_HUBAVG,overnight_min,2026-11,"4.03",4.030000,0.005
 monthly,HB_HUBAVG,overnight_q1,2015-01,"19.95",19.950000,0.005
 monthly,HB_HUBAVG,overnight_q1,2015-02,"18.02",18.017500,0.005
 monthly,HB_HUBAVG,overnight_q1,2015-03,"18.94",18.940000,0.005
@@ -12094,7 +12236,9 @@ monthly,HB_HUBAVG,overnight_q1,2026-05,"16.85",16.847500,0.005
 monthly,HB_HUBAVG,overnight_q1,2026-06,"22.11",22.107500,0.005
 monthly,HB_HUBAVG,overnight_q1,2026-07,"21.37",21.370000,0.005
 monthly,HB_HUBAVG,overnight_q1,2026-08,"20.61",20.607500,0.005
-monthly,HB_HUBAVG,overnight_q1,2026-09,"24.67",24.670000,0.005
+monthly,HB_HUBAVG,overnight_q1,2026-09,"24.38",24.380000,0.005
+monthly,HB_HUBAVG,overnight_q1,2026-10,"21.43",21.432500,0.005
+monthly,HB_HUBAVG,overnight_q1,2026-11,"20.71",20.707500,0.005
 monthly,HB_HUBAVG,overnight_q3,2015-01,"24.34",24.342500,0.005
 monthly,HB_HUBAVG,overnight_q3,2015-02,"23.23",23.232500,0.005
 monthly,HB_HUBAVG,overnight_q3,2015-03,"24.21",24.210000,0.005
@@ -12235,7 +12379,9 @@ monthly,HB_HUBAVG,overnight_q3,2026-05,"31.56",31.560000,0.005
 monthly,HB_HUBAVG,overnight_q3,2026-06,"32.38",32.382500,0.005
 monthly,HB_HUBAVG,overnight_q3,2026-07,"30.17",30.165000,0.005
 monthly,HB_HUBAVG,overnight_q3,2026-08,"30.29",30.292500,0.005
-monthly,HB_HUBAVG,overnight_q3,2026-09,"35.91",35.912500,0.005
+monthly,HB_HUBAVG,overnight_q3,2026-09,"36.16",36.157500,0.005
+monthly,HB_HUBAVG,overnight_q3,2026-10,"43.01",43.005000,0.005
+monthly,HB_HUBAVG,overnight_q3,2026-11,"43.27",43.265000,0.005
 monthly,HB_HUBAVG,peak_iqr,2015-01,"4.27",4.270000,0.005
 monthly,HB_HUBAVG,peak_iqr,2015-02,"5.97",5.970000,0.005
 monthly,HB_HUBAVG,peak_iqr,2015-03,"5.74",5.735000,0.005
@@ -12376,7 +12522,9 @@ monthly,HB_HUBAVG,peak_iqr,2026-05,"16.52",16.522500,0.005
 monthly,HB_HUBAVG,peak_iqr,2026-06,"18.51",18.507500,0.005
 monthly,HB_HUBAVG,peak_iqr,2026-07,"15.76",15.757500,0.005
 monthly,HB_HUBAVG,peak_iqr,2026-08,"30.50",30.497500,0.005
-monthly,HB_HUBAVG,peak_iqr,2026-09,"32.28",32.277500,0.005
+monthly,HB_HUBAVG,peak_iqr,2026-09,"29.88",29.877500,0.005
+monthly,HB_HUBAVG,peak_iqr,2026-10,"29.80",29.802500,0.005
+monthly,HB_HUBAVG,peak_iqr,2026-11,"40.94",40.942500,0.005
 monthly,HB_HUBAVG,peak_max,2015-01,"281.40",281.400000,0.005
 monthly,HB_HUBAVG,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_HUBAVG,peak_max,2015-03,"619.24",619.240000,0.005
@@ -12518,6 +12666,8 @@ monthly,HB_HUBAVG,peak_max,2026-06,"112.32",112.320000,0.005
 monthly,HB_HUBAVG,peak_max,2026-07,"204.54",204.540000,0.005
 monthly,HB_HUBAVG,peak_max,2026-08,"478.86",478.860000,0.005
 monthly,HB_HUBAVG,peak_max,2026-09,"457.68",457.680000,0.005
+monthly,HB_HUBAVG,peak_max,2026-10,"297.82",297.820000,0.005
+monthly,HB_HUBAVG,peak_max,2026-11,"251.40",251.400000,0.005
 monthly,HB_HUBAVG,peak_median,2015-01,"23.17",23.170000,0.005
 monthly,HB_HUBAVG,peak_median,2015-02,"21.57",21.570000,0.005
 monthly,HB_HUBAVG,peak_median,2015-03,"24.63",24.625000,0.005
@@ -12658,7 +12808,9 @@ monthly,HB_HUBAVG,peak_median,2026-05,"29.65",29.650000,0.005
 monthly,HB_HUBAVG,peak_median,2026-06,"32.16",32.155000,0.005
 monthly,HB_HUBAVG,peak_median,2026-07,"33.10",33.095000,0.005
 monthly,HB_HUBAVG,peak_median,2026-08,"42.97",42.970000,0.005
-monthly,HB_HUBAVG,peak_median,2026-09,"50.15",50.150000,0.005
+monthly,HB_HUBAVG,peak_median,2026-09,"48.48",48.480000,0.005
+monthly,HB_HUBAVG,peak_median,2026-10,"42.40",42.395000,0.005
+monthly,HB_HUBAVG,peak_median,2026-11,"55.52",55.515000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2015-01,"1.47",1.470000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2015-02,"1.01",1.005000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2015-03,"-0.13",-0.130000,0.005
@@ -12799,7 +12951,9 @@ monthly,HB_HUBAVG,peak_minus_midday_median,2026-05,"9.46",9.455000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2026-06,"8.70",8.700000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2026-07,"8.21",8.205000,0.005
 monthly,HB_HUBAVG,peak_minus_midday_median,2026-08,"16.79",16.785000,0.005
-monthly,HB_HUBAVG,peak_minus_midday_median,2026-09,"16.76",16.760000,0.005
+monthly,HB_HUBAVG,peak_minus_midday_median,2026-09,"16.13",16.125000,0.005
+monthly,HB_HUBAVG,peak_minus_midday_median,2026-10,"16.23",16.230000,0.005
+monthly,HB_HUBAVG,peak_minus_midday_median,2026-11,"29.99",29.985000,0.005
 monthly,HB_HUBAVG,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_HUBAVG,peak_min,2015-02,"8.82",8.820000,0.005
 monthly,HB_HUBAVG,peak_min,2015-03,"17.87",17.870000,0.005
@@ -12941,6 +13095,8 @@ monthly,HB_HUBAVG,peak_min,2026-06,"13.34",13.340000,0.005
 monthly,HB_HUBAVG,peak_min,2026-07,"13.63",13.630000,0.005
 monthly,HB_HUBAVG,peak_min,2026-08,"13.60",13.600000,0.005
 monthly,HB_HUBAVG,peak_min,2026-09,"16.21",16.210000,0.005
+monthly,HB_HUBAVG,peak_min,2026-10,"-9.37",-9.370000,0.005
+monthly,HB_HUBAVG,peak_min,2026-11,"17.31",17.310000,0.005
 monthly,HB_HUBAVG,peak_q1,2015-01,"21.53",21.530000,0.005
 monthly,HB_HUBAVG,peak_q1,2015-02,"19.35",19.350000,0.005
 monthly,HB_HUBAVG,peak_q1,2015-03,"22.18",22.180000,0.005
@@ -13081,7 +13237,9 @@ monthly,HB_HUBAVG,peak_q1,2026-05,"23.44",23.440000,0.005
 monthly,HB_HUBAVG,peak_q1,2026-06,"22.41",22.410000,0.005
 monthly,HB_HUBAVG,peak_q1,2026-07,"25.59",25.585000,0.005
 monthly,HB_HUBAVG,peak_q1,2026-08,"27.67",27.665000,0.005
-monthly,HB_HUBAVG,peak_q1,2026-09,"35.72",35.715000,0.005
+monthly,HB_HUBAVG,peak_q1,2026-09,"35.89",35.887500,0.005
+monthly,HB_HUBAVG,peak_q1,2026-10,"30.21",30.212500,0.005
+monthly,HB_HUBAVG,peak_q1,2026-11,"37.86",37.855000,0.005
 monthly,HB_HUBAVG,peak_q3,2015-01,"25.80",25.800000,0.005
 monthly,HB_HUBAVG,peak_q3,2015-02,"25.32",25.320000,0.005
 monthly,HB_HUBAVG,peak_q3,2015-03,"27.92",27.915000,0.005
@@ -13222,7 +13380,9 @@ monthly,HB_HUBAVG,peak_q3,2026-05,"39.96",39.962500,0.005
 monthly,HB_HUBAVG,peak_q3,2026-06,"40.92",40.917500,0.005
 monthly,HB_HUBAVG,peak_q3,2026-07,"41.34",41.342500,0.005
 monthly,HB_HUBAVG,peak_q3,2026-08,"58.16",58.162500,0.005
-monthly,HB_HUBAVG,peak_q3,2026-09,"67.99",67.992500,0.005
+monthly,HB_HUBAVG,peak_q3,2026-09,"65.77",65.765000,0.005
+monthly,HB_HUBAVG,peak_q3,2026-10,"60.02",60.015000,0.005
+monthly,HB_HUBAVG,peak_q3,2026-11,"78.80",78.797500,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2015-01,"10.73",10.728093,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2015-02,"38.67",38.666699,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2015-03,"22.80",22.799776,0.005
@@ -13363,7 +13523,9 @@ monthly,HB_HUBAVG,worst_interval_multiple,2026-05,"6.52",6.521575,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2026-06,"6.67",6.671109,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2026-07,"8.07",8.071664,0.005
 monthly,HB_HUBAVG,worst_interval_multiple,2026-08,"21.20",21.196747,0.005
-monthly,HB_HUBAVG,worst_interval_multiple,2026-09,"11.61",11.614278,0.005
+monthly,HB_HUBAVG,worst_interval_multiple,2026-09,"11.59",11.594505,0.005
+monthly,HB_HUBAVG,worst_interval_multiple,2026-10,"7.83",7.825816,0.005
+monthly,HB_HUBAVG,worst_interval_multiple,2026-11,"12.13",12.125770,0.005
 monthly,HB_NORTH,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_NORTH,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_NORTH,all_max,2015-03,"681.47",681.470000,0.005
@@ -13505,6 +13667,8 @@ monthly,HB_NORTH,all_max,2026-06,"219.34",219.340000,0.005
 monthly,HB_NORTH,all_max,2026-07,"339.77",339.770000,0.005
 monthly,HB_NORTH,all_max,2026-08,"780.69",780.690000,0.005
 monthly,HB_NORTH,all_max,2026-09,"770.55",770.550000,0.005
+monthly,HB_NORTH,all_max,2026-10,"440.10",440.100000,0.005
+monthly,HB_NORTH,all_max,2026-11,"731.14",731.140000,0.005
 monthly,HB_NORTH,all_median,2015-01,"21.96",21.955000,0.005
 monthly,HB_NORTH,all_median,2015-02,"20.58",20.580000,0.005
 monthly,HB_NORTH,all_median,2015-03,"22.38",22.380000,0.005
@@ -13645,7 +13809,9 @@ monthly,HB_NORTH,all_median,2026-05,"23.67",23.670000,0.005
 monthly,HB_NORTH,all_median,2026-06,"25.81",25.805000,0.005
 monthly,HB_NORTH,all_median,2026-07,"25.47",25.465000,0.005
 monthly,HB_NORTH,all_median,2026-08,"24.95",24.950000,0.005
-monthly,HB_NORTH,all_median,2026-09,"31.35",31.350000,0.005
+monthly,HB_NORTH,all_median,2026-09,"31.14",31.135000,0.005
+monthly,HB_NORTH,all_median,2026-10,"30.11",30.110000,0.005
+monthly,HB_NORTH,all_median,2026-11,"30.18",30.175000,0.005
 monthly,HB_NORTH,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_NORTH,all_min,2015-02,"-12.39",-12.390000,0.005
 monthly,HB_NORTH,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -13787,6 +13953,8 @@ monthly,HB_NORTH,all_min,2026-06,"-1.20",-1.200000,0.005
 monthly,HB_NORTH,all_min,2026-07,"0.37",0.370000,0.005
 monthly,HB_NORTH,all_min,2026-08,"-0.33",-0.330000,0.005
 monthly,HB_NORTH,all_min,2026-09,"-72.18",-72.180000,0.005
+monthly,HB_NORTH,all_min,2026-10,"-20.79",-20.790000,0.005
+monthly,HB_NORTH,all_min,2026-11,"-15.51",-15.510000,0.005
 monthly,HB_NORTH,all_p999,2015-01,"238.94",238.935500,0.005
 monthly,HB_NORTH,all_p999,2015-02,"811.40",811.399370,0.005
 monthly,HB_NORTH,all_p999,2015-03,"517.33",517.333680,0.005
@@ -13927,7 +14095,9 @@ monthly,HB_NORTH,all_p999,2026-05,"160.09",160.085250,0.005
 monthly,HB_NORTH,all_p999,2026-06,"181.01",181.011950,0.005
 monthly,HB_NORTH,all_p999,2026-07,"225.36",225.359500,0.005
 monthly,HB_NORTH,all_p999,2026-08,"563.63",563.633250,0.005
-monthly,HB_NORTH,all_p999,2026-09,"699.56",699.559170,0.005
+monthly,HB_NORTH,all_p999,2026-09,"683.97",683.969730,0.005
+monthly,HB_NORTH,all_p999,2026-10,"276.76",276.755000,0.005
+monthly,HB_NORTH,all_p999,2026-11,"497.52",497.518860,0.005
 monthly,HB_NORTH,all_q1,2015-01,"19.98",19.980000,0.005
 monthly,HB_NORTH,all_q1,2015-02,"18.16",18.160000,0.005
 monthly,HB_NORTH,all_q1,2015-03,"19.57",19.570000,0.005
@@ -14068,7 +14238,9 @@ monthly,HB_NORTH,all_q1,2026-05,"18.19",18.185000,0.005
 monthly,HB_NORTH,all_q1,2026-06,"21.68",21.680000,0.005
 monthly,HB_NORTH,all_q1,2026-07,"22.07",22.070000,0.005
 monthly,HB_NORTH,all_q1,2026-08,"21.05",21.050000,0.005
-monthly,HB_NORTH,all_q1,2026-09,"25.17",25.170000,0.005
+monthly,HB_NORTH,all_q1,2026-09,"24.75",24.747500,0.005
+monthly,HB_NORTH,all_q1,2026-10,"18.69",18.690000,0.005
+monthly,HB_NORTH,all_q1,2026-11,"17.96",17.960000,0.005
 monthly,HB_NORTH,all_q3,2015-01,"24.20",24.202500,0.005
 monthly,HB_NORTH,all_q3,2015-02,"23.63",23.632500,0.005
 monthly,HB_NORTH,all_q3,2015-03,"25.94",25.942500,0.005
@@ -14209,7 +14381,9 @@ monthly,HB_NORTH,all_q3,2026-05,"31.11",31.112500,0.005
 monthly,HB_NORTH,all_q3,2026-06,"34.14",34.142500,0.005
 monthly,HB_NORTH,all_q3,2026-07,"32.43",32.432500,0.005
 monthly,HB_NORTH,all_q3,2026-08,"36.38",36.377500,0.005
-monthly,HB_NORTH,all_q3,2026-09,"39.76",39.762500,0.005
+monthly,HB_NORTH,all_q3,2026-09,"39.89",39.890000,0.005
+monthly,HB_NORTH,all_q3,2026-10,"41.86",41.862500,0.005
+monthly,HB_NORTH,all_q3,2026-11,"45.19",45.192500,0.005
 monthly,HB_NORTH,midday_max,2015-01,"44.38",44.380000,0.005
 monthly,HB_NORTH,midday_max,2015-02,"43.49",43.490000,0.005
 monthly,HB_NORTH,midday_max,2015-03,"296.43",296.430000,0.005
@@ -14351,6 +14525,8 @@ monthly,HB_NORTH,midday_max,2026-06,"64.27",64.270000,0.005
 monthly,HB_NORTH,midday_max,2026-07,"66.13",66.130000,0.005
 monthly,HB_NORTH,midday_max,2026-08,"92.65",92.650000,0.005
 monthly,HB_NORTH,midday_max,2026-09,"165.82",165.820000,0.005
+monthly,HB_NORTH,midday_max,2026-10,"87.23",87.230000,0.005
+monthly,HB_NORTH,midday_max,2026-11,"87.59",87.590000,0.005
 monthly,HB_NORTH,midday_median,2015-01,"21.53",21.525000,0.005
 monthly,HB_NORTH,midday_median,2015-02,"20.58",20.575000,0.005
 monthly,HB_NORTH,midday_median,2015-03,"24.78",24.780000,0.005
@@ -14491,7 +14667,9 @@ monthly,HB_NORTH,midday_median,2026-05,"19.72",19.715000,0.005
 monthly,HB_NORTH,midday_median,2026-06,"22.76",22.755000,0.005
 monthly,HB_NORTH,midday_median,2026-07,"24.54",24.535000,0.005
 monthly,HB_NORTH,midday_median,2026-08,"25.45",25.450000,0.005
-monthly,HB_NORTH,midday_median,2026-09,"29.86",29.860000,0.005
+monthly,HB_NORTH,midday_median,2026-09,"29.54",29.535000,0.005
+monthly,HB_NORTH,midday_median,2026-10,"19.74",19.735000,0.005
+monthly,HB_NORTH,midday_median,2026-11,"15.15",15.150000,0.005
 monthly,HB_NORTH,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_NORTH,midday_min,2015-02,"-12.39",-12.390000,0.005
 monthly,HB_NORTH,midday_min,2015-03,"17.14",17.140000,0.005
@@ -14633,6 +14811,8 @@ monthly,HB_NORTH,midday_min,2026-06,"3.48",3.480000,0.005
 monthly,HB_NORTH,midday_min,2026-07,"5.29",5.290000,0.005
 monthly,HB_NORTH,midday_min,2026-08,"9.14",9.140000,0.005
 monthly,HB_NORTH,midday_min,2026-09,"13.72",13.720000,0.005
+monthly,HB_NORTH,midday_min,2026-10,"-20.79",-20.790000,0.005
+monthly,HB_NORTH,midday_min,2026-11,"-15.51",-15.510000,0.005
 monthly,HB_NORTH,midday_q1,2015-01,"19.71",19.707500,0.005
 monthly,HB_NORTH,midday_q1,2015-02,"18.47",18.467500,0.005
 monthly,HB_NORTH,midday_q1,2015-03,"21.97",21.967500,0.005
@@ -14773,7 +14953,9 @@ monthly,HB_NORTH,midday_q1,2026-05,"14.57",14.565000,0.005
 monthly,HB_NORTH,midday_q1,2026-06,"19.05",19.050000,0.005
 monthly,HB_NORTH,midday_q1,2026-07,"21.96",21.955000,0.005
 monthly,HB_NORTH,midday_q1,2026-08,"20.62",20.615000,0.005
-monthly,HB_NORTH,midday_q1,2026-09,"25.22",25.215000,0.005
+monthly,HB_NORTH,midday_q1,2026-09,"24.35",24.350000,0.005
+monthly,HB_NORTH,midday_q1,2026-10,"10.79",10.787500,0.005
+monthly,HB_NORTH,midday_q1,2026-11,"6.42",6.420000,0.005
 monthly,HB_NORTH,midday_q3,2015-01,"22.94",22.940000,0.005
 monthly,HB_NORTH,midday_q3,2015-02,"22.85",22.852500,0.005
 monthly,HB_NORTH,midday_q3,2015-03,"28.03",28.032500,0.005
@@ -14914,7 +15096,9 @@ monthly,HB_NORTH,midday_q3,2026-05,"24.53",24.532500,0.005
 monthly,HB_NORTH,midday_q3,2026-06,"27.96",27.962500,0.005
 monthly,HB_NORTH,midday_q3,2026-07,"28.73",28.727500,0.005
 monthly,HB_NORTH,midday_q3,2026-08,"33.87",33.872500,0.005
-monthly,HB_NORTH,midday_q3,2026-09,"37.26",37.262500,0.005
+monthly,HB_NORTH,midday_q3,2026-09,"36.94",36.937500,0.005
+monthly,HB_NORTH,midday_q3,2026-10,"31.91",31.907500,0.005
+monthly,HB_NORTH,midday_q3,2026-11,"29.25",29.252500,0.005
 monthly,HB_NORTH,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_NORTH,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_NORTH,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -15055,7 +15239,9 @@ monthly,HB_NORTH,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_NORTH,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_NORTH,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_NORTH,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_NORTH,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_NORTH,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_NORTH,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_NORTH,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_NORTH,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_NORTH,n_negative,2015-02,"34",34.000000,0.5
 monthly,HB_NORTH,n_negative,2015-03,"39",39.000000,0.5
@@ -15197,6 +15383,8 @@ monthly,HB_NORTH,n_negative,2026-06,"2",2.000000,0.5
 monthly,HB_NORTH,n_negative,2026-07,"0",0.000000,0.5
 monthly,HB_NORTH,n_negative,2026-08,"1",1.000000,0.5
 monthly,HB_NORTH,n_negative,2026-09,"2",2.000000,0.5
+monthly,HB_NORTH,n_negative,2026-10,"137",137.000000,0.5
+monthly,HB_NORTH,n_negative,2026-11,"55",55.000000,0.5
 monthly,HB_NORTH,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_NORTH,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_NORTH,n_scarcity,2015-03,"0",0.000000,0.5
@@ -15338,6 +15526,8 @@ monthly,HB_NORTH,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_NORTH,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_NORTH,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_NORTH,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_NORTH,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_NORTH,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_NORTH,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_NORTH,overnight_max,2015-02,"850.68",850.680000,0.005
 monthly,HB_NORTH,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -15479,6 +15669,8 @@ monthly,HB_NORTH,overnight_max,2026-06,"219.34",219.340000,0.005
 monthly,HB_NORTH,overnight_max,2026-07,"339.77",339.770000,0.005
 monthly,HB_NORTH,overnight_max,2026-08,"780.69",780.690000,0.005
 monthly,HB_NORTH,overnight_max,2026-09,"360.16",360.160000,0.005
+monthly,HB_NORTH,overnight_max,2026-10,"440.10",440.100000,0.005
+monthly,HB_NORTH,overnight_max,2026-11,"731.14",731.140000,0.005
 monthly,HB_NORTH,overnight_median,2015-01,"21.86",21.860000,0.005
 monthly,HB_NORTH,overnight_median,2015-02,"20.27",20.270000,0.005
 monthly,HB_NORTH,overnight_median,2015-03,"20.72",20.720000,0.005
@@ -15619,7 +15811,9 @@ monthly,HB_NORTH,overnight_median,2026-05,"23.27",23.270000,0.005
 monthly,HB_NORTH,overnight_median,2026-06,"25.59",25.585000,0.005
 monthly,HB_NORTH,overnight_median,2026-07,"24.41",24.410000,0.005
 monthly,HB_NORTH,overnight_median,2026-08,"23.29",23.285000,0.005
-monthly,HB_NORTH,overnight_median,2026-09,"29.38",29.380000,0.005
+monthly,HB_NORTH,overnight_median,2026-09,"29.09",29.085000,0.005
+monthly,HB_NORTH,overnight_median,2026-10,"29.96",29.960000,0.005
+monthly,HB_NORTH,overnight_median,2026-11,"29.19",29.190000,0.005
 monthly,HB_NORTH,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_NORTH,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_NORTH,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -15761,6 +15955,8 @@ monthly,HB_NORTH,overnight_min,2026-06,"-1.20",-1.200000,0.005
 monthly,HB_NORTH,overnight_min,2026-07,"0.37",0.370000,0.005
 monthly,HB_NORTH,overnight_min,2026-08,"-0.33",-0.330000,0.005
 monthly,HB_NORTH,overnight_min,2026-09,"-72.18",-72.180000,0.005
+monthly,HB_NORTH,overnight_min,2026-10,"-8.96",-8.960000,0.005
+monthly,HB_NORTH,overnight_min,2026-11,"-9.77",-9.770000,0.005
 monthly,HB_NORTH,overnight_q1,2015-01,"19.80",19.800000,0.005
 monthly,HB_NORTH,overnight_q1,2015-02,"17.89",17.887500,0.005
 monthly,HB_NORTH,overnight_q1,2015-03,"18.98",18.980000,0.005
@@ -15901,7 +16097,9 @@ monthly,HB_NORTH,overnight_q1,2026-05,"18.17",18.167500,0.005
 monthly,HB_NORTH,overnight_q1,2026-06,"21.97",21.967500,0.005
 monthly,HB_NORTH,overnight_q1,2026-07,"21.29",21.287500,0.005
 monthly,HB_NORTH,overnight_q1,2026-08,"20.09",20.090000,0.005
-monthly,HB_NORTH,overnight_q1,2026-09,"23.86",23.857500,0.005
+monthly,HB_NORTH,overnight_q1,2026-09,"23.36",23.357500,0.005
+monthly,HB_NORTH,overnight_q1,2026-10,"19.27",19.270000,0.005
+monthly,HB_NORTH,overnight_q1,2026-11,"18.84",18.842500,0.005
 monthly,HB_NORTH,overnight_q3,2015-01,"24.12",24.115000,0.005
 monthly,HB_NORTH,overnight_q3,2015-02,"23.30",23.302500,0.005
 monthly,HB_NORTH,overnight_q3,2015-03,"24.28",24.280000,0.005
@@ -16042,7 +16240,9 @@ monthly,HB_NORTH,overnight_q3,2026-05,"29.62",29.620000,0.005
 monthly,HB_NORTH,overnight_q3,2026-06,"31.81",31.807500,0.005
 monthly,HB_NORTH,overnight_q3,2026-07,"30.17",30.165000,0.005
 monthly,HB_NORTH,overnight_q3,2026-08,"28.66",28.660000,0.005
-monthly,HB_NORTH,overnight_q3,2026-09,"34.97",34.972500,0.005
+monthly,HB_NORTH,overnight_q3,2026-09,"35.05",35.050000,0.005
+monthly,HB_NORTH,overnight_q3,2026-10,"40.32",40.322500,0.005
+monthly,HB_NORTH,overnight_q3,2026-11,"38.11",38.105000,0.005
 monthly,HB_NORTH,peak_iqr,2015-01,"4.94",4.935000,0.005
 monthly,HB_NORTH,peak_iqr,2015-02,"6.90",6.895000,0.005
 monthly,HB_NORTH,peak_iqr,2015-03,"5.34",5.337500,0.005
@@ -16183,7 +16383,9 @@ monthly,HB_NORTH,peak_iqr,2026-05,"16.63",16.630000,0.005
 monthly,HB_NORTH,peak_iqr,2026-06,"20.96",20.960000,0.005
 monthly,HB_NORTH,peak_iqr,2026-07,"17.09",17.092500,0.005
 monthly,HB_NORTH,peak_iqr,2026-08,"35.99",35.985000,0.005
-monthly,HB_NORTH,peak_iqr,2026-09,"38.71",38.705000,0.005
+monthly,HB_NORTH,peak_iqr,2026-09,"35.74",35.742500,0.005
+monthly,HB_NORTH,peak_iqr,2026-10,"29.38",29.380000,0.005
+monthly,HB_NORTH,peak_iqr,2026-11,"56.32",56.322500,0.005
 monthly,HB_NORTH,peak_max,2015-01,"284.00",284.000000,0.005
 monthly,HB_NORTH,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_NORTH,peak_max,2015-03,"631.44",631.440000,0.005
@@ -16325,6 +16527,8 @@ monthly,HB_NORTH,peak_max,2026-06,"117.39",117.390000,0.005
 monthly,HB_NORTH,peak_max,2026-07,"246.67",246.670000,0.005
 monthly,HB_NORTH,peak_max,2026-08,"507.72",507.720000,0.005
 monthly,HB_NORTH,peak_max,2026-09,"770.55",770.550000,0.005
+monthly,HB_NORTH,peak_max,2026-10,"330.77",330.770000,0.005
+monthly,HB_NORTH,peak_max,2026-11,"244.29",244.290000,0.005
 monthly,HB_NORTH,peak_median,2015-01,"23.05",23.050000,0.005
 monthly,HB_NORTH,peak_median,2015-02,"21.30",21.295000,0.005
 monthly,HB_NORTH,peak_median,2015-03,"24.65",24.645000,0.005
@@ -16465,7 +16669,9 @@ monthly,HB_NORTH,peak_median,2026-05,"30.28",30.280000,0.005
 monthly,HB_NORTH,peak_median,2026-06,"32.34",32.335000,0.005
 monthly,HB_NORTH,peak_median,2026-07,"34.33",34.325000,0.005
 monthly,HB_NORTH,peak_median,2026-08,"44.91",44.910000,0.005
-monthly,HB_NORTH,peak_median,2026-09,"50.65",50.645000,0.005
+monthly,HB_NORTH,peak_median,2026-09,"49.34",49.335000,0.005
+monthly,HB_NORTH,peak_median,2026-10,"40.05",40.050000,0.005
+monthly,HB_NORTH,peak_median,2026-11,"49.10",49.095000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2015-01,"1.53",1.525000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2015-02,"0.72",0.720000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2015-03,"-0.14",-0.135000,0.005
@@ -16606,7 +16812,9 @@ monthly,HB_NORTH,peak_minus_midday_median,2026-05,"10.57",10.565000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2026-06,"9.58",9.580000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2026-07,"9.79",9.790000,0.005
 monthly,HB_NORTH,peak_minus_midday_median,2026-08,"19.46",19.460000,0.005
-monthly,HB_NORTH,peak_minus_midday_median,2026-09,"20.79",20.785000,0.005
+monthly,HB_NORTH,peak_minus_midday_median,2026-09,"19.80",19.800000,0.005
+monthly,HB_NORTH,peak_minus_midday_median,2026-10,"20.32",20.315000,0.005
+monthly,HB_NORTH,peak_minus_midday_median,2026-11,"33.95",33.945000,0.005
 monthly,HB_NORTH,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_NORTH,peak_min,2015-02,"4.34",4.340000,0.005
 monthly,HB_NORTH,peak_min,2015-03,"17.87",17.870000,0.005
@@ -16747,7 +16955,9 @@ monthly,HB_NORTH,peak_min,2026-05,"0.20",0.200000,0.005
 monthly,HB_NORTH,peak_min,2026-06,"11.12",11.120000,0.005
 monthly,HB_NORTH,peak_min,2026-07,"11.74",11.740000,0.005
 monthly,HB_NORTH,peak_min,2026-08,"15.53",15.530000,0.005
-monthly,HB_NORTH,peak_min,2026-09,"21.02",21.020000,0.005
+monthly,HB_NORTH,peak_min,2026-09,"18.88",18.880000,0.005
+monthly,HB_NORTH,peak_min,2026-10,"-19.87",-19.870000,0.005
+monthly,HB_NORTH,peak_min,2026-11,"-6.49",-6.490000,0.005
 monthly,HB_NORTH,peak_q1,2015-01,"20.85",20.850000,0.005
 monthly,HB_NORTH,peak_q1,2015-02,"18.57",18.565000,0.005
 monthly,HB_NORTH,peak_q1,2015-03,"22.52",22.517500,0.005
@@ -16888,7 +17098,9 @@ monthly,HB_NORTH,peak_q1,2026-05,"23.51",23.507500,0.005
 monthly,HB_NORTH,peak_q1,2026-06,"23.44",23.437500,0.005
 monthly,HB_NORTH,peak_q1,2026-07,"25.94",25.942500,0.005
 monthly,HB_NORTH,peak_q1,2026-08,"28.82",28.820000,0.005
-monthly,HB_NORTH,peak_q1,2026-09,"34.73",34.727500,0.005
+monthly,HB_NORTH,peak_q1,2026-09,"34.94",34.937500,0.005
+monthly,HB_NORTH,peak_q1,2026-10,"27.99",27.985000,0.005
+monthly,HB_NORTH,peak_q1,2026-11,"34.26",34.257500,0.005
 monthly,HB_NORTH,peak_q3,2015-01,"25.79",25.785000,0.005
 monthly,HB_NORTH,peak_q3,2015-02,"25.46",25.460000,0.005
 monthly,HB_NORTH,peak_q3,2015-03,"27.86",27.855000,0.005
@@ -17029,7 +17241,9 @@ monthly,HB_NORTH,peak_q3,2026-05,"40.14",40.137500,0.005
 monthly,HB_NORTH,peak_q3,2026-06,"44.40",44.397500,0.005
 monthly,HB_NORTH,peak_q3,2026-07,"43.04",43.035000,0.005
 monthly,HB_NORTH,peak_q3,2026-08,"64.81",64.805000,0.005
-monthly,HB_NORTH,peak_q3,2026-09,"73.43",73.432500,0.005
+monthly,HB_NORTH,peak_q3,2026-09,"70.68",70.680000,0.005
+monthly,HB_NORTH,peak_q3,2026-10,"57.37",57.365000,0.005
+monthly,HB_NORTH,peak_q3,2026-11,"90.58",90.580000,0.005
 monthly,HB_NORTH,worst_interval_multiple,2015-01,"10.88",10.882965,0.005
 monthly,HB_NORTH,worst_interval_multiple,2015-02,"39.43",39.426597,0.005
 monthly,HB_NORTH,worst_interval_multiple,2015-03,"23.12",23.115893,0.005
@@ -17170,7 +17384,9 @@ monthly,HB_NORTH,worst_interval_multiple,2026-05,"6.76",6.763213,0.005
 monthly,HB_NORTH,worst_interval_multiple,2026-06,"7.01",7.014608,0.005
 monthly,HB_NORTH,worst_interval_multiple,2026-07,"8.85",8.849774,0.005
 monthly,HB_NORTH,worst_interval_multiple,2026-08,"22.59",22.590511,0.005
-monthly,HB_NORTH,worst_interval_multiple,2026-09,"22.31",22.314487,0.005
+monthly,HB_NORTH,worst_interval_multiple,2026-09,"21.97",21.967873,0.005
+monthly,HB_NORTH,worst_interval_multiple,2026-10,"9.19",9.191465,0.005
+monthly,HB_NORTH,worst_interval_multiple,2026-11,"16.49",16.487783,0.005
 monthly,HB_SOUTH,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_SOUTH,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_SOUTH,all_max,2015-03,"681.47",681.470000,0.005
@@ -17312,6 +17528,8 @@ monthly,HB_SOUTH,all_max,2026-06,"191.47",191.470000,0.005
 monthly,HB_SOUTH,all_max,2026-07,"348.56",348.560000,0.005
 monthly,HB_SOUTH,all_max,2026-08,"780.37",780.370000,0.005
 monthly,HB_SOUTH,all_max,2026-09,"403.14",403.140000,0.005
+monthly,HB_SOUTH,all_max,2026-10,"379.54",379.540000,0.005
+monthly,HB_SOUTH,all_max,2026-11,"472.50",472.500000,0.005
 monthly,HB_SOUTH,all_median,2015-01,"22.25",22.245000,0.005
 monthly,HB_SOUTH,all_median,2015-02,"20.71",20.705000,0.005
 monthly,HB_SOUTH,all_median,2015-03,"21.97",21.970000,0.005
@@ -17452,7 +17670,9 @@ monthly,HB_SOUTH,all_median,2026-05,"24.34",24.335000,0.005
 monthly,HB_SOUTH,all_median,2026-06,"27.10",27.100000,0.005
 monthly,HB_SOUTH,all_median,2026-07,"24.36",24.360000,0.005
 monthly,HB_SOUTH,all_median,2026-08,"25.49",25.490000,0.005
-monthly,HB_SOUTH,all_median,2026-09,"32.39",32.390000,0.005
+monthly,HB_SOUTH,all_median,2026-09,"32.19",32.190000,0.005
+monthly,HB_SOUTH,all_median,2026-10,"33.18",33.180000,0.005
+monthly,HB_SOUTH,all_median,2026-11,"34.44",34.440000,0.005
 monthly,HB_SOUTH,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_SOUTH,all_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_SOUTH,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -17594,6 +17814,8 @@ monthly,HB_SOUTH,all_min,2026-06,"4.08",4.080000,0.005
 monthly,HB_SOUTH,all_min,2026-07,"0.61",0.610000,0.005
 monthly,HB_SOUTH,all_min,2026-08,"4.45",4.450000,0.005
 monthly,HB_SOUTH,all_min,2026-09,"-26.19",-26.190000,0.005
+monthly,HB_SOUTH,all_min,2026-10,"-1.59",-1.590000,0.005
+monthly,HB_SOUTH,all_min,2026-11,"9.10",9.100000,0.005
 monthly,HB_SOUTH,all_p999,2015-01,"288.02",288.023000,0.005
 monthly,HB_SOUTH,all_p999,2015-02,"775.17",775.167580,0.005
 monthly,HB_SOUTH,all_p999,2015-03,"543.82",543.823550,0.005
@@ -17734,7 +17956,9 @@ monthly,HB_SOUTH,all_p999,2026-05,"140.46",140.462500,0.005
 monthly,HB_SOUTH,all_p999,2026-06,"165.61",165.608910,0.005
 monthly,HB_SOUTH,all_p999,2026-07,"209.13",209.132000,0.005
 monthly,HB_SOUTH,all_p999,2026-08,"467.27",467.272250,0.005
-monthly,HB_SOUTH,all_p999,2026-09,"310.53",310.527660,0.005
+monthly,HB_SOUTH,all_p999,2026-09,"308.87",308.874540,0.005
+monthly,HB_SOUTH,all_p999,2026-10,"237.44",237.441750,0.005
+monthly,HB_SOUTH,all_p999,2026-11,"454.06",454.058960,0.005
 monthly,HB_SOUTH,all_q1,2015-01,"20.23",20.230000,0.005
 monthly,HB_SOUTH,all_q1,2015-02,"18.42",18.420000,0.005
 monthly,HB_SOUTH,all_q1,2015-03,"19.53",19.527500,0.005
@@ -17875,7 +18099,9 @@ monthly,HB_SOUTH,all_q1,2026-05,"18.81",18.807500,0.005
 monthly,HB_SOUTH,all_q1,2026-06,"21.88",21.880000,0.005
 monthly,HB_SOUTH,all_q1,2026-07,"19.42",19.415000,0.005
 monthly,HB_SOUTH,all_q1,2026-08,"20.95",20.945000,0.005
-monthly,HB_SOUTH,all_q1,2026-09,"26.03",26.025000,0.005
+monthly,HB_SOUTH,all_q1,2026-09,"25.72",25.720000,0.005
+monthly,HB_SOUTH,all_q1,2026-10,"23.98",23.977500,0.005
+monthly,HB_SOUTH,all_q1,2026-11,"23.29",23.290000,0.005
 monthly,HB_SOUTH,all_q3,2015-01,"24.32",24.322500,0.005
 monthly,HB_SOUTH,all_q3,2015-02,"23.58",23.582500,0.005
 monthly,HB_SOUTH,all_q3,2015-03,"25.37",25.372500,0.005
@@ -18016,7 +18242,9 @@ monthly,HB_SOUTH,all_q3,2026-05,"33.24",33.240000,0.005
 monthly,HB_SOUTH,all_q3,2026-06,"35.63",35.630000,0.005
 monthly,HB_SOUTH,all_q3,2026-07,"31.53",31.532500,0.005
 monthly,HB_SOUTH,all_q3,2026-08,"35.57",35.572500,0.005
-monthly,HB_SOUTH,all_q3,2026-09,"41.05",41.052500,0.005
+monthly,HB_SOUTH,all_q3,2026-09,"40.85",40.845000,0.005
+monthly,HB_SOUTH,all_q3,2026-10,"44.65",44.650000,0.005
+monthly,HB_SOUTH,all_q3,2026-11,"46.28",46.280000,0.005
 monthly,HB_SOUTH,midday_max,2015-01,"53.21",53.210000,0.005
 monthly,HB_SOUTH,midday_max,2015-02,"120.08",120.080000,0.005
 monthly,HB_SOUTH,midday_max,2015-03,"278.36",278.360000,0.005
@@ -18158,6 +18386,8 @@ monthly,HB_SOUTH,midday_max,2026-06,"64.56",64.560000,0.005
 monthly,HB_SOUTH,midday_max,2026-07,"80.29",80.290000,0.005
 monthly,HB_SOUTH,midday_max,2026-08,"82.76",82.760000,0.005
 monthly,HB_SOUTH,midday_max,2026-09,"78.92",78.920000,0.005
+monthly,HB_SOUTH,midday_max,2026-10,"96.03",96.030000,0.005
+monthly,HB_SOUTH,midday_max,2026-11,"91.49",91.490000,0.005
 monthly,HB_SOUTH,midday_median,2015-01,"21.61",21.610000,0.005
 monthly,HB_SOUTH,midday_median,2015-02,"20.58",20.580000,0.005
 monthly,HB_SOUTH,midday_median,2015-03,"24.31",24.310000,0.005
@@ -18298,7 +18528,9 @@ monthly,HB_SOUTH,midday_median,2026-05,"20.31",20.305000,0.005
 monthly,HB_SOUTH,midday_median,2026-06,"23.18",23.175000,0.005
 monthly,HB_SOUTH,midday_median,2026-07,"19.38",19.375000,0.005
 monthly,HB_SOUTH,midday_median,2026-08,"25.06",25.060000,0.005
-monthly,HB_SOUTH,midday_median,2026-09,"32.52",32.520000,0.005
+monthly,HB_SOUTH,midday_median,2026-09,"32.05",32.050000,0.005
+monthly,HB_SOUTH,midday_median,2026-10,"27.39",27.385000,0.005
+monthly,HB_SOUTH,midday_median,2026-11,"29.92",29.920000,0.005
 monthly,HB_SOUTH,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_SOUTH,midday_min,2015-02,"8.39",8.390000,0.005
 monthly,HB_SOUTH,midday_min,2015-03,"17.19",17.190000,0.005
@@ -18440,6 +18672,8 @@ monthly,HB_SOUTH,midday_min,2026-06,"6.93",6.930000,0.005
 monthly,HB_SOUTH,midday_min,2026-07,"0.61",0.610000,0.005
 monthly,HB_SOUTH,midday_min,2026-08,"5.52",5.520000,0.005
 monthly,HB_SOUTH,midday_min,2026-09,"9.69",9.690000,0.005
+monthly,HB_SOUTH,midday_min,2026-10,"-1.59",-1.590000,0.005
+monthly,HB_SOUTH,midday_min,2026-11,"10.39",10.390000,0.005
 monthly,HB_SOUTH,midday_q1,2015-01,"19.91",19.910000,0.005
 monthly,HB_SOUTH,midday_q1,2015-02,"18.89",18.887500,0.005
 monthly,HB_SOUTH,midday_q1,2015-03,"21.66",21.660000,0.005
@@ -18580,7 +18814,9 @@ monthly,HB_SOUTH,midday_q1,2026-05,"14.90",14.900000,0.005
 monthly,HB_SOUTH,midday_q1,2026-06,"17.17",17.170000,0.005
 monthly,HB_SOUTH,midday_q1,2026-07,"13.97",13.970000,0.005
 monthly,HB_SOUTH,midday_q1,2026-08,"19.63",19.632500,0.005
-monthly,HB_SOUTH,midday_q1,2026-09,"27.11",27.107500,0.005
+monthly,HB_SOUTH,midday_q1,2026-09,"26.28",26.275000,0.005
+monthly,HB_SOUTH,midday_q1,2026-10,"16.86",16.855000,0.005
+monthly,HB_SOUTH,midday_q1,2026-11,"18.50",18.500000,0.005
 monthly,HB_SOUTH,midday_q3,2015-01,"22.96",22.962500,0.005
 monthly,HB_SOUTH,midday_q3,2015-02,"22.88",22.882500,0.005
 monthly,HB_SOUTH,midday_q3,2015-03,"27.18",27.175000,0.005
@@ -18721,7 +18957,9 @@ monthly,HB_SOUTH,midday_q3,2026-05,"28.56",28.555000,0.005
 monthly,HB_SOUTH,midday_q3,2026-06,"31.97",31.967500,0.005
 monthly,HB_SOUTH,midday_q3,2026-07,"26.57",26.565000,0.005
 monthly,HB_SOUTH,midday_q3,2026-08,"33.51",33.512500,0.005
-monthly,HB_SOUTH,midday_q3,2026-09,"43.06",43.060000,0.005
+monthly,HB_SOUTH,midday_q3,2026-09,"42.51",42.505000,0.005
+monthly,HB_SOUTH,midday_q3,2026-10,"37.18",37.177500,0.005
+monthly,HB_SOUTH,midday_q3,2026-11,"40.10",40.102500,0.005
 monthly,HB_SOUTH,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_SOUTH,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_SOUTH,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -18862,7 +19100,9 @@ monthly,HB_SOUTH,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_SOUTH,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_SOUTH,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_SOUTH,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_SOUTH,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_SOUTH,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_SOUTH,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_SOUTH,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_SOUTH,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_SOUTH,n_negative,2015-02,"30",30.000000,0.5
 monthly,HB_SOUTH,n_negative,2015-03,"39",39.000000,0.5
@@ -19004,6 +19244,8 @@ monthly,HB_SOUTH,n_negative,2026-06,"0",0.000000,0.5
 monthly,HB_SOUTH,n_negative,2026-07,"0",0.000000,0.5
 monthly,HB_SOUTH,n_negative,2026-08,"0",0.000000,0.5
 monthly,HB_SOUTH,n_negative,2026-09,"11",11.000000,0.5
+monthly,HB_SOUTH,n_negative,2026-10,"25",25.000000,0.5
+monthly,HB_SOUTH,n_negative,2026-11,"0",0.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2015-03,"0",0.000000,0.5
@@ -19145,6 +19387,8 @@ monthly,HB_SOUTH,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_SOUTH,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_SOUTH,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_SOUTH,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_SOUTH,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_SOUTH,overnight_max,2015-02,"846.26",846.260000,0.005
 monthly,HB_SOUTH,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -19286,6 +19530,8 @@ monthly,HB_SOUTH,overnight_max,2026-06,"191.47",191.470000,0.005
 monthly,HB_SOUTH,overnight_max,2026-07,"348.56",348.560000,0.005
 monthly,HB_SOUTH,overnight_max,2026-08,"780.37",780.370000,0.005
 monthly,HB_SOUTH,overnight_max,2026-09,"308.18",308.180000,0.005
+monthly,HB_SOUTH,overnight_max,2026-10,"379.54",379.540000,0.005
+monthly,HB_SOUTH,overnight_max,2026-11,"472.50",472.500000,0.005
 monthly,HB_SOUTH,overnight_median,2015-01,"22.14",22.140000,0.005
 monthly,HB_SOUTH,overnight_median,2015-02,"20.29",20.290000,0.005
 monthly,HB_SOUTH,overnight_median,2015-03,"20.70",20.700000,0.005
@@ -19426,7 +19672,9 @@ monthly,HB_SOUTH,overnight_median,2026-05,"23.24",23.240000,0.005
 monthly,HB_SOUTH,overnight_median,2026-06,"26.64",26.635000,0.005
 monthly,HB_SOUTH,overnight_median,2026-07,"24.43",24.425000,0.005
 monthly,HB_SOUTH,overnight_median,2026-08,"24.13",24.130000,0.005
-monthly,HB_SOUTH,overnight_median,2026-09,"30.75",30.745000,0.005
+monthly,HB_SOUTH,overnight_median,2026-09,"30.62",30.620000,0.005
+monthly,HB_SOUTH,overnight_median,2026-10,"31.49",31.490000,0.005
+monthly,HB_SOUTH,overnight_median,2026-11,"32.48",32.475000,0.005
 monthly,HB_SOUTH,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_SOUTH,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_SOUTH,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -19568,6 +19816,8 @@ monthly,HB_SOUTH,overnight_min,2026-06,"4.08",4.080000,0.005
 monthly,HB_SOUTH,overnight_min,2026-07,"1.04",1.040000,0.005
 monthly,HB_SOUTH,overnight_min,2026-08,"4.45",4.450000,0.005
 monthly,HB_SOUTH,overnight_min,2026-09,"5.27",5.270000,0.005
+monthly,HB_SOUTH,overnight_min,2026-10,"-0.50",-0.500000,0.005
+monthly,HB_SOUTH,overnight_min,2026-11,"9.10",9.100000,0.005
 monthly,HB_SOUTH,overnight_q1,2015-01,"19.99",19.987500,0.005
 monthly,HB_SOUTH,overnight_q1,2015-02,"18.00",18.000000,0.005
 monthly,HB_SOUTH,overnight_q1,2015-03,"18.85",18.850000,0.005
@@ -19708,7 +19958,9 @@ monthly,HB_SOUTH,overnight_q1,2026-05,"18.95",18.945000,0.005
 monthly,HB_SOUTH,overnight_q1,2026-06,"22.53",22.527500,0.005
 monthly,HB_SOUTH,overnight_q1,2026-07,"20.98",20.977500,0.005
 monthly,HB_SOUTH,overnight_q1,2026-08,"20.72",20.717500,0.005
-monthly,HB_SOUTH,overnight_q1,2026-09,"25.11",25.110000,0.005
+monthly,HB_SOUTH,overnight_q1,2026-09,"24.81",24.805000,0.005
+monthly,HB_SOUTH,overnight_q1,2026-10,"23.65",23.645000,0.005
+monthly,HB_SOUTH,overnight_q1,2026-11,"21.90",21.895000,0.005
 monthly,HB_SOUTH,overnight_q3,2015-01,"24.31",24.305000,0.005
 monthly,HB_SOUTH,overnight_q3,2015-02,"23.09",23.092500,0.005
 monthly,HB_SOUTH,overnight_q3,2015-03,"24.12",24.122500,0.005
@@ -19849,7 +20101,9 @@ monthly,HB_SOUTH,overnight_q3,2026-05,"30.82",30.820000,0.005
 monthly,HB_SOUTH,overnight_q3,2026-06,"32.90",32.895000,0.005
 monthly,HB_SOUTH,overnight_q3,2026-07,"29.96",29.962500,0.005
 monthly,HB_SOUTH,overnight_q3,2026-08,"30.77",30.767500,0.005
-monthly,HB_SOUTH,overnight_q3,2026-09,"36.19",36.190000,0.005
+monthly,HB_SOUTH,overnight_q3,2026-09,"36.44",36.440000,0.005
+monthly,HB_SOUTH,overnight_q3,2026-10,"41.70",41.700000,0.005
+monthly,HB_SOUTH,overnight_q3,2026-11,"42.25",42.252500,0.005
 monthly,HB_SOUTH,peak_iqr,2015-01,"3.99",3.992500,0.005
 monthly,HB_SOUTH,peak_iqr,2015-02,"5.73",5.730000,0.005
 monthly,HB_SOUTH,peak_iqr,2015-03,"5.64",5.635000,0.005
@@ -19990,7 +20244,9 @@ monthly,HB_SOUTH,peak_iqr,2026-05,"17.04",17.037500,0.005
 monthly,HB_SOUTH,peak_iqr,2026-06,"18.46",18.462500,0.005
 monthly,HB_SOUTH,peak_iqr,2026-07,"19.35",19.345000,0.005
 monthly,HB_SOUTH,peak_iqr,2026-08,"26.89",26.885000,0.005
-monthly,HB_SOUTH,peak_iqr,2026-09,"26.80",26.795000,0.005
+monthly,HB_SOUTH,peak_iqr,2026-09,"25.84",25.837500,0.005
+monthly,HB_SOUTH,peak_iqr,2026-10,"28.68",28.680000,0.005
+monthly,HB_SOUTH,peak_iqr,2026-11,"31.28",31.282500,0.005
 monthly,HB_SOUTH,peak_max,2015-01,"274.61",274.610000,0.005
 monthly,HB_SOUTH,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_SOUTH,peak_max,2015-03,"590.58",590.580000,0.005
@@ -20132,6 +20388,8 @@ monthly,HB_SOUTH,peak_max,2026-06,"101.66",101.660000,0.005
 monthly,HB_SOUTH,peak_max,2026-07,"178.36",178.360000,0.005
 monthly,HB_SOUTH,peak_max,2026-08,"415.77",415.770000,0.005
 monthly,HB_SOUTH,peak_max,2026-09,"403.14",403.140000,0.005
+monthly,HB_SOUTH,peak_max,2026-10,"255.06",255.060000,0.005
+monthly,HB_SOUTH,peak_max,2026-11,"365.79",365.790000,0.005
 monthly,HB_SOUTH,peak_median,2015-01,"23.17",23.170000,0.005
 monthly,HB_SOUTH,peak_median,2015-02,"21.67",21.670000,0.005
 monthly,HB_SOUTH,peak_median,2015-03,"24.33",24.330000,0.005
@@ -20272,7 +20530,9 @@ monthly,HB_SOUTH,peak_median,2026-05,"32.69",32.690000,0.005
 monthly,HB_SOUTH,peak_median,2026-06,"33.59",33.585000,0.005
 monthly,HB_SOUTH,peak_median,2026-07,"29.40",29.400000,0.005
 monthly,HB_SOUTH,peak_median,2026-08,"36.62",36.615000,0.005
-monthly,HB_SOUTH,peak_median,2026-09,"45.93",45.925000,0.005
+monthly,HB_SOUTH,peak_median,2026-09,"43.90",43.895000,0.005
+monthly,HB_SOUTH,peak_median,2026-10,"44.13",44.130000,0.005
+monthly,HB_SOUTH,peak_median,2026-11,"51.29",51.285000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2015-01,"1.56",1.560000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2015-02,"1.09",1.090000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2015-03,"0.02",0.020000,0.005
@@ -20413,7 +20673,9 @@ monthly,HB_SOUTH,peak_minus_midday_median,2026-05,"12.39",12.385000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2026-06,"10.41",10.410000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2026-07,"10.03",10.025000,0.005
 monthly,HB_SOUTH,peak_minus_midday_median,2026-08,"11.56",11.555000,0.005
-monthly,HB_SOUTH,peak_minus_midday_median,2026-09,"13.41",13.405000,0.005
+monthly,HB_SOUTH,peak_minus_midday_median,2026-09,"11.85",11.845000,0.005
+monthly,HB_SOUTH,peak_minus_midday_median,2026-10,"16.75",16.745000,0.005
+monthly,HB_SOUTH,peak_minus_midday_median,2026-11,"21.37",21.365000,0.005
 monthly,HB_SOUTH,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_SOUTH,peak_min,2015-02,"9.56",9.560000,0.005
 monthly,HB_SOUTH,peak_min,2015-03,"17.53",17.530000,0.005
@@ -20555,6 +20817,8 @@ monthly,HB_SOUTH,peak_min,2026-06,"10.87",10.870000,0.005
 monthly,HB_SOUTH,peak_min,2026-07,"4.55",4.550000,0.005
 monthly,HB_SOUTH,peak_min,2026-08,"11.83",11.830000,0.005
 monthly,HB_SOUTH,peak_min,2026-09,"-26.19",-26.190000,0.005
+monthly,HB_SOUTH,peak_min,2026-10,"-1.43",-1.430000,0.005
+monthly,HB_SOUTH,peak_min,2026-11,"18.43",18.430000,0.005
 monthly,HB_SOUTH,peak_q1,2015-01,"21.57",21.570000,0.005
 monthly,HB_SOUTH,peak_q1,2015-02,"19.38",19.377500,0.005
 monthly,HB_SOUTH,peak_q1,2015-03,"21.78",21.780000,0.005
@@ -20695,7 +20959,9 @@ monthly,HB_SOUTH,peak_q1,2026-05,"24.79",24.787500,0.005
 monthly,HB_SOUTH,peak_q1,2026-06,"25.14",25.140000,0.005
 monthly,HB_SOUTH,peak_q1,2026-07,"20.29",20.290000,0.005
 monthly,HB_SOUTH,peak_q1,2026-08,"25.27",25.270000,0.005
-monthly,HB_SOUTH,peak_q1,2026-09,"32.96",32.960000,0.005
+monthly,HB_SOUTH,peak_q1,2026-09,"32.56",32.562500,0.005
+monthly,HB_SOUTH,peak_q1,2026-10,"32.04",32.037500,0.005
+monthly,HB_SOUTH,peak_q1,2026-11,"35.98",35.977500,0.005
 monthly,HB_SOUTH,peak_q3,2015-01,"25.56",25.562500,0.005
 monthly,HB_SOUTH,peak_q3,2015-02,"25.11",25.107500,0.005
 monthly,HB_SOUTH,peak_q3,2015-03,"27.42",27.415000,0.005
@@ -20836,7 +21102,9 @@ monthly,HB_SOUTH,peak_q3,2026-05,"41.83",41.825000,0.005
 monthly,HB_SOUTH,peak_q3,2026-06,"43.60",43.602500,0.005
 monthly,HB_SOUTH,peak_q3,2026-07,"39.64",39.635000,0.005
 monthly,HB_SOUTH,peak_q3,2026-08,"52.16",52.155000,0.005
-monthly,HB_SOUTH,peak_q3,2026-09,"59.76",59.755000,0.005
+monthly,HB_SOUTH,peak_q3,2026-09,"58.40",58.400000,0.005
+monthly,HB_SOUTH,peak_q3,2026-10,"60.72",60.717500,0.005
+monthly,HB_SOUTH,peak_q3,2026-11,"67.26",67.260000,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2015-01,"12.95",12.947764,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2015-02,"37.44",37.438666,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2015-03,"24.75",24.753006,0.005
@@ -20977,7 +21245,9 @@ monthly,HB_SOUTH,worst_interval_multiple,2026-05,"5.77",5.772036,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2026-06,"6.11",6.111030,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2026-07,"8.59",8.585057,0.005
 monthly,HB_SOUTH,worst_interval_multiple,2026-08,"18.33",18.331591,0.005
-monthly,HB_SOUTH,worst_interval_multiple,2026-09,"9.59",9.587146,0.005
+monthly,HB_SOUTH,worst_interval_multiple,2026-09,"9.60",9.595357,0.005
+monthly,HB_SOUTH,worst_interval_multiple,2026-10,"7.16",7.156171,0.005
+monthly,HB_SOUTH,worst_interval_multiple,2026-11,"13.18",13.184058,0.005
 monthly,HB_WEST,all_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_WEST,all_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_WEST,all_max,2015-03,"681.47",681.470000,0.005
@@ -21119,6 +21389,8 @@ monthly,HB_WEST,all_max,2026-06,"223.11",223.110000,0.005
 monthly,HB_WEST,all_max,2026-07,"363.13",363.130000,0.005
 monthly,HB_WEST,all_max,2026-08,"795.33",795.330000,0.005
 monthly,HB_WEST,all_max,2026-09,"491.29",491.290000,0.005
+monthly,HB_WEST,all_max,2026-10,"464.88",464.880000,0.005
+monthly,HB_WEST,all_max,2026-11,"926.42",926.420000,0.005
 monthly,HB_WEST,all_median,2015-01,"22.00",21.995000,0.005
 monthly,HB_WEST,all_median,2015-02,"20.60",20.595000,0.005
 monthly,HB_WEST,all_median,2015-03,"22.37",22.365000,0.005
@@ -21259,7 +21531,9 @@ monthly,HB_WEST,all_median,2026-05,"22.35",22.350000,0.005
 monthly,HB_WEST,all_median,2026-06,"25.61",25.610000,0.005
 monthly,HB_WEST,all_median,2026-07,"25.55",25.550000,0.005
 monthly,HB_WEST,all_median,2026-08,"25.94",25.935000,0.005
-monthly,HB_WEST,all_median,2026-09,"32.11",32.105000,0.005
+monthly,HB_WEST,all_median,2026-09,"32.01",32.005000,0.005
+monthly,HB_WEST,all_median,2026-10,"32.90",32.900000,0.005
+monthly,HB_WEST,all_median,2026-11,"39.15",39.145000,0.005
 monthly,HB_WEST,all_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_WEST,all_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_WEST,all_min,2015-03,"-0.84",-0.840000,0.005
@@ -21401,6 +21675,8 @@ monthly,HB_WEST,all_min,2026-06,"-15.42",-15.420000,0.005
 monthly,HB_WEST,all_min,2026-07,"-1.52",-1.520000,0.005
 monthly,HB_WEST,all_min,2026-08,"-1.39",-1.390000,0.005
 monthly,HB_WEST,all_min,2026-09,"-5.40",-5.400000,0.005
+monthly,HB_WEST,all_min,2026-10,"-22.98",-22.980000,0.005
+monthly,HB_WEST,all_min,2026-11,"-6.67",-6.670000,0.005
 monthly,HB_WEST,all_p999,2015-01,"239.19",239.194000,0.005
 monthly,HB_WEST,all_p999,2015-02,"814.19",814.185710,0.005
 monthly,HB_WEST,all_p999,2015-03,"519.31",519.306440,0.005
@@ -21541,7 +21817,9 @@ monthly,HB_WEST,all_p999,2026-05,"198.91",198.907750,0.005
 monthly,HB_WEST,all_p999,2026-06,"182.64",182.643950,0.005
 monthly,HB_WEST,all_p999,2026-07,"239.10",239.096750,0.005
 monthly,HB_WEST,all_p999,2026-08,"663.03",663.034250,0.005
-monthly,HB_WEST,all_p999,2026-09,"366.70",366.699190,0.005
+monthly,HB_WEST,all_p999,2026-09,"365.57",365.573110,0.005
+monthly,HB_WEST,all_p999,2026-10,"346.55",346.547000,0.005
+monthly,HB_WEST,all_p999,2026-11,"632.86",632.858390,0.005
 monthly,HB_WEST,all_q1,2015-01,"20.07",20.070000,0.005
 monthly,HB_WEST,all_q1,2015-02,"18.26",18.260000,0.005
 monthly,HB_WEST,all_q1,2015-03,"19.57",19.570000,0.005
@@ -21682,7 +21960,9 @@ monthly,HB_WEST,all_q1,2026-05,"10.95",10.952500,0.005
 monthly,HB_WEST,all_q1,2026-06,"7.90",7.900000,0.005
 monthly,HB_WEST,all_q1,2026-07,"21.19",21.187500,0.005
 monthly,HB_WEST,all_q1,2026-08,"20.79",20.790000,0.005
-monthly,HB_WEST,all_q1,2026-09,"25.35",25.347500,0.005
+monthly,HB_WEST,all_q1,2026-09,"24.89",24.887500,0.005
+monthly,HB_WEST,all_q1,2026-10,"17.91",17.910000,0.005
+monthly,HB_WEST,all_q1,2026-11,"17.07",17.072500,0.005
 monthly,HB_WEST,all_q3,2015-01,"24.33",24.332500,0.005
 monthly,HB_WEST,all_q3,2015-02,"23.66",23.662500,0.005
 monthly,HB_WEST,all_q3,2015-03,"26.02",26.022500,0.005
@@ -21823,7 +22103,9 @@ monthly,HB_WEST,all_q3,2026-05,"33.01",33.010000,0.005
 monthly,HB_WEST,all_q3,2026-06,"34.23",34.225000,0.005
 monthly,HB_WEST,all_q3,2026-07,"32.92",32.922500,0.005
 monthly,HB_WEST,all_q3,2026-08,"38.47",38.472500,0.005
-monthly,HB_WEST,all_q3,2026-09,"41.14",41.140000,0.005
+monthly,HB_WEST,all_q3,2026-09,"41.73",41.732500,0.005
+monthly,HB_WEST,all_q3,2026-10,"48.37",48.367500,0.005
+monthly,HB_WEST,all_q3,2026-11,"60.74",60.742500,0.005
 monthly,HB_WEST,midday_max,2015-01,"45.43",45.430000,0.005
 monthly,HB_WEST,midday_max,2015-02,"43.56",43.560000,0.005
 monthly,HB_WEST,midday_max,2015-03,"297.51",297.510000,0.005
@@ -21965,6 +22247,8 @@ monthly,HB_WEST,midday_max,2026-06,"64.56",64.560000,0.005
 monthly,HB_WEST,midday_max,2026-07,"79.85",79.850000,0.005
 monthly,HB_WEST,midday_max,2026-08,"113.24",113.240000,0.005
 monthly,HB_WEST,midday_max,2026-09,"66.81",66.810000,0.005
+monthly,HB_WEST,midday_max,2026-10,"83.12",83.120000,0.005
+monthly,HB_WEST,midday_max,2026-11,"95.77",95.770000,0.005
 monthly,HB_WEST,midday_median,2015-01,"21.57",21.565000,0.005
 monthly,HB_WEST,midday_median,2015-02,"20.58",20.580000,0.005
 monthly,HB_WEST,midday_median,2015-03,"24.79",24.790000,0.005
@@ -22105,7 +22389,9 @@ monthly,HB_WEST,midday_median,2026-05,"15.14",15.140000,0.005
 monthly,HB_WEST,midday_median,2026-06,"16.38",16.380000,0.005
 monthly,HB_WEST,midday_median,2026-07,"23.68",23.680000,0.005
 monthly,HB_WEST,midday_median,2026-08,"24.86",24.855000,0.005
-monthly,HB_WEST,midday_median,2026-09,"30.15",30.145000,0.005
+monthly,HB_WEST,midday_median,2026-09,"29.13",29.125000,0.005
+monthly,HB_WEST,midday_median,2026-10,"21.13",21.130000,0.005
+monthly,HB_WEST,midday_median,2026-11,"14.65",14.645000,0.005
 monthly,HB_WEST,midday_min,2015-01,"5.61",5.610000,0.005
 monthly,HB_WEST,midday_min,2015-02,"2.09",2.090000,0.005
 monthly,HB_WEST,midday_min,2015-03,"17.14",17.140000,0.005
@@ -22246,7 +22532,9 @@ monthly,HB_WEST,midday_min,2026-05,"-11.27",-11.270000,0.005
 monthly,HB_WEST,midday_min,2026-06,"-9.87",-9.870000,0.005
 monthly,HB_WEST,midday_min,2026-07,"-1.19",-1.190000,0.005
 monthly,HB_WEST,midday_min,2026-08,"-0.16",-0.160000,0.005
-monthly,HB_WEST,midday_min,2026-09,"-3.49",-3.490000,0.005
+monthly,HB_WEST,midday_min,2026-09,"-3.81",-3.810000,0.005
+monthly,HB_WEST,midday_min,2026-10,"-22.98",-22.980000,0.005
+monthly,HB_WEST,midday_min,2026-11,"-6.67",-6.670000,0.005
 monthly,HB_WEST,midday_q1,2015-01,"19.95",19.952500,0.005
 monthly,HB_WEST,midday_q1,2015-02,"18.57",18.565000,0.005
 monthly,HB_WEST,midday_q1,2015-03,"21.97",21.967500,0.005
@@ -22387,7 +22675,9 @@ monthly,HB_WEST,midday_q1,2026-05,"1.00",0.995000,0.005
 monthly,HB_WEST,midday_q1,2026-06,"-0.83",-0.830000,0.005
 monthly,HB_WEST,midday_q1,2026-07,"17.92",17.915000,0.005
 monthly,HB_WEST,midday_q1,2026-08,"18.26",18.255000,0.005
-monthly,HB_WEST,midday_q1,2026-09,"22.94",22.935000,0.005
+monthly,HB_WEST,midday_q1,2026-09,"21.66",21.662500,0.005
+monthly,HB_WEST,midday_q1,2026-10,"7.11",7.110000,0.005
+monthly,HB_WEST,midday_q1,2026-11,"6.09",6.092500,0.005
 monthly,HB_WEST,midday_q3,2015-01,"22.97",22.972500,0.005
 monthly,HB_WEST,midday_q3,2015-02,"22.97",22.967500,0.005
 monthly,HB_WEST,midday_q3,2015-03,"27.97",27.972500,0.005
@@ -22528,7 +22818,9 @@ monthly,HB_WEST,midday_q3,2026-05,"22.82",22.817500,0.005
 monthly,HB_WEST,midday_q3,2026-06,"27.84",27.840000,0.005
 monthly,HB_WEST,midday_q3,2026-07,"27.67",27.665000,0.005
 monthly,HB_WEST,midday_q3,2026-08,"34.84",34.840000,0.005
-monthly,HB_WEST,midday_q3,2026-09,"36.86",36.862500,0.005
+monthly,HB_WEST,midday_q3,2026-09,"36.04",36.037500,0.005
+monthly,HB_WEST,midday_q3,2026-10,"34.32",34.322500,0.005
+monthly,HB_WEST,midday_q3,2026-11,"33.89",33.890000,0.005
 monthly,HB_WEST,n_intervals,2015-01,"2,976",2976.000000,0.5
 monthly,HB_WEST,n_intervals,2015-02,"2,688",2688.000000,0.5
 monthly,HB_WEST,n_intervals,2015-03,"2,972",2972.000000,0.5
@@ -22669,7 +22961,9 @@ monthly,HB_WEST,n_intervals,2026-05,"2,976",2976.000000,0.5
 monthly,HB_WEST,n_intervals,2026-06,"2,880",2880.000000,0.5
 monthly,HB_WEST,n_intervals,2026-07,"2,976",2976.000000,0.5
 monthly,HB_WEST,n_intervals,2026-08,"2,976",2976.000000,0.5
-monthly,HB_WEST,n_intervals,2026-09,"2,592",2592.000000,0.5
+monthly,HB_WEST,n_intervals,2026-09,"2,880",2880.000000,0.5
+monthly,HB_WEST,n_intervals,2026-10,"2,976",2976.000000,0.5
+monthly,HB_WEST,n_intervals,2026-11,"1,348",1348.000000,0.5
 monthly,HB_WEST,n_negative,2015-01,"9",9.000000,0.5
 monthly,HB_WEST,n_negative,2015-02,"32",32.000000,0.5
 monthly,HB_WEST,n_negative,2015-03,"39",39.000000,0.5
@@ -22810,7 +23104,9 @@ monthly,HB_WEST,n_negative,2026-05,"339",339.000000,0.5
 monthly,HB_WEST,n_negative,2026-06,"431",431.000000,0.5
 monthly,HB_WEST,n_negative,2026-07,"46",46.000000,0.5
 monthly,HB_WEST,n_negative,2026-08,"27",27.000000,0.5
-monthly,HB_WEST,n_negative,2026-09,"48",48.000000,0.5
+monthly,HB_WEST,n_negative,2026-09,"71",71.000000,0.5
+monthly,HB_WEST,n_negative,2026-10,"172",172.000000,0.5
+monthly,HB_WEST,n_negative,2026-11,"93",93.000000,0.5
 monthly,HB_WEST,n_scarcity,2015-01,"0",0.000000,0.5
 monthly,HB_WEST,n_scarcity,2015-02,"1",1.000000,0.5
 monthly,HB_WEST,n_scarcity,2015-03,"0",0.000000,0.5
@@ -22952,6 +23248,8 @@ monthly,HB_WEST,n_scarcity,2026-06,"0",0.000000,0.5
 monthly,HB_WEST,n_scarcity,2026-07,"0",0.000000,0.5
 monthly,HB_WEST,n_scarcity,2026-08,"0",0.000000,0.5
 monthly,HB_WEST,n_scarcity,2026-09,"0",0.000000,0.5
+monthly,HB_WEST,n_scarcity,2026-10,"0",0.000000,0.5
+monthly,HB_WEST,n_scarcity,2026-11,"0",0.000000,0.5
 monthly,HB_WEST,overnight_max,2015-01,"495.37",495.370000,0.005
 monthly,HB_WEST,overnight_max,2015-02,"852.50",852.500000,0.005
 monthly,HB_WEST,overnight_max,2015-03,"681.47",681.470000,0.005
@@ -23093,6 +23391,8 @@ monthly,HB_WEST,overnight_max,2026-06,"223.11",223.110000,0.005
 monthly,HB_WEST,overnight_max,2026-07,"363.13",363.130000,0.005
 monthly,HB_WEST,overnight_max,2026-08,"795.33",795.330000,0.005
 monthly,HB_WEST,overnight_max,2026-09,"365.10",365.100000,0.005
+monthly,HB_WEST,overnight_max,2026-10,"464.88",464.880000,0.005
+monthly,HB_WEST,overnight_max,2026-11,"926.42",926.420000,0.005
 monthly,HB_WEST,overnight_median,2015-01,"21.89",21.890000,0.005
 monthly,HB_WEST,overnight_median,2015-02,"20.27",20.270000,0.005
 monthly,HB_WEST,overnight_median,2015-03,"20.70",20.700000,0.005
@@ -23233,7 +23533,9 @@ monthly,HB_WEST,overnight_median,2026-05,"23.11",23.105000,0.005
 monthly,HB_WEST,overnight_median,2026-06,"26.80",26.795000,0.005
 monthly,HB_WEST,overnight_median,2026-07,"24.97",24.970000,0.005
 monthly,HB_WEST,overnight_median,2026-08,"24.48",24.480000,0.005
-monthly,HB_WEST,overnight_median,2026-09,"30.51",30.510000,0.005
+monthly,HB_WEST,overnight_median,2026-09,"30.25",30.245000,0.005
+monthly,HB_WEST,overnight_median,2026-10,"32.99",32.990000,0.005
+monthly,HB_WEST,overnight_median,2026-11,"39.51",39.510000,0.005
 monthly,HB_WEST,overnight_min,2015-01,"-0.89",-0.890000,0.005
 monthly,HB_WEST,overnight_min,2015-02,"-0.89",-0.890000,0.005
 monthly,HB_WEST,overnight_min,2015-03,"-0.84",-0.840000,0.005
@@ -23374,7 +23676,9 @@ monthly,HB_WEST,overnight_min,2026-05,"-7.20",-7.200000,0.005
 monthly,HB_WEST,overnight_min,2026-06,"-10.49",-10.490000,0.005
 monthly,HB_WEST,overnight_min,2026-07,"-1.52",-1.520000,0.005
 monthly,HB_WEST,overnight_min,2026-08,"-1.39",-1.390000,0.005
-monthly,HB_WEST,overnight_min,2026-09,"-2.10",-2.100000,0.005
+monthly,HB_WEST,overnight_min,2026-09,"-2.59",-2.590000,0.005
+monthly,HB_WEST,overnight_min,2026-10,"-17.36",-17.360000,0.005
+monthly,HB_WEST,overnight_min,2026-11,"-5.49",-5.490000,0.005
 monthly,HB_WEST,overnight_q1,2015-01,"19.84",19.837500,0.005
 monthly,HB_WEST,overnight_q1,2015-02,"17.95",17.947500,0.005
 monthly,HB_WEST,overnight_q1,2015-03,"18.98",18.977500,0.005
@@ -23515,7 +23819,9 @@ monthly,HB_WEST,overnight_q1,2026-05,"13.65",13.650000,0.005
 monthly,HB_WEST,overnight_q1,2026-06,"20.42",20.417500,0.005
 monthly,HB_WEST,overnight_q1,2026-07,"21.39",21.387500,0.005
 monthly,HB_WEST,overnight_q1,2026-08,"20.49",20.490000,0.005
-monthly,HB_WEST,overnight_q1,2026-09,"24.72",24.720000,0.005
+monthly,HB_WEST,overnight_q1,2026-09,"24.29",24.287500,0.005
+monthly,HB_WEST,overnight_q1,2026-10,"19.05",19.045000,0.005
+monthly,HB_WEST,overnight_q1,2026-11,"19.25",19.245000,0.005
 monthly,HB_WEST,overnight_q3,2015-01,"24.31",24.305000,0.005
 monthly,HB_WEST,overnight_q3,2015-02,"23.25",23.252500,0.005
 monthly,HB_WEST,overnight_q3,2015-03,"24.30",24.300000,0.005
@@ -23656,7 +23962,9 @@ monthly,HB_WEST,overnight_q3,2026-05,"33.56",33.560000,0.005
 monthly,HB_WEST,overnight_q3,2026-06,"33.58",33.577500,0.005
 monthly,HB_WEST,overnight_q3,2026-07,"31.38",31.380000,0.005
 monthly,HB_WEST,overnight_q3,2026-08,"31.28",31.277500,0.005
-monthly,HB_WEST,overnight_q3,2026-09,"36.37",36.372500,0.005
+monthly,HB_WEST,overnight_q3,2026-09,"36.62",36.615000,0.005
+monthly,HB_WEST,overnight_q3,2026-10,"47.53",47.525000,0.005
+monthly,HB_WEST,overnight_q3,2026-11,"57.05",57.052500,0.005
 monthly,HB_WEST,peak_iqr,2015-01,"4.85",4.845000,0.005
 monthly,HB_WEST,peak_iqr,2015-02,"6.66",6.655000,0.005
 monthly,HB_WEST,peak_iqr,2015-03,"5.67",5.670000,0.005
@@ -23797,7 +24105,9 @@ monthly,HB_WEST,peak_iqr,2026-05,"27.24",27.237500,0.005
 monthly,HB_WEST,peak_iqr,2026-06,"40.85",40.850000,0.005
 monthly,HB_WEST,peak_iqr,2026-07,"19.28",19.282500,0.005
 monthly,HB_WEST,peak_iqr,2026-08,"36.78",36.780000,0.005
-monthly,HB_WEST,peak_iqr,2026-09,"35.32",35.317500,0.005
+monthly,HB_WEST,peak_iqr,2026-09,"34.22",34.215000,0.005
+monthly,HB_WEST,peak_iqr,2026-10,"33.16",33.157500,0.005
+monthly,HB_WEST,peak_iqr,2026-11,"70.31",70.312500,0.005
 monthly,HB_WEST,peak_max,2015-01,"284.20",284.200000,0.005
 monthly,HB_WEST,peak_max,2015-02,"1,538.66",1538.660000,0.005
 monthly,HB_WEST,peak_max,2015-03,"633.87",633.870000,0.005
@@ -23939,6 +24249,8 @@ monthly,HB_WEST,peak_max,2026-06,"118.98",118.980000,0.005
 monthly,HB_WEST,peak_max,2026-07,"239.03",239.030000,0.005
 monthly,HB_WEST,peak_max,2026-08,"560.75",560.750000,0.005
 monthly,HB_WEST,peak_max,2026-09,"491.29",491.290000,0.005
+monthly,HB_WEST,peak_max,2026-10,"371.00",371.000000,0.005
+monthly,HB_WEST,peak_max,2026-11,"309.87",309.870000,0.005
 monthly,HB_WEST,peak_median,2015-01,"23.04",23.040000,0.005
 monthly,HB_WEST,peak_median,2015-02,"21.39",21.390000,0.005
 monthly,HB_WEST,peak_median,2015-03,"24.65",24.650000,0.005
@@ -24079,7 +24391,9 @@ monthly,HB_WEST,peak_median,2026-05,"27.03",27.025000,0.005
 monthly,HB_WEST,peak_median,2026-06,"26.88",26.875000,0.005
 monthly,HB_WEST,peak_median,2026-07,"32.26",32.255000,0.005
 monthly,HB_WEST,peak_median,2026-08,"43.23",43.230000,0.005
-monthly,HB_WEST,peak_median,2026-09,"51.17",51.165000,0.005
+monthly,HB_WEST,peak_median,2026-09,"50.30",50.300000,0.005
+monthly,HB_WEST,peak_median,2026-10,"42.54",42.540000,0.005
+monthly,HB_WEST,peak_median,2026-11,"61.02",61.015000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2015-01,"1.48",1.475000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2015-02,"0.81",0.810000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2015-03,"-0.14",-0.140000,0.005
@@ -24220,7 +24534,9 @@ monthly,HB_WEST,peak_minus_midday_median,2026-05,"11.89",11.885000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2026-06,"10.50",10.495000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2026-07,"8.58",8.575000,0.005
 monthly,HB_WEST,peak_minus_midday_median,2026-08,"18.38",18.375000,0.005
-monthly,HB_WEST,peak_minus_midday_median,2026-09,"21.02",21.020000,0.005
+monthly,HB_WEST,peak_minus_midday_median,2026-09,"21.18",21.175000,0.005
+monthly,HB_WEST,peak_minus_midday_median,2026-10,"21.41",21.410000,0.005
+monthly,HB_WEST,peak_minus_midday_median,2026-11,"46.37",46.370000,0.005
 monthly,HB_WEST,peak_min,2015-01,"7.57",7.570000,0.005
 monthly,HB_WEST,peak_min,2015-02,"5.34",5.340000,0.005
 monthly,HB_WEST,peak_min,2015-03,"17.87",17.870000,0.005
@@ -24362,6 +24678,8 @@ monthly,HB_WEST,peak_min,2026-06,"-15.42",-15.420000,0.005
 monthly,HB_WEST,peak_min,2026-07,"-0.65",-0.650000,0.005
 monthly,HB_WEST,peak_min,2026-08,"-0.98",-0.980000,0.005
 monthly,HB_WEST,peak_min,2026-09,"-5.40",-5.400000,0.005
+monthly,HB_WEST,peak_min,2026-10,"-19.01",-19.010000,0.005
+monthly,HB_WEST,peak_min,2026-11,"-4.04",-4.040000,0.005
 monthly,HB_WEST,peak_q1,2015-01,"20.95",20.950000,0.005
 monthly,HB_WEST,peak_q1,2015-02,"18.85",18.847500,0.005
 monthly,HB_WEST,peak_q1,2015-03,"22.36",22.360000,0.005
@@ -24502,7 +24820,9 @@ monthly,HB_WEST,peak_q1,2026-05,"12.55",12.552500,0.005
 monthly,HB_WEST,peak_q1,2026-06,"0.99",0.992500,0.005
 monthly,HB_WEST,peak_q1,2026-07,"23.71",23.707500,0.005
 monthly,HB_WEST,peak_q1,2026-08,"26.26",26.260000,0.005
-monthly,HB_WEST,peak_q1,2026-09,"35.44",35.442500,0.005
+monthly,HB_WEST,peak_q1,2026-09,"35.74",35.740000,0.005
+monthly,HB_WEST,peak_q1,2026-10,"28.42",28.415000,0.005
+monthly,HB_WEST,peak_q1,2026-11,"33.57",33.567500,0.005
 monthly,HB_WEST,peak_q3,2015-01,"25.80",25.795000,0.005
 monthly,HB_WEST,peak_q3,2015-02,"25.50",25.502500,0.005
 monthly,HB_WEST,peak_q3,2015-03,"28.03",28.030000,0.005
@@ -24643,7 +24963,9 @@ monthly,HB_WEST,peak_q3,2026-05,"39.79",39.790000,0.005
 monthly,HB_WEST,peak_q3,2026-06,"41.84",41.842500,0.005
 monthly,HB_WEST,peak_q3,2026-07,"42.99",42.990000,0.005
 monthly,HB_WEST,peak_q3,2026-08,"63.04",63.040000,0.005
-monthly,HB_WEST,peak_q3,2026-09,"70.76",70.760000,0.005
+monthly,HB_WEST,peak_q3,2026-09,"69.96",69.955000,0.005
+monthly,HB_WEST,peak_q3,2026-10,"61.57",61.572500,0.005
+monthly,HB_WEST,peak_q3,2026-11,"103.88",103.880000,0.005
 monthly,HB_WEST,worst_interval_multiple,2015-01,"10.87",10.874926,0.005
 monthly,HB_WEST,worst_interval_multiple,2015-02,"39.53",39.533174,0.005
 monthly,HB_WEST,worst_interval_multiple,2015-03,"23.22",23.219604,0.005
@@ -24784,4 +25106,6 @@ monthly,HB_WEST,worst_interval_multiple,2026-05,"8.90",8.899676,0.005
 monthly,HB_WEST,worst_interval_multiple,2026-06,"7.13",7.131743,0.005
 monthly,HB_WEST,worst_interval_multiple,2026-07,"9.36",9.357994,0.005
 monthly,HB_WEST,worst_interval_multiple,2026-08,"25.57",25.565230,0.005
-monthly,HB_WEST,worst_interval_multiple,2026-09,"11.42",11.421872,0.005
+monthly,HB_WEST,worst_interval_multiple,2026-09,"11.42",11.422375,0.005
+monthly,HB_WEST,worst_interval_multiple,2026-10,"10.53",10.533343,0.005
+monthly,HB_WEST,worst_interval_multiple,2026-11,"16.17",16.167030,0.005
