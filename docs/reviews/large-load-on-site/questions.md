@@ -25,6 +25,8 @@ Energy Research Warehouse (ERW). What three readers need to know about a utility
 | 11 | What changed in the last 90 days? | fund | `utility_large_load_rule_changes` (94 public rows, 18 August to 13 November 2026), `x_affects` names the rule | 94 |
 | 12 | What does the state's law require? | all three | `state_large_load_laws` (27 public rows, 26 states) | 27 |
 
+The counts are of the table's own cells. The page also draws 22 fields that the ERW's public registry files print and the table points to (8, 4, 6, 1 and 3 of the first five questions), so it shows 74, 54, 54, 66 and 47 values for them (session 7201).
+
 Every value carries its cite (`<field>_cite`: the page or section and the words). A value is drawn as the document prints it, never shortened into a number the document does not print.
 
 ## What follows for the page
