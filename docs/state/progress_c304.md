@@ -76,3 +76,40 @@ The resume (session 7522, 13:46 UTC): the chain stopped at about 13:16 UTC, mid 
 | The pack `docs/reviews/done-line-pack-oldlaptop-2026-11-16.md` | done `beea6f56b`: 606 lines, the nine tools of part A, one sitting each; 97 rulings numbered across them; every figure copied from the branch files (the shoulder's five Stata lines checked against its do-file). Gaps said in place: seven of nine notes have no sign-off block (the section a signature would go in is named); no do-file has been run in Stata on this machine (the expected lines are the do-files' own and the Python mirrors'); the severance refund finder has no replication (data request row 3) | 7522 |
 | The note `docs/state/note_2026-11-17_oldlaptop_c304.md` | done (this commit); the report `archive/sessions/SESSION_7522_REPORT.md` for sessions 7522 to 7524 | 7522 |
 | The resume file removed; the queue step | done: the resume file removed at `aff8cbc3a`, alone; the queue step at 14:12 UTC exited 3 (nothing for this machine). Part C not started: the owner's instruction for this run was to stop at exit 3 | 7522 |
+
+## The second run (the owner's instruction of 16 November 2026, evening, sessions 7530 to 7599)
+
+Samuel's words, typed into this machine's session at about 22:00 UTC: tools 11 to 16 of `docs/state/done_line_claims.md` move from portable-laptop to samueloldlaptop; take those six to the done line in part A's form, then part C; when the queue step exits 3, run the precheck again and keep going with part C until every tool marked done line has a read; chain 304's rules hold; model spend USD 0; no heredocs or long inline scripts. A resume of chain 304 continues from the first row below not marked done.
+
+| Step | State | Session |
+|---|---|---|
+| Precheck, fetch, freeze, memory and disk; sessions 7530 to 7599 checked free on every branch | done: precheck passed; no freeze; 1.8 GB of memory free, 68 GB of disk; no commit or report names a session 7530 to 7599 | 7530 |
+| The before snapshot (a push to main deploys) | done: `c304b-before`, 25 pages, 0 failed, 22:03 UTC | 7530 |
+| The claims file: tools 11 to 16 to samueloldlaptop, alone | done `64da63865`, pushed | 7530 |
+| The base of the six tools' branches | done: origin/main at `64da63865` (the old base `wip/7500-done-line` and `wip/7200-large-load` are both on main, so the tools that draw a page to HTML are there) | 7530 |
+| The resume pointer `queue/next/342-resume-chain-304.md` | done (its own commit) | 7530 |
+
+### Part A, the six tools
+
+| # | Tool | Branch | State | Session |
+|---:|---|---|---|---|
+| 11 | `/events` and its nine event pages | `wip/7531-events` | open | |
+| 12 | `/grid/caiso/alerts` | `wip/7532-caiso-alerts` | open | |
+| 13 | `/learn/bill` | `wip/7533-learn-bill` | open | |
+| 14 | `/learn/problems` | `wip/7534-learn-problems` | open | |
+| 15 | `/play/battery` | `wip/7535-play-battery` | open | |
+| 16 | `/play/ev` | `wip/7536-play-ev` | open | |
+
+### Part C, the other machines' tools marked done line with no read on any branch (checked at 22:10 UTC on every remote branch)
+
+| Tool | Machine | State | Session |
+|---|---|---|---|
+| `/map` | portable-laptop | open | |
+| `/board` | lab-desktop | open | |
+| `/prices` | lab-desktop | open | |
+| `/prices/compare` | lab-desktop | open | |
+| `/supply` | lab-desktop | open | |
+| `/storage` | lab-desktop | open | |
+| `/demand` | lab-desktop | open | |
+| `/curtailment` | lab-desktop | open | |
+| `/queues` | lab-desktop | open | |
