@@ -19,6 +19,9 @@ Started by the queue step (`310-resume-chain-301.md` taken at `5eed3497e`; the p
 - **Gate n** (`7f40348f1`, 21:48) failed one test, 3701: Research's replication figures (`replication/analysis/page_figures.*`) still held the cards' old callouts; `figures_of_the_page.py` wrote them again (78 figures).
 - **Gate o** (`2e2f5a994`, 22:12): see Landings.
 
+- **Gate o** passed every step (suite 9,940 tests, replay, build, values with the known license floors, routes, cross-checks, csp) at 22:48 UTC. `task/7022-final` failed only at merging main (chain 304's new rows in `docs/state/data_requests_done_line.md` beside my row 48); main merged by hand (my row 48 kept, its rows 49, 50, 59, 69 added; nothing else but reports changed since the gate), landed through `task/7022-final-b` (run 43974095963), merged at `8c4be3f1f`. Snapshots `before-2e2f5a99` and `after-2e2f5a99`, the second after Vercel's status read success: **0 differences** (expected).
+- **Read on production with the internal cookie:** `/cost-of-power` and `/cost-of-power?view=allgrids` hold no "filed, not approved"; the 2026 matrix rows read "approved" beside USD 75.527270 per kW. Before the landing each 2026 figure carried "filed, not approved" (the page's label follows the file's `status`).
+
 ## The daily run's refused push (the race the landed retry fixes)
 
 - The data machine's own daily run (17:00 UTC) pulled at about 19:33 and ran its guard's suite; gate l merged at 19:34, so its one push was refused ("fetch first"), as `landing-races-daily-push` describes. The landing had been pushed at 19:20, while the run was in its page files. The retry that fixes this landed with gate l itself, after the run had started.

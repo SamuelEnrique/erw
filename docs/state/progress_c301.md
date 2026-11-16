@@ -86,6 +86,9 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 - Gate k failed on test 90 alone (fixed in `8472d9416`); gate l (`34b9cc9eb`, the same with the fix) passed every step at 19:11 UTC. (7021)
 - Session 7022 (the resume file 310 taken by the queue step; pointer 311 pushed at `d3a145d91`): gate l landed through `task/7022-landing` (run 43938253588), merged at `1f7bd79c9`. Freeze: none. Snapshots `before-34b9cc9e` and `after-34b9cc9e` (the second after the deploy's status read success): 0 differences. The queue push before it, `after-e6ffcaa6` against `before-34b9cc9e`: 0 differences. (7022)
 
+- Gates m (`9c26cc668`, 13 failures) and n (`7f40348f1`, 1 failure) failed and were fixed; gate o (`2e2f5a994`) passed every step at 22:48 UTC. Its first landing (`task/7022-final`) could not merge main (a request file both sides changed); main merged by hand, landed through `task/7022-final-b` (run 43974095963), merged at `8c4be3f1f`. Snapshots `before-2e2f5a99` and `after-2e2f5a99`: 0 differences. `/cost-of-power` read on production with the internal cookie: no "filed, not approved" left, the 2026 rows "approved". (7022)
+- The chain's goals done; the closing note `docs/state/note_2026-11-17_data_c301.md`; the resume pointer removed; the queue step next. (7022)
+
 ## The eight lab-desktop tools of the done line
 
 | # | Tool | Replication | Findings | Session |
