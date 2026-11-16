@@ -1,0 +1,4 @@
+# The rows the replication reads are fetched from the live set at run time (fetch_rows.py) and never committed:
+# datacenter_facilities is held (license needed) since 21 October 2026.
+*
+!.gitignore

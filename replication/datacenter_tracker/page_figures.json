@@ -1,0 +1,2735 @@
+{
+ "tool": "/datacenters",
+ "retrieved_at": "2026-11-16T09:18:38Z",
+ "vintage": "2026-11-15",
+ "today": "2026-11-16",
+ "rows": 458,
+ "source": "the ERW live set (Supabase), public reads with the anon key",
+ "note": "the page's figure is what its own functions compute on the live set's rows (site/scripts/datacenter-tracker-figures.mjs); the facilities are held (license needed), so the built page draws none of them to a visitor",
+ "figures": [
+  {
+   "key": "datacenters|cancelled",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|count",
+   "page": 458,
+   "replication": 458,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|counted",
+   "page": 274,
+   "replication": 274,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|first_week|2026-11-10",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|kind_count|news",
+   "page": 191,
+   "replication": 191,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|kind_count|operator",
+   "page": 264,
+   "replication": 264,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|kind_count|queue",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|mw_total",
+   "page": 28254,
+   "replication": 28254.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|n_first_story",
+   "page": 193,
+   "replication": 193,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|n_with_mw",
+   "page": 21,
+   "replication": 21,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|no_us_state",
+   "page": 180,
+   "replication": 180,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|5C Data Centers",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|AWS",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|AirTrunk",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Amazon",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Amazon Web Services",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Ambani",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Anthropic",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Applied Digital",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Arevia Power",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Arvica Cloud",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Axe Compute",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Bitdeer AI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Blackfuel",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Blackstart Digital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Blackstone",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Cadence",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Castle IT",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Chevron",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|ChronoScale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Continent 8 Technologies",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|CoreWeave",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Crusoe",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|CtrlS",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|DataOne",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|DayOne",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Digital Realty",
+   "page": 76,
+   "replication": 76,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Equinix",
+   "page": 76,
+   "replication": 76,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Firmus",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Forest County Potawatomi Community",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Giga Texas Energy, LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Google",
+   "page": 62,
+   "replication": 62,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Gorilla Technology Group",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Hyundai",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Iren",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Jane Street",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|KT",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|KT Cloud",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Lambda",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Meta",
+   "page": 36,
+   "replication": 36,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Microsoft",
+   "page": 31,
+   "replication": 31,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Nebius",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|NetworkOcean",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|NorthC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|NxN",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|OVHcloud",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|OneQode",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|OpenAI",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Oracle",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Orange & Rockland",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Pembina",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|PowerBridge LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|QTS",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Quantum DC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Reserve Bank of India",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|SWI Compute",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Sberbank",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Scaleway",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Segro",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Sharon AI",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|SoftBank",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Stack",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Start Campus",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Super Micro",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Switch",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Telehouse",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|ThisWay Global",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|TikTok",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|US Signal",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|VK",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|VivoPower",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Volta",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Vultr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Vyoma",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|XTX",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|Yandex",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|atNorth",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|du",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_count|xAI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|",
+   "page": 26124,
+   "replication": 26124.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|Anthropic",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|Applied Digital",
+   "page": 75,
+   "replication": 75.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|ChronoScale",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|Nebius",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|Switch",
+   "page": 882,
+   "replication": 882.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|operator_mw|ThisWay Global",
+   "page": 73,
+   "replication": 73.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|-",
+   "page": 100,
+   "replication": 100,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|CAISO",
+   "page": 34,
+   "replication": 34,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|ERCOT",
+   "page": 46,
+   "replication": 46,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|ISO-NE",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|MISO",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|NYISO",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|PJM",
+   "page": 60,
+   "replication": 60,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|grid|SPP",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|-",
+   "page": 25,
+   "replication": 25,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|AWS",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Amazon",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Amazon Web Services",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Anthropic",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Applied Digital",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Arevia Power",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Axe Compute",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Chevron",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|ChronoScale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Crusoe",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Digital Realty",
+   "page": 71,
+   "replication": 71,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Equinix",
+   "page": 44,
+   "replication": 44,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Giga Texas Energy, LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Google",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Lambda",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Meta",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Microsoft",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Nebius",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|OpenAI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Oracle",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|PowerBridge LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Stack",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Switch",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|ThisWay Global",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|US Signal",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|Vultr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_facilities|operator|xAI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|grid|-",
+   "page": 14842,
+   "replication": 14842.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|grid|CAISO",
+   "page": 400,
+   "replication": 400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|grid|ERCOT",
+   "page": 457,
+   "replication": 457.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|grid|MISO",
+   "page": 937,
+   "replication": 937.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|grid|PJM",
+   "page": 11618,
+   "replication": 11618.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|-",
+   "page": 26124,
+   "replication": 26124.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|Anthropic",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|Applied Digital",
+   "page": 75,
+   "replication": 75.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|ChronoScale",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|Nebius",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|Switch",
+   "page": 882,
+   "replication": 882.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_mw|operator|ThisWay Global",
+   "page": 73,
+   "replication": 73.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|-",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|CAISO",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|ERCOT",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|ISO-NE",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|MISO",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|NYISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|PJM",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|grid|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|-",
+   "page": 13,
+   "replication": 13,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|AWS",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Amazon",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Amazon Web Services",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Anthropic",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Applied Digital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Arevia Power",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Axe Compute",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Chevron",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|ChronoScale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Crusoe",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Digital Realty",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Equinix",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Giga Texas Energy, LLC",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Google",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Lambda",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Meta",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Microsoft",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Nebius",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|OpenAI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Oracle",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|PowerBridge LLC",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Stack",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Switch",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|ThisWay Global",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|US Signal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|Vultr",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_with_mw|operator|xAI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|-",
+   "page": 89,
+   "replication": 89,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|CAISO",
+   "page": 33,
+   "replication": 33,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|ERCOT",
+   "page": 42,
+   "replication": 42,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|ISO-NE",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|MISO",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|NYISO",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|PJM",
+   "page": 57,
+   "replication": 57,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|grid|SPP",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|-",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|AWS",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Amazon",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Amazon Web Services",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Anthropic",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Applied Digital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Arevia Power",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Axe Compute",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Chevron",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|ChronoScale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Crusoe",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Digital Realty",
+   "page": 71,
+   "replication": 71,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Equinix",
+   "page": 44,
+   "replication": 44,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Giga Texas Energy, LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Google",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Lambda",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Meta",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Microsoft",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Nebius",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|OpenAI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Oracle",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|PowerBridge LLC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Stack",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Switch",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|ThisWay Global",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|US Signal",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|Vultr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|rollup_without|operator|xAI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|sites_mw",
+   "page": 41921.9,
+   "replication": 41921.9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|sites_n_with_mw",
+   "page": 58,
+   "replication": 58,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|sites_texas",
+   "page": 47,
+   "replication": 47,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|sites_us",
+   "page": 278,
+   "replication": 278,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|AK",
+   "page": 3000,
+   "replication": 3000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|AL",
+   "page": 40,
+   "replication": 40.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|AR",
+   "page": 108,
+   "replication": 108.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|CA",
+   "page": 400,
+   "replication": 400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|GA",
+   "page": 674,
+   "replication": 674.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|KY",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|MI",
+   "page": 937,
+   "replication": 937.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|ND",
+   "page": 75,
+   "replication": 75.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|NV",
+   "page": 495,
+   "replication": 495.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|OH",
+   "page": 10418,
+   "replication": 10418.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|SC",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|TX",
+   "page": 457,
+   "replication": 457.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|UT",
+   "page": 9400,
+   "replication": 9400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|state_mw|WV",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|status_mw|",
+   "page": 6766,
+   "replication": 6766.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|status_mw|operating",
+   "page": 75,
+   "replication": 75.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|status_mw|planned",
+   "page": 21305,
+   "replication": 21305.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|status_mw|under_construction",
+   "page": 108,
+   "replication": 108.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|texas_mw",
+   "page": 457,
+   "replication": 457.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "datacenters|texas_n_with_mw",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|Anthropic|mw",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|Applied Digital|mw",
+   "page": 75,
+   "replication": 75.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|ChronoScale|mw",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|Nebius|mw",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|Switch|mw",
+   "page": 882,
+   "replication": 882.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|operator|ThisWay Global|mw",
+   "page": 73,
+   "replication": 73.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q1|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q1|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q1|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q1|other",
+   "page": 9400,
+   "replication": 9400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q1|without",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q2|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q2|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q2|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q2|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q2|without",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q4|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q4|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q4|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q4|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2025-Q4|without",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q1|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q1|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q1|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q1|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q1|without",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q2|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q2|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q2|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q2|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q2|without",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q3|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q3|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q3|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q3|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q3|without",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q4|ERCOT",
+   "page": 235,
+   "replication": 235.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q4|MISO",
+   "page": 700,
+   "replication": 700.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q4|PJM",
+   "page": 10400,
+   "replication": 10400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q4|other",
+   "page": 678,
+   "replication": 678.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|planned|2026-Q4|without",
+   "page": 13,
+   "replication": 13,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|behind_the_meter_gas|facilities",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|behind_the_meter_gas|pct",
+   "page": 0.4,
+   "replication": 0.4,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcchart|power|gas|facilities",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|gas|pct",
+   "page": 2.9,
+   "replication": 2.9,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcchart|power|none|facilities",
+   "page": 260,
+   "replication": 260,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|none|pct",
+   "page": 94.9,
+   "replication": 94.9,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcchart|power|nuclear|facilities",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|nuclear|pct",
+   "page": 0.4,
+   "replication": 0.4,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcchart|power|other|facilities",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcchart|power|other|pct",
+   "page": 1.5,
+   "replication": 1.5,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcgrid|capacity_mw|CAISO",
+   "page": 90303.3,
+   "replication": 90303.3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|ERCOT",
+   "page": 164685.4,
+   "replication": 164685.4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|ISO-NE",
+   "page": 35400.4,
+   "replication": 35400.4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|MISO",
+   "page": 195472.7,
+   "replication": 195472.7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|NYISO",
+   "page": 42786.6,
+   "replication": 42786.6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|PJM",
+   "page": 210667.4,
+   "replication": 210667.4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|capacity_mw|SPP",
+   "page": 96914.2,
+   "replication": 96914.2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|CAISO",
+   "page": 34,
+   "replication": 34,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|ERCOT",
+   "page": 46,
+   "replication": 46,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|ISO-NE",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|MISO",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|NYISO",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|PJM",
+   "page": 60,
+   "replication": 60,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|facilities|SPP",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|CAISO",
+   "page": 43860,
+   "replication": 43860.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|ERCOT",
+   "page": 83597,
+   "replication": 83597.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|ISO-NE",
+   "page": 25898,
+   "replication": 25898.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|MISO",
+   "page": 120343,
+   "replication": 120343.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|NYISO",
+   "page": 31857,
+   "replication": 31857.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|PJM",
+   "page": 160560,
+   "replication": 160560.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|peak_mw|SPP",
+   "page": 54411,
+   "replication": 54411.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|planned|ERCOT",
+   "page": 235,
+   "replication": 235.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|planned|MISO",
+   "page": 700,
+   "replication": 700.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|planned|PJM",
+   "page": 10400,
+   "replication": 10400.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|reserve_margin|ERCOT",
+   "page": 11.428383,
+   "replication": 11.428383,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcgrid|share_of_peak|ERCOT",
+   "page": 0.3,
+   "replication": 0.3,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcgrid|share_of_peak|MISO",
+   "page": 0.6,
+   "replication": 0.6,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcgrid|share_of_peak|PJM",
+   "page": 6.5,
+   "replication": 6.5,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dcgrid|with_mw|CAISO",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|ERCOT",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|ISO-NE",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|MISO",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|NYISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|PJM",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcgrid|with_mw|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|per",
+   "page": 39.00950570776255,
+   "replication": 39.00950570776256,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2018",
+   "page": 33.26308675799086,
+   "replication": 33.26308675799087,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2019",
+   "page": 38.122715753424664,
+   "replication": 38.12271575342466,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2020",
+   "page": 23.07937158469946,
+   "replication": 23.079371584699455,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2021",
+   "page": 147.26397716894965,
+   "replication": 147.26397716894976,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2022",
+   "page": 67.72069748858448,
+   "replication": 67.72069748858448,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2023",
+   "page": 60.05131963470319,
+   "replication": 60.051319634703205,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2024",
+   "page": 30.878046448087446,
+   "replication": 30.87804644808743,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_AEN|year|2025",
+   "page": 36.94071118721461,
+   "replication": 36.94071118721461,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|per",
+   "page": 38.992267123287654,
+   "replication": 38.992267123287675,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2018",
+   "page": 34.734884703196364,
+   "replication": 34.73488470319635,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2019",
+   "page": 39.975955479452054,
+   "replication": 39.975955479452054,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2020",
+   "page": 22.978025956284156,
+   "replication": 22.978025956284153,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2021",
+   "page": 146.45707305936082,
+   "replication": 146.45707305936074,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2022",
+   "page": 67.01641780821915,
+   "replication": 67.01641780821917,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2023",
+   "page": 58.58837671232878,
+   "replication": 58.58837671232877,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2024",
+   "page": 31.01651980874317,
+   "replication": 31.01651980874317,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_CPS|year|2025",
+   "page": 37.08833447488584,
+   "replication": 37.08833447488585,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|per",
+   "page": 34.01617694063926,
+   "replication": 34.01617694063927,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2018",
+   "page": 31.068843607305944,
+   "replication": 31.068843607305936,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2019",
+   "page": 36.83375456621004,
+   "replication": 36.83375456621005,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2020",
+   "page": 22.459586748633885,
+   "replication": 22.459586748633882,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2021",
+   "page": 151.76097602739733,
+   "replication": 151.76097602739728,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2022",
+   "page": 70.05107305936075,
+   "replication": 70.05107305936073,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2023",
+   "page": 49.75229908675795,
+   "replication": 49.75229908675799,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2024",
+   "page": 27.197503415300545,
+   "replication": 27.197503415300545,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_HOUSTON|year|2025",
+   "page": 33.193615296803664,
+   "replication": 33.19361529680366,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|per",
+   "page": 38.64059931506849,
+   "replication": 38.6405993150685,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2018",
+   "page": 33.47209360730595,
+   "replication": 33.472093607305936,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2019",
+   "page": 38.33252397260273,
+   "replication": 38.332523972602736,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2020",
+   "page": 22.513508652094725,
+   "replication": 22.513508652094718,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2021",
+   "page": 147.2893824200913,
+   "replication": 147.28938242009133,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2022",
+   "page": 67.82749885844748,
+   "replication": 67.82749885844748,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2023",
+   "page": 58.99998515981734,
+   "replication": 58.99998515981735,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2024",
+   "page": 31.702701502732257,
+   "replication": 31.702701502732243,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_LCRA|year|2025",
+   "page": 38.1667785388128,
+   "replication": 38.166778538812785,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|per",
+   "page": 34.07137214611872,
+   "replication": 34.071372146118726,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2018",
+   "page": 30.8172910958904,
+   "replication": 30.817291095890408,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2019",
+   "page": 36.3465308219178,
+   "replication": 36.34653082191781,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2020",
+   "page": 21.816786202185796,
+   "replication": 21.816786202185792,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2021",
+   "page": 150.60643721461193,
+   "replication": 150.60643721461187,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2022",
+   "page": 62.92576940639272,
+   "replication": 62.925769406392696,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2023",
+   "page": 48.6875605022831,
+   "replication": 48.6875605022831,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2024",
+   "page": 26.40996812386157,
+   "replication": 26.409968123861567,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_NORTH|year|2025",
+   "page": 32.65666210045664,
+   "replication": 32.65666210045662,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|per",
+   "page": 35.97714269406392,
+   "replication": 35.97714269406393,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2018",
+   "page": 35.701515981735156,
+   "replication": 35.70151598173516,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2019",
+   "page": 38.49410730593609,
+   "replication": 38.494107305936076,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2020",
+   "page": 22.78889230418944,
+   "replication": 22.788892304189435,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2021",
+   "page": 147.59913013698645,
+   "replication": 147.59913013698628,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2022",
+   "page": 65.69471461187216,
+   "replication": 65.69471461187214,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2023",
+   "page": 56.3309280821918,
+   "replication": 56.33092808219178,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2024",
+   "page": 27.450988160291452,
+   "replication": 27.45098816029144,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_RAYBN|year|2025",
+   "page": 33.682566210045664,
+   "replication": 33.682566210045664,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|per",
+   "page": 34.168505707762556,
+   "replication": 34.168505707762556,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2018",
+   "page": 33.8547420091324,
+   "replication": 33.854742009132416,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2019",
+   "page": 38.099316210045664,
+   "replication": 38.099316210045664,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2020",
+   "page": 25.370087659380705,
+   "replication": 25.37008765938069,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2021",
+   "page": 147.491899543379,
+   "replication": 147.491899543379,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2022",
+   "page": 59.89740182648404,
+   "replication": 59.897401826484014,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2023",
+   "page": 45.123857305936085,
+   "replication": 45.12385730593607,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2024",
+   "page": 30.430915300546445,
+   "replication": 30.430915300546445,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_SOUTH|year|2025",
+   "page": 33.49902283105023,
+   "replication": 33.499022831050226,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|per",
+   "page": 35.351450913242,
+   "replication": 35.35145091324201,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2018",
+   "page": 37.53593721461189,
+   "replication": 37.53593721461187,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2019",
+   "page": 46.56005136986301,
+   "replication": 46.56005136986301,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2020",
+   "page": 30.795803734061927,
+   "replication": 30.795803734061934,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2021",
+   "page": 147.97396917808223,
+   "replication": 147.9739691780822,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2022",
+   "page": 62.352095890411,
+   "replication": 62.35209589041096,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2023",
+   "page": 59.422876712328765,
+   "replication": 59.42287671232877,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2024",
+   "page": 35.711345628415295,
+   "replication": 35.7113456284153,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcpow|ercot|LZ_WEST|year|2025",
+   "page": 42.175071917808204,
+   "replication": 42.17507191780822,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcq|ercot|-|active_mw",
+   "page": 308487.9599999997,
+   "replication": 308487.96,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcq|ercot|-|active_positions",
+   "page": 1159,
+   "replication": 1159,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcq|ercot|-|mw_asked",
+   "page": 191.26,
+   "replication": 191.26,
+   "tolerance": 0.005
+  },
+  {
+   "key": "dcq|ercot|-|sites",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dcq|ercot|-|sites_with_mw",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dctime|count|grid|-",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dctime|count|year|2025",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dctime|count|year|2026",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "dctime|median|grid|-",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dctime|median|year|2026",
+   "page": 2,
+   "replication": 2.0,
+   "tolerance": 0.05
+  },
+  {
+   "key": "dctime|rows",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "entity|ercot_interconnection_queue|ercot_queue:25INR0688|capacity_mw",
+   "page": 133,
+   "replication": 133.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "entity|ercot_interconnection_queue|ercot_queue:28INR0499|capacity_mw",
+   "page": 58.26,
+   "replication": 58.26,
+   "tolerance": 0.005
+  },
+  {
+   "key": "ercot|impossible_reports",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "ercot|month_mismatch_reports",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "ercot|observed_share_pct",
+   "page": 44,
+   "replication": 44,
+   "tolerance": 0.5
+  },
+  {
+   "key": "ercot|reports",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-05-28T00:00:00Z",
+   "page": 6874,
+   "replication": 6874.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-07-30T00:00:00Z",
+   "page": 7150,
+   "replication": 7150.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-08-27T00:00:00Z",
+   "page": 7502,
+   "replication": 7502.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-10-17T00:00:00Z",
+   "page": 7502,
+   "replication": 7502.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-11-19T00:00:00Z",
+   "page": 7502,
+   "replication": 7502.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-01-21T00:00:00Z",
+   "page": 8786,
+   "replication": 8786.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-02-25T00:00:00Z",
+   "page": 8876,
+   "replication": 8876.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-03-13T00:00:00Z",
+   "page": 9042,
+   "replication": 9042.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-03-26T00:00:00Z",
+   "page": 9042,
+   "replication": 9042.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-04-24T00:00:00Z",
+   "page": 9042,
+   "replication": 9042.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-05-21T00:00:00Z",
+   "page": 9062,
+   "replication": 9062.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-06-19T00:00:00Z",
+   "page": 8927,
+   "replication": 8927.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|new_submissions_count|2026-03-13T00:00:00Z",
+   "page": 137,
+   "replication": 137.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|new_submissions_mw|2026-03-13T00:00:00Z",
+   "page": 140000,
+   "replication": 140000.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-05-28T00:00:00Z",
+   "page": 3489,
+   "replication": 3489.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-07-30T00:00:00Z",
+   "page": 3820,
+   "replication": 3820.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-08-27T00:00:00Z",
+   "page": 3694,
+   "replication": 3694.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-10-17T00:00:00Z",
+   "page": 4126,
+   "replication": 4126.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-11-19T00:00:00Z",
+   "page": 4185,
+   "replication": 4185.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-01-21T00:00:00Z",
+   "page": 3977,
+   "replication": 3977.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-02-25T00:00:00Z",
+   "page": 3998,
+   "replication": 3998.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-03-13T00:00:00Z",
+   "page": 3883,
+   "replication": 3883.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-03-26T00:00:00Z",
+   "page": 4004,
+   "replication": 4004.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-04-24T00:00:00Z",
+   "page": 4008,
+   "replication": 4008.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-05-21T00:00:00Z",
+   "page": 3900,
+   "replication": 3900.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-06-19T00:00:00Z",
+   "page": 3900,
+   "replication": 3900.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-05-28T00:00:00Z",
+   "page": 3441,
+   "replication": 3441.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-07-30T00:00:00Z",
+   "page": 3632,
+   "replication": 3632.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-08-27T00:00:00Z",
+   "page": 3733,
+   "replication": 3733.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-10-17T00:00:00Z",
+   "page": 3800,
+   "replication": 3800.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-11-19T00:00:00Z",
+   "page": 3795,
+   "replication": 3795.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-01-21T00:00:00Z",
+   "page": 3765,
+   "replication": 3765.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-02-25T00:00:00Z",
+   "page": 3846,
+   "replication": 3846.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-03-13T00:00:00Z",
+   "page": 3801,
+   "replication": 3801.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-03-26T00:00:00Z",
+   "page": 3522,
+   "replication": 3522.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-04-24T00:00:00Z",
+   "page": 3701,
+   "replication": 3701.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-05-21T00:00:00Z",
+   "page": 3701,
+   "replication": 3701.0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-06-19T00:00:00Z",
+   "page": 3675,
+   "replication": 3675.0,
+   "tolerance": 0.5
+  }
+ ]
+}

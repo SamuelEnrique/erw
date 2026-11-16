@@ -1,0 +1,6756 @@
+{
+ "tool": "/deals",
+ "retrieved_at": "2026-11-16T09:49:48Z",
+ "newest_deal": "2026-11-13",
+ "month": "2026-11",
+ "rows": 590,
+ "source": "the ERW live set (Supabase), a public read with the anon key",
+ "note": "the page's figure is what its own functions compute on the live set's rows (site/scripts/deal-tracker-figures.mjs); energy_deals is held (license needed), so the built page draws none of them to a visitor",
+ "figures": [
+  {
+   "key": "capital|n_rows",
+   "page": 529,
+   "replication": 590,
+   "tolerance": 0.5,
+   "named": "the capital view's file (site/data/capital.json) carries the table's row count of the day it was built, 6 November 2026; the replication counts the rows held now. The file is the data machine's to rebuild (deals faults row 24)."
+  },
+  {
+   "key": "deals|ai_deals|buyer|-",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|AirTrunk",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Alcoa",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Alphabet",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Amazon",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Amazon data center unit",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Anthropic",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Apollo",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Apollo; Blackstone",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Apterra Infrastructure Capital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Aramco",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Ardian",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Argentum AI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|BKV",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Babcock; Wilcox",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Banks",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Berkshire",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Black Hills",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Blackstone",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Blackstone data center vehicle",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Blackstone's QTS",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Blackstone; Goldman",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Blue Energy",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Bridge Data Centres",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Brookfield",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Brookfield; Nvidia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|CDC",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Calibrant Energy",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|ChronoScale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Cipher",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Core Scientific",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|CoreWeave",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Creekstone",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|CyrusOne",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Data4",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|DataVolt",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|DayOne",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Deutsche Telekom",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Diamondback",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Duos",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Eaton",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Edged Compute",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Enerflex",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Energy Vault",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Fermi",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Flex",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Forgent Power Solutions",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|G42",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|GDS",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|GE Vernova",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|GIP",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Google",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Google-Linked Data Centers",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Humain",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Hut 8",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|I Squared",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Jane Street",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|KKR",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Macquarie",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Marvell Technology",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Matter Venture Partners; Tyche Partners",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Meta",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Meta-backed data centre",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Microsoft",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Mistral",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Morgan Stanley; JPMorgan",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|NTT Data",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Nebius",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|NextEra",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Nscale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Nvidia",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Nvidia; Amazon; Microsoft",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Nvidia; Dell",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Oklo",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Omnia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Omnia; Casa dos Ventos",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|OpenAI",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|OpenAI; SoftBank",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Oracle",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|PDG",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Pembina",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Pimco",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Pimco; Blue Owl",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Related",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Related Digital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Rune",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Sequoia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|SoftBank",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Solaria",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Solstice",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|SpaceX",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Stack",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|TPG",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Tallgrass",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Telehouse",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|TeraWulf",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Third Point",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|US government",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|US hyperscaler",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Verizon",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Vertiv",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Vistra",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Vnet",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Voltus",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Vultr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Wall Street banks",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Welspun",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|Williams",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|a Leading Frontier AI Lab",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|allies",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|bond investors",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|investors",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|junk debt market investors",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|junk-bond investors",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|lenders",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|buyer|undisclosed US data center developer",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|grid|-",
+   "page": 201,
+   "replication": 201,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|grid|ERCOT",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|grid|MISO",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|grid|PJM",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|grid|SPP",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2025-Q1",
+   "page": 18,
+   "replication": 18,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2025-Q2",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2025-Q4",
+   "page": 15,
+   "replication": 15,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2026-Q1",
+   "page": 65,
+   "replication": 65,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2026-Q2",
+   "page": 51,
+   "replication": 51,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2026-Q3",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|quarter|2026-Q4",
+   "page": 49,
+   "replication": 49,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|capital",
+   "page": 104,
+   "replication": 104,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|compute",
+   "page": 30,
+   "replication": 30,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|gas",
+   "page": 13,
+   "replication": 13,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|grid",
+   "page": 26,
+   "replication": 26,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|nuclear",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|other",
+   "page": 24,
+   "replication": 24,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_deals|supply|renewables_storage",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_mw|buyer|-",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|AirTrunk",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|BKV",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|ChronoScale",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|CoreWeave",
+   "page": 22.5,
+   "replication": 22.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Creekstone",
+   "page": 280,
+   "replication": 280.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|CyrusOne",
+   "page": 380,
+   "replication": 380.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Duos",
+   "page": 20,
+   "replication": 20.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Enerflex",
+   "page": 450,
+   "replication": 450.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Fermi",
+   "page": 822,
+   "replication": 822.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Google",
+   "page": 1248,
+   "replication": 1248.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|NTT Data",
+   "page": 900,
+   "replication": 900.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Nebius",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Oklo",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Oracle",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|Telehouse",
+   "page": 65,
+   "replication": 65.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|buyer|undisclosed US data center developer",
+   "page": 620,
+   "replication": 620.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|grid|-",
+   "page": 14635.5,
+   "replication": 14635.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|grid|ERCOT",
+   "page": 1472,
+   "replication": 1472.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|quarter|2025-Q1",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|quarter|2026-Q1",
+   "page": 810,
+   "replication": 810.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|quarter|2026-Q2",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|quarter|2026-Q4",
+   "page": 7497.5,
+   "replication": 7497.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|capital",
+   "page": 65,
+   "replication": 65.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|compute",
+   "page": 92.5,
+   "replication": 92.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|gas",
+   "page": 6070,
+   "replication": 6070.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|grid",
+   "page": 6912,
+   "replication": 6912.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|nuclear",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|other",
+   "page": 222,
+   "replication": 222.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_mw|supply|renewables_storage",
+   "page": 1546,
+   "replication": 1546.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_tagged",
+   "page": 217,
+   "replication": 217,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|ai_top_mw|1",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|10",
+   "page": 450,
+   "replication": 450.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|2",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|3",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|4",
+   "page": 1200,
+   "replication": 1200.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|5",
+   "page": 1000,
+   "replication": 1000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|6",
+   "page": 900,
+   "replication": 900.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|7",
+   "page": 702,
+   "replication": 702.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|8",
+   "page": 620,
+   "replication": 620.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_mw|9",
+   "page": 600,
+   "replication": 600.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_top_usd|1",
+   "page": 200000000000,
+   "replication": 200000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|10",
+   "page": 27000000000,
+   "replication": 27000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|2",
+   "page": 100000000000,
+   "replication": 100000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|3",
+   "page": 100000000000,
+   "replication": 100000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|4",
+   "page": 52000000000,
+   "replication": 52000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|5",
+   "page": 45000000000,
+   "replication": 45000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|6",
+   "page": 40000000000,
+   "replication": 40000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|7",
+   "page": 38000000000,
+   "replication": 38000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|8",
+   "page": 33000000000,
+   "replication": 33000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_top_usd|9",
+   "page": 30000000000,
+   "replication": 30000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|-",
+   "page": 125758000000,
+   "replication": 125758000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|AirTrunk",
+   "page": 3000000000,
+   "replication": 3000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Alcoa",
+   "page": 315000000,
+   "replication": 315000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Amazon",
+   "page": 98400000000,
+   "replication": 98400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Anthropic",
+   "page": 425150000000,
+   "replication": 425150000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Apollo",
+   "page": 53500000000,
+   "replication": 53500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Apollo; Blackstone",
+   "page": 35000000000,
+   "replication": 35000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Apterra Infrastructure Capital",
+   "page": 1500000000,
+   "replication": 1500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Aramco",
+   "page": 2600000000,
+   "replication": 2600000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Argentum AI",
+   "page": 2500000000,
+   "replication": 2500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|BKV",
+   "page": 800000000,
+   "replication": 800000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Babcock; Wilcox",
+   "page": 2400000000,
+   "replication": 2400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Banks",
+   "page": 17000000000,
+   "replication": 17000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Berkshire",
+   "page": 10000000000,
+   "replication": 10000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Black Hills",
+   "page": 1800000000,
+   "replication": 1800000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Blackstone",
+   "page": 5650000000,
+   "replication": 5650000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Blackstone data center vehicle",
+   "page": 1750000000,
+   "replication": 1750000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Blackstone; Goldman",
+   "page": 1500000000,
+   "replication": 1500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Blue Energy",
+   "page": 380000000,
+   "replication": 380000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Bridge Data Centres",
+   "page": 6600000000,
+   "replication": 6600000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Brookfield; Nvidia",
+   "page": 10000000000,
+   "replication": 10000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Calibrant Energy",
+   "page": 145000000,
+   "replication": 145000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Core Scientific",
+   "page": 3300000000,
+   "replication": 3300000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|CoreWeave",
+   "page": 9670000000,
+   "replication": 9670000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|DataVolt",
+   "page": 5000000000,
+   "replication": 5000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|DayOne",
+   "page": 10670000000,
+   "replication": 10670000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Deutsche Telekom",
+   "page": 1200000000,
+   "replication": 1200000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Duos",
+   "page": 700000000,
+   "replication": 700000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Eaton",
+   "page": 10900000000,
+   "replication": 10900000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Fermi",
+   "page": 15000000000,
+   "replication": 15000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Flex",
+   "page": 4400000000,
+   "replication": 4400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|G42",
+   "page": 1000000000,
+   "replication": 1000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|GDS",
+   "page": 3400000000,
+   "replication": 3400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|GE Vernova",
+   "page": 9000000000,
+   "replication": 9000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Google",
+   "page": 49000000000,
+   "replication": 49000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Google-Linked Data Centers",
+   "page": 5700000000,
+   "replication": 5700000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Humain",
+   "page": 1200000000,
+   "replication": 1200000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Hut 8",
+   "page": 10000000000,
+   "replication": 10000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|I Squared",
+   "page": 225000000,
+   "replication": 225000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Jane Street",
+   "page": 6000000000,
+   "replication": 6000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|KKR",
+   "page": 11500000000,
+   "replication": 11500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Macquarie",
+   "page": 5000000000,
+   "replication": 5000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Marvell Technology",
+   "page": 3250000000,
+   "replication": 3250000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Matter Venture Partners; Tyche Partners",
+   "page": 110000000,
+   "replication": 110000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Meta",
+   "page": 30000000000,
+   "replication": 30000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Meta-backed data centre",
+   "page": 3000000000,
+   "replication": 3000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Microsoft",
+   "page": 49700000000,
+   "replication": 49700000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Mistral",
+   "page": 2230000000,
+   "replication": 2230000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Nebius",
+   "page": 3750000000,
+   "replication": 3750000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|NextEra",
+   "page": 66800000000,
+   "replication": 66800000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Nvidia",
+   "page": 29900000000,
+   "replication": 29900000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Nvidia; Amazon; Microsoft",
+   "page": 40000000000,
+   "replication": 40000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Nvidia; Dell",
+   "page": 2400000000,
+   "replication": 2400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Omnia",
+   "page": 9000000000,
+   "replication": 9000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Omnia; Casa dos Ventos",
+   "page": 2000000000,
+   "replication": 2000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|OpenAI",
+   "page": 159900000000,
+   "replication": 159900000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|OpenAI; SoftBank",
+   "page": 1000000000,
+   "replication": 1000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|PDG",
+   "page": 5000000000,
+   "replication": 5000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Pembina",
+   "page": 1600000000,
+   "replication": 1600000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Pimco",
+   "page": 14000000000,
+   "replication": 14000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Pimco; Blue Owl",
+   "page": 1400000000,
+   "replication": 1400000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Related",
+   "page": 8000000000,
+   "replication": 8000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Related Digital",
+   "page": 16000000000,
+   "replication": 16000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Rune",
+   "page": 40000000,
+   "replication": 40000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Sequoia",
+   "page": 1000000000,
+   "replication": 1000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|SoftBank",
+   "page": 82000000000,
+   "replication": 82000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Solstice",
+   "page": 14500000000,
+   "replication": 14500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|SpaceX",
+   "page": 1250000000000,
+   "replication": 1250000000000.0,
+   "tolerance": 5000000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Stack",
+   "page": 2100000000,
+   "replication": 2100000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|TeraWulf",
+   "page": 19000000000,
+   "replication": 19000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Third Point",
+   "page": 3360000000,
+   "replication": 3360000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|US government",
+   "page": 5600000000,
+   "replication": 5600000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|US hyperscaler",
+   "page": 7500000000,
+   "replication": 7500000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Verizon",
+   "page": 2000000000,
+   "replication": 2000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Vertiv",
+   "page": 3600000000,
+   "replication": 3600000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Vistra",
+   "page": 4700000000,
+   "replication": 4700000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Voltus",
+   "page": 225000000,
+   "replication": 225000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Vultr",
+   "page": 1000000000,
+   "replication": 1000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Wall Street banks",
+   "page": 200000000000,
+   "replication": 200000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|Welspun",
+   "page": 580000000,
+   "replication": 580000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|investors",
+   "page": 44930000000,
+   "replication": 44930000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|junk-bond investors",
+   "page": 900000000,
+   "replication": 900000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|buyer|lenders",
+   "page": 1300000000,
+   "replication": 1300000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|grid|-",
+   "page": 3026188000000,
+   "replication": 3026188000000.0,
+   "tolerance": 5000000000.0
+  },
+  {
+   "key": "deals|ai_usd|grid|ERCOT",
+   "page": 17800000000,
+   "replication": 17800000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|grid|MISO",
+   "page": 16000000000,
+   "replication": 16000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|grid|PJM",
+   "page": 2000000000,
+   "replication": 2000000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2025-Q1",
+   "page": 97700000000,
+   "replication": 97700000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2025-Q2",
+   "page": 258000000,
+   "replication": 258000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2025-Q4",
+   "page": 121820000000,
+   "replication": 121820000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2026-Q1",
+   "page": 1655830000000,
+   "replication": 1655830000000.0,
+   "tolerance": 5000000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2026-Q2",
+   "page": 619135000000,
+   "replication": 619135000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2026-Q3",
+   "page": 292900000000,
+   "replication": 292900000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|quarter|2026-Q4",
+   "page": 274345000000,
+   "replication": 274345000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|capital",
+   "page": 2196443000000,
+   "replication": 2196443000000.0,
+   "tolerance": 5000000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|compute",
+   "page": 405050000000,
+   "replication": 405050000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|gas",
+   "page": 16310000000,
+   "replication": 16310000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|grid",
+   "page": 46100000000,
+   "replication": 46100000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|nuclear",
+   "page": 119980000000,
+   "replication": 119980000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|other",
+   "page": 277920000000,
+   "replication": 277920000000.0,
+   "tolerance": 5000000.0
+  },
+  {
+   "key": "deals|ai_usd|supply|renewables_storage",
+   "page": 185000000,
+   "replication": 185000000.0,
+   "tolerance": 5000.0
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|-",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|AirTrunk",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Alcoa",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Alphabet",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Amazon",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Amazon data center unit",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Anthropic",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Apollo",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Apollo; Blackstone",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Apterra Infrastructure Capital",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Aramco",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Ardian",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Argentum AI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|BKV",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Babcock; Wilcox",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Banks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Berkshire",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Black Hills",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Blackstone",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Blackstone data center vehicle",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Blackstone's QTS",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Blackstone; Goldman",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Blue Energy",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Bridge Data Centres",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Brookfield",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Brookfield; Nvidia",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|CDC",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Calibrant Energy",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|ChronoScale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Cipher",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Core Scientific",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|CoreWeave",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Creekstone",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|CyrusOne",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Data4",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|DataVolt",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|DayOne",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Deutsche Telekom",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Diamondback",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Duos",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Eaton",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Edged Compute",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Enerflex",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Energy Vault",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Fermi",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Flex",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Forgent Power Solutions",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|G42",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|GDS",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|GE Vernova",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|GIP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Google",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Google-Linked Data Centers",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Humain",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Hut 8",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|I Squared",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Jane Street",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|KKR",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Macquarie",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Marvell Technology",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Matter Venture Partners; Tyche Partners",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Meta",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Meta-backed data centre",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Microsoft",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Mistral",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Morgan Stanley; JPMorgan",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|NTT Data",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Nebius",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|NextEra",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Nscale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Nvidia",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Nvidia; Amazon; Microsoft",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Nvidia; Dell",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Oklo",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Omnia",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Omnia; Casa dos Ventos",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|OpenAI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|OpenAI; SoftBank",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Oracle",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|PDG",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Pembina",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Pimco",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Pimco; Blue Owl",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Related",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Related Digital",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Rune",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Sequoia",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|SoftBank",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Solaria",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Solstice",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|SpaceX",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Stack",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|TPG",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Tallgrass",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Telehouse",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|TeraWulf",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Third Point",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|US government",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|US hyperscaler",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Verizon",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Vertiv",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Vistra",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Vnet",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Voltus",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Vultr",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Wall Street banks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Welspun",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|Williams",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|a Leading Frontier AI Lab",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|allies",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|bond investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|junk debt market investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|junk-bond investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|lenders",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|buyer|undisclosed US data center developer",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|grid|-",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|grid|ERCOT",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|grid|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|grid|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|grid|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2025-Q1",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2025-Q2",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2025-Q4",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2026-Q1",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2026-Q2",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2026-Q3",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|quarter|2026-Q4",
+   "page": 15,
+   "replication": 15,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|capital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|compute",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|gas",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|grid",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|nuclear",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|other",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_mw|supply|renewables_storage",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|-",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|AirTrunk",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Alcoa",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Alphabet",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Amazon",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Amazon data center unit",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Anthropic",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Apollo",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Apollo; Blackstone",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Apterra Infrastructure Capital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Aramco",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Ardian",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Argentum AI",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|BKV",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Babcock; Wilcox",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Banks",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Berkshire",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Black Hills",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Blackstone",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Blackstone data center vehicle",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Blackstone's QTS",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Blackstone; Goldman",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Blue Energy",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Bridge Data Centres",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Brookfield",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Brookfield; Nvidia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|CDC",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Calibrant Energy",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|ChronoScale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Cipher",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Core Scientific",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|CoreWeave",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Creekstone",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|CyrusOne",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Data4",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|DataVolt",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|DayOne",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Deutsche Telekom",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Diamondback",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Duos",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Eaton",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Edged Compute",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Enerflex",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Energy Vault",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Fermi",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Flex",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Forgent Power Solutions",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|G42",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|GDS",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|GE Vernova",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|GIP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Google",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Google-Linked Data Centers",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Humain",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Hut 8",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|I Squared",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Jane Street",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|KKR",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Macquarie",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Marvell Technology",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Matter Venture Partners; Tyche Partners",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Meta",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Meta-backed data centre",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Microsoft",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Mistral",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Morgan Stanley; JPMorgan",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|NTT Data",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Nebius",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|NextEra",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Nscale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Nvidia",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Nvidia; Amazon; Microsoft",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Nvidia; Dell",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Oklo",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Omnia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Omnia; Casa dos Ventos",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|OpenAI",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|OpenAI; SoftBank",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Oracle",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|PDG",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Pembina",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Pimco",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Pimco; Blue Owl",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Related",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Related Digital",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Rune",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Sequoia",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|SoftBank",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Solaria",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Solstice",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|SpaceX",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Stack",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|TPG",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Tallgrass",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Telehouse",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|TeraWulf",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Third Point",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|US government",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|US hyperscaler",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Verizon",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Vertiv",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Vistra",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Vnet",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Voltus",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Vultr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Wall Street banks",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Welspun",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|Williams",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|a Leading Frontier AI Lab",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|allies",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|bond investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|investors",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|junk debt market investors",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|junk-bond investors",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|lenders",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|buyer|undisclosed US data center developer",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|grid|-",
+   "page": 117,
+   "replication": 117,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|grid|ERCOT",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|grid|MISO",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|grid|PJM",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|grid|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2025-Q1",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2025-Q2",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2025-Q4",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2026-Q1",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2026-Q2",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2026-Q3",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|quarter|2026-Q4",
+   "page": 23,
+   "replication": 23,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|capital",
+   "page": 72,
+   "replication": 72,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|compute",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|gas",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|grid",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|nuclear",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|other",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|ai_with_usd|supply|renewables_storage",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q1|ai_mw",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q1|all_mw",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q1|share",
+   "page": 100,
+   "replication": 100.0,
+   "tolerance": 0.05
+  },
+  {
+   "key": "deals|chart_ai|2025-Q2|ai_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q2|all_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q4|ai_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2025-Q4|all_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q1|ai_mw",
+   "page": 810,
+   "replication": 810.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q1|all_mw",
+   "page": 1710,
+   "replication": 1710.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q1|share",
+   "page": 47.4,
+   "replication": 47.4,
+   "tolerance": 0.05
+  },
+  {
+   "key": "deals|chart_ai|2026-Q2|ai_mw",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q2|all_mw",
+   "page": 5800,
+   "replication": 5800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q2|share",
+   "page": 48.3,
+   "replication": 48.3,
+   "tolerance": 0.05
+  },
+  {
+   "key": "deals|chart_ai|2026-Q3|ai_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q3|all_mw",
+   "page": 7520,
+   "replication": 7520.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q3|share",
+   "page": 0,
+   "replication": 0.0,
+   "tolerance": 0.05
+  },
+  {
+   "key": "deals|chart_ai|2026-Q4|ai_mw",
+   "page": 7497.5,
+   "replication": 7497.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q4|all_mw",
+   "page": 23089,
+   "replication": 23089.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_ai|2026-Q4|share",
+   "page": 32.5,
+   "replication": 32.5,
+   "tolerance": 0.05
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|gas",
+   "page": 5000,
+   "replication": 5000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|grid",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|renewables_storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q1|without",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|gas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|grid",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|renewables_storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q2|without",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|gas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|grid",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|renewables_storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2025-Q4|without",
+   "page": 50,
+   "replication": 50,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|gas",
+   "page": 900,
+   "replication": 900.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|grid",
+   "page": 660,
+   "replication": 660.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|renewables_storage",
+   "page": 150,
+   "replication": 150.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q1|without",
+   "page": 111,
+   "replication": 111,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|gas",
+   "page": 3000,
+   "replication": 3000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|grid",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|renewables_storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q2|without",
+   "page": 91,
+   "replication": 91,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|gas",
+   "page": 1700,
+   "replication": 1700.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|grid",
+   "page": 230,
+   "replication": 230.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|nuclear",
+   "page": 190,
+   "replication": 190.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|other",
+   "page": 5400,
+   "replication": 5400.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|renewables_storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q3|without",
+   "page": 80,
+   "replication": 80,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|gas",
+   "page": 2682,
+   "replication": 2682.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|grid",
+   "page": 3452,
+   "replication": 3452.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|nuclear",
+   "page": 12030,
+   "replication": 12030.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|other",
+   "page": 441.5,
+   "replication": 441.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|renewables_storage",
+   "page": 4483.5,
+   "replication": 4483.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_mw|2026-Q4|without",
+   "page": 173,
+   "replication": 173,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|American Electric Power|mw",
+   "page": 1662,
+   "replication": 1662.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|ArcLight Capital Partners|mw",
+   "page": 5400,
+   "replication": 5400.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Bloom Energy|mw",
+   "page": 3700,
+   "replication": 3700.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Constellation Energy|mw",
+   "page": 4060,
+   "replication": 4060.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Dynamis|mw",
+   "page": 1700,
+   "replication": 1700.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Eskom|mw",
+   "page": 3000,
+   "replication": 3000.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Google|mw",
+   "page": 4848,
+   "replication": 4848.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|InfraBridge|mw",
+   "page": 5400,
+   "replication": 5400.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Oracle|mw",
+   "page": 2800,
+   "replication": 2800.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|chart_party|Siemens Energy|mw",
+   "page": 1700,
+   "replication": 1700.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_deals|grid|-",
+   "page": 551,
+   "replication": 551,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|CAISO",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|ERCOT",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|ISO-NE",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|MISO",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|PJM",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|grid|SPP",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|-",
+   "page": 273,
+   "replication": 273,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|AI",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|AI chips",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|AI cloud",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|FSRU",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|LNG",
+   "page": 62,
+   "replication": 62,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|battery",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|battery swap",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|behind-the-meter power generation",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|biocarbon",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|biogas",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|carbon capture",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|clean power",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|coal",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|copper",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|data center",
+   "page": 33,
+   "replication": 33,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|data center cooling",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|fuel cell",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|fuel cells",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|fusion",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|gallium",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|gas",
+   "page": 46,
+   "replication": 46,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|gas engine",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|gas pipeline",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|generator",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|geothermal",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|lithium",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|microgrid",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|nuclear",
+   "page": 53,
+   "replication": 53,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|oil",
+   "page": 35,
+   "replication": 35,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|oil and gas",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|pipeline",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|rare earths",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|renewable",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|renewables",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|renewables and energy storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|shale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|solar",
+   "page": 13,
+   "replication": 13,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|solar thermal",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|solar, wind, storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|solar-plus-storage",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|storage",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|superconducting power delivery",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|uranium",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|virtual power plant",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|water",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|technology|wind",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|behind_the_meter",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|debt",
+   "page": 56,
+   "replication": 56,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|equity_raise",
+   "page": 84,
+   "replication": 84,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|fuel_supply",
+   "page": 60,
+   "replication": 60,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|joint_venture",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|lease",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|m_and_a",
+   "page": 151,
+   "replication": 151,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|nuclear_restart",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|offtake",
+   "page": 27,
+   "replication": 27,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|other",
+   "page": 91,
+   "replication": 91,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|ppa",
+   "page": 39,
+   "replication": 39,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|project_finance",
+   "page": 25,
+   "replication": 25,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|type|smr",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|year|2025",
+   "page": 92,
+   "replication": 92,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_deals|year|2026",
+   "page": 493,
+   "replication": 493,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|comp_median_mw|grid|-",
+   "page": 600,
+   "replication": 600.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|grid|ERCOT",
+   "page": 222,
+   "replication": 222.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|technology|-",
+   "page": 330,
+   "replication": 330.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|technology|data center",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|technology|gas",
+   "page": 896,
+   "replication": 896.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|technology|nuclear",
+   "page": 1080,
+   "replication": 1080.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|technology|solar",
+   "page": 322,
+   "replication": 322.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|behind_the_meter",
+   "page": 450,
+   "replication": 450.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|lease",
+   "page": 22.5,
+   "replication": 22.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|m_and_a",
+   "page": 892,
+   "replication": 892.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|offtake",
+   "page": 50,
+   "replication": 50.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|other",
+   "page": 810,
+   "replication": 810.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|type|ppa",
+   "page": 452.5,
+   "replication": 452.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_median_mw|year|2026",
+   "page": 479.5,
+   "replication": 479.5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|-",
+   "page": 35,
+   "replication": 35,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|CAISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|ERCOT",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|ISO-NE",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|PJM",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|grid|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|-",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|AI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|AI chips",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|AI cloud",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|FSRU",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|LNG",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|battery",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|battery swap",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|behind-the-meter power generation",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|biocarbon",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|biogas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|carbon capture",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|clean power",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|coal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|copper",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|data center",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|data center cooling",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|fuel cell",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|fuel cells",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|fusion",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|gallium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|gas",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|gas engine",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|gas pipeline",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|generator",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|geothermal",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|lithium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|microgrid",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|nuclear",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|oil",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|oil and gas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|pipeline",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|rare earths",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|renewable",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|renewables",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|renewables and energy storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|shale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|solar",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|solar thermal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|solar, wind, storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|solar-plus-storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|superconducting power delivery",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|uranium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|virtual power plant",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|water",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|technology|wind",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|behind_the_meter",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|debt",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|equity_raise",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|fuel_supply",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|joint_venture",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|lease",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|m_and_a",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|nuclear_restart",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|offtake",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|other",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|ppa",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|project_finance",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|type|smr",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|year|2025",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_mw|year|2026",
+   "page": 38,
+   "replication": 38,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|-",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|CAISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|ERCOT",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|ISO-NE",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|MISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|PJM",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|grid|SPP",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|-",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|AI",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|AI chips",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|AI cloud",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|FSRU",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|LNG",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|battery",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|battery swap",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|behind-the-meter power generation",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|biocarbon",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|biogas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|carbon capture",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|clean power",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|coal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|copper",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|data center",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|data center cooling",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|fuel cell",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|fuel cells",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|fusion",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|gallium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|gas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|gas engine",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|gas pipeline",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|generator",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|geothermal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|lithium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|microgrid",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|nuclear",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|oil",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|oil and gas",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|pipeline",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|rare earths",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|renewable",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|renewables",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|renewables and energy storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|shale",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|solar",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|solar thermal",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|solar, wind, storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|solar-plus-storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|storage",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|superconducting power delivery",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|uranium",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|virtual power plant",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|water",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|technology|wind",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|behind_the_meter",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|debt",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|equity_raise",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|fuel_supply",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|joint_venture",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|lease",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|m_and_a",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|nuclear_restart",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|offtake",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|other",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|ppa",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|project_finance",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|type|smr",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|year|2025",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|comp_with_price|year|2026",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "deals|month_ai_pct|2026-11",
+   "page": 26,
+   "replication": 26,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|month_count|2026-11",
+   "page": 39,
+   "replication": 39,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|month_mw|2026-11",
+   "page": 5301.5,
+   "replication": 5301.5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "deals|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|ai|no",
+   "page": 372,
+   "replication": 372,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|ai|yes",
+   "page": 218,
+   "replication": 218,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|behind_the_meter",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|capital",
+   "page": 159,
+   "replication": 159,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|compute_capacity",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|fuel_supply",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|gas_buildout",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|m_and_a",
+   "page": 155,
+   "replication": 155,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|nuclear_restart_uprate",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|offtake",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|other",
+   "page": 76,
+   "replication": 76,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|ppa",
+   "page": 33,
+   "replication": 33,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|project_finance",
+   "page": 21,
+   "replication": 21,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|smr",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|storage",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|kind|transmission",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|mw_from|500",
+   "page": 20,
+   "replication": 20,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|price|yes",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|announced",
+   "page": 140,
+   "replication": 140,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|cancelled",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|closed",
+   "page": 84,
+   "replication": 84,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|financed",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|none",
+   "page": 97,
+   "replication": 97,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|operating",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|rumored",
+   "page": 60,
+   "replication": 60,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|signed",
+   "page": 194,
+   "replication": 194,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|filter|stage|under_construction",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|month_with_mw|2026-11",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|rows",
+   "page": 590,
+   "replication": 590,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|sure_max",
+   "page": 0.95,
+   "replication": 0.95,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|sure_min",
+   "page": 0.3,
+   "replication": 0.3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|with_flags",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|with_mw",
+   "page": 40,
+   "replication": 40,
+   "tolerance": 0.5
+  },
+  {
+   "key": "table|with_usd",
+   "page": 300,
+   "replication": 300,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|deals",
+   "page": 585,
+   "replication": 585,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|folded",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|CAISO",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|ERCOT",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|ISO-NE",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|MISO",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|NYISO",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|PJM",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|grid|SPP",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|kind|behind_the_meter",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|kind|gas",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|kind|nuclear_restart",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|kind|smr",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-01",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-02",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-03",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-04",
+   "page": 9,
+   "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-05",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-06",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-07",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-08",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-09",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-10",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-11",
+   "page": 22,
+   "replication": 22,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2025-12",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-01",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-02",
+   "page": 41,
+   "replication": 41,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-03",
+   "page": 42,
+   "replication": 42,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-04",
+   "page": 38,
+   "replication": 38,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-05",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-06",
+   "page": 23,
+   "replication": 23,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-07",
+   "page": 15,
+   "replication": 15,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-08",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-09",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-10",
+   "page": 162,
+   "replication": 162,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|month|2026-11",
+   "page": 39,
+   "replication": 39,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|mw",
+   "page": 43119,
+   "replication": 43119.0,
+   "tolerance": 0.005
+  },
+  {
+   "key": "tracker|party|AEP",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|AMD",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|AirTrunk",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Alphabet",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Amazon",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|American Electric Power",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Anthropic",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Apollo",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Applied Digital",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|AtkinsR\u00e9alis",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Azerbaijan",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|BP",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|BWX Technologies",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Bain",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Baker Hughes",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Banks",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|BlackRock",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Blackstone",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Bloom Energy",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Blue Owl",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Broadcom",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Brookfield",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Carlyle",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Centrus",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Cerebras",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Cheniere",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Chevron",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Cipher",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|ConocoPhillips",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Constellation",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Constellation Energy",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|CoreWeave",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|DNO",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|DOE",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|DayOne",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Delfin Midstream",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Department of Energy",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Devon Energy",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Diamondback",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|ECP",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|EDF",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|EIG",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|EQT",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Eaton",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Energy Transfer",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Engine No. 1",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Eni",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Equinor",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Exxon",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Fermi",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Firmus",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|France",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|GE Vernova",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Glenfarne",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Google",
+   "page": 26,
+   "replication": 26,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Hoegh Evi",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Hut 8",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|I Squared",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|IREN",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|India",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Innio",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Inpex",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Japex",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Jera",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|KKR",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Ksi Lisims LNG",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|LS Power",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Liberty",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Lukoil",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Lynas",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|MARA",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Macquarie",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Matador",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Mercuria",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Meta",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Microsoft",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|MidOcean Energy",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Mistral",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Mitsubishi",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|NEXTDC",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Nebius",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|NextEra",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|NiSource",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Nscale",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Nvidia",
+   "page": 15,
+   "replication": 15,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|OpenAI",
+   "page": 15,
+   "replication": 15,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Oracle",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Ovintiv",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|PDG",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Petrobras",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Petronas",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Phillips 66",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Polskie Elektrownie J\u0105drowe",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Qatar",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|QatarEnergy",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Quantum",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Radiant",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|SGE",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|SLB OneSubsea",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Sempra",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Shell",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Siemens Energy",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|SoftBank",
+   "page": 6,
+   "replication": 6,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|South Korea",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|SpaceX",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Stack",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Switch",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|TPG",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Targa Resources",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|TeraWulf",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Total",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|TotalEnergies",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Trafigura",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|US",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|USA Rare Earth",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Ukraine",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Uniper",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Venezuela",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Venture Global",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Vertiv",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Viper",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Vistra",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Voltus",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Westinghouse",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Williams",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Woodside",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Worley",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|Xcel",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|bond investors",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|investors",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|party|xAI",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|status|announced",
+   "page": 138,
+   "replication": 138,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|status|cancelled",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|status|closed",
+   "page": 87,
+   "replication": 87,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|status|rumored",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|status|signed",
+   "page": 194,
+   "replication": 194,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|AI",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|AI chips",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|AI cloud",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|FSRU",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|LNG",
+   "page": 62,
+   "replication": 62,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|battery",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|battery swap",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|behind-the-meter power generation",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|biocarbon",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|biogas",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|carbon capture",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|clean power",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|coal",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|copper",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|data center",
+   "page": 33,
+   "replication": 33,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|data center cooling",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|fuel cell",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|fuel cells",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|fusion",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|gallium",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|gas",
+   "page": 46,
+   "replication": 46,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|gas engine",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|gas pipeline",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|generator",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|geothermal",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|lithium",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|microgrid",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|not stated",
+   "page": 273,
+   "replication": 273,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|nuclear",
+   "page": 53,
+   "replication": 53,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|oil",
+   "page": 35,
+   "replication": 35,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|oil and gas",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|pipeline",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|rare earths",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|renewable",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|renewables",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|renewables and energy storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|shale",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|solar",
+   "page": 13,
+   "replication": 13,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|solar thermal",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|solar, wind, storage",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|solar-plus-storage",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|storage",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|superconducting power delivery",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|uranium",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|virtual power plant",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|water",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|technology|wind",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|acquisition",
+   "page": 151,
+   "replication": 151,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|offtake",
+   "page": 27,
+   "replication": 27,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|other",
+   "page": 343,
+   "replication": 343,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|ppa",
+   "page": 39,
+   "replication": 39,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|project_finance",
+   "page": 25,
+   "replication": 25,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|type|tolling",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|view|ai",
+   "page": 217,
+   "replication": 217,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|view|storage",
+   "page": 11,
+   "replication": 11,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_dollars",
+   "page": 298,
+   "replication": 298,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_grid",
+   "page": 34,
+   "replication": 34,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_mw",
+   "page": 39,
+   "replication": 39,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_other_price",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_price",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|with_state",
+   "page": 52,
+   "replication": 52,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|year|2025",
+   "page": 92,
+   "replication": 92,
+   "tolerance": 0.5
+  },
+  {
+   "key": "tracker|year|2026",
+   "page": 493,
+   "replication": 493,
+   "tolerance": 0.5
+  }
+ ]
+}

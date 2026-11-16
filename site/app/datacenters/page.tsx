@@ -22,6 +22,8 @@ import { Rollups } from "./Rollups";
 import { FacilitiesVsGrid } from "./FacilitiesVsGrid";
 import { Timeline } from "./Timeline";
 import { DcCharts } from "./DcCharts";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { DATACENTER_TRACKER_DECISIONS } from "@/lib/decisions";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
@@ -46,6 +48,16 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
       </>}
     />
   );
+  // session 7402 (chain 303): the choices that move the tracker's figures, each with its default and its source on hover,
+  // at the foot of both views as the battery page carries its own; words only, so it is drawn under the hold too
+  const decisions = (
+    <>
+      <DecisionsBlock id="7402" title="Decisions on this page (each with its default and its source on hover)" items={DATACENTER_TRACKER_DECISIONS} />
+      <p className="mt-2 max-w-3xl text-xs text-muted" data-tracker-method="1">
+        Each is described in <Link href="/data/methods/datacenter_tracker" className="underline">the tracker&apos;s method note</Link>, view by view.
+      </p>
+    </>
+  );
   if (view === "grids") {
     const grids = queues.ok ? [...new Set(queues.data.rows.map((r) => gridOfTable(r.table_name)))] : [];
     const active = await attempt(() => queueActive(grids));
@@ -60,6 +72,7 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
           <Tabs page="/datacenters" active="grids" />
           <GridsView sites={queues} active={active} />
           <FacilitiesVsGrid read={facs} held={facsHeld} />
+          {decisions}
           <TableDownloads tables={[...grids.map((g) => `${g}_interconnection_queue`), ...priceTables]} />
           <Related href="/datacenters" />
         </ToolPage>
@@ -112,6 +125,7 @@ export default async function DatacentersPage({ searchParams }: { searchParams: 
         )}
         {/* session 467: on the power side, drawn whether or not the facilities table can be read (it is held since 21 October 2026) */}
         <PowerSide read={queues} />
+        {decisions}
         <LargeLoadSource />
         {/* session 329: the tracker's public tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
         <TableDownloads tables={["datacenter_facilities", "datacenter_operator_sites", "datacenter_projects", "ercot_large_load_status"]} />

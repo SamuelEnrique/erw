@@ -76,6 +76,21 @@ export function rowOf(r: { event_id: string; event_date: string; status: string 
   };
 }
 
+/** Session 49's counts of the month, as one function since session 7404 (chain 303) so the page (app/deals/page.tsx),
+ * scripts/deal-tracker-figures.mjs and the replication read one computation: the deals dated in the month, the MW they
+ * state (and how many state it), and the share tagged AI power to a whole percent. At the start of a month with no deal
+ * yet, the month is the one before (`empty` says so). `current` is the UTC month the page is drawn in, "YYYY-MM". */
+export function monthBlock(rows: Row[], current: string): { month: string; empty: boolean; deals: number; mw: number; withMw: number; aiPct: number | null } {
+  const prev = new Date(Date.UTC(Number(current.slice(0, 4)), Number(current.slice(5, 7)) - 2, 1)).toISOString().slice(0, 7);
+  const empty = !rows.some((d) => d.date.slice(0, 7) === current);
+  const month = empty ? prev : current;
+  const inMonth = rows.filter((d) => d.date.slice(0, 7) === month);
+  return {
+    month, empty, deals: inMonth.length, mw: inMonth.reduce((a, d) => a + (d.mw ?? 0), 0), withMw: inMonth.filter((d) => d.mw !== null).length,
+    aiPct: inMonth.length ? Math.round((100 * inMonth.filter((d) => d.aiPower).length) / inMonth.length) : null,
+  };
+}
+
 /** A stated price per MWh (or in another energy unit): the comparables' "price disclosed". */
 export const priceDisclosed = (d: Row): boolean => d.usdPerMwh !== null || (d.priceValue !== null && /mwh|kwh|mw-?month|mmbtu/i.test(d.priceUnit));
 
