@@ -32,6 +32,10 @@ import { DemandGrowthDecisions } from "@/app/explore/demand-growth/Decisions";
 // (a whole one read "+8" beside a bar's "+8.00"); a unit only beside a figure ("not held percent" on the Lower 48's
 // peak); a month's name kept in the second chart's hover ("january to october"); the Lower 48's own missing bar marked
 // "not held"; and the table said stale after 35 days, not 3, since the monthly job builds it.
+// Session 7517 (chain 304, part B: the page read as its reader, the file "demand-growth-read" of docs/reviews): in the
+// peak window, the newest year's highest hour so far with its growth, three rows of the table (PJM's newest record was
+// in the table and not here; no year is written by hand, as session 404's test holds); in the year-so-far window, the months beside 2019 under the second headline and
+// in the table's head; and a line saying the table holds no forecast and where the ERW holds the operators' own.
 export const metadata: Metadata = { title: "Demand growth explorer" };
 export const dynamic = "force-dynamic";
 
@@ -175,7 +179,7 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
 
       <ToolSection title={`Every grid: ${win.short}`} note={`Each grid at its ${win.latest === "newest" ? "newest year (the year so far)" : "last whole year"}; a grid's name opens it in this window.`}>
         <ToolTable caption={`Growth since ${BASE} of ${win.short}, by grid`} minWidth={win.growthMw ? 520 : 440}
-          head={["Grid", `${BASE}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
+          head={["Grid", `${BASE}${win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
           rows={byGrid.map(({ g, y }) => {
             const ge = entityOf(g.ba);
             return {

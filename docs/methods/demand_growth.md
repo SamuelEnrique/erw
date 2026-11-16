@@ -337,3 +337,51 @@ What "What the table does not hold" above lists, and: any forecast; the subregio
 3. The grey lines under the charts, the sections and the headline numbers, and the freshness line's second sentence, are drawn grey by files every tool or every explorer shares. Default: not changed here.
 4. The page compares grids in its table and chart; it has no second window beside the first. Default: not built.
 5. PJM's Load Forecast Report is printed "For Public Use" on every page and linked from PJM's public page, while the file's own properties carry a label "Confidential - PJM Personnel Only". Default: its figures are cited.
+
+## Read as its reader (session 7517, 16 November 2026)
+
+Part B of chain 304 read the explorer as an AI lab's energy lead sizing a 300 MW site would (`docs/reviews/demand-growth-read-2026-11-16.md`, 12 rows). This section states what that read added to the page, by the same rules as the section above, which it completes and does not replace. The replication's lines above are as run by session 7508; the line as run after this session is at the end.
+
+### Two figures added, one line changed
+
+- **Figure 3a, the peak window only: the newest year's highest hour so far.** Under the three headlines, one line: `ytd_peak_demand_mw` of G at its newest year, in MW; `ytd_peak_demand_growth_since_2019_pct` of the same year, in percent; and `ytd_peak_demand_mw` of G for 2019, in MW. As drawn for PJM: "The highest hour of 2026 so far (January to October): 162,648 MW, +6.78 percent on the highest hour of the same months of 2019 (152,315 MW)." The line is not drawn where the table holds no such row (the Lower 48, which has no peak). The peak window reads these two variables beside its others; no other window does. The growth is computed from the two MW rows as rule 6 says (the replication recomputes it: 7 more growth figures, 777 in all). Before this, the record PJM set on 2 July 2026 and ERCOT's of 22 July 2026 were in the table and on `/demand`, and not on the explorer.
+- **The second headline in the year-so-far window.** The line under it reads "2019, January to October: 91,744 MW", as the first headline's line does; it read "2019: 91,744 MW", which is not PJM's 2019 (91,354 MW over the whole year). The same column of the table "Every grid" is headed "2019, January to October, MW" in that window.
+- **Where a forecast is held.** A line at the foot says the table holds no forecast and links the All grids tab of the datacenter cost page (`/cost-of-power?view=allgrids`), whose Headroom column draws ERCOT's firm peak for the coming summers (`ercot_cdr_reserve_margins`), CAISO's forecast peak (`iso_reserve_margin_reports`) and the revision of each operator's FERC Form 714 forecast (`ferc714_forecast_growth`). Its tip says how that tab's demand growth differs from this page's. No figure of those tables is drawn here.
+
+### Three pages, one table
+
+`/demand` reads `site/data/demand_growth.json`: all 24,116 values of that file equal the table's rows as held on 16 November 2026, so the two pages cannot differ on a figure both draw. The All grids tab reads the same file and computes one figure of its own from it: the mean demand of the last twelve months the file holds over the twelve before, each month weighted by its hours (`site/lib/siting.ts`, `demandGrowth`). That is a different period from this page's "on the year before" (`avg_demand_growth_yoy_pct`, one calendar year over the one before), and the two differ for the same grid:
+
+| Grid | This page, 2025 on 2024, percent | All grids, November 2025 to October 2026 on the twelve months before, percent |
+|---|---|---|
+| ERCOT | +5.57 | +5.21 |
+| PJM | +3.73 | +4.04 |
+| CAISO | +0.24 | +5.18 |
+| MISO | +2.96 | +2.76 |
+| SPP | +3.55 | +5.01 |
+| NYISO | +0.71 | +0.43 |
+| ISO-NE | +1.02 | +2.78 |
+
+The tab's peak of the last whole year (`grid_peak_vs_capacity`) is this table's `peak_demand_mw` of 2025 for all seven grids. `/datacenters` draws no figure of this table.
+
+### California: the batteries' charging inside EIA's demand
+
+Session 7508 found that CAISO's demand here grew 4.45 percent from 2019 to 2025 while California's retail sales fell 2.96 percent. Session 7512 (the read of `/shoulder`) found that EIA-930's demand for California counts the power the grid's batteries take to charge, and CAISO's own supply by fuel does not. This session put the two together, on the rows this machine holds (`replication/demand_growth/california_charging.py`, on `california_rows.csv` beside it):
+
+1. A month's demand by EIA is this table's `avg_demand_mw_mMM` for `eia930:CISO`.
+2. A month's charging is, on that month's average day by CAISO's own data (`shoulder_hours_monthly`, `iso:caiso_own`, `avg_battery_mw_hHH`), the sum over the hours whose figure is below zero, sign turned, divided by 24: MW on average. It is held from June 2025 (16 months, to September 2026).
+3. A window of months is the mean of its months, each weighted by its days; growth is against the same months of 2019 by EIA; "less the charging" takes the charging off the newer year only. The charging of 2019 is not held: the fleet was 186 MW at the end of 2019 and 15,760 MW in December 2025 (`fleet_mw`).
+4. Retail sales are the sum of the window's months (`eia_retail_sales_monthly`, `eia:retail_sales:CA:ALL`), against the same months of 2019.
+
+| Window | Demand, on the same months of 2019 | The charging, MW | Demand less the charging | CAISO's own demand, on EIA's 2019 | Retail sales |
+|---|---|---|---|---|---|
+| June to December 2025 | +2.81 percent (26,383 to 27,124 MW) | 1,690 | -3.60 percent | -3.25 percent | -2.28 percent |
+| January to August 2026 | +10.75 percent (24,282 to 26,893 MW) | 2,114 | +2.05 percent | +2.13 percent | -2.90 percent |
+
+EIA's demand less CAISO's own is the charging to within 300 MW in 14 of the 16 months held. So: in the second half of 2025 the charging is more than all of the growth, and demand without it fell, as sales did, the two 1.3 points apart. In 2026 the charging is 81 percent of the growth and does not close the gap: 5 points are left. Two months carry most of what is left: March (EIA's March 2019 is 19,536 MW, under every later March the table holds by 9.6 percent or more and 11 percent under February and April of 2019, so March 2026 reads +26.56 percent, +15.55 without the charging; a data request of session 7517) and August 2026 (+12.63 percent, +5.10 without the charging). The whole year 2025 cannot be split this way: the charging of January to May 2025 is not held. The page's own hour windows show the same thing from the other side: from 2019 to 2025 CAISO's demand grew 11 to 14 percent at 08:00 to 11:00, when the fleet charges, and fell at 15:00 to 20:00.
+
+The page's figure stays the table's (+4.45 percent): the decisions' line on sales states the charging beside it, with these figures, and the line on the demand series says that California's counts the charging. Which demand California's growth should stand on is the owner's to rule.
+
+### The replication after this session
+
+`replicate.py` writes the new line from this section's words and the second headline's line with its months. As run on 16 November 2026 on the page drawn with the site's own code: "/explore/demand-growth: 35943 of 35943 slots of text on 315 views equal the replication's (3296 distinct checked figures; 777 of 777 growth figures recomputed from the MW rows)". `california_charging.py` prints the two windows above; `tests/test_session7517_demand_growth_read.py` holds the decisions' words to it.

@@ -200,7 +200,8 @@ def view(t, grid, w, arithmetic):
         s[f"bar1.{gn}.drawn"] = f"{gn} | not held" if x is None else f"{signed_two(x)} | {gn}" + (" | shown below" if gs == slug else "")
 
     # the table "Every grid"
-    s["grid.head"] = " | ".join(["Grid", f"{BASE}, MW", f"{latest if latest is not None else ('Newest year' if w['newest'] else 'Last whole year')}, MW",
+    # session 7517: in the year-so-far window the 2019 column names its months
+    s["grid.head"] = " | ".join(["Grid", f"{BASE}{f', January to {month}' if w['newest'] and through else ''}, MW", f"{latest if latest is not None else ('Newest year' if w['newest'] else 'Last whole year')}, MW",
                                  f"Growth since {BASE}, percent"] + (["Change, MW"] if w["change"] else []))
     for (gs, gn, ge, y, x) in by_grid:
         s[f"grid.{gs}.name"] = gn
