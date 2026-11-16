@@ -589,6 +589,7 @@ SECTOR_RULES = [
     (r"^portwatch_chokepoint_transits$", "oil;lng"),
     # session 9, derived
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
+    (r"^ercot_peak_premium_node_monthly$", "power"),  # session 7019: the metrics per settlement point (done-line request 35)
     # session 15: the deal tracker (tool 6)
     (r"^energy_deals(_evidence)?$", "deals"),
     (r"^deal_counterparties$", "deals"),  # session 3807: the deal tracker's counterparties directory (session 2234)

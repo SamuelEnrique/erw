@@ -433,6 +433,12 @@ STORAGE_HELD["deal_counterparties"] = ("held: first written on 12 November 2026 
                                        "prepared; on both drafts since 13 November (chain 218, session 3828): in v1 when the owner adds it to the package's list")
 
 
+# Session 7019 (chain 301): the peak premium per settlement point (done-line request 35), written after the v1 package was
+# prepared, public as ercot_rtm_node_prices is: held as the other late tables are
+STORAGE_HELD["ercot_peak_premium_node_monthly"] = ("held: first written on 16 November 2026 (chain 301, session 7019), after the v1 "
+                                                   "package was prepared: in v1 when the owner adds it to the package's list")
+
+
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
 
 
