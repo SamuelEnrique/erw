@@ -284,7 +284,9 @@ def eqr_terms(top=None, out_dir=None):
             by_mw[role][product] = {
                 "parties": int(len(g)), "mw": round(float(g["x_mw_stated"].astype(float).sum()), 1), "contracts_with_mw": int(g["x_contracts_with_mw"].astype(int).sum()),
                 "top": [{"rank": int(r.rank), "name": r.name, "mw": float(r.x_mw_stated), "contracts_with_mw": int(r.x_contracts_with_mw), "contracts": int(r.x_contracts),
-                         "rank_contracts": int(r.x_rank_contracts), "contracts_over": int(r.x_contracts_over)} for r in g.head(top).itertuples()],
+                         # session 7016: the place in ferc_eqr_party_totals; blank (None) for a party that table does not hold
+                         "rank_contracts": int(r.x_rank_contracts) if str(r.x_rank_contracts) not in ("", "nan") else None,
+                         "contracts_over": int(r.x_contracts_over)} for r in g.head(top).itertuples()],
             }
     scope = t[(t["status"] == "in_force") & t["x_product"].isin(["energy", "capacity", "tolling"])]
     stated = {}
