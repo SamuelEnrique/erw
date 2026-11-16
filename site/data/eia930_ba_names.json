@@ -1,0 +1,579 @@
+{
+ "about": "EIA's balancing authorities, code and name, from the EIA-930 reference tables (sheet BAs), as EIA prints them; public domain. Written by warehouse/derived/eia930_ba_names.py (session 7019).",
+ "source": "U.S. Energy Information Administration, EIA-930 reference tables",
+ "source_url": "https://www.eia.gov/electricity/930-content/EIA930_Reference_Tables.xlsx",
+ "page": "https://www.eia.gov/electricity/gridmonitor/about",
+ "retrieved_at": "2026-11-16T15:21:49Z",
+ "sha256": "df03db374f52567313829f1218873d0a0192b46cd7831c87e01a431a9ce389c7",
+ "built": "2026-11-16T15:22:22Z",
+ "count": 81,
+ "authorities": {
+  "AEC": {
+   "name": "PowerSouth Energy Cooperative",
+   "time_zone": "Central",
+   "region": "Southeast",
+   "region_code": "SE",
+   "us": true
+  },
+  "AECI": {
+   "name": "Associated Electric Cooperative, Inc.",
+   "time_zone": "Central",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "AESO": {
+   "name": "Alberta Electric System Operator",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "AVA": {
+   "name": "Avista Corporation",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "AVRN": {
+   "name": "Avangrid Renewables, LLC",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "AZPS": {
+   "name": "Arizona Public Service Company",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "BANC": {
+   "name": "Balancing Authority of Northern California",
+   "time_zone": "Pacific",
+   "region": "California",
+   "region_code": "CAL",
+   "us": true
+  },
+  "BCHA": {
+   "name": "British Columbia Hydro and Power Authority",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "BHBA": {
+   "name": "Black Hills Energy",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "BPAT": {
+   "name": "Bonneville Power Administration",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "CEN": {
+   "name": "Centro Nacional de Control de Energia",
+   "time_zone": "",
+   "region": "Mexico",
+   "region_code": "MEX",
+   "us": false
+  },
+  "CFE": {
+   "name": "Comision Federal de Electricidad",
+   "time_zone": "",
+   "region": "Mexico",
+   "region_code": "MEX",
+   "us": false
+  },
+  "CHPD": {
+   "name": "Public Utility District No. 1 of Chelan County",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "CISO": {
+   "name": "California Independent System Operator",
+   "time_zone": "Pacific",
+   "region": "California",
+   "region_code": "CAL",
+   "us": true
+  },
+  "CPLE": {
+   "name": "Duke Energy Progress East",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  },
+  "CPLW": {
+   "name": "Duke Energy Progress West",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  },
+  "DEAA": {
+   "name": "Arlington Valley, LLC",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "DOPD": {
+   "name": "PUD No. 1 of Douglas County",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "DUK": {
+   "name": "Duke Energy Carolinas",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  },
+  "EEI": {
+   "name": "Electric Energy, Inc.",
+   "time_zone": "Central",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "EPE": {
+   "name": "El Paso Electric Company",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "ERCO": {
+   "name": "Electric Reliability Council of Texas, Inc.",
+   "time_zone": "Central",
+   "region": "Texas",
+   "region_code": "TEX",
+   "us": true
+  },
+  "FMPP": {
+   "name": "Florida Municipal Power Pool",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "FPC": {
+   "name": "Duke Energy Florida, Inc.",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "FPL": {
+   "name": "Florida Power & Light Co.",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "GCPD": {
+   "name": "Public Utility District No. 2 of Grant County, Washington",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "GLHB": {
+   "name": "GridLiance",
+   "time_zone": "Central",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "GRID": {
+   "name": "Gridforce Energy Management, LLC",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "GRIF": {
+   "name": "Griffith Energy, LLC",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "GRMA": {
+   "name": "Gila River Power, LLC",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "GVL": {
+   "name": "Gainesville Regional Utilities",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "GWA": {
+   "name": "NaturEner Power Watch, LLC",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "HGMA": {
+   "name": "New Harquahala Generating Company, LLC",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "HQT": {
+   "name": "Hydro-Quebec TransEnergie",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "HST": {
+   "name": "City of Homestead",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "IESO": {
+   "name": "Ontario IESO",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "IID": {
+   "name": "Imperial Irrigation District",
+   "time_zone": "Pacific",
+   "region": "California",
+   "region_code": "CAL",
+   "us": true
+  },
+  "IPCO": {
+   "name": "Idaho Power Company",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "ISNE": {
+   "name": "ISO New England",
+   "time_zone": "Eastern",
+   "region": "New England",
+   "region_code": "NE",
+   "us": true
+  },
+  "JEA": {
+   "name": "JEA",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "LDWP": {
+   "name": "Los Angeles Department of Water and Power",
+   "time_zone": "Pacific",
+   "region": "California",
+   "region_code": "CAL",
+   "us": true
+  },
+  "LGEE": {
+   "name": "Louisville Gas and Electric Company and Kentucky Utilities Company",
+   "time_zone": "Eastern",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "MHEB": {
+   "name": "Manitoba Hydro",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "MISO": {
+   "name": "Midcontinent Independent System Operator, Inc.",
+   "time_zone": "Eastern",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "NBSO": {
+   "name": "New Brunswick System Operator",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "NEVP": {
+   "name": "Nevada Power Company",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "NSB": {
+   "name": "Utilities Commission of New Smyrna Beach",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "NWMT": {
+   "name": "NorthWestern Corporation",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "NYIS": {
+   "name": "New York Independent System Operator",
+   "time_zone": "Eastern",
+   "region": "New York",
+   "region_code": "NY",
+   "us": true
+  },
+  "OVEC": {
+   "name": "Ohio Valley Electric Corporation",
+   "time_zone": "Eastern",
+   "region": "Mid-Atlantic",
+   "region_code": "MIDA",
+   "us": true
+  },
+  "PACE": {
+   "name": "PacifiCorp East",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "PACW": {
+   "name": "PacifiCorp West",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "PGE": {
+   "name": "Portland General Electric Company",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "PJM": {
+   "name": "PJM Interconnection, LLC",
+   "time_zone": "Eastern",
+   "region": "Mid-Atlantic",
+   "region_code": "MIDA",
+   "us": true
+  },
+  "PNM": {
+   "name": "Public Service Company of New Mexico",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "PSCO": {
+   "name": "Public Service Company of Colorado",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "PSEI": {
+   "name": "Puget Sound Energy, Inc.",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "SC": {
+   "name": "South Carolina Public Service Authority",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  },
+  "SCEG": {
+   "name": "Dominion Energy South Carolina, Inc.",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  },
+  "SCL": {
+   "name": "Seattle City Light",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "SEC": {
+   "name": "Seminole Electric Cooperative",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "SEPA": {
+   "name": "Southeastern Power Administration",
+   "time_zone": "Central",
+   "region": "Southeast",
+   "region_code": "SE",
+   "us": true
+  },
+  "SIKE": {
+   "name": "Sikeston Board Of Municipal Utilities",
+   "time_zone": "Central",
+   "region": "Midwest",
+   "region_code": "MIDW",
+   "us": true
+  },
+  "SOCO": {
+   "name": "Southern Company Services, Inc. - Trans",
+   "time_zone": "Central",
+   "region": "Southeast",
+   "region_code": "SE",
+   "us": true
+  },
+  "SPA": {
+   "name": "Southwestern Power Administration",
+   "time_zone": "Central",
+   "region": "Central",
+   "region_code": "CENT",
+   "us": true
+  },
+  "SPC": {
+   "name": "Saskatchewan Power Corporation",
+   "time_zone": "",
+   "region": "Canada",
+   "region_code": "CAN",
+   "us": false
+  },
+  "SRP": {
+   "name": "Salt River Project Agricultural Improvement and Power District",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "SWPP": {
+   "name": "Southwest Power Pool",
+   "time_zone": "Central",
+   "region": "Central",
+   "region_code": "CENT",
+   "us": true
+  },
+  "SWPW": {
+   "name": "Southwest Power Pool West Balancing Authority Area",
+   "time_zone": "Central",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "TAL": {
+   "name": "City of Tallahassee",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "TEC": {
+   "name": "Tampa Electric Company",
+   "time_zone": "Eastern",
+   "region": "Florida",
+   "region_code": "FLA",
+   "us": true
+  },
+  "TEPC": {
+   "name": "Tucson Electric Power",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "TIDC": {
+   "name": "Turlock Irrigation District",
+   "time_zone": "Pacific",
+   "region": "California",
+   "region_code": "CAL",
+   "us": true
+  },
+  "TPWR": {
+   "name": "City of Tacoma, Department of Public Utilities, Light Division",
+   "time_zone": "Pacific",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "TVA": {
+   "name": "Tennessee Valley Authority",
+   "time_zone": "Central",
+   "region": "Tennessee",
+   "region_code": "TEN",
+   "us": true
+  },
+  "WACM": {
+   "name": "Western Area Power Administration - Rocky Mountain Region",
+   "time_zone": "Arizona",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "WALC": {
+   "name": "Western Area Power Administration - Desert Southwest Region",
+   "time_zone": "Arizona",
+   "region": "Southwest",
+   "region_code": "SW",
+   "us": true
+  },
+  "WAUE": {
+   "name": "Western Area Power Administration - Upper Great Plains East",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "WAUW": {
+   "name": "Western Area Power Administration - Upper Great Plains West",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "WWA": {
+   "name": "NaturEner Wind Watch, LLC",
+   "time_zone": "Mountain",
+   "region": "Northwest",
+   "region_code": "NW",
+   "us": true
+  },
+  "YAD": {
+   "name": "Alcoa Power Generating, Inc. - Yadkin Division",
+   "time_zone": "Eastern",
+   "region": "Carolinas",
+   "region_code": "CAR",
+   "us": true
+  }
+ }
+}
