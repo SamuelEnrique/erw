@@ -9,6 +9,8 @@ import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
 import { AllGridsDownload } from "./AllGridsDownload";
+// chain 302 (session 7201): the large-load rules of the row's utility, opened from two cells, and the section under the tab
+import { LargeLoadSection, RuleLine } from "./LargeLoadSection";
 
 // Session 700 (chain 050, docs/methods/siting.md): the All grids tab of "What a datacenter pays". The questions "Your
 // load" answers for one region (what a load pays, when it connects, how clean the power is) for every grid, hub and
@@ -167,7 +169,7 @@ function CapTd({ r, x }: { r: Row; x: SitingInputs }) {
 
 /** Session 705: the time to connect: the grid's median months from queue entry to operation (Berkeley Lab), and the
  * large-load path under it: the newest decided rule, ERCOT's approved large loads, and the measured waits (held). */
-function ConnectTd({ r }: { r: Row }) {
+function ConnectTd({ r, x }: { r: Row; x: SitingInputs }) {
   const c = connectCell(SITING_FILES, r);
   const g = c.gen;
   const ruleTip = c.rule ? `The newest decided large-load rule held for ${GRID_NAMES[r.grid]}: ${c.rule.regulator}, docket ${c.rule.docket}, ${c.rule.date} (${c.rule.topic}). ${c.rule.read ?? ""} ${c.rule.url}${r.grid === "ercot" ? " No faster path for a controllable load is stated in the rules held." : ""}` : c.ruleWhy;
@@ -183,6 +185,8 @@ function ConnectTd({ r }: { r: Row }) {
         {"held" in c.wait ? <>, wait <Held table="large_load_waits" why={c.wait.held} /></> : null}
         {c.filed ? <>, <Tp tip={c.filed}>filed steps</Tp></> : null}
       </span>
+      {/* chain 302 (session 7201): the row's utility's own large-load rule, opened under the table */}
+      <RuleLine r={r} x={x} cell="connect" />
     </span>
   );
 }
@@ -278,10 +282,10 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
 
 /** Session 708: the utility: the largest seller to industry in the row's state inside the grid, its industrial revenue
  * per MWh and its industrial sales growth, the newest year held (EIA-861). */
-function UtilityTd({ r }: { r: Row }) {
+function UtilityTd({ r, x }: { r: Row; x: SitingInputs }) {
   const c = utilityCell(SITING_FILES, r);
-  if ("why" in c) return <Words words={c.words} why={c.why} />;
-  if (c.county) return <CountyUtilityTd r={r} c={c} />;
+  if ("why" in c) return <span className="inline-block text-right"><Words words={c.words} why={c.why} /><RuleLine r={r} x={x} cell="utility" /></span>;
+  if (c.county) return <CountyUtilityTd r={r} c={c} x={x} />;
   const u = c.u!;
   const tip = `${u.utility} (EIA utility ${u.number}), the largest of ${u.sellers} sellers to industry in ${c.state} inside ${GRID_NAMES[r.grid]} (balancing authority ${c.ba}) in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh to industry for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (eia861_utility_sales, ${u.service === "Energy" ? "energy only: the wires utility bills delivery" : "bundled: energy and delivery"}). This row's name is not a place, so no county's service territory can be read for it: this is the state's largest seller, which the data machine found is not the county's utility in 4 of 7 hub counties (session 681).`;
   return (
@@ -289,13 +293,14 @@ function UtilityTd({ r }: { r: Row }) {
       <Tp tip={tip} className="block max-w-[11rem] text-xs" dotted={false} data={{ "util-name": "1" }}><span className="block truncate">{u.utility}</span></Tp>
       <span className="whitespace-nowrap"><Fig check={`allgrids|utilrev|${r.id}`} v={c.rev} tip={tip} />{SERVICE_WORDS[u.service] ? <span className="ml-1 text-xs" data-util-kind={u.service}>{SERVICE_WORDS[u.service]}</span> : null}</span>
       {c.growth !== null ? <span className="block text-xs" data-util-growth="1"><Tp dotted={false} tip={`Industrial sales ${c.year} over ${c.prior}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} against ${Math.round(u.sales_prior_mwh ?? 0).toLocaleString("en-US")} MWh.`}>{c.growth > 0 ? "+" : ""}<Num check={`allgrids|utilgrowth|${r.id}`} raw={c.growth}>{two(c.growth)}</Num></Tp> %</span> : null}
+      <RuleLine r={r} x={x} cell="utility" />
     </span>
   );
 }
 
 /** Session 718: a row whose name is a place: its county's utilities (EIA-861's service territories), the first named, and
  * the largest seller to industry among them inside the row's grid, its revenue per MWh and growth. */
-function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilityCell>, { county: object }> }) {
+function CountyUtilityTd({ r, c, x }: { r: Row; c: Extract<ReturnType<typeof utilityCell>, { county: object }>; x: SitingInputs }) {
   const cu = c.county!, u = c.u;
   const others = cu.utilities.filter((x) => x.name !== u?.utility);
   const names = cu.utilities.map((x) => `${x.name}${x.ba.length ? ` (${x.ba.join(", ")})` : " (no sales row)"}`).join("; ");
@@ -315,6 +320,7 @@ function CountyUtilityTd({ r, c }: { r: Row; c: Extract<ReturnType<typeof utilit
           <span className="block text-xs" data-util-wires="1">wires <Tp dotted={false} tip={`${w.utility} (EIA utility ${w.number}), a delivery-only company among this county's utilities: EIA files it apart from the utilities that sell energy, so it is not ranked above. In ${w.year} it delivered ${Math.round(w.sales_mwh).toLocaleString("en-US")} MWh to industry across ${cu.state} for USD ${Math.round(w.revenue_usd).toLocaleString("en-US")} of delivery revenue (${w.table}): the charge for the wires, not the energy, and the company's figure across the state, not the county's.`}>USD <Num check={`allgrids|wiresrev|${r.id}`} raw={w.rev}>{two(w.rev)}</Num></Tp> {w.utility}</span>
         ) : null;
       })()}
+      <RuleLine r={r} x={x} cell="utility" />
     </span>
   );
 }
@@ -591,7 +597,7 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
                 <tr key={r.id} className="border-b border-rule" data-allgrids-row={r.id}>
                   <RowHead r={r} />
                   {cols.map((c, ci) => <td key={c.id} className="px-3 py-1.5 text-right" data-cell={c.id} data-opens={ci < 4 ? "right" : undefined}>{c.id === "energy" ? (x.profile === "datacenter" ? <EnergyTd r={r} e={energyCell(SITING_DC, SITING_FILES, r)} /> : <ProfileTd r={r} x={x} />)
-                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
+                    : c.id === "transmission" ? <TxTd r={r} x={x} /> : c.id === "capacity" ? <CapTd r={r} x={x} /> : c.id === "connect" ? <ConnectTd r={r} x={x} /> : c.id === "headroom" ? <HeadroomTd r={r} /> : c.id === "carbon" ? <CarbonTd r={r} x={x} /> : c.id === "utility" ? <UtilityTd r={r} x={x} /> : c.id === "allin" ? <AllInTd r={r} x={x} /> : null}</td>)}
                 </tr>
               ))}
             </tbody>
@@ -603,6 +609,8 @@ export function AllGridsView({ q }: { q: Record<string, string | undefined> }) {
           {" "}<Link href="/data/methods/siting">Method note</Link>.
         </p>
       </div>
+      {/* chain 302 (session 7201): US utilities' large-load rules, the 90 days of changes, and the way to the states' laws */}
+      <LargeLoadSection q={q} x={x} />
     </div>
   );
 }
