@@ -12,7 +12,7 @@
 import { useMemo, type ReactNode } from "react";
 import { SeriesChart } from "@/components/tool/SeriesChart";
 import { Tip, ToolTable } from "@/components/tool/ToolPage";
-import { averageYear, lastTwelve, sumOf, usdShort, windowAverage, windowKey, yearStream, years, type EventMonth, type Inputs, type Month } from "@/lib/batterystack";
+import { RTE, averageYear, lastTwelve, sumOf, usdShort, windowAverage, windowKey, yearStream, years, type EventMonth, type Inputs, type Month } from "@/lib/batterystack";
 import { windowOf } from "@/lib/battery/view";
 import { U, V } from "./nums";
 import { useView } from "./ViewState";
@@ -47,6 +47,10 @@ export function Income({ ms, x, pre, gridName, products, capacityWords, events, 
       value: (s) => (whole ? averageYear(ms, s) : windowAverage(ms, win.from, win.to, out, em, s)) });
   }
   const unit = v.units === "kw" ? "USD per kW" : "USD";
+  // session 7519 (the read as a merchant developer, row 5): the row "Energy (charge low, sell high)" can be below zero
+  // (ERCOT, 2 hours, the day-ahead schedule: 2018 to 2021), and nothing on the page said how; the row says it on hover,
+  // only where a column drawn is below zero
+  const energyBelowZero = cols.some((c) => (c.value("energy") ?? 0) < 0);
   const cell = (c: Col, s: string): ReactNode => (v.units === "kw" ? <V pre={pre} s={c.kw(s)} v={perKw(c.value(s))} /> : <U pre={pre} s={c.usd(s)} v={scaled(c.value(s))} />);
   const line = (s: string) => cols.map((c) => <span key={c.key}>{cell(c, s)}</span>);
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
@@ -102,7 +106,9 @@ export function Income({ ms, x, pre, gridName, products, capacityWords, events, 
         <ToolTable caption="Income by stream" minWidth={Math.max(560, 200 + 120 * cols.length)}
           head={["Stream", ...cols.map((c) => <>{c.head}, {unit}<span className="mt-0.5 block text-xs opacity-80">{c.sub}</span></>)]}
           rows={[
-            { key: "energy", cells: ["Energy (charge low, sell high)", ...line("energy")] },
+            { key: "energy", cells: [energyBelowZero
+              ? <span key="n" data-energy-below-zero="1">Energy (charge low, sell high)<Tip id="energy-below-zero" label="an energy figure below zero">A figure below zero: over that span the battery paid more for the energy it charged than it was paid for the energy it sold. The model charges to hold stored energy behind its upward reserves, starts each day empty, loses what is left at midnight, and returns {Math.round(RTE * 100)} percent of what it charges; where the reserves paid more than that energy cost, the total is higher for it and the energy row is below zero.</Tip></span>
+              : "Energy (charge low, sell high)", ...line("energy")] },
             { key: "anc", cells: ["Ancillary services", ...line("ancillary")] },
             ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4">{p.label}</span>, ...line(p.key)] })),
             { key: "cap", cells: ["Capacity"], wide: capacityWords },
