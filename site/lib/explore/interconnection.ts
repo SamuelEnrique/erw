@@ -14,7 +14,14 @@ export const QUEUES: [string, string][] = [["caiso", "CAISO"], ["ercot", "ERCOT"
 
 /** What a queue does not hold, in the method note's words (the same lines as the map's Queues tab). */
 export const NOT_HELD: Record<string, string> = {
-  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held.",
+  // session 7509 (chain 304): what "Entered" does not hold for CAISO and ERCOT, found by the cross-check against Berkeley
+  // Lab's Queued Up (docs/methods/interconnection_explorer.md, "The cross-check"); the map's tab keeps its own lines
+  caiso: "CAISO's public queue report lists only a few of the requests that entered in 2023 and none that entered later, so its counts for 2023 are the report's rows, far fewer than the requests made that year; Berkeley Lab's Queued Up, on the interconnection queue page, counts them.",
+  // session 7518 (chain 304, part B): what ERCOT's "completed" is. The library the queue connector reads ERCOT's report
+  // through (gridstatus 0.36.0, ercot.py) writes "Completed" when the report's "IA Signed" date is filled, so the table's
+  // positions_operating for ERCOT is the positions with a signed agreement: on the pull of 30 September 2026 all 44 such
+  // positions of entry year 2025 have a projected operation date still to come and none a date of approval to synchronize
+  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held, and \"Entered\" counts the positions of an entry year that are still in the report, not every request made that year. For ERCOT the count other queues call \"Reached operation\" is the positions whose interconnection agreement is signed, most of a recent year's not yet built, so it is headed \"Agreement signed\" here, and \"No agreement yet\" is the rest; \"Waits counted\" is the positions the report gives a day of approval to synchronize, and the wait runs from the day the screening study started to that day.",
   miso: "MISO's queue holds no in-service date, so no wait is held.",
   isone: "ISO-NE's queue holds no in-service date, so no wait is held.",
   spp: "SPP's wait reads its Commercial Operation Date, which its queue fills for active and withdrawn positions too: for an operating position it may be the date requested, not achieved.",
@@ -29,6 +36,44 @@ export const STATUSES = [
   { key: "waiting", label: "Still waiting", short: "Waiting", color: "var(--color-accent)" },
   { key: "status_not_stated", label: "Status not stated", short: "No status", color: "var(--color-not-reported)" },
 ] as const;
+
+export type StatusKey = (typeof STATUSES)[number]["key"];
+
+/** Session 7518 (chain 304, part B): a queue whose status is not what the common word says is headed by what it is.
+ *  ERCOT's report has no word for a plant in operation: the table's `operating` group is the positions with a signed
+ *  interconnection agreement, and its `waiting` group those with none (NOT_HELD.ercot; the method note, "What a queue
+ *  does not hold"). The variables keep their names (positions_operating, mw_waiting): only the words drawn change. */
+export const STATUS_WORDS: Record<string, Partial<Record<StatusKey, { label: string; short: string }>>> = {
+  ercot: { operating: { label: "Agreement signed", short: "Signed" }, waiting: { label: "No agreement yet", short: "No agreement" } },
+};
+/** Why a queue has words of its own, for the tip beside its name in the six queues' table (whose columns keep the common words). */
+export const STATUS_WHY: Record<string, string> = {
+  ercot: "ERCOT's report has no word for a plant in operation. A position is counted in the first when the report gives a day its interconnection agreement was signed, most of a recent year's not yet built, and in the second when it gives none.",
+};
+/** The words one queue's status is drawn with: its own where it has them, else the common ones. */
+export function statusWords(iso: string, key: StatusKey): { label: string; short: string } {
+  const s = STATUSES.find((x) => x.key === key)!;
+  return STATUS_WORDS[iso]?.[key] ?? { label: s.label, short: s.short };
+}
+
+/** Session 7518: the hover of the wait's chart: whose waits a point counts, and the two other pages that count a wait
+ *  another way (by the year a plant came online, from Berkeley Lab's Queued Up). Facts, no view. */
+export function waitTip(iso: string): string {
+  const own = iso === "ercot" ? " ERCOT's wait runs from the day a position's screening study started to the day the report says it was approved to synchronize."
+    : iso === "spp" ? " SPP's in-service date is its Commercial Operation Date, which may be the date requested." : "";
+  return "A point counts only the positions of an entry year that have already reached operation with both dates; \"Waits counted\" in the table below says how many. "
+    + "A position still waiting is in no point, and if it is built its wait will be longer than the time since it entered: a recent entry year's median stands on its fastest positions and is not final." + own
+    + " Two other pages count a wait by the year a plant came online, not the year it entered, from Berkeley Lab's Queued Up: the interconnection queue page, and \"Time to connect\" on the All grids tab of the cost of power page (the plants that came online in its last three years). The three are different counts and do not give one number.";
+}
+
+/** Session 7518: the extra columns of the six queues' table when the count is positions: the withdrawn share and the
+ *  wait of the one entry year, queue beside queue. */
+export const QUEUE_COLUMNS: [string, string][] = [["withdrawal_rate", "Withdrawn, share of entered"], ["wait_years_median", "Median wait, years"], ["wait_positions", "Waits counted"]];
+
+/** Session 7518: where Berkeley Lab's Queued Up counts a queue this page does not show (PJM, which the ERW holds no
+ *  queue table of, and the three held queues): the interconnection queue page's own address for the grid. */
+export const QUEUED_UP_GRIDS = ["pjm", "miso", "nyiso", "isone"];
+export const queuedUpHref = (grid: string) => `/queues?grid=${grid}&tech=all`;
 
 export const MEASURES = [
   { key: "positions", label: "Positions", unit: "positions" },
@@ -102,4 +147,13 @@ export const headerKey = (iso: string, prefix: string, name: string) => `series_
 export function partialYear(year: number, retrieved: string | null, now = new Date()): boolean {
   const y = retrieved ? new Date(retrieved).getUTCFullYear() : now.getUTCFullYear();
   return year >= y;
+}
+
+/** Session 7509 (chain 304): how a figure is written, by its variable. A count of positions is whole; MW, the withdrawn
+ *  share and a wait in years always carry two decimals. Until then lib/format.ts's shown() wrote a value that happened
+ *  to be whole without them: "550" above "162.10" in the MW column, a share of "1" above "0.86". The text still begins
+ *  with what scripts/check-values.mjs expects of the raw value. */
+export function figureText(variable: string, v: number): string {
+  const whole = variable.startsWith("positions_") || variable === "wait_positions";
+  return whole ? Math.round(v).toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

@@ -51,7 +51,10 @@ class ThePage(unittest.TestCase):
         self.assertIn("<Num check={key(q, y, v)} raw={x} source={sourceWords(q, y, v)}>", p)
         self.assertIn("sourceOf(key(q, y, v), `${queueName(q)}'s queue, entry year ${y}`)", p)
         self.assertIn("tip={tipOf(v, label)}", p)
-        self.assertEqual(p.count("tip={"), 1, "the three headline numbers are drawn through one map")
+        # session 7518 (chain 304, part B): the wait's chart carries a tip of its own (whose waits a point counts), so the
+        # page holds two `tip={`; what this holds is unchanged: the headline numbers' tip is written once, in the one map
+        self.assertEqual(p.count("tip={tipOf("), 1, "the three headline numbers are drawn through one map")
+        self.assertEqual(p.count("tip={"), 2, "the headline map's tip and the wait chart's")
 
     def test_the_headers_count_names_the_header_line_it_is_read_from(self):
         self.assertIn('source={`${TABLE}: the header line "${UNDATED}", ${name}. Source: the table\'s own header', self.p)
