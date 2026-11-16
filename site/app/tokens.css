@@ -1251,3 +1251,8 @@ body:has(.brand-a) > footer :focus-visible {
   font-family: var(--font-sans);
   font-size: 12px;
 }
+/* session 7203 (chain 302): the energy cell's "da" beside its main figure is a word, as "rt" is */
+.brand-a [data-allgrids] tbody td [data-da] {
+  font-family: var(--font-sans);
+  font-size: 12px;
+}

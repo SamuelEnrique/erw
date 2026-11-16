@@ -6,6 +6,8 @@ import { InputPanel } from "@/components/tool/ToolPage";
 import type { ReactNode } from "react";
 import { columnWords, nodeColumns, zoneGrowth, SERVICE_WORDS, UTILITY_KINDS_LINE, utilityKind, nodeShortMonths, shortMonthsWords, CAPACITY_RULE, COLUMNS, CURTAIL_WORDS, GRID_NAMES, NODE_HUB, PROFILES, NODE_SORTS, SORT_WORDS, allInCell, capacityCell, capacityOverPeak, reserveMargin, reserveReport, signedGeneration, forecastRevision, wiresUtility, queueCell, columnValue, nodeTable, rowOf, screen, yearKey, yearOf, carbonCell, connectCell, cpCharge, demandGrowth, utilityCell, energyCell, hubRows, nodeRows, profileCell, profileKey, sitingHref, sitingInputs, type EnergyCell, type NodeSort, type Row, type SitingInputs, type Twelve } from "@/lib/siting";
 import { CP, NODES, SITING_DC, SITING_FILES } from "@/lib/sitingdata";
+import { DELIVERY } from "@/lib/datacenterdata";
+import { deliveryStat, slugOf } from "@/lib/datacenter/delivery";
 import { AllGridsForm } from "./AllGridsForm";
 import { AllGridsNodes } from "./AllGridsNodes";
 import { AllGridsDownload } from "./AllGridsDownload";
@@ -22,6 +24,8 @@ import { LargeLoadSection, RuleLine } from "./LargeLoadSection";
 // same files. Session 700 draws the rows, the toggle, the column heads with their tips, and one number: the row count.
 
 const tipCls = "cursor-help border-b border-dotted border-muted";
+/** Texas's wires utilities whose tariff lines "Your load" holds (data/datacenter/texas_delivery.json), in its order. */
+const TEXAS_WIRES = [...new Set((DELIVERY.rows ?? []).map((r) => r.utility))];
 const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const monthWords = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 
@@ -80,7 +84,8 @@ function EnergyTd({ r, e }: { r: Row; e: EnergyCell }) {
   if (!e.da && !e.rt) return <Words words={e.words ?? "not held"} why={e.why ?? ""} />;
   return (
     <span className="whitespace-nowrap">
-      {e.da ? <Fig check={`allgrids|energy|${r.id}|da`} v={e.da.per} tip={twelveTip(e.da, "Day-ahead")}><Spark t={e.da} label={`${r.region} day-ahead by month`} /></Fig> : <Words words="no day-ahead" why={`Twelve whole months of day-ahead prices are not held for ${r.region}.`} />}
+      {/* session 7203 (the read, row 3): the figure names its market in place, as "rt" does: "Your load" opens on real time */}
+      {e.da ? <><span className="mr-1 text-xs" data-da="1">da</span><Fig check={`allgrids|energy|${r.id}|da`} v={e.da.per} tip={twelveTip(e.da, "Day-ahead")}><Spark t={e.da} label={`${r.region} day-ahead by month`} /></Fig></> : <Words words="no day-ahead" why={`Twelve whole months of day-ahead prices are not held for ${r.region}.`} />}
       {e.rt ? <span className="ml-2 text-xs" data-rt="1">rt <Fig check={`allgrids|energy|${r.id}|rt`} v={e.rt.per} tip={twelveTip(e.rt, "Real time")} /></span> : null}
     </span>
   );
@@ -133,12 +138,16 @@ function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
   const k = profileKey(x), p = PROFILES[x.profile];
   const ivs = c.intervals.map((iv) => `${iv.local} (${iv.w === null ? "price not held" : iv.w ? "on" : "off"})`).join("; ");
   const base = `ERCOT's four summer peak intervals of ${c.year} (ercot_4cp_intervals) at the Commission's ${c.rate.year} rate, USD ${c.rate.value.toFixed(6)} per kW of four-peak demand a year (texas_transmission_matrix), over the ${Math.round(c.hours).toLocaleString("en-US")} hours a year the load runs${r.kind === "node" ? ` (${NODE_HUB}'s hours: the node table is daily)` : ""}. The charge is paid the year after the summer.`;
+  // session 7203 (the read, row 7): "Your load" draws each wires utility's own transmission lines for the same load; the
+  // two are readings of one charge and differ, so the hover names both (lib/datacenter/delivery.ts, the same function)
+  const own = TEXAS_WIRES.map((u) => [u, deliveryStat(DELIVERY.rows, x.mw, `${slugOf(u)}:transmission`)] as const).filter((p): p is readonly [string, number] => p[1] !== undefined);
+  const wires = own.length ? ` This is the Commission's rate for every wires utility together, not one utility's tariff: for a flat ${x.mw.toLocaleString("en-US")} MW load at transmission voltage the utilities' own transmission lines, as filed, sum to ${own.map(([u, v]) => `USD ${two(v)} per MWh at ${u}`).join(", ")} (texas_delivery_charges; "Your load", Delivery charges in Texas).` : "";
   const firmTip = `Firm: the load's full demand in all four intervals. ${base}`;
   const curtTip = `Curtailing: a load off in the four intervals' hours, computed from its weights in those hours, not assumed. ${base}`;
   return (
     <span className="whitespace-nowrap">
       {c.own === null ? <Words words="not held" why={`The price of an interval's hour is not held, so the load's share in it cannot be computed. ${base}`} />
-        : <Fig check={`allgrids|tx|${r.id}|${k}`} v={c.own} tip={`${p.label}: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year} (${ivs}). ${base}`} />}
+        : <Fig check={`allgrids|tx|${r.id}|${k}`} v={c.own} tip={`${p.label}: it ran in ${Math.round((c.share ?? 0) * 4)} of the four intervals of ${c.year} (${ivs}). ${base}${wires}`} />}
       <span className="ml-2 text-xs" data-tx-firm="1">firm <Fig check={`allgrids|tx|${r.id}|firm|${k}`} v={c.firm} tip={firmTip} /></span>
       {c.curtailing !== null ? <span className="ml-2 text-xs" data-tx-curtailing="1">off <Fig check={`allgrids|tx|${r.id}|curtailing|${k}`} v={c.curtailing} tip={curtTip} /></span> : null}
     </span>
@@ -148,7 +157,7 @@ function TxTd({ r, x }: { r: Row; x: SitingInputs }) {
 function AllInTd({ r, x }: { r: Row; x: SitingInputs }) {
   const a = allInCell(SITING_DC, SITING_FILES, r, x);
   if ("missing" in a) return a.words === "license needed" ? <Held table="iso_all_capacity_prices" why={`Computed where the capacity tables are held and drawn as "license needed" (session 408's rule): ${a.missing}`} /> : <Words words="not held" why={`Not every part is held: ${a.missing}`} />;
-  return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary or retail charge is in it.`} />;
+  return <Fig check={`allgrids|allin|${r.id}|${profileKey(x)}`} v={a.v} tip={`Energy USD ${two(a.parts.energy)}, transmission USD ${two(a.parts.transmission)} and capacity USD ${two(a.parts.capacity)} per MWh${r.grid === "ercot" ? " (ERCOT has no capacity market)" : ""}. No delivery, distribution, ancillary or retail charge is in it. The prices are the market's as they were: what a load of ${x.mw.toLocaleString("en-US")} MW would itself do to them is not modelled.`} />;
 }
 
 /** A figure computed from an internal table: "license needed" in place, with the table and why on hover (session 408's
@@ -268,7 +277,8 @@ function CarbonTd({ r, x }: { r: Row; x: SitingInputs }) {
   const c = carbonCell(SITING_DC, SITING_FILES, r, x);
   if ("why" in c) return <Words words={c.words} why={c.why} />;
   const k = profileKey(x), cf = SITING_FILES.carbon!;
-  const annualTip = `The ${c.sub.words}: its ${c.plants.toLocaleString("en-US")} plants' CO2 over their net generation in ${c.year} (egrid_power_plants, ${cf.vintage}), ${two(c.kg)} kg (${two(c.lb)} lb) per MWh generated, annual.`;
+  // session 7203 (the read of 16 November, row 12): PJM's words open with "the plants ...", so no second "The"
+  const annualTip = `${/^the /.test(c.sub.words) ? `T${c.sub.words.slice(1)}` : `The ${c.sub.words}`}: its ${c.plants.toLocaleString("en-US")} plants' CO2 over their net generation in ${c.year} (egrid_power_plants, ${cf.vintage}), ${two(c.kg)} kg (${two(c.lb)} lb) per MWh generated, annual.`;
   return (
     <span className="inline-block text-right">
       {c.hourly
@@ -304,7 +314,10 @@ function CountyUtilityTd({ r, c, x }: { r: Row; c: Extract<ReturnType<typeof uti
   const cu = c.county!, u = c.u;
   const others = cu.utilities.filter((x) => x.name !== u?.utility);
   const names = cu.utilities.map((x) => `${x.name}${x.ba.length ? ` (${x.ba.join(", ")})` : " (no sales row)"}`).join("; ");
-  const where = `${cu.county} County, ${cu.state}, a county this row's name places it in`;
+  // session 7203 (the read, row 10): a grid's one row (PJM) names no place; its county is the ERW's choice for the row
+  const where = r.kind === "grid"
+    ? `${GRID_NAMES[r.grid]} is one row for the whole grid, which spans more than one state, and its name is no place. ${cu.county} County, ${cu.state} is the county the ERW chose to read for it (session 681), one county of the grid: its utilities are not the grid's`
+    : `${cu.county} County, ${cu.state}, a county this row's name places it in`;
   const tip = u
     ? `${where}: EIA-861's service territories (utility_service_territories, ${cu.territory_year}) list ${cu.utilities.length}: ${names}. Of those that bill customers inside ${GRID_NAMES[r.grid]} (balancing authority ${cu.ba}), ${u.utility} sold most to industry in the state in ${c.year}: ${Math.round(u.sales_mwh).toLocaleString("en-US")} MWh for USD ${Math.round(u.revenue_usd).toLocaleString("en-US")} (${u.service === "Delivery" ? "delivery only: the charge for the wires, not the energy" : "bundled: energy and delivery"}; eia861_utility_sales). A utility with no sales row (a wires company that reports none) is listed and not priced.`
     : `${where}: EIA-861's service territories list ${names}. None of them bills industry inside ${GRID_NAMES[r.grid]} in eia861_utility_sales, so no revenue per MWh is drawn.`;
@@ -409,7 +422,7 @@ function AbPanel({ x }: { x: SitingInputs }) {
           </tbody>
         </table>
       </div>
-      <p className="mt-1 text-xs" data-ab-note="1">Each figure is the row&apos;s own in the table below, under the same load. Months to connect are the grid&apos;s generators&apos; (the column &quot;Time to connect&quot;). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.</p>
+      <p className="mt-1 text-xs" data-ab-note="1">Each figure is the row&apos;s own in the table below, under the same load. Each is rounded to the cent after B less A is taken, so a difference can stand a cent from the two figures drawn. Months to connect are the grid&apos;s generators&apos; (the column &quot;Time to connect&quot;). The year all-in is the all-in figure times the energy the load uses in a year: its draw while running times the hours it runs.</p>
       {/* session 794 (chain 065): two ERCOT nodes as A and B, their monthly bases on one chart, each month keyed */}
       {ra?.kind === "node" && rb?.kind === "node" ? <NodePair a={ra} b={rb} /> : null}
     </section>

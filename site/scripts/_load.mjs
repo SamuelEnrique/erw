@@ -1,0 +1,11 @@
+const M = await import("../app/cost-of-power/model.ts");
+const q = Object.fromEntries(new URLSearchParams(process.argv[2]));
+const x = M.inputsFrom(q);
+console.log("inputs:", JSON.stringify(x).slice(0, 400));
+const m = await M.loadModel(x, typeof q.buy === "string", q.grid, q);
+const pick = (o, ks) => Object.fromEntries(ks.filter((k) => k in o).map((k) => [k, o[k]]));
+console.log("keys:", Object.keys(m).join(", "));
+console.log("failed:", m.failed, "| region:", JSON.stringify(m.region)?.slice(0, 200));
+for (const k of ["s12", "sh12", "ref12", "size", "saved", "savedH", "place", "market", "l12Span", "rule", "cp"]) console.log(k, "=", JSON.stringify(m[k])?.slice(0, 500));
+console.log("side:", JSON.stringify(m.side)?.slice(0, 700));
+console.log("facts:", JSON.stringify(m.facts)?.slice(0, 900));

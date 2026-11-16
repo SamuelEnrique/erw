@@ -140,11 +140,13 @@ ok(!plain.includes("data-llr-row-panel") && plain.length < 260_000, `with no row
 
 // ---- the line each hub row's two cells draw
 const hubs = S.hubRows(SITING_FILES.index);
-const tally = { opens: 0, state: 0, found: 0, read: 0 };
+const tally = { opens: 0, state: 0, found: 0, read: 0, grid: 0 };
 let bad = [];
 for (const r of hubs) {
   const rr = rulesOfRow(r);
   const u = renderToStaticMarkup(h(RuleLine, { r, x, cell: "utility" })), c = renderToStaticMarkup(h(RuleLine, { r, x, cell: "connect" }));
+  // session 7203: a grid's one row (PJM) opens the rules read across the grid, not one county's utility's
+  if (r.kind === "grid") { tally.grid++; if (![u, c].every((s) => s.includes(`llrow=${encodeURIComponent(r.id)}#large-load-rule`) && /\d+ large-load rules in PJM/.test(s))) bad.push(r.id); continue; }
   const has = rr.own.length + rr.statewide.length > 0;
   if (rr.own.length) tally.opens++; else if (rr.statewide.length) tally.state++; else if (rr.none.length) tally.found++; else tally.read++;
   const linkOk = has ? [u, c].every((s) => s.includes(`llrow=${encodeURIComponent(r.id)}#large-load-rule`)) : [u, c].every((s) => /no large-load rule (found|read)/.test(s) && !s.includes("llrow="));
@@ -152,8 +154,8 @@ for (const r of hubs) {
   const whose = has && !rr.own.length ? "state" : "utility";
   if (!linkOk || !u.includes('data-llr="cell"') || !text(c).trim().startsWith(`${whose}: `)) bad.push(r.id);
 }
-ok(hubs.length === 48 && !bad.length, `each of the ${hubs.length} hub and zone rows draws its rule line in both cells: ${tally.opens} open a utility's rule, ${tally.state} the state's rule alone, ${tally.found} say no rule found, ${tally.read} no rule read${bad.length ? `; wrong: ${bad.join(", ")}` : ""}`);
-ok(tally.opens >= 15 && tally.opens + tally.state + tally.found + tally.read === 48, "the tally sums to the rows");
+ok(hubs.length === 48 && !bad.length, `each of the ${hubs.length} hub and zone rows draws its rule line in both cells: ${tally.opens} open a utility's rule, ${tally.state} the state's rule alone, ${tally.found} say no rule found, ${tally.read} no rule read, ${tally.grid} is a grid's one row and opens the grid's rules${bad.length ? `; wrong: ${bad.join(", ")}` : ""}`);
+ok(tally.opens >= 15 && tally.grid === 1 && tally.opens + tally.state + tally.found + tally.read + tally.grid === 48, "the tally sums to the rows");
 
 // ---- the states' laws in the monitor
 const lawsProp = { laws: file.laws, held: file.held_laws, built: file.built, retrieved: file.retrieved };

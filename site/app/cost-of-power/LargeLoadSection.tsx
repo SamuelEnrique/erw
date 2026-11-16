@@ -7,7 +7,7 @@
 import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { HeldCard, RuleCard, Tip } from "@/components/largeload/parts";
-import { LICENSE_NEEDED, CHANGES_ANCHOR, RULES_ANCHOR, RULES_TABLE, CHANGES_TABLE, LAWS_TABLE, RULE_STATUSES, STATUS_TIP, lawStates, lawsHref, lineOf, rowRules, statesOf, type RowRules } from "@/lib/largeloadrules";
+import { LICENSE_NEEDED, CHANGES_ANCHOR, RULES_ANCHOR, RULES_TABLE, CHANGES_TABLE, LAWS_TABLE, RULE_STATUSES, STATUS_TIP, lawStates, lawsHref, lineOf, lines, rowRules, statesOf, type RowRules } from "@/lib/largeloadrules";
 import { GRID_NAMES, rowOf, rowUtilities, sitingHref, type Row, type SitingInputs } from "@/lib/siting";
 import { LARGE_LOAD, SITING_FILES } from "@/lib/sitingdata";
 import { LargeLoadRules, type Opened } from "./LargeLoadRules";
@@ -32,6 +32,16 @@ const noneWhy = (rr: ReturnType<typeof rulesOfRow>) => [
 /** The line a cell of the hub table draws: a link that opens the rule of the row's utility, or, in the same place,
  * that none was found or none was read, with why on hover. `cell` is the column it stands in. */
 export function RuleLine({ r, x, cell }: { r: Row; x: SitingInputs; cell: "utility" | "connect" }) {
+  // session 7203 (the read of 16 November, row 10): a grid's one row (PJM) is no place: its line opens the rules read
+  // across the grid, not the rule of the one county the ERW reads for its utility figure
+  if (r.kind === "grid") {
+    const n = lines(LARGE_LOAD).filter((l) => l.grid === r.grid).length;
+    return (
+      <span className="block text-xs" data-llr="cell" {...{ [`data-${cell}-rule`]: String(n) }} data-llr-grid-row={r.grid}>
+        {cell === "connect" ? "utilities: " : ""}<SiteLink href={rowRuleHref(x, r)} gate="plain" title={`The large-load rules read in ${GRID_NAMES[r.grid]}, by state. Opens under the table.`} data-llr-open-row={r.id}>{n} large-load rules in {GRID_NAMES[r.grid]}</SiteLink>
+      </span>
+    );
+  }
   const rr = rulesOfRow(r), ids = [...rr.own, ...rr.statewide];
   const rules = ids.map((id) => lineOf(LARGE_LOAD, id)).filter((l) => !!l);
   const first = rules[0];
@@ -61,6 +71,7 @@ export function RuleLine({ r, x, cell }: { r: Row; x: SitingInputs; cell: "utili
 
 /** The panel a row of the tab opens: its utilities' rules in full, then the rules binding every utility of its state. */
 function RowPanel({ r, x }: { r: Row; x: SitingInputs }) {
+  if (r.kind === "grid") return <GridPanel r={r} x={x} />;
   const rr = rulesOfRow(r), laws = lawStates(LARGE_LOAD);
   const card = (id: string) => {
     const l = lineOf(LARGE_LOAD, id);
@@ -79,6 +90,26 @@ function RowPanel({ r, x }: { r: Row; x: SitingInputs }) {
       {rr.unread.length ? <p className="mt-2" data-llr-unread={rr.unread.length}>{rr.unread.map((u) => u.name).join(", ")}: <Tip tip={`Not among ${READ_WORDS}.`}>no large-load rule read</Tip>.</p> : null}
       {!rr.names.length ? <p className="mt-2">No utility is named for this row.</p> : null}
       {rr.state && rr.inState ? <p className="mt-2" data-llr-in-state={rr.state}><SiteLink href={stateHref(x, rr.state)} gate="plain">Every rule read in {rr.state}</SiteLink>: <Num check={`largeload|rules|state|${rr.state}`} raw={rr.inState}>{rr.inState}</Num>, in the table below.</p> : null}
+    </section>
+  );
+}
+
+/** Session 7203: the panel of a grid's one row (PJM, which the page prices nowhere): the rules read in the grid, counted
+ * by state, each count a link to the table filtered by that grid and state. No utility is the grid's own. */
+function GridPanel({ r, x }: { r: Row; x: SitingInputs }) {
+  const all = lines(LARGE_LOAD).filter((l) => l.grid === r.grid);
+  const states = [...new Set(all.flatMap((l) => statesOf(l.state)))].sort();
+  const href = (state?: string) => `${sitingHref(x)}&rgrid=${r.grid}${state ? `&rstate=${state}` : ""}#${RULES_ANCHOR}`;
+  return (
+    <section id={ROW_ANCHOR} className="mb-6 max-w-4xl border border-rule bg-paper px-4 py-3 text-sm" aria-label={`The large-load rules in ${GRID_NAMES[r.grid]}`} data-llr-row-panel={r.id} data-llr-grid-panel={r.grid}>
+      <h3 className="font-serif text-lg">The large-load rules in {GRID_NAMES[r.grid]} <SiteLink href={`${sitingHref(x)}#${RULES_ANCHOR}`} gate="plain" className="ml-2 text-xs underline">Close</SiteLink></h3>
+      <p className="mt-1">
+        {GRID_NAMES[r.grid]} is <Tip tip={`The page holds no hub or zone price of ${GRID_NAMES[r.grid]}, so the grid is one row and no utility is its own. A utility's rule is reached by its state.`}>one row</Tip> here, so its rules are by state:{" "}
+        <SiteLink href={href()} gate="plain" data-llr-grid-all={r.grid}><Num check={`largeload|rules|grid|${r.grid}`} raw={all.length}>{all.length}</Num> rules read in {GRID_NAMES[r.grid]}</SiteLink>.
+      </p>
+      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1" data-llr-grid-states={states.length}>
+        {states.map((s) => { const k = all.filter((l) => statesOf(l.state).includes(s)).length; return <span key={s}><SiteLink href={href(s)} gate="plain" data-llr-grid-state={s}>{s}</SiteLink> {k}</span>; })}
+      </p>
     </section>
   );
 }
