@@ -160,6 +160,14 @@ and on tone for 73.3. Agreement is not accuracy; it says where a second reading 
   found one machine-readable door (Legistar's web API, where a client switched it on) and two state docket systems
   that bar AI agents by name (`dis.puc.state.oh.us`, `apps.psc.wi.gov`), which the ERW does not read.
 
+## Replication
+
+`replication/attention/replicate.py` (session 7007) recomputes every figure of `site/data/attention.json` from the
+public tables (`attention_story_links`, and the corpus rows of `attention_index_weekly` for the denominators) and the
+cluster ids of `news_stories`, by this note's words and not from the builder's code: the cells, each kind's count, what
+rose, the classified weeks together, the places, the denominators and the counts. On 16 November 2026: 3,407 of 3,407
+equal. `replicate.do` rebuilds five headline figures in Stata, its expected values at its top.
+
 ## Provenance
 
 Each row of `attention_story_links` carries the story's outlet (`source`), its link (`source_url`), the model
