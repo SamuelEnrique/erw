@@ -106,6 +106,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/cost-of-power?grid=caiso",  // session 280: CAISO's hub counts (scarcity_hours_by_grid) and its list of statements (large_load_public)
   // session 700: the All grids tab (lib/siting.ts), its hub and zone rows and its ERCOT nodes
   "/cost-of-power?view=allgrids", "/cost-of-power?view=allgrids&rows=nodes",
+  // chain 302 (session 7201): a row's large-load rule opened under the tab (largeload|rules|state|TX), and the states' laws
+  "/cost-of-power?view=allgrids&llrow=ercot%3ALZ_AEN", "/policy?view=monitor&state=MD",
   // session 702: the three other profiles, each at its defaults
   "/cost-of-power?view=allgrids&profile=flexible", "/cost-of-power?view=allgrids&profile=electrolyzer", "/cost-of-power?view=allgrids&profile=industry",
   // session 710: the screen sorted by the all-in figure with A and B set (ERCOT's hub average against CAISO's SP15), and the
@@ -952,6 +954,13 @@ async function truth(check) {
     const S = await import("../lib/siting.ts");
     const F = await import("./siting-files.mjs");
     return S.sitingStat(F.files(), check, await F.dc());
+  }
+  // chain 302 (session 7201): the large-load rules under the All grids tab and the states' laws in the policy monitor,
+  // largeload|rules|..., largeload|changes|..., largeload|laws|...: counted again by lib/largeloadrules.ts from the file
+  // the pages read (data/siting/large_load_rules.json, written by warehouse/derived/large_load_rules_page.py)
+  if (p[0] === "largeload") {
+    const L = await import("../lib/largeloadrules.ts");
+    return L.largeLoadStat(JSON.parse(fs.readFileSync(path.join(here, "..", "data", "siting", "large_load_rules.json"), "utf-8")), check);
   }
   // session 1880 (attention faults row 8): /attention's rising rows, places and footer counts, attention_rising|,
   // attention_place| and attention_file| keys: read back from the file the page reads (data/attention.json, written by

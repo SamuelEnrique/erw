@@ -853,6 +853,17 @@ export function utilityCell(f: Files, r: Row): UtilityCell {
   return { state: st, ba, u, year: f.utility.year, prior: f.utility.prior, rev: u.revenue_usd / u.sales_mwh, growth: u.sales_prior_mwh ? 100 * (u.sales_mwh / u.sales_prior_mwh - 1) : null };
 }
 
+/** Chain 302 (session 7201): the utilities a row of the hub table names, and its state, for the large-load rules its
+ * Utility cell and its Time to connect cell open (lib/largeloadrules.ts, rowRules): the largest seller the cell prints,
+ * and for a row whose name is a place every utility of its county and its delivery-only companies. */
+export function rowUtilities(f: Files, r: Row): { state: string | null; utilities: { number: string; name: string }[] } {
+  const c = utilityCell(f, r);
+  if ("why" in c) return { state: stateOf(r), utilities: [] };
+  if (!c.county) return { state: c.state, utilities: [{ number: c.u.number, name: c.u.utility }] };
+  return { state: c.state, utilities: [...(c.u ? [{ number: c.u.number, name: c.u.utility }] : []), ...c.county.utilities.map((u) => ({ number: u.number, name: u.name })),
+    ...(c.county.delivery?.companies ?? []).map((u) => ({ number: u.number, name: u.utility }))] };
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // the ERCOT node set (session 709): one row a node, the figures that differ from node to node
 // ---------------------------------------------------------------------------------------------------------------------
