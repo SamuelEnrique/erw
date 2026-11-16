@@ -13,6 +13,8 @@ warn_mb: 6000 # was 350 (session 36C): load.py prints a warning above this, afte
 # Loaded whole, every run.
 full:
   - '^ercot_peak_premium_(annual|monthly)$'      # the two derived peak-premium tables
+  - '^ercot_peak_premium_node_monthly$'          # session 7020 (done-line request 35): the metrics per settlement point (about 17,500 rows)
+  - '^ercot_storage_rt_offers_monthly$'          # session 7020 (done-line request 30): the fleet's real-time offers to sell by price (about 175 rows)
   - '^news_index$'                               # the public news index
   - '^eia860m_retired_generators$'                # entities; session 19 human ruling: the operating and
                                                  # planned generators reach Supabase through energy_projects
