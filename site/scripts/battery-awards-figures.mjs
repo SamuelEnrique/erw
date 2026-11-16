@@ -39,6 +39,8 @@ function read(table, entity, variables, from = "") {
     if (!head) { head = line.split(","); continue; }
     const c = line.split(",");  // the first four columns hold no comma in these tables
     if (c[0] !== entity || !want.has(c[1]) || (from && c[2] < from)) continue;
+    // session 7514: a table restored without its "Retrieved" line (storage_buildout_monthly) is stamped by its row
+    if (!stamps[table] && head.indexOf("retrieved_at") >= 0 && c.length === head.length) stamps[table] = c[head.indexOf("retrieved_at")];
     rows.push({ variable: c[1], ts_utc: c[2], value: c[3] });
   }
   return rows.sort((a, b) => (a.variable < b.variable ? -1 : a.variable > b.variable ? 1 : a.ts_utc < b.ts_utc ? -1 : 1));
@@ -87,6 +89,23 @@ if (dir) {
   if (newest && newest.resources !== null && newest.resourcesWithAward !== null) {
     words["newest|month"] = newest.m; put("page", "newest|resources_with_award", whole(newest.resourcesWithAward)); put("page", "newest|resources", whole(newest.resources));
   }
+  // session 7514 (the read of 16 November 2026, rows 1 and 5): what the read added to the head of the page, written as
+  // page.tsx and lib/storageawards.ts (servicesOf) write it. scripts/test-battery-awards-read.mjs draws the whole page
+  // and finds each of these in its own hover.
+  for (const r of ms) {
+    if (A.servicesOf(r) === null) continue;
+    for (const p of A.PRODUCTS) put("page", `month|${r.m}|service|${p.key}_kw`, kw(r.products[p.key]));
+    if (r.total !== 0) put("page", `month|${r.m}|ancillary_share_pct`, Math.round((r.ancillary / r.total) * 100));
+  }
+  const inventory = fs.existsSync(path.join(dir, `${A.INVENTORY_TABLE}.csv`)) ? read(A.INVENTORY_TABLE, A.INVENTORY_ENTITY, A.INVENTORY_VARIABLES, "2025-12-01T00:00:00Z") : [];
+  const eia = newest ? A.inventoryOf(inventory, newest.m) : null;
+  if (eia && newest.mw !== null) {
+    words["inventory|month"] = eia.m; put("page", "inventory|mw", whole(eia.mw));
+    if (eia.units !== null) put("page", "inventory|generators", whole(eia.units));
+    if (eia.hours !== null) put("page", "inventory|mwh_per_mw", eia.hours.toFixed(2));
+    put("page", "inventory|difference_mw", whole(Math.abs(newest.mw - eia.mw)));
+    put("page", "inventory|per_kw_pct", Math.abs(Math.round((newest.mw / eia.mw - 1) * 100)));
+  }
 
   // 2. the offers section (Offers.tsx)
   const g = fleet.length && offers.length && gapModel.length ? A.gapOf(fleet, offers, gapModel) : null;
@@ -111,6 +130,14 @@ if (dir) {
     put("offers", "offers|award_of_offer_low_pct", pct(Math.min(...g.services.map((s) => s.awardOfOffer))).replace("%", ""));
     put("offers", "offers|award_of_offer_high_pct", pct(Math.max(...g.services.map((s) => s.awardOfOffer))).replace("%", ""));
     put("offers", "offers|as_offer_share_of_limit_pct", pct(g.asOfferShareOfLimit).replace("%", "")); put("offers", "offers|as_award_share_of_limit_pct", pct(g.asAwardShareOfLimit).replace("%", ""));
+    // session 7514 (the read, row 2): the five services together, as Offers.tsx writes them
+    const fiveAwards = g.services.reduce((a, s) => a + s.awardsKw, 0), fiveModel = g.services.reduce((a, s) => a + s.modelKw, 0), n = g.months.length;
+    put("offers", "offers|five|awards_kw", usd(fiveAwards)); put("offers", "offers|five|model_kw", usd(fiveModel)); put("offers", "offers|five|gap_kw", usd(fiveModel - fiveAwards));
+    if (fiveAwards > 0 && n > 0) {
+      if (n > 1) put("offers", "offers|five|months", n);  // one month is said in words ("over the month")
+      put("offers", "offers|five|awards_kw_month", usd(fiveAwards / n)); put("offers", "offers|five|model_kw_month", usd(fiveModel / n));
+      put("offers", "offers|five|ratio", usd(fiveModel / fiveAwards));
+    }
     words["offers|covered"] = g.services.filter((s) => s.gapKw > 0 && s.unawardedKw >= s.gapKw).map((s) => s.key).join(",");
     words["offers|short"] = g.services.filter((s) => s.gapKw > 0 && s.unawardedKw < s.gapKw).map((s) => `${s.key} ${pct(s.unawardedKw / s.gapKw)}`).join(",");
   }

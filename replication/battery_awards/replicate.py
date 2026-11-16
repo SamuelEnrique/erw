@@ -18,8 +18,10 @@ tables alone, not from the page's code. Standard library only. Three parts:
         [--write]
 
 Without --tables, parts 1 and 2 run on monthly_rows.csv beside this file: the rows of the five tables that the page
-reads, copied by --write, so the replication runs on any copy of the repository. --write rewrites monthly_rows.csv,
-page_figures.csv and source_rows.csv beside this file. Exit 0 when every figure passes, 1 when one
+reads, copied by --write, so the replication runs on any copy of the repository. Since session 7514 part 1 also holds
+what the read of 16 November 2026 added to the page (battery_awards.md, section 8): each month's five services, the
+five together, and the EIA's count of the fleet (storage_buildout_monthly; its rows are in inventory_rows.csv beside
+this file). --write rewrites monthly_rows.csv, inventory_rows.csv, page_figures.csv and source_rows.csv beside this file. Exit 0 when every figure passes, 1 when one
 does not, 2 on bad input. Every table read here is public (ERCOT's terms, quoted in the tables' headers).
 """
 from __future__ import annotations
@@ -50,15 +52,21 @@ CENTS = 0.03
 
 
 ROWS = os.path.join(HERE, "monthly_rows.csv")   # the public rows the page reads, as --write copies them from the tables
+# Session 7514: the page's sixth read, the EIA's count of the batteries operating in ERCOT (storage_buildout_monthly,
+# Form EIA-860M), kept in a file of its own so monthly_rows.csv stays the five tables of ERCOT's disclosure and the model.
+INVENTORY, INVENTORY_ENTITY = "storage_buildout_monthly", "iso:ercot"
+INVENTORY_VARIABLES = ["battery_operating_mw", "battery_operating_units", "battery_operating_mwh_per_mw"]
+INVENTORY_FROM = "2025-12-01"                    # the disclosure's first month; the page asks for the rows from it on
+INVENTORY_ROWS = os.path.join(HERE, "inventory_rows.csv")
 
 
 def table(folder: str | None, name: str, entity: str) -> tuple[dict[str, dict[str, float]], dict[str, str]]:
     """One entity's rows of a series table: {month YYYY-MM: {variable: value}}, and the header's stamps. With no
-    folder, from monthly_rows.csv beside this file."""
+    folder, from monthly_rows.csv beside this file (the EIA's count from inventory_rows.csv)."""
     out: dict[str, dict[str, float]] = defaultdict(dict)
     head: dict[str, str] = {}
     if folder is None:
-        with open(ROWS, encoding="utf-8", newline="") as f:
+        with open(INVENTORY_ROWS if name == INVENTORY else ROWS, encoding="utf-8", newline="") as f:
             for r in csv.DictReader(f):
                 if r["table"] == name and r["entity"] == entity:
                     out[r["ts_utc"][:7]][r["variable"]] = float(r["value"])
@@ -141,6 +149,29 @@ def page_figures(folder: str) -> tuple[dict[str, float], dict[str, str]]:
         if "resources" in n and "resources_with_award" in n:
             f["newest|resources_with_award"], f["newest|resources"] = n["resources_with_award"], n["resources"]
 
+    # --- added by the read of 16 November 2026 (battery_awards.md, section 8): a month's ancillary award by service, on
+    # the hover of the month's ancillary cell; and the EIA's count of the fleet beside the page's MW, on the MW line's hover
+    for m in shown:
+        a = A[m]
+        if all(f"revenue_{s}_usd_per_mw" in a for s in SERVICES):
+            for s in SERVICES:
+                f[f"month|{m}|service|{s}_kw"] = a[f"revenue_{s}_usd_per_mw"] / 1000
+            if a["revenue_total_usd_per_mw"] != 0:
+                f[f"month|{m}|ancillary_share_pct"] = 100 * a["revenue_ancillary_usd_per_mw"] / a["revenue_total_usd_per_mw"]
+    if full and "mw" in A[full[-1]] and (folder is None or os.path.isfile(os.path.join(folder, INVENTORY + ".csv"))):
+        E, _ = table(folder, INVENTORY, INVENTORY_ENTITY)
+        e = E.get(full[-1], {})                                       # the month of the page's sentence: the newest held whole
+        if e.get("battery_operating_mw", 0) > 0:
+            mw, eia = A[full[-1]]["mw"], e["battery_operating_mw"]
+            w["inventory|month"] = full[-1]
+            f["inventory|mw"] = eia
+            if "battery_operating_units" in e:
+                f["inventory|generators"] = e["battery_operating_units"]
+            if "battery_operating_mwh_per_mw" in e:
+                f["inventory|mwh_per_mw"] = e["battery_operating_mwh_per_mw"]
+            f["inventory|difference_mw"] = abs(mw - eia)
+            f["inventory|per_kw_pct"] = abs(100 * (mw / eia - 1))    # how much higher each per kW figure would be over the EIA's MW
+
     # --- the offers section: the gap in three parts (ercot_storage_dam_offers.md, "The gap in three parts")
     need_o = ["days_held", "days_in_month", "mw", "limit_mwh", "limit_mwh_out", "limit_mwh_no_offer", "limit_mwh_no_offer_out", "limit_mwh_energy_offer", "limit_mwh_as_offer",
               "limit_mwh_award", "energy_offer_mwh", "energy_offer_mwh_at_clearing", "energy_sold_mwh", "as_offer_mwh", "as_award_mwh", "as_offer_mwh_unlisted"]
@@ -190,6 +221,15 @@ def page_figures(folder: str) -> tuple[dict[str, float], dict[str, str]]:
         f["offers|award_of_offer_low_pct"], f["offers|award_of_offer_high_pct"] = 100 * min(of_offer), 100 * max(of_offer)
         f["offers|as_offer_share_of_limit_pct"], f["offers|as_award_share_of_limit_pct"] = 100 * so("as_offer_mwh") / lim, 100 * so("as_award_mwh") / lim
         w["offers|months"] = ",".join(G)
+        # added by the read of 16 November 2026 (battery_awards.md, section 8): the five services together, over the
+        # section's months and per kW a month; the battery page draws the last three (battery_awards_beside.json)
+        five_a = sum(A[m][f"revenue_{s}_usd_per_mw"] for m in G for s in SERVICES) / 1000
+        five_m = sum(M[m][P + f"revenue_{s}_usd_per_mw"] for m in G for s in SERVICES) / 1000
+        f["offers|five|awards_kw"], f["offers|five|model_kw"], f["offers|five|gap_kw"] = five_a, five_m, five_m - five_a
+        if five_a > 0:
+            if len(G) > 1:
+                f["offers|five|months"] = len(G)                      # one month is said in words
+            f["offers|five|awards_kw_month"], f["offers|five|model_kw_month"], f["offers|five|ratio"] = five_a / len(G), five_m / len(G), five_m / five_a
 
     # --- the real-time section (ercot_storage_realtime.md, "The month" and "One week at the nodes")
     R = [m for m in sorted(T) if held(T[m], ["days_held", "days_in_month", "revenue_da_usd_per_mw", "revenue_rt_deviation_hub_usd_per_mw", "revenue_market_hub_usd_per_mw"])]
@@ -284,6 +324,23 @@ def copy_rows(folder: str) -> int:
                 wr.writerow([name, entity, r["variable"], r["ts_utc"], r["value"], r["unit"], stamp])
                 n += 1
     return n
+
+
+def copy_inventory(folder: str) -> int:
+    """inventory_rows.csv: the rows of storage_buildout_monthly the page's sixth read asks for (the EIA's count of the
+    batteries operating in ERCOT, from the disclosure's first month on), each with the stamp of its own row."""
+    path = os.path.join(folder, INVENTORY + ".csv")
+    if not os.path.isfile(path):
+        return -1
+    with open(path, encoding="utf-8", newline="") as g:
+        rows = [r for r in csv.DictReader(line for line in g if not line.startswith("#"))
+                if r["entity"] == INVENTORY_ENTITY and r["variable"] in INVENTORY_VARIABLES and r["ts_utc"] >= INVENTORY_FROM and r["value"] != ""]
+    with open(INVENTORY_ROWS, "w", encoding="utf-8", newline="") as f:
+        wr = csv.writer(f, lineterminator="\n")
+        wr.writerow(["table", "entity", "variable", "ts_utc", "value", "unit", "retrieved", "source"])
+        for r in sorted(rows, key=lambda r: (r["variable"], r["ts_utc"])):
+            wr.writerow([INVENTORY, r["entity"], r["variable"], r["ts_utc"], r["value"], r["unit"], r["retrieved_at"], r["source"]])
+    return len(rows)
 
 
 def decimals(shown: str) -> int:
@@ -475,6 +532,8 @@ def main() -> int:
         return 2
     if a.write:
         print(f"monthly_rows.csv: {copy_rows(a.tables)} rows of the five public tables")
+        n_inv = copy_inventory(a.tables)
+        print(f"inventory_rows.csv: {n_inv} rows of {INVENTORY}" if n_inv >= 0 else f"inventory_rows.csv: not rewritten, no {INVENTORY}.csv in {a.tables}")
     page = json.load(open(os.path.join(HERE, "page_figures.json"), encoding="utf-8"))
     ours, words = page_figures(a.tables)
     rows, ok, named = compare(ours, page["figures"])
@@ -482,7 +541,7 @@ def main() -> int:
     for r in rows:
         if not r["verdict"].startswith("within"):
             print(f"  {r['key']}: page {r['page']}, ours {r['ours']} ({r['verdict']})")
-    for k in ("newest|month", "basis|from"):
+    for k in ("newest|month", "basis|from", "inventory|month"):
         if words.get(k) != page["words"].get(k):
             print(f"  {k}: page {page['words'].get(k)!r}, ours {words.get(k)!r} (FAIL)")
             bad.append({"key": k})

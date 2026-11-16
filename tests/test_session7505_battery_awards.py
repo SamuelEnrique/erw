@@ -134,7 +134,9 @@ class TheNoteAndTheFaults(unittest.TestCase):
 
     def test_the_note_says_what_the_replication_found(self):
         note = src("docs", "methods", "battery_awards.md")
-        self.assertIn("307 of 307 figures within half the page's last shown digit, 0 named, 0 failed", note)
+        # session 7514: 307 of 307 until the read of 16 November 2026 added 66 figures to the page (the note's section 8)
+        self.assertIn("373 of 373 figures within half the page's last shown digit, 0 named, 0 failed", note)
+        self.assertRegex(note, r"Session 7505\s+counted 307 of 307")
         self.assertIn("297 of 297 rows agree", note)
         self.assertIn("Nothing published stands against them", note)
         for publisher in ("Potomac Economics", "U.S. Energy Information Administration", "Modo Energy"):

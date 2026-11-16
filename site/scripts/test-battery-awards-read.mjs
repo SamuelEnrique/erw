@@ -96,9 +96,40 @@ ok(html.indexOf('data-rt-other-count="1"') > html.indexOf("Real-time energy and 
 
 // ---- the page drops nothing it had: every figure session 7505's replication found on the page is on it still
 const fig = JSON.parse(file("..", "replication", "battery_awards", "page_figures.json"));
+// (a figure the read added to a hover is looked for with the hovers; each of those is then held to its own place below)
 const plain = text.replace(/\[title: [^\]]*\]/g, "");
-const lost = Object.entries(fig.figures).filter(([, shown]) => !plain.includes(String(shown)));
+const inHover = (k) => /^month\|[^|]+\|service\||ancillary_share_pct$/.test(k);
+const lost = Object.entries(fig.figures).filter(([k, shown]) => !(inHover(k) ? text : plain).includes(String(shown)));
 ok(Object.keys(fig.figures).length >= 300 && lost.length === 0, `every one of the ${Object.keys(fig.figures).length} figures of page_figures.json is on the drawn page${lost.length ? `; lost: ${lost.slice(0, 5).map(([k]) => k).join(", ")}` : ""}`);
+// ---- after the hand-back: the 66 figures the read added are in page_figures.json (which replicate.py recomputes from
+// the tables by the note's section 8), and each is on the drawn page in its own place, not merely somewhere on it
+const F = fig.figures, addedKeys = Object.keys(F).filter((k) => /^month\|[^|]+\|service\||ancillary_share_pct$|^offers\|five\||^inventory\|/.test(k));
+const fiveLine = lines.find((l) => l.startsWith("The five together, over")) ?? "", fiveRow = lines.find((l) => l.startsWith("The five together |")) ?? "";
+const placed = (k) => {
+  const shown = String(F[k]), p = k.split("|");
+  if (p[0] === "month" && p[2] === "service") { const s = A.PRODUCTS.find((x) => `${x.key}_kw` === p[3]); return new RegExp(`${s.label}( \\([^)]*\\))? ${shown.replace(".", "\\.")}[,;]`).test(tipOf(p[1])); }
+  if (p[0] === "month") return tipOf(p[1]).includes(`ancillary services are ${shown} percent of the month's`);
+  if (k === "offers|five|awards_kw") return fiveRow.includes(`| ${shown} |`) && fiveLine.includes(`USD ${shown} per kW awarded`);
+  if (k === "offers|five|model_kw") return fiveRow.includes(`| ${shown} |`) && fiveLine.includes(`the model's USD ${shown}.`);
+  if (k === "offers|five|gap_kw") return fiveRow.includes(`| ${shown} |`);
+  if (k === "offers|five|months") return fiveLine.includes(`over the ${shown} months`);
+  if (k === "offers|five|awards_kw_month") return fiveLine.includes(`that is USD ${shown} against`);
+  if (k === "offers|five|model_kw_month") return fiveLine.includes(`against USD ${shown} , the model's`);
+  if (k === "offers|five|ratio") return fiveLine.includes(`the model's ${shown} times the awards`);
+  if (k === "inventory|mw") return tip.includes(`it lists ${shown} MW`);
+  if (k === "inventory|generators") return tip.includes(`MW in ${shown} generators`);
+  if (k === "inventory|mwh_per_mw") return tip.includes(`holding ${shown} MWh per MW`);
+  if (k === "inventory|difference_mw") return tip.includes(`resources, ${shown} MW more`);
+  if (k === "inventory|per_kw_pct") return tip.includes(`would be ${shown} percent higher`);
+  return false;
+};
+const unplaced = addedKeys.filter((k) => !placed(k));
+ok(addedKeys.length === 66 && unplaced.length === 0, `the ${addedKeys.length} figures the read added (45 by service, 9 shares, 7 of the five together, 5 of the EIA's count) are each in their own place on the drawn page${unplaced.length ? `; not found: ${unplaced.slice(0, 5).join(", ")}` : ""}`);
+ok(Object.keys(F).length === 373 && fig.drawn.missing.length === 0 && fig.drawn.found === 224, `page_figures.json: ${Object.keys(F).length} figures, ${fig.drawn.found} of ${fig.drawn.looked} found in the two drawn sections`);
+const csvRows = file("..", "replication", "battery_awards", "page_figures.csv").split(/\r?\n/).filter(Boolean).slice(1);
+const verdictOf = new Map(csvRows.map((l) => [l.slice(0, l.indexOf(",")), l.endsWith(",within half the last digit")]));
+ok(addedKeys.every((k) => verdictOf.get(k) === true), "the replication's own computation of each of the 66 is within half the page's last shown digit (page_figures.csv)");
+
 for (const kept of ["What this is not.", "What is counted", "By month", "By year", "Why the two differ", "Where the gap comes from: what was offered day-ahead", "The real-time side: what the fleet did after the day-ahead market closed",
   "Do not add the last column up.", "It is not a forecast.", "What the offers still cannot show", "Decisions on this page (15)"]) ok(text.includes(kept), `the page keeps what it had: ${kept}`);
 

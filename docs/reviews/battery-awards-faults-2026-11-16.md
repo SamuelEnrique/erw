@@ -11,6 +11,11 @@ last shown digit. The two monthly tables behind them, against ERCOT's disclosure
 rows. So no figure of the page is wrong on the rows it was computed on. The faults are in the page's words, in the
 notes, and in how far the tables reach.
 
+*Added by session 7514, the same day:* the read of the page as its reader
+([`battery-awards-read-2026-11-16.md`](battery-awards-read-2026-11-16.md)) added 66 figures to the page, and the
+replication now recomputes them with the 307 above: 373 of 373, 224 of them found in the two drawn sections. The rows
+below are as part A wrote them.
+
 **The rows this machine holds.** `ercot_storage_dam_awards_monthly` and `ercot_storage_dam_offers_monthly` as retrieved
 on 5 October 2026 (operating days to 5 August), `ercot_storage_rt_monthly` of 5 October (186 matched days),
 `ercot_storage_node_basis` of 19 October, `battery_stack_monthly` of 21 October. The worktree has no key to the live

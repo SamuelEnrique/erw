@@ -106,11 +106,13 @@ As the page applies them, from `ercot_storage_rt_monthly` (`ercot:esr_fleet`):
 
 `replication/battery_awards/replicate.py` (Python, standard library), written from this note and the tables' notes:
 
-- **The page:** every figure the page shows, recomputed from the five tables and set beside what the page's own
-  functions give on the same rows (`page_figures.json`, written by `site/scripts/battery-awards-figures.mjs`, which
-  also draws the offers and real-time sections to HTML and finds each of their 217 figures in it). On 16 November
-  2026, on the tables as retrieved on 5 October (awards, offers, real time), 19 October (nodes) and 21 October 2026
-  (the model): **307 of 307 figures within half the page's last shown digit, 0 named, 0 failed.**
+- **The page:** every figure the page shows, recomputed from the five tables (and, since session 7514, the EIA's
+  count in `storage_buildout_monthly`) and set beside what the page's own functions give on the same rows
+  (`page_figures.json`, written by `site/scripts/battery-awards-figures.mjs`, which also draws the offers and
+  real-time sections to HTML and finds each of their 224 figures in it). On 16 November 2026, on the tables as
+  retrieved on 5 October (awards, offers, real time), 19 October (nodes), 21 October (the model) and 3 October 2026
+  (the EIA's count): **373 of 373 figures within half the page's last shown digit, 0 named, 0 failed.** Session 7505
+  counted 307 of 307 (217 in the two drawn sections); the other 66 are the figures section 8 added.
 - **The file `site/data/battery_awards_beside.json`** (the battery page's line beside the real awards,
   [`battery_earns_algorithm.md`](battery_earns_algorithm.md), section 9): 24 of 24 figures.
 - **The monthly tables from ERCOT's disclosure:** with `--awards`, `--sced` and `--hub`, every month of the two
@@ -216,8 +218,31 @@ added to the page; none changes a figure it had.
 - **Where the node part stops** (its last paragraph): words and two links, to the ERCOT node list of the All grids tab
   (`/cost-of-power?view=allgrids&rows=nodes`) and to the battery page.
 
+**The rules a second implementation needs,** for the 66 figures the six add (the replication's keys in brackets):
+
+- **By service, by month** (`month|<month>|service|<service>_kw`, 45 figures; `month|<month>|ancillary_share_pct`, 9):
+  for every month "By month" shows (section 2), from `ercot_storage_dam_awards_monthly`, entity `ercot:esr_fleet`. A
+  service's figure is its `revenue_<service>_usd_per_mw` over 1,000, two decimals; the five are `regup`, `regdn`,
+  `rrs`, `ecrs`, `nspin`. They are drawn only when the month holds all five. The share is
+  `revenue_ancillary_usd_per_mw / revenue_total_usd_per_mw` times 100, a whole percent, drawn when the total is not
+  zero. A partial month has its hover too, on the days it holds.
+- **The five together** (`offers|five|...`, 7 figures): over the months of the offers section (section 3: January to
+  July 2026 today). Awards: the sum over those months and the five services of `revenue_<service>_usd_per_mw`, over
+  1,000. The model's: the same sum of `battery_stack_monthly`'s `dayahead_2h_revenue_<service>_usd_per_mw`, entity
+  `ercot:HB_HUBAVG`. Gap: the model's less the awards. Each with two decimals. Per kW a month: each sum over the
+  number of months (`months`, drawn as a number when there is more than one). The ratio: the model's sum over the
+  awards' sum, two decimals. The sentence is drawn only when the awards' sum is above zero.
+- **The EIA's count** (`inventory|...`, 5 figures): the month is the newest month the awards table holds whole (the
+  month of the page's sentence). From `storage_buildout_monthly`, entity `iso:ercot`, that month's row of
+  `battery_operating_mw` (whole MW), `battery_operating_units` (whole) and `battery_operating_mwh_per_mw` (two
+  decimals). The difference is the awards table's `mw` of the month less the EIA's MW, as an absolute whole number of
+  MW with "more" or "less". The percent is `mw` over the EIA's MW, less one, times 100, absolute, whole. No figure is
+  drawn when the EIA's row for the month is missing or its MW is not above zero.
+- **The MWh sentence and the node paragraph** draw no figure of their own (the node paragraph repeats `nodes` and
+  `whole_days`, section 4).
+
 The whole page is drawn without a build by `site/scripts/battery-awards-page.mjs` (the page's own function, its reads
 answered from CSV rows), and `site/scripts/test-battery-awards-read.mjs` holds the six on the public rows beside the
-replication (`monthly_rows.csv` and, for the EIA's count, `inventory_rows.csv`). The replication's 307 figures are the
-page's as it stood before these six: the added figures are held by that test and are not yet recomputed by
-`replicate.py`.
+replication (`monthly_rows.csv` and, for the EIA's count, `inventory_rows.csv`), and finds each of the 66 figures of
+`page_figures.json` in its own place on the drawn page. `replicate.py` recomputes the 66 by the rules above, from the
+tables or from the two files of public rows beside it: 373 of 373 with the 307 the page had (section 5).
