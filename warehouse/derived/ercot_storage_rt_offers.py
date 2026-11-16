@@ -155,7 +155,7 @@ def unit_of(var):
     if var.endswith("_share_pct"):
         return "pct"
     if var.endswith("_mwh_per_mw_day"):
-        return "MWh/MW/day"
+        return "MWh/MW-day"   # session 7022: the vocabulary's form (Decision 78; it was MWh/MW/day, refused)
     if var.endswith("_mwh"):
         return "MWh"
     return "count"
