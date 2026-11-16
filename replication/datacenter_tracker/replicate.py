@@ -334,7 +334,7 @@ def page_figures(rows_dir, today, page_file):
     node = shutil.which("node")
     if not node:
         raise OSError("node is not installed: pass --page with the JSON site/scripts/datacenter-tracker-figures.mjs prints")
-    got = subprocess.run([node, os.path.join("scripts", "datacenter-tracker-figures.mjs"), rows_dir, today], cwd=SITE, capture_output=True, text=True, timeout=300)
+    got = subprocess.run([node, os.path.join("scripts", "datacenter-tracker-figures.mjs"), rows_dir, today], cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=300)
     if got.returncode != 0:
         raise OSError("the page's functions did not run: " + got.stderr.strip()[-400:])
     return json.loads(got.stdout)
@@ -366,6 +366,8 @@ def name_of(key):
 
 
 def main(argv):
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")   # names with accents print the same on every machine
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--rows", default=os.path.join(HERE, "rows"))
     ap.add_argument("--page")
