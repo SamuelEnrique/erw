@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: Winter Storm Elliott, December 2022, event elliott_2022 of event_window_daily (docs/methods/events.md):
@@ -76,6 +77,8 @@ export default function Elliott2022() {
     />
     {/* session 47: the event study */}
     <EventStudy event="elliott_2022" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
+    {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    <EventDecisions event="elliott_2022" />
     </div>
     </Brand>
   );
