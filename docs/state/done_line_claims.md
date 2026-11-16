@@ -18,7 +18,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 10 | `/map` | portable-laptop | done line (branch `wip/7601-map`, head `884c94071`, landing row 37 of `docs/state/landing_request_portable.md`) |
 | 11 | `/events` and its nine event pages | samueloldlaptop | claimed |
 | 12 | `/grid/caiso/alerts` | samueloldlaptop | done line (branch `wip/7532-caiso-alerts`, head `ac362d6f6`, landing row 30 of `docs/state/landing_request_oldlaptop.md`) |
-| 13 | `/learn/bill` | samueloldlaptop | claimed |
+| 13 | `/learn/bill` | samueloldlaptop | done line (branch `wip/7533-learn-bill`, head `09eafa96e`, landing row 31 of `docs/state/landing_request_oldlaptop.md`) |
 | 14 | `/learn/problems` | samueloldlaptop | claimed |
 | 15 | `/play/battery` | samueloldlaptop | claimed |
 | 16 | `/play/ev` | samueloldlaptop | claimed |
