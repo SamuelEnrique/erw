@@ -45,8 +45,12 @@ export const COMMON = [
   "avg_demand_growth_since_2019_pct", "peak_demand_growth_since_2019_pct", "ytd_avg_demand_growth_since_2019_pct", "avg_demand_growth_yoy_pct",
   "hours_used", "hours_in_year", "ytd_hours_used", "ytd_hours_in_window",
 ];
+/** Session 7517 (chain 304, part B): the peak window also reads the newest year's highest hour so far and its growth
+ *  on the highest hour of the same months of the base year (PJM's record of 2 July 2026 was in the table and not on the
+ *  page). No other window reads them. */
+export const PEAK_SO_FAR = ["ytd_peak_demand_mw", "ytd_peak_demand_growth_since_2019_pct"];
 export function variablesOf(w: Win): string[] {
-  return w.growthMw ? [...COMMON, w.mw, w.growth, w.growthMw] : COMMON;
+  return w.growthMw ? [...COMMON, w.mw, w.growth, w.growthMw] : w.slug === "peak" ? [...COMMON, ...PEAK_SO_FAR] : COMMON;
 }
 
 /** The label timestamp of a year, as the table writes it: the first day of the year. */

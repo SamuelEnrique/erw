@@ -115,7 +115,8 @@ class Table:
             return None, None
         held = self.v(e, var, y)
         pairs = {"avg_demand_growth_since_2019_pct": ("avg_demand_mw", BASE), "peak_demand_growth_since_2019_pct": ("peak_demand_mw", BASE),
-                 "ytd_avg_demand_growth_since_2019_pct": ("ytd_avg_demand_mw", BASE), "avg_demand_growth_yoy_pct": ("avg_demand_mw", y - 1)}
+                 "ytd_avg_demand_growth_since_2019_pct": ("ytd_avg_demand_mw", BASE), "avg_demand_growth_yoy_pct": ("avg_demand_mw", y - 1),
+                 "ytd_peak_demand_growth_since_2019_pct": ("ytd_peak_demand_mw", BASE)}
         if var in pairs:
             mw, y0 = pairs[var]
             a, b = self.v(e, mw, y), self.v(e, mw, y0)
@@ -166,7 +167,15 @@ def view(t, grid, w, arithmetic):
     s["h2.label"] = f"{cap(w['short'])}, {name}, {when(latest)}"
     s["h2.value"] = mw(e, w["mw"], latest)
     s["h2.unit"] = unit(e, w["mw"], latest, "MW")
-    s["h2.note"] = f"{BASE}: {with_mw(e, w['mw'], BASE)}"
+    # session 7517: in the year-so-far window the line under the second headline names the months too, as the first's does
+    s["h2.note"] = f"{BASE}{f', January to {month}' if w['newest'] and through else ''}: {with_mw(e, w['mw'], BASE)}"
+    # session 7517 (the note's figure 3a): in the peak window, the newest year's highest hour so far, its growth on the
+    # highest hour of the same months of 2019 (recomputed from the two MW rows) and that hour; no line without the row
+    if w["slug"] == "peak" and t.v(e, "ytd_peak_demand_mw", newest) is not None:
+        line = f"The highest hour of {ytd_words(newest)}: {with_mw(e, 'ytd_peak_demand_mw', newest)}"
+        if t.v(e, "ytd_peak_demand_growth_since_2019_pct", newest) is not None:
+            line += f", {g(e, 'ytd_peak_demand_growth_since_2019_pct', newest)} percent on the highest hour of the same months of {BASE} ({with_mw(e, 'ytd_peak_demand_mw', BASE)})"
+        s["peak.sofar"] = line + "."
     if w["change"]:
         s["h3.label"] = f"Change since {BASE}, {w['short']}, {name}, {when(latest)}"
         s["h3.value"], s["h3.unit"] = g(e, w["change"], latest), unit(e, w["change"], latest, "MW")

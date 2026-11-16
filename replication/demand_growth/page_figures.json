@@ -1,11 +1,11 @@
 {
  "_about": "The demand growth explorer (/explore/demand-growth): the page's own code drawn on the rows of eia930_demand_growth (site/scripts/demand-growth-figures.mjs) beside the replication (replication/demand_growth/replicate.py). Held here: every slot of the page as it opens, and the three headline numbers of each of the 312 views; the run itself compares every slot of every view.",
- "line": "/explore/demand-growth: 35936 of 35936 slots of text on 315 views equal the replication's (3275 distinct checked figures; 770 of 770 growth figures recomputed from the MW rows)",
+ "line": "/explore/demand-growth: 35943 of 35943 slots of text on 315 views equal the replication's (3296 distinct checked figures; 777 of 777 growth figures recomputed from the MW rows)",
  "table_rows_read": 3380,
  "year_to_date_through": "10/2026",
  "views": 315,
- "slots_all_views": 35936,
- "equal_all_views": 35936,
+ "slots_all_views": 35943,
+ "equal_all_views": 35943,
  "differences": [],
  "headline": [
   "1. ERCOT, average demand, growth 2019 to 2025, percent: 27.22 (2019: 43,797.6 MW; 2025: 55,717.2 MW)",

@@ -18,6 +18,7 @@
 //   bar2.<year>                                   the second chart's hover line, one a year
 //   bar3.<year>                                   the third chart's hover line, one a year
 //   year.<year>.label .mw .growth .yoy .used .hours   the grid's table year by year
+//   peak.sofar                                    the peak window's line under the headlines: the newest year's highest hour so far (session 7517)
 //
 // and, beside them, every checked number (its key, the value read, the text shown). A figure's sign is drawn outside
 // its checked span; a slot keeps it. replication/demand_growth/replicate.py sets these beside its own reading of the
@@ -146,6 +147,10 @@ async function main() {
       slots[`${k}.unit`] = unit ? text(unit[1]) : "";
       if (m[3] !== undefined) slots[`${k}.note`] = text(m[3]);
     });
+    // session 7517: the line under the headlines of the peak window, the newest year's highest hour so far (its sign
+    // and its bracket are drawn against their numbers)
+    const soFar = html.match(/<p[^>]*data-peak-so-far="1"[^>]*>([\s\S]*?)<\/p>/);
+    if (soFar) slots["peak.sofar"] = text(soFar[1]).replace(/\+ (?=[0-9])/g, "+").replace(/\( /g, "(").replace(/ ([,.)])/g, "$1");
     // the three bar charts' hover lines, one a group (and the order the headline chart's bars are drawn in)
     const charts = {};
     for (const m of html.matchAll(/<svg[^>]*data-bars="([^"]+)"[^>]*>([\s\S]*?)<\/svg>/g)) {
@@ -196,6 +201,10 @@ async function main() {
       no_window: (html.match(/data-no-window="1"/g) ?? []).length,
       not_held: (html.match(/>not held<\/span>/g) ?? []).length,
       decisions: (html.match(/data-decision="/g) ?? []).length,
+      // session 7517: where a forecast is held (the link and its tip), and the decisions' words on California's charging
+      forecast_link: decode(html.match(/<p[^>]*data-forecast-elsewhere="1"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"/)?.[1] ?? ""),
+      forecast_tip: text(html.match(/<span role="tooltip" id="tip-forecast-elsewhere"[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? ""),
+      against_sales: text(html.match(/<span class="block" data-decision-default="against-sales">([\s\S]*?)<\/span>/)?.[1] ?? ""),
       titles: [...html.matchAll(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/g)].map((m) => text(m[1])),
       chart_titles: [...html.matchAll(/<figcaption[^>]*><span class="font-serif text-xl text-accent">([\s\S]*?)<\/span>/g)].map((m) => text(m[1])),
       download: decode(html.match(/data-rows-download="[^"]+"[^>]*>[\s\S]*?<a href="([^"]+)"/)?.[1] ?? ""),

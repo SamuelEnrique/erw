@@ -1,4 +1,4 @@
-# ERW, the demand growth explorer: the page beside the replication (replication/demand_growth/replicate.py --write); 35936 of 35936 slots over every view; held here, the page as it opens and each view's three headline numbers
+# ERW, the demand growth explorer: the page beside the replication (replication/demand_growth/replicate.py --write); 35943 of 35943 slots over every view; held here, the page as it opens and each view's three headline numbers
 view,slot,page,replication,inside
 the page as it opens,bar1.CAISO,CAISO: +4.45 percent from 2019 to 2025,CAISO: +4.45 percent from 2019 to 2025,yes
 the page as it opens,bar1.CAISO.drawn,+4.45 | CAISO,+4.45 | CAISO,yes

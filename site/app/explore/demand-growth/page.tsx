@@ -152,9 +152,15 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
           note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {mw(e, win.mw, BASE)}; {latest ?? ""}: {mw(e, win.mw, latest)}</>} />
         <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={n(e, win.mw, latest)} unit={held(e, win.mw, latest) ? "MW" : undefined}
           tip={tipOf("mw", "the demand", e, win.mw, latest)}
-          note={<>{BASE}: {mw(e, win.mw, BASE)}</>} />
+          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {mw(e, win.mw, BASE)}</>} />
         <HeadlineNumber label={third.label} value={third.value} unit={third.unit} tip={third.tip} />
       </HeadlineRow>
+      {win.slug === "peak" && held(e, "ytd_peak_demand_mw", recent) ? (
+        <p className="mb-6 max-w-3xl text-sm" data-peak-so-far="1">
+          The highest hour of {ytdWords(recent)}: {mw(e, "ytd_peak_demand_mw", recent)}
+          {held(e, "ytd_peak_demand_growth_since_2019_pct", recent) ? <>, {n(e, "ytd_peak_demand_growth_since_2019_pct", recent, true)} percent on the highest hour of the same months of {BASE} ({mw(e, "ytd_peak_demand_mw", BASE)})</> : null}.
+        </p>
+      ) : null}
 
       <ChartFrame title={`The headline chart: growth since ${BASE} by grid, ${win.short}`}
         note={<>One bar a grid, at its {win.latest === "newest" ? "newest year, the year so far against the same months of " + BASE : "last whole year"}, largest first; {grid.name} is marked &quot;shown below&quot;. Each bar is one row of the table; its figure is in the table under the chart.{byGrid.some((x) => x.v === undefined) ? <> A grid without a bar has no row for this window{win.slug === "peak" ? " (the Lower 48 has no peak: the method note says why)" : ""}.</> : null}</>}>
@@ -229,6 +235,13 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
       <p className="max-w-3xl text-sm" data-related-view="1">
         The same table is drawn on <Link href="/demand">Demand growth</Link>, with the map of where the growth sits by month and hour of the day
         and a ranking of the grids; this explorer reads any grid in any window of the year, every figure checked against the live set.
+      </p>
+      <p className="mt-2 max-w-3xl text-sm" data-forecast-elsewhere="1">
+        The table holds no forecast. What the grid operators forecast, as the ERW holds it, is under Headroom on{" "}
+        <Link href="/cost-of-power?view=allgrids">All grids</Link>
+        <Tip id="forecast-elsewhere" label="what that tab holds, and how its demand growth differs from this page's">
+          ERCOT&apos;s firm peak for the coming summers from its capacity, demand and reserves report, CAISO&apos;s forecast peak from its summer assessment, and how each operator&apos;s forecast of its summer peak on FERC Form 714 moved between its last two filings. That tab&apos;s demand growth is another figure from this same table: the mean of the last twelve months over the twelve before. This page&apos;s &quot;on the year before&quot; is one calendar year over the one before, so the two differ for the same grid. The peaks of the last whole year are the same rows on both.
+        </Tip>
       </p>
       <DemandGrowthDecisions />
     </>
