@@ -6,6 +6,7 @@ import { Nav } from "@/components/Nav";
 import { GateRestore } from "@/components/GateRestore";
 import { Usage } from "@/components/Usage";  // session 177: the usage counts, with no cookie (docs/methods/usage_counts.md)
 import { ScrollRegions } from "@/components/ScrollRegions";  // session 412: a scrolling table is one stop of the keyboard (WCAG 2.1.1)
+import { TipPlace } from "@/components/largeload/TipPlace";  // session 7600: an open hover's box is kept inside the window
 import "./globals.css";
 
 const body = Inter({ variable: "--font-body", subsets: ["latin"] });
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <GateRestore />
         <Usage />
         <ScrollRegions />
+        <TipPlace />
         <footer className="border-t border-rule">
           <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted">
             Every number on this site is read from the ERW tables and names the table it came from. Public tables only.{" "}

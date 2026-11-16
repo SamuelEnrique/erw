@@ -9,7 +9,6 @@
 // shown is lib/largeloadrules.ts, tested by scripts/test-large-load-rules.mjs.
 import { useMemo } from "react";
 import { Blank, Tip } from "@/components/largeload/parts";
-import { TipPlace } from "@/components/largeload/TipPlace";
 import { Download } from "@/components/largeload/Download";
 import { SiteLink } from "@/components/SiteLink";
 import { LAWS_ANCHOR, LAWS_CSV_NAME, LAWS_TABLE, LAW_CSV_COLS, LAW_STATUSES, LAW_STATUS_TIP, LICENSE_NEEDED, NOT_SHOWN, cut, dateWords, lawSearchOf, lawStatusTip, lawsCsv, pythonReader, requirementsOf, rulesHref, stataReader, statusDateWords,
@@ -120,8 +119,6 @@ export function StateLaws({ file, states, clearStates }: { file: LawsProp; state
           {" "}A state named with nothing after it: <Tip tip="No law or bill on large loads was found where the ERW searched. It is not proof that none exists: each state's hover says what was searched.">none found where searched</Tip>.
         </p>
       ) : null}
-      {/* session 7600: this block's hovers, placed against the window (the table scrolls sideways in its frame) */}
-      <TipPlace />
     </section>
   );
 }

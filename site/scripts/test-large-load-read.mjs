@@ -56,7 +56,20 @@ const placer = src("../components/largeload/TipPlace.tsx");
 ok(/^"use client";/.test(placer) && placer.includes("placeTip(") && placer.includes('"pointerover"') && placer.includes('"focusin"') && placer.includes('position = "fixed"'), "rows 1 and 2: the placer sets the open box against the window on a hover and on a focus");
 ok(placer.includes('"scroll"') && placer.includes("inBox(e.target)"), "the box follows its trigger when the page or a table's frame scrolls, and the box's own scroll moves nothing");
 const sectionHtml = renderToStaticMarkup(h(LargeLoadSection, { q: { llrow: "ercot:LZ_AEN" }, x: X ?? S.DEFAULT_INPUTS ?? {} }));
-ok(src("../app/cost-of-power/LargeLoadSection.tsx").includes("<TipPlace />") && src("../app/policy/StateLaws.tsx").includes("<TipPlace />"), "the placer is on both pages: under the All grids tab and in the laws of the policy monitor");
+const layout = src("../app/layout.tsx");
+ok((layout.match(/<TipPlace \/>/g) ?? []).length === 1 && !src("../app/cost-of-power/LargeLoadSection.tsx").includes("<TipPlace />") && !src("../app/policy/StateLaws.tsx").includes("<TipPlace />"), "the placer is mounted once, in the site's layout, so it is on both pages (and on every page that draws the shared mark)");
+// the old laptop's rows 1, 7, 9, 10 and 12 (docs/state/browser_reads_wanted.md): the shared "i" mark's box, 288 px wide,
+// ran past a phone's screen from any mark right of the first 100 px, and the page scrolled sideways while it was open
+ok(/const TIP = "\[data-llr\] span\.tip, span\.tip\[data-tip\]";/.test(placer) && /const BOX = ':scope > \[role="tooltip"\]';/.test(placer), "the placer takes the large-load hovers and the site's shared mark, and no other");
+const shared = src("../components/tool/ToolPage.tsx");
+ok(/<span className="tip relative inline-block align-baseline" data-tip=\{id\}>\s*<button[^>]*aria-describedby=\{`tip-\$\{id\}`\}[\s\S]{0,200}<\/button>\s*<span role="tooltip" id=\{`tip-\$\{id\}`\}/.test(shared), "the shared mark is what the placer looks for: span.tip[data-tip], its button, and its box as a child");
+{
+  const phone = { width: 390, height: 844 }, mark = { left: 351, top: 400, right: 367, bottom: 416 };
+  const p = L.placeTip(mark, { width: 288, height: 120 }, phone);
+  ok(p.left + 288 <= 390 - 8 && p.left >= 8, `the shared mark at 351 px of a 390 px screen: its box stands at ${p.left} to ${p.left + 288} (it ran to 639)`);
+  const wide = L.placeTip({ left: 1031, top: 440, right: 1047, bottom: 456 }, { width: 288, height: 86 }, { width: 1265, height: 900 });
+  ok(wide.left + 288 <= 1265 - 8, `a mark in a page's right column at 1280 px: its box stands at ${wide.left} to ${wide.left + 288} (it ran to 1319, past the window)`);
+}
 
 // ---- row 3: a long address in a hover breaks; no sideways scroll bar in the box
 const block = (re) => (css.match(re) ?? [""])[0];

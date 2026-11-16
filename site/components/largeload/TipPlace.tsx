@@ -10,12 +10,20 @@
 import { useEffect } from "react";
 import { placeTip } from "@/lib/largeloadrules";
 
-const TIP = "[data-llr] span.tip";
+// Which hovers it places. The large-load rules' (any tip inside [data-llr]), for which it was written; and, since the
+// same session read the old laptop's four pages at 390 px (docs/state/browser_reads_wanted.md, rows 1, 7, 9, 10 and 12),
+// the site's shared "i" mark (components/tool/ToolPage.tsx, Tip: span.tip[data-tip]). That mark's box is 288 px wide and
+// opened from the mark's left edge, so on a phone a mark right of the first 100 px had its box run past the screen and
+// the page grew a sideways scroll while it was open: every "Decisions on this page" fold did it, and at 1280 px so did a
+// mark in a page's right column. It is mounted once, in the site's layout. The All grids hub table's own tips (Tp,
+// placed by the tab's style sheet since session 714) and the charts' hovers are not its.
+const TIP = "[data-llr] span.tip, span.tip[data-tip]";
+const BOX = ':scope > [role="tooltip"]';
 
 export function TipPlace() {
   useEffect(() => {
     let open: HTMLElement | null = null;
-    const box = (tip: HTMLElement) => tip.querySelector<HTMLElement>(':scope > [role="tooltip"][data-tp]');
+    const box = (tip: HTMLElement) => tip.querySelector<HTMLElement>(BOX);
     const place = (tip: HTMLElement) => {
       const b = box(tip), trigger = tip.querySelector<HTMLElement>(":scope > button") ?? tip;
       if (!b) return;
@@ -24,11 +32,11 @@ export function TipPlace() {
       const size = b.getBoundingClientRect();
       if (!size.width || !size.height) return;                // not shown: nothing to place
       const p = placeTip(trigger.getBoundingClientRect(), { width: size.width, height: size.height }, { width: document.documentElement.clientWidth, height: window.innerHeight });
-      b.style.left = `${p.left}px`; b.style.top = `${p.top}px`; b.style.maxHeight = `${p.maxHeight}px`;
+      b.style.left = `${p.left}px`; b.style.top = `${p.top}px`; b.style.maxHeight = `${p.maxHeight}px`; b.style.overflowY = "auto";
       b.setAttribute("data-tp-placed", p.above ? "above" : "below");
       open = tip;
     };
-    const inBox = (t: EventTarget | null) => !!(t instanceof Element && t.closest('[role="tooltip"][data-tp]'));
+    const inBox = (t: EventTarget | null) => !!(t instanceof Element && t.closest('[role="tooltip"]'));
     const over = (e: Event) => {
       const tip = e.target instanceof Element ? e.target.closest<HTMLElement>(TIP) : null;
       // the mouse moving on into the open box itself (to scroll a long one) leaves it where it is

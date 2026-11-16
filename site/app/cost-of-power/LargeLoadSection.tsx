@@ -7,7 +7,6 @@
 import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { HeldCard, RuleCard, Tip } from "@/components/largeload/parts";
-import { TipPlace } from "@/components/largeload/TipPlace";
 import { LICENSE_NEEDED, CHANGES_ANCHOR, RULES_ANCHOR, RULES_TABLE, CHANGES_TABLE, LAWS_TABLE, RULE_STATUSES, STATUS_TIP, lawStates, lawsHref, lineOf, lines, rowRules, statesOf, statusWords, uniqueNames, type RowRules } from "@/lib/largeloadrules";
 import { GRID_NAMES, rowOf, rowUtilities, sitingHref, type Row, type SitingInputs } from "@/lib/siting";
 import { LARGE_LOAD, SITING_FILES } from "@/lib/sitingdata";
@@ -133,9 +132,9 @@ export function LargeLoadSection({ q, x }: { q: Record<string, string | undefine
         <SiteLink href={lawsHref()} gate="plain"><Num check="largeload|laws|public" raw={f.laws.length}>{f.laws.length}</Num> state laws and bills</SiteLink> on Policy ({LAWS_TABLE}).
       </p>
       {row ? <RowPanel r={row} x={x} /> : null}
+      {/* session 7600: this section's hovers, and the hub table's rule lines', are placed against the window by
+          components/largeload/TipPlace.tsx, mounted once in app/layout.tsx */}
       <LargeLoadRules opened={opened} address={sitingHref(x)} />
-      {/* session 7600: the hovers of this section and of the hub table's rule lines, placed against the window */}
-      <TipPlace />
     </section>
   );
 }
