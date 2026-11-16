@@ -128,6 +128,8 @@ part A, five parts). Model spend USD 0 (`ERW_SPEND_CAP_USD=0`; no model called).
 
 ### (b) Browser reads, rows 76 to 83
 
+| # | Asked (UTC) | Session | Branch (landing row) | Address | What to look at | What should be seen | State |
+|---:|---|---|---|---|---|---|---|
 | 76 | 2026-11-16 | 7531 | `wip/7531-events` (row 29) | `https://erw-flame.vercel.app/events` | The COVID-19 card; at 390 px | "Lower 48, deepest weekly drop from the week of 2020-03-22: license needed % against the same weeks of 2019, 2020-05-17" (the number held by the hold, fault 1); no sideways scroll | wanted |
 | 77 | 2026-11-16 | 7531 | `wip/7531-events` (row 29) | `https://erw-flame.vercel.app/events` | The fold "Decisions on this page (13)" under the Flex Alert section; open it; hover and tap an "i"; at 390 px | Closed to start; 13 lines; each tip shows "Default:", "Source:" and "Made in:", stays inside the screen at 390 px; the window line's tip lists the nine windows | wanted |
 | 78 | 2026-11-16 | 7531 | `wip/7531-events` (row 29) | `https://erw-flame.vercel.app/events/covid-2020` | The grey paragraph under the framing; the first chart's title and unit | "The baseline of the seven ISO grids is the mean of the same weekday of 2019 and of 2018 ..."; title "Weekly demand against the same weeks of earlier years, all grids"; unit "% vs baseline" | wanted |
@@ -139,6 +141,8 @@ part A, five parts). Model spend USD 0 (`ERW_SPEND_CAP_USD=0`; no model called).
 
 ### (c) Data requests, rows 49 and 50
 
+| # | Requested (UTC) | Session | Table or file | What, exactly | Source | State |
+|---:|---|---|---|---|---|---|
 | 49 | 2026-11-16 | 7531 (chain 304, samueloldlaptop; branch `wip/7531-events`) | `event_window_daily` (live set) | Say which build of `event_window_daily` the live set holds. The old laptop's copy is the build of 2026-10-19T09:43:29Z (run 20261019T094329Z, 29,953 rows, 484 of them held by grid), on which the replication passes 1,149 of 1,149 (1,176 before the held-row fix, which counts the held hubs' 27 figures and does not recompute them). If the live set holds another, load the build of 19 October or say what differs; then run `python replication/events/replicate.py --tables <dir>` on the live rows. No request to any publisher | `docs/reviews/events-faults-2026-11-16.md`, row 6 | requested |
 | 50 | 2026-11-16 | 7531 (chain 304, samueloldlaptop; branch `wip/7531-events`) | `noaa_isd_hourly`, `event_window_daily`, `event_study_estimates` | Only if Samuel approves the new pull (faults row 9): pull NOAA ISD hourly temperatures for the stations of the January 2025 cold, the June 2025 heat and the January 2026 cold (PJM PHL and ORD, MISO MSP, NYISO JFK, ISO-NE BOS, SPP OKC, ERCOT DFW and IAH) over each window and its baseline days, rebuild `event_window_daily` and `event_study_estimates`, load the first | NOAA NCEI ISD (public); `docs/methods/event_study.md`, "Temperature-controlled specification" | waiting for Samuel's ruling |
 

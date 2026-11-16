@@ -19,6 +19,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REP = os.path.join(ROOT, "replication", "problem_sets")
 SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
+# chain 370 (session 7050, the landing desk): the two replays import the site's packages (react); a checkout without
+# site/node_modules, as the landing gate's suite runs before npm ci, skips them as the other node-reading tests do
+REACT = os.path.isdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "site", "node_modules", "react"))
 DASH = chr(0x2014)
 
 
@@ -45,7 +48,7 @@ class TheReplication(unittest.TestCase):
         for v in ("2.08", "47.74", "1.12", "24.88", "73.06"):
             self.assertIn(v, do)
 
-    @unittest.skipUnless(NODE, "node is not installed")
+    @unittest.skipUnless(NODE and REACT, "node or the site's packages are not installed")
     def test_the_kept_figures_are_the_pages(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = os.path.join(tmp, "replay.json")
@@ -69,7 +72,7 @@ class TheReplication(unittest.TestCase):
         b2 = next(q for q in got["sets"]["prices-and-your-bill"]["questions"] if q["id"] == "b2")
         self.assertTrue(b2["q"].startswith("The table's public rows hold 4 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, SPP North hub."))
 
-    @unittest.skipUnless(NODE, "node is not installed")
+    @unittest.skipUnless(NODE and REACT, "node or the site's packages are not installed")
     def test_the_decisions_block(self):
         r = subprocess.run([NODE, "--import", "./scripts/problem-sets-register.mjs", "scripts/test-problem-sets-render.mjs"],
                            capture_output=True, text=True, cwd=SITE, timeout=300)

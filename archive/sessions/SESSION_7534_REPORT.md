@@ -122,6 +122,8 @@ Chain 304's second run (the owner's instruction of 16 November 2026), samueloldl
 
 ### (b) Browser reads
 
+| # | Asked (UTC) | Session | Branch (landing row) | Address | What to look at | What should be seen | State |
+|---:|---|---|---|---|---|---|---|
 | 106 | 2026-11-16 | 7534 | `wip/7534-learn-problems` (row 32) | `https://erw-flame.vercel.app/learn/problems/storage-and-taxes` | The fold "Decisions on this page" at the foot; hover and tap an "i"; at 390 px | Closed to start; 7 lines; each tip shows Default, Source and Made in, stays inside the screen at 390 px, no sideways scroll | wanted |
 | 107 | 2026-11-16 | 7534 | `wip/7534-learn-problems` (row 32) | `https://erw-flame.vercel.app/learn/problems` | The fold at the foot of the index | "Decisions on this page (15)"; 15 lines with tips; no sideways scroll at 390 px | wanted |
 | 108 | 2026-11-16 | 7534 | `wip/7534-learn-problems` (row 32) | `https://erw-flame.vercel.app/learn/problems/storage-and-taxes` | Question 1's words; question 5's words; open question 4's answer | "Over the seven latest days held (<first> to <last>)" with seven days; "(<n> Mcf a day over its <d> days)" with the month's days; the New Mexico step names "the rates the rules file states for 2026-04-01 to 2026-08-31 (TRD table)" | wanted |
