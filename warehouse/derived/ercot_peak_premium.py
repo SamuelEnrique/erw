@@ -132,9 +132,20 @@ def expected(start_local, end_local):
     return int((end_local.tz_convert("UTC") - start_local.tz_convert("UTC")) / pd.Timedelta("15min"))
 
 
+def ytd_cut(last_local, year):
+    """The local moment in `year` at the month, day and time of the last input interval (29 February falls back to the
+    28th's same time in a year without it): the end, inclusive, of that year's year to date."""
+    day = last_local.day
+    if last_local.month == 2 and day == 29 and not pd.Timestamp(f"{year}-03-01").is_leap_year:
+        day = 28
+    naive = pd.Timestamp(year=year, month=last_local.month, day=day, hour=last_local.hour, minute=last_local.minute)
+    return naive.tz_localize(TZ, ambiguous=True, nonexistent="shift_forward")
+
+
 def build(d, log):
     now_local = pd.Timestamp.now(tz=TZ)
     last = d["ts"].max()
+    last_local = last.tz_convert(TZ)
     annual, monthly = [], []
     d = d[d["local"].dt.year >= FIRST_YEAR]
     for hub, g in d.groupby("node"):
@@ -152,6 +163,13 @@ def build(d, log):
                 raise RuntimeError(f"{hub} {y}: {len(gy)} intervals, expected {full}")
             for var, (v, unit) in metrics(gy["value"].to_numpy(float), gy["local"].dt.hour.to_numpy()).items():
                 annual.append((hub, var, f"{y}-01-01T00:00:00Z", v, unit))
+            # session 7019 (chain 301, done-line request 36): the same metrics over 1 January 00:00 local to the local day
+            # and time of year of the last input interval, for every year, so the partial year has a like figure beside
+            # each earlier year (ytd_<variable>; for the newest year it is the year's own figure)
+            gt = gy[gy["local"] <= ytd_cut(last_local, y)]
+            if not gt.empty:
+                for var, (v, unit) in metrics(gt["value"].to_numpy(float), gt["local"].dt.hour.to_numpy()).items():
+                    annual.append((hub, f"ytd_{var}", f"{y}-01-01T00:00:00Z", v, unit))
             for m in range(1, 13):
                 gm = gy[months[years == y] == m]
                 ms = pd.Timestamp(f"{y}-{m:02d}-01").tz_localize(TZ)
@@ -241,6 +259,11 @@ def main():
                 "peak 16<=h<21; percentiles numpy default (linear); no cap or exclusion.",
                 f"Last input interval: {ip.utc_iso(last)}; the current year and month are partial "
                 "(n_intervals says how many intervals each period holds).",
+            ] + ([
+                "Year to date (session 7019): each ytd_<variable> is the same metric over 1 January 00:00 local to the local "
+                "month, day and time of the last input interval in that year (inclusive), so every year has a figure like "
+                "the partial year's; for the newest year it equals the year's own.",
+            ] if name == "ercot_peak_premium_annual" else []) + [
                 f"License: {license_}. A derived table inherits the most restrictive license of its inputs "
                 "(Decision 23).",
             ]
