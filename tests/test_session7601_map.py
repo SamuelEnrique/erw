@@ -187,16 +187,17 @@ class TheNoteAndThePage(unittest.TestCase):
     def test_the_decisions_are_the_notes_and_none_is_grey(self):
         page = src("site", "app", "map", "Decisions.tsx")
         keys = re.findall(r'\{ key: "([a-z-]+)", session: "', page)
-        self.assertEqual(len(keys), 11)
-        self.assertEqual(len(set(keys)), 11)
-        self.assertEqual(page.count("def: "), 12)       # the type's field and eleven decisions
-        self.assertEqual(page.count("source: "), 12)
+        # session 7537 (the read of 16 November): a twelfth, the distance from a point
+        self.assertEqual(len(keys), 12)
+        self.assertEqual(len(set(keys)), 12)
+        self.assertEqual(page.count("def: "), 13)       # the type's field and twelve decisions
+        self.assertEqual(page.count("source: "), 13)
         self.assertNotIn("text-muted", page, "what explains a line is in its hover: no grey text")
         self.assertIn("<strong>Default:</strong>", page)
         self.assertIn("<strong>Source:</strong>", page)
         note = src("docs", "methods", "map.md")
         table = note.split("## 14. The decisions of the tool")[1].split("## 15.")[0]
-        self.assertEqual(len(re.findall(r"(?m)^\| [A-Z]", table)) - 1, 11, "the note's table holds the same eleven choices")
+        self.assertEqual(len(re.findall(r"(?m)^\| [A-Z]", table)) - 1, 12, "the note's table holds the same twelve choices")
         self.assertIn("<MapDecisions />", src("site", "app", "map", "page.tsx"))
 
     def test_the_note_has_its_fifteen_sections_and_points_to_the_tables_notes(self):

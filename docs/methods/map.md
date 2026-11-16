@@ -74,6 +74,8 @@ A queue position's group is the table's `technology_group` (the grid operator's 
 
 Five lists (kind, grid, technology, status, state) and a size from and to. The address keeps the choice: `?kind=operating,planned&grid=ercot&tech=solar,battery&status=u,v&state=TX,CA&min=100&max=500`. A list is slugs with commas between them. A list that is absent or empty means every option; `none` means none; a slug the page does not know is passed over, and a list none of whose slugs is known means every option. A state's slug is its postal code; `na` is a row whose source names no state. A size is a number at or above zero; both ends are counted in (`min=100` keeps a unit of exactly 100 MW).
 
+Since session 7537 (the read of 16 November 2026, `docs/reviews/map-read-2026-11-16.md`), a point and a distance: `?at=32.4487,-99.7331&within=30`, typed in the panel as "Near a point" (latitude, longitude in decimal degrees, the form a web map copies) or set from a row's card ("Measure from this row"). Both are needed; one alone chooses nothing. A row is kept when the great-circle distance from the point to the row's own point, on a sphere of the Earth's mean radius (3,958.8 miles, the haversine formula), is at or under the distance. The row's own point is EIA's coordinates for a unit, the county's or the town's internal point for a queue position, the city's point for a datacenter (the file's precision code, drawn as "Placed at"): a queue position is kept when its county's point is inside, wherever its site is. A row with no point is left out once a distance is asked for. The point and the circle are drawn on the map.
+
 ## 9. The drawing
 
 The plane is the Albers projection the state outlines are drawn with (us-atlas: scale 1300, the centre at 487.5 and 305): the lower 48 in one conic equal-area projection, Alaska and Hawaii each in its own, in a box at the lower left. A row is drawn when its source gives a latitude and a longitude and the place falls inside one of the three boxes. Puerto Rico falls in none. The line under the map's heading counts the rows chosen that are not drawn; they are in the totals and the table. A unit is at EIA's own coordinates; a queue position at its county's or its town's point from the Census Bureau's gazetteer, not at its site (`energy_projects.md`, "Coordinates").
@@ -89,6 +91,8 @@ The plane is the Albers projection the state outlines are drawn with (us-atlas: 
 | The map | the count of rows drawn (its accessible name), and the count not drawn (section 9) |
 | By technology | for each technology group and each of the kinds chosen among operating, planned and queue: the count and the megawatts |
 | A mark's hover and a row's card | the row's own fields, as the file holds them |
+| The list under the map, when a point and a distance are chosen (session 7537) | every row chosen, nearest first (the file's order among equals; the nearest 1,000 drawn, the count of all given): miles to a tenth, name, kind, technology group, status, MW, the date and what it is (began operating, planned operation, entered the queue, planned year as stated), and "Placed at". ERCOT's queue status "completed" reads "Agreement signed, built or not": ERCOT's report has no status column (`energy_projects.md`, "ERCOT's 'Completed' is not ERCOT's word") |
+| The line on the queues drawn (session 7537) | when queue positions are chosen and a grid chosen has no queue position in the file: the grids whose queues the file holds and those it holds none of, read from the file's rows |
 
 ## 11. The file's own counts
 
@@ -133,6 +137,7 @@ Each is on the page, in "Decisions on this page", with its default and its sourc
 | A planned unit's status | EIA's own seven codes, not folded into "planned" and "under construction" | EIA, Form EIA-860 instructions; the owner's words of 8 October 2026 |
 | Where a queue position is drawn | Its county's, city's or town's internal point | U.S. Census Bureau, 2025 Gazetteer Files; no fuzzy matching (`energy_projects.md`, "Coordinates") |
 | A row with no megawatts and a size asked for | Left out | It cannot be said to fit a size |
+| A distance from a point (session 7537) | No point: every row; both ends counted in; a row with no point left out once a distance is asked for | The great-circle distance (haversine) on a sphere of 3,958.8 miles, from the row's own point: EIA's coordinates, the county's or town's point for a queue position, the city's point for a datacenter (`docs/reviews/map-read-2026-11-16.md`, row 1) |
 | Which datacenters are drawn | Those the tracker places in a US state | The map is of the United States (`datacenter_facilities.md`) |
 | Retired units | Not on the map | They are in `eia860m_retired_generators` |
 
