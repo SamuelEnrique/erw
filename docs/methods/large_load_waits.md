@@ -166,7 +166,7 @@ note give counts and days only. The table, the copies and the working files besi
 
 ## The public summary: `large_load_wait_summary` (session 7008)
 
-`warehouse/derived/large_load_wait_summary.py` writes one row a publisher, interval and figure, from `large_load_waits`: the requests with a row for the interval; those measured; the lower bounds (still waiting, or seen in two copies only) and the upper bounds, counted apart; and, where five or more are measured, the median of the shorter end and the median of the longer end of the measured ranges (a range of medians, never a midpoint). No request is named and no megawatt is given.
+`warehouse/derived/large_load_wait_summary.py` writes one row a publisher, interval and figure, from `large_load_waits`: the requests with a row for the interval; those measured; the lower bounds (still waiting, or seen in two copies only) and the upper bounds, counted apart; and, where five or more are measured, the median of the shorter end and the median of the longer end of the measured ranges (a range of medians, never a midpoint), written in months of 30.4375 days (the data standard's unit month, as `interconnection_durations` writes its waits) with the median in whole days in `x_days`. No request is named and no megawatt is given.
 
 Each row carries its publisher's verdict for derived statistics (`x_license`) and the words of the terms it rests on (`x_terms`):
 

@@ -13,8 +13,8 @@ For each publisher and interval (request to energized, request to a stage, and t
   measured            those labeled measured (both ends between dated copies)
   lower_bounds        those still waiting, or seen in two copies only: counted apart, never in a median
   upper_bounds        those whose end had come by the first copy that holds them
-  median_days_at_least, median_days_at_most
-                      over the measured requests only: the median of the shorter end of each range, and the median of
+  median_at_least, median_at_most
+                      in months of 30.4375 days (the standard's unit month), the days in x_days; over the measured requests only: the median of the shorter end of each range, and the median of
                       the longer end (a range of medians, never a midpoint); written only where five or more are
                       measured (the method's rule: a figure on fewer than five requests is its values, and a value would
                       describe a request)
@@ -68,7 +68,8 @@ VERDICTS = {
                      "permission"),
 }
 COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo", "source", "source_url", "retrieved_at",
-        "x_publisher", "x_interval", "x_license", "x_terms", "x_note"]
+        "x_publisher", "x_interval", "x_days", "x_license", "x_terms", "x_note"]
+MONTH_DAYS = 30.4375   # the unit month of the data standard (interconnection_durations writes its waits so)
 
 
 def slug(s):
@@ -99,7 +100,7 @@ def summarize(rows, now):
         upper = [r for r in g if r["label"] == "upper bound"]
         base = dict(ts_utc=f"{last[pub]}T00:00:00Z" if last.get(pub) else "", freq="", geo=geo, source=SOURCE,
                     source_url=METHOD_URL, retrieved_at=now, x_publisher=pub, x_interval=interval, x_license=lic,
-                    x_terms=terms, x_note="")
+                    x_terms=terms, x_note="", x_days="")
         ent = f"llwaitsum:{slug(pub)}:{slug(interval)}"
         for var, val in (("requests", len(ids)), ("measured", len({r['request_id'] for r in measured})),
                          ("lower_bounds", len({r['request_id'] for r in lower})),
@@ -108,10 +109,11 @@ def summarize(rows, now):
         lo = [num(r["days_at_least"]) for r in measured if num(r["days_at_least"]) is not None]
         hi = [num(r["days_at_most"]) for r in measured if num(r["days_at_most"]) is not None]
         if len(lo) >= MIN_MEDIAN and len(hi) >= MIN_MEDIAN:
-            out.append(dict(base, entity=ent, variable="median_days_at_least", value=statistics.median(lo), unit="days",
-                            x_note=f"median of the shorter end over {len(lo)} measured requests"))
-            out.append(dict(base, entity=ent, variable="median_days_at_most", value=statistics.median(hi), unit="days",
-                            x_note=f"median of the longer end over {len(hi)} measured requests"))
+            m_lo, m_hi = statistics.median(lo), statistics.median(hi)
+            out.append(dict(base, entity=ent, variable="median_at_least", value=round(m_lo / MONTH_DAYS, 2), unit="month",
+                            x_days=m_lo, x_note=f"median of the shorter end over {len(lo)} measured requests, {m_lo:g} days"))
+            out.append(dict(base, entity=ent, variable="median_at_most", value=round(m_hi / MONTH_DAYS, 2), unit="month",
+                            x_days=m_hi, x_note=f"median of the longer end over {len(hi)} measured requests, {m_hi:g} days"))
     return pd.DataFrame(out, columns=COLS)
 
 
@@ -138,8 +140,9 @@ def main(argv=None):
     pubs = s.drop_duplicates("x_publisher")
     header = [
         f"Energy Research Warehouse (ERW): how long large loads waited, by publisher and interval, from dated copies of their queues; no request named, no megawatt given (session 7008, chain 301)",
-        "Shape: series (docs/datastandard.md v0). entity llwaitsum:<publisher>:<interval>; variable requests, measured, lower_bounds, upper_bounds (count) and, where five or more are measured, median_days_at_least and median_days_at_most (days: the median of the shorter and of the longer end of the measured ranges, never a midpoint); ts_utc the publisher's latest dated copy; x_license and x_terms each publisher's verdict for derived statistics and the words it rests on.",
-        f"Derived from: large_load_waits ({len(rows):,} rows; {retrieved})",
+        "Shape: series (docs/datastandard.md v0). entity llwaitsum:<publisher>:<interval>; variable requests, measured, lower_bounds, upper_bounds (count) and, where five or more are measured, median_at_least and median_at_most (unit month, 30.4375 days, with the median in whole days in x_days: the median of the shorter and of the longer end of the measured ranges, never a midpoint); ts_utc the publisher's latest dated copy; x_license and x_terms each publisher's verdict for derived statistics and the words it rests on.",
+        "Derived from: large_load_waits",
+        f"Input: large_load_waits, {len(rows):,} rows ({retrieved})",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/large_load_wait_summary.py; no request, no model call",
         f"Method: {METHOD_URL} (\"The public summary\")",
         "Source: erw:large_load_wait_summary, the ERW's summary of large_load_waits (each publisher's dated copies in that table's header)",
