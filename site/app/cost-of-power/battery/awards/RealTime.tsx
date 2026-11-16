@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { kw, list, monthName, pct, span, usd, whole } from "@/lib/storageawards";
+import { SERVICE_FULL, kw, list, monthName, pct, span, usd, whole } from "@/lib/storageawards";
 import { BASIS_TABLE, RT_TABLE, rtAncillary, rtEnergy, rtTotal, type Basis, type RtMonth } from "@/lib/storagerealtime";
 
 // Session 120: the real-time side, one section added to /cost-of-power/battery/awards. What the fleet did in real time,
@@ -146,7 +146,7 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
             <h3 className="mb-2 font-serif text-lg">Real-time ancillary awards: held, and not valued</h3>
             <ToolTable caption="Ancillary service awards in real time and day-ahead, MW for an hour" minWidth={620}
               head={["Service", "Awarded in real time", "Awarded day-ahead", "Real time less day-ahead"]}
-              rows={anc.map((a) => ({ key: a.key, cells: [<span key="s" data-rt-service={a.key}>{a.label}</span>, mwh(a.realTime), mwh(a.dayAhead),
+              rows={anc.map((a) => ({ key: a.key, cells: [<span key="s" data-rt-service={a.key}>{SERVICE_FULL[a.key] ? <abbr title={SERVICE_FULL[a.key]}>{a.label}</abbr> : a.label}</span>, mwh(a.realTime), mwh(a.dayAhead),
                 <span key="i" data-rt-imbalance={a.key} data-rt-raw={a.imbalance}>{(a.imbalance > 0 ? "+" : "") + mwh(a.imbalance)}</span>] }))} />
             <p className="mt-3 max-w-3xl text-sm">Each figure is a MW awarded for an hour, added up over {span(ms.map((r) => r.m))}, {first.m === last.m ? "the month" : "every month"} held. Since 5 December 2025 ERCOT awards ancillary
               services in real time as well, at each dispatch run, and pays or charges a resource the difference between its real-time award and its day-ahead award at the service&apos;s real-time price.
@@ -177,6 +177,11 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               <p>{week ? <>One week is one week. It says which way the stand-in errs and roughly by how much in one week of early autumn;</>
                   : <>It is {nodeDays} days of one autumn. It says which way the stand-in errs and roughly by how much over those days;</>} it is not applied to any figure above, and nothing above is adjusted by it.
                 To value a disclosed day at its own node, the node prices have to be kept from the day they are posted, before the list drops them.</p>
+              {/* session 7514 (the read of 16 November 2026, row 4): where the page stops for a reader with two nodes in hand, and where the site goes on */}
+              <p data-rt-nodes-further="1">No settlement point is named on this page: the figures above are the {whole(basis.nodes)} points&apos; median and middle eight tenths. Each point by ERCOT&apos;s name, with its day-ahead price against
+                the hub and its four-hour swing over twelve months, is a row of <Link href="/cost-of-power?view=allgrids&rows=nodes">the ERCOT node list on the All grids tab</Link>, which can be searched by name. The storage
+                points&apos; day-ahead spread against the hub, month by month, is on <Link href="/cost-of-power/battery">the battery page</Link> under &quot;At its own node&quot;. Each point&apos;s own real-time spread over
+                the{nodeDays ? ` ${nodeDays}` : ""} days measured here is a row of the table <code className="font-mono">{BASIS_TABLE}</code> (the variable spread_node), which no page draws by point.</p>
             </div>
           )}
         </div>

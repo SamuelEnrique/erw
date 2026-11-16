@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  ENTITY, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf, kw, monthName, monthsOf, newestComplete, perKw,
+  ENTITY, INVENTORY_ENTITY, INVENTORY_TABLE, INVENTORY_VARIABLES, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf,
+  inventoryOf, kw, monthName, monthsOf, newestComplete, perKw, servicesOf,
   shortMonth, span, summary, whole, years,
   type Month, type Row,
 } from "@/lib/storageawards";
@@ -53,6 +54,13 @@ async function realTimeRows(): Promise<Row[]> {
 async function basisRows(): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BASIS_TABLE}`, entity: `eq.${BASIS_ENTITY}`,
     variable: `in.(${BASIS_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY);
+}
+/** Session 7514 (the read of 16 November 2026, row 5): the EIA's count of the batteries operating in ERCOT, the fleet
+ * the storage page draws, from the disclosure's first month on. It stands beside this page's MW in one hover; when it
+ * cannot be read the hover says so and every figure of the page is as it was. */
+async function inventoryRows(): Promise<Row[]> {
+  return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${INVENTORY_TABLE}`, entity: `eq.${INVENTORY_ENTITY}`,
+    variable: `in.(${INVENTORY_VARIABLES.join(",")})`, ts_utc: "gte.2025-12-01T00:00:00Z", order: "variable,ts_utc" }, HOURLY);
 }
 /** The model's rows the offers section sets beside the offers: from the offers table's first month on. */
 async function modelGapRows(from: string): Promise<Row[]> {
@@ -113,7 +121,7 @@ function MonthBars({ ms }: { ms: Month[] }) {
 const notHeld = <span className="text-muted">not held</span>;
 
 export default async function Awards() {
-  const [read, readModel, readOffers, readRt, readBasis] = await Promise.all([attempt(fleetRows), attempt(modelRows), attempt(offerRows), attempt(realTimeRows), attempt(basisRows)]);
+  const [read, readModel, readOffers, readRt, readBasis, readInventory] = await Promise.all([attempt(fleetRows), attempt(modelRows), attempt(offerRows), attempt(realTimeRows), attempt(basisRows), attempt(inventoryRows)]);
   const rtMonths = readRt.ok ? rtMonthsOf(readRt.data, readModel.ok ? readModel.data : [], MODEL_PREFIX) : [];
   const offers = readOffers.ok ? readOffers.data : [];
   const firstOffer = offers.reduce((a, r) => (a === "" || r.ts_utc < a ? r.ts_utc : a), "");
@@ -125,6 +133,8 @@ export default async function Awards() {
   const newest = newestComplete(ms);
   const sentence = summary(ms);
   const share = energyAwardShare(ms);
+  // session 7514: the EIA's count for the newest month held whole, the month of the page's sentence
+  const eia = readInventory.ok && newest ? inventoryOf(readInventory.data, newest.m) : null;
 
   return (
     <Brand>
@@ -140,7 +150,20 @@ export default async function Awards() {
           <InputPanel title="What is counted" note={<>The model of what one battery could make from these markets is on <Link href="/cost-of-power/battery">the battery page</Link>. This page changes nothing there.</>}>
             <ul className="list-disc space-y-1.5 pl-4 text-sm">
               <li><strong>The fleet.</strong> Every Energy Storage Resource in ERCOT&apos;s file for the month, one that was out or testing included.</li>
-              <li><strong>MW.</strong> The sum of each resource&apos;s highest limit (its High Sustained Limit) in the month.</li>
+              <li><strong>MW.</strong> The sum of each resource&apos;s highest limit (its High Sustained Limit) in the month.
+                {/* session 7514 (the read, row 5): the storage page draws another count of the same fleet; the two side by side, with what each counts */}
+                <Tip id="awards-mw" label="how this count differs from the storage page's">
+                  <span className="block" data-awards-inventory={eia ? eia.m : "none"}>The storage page (its build-out tab) counts this fleet another way: the EIA&apos;s monthly inventory (Form EIA-860M) of batteries
+                    their owners report operating, by nameplate.{" "}
+                    {eia && newest && newest.mw !== null ? (
+                      <>For ERCOT in {monthName(eia.m)} it lists <span data-awards-inventory-mw={eia.mw}>{whole(eia.mw)}</span> MW{eia.units !== null ? <> in {whole(eia.units)} generators</> : null}
+                        {eia.hours !== null ? <>, holding {eia.hours.toFixed(2)} MWh per MW</> : null}. ERCOT&apos;s file lists {whole(newest.mw)} MW{newest.resources !== null ? <> in {whole(newest.resources)} resources</> : null},{" "}
+                        <span data-awards-inventory-diff={newest.mw - eia.mw}>{whole(Math.abs(newest.mw - eia.mw))} MW {newest.mw >= eia.mw ? "more" : "less"}</span>: every resource with a row in the month, one that was
+                        out or testing included, at the highest limit it showed. Over the EIA&apos;s MW each per kW figure of {monthName(eia.m)} would be {Math.abs(Math.round((newest.mw / eia.mw - 1) * 100))} percent {newest.mw >= eia.mw ? "higher" : "lower"}.</>
+                    ) : !readInventory.ok ? <>Its figure could not be read here: {readInventory.reason}</>
+                      : <>The table {INVENTORY_TABLE} holds no figure for {newest ? monthName(newest.m) : "a month held whole here"}.</>}</span>
+                  <span className="block">Sources: ERCOT, 60-Day DAM Disclosure (NP3-966-ER), the column HSL; EIA, Form EIA-860M, as the table {INVENTORY_TABLE} holds it.</span>
+                </Tip></li>
               <li><strong>Energy.</strong> Each hour&apos;s awarded MW times the day-ahead price at the resource&apos;s own settlement point. A purchase, which is charging, is taken off.</li>
               <li><strong>Ancillary services.</strong> Each award times that service&apos;s clearing price for capacity.</li>
               <li><strong>Per kW.</strong> The month&apos;s sum over the fleet&apos;s MW. A resource with no award adds nothing to the sum and is still counted in the MW.</li>
@@ -178,7 +201,10 @@ export default async function Awards() {
                       `${r.daysHeld} of ${r.daysInMonth}`,
                       r.resources === null ? notHeld : whole(r.resources),
                       r.mw === null ? notHeld : whole(r.mw),
-                      kw(r.energy), kw(r.ancillary),
+                      kw(r.energy),
+                      // session 7514 (the read, row 1): the month's five services, which the page read and never drew, on the cell's hover
+                      servicesOf(r) === null ? kw(r.ancillary)
+                        : <span key="a" data-awards-services={r.m} title={servicesOf(r)!} className="cursor-help border-b border-dotted border-muted">{kw(r.ancillary)}</span>,
                       <span key="t" data-awards-total={r.m} data-awards-raw={r.total}>{kw(r.total)}</span>,
                       r.model === null ? notHeld : <span key="x" data-awards-model={r.m} data-awards-raw={r.model.total}>{kw(r.model.total)}{r.complete && r.model.whole ? null : <span className="block text-xs text-muted">{r.model.whole ? "whole month" : "the model's month is partial"}</span>}</span>,
                     ],
@@ -230,11 +256,12 @@ export default async function Awards() {
           )}
         </div>
       </div>
-      <SourceLine tables={[TABLE, MODEL_TABLE, OFFERS_TABLE, RT_TABLE, BASIS_TABLE]}
+      <SourceLine tables={[TABLE, MODEL_TABLE, OFFERS_TABLE, RT_TABLE, BASIS_TABLE, INVENTORY_TABLE]}
         note={<>The first table is derived by the ERW from ERCOT&apos;s 60-Day DAM Disclosure Reports (NP3-966-ER), the file 60d_DAM_ESR_Data, which ERCOT posts 60 days after each operating day; the second is the battery page&apos;s model. <Link href={METHOD}>Method</Link>.
           The third is derived from the same file&apos;s offer curves and from 60d_DAM_ESR_ASOffers. <Link href={OFFERS_METHOD}>Method</Link>.
           The fourth and fifth are derived from ERCOT&apos;s 60-Day SCED Disclosure Reports (NP3-965-ER), the file 60d_ESR_Data_in_SCED, and from its real-time Settlement Point Prices at Resource Nodes, Hubs
-          and Load Zones (NP6-905-CD). <Link href={RT_METHOD}>Method</Link>.</>} />
+          and Load Zones (NP6-905-CD). <Link href={RT_METHOD}>Method</Link>.
+          The sixth is the EIA&apos;s monthly inventory of batteries (Form EIA-860M), read for the one hover that sets its count of ERCOT&apos;s fleet beside this page&apos;s MW.</>} />
       {/* session 7505 (chain 304): the decisions on the page, at its foot as the battery page carries them; each choice's default and source on hover */}
       <AwardsDecisions />
     </ToolPage>
