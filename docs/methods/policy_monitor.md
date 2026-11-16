@@ -538,6 +538,17 @@ owner, not pulled):
 | BOEM lease sales' results (the bids) | the Register prints the notices of sale, not the results | BOEM's lease sale statistics pages |
 | Virginia's commission | paused: its robots file disallows every automated request | none while the pause stands |
 
+**The replication (session 7006).** `replication/policy/replicate.py` groups the documents of `policy_actions` into
+records by this section's words alone (and the same-day RIN split of session 7002), and recomputes each record of
+`monitor.json`: its documents, count, dates, body, title, instrument, status, significance and the sector of the
+document that has it, every step, the next step, the figure, the sources, and the documents of the plain read and the
+significance. On 16 November 2026 it found one fault (row 32 of the review): 27 DOE releases kept from earlier runs
+carry no fields in the table, and the file derived them as it was built; `policy_sources.fill_bare` now reads them from
+their own rows before the write. `replicate.do` rebuilds five document counts in Stata, its expected values at its top.
+Since session 7002 the file also carries `plain_doc` (the document a plain read is of) and `significance_doc` (the
+document that scored the highest significance, with the scorer's why), and 1,033 of 1,523 records hold dated steps,
+the fields of 1,792 documents read from their printed texts.
+
 ## 17. What chains 169 and 178 changed in the fields, and how well they hold (sessions 3122 to 3145)
 
 Section 14 describes the fields as session 3056 wrote them. Since then:
