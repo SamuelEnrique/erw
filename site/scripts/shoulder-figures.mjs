@@ -111,9 +111,10 @@ async function main() {
     }
     // the months' hover lines: "July 2026: shoulder 5 hours; fleet covers 1.65"
     let monthsDrawn = 0;
-    for (const m of html.matchAll(/<title>([A-Z][a-z]+ \d{4}): shoulder ([^;]*?) hours; fleet covers ([^<]*)<\/title>/g)) {
+    // session 7512: the line also ends "; hours needed 3.66" (kept beside the two, for the replication and the read's test)
+    for (const m of html.matchAll(/<title>([A-Z][a-z]+ \d{4}): shoulder ([^;]*?) hours; fleet covers ([^;<]*)(?:; hours needed ([^<]*))?<\/title>/g)) {
       monthsDrawn++;
-      put(out.chart_month, `${g.entity}|${m[1]}`, { shoulder: m[2], covered: m[3] });
+      put(out.chart_month, `${g.entity}|${m[1]}`, m[4] === undefined ? { shoulder: m[2], covered: m[3] } : { shoulder: m[2], covered: m[3], needed: m[4] });
     }
     out.views.push({
       grid: v.grid, asked: v.month, drawn: drawnMonth, summary, keyed: keys.length, keys: v.month ? undefined : keys,

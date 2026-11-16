@@ -6,7 +6,8 @@ import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { GRIDS, TABLE, checkKey, choices, completeMonths, dayKey, dayName, hourName, monthName, monthOf, opening, shown, view, type Row, type View } from "@/lib/shoulder";
+import { GRIDS as BATTERY_GRIDS, DURATIONS } from "@/lib/batterystack";
+import { GRIDS, OTHER_SOURCE, TABLE, bothHold, checkKey, choices, completeMonths, dayKey, dayName, hourName, index, monthName, monthOf, notShown, opening, shown, sourceName, view, type Row, type View } from "@/lib/shoulder";
 import { ShoulderDecisions } from "./Decisions";
 import { shoulderRows } from "./read";
 
@@ -94,7 +95,8 @@ function MonthChart({ v }: { v: View }) {
       <path d={line("shoulder")} fill="none" stroke={COLOR.net_load} strokeWidth="2" />
       <path d={line("covered")} fill="none" stroke={COLOR.covered} strokeWidth="2" />
       {pts.map((p, i) => (p.month.endsWith("-01") ? <text key={p.month} x={x(i)} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{p.month.slice(0, 4)}</text> : null))}
-      {pts.map((p, i) => <rect key={`t${p.month}`} x={x(i) - 3} y={top} width={6} height={H - top - bot} fill="transparent"><title>{`${monthName(p.month)}: shoulder ${p.shoulder ? shown(p.shoulder.value) : "not held"} hours; fleet covers ${p.covered ? shown(p.covered.value) : "not held"}`}</title></rect>)}
+      {/* session 7512: the hover also gives the hours needed, so a month can be read beside the same month of another year without leaving the view */}
+      {pts.map((p, i) => <rect key={`t${p.month}`} x={x(i) - 3} y={top} width={6} height={H - top - bot} fill="transparent"><title>{`${monthName(p.month)}: shoulder ${p.shoulder ? shown(p.shoulder.value) : "not held"} hours; fleet covers ${p.covered ? shown(p.covered.value) : "not held"}; hours needed ${p.needed ? shown(p.needed.value) : "not held"}`}</title></rect>)}
       <text x={L} y={11} fontSize="11" fill="var(--color-muted)">hours</text>
     </svg>
   );
@@ -120,13 +122,25 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const href = (g: string, m: string) => `/shoulder?grid=${g}&month=${m}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
+  // session 7512 (the page read as its reader, docs/reviews/shoulder-read-2026-11-16.md): what the address asked for
+  // and is not held is said; California's two sources are set side by side over the months both hold; the price page
+  // is linked for the grid shown, with what it holds (lib/batterystack.ts, so the two pages cannot drift apart)
+  const asked = notShown(q, months, grid, month);
+  const otherGrid = GRIDS.find((g) => g.slug === OTHER_SOURCE[grid.slug]);
+  const both = otherGrid ? bothHold(rows, grid, otherGrid) : [];
+  const pair = otherGrid ? [grid, otherGrid].sort((a, b) => GRIDS.indexOf(a) - GRIDS.indexOf(b)) : [];
+  const ix = both.length ? index(rows) : null;
+  const pairViews = ix ? pair.map((g) => ({ g, at: (m: string) => ({ get: (variable: string) => ix.get(`${g.entity}|${variable}|${m}`) }) })) : [];
+  const priceGrid = grid.slug === "ercot" ? "ercot" : "caiso";
+  const priceHref = `/cost-of-power/battery?grid=${priceGrid}`;
+  const priced = BATTERY_GRIDS.filter((g) => g.ready && g.hub && g.from);
   return (
     <Brand>
     <ToolPage>
       <ToolHeader title="The shoulder hours"
         lead={<>Solar floods the middle of the day and demand peaks in the evening. Between them is a stretch this page calls the evening shoulder (its term,
           defined below, not an industry standard): how long it lasts, how much of it the batteries operating that month cover, and how many hours they would need
-          to cover all of it. California and Texas, on the average day of each month and on the ten worst days of each year. See also <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>,{" "}
+          to cover all of it. California and Texas, on the average day of each month and on the ten worst days of each year. See also <SiteLink href={priceHref}>what a battery earns</SiteLink>,{" "}
           <SiteLink href="/storage?tab=buildout">the storage build-out</SiteLink> and <SiteLink href="/curtailment">curtailment</SiteLink>.</>} />
       {grid.slug === "ercot" && month ? <AskErcotLink context={{ view: "/shoulder", title: "The shoulder hours", settings: { grid: "ERCOT", month } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -157,6 +171,11 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status"><span className="font-semibold">no data</span> for the shoulder hours: {read.ok ? `${TABLE} holds no month for ${grid.name}` : read.reason}</p>
           ) : (
             <>
+              {asked.map((a) => (
+                <p key={a.key} className="mb-4 max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" role="status" data-not-shown={a.key}>
+                  {a.words}{a.other ? <> {sourceName(a.other.grid)} holds it: <Link href={href(a.other.grid.slug, a.other.month)} className="text-accent" data-other-source={a.other.grid.slug}>{monthName(a.other.month)}, {a.other.grid.name}</Link>.</> : null}
+                </p>
+              ))}
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                 In {monthName(v.month)}, {grid.by}{grid.short}&apos;s evening shoulder lasted <V row={v.get("shoulder_hours")} /> hours, from <Hr row={v.get("shoulder_start_hour")} /> to{" "}
                 <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? " (midnight)" : ""}; its batteries could run <V row={v.get("fleet_hours")} /> hours at full power, covering <V row={v.get("shoulder_hours_covered")} /> of them.{" "}
@@ -179,7 +198,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 <ChartFrame title={`${grid.name}, ${monthName(v.month)}: MW by local hour`}
                   legend={[{ label: "Demand", color: COLOR.demand }, { label: "Net load (demand less solar and wind)", color: COLOR.net_load }, { label: "Solar", color: COLOR.solar },
                     ...(v.hasBattery ? [{ label: "Batteries (positive discharging)", color: COLOR.battery }] : [])]}
-                  note={<>The shaded band is the evening shoulder; the dashed line is net load&apos;s daily mean. Each hour is the mean of that hour over the month&apos;s <V row={v.get("days_held")} /> complete days.{v.hasBattery ? null : <> Battery output is not held for {grid.name} this month.</>}</>}>
+                  note={<>The shaded band is the evening shoulder; the dashed line is net load&apos;s daily mean, <V row={v.get("net_load_mean_mw")} unit="MW" />. Each hour is the mean of that hour over the month&apos;s <V row={v.get("days_held")} /> complete days.{v.hasBattery ? null : <> Battery output is not held for {grid.name} this month.</>}</>}>
                   <DayChart v={v} />
                 </ChartFrame>
               </ToolSection>
@@ -187,7 +206,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
               {/* session 7503: the heading names the grid's first month held; it said "since 2019" for CAISO's own data, held from June 2025 */}
               <ToolSection title={`By month since ${monthName(v.months[0] ?? v.month)}`}>
                 <ChartFrame title="The shoulder's length and the hours the fleet covers, hours" legend={[{ label: "Evening shoulder", color: COLOR.net_load }, { label: "Hours the fleet covers", color: COLOR.covered }]}
-                  note="The fleet covers the smaller of the shoulder's length and its own duration (its MWh over its MW). Hover for each month.">
+                  note="The fleet covers the smaller of the shoulder's length and its own duration (its MWh over its MW). Hover for each month: its shoulder, the hours covered and the hours needed.">
                   <MonthChart v={v} />
                 </ChartFrame>
               </ToolSection>
@@ -200,16 +219,20 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                   <HeadlineNumber label="Hours needed, second measure" value={<V row={v.get("shoulder2_hours_needed")} />} unit="hours"
                     note={<>At the fleet&apos;s power, to deliver the energy above the midpoint. The evening peak is <V row={v.get("evening_peak_mw")} unit="MW" /> at <Hr row={v.get("evening_peak_hour")} />.</>} />
                   <HeadlineNumber label={`The ten worst days of ${v.year.year}`} value={<V row={v.year.get("year_worst10_mean_shoulder_hours_needed")} />} unit={worstNeeded ? "hours needed" : undefined}
-                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> days (complete, of 24 hours, with a shoulder); the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>} />
+                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> days (complete, of 24 hours, with a shoulder); {v.year.get("year_worst10_mean_battery_hours")
+                      ? <>the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>
+                      : <span data-battery-hours="not held">the batteries&apos; output in those shoulders is not held for {grid.name} in {v.year.year}.</span>}</>} />
                 </HeadlineRow>
                 {v.worst.length === 0 ? (
                   <p className="max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" data-worst="none">The worst days of {v.year.year} are not held for {grid.name}: the table has no ranked day for it.</p>
                 ) : (
-                  <ToolTable caption={`${grid.name}: the ten days of ${v.year.year} with the largest evening shoulder`} minWidth={760}
-                    head={["Rank", "Day", "Above its mean, MWh", "Shoulder, h", "From", "Needed, h", "Second measure, h", "Needed (second), h", "Batteries discharged, MWh", "Batteries ran, h"]}
+                  <ToolTable caption={`${grid.name}: the ten days of ${v.year.year} with the largest evening shoulder`} minWidth={920}
+                    head={["Rank", "Day", "Above its mean, MWh", "Its mean net load, MW", "Evening peak, MW", "Shoulder, h", "From", "Needed, h", "Second measure, h", "Needed (second), h", "Batteries discharged, MWh", "Batteries ran, h"]}
                     rows={v.worst.map((w) => ({
                       key: w.day,
-                      cells: [<D key="r" row={w.get("worst_rank")} />, dayName(w.day), <D key="e" row={w.get("day_shoulder_mwh_above_mean")} />, <D key="h" row={w.get("day_shoulder_hours")} />,
+                      // session 7512: the day's own mean and its evening peak, so how deep the day was is read in MW beside its MWh
+                      cells: [<D key="r" row={w.get("worst_rank")} />, dayName(w.day), <D key="e" row={w.get("day_shoulder_mwh_above_mean")} />,
+                        <D key="mn" row={w.get("day_net_load_mean_mw")} />, <D key="pk" row={w.get("day_evening_peak_mw")} />, <D key="h" row={w.get("day_shoulder_hours")} />,
                         <D key="s" row={w.get("day_shoulder_start_hour")} hour />, <D key="n" row={w.get("day_shoulder_hours_needed")} />, <D key="h2" row={w.get("day_shoulder2_hours")} />,
                         <D key="n2" row={w.get("day_shoulder2_hours_needed")} />, <D key="b" row={w.get("day_battery_discharge_mwh")} />, <D key="bh" row={w.get("day_battery_hours")} />],
                     }))} />
@@ -237,6 +260,27 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 </div>
               </ToolSection>
 
+              {/* session 7512: California from its two sources, side by side over the months both hold. Each figure is a row of the table; nothing is computed */}
+              {pairViews.length ? (
+                <ToolSection title="California's two sources, side by side" id="two-sources">
+                  <p className="mb-3 max-w-3xl text-sm" data-two-sources={both.length}>
+                    Both sources hold {both.length} months, {monthName(both[0])} to {monthName(both[both.length - 1])}. A month of one source set beside a month of the other carries the difference shown here as well as the time between them.
+                    <Tip id="shoulder-two-sources" label="what is the same and what differs between the two sources">The battery fleet (EIA-860M) and the curtailment (CAISO&apos;s own count) are the same rows for both. Demand, solar and wind are each source&apos;s own: EIA-930&apos;s hourly values, and CAISO&apos;s own supply by fuel, where demand is the sum of its sources, imports and batteries included. Hours needed is the shoulder&apos;s energy over the same fleet, so it differs as the energy does.</Tip>
+                  </p>
+                  <ToolTable caption="California by EIA-930 and by CAISO's own data, the months both hold" minWidth={760}
+                    head={["Month", "Source", "Shoulder, h", "From", "Above mean, MWh", "Mean net load, MW", "Evening peak, MW", "Needed, h", "Needed (second), h"]}
+                    rows={both.flatMap((m) => pairViews.map(({ g, at }) => {
+                      const w = at(m);
+                      return {
+                        key: `${m}|${g.slug}`, highlight: g.slug === grid.slug && m === v.month,
+                        cells: [<Link key="m" href={href(g.slug, m)} className="text-ink" data-two-sources-row={`${g.slug}|${m}`}>{monthName(m)}</Link>, g.slug === "caiso" ? "EIA-930" : "CAISO's own data",
+                          <V key="h" row={w.get("shoulder_hours")} />, <Hr key="s" row={w.get("shoulder_start_hour")} />, <V key="e" row={w.get("shoulder_mwh_above_mean")} />,
+                          <V key="mn" row={w.get("net_load_mean_mw")} />, <V key="pk" row={w.get("evening_peak_mw")} />, <V key="n" row={w.get("shoulder_hours_needed")} />, <V key="n2" row={w.get("shoulder2_hours_needed")} />],
+                      };
+                    }))} />
+                </ToolSection>
+              ) : null}
+
               <div className="mb-8 border-t border-rule">
                 <Fold title="The definitions, exactly as computed">
                   <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
@@ -255,6 +299,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 </Fold>
                 <Fold title="What this cannot see">
                   <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
+                    {/* session 7512: the page holds no price and said so nowhere; the price page is named with what it holds, for the grid shown */}
+                    <li data-no-price={priceGrid}><strong>A price.</strong> The page counts hours and MWh, not what an hour of the evening is worth. What a battery of {DURATIONS.slice(0, -1).join(", ")} or {DURATIONS[DURATIONS.length - 1]} hours earned, month by month, is on <SiteLink href={priceHref}>what a battery earns</SiteLink>: {priced.map((g, i) => <span key={g.id}>{i ? "; " : ""}{g.name} at {g.id === "ercot" ? "its hub average" : `${g.hub}, one hub of the grid`} from {g.from}</span>)}. The months and hours here are the whole grid&apos;s.</li>
                     <li><strong>More than ten days a year.</strong> The worst days here are ranked by one measure, shoulder energy above the day&apos;s mean. A cloudy week or a calm evening that is hard for another reason is not singled out, and several bad days in a row are counted one by one.</li>
                     <li><strong>The transmission grid and local constraints.</strong> The figures are whole-grid; a battery in the wrong place cannot serve load behind a congested line.</li>
                     <li><strong>Capacity accreditation.</strong> What a grid counts a battery as for reliability is its own rule, not its MWh over its MW.</li>

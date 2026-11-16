@@ -69,6 +69,41 @@ export function choices(q: Record<string, string | undefined>, months: Record<st
   return { grid, month };
 }
 
+/** Session 7512 (the page read as its reader): California is two grids of the panel, one place from two sources. */
+export const OTHER_SOURCE: Record<string, string> = { caiso: "caiso-own", "caiso-own": "caiso" };
+/** How a grid is named with its source, in a sentence. */
+export const sourceName = (g: Grid) => (g.slug === "caiso" ? "CAISO by EIA-930" : g.slug === "caiso-own" ? "CAISO by its own data" : g.name);
+
+/** Session 7512: what the address asked for and the page does not hold, one line each, never replaced in silence (the
+ * rule of /cost-of-power/battery since session 263). Until then a month not held, or a grid not held, opened the
+ * grid's latest month, or ERCOT, with no word. `other` names California's other source when it holds the month asked. */
+export function notShown(q: Record<string, string | undefined>, months: Record<string, string[]>, grid: Grid, month: string | null): { key: string; words: string; other?: { grid: Grid; month: string } }[] {
+  const out: { key: string; words: string; other?: { grid: Grid; month: string } }[] = [];
+  if (q.grid !== undefined && !GRIDS.some((g) => g.slug === q.grid)) {
+    out.push({ key: "grid", words: `Grid: "${q.grid.slice(0, 24)}" is not held here (${GRIDS.map((g) => g.name).join("; ")} are), so ${grid.name} is shown.` });
+  }
+  const held = months[grid.slug] ?? [];
+  if (q.month !== undefined && month && !held.includes(q.month)) {
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(q.month)) {
+      out.push({ key: "month", words: `Month: "${q.month.slice(0, 24)}" is not a month as the address writes one (YYYY-MM), so ${monthName(month)} is shown.` });
+    } else {
+      const o = GRIDS.find((g) => g.slug === OTHER_SOURCE[grid.slug]);
+      const there = o && (months[o.slug] ?? []).includes(q.month) ? { grid: o, month: q.month } : undefined;
+      out.push({ key: "month", other: there,
+        words: `${monthName(q.month)} is not held for ${sourceName(grid)}, which holds ${held.length} months from ${monthName(held[0])} to ${monthName(held[held.length - 1])}, so ${monthName(month)} is shown.` });
+    }
+  }
+  return out;
+}
+
+/** Session 7512: the months two grids both hold, oldest first (California by EIA-930 and by CAISO's own data: six
+ * months of 2025). The page sets the two sources side by side over them; each figure is a row of the table. */
+export function bothHold(rows: Row[], a: Grid, b: Grid): string[] {
+  const of = (g: Grid) => new Set(rows.filter((r) => r.entity === g.entity && r.variable === "days_held").map((r) => monthOf(r.ts_utc)));
+  const inB = of(b);
+  return [...of(a)].filter((m) => inB.has(m)).sort();
+}
+
 export type Series = "demand" | "solar" | "wind" | "net_load" | "battery";
 export type View = {
   grid: Grid; month: string; months: string[];

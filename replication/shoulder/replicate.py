@@ -309,6 +309,8 @@ def compare(T, page):
         m = month_of_name(name)
         one(f"months|{entity}|shoulder_hours|{m}", "the months' chart, on hover", v["shoulder"], (entity, "shoulder_hours", m + "-01"))
         one(f"months|{entity}|shoulder_hours_covered|{m}", "the months' chart, on hover", v["covered"], (entity, "shoulder_hours_covered", m + "-01"))
+        if "needed" in v:        # session 7512: the hover line also gives the hours needed
+            one(f"months|{entity}|shoulder_hours_needed|{m}", "the months' chart, on hover", v["needed"], (entity, "shoulder_hours_needed", m + "-01"))
     for slug, entity, _ in GRIDS:
         ours = opening(T, entity)
         for v in page["views"]:
