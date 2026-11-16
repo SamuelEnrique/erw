@@ -420,6 +420,74 @@ ERCOT_HISTORY = "ercot_all_hub_prices_history"
 ERCOT_LIVE = {"ercot_dam": ("iso_dam_hub_prices", "ercot_dam_hub_prices"), "ercot_rtm": ("iso_rtm_hub_prices", "ercot_rtm_hub_prices")}
 ERCOT_TZ = "America/Chicago"   # a member is an operating year, ERCOT's local year
 APPEND_MARK = "Session 271: appended from the live window"
+NODE_TABLE = "ercot_rtm_node_prices"   # session 204: this machine's daily pull of NP6-905-CD, every settlement point
+NODE_MARK = "Session 7015: whole days filled from ercot_rtm_node_prices"
+
+
+def fill_from_nodes(log, run_id):
+    """Session 7015 (chain 301): a Central day of real-time hub prices that neither the history nor the live table holds,
+    taken from ercot_rtm_node_prices, which this machine pulls each day from the same ERCOT report (NP6-905-CD lists every
+    settlement point, the hubs among them; on 16 November 2026 the 24,750 hub intervals both tables held were equal to
+    the cent). A day is taken only when it is wholly absent and the node table holds every interval of it for every hub
+    the year's member holds; each row keeps its own source, source_url and retrieved_at. ERCOT lists the report for seven
+    days, so a day the runner missed (15 October, 5 to 8 November 2026) was otherwise lost. Returns the rows written."""
+    p = os.path.join(ip.OUT_DIR, NODE_TABLE + ".csv")
+    if not os.path.exists(p):
+        log(f"  {NODE_TABLE}: not on this machine; no day filled from it")
+        return 0
+    with open(p, encoding="utf-8") as f:   # its own reader: the table carries x_point_type beyond the series columns
+        skip = 0
+        for ln in f:
+            if not ln.startswith("#"):
+                break
+            skip += 1
+    n = pd.read_csv(p, skiprows=skip, dtype=str, keep_default_na=False)   # header lines by count, never comment=
+    n = n[n["entity"].str.startswith("ercot:HB_") & (n["variable"] == "spp_rtm") & (n["value"] != "")]
+    n = n.assign(value=n["value"].astype(float)).drop_duplicates(["entity", "ts_utc"])
+    if not len(n):
+        return 0
+    live_keys = set()
+    lp = os.path.join(ip.OUT_DIR, ERCOT_LIVE["ercot_rtm"][0] + ".csv")
+    if os.path.exists(lp):
+        lv = ip.read_series(lp)
+        lv = lv[lv["market"] == "ercot_rtm"]
+        live_keys = set(zip(lv["entity"], lv["ts_utc"]))
+    local = pd.to_datetime(n["ts_utc"], utc=True).dt.tz_convert(ERCOT_TZ)
+    n = n.assign(_day=local.dt.date.values, _year=local.dt.year.values)
+    added = 0
+    for y, g in n.groupby("_year"):
+        name = f"{ERCOT_LIVE['ercot_rtm'][1]}_{y}"
+        mp = os.path.join(ip.OUT_DIR, name + ".csv")
+        if not os.path.exists(mp):
+            log(f"  {name}: no member for {y}; no day filled from {NODE_TABLE}")
+            continue
+        held = ip.read_series(mp)
+        hubs = sorted(set(held["entity"]) & set(g["entity"]))
+        held_keys = set(zip(held["entity"], held["ts_utc"])) | live_keys
+        take = []
+        for day, gd in g[g["entity"].isin(hubs)].groupby("_day"):
+            start = pd.Timestamp(day).tz_localize(ERCOT_TZ)
+            end = pd.Timestamp(day + dt.timedelta(days=1)).tz_localize(ERCOT_TZ)
+            intervals = int((end.tz_convert("UTC") - start.tz_convert("UTC")) / pd.Timedelta("15min"))
+            if len(gd) != intervals * len(hubs) or set(gd["entity"]) != set(hubs):
+                continue
+            if any(k in held_keys for k in zip(gd["entity"], gd["ts_utc"])):
+                continue   # only a day wholly absent from both
+            take.append(gd)
+            log(f"  {name}: {day} filled from {NODE_TABLE} ({len(gd):,} rows, {len(hubs)} hubs)")
+        if not take:
+            continue
+        t = pd.concat(take, ignore_index=True)
+        t = t.assign(market="ercot_rtm", node=t["entity"].str.split(":").str[1])
+        with open(mp, encoding="utf-8") as f:
+            hdr = [ln[1:].strip() for ln in f if ln.startswith("#")]
+        hdr = [h for h in hdr if not h.startswith(NODE_MARK)] + [
+            f"{NODE_MARK}: a Central day neither this member nor iso_rtm_hub_prices held, taken whole from {NODE_TABLE} "
+            f"(the same ERCOT report, NP6-905-CD), each row's source, source_url and retrieved_at its own; newest run {run_id} "
+            f"(UTC) by warehouse/connectors/hub_history.py append-ercot. A workbook read later replaces them."]
+        ip.write_csv(t[ip.SERIES_COLS], name, hdr, log)
+        added += len(t)
+    return added
 
 
 def append_ercot(run=None):
@@ -464,10 +532,12 @@ def append_ercot(run=None):
                     f"warehouse/connectors/hub_history.py append-ercot. A workbook read later replaces them."]
                 ip.write_csv(g[ip.SERIES_COLS], name, hdr, log)
                 added += len(g)
+        filled = fill_from_nodes(log, run_id)
         if run(["build", "--family", ERCOT_HISTORY]) != 0:
             raise RuntimeError("consolidate.py build failed: the members stay in warehouse/output")
-        results.append(dict(table=ERCOT_HISTORY, market="all", status="ok", detail=f"{added} rows appended from the live window"))
-        print(f"hub_history append-ercot: {added:,} rows appended to {ERCOT_HISTORY}")
+        results.append(dict(table=ERCOT_HISTORY, market="all", status="ok",
+                            detail=f"{added} rows appended from the live window, {filled} filled from {NODE_TABLE}"))
+        print(f"hub_history append-ercot: {added:,} rows appended to {ERCOT_HISTORY}, {filled:,} filled from {NODE_TABLE}")
     except Exception:
         last = traceback.format_exc().strip().splitlines()[-1]
         log(f"FAILED: {last}")
