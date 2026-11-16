@@ -143,7 +143,7 @@ class TheReplication(unittest.TestCase):
         self.assertEqual(len(rows), j["figures"])
         self.assertEqual({r["queue"] for r in rows}, {"caiso", "ercot", "spp"})
         with open(os.path.join(SITE, "data", "license_status.json"), encoding="utf-8") as f:
-            lic = json.load(f)["tables"]
+            lic = json.load(f)["all"]
         for q in ("caiso", "ercot", "spp"):
             self.assertEqual(lic[f"{q}_interconnection_queue"]["status"], "public")
         for r in rows:
