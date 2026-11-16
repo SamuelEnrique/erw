@@ -6,3 +6,7 @@ States: `wanted`, `seen`, `fault`.
 
 | # | Asked (UTC) | Session | Branch (landing row) | Address | What to look at | What should be seen | State |
 |---:|---|---|---|---|---|---|---|
+| 1 | 2026-11-16 | 7502 | `wip/7502-severance` (row 17) | `https://erw-flame.vercel.app/severance` | The fold "Decisions on this page" above the downloads; hover and tap an "i"; at 390 px | Closed to start; 14 lines; each tip shows Default and Source, stays inside the screen at 390 px, no sideways scroll | wanted |
+| 2 | 2026-11-16 | 7502 | `wip/7502-severance` (row 17) | `https://erw-flame.vercel.app/severance` | New Mexico; choose "RIO ARRIBA, district 53, suffix 3920", then "SAN JUAN, district 06, suffix 4530" | The box keeps the name chosen each time; the ad valorem line shows 1.2395% then 1.3603%; Reset puts "Not chosen" back | wanted |
+| 3 | 2026-11-16 | 7502 | `wip/7502-severance` (row 17) | `https://erw-flame.vercel.app/severance?tab=lease` | "Try the sample"; the network panel; the fold at the foot | No request after the sample loads; the four totals (USD 114,457.19; 114,457.19; 18,942.53; 73.80); the fold under the tool | wanted |
+| 4 | 2026-11-16 | 7502 | `wip/7502-severance` (row 17) | `https://erw-flame.vercel.app/severance` | The price box and the line under it as the page opens | The latest complete month's mean of WTI Cushing, with its month and its count of days | wanted |

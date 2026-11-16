@@ -7,7 +7,7 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | # | Tool | Machine | State |
 |---:|---|---|---|
 | 1 | `/contracts` | samueloldlaptop | claimed |
-| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | claimed |
+| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | done line (branch `wip/7502-severance`, head `c247ad4e1`, landing row row 17 of `docs/state/landing_request_oldlaptop.md`) |
 | 3 | `/shoulder` | samueloldlaptop | claimed |
 | 4 | `/battery/customer` | samueloldlaptop | claimed |
 | 5 | `/cost-of-power/battery/awards` | samueloldlaptop | claimed |
