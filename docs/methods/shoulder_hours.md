@@ -101,3 +101,20 @@ Each number `/shoulder` shows carries its key (`site/components/Num.tsx`), which
 ## Checks against the table (session 2424)
 
 Counted from `warehouse/output` by `runs/c115/s2424/check_tables.py`: `shoulder_hours_monthly` 27,197 rows, January 2019 to 6 October 2026, 192 variables. By entity and freq: `iso:ercot` 11,891 monthly, 1,192 daily, 210 yearly; `iso:caiso` (EIA-930) 10,011, 995 and 189; `iso:caiso_own` (CAISO's own supply by fuel) 2,345, 312 and 52, the two California entities kept apart as the section on California's two sources says. Units MW, MWh, count, hour and ratio; geo US-TX and US-CA; no key given twice, every value a number. The table section's "`iso:ercot` or `iso:caiso`" predates `iso:caiso_own`, which the later section names. The Tables line was added so that the finder of held tables with no note sees it.
+
+## Two definitions to read the batteries by (session 7019, chain 301)
+
+**California's two demands differ by the batteries' charging.** `iso:caiso_own`'s demand is the sum of CAISO's own sources, a charging battery counted as a negative source, so it leaves the fleet's charging out; EIA-930's demand (`iso:caiso`) counts it. On the average day of each month both entities hold, the gap between the two demands beside what the batteries took in (the part of `iso:caiso_own`'s `avg_battery_mw_hHH` below zero, summed over the day), MWh:
+
+| Month | `iso:caiso` less `iso:caiso_own` | The batteries' charging |
+|---|---|---|
+| June 2025 | 40,282.0 | 40,957.4 |
+| July 2025 | 39,531.1 | 41,819.8 |
+| August 2025 | 42,465.6 | 42,432.8 |
+| September 2025 | 42,241.5 | 41,596.0 |
+| October 2025 | 40,950.7 | 44,433.5 |
+| November 2025 | 31,939.1 | 35,627.9 |
+
+No figure is wrong by the table's own rule: each entity is computed on its own definition of demand, and the two are not to be set side by side as one series. The register of source faults (`known_data_faults`) holds faults of a publisher's data only, so this difference of definitions is stated here and not there. A second set of variables, one entity on the other's definition, waits for the ruling named in done-line request 25 and for `wip/7503-shoulder`.
+
+**ERCOT's battery column changed meaning on 15 December 2025.** EIA-930's ERCO battery figure (Adjusted BAT Gen) holds discharge only from 23 October 2024 to 14 December 2025, never below zero, and output net of charging from 15 December 2025 (`known_data_faults`, `eia930_erco_battery_column_changes_meaning`). `iso:ercot`'s `avg_battery_mw_hHH`, `day_battery_discharge_mwh`, `day_battery_peak_mw` and `day_battery_hours` are therefore discharge before that day and net output after it, and December 2025's average day mixes the two. They are written as EIA publishes them; whether the months before should become a second variable is the owner's to rule (done-line request 6).
