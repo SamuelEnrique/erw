@@ -156,3 +156,29 @@ adds each source of session 165, its terms word for word, what was pulled and wh
 
 No request, project name or megawatt of a request of any publisher here is in a tracked file: the summary and this
 note give counts and days only. The table, the copies and the working files beside the table are on the data machine.
+
+## Brought current (session 7008, chain 301, 16 November 2026)
+
+- **Robots and terms read again first.** Robots files: NYISO, Grant County PUD, ERCOT and Bonneville answered 200, and no rule touches the paths read (ERCOT's disallows `/misapp` and `/misdownload`, which the connector never asks); the Internet Archive and Alberta's operator answered 404 (no file). No file names an AI agent. `--terms`: every quoted sentence of the Archive, Grant County PUD, ERCOT, Bonneville, Alberta and ISO New England still stands word for word (6 requests).
+- **The copies published since 9 October.** NYISO's workbook (one copy), Bonneville's workbook (one copy: it was not asked before this session, since the connector skipped an address it had saved; Bonneville publishes again at that one address, and it is now asked on every pull, as NYISO's is), and Alberta's lists of October and November 2026 (the connector took the newest month only, and now takes every month after the oldest held). Grant County PUD's page links the same queue file as on 9 October (dated 30 July 2026). ERCOT's committee pages list no status report newer than those held. The Internet Archive's listings were not asked again (the connector keeps a listing once; refreshing it would rewrite the saved listings): the copies since 9 October come from the publishers.
+- **The pull against this goal's ceilings** (300 requests, 1 GB): 6 robots files, 6 terms pages, 99 to the publishers (89 of them ERCOT's committee and meeting pages, back to 2022); about 7 MB. The connector's own ceilings across every session: 484 of 1,500 requests.
+- **Other publishers.** The research pass of 13 November (`docs/research/large_load/utilities_2026-11-13.csv`) read 122 rules; the 78 rows with a queue figure point to 43 documents, and none publishes a dated list of load requests with its own identifiers: each prints a total (MW requested or committed, or a count of requests). Those are kept as dated totals in `utility_large_load_queue_totals` (below), not followed.
+
+## The public summary: `large_load_wait_summary` (session 7008)
+
+`warehouse/derived/large_load_wait_summary.py` writes one row a publisher, interval and figure, from `large_load_waits`: the requests with a row for the interval; those measured; the lower bounds (still waiting, or seen in two copies only) and the upper bounds, counted apart; and, where five or more are measured, the median of the shorter end and the median of the longer end of the measured ranges (a range of medians, never a midpoint). No request is named and no megawatt is given.
+
+Each row carries its publisher's verdict for derived statistics (`x_license`) and the words of the terms it rests on (`x_terms`):
+
+| Publisher | Verdict | The words it rests on |
+|---|---|---|
+| New York ISO | internal | its legal notice confers no license (session 149) |
+| Grant County PUD | internal (unclear: the owner's question) | "All information collected at this Web site or through this Service becomes a public record that may be subject to inspection by the public unless an exemption in law exists." and "All Rights Reserved" |
+| Bonneville Power Administration | internal (unclear: the owner's question) | an agency of the United States government whose site states no terms of use; its privacy page only |
+| Alberta Electric System Operator (Canada) | internal | "The material may be used and copied for non-commercial, personal or educational purposes, provided that the material is not modified and that copyright notices are not deleted." "Any other use of this material without the AESO's written permission is prohibited." |
+
+So the table is internal until a person rules on Bonneville and Grant County PUD. The "Time to connect" column of the All grids tab can show its figures for a publisher once that publisher's rows are public (`docs/state/data_ready_c301.md`).
+
+## Dated totals: `utility_large_load_queue_totals` (session 7008)
+
+Written by `warehouse/connectors/large_load_research.py` from the research file's `queue_size` column: one row a utility (or commission) whose documents print a queue figure, the figure in the publisher's words with its cite (`x_figure`, `x_figure_cite`), dated by the first full date the figure's words print (24 of 34), else by the day read. A pointer to another row ("see row:"), "not published" and "no figure published" are not figures. Rows whose source asks written permission or allows personal use only (9) are not written and are named in the header with that reason. The figures are phrases (GW, MW, counts of requests or customers) and are never summed. Method of the research itself: `docs/research/large_load/README.md`; of the connector: `docs/methods/large_load_research.md`.

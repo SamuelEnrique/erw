@@ -31,3 +31,7 @@ Connector: `warehouse/connectors/large_load_research.py`. It reads the three fil
 
 - **Request row 17** (window A's operator documents that changed) and **rows 2 to 14** (changes to registry files) are edits of the registry, each its own session.
 - **Texas S.B. 6** is withheld by the research itself (its copy sits on a path capitol.texas.gov's robots file disallows) and is not in the laws file.
+
+## The queue totals (session 7008, chain 301)
+
+A fourth table, `utility_large_load_queue_totals`, from the same file's `queue_size` and `queue_size_cite`: one row a public row whose queue figure is printed (34 on 16 November 2026; 9 held for their source's terms). Its rules are in `docs/methods/large_load_waits.md`, "Dated totals".
