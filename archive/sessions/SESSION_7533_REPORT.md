@@ -64,8 +64,46 @@ Each with the default taken. The faults file has the detail.
 
 ## Test sweep
 
-(filled in below)
+- 55 files, each in its own process: all exit 0, 699 tests, 3 skipped by their own rules (`test_session298`, `465`, `7509`) and 8 in `test_session7518_interconnection_read` (its table is not on this copy). Among them `test_session43`, `52` and `288` (the hand-computed bills, `test-bill.mjs`), `335` (the note and the page), `215`, `315`, `329`, `382`, `4005`, `405`, `408`, `474`, `505`, `1855`, `1898`, `2200` to `2202` (they name `Num.tsx` and the holds), the decisions-block sweeps (`237`, `298`, `299`, `462`, `463`, `465`, `1743`, `7405`, `7501` to `7518`, `7601`), the four note sweeps (`142`, `147`, `158`, `160`), `409` (keys against notes), and `test_session7533_bill` (11, new).
+- A narrow type check: `tsc -p` on the page, `BillCalc.tsx`, `Decisions.tsx`, `lib/bill.ts`, `components/Num.tsx` and the problem sets' page, with what they import and the site's settings less Next's plugin. Exit 2, one message, about a file outside this change: `app/network/Network.tsx(253,70)`, no declaration for `three`. Nothing in the changed files. Not a build.
+- The branch merges with `origin/main` at `900fa95fc` with no conflict (`git merge-tree`). It is based on `64da63865`; the three commits of main since touch only the shared state files and a queue file, none of this branch's files.
 
 ## Rows for the coordinator
 
-(filled in below)
+### (a) Landing request (`docs/state/landing_request_oldlaptop.md`)
+
+| 31 | `wip/7533-learn-bill` | (the branch's tip; given in the session's return) | `7533-learn-bill` | 7533 | 2026-11-16 | `tests/test_session7533_bill.py` (11 passed) and `site/scripts/test-bill-render.mjs` (53 of 53, the page's parts drawn to HTML without a build); `bill-figures.mjs --check` (the whole page drawn on the committed rows, 439 figures as committed); 54 older test files that name the page, its library, its rules file, `components/Num.tsx` or the decisions blocks, or sweep the notes, each in its own process: all pass (699 tests in the 55 files); `check-methods.mjs` 544 of 544; `replication/bill/replicate.py`: 669 of 669 figures over 20 cases, exit 0; a narrow `tsc` with one message outside the change (`app/network/Network.tsx`, `three`); not built here (memory); `check-values` and `check-routes` not run | requested |
+
+## Row 31: what it holds (chain 304, session 7533, What is on an electricity bill at the done line)
+
+- **Stacked on** `64da63865` (origin/main of the morning). Six commits. Report: `archive/sessions/SESSION_7533_REPORT.md` on the branch.
+- **What changes:**
+  - `site/components/Num.tsx`, a shared component: `heldBy` for `bill|` keys only. A bill's total is never held, and its wholesale sum and share are held by its grid (`BILL_GRID`). Since 21 October the five cards of `/learn/bill` and the bill figures of `/learn/problems/prices-and-your-bill` printed "license needed"; they print numbers again. Every other key is untouched (the hold tests pass).
+  - `site/lib/bill.ts`: a computed kWh in a line's words is printed to a tenth (`kwhs`). The amounts are unchanged.
+  - `site/app/learn/bill/BillCalc.tsx`: an optional `first` prop, which the page does not pass, and the SCE summer line under the super off-peak share.
+  - `page.tsx`: one import and one mount of the new `Decisions.tsx` (14 choices, server-drawn words, no handler, no state, no request).
+  - `site/data/bill_rules.json`: version 2026-11-16.1, one rider's effective words; no rate changed.
+  - New: `docs/methods/bill.md` (a section added), `replication/bill/`, `site/scripts/bill-figures.mjs`, `site/scripts/test-bill-render.mjs`, `tests/test_session7533_bill.py`, `docs/reviews/bill-faults-2026-11-16.md`.
+- **What does not change:** the bills' arithmetic, every rate, the five defaults, `check-values.mjs` and its `bill|` keys, `lib/problems.ts`, `site/lib/release.ts`, every table and builder.
+- **Before landing:** a site build on the landing machine (the first whole build of `Num.tsx` with the change). `check-values` on `/learn/bill` and `/learn/problems/prices-and-your-bill`: the `bill|` keys come back as checked numbers. `check-methods.mjs` with a base URL.
+- **Snapshot differences to expect:** none on the 25 addresses (every page is in review; a visitor is shown the in-review page). With the review cookie: on `/learn/bill` the 15 card figures change from "license needed" to numbers, the fold is new, and two kWh words change in the calculator; on `/learn/problems/prices-and-your-bill` the bill figures change from "license needed" to numbers. **Tables:** none.
+- **After the landing:** rows 96 to 101 of `docs/state/browser_reads_wanted.md`. Row 69 of `docs/state/data_requests_done_line.md` is the data machine's and does not hold this row.
+
+### (b) Browser reads (`docs/state/browser_reads_wanted.md`)
+
+| # | Asked (UTC) | Session | Branch (landing row) | Address | What to look at | What should be seen | State |
+|---:|---|---|---|---|---|---|---|
+| 96 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/bill` | The five cards under "The default bills", at 1280 and 390 px | Each card has a number in "Total" (229.63, 224.76, 332.91, 95.27, 95.28 USD), in "Wholesale energy" and in its percent; "license needed" appears nowhere; hovering a number shows its source | wanted |
+| 97 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/problems/prices-and-your-bill` | The problems that use the two bills' totals, wholesale sums and shares | Numbers, not "license needed" | wanted |
+| 98 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/bill` | Build a bill: SCE, Season "Summer"; open "Baseline credit". Then SDG&E, type 333 in "Your baseline allowance"; open "Baseline credit" | "507 kWh within the Region 9 baseline at -$0.10099"; "432.9 kWh (up to 130 percent of your 333 kWh allowance) at -$0.10702"; no long decimals anywhere in the opened lines | wanted |
+| 99 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/bill` | Build a bill: SCE, switch Season between Summer and Winter, at 390 px | In summer a line under "Share in super off-peak hours" begins "Not billed in summer"; in winter it is gone; the field column does not run past the screen | wanted |
+| 100 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/bill` | The fold "Decisions on this page" above "Download the tables"; open it; hover and tap an "i"; at 390 px | Closed to start; 14 lines; each tip shows "Default:" and "Source:" and stays inside the screen; no sideways scroll | wanted |
+| 101 | 2026-11-16 | 7533 | `wip/7533-learn-bill` (row 31) | `https://erw-flame.vercel.app/learn/bill` | Build a bill: press each of the five bills, then "Reset this bill to its defaults" | Each bill's total equals its card's (PG&E 229.63, SCE 224.76, SDG&E 332.91, Oncor 95.27, CenterPoint 95.28) | wanted |
+
+### (c) Data request (`docs/state/data_requests_done_line.md`)
+
+| 69 | 2026-11-16 | 7533 (chain 304, samueloldlaptop; branch `wip/7533-learn-bill`) | `cost_of_power_monthly` (`warehouse/derived/cost_of_power.py`) | Last built 4 October 2026 (header: retrieved 20261004T022612Z); the live set holds the same rows, so on 16 November the latest complete month is September 2026 and October 2026 holds 48 hours. Rebuild it through October 2026, load it to the live set, and put it in the daily run if it is not there. `/learn/bill`, `/learn/problems`, `/cost-of-power` and `/grid` read it | `docs/reviews/bill-faults-2026-11-16.md`, row 5 | requested |
+
+### (d) Progress (`docs/state/progress_c304.md`)
+
+| 13 | `/learn/bill` | done (the branch's tip) on `wip/7533-learn-bill` (landing row 31). **The note:** `docs/methods/bill.md` completed, session 335's note kept. **The replication:** 669 of 669 figures over 20 cases (the page drawn whole on the live set's rows of `cost_of_power_monthly`, and the calculator for 19 cases, five of them the defaults and two EIA's 2024 average month); on origin/main 652 of 669. **The cross-check:** against EIA EPM Table 5.6.A (August 2026), EIA ESRAP 2024 Tables 5A and 6, and the PG&E and CenterPoint tariffs as posted on 16 November 2026. The Texas defaults equal EIA's average by construction (15.88 against 15.91 cents); PG&E 38.27 against 39.62; SDG&E 55.48 against 43.63 (no baseline credit by default). **The decisions block:** 14 choices. **Faults:** 15 found, 4 fixed (the five cards' 15 figures printed "license needed" since 21 October, here and on a problem set; floating-point kWh in two lines; the SCE summer super off-peak field moved nothing silently; a rider's label), 1 data machine (`cost_of_power_monthly` built 4 October, data request row 69), 10 rulings. Browser reads rows 96 to 101. Not read: Oncor (its robots file did not answer) | 7533 |
