@@ -4,7 +4,9 @@
 // section "The decisions on the page"); tests/test_session462.py and test_session463.py hold the two to one list. Words
 // only: nothing here is computed, and no figure of a page reads it. A choice is listed as the page makes it today; where
 // a later session changed an earlier one, the later is named.
-export type Decision = { key: string; text: string; session: string; ruling?: string };
+// Session 7402 (chain 303): `def` (the default the page stands on) and `source` (where the choice comes from), where a
+// list gives them, are drawn as a hover tip after the line; a list without them is drawn as before.
+export type Decision = { key: string; text: string; session: string; ruling?: string; def?: string; source?: string };
 
 /** /cost-of-power, "What a datacenter pays" (docs/methods/datacenter_pays_algorithm.md, section 12). */
 export const DATACENTER_DECISIONS: Decision[] = [
@@ -141,4 +143,118 @@ export const BATTERY_DECISIONS: Decision[] = [
     text: "The investment tax credit and the stress repeats are scenario assumptions, 0 by default." },
   { key: "grids", session: "sessions 86 and 89",
     text: "ERCOT and CAISO are open; NYISO and SPP are built and held in review until their licenses are answered; PJM, ISO-NE and MISO are not built, their prices needing a license." },
+];
+
+// Session 7402 (chain 303): the two trackers' decisions, in the same form, with two fields more: the default the page
+// stands on and the source of the choice, drawn as a hover tip after the line (components/tool/DecisionsBlock.tsx).
+// The lists are the choices that move the trackers' figures; each tracker's method note carries its list word for word
+// (docs/methods/datacenter_tracker.md, section 12; docs/methods/deal_tracker.md), held by tests/test_session7402_trackers.py.
+
+/** /datacenters, the datacenter power tracker (docs/methods/datacenter_tracker.md, section 12). */
+export const DATACENTER_TRACKER_DECISIONS: Decision[] = [
+  { key: "counted", session: "session 166",
+    text: "A sum counts a facility in a named US state whose status is not withdrawn; every other facility stays in the list and is in no sum.",
+    def: "The 50 states, the District of Columbia and Puerto Rico; a facility with no US state stated is left out, whether it is abroad or a US site whose source names no state.",
+    source: "No source the ERW reads records a country, so the state is the only test (docs/methods/datacenter_facilities.md, \"Country, and what the tracker's totals count\")." },
+  { key: "mw-stated", session: "sessions 16 and 22",
+    text: "Megawatts are only what a source states in words; a facility that states none is counted beside the sum, never added as zero and never estimated.",
+    def: "No estimate: most facilities state no MW, and the count that state it is printed beside every sum.",
+    source: "Session 16's ruling: nothing inferred beyond the stated words; each number is kept only where its quoted words are in the story or on the operator's page." },
+  { key: "mw-basis", session: "session 2236",
+    text: "A sum adds megawatts of every basis: IT load, a facility's total, one tenant's share, a phase, or a figure whose basis the words do not say.",
+    def: "One sum, with each row's basis shown in the list; most stated MW have no basis stated.",
+    source: "The basis is read from the story's own words (mw_basis, docs/methods/datacenter_projects.md); no public source gives a rule to convert one basis to another." },
+  { key: "mw-range", session: "sessions 15 and 22",
+    text: "Where the words give a range or a ceiling, the table keeps one number, the one read from the quoted words (\"up to 495 MW\" is 495); no midpoint is taken and no range is kept.",
+    def: "The number as read; no rule prefers the lower or the upper end.",
+    source: "The check of every number: it must be one of the numbers in the quoted words (warehouse/deals/extract.py, verified)." },
+  { key: "queue-mw", session: "session 22",
+    text: "An interconnection-queue position's megawatts are the generation or storage it asks to connect, not a datacenter's load: they are shown on the power side and are in no facility sum.",
+    def: "Never summed with the facilities.",
+    source: "The grid operators' queues are queues of generation (docs/methods/datacenter_facilities.md, \"Queue rows\")." },
+  { key: "status", session: "sessions 16, 17 and 166",
+    text: "A status is kept only where a source states it: planned is announced, applied or permitted; operating only where a story or the operator's page says so. Most operators' listed sites carry none, so the megawatts by status are not a measure of what is running.",
+    def: "No status is given to a facility whose sources state none.",
+    source: "Session 17's ruling: a status without its words is left empty; the entities vocabulary of docs/datastandard.md." },
+  { key: "grid", session: "sessions 2236 and 2243",
+    text: "A facility's grid is the grid operator a story names, else its queue position's, else the grid that serves most of its state; a state split between grids is given none.",
+    def: "Texas to ERCOT, California to CAISO, New York to NYISO, New England to ISO-NE, eight jurisdictions to PJM, five states to MISO, three to SPP; every other state to no grid.",
+    source: "A reading of the state, not a fact of the story; the basis is shown a row (grid_basis: named, queue or state)." },
+  { key: "one-facility", session: "session 22",
+    text: "Two rows are one facility when they share an operator and a place: the same state and the same county or city, or within 25 km. An operator's separately listed sites are never merged.",
+    def: "25 km; a row with only a state is never merged.",
+    source: "docs/methods/datacenter_facilities.md, \"Deduplication\"." },
+  { key: "by-operator", session: "session 240",
+    text: "The views by operator read the operator a source names; a facility whose sources name only a developer is in \"operator not stated\", which holds most of the megawatts stated.",
+    def: "The operator alone; the developer is shown in the facility's own row.",
+    source: "The warehouse's own rollup table reads the operator, else the developer (docs/methods/datacenter_tracker_rollups.md); whether the page should is the owner's to rule." },
+  { key: "ercot-words", session: "session 106",
+    text: "ERCOT's large loads are the figures its monthly report states in words, dated by the report's first page; nothing is read off a chart, and ERCOT's megawatts are never added to the facilities'.",
+    def: "Three figures a report: approved to energize, observed (each load's own peak), observed together.",
+    source: "ERCOT, Large Load Interconnection Status Update, 28 May 2025 to 19 June 2026 (docs/methods/ercot_large_load_status.md)." },
+  { key: "timeline", session: "sessions 2245 and 1855",
+    text: "The wait from first reported to energized is the difference of two stated years, only where a facility states both; a median needs three such facilities.",
+    def: "Whole years; no wait is estimated from one date.",
+    source: "The first story's date and the year a story says the facility is to be energized or come online (energized_year, else the older planned_year)." },
+  { key: "hold", session: "sessions 215 and 467", ruling: "the owner's ruling of 12 October 2026",
+    text: "From 21 October 2026 the facilities are held whole for a license; the page draws the hold's sentence where they would be, and the queue sites, ERCOT's section and the prices, which rest on public sources.",
+    def: "Held whole; no row is shown.",
+    source: "warehouse/metadata/license_status.csv: the news outlets' and the operators' terms ask for permission." },
+];
+
+/** /deals, the deal tracker (docs/methods/deal_tracker.md, section 11). Session 7405 (chain 303). The page's older
+ * list of every choice with its session (app/deals/Decisions.tsx, session 465) stays under this one. */
+export const DEAL_TRACKER_DECISIONS: Decision[] = [
+  { key: "a-deal", session: "sessions 15 and 2232",
+    text: "A deal is a named transaction between named parties that a scored news story reports. A plan or a pledge to invest, a seeking with no counterparty, a government's permission and an agreement between two governments are not deals.",
+    def: "The stricter list is applied to what is extracted since 6 November 2026; the rows extracted before it stand as the first prompt left them until they are read again.",
+    source: "The extraction's prompt (warehouse/deals/extract.py) and the audit of 6 November 2026 (docs/reviews/deals-audit-2026-11-06.md)." },
+  { key: "stated-only", session: "sessions 15 and 16",
+    text: "A size in MW, a sum in US dollars, a price and a term are kept only where the story's own words state them and parse to the same number; a figure no story states is \"not stated\", never zero and never an estimate.",
+    def: "Blank. A sum is over the deals that state the figure, with their count beside it.",
+    source: "Session 16's ruling: nothing inferred beyond the stated words (warehouse/deals/extract.py, verified)." },
+  { key: "one-deal", session: "sessions 113, 531 and 2233",
+    text: "Two stories of one deal are one row: the extraction joins a later story to the deal it already holds, the code joins the same type and parties within 30 days, and the register folds what is left. A folded pair is counted once in the tracker, the comparables, the AI view and the charts, as the row kept; the first tab lists every row.",
+    def: "The row kept stands as extracted, with the story links of both; a figure only the folded row states is not carried over.",
+    source: "warehouse/deals/dedupe.py and the register warehouse/deals/duplicates.csv, each pair with its reason." },
+  { key: "dollars", session: "sessions 15 and 1852",
+    text: "US dollars are a deal's own sum as stated: a purchase price, a financing or a contract's value. Another currency is never converted, a valuation or a company-wide investment is not the deal's, and no sum is drawn across every kind of deal.",
+    def: "No total over all deals; sums are by the kind of supply on the AI view.",
+    source: "The extraction's prompt and session 2271's rule for a contract's sum; deals faults row 5." },
+  { key: "price", session: "session 113",
+    text: "A price is a price in US dollars per MWh; a figure in another unit is shown as extracted and never converted.",
+    def: "Nothing converted; almost no story states a price.",
+    source: "warehouse/deals/fields.py, energy_price; the warehouse holds a story's title and a short summary, not its text." },
+  { key: "medians", session: "session 466",
+    text: "The comparables show a median only where three or more deals of a group state the figure; a deal that states none is left out of the median, never counted as zero.",
+    def: "Three deals.",
+    source: "site/lib/deals2.ts, medianOf; fewer than three would show one deal's terms as a market's." },
+  { key: "grid", session: "sessions 113 and 2238",
+    text: "The tracker, the comparables and the AI view read a deal's grid from the state a story names, for the states one grid operator mostly serves; the table's own Grid column reads a grid a story names first. No deal's point of delivery is held.",
+    def: "The state alone in the three views; most deals name no state and have no grid.",
+    source: "site/lib/deals2.ts, STATE_GRID; warehouse/deals/fields.py, grid_of." },
+  { key: "ai-power", session: "sessions 114, 2232 and 2270",
+    text: "A deal is tagged AI power where a named AI lab, hyperscaler or datacenter operator is a party, or the load it serves is a datacenter; AI named only as a motive does not tag it. The tag does not say the deal's asset is power: a funding round of an AI company is tagged too.",
+    def: "The tag as extracted; \"True\" and \"true\" are one flag.",
+    source: "warehouse/deals/fields.py, ai_of; the extraction's prompt." },
+  { key: "supply", session: "sessions 2240 and 1852",
+    text: "The kind of supply is the first of nuclear, gas, renewables and storage that the deal's kind or its technology's words say, then compute capacity, grid supply (a power purchase or an offtake with no technology stated), capital, and other. The two lists of ten leave out the capital deals.",
+    def: "A technology's word wins over the form of the deal.",
+    source: "site/lib/dealsai.ts, supplyOf; deals faults row 3." },
+  { key: "sure", session: "sessions 15 and 2251",
+    text: "\"Sure\" is the extraction's own confidence, from 0 to 1, that the row is a real, specific transaction with its fields right: 0.8 or more for a stated deal between named parties, under 0.6 where it is doubtful that there is a transaction. Every row is shown whatever its figure.",
+    def: "No floor: the table opens with every row.",
+    source: "The extraction's prompt, its confidence bands; whether the table should open at a floor is the owner's (deals faults row 16)." },
+  { key: "date", session: "sessions 15 and 49",
+    text: "A deal's date is the announced date where a story states it, else the day its first story was published (UTC); at the start of a month with no deal yet, the month's cells show the month before, labelled.",
+    def: "The first story's day for almost every deal.",
+    source: "warehouse/deals/extract.py, date_basis." },
+  { key: "coverage", session: "sessions 15 and 2247",
+    text: "The tracker holds what the news the ERW scores reported, from the title and a short summary of each story: its counts by month follow that coverage, not the market, and a deal only a filing or a press release describes is not here.",
+    def: "No source beyond the scored news.",
+    source: "docs/methods/energy_deals.md, \"What the extraction cannot see\"." },
+  { key: "hold", session: "sessions 215 and 465", ruling: "the owner's ruling of 12 October 2026",
+    text: "From 21 October 2026 the deals are held whole for a license: every view draws the hold's sentence and the count of rows it covers, and nothing of a row.",
+    def: "Held whole; no row is shown.",
+    source: "warehouse/metadata/license_status.csv: the outlets' own pages ask for permission." },
 ];

@@ -11,7 +11,7 @@ import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import type { EntityRow } from "@/lib/data";
 import { count } from "@/lib/format";
-import { cancelled, countryOf } from "@/lib/largeload";
+import { counted, firstReportedSince, topBlock, topRowOf, weekStart } from "@/lib/dctop";
 import { HeadlineNumber, HeadlineRow, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { DatacentersTable, type Facility } from "./DatacentersTable";
 import { facilityHref, facilitySite } from "@/lib/siting";
@@ -21,23 +21,18 @@ import { gridBasisOf, gridOf } from "@/lib/dcrollups";
 export function toFacility(r: EntityRow): Facility {
   const x = r.extra ?? {};
   return {
+    // session 7400: operator, site, state, country, mw, status and firstStory, the fields the page's sums read (lib/dctop.ts)
+    ...topRowOf(r),
     id: r.entity_id,
-    operator: r.operator ?? "",
     developer: x.developer ?? "",
-    site: x.site_name ?? r.name ?? "",
-    state: x.state ?? "",
     county: x.county ?? "",
     city: x.city ?? "",
-    country: countryOf(x.country, x.state),
-    mw: r.capacity_mw === null ? null : Number(r.capacity_mw),
     phase: x.phase ?? "",
-    status: r.status ?? "",
     plannedYear: x.planned_year ?? "",
     power: x.power_source ?? "",
     utility: x.utility ?? "",
     confidence: x.confidence ? Number(x.confidence) : null,
     placed: ["county", "place", "operator", "point"].includes(x.geo_precision ?? ""),
-    firstStory: x.first_story_at ?? "",
     storyUrls: (x.story_urls ?? r.source_url ?? "").split(";").filter(Boolean),
     kind: x.kind ?? "",
     kinds: (x.kinds ?? x.kind ?? "").split(";").filter(Boolean),
@@ -58,40 +53,16 @@ function sitingOf(state: string, county: string, mw: number | null): Facility["s
   return s ? { ...s, href: facilityHref(s, mw) } : null;
 }
 
-/** Session 166: the rows the totals and bars count: in a named US state, and not cancelled. */
-export const counted = (rows: Facility[]): Facility[] => rows.filter((f) => f.country === "US" && !cancelled(f.status));
+// Session 7400 (chain 303): the top block's arithmetic lives in lib/dctop.ts (topBlock), one pure function the page,
+// scripts/datacenter-tracker-figures.mjs and the replication read; these three names stay exported from here.
+export { counted, firstReportedSince, weekStart };
 
-const DAY = 86_400_000;
 const STATUS_WORDS = (s: string) => (s ? s.replace("_", " ") : "status not stated");
 const dayWords = (d: string) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
-/** Session 240: the first day of "this week": the seven UTC days that end on `today` (both included). */
-export const weekStart = (today: string): string => new Date(Date.parse(`${today}T00:00:00Z`) - 6 * DAY).toISOString().slice(0, 10);
-/** The facilities whose first story is dated in the week, newest first. The only date the table holds a facility by. */
-export const firstReportedSince = (rows: Facility[], start: string): Facility[] =>
-  rows.filter((f) => f.firstStory && f.firstStory.slice(0, 10) >= start).sort((a, b) => b.firstStory.localeCompare(a.firstStory) || a.operator.localeCompare(b.operator) || a.site.localeCompare(b.site));
-
 export function Body({ rows, today, children }: { rows: Facility[]; today: string; children?: ReactNode }) {
-  const inTotals = counted(rows);
-  const noCountry = rows.filter((f) => f.country !== "US").length;
-  const dropped = rows.filter((f) => f.country === "US" && cancelled(f.status)).length;
-  const withMw = inTotals.filter((f) => f.mw !== null);
-  const totalMw = withMw.reduce((a, f) => a + (f.mw ?? 0), 0);
-  const sumBy = (key: (f: Facility) => string, blank = false) => {
-    const m = new Map<string, number>();
-    for (const f of withMw) {
-      const k = key(f);
-      if (k || blank) m.set(k, (m.get(k) ?? 0) + (f.mw ?? 0));
-    }
-    return Array.from(m.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  };
-  const byState = sumBy((f) => f.state);
-  const byOperator = sumBy((f) => f.operator).slice(0, 5);
-  const byStatus = sumBy((f) => f.status, true);            // the megawatts by status, as the table has them (a blank status is "status not stated")
-  const noMw = inTotals.length - withMw.length;
-  const start = weekStart(today);
-  const fresh = firstReportedSince(rows, start);
-  const dated = rows.filter((f) => f.firstStory).length;
+  // session 7400: one computation, lib/dctop.ts (session 166's and 240's arithmetic, unchanged)
+  const { inTotals, noCountry, dropped, withMw, totalMw, noMw, byState, byOperator, byStatus, start, fresh, dated } = topBlock(rows, today);
   const bars = (list: [string, number][], key: string, max: number) =>
     list.length === 0 ? (
       <div className="text-sm text-muted">no data: no facility with a stated {key === "state" ? "state" : "operator"} states its MW</div>
