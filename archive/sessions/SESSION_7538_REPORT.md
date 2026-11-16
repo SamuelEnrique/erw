@@ -39,7 +39,7 @@ Branch `wip/7538-board-read` (worktree `C:\Users\lossa\Documents\erw-7538`, from
 
 ### (a) The landing request row (row 36)
 
-| 36 | `wip/7538-board-read` | `<head>` | `7538-board-read` | 7538 | 2026-11-16 | `site/scripts/test-board-read.mjs` (31 of 31, the board drawn whole on the site's file after the day's hold); `test-board-1116`, `1137`, `1193`, `1311` and `check-board.mjs --file` pass; 28 Python files naming `lib/board.ts` or `BoardView` (194 passed, 52 subtests) and the 6 naming the note (78 passed); `test-board.mjs` fails at line 87 on origin/main as well (19 ERCOT day-ahead rows, 6 expected: the load zones of session 1601), not this branch | requested |
+| 36 | `wip/7538-board-read` | `12c3b0fbb` | `7538-board-read` | 7538 | 2026-11-16 | `site/scripts/test-board-read.mjs` (31 of 31, the board drawn whole on the site's file after the day's hold); `test-board-1116`, `1137`, `1193`, `1311` and `check-board.mjs --file` pass; 28 Python files naming `lib/board.ts` or `BoardView` (194 passed, 52 subtests) and the 6 naming the note (78 passed); `test-board.mjs` fails at line 87 on origin/main as well (19 ERCOT day-ahead rows, 6 expected: the load zones of session 1601), not this branch | requested |
 
 ## Row 36: what it holds (chain 304, part C, session 7538, the price board read as a trader)
 
@@ -65,4 +65,4 @@ Branch `wip/7538-board-read` (worktree `C:\Users\lossa\Documents\erw-7538`, from
 
 ### (d) The progress line (part C of `docs/state/progress_c304.md`)
 
-| `/board` | lab-desktop | done `<head>` on `wip/7538-board-read` (landing row 36): the reader a power trader or fund analyst on 16 November 2026 checking the morning's prices against the day before and a year before; five cases (ERCOT Hub average against yesterday and a year ago; ERCOT North, CAISO SP15 and SPP North side by side; Henry Hub and the ERCOT spark spread; California's carbon against a year before, RGGI and the EUA; New York City and ISO-NE); the figures shared with `/grid` agree to the fourth decimal (eight daily means, four 30-day means, six peak and off-peak means); rows: 20 (6 site fixed, 5 data machine with requests 119 to 122, 3 browser 146 to 148, 3 rulings, 2 license, 1 key) | 7538 |
+| `/board` | lab-desktop | done `12c3b0fbb` on `wip/7538-board-read` (landing row 36): the reader a power trader or fund analyst on 16 November 2026 checking the morning's prices against the day before and a year before; five cases (ERCOT Hub average against yesterday and a year ago; ERCOT North, CAISO SP15 and SPP North side by side; Henry Hub and the ERCOT spark spread; California's carbon against a year before, RGGI and the EUA; New York City and ISO-NE); the figures shared with `/grid` agree to the fourth decimal (eight daily means, four 30-day means, six peak and off-peak means); rows: 20 (6 site fixed, 5 data machine with requests 119 to 122, 3 browser 146 to 148, 3 rulings, 2 license, 1 key) | 7538 |
