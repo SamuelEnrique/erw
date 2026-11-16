@@ -1,6 +1,18 @@
 # Where can a large load go: the All grids tab of "What a datacenter pays"
 
-Version 13, session 7201, 16 November 2026 (chain 302, `queue/done/302-day-16-november-oldlaptop-large-load-on-the-site.md`); version 12 was session 3802's, 12 November 2026 (chain 215); version 11 was session 3785's, the same day (chain 212); version 10 was session 2958's, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+Version 14, session 7203, 16 November 2026 (chain 302); version 13 was session 7201's, the same day (chain 302, `queue/done/302-day-16-november-oldlaptop-large-load-on-the-site.md`); version 12 was session 3802's, 12 November 2026 (chain 215); version 11 was session 3785's, the same day (chain 212); version 10 was session 2958's, 6 November 2026 (chain 157); version 9 was session 2923's (chain 153, `queue/done/153-day-8-november-data-large-load-continued.md`); version 8 was session 1081's, 23 October 2026 (chain 073, `queue/done/073-evening-23-october-code-allgrids-packages-3.md`); version 7 was session 1059's (chain 072), version 6 was session 1038's (chain 071), version 5 was session 973's (chain 065), version 4 session 784's (chain 064), version 3 session 762's (chain 063), version 2 session 740's (chain 062), version 1 session 712's (chain 050), version 0 session 700's. Internal: the tab is in review, like every page.
+
+## What version 14 changed (chain 302, session 7203, 16 November 2026)
+
+The tab was read for five cases as the energy lead of an AI lab would read it (`docs/reviews/allgrids-read-2026-11-16.md`, 17 rows). The site faults it found are fixed; each is held on the drawn tab by `site/scripts/test-allgrids-read.mjs` (25 checks).
+
+- **The energy cell names its market in place:** "da 37.21 rt 35.35". "Your load" opens on real time, so the same zone read 37.21 here and 35.35 there with nothing in the cell to say why. Market by market the two views agree to the last digit; the test holds four figures.
+- **The all-in hover says what is not modelled:** the prices are the market's as they were, and what a load of the reader's size would itself do to them is not in the figure.
+- **The transmission hover of a Texas row names the wires utilities' own lines** for the same load (Oncor, CenterPoint, AEP Texas, Texas-New Mexico Power, from `texas_delivery_charges` by the function "Your load"'s delivery table draws with), and says the figure drawn is the Commission's rate for every wires utility together. The all-in figure still counts the Commission's rate (the read's row 16, for a ruling).
+- **A grid's one row (PJM) is no place.** Its Utility hover says the county is the ERW's choice for the row (session 681's), not the row's place; both cells open the rules read across the grid, and the panel counts them by state, each a link to the table filtered by the grid and the state. The figure itself (one county's utility) is still drawn: dropping it is the builder's (`docs/state/data_requests_large_load.md`, row 23).
+- **A and B say how B less A is rounded** (each figure after the difference is taken, so it can stand a cent from the two drawn). The arithmetic is unchanged.
+- **A doubled word** in PJM's carbon hover is gone.
+- **No figure the tab drew before moved:** every `allgrids|` key and its value are as they were.
 
 ## What version 13 changed (chain 302, sessions 7200 and 7201, 16 November 2026)
 
