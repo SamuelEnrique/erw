@@ -51,7 +51,8 @@ const dec = renderToStaticMarkup(h(EvDecisions));
 check(new RegExp(`data-decision-count="${EV_DECISIONS.length}"`).test(dec) && EV_DECISIONS.length === 11, `the decisions fold lists ${EV_DECISIONS.length} choices`);
 check(EV_DECISIONS.every((d) => dec.includes(`data-decision-default="${d.key}"`) && dec.includes(`data-decision-source="${d.key}"`) && d.def && d.source), "each choice has its default and its source in its hover");
 check(!/<details[^>]*open/.test(dec), "the fold is closed to start");
-check(!/—/.test(dec) && !EV_DECISIONS.some((d) => /—/.test(d.text + d.def + d.source)), "no em dash in the fold");
+const EM = String.fromCharCode(0x2014);
+check(!dec.includes(EM) && !EV_DECISIONS.some((d) => (d.text + d.def + d.source).includes(EM)), "no em dash in the fold");
 check(/href="\/data\/methods\/ev_game"/.test(dec), "the fold links the method note");
 
 console.log(bad ? `${bad} failed` : "all passed");
