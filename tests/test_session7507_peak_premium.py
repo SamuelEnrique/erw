@@ -80,11 +80,16 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
 
     def test_every_view_draws(self):
         self.assertEqual(self.node.returncode, 0, self.node.stdout[-2000:] + self.node.stderr[-2000:])
-        self.assertEqual(len(self.page["views"]), 1 + 2 * 13 + 3)     # the opening, two hubs by thirteen periods, three more
+        # the opening, two hubs by thirteen periods, three more; since session 7516 the views with a second hub: the two
+        # ordered pairs, one pair by the twelve months, four more
+        self.assertEqual(len(self.page["views"]), 1 + 2 * 13 + 3 + 2 + 12 + 4)
         self.assertEqual(self.page["conflicts"], [])                   # no figure is shown two ways in two views
         for v in self.page["views"]:
             self.assertTrue(v["thesis_chart"], v["q"])
-            self.assertIn(v["keyed"] + v["not_held"], (64, 32), v["q"])   # two years, or one year alone
+            section = v["two_hubs"] is not None and v["two_hubs"]["table"]
+            self.assertEqual(section, bool(v["q"].get("vs")) and v["why"] not in ("the same hub twice", "a second hub the tables do not hold"), v["q"])
+            # two years, or one year alone; with a second hub, 13 figures more for each hub and year
+            self.assertIn(v["keyed"] + v["not_held"], (64 + 52, 32 + 26) if section else (64, 32), v["q"])
 
     def test_the_page_opens_on_the_thesis(self):
         v = self.view("the page as it opens")
@@ -101,7 +106,12 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
         m = re.search(r"(\d+) of (\d+) figures inside the tolerance", self.rep.stdout)
         self.assertTrue(m and m.group(1) == m.group(2) == "1431", self.rep.stdout[-600:])   # the distinct figures of the 30 views
         v = re.search(r"(\d+) of (\d+) views open as the note says", self.rep.stdout)
-        self.assertTrue(v and v.group(1) == v.group(2) == "30", self.rep.stdout[-600:])
+        self.assertTrue(v and v.group(1) == v.group(2) == "48", self.rep.stdout[-600:])
+        # session 7516: the section of two hubs and the marks of a partial period, by the note's section 10
+        s = re.search(r"(\d+) of (\d+) figures of the section of two hubs, in (\d+) views with a second hub", self.rep.stdout)
+        self.assertTrue(s and s.group(1) == s.group(2) == "780" and s.group(3) == "16", self.rep.stdout[-900:])
+        p = re.search(r"(\d+) of (\d+) periods that head a figure are written as the note says", self.rep.stdout)
+        self.assertTrue(p and p.group(1) == p.group(2) == "894", self.rep.stdout[-900:])
 
     def test_fault_1_a_price_always_has_two_decimals(self):
         prices = {k: x for k, x in self.page["keyed"].items() if "|n_" not in k}

@@ -15,7 +15,10 @@ draw, by the note's rules:
     worst-interval multiple is the 99.9th percentile over the median, the all-intervals minimum and maximum are the
     blocks', a complete year's count of intervals is 35,040 or 35,136), it is computed that way here and the row is
     held to it;
-  - the text: a price or a ratio with two decimals, a count whole, thousands with commas.
+  - the text: a price or a ratio with two decimals, a count whole, thousands with commas;
+  - since session 7516 (the note's section 10): for a view with a second hub (`vs`), the 13 figures of the section "Two
+    hubs side by side" for each hub and each period drawn, in the note's order, and its title, line and head; and for
+    every view the periods that head a figure, each with " (partial)" after it when the period is not over.
 
 and sets each beside what the page itself draws on the same rows (site/scripts/peak-premium-figures.mjs, run with node,
 or a file of its output). The tables' own rows are recomputed from ERCOT's 15-minute prices by from_hourly.py.
@@ -52,6 +55,9 @@ HEADLINES = ["peak_iqr", "peak_minus_midday_median", "all_median"]
 BLOCKS = ["overnight", "midday", "peak", "all"]
 STATS = ["min", "q1", "median", "q3", "max"]
 FIGURES = ["all_median", "all_p999", "worst_interval_multiple", "peak_iqr", "peak_minus_midday_median", "midday_min", "n_scarcity", "n_negative", "n_intervals"]
+# The note, section 10 (session 7516): the 13 figures of the section "Two hubs side by side", in the order drawn.
+SIDE = ["peak_median", "peak_q1", "peak_q3", "peak_iqr", "midday_median", "peak_minus_midday_median", "overnight_median",
+        "all_median", "all_p999", "all_max", "n_scarcity", "n_negative", "n_intervals"]
 COUNTS = {"n_scarcity", "n_negative", "n_intervals"}
 MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -193,10 +199,50 @@ def view(t, q):
     drawn = [(v, y) for (v, y) in keys if t.row(hub, v, y, month) is not None]
     marks = [f"{y} ({'not held' if not t.held(hub, y, month) else 'partial'})" for y in years if not t.held(hub, y, month) or t.partial(hub, y, month)]
     lo, hi = min(first, second), max(first, second)
+    # The note, section 10: a period that heads a figure is written "2025" or "August 2025", with " (partial)" after it
+    # when the first hub's count of intervals for it is short of the full period.
+    name = hub.split(":")[1]
+    when = lambda y: f"{MONTH_NAMES[month - 1]} {y}" if month else str(y)
+    mark = lambda y: when(y) + (" (partial)" if t.partial(hub, y, month) else "")
+    periods = {
+        "headline": [f", {name}, {mark(second)}"] * 3,                      # how each of the three headline labels ends
+        "under": [f"{mark(first)}:"] * 3 if first != second else [],       # the first year under each headline number
+        "cells": [mark(y) for _ in BLOCKS for y in pair],                  # the "Period" cell of each block and year
+        "thesis_head": ["Figure"] + [mark(y) for y in pair],
+    }
+    # The note, section 10: the second hub (`vs`). None by default; the same hub twice is none; one the annual table
+    # does not hold is none and the page says so. The section is drawn when the table holds a row of the second hub for
+    # the period in any year offered: 13 figures for each period drawn, the first hub then the second.
+    vs = q.get("vs") or None
+    if vs is not None and vs not in t.hubs:
+        unknown.append("second hub")
+        vs = None
+    if vs == hub:
+        vs = None
+    section = None
+    figures = [(key(v, y), hub, v, y, month) for (v, y) in drawn]
+    not_held = len(keys) - len(drawn)
+    if vs is not None:
+        vsname = vs.split(":")[1]
+        section = {"title": f"Two hubs side by side: {name} and {vsname}", "line": f"The same rows for each hub, {' and '.join(mark(y) for y in pair)}.",
+                   "head": ["Figure"] + [f"{n}, {mark(y)}" for y in pair for n in (name, vsname)], "keys": [], "figures": [], "not_held": 0,
+                   "table": any(t.held(vs, y, month) for y in years)}
+        if section["table"]:
+            for v in SIDE:
+                for y in pair:
+                    for e in (hub, vs):
+                        k = f"series|{table}|{e}|{v}|{y}-{month or 1:02d}-01T00:00:00Z"
+                        if t.row(e, v, y, month) is None:
+                            section["not_held"] += 1
+                        else:
+                            section["keys"].append(k)
+                            section["figures"].append((k, e, v, y, month))
+        figures = figures + section["figures"]
+        not_held += section["not_held"]
     return {
-        "hub": hub, "month": month, "first": first, "second": second, "unknown": unknown, "marks": marks,
-        "keys": [key(v, y) for (v, y) in drawn], "figures": [(key(v, y), hub, v, y, month) for (v, y) in drawn],
-        "not_held": len(keys) - len(drawn),
+        "hub": hub, "vs": vs, "month": month, "first": first, "second": second, "unknown": unknown, "marks": marks,
+        "keys": [k for (k, _, _, _, _) in figures], "figures": figures,
+        "not_held": not_held, "periods": periods, "section": section,
         "download": f"/api/download?table={table}&entity={hub.replace(':', '%3A')}&start={lo}-01-01&end={hi + 1}-01-01",
     }
 
@@ -279,6 +325,7 @@ def main(argv):
     newest = last_input(t.annual_header)
     bad_views, bad_figures, figures, rules = [], [], {}, {}
     expected_keys = set()
+    n_marks = bad_marks = n_sections = n_side = bad_side = 0
     for pv in page["views"]:
         v = view(t, pv["q"])
         why = []
@@ -309,6 +356,44 @@ def main(argv):
                 why.append(f"the freshness of {fr['table']} is not the catalogue's")
         if cat and len(pv.get("fresh", [])) != 2:
             why.append("the freshness line does not name both tables")
+        # session 7516: the second hub's filter, the periods that head a figure with their marks, and the two-hub section
+        if f.get("vs", {}).get("chosen") != (v["vs"] or "") or f.get("vs", {}).get("options") != len(t.hubs):
+            why.append(f"second hub drawn {f.get('vs', {}).get('chosen')!r} among {f.get('vs', {}).get('options')} choices, by the note {v['vs']!r} among none and the {len(t.hubs) - 1} other hubs")
+        p, sec, drawn_sec, tables = v["periods"], v["section"], pv.get("two_hubs"), pv.get("tables", [])
+        pairs = list(zip(pv.get("headline_labels", []), p["headline"])) if len(pv.get("headline_labels", [])) == 3 else [(None, x) for x in p["headline"]]
+        wrong = [(got, want) for (got, want) in pairs if got is None or not got.endswith(want)]
+        lists = [(pv.get("headline_first", []), p["under"]),
+                 (tables[0]["first_cells"] if tables else None, p["cells"]),
+                 (tables[1]["head"] if len(tables) > 1 else None, p["thesis_head"])]
+        if sec is not None and sec["table"]:
+            lists.append((tables[2]["head"] if len(tables) > 2 else None, sec["head"]))
+        if sec is not None:
+            lists.append(([drawn_sec["line"]] if drawn_sec else None, [sec["line"]]))
+        for got, want in lists:
+            if got is None or len(got) != len(want):
+                wrong.extend((None, x) for x in want)
+            else:
+                wrong.extend((g, w) for g, w in zip(got, want) if g != w)
+        n_marks += len(p["headline"]) + sum(len(want) for _, want in lists)
+        bad_marks += len(wrong)
+        if wrong:
+            why.append(f"{len(wrong)} periods that head a figure are not written as the note says, the first drawn {wrong[0][0]!r} for {wrong[0][1]!r}")
+        if len(tables) != 2 + (1 if sec is not None and sec["table"] else 0):
+            why.append(f"{len(tables)} tables drawn")
+        if (drawn_sec is None) != (sec is None):
+            why.append(f"the two-hub section is {'not ' if drawn_sec is None else ''}drawn; by the note it is {'not ' if sec is None else ''}")
+        elif sec is not None:
+            n_sections += 1
+            n_side += len(sec["figures"])
+            if drawn_sec["title"] != sec["title"] or drawn_sec["keys"] != sec["keys"] or drawn_sec["not_held"] != sec["not_held"] or drawn_sec["table"] != sec["table"]:
+                why.append(f"the two-hub section draws {drawn_sec['title']!r} with {len(drawn_sec['keys'])} figures; by the note {sec['title']!r} with {len(sec['keys'])}, or in another order")
+                bad_side += len(sec["figures"])
+            else:
+                for (key, hub, var, y, month) in sec["figures"]:
+                    mine = t.figure(hub, var, y, month)[0]
+                    d = page["keyed"].get(key)
+                    if d is None or abs(d["raw"] - mine) > tolerance(var) or d["text"] != text_of(var, mine):
+                        bad_side += 1
         if why:
             bad_views.append((pv["q"], why))
         for (key, hub, var, y, month) in v["figures"]:
@@ -337,6 +422,8 @@ def main(argv):
         print(f"  VIEW {q}: " + "; ".join(why))
     print(f"{len(page['views']) - len(bad_views)} of {len(page['views'])} views open as the note says (the hub, the period, the two years, the years marked, the rows' download, the freshness line)")
     print(f"{n - len(bad_figures)} of {n} figures inside the tolerance, with the same text; {len(only_page)} drawn by the page and not expected; {len(page.get('conflicts', []))} drawn two ways")
+    print(f"{n_side - bad_side} of {n_side} figures of the section of two hubs, in {n_sections} views with a second hub, are the rows the note names, in its order, inside the tolerance and with the same text")
+    print(f"{n_marks - bad_marks} of {n_marks} periods that head a figure are written as the note says (the headline numbers, the first table's period cells, the tables' heads, the two-hub line; '(partial)' where the period is not over)")
 
     if a.write:
         rows = sorted(figures.items())
@@ -351,6 +438,8 @@ def main(argv):
                        "built": next((x for x in t.annual_header if x.startswith("Retrieved:")), None)},
             "views": len(page["views"]), "views_as_the_note_says": len(page["views"]) - len(bad_views),
             "figures": n, "figures_inside_the_tolerance": n - len(bad_figures),
+            "views_with_a_second_hub": n_sections, "two_hub_figures": n_side, "two_hub_figures_as_the_note_says": n_side - bad_side,
+            "periods_that_head_a_figure": n_marks, "periods_written_as_the_note_says": n_marks - bad_marks,
             "opening": {"hub": opening["hub"], "period": "the whole year", "first_year": opening["first"], "second_year": opening["second"],
                         "figures": [{"key": k, "page": page["keyed"][k]["text"], "replication": round(figures[k][4], 6), "tolerance": tolerance(figures[k][1])} for k in opening["keys"] if k in page["keyed"]]},
             "headline": headline(t),
@@ -361,7 +450,7 @@ def main(argv):
             json.dump(doc, f, indent=1)
             f.write("\n")
         print("written: page_figures.json and page_figures.csv")
-    return 0 if not bad_figures and not bad_views and not only_page and not page.get("conflicts") else 1
+    return 0 if not bad_figures and not bad_views and not only_page and not page.get("conflicts") and not bad_side and not bad_marks else 1
 
 
 if __name__ == "__main__":

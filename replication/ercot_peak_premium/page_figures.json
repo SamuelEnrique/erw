@@ -6,10 +6,15 @@
   "last_input_interval": "2026-09-28T04:45:00Z",
   "built": "Retrieved: 20260929T005555Z (UTC) by warehouse/derived/ercot_peak_premium.py"
  },
- "views": 550,
- "views_as_the_note_says": 550,
+ "views": 674,
+ "views_as_the_note_says": 674,
  "figures": 24786,
  "figures_inside_the_tolerance": 24786,
+ "views_with_a_second_hub": 122,
+ "two_hub_figures": 6214,
+ "two_hub_figures_as_the_note_says": 6214,
+ "periods_that_head_a_figure": 12172,
+ "periods_written_as_the_note_says": 12172,
  "opening": {
   "hub": "ercot:HB_HUBAVG",
   "period": "the whole year",

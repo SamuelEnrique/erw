@@ -125,6 +125,32 @@ async function main() {
   // December of the newest year against 2015: a month the monthly table may not hold yet, so its cells say "not held"
   const newest = Math.max(...annual.filter((r) => r.variable === "n_intervals").map((r) => new Date(r.ts_utc).getUTCFullYear()));
   views.push({ q: { hub: P.THESIS_HUB, month: "12", from: "2015", to: String(newest) }, why: "a month of the newest year" });
+  // Session 7516 (chain 304, part B): the views with a second hub beside the first (`vs` in the address, the filter
+  // "Beside hub"): every ordered pair of the hubs for the period and the years a reader opens on; for one pair
+  // (HB_WEST beside HB_NORTH where the tables hold both) every period choice, with no year named and with every pair of
+  // years; and four more (the same hub twice, a second hub the tables do not hold, one year alone, a month the newest
+  // year does not hold yet).
+  const WEST = "ercot:HB_WEST", NORTH = "ercot:HB_NORTH";
+  const pairHub = hubs.includes(WEST) ? WEST : hubs[hubs.length - 1];
+  const pairVs = hubs.includes(NORTH) && pairHub !== NORTH ? NORTH : hubs.find((x) => x !== pairHub);
+  if (pairVs) {
+    for (const hub of hubs) for (const vs of hubs) if (hub !== vs) views.push({ q: { hub, vs }, why: "a second hub" });
+    const years = [...new Set(annual.filter((r) => r.entity === pairHub && r.variable === "n_intervals").map((r) => new Date(r.ts_utc).getUTCFullYear()))].sort((a, b) => a - b);
+    for (const month of ["", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]) {
+      if (month) views.push({ q: { hub: pairHub, vs: pairVs, month }, why: "a second hub, no year named" });
+      if (flags.includes("--opening")) continue;
+      for (let i = 0; i < years.length; i += 2) {
+        const pair = years.slice(i, i + 2);
+        views.push({ q: { hub: pairHub, vs: pairVs, ...(month ? { month } : {}), from: String(pair[0]), to: String(pair[pair.length - 1]) }, why: "a second hub, a pair of years" });
+      }
+    }
+    const other = hubs.find((x) => x !== P.THESIS_HUB);
+    const oldest = Math.min(...annual.filter((r) => r.variable === "n_intervals").map((r) => new Date(r.ts_utc).getUTCFullYear()));
+    views.push({ q: { hub: P.THESIS_HUB, vs: P.THESIS_HUB }, why: "the same hub twice" });
+    views.push({ q: { hub: P.THESIS_HUB, vs: "ercot:HB_NOWHERE" }, why: "a second hub the tables do not hold" });
+    views.push({ q: { hub: P.THESIS_HUB, vs: other, from: String(oldest), to: String(oldest) }, why: "a second hub, one year alone" });
+    views.push({ q: { hub: P.THESIS_HUB, vs: other, month: "12", from: String(oldest), to: String(newest) }, why: "a second hub, a month of the newest year" });
+  }
 
   const out = { annual_file: annualFile, monthly_file: monthlyFile, annual_rows: annual.length, monthly_rows: T[P.MONTHLY].rows.length, views: [], keyed: {}, conflicts: [] };
   const htmlDir = flags.find((f) => f.startsWith("--html="))?.slice(7);
@@ -146,8 +172,26 @@ async function main() {
     }
     const fresh = [...html.matchAll(/data-fresh-table="([^"]+)" data-last-run="([^"]*)" data-ts-max="([^"]*)"[^>]*>([\s\S]*?)<\/p>/g)].map((m) => ({ table: m[1], last_run: m[2], ts_max: m[3], words: text(m[4]) }));
     const page = text(html);
+    // session 7516: the periods that head a figure, as drawn (each with its "(partial)" mark or without): the three
+    // headline labels, the first year under each, every table's head and the first cell after a row's name (the
+    // "Period" cell of the five numbers); and the section of two hubs, when the view has one
+    const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => ({
+      caption: text(m[0].match(/<caption[^>]*>([\s\S]*?)<\/caption>/)?.[1] ?? ""),
+      head: [...(m[0].match(/<thead>[\s\S]*?<\/thead>/)?.[0] ?? "").matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map((x) => text(x[1])),
+      first_cells: [...(m[0].match(/<tbody>[\s\S]*?<\/tbody>/)?.[0] ?? "").matchAll(/<tr[^>]*>[\s\S]*?<\/tr>/g)].map((r) => text(r[0].match(/<td[^>]*>([\s\S]*?)<\/td>/)?.[1] ?? "")),
+    }));
+    const sec = html.match(/<section id="two-hubs"[\s\S]*?<\/section>/)?.[0] ?? null;
+    const two_hubs = sec ? {
+      title: text(sec.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1] ?? ""),
+      line: text(sec.match(/<p[^>]*data-two-hubs[^>]*>([\s\S]*?)<span class="tip/)?.[1] ?? ""),
+      keys: [...sec.matchAll(/<span data-check="([^"]+)"/g)].map((m) => decode(m[1])),
+      not_held: (sec.match(/<span class="text-muted">not held<\/span>/g) ?? []).length,
+      table: /<table/.test(sec),
+    } : null;
     out.views.push({
-      q: v.q, why: v.why, keyed: keys.length, keys, filters, fresh,
+      q: v.q, why: v.why, keyed: keys.length, keys, filters, fresh, tables, two_hubs,
+      headline_labels: [...html.matchAll(/<div class="text-xs uppercase tracking-wide text-muted">([^<]*)</g)].map((m) => text(m[1])),
+      headline_first: [...html.matchAll(/<div class="mt-1 text-xs leading-snug text-muted">([\s\S]*?)<span/g)].map((m) => text(m[1])),
       fresh_state: html.match(/data-fresh="([^"]+)"/)?.[1] ?? null,
       asked_unknown: /data-asked-unknown="1"/.test(html),
       thesis_chart: /data-thesis-chart="1"/.test(html),

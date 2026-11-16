@@ -234,7 +234,7 @@ python replication/ercot_peak_premium/replicate.py --headline   # the do-file's 
 python replication/ercot_peak_premium/from_hourly.py            # every row of both tables from the 15-minute prices
 ```
 
-On the tables of samueloldlaptop (built 29 September 2026), 16 November 2026: 550 of 550 views open as this note says; 24,786 of 24,786 figures inside the tolerance (half the last digit shown), with the same text; 25,704 of 25,704 rows of the two tables recomputed from the 15-minute prices. `replicate.do` rebuilds the five headline figures in Stata (not run: no Stata on that machine). The page's figures are drawn by the page's own code (`site/scripts/peak-premium-figures.mjs`); the charts' points as a browser draws them are not read (a browser read).
+On the tables of samueloldlaptop (built 29 September 2026), 16 November 2026: 550 of 550 views open as this note says; 24,786 of 24,786 figures inside the tolerance (half the last digit shown), with the same text; 25,704 of 25,704 rows of the two tables recomputed from the 15-minute prices. `replicate.do` rebuilds the five headline figures in Stata (not run: no Stata on that machine). The page's figures are drawn by the page's own code (`site/scripts/peak-premium-figures.mjs`); the charts' points as a browser draws them are not read (a browser read). Since session 7516 the replication also covers the views with a second hub and the marks of a partial period: 674 views, the counts in section 10.
 
 The warehouse's copy of the two tables is newer than that machine's (last computed 21 October 2026, the monthly table to October 2026), and on 16 November 2026 it was 26 days old, so the page calls both tables stale. The cloud's daily run does not compute them (it does not hold the 15-minute history: `warehouse/metadata/run_status.csv`, "inputs absent in CI"); the data machine does.
 
@@ -253,3 +253,42 @@ The page was read as a fund analyst sizing the evening premium would read it, on
 - **A second hub.** A fifth filter, "Beside hub" (`vs` in the address; none by default; the same hub twice is none; a hub the tables do not hold is replaced by none and the page says so). With it the page draws one more section, "Two hubs side by side": for each of the two hubs and each of the view's periods, `peak_median`, `peak_q1`, `peak_q3`, `peak_iqr`, `midday_median`, `peak_minus_midday_median`, `overnight_median`, `all_median`, `all_p999`, `all_max`, `n_scarcity`, `n_negative` and `n_intervals` (`SIDE` in `site/lib/explore/peakpremium.ts`): 13 figures a hub and a period, each one row of the table with its check key, written by the rule of section 2. The page takes no difference between the two hubs: the difference of two medians is not the median of the price difference between the hubs from interval to interval, which the tables do not hold. A view with no second hub draws the 64 (or 32) figures of section 1 and no more, so the replication's count is unchanged.
 - **The mark of a period not yet over.** A partial year or month reads "2026 (partial)" or "September 2026 (partial)" wherever it heads a figure: the headline numbers' labels and the first year under them, the "Period" cells of the first table, the heads of the second and of the two-hub table. Until then the mark was in the filters and in the sentence under the thesis chart only.
 - **Words.** The decisions block's line on thresholds says that the worst-interval multiple is of the 99.9th percentile, not of the highest interval: one interval in a thousand passes that price, about 35 of a full year's 35,040 and about 3 of a month's; the highest interval is `all_max`, and its day and hour are in no table. The hub line says what HB_BUSAVG is. One sentence beside the link to the ERCOT tab says the page holds no node and names the battery page, where ERCOT's storage nodes are set against the hub average (`node_basis_summary`).
+
+### 10. The section of two hubs and the marks, for a second implementation (session 7516)
+
+Everything a second implementation needs to write what section 9 added, from the two tables alone. `replication/ercot_peak_premium/replicate.py` was extended from these words, not from the page's library.
+
+**The second hub.** The address may name one more hub, `vs`. It is none when the address names none, when it names the first hub again, and when it names a hub that has no `n_intervals` row in the annual table; in that last case the page also says, in its one line, that the address asked for something the tables do not hold. The filter "Beside hub" offers "None" and the other hubs offered (five of the six), so it has as many choices as the hub filter. The hub, the period and the two years of the view are chosen as section 2 says, from the first hub alone; the second hub changes none of them, nor any of the view's 64 (or 32) figures, nor the download of the rows drawn.
+
+**The section** is drawn only when there is a second hub, after "The thesis's figures". Its title is "Two hubs side by side: A and B", the two hubs' names without the grid's prefix (HB_WEST, HB_NORTH), the first hub first. Its line reads "The same rows for each hub, P." where P is the view's periods joined by " and " (one period when the two years are the same), each written as below. Its table is drawn when the table of the period holds a row of the second hub for that period in any year offered.
+
+**The 13 figures,** in the order drawn, each one row of `ercot_peak_premium_annual` (the whole year, labelled `YYYY-01-01T00:00:00Z`) or of `ercot_peak_premium_monthly` (a month, labelled `YYYY-MM-01T00:00:00Z`), entity the hub, with the check key `series|<table>|<hub>|<variable>|<label>`:
+
+| # | Variable | What it is |
+|---:|---|---|
+| 1 | `peak_median` | the median of the 16:00 to 21:00 block |
+| 2 | `peak_q1` | its first quartile |
+| 3 | `peak_q3` | its third quartile |
+| 4 | `peak_iqr` | `peak_q3` less `peak_q1` |
+| 5 | `midday_median` | the median of the 12:00 to 16:00 block |
+| 6 | `peak_minus_midday_median` | `peak_median` less `midday_median` |
+| 7 | `overnight_median` | the median of the 21:00 to 12:00 block |
+| 8 | `all_median` | the median of all intervals |
+| 9 | `all_p999` | the 99.9th percentile of all intervals |
+| 10 | `all_max` | the highest interval: the highest of the three blocks' maximums |
+| 11 | `n_scarcity` | intervals at or above 1,000 USD/MWh |
+| 12 | `n_negative` | intervals at or below 0 USD/MWh |
+| 13 | `n_intervals` | intervals in the period |
+
+For each variable, in that order, the cells run by period (the first year, then the second; one period when the two years are the same), and inside a period the first hub, then the second: 52 figures for two years, 26 for one. The table's head is "Figure", then for each period "A, P" and "B, P". A figure is written by the rule of section 2 (a count whole, a price with two decimals, a tie away from zero, thousands with commas); a row the table does not hold is the words "not held". The page takes no difference between the two hubs.
+
+**The period that heads a figure, and its mark.** A period is written as the year ("2025") or as the month's English name and the year ("August 2025"). It is followed by " (partial)" when the first hub's `n_intervals` for it is held and short of the full period by the rule of section 2 (a year: not 35,040, or 35,136 in a leap year; a month: below its days times 96, four fewer in March and four more in November). A period the table does not hold carries no mark (its figures read "not held"). The second hub's columns carry the first hub's mark: the two hubs hold the same intervals. The period is written so in: the three headline labels, each ending ", A, P" for the second year; the line under each headline number, which opens "P:" for the first year when the two years differ; the "Period" cell of each of the eight (or four) rows of the first table; the head of the second table ("Figure", then each period); and the section's line and head above.
+
+**Checked on 16 November 2026,** on the tables of samueloldlaptop (built 29 September 2026), `python replication/ercot_peak_premium/replicate.py --write`, as printed:
+
+- `674 of 674 views open as the note says (the hub, the period, the two years, the years marked, the rows' download, the freshness line)`
+- `24786 of 24786 figures inside the tolerance, with the same text; 0 drawn by the page and not expected; 0 drawn two ways`
+- `6214 of 6214 figures of the section of two hubs, in 122 views with a second hub, are the rows the note names, in its order, inside the tolerance and with the same text`
+- `12172 of 12172 periods that head a figure are written as the note says (the headline numbers, the first table's period cells, the tables' heads, the two-hub line; '(partial)' where the period is not over)`
+
+The 674 views are section 7's 550 and 124 with `vs` in the address: every ordered pair of the six hubs for the view a reader opens on (30); HB_WEST beside HB_NORTH for each of the twelve months with no year named (12) and for the whole year and each month with every pair of years (78); and the same hub twice, a hub the tables do not hold, one year alone, and a month the newest year does not hold yet (4, two of them with no section). The distinct figures stay 24,786: the section draws rows that the hub's own views already draw, and the page writes each the same way wherever it draws it (0 drawn two ways).

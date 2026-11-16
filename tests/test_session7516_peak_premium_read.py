@@ -7,10 +7,12 @@ file opens on the reader, the five cases and how it was read, numbers its rows i
 five bullets; the shared explore files are not named as changed; and none of the session's files holds an em or an en
 dash.
 """
+import json
 import os
 import re
 import shutil
 import subprocess
+import sys
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -24,7 +26,10 @@ MINE = (
     REVIEW, ("site", "scripts", "test-peak-premium-read.mjs"), ("tests", "test_session7516_peak_premium_read.py"),
     ("site", "app", "explore", "ercot-peak-premium", "page.tsx"), ("site", "app", "explore", "ercot-peak-premium", "Decisions.tsx"),
     ("site", "lib", "explore", "peakpremium.ts"), ("docs", "methods", "ercot_peak_premium.md"),
+    ("replication", "ercot_peak_premium", "replicate.py"), ("replication", "ercot_peak_premium", "page_figures.json"),
+    ("site", "scripts", "peak-premium-figures.mjs"),
 )
+REPLICATION = os.path.join(ROOT, "replication", "ercot_peak_premium")
 KINDS = {"site", "data machine", "browser", "ruling", "license", "key"}
 
 
@@ -50,6 +55,19 @@ class ThePageAsDrawn(unittest.TestCase):
         m = re.search(r"(\d+) checks passed, (\d+) failed", r.stdout)
         self.assertTrue(m and int(m.group(1)) >= 100 and m.group(2) == "0", r.stdout[-600:])
 
+    def test_the_replication_covers_the_second_hub_and_the_marks(self):
+        """Every view of the fixture's two hubs, the pairs of years and the partial year and month among them: the
+        replication (written from the note's section 10) meets the section of two hubs and every period's mark."""
+        env = dict(os.environ, ERW_SPEND_CAP_USD="0")
+        r = subprocess.run([sys.executable, os.path.join(REPLICATION, "replicate.py"), "--in-dir", FIXTURE, "--coverage", COVERAGE],
+                           capture_output=True, text=True, encoding="utf-8", timeout=900, env=env)
+        self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
+        for pattern, least in ((r"(\d+) of (\d+) views open as the note says", 282), (r"(\d+) of (\d+) figures inside the tolerance", 2430),
+                               (r"(\d+) of (\d+) figures of the section of two hubs", 1950), (r"(\d+) of (\d+) periods that head a figure are written as the note says", 5340)):
+            m = re.search(pattern, r.stdout)
+            self.assertTrue(m and m.group(1) == m.group(2) == str(least), (pattern, r.stdout[-900:]))
+        self.assertIn("in 94 views with a second hub", r.stdout)
+
 
 class TheFiles(unittest.TestCase):
     def test_the_two_hub_figures_are_the_notes_and_the_tables(self):
@@ -63,6 +81,30 @@ class TheFiles(unittest.TestCase):
             self.assertIn(f"`{v}`", note, v)
             self.assertIn(v, held, v)
             self.assertEqual(unit == "count", v.startswith("n_"), v)
+
+    def test_one_list_of_thirteen_in_the_note_the_replication_and_the_page(self):
+        note = src("docs", "methods", "ercot_peak_premium.md").split("### 10. The section of two hubs and the marks")[1]
+        in_note = re.findall(r"^\| \d+ \| `([a-z0-9_]+)` \|", note, re.M)
+        if REPLICATION not in sys.path:
+            sys.path.insert(0, REPLICATION)
+        rep = __import__("replicate")
+        self.assertEqual(in_note, rep.SIDE)
+        self.assertEqual(in_note, [v for v, _ in side_variables()])
+        self.assertNotIn("peakpremium", src("replication", "ercot_peak_premium", "replicate.py"))    # not from the page's library
+
+    def test_the_committed_figures_cover_the_second_hub(self):
+        doc = json.loads(src("replication", "ercot_peak_premium", "page_figures.json"))
+        self.assertEqual(doc["views"], doc["views_as_the_note_says"])
+        self.assertEqual(doc["figures"], doc["figures_inside_the_tolerance"])
+        self.assertGreaterEqual(doc["views_with_a_second_hub"], 30)            # every ordered pair of six hubs, at least
+        self.assertGreater(doc["two_hub_figures"], 0)
+        self.assertEqual(doc["two_hub_figures"], doc["two_hub_figures_as_the_note_says"])
+        self.assertEqual(doc["periods_that_head_a_figure"], doc["periods_written_as_the_note_says"])
+        note = src("docs", "methods", "ercot_peak_premium.md")
+        for line in (f"{doc['views']} of {doc['views']} views open as the note says", f"{doc['figures']} of {doc['figures']} figures inside the tolerance",
+                     f"{doc['two_hub_figures']} of {doc['two_hub_figures']} figures of the section of two hubs, in {doc['views_with_a_second_hub']} views",
+                     f"{doc['periods_that_head_a_figure']} of {doc['periods_that_head_a_figure']} periods that head a figure"):
+            self.assertIn(line, note, line)
 
     def test_the_page_keeps_what_it_had(self):
         page = src("site", "app", "explore", "ercot-peak-premium", "page.tsx")
