@@ -555,14 +555,25 @@ fi
 # the seller's capture file) made the suite red while the bots that run it were refused at their own guard
 # (docs/state/main_red_2026-11-11.md). A red commit goes to wip/red-dm-<day> with one failed dm_commit row naming the
 # tests, and this checkout returns to origin/main so the next day's commit does not carry it.
-if ! "$PYTHON" scripts/push_guard.py --who "data machine daily" --step "dm_commit" --red-branch "wip/red-dm-$day"; then
-  echo "the suite failed on the commit: pushed to wip/red-dm-$day, not to main"
-  git reset --quiet --keep origin/main || echo "could not return to origin/main: the commit stays here"
-  exit 0
-fi
-git push --quiet origin main
-rc=$?
-echo "push exit=$rc"
+# Session 7020 (chain 301): main can move during the guard's suite (about ten minutes), and a single push is then refused,
+# as the GitHub daily run's was on 16 November when a landing merged during its suite. A refused push rebases onto the
+# new main and the guard runs again on the rebased commit, up to three times; a conflict stops it as above.
+for try in 1 2 3; do
+  if ! "$PYTHON" scripts/push_guard.py --who "data machine daily" --step "dm_commit" --red-branch "wip/red-dm-$day"; then
+    echo "the suite failed on the commit: pushed to wip/red-dm-$day, not to main"
+    git reset --quiet --keep origin/main || echo "could not return to origin/main: the commit stays here"
+    exit 0
+  fi
+  git push --quiet origin main
+  rc=$?
+  echo "push exit=$rc (try $try)"
+  [ "$rc" -eq 0 ] && break
+  if ! git pull --rebase --quiet origin main; then
+    git rebase --abort 2>/dev/null || true
+    echo "main moved during the guard in a way the commit could not follow: committed here, not pushed"
+    break
+  fi
+done
 if [ "$rc" -ne 0 ]; then
   "$PYTHON" warehouse/health.py record --step "dm_commit" --status failed --reason "git push exit $rc"
 else

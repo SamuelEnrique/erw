@@ -29,5 +29,17 @@ class TheRetry(unittest.TestCase):
         self.assertIn("break", b[guard:b.index("git push origin HEAD:main")])
 
 
+
+class TheDataMachinesRetry(unittest.TestCase):
+    def test_the_same_retry_in_the_data_machines_run(self):
+        with open(os.path.join(ROOT, "warehouse", "run_data_machine.sh"), encoding="utf-8") as f:
+            sh = f.read()
+        i = sh.index("for try in 1 2 3; do")
+        b = sh[i:sh.index("done", i)]
+        self.assertLess(b.index('scripts/push_guard.py --who "data machine daily"'), b.index("git push --quiet origin main"))
+        self.assertLess(b.index("git push --quiet origin main"), b.index("git pull --rebase --quiet origin main"))
+        self.assertIn('[ "$rc" -eq 0 ] && break', b)
+
+
 if __name__ == "__main__":
     unittest.main()
