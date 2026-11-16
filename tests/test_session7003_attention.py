@@ -102,7 +102,7 @@ class Built(unittest.TestCase):
         self.assertEqual(self.data["columns"]["together"][0], "sector")
 
 
-class Row22Ahead(unittest.TestCase):
+class Row25Ahead(unittest.TestCase):
     def test_a_story_dated_after_it_was_read_is_in_no_week(self):
         st = [dict(story(1, "2026-11-03T08:00:00Z"), retrieved_at="2026-11-03T09:00:00Z"),
               dict(story(2, "2026-12-01T12:00:00Z"), retrieved_at="2026-10-19T16:11:44Z")]

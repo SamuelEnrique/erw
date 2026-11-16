@@ -107,7 +107,7 @@ def build(stories, classified, now):
     """The three tables and the page's data, from the stories and the classified rows."""
     stories = stories.copy()
     stories["_when"] = pd.to_datetime(stories["event_date"], utc=True, format="ISO8601")
-    # session 7003 (found on the way, attention faults row 22): a feed item dated more than a day after the ERW read it
+    # session 7003 (found on the way, attention faults row 25): a feed item dated more than a day after the ERW read it
     # is a listing of a coming event ("Data Center World Middle East", dated 2026-11-17, read 2026-10-24), not that
     # week's news: it is left out of every week, so no week ahead of the corpus is drawn
     if "retrieved_at" in stories.columns:
