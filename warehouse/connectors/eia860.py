@@ -193,7 +193,11 @@ def month_date(year, month):
 
 
 def read_sheet(content, sheet):
-    d = pd.read_excel(io.BytesIO(content), sheet_name=sheet, header=2, dtype=str)
+    # session 7016 (chain 301, done-line request 33): pandas' default missing values turned EIA's text "NA" into nothing,
+    # so two generators whose id EIA prints as NA (plants 62844 and 64835, vintage 2026-09) lost their id. The sheet is
+    # read as printed; a blank cell is still a blank. EIA's "NA" as a balancing authority code is taken as not stated and
+    # written blank (build), as pandas wrote it before.
+    d = pd.read_excel(io.BytesIO(content), sheet_name=sheet, header=2, dtype=str, keep_default_na=False, na_values=[""])
     title = pd.read_excel(io.BytesIO(content), sheet_name=sheet, header=None, nrows=1).iat[0, 0]
     d = d[d["Plant ID"].notna() & d["Plant ID"].str.strip().str.fullmatch(r"\d+")]
     return d, str(title)
@@ -250,7 +254,7 @@ def build(kind, sheets, content, vintage, url, got, log):
         "source_url": url, "retrieved_at": got, "vintage": vintage,
         "plant_id": d["Plant ID"], "generator_id": d["Generator ID"], "utility_id": d["Entity ID"],
         "state": d["Plant State"], "county": d["County"],
-        "balancing_authority": d["Balancing Authority Code"], "sector": d["Sector"],
+        "balancing_authority": d["Balancing Authority Code"].mask(d["Balancing Authority Code"] == "NA", ""), "sector": d["Sector"],
         "technology": d["Technology"], "technology_group": d["Technology"].map(TECH_GROUPS).fillna(""),
         "prime_mover": d["Prime Mover Code"], "prime_mover_label": d["Prime Mover Code"].map(PRIME_MOVERS).fillna(""),
         "energy_source": d["Energy Source Code"],
@@ -342,7 +346,9 @@ def main(argv=None):
                     header = [
                         f"Energy Research Warehouse (ERW): {cfg['title']}, vintage {vintage}",
                         "Shape: entities (docs/datastandard.md v0). One row per generator; entity_id "
-                        "eia860:<plant id>:<generator id>; capacity_mw is EIA nameplate capacity (MW).",
+                        "eia860:<plant id>:<generator id>; capacity_mw is EIA nameplate capacity (MW). The sheets are read as "
+                        "printed (a generator id EIA prints as NA is that id); EIA's NA as a balancing authority code is taken "
+                        "as not stated and written blank (session 7016).",
                         f"Retrieved: {raw_run} (UTC) by warehouse/connectors/eia860.py"
                         + (f"; rebuilt {run_id} from that run's saved workbook, no pull (--from-raw)"
                            if args.from_raw else ""),
