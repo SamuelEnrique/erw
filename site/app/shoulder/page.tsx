@@ -200,7 +200,11 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                   <HeadlineNumber label="Hours needed, second measure" value={<V row={v.get("shoulder2_hours_needed")} />} unit="hours"
                     note={<>At the fleet&apos;s power, to deliver the energy above the midpoint. The evening peak is <V row={v.get("evening_peak_mw")} unit="MW" /> at <Hr row={v.get("evening_peak_hour")} />.</>} />
                   <HeadlineNumber label={`The ten worst days of ${v.year.year}`} value={<V row={v.year.get("year_worst10_mean_shoulder_hours_needed")} />} unit={worstNeeded ? "hours needed" : undefined}
-                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> days (complete, of 24 hours, with a shoulder); the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>} />
+                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> days (complete, of 24 hours, with a shoulder); {v.year.get("year_worst10_mean_battery_hours")
+                      ? <>the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders</>
+                      /* session 7600 (the browser read of 16 November, faults row 17): where the figure is not held the sentence says so of the
+                         hours. With the value in its place it read "the batteries ran not held hours at rated power" */
+                      : <span data-battery-hours="not-held">the hours the batteries ran at rated power in those shoulders are <V row={undefined} /></span>}.</>} />
                 </HeadlineRow>
                 {v.worst.length === 0 ? (
                   <p className="max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" data-worst="none">The worst days of {v.year.year} are not held for {grid.name}: the table has no ranked day for it.</p>
