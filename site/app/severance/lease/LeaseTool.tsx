@@ -8,6 +8,7 @@ import {
   type Analysis, type PriceBook, type Product,
 } from "@/lib/lease";
 import { compute, creditPct, type Rules } from "@/lib/severance";
+import { Tip } from "@/components/tool/ToolPage";
 
 const usd = (v: number | null) => (v === null ? "n/a" : `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
 const field = "border border-rule bg-panel px-2 py-1 text-sm";
@@ -56,6 +57,10 @@ export function LeaseTool({ rules, prices, initial }: { rules: Rules; prices: Pr
     const cur = (ticks[key] ?? []).filter((x) => x !== id);
     setManual({ ...ticks, [key]: on ? [...cur, id] : cur });
   }
+  // session 7511 (docs/reviews/severance-read-2026-11-16.md, row 8): the rules file holds regulatory fees for Texas
+  // alone. A file with no Texas well drew "Regulatory fees $0.00", as if Louisiana or New Mexico charged none: the card
+  // now says the fees are not held, and why on hover
+  const feesHeld = a ? a.wells.some((w) => Object.values(rules.states[w.state]?.products ?? {}).some((p) => p.fees.length > 0)) : true;
   const src = (id: string) => rules.sources[id];
   const CiteLink = ({ id }: { id: string }) => <a href={src(id)?.url} className="text-xs">{src(id)?.title ?? id}</a>;
 
@@ -113,11 +118,18 @@ export function LeaseTool({ rules, prices, initial }: { rules: Rules; prices: Pr
               ["Base tax, the lease", usd(a.lease.base)],
               ["With the rules you ticked", usd(a.lease.withTicked)],
               ["Potential savings, flagged rules", usd(a.lease.potential)],
-              ["Regulatory fees (not in the tax)", usd(a.lease.fees)],
-            ].map(([k, v]) => (
-              <div key={k} className="border border-rule bg-panel p-3">
+              ["Regulatory fees (not in the tax)", feesHeld ? usd(a.lease.fees) : "not held"],
+            ].map(([k, v], i) => (
+              <div key={k} className="border border-rule bg-panel p-3" data-lease-card={i} data-fees-held={i === 3 ? (feesHeld ? "1" : "0") : undefined}>
                 <div className="text-xs text-muted">{k}</div>
-                <div className="text-xl">{v}</div>
+                <div className="text-xl">{v}
+                  {i === 3 && !feesHeld ? (
+                    <Tip id="lease-fees-not-held" label="the regulatory fees">
+                      <span className="block">The rules file holds regulatory fees for Texas only: its two cleanup fees, on oil and on gas. This file has no Texas well, so no fee is computed.</span>
+                      <span className="block">No fee of Louisiana or New Mexico is held. Louisiana&apos;s oilfield site restoration fee (La. R.S. 30:87) is listed in the method note as left out.</span>
+                    </Tip>
+                  ) : null}
+                </div>
               </div>
             ))}
           </div>

@@ -1,0 +1,489 @@
+{
+ "note": "The named cases of the severance calculator's replication (session 7502). price 'default' is the page's default price: the mean of the latest complete month of EIA's daily spot price, WTI Cushing for oil and condensate, Henry Hub for gas. Each case is what a reader sets on /severance; an option or a credit with no param or period takes the page's default (the parameter's default; the latest certified report period).",
+ "rules_version": "2026-09-30.2",
+ "cases": [
+  {
+   "id": "default",
+   "what": "The page as it opens: Texas, oil, 1,000 bbl in a month at the default price, nothing ticked",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default"
+  },
+  {
+   "id": "TX-oil-tx_eor",
+   "what": "Texas, oil, 1,000 bbl at the default price, with Enhanced Oil Recovery (EOR), Exempt Type 05 at the page's defaults",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "tx_eor"
+   }
+  },
+  {
+   "id": "TX-oil-tx_eor_co2",
+   "what": "Texas, oil, 1,000 bbl at the default price, with EOR using anthropogenic carbon dioxide, Exempt Type 14 at the page's defaults",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "tx_eor_co2"
+   }
+  },
+  {
+   "id": "TX-oil-tx_oil_inactive",
+   "what": "Texas, oil, 1,000 bbl at the default price, with Two-Year Inactive Well Exemption at the page's defaults",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "tx_oil_inactive"
+   }
+  },
+  {
+   "id": "TX-oil-tx_lp_oil",
+   "what": "Texas, oil, 1,000 bbl at the default price, with Low-producing oil lease credit, Exempt Type 11 at the page's defaults",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "credit": {
+    "id": "tx_lp_oil"
+   }
+  },
+  {
+   "id": "TX-gas-base",
+   "what": "Texas, gas, 10,000 Mcf at the default price, the base rate",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default"
+  },
+  {
+   "id": "TX-gas-tx_hcg",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with High-Cost Gas Reduced Tax Rate, Type 5 at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_hcg"
+   }
+  },
+  {
+   "id": "TX-gas-tx_lp_gas",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with Low-producing gas well credit at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_lp_gas"
+   }
+  },
+  {
+   "id": "TX-gas-tx_flared",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with Flared Gas Exemption, Type 4 at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_flared"
+   }
+  },
+  {
+   "id": "TX-gas-tx_would_flare",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with Gas that would otherwise be vented or flared at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_would_flare"
+   }
+  },
+  {
+   "id": "TX-gas-tx_restim",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with Gas from certain restimulation wells, Type 17 at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_restim"
+   }
+  },
+  {
+   "id": "TX-gas-tx_gas_inactive",
+   "what": "Texas, gas, 10,000 Mcf at the default price, with Two-Year Inactive Well Exemption, Type 16 at the page's defaults",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_gas_inactive"
+   }
+  },
+  {
+   "id": "TX-condensate-base",
+   "what": "Texas, condensate, 1,000 bbl at the default price, the base rate",
+   "state": "TX",
+   "product": "condensate",
+   "volume": 1000,
+   "price": "default"
+  },
+  {
+   "id": "LA-oil-base",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, the base rate",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default"
+  },
+  {
+   "id": "LA-oil-la_incapable",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Incapable oil well at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_incapable"
+   }
+  },
+  {
+   "id": "LA-oil-la_stripper",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Stripper oil well at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_stripper"
+   }
+  },
+  {
+   "id": "LA-oil-la_oil_inactive",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Inactive well returned to production (production commencing before October 1, 2028) at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_oil_inactive"
+   }
+  },
+  {
+   "id": "LA-oil-la_oil_orphan",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Orphan well returned to production (production commencing before October 1, 2028) at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_oil_orphan"
+   }
+  },
+  {
+   "id": "LA-oil-la_oil_horizontal",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Horizontal well exemption (FY 2027 oil price $73.28: 80 percent) at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_oil_horizontal"
+   }
+  },
+  {
+   "id": "LA-oil-la_oil_deep",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Deep well exemption at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_oil_deep"
+   }
+  },
+  {
+   "id": "LA-oil-la_orphan_enh",
+   "what": "Louisiana, oil, 1,000 bbl at the default price, with Orphan well enhancement (production commencing October 1, 2021 to June 30, 2031) at the page's defaults",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_orphan_enh"
+   }
+  },
+  {
+   "id": "LA-gas-base",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, the base rate",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default"
+  },
+  {
+   "id": "LA-gas-la_gas_lowpress",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Gas from a low-pressure oil well (50 psig or less) at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_lowpress"
+   }
+  },
+  {
+   "id": "LA-gas-la_gas_incapable",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Incapable gas well (under 250,000 cubic feet per day) at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_incapable"
+   }
+  },
+  {
+   "id": "LA-gas-la_gas_inactive",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Inactive gas well returned to production (before October 1, 2028) at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_inactive"
+   }
+  },
+  {
+   "id": "LA-gas-la_gas_orphan",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Orphan gas well returned to production (before October 1, 2028) at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_orphan"
+   }
+  },
+  {
+   "id": "LA-gas-la_gas_horizontal",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Horizontal well exemption (FY 2027 gas price $3.63/MMBtu: 100 percent) at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_horizontal"
+   }
+  },
+  {
+   "id": "LA-gas-la_gas_deep",
+   "what": "Louisiana, gas, 10,000 Mcf at the default price, with Deep well exemption at the page's defaults",
+   "state": "LA",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "la_gas_deep"
+   }
+  },
+  {
+   "id": "LA-condensate-base",
+   "what": "Louisiana, condensate, 1,000 bbl at the default price, the base rate",
+   "state": "LA",
+   "product": "condensate",
+   "volume": 1000,
+   "price": "default"
+  },
+  {
+   "id": "LA-condensate-la_cond_deep",
+   "what": "Louisiana, condensate, 1,000 bbl at the default price, with Deep well exemption at the page's defaults",
+   "state": "LA",
+   "product": "condensate",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "la_cond_deep"
+   }
+  },
+  {
+   "id": "NM-oil-base",
+   "what": "New Mexico, oil, 1,000 bbl at the default price, the base rate",
+   "state": "NM",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default"
+  },
+  {
+   "id": "NM-gas-base",
+   "what": "New Mexico, gas, 10,000 Mcf at the default price, the base rate",
+   "state": "NM",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default"
+  },
+  {
+   "id": "TX-oil-floor",
+   "what": "Texas oil at USD 0.50 a barrel: the 4.6 cents a barrel floor of Sec. 202.052(a) is the greater",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": 0.5
+  },
+  {
+   "id": "TX-oil-eor-credit-2026-08",
+   "what": "Texas oil, enhanced recovery with the low-producing lease credit of report period 2026-08",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": 70,
+   "option": {
+    "id": "tx_eor"
+   },
+   "credit": {
+    "id": "tx_lp_oil",
+    "period": "2026-08"
+   }
+  },
+  {
+   "id": "TX-oil-eor-co2-20",
+   "what": "Texas oil, enhanced recovery with anthropogenic CO2, an additional reduction of 20 percent",
+   "state": "TX",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "option": {
+    "id": "tx_eor_co2",
+    "param": 20
+   }
+  },
+  {
+   "id": "TX-gas-hcg-0.5",
+   "what": "Texas gas, high-cost gas with costs 0.5 times the median",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_hcg",
+    "param": 0.5
+   }
+  },
+  {
+   "id": "TX-gas-hcg-1.2",
+   "what": "Texas gas, high-cost gas with costs 1.2 times the median",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_hcg",
+    "param": 1.2
+   }
+  },
+  {
+   "id": "TX-gas-hcg-2.5",
+   "what": "Texas gas, high-cost gas with costs 2.5 times the median",
+   "state": "TX",
+   "product": "gas",
+   "volume": 10000,
+   "price": "default",
+   "option": {
+    "id": "tx_hcg",
+    "param": 2.5
+   }
+  },
+  {
+   "id": "TX-gas-lp-2025-05",
+   "what": "Texas gas, low-producing well credit, report period 2025-05",
+   "state": "TX",
+   "product": "gas",
+   "volume": 2000,
+   "price": "default",
+   "option": {
+    "id": "tx_lp_gas",
+    "period": "2025-05"
+   }
+  },
+  {
+   "id": "LA-oil-post2025",
+   "what": "Louisiana oil from a well completed on or after July 1, 2025",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "variant": "la_oil_post2025"
+  },
+  {
+   "id": "LA-oil-transport",
+   "what": "Louisiana oil with USD 1.50 a barrel of trucking, barging and pipeline fees",
+   "state": "LA",
+   "product": "oil",
+   "volume": 1000,
+   "price": "default",
+   "transport": 1.5
+  },
+  {
+   "id": "LA-oil-stripper-18",
+   "what": "Louisiana stripper well at USD 18 a barrel: exempt below USD 20",
+   "state": "LA",
+   "product": "oil",
+   "volume": 200,
+   "price": 18,
+   "option": {
+    "id": "la_stripper"
+   }
+  },
+  {
+   "id": "LA-oil-horizontal-post2025",
+   "what": "Louisiana horizontal oil well completed on or after July 1, 2025, with USD 1.50 of transport",
+   "state": "LA",
+   "product": "oil",
+   "volume": 3000,
+   "price": "default",
+   "variant": "la_oil_post2025",
+   "transport": 1.5,
+   "option": {
+    "id": "la_oil_horizontal"
+   }
+  },
+  {
+   "id": "NM-oil-district-low",
+   "what": "New Mexico oil in the district with the lowest ad valorem production rate, 12.5 percent royalty, USD 1 trucking",
+   "state": "NM",
+   "product": "oil",
+   "volume": 2500,
+   "price": "default",
+   "district": "CHAVES, district 28, suffix 0550",
+   "royaltyPct": 12.5,
+   "trucking": 1
+  },
+  {
+   "id": "NM-oil-district-high",
+   "what": "New Mexico oil in the district with the highest ad valorem production rate, no deductions",
+   "state": "NM",
+   "product": "oil",
+   "volume": 2500,
+   "price": "default",
+   "district": "LEA HOBBS, district 16, suffix 2531"
+  },
+  {
+   "id": "NM-gas-district",
+   "what": "New Mexico gas in the district with the highest ad valorem production rate, 12.5 percent royalty",
+   "state": "NM",
+   "product": "gas",
+   "volume": 30000,
+   "price": "default",
+   "district": "LEA HOBBS, district 16, suffix 2531",
+   "royaltyPct": 12.5
+  }
+ ]
+}
