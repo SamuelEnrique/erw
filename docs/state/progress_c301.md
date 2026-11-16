@@ -57,6 +57,7 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 ## Goal 2: the large-load waits
 
 - Robots and terms read again; new copies pulled: NYISO, Bonneville, Alberta October and November 2026 (111 of 300 requests). Code for the summary table and the dated totals on wip/c301-data (7008). Waiting for the data lock: --write, the two new tables, registrations. (7008)
+- Written, validated, covered, archived and registered: `large_load_wait_summary` and `utility_large_load_queue_totals` (license record, release list, package catalogue, Redivis draft); landed at `f4cc50518`. (7008, 7013)
 
 ## Goal 3: the CAISO's FERC compliance filing on large loads
 
@@ -67,6 +68,35 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 - companies: replicate.py 381,721 of 381,721; replicate.do (7005)
 - policy: replicate.py found row 32 (27 kept DOE rows without fields; fill_bare); N of N after the next pull; replicate.do (7006)
 - attention: replicate.py 3,407 of 3,407; replicate.do (7007)
+
+## Landings
+
+- Gate a (sessions 7000 to 7002) landed at `bce9303d6`, 0 differences. (7009)
+- Gates b, c and d failed (tests 4101 and 5506; 5161 and 7202; 726), each fixed. (7009, 7012)
+- Gate e (`de68a6669`, sessions 7003 to 7013 and the desk's rows: old laptop 15 and 16, portable 33) landed at `f4cc50518` (run 43870558464), snapshots `before-de68a666` and `after-de68a666`: 0 differences. (7013)
+- Gate f (`wip/c301-tail`, `f04c808e3`) failed on test 204 alone (the order of `DATA_MACHINE`), fixed on `wip/c301-after`. (7015, 7016)
+- Gate g (`wip/c301-after`, `4f2d076f5`) started 14:12 UTC; lands after 16:15 UTC. Later work on `wip/c301-later`. (7016)
+
+## The eight lab-desktop tools of the done line
+
+| # | Tool | Replication | Findings | Session |
+|---:|---|---|---|---|
+| 17 | `/board` | 30,607 of 30,607 | none | 7010, 7013 |
+| 18 | `/prices` | 74,258 of 74,258 | none | 7011 |
+| 19 | `/prices/compare` | 578 of 578 | an hour of zero was counted below zero (fixed) | 7012 |
+| 20 | `/supply` | 5,125 of 5,125 | the file three weeks behind (refreshed) | 7013 |
+| 21 | `/storage` | 63,075 of 63,075 | CAISO's revised battery values not in the tables of record (read again) | 7014 |
+| 22 | `/demand` | 24,241 of 24,245 | the four are EIA's late Lower 48 hours (not a fault) | 7014 |
+| 23 | `/curtailment` | 11,515 of 11,515 | the profile and `/mix/v2` a month behind (fixed at the cause); ERCOT's limit at the autumn hour (ruling) | 7014 |
+| 24 | `/queues` | 17,254 of 17,254 | none | 7014 |
+
+Each has `replication/<tool>/replicate.py` and `replicate.do` (not run: no Stata here). Not yet: the browser read of each as its reader, and the curtailment shares, free energy and worth files.
+
+## The done line's data requests (`docs/state/data_requests_done_line.md`)
+
+- Done: 4 (code; the rebuild waits for the data lock), 7, 10, 11, 12, 13, 14 (answered), 15, 16, 17, 18, 24, 26, 27, 29, 33 (code; the tables at the next vintage), 34. (7015 to 7017)
+- Waiting for the data lock (the GitHub daily run holds it from 14:10 UTC): 32 (`energy_projects` of 5 November restored, the map's file to rebuild), 4's rebuild and load.
+- Open: 2, 3, 5, 6, 8, 9, 19 to 23, 25, 28, 30, 31, 35, 36.
 
 ## Needs the key
 
