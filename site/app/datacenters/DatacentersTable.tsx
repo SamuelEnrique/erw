@@ -7,7 +7,7 @@
 import { useMemo, useState } from "react";
 import { Num } from "@/components/Num";
 import { FoldRows } from "@/components/tool/ToolPage";
-import { cancelled } from "@/lib/largeload";
+import { operatorGroups } from "@/lib/dctop";
 
 export type Facility = {
   id: string;
@@ -95,15 +95,7 @@ export type OperatorGroup = { operator: string; rows: Facility[]; mw: number; nM
  *  MW stated), then by the number of facilities, then by name; the rows with no operator stated are the last group.
  *  The rows keep the order they come in. */
 export function byOperator(rows: Facility[]): OperatorGroup[] {
-  const m = new Map<string, OperatorGroup>();
-  for (const f of rows) {
-    const g = m.get(f.operator) ?? { operator: f.operator, rows: [], mw: 0, nMw: 0 };
-    g.rows.push(f);
-    if (f.country === "US" && !cancelled(f.status) && f.mw !== null) { g.mw += f.mw; g.nMw += 1; }
-    m.set(f.operator, g);
-  }
-  // the rows no source names an operator for are not an operator: their group comes last, whatever its megawatts
-  return [...m.values()].sort((a, b) => Number(!a.operator) - Number(!b.operator) || b.mw - a.mw || b.rows.length - a.rows.length || a.operator.localeCompare(b.operator));
+  return operatorGroups(rows);   // session 7400: the grouping itself is lib/dctop.ts's, so Node can run it on the rows
 }
 
 function Select({ name, value, set, options }: { name: string; value: string; set: (v: string) => void; options: string[] }) {

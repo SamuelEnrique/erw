@@ -1,0 +1,456 @@
+# ERW, the datacenter tracker: every figure of the page on the live set's rows of 2026-11-16T09:18:38Z (replication/datacenter_tracker/replicate.py --write)
+key,page,replication,tolerance
+datacenters|cancelled,4,4,0.5
+datacenters|count,458,458,0.5
+datacenters|counted,274,274,0.5
+datacenters|first_week|2026-11-10,4,4,0.5
+datacenters|kind_count|news,191,191,0.5
+datacenters|kind_count|operator,264,264,0.5
+datacenters|kind_count|queue,3,3,0.5
+datacenters|mw_total,28254,28254.0,0.5
+datacenters|n_first_story,193,193,0.5
+datacenters|n_with_mw,21,21,0.5
+datacenters|no_us_state,180,180,0.5
+datacenters|operator_count|,59,59,0.5
+datacenters|operator_count|5C Data Centers,1,1,0.5
+datacenters|operator_count|AWS,3,3,0.5
+datacenters|operator_count|AirTrunk,2,2,0.5
+datacenters|operator_count|Amazon,4,4,0.5
+datacenters|operator_count|Amazon Web Services,8,8,0.5
+datacenters|operator_count|Ambani,1,1,0.5
+datacenters|operator_count|Anthropic,5,5,0.5
+datacenters|operator_count|Applied Digital,3,3,0.5
+datacenters|operator_count|Arevia Power,1,1,0.5
+datacenters|operator_count|Arvica Cloud,1,1,0.5
+datacenters|operator_count|Axe Compute,1,1,0.5
+datacenters|operator_count|Bitdeer AI,1,1,0.5
+datacenters|operator_count|Blackfuel,1,1,0.5
+datacenters|operator_count|Blackstart Digital,1,1,0.5
+datacenters|operator_count|Blackstone,1,1,0.5
+datacenters|operator_count|Cadence,1,1,0.5
+datacenters|operator_count|Castle IT,1,1,0.5
+datacenters|operator_count|Chevron,1,1,0.5
+datacenters|operator_count|ChronoScale,1,1,0.5
+datacenters|operator_count|Continent 8 Technologies,1,1,0.5
+datacenters|operator_count|CoreWeave,1,1,0.5
+datacenters|operator_count|Crusoe,2,2,0.5
+datacenters|operator_count|CtrlS,1,1,0.5
+datacenters|operator_count|DataOne,1,1,0.5
+datacenters|operator_count|DayOne,1,1,0.5
+datacenters|operator_count|Digital Realty,76,76,0.5
+datacenters|operator_count|Equinix,76,76,0.5
+datacenters|operator_count|Firmus,2,2,0.5
+datacenters|operator_count|Forest County Potawatomi Community,1,1,0.5
+"datacenters|operator_count|Giga Texas Energy, LLC",1,1,0.5
+datacenters|operator_count|Google,62,62,0.5
+datacenters|operator_count|Gorilla Technology Group,1,1,0.5
+datacenters|operator_count|Hyundai,1,1,0.5
+datacenters|operator_count|Iren,1,1,0.5
+datacenters|operator_count|Jane Street,1,1,0.5
+datacenters|operator_count|KT,1,1,0.5
+datacenters|operator_count|KT Cloud,1,1,0.5
+datacenters|operator_count|Lambda,1,1,0.5
+datacenters|operator_count|Meta,36,36,0.5
+datacenters|operator_count|Microsoft,31,31,0.5
+datacenters|operator_count|Nebius,5,5,0.5
+datacenters|operator_count|NetworkOcean,1,1,0.5
+datacenters|operator_count|NorthC,1,1,0.5
+datacenters|operator_count|NxN,1,1,0.5
+datacenters|operator_count|OVHcloud,1,1,0.5
+datacenters|operator_count|OneQode,1,1,0.5
+datacenters|operator_count|OpenAI,2,2,0.5
+datacenters|operator_count|Oracle,8,8,0.5
+datacenters|operator_count|Orange & Rockland,1,1,0.5
+datacenters|operator_count|Pembina,1,1,0.5
+datacenters|operator_count|PowerBridge LLC,1,1,0.5
+datacenters|operator_count|QTS,1,1,0.5
+datacenters|operator_count|Quantum DC,1,1,0.5
+datacenters|operator_count|Reserve Bank of India,1,1,0.5
+datacenters|operator_count|SWI Compute,1,1,0.5
+datacenters|operator_count|Sberbank,1,1,0.5
+datacenters|operator_count|Scaleway,1,1,0.5
+datacenters|operator_count|Segro,1,1,0.5
+datacenters|operator_count|Sharon AI,2,2,0.5
+datacenters|operator_count|SoftBank,3,3,0.5
+datacenters|operator_count|Stack,1,1,0.5
+datacenters|operator_count|Start Campus,1,1,0.5
+datacenters|operator_count|Super Micro,1,1,0.5
+datacenters|operator_count|Switch,5,5,0.5
+datacenters|operator_count|Telehouse,1,1,0.5
+datacenters|operator_count|ThisWay Global,1,1,0.5
+datacenters|operator_count|TikTok,4,4,0.5
+datacenters|operator_count|US Signal,1,1,0.5
+datacenters|operator_count|VK,1,1,0.5
+datacenters|operator_count|VivoPower,1,1,0.5
+datacenters|operator_count|Volta,1,1,0.5
+datacenters|operator_count|Vultr,1,1,0.5
+datacenters|operator_count|Vyoma,1,1,0.5
+datacenters|operator_count|XTX,1,1,0.5
+datacenters|operator_count|Yandex,2,2,0.5
+datacenters|operator_count|atNorth,2,2,0.5
+datacenters|operator_count|du,1,1,0.5
+datacenters|operator_count|xAI,1,1,0.5
+datacenters|operator_mw|,26124,26124.0,0.5
+datacenters|operator_mw|Anthropic,1000,1000.0,0.5
+datacenters|operator_mw|Applied Digital,75,75.0,0.5
+datacenters|operator_mw|ChronoScale,50,50.0,0.5
+datacenters|operator_mw|Nebius,50,50.0,0.5
+datacenters|operator_mw|Switch,882,882.0,0.5
+datacenters|operator_mw|ThisWay Global,73,73.0,0.5
+datacenters|rollup_facilities|grid|-,100,100,0.5
+datacenters|rollup_facilities|grid|CAISO,34,34,0.5
+datacenters|rollup_facilities|grid|ERCOT,46,46,0.5
+datacenters|rollup_facilities|grid|ISO-NE,3,3,0.5
+datacenters|rollup_facilities|grid|MISO,16,16,0.5
+datacenters|rollup_facilities|grid|NYISO,5,5,0.5
+datacenters|rollup_facilities|grid|PJM,60,60,0.5
+datacenters|rollup_facilities|grid|SPP,10,10,0.5
+datacenters|rollup_facilities|operator|-,25,25,0.5
+datacenters|rollup_facilities|operator|AWS,3,3,0.5
+datacenters|rollup_facilities|operator|Amazon,3,3,0.5
+datacenters|rollup_facilities|operator|Amazon Web Services,4,4,0.5
+datacenters|rollup_facilities|operator|Anthropic,2,2,0.5
+datacenters|rollup_facilities|operator|Applied Digital,2,2,0.5
+datacenters|rollup_facilities|operator|Arevia Power,1,1,0.5
+datacenters|rollup_facilities|operator|Axe Compute,1,1,0.5
+datacenters|rollup_facilities|operator|Chevron,1,1,0.5
+datacenters|rollup_facilities|operator|ChronoScale,1,1,0.5
+datacenters|rollup_facilities|operator|Crusoe,1,1,0.5
+datacenters|rollup_facilities|operator|Digital Realty,71,71,0.5
+datacenters|rollup_facilities|operator|Equinix,44,44,0.5
+"datacenters|rollup_facilities|operator|Giga Texas Energy, LLC",1,1,0.5
+datacenters|rollup_facilities|operator|Google,59,59,0.5
+datacenters|rollup_facilities|operator|Lambda,1,1,0.5
+datacenters|rollup_facilities|operator|Meta,32,32,0.5
+datacenters|rollup_facilities|operator|Microsoft,8,8,0.5
+datacenters|rollup_facilities|operator|Nebius,1,1,0.5
+datacenters|rollup_facilities|operator|OpenAI,1,1,0.5
+datacenters|rollup_facilities|operator|Oracle,1,1,0.5
+datacenters|rollup_facilities|operator|PowerBridge LLC,1,1,0.5
+datacenters|rollup_facilities|operator|Stack,1,1,0.5
+datacenters|rollup_facilities|operator|Switch,5,5,0.5
+datacenters|rollup_facilities|operator|ThisWay Global,1,1,0.5
+datacenters|rollup_facilities|operator|US Signal,1,1,0.5
+datacenters|rollup_facilities|operator|Vultr,1,1,0.5
+datacenters|rollup_facilities|operator|xAI,1,1,0.5
+datacenters|rollup_mw|grid|-,14842,14842.0,0.5
+datacenters|rollup_mw|grid|CAISO,400,400.0,0.5
+datacenters|rollup_mw|grid|ERCOT,457,457.0,0.5
+datacenters|rollup_mw|grid|MISO,937,937.0,0.5
+datacenters|rollup_mw|grid|PJM,11618,11618.0,0.5
+datacenters|rollup_mw|operator|-,26124,26124.0,0.5
+datacenters|rollup_mw|operator|Anthropic,1000,1000.0,0.5
+datacenters|rollup_mw|operator|Applied Digital,75,75.0,0.5
+datacenters|rollup_mw|operator|ChronoScale,50,50.0,0.5
+datacenters|rollup_mw|operator|Nebius,50,50.0,0.5
+datacenters|rollup_mw|operator|Switch,882,882.0,0.5
+datacenters|rollup_mw|operator|ThisWay Global,73,73.0,0.5
+datacenters|rollup_with_mw|grid|-,11,11,0.5
+datacenters|rollup_with_mw|grid|CAISO,1,1,0.5
+datacenters|rollup_with_mw|grid|ERCOT,4,4,0.5
+datacenters|rollup_with_mw|grid|ISO-NE,0,0,0.5
+datacenters|rollup_with_mw|grid|MISO,2,2,0.5
+datacenters|rollup_with_mw|grid|NYISO,0,0,0.5
+datacenters|rollup_with_mw|grid|PJM,3,3,0.5
+datacenters|rollup_with_mw|grid|SPP,0,0,0.5
+datacenters|rollup_with_mw|operator|-,13,13,0.5
+datacenters|rollup_with_mw|operator|AWS,0,0,0.5
+datacenters|rollup_with_mw|operator|Amazon,0,0,0.5
+datacenters|rollup_with_mw|operator|Amazon Web Services,0,0,0.5
+datacenters|rollup_with_mw|operator|Anthropic,1,1,0.5
+datacenters|rollup_with_mw|operator|Applied Digital,1,1,0.5
+datacenters|rollup_with_mw|operator|Arevia Power,0,0,0.5
+datacenters|rollup_with_mw|operator|Axe Compute,0,0,0.5
+datacenters|rollup_with_mw|operator|Chevron,0,0,0.5
+datacenters|rollup_with_mw|operator|ChronoScale,1,1,0.5
+datacenters|rollup_with_mw|operator|Crusoe,0,0,0.5
+datacenters|rollup_with_mw|operator|Digital Realty,0,0,0.5
+datacenters|rollup_with_mw|operator|Equinix,0,0,0.5
+"datacenters|rollup_with_mw|operator|Giga Texas Energy, LLC",0,0,0.5
+datacenters|rollup_with_mw|operator|Google,0,0,0.5
+datacenters|rollup_with_mw|operator|Lambda,0,0,0.5
+datacenters|rollup_with_mw|operator|Meta,0,0,0.5
+datacenters|rollup_with_mw|operator|Microsoft,0,0,0.5
+datacenters|rollup_with_mw|operator|Nebius,1,1,0.5
+datacenters|rollup_with_mw|operator|OpenAI,0,0,0.5
+datacenters|rollup_with_mw|operator|Oracle,0,0,0.5
+datacenters|rollup_with_mw|operator|PowerBridge LLC,0,0,0.5
+datacenters|rollup_with_mw|operator|Stack,0,0,0.5
+datacenters|rollup_with_mw|operator|Switch,3,3,0.5
+datacenters|rollup_with_mw|operator|ThisWay Global,1,1,0.5
+datacenters|rollup_with_mw|operator|US Signal,0,0,0.5
+datacenters|rollup_with_mw|operator|Vultr,0,0,0.5
+datacenters|rollup_with_mw|operator|xAI,0,0,0.5
+datacenters|rollup_without|grid|-,89,89,0.5
+datacenters|rollup_without|grid|CAISO,33,33,0.5
+datacenters|rollup_without|grid|ERCOT,42,42,0.5
+datacenters|rollup_without|grid|ISO-NE,3,3,0.5
+datacenters|rollup_without|grid|MISO,14,14,0.5
+datacenters|rollup_without|grid|NYISO,5,5,0.5
+datacenters|rollup_without|grid|PJM,57,57,0.5
+datacenters|rollup_without|grid|SPP,10,10,0.5
+datacenters|rollup_without|operator|-,12,12,0.5
+datacenters|rollup_without|operator|AWS,3,3,0.5
+datacenters|rollup_without|operator|Amazon,3,3,0.5
+datacenters|rollup_without|operator|Amazon Web Services,4,4,0.5
+datacenters|rollup_without|operator|Anthropic,1,1,0.5
+datacenters|rollup_without|operator|Applied Digital,1,1,0.5
+datacenters|rollup_without|operator|Arevia Power,1,1,0.5
+datacenters|rollup_without|operator|Axe Compute,1,1,0.5
+datacenters|rollup_without|operator|Chevron,1,1,0.5
+datacenters|rollup_without|operator|ChronoScale,0,0,0.5
+datacenters|rollup_without|operator|Crusoe,1,1,0.5
+datacenters|rollup_without|operator|Digital Realty,71,71,0.5
+datacenters|rollup_without|operator|Equinix,44,44,0.5
+"datacenters|rollup_without|operator|Giga Texas Energy, LLC",1,1,0.5
+datacenters|rollup_without|operator|Google,59,59,0.5
+datacenters|rollup_without|operator|Lambda,1,1,0.5
+datacenters|rollup_without|operator|Meta,32,32,0.5
+datacenters|rollup_without|operator|Microsoft,8,8,0.5
+datacenters|rollup_without|operator|Nebius,0,0,0.5
+datacenters|rollup_without|operator|OpenAI,1,1,0.5
+datacenters|rollup_without|operator|Oracle,1,1,0.5
+datacenters|rollup_without|operator|PowerBridge LLC,1,1,0.5
+datacenters|rollup_without|operator|Stack,1,1,0.5
+datacenters|rollup_without|operator|Switch,2,2,0.5
+datacenters|rollup_without|operator|ThisWay Global,0,0,0.5
+datacenters|rollup_without|operator|US Signal,1,1,0.5
+datacenters|rollup_without|operator|Vultr,1,1,0.5
+datacenters|rollup_without|operator|xAI,1,1,0.5
+datacenters|sites_mw,41921.9,41921.9,0.5
+datacenters|sites_n_with_mw,58,58,0.5
+datacenters|sites_texas,47,47,0.5
+datacenters|sites_us,278,278,0.5
+datacenters|state_mw|AK,3000,3000.0,0.5
+datacenters|state_mw|AL,40,40.0,0.5
+datacenters|state_mw|AR,108,108.0,0.5
+datacenters|state_mw|CA,400,400.0,0.5
+datacenters|state_mw|GA,674,674.0,0.5
+datacenters|state_mw|KY,1000,1000.0,0.5
+datacenters|state_mw|MI,937,937.0,0.5
+datacenters|state_mw|ND,75,75.0,0.5
+datacenters|state_mw|NV,495,495.0,0.5
+datacenters|state_mw|OH,10418,10418.0,0.5
+datacenters|state_mw|SC,50,50.0,0.5
+datacenters|state_mw|TX,457,457.0,0.5
+datacenters|state_mw|UT,9400,9400.0,0.5
+datacenters|state_mw|WV,1200,1200.0,0.5
+datacenters|status_mw|,6766,6766.0,0.5
+datacenters|status_mw|operating,75,75.0,0.5
+datacenters|status_mw|planned,21305,21305.0,0.5
+datacenters|status_mw|under_construction,108,108.0,0.5
+datacenters|texas_mw,457,457.0,0.5
+datacenters|texas_n_with_mw,4,4,0.5
+dcchart|operator|Anthropic|mw,1000,1000.0,0.5
+dcchart|operator|Applied Digital|mw,75,75.0,0.5
+dcchart|operator|ChronoScale|mw,50,50.0,0.5
+dcchart|operator|Nebius|mw,50,50.0,0.5
+dcchart|operator|Switch|mw,882,882.0,0.5
+dcchart|operator|ThisWay Global|mw,73,73.0,0.5
+dcchart|planned|2025-Q1|ERCOT,0,0,0.5
+dcchart|planned|2025-Q1|MISO,0,0,0.5
+dcchart|planned|2025-Q1|PJM,0,0,0.5
+dcchart|planned|2025-Q1|other,9400,9400.0,0.5
+dcchart|planned|2025-Q1|without,0,0,0.5
+dcchart|planned|2025-Q2|ERCOT,0,0,0.5
+dcchart|planned|2025-Q2|MISO,0,0,0.5
+dcchart|planned|2025-Q2|PJM,0,0,0.5
+dcchart|planned|2025-Q2|other,0,0,0.5
+dcchart|planned|2025-Q2|without,3,3,0.5
+dcchart|planned|2025-Q4|ERCOT,0,0,0.5
+dcchart|planned|2025-Q4|MISO,0,0,0.5
+dcchart|planned|2025-Q4|PJM,0,0,0.5
+dcchart|planned|2025-Q4|other,0,0,0.5
+dcchart|planned|2025-Q4|without,1,1,0.5
+dcchart|planned|2026-Q1|ERCOT,0,0,0.5
+dcchart|planned|2026-Q1|MISO,0,0,0.5
+dcchart|planned|2026-Q1|PJM,0,0,0.5
+dcchart|planned|2026-Q1|other,0,0,0.5
+dcchart|planned|2026-Q1|without,3,3,0.5
+dcchart|planned|2026-Q2|ERCOT,0,0,0.5
+dcchart|planned|2026-Q2|MISO,0,0,0.5
+dcchart|planned|2026-Q2|PJM,0,0,0.5
+dcchart|planned|2026-Q2|other,0,0,0.5
+dcchart|planned|2026-Q2|without,1,1,0.5
+dcchart|planned|2026-Q3|ERCOT,0,0,0.5
+dcchart|planned|2026-Q3|MISO,0,0,0.5
+dcchart|planned|2026-Q3|PJM,0,0,0.5
+dcchart|planned|2026-Q3|other,0,0,0.5
+dcchart|planned|2026-Q3|without,4,4,0.5
+dcchart|planned|2026-Q4|ERCOT,235,235.0,0.5
+dcchart|planned|2026-Q4|MISO,700,700.0,0.5
+dcchart|planned|2026-Q4|PJM,10400,10400.0,0.5
+dcchart|planned|2026-Q4|other,678,678.0,0.5
+dcchart|planned|2026-Q4|without,13,13,0.5
+dcchart|power|behind_the_meter_gas|facilities,1,1,0.5
+dcchart|power|behind_the_meter_gas|pct,0.4,0.4,0.05
+dcchart|power|gas|facilities,8,8,0.5
+dcchart|power|gas|pct,2.9,2.9,0.05
+dcchart|power|none|facilities,260,260,0.5
+dcchart|power|none|pct,94.9,94.9,0.05
+dcchart|power|nuclear|facilities,1,1,0.5
+dcchart|power|nuclear|pct,0.4,0.4,0.05
+dcchart|power|other|facilities,4,4,0.5
+dcchart|power|other|pct,1.5,1.5,0.05
+dcgrid|capacity_mw|CAISO,90303.3,90303.3,0.5
+dcgrid|capacity_mw|ERCOT,164685.4,164685.4,0.5
+dcgrid|capacity_mw|ISO-NE,35400.4,35400.4,0.5
+dcgrid|capacity_mw|MISO,195472.7,195472.7,0.5
+dcgrid|capacity_mw|NYISO,42786.6,42786.6,0.5
+dcgrid|capacity_mw|PJM,210667.4,210667.4,0.5
+dcgrid|capacity_mw|SPP,96914.2,96914.2,0.5
+dcgrid|facilities|CAISO,34,34,0.5
+dcgrid|facilities|ERCOT,46,46,0.5
+dcgrid|facilities|ISO-NE,3,3,0.5
+dcgrid|facilities|MISO,16,16,0.5
+dcgrid|facilities|NYISO,5,5,0.5
+dcgrid|facilities|PJM,60,60,0.5
+dcgrid|facilities|SPP,10,10,0.5
+dcgrid|peak_mw|CAISO,43860,43860.0,0.5
+dcgrid|peak_mw|ERCOT,83597,83597.0,0.5
+dcgrid|peak_mw|ISO-NE,25898,25898.0,0.5
+dcgrid|peak_mw|MISO,120343,120343.0,0.5
+dcgrid|peak_mw|NYISO,31857,31857.0,0.5
+dcgrid|peak_mw|PJM,160560,160560.0,0.5
+dcgrid|peak_mw|SPP,54411,54411.0,0.5
+dcgrid|planned|ERCOT,235,235.0,0.5
+dcgrid|planned|MISO,700,700.0,0.5
+dcgrid|planned|PJM,10400,10400.0,0.5
+dcgrid|reserve_margin|ERCOT,11.428383,11.428383,0.05
+dcgrid|share_of_peak|ERCOT,0.3,0.3,0.05
+dcgrid|share_of_peak|MISO,0.6,0.6,0.05
+dcgrid|share_of_peak|PJM,6.5,6.5,0.05
+dcgrid|with_mw|CAISO,1,1,0.5
+dcgrid|with_mw|ERCOT,4,4,0.5
+dcgrid|with_mw|ISO-NE,0,0,0.5
+dcgrid|with_mw|MISO,2,2,0.5
+dcgrid|with_mw|NYISO,0,0,0.5
+dcgrid|with_mw|PJM,3,3,0.5
+dcgrid|with_mw|SPP,0,0,0.5
+dcpow|ercot|LZ_AEN|per,39.00950570776255,39.00950570776256,0.005
+dcpow|ercot|LZ_AEN|year|2018,33.26308675799086,33.26308675799087,0.005
+dcpow|ercot|LZ_AEN|year|2019,38.122715753424664,38.12271575342466,0.005
+dcpow|ercot|LZ_AEN|year|2020,23.07937158469946,23.079371584699455,0.005
+dcpow|ercot|LZ_AEN|year|2021,147.26397716894965,147.26397716894976,0.005
+dcpow|ercot|LZ_AEN|year|2022,67.72069748858448,67.72069748858448,0.005
+dcpow|ercot|LZ_AEN|year|2023,60.05131963470319,60.051319634703205,0.005
+dcpow|ercot|LZ_AEN|year|2024,30.878046448087446,30.87804644808743,0.005
+dcpow|ercot|LZ_AEN|year|2025,36.94071118721461,36.94071118721461,0.005
+dcpow|ercot|LZ_CPS|per,38.992267123287654,38.992267123287675,0.005
+dcpow|ercot|LZ_CPS|year|2018,34.734884703196364,34.73488470319635,0.005
+dcpow|ercot|LZ_CPS|year|2019,39.975955479452054,39.975955479452054,0.005
+dcpow|ercot|LZ_CPS|year|2020,22.978025956284156,22.978025956284153,0.005
+dcpow|ercot|LZ_CPS|year|2021,146.45707305936082,146.45707305936074,0.005
+dcpow|ercot|LZ_CPS|year|2022,67.01641780821915,67.01641780821917,0.005
+dcpow|ercot|LZ_CPS|year|2023,58.58837671232878,58.58837671232877,0.005
+dcpow|ercot|LZ_CPS|year|2024,31.01651980874317,31.01651980874317,0.005
+dcpow|ercot|LZ_CPS|year|2025,37.08833447488584,37.08833447488585,0.005
+dcpow|ercot|LZ_HOUSTON|per,34.01617694063926,34.01617694063927,0.005
+dcpow|ercot|LZ_HOUSTON|year|2018,31.068843607305944,31.068843607305936,0.005
+dcpow|ercot|LZ_HOUSTON|year|2019,36.83375456621004,36.83375456621005,0.005
+dcpow|ercot|LZ_HOUSTON|year|2020,22.459586748633885,22.459586748633882,0.005
+dcpow|ercot|LZ_HOUSTON|year|2021,151.76097602739733,151.76097602739728,0.005
+dcpow|ercot|LZ_HOUSTON|year|2022,70.05107305936075,70.05107305936073,0.005
+dcpow|ercot|LZ_HOUSTON|year|2023,49.75229908675795,49.75229908675799,0.005
+dcpow|ercot|LZ_HOUSTON|year|2024,27.197503415300545,27.197503415300545,0.005
+dcpow|ercot|LZ_HOUSTON|year|2025,33.193615296803664,33.19361529680366,0.005
+dcpow|ercot|LZ_LCRA|per,38.64059931506849,38.6405993150685,0.005
+dcpow|ercot|LZ_LCRA|year|2018,33.47209360730595,33.472093607305936,0.005
+dcpow|ercot|LZ_LCRA|year|2019,38.33252397260273,38.332523972602736,0.005
+dcpow|ercot|LZ_LCRA|year|2020,22.513508652094725,22.513508652094718,0.005
+dcpow|ercot|LZ_LCRA|year|2021,147.2893824200913,147.28938242009133,0.005
+dcpow|ercot|LZ_LCRA|year|2022,67.82749885844748,67.82749885844748,0.005
+dcpow|ercot|LZ_LCRA|year|2023,58.99998515981734,58.99998515981735,0.005
+dcpow|ercot|LZ_LCRA|year|2024,31.702701502732257,31.702701502732243,0.005
+dcpow|ercot|LZ_LCRA|year|2025,38.1667785388128,38.166778538812785,0.005
+dcpow|ercot|LZ_NORTH|per,34.07137214611872,34.071372146118726,0.005
+dcpow|ercot|LZ_NORTH|year|2018,30.8172910958904,30.817291095890408,0.005
+dcpow|ercot|LZ_NORTH|year|2019,36.3465308219178,36.34653082191781,0.005
+dcpow|ercot|LZ_NORTH|year|2020,21.816786202185796,21.816786202185792,0.005
+dcpow|ercot|LZ_NORTH|year|2021,150.60643721461193,150.60643721461187,0.005
+dcpow|ercot|LZ_NORTH|year|2022,62.92576940639272,62.925769406392696,0.005
+dcpow|ercot|LZ_NORTH|year|2023,48.6875605022831,48.6875605022831,0.005
+dcpow|ercot|LZ_NORTH|year|2024,26.40996812386157,26.409968123861567,0.005
+dcpow|ercot|LZ_NORTH|year|2025,32.65666210045664,32.65666210045662,0.005
+dcpow|ercot|LZ_RAYBN|per,35.97714269406392,35.97714269406393,0.005
+dcpow|ercot|LZ_RAYBN|year|2018,35.701515981735156,35.70151598173516,0.005
+dcpow|ercot|LZ_RAYBN|year|2019,38.49410730593609,38.494107305936076,0.005
+dcpow|ercot|LZ_RAYBN|year|2020,22.78889230418944,22.788892304189435,0.005
+dcpow|ercot|LZ_RAYBN|year|2021,147.59913013698645,147.59913013698628,0.005
+dcpow|ercot|LZ_RAYBN|year|2022,65.69471461187216,65.69471461187214,0.005
+dcpow|ercot|LZ_RAYBN|year|2023,56.3309280821918,56.33092808219178,0.005
+dcpow|ercot|LZ_RAYBN|year|2024,27.450988160291452,27.45098816029144,0.005
+dcpow|ercot|LZ_RAYBN|year|2025,33.682566210045664,33.682566210045664,0.005
+dcpow|ercot|LZ_SOUTH|per,34.168505707762556,34.168505707762556,0.005
+dcpow|ercot|LZ_SOUTH|year|2018,33.8547420091324,33.854742009132416,0.005
+dcpow|ercot|LZ_SOUTH|year|2019,38.099316210045664,38.099316210045664,0.005
+dcpow|ercot|LZ_SOUTH|year|2020,25.370087659380705,25.37008765938069,0.005
+dcpow|ercot|LZ_SOUTH|year|2021,147.491899543379,147.491899543379,0.005
+dcpow|ercot|LZ_SOUTH|year|2022,59.89740182648404,59.897401826484014,0.005
+dcpow|ercot|LZ_SOUTH|year|2023,45.123857305936085,45.12385730593607,0.005
+dcpow|ercot|LZ_SOUTH|year|2024,30.430915300546445,30.430915300546445,0.005
+dcpow|ercot|LZ_SOUTH|year|2025,33.49902283105023,33.499022831050226,0.005
+dcpow|ercot|LZ_WEST|per,35.351450913242,35.35145091324201,0.005
+dcpow|ercot|LZ_WEST|year|2018,37.53593721461189,37.53593721461187,0.005
+dcpow|ercot|LZ_WEST|year|2019,46.56005136986301,46.56005136986301,0.005
+dcpow|ercot|LZ_WEST|year|2020,30.795803734061927,30.795803734061934,0.005
+dcpow|ercot|LZ_WEST|year|2021,147.97396917808223,147.9739691780822,0.005
+dcpow|ercot|LZ_WEST|year|2022,62.352095890411,62.35209589041096,0.005
+dcpow|ercot|LZ_WEST|year|2023,59.422876712328765,59.42287671232877,0.005
+dcpow|ercot|LZ_WEST|year|2024,35.711345628415295,35.7113456284153,0.005
+dcpow|ercot|LZ_WEST|year|2025,42.175071917808204,42.17507191780822,0.005
+dcq|ercot|-|active_mw,308487.9599999997,308487.96,0.5
+dcq|ercot|-|active_positions,1159,1159,0.5
+dcq|ercot|-|mw_asked,191.26,191.26,0.005
+dcq|ercot|-|sites,2,2,0.5
+dcq|ercot|-|sites_with_mw,2,2,0.5
+dctime|count|grid|-,9,9,0.5
+dctime|count|year|2025,1,1,0.5
+dctime|count|year|2026,8,8,0.5
+dctime|median|grid|-,2,2,0.05
+dctime|median|year|2026,2,2.0,0.05
+dctime|rows,9,9,0.5
+entity|ercot_interconnection_queue|ercot_queue:25INR0688|capacity_mw,133,133.0,0.005
+entity|ercot_interconnection_queue|ercot_queue:28INR0499|capacity_mw,58.26,58.26,0.005
+ercot|impossible_reports,1,1,0.5
+ercot|month_mismatch_reports,4,4,0.5
+ercot|observed_share_pct,44,44,0.5
+ercot|reports,12,12,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-05-28T00:00:00Z,6874,6874.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-07-30T00:00:00Z,7150,7150.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-08-27T00:00:00Z,7502,7502.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-10-17T00:00:00Z,7502,7502.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2025-11-19T00:00:00Z,7502,7502.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-01-21T00:00:00Z,8786,8786.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-02-25T00:00:00Z,8876,8876.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-03-13T00:00:00Z,9042,9042.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-03-26T00:00:00Z,9042,9042.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-04-24T00:00:00Z,9042,9042.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-05-21T00:00:00Z,9062,9062.0,0.5
+series|ercot_large_load_status|ercot:large_load|approved_to_energize_mw|2026-06-19T00:00:00Z,8927,8927.0,0.5
+series|ercot_large_load_status|ercot:large_load|new_submissions_count|2026-03-13T00:00:00Z,137,137.0,0.5
+series|ercot_large_load_status|ercot:large_load|new_submissions_mw|2026-03-13T00:00:00Z,140000,140000.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-05-28T00:00:00Z,3489,3489.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-07-30T00:00:00Z,3820,3820.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-08-27T00:00:00Z,3694,3694.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-10-17T00:00:00Z,4126,4126.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2025-11-19T00:00:00Z,4185,4185.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-01-21T00:00:00Z,3977,3977.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-02-25T00:00:00Z,3998,3998.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-03-13T00:00:00Z,3883,3883.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-03-26T00:00:00Z,4004,4004.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-04-24T00:00:00Z,4008,4008.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-05-21T00:00:00Z,3900,3900.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_nonsimultaneous_peak_mw|2026-06-19T00:00:00Z,3900,3900.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-05-28T00:00:00Z,3441,3441.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-07-30T00:00:00Z,3632,3632.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-08-27T00:00:00Z,3733,3733.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-10-17T00:00:00Z,3800,3800.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2025-11-19T00:00:00Z,3795,3795.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-01-21T00:00:00Z,3765,3765.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-02-25T00:00:00Z,3846,3846.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-03-13T00:00:00Z,3801,3801.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-03-26T00:00:00Z,3522,3522.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-04-24T00:00:00Z,3701,3701.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-05-21T00:00:00Z,3701,3701.0,0.5
+series|ercot_large_load_status|ercot:large_load|observed_simultaneous_peak_mw|2026-06-19T00:00:00Z,3675,3675.0,0.5

@@ -37,7 +37,7 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 STATES = set(("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC "
-              "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY").split())
+              "ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR").split())   # session 7400: Puerto Rico, as the page's list
 STATE_GRID = {"TX": "ERCOT", "CA": "CAISO", "NY": "NYISO", "CT": "ISO-NE", "ME": "ISO-NE", "MA": "ISO-NE", "NH": "ISO-NE",
               "RI": "ISO-NE", "VT": "ISO-NE", "PA": "PJM", "NJ": "PJM", "MD": "PJM", "DE": "PJM", "VA": "PJM", "WV": "PJM",
               "OH": "PJM", "DC": "PJM", "MN": "MISO", "IA": "MISO", "WI": "MISO", "MI": "MISO", "LA": "MISO", "OK": "SPP",
