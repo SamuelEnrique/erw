@@ -114,6 +114,13 @@ ok((aug.match(/<tr class="[^"]*bg-paper font-semibold[^"]*"/g) ?? []).length ===
 ok((section(o26).match(/<tr class="[^"]*bg-paper font-semibold/g) ?? []).length === 0, "row 5: a month outside the six marks none");
 ok(aug.includes('id="tip-shoulder-two-sources"') && !/<p[^>]*text-muted/.test(aug) && words(aug).includes("The battery fleet (EIA-860M) and the curtailment (CAISO's own count) are the same rows for both."), "row 5: what is the same and what differs is a hover tip, no grey text");
 ok(section(e25) === "" && !e25.includes("two-sources"), "Texas, one source, has no such section");
+// row 7: the tip's sentence on demand, held on the real rows of August 2025 (the average day of each source, hour by hour)
+const hourOf = (e, s, h) => held.get(`${e}|avg_${s}_mw_h${String(h).padStart(2, "0")}|2025-08-01`);
+const hours = Array.from({ length: 24 }, (_, h) => h);
+const gap = hours.reduce((a, h) => a + hourOf("iso:caiso", "demand", h) - hourOf("iso:caiso_own", "demand", h), 0), charged = hours.reduce((a, h) => a - Math.min(0, hourOf("iso:caiso_own", "battery", h)), 0);
+ok(words(aug).includes("CAISO's own demand leaves the fleet's charging out; over these months EIA-930's demand is higher by about what the batteries charge, hour by hour") && charged > 30000 && Math.abs(gap - charged) / charged < 0.02
+  && hours.filter((h) => hourOf("iso:caiso_own", "battery", h) < -1000).every((h) => { const g = hourOf("iso:caiso", "demand", h) - hourOf("iso:caiso_own", "demand", h), c = -hourOf("iso:caiso_own", "battery", h); return Math.abs(g - c) / c < 0.15; }),
+  `row 7: the tip says why the two differ, and the rows bear it out: August 2025, EIA-930's demand above the sum of CAISO's sources by ${two(Math.round(gap))} MWh a day, the batteries' charging ${two(Math.round(charged))} MWh`);
 
 // ---- the price: the page holds none, says so, and sends the reader to the page that does, for the grid shown
 const ready = B.GRIDS.filter((g) => g.ready && g.hub && g.from);
