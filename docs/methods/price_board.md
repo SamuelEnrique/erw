@@ -259,6 +259,8 @@ Day-ahead prices by the hour for the four grids held: ERCOT (`ercot_as_prices`, 
 - **California's credit price:** CARB lists one week by its Tuesday (7 September 2021, the day after Labor Day); the date is kept as CARB writes it.
 - **Treasury yields** have no sector in the coverage vocabulary; the table is filed under `equities` (financial markets) as the nearest.
 
+**A holiday's close is EIA's own repeat (session 7050, done-line request 120).** On a U.S. holiday EIA's daily spot series carry the trading day before's value: on 11 November 2026 (Veterans Day) WTI Cushing (RWTC) 89.62, Henry Hub (RNGWHHD) 3.00, New York Harbor conventional gasoline (EER_EPMRU_PF4_Y35NY_DPG) 2.415 and New York Harbor ULSD (EER_EPD2DXL0_PF4_Y35NY_DPG) 4.204, each 10 November's close; on 7 September 2026 (Labor Day) WTI 92.69 and Henry Hub 2.92, 4 September's, while the two New York Harbor products have no value that day (EIA's API v2, read 16 November 2026). The tables hold EIA's values as published, so the board draws such a day as "Day 0.00"; it is not a fault of the connector, and nothing is dropped. Brent (RBRTE) traded on 11 November and moved.
+
 ## Spreads, with their stated heat rates and yields
 
 Each formula is on hover on the page.
