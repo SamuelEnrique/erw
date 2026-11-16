@@ -14,8 +14,8 @@ import {
   viewHref, windowOf, yearTs, yearsOf, ytdThrough, type Row,
 } from "@/lib/explore/demandgrowth";
 import { sourceOf } from "@/lib/explore/source";
-import { shown } from "@/lib/format";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { DemandGrowthDecisions } from "@/app/explore/demand-growth/Decisions";
 
 // Session 404: the demand growth explorer (platform tool 5, the second signature explorer), in review. Growth since
 // 2019 by grid and by window of the year, from eia930_demand_growth as it stands in the live set: for any of the seven
@@ -28,11 +28,23 @@ import { HOURLY, attempt, rest } from "@/lib/supabase";
 // Session 2201 (chain 086): every figure carries its source in its hover (Num's `source`, the words of
 // lib/explore/source.ts read from the figure's own key: the table, the grid, the variable, the year and EIA-930), each
 // headline number a Tip with the same words, and the three bar charts the brand's hover card (components/tool/BarsHover.tsx).
+// Session 7508 (chain 304, the done line): the decisions block (./Decisions.tsx); a percent always to two decimals
+// (a whole one read "+8" beside a bar's "+8.00"); a unit only beside a figure ("not held percent" on the Lower 48's
+// peak); a month's name kept in the second chart's hover ("january to october"); the Lower 48's own missing bar marked
+// "not held"; and the table said stale after 35 days, not 3, since the monthly job builds it.
+// Session 7517 (chain 304, part B: the page read as its reader, the file "demand-growth-read" of docs/reviews): in the
+// peak window, the newest year's highest hour so far with its growth, three rows of the table (PJM's newest record was
+// in the table and not here; no year is written by hand, as session 404's test holds); in the year-so-far window, the months beside 2019 under the second headline and
+// in the table's head; and a line saying the table holds no forecast and where the ERW holds the operators' own.
 export const metadata: Metadata = { title: "Demand growth explorer" };
 export const dynamic = "force-dynamic";
 
 const PATH = "/explore/demand-growth";
 const SELECT = "entity,variable,ts_utc,value";
+// the monthly job builds the table (warehouse/run_monthly.sh, on the first daily run on or after the third of a month):
+// two builds are up to 34 days apart, so the table is stale when a month's build is missing, not three days after one
+const STALE_AFTER_DAYS = 35;
+const twoDecimals = (x: number) => x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default async function DemandGrowthExplorer({ searchParams }: { searchParams: Promise<Params> }) {
   const sp = await searchParams;
@@ -49,6 +61,7 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   const fresh = (
     <HeldFreshness
       tables={[TABLE]}
+      staleAfterDays={STALE_AFTER_DAYS}
       detail={<>{through ? <>The newest year, {through.year}, is partial: the table holds its year so far, 1 January to the end of {monthName(through.month)} {through.year} (the table&apos;s header), and compares it with the same months of {BASE}. </> : null}Weather is not removed: a year&apos;s demand is what was metered that year.</>}
     />
   );
@@ -97,9 +110,12 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   const n = (entity: string, v: string, y: number | undefined, pct?: boolean): ReactNode => {
     const x = val(entity, v, y);
     if (x === undefined || y === undefined) return <span className="text-muted">not held</span>;
-    const text = pct || v.startsWith("growth_pct") ? shown(x) : Math.round(x).toLocaleString("en-US");
+    const text = pct || v.startsWith("growth_pct") ? twoDecimals(x) : Math.round(x).toLocaleString("en-US");
     return <>{(pct || v.startsWith("growth_")) && x > 0 ? "+" : ""}<Num check={key(entity, v, y)} raw={x} source={sourceOf(key(entity, v, y), gridName(entity))}>{text}</Num></>;
   };
+  // a figure with its unit: the unit is drawn only beside a figure, never beside "not held"
+  const held = (entity: string, v: string, y: number | undefined) => val(entity, v, y) !== undefined;
+  const mw = (entity: string, v: string, y: number | undefined): ReactNode => <>{n(entity, v, y)}{held(entity, v, y) ? " MW" : ""}</>;
   const when = (y: number | undefined) => (y === undefined ? "" : `${y}${win.latest === "newest" ? so(y) : ""}`);
   const ytdWords = (y: number | undefined) => (y === undefined ? "" : `${y}${so(y) || (through ? ` (January to ${monthName(through.month)})` : "")}`);
   const signedText = (v: number) => `${v > 0 ? "+" : ""}${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -111,10 +127,10 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   });
   const ordered = [...byGrid].sort((a, b) => (a.v === undefined ? 1 : b.v === undefined ? -1 : b.v - a.v));
   const third: { label: string; value: ReactNode; unit: string; tip: ReactNode } = win.growthMw
-    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: n(e, win.growthMw, latest), unit: "MW", tip: tipOf("third", "the change", e, win.growthMw, latest) }
+    ? { label: `Change since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`, value: n(e, win.growthMw, latest), unit: held(e, win.growthMw, latest) ? "MW" : "", tip: tipOf("third", "the change", e, win.growthMw, latest) }
     : win.slug === "ytd"
-      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: n(e, "avg_demand_growth_since_2019_pct", whole, true), unit: "percent", tip: tipOf("third", "the whole year's growth", e, "avg_demand_growth_since_2019_pct", whole) }
-      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: n(e, "ytd_avg_demand_growth_since_2019_pct", recent, true), unit: "percent", tip: tipOf("third", "the year so far's growth", e, "ytd_avg_demand_growth_since_2019_pct", recent) };
+      ? { label: `Average demand growth since ${BASE}, whole year, ${grid.name}, ${whole ?? ""}`, value: n(e, "avg_demand_growth_since_2019_pct", whole, true), unit: held(e, "avg_demand_growth_since_2019_pct", whole) ? "percent" : "", tip: tipOf("third", "the whole year's growth", e, "avg_demand_growth_since_2019_pct", whole) }
+      : { label: `The year so far: growth since ${BASE}, ${grid.name}, ${ytdWords(recent)}`, value: n(e, "ytd_avg_demand_growth_since_2019_pct", recent, true), unit: held(e, "ytd_avg_demand_growth_since_2019_pct", recent) ? "percent" : "", tip: tipOf("third", "the year so far's growth", e, "ytd_avg_demand_growth_since_2019_pct", recent) };
   // the grid's growth by window along the years: one group a year, one bar a window (the site's bar chart, whose year
   // labels are the years themselves); a window without a row that year has no bar
   const GROWTH = [
@@ -135,14 +151,20 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
         </p>
       ) : null}
       <HeadlineRow>
-        <HeadlineNumber label={`Growth since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`} value={n(e, win.growth, latest, true)} unit="percent"
+        <HeadlineNumber label={`Growth since ${BASE}, ${win.short}, ${grid.name}, ${when(latest)}`} value={n(e, win.growth, latest, true)} unit={held(e, win.growth, latest) ? "percent" : undefined}
           tip={tipOf("growth", "the growth", e, win.growth, latest)}
-          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {n(e, win.mw, BASE)} MW; {latest ?? ""}: {n(e, win.mw, latest)} MW</>} />
-        <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={n(e, win.mw, latest)} unit="MW"
+          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {mw(e, win.mw, BASE)}; {latest ?? ""}: {mw(e, win.mw, latest)}</>} />
+        <HeadlineNumber label={`${win.short[0].toUpperCase()}${win.short.slice(1)}, ${grid.name}, ${when(latest)}`} value={n(e, win.mw, latest)} unit={held(e, win.mw, latest) ? "MW" : undefined}
           tip={tipOf("mw", "the demand", e, win.mw, latest)}
-          note={<>{BASE}: {n(e, win.mw, BASE)} MW</>} />
+          note={<>{BASE}{win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}: {mw(e, win.mw, BASE)}</>} />
         <HeadlineNumber label={third.label} value={third.value} unit={third.unit} tip={third.tip} />
       </HeadlineRow>
+      {win.slug === "peak" && held(e, "ytd_peak_demand_mw", recent) ? (
+        <p className="mb-6 max-w-3xl text-sm" data-peak-so-far="1">
+          The highest hour of {ytdWords(recent)}: {mw(e, "ytd_peak_demand_mw", recent)}
+          {held(e, "ytd_peak_demand_growth_since_2019_pct", recent) ? <>, {n(e, "ytd_peak_demand_growth_since_2019_pct", recent, true)} percent on the highest hour of the same months of {BASE} ({mw(e, "ytd_peak_demand_mw", BASE)})</> : null}.
+        </p>
+      ) : null}
 
       <ChartFrame title={`The headline chart: growth since ${BASE} by grid, ${win.short}`}
         note={<>One bar a grid, at its {win.latest === "newest" ? "newest year, the year so far against the same months of " + BASE : "last whole year"}, largest first; {grid.name} is marked &quot;shown below&quot;. Each bar is one row of the table; its figure is in the table under the chart.{byGrid.some((x) => x.v === undefined) ? <> A grid without a bar has no row for this window{win.slug === "peak" ? " (the Lower 48 has no peak: the method note says why)" : ""}.</> : null}</>}>
@@ -150,14 +172,14 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
             series={[{ name: `Growth since ${BASE}: ${win.label}`, tone: "accent" }]}
             fmt={signedText}
             groups={ordered.map(({ g, y, v }) => ({
-              label: g.name, sub: g.slug === grid.slug ? "shown below" : v === undefined ? "not held" : undefined, values: [v ?? null],
+              label: g.name, sub: v === undefined ? "not held" : g.slug === grid.slug ? "shown below" : undefined, values: [v ?? null],
               title: v === undefined ? `${g.name}: not held` : `${g.name}: ${signedText(v)} percent from ${BASE} to ${y}`,
             }))} />
       </ChartFrame>
 
       <ToolSection title={`Every grid: ${win.short}`} note={`Each grid at its ${win.latest === "newest" ? "newest year (the year so far)" : "last whole year"}; a grid's name opens it in this window.`}>
         <ToolTable caption={`Growth since ${BASE} of ${win.short}, by grid`} minWidth={win.growthMw ? 520 : 440}
-          head={["Grid", `${BASE}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
+          head={["Grid", `${BASE}${win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
           rows={byGrid.map(({ g, y }) => {
             const ge = entityOf(g.ba);
             return {
@@ -182,7 +204,7 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
               const vs = GROWTH.map((s) => val(e, s.v, y));
               return {
                 label: String(y), values: vs.map((v) => v ?? null),
-                title: `${grid.name}, ${y}: ${GROWTH.map((s, k) => `${s.name.toLowerCase()} ${vs[k] === undefined ? "not held" : signedText(vs[k]!) + " percent"}`).join("; ")}`,
+                title: `${grid.name}, ${y}: ${GROWTH.map((s, k) => `${s.name[0].toLowerCase()}${s.name.slice(1)} ${vs[k] === undefined ? "not held" : signedText(vs[k]!) + " percent"}`).join("; ")}`,
               };
             })} />
         )}
@@ -218,6 +240,14 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
         The same table is drawn on <Link href="/demand">Demand growth</Link>, with the map of where the growth sits by month and hour of the day
         and a ranking of the grids; this explorer reads any grid in any window of the year, every figure checked against the live set.
       </p>
+      <p className="mt-2 max-w-3xl text-sm" data-forecast-elsewhere="1">
+        The table holds no forecast. What the grid operators forecast, as the ERW holds it, is under Headroom on{" "}
+        <Link href="/cost-of-power?view=allgrids">All grids</Link>
+        <Tip id="forecast-elsewhere" label="what that tab holds, and how its demand growth differs from this page's">
+          ERCOT&apos;s firm peak for the coming summers from its capacity, demand and reserves report, CAISO&apos;s forecast peak from its summer assessment, and how each operator&apos;s forecast of its summer peak on FERC Form 714 moved between its last two filings. That tab&apos;s demand growth is another figure from this same table: the mean of the last twelve months over the twelve before. This page&apos;s &quot;on the year before&quot; is one calendar year over the one before, so the two differ for the same grid. The peaks of the last whole year are the same rows on both.
+        </Tip>
+      </p>
+      <DemandGrowthDecisions />
     </>
   );
   // session 1496 (chain 158): the window's rows of the table, every grid and year, as a download of their own
