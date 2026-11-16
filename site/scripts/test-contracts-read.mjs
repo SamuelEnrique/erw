@@ -123,7 +123,7 @@ ok(!/data-no-unit/.test(pjm) && />Market Based</.test(pjm), "row 7: a rate filed
 // ---- row 11: a number that is 0 is counted among the priced rows, and said
 const zeros = [row(40, "2026-03-20", { pod_ba: "MISO", rate: "0", rate_units: "$/MWH", rate_description: "" }), row(41, "2026-03-19", { pod_ba: "MISO", rate: "0.0000", rate_units: "", rate_description: "" }),
   row(42, "2026-03-18", { pod_ba: "MISO", rate: "12", rate_units: "$/MWH", rate_description: "" }), row(43, "2026-03-17", { pod_ba: "MISO" })];
-ok(C.counts(zeros).zero === 2 && C.counts(zeros).priced === 3 && C.counts(Q2).zero === 0 && C.counts([row(44, "2026-03-01", { rate: " ", rate_description: "0" })]).zero === 0, "row 11: a rate filed as 0 or 0.0000 is a number that is zero; an empty rate is not");
+ok(C.zeroPriced(zeros) === 2 && C.counts(zeros).priced === 3 && C.zeroPriced(Q2) === 0 && C.zeroPriced([row(44, "2026-03-01", { rate: " ", rate_description: "0" })]) === 0 && !("zero" in C.counts(zeros)),"row 11: a rate filed as 0 or 0.0000 is a number that is zero; an empty rate is not");
 all.push(...zeros);
 const miso = await draw({ q: "2026-Q1", product: "energy", ba: "MISO" });
 ok(/data-zero="2"/.test(miso) && /The other 1 gives words: a market-based rate, a formula, or nothing\. 2 of the 3 file the number 0\./.test(text(miso)) && marked(miso, "priced") === "3", "row 11: the headline's note says how many of the priced rows file the number 0");

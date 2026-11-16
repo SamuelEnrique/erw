@@ -216,10 +216,14 @@ export function counts(rows: Contract[]) {
     agreements: new Set(rows.map((r) => `${r.seller}|${r.agreement}`)).size,
     sellers: set((r) => r.seller), buyers: set((r) => r.buyer),
     priced: rows.filter((r) => (r.rate ?? "").trim() !== "").length,
-    // session 7510: the rows whose number is 0 (a rate of zero is filed as a number: counted among the priced, and said)
-    zero: rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length,
     affiliate: rows.filter((r) => up(r.affiliate) === "Y").length,
   };
+}
+
+/** Session 7510: the rows whose rate is the number 0. A rate of zero is filed as a number, so `counts` has it among the
+ * priced rows; the page says how many they are. Its own function: `counts` stays what session 83's test holds it to. */
+export function zeroPriced(rows: Contract[]): number {
+  return rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length;
 }
 
 /** The delivery balancing authorities of the rows, most rows first. */

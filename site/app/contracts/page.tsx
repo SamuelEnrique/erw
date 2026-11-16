@@ -6,7 +6,7 @@ import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHea
 import { attempt } from "@/lib/supabase";
 import { GRID_CHOICES } from "@/lib/gridtool";
 import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baName, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarterNotListed, quarters,
-  rateText, some, termDays, termYears, viewOf, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+  rateText, some, termDays, termYears, viewOf, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
@@ -54,7 +54,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const read = quarter && v.view === "quarter" ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
   const all: Contract[] = read?.ok ? read.data : [];
   const rows = filter(all, product, ba);
-  const c = counts(rows);
+  const c = counts(rows), zero = zeroPriced(rows);   // session 7510: the priced rows whose number is 0
   const bas = byBa(filter(all, product, null));
   const ercot = summary.ok ? summary.data.by_ba.filter((b) => baOf(b.ba) === "ERCO").reduce((a, b) => a + b.rows, 0) : 0;   // session 7501: whatever its capitals
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
@@ -136,8 +136,8 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                 </p>
                 <HeadlineRow>
                   <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, "agreement")}; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
-                  <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} {some(c.rows - c.priced, "gives", "give")} words: a market-based rate, a formula, or nothing.{c.zero > 0
-                    ? <span data-zero={c.zero}> {count(c.zero)} of the {count(c.priced)} {some(c.zero, "files", "file")} the number 0.</span> : null}</>} />
+                  <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} {some(c.rows - c.priced, "gives", "give")} words: a market-based rate, a formula, or nothing.{zero > 0
+                    ? <span data-zero={zero}> {count(zero)} of the {count(c.priced)} {some(zero, "files", "file")} the number 0.</span> : null}</>} />
                   <HeadlineNumber label="Between affiliates" value={count(c.affiliate)} note="Rows the seller marked as a contract with an affiliate." />
                 </HeadlineRow>
                 <ToolSection title={`Signed in ${quarter.replace("-", " ")}`} note={rows.length > SHOWN ? `The first ${SHOWN} of ${count(rows.length)} rows, newest first. Narrow by product or balancing authority to see the rest.` : "Newest first. Every cell is as the seller filed it."}>
