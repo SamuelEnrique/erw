@@ -72,6 +72,11 @@ def day_rows(day, log):
     d = pd.read_csv(io.StringIO(r.text))
     if "Time" not in d.columns or not set(SOURCES) <= set(d.columns):
         raise RuntimeError(f"{url}: columns {list(d.columns)}")
+    # session 7016 (chain 301): on the spring clock change CAISO prints 288 rows, the hour that does not exist (02:00 to
+    # 02:55) as twelve rows with every value blank; they are dropped before the clock is read (a blank row was dropped
+    # below anyway). A row of that hour that holds a value still stops the day (NonExistentTimeError). 8 March 2026 was
+    # refused for this, in this table and in caiso_battery_storage.
+    d = d.dropna(subset=list(SOURCES), how="all").reset_index(drop=True)
     start = pd.Timestamp(day).tz_localize(TZ)
     end = pd.Timestamp(day + dt.timedelta(days=1)).tz_localize(TZ)
     expected = int((end - start) / pd.Timedelta(minutes=5))
