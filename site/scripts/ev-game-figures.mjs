@@ -25,13 +25,14 @@ const tol = (s) => { const m = String(s).match(/[\d,]*\.?(\d*)/g)?.find((x) => /
 
 function figuresOf(html) {
   const f = [];
-  const add = (key, name, shown) => { const v = num(shown); f.push({ key, name, shown, value: v, tolerance: v === null ? null : tol(shown) }); };
+  // a figure drawn as "$" then its keyed span reads "$ 5,131" once the tags are gone: the space is the tag's, not the page's
+  const add = (key, name, shown0) => { const shown = String(shown0).replace(/\$ /g, "$"); const v = num(shown); f.push({ key, name, shown, value: v, tolerance: v === null ? null : tol(shown) }); };
   // the inputs: each field's value as shown, and the default its tip names
   for (const m of html.matchAll(/data-field="(\w+)">([\s\S]*?)<input/g)) {
     const [, id, block] = m;
     const shown = block.match(/<span class="font-mono[^"]*"[^>]*>([^<]+)<\/span>/);
     if (shown) add(`field_${id}`, `The input ${id}, as shown`, ent(shown[1]));
-    f.push({ key: `field_${id}_mine`, name: `The input ${id}: changed by you`, shown: /data-default="1"/.test(block) ? "default" : "changed by you", value: null, tolerance: null });
+    if (shown) f.push({ key: `field_${id}_mine`, name: `The input ${id}: changed by you`, shown: /data-default="1"/.test(block) ? "default" : "changed by you", value: null, tolerance: null });
     const tip = block.match(/role="tooltip"[^>]*>([\s\S]*?)<\/span>\s*<\/span>/);
     if (tip) {
       const t = words(tip[1]);

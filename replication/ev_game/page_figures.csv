@@ -37,7 +37,7 @@ opens,credit_switch,The federal credit switch,off,,
 opens,payback,Payback,3.2 years,3.2,0.05
 opens,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 opens,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-opens,npv,Net present value,"$ 5,131",5131,0.5
+opens,npv,Net present value,"$5,131",5131,0.5
 opens,npv_years,Net present value: the years in its heading,8,8,0.5
 opens,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 opens,gas_year,A year of gasoline,"$2,419",2419,0.5
@@ -120,7 +120,7 @@ state_AL,credit_switch,The federal credit switch,off,,
 state_AL,payback,Payback,3.5 years,3.5,0.05
 state_AL,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_AL,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_AL,npv,Net present value,"$ 4,114",4114,0.5
+state_AL,npv,Net present value,"$4,114",4114,0.5
 state_AL,npv_years,Net present value: the years in its heading,8,8,0.5
 state_AL,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_AL,gas_year,A year of gasoline,"$2,173",2173,0.5
@@ -203,7 +203,7 @@ state_AK,credit_switch,The federal credit switch,off,,
 state_AK,payback,Payback,3.3 years,3.3,0.05
 state_AK,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_AK,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_AK,npv,Net present value,"$ 4,705",4705,0.5
+state_AK,npv,Net present value,"$4,705",4705,0.5
 state_AK,npv_years,Net present value: the years in its heading,8,8,0.5
 state_AK,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_AK,gas_year,A year of gasoline,"$2,842",2842,0.5
@@ -286,7 +286,7 @@ state_AZ,credit_switch,The federal credit switch,off,,
 state_AZ,payback,Payback,2.4 years,2.4,0.05
 state_AZ,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_AZ,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_AZ,npv,Net present value,"$ 8,748",8748,0.5
+state_AZ,npv,Net present value,"$8,748",8748,0.5
 state_AZ,npv_years,Net present value: the years in its heading,8,8,0.5
 state_AZ,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_AZ,gas_year,A year of gasoline,"$2,842",2842,0.5
@@ -369,7 +369,7 @@ state_AR,credit_switch,The federal credit switch,off,,
 state_AR,payback,Payback,3.3 years,3.3,0.05
 state_AR,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_AR,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_AR,npv,Net present value,"$ 4,736",4736,0.5
+state_AR,npv,Net present value,"$4,736",4736,0.5
 state_AR,npv_years,Net present value: the years in its heading,8,8,0.5
 state_AR,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_AR,gas_year,A year of gasoline,"$2,173",2173,0.5
@@ -452,7 +452,7 @@ state_CA,credit_switch,The federal credit switch,off,,
 state_CA,payback,Payback,2.6 years,2.6,0.05
 state_CA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_CA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_CA,npv,Net present value,"$ 7,258",7258,0.5
+state_CA,npv,Net present value,"$7,258",7258,0.5
 state_CA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_CA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_CA,gas_year,A year of gasoline,"$3,459",3459,0.5
@@ -535,7 +535,7 @@ state_CO,credit_switch,The federal credit switch,off,,
 state_CO,payback,Payback,3.5 years,3.5,0.05
 state_CO,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_CO,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_CO,npv,Net present value,"$ 4,325",4325,0.5
+state_CO,npv,Net present value,"$4,325",4325,0.5
 state_CO,npv_years,Net present value: the years in its heading,8,8,0.5
 state_CO,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_CO,gas_year,A year of gasoline,"$2,233",2233,0.5
@@ -618,7 +618,7 @@ state_CT,credit_switch,The federal credit switch,off,,
 state_CT,payback,Payback,3.9 years,3.9,0.05
 state_CT,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_CT,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_CT,npv,Net present value,"$ 3,333",3333,0.5
+state_CT,npv,Net present value,"$3,333",3333,0.5
 state_CT,npv_years,Net present value: the years in its heading,8,8,0.5
 state_CT,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_CT,gas_year,A year of gasoline,"$2,413",2413,0.5
@@ -701,7 +701,7 @@ state_DE,credit_switch,The federal credit switch,off,,
 state_DE,payback,Payback,3.2 years,3.2,0.05
 state_DE,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_DE,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_DE,npv,Net present value,"$ 5,112",5112,0.5
+state_DE,npv,Net present value,"$5,112",5112,0.5
 state_DE,npv_years,Net present value: the years in its heading,8,8,0.5
 state_DE,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_DE,gas_year,A year of gasoline,"$2,424",2424,0.5
@@ -784,7 +784,7 @@ state_DC,credit_switch,The federal credit switch,off,,
 state_DC,payback,Payback,4.0 years,4,0.05
 state_DC,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_DC,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_DC,npv,Net present value,"$ 3,090",3090,0.5
+state_DC,npv,Net present value,"$3,090",3090,0.5
 state_DC,npv_years,Net present value: the years in its heading,8,8,0.5
 state_DC,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_DC,gas_year,A year of gasoline,"$2,424",2424,0.5
@@ -867,7 +867,7 @@ state_FL,credit_switch,The federal credit switch,off,,
 state_FL,payback,Payback,3.3 years,3.3,0.05
 state_FL,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_FL,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_FL,npv,Net present value,"$ 4,738",4738,0.5
+state_FL,npv,Net present value,"$4,738",4738,0.5
 state_FL,npv_years,Net present value: the years in its heading,8,8,0.5
 state_FL,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_FL,gas_year,A year of gasoline,"$2,206",2206,0.5
@@ -950,7 +950,7 @@ state_GA,credit_switch,The federal credit switch,off,,
 state_GA,payback,Payback,3.5 years,3.5,0.05
 state_GA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_GA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_GA,npv,Net present value,"$ 4,326",4326,0.5
+state_GA,npv,Net present value,"$4,326",4326,0.5
 state_GA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_GA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_GA,gas_year,A year of gasoline,"$2,199",2199,0.5
@@ -1033,7 +1033,7 @@ state_HI,credit_switch,The federal credit switch,off,,
 state_HI,payback,Payback,8.2 years,8.2,0.05
 state_HI,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_HI,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_HI,npv,Net present value,"-$ 1,056",1056,0.5
+state_HI,npv,Net present value,"-$1,056",-1056,0.5
 state_HI,npv_years,Net present value: the years in its heading,8,8,0.5
 state_HI,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_HI,gas_year,A year of gasoline,"$2,842",2842,0.5
@@ -1116,7 +1116,7 @@ state_ID,credit_switch,The federal credit switch,off,,
 state_ID,payback,Payback,2.8 years,2.8,0.05
 state_ID,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_ID,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_ID,npv,Net present value,"$ 6,734",6734,0.5
+state_ID,npv,Net present value,"$6,734",6734,0.5
 state_ID,npv_years,Net present value: the years in its heading,8,8,0.5
 state_ID,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_ID,gas_year,A year of gasoline,"$2,454",2454,0.5
@@ -1199,7 +1199,7 @@ state_IL,credit_switch,The federal credit switch,off,,
 state_IL,payback,Payback,3.6 years,3.6,0.05
 state_IL,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_IL,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_IL,npv,Net present value,"$ 3,978",3978,0.5
+state_IL,npv,Net present value,"$3,978",3978,0.5
 state_IL,npv_years,Net present value: the years in its heading,8,8,0.5
 state_IL,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_IL,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -1282,7 +1282,7 @@ state_IN,credit_switch,The federal credit switch,off,,
 state_IN,payback,Payback,3.3 years,3.3,0.05
 state_IN,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_IN,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_IN,npv,Net present value,"$ 4,726",4726,0.5
+state_IN,npv,Net present value,"$4,726",4726,0.5
 state_IN,npv_years,Net present value: the years in its heading,8,8,0.5
 state_IN,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_IN,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -1365,7 +1365,7 @@ state_IA,credit_switch,The federal credit switch,off,,
 state_IA,payback,Payback,3.2 years,3.2,0.05
 state_IA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_IA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_IA,npv,Net present value,"$ 4,948",4948,0.5
+state_IA,npv,Net present value,"$4,948",4948,0.5
 state_IA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_IA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_IA,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -1448,7 +1448,7 @@ state_KS,credit_switch,The federal credit switch,off,,
 state_KS,payback,Payback,3.2 years,3.2,0.05
 state_KS,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_KS,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_KS,npv,Net present value,"$ 5,165",5165,0.5
+state_KS,npv,Net present value,"$5,165",5165,0.5
 state_KS,npv_years,Net present value: the years in its heading,8,8,0.5
 state_KS,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_KS,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -1531,7 +1531,7 @@ state_KY,credit_switch,The federal credit switch,off,,
 state_KY,payback,Payback,3.0 years,3,0.05
 state_KY,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_KY,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_KY,npv,Net present value,"$ 5,604",5604,0.5
+state_KY,npv,Net present value,"$5,604",5604,0.5
 state_KY,npv_years,Net present value: the years in its heading,8,8,0.5
 state_KY,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_KY,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -1614,7 +1614,7 @@ state_LA,credit_switch,The federal credit switch,off,,
 state_LA,payback,Payback,3.2 years,3.2,0.05
 state_LA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_LA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_LA,npv,Net present value,"$ 5,220",5220,0.5
+state_LA,npv,Net present value,"$5,220",5220,0.5
 state_LA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_LA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_LA,gas_year,A year of gasoline,"$2,173",2173,0.5
@@ -1697,7 +1697,7 @@ state_ME,credit_switch,The federal credit switch,off,,
 state_ME,payback,Payback,5.5 years,5.5,0.05
 state_ME,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_ME,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_ME,npv,Net present value,$ 854,854,0.5
+state_ME,npv,Net present value,$854,854,0.5
 state_ME,npv_years,Net present value: the years in its heading,8,8,0.5
 state_ME,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_ME,gas_year,A year of gasoline,"$2,413",2413,0.5
@@ -1780,7 +1780,7 @@ state_MD,credit_switch,The federal credit switch,off,,
 state_MD,payback,Payback,3.5 years,3.5,0.05
 state_MD,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MD,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MD,npv,Net present value,"$ 4,232",4232,0.5
+state_MD,npv,Net present value,"$4,232",4232,0.5
 state_MD,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MD,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MD,gas_year,A year of gasoline,"$2,424",2424,0.5
@@ -1863,7 +1863,7 @@ state_MA,credit_switch,The federal credit switch,off,,
 state_MA,payback,Payback,5.1 years,5.1,0.05
 state_MA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MA,npv,Net present value,"$ 1,284",1284,0.5
+state_MA,npv,Net present value,"$1,284",1284,0.5
 state_MA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MA,gas_year,A year of gasoline,"$2,390",2390,0.5
@@ -1946,7 +1946,7 @@ state_MI,credit_switch,The federal credit switch,off,,
 state_MI,payback,Payback,4.1 years,4.1,0.05
 state_MI,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MI,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MI,npv,Net present value,"$ 2,827",2827,0.5
+state_MI,npv,Net present value,"$2,827",2827,0.5
 state_MI,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MI,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MI,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -2029,7 +2029,7 @@ state_MN,credit_switch,The federal credit switch,off,,
 state_MN,payback,Payback,3.3 years,3.3,0.05
 state_MN,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MN,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MN,npv,Net present value,"$ 4,836",4836,0.5
+state_MN,npv,Net present value,"$4,836",4836,0.5
 state_MN,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MN,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MN,gas_year,A year of gasoline,"$2,333",2333,0.5
@@ -2112,7 +2112,7 @@ state_MS,credit_switch,The federal credit switch,off,,
 state_MS,payback,Payback,3.3 years,3.3,0.05
 state_MS,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MS,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MS,npv,Net present value,"$ 4,673",4673,0.5
+state_MS,npv,Net present value,"$4,673",4673,0.5
 state_MS,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MS,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MS,gas_year,A year of gasoline,"$2,173",2173,0.5
@@ -2195,7 +2195,7 @@ state_MO,credit_switch,The federal credit switch,off,,
 state_MO,payback,Payback,3.3 years,3.3,0.05
 state_MO,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MO,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MO,npv,Net present value,"$ 4,918",4918,0.5
+state_MO,npv,Net present value,"$4,918",4918,0.5
 state_MO,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MO,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MO,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -2278,7 +2278,7 @@ state_MT,credit_switch,The federal credit switch,off,,
 state_MT,payback,Payback,2.8 years,2.8,0.05
 state_MT,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_MT,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_MT,npv,Net present value,"$ 6,355",6355,0.5
+state_MT,npv,Net present value,"$6,355",6355,0.5
 state_MT,npv_years,Net present value: the years in its heading,8,8,0.5
 state_MT,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_MT,gas_year,A year of gasoline,"$2,454",2454,0.5
@@ -2361,7 +2361,7 @@ state_NE,credit_switch,The federal credit switch,off,,
 state_NE,payback,Payback,3.0 years,3,0.05
 state_NE,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NE,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NE,npv,Net present value,"$ 5,613",5613,0.5
+state_NE,npv,Net present value,"$5,613",5613,0.5
 state_NE,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NE,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NE,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -2444,7 +2444,7 @@ state_NV,credit_switch,The federal credit switch,off,,
 state_NV,payback,Payback,2.2 years,2.2,0.05
 state_NV,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NV,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NV,npv,Net present value,"$ 9,532",9532,0.5
+state_NV,npv,Net present value,"$9,532",9532,0.5
 state_NV,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NV,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NV,gas_year,A year of gasoline,"$2,842",2842,0.5
@@ -2527,7 +2527,7 @@ state_NH,credit_switch,The federal credit switch,off,,
 state_NH,payback,Payback,4.3 years,4.3,0.05
 state_NH,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NH,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NH,npv,Net present value,"$ 2,600",2600,0.5
+state_NH,npv,Net present value,"$2,600",2600,0.5
 state_NH,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NH,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NH,gas_year,A year of gasoline,"$2,413",2413,0.5
@@ -2610,7 +2610,7 @@ state_NJ,credit_switch,The federal credit switch,off,,
 state_NJ,payback,Payback,4.0 years,4,0.05
 state_NJ,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NJ,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NJ,npv,Net present value,"$ 3,096",3096,0.5
+state_NJ,npv,Net present value,"$3,096",3096,0.5
 state_NJ,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NJ,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NJ,gas_year,A year of gasoline,"$2,424",2424,0.5
@@ -2693,7 +2693,7 @@ state_NM,credit_switch,The federal credit switch,off,,
 state_NM,payback,Payback,3.5 years,3.5,0.05
 state_NM,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NM,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NM,npv,Net present value,"$ 4,207",4207,0.5
+state_NM,npv,Net present value,"$4,207",4207,0.5
 state_NM,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NM,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NM,gas_year,A year of gasoline,"$2,173",2173,0.5
@@ -2776,7 +2776,7 @@ state_NY,credit_switch,The federal credit switch,off,,
 state_NY,payback,Payback,4.8 years,4.8,0.05
 state_NY,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NY,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NY,npv,Net present value,"$ 1,741",1741,0.5
+state_NY,npv,Net present value,"$1,741",1741,0.5
 state_NY,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NY,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NY,gas_year,A year of gasoline,"$2,433",2433,0.5
@@ -2859,7 +2859,7 @@ state_NC,credit_switch,The federal credit switch,off,,
 state_NC,payback,Payback,3.3 years,3.3,0.05
 state_NC,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_NC,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_NC,npv,Net present value,"$ 4,659",4659,0.5
+state_NC,npv,Net present value,"$4,659",4659,0.5
 state_NC,npv_years,Net present value: the years in its heading,8,8,0.5
 state_NC,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_NC,gas_year,A year of gasoline,"$2,199",2199,0.5
@@ -2942,7 +2942,7 @@ state_ND,credit_switch,The federal credit switch,off,,
 state_ND,payback,Payback,3.0 years,3,0.05
 state_ND,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_ND,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_ND,npv,Net present value,"$ 5,724",5724,0.5
+state_ND,npv,Net present value,"$5,724",5724,0.5
 state_ND,npv_years,Net present value: the years in its heading,8,8,0.5
 state_ND,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_ND,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -3025,7 +3025,7 @@ state_OH,credit_switch,The federal credit switch,off,,
 state_OH,payback,Payback,4.1 years,4.1,0.05
 state_OH,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_OH,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_OH,npv,Net present value,"$ 2,903",2903,0.5
+state_OH,npv,Net present value,"$2,903",2903,0.5
 state_OH,npv_years,Net present value: the years in its heading,8,8,0.5
 state_OH,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_OH,gas_year,A year of gasoline,"$2,127",2127,0.5
@@ -3108,7 +3108,7 @@ state_OK,credit_switch,The federal credit switch,off,,
 state_OK,payback,Payback,3.1 years,3.1,0.05
 state_OK,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_OK,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_OK,npv,Net present value,"$ 5,441",5441,0.5
+state_OK,npv,Net present value,"$5,441",5441,0.5
 state_OK,npv_years,Net present value: the years in its heading,8,8,0.5
 state_OK,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_OK,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -3191,7 +3191,7 @@ state_OR,credit_switch,The federal credit switch,off,,
 state_OR,payback,Payback,2.4 years,2.4,0.05
 state_OR,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_OR,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_OR,npv,Net present value,"$ 8,570",8570,0.5
+state_OR,npv,Net present value,"$8,570",8570,0.5
 state_OR,npv_years,Net present value: the years in its heading,8,8,0.5
 state_OR,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_OR,gas_year,A year of gasoline,"$2,842",2842,0.5
@@ -3274,7 +3274,7 @@ state_PA,credit_switch,The federal credit switch,off,,
 state_PA,payback,Payback,3.5 years,3.5,0.05
 state_PA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_PA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_PA,npv,Net present value,"$ 4,138",4138,0.5
+state_PA,npv,Net present value,"$4,138",4138,0.5
 state_PA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_PA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_PA,gas_year,A year of gasoline,"$2,424",2424,0.5
@@ -3357,7 +3357,7 @@ state_RI,credit_switch,The federal credit switch,off,,
 state_RI,payback,Payback,4.6 years,4.6,0.05
 state_RI,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_RI,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_RI,npv,Net present value,"$ 2,092",2092,0.5
+state_RI,npv,Net present value,"$2,092",2092,0.5
 state_RI,npv_years,Net present value: the years in its heading,8,8,0.5
 state_RI,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_RI,gas_year,A year of gasoline,"$2,413",2413,0.5
@@ -3440,7 +3440,7 @@ state_SC,credit_switch,The federal credit switch,off,,
 state_SC,payback,Payback,3.4 years,3.4,0.05
 state_SC,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_SC,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_SC,npv,Net present value,"$ 4,566",4566,0.5
+state_SC,npv,Net present value,"$4,566",4566,0.5
 state_SC,npv_years,Net present value: the years in its heading,8,8,0.5
 state_SC,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_SC,gas_year,A year of gasoline,"$2,199",2199,0.5
@@ -3523,7 +3523,7 @@ state_SD,credit_switch,The federal credit switch,off,,
 state_SD,payback,Payback,3.2 years,3.2,0.05
 state_SD,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_SD,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_SD,npv,Net present value,"$ 5,135",5135,0.5
+state_SD,npv,Net present value,"$5,135",5135,0.5
 state_SD,npv_years,Net present value: the years in its heading,8,8,0.5
 state_SD,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_SD,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -3606,7 +3606,7 @@ state_TN,credit_switch,The federal credit switch,off,,
 state_TN,payback,Payback,3.0 years,3,0.05
 state_TN,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_TN,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_TN,npv,Net present value,"$ 5,634",5634,0.5
+state_TN,npv,Net present value,"$5,634",5634,0.5
 state_TN,npv_years,Net present value: the years in its heading,8,8,0.5
 state_TN,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_TN,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -3689,7 +3689,7 @@ state_TX,credit_switch,The federal credit switch,off,,
 state_TX,payback,Payback,3.5 years,3.5,0.05
 state_TX,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_TX,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_TX,npv,Net present value,"$ 4,138",4138,0.5
+state_TX,npv,Net present value,"$4,138",4138,0.5
 state_TX,npv_years,Net present value: the years in its heading,8,8,0.5
 state_TX,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_TX,gas_year,A year of gasoline,"$2,152",2152,0.5
@@ -3772,7 +3772,7 @@ state_UT,credit_switch,The federal credit switch,off,,
 state_UT,payback,Payback,2.7 years,2.7,0.05
 state_UT,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_UT,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_UT,npv,Net present value,"$ 6,917",6917,0.5
+state_UT,npv,Net present value,"$6,917",6917,0.5
 state_UT,npv_years,Net present value: the years in its heading,8,8,0.5
 state_UT,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_UT,gas_year,A year of gasoline,"$2,454",2454,0.5
@@ -3855,7 +3855,7 @@ state_VT,credit_switch,The federal credit switch,off,,
 state_VT,payback,Payback,3.8 years,3.8,0.05
 state_VT,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_VT,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_VT,npv,Net present value,"$ 3,456",3456,0.5
+state_VT,npv,Net present value,"$3,456",3456,0.5
 state_VT,npv_years,Net present value: the years in its heading,8,8,0.5
 state_VT,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_VT,gas_year,A year of gasoline,"$2,413",2413,0.5
@@ -3938,7 +3938,7 @@ state_VA,credit_switch,The federal credit switch,off,,
 state_VA,payback,Payback,3.6 years,3.6,0.05
 state_VA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_VA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_VA,npv,Net present value,"$ 3,941",3941,0.5
+state_VA,npv,Net present value,"$3,941",3941,0.5
 state_VA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_VA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_VA,gas_year,A year of gasoline,"$2,199",2199,0.5
@@ -4021,7 +4021,7 @@ state_WA,credit_switch,The federal credit switch,off,,
 state_WA,payback,Payback,2.1 years,2.1,0.05
 state_WA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_WA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_WA,npv,Net present value,"$ 10,055",10055,0.5
+state_WA,npv,Net present value,"$10,055",10055,0.5
 state_WA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_WA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_WA,gas_year,A year of gasoline,"$3,013",3013,0.5
@@ -4104,7 +4104,7 @@ state_WV,credit_switch,The federal credit switch,off,,
 state_WV,payback,Payback,3.4 years,3.4,0.05
 state_WV,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_WV,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_WV,npv,Net present value,"$ 4,473",4473,0.5
+state_WV,npv,Net present value,"$4,473",4473,0.5
 state_WV,npv_years,Net present value: the years in its heading,8,8,0.5
 state_WV,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_WV,gas_year,A year of gasoline,"$2,199",2199,0.5
@@ -4187,7 +4187,7 @@ state_WI,credit_switch,The federal credit switch,off,,
 state_WI,payback,Payback,3.6 years,3.6,0.05
 state_WI,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_WI,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_WI,npv,Net present value,"$ 4,026",4026,0.5
+state_WI,npv,Net present value,"$4,026",4026,0.5
 state_WI,npv_years,Net present value: the years in its heading,8,8,0.5
 state_WI,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_WI,gas_year,A year of gasoline,"$2,283",2283,0.5
@@ -4270,7 +4270,7 @@ state_WY,credit_switch,The federal credit switch,off,,
 state_WY,payback,Payback,2.8 years,2.8,0.05
 state_WY,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_WY,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_WY,npv,Net present value,"$ 6,544",6544,0.5
+state_WY,npv,Net present value,"$6,544",6544,0.5
 state_WY,npv_years,Net present value: the years in its heading,8,8,0.5
 state_WY,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_WY,gas_year,A year of gasoline,"$2,454",2454,0.5
@@ -4343,7 +4343,6 @@ texas_household,tip_evCar_default,The input evCar: the default its tip names,"$3
 texas_household,field_homeShare,"The input homeShare, as shown",80 percent,80,0.5
 texas_household,field_homeShare_mine,The input homeShare: changed by you,changed by you,,
 texas_household,tip_homeShare_default,The input homeShare: the default its tip names,100,100,0.5
-texas_household,field_public_mine,The input public: changed by you,changed by you,,
 texas_household,field_years,"The input years, as shown",10 years,10,0.5
 texas_household,field_years_mine,The input years: changed by you,changed by you,,
 texas_household,tip_years_default,The input years: the default its tip names,8,8,0.5
@@ -4734,7 +4733,6 @@ public_waiting,tip_evCar_default,The input evCar: the default its tip names,"$33
 public_waiting,field_homeShare,"The input homeShare, as shown",50 percent,50,0.5
 public_waiting,field_homeShare_mine,The input homeShare: changed by you,changed by you,,
 public_waiting,tip_homeShare_default,The input homeShare: the default its tip names,100,100,0.5
-public_waiting,field_public_mine,The input public: changed by you,changed by you,,
 public_waiting,field_years,"The input years, as shown",8 years,8,0.5
 public_waiting,field_years_mine,The input years: changed by you,default,,
 public_waiting,tip_years_default,The input years: the default its tip names,8,8,0.5
@@ -4797,7 +4795,6 @@ public_not_a_number,tip_evCar_default,The input evCar: the default its tip names
 public_not_a_number,field_homeShare,"The input homeShare, as shown",50 percent,50,0.5
 public_not_a_number,field_homeShare_mine,The input homeShare: changed by you,changed by you,,
 public_not_a_number,tip_homeShare_default,The input homeShare: the default its tip names,100,100,0.5
-public_not_a_number,field_public_mine,The input public: changed by you,changed by you,,
 public_not_a_number,field_years,"The input years, as shown",8 years,8,0.5
 public_not_a_number,field_years_mine,The input years: changed by you,default,,
 public_not_a_number,tip_years_default,The input years: the default its tip names,8,8,0.5
