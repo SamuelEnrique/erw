@@ -120,11 +120,27 @@ def metrics(blocks):
     return out
 
 
+YTD = {}   # session 7020 (chain 301): (hub, year) -> [overnight, midday, peak], the intervals to the cutoff's local day and time
+
+
+def ytd_key(year, cut):
+    """The cutoff's local (month, day, hour, minute) in `year`; 29 February falls back to the 28th in a year without it."""
+    mo, d, hh, mm = cut
+    if (mo, d) == (2, 29) and not (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)):
+        d = 28
+    return (mo, d, hh, mm)
+
+
 def read_prices(in_dir, cutoff):
     """{(hub, year, month): [overnight, midday, peak] arrays of prices}, and the count of rows read and left out."""
     by = {}
     seen = set()
     used = after = twice = 0
+    YTD.clear()
+    cut = None
+    if cutoff:
+        c = datetime.datetime(int(cutoff[0:4]), int(cutoff[5:7]), int(cutoff[8:10]), int(cutoff[11:13]), int(cutoff[14:16]), tzinfo=UTC).astimezone(CHICAGO)
+        cut = (c.month, c.day, c.hour, c.minute)
     for name in INPUTS:
         rd = csv.reader(data_lines(os.path.join(in_dir, name + ".csv")))
         ix = {k: i for i, k in enumerate(next(rd))}
@@ -149,6 +165,13 @@ def read_prices(in_dir, cutoff):
                 g = by[(r[e], y, m)] = [array.array("d"), array.array("d"), array.array("d")]
             g[b].append(float(r[val]))
             used += 1
+            if cut:   # the year to date: the note's "The year to date" (session 7019)
+                lt = datetime.datetime(int(ts[0:4]), int(ts[5:7]), int(ts[8:10]), int(ts[11:13]), int(ts[14:16]), tzinfo=UTC).astimezone(CHICAGO)
+                if (lt.month, lt.day, lt.hour, lt.minute) <= ytd_key(lt.year, cut):
+                    gy = YTD.get((r[e], lt.year))
+                    if gy is None:
+                        gy = YTD[(r[e], lt.year)] = [array.array("d"), array.array("d"), array.array("d")]
+                    gy[b].append(float(r[val]))
     return by, used, after, twice
 
 
@@ -174,6 +197,10 @@ def recompute(by):
     for (hub, y), blocks in years.items():
         for k, x in metrics(blocks).items():
             annual[(hub, k, f"{y}-01-01T00:00:00Z")] = x
+    for (hub, y), blocks in YTD.items():
+        if any(len(b) for b in blocks):
+            for k, x in metrics(blocks).items():
+                annual[(hub, f"ytd_{k}", f"{y}-01-01T00:00:00Z")] = x
     return monthly, annual, years
 
 

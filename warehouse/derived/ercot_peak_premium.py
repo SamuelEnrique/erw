@@ -222,6 +222,30 @@ def missing_inputs():
     return [n for n in want if not os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))]
 
 
+FAMILIES = ("ercot_all_hub_prices_history", "iso_rtm_hub_prices")   # the consolidated tables that hold the inputs
+
+
+def main_split():
+    """Session 7020 (chain 301): the inputs are members of two consolidated tables; on the data machine they exist only
+    between `consolidate.py split` and `build`. --split runs the split, the build of the metrics, and the build of the
+    families back (the members leave warehouse/output again), so a daily step can call it alone. Exit 1 when any of the
+    three fails; the families are built back whatever the metrics did."""
+    import subprocess
+    cons = [sys.executable, os.path.join(ip.ROOT, "warehouse", "consolidate.py")]
+    fam = [x for f in FAMILIES for x in ("--family", f)]
+    if subprocess.run(cons + ["split"] + fam, cwd=ip.ROOT).returncode != 0:
+        print("ercot_peak_premium FAILED: consolidate.py split failed; nothing built", file=sys.stderr)
+        return 1
+    try:
+        rc = main()
+    finally:
+        back = subprocess.run(cons + ["build"] + fam, cwd=ip.ROOT).returncode
+    if back != 0:
+        print("ercot_peak_premium FAILED: consolidate.py build failed; the members stay in warehouse/output", file=sys.stderr)
+        return 1
+    return rc
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -289,4 +313,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main_split() if "--split" in sys.argv[1:] else main())
