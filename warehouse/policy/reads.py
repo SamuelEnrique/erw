@@ -267,6 +267,33 @@ def enforce(out, text):
     return notes
 
 
+YEAR_SAID = re.compile(r"\b([a-z]{3,})\s+(?:in|during|since|from|by|until|through)\s+((?:19|20)\d\d)\b", re.I)
+YEAR_STOP = {"and", "the", "was", "were", "are", "been", "has", "have", "had", "also", "first", "only", "that", "this",
+             "its", "their", "which", "them", "for", "with", "out", "back", "set", "made"}
+
+
+def years_beside_their_words(words, text):
+    """Session 7001 (policy faults row 25): a year a read writes after a verb or a noun ("lease sales held in 2023")
+    is kept only where the source writes the year with that word's stem within 80 characters before it. The number
+    check alone passed "held in 2023" because "2023" is in the text, beside another fact ("notices of sale published in
+    2023"). Returns the phrases that fail, [] if none."""
+    nt = re.sub(r"\s+", " ", text or "").lower()
+    bad = []
+    for m in YEAR_SAID.finditer(words or ""):
+        word, year = m.group(1).lower(), m.group(2)
+        if word in YEAR_STOP:
+            continue
+        stem = word[:max(4, len(word) - 3)] if len(word) > 5 else word[:4]
+        ok = False
+        for y in re.finditer(year, nt):
+            if stem in nt[max(0, y.start() - 80):y.start()]:
+                ok = True
+                break
+        if not ok:
+            bad.append(m.group(0))
+    return bad
+
+
 def check_field(name, val, text, notes=None):
     """The reasons a field fails, [] if it is kept. notes (a list) gains a line when a number is accepted from the
     text outside the field's quotations."""
@@ -281,6 +308,9 @@ def check_field(name, val, text, notes=None):
     words = val.get("text", "")
     if name in ("what_changes", "timeline", "plain_read") and not words.strip():
         return ["empty"]
+    off = years_beside_their_words(words, text)      # session 7001 (policy faults row 25)
+    if off:
+        return [f"a year beside words the text does not write it with: {off}"]
     nums = chat_ask.unverified(accepted_dates(words, text), spans)
     if nums:
         left = chat_ask.unverified(accepted_dates(words, text), [text])   # session 157: the text read counts too

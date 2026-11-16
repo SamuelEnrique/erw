@@ -265,7 +265,9 @@ NOT_A_STEP = re.compile(r"(?:\bdated|\bdate filed|\bfiled on|\bsigned on|\bsubmi
 DEADLINE_END = re.compile(r"(?:\bdue(?: on| by)?|\bby|\bbefore|\bno later than|\blater than|\buntil|\bis|\bshortened to|\bperiod to|:)\s*$", re.I)
 WEEKDAY = r"Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon\.|Tue\.|Tues\.|Wed\.|Thu\.|Thurs\.|Fri\.|Sat\.|Sun\."
 # session 3141: an hour with or without minutes or "p.m." ("2 p.m., Paris time"; "5:00 Eastern Time")
+# session 7001 (policy faults row 7): a time zone without "Time" ("by 5:00 p.m. Eastern on November 16, 2026")
 HOUR_ETC = re.compile(rf"\s*(?:\d{{1,2}}:\d\d(?:\s*[ap]\.?m\.?)?,?|\d{{1,2}}\s*[ap]\.?m\.?,?|Eastern (?:Standard |Daylight )?Time|E[DS]?T|"
+                      rf"(?:Eastern|Central|Mountain|Pacific)(?: (?:Standard|Daylight|Prevailing))?|"
                       rf"[A-Z][a-z]+ time|on|at|,|{WEEKDAY})\s*$")
 
 

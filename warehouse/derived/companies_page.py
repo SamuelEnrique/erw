@@ -36,7 +36,8 @@ import companies as C  # noqa: E402
 
 OUT = os.path.join(ROOT, "site", "data", "companies")
 FUELS = C.FUELS
-INDEX_COLS = ["id", "name", "kind", "segment", "hq_state", "states", "grids", "n_plants", "plants_mw", "planned_mw",
+# session 7001 (companies faults row 23): owned_mw, the EIA-860 owned MW the footprint sums, so a column can show it
+INDEX_COLS = ["id", "name", "kind", "segment", "hq_state", "states", "grids", "n_plants", "plants_mw", "owned_mw", "planned_mw",
               "n_queue", "queue_mw", "n_reactors", "n_policy_actions", "n_deals", "deals_mw", "n_facilities",
               "facilities_mw", "footprint_mw", "n_links", "aka", "first_seen", "last_seen"]
 # a link as the shards hold it: the table and the rule are positions in index.json's "tables" and "rules"; the name as
@@ -138,6 +139,19 @@ def figures(links):
     return out, fuel, yr, qt
 
 
+def public_kind(c, pub, names, rev_kind):
+    """(kind, kind_basis, segment, segment_basis) from a company's public links alone (session 7001, companies faults
+    row 20): a held row's content must not show through the kind, its hover or the segment. The reviewed aliases' kind
+    holds where one of the company's names is the reviewed canonical name, as companies.kind_for reads it."""
+    ms = [dict(table=x["input_table"], role=x["role"], raw=x["name_as_written"], extra=x["detail"], mw=x["mw"],
+               fuel=x["fuel"], row_id=x["input_row"]) for x in pub]
+    keys = [C.norm(c["name"])] + [C.norm(n) for n in names]
+    key = next((k for k in keys if k in rev_kind), keys[0])
+    kind, basis = C.kind_for(ms, key, rev_kind)
+    seg, seg_basis = C.segment_of_mentions(ms, kind)
+    return kind, basis, seg, seg_basis
+
+
 def no_dash(text):
     """CLAUDE.md rule 2: no em or en dash in a file of the repository. A source name that holds one (the NRC writes
     "Northern States Power Company", an en dash, "Minnesota") is written with a hyphen in the page files; the tables keep
@@ -161,6 +175,10 @@ def build(in_dir, out_dir, lic=None, now=None):
     for r in a.to_dict("records"):
         if lic.get(r["input_table"]) == "public":
             alias_by[r["company_id"]].append(r)
+    rev_kind = {}
+    for r in C.read_reviewed():
+        if (r.get("kind") or "").strip():
+            rev_kind[C.norm(r.get("canonical") or r["alias"])] = r["kind"].strip()
     rows, shards = [], defaultdict(dict)
     held_only = 0
     held_counts = Counter()
@@ -180,21 +198,25 @@ def build(in_dir, out_dir, lic=None, now=None):
         dates = sorted(x["date"] for x in pub if x["date"])
         names = sorted({x["alias"] for x in alias_by[cid]} - {c["name"]})
         st_list = [s for s, _ in st.most_common()]
-        row = dict(id=slug_of(cid), name=c["name"], kind=c["kind"], segment=c["segment"],
+        if held:          # session 7001 (row 20): the kind and segment of the public rows alone
+            kind, kind_basis, segment, segment_basis = public_kind(c, pub, names, rev_kind)
+        else:
+            kind, kind_basis, segment, segment_basis = c["kind"], c["kind_basis"], c["segment"], c["segment_basis"]
+        row = dict(id=slug_of(cid), name=c["name"], kind=kind, segment=segment,
                    hq_state=c["hq_state"], states=";".join(st_list), grids=";".join(gr), **fig,
                    n_links=len(pub), aka=" | ".join(names[:6]), first_seen=dates[0] if dates else "",
                    last_seen=dates[-1] if dates else "")
         rows.append(row)
-        kinds[c["kind"]] += 1
-        if c["segment"]:
-            segments[c["segment"]] += 1
+        kinds[kind] += 1
+        if segment:
+            segments[segment] += 1
         for s in st_list:
             states[s] += 1
         for g in gr:
             grids[g] += 1
         parent_slug = slug_of(c["parent_id"]) if c.get("parent_id") else ""
-        detail = dict(id=slug_of(cid), entity_id=cid, name=c["name"], kind=c["kind"], kind_basis=c["kind_basis"],
-                      segment=c["segment"], segment_basis=c["segment_basis"], parent=c["parent"],
+        detail = dict(id=slug_of(cid), entity_id=cid, name=c["name"], kind=kind, kind_basis=kind_basis,
+                      segment=segment, segment_basis=segment_basis, parent=c["parent"],
                       parent_id=parent_slug, parent_basis=c["parent_basis"], eia_utility_id=c["eia_utility_id"],
                       hq_state=c["hq_state"], hq_basis=c["hq_basis"], states=st_list, grids=gr,
                       first_seen=row["first_seen"], last_seen=row["last_seen"], figures=fig, fuel=fuel, years=yr,
