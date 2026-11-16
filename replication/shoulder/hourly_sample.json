@@ -1,12 +1,12 @@
 {
  "_about": "A sample of shoulder_hours_monthly recomputed from EIA-930's hourly workbooks (replication/shoulder/from_hourly.py): by grid and month, the average day hour by hour and its measures; by grid and year, the days ranked and the ten days' own measures.",
  "workbooks": {
-  "ERCO": "erco_sheet.csv",
-  "CISO": "ciso_sheet.csv"
+  "ERCO": "20261116T175850.712544Z_00004_ERCO.xlsx",
+  "CISO": "20261116T175834.883363Z_00002_CISO.xlsx"
  },
  "tolerance": 6e-05,
- "values": 22092,
- "equal": 22092,
+ "values": 22230,
+ "equal": 22230,
  "sample": [
   {
    "entity": "iso:caiso",
@@ -1091,6 +1091,12 @@
   {
    "entity": "iso:ercot",
    "month": "2026-09",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-10",
    "values": 138,
    "inside": 138
   },

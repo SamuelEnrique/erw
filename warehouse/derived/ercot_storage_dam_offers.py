@@ -411,6 +411,11 @@ def monthly(daily, awards):
 
     Raises RuntimeError when the two tables disagree on a month's days, rows or awards: one of them is stale."""
     d = daily.assign(month=daily["ts_utc"].str[:7], day=daily["ts_utc"].str[:10], x=pd.to_numeric(daily["value"]))
+    # session 7022: the fleet's rows only; since session 7020 the awards table also holds the duration classes
+    # (ercot:esr_class_*), and a pivot over every entity found each month and variable five times (the daily run's
+    # dm_storage_offers_rollup failed on 16 November with "Index contains duplicate entries, cannot reshape")
+    if "entity" in awards:
+        awards = awards[awards["entity"] == ENTITY]
     a = awards.assign(month=awards["ts_utc"].str[:7], x=pd.to_numeric(awards["value"])).pivot(index="month", columns="variable", values="x")
     days = sorted(set(d["day"]))
     first, last = dt.date.fromisoformat(days[0]), dt.date.fromisoformat(days[-1])

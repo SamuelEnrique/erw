@@ -77,7 +77,8 @@ PUBLISHERS = {"ercot": "Electric Reliability Council of Texas (ERCOT)",
               "pjm": "PJM Interconnection (PJM)"}
 # ISO status (as in iso_status) -> harmonized status
 STATUS_MAP = {
-    "ercot": {"Active": "active", "Completed": "completed"},
+    # session 7022: ERCOT's own milestones (ercot_milestone); the library's "Completed" is a signed agreement only
+    "ercot": {"Active": "active", "IA Signed": "active", "Approved for Synchronization": "completed"},
     "caiso": {"ACTIVE": "active", "WITHDRAWN": "withdrawn", "COMPLETED": "completed"},
     "nyiso": {"Active": "active", "Withdrawn": "withdrawn", "Completed": "completed"},
     "miso": {"Active": "active", "Withdrawn": "withdrawn", "Done": "completed", "LEGACY: Done": "completed",
@@ -137,6 +138,24 @@ def pick(df, *cols):
     return pd.Series("", index=df.index)
 
 
+def ercot_milestone(df, library_status):
+    """Session 7022 (chain 301, done-line request 40). gridstatus 0.36.0 (ercot.py, get_interconnection_queue) writes
+    "Completed" for every ERCOT position whose "IA Signed" day is filled: a signed interconnection agreement, not a plant
+    in operation (580 of 1,778 rows on the pull of 30 September, 44 of entry year 2025 with no day of approval to
+    synchronize). The day of approval to synchronize ("Approved for Synchronization", which the library copies into
+    "Actual Completion Date") is the report's own mark of a plant that runs. So iso_status takes ERCOT's own milestone
+    words: "Approved for Synchronization" where that day is filled (completed), "IA Signed" where only the agreement is
+    (active: still in the queue), "Active" otherwise. NYISO's and ISO-NE's "Completed" stay: the library reads them
+    from NYISO's In Service sheet and ISO-NE's status C, Commercial."""
+    sync = text(pick(df, "Approved for Synchronization", "Actual Completion Date"))
+    signed = text(pick(df, "IA Signed"))
+    out = pd.Series("Active", index=df.index, dtype="string")
+    out[(library_status == "Completed") | signed.ne("")] = "IA Signed"
+    out[sync.ne("")] = "Approved for Synchronization"
+    out[library_status.eq("") & signed.eq("") & sync.eq("")] = ""
+    return out
+
+
 def build(iso, df, url, got, log):
     cfg = ISOS[iso]
     df = df.reset_index(drop=True)
@@ -156,6 +175,8 @@ def build(iso, df, url, got, log):
     if dup.any():
         log(f"  {int(dup.sum())} rows share {qid[dup].nunique()} queue ids; ids get :<n> in the ISO's row order")
     iso_status = text(df["Status (Original)"]) if iso == "spp" else text(df["Status"])
+    if iso == "ercot":
+        iso_status = ercot_milestone(df, iso_status)
     unknown = sorted(set(iso_status) - set(STATUS_MAP[iso]) - {""})
     if unknown:
         raise RuntimeError(f"{iso}: status value(s) not in STATUS_MAP: {unknown}")

@@ -18,6 +18,10 @@ What counts, in each ISO's own words (the queue connector's STATUS_MAP, warehous
   lists active and completed positions only, so ERCOT has no withdrawn count and no withdrawal rate: not held.
 - operating: ERCOT, NYISO and ISO-NE Completed; CAISO COMPLETED; MISO Done and LEGACY: Done; SPP IA FULLY
   EXECUTED/COMMERCIAL OPERATION.
+  Session 7022: ERCOT's "Completed" was gridstatus's word for a filled "IA Signed" day, a signed agreement; from the
+  queue connector's next pull ERCOT is operating only with its day of approval to synchronize (iso_status "Approved for
+  Synchronization"), and a signed agreement alone is waiting ("IA Signed"). The pulls before it still count the
+  agreements as operating; the statistics follow the queue table as pulled.
 - still waiting: every other status of the map (active or suspended): ERCOT and CAISO and NYISO and ISO-NE Active; MISO
   Active, Pending Revision Approval, Pending Transfer; SPP's study stages, IA PENDING, IA FULLY EXECUTED/ON SCHEDULE and
   ON SUSPENSION.
@@ -78,6 +82,73 @@ def stats(q, iso):
             out["wait_years_median"] = (float(yrs.median()), "year")
             out["wait_years_mean"] = (float(yrs.mean()), "year")
     return {k: v for k, v in out.items() if v[0] is not None}
+
+
+# Session 7022 (chain 301, done-line request 41): the same figures by technology group beside the rows for all, so the
+# explorer can be asked about storage alone. Each queue's own words in fuel_technology are read as parts (a part is
+# solar, storage, wind or gas, or something else); a position is solar, storage, wind or gas when every part it names is
+# that one; solar_storage when it names solar and storage and nothing else; other when it names anything else or more;
+# not_stated when the queue gives no words. The words of each part, from the six queues as pulled on 5 November 2026:
+TECH_GROUPS = ["storage", "solar", "solar_storage", "wind", "gas", "other", "not_stated"]
+TECH_PART_WORDS = {
+    "solar": ("solar", "photovoltaic", "sun"),            # ISO-NE's code SUN; Solar Thermal is solar too
+    "storage": ("storage", "battery", "bat", "flywheel"),  # ISO-NE's code BAT; pumped storage and compressed air storage
+    "wind": ("wind", "wnd"),                              # ISO-NE's code WND
+    "gas": ("gas", "ng", "combined cycle", "combined-cycle", "combustion turbine", "combustion (gas) turbine", "gas turbine",
+            "ct", "ctg", "cc", "reciprocating", "dual fuel"),
+}
+FAMILY_WORDS = {"other", "thermal", "hybrid"}
+TECH_RULE = "the queue's fuel_technology read by warehouse/derived/queue_statistics.py technology_group"
+# ISO-NE's codes (EIA's energy source codes): the four the groups name, the oils, and the rest (other)
+ISONE_CODES = {"SUN": "solar", "BAT": "storage", "WND": "wind", "NG": "gas",
+               "DFO": "oil", "KER": "oil", "JF": "oil", "WO": "oil", "RFO": "oil",
+               "WAT": "other", "WDS": "other", "LFG": "other", "BIT": "other", "NUC": "other", "FC": "other", "MSW": "other",
+               "BLQ": "other", "OTH": "other", "SUB": "other"}
+
+
+def technology_parts(text):
+    """The parts a queue's fuel_technology names, as a set of solar, storage, wind, gas and other (empty: no words)."""
+    t = " ".join(str(text or "").replace("=", " ").split()).lower()
+    if not t or t in ("nan", "none"):
+        return set()
+    parts, family = set(), False
+    # ISO-NE writes EIA's fuel codes, one word each ("SUN BAT", "DFO NG"): each code is a part; oil codes beside
+    # natural gas are its backup fuel (a dual-fuel plant is a gas plant, as NYISO's "Dual Fuel")
+    codes = t.upper().split()
+    if codes and all(c in ISONE_CODES for c in codes):
+        got = {ISONE_CODES[c] for c in codes}
+        if "gas" in got and got <= {"gas", "oil"}:
+            return {"gas"}
+        return {g for g in got if g != "oil"} | ({"other"} if "oil" in got else set())
+    # a part is split on the queues' own joiners: "+", "/", a backslash and " - "
+    pieces = [p.strip() for chunk in t.replace(chr(92), "/").replace("/", "+").split("+") for p in chunk.split(" - ")]
+    for i, piece in enumerate(pieces):
+        if not piece:
+            continue
+        if i == 0 and piece in FAMILY_WORDS:   # SPP's "Hybrid - Solar/Storage", ERCOT's "Other - Battery ...": a family
+            family = True                      # word first names no fuel; later ("Hybrid - Thermal/Storage") it is one
+            continue
+        words = piece.replace("(", " ").replace(")", " ").replace(",", " ").split()
+        found = {part for part, keys in TECH_PART_WORDS.items()
+                 for k in keys if (" " in k and k in piece) or (" " not in k and k in words)}
+        parts |= found or {"other"}
+    if not parts and family:        # "Thermal", "Hybrid", "Other - Other": something, not a fuel the groups name
+        parts = {"other"}
+    # ERCOT writes "<fuel> - <technology>": "Gas - Steam Turbine other than Combined-Cycle" is gas, whatever the rest says
+    if t.startswith("gas - "):
+        parts = {"gas"}
+    return parts
+
+
+def technology_group(text):
+    parts = technology_parts(text)
+    if not parts:
+        return "not_stated"
+    if parts == {"solar", "storage"}:
+        return "solar_storage"
+    if len(parts) == 1 and next(iter(parts)) in ("solar", "storage", "wind", "gas"):
+        return next(iter(parts))
+    return "other"
 
 
 def rule_words(iso, variable):
@@ -142,13 +213,20 @@ def main(argv=None):
             undated[iso] = int(d["year"].isna().sum())
             d = d[d["year"].notna()]
             d["iso"] = iso
+            d["tech"] = d["fuel_technology"].map(technology_group) if "fuel_technology" in d else "not_stated"
             for (i, y), q in d.groupby(["iso", "year"]):
-                for var, (v, unit) in stats(q, i).items():
-                    recs.append(dict(entity=f"{iso}:queue_{int(y)}", variable=var, ts_utc=f"{int(y)}-01-01T00:00:00Z",
-                                     value=round(v, 6), unit=unit, freq="P1Y", geo="", market=f"{iso}_queue", node="",
-                                     source="erw:iso_queue_statistics", source_url=METHOD_URL, retrieved_at=retrieved_iso,
-                                     vintage="", x_iso=LABEL[iso], x_entry_year=str(int(y)), x_rule=rule_words(iso, var),
-                                     x_input_run=run.split(";")[0] if run else "warehouse/output"))
+                # the rows for all (entity <iso>:queue_<year>), then each technology group present that year (session
+                # 7022: entity <iso>:tech_<group>:queue_<year>, outside the pages' reads of <iso>:queue_*)
+                sets = [(f"{iso}:queue_{int(y)}", q, "")]
+                sets += [(f"{iso}:tech_{g}:queue_{int(y)}", q[q["tech"] == g], g) for g in TECH_GROUPS if (q["tech"] == g).any()]
+                for entity, qq, g in sets:
+                    for var, (v, unit) in stats(qq, i).items():
+                        rule = rule_words(iso, var) + (f"; technology group {g} ({TECH_RULE})" if g else "")
+                        recs.append(dict(entity=entity, variable=var, ts_utc=f"{int(y)}-01-01T00:00:00Z",
+                                         value=round(v, 6), unit=unit, freq="P1Y", geo="", market=f"{iso}_queue", node="",
+                                         source="erw:iso_queue_statistics", source_url=METHOD_URL, retrieved_at=retrieved_iso,
+                                         vintage="", x_iso=LABEL[iso], x_entry_year=str(int(y)), x_rule=rule,
+                                         x_input_run=run.split(";")[0] if run else "warehouse/output"))
         df = pd.DataFrame(recs)
         if df.duplicated(ip.SERIES_KEY).any():
             raise RuntimeError("an (entity, variable, ts_utc) is given twice")
@@ -156,7 +234,10 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): interconnection queue statistics by ISO and entry year (derived, session 348)",
             "Shape: series (docs/datastandard.md v0). entity <iso>:queue_<entry year>; variables positions_ and mw_ entered, withdrawn, "
-            "operating, waiting and status_not_stated; withdrawal_rate; wait_positions, wait_years_median, wait_years_mean",
+            "operating, waiting and status_not_stated; withdrawal_rate; wait_positions, wait_years_median, wait_years_mean. Since session "
+            "7022 the same by technology group, entity <iso>:tech_<group>:queue_<entry year>, group storage, solar, solar_storage, wind, "
+            "gas, other or not_stated (the queue gives no technology), from the queue's fuel_technology; a group with no position in a "
+            "year has no row",
             "Rules: docs/methods/energy_projects.md, Queue statistics: each ISO's own status words as warehouse/connectors/iso_queues.py "
             "maps them; the entry year is the year of the queue date; the wait runs from the queue date to the in-service date",
             "Not held: ERCOT's withdrawn positions (its GIS report lists active and completed only), so no ERCOT withdrawal rate; "

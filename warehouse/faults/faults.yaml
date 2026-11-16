@@ -916,3 +916,38 @@ faults:
       EIA does not say why the column changed, nor whether the earlier rows will be published again as net output.
     recorded_in: >-
       session 7019 (chain 301); docs/methods/shoulder_hours.md; docs/state/data_requests_done_line.md, row 6
+  - id: eia930_ciso_demand_low_early_2019
+    title: >-
+      EIA's California demand stands about 3,000 MW under CAISO's own load from 26 February to 31 March 2019
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-02-26"
+    last: "2019-03-31"
+    dates_note: >-
+      local (Pacific) days; EIA's hours also run under CAISO's own in January, April and May 2019 by less
+    status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      The hours pass the screen of impossible hours (743 of March's 744 are used; each day keeps its shape), so
+      eia930_demand_growth holds them as EIA publishes them and its 2019 base for California is low. Whether
+      California's 2019 should be read from CAISO's own load for those days, scaled by the year's own ratio, is
+      the owner's to rule (done-line request 38); the default is as published.
+    evidence: >-
+      EIA's CISO workbook of 16 November 2026 (Adjusted demand, screened as the table screens it) against CAISO's
+      Historical EMS Hourly Load for 2019 (CAISO Total; https://www.caiso.com/documents/historicalemshourlyload-2019.xlsx,
+      read 16 November 2026, sha256 6b212a8d9763f5a0...): over the 34 days from 26 February to 31 March EIA's mean
+      is 19,547.7 MW and CAISO's 22,438.6; over the year's other 331 days EIA is 0.9865 of CAISO. By month EIA over
+      CAISO is 0.9722 in January, 0.9348 in February, 0.8746 in March, 0.9655 in April, 0.9833 in May and 0.9928
+      to 1.0003 from June to December. March 2019's mean is 19,536.4 MW in the table; at CAISO's own times 0.9865
+      it would be 22,036.7, and 2019's mean 24,717.6 in place of 24,475.8.
+    tables: >-
+      eia930_demand_growth
+    erw_does: >-
+      Holds EIA's hours as published (eia930:CISO's 2019 and every figure set against 2019); the demand growth
+      note states the gap and the figures it moves.
+    open: >-
+      EIA does not say why its California demand of early 2019 is low; CAISO's own load is the comparison, not a
+      correction applied.
+    recorded_in: >-
+      session 7022 (chain 301); docs/methods/demand_growth.md; docs/state/data_requests_done_line.md, row 38

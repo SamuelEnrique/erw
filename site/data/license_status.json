@@ -2854,6 +2854,10 @@
     "/prices"
    ]
   },
+  "ercot_peak_premium_node_monthly": {
+   "status": "public",
+   "pages": []
+  },
   "ercot_rtm_node_prices": {
    "status": "public",
    "pages": [
@@ -2904,6 +2908,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "ercot_storage_rt_offers_monthly": {
+   "status": "public",
+   "pages": []
   },
   "ercot_transmission_projects": {
    "status": "public",
@@ -3606,7 +3614,8 @@
    "pages": [
     "/cost-of-power",
     "/data",
-    "/datacenters"
+    "/datacenters",
+    "/policy"
    ]
   },
   "large_load_public": {
@@ -3627,6 +3636,7 @@
    "pages": [
     "/cost-of-power",
     "/data",
+    "/datacenters",
     "/policy"
    ]
   },
@@ -4381,7 +4391,10 @@
   "state_large_load_laws": {
    "status": "public",
    "pages": [
-    "/data"
+    "/cost-of-power",
+    "/data",
+    "/datacenters",
+    "/policy"
    ]
   },
   "statec_lu_electricity_generation_annual": {
@@ -4536,18 +4549,26 @@
   },
   "utility_large_load_queue_totals": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "utility_large_load_rule_changes": {
    "status": "public",
    "pages": [
-    "/data"
+    "/cost-of-power",
+    "/data",
+    "/datacenters",
+    "/policy"
    ]
   },
   "utility_large_load_rules": {
    "status": "public",
    "pages": [
-    "/data"
+    "/cost-of-power",
+    "/data",
+    "/datacenters",
+    "/policy"
    ]
   },
   "utility_large_load_tariffs": {
@@ -4675,7 +4696,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 488
+   "public": 489
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4818,7 +4839,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 7,
-   "public": 38
+   "public": 41
   },
   "/shoulder": {
    "label": "The shoulder hours",
@@ -4898,8 +4919,8 @@
     "nyiso_rtm_zone_prices",
     "nyiso_zone_load_hourly"
    ],
-   "internal": 7,
-   "public": 27
+   "internal": 8,
+   "public": 31
   },
   "/storage": {
    "label": "Storage",
@@ -4961,7 +4982,7 @@
     "policy_reads"
    ],
    "internal": 1,
-   "public": 21
+   "public": 25
   },
   "/play/battery": {
    "label": "Home battery game",
