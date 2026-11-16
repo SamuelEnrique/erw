@@ -83,7 +83,9 @@ class Utility(unittest.TestCase):
 
     def test_nodes_and_pjm_say_why(self):
         self.assertIn("TSP", self.o["ercot:7RNCHSLR_ALL"]["why"])
-        self.assertEqual(self.o["pjm:grid"]["state"], "PA")   # session 718: PJM's row reads Allegheny County's utilities
+        # session 718 placed PJM's row in Allegheny County; session 7009 (chain 301, the old laptop's data request 23) takes
+        # it out: the row is the whole grid, so its Utility cell reads "not held" and no county's utility is drawn for it
+        self.assertNotIn("pjm:grid", self.u["county"])
 
     def test_the_tab_draws_the_keys(self):
         v = src("site", "app", "cost-of-power", "AllGridsView.tsx")

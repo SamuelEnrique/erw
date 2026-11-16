@@ -107,7 +107,11 @@ ROW_COUNTY = {
     "nyiso:N.Y.C.": ("NY", "New York"), "nyiso:LONGIL": ("NY", "Suffolk"), "nyiso:CAPITL": ("NY", "Albany"), "nyiso:WEST": ("NY", "Erie"),
     "nyiso:GENESE": ("NY", "Monroe"), "nyiso:CENTRL": ("NY", "Onondaga"), "nyiso:DUNWOD": ("NY", "Westchester"), "nyiso:MILLWD": ("NY", "Westchester"),
     "isone:.H.INTERNAL_HUB": ("MA", "Suffolk"), "isone:.Z.NEMASSBOST": ("MA", "Suffolk"),
-    "spp:SPPNORTH_HUB": ("KS", "Sedgwick"), "miso:INDIANA.HUB": ("IN", "Marion"), "pjm:grid": ("PA", "Allegheny"),
+    "spp:SPPNORTH_HUB": ("KS", "Sedgwick"), "miso:INDIANA.HUB": ("IN", "Marion"),
+    # session 7009 (chain 301; the old laptop's data request 23): "pjm:grid" no longer stands in Allegheny County. The PJM
+    # row is the whole grid, and one county's wires utility (FirstEnergy Pennsylvania's delivery revenue) drawn as PJM's
+    # figure, with the row sorting by it, says more than the tables do; the row's Utility cell reads "not held", as
+    # before session 718, until PJM's zones are rows of their own (a code machine's change to the tab's index)
 }
 UTILITY_STATES = [("TX", "ERCO"), ("CA", "CISO"), ("NY", "NYIS"), ("CT", "ISNE"), ("ME", "ISNE"), ("MA", "ISNE"), ("NH", "ISNE"), ("RI", "ISNE"), ("VT", "ISNE"),
                   ("KS", "SWPP"), ("OK", "SWPP"), ("AR", "MISO"), ("IL", "MISO"), ("IN", "MISO"), ("LA", "MISO"), ("MI", "MISO"), ("MN", "MISO"), ("MS", "MISO"), ("TX", "MISO")]

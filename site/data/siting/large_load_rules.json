@@ -4,11 +4,11 @@
 "utility_large_load_rule_changes",
 "state_large_load_laws"
 ],
-"built":"2026-11-16T11:08:22Z",
+"built":"2026-11-16T11:11:10Z",
 "retrieved":{
-"utility_large_load_rules":"20261116T110822Z",
-"utility_large_load_rule_changes":"20261116T110822Z",
-"state_large_load_laws":"20261116T110822Z"
+"utility_large_load_rules":"20261116T110840Z",
+"utility_large_load_rule_changes":"20261116T110840Z",
+"state_large_load_laws":"20261116T110840Z"
 },
 "method":"docs/methods/large_load_research.md",
 "fields":[
@@ -8623,16 +8623,6 @@
 "rules":[],
 "none":"No large-load rule found. Searched: Web searches for a Duke Energy Indiana large-load tariff, rider, settlement or IURC order of 2025 or 2026 (none found; the IURC's approved large-load settlement is Indiana Michigan Power's, not Duke's). Read: Duke Energy's presentation to the IURC of 24 March 2026 (secure.in.gov, internal), which lists 'Deposits', 'Minimum Bills', 'Long Term Contracts' and 'Exit Fees' as protections with no figures or tariff; IURC order on reconsideration in Cause 46319 (28 October 2026, a DSM plan, not large load). The IURC's e-docket was not searched directly. misoenergy.org not requested (paused).",
 "note":"docs/research/large_load/notes/duke_energy_indiana.md"
-},
-"5487":{
-"rules":[],
-"none":"No large-load rule found. Searched: PA PUC site only (duquesnelight.com is barred): the model tariff docket M-2025-3054271 (Duquesne's comments), Duquesne's 2026 docket R-2026-3063446 (a commercial to residential conversion pilot, not large load), web searches for a Duquesne large load tariff or rate case. None found.",
-"note":"docs/research/large_load/notes/duquesne_light.md"
-},
-"66101":{
-"rules":[],
-"none":"No large-load rule found. Searched: PA PUC site and documents (model tariff docket M-2025-3054271), web searches for a FirstEnergy Pennsylvania large load tariff or rate case in 2026; PJM's consultant whitepaper of September 2026 cites only FE Pennsylvania's emergency curtailment pages (Electric Pa P.U.C. No. 1, First Revised Page 57, Original Pages 58, 192 and 193) and lists FirstEnergy's large load tariff filing in Ohio (Schedule DCT, PUCO Case 26-697-EL-ATA), not Pennsylvania. No Pennsylvania large load tariff or proposal found.",
-"note":"docs/research/large_load/notes/firstenergy_pennsylvania.md"
 },
 "7601":{
 "rules":[],

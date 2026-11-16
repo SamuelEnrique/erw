@@ -95,8 +95,10 @@ STATEWIDE = {
 }
 # Utilities the tab's rows name that the research read and found no rule for: EIA number to the note's slug.
 NO_RULE = {
-    "12685": "entergy_mississippi", "9273": "aes_indiana", "15470": "duke_energy_indiana", "5487": "duquesne_light",
-    "66101": "firstenergy_pennsylvania", "7601": "green_mountain_power", "17609": "southern_california_edison",
+    # session 7009 (chain 301, data request 23): Duquesne Light (5487) and FirstEnergy Pennsylvania (66101) were named by
+    # the PJM row's Allegheny County, which the row no longer draws; they leave this list with it
+    "12685": "entergy_mississippi", "9273": "aes_indiana", "15470": "duke_energy_indiana",
+    "7601": "green_mountain_power", "17609": "southern_california_edison",
     "11208": "ladwp", "14626": "pedernales_electric", "55937": "entergy_texas",
 }
 
