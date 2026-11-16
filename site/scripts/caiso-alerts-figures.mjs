@@ -115,7 +115,7 @@ export function figuresOf(html) {
     h1: text((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) ?? ["", ""])[1]),
     ran: (t.match(/demand served ran (below|above) what the weather/) ?? [])[1] ?? null,
     zero: (t.match(/The interval (includes zero|excludes zero)/) ?? [])[1] ?? null,
-    last_alert: (t.match(/from July 2018 to ([\d-]+), ranked/) ?? [])[1] ?? null,
+    last_alert: (t.match(/from July 2018 to ([\d-]+) ?, ranked/) ?? [])[1] ?? null,
     days_priced: held ? Number(held[1]) : null,
     days_shown: held ? Number(held[2]) : null,
     oasis_months: Number((t.match(/OASIS serves (\d+) months of history/) ?? [])[1] ?? NaN),
