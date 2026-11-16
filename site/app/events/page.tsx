@@ -8,6 +8,7 @@ import { Section } from "@/components/Section";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
+import { EventDecisions } from "./Decisions";
 
 // Session 36B: the Historical Event Analyzer's index (session 36C: two events; session 39: five, each a card with its
 // dates, its grids and one headline number read from event_window_daily, docs/methods/events.md).
@@ -25,7 +26,9 @@ const EVENTS: Card[] = [
   { href: "/events/uri-2021", title: "Winter Storm Uri: ERCOT, February 2021", dates: "2021-02-07 to 2021-02-24", grids: "ERCOT", event: "uri_2021",
     entity: "ercot:HB_HUBAVG", variable: "rt_max", how: "max", within: ["2021-02-07", "2021-02-24"], unit: "USD/MWh", lead: "Highest 15-minute real-time price" },
   { href: "/events/covid-2020", title: "COVID-19: demand in the seven ISO grids, spring 2020", dates: "2020-03-01 to 2020-05-31", grids: "CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the lower 48", event: "covid_2020",
-    entity: "eia930:US48", variable: "demand_pct_vs_baseline_week", how: "min", within: ["2020-03-01", "2020-05-31"], unit: "% against the same weeks of 2019", lead: "Lower 48, deepest weekly drop" },
+    // session 7531 (fault 3 of docs/reviews/events-faults-2026-11-16.md): from the week of 2020-03-22, the first whole week after
+    // California's order, as the event page reads it; over the whole window the card led with the week of 2020-03-01, before any order
+    entity: "eia930:US48", variable: "demand_pct_vs_baseline_week", how: "min", within: ["2020-03-22", "2020-05-31"], unit: "% against the same weeks of 2019", lead: "Lower 48, deepest weekly drop from the week of 2020-03-22" },
   { href: "/events/caiso-heat-2020", title: "The August 2020 heat wave: CAISO", dates: "2020-08-10 to 2020-08-24", grids: "CAISO", event: "caiso_heat_2020",
     entity: "eia930:CISO", variable: "demand_max_pct_vs_baseline", how: "max", within: ["2020-08-10", "2020-08-24"], unit: "% above the baseline", lead: "Peak hour, highest against the baseline" },
   // session 58
@@ -91,6 +94,8 @@ export default async function Events() {
           and asks how far demand in the alert hours fell below a weather-and-calendar model, with intervals and a wholesale value (session 60).
         </p>
       </Section>
+      {/* session 7531: the choices every event page shares (Decisions.tsx), each with its default and source on hover */}
+      <EventDecisions />
     </div>
     </Brand>
   );

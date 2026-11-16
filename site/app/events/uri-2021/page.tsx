@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -129,6 +130,8 @@ export default async function Uri() {
       )}
       {/* session 47: the event study */}
       <EventStudy event="uri_2021" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
+      {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      <EventDecisions event="uri_2021" />
     </div>
     </Brand>
   );

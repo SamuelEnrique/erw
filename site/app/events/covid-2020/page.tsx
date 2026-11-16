@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -14,7 +15,8 @@ import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 
 // Session 36C: the Historical Event Analyzer's second event, COVID-19 in spring 2020. Every number is a row of
 // event_window_daily, event covid_2020 (derived: docs/methods/events.md): each grid's local days 2020-03-01 to
-// 2020-05-31 against the same weekday of 2019 (364 days earlier; the 728-day baseline of 2018 is not held). The page
+// 2020-05-31 against the same weekday of 2019 (364 days earlier; session 49 added 2018, 728 days earlier, for the seven
+// ISO grids, and session 7531 put that in the page's words). The page
 // picks rows (the lowest week) and draws them; it computes no value.
 export const metadata: Metadata = { title: "COVID-19: demand in the seven ISO grids, spring 2020" };
 export const revalidate = 3600;
@@ -73,6 +75,7 @@ export default async function Covid() {
   const d = got.ok ? got.data : { weeks: [], demand: [], prices: [] };
   const in2020 = (ts: string) => ts.startsWith("2020");
   const in2019 = (ts: string) => ts.startsWith("2019");
+  const in2018 = (ts: string) => ts.startsWith("2018");
   const weekly: Line[] = GRIDS.map((g) => ({ label: g.name, color: g.color, points: points(d.weeks, g.entity, () => true) }));
   const price = (variable: string, keep: (ts: string) => boolean, shift: number) => points(d.prices.filter((r) => r.variable === variable), "ercot:HB_HUBAVG", keep, shift);
   return (
@@ -85,30 +88,33 @@ export default async function Covid() {
           On 2020-03-19 California&apos;s Governor &quot;issued a stay at home order to protect the health and well-being of all Californians&quot;
           (<a href={CA_URL}>Office of the Governor of California</a>; Executive Order N-33-20).
           This page sets the electricity demand that each of the seven ISO grids, and the lower 48 states, served each day from 2020-03-01 to
-          2020-05-31 against the same weekday of 2019, 364 days earlier.
+          2020-05-31 against the same weekday 364 and 728 days earlier, in 2019 and 2018.
         </p>
-        <p className="text-muted">
-          The baseline is one year, 2019: the method also asks for 2018 (728 days earlier), and EIA&apos;s hourly files the warehouse holds start in
-          July 2018. So 2019&apos;s weather is in every comparison, and the warehouse holds no weather to separate it from the pandemic. Demand here is
-          demand served. Easter falls on different weeks (2019-04-21, 2020-04-12). <Link href={METHOD}>Method</Link>.
+        {/* session 7531 (fault 2 of docs/reviews/events-faults-2026-11-16.md): since session 49 the seven ISO grids' baseline is the mean of
+            2019 and 2018 (EIA's six-month file for January to June 2018); only the Lower 48, which that file does not hold, is set against 2019 alone */}
+        <p className="text-muted" data-covid-baseline="2018-2019">
+          The baseline of the seven ISO grids is the mean of the same weekday of 2019 and of 2018 (EIA&apos;s six-month file for January to June 2018);
+          the Lower 48 is not in that file and is set against 2019 alone. Those years&apos; weather is in every weekly comparison: the weekly figures do
+          not control for temperature, and the estimates at the foot of the page do so only at one or two airports a grid. Demand here is demand
+          served. Easter falls on different weeks (2018-04-01, 2019-04-21, 2020-04-12). <Link href={METHOD}>Method</Link>.
         </p>
       </div>
       {!got.ok || !d.weeks.length ? (
         <NoData what="the event window" reason={got.ok ? `${T} returned no rows for ${EV}` : got.reason} />
       ) : (
         <>
-          <Section title="Weekly demand against the same weeks of 2019, all grids" aside={<Tier />}>
-            <LineChart lines={weekly} unit="% vs 2019" height={300} ariaLabel="Weekly demand served against the same weekdays of 2019, in percent, for CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the lower 48, weeks starting 2020-03-01 to 2020-05-24" />
+          <Section title="Weekly demand against the same weeks of earlier years, all grids" aside={<Tier />}>
+            <LineChart lines={weekly} unit="% vs baseline" height={300} ariaLabel="Weekly demand served against the same weekdays of 2019 and 2018 (the lower 48: 2019), in percent, for CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP and the lower 48, weeks starting 2020-03-01 to 2020-05-24" />
             <p className="mt-1 text-sm text-muted">
-              Each point is a week, Sunday to Saturday, dated by its Sunday: the week&apos;s demand served over the demand of the same seven weekdays of
-              2019, minus one, in percent. A week with a missing day, in either year, has no point.
+              Each point is a week, Sunday to Saturday, dated by its Sunday: the week&apos;s demand served over the baseline demand of the same seven
+              weekdays (each day the mean of 2019 and 2018; the Lower 48, 2019 alone), minus one, in percent. A week with a missing day, in any year, has no point.
             </p>
             <Cite tables={[T]} note="EIA-930 hourly demand per balancing authority, summed over each grid's local days; variable demand_pct_vs_baseline_week" />
           </Section>
 
-          <Section title="Each grid: daily demand served, 2020 and the same weekday of 2019" aside={<Tier />}>
+          <Section title="Each grid: daily demand served, 2020 and the same weekday of 2019 and 2018" aside={<Tier />}>
             <p className="mb-3 max-w-3xl text-sm text-muted">
-              Under each grid, its deepest weekly drop against 2019. Where that week comes before the week of {AFTER}, the first whole week after
+              Under each grid, its deepest weekly drop against the baseline. Where that week comes before the week of {AFTER}, the first whole week after
               California&apos;s order, the line also gives the deepest week from then on: a drop before any order is not the pandemic&apos;s, and the
               warehouse holds no weather to say what it was.
             </p>
@@ -123,13 +129,16 @@ export default async function Covid() {
                       lines={[
                         { label: "2020", color: "accent", points: points(d.demand, g.entity, in2020) },
                         { label: "2019, same weekday", color: "muted", points: points(d.demand, g.entity, in2019, 364) },
+                        // session 7531: the baseline's second year, where held (the seven ISO grids; not the Lower 48)
+                        ...(d.demand.some((r) => r.entity === g.entity && in2018(r.ts_utc))
+                          ? [{ label: "2018, same weekday", color: "var(--color-fuel-gas)", points: points(d.demand, g.entity, in2018, 728) }] : []),
                       ]}
                       unit="MWh"
                       height={180}
-                      ariaLabel={`${g.name} demand served per day, 2020-03-01 to 2020-05-31, and the same weekday of 2019`}
+                      ariaLabel={`${g.name} demand served per day, 2020-03-01 to 2020-05-31, and the same weekday of the baseline years`}
                     />
                     <p className="mt-1 text-sm">
-                      Deepest weekly drop against 2019: <N r={deep} />% in the week of {day(deep)}
+                      Deepest weekly drop against the baseline: <N r={deep} />% in the week of {day(deep)}
                       {deep && deepAfter && day(deep) !== day(deepAfter) ? (
                         <>; from the week of {AFTER} on, <N r={deepAfter} />% in the week of {day(deepAfter)}</>
                       ) : null}
@@ -140,7 +149,7 @@ export default async function Covid() {
                 );
               })}
             </div>
-            <Cite tables={[T]} note="EIA-930 hourly demand per balancing authority, summed per local day (demand_mwh); 2019's days are drawn 364 days later, on the 2020 weekday they are compared with" />
+            <Cite tables={[T]} note="EIA-930 hourly demand per balancing authority, summed per local day (demand_mwh); 2019's days are drawn 364 days later and 2018's 728 days later, on the 2020 weekday they are compared with" />
           </Section>
 
           <Section title="Price context: ERCOT hub average" aside={<Tier />}>
@@ -160,6 +169,8 @@ export default async function Covid() {
       )}
       {/* session 47: the event study */}
       <EventStudy event="covid_2020" grids={["eia930:US48", "eia930:CISO", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:PJM", "eia930:SWPP"]} primary="eia930:US48" price />
+      {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      <EventDecisions event="covid_2020" />
     </div>
     </Brand>
   );
