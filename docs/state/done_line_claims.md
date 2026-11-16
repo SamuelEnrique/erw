@@ -22,14 +22,14 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 14 | `/learn/problems` | portable-laptop | claimed |
 | 15 | `/play/battery` | portable-laptop | claimed |
 | 16 | `/play/ev` | portable-laptop | claimed |
-| 17 | `/board` | lab-desktop | claimed |
-| 18 | `/prices` | lab-desktop | claimed |
-| 19 | `/prices/compare` | lab-desktop | claimed |
-| 20 | `/supply` | lab-desktop | claimed |
-| 21 | `/storage` | lab-desktop | claimed |
-| 22 | `/demand` | lab-desktop | claimed |
-| 23 | `/curtailment` | lab-desktop | claimed |
-| 24 | `/queues` | lab-desktop | claimed |
+| 17 | `/board` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 18 | `/prices` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 19 | `/prices/compare` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 20 | `/supply` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 21 | `/storage` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 22 | `/demand` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 23 | `/curtailment` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
+| 24 | `/queues` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
 
 Not in the split: `/ask` and `/thesis` (they need the key), the Digest and the Roundup (paused this week), the pages that are not tools (`/about`, `/data`, `/terms`, `/privacy`, `/subscribe`, `/tour`, `/home/v2`, `/in-review`, the draft reports).
 
