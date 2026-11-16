@@ -7,7 +7,7 @@ Energy Research Warehouse (ERW). Written by session 7503 (chain 304, 16 November
 - [`impossible_hours.md`](impossible_hours.md): the hour of demand that is left blank.
 - [`storage_buildout.md`](storage_buildout.md): the battery fleet (EIA-860M). [`curtailment.md`](curtailment.md): California's curtailment.
 
-The figures quoted here are of the table as held on the machine that wrote this (built 4 October 2026, 27,201 rows, months to September 2026). The warehouse's copy is newer (27,489 rows, built 3 November 2026): the page on the site shows that one, and every figure below moves with it. `replication/shoulder/replicate.py` runs on whichever copy it is given.
+The figures quoted here are of the table as held on the machine that wrote this (built 4 October 2026, 27,201 rows, months to September 2026). The warehouse's copy is newer (27,489 rows, built 3 November 2026): the page on the site shows that one, and every figure below moves with it. `replication/shoulder/replicate.py` runs on whichever copy it is given. Session 7022 (chain 301, the data machine, 16 November 2026) ran it on the warehouse's copy of 3 November and committed its files: the counts in section 8 are of that copy; the figures quoted elsewhere in this note are of the copy of 4 October.
 
 ## 1. The views
 
@@ -116,8 +116,8 @@ The block is drawn under the folds, closed to start, one line a choice, each wit
 `replication/shoulder/`, written from this note, `shoulder_hours.md` and the tables, not from the page's code:
 
 - `replicate.py` sets every figure the page draws beside its own value, for every view. A figure with a rule on public tables is recomputed by the rule (rules 1 to 6 on the table's average day; the fleet from `storage_buildout_monthly`; the curtailment from `caiso_curtailment_daily`; the yearly rows; a ranked day's hours needed and battery hours). A figure whose only source is the hourly data is the table's row. The page's side is the page itself, drawn with the site's code on the same rows (`site/scripts/shoulder-figures.mjs`).
-- On the copy read: **20,633 of 20,634 inside the tolerance** (half the page's last shown digit), over 193 views; 4,861 recomputed by the rules, 15,773 the table's rows. The one outside is named: ERCOT, September 2025, the shoulder's MWh, 61,089.58 on the page against 61,089.5749 recomputed, a rounding edge (the table's four decimals carried through a sum of hours).
-- `from_hourly.py` recomputes the table's own rows from EIA's hourly workbooks (`ERCO.xlsx`, `CISO.xlsx`, the copies the table's header names): the average day hour by hour, the days held and every measure of each month, the days ranked and each ranked day's measures. **22,092 of 22,092 values equal the table's rows**, every month and year of ERCOT and of California by EIA-930 (`hourly_sample.json`). Not recomputed from hours: California by CAISO's own data (`caiso_fuel_supply`) and California's battery output (`caiso_battery_storage`); their figures stand on the table's rows.
+- On the warehouse's copy of 3 November 2026 (27,489 rows; session 7022): **21,592 of 21,593 inside the tolerance**, over 195 views; 5,284 recomputed by the rules, 16,309 the table's rows; the one outside is the same rounding edge. On the copy of 4 October (27,201 rows): 20,633 of 20,634 inside the tolerance (half the page's last shown digit), over 193 views; 4,861 recomputed by the rules, 15,773 the table's rows. The one outside is named: ERCOT, September 2025, the shoulder's MWh, 61,089.58 on the page against 61,089.5749 recomputed, a rounding edge (the table's four decimals carried through a sum of hours).
+- `from_hourly.py` recomputes the table's own rows from EIA's hourly workbooks (`ERCO.xlsx`, `CISO.xlsx`, the copies the table's header names): the average day hour by hour, the days held and every measure of each month, the days ranked and each ranked day's measures. **22,230 of 22,230 values equal the table's rows**, every month and year of ERCOT and of California by EIA-930 (`hourly_sample.json`), on EIA's workbooks of 16 November 2026 and the table of 3 November (session 7022; 22,092 of 22,092 on the copy of 4 October). A year still running is ranked only through the newest month the table holds, as its builder ranked it, so a workbook newer than the table does not add days the table never saw. Not recomputed from hours: California by CAISO's own data (`caiso_fuel_supply`) and California's battery output (`caiso_battery_storage`); their figures stand on the table's rows.
 - `page_figures.json` and `page_figures.csv`: the 1,196 figures of the three opening views, the page beside the replication.
 - `replicate.do`: the five headline figures of ERCOT's opening month in Stata, expected values at its top; `python replicate.py --headline` prints the same lines. Stata is not on the machine that wrote it: the do-file has not been run.
 
@@ -152,6 +152,6 @@ Not comparable, and why: CAISO's market monitor's 9,100 MW of average battery di
 
 ## Sign-off
 
-What is signed for this tool: this note; `shoulder_hours.md`; `replication/shoulder/` (20,633 of 20,634, one rounding edge named; 22,092 of 22,092 from the hours); the cross-check of section 9; the 18 decisions of section 5.
+What is signed for this tool: this note; `shoulder_hours.md`; `replication/shoulder/` (20,633 of 20,634, one rounding edge named; 22,092 of 22,092 from the hours; on the copy of 3 November, session 7022: 21,592 of 21,593 and 22,230 of 22,230); the cross-check of section 9; the 18 decisions of section 5.
 
 Signed: ____________________  Date: ____________

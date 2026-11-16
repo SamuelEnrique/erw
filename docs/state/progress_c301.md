@@ -50,7 +50,7 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 | grid | 2 | not a fault now: chain 278 wrote the five files 14 November | 7004 |
 | datacenter cost | 4 | not a fault now: LZ_NORTH 34.07 (price_years_by_window, 14 November) | 7004 |
 | periodicals | 48 | not a fault now: US48 to 2026-11-14 in the live set | 7004 |
-| periodicals | 61 | waiting: CAISO, SPP, EIA-930 days of 5 to 9 November being refilled (lock); ERCOT a ruling | 7004 |
+| periodicals | 61 | done for CAISO, SPP, EIA-930 (refilled in 7004; the live set read in 7022 holds every day of 5 to 9 November); ruling for ERCOT's days | 7004, 7022 |
 | periodicals | 77 | needs the key: datacenter re-extraction, about USD 0.70 | 7004 |
 | periodicals | 129 | ruling: Google News titles (ruling 3); default titles as held | 7004 |
 
@@ -61,6 +61,7 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 
 ## Goal 3: the CAISO's FERC compliance filing on large loads
 
+- 16 November 19:23 UTC: not filed (the same bytes, sha256 578c69995d9a0388; the robots file 404 in a call of its own). (7022)
 - 16 November 15:08 UTC: not filed (the same bytes, sha256 578c69995d9a0388). (7017)
 
 - 16 November about 09:45 UTC: not filed (the process page's bytes unchanged, sha256 578c69995d9a0388). Checked again at a later session's start. (7004)
@@ -82,6 +83,8 @@ The chain's code branch: `wip/c301-data` (worktree `C:\Users\Shared\Documents\er
 - Gate h landed at `0bd9c936c` (run 43905489885), 0 differences; it raced the GitHub daily run's push (fixed at the cause in the workflow and in the data machine's run). (7020, 7021)
 - Gate j (the desk's sixteen rows: old laptop 17 to 28, portable 34 to 37, `e6ffcaa68`) landed at `492752123` (run 43922473644), snapshots `before-e6ffcaa6` and `after-e6ffcaa6`: 0 differences. (7021)
 - Gate k (`wip/c301-last`, `22996d826`: sessions 7019 to 7021) started 18:14 UTC. Later work on `wip/c301-final` (worktree `erw-c301x`). (7021)
+- Gate k failed on test 90 alone (fixed in `8472d9416`); gate l (`34b9cc9eb`, the same with the fix) passed every step at 19:11 UTC. (7021)
+- Session 7022 (the resume file 310 taken by the queue step; pointer 311 pushed at `d3a145d91`): gate l landed through `task/7022-landing` (run 43938253588), merged at `1f7bd79c9`. Freeze: none. Snapshots `before-34b9cc9e` and `after-34b9cc9e` (the second after the deploy's status read success): 0 differences. The queue push before it, `after-e6ffcaa6` against `before-34b9cc9e`: 0 differences. (7022)
 
 ## The eight lab-desktop tools of the done line
 
@@ -106,6 +109,13 @@ Each has `replication/<tool>/replicate.py` and `replicate.do` (not run: no Stata
 - Done in session 7021: 13 (the page figures, 25,110 of 25,110), 18 (every queue in full); 36's tables rebuilt daily on the data machine from now (`dm_peak_premium`).
 - Waiting for the data lock (the data machine's daily run holds it from 17:00 UTC): `runs/c301/lock2.sh` (requests 31, 35, 30), then the two new tables' registrations.
 - Open: none unread; the writes above.
+- Marked in the request file by session 7022 (done in 7016 to 7020, not marked then): 4 (in part: the contracts' load waits), 6, 8, 24, 32, 36, 25 (a). (7022)
+- Done in session 7022: 5 (the shoulder replication on the warehouse's tables: 21,592 of 21,593; 22,230 of 22,230 from EIA's hours of 16 November); 45 (code: the 2026 matrices approved by the Commission's Order of 5 November 2026, Docket No. 59080 item 88; the table and the page file wait for the lock). (7022)
+- Open after session 7022's reads: 28 (the impact rules' rebuild, the lock), 30, 31, 35 (`runs/c301/lock2.sh`, the lock), 20 (the contracts' next pull), 25 (b), 37 to 44, 46 (waiting: ERCOT publishes summer 2026's four intervals by 1 December), 47, 48. (7022)
+- Session 7022, later: 37 (code: the change in MW of the three whole-year windows), 38 (answered: EIA's California demand of 26 February to 31 March 2019 about 3,000 MW under CAISO's own; a register entry), 39 (answered in part: California's charging by month from 2019; EIA's ERCO demand 0.9996 of ERCOT's own load), 40 (code: ERCOT's milestones, from the next pull), 41 (code: the queue statistics by technology group), 44 (code: the carbon months' hours held and the value over them), 1 (marked); 42, 43, 48 ruling (the generator snapshot's builders off); 46 waiting (1 December). (7022)
+- The day-ahead offers rollup's failure in the daily run (the awards table's class rows read as the fleet) fixed in the branch (test 116); its rebuild with the register's in `runs/c301/lock4.sh`. (7022)
+- Still open: 20 (the contracts' next build: the live set's are newer than this machine's and the archive's of 9 October), 25 (b), 28, 30, 31, 35, 45, 47 (in `runs/c301/lock3.sh`, running), 39's table. (7022)
+- `runs/c301/lock3.sh` (under the lock from 19:51 UTC): the awards table by class (1,244 rows) and the real-time tables rebuilt with the landed builders (31); the peak premium per settlement point, 17,472 rows (35); the fleet's real-time offers by price written, 175 rows, and refused by the validator for its unit `MWh/MW/day` (30: the unit `MWh/MW-day` added, Decision 78, rebuilt in `runs/c301/lock4.sh`); the Order of 5 November pulled through the connector (requests 16 and 17 of 20) and `texas_transmission_matrix` written, 572 rows (45); `impact_tax_rules`, one row differs as asked (28); `scarcity_hours_by_grid`, 201,873 rows, October whole (47); the queue statistics by group restoring the six queues from the bucket (41). (7022)
 
 ## Needs the key
 

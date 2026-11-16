@@ -233,14 +233,14 @@ class TheFiles(unittest.TestCase):
     def test_the_committed_figures(self):
         p = json.loads(src("replication", "shoulder", "page_figures.json"))
         figures = p["figures"]
-        self.assertEqual((p["views"], p["figures_all_views"], p["inside_all_views"]), (193, 20634, 20633))
-        self.assertEqual(len(figures), 1196)
+        self.assertEqual((p["views"], p["figures_all_views"], p["inside_all_views"]), (195, 21593, 21592))   # session 7022: the copy of 3 November
+        self.assertEqual(len(figures), 1529)
         self.assertTrue(all(f["inside"] for f in figures))
-        self.assertEqual(p["opening"], {"iso:ercot": "2026-08", "iso:caiso": "2025-11", "iso:caiso_own": "2026-08"})
+        self.assertEqual(p["opening"], {"iso:ercot": "2026-09", "iso:caiso": "2025-11", "iso:caiso_own": "2026-09"})
         by_key = {f["key"]: f for f in figures}
-        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|shoulder_hours|2026-08-01T00:00:00Z"]["page"], "5")
-        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|shoulder_hours_needed|2026-08-01T00:00:00Z"]["page"], "3.66")
-        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|year_worst10_mean_shoulder_hours_needed|2026-01-01T00:00:00Z"]["page"], "6.58")
+        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|shoulder_hours|2026-09-01T00:00:00Z"]["page"], "6")
+        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|shoulder_hours_needed|2026-09-01T00:00:00Z"]["page"], "3.35")
+        self.assertEqual(by_key["series|shoulder_hours_monthly|iso:ercot|year_worst10_mean_shoulder_mwh_above_mean|2026-01-01T00:00:00Z"]["page"], "101,935.13")
         rows = list(csv.reader(line for line in src("replication", "shoulder", "page_figures.csv").split("\n") if line and not line.startswith("#")))
         self.assertEqual(rows[0], ["key", "where", "page", "replication", "tolerance", "inside", "basis"])
         self.assertEqual(len(rows) - 1, len(figures))
@@ -248,9 +248,9 @@ class TheFiles(unittest.TestCase):
 
     def test_the_hours_behind_the_table(self):
         h = json.loads(src("replication", "shoulder", "hourly_sample.json"))
-        self.assertEqual((h["values"], h["equal"], h["differences"]), (22092, 22092, []))
+        self.assertEqual((h["values"], h["equal"], h["differences"]), (22230, 22230, []))
         months = [s for s in h["sample"] if "month" in s]
-        self.assertEqual(len([s for s in months if s["entity"] == "iso:ercot"]), 93)
+        self.assertEqual(len([s for s in months if s["entity"] == "iso:ercot"]), 94)
         self.assertEqual(len([s for s in months if s["entity"] == "iso:caiso"]), 81)
         self.assertTrue(all(s["values"] == s["inside"] for s in h["sample"]))
 
@@ -263,8 +263,8 @@ class TheFiles(unittest.TestCase):
         for head in ("## 1. The views", "## 3. Every figure, block by block", "## 7. What the tool does not hold", "## 8. The replication", "## 9. The cross-check",
                      "## 10. What waits for the owner", "## Sign-off"):
             self.assertIn("\n" + head, note)
-        self.assertIn("**20,633 of 20,634 inside the tolerance**", note)
-        self.assertIn("**22,092 of 22,092 values equal the table's rows**", note)
+        self.assertIn("**21,592 of 21,593 inside the tolerance**", note)
+        self.assertIn("**22,230 of 22,230 values equal the table's rows**", note)
         completed = src("docs", "methods", "shoulder_hours.md")
         for words in ("counting only the hours in which net load is above the mean", "California's late hours", "An impossible hour of demand is a blank",
                       "## Rules stated in full (session 7503)", "Nor is a day with no shoulder"):

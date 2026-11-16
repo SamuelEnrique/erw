@@ -1223,6 +1223,10 @@
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
+ "ercot_peak_premium_node_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
  "ercot_rtm_node_prices": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
@@ -1252,6 +1256,10 @@
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],
  "ercot_storage_rt_monthly": [
+  "public",
+  "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
+ ],
+ "ercot_storage_rt_offers_monthly": [
   "public",
   "Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher."
  ],

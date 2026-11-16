@@ -43,6 +43,9 @@ Entity eia930:<BA>; all rows freq P1Y, ts_utc the first day of the local year.
                                                       percent of its hours used)
 and, on the row of the last whole year, the change from 2019 to that year:
     growth_mw_mMM, growth_pct_mMM, growth_mw_hHH, growth_pct_hHH, growth_mw_mMM_hHH, growth_pct_mMM_hHH
+    avg_demand_growth_since_2019_mw, peak_demand_growth_since_2019_mw   (session 7022) the year's average and its peak, MW
+and, on the newest year's row (session 7022): ytd_avg_demand_growth_since_2019_mw, the year so far against 2019's
+same months, MW. Each is the difference of the two means as the table rounds them, to one decimal.
 """
 
 import argparse
@@ -178,6 +181,15 @@ def summarize(d, tz, last_month=None, peak=True):
             if k in base:
                 r["growth_mw_" + k[len("avg_demand_mw_"):]] = round(r[k] - base[k], 1)
                 r["growth_pct_" + k[len("avg_demand_mw_"):]] = pct(r[k], base[k])
+        # session 7022 (done-line request 37): the change in MW of the three whole-year windows, from the means as the
+        # table rounds them: the whole year's average and its peak on the last whole year's row
+        for k, name in (("avg_demand_mw", "avg_demand_growth_since_2019_mw"), ("peak_demand_mw", "peak_demand_growth_since_2019_mw")):
+            if k in r and k in base:
+                r[name] = round(r[k] - base[k], 1)
+    # and the year so far on the newest year's row (the partial year against 2019's same months)
+    newest_r = out.get(newest, {})
+    if newest != BASE and "ytd_avg_demand_mw" in newest_r and "ytd_avg_demand_mw" in base:
+        newest_r["ytd_avg_demand_growth_since_2019_mw"] = round(newest_r["ytd_avg_demand_mw"] - base["ytd_avg_demand_mw"], 1)
     return out, at, last_month
 
 

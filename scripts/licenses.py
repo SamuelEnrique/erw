@@ -86,6 +86,9 @@ BY_HAND = {
     "eia_all_futures_prices": (["EIA", "CME Group (NYMEX), whose prices EIA republished"], "its header: EIA names the New York Mercantile Exchange as the source of these prices"),
     "ercot_peak_premium_annual": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
     "ercot_peak_premium_monthly": (["ERCOT"], "its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)"),
+    # session 7022 (chain 301, done-line requests 35 and 30): two tables derived from ERCOT's own reports alone
+    "ercot_peak_premium_node_monthly": (["ERCOT"], "its header: derived from ERCOT's settlement point prices (ercot_rtm_node_prices, report NP6-905-CD)"),
+    "ercot_storage_rt_offers_monthly": (["ERCOT"], "its header: ERCOT's 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED, report NP3-965-ER)"),
     "ercot_node_prices_hourly": (["ERCOT"], "its header: ERCOT's prices read from the saved files of NP3-966-ER, NP4-190-CD and NP6-905-CD (session 378)"),
     "ercot_all_hub_prices_history": (["ERCOT"], "ERCOT's hub price reports"),
     "datacenter_queue_positions": (["CAISO", "ERCOT", "ISO-NE", "MISO", "NYISO", "SPP"], "its header: rows of the six operators' queue tables"),

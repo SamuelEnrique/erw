@@ -248,6 +248,15 @@ class Offers(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             offers.monthly(self._daily_table([DAY1]), self._awards_table([DAY1, DAY2]))
 
+    def test_the_awards_tables_duration_classes_are_not_read_as_the_fleet(self):
+        # session 7022: since session 7020 the awards table also holds rows for each duration class (ercot:esr_class_*);
+        # the month is checked against the fleet's rows alone, and the classes' rows change nothing (on 16 November the
+        # daily run's dm_storage_offers_rollup failed: "Index contains duplicate entries, cannot reshape")
+        daily, a = self._daily_table([DAY1, DAY2]), self._awards_table([DAY1, DAY2])
+        classes = pd.concat([a.assign(entity=e, value=[str(float(v) / 3) for v in a["value"]])
+                             for e in ("ercot:esr_class_under_2h", "ercot:esr_class_2_to_4h", "ercot:esr_class_4h_and_over")], ignore_index=True)
+        self.assertEqual(offers.monthly(daily, pd.concat([a, classes], ignore_index=True)), offers.monthly(daily, a))
+
     def test_a_missing_day_is_counted_and_nothing_is_filled(self):
         day3 = dt.date(2025, 12, 8)
         d1 = self._daily_table([DAY1])

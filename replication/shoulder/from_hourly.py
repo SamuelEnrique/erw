@@ -223,7 +223,11 @@ def main(argv):
             sample.append({"entity": entity, "month": month, "values": len(got), "inside": sum(1 for r in got if r[5])})
         for year in years.get(entity, []):
             before = len(rows)
-            n, ten = ranked_days(days, year, zone, LAST.get(entity))
+            # session 7022: a workbook newer than the table holds days past the table's window (whole months to the
+            # newest month the table holds), so the year is ranked only through that month, as the table's builder did
+            held_months = sorted({d[:7] for (e, v, d) in T.t if e == entity and v.startswith("avg_demand_mw_h")})
+            last = min(x for x in (LAST.get(entity), held_months[-1] if held_months else None) if x) if (LAST.get(entity) or held_months) else None
+            n, ten = ranked_days(days, year, zone, last)
             one(entity, "year_days_ranked", year + "-01-01", n)
             held_ten = sorted(d for (e, v, d) in T.t if e == entity and v == "worst_rank" and d.startswith(year))
             rows.append((entity, "the ten days ranked", year, None, None, sorted(d for _, d, _ in ten) == held_ten))

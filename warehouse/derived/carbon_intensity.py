@@ -158,6 +158,36 @@ def check(emis, extracts, log):
     return lines
 
 
+MOST_HOURS = 0.9   # session 7022: a month's value over its held hours is written when at least this share is held
+
+
+def held_months(j, today=None):
+    """Session 7022 (done-line request 44). j: one BA's and one intensity's written hours (entity, geo, ba, ts_utc, co2,
+    mwh). Returns a frame by month (entity, geo, ba, month, hours: the hours written, value: CO2 over MWh in them, or
+    None where fewer than MOST_HOURS of the month's hours are held), and the short days of the last twelve whole months
+    before the newest month held, named as "YYYY-MM-DD (N hours)"."""
+    x = j.assign(month=j["ts_utc"].str[:7], day=j["ts_utc"].str[:10])
+    m = x.groupby(["entity", "geo", "ba", "month"]).agg(co2=("co2", "sum"), mwh=("mwh", "sum"), hours=("co2", "size")).reset_index()
+    full = pd.to_datetime(m["month"] + "-01").dt.days_in_month * 24
+    m["value"] = [r4(c * 1000 / w) if n >= MOST_HOURS * f else None for c, w, n, f in zip(m["co2"], m["mwh"], m["hours"], full)]
+    m["hours"] = m["hours"].astype(float)
+    newest = x["month"].max() if len(x) else None
+    named = ""
+    if newest:
+        first = (pd.Period(newest) - 12).strftime("%Y-%m")
+        d = x[(x["month"] >= first) & (x["month"] < newest)].groupby("day").size()
+        # a day with no hour written at all is short too: every day of those months is counted
+        days = pd.date_range(pd.Period(first).start_time, pd.Period(newest).start_time, freq="D", inclusive="left").strftime("%Y-%m-%d")
+        d = d.reindex(days, fill_value=0)
+        s = d[d < 24]
+        if len(s) <= 40:
+            named = ", ".join(f"{k} ({int(v)} hours)" for k, v in s.items())
+        else:   # many: by month, the count of short days and of the hours missing
+            by = s.groupby(s.index.str[:7])
+            named = ", ".join(f"{mo}: {len(g)} short days, {int(24 * len(g) - g.sum())} hours missing" for mo, g in by)
+    return m[["entity", "geo", "ba", "month", "hours", "value"]], named
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -186,7 +216,7 @@ def main():
                     retrieved_at=retrieved, vintage="")
         outs = [Out(t) for t in TABLES]
         hourly, daily, monthly = outs
-        span = []
+        span, short = [], {}
         for code, x in extracts.items():
             for var, (co2, col, _, _) in sorted(PAIRS.items()):  # the file sorted by entity, variable, ts_utc
                 e = emis[(emis["ba"] == code) & (emis["variable"] == co2)][["entity", "ts_utc", "value", "geo", "ba"]]
@@ -226,6 +256,17 @@ def main():
                                           "value": (m["co2"] * 1000 / m["mwh"]).map(r4), "geo": m["geo"], "ba": m["ba"],
                                           "freq": "P1M", **base}))
                 log(f"  {code} {var}: {len(j)} hours, {len(g)} complete days, {len(m)} complete months")
+                # session 7022 (done-line request 44): beside the complete months, every month's hours held, and where at
+                # least MOST_HOURS of its hours are held the month's CO2 over its MWh in those hours; the short days named
+                h, short_named = held_months(j)
+                for col, name, unit in (("hours", var + "_hours_held", "count"), ("value", var + "_over_held_hours", base["unit"])):
+                    k = h[h[col].notna()]
+                    monthly.add(pd.DataFrame({"entity": k["entity"], "variable": name, "ts_utc": k["month"] + "-01T00:00:00Z",
+                                              "value": k[col], "geo": k["geo"], "ba": k["ba"], "freq": "P1M",
+                                              **{**base, "unit": unit}}))
+                if short_named:
+                    short[f"{code} {var}"] = short_named
+                    log(f"  {code} {var}: short days of the last twelve months: {short_named}")
         checked = check(emis, extracts, log)
         head = lambda what: [  # noqa: E731
             f"Energy Research Warehouse (ERW): carbon intensity per balancing authority, {what} (derived, sessions 32 "
@@ -249,6 +290,13 @@ def main():
             "Denominators (session 34): the Demand and Net generation columns of the same EIA workbooks the CO2 comes from "
             "(sheet Published Hourly Data), from the emissions connector's extracts: " + "; ".join(used),
             f"Reach: {min(span)} to {max(span)}.",
+        ] + ([  # session 7022: said in the monthly table, which holds the variables
+            f"Session 7022: <intensity>_hours_held is every month's count of hours written (of the month's 24 times its "
+            f"days, UTC); <intensity>_over_held_hours is the month's CO2 over its MWh in those hours, written where at least "
+            f"{MOST_HOURS:.0%} of the month's hours are held (a month whose every day is complete has the same value under "
+            "<intensity>). Short days (fewer than 24 hours written) of the last twelve whole months: "
+            + ("; ".join(f"{k}: {v}" for k, v in sorted(short.items())) or "none"),
+        ] if what == "monthly" else []) + [
             "Check against the session 32 version (the warehouse's eia930_all_generation and eia930_all_demand as "
             "denominators, the hours they hold): " + (" | ".join(checked) or "no overlapping hours"),
         ]

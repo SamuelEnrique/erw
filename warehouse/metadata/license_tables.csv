@@ -334,6 +334,7 @@ ercot_node_transmission,ERCOT,"the source registry and the tables its header der
 ercot_node_wires_utilities,EIA; ERCOT,"the source registry and the tables its header derives it from: eia861_delivery_only, eia861_utility_data, ercot_node_places, utility_service_territories"
 ercot_peak_premium_annual,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_peak_premium_monthly,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
+ercot_peak_premium_node_monthly,ERCOT,"by hand: its header: derived from ERCOT's settlement point prices (ercot_rtm_node_prices, report NP6-905-CD)"
 ercot_rtm_node_prices,ERCOT,the source registry
 ercot_rtm_price_adders,ERCOT,the source registry
 ercot_sced_esr_hourly,ERCOT,the source registry
@@ -342,6 +343,7 @@ ercot_storage_dam_offers_daily,ERCOT,the source registry and the tables its head
 ercot_storage_dam_offers_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_storage_dam_awards_monthly, ercot_storage_dam_offers_daily"
 ercot_storage_node_basis,ERCOT,"the source registry and the tables its header derives it from: ercot_dam_esr_awards, ercot_rtm_node_prices"
 ercot_storage_rt_monthly,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_dam_esr_awards, ercot_sced_esr_hourly, iso_dam_hub_prices, iso_rtm_hub_prices"
+ercot_storage_rt_offers_monthly,ERCOT,"by hand: its header: ERCOT's 60-Day SCED Disclosure Reports (60d_ESR_Data_in_SCED, report NP3-965-ER)"
 ercot_transmission_projects,ERCOT,the source registry
 ercot_wind_solar_forecast,ERCOT,the source registry
 ercot_wind_solar_hsl_daily,ERCOT,the source registry

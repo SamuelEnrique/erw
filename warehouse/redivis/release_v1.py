@@ -437,6 +437,9 @@ STORAGE_HELD["deal_counterparties"] = ("held: first written on 12 November 2026 
 # prepared, public as ercot_rtm_node_prices is: held as the other late tables are
 STORAGE_HELD["ercot_peak_premium_node_monthly"] = ("held: first written on 16 November 2026 (chain 301, session 7019), after the v1 "
                                                    "package was prepared: in v1 when the owner adds it to the package's list")
+# Session 7022 (chain 301): the fleet's real-time offers by price (done-line request 30), the same
+STORAGE_HELD["ercot_storage_rt_offers_monthly"] = ("held: first written on 16 November 2026 (chain 301, session 7022), after the v1 "
+                                                   "package was prepared: in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
