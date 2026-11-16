@@ -11,6 +11,7 @@ import { GUIDE, sourceOfKey } from "@/lib/problemkit";  // session 3650: the out
 import citations from "@/data/table_citations.json";
 import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { attempt } from "@/lib/supabase";
+import { ProblemDecisions } from "../Decisions";  // session 7534 (chain 304): the decisions block
 
 // Session 44: a problem set (lib/problems.ts). Every answer is computed on the server from the warehouse tables and
 // carries its check key; the numbers move as the data updates. "Show answer" is a plain <details>, so it works without
@@ -108,6 +109,8 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
         </ol>
         </>
       )}
+      {/* session 7534 (chain 304): the set's decisions, each with its default and source on hover */}
+      <ProblemDecisions slug={slug} />
     </div>
     </Brand>
   );

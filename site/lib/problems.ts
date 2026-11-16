@@ -222,7 +222,9 @@ async function setB(): Promise<Built> {
   const top = pick(prem, "max"), low = pick(prem, "min");
   const q2: Question = {
     id: "b2", tables: [M],
-    q: `The table holds ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month all ${ents.length} hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?`,
+    // session 7534 (chain 304): the rows a license holds (ISO-NE's, MISO's and NYISO's) never reach the page, so the count
+    // is of the public rows' hubs; until then it read "The table holds 4 hubs" of a table that holds seven
+    q: `The table's public rows hold ${ents.length} hubs: ${ents.map(hubName).join(", ")}. In the latest month all ${ents.length} hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?`,
     answer: [`${common.slice(0, 7)}: largest ${hubName(top.entity)}, `, row(M, top, "USD/MWh"), `; smallest ${hubName(low.entity)}, `, row(M, low, "USD/MWh"), "."],
     line: [`max over the ${ents.length} hubs = `, row(M, top, "USD/MWh"), ` (${hubName(top.entity)}); min = `, row(M, low, "USD/MWh"), ` (${hubName(low.entity)})`],
     steps: [[`Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: ${common.slice(0, 7)}. `,
@@ -386,9 +388,13 @@ function sev(state: string, product: string, volume: number, month: string, pric
 
 async function setD(): Promise<Built> {
   const S = "storage_daily_cycle", P = "cost_of_power_hourly_profile", E = "eia930:ERCO";
-  const cyc = await series(S, { entity: E, since: iso(Date.now() - 12 * DAY) });
+  // session 7534 (chain 304): 45 days, not 12, so "the seven latest days held" are seven when the table has a gap. The
+  // live set lacked 4 to 8 November 2026 of ERCOT's daily cycle, and on 16 November the 12-day window held six days
+  // (9 to 14 November): the question said seven and summed six. With fewer than seven held, it says how many.
+  const cyc = await series(S, { entity: E, since: iso(Date.now() - 45 * DAY) });
   const days = [...new Set(cyc.filter((r) => r.variable === "mwh_discharged").map((r) => day(r.ts_utc)))].sort();
   const last7 = days.slice(-7);
+  const howMany = last7.length === 7 ? "seven" : String(last7.length);
   const s0 = `${last7[0]}T00:00:00Z`, s1 = iso(Date.parse(`${last7.at(-1)}T00:00:00Z`) + DAY);
   // times compared parsed: Supabase writes "+00:00", which sorts before "Z" as text and would drop the first day
   const t0 = Date.parse(s0), t1 = Date.parse(s1);
@@ -397,7 +403,7 @@ async function setD(): Promise<Built> {
   const rt: V = { v: BATTERY.roundTrip * 100, k: "battery|round_trip_pct", u: "%" };
   const q1: Question = {
     id: "d1", tables: [S],
-    q: `Over the seven latest days held (${last7[0]} to ${last7.at(-1)}), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?`,
+    q: `Over the ${howMany} latest days held (${last7[0]} to ${last7.at(-1)}), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?`,
     answer: ["Discharged ", out, ", charged ", inn, ": ", calc("pct", out, inn, "%"), " came back out, against ", rt, " assumed for the game's battery."],
     line: [out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%")],
     steps: [[`Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over ${last7[0]} to ${last7.at(-1)} (local days).`],
@@ -442,6 +448,13 @@ async function setD(): Promise<Built> {
   const mo = held.at(-2)!;  // the latest complete month: a later month has begun
   const wti = await spotMean("eia:wti_cushing", mo, "USD/bbl");
   const tx = sev("TX", "oil", 1000, mo, wti), la = sev("LA", "oil", 1000, mo, wti), nm = sev("NM", "oil", 1000, mo, wti);
+  // session 7534 (chain 304): New Mexico's rates as the rules file holds them, with the period they are stated for. Until
+  // then the step typed "severance 3.75, emergency school 3.15 and conservation 0.24 percent" and said nothing of the
+  // period: the file's rates are the Taxation and Revenue Department's of 1 April to 31 August 2026, and the question's
+  // month can be later (October 2026 on 16 November).
+  const nmBase = (RULES.states.NM.products.oil.base as unknown as { name: string; rate: unknown; effective?: string }[]).filter((b) => typeof b.rate === "number");
+  const nmEff = nmBase[0]?.effective ?? "its period", nmEnd = / to (\d{4}-\d{2})-\d{2}/.exec(nmEff)?.[1];
+  const nmWords = `${nmBase.map((b) => `${b.name.replace(/^Oil and Gas /, "").replace(/ Tax$/, "").toLowerCase()} ${Math.round((b.rate as number) * 10000) / 100}`).join(", ")} percent of value, the rates the rules file states for ${nmEff}${nmEnd && mo > nmEnd ? ` (the newest it holds; ${mo} is later)` : ""}`;
   const q4: Question = {
     id: "d4", tables: [SPOT],
     q: `A well produces 1,000 barrels of oil in ${mo}, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?`,
@@ -449,19 +462,21 @@ async function setD(): Promise<Built> {
     line: ["1,000 bbl x ", wti, " x each state's rate: Texas ", tx, ", Louisiana ", la, ", New Mexico ", nm, "; ", la, " / ", tx, " = ", calc("ratio", la, tx, "times")],
     steps: [[`The mean of ${mo}'s daily WTI Cushing spot prices: `, wti, "."],
       ["Texas: 4.6 percent of value, or 4.6 cents a barrel if more: ", tx, "."], ["Louisiana: 12.5 percent of value: ", la, "."],
-      ["New Mexico: severance 3.75, emergency school 3.15 and conservation 0.24 percent: ", nm, "."], ["Louisiana over Texas: ", calc("ratio", la, tx, "times"), "."]],
+      [`New Mexico: ${nmWords}: `, nm, "."], ["Louisiana over Texas: ", calc("ratio", la, tx, "times"), "."]],
     why: "The same barrel pays very different taxes across a state line. Each rate cites its statute or agency page on /severance.",
   };
   const lp = RULES.states.TX.products.gas.options.find((o) => o.id === "tx_lp_gas")!;
   const certMonths = lp.certified!.prices.map((p) => p.period);
   const gm = [...held].reverse().find((m) => m <= mo && certMonths.includes(m))!;
   const hh = await spotMean("eia:henry_hub", gm, "USD/MMBtu");
+  const gmDays = new Date(Date.UTC(Number(gm.slice(0, 4)), Number(gm.slice(5, 7)), 0)).getUTCDate();
   const cp = creditPct(lp, { period: gm });
   const cert: V = { v: cp.price!, k: `sevcert|tx_lp_gas|${gm}`, u: "USD/Mcf (2005 dollars)" }, pct: V = { v: cp.pct, k: `sevcredit|tx_lp_gas|${gm}`, u: "%" };
   const g0 = sev("TX", "gas", 2400, gm, hh), g1 = sev("TX", "gas", 2400, gm, hh, "tx_lp_gas");
   const q5: Question = {
     id: "d5", tables: [SPOT],
-    q: `A Texas gas well produced 2,400 Mcf in ${gm} (80 Mcf a day over 30 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?`,
+    // session 7534 (chain 304): the month's own days; until then "80 Mcf a day over 30 days" whatever the month (August 2026, 31 days)
+    q: `A Texas gas well produced 2,400 Mcf in ${gm} (${Math.round((2400 / gmDays) * 10) / 10} Mcf a day over its ${gmDays} days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?`,
     answer: ["Tax ", g0, "; the Comptroller certified ", cert, " for the month, a ", pct, " credit, so it owes ", g1, "."],
     line: ["2,400 Mcf x ", hh, " x Texas's gas rate = ", g0, "; less the ", pct, " credit = ", g1],
     steps: [[`The mean of ${gm}'s daily Henry Hub spot prices, applied per Mcf: `, hh, "."], ["7.5 percent of value: ", g0, "."],

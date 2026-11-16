@@ -62,7 +62,8 @@ class TheProblemSets(unittest.TestCase):
 
     def test_hubs_named_and_counted(self):
         self.assertNotIn("all six ISO hubs", self.p)
-        self.assertIn("The table holds ${ents.length} hubs: ${ents.map(hubName).join(\", \")}", self.p)
+        # session 7534: the count is of the public rows' hubs (the held hubs' rows never reach the page)
+        self.assertIn("The table's public rows hold ${ents.length} hubs: ${ents.map(hubName).join(\", \")}", self.p)
         for e, n in (("caiso:TH_NP15_GEN-APND", "CAISO NP15"), ("caiso:TH_SP15_GEN-APND", "CAISO SP15"), ("ercot:HB_HUBAVG", "ERCOT hub average"),
                      ("isone:.H.INTERNAL_HUB", "ISO-NE internal hub"), ("miso:INDIANA.HUB", "MISO Indiana hub"), ("nyiso:N.Y.C.", "NYISO New York City"),
                      ("spp:SPPNORTH_HUB", "SPP North hub")):
