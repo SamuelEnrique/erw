@@ -10,6 +10,7 @@ import {
 import { BASIS_ENTITY, BASIS_TABLE, BASIS_VARIABLES, RT_ENTITY, RT_TABLE, RT_VARIABLES, basisOf, rtMonthsOf } from "@/lib/storagerealtime";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../../Tabs";
+import { AwardsDecisions } from "./Decisions";
 import { OFFERS_METHOD, OffersSection } from "./Offers";
 import { RT_METHOD, RealTimeSection } from "./RealTime";
 
@@ -234,6 +235,8 @@ export default async function Awards() {
           The third is derived from the same file&apos;s offer curves and from 60d_DAM_ESR_ASOffers. <Link href={OFFERS_METHOD}>Method</Link>.
           The fourth and fifth are derived from ERCOT&apos;s 60-Day SCED Disclosure Reports (NP3-965-ER), the file 60d_ESR_Data_in_SCED, and from its real-time Settlement Point Prices at Resource Nodes, Hubs
           and Load Zones (NP6-905-CD). <Link href={RT_METHOD}>Method</Link>.</>} />
+      {/* session 7505 (chain 304): the decisions on the page, at its foot as the battery page carries them; each choice's default and source on hover */}
+      <AwardsDecisions />
     </ToolPage>
     </Brand>
   );

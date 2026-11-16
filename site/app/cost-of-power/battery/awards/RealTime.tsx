@@ -58,6 +58,11 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
     const total = rtTotal(ms), energy = rtEnergy(ms), anc = rtAncillary(ms);
     const partial = ms.filter((r) => !r.complete);
     const first = ms[0], last = ms[ms.length - 1];
+    // Session 7505: the node table was one week when the section was written and holds more now (21 whole days on
+    // 16 November 2026), while the words still said "one week" beside "Over the 21 whole days held". The words follow
+    // the table's own whole_days: a week or less reads as it did, more is said as its days.
+    const week = basis === null || basis.wholeDays === null || basis.wholeDays <= 7;
+    const nodeDays = basis !== null && basis.wholeDays !== null ? whole(basis.wholeDays) : "";
     body = (
       <div className="space-y-6" data-rt-months={ms.map((r) => r.m).join(",")}>
         <div className="max-w-3xl space-y-2 text-sm">
@@ -150,14 +155,15 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
         ) : null}
 
         <div data-rt-basis={basis ? "1" : "none"}>
-          <h3 className="mb-2 font-serif text-lg">What the hub price misses: one real week at the batteries&apos; own nodes</h3>
+          <h3 className="mb-2 font-serif text-lg" data-rt-basis-days={week ? "week" : nodeDays}>What the hub price misses: {week ? "one real week" : `${nodeDays} real days`} at the batteries&apos; own nodes</h3>
           {basisUnread !== null ? (
             <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table of node prices against the hub could not be read, so no number is shown here: {basisUnread}</p>
           ) : basis === null ? (
             <p className="border border-rule bg-paper px-3 py-2 text-sm" role="status">The table <code className="font-mono">{BASIS_TABLE}</code> is not loaded in the site&apos;s database, so no number is shown here.</p>
           ) : (
             <div className="max-w-3xl space-y-2 text-sm">
-              <p>This is the second measure, and it is real time. It is not from the months above: it is the week of node prices ERCOT&apos;s public list held when it was read,
+              <p>This is the second measure, and it is real time. It is not from the months above: it is {week ? <>the week of node prices ERCOT&apos;s public list held when it was read</>
+                  : <>the {nodeDays} whole days of node prices kept from ERCOT&apos;s public list, which holds seven days at a time</>},
                 from {new Date(`${basis.from}T12:00:00Z`).toLocaleString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}, at the {whole(basis.nodes)} settlement points storage resources are settled at.</p>
               {basis.spreadHub !== null && basis.spreadMedian !== null && basis.wholeDays !== null && basis.nodesWithSpread !== null ? (
                 <p data-rt-spread="1">Take a day&apos;s four dearest hours of real-time prices less its four cheapest: what moving four hours of energy a day could capture, before losses. Over the {whole(basis.wholeDays)} whole
@@ -168,7 +174,8 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               {basis.meanAbsDifference !== null ? (
                 <p>At the median point, the real-time price stood USD {two(basis.meanAbsDifference)} per MWh away from the hub average in the average interval, one way or the other.</p>
               ) : null}
-              <p>One week is one week. It says which way the stand-in errs and roughly by how much in one week of early autumn; it is not applied to any figure above, and nothing above is adjusted by it.
+              <p>{week ? <>One week is one week. It says which way the stand-in errs and roughly by how much in one week of early autumn;</>
+                  : <>It is {nodeDays} days of one autumn. It says which way the stand-in errs and roughly by how much over those days;</>} it is not applied to any figure above, and nothing above is adjusted by it.
                 To value a disclosed day at its own node, the node prices have to be kept from the day they are posted, before the list drops them.</p>
             </div>
           )}
