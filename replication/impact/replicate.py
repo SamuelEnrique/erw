@@ -19,6 +19,7 @@ here, with the same word; a figure the page does not draw must not exist here.
     python replication/impact/replicate.py --in-dir warehouse/output --headline   # the five figures of replicate.do
     python replication/impact/replicate.py --in-dir warehouse/output --rows       # writes rows/ for replicate.do
     python replication/impact/replicate.py --figures <another page_figures.json>   # the page's figures drawn elsewhere
+    python replication/impact/replicate.py --in-dir warehouse/output --parameters # the parameter table beside the files
 
 Exit 0 when every figure matches, 1 when one does not, 2 when an input cannot be read. Standard library only.
 """
@@ -573,6 +574,37 @@ def write_rows(P, jedi, jedi_path):
     print(f"wrote {os.path.join(folder, 'jedi_tx_wind.csv')} and NOTICE.txt")
 
 
+def parameter_table(P, path):
+    """The warehouse table forecast_tool_parameters beside the parameter files it was written from: EIA's capital cost by
+    city and base case, each case's size and construction months, JEDI's taxable shares and default costs. A row this
+    check cannot place in a file (a location factor, an operating life, a heat rate, the gas rows) is counted as not compared."""
+    n = same = skipped = 0
+    with open(path, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(line for line in f if not line.startswith("#")):
+            p = r["entity"].split(":")
+            kind, var, want = p[1], r["variable"], None
+            if kind == "eia_capex" and var == "overnight_cost":
+                e = P.eia[p[2]]
+                if p[3] == "us":
+                    want = e["base_usd_per_kw"]
+                else:
+                    city = r["x_detail"].split(",")[0]
+                    want = next((c["usd_per_kw"] for c in e["states"].get(p[3].split("_")[0], {}).get("cities", []) if c["city"] == city), None)
+            elif kind == "eia_capex" and var in ("construction_months", "case_mw") and p[3] == "us":
+                want = P.eia[p[2]].get(var)
+            elif kind == "jedi_taxable":
+                want = P.taxable[p[2]]["taxable_share"]
+            elif kind == "jedi_costs":
+                want = P.jedi_cost[p[2]]["states"].get(p[3], {}).get("cost_usd_per_mw")
+            if want is None:
+                skipped += 1
+                continue
+            n += 1
+            same += abs(float(r["value"]) - want) <= 1e-6 * max(1.0, abs(want))
+    print(f"forecast_tool_parameters beside the parameter files: {same} of {n} equal; {skipped} rows of the table not compared")
+    return n - same
+
+
 def main(argv):
     in_dir = os.environ.get("ERW_OUTPUT_DIR") or os.path.join(ROOT, "warehouse", "output")
     jedi_path = None
@@ -586,7 +618,7 @@ def main(argv):
             jedi_path = args.pop(0)
         elif a == "--figures" and args:
             figures = args.pop(0)
-        elif a in ("--headline", "--rows"):
+        elif a in ("--headline", "--rows", "--parameters"):
             pass
         else:
             print(__doc__)
@@ -602,6 +634,12 @@ def main(argv):
     if not jedi:
         print(f"no row of jobs, earnings or output in {jedi_path}")
         return 2
+    if "--parameters" in argv:
+        try:
+            return 1 if parameter_table(P, os.path.join(in_dir, "forecast_tool_parameters.csv")) else 0
+        except OSError as e:
+            print(f"the table could not be read: {e}")
+            return 2
     if "--rows" in argv:
         write_rows(P, jedi, jedi_path)
         return 0
