@@ -257,6 +257,7 @@ def build(in_dir=OUTPUT):
             "url": r["source_url"], "title": r["x_source_title"], "read": r["x_date_read"], "clause": r["x_quoted_clause"],
             "basis": r["x_license_basis"], "notes": r["x_notes"], "withheld": sorted(withheld),
         })
+    rules.sort(key=lambda x: x["id"])  # a fixed order: the page sorts for the reader; the table's own order is its writer's
     held_rules = []
     for rid, name in held_of(rh):
         src = research.get(rid, {})
