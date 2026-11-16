@@ -86,5 +86,5 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | The progress file complete | done (this commit) | 7204 |
 | The note `docs/state/note_2026-11-17_oldlaptop_c302.md` | done (this commit) | 7204 |
 | The landing request row for the final stack | done (this commit): row 15 at `d192de75c`; the last sweep, 190 test files and 2,130 tests, all pass but `tests/test_session705.py`, which fails on clean main too | 7204 |
-| The resume file removed from `queue/next/` | done in the commit after this one | 7204 |
-| The queue step | done after it; its answer is in the commit's message that follows | 7204 |
+| The resume file removed from `queue/next/` | done `5ac5d8a03` | 7204 |
+| The queue step | done: exit 3, `queue/next/` holds nothing for this machine (310 is the data machine's, 330 the portable laptop's; 284 and 300 stay parked until the key returns). The machine is off duty, and the chain watch sends its one "ready" line. The reads the chain names after goal 4 are done for all ten states, so nothing is left to continue with | 7204 |
