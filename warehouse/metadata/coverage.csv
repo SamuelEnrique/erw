@@ -159,7 +159,7 @@ eia930_all_emissions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-
 eia930_all_generation,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-11-14T23:00:00Z,161040,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-11-16T10:25:07Z,pass,public,power,no,source
 eia930_all_history,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2018-01-01T05:00:00Z,2018-07-01T06:00:00Z,60084,eia:gridmonitor/sixMonthFiles,2026-10-01T03:50:16Z,pass,public,power,no,source
 eia930_all_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,348,PT1H,2026-09-13T00:00:00Z,2026-11-13T23:00:00Z,434760,eia:electricity/rto/interchange-data,2026-11-15T14:54:56Z,pass,public,power,no,source
-eia930_all_storage,ERCOT;ISO-NE;MISO;SPP;US48,,5,PT1H,2024-11-01T00:00:00Z,2026-11-14T23:00:00Z,75504,eia:electricity/rto/fuel-type-data,2026-11-15T14:45:47Z,pass,public,power,no,source
+eia930_all_storage,ERCOT;ISO-NE;MISO;SPP;US48,,5,PT1H,2024-11-01T00:00:00Z,2026-11-15T23:00:00Z,76104,eia:electricity/rto/fuel-type-data,2026-11-16T23:43:30Z,pass,public,power,no,source
 eia930_daily_demand,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,71,P1D,2019-01-01T00:00:00Z,2026-11-14T00:00:00Z,193114,eia930:daily_demand,2026-11-15T15:39:03Z,pass,public,power,no,source
 eia930_daily_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,390,P1D,2019-01-01T00:00:00Z,2026-11-13T00:00:00Z,958451,eia930:daily_interchange,2026-11-15T15:38:13Z,pass,public,power,no,source
 eia930_daily_total_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,83,P1D,2019-01-01T00:00:00Z,2026-11-15T00:00:00Z,216952,eia930:daily_total_interchange;eia:gridmonitor/sixMonthFiles,2026-11-16T17:39:46Z,pass,public,power,no,source
@@ -623,7 +623,7 @@ statsbots_botswana_electricity_monthly,statsbots,,1,P1M;P3M,2016-01-01T00:00:00Z
 statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01-01T00:00:00Z,79,statsmu:energy_water_statistics,2026-10-24T11:48:57Z,pass,public,power,no,source
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,21382,erw:storage_buildout,2026-11-15T15:19:12Z,pass,public,power,yes,derived
 storage_capacity,none,,1648,snapshot,2026-11-15T15:19:10Z,2026-11-15T15:19:10Z,1648,erw:storage_capacity,2026-11-15T15:19:10Z,pass,public,power,no,derived
-storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-11-15T00:00:00Z,15001,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-11-16T13:55:52Z,pass,public,power,yes,derived
+storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-11-15T00:00:00Z,15085,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-11-16T23:43:39Z,pass,public,power,yes,derived
 storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,967,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,19180,erw:storage_owners,2026-11-03T17:31:49Z,pass,public,power,yes,derived
 subregion_demand_growth,subregion,,90,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,3918,erw:subregion_demand_growth,2026-11-05T22:06:29Z,pass,public,power,yes,derived
 svk_sweden_production_hourly,svk,,1,PT1H,2019-12-31T23:00:00Z,2025-03-18T22:00:00Z,274176,svk:mimer_production_statistics,2026-10-24T07:10:46Z,pass,internal,power,no,source
