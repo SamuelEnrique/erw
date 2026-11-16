@@ -16,12 +16,12 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 8 | `/explore/demand-growth` | samueloldlaptop | done line (branch `wip/7508-demand-growth`, head `39dc57835`, landing row 23 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 9 | `/explore/interconnection` | samueloldlaptop | done line (branch `wip/7509-interconnection`, head `aead62928`, landing row 24 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
 | 10 | `/map` | portable-laptop | done line (branch `wip/7601-map`, head `884c94071`, landing row 37 of `docs/state/landing_request_portable.md`) |
-| 11 | `/events` and its nine event pages | portable-laptop | claimed |
-| 12 | `/grid/caiso/alerts` | portable-laptop | claimed |
-| 13 | `/learn/bill` | portable-laptop | claimed |
-| 14 | `/learn/problems` | portable-laptop | claimed |
-| 15 | `/play/battery` | portable-laptop | claimed |
-| 16 | `/play/ev` | portable-laptop | claimed |
+| 11 | `/events` and its nine event pages | samueloldlaptop | claimed |
+| 12 | `/grid/caiso/alerts` | samueloldlaptop | claimed |
+| 13 | `/learn/bill` | samueloldlaptop | claimed |
+| 14 | `/learn/problems` | samueloldlaptop | claimed |
+| 15 | `/play/battery` | samueloldlaptop | claimed |
+| 16 | `/play/ev` | samueloldlaptop | claimed |
 | 17 | `/board` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
 | 18 | `/prices` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
 | 19 | `/prices/compare` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h) |
