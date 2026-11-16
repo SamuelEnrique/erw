@@ -351,6 +351,7 @@ def main(argv=None):
         awards_path = os.path.join(ip.OUT_DIR, DAM_MONTHLY + ".csv")
         if os.path.exists(awards_path):
             aw = pd.read_csv(awards_path, skiprows=ip.header_rows(awards_path), dtype=str, keep_default_na=False)
+            aw = aw[aw["entity"] == ENTITY]   # session 7019: the fleet's rows (the table also holds the duration classes)
             aw = aw.assign(month=aw["ts_utc"].str[:7], v=aw["value"].astype(float)).pivot(index="month", columns="variable", values="v")
             for month, v in months.items():
                 if month in aw.index and int(aw.loc[month, "days_held"]) == v["days_held"]:
