@@ -44,6 +44,7 @@ Kinds: `site` (fixed on `wip/7600-large-load-read`, with a test), `data machine`
 | 11 | The hovers "The ERW's notes" and two cites | The research's working words: "window A" (the data machine's old name) in 11 hovers and "the brief" in 4, beyond the six cells chain 302 named | Unchanged here: the words are the tables' | data machine | requested (row 8) |
 | 12 | `/policy`, "Download the tables" | `state_large_load_laws` is drawn as a link "on Redivis", while chain 302's report says the three tables are out of release v1 | Unchanged here | data machine | requested (row 9) |
 | 13 | A hover opened in a table's frame on a phone, in the second after the frame was scrolled | The frame's own scroll indicator (a bar 3 px high, which a phone lights for about a second after a scroll) is drawn across one line of the open box: 4 of 228 hovers of the laws were measured so | Unchanged | ruling | default: left as it is. The box is a child of the frame it describes, which is what lets a keyboard and a screen reader reach it from its trigger; drawing it outside the frame is a change to how every hover of the section is built |
+| 14 | The site's shared "i" mark (`site/components/tool/ToolPage.tsx`, `Tip`), on every page that draws it: found while reading the old laptop's rows of `docs/state/browser_reads_wanted.md` | The mark's box is 288 px wide and opened from the mark's left edge. On production at 390 px, 62 of the 91 marks read on 19 pages ran past the screen (by up to 240 px) and the page scrolled sideways while the box was open: `/impact` 23 of 36, `/play/ev` 13 of 15, `/cost-of-power/battery` 5 of 9, and every "Decisions on this page" fold of the old laptop's four new pages. At 1280 px, 4 of 87 (a mark in a page's right column) | The same placing as rows 1 and 2, from the site's layout: 0 of 199 marks at 390 px and 0 of 195 at 1280 px on the same 19 pages, on a build of this branch with the old laptop's four | site | fixed (`TipPlace`, mounted once in `site/app/layout.tsx`) |
 
 ## The 17 figures, each in its table row
 
@@ -80,6 +81,7 @@ Hovers measured as cut or covered, of those drawn. "Before" is `wip/7200-large-l
 | The laws, every state | 132 of 227 | 0 of 228 | 176 of 227 | 1 of 228 |
 | axe, rules broken (elements): the tab | 1 (78) | 0 | 1 (78) | 0 |
 | axe, rules broken (elements): `/policy` | 1 (15 to 20) | 0 | 1 (5), with every state | 0 |
+| The site's shared "i" mark, 19 pages (before: production; after: this branch with the old laptop's four) | 4 of 87 | 0 of 195 | 62 of 91 | 0 of 199 |
 | The page's own width at 390 px | | | 390 | 390 |
 
 The one of 228 at 390 px is a state's hover in the line "No row for 22 states": when it was measured its trigger stood below the window's foot (the read had scrolled it there), so its box, placed above it, was below the window too. With its trigger in the window the box is in the window (the test tries 5,563 places at the two widths).
