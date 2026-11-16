@@ -886,3 +886,33 @@ faults:
       Whether the 13 March figures were for part of the month is not said in either report.
     recorded_in: >-
       session 106; docs/methods/ercot_large_load_status.md
+  - id: eia930_erco_battery_column_changes_meaning
+    title: >-
+      EIA's ERCOT battery column holds discharge only until 14 December 2025, and output net of charging from the 15th
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2024-10-23"
+    last: ""
+    dates_note: >-
+      discharge only in the rows stamped 2024-10-23T06:00 UTC to 2025-12-15T06:00 UTC (the hour's end); net of
+      charging from the row stamped 2025-12-15T07:00 UTC, and continuing
+    status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      The shoulder table writes the column as EIA publishes it, so its ERCOT battery figures before 15 December
+      2025 are discharge and those after are net output, and December 2025's average day mixes the two. Whether
+      the months before should be written as they are, with this entry, or as a second variable is the owner's
+      to rule (done-line request 6); the default is as published.
+    evidence: >-
+      In EIA's ERCO workbook of 9 November 2026 (Adjusted BAT Gen), the 10,008 hours stamped from
+      2024-10-23T06:00 to 2025-12-15T06:00 UTC hold no value below zero; of the 7,873 hours from then to the
+      workbook's end, 5,086 are below zero, the first stamped 2025-12-15T07:00 UTC.
+    tables: >-
+      shoulder_hours_monthly
+    erw_does: >-
+      Holds the column as published; the shoulder note says which months are discharge only.
+    open: >-
+      EIA does not say why the column changed, nor whether the earlier rows will be published again as net output.
+    recorded_in: >-
+      session 7019 (chain 301); docs/methods/shoulder_hours.md; docs/state/data_requests_done_line.md, row 6

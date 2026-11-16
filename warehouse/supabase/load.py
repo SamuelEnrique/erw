@@ -245,6 +245,19 @@ def eqr_summary(df):
         "quarters": sorted(q for q in col("x_quarter").unique() if q != ""),
         "by_month": by("month"), "by_product": most(by("product"), "product"), "by_ba": most(by("ba", False), "ba"),
     }
+    # session 7019 (chain 301, done-line request 20): the rows and the priced rows by quarter of execution, product group
+    # and delivery balancing authority, so the page's count beside a quarter can follow the product and authority chosen
+    # and a year reads as its four quarters. The groups are warehouse/derived/eqr_buyers.py's (PRODUCTS), every other
+    # product "other"; the authority's code trimmed and in capitals, "not stated" for none.
+    groups = {"ENERGY": "energy", "CAPACITY": "capacity", "TOLLING ENERGY": "tolling"}
+    d = pd.to_datetime(day, errors="coerce")
+    quarter = d.dt.year.astype("Int64").astype(str) + "_Q" + d.dt.quarter.astype("Int64").astype(str)
+    code = col("x_point_of_delivery_balancing_authority").str.strip().str.upper()
+    q = pd.DataFrame({"quarter": quarter.where(d.notna(), "not dated"), "group": product.str.strip().map(groups).fillna("other"),
+                      "ba": code.where(code != "", "not stated"), "priced": priced})
+    t = q.groupby(["quarter", "group", "ba"], sort=True).agg(rows=("priced", "size"), priced=("priced", "sum")).reset_index()
+    out["by_quarter_group_ba"] = [{"quarter": r["quarter"], "group": r["group"], "ba": r["ba"], "rows": int(r["rows"]), "priced": int(r["priced"])}
+                                  for r in t.to_dict("records")]
     largest = eqr_largest()
     if largest:
         out["largest"] = largest  # session 99: the largest buyers and sellers, from the whole quarter's file

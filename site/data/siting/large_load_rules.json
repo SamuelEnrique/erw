@@ -4,11 +4,11 @@
 "utility_large_load_rule_changes",
 "state_large_load_laws"
 ],
-"built":"2026-11-16T11:11:10Z",
+"built":"2026-11-16T17:10:29Z",
 "retrieved":{
-"utility_large_load_rules":"20261116T110840Z",
-"utility_large_load_rule_changes":"20261116T110840Z",
-"state_large_load_laws":"20261116T110840Z"
+"utility_large_load_rules":"20261116T164658Z",
+"utility_large_load_rule_changes":"20261116T164658Z",
+"state_large_load_laws":"20261116T164658Z"
 },
 "method":"docs/methods/large_load_research.md",
 "fields":[
@@ -8044,7 +8044,7 @@
 "url":"https://www.legislature.mi.gov/documents/2023-2024/publicact/pdf/2024-PA-0207.pdf",
 "doc":"Act No. 207, Public Acts of 2024 (Enrolled House Bill No. 4906), Michigan Legislature",
 "read":"2026-11-14",
-"notes":"A 2024-session act approved 17 January 2025 and in effect in 2025 (the brief's lead). It sets terms for data centers' electric service as conditions of a sales and use tax exemption, not as a utility rule. The companion Act No. 208 of 2024 (Enrolled H.B. 5600, effective 2 April 2025) was opened but not read for terms. No 2025 or 2026 Michigan act on large loads was found (one web search; a Michigan moratorium bill is a news lead only)."
+"notes":"A 2024-session act approved 17 January 2025 and in effect in 2025. It sets terms for data centers' electric service as conditions of a sales and use tax exemption, not as a utility rule. The companion Act No. 208 of 2024 (Enrolled H.B. 5600, effective 2 April 2025) was opened but not read for terms. No 2025 or 2026 Michigan act on large loads was found (one web search; a Michigan moratorium bill is a news lead only)."
 },
 {
 "id":"laws_midwest_northeast-01",
@@ -8348,7 +8348,7 @@
 "url":"https://code.wvlegislature.gov/signed_bills/2025/2025-RS-HB2014-SUB%20ENR_signed.pdf",
 "doc":"Enrolled Committee Substitute for House Bill 2014 (signed copy), West Virginia Legislature, 2025 Regular Session",
 "read":"2026-11-14",
-"notes":"The act creates a certified microgrid program for data centers and others (W. Va. Code 5B-2-21) and a special valuation for high impact data center property; it sets terms for utility service to microgrid customers rather than a large-load tariff. 'Power Generation and Consumption Act' is the brief's name, not printed in the passages read."
+"notes":"The act creates a certified microgrid program for data centers and others (W. Va. Code 5B-2-21) and a special valuation for high impact data center property; it sets terms for utility service to microgrid customers rather than a large-load tariff. 'Power Generation and Consumption Act' is the name the research started from, not printed in the passages read."
 }
 ],
 "held_laws":[
@@ -8646,7 +8646,7 @@
 },
 "55937":{
 "rules":[],
-"none":"No large-load rule found. Searched: web searches for an Entergy Texas large-load tariff or PUCT docket under S.B. 6 (2025); none found. Window A's PUCT Project 58000 proposal (large_load_connection_rules/puct_project_58000_proposal.yaml) applies to ERCOT TSPs and DSPs, and Entergy Texas is outside ERCOT; Schedule LIPS is held (large_load_tariffs/entergy_texas_lips.yaml). Entergy Texas dockets on Entergy's regulatory page in 2025 to 2026 (TCRF, DCRF, GCRR, Legend and Lone Star, Cypress to Legend line) are not large-load rules",
+"none":"No large-load rule found. Searched: web searches for an Entergy Texas large-load tariff or PUCT docket under S.B. 6 (2025); none found. The ERW's record of the PUCT Project 58000 proposal (large_load_connection_rules/puct_project_58000_proposal.yaml) applies to ERCOT TSPs and DSPs, and Entergy Texas is outside ERCOT; Schedule LIPS is held (large_load_tariffs/entergy_texas_lips.yaml). Entergy Texas dockets on Entergy's regulatory page in 2025 to 2026 (TCRF, DCRF, GCRR, Legend and Lone Star, Cypress to Legend line) are not large-load rules",
 "note":"docs/research/large_load/notes/entergy_texas.md"
 }
 },

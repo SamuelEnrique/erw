@@ -19,6 +19,8 @@ export type Summary = {
   by_month: { month: string; rows: number; priced: number }[];
   by_product: { product: string; rows: number; priced: number }[];
   by_ba: { ba: string; rows: number }[];
+  /** Session 7019 (chain 301, done-line request 20): rows and priced rows by quarter of execution, product group and delivery authority (absent until a load after session 7019). */
+  by_quarter_group_ba?: { quarter: string; group: string; ba: string; rows: number; priced: number }[];
   /** Session 99: the largest buyers and sellers, from the whole quarter's file (the loader stores it with the summary; absent until a load after session 99). */
   largest?: Largest;
   /** Session 125: megawatts, prices read from the words, tags and changes by quarter (warehouse/derived/eqr_terms.py; absent until a load after session 125). */

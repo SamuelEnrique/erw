@@ -405,11 +405,25 @@ jobs:
           # wip/red-daily-<day> for a session to repair, this step is recorded failed in erw_health (the email rule's one
           # daily red email reads it), and main is not touched. The job itself stays green: a red scheduled job would
           # make GitHub send an email of its own, which the email rule does not allow (no scheduled job fails on GitHub)
-          if python scripts/push_guard.py --who "daily prices" --step "commit" --red-branch "wip/red-daily-$date"; then
-            git push origin HEAD:main
-          else
-            echo "::warning::the push to main was refused; the failing tests are named above and in the summary"
-          fi
+          # session 7020 (chain 301): main can move during the guard's suite (about ten minutes): on 16 November a landing
+          # merged at 16:37 UTC and this push was refused ("fetch first"), and the day's metadata, docs and digests never
+          # reached main. A refused push now rebases onto the new main and the guard runs again on the rebased commit
+          # (main still never gets a commit the suite has not passed), up to three times; a conflict stops it with a warning
+          pushed=0
+          for try in 1 2 3; do
+            if ! python scripts/push_guard.py --who "daily prices" --step "commit" --red-branch "wip/red-daily-$date"; then
+              echo "::warning::the push to main was refused; the failing tests are named above and in the summary"
+              break
+            fi
+            if git push origin HEAD:main; then pushed=1; break; fi
+            echo "::notice::main moved during the guard (try $try); rebasing onto it and running the guard again"
+            if ! git pull --rebase origin main; then
+              git rebase --abort || true
+              echo "::warning::the rebase onto the moved main met a conflict; the commit is not pushed"
+              break
+            fi
+          done
+          [ "$pushed" = 1 ] || echo "::warning::the day's commit did not reach main (tries: $try)"
 
       - name: Release the data lock
         if: always() && env.ERW_LOCK_TOKEN != ''

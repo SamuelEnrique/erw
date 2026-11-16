@@ -340,6 +340,8 @@ def part_b(S, rows_dir, held):
                 mws = [float(r["capacity_mw"]) for r in members if (r.get("capacity_mw") or "").strip() != ""]
                 if mws:
                     mine[(y, f"mw_{g}")] = sum(mws)
+                elif not members:   # session 7020 (done-line request 17): no position is 0 MW, not "not held"
+                    mine[(y, f"mw_{g}")] = 0.0
             if "withdrawn" in groups and rs:
                 mine[(y, "withdrawal_rate")] = len(groups["withdrawn"]) / len(rs)
             if q not in NO_IN_SERVICE:

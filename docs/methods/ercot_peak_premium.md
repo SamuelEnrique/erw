@@ -144,6 +144,12 @@ The choices made on `/explore/ercot-peak-premium` and on the ERCOT tab of `/pric
 7. 2026-10-23, session 2203: the tip mark's target is 24 px in both directions (WCAG 2.2's 2.5.8), its drawn size 16 px as before.
 8. 2026-10-23, session 2204: the ERCOT tab's ten headline tiles take the headline number's size of the brand's scale (24 px in the serif); they stood at 18 px, which the scale does not hold. Nothing else of the two pages' type, color, tables or charts was outside `docs/brand.md` on reading: `site/app/tokens.css` sets the titles in ink, the labels in sentence case, the notes at 68 characters, the tables' figures in mono and the axis text at 12 px for every page in the brand.
 
+## The year to date and the settlement points (session 7019, chain 301)
+
+**The year to date.** The annual table carries, for every hub and year, `ytd_<variable>`: the same metric over 1 January 00:00 local to the local month, day and time of the last input interval in that year (inclusive; 29 February falls back to the 28th in a year without it). For the newest year it is the year's own figure; for an earlier year it is the like figure the partial year is set beside (done-line request 36). The variables without the prefix are unchanged.
+
+**The settlement points.** `ercot_peak_premium_node_monthly` (`warehouse/derived/ercot_node_peak_premium.py`): the same metrics, by the same code (`metrics`, `expected`), for every settlement point of `ercot_rtm_node_prices` (ERCOT's 15-minute real-time settlement point prices, the data machine's daily pull since 28 September 2026), by calendar month from October 2026, the first whole month. An ended month is written for a point only with every interval of it; the month in progress as far as it is held. The six hubs appear among the points, and their October 2026 figures equal the hub table's (168 of 168 in the trial of 16 November). Public, as its input (done-line request 35).
+
 ## The tool as a reader meets it (session 7507, chain 304, 16 November 2026)
 
 This section completes the note for `/explore/ercot-peak-premium` as a reader meets it: every view, every figure's table and rule, every choice with its default and source, what the tool does not hold, and what published figures stand beside it. Nothing above is rewritten; where a line above is amended, this section says so. The replication (`replication/ercot_peak_premium/`) was written from this note.
@@ -284,11 +290,11 @@ For each variable, in that order, the cells run by period (the first year, then 
 
 **The period that heads a figure, and its mark.** A period is written as the year ("2025") or as the month's English name and the year ("August 2025"). It is followed by " (partial)" when the first hub's `n_intervals` for it is held and short of the full period by the rule of section 2 (a year: not 35,040, or 35,136 in a leap year; a month: below its days times 96, four fewer in March and four more in November). A period the table does not hold carries no mark (its figures read "not held"). The second hub's columns carry the first hub's mark: the two hubs hold the same intervals. The period is written so in: the three headline labels, each ending ", A, P" for the second year; the line under each headline number, which opens "P:" for the first year when the two years differ; the "Period" cell of each of the eight (or four) rows of the first table; the head of the second table ("Figure", then each period); and the section's line and head above.
 
-**Checked on 16 November 2026,** on the tables of samueloldlaptop (built 29 September 2026), `python replication/ercot_peak_premium/replicate.py --write`, as printed:
+**Checked on 16 November 2026,** first on the tables of samueloldlaptop (built 29 September 2026), and again by the data machine on the tables rebuilt that day (session 7020, chain 301: the year to date added, ERCOT's 15 October filled), `python replication/ercot_peak_premium/replicate.py --write`, as printed the second time:
 
 - `674 of 674 views open as the note says (the hub, the period, the two years, the years marked, the rows' download, the freshness line)`
-- `24786 of 24786 figures inside the tolerance, with the same text; 0 drawn by the page and not expected; 0 drawn two ways`
-- `6214 of 6214 figures of the section of two hubs, in 122 views with a second hub, are the rows the note names, in its order, inside the tolerance and with the same text`
+- `25110 of 25110 figures inside the tolerance, with the same text; 0 drawn by the page and not expected; 0 drawn two ways`
+- `6266 of 6266 figures of the section of two hubs, in 122 views with a second hub, are the rows the note names, in its order, inside the tolerance and with the same text`
 - `12172 of 12172 periods that head a figure are written as the note says (the headline numbers, the first table's period cells, the tables' heads, the two-hub line; '(partial)' where the period is not over)`
 
 The 674 views are section 7's 550 and 124 with `vs` in the address: every ordered pair of the six hubs for the view a reader opens on (30); HB_WEST beside HB_NORTH for each of the twelve months with no year named (12) and for the whole year and each month with every pair of years (78); and the same hub twice, a hub the tables do not hold, one year alone, and a month the newest year does not hold yet (4, two of them with no section). The distinct figures stay 24,786: the section draws rows that the hub's own views already draw, and the page writes each the same way wherever it draws it (0 drawn two ways).

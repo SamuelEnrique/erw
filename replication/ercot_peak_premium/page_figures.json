@@ -1,18 +1,18 @@
 {
  "_about": "The ERCOT peak premium explorer (/explore/ercot-peak-premium): every figure the page draws for every hub, every period (the whole year and each month) and every year it offers, as the page's own code draws it on the two tables (site/scripts/peak-premium-figures.mjs), beside the replication's value (replication/ercot_peak_premium/replicate.py, written from docs/methods/ercot_peak_premium.md). A figure's check key is series|<table>|<hub>|<variable>|<period>. The tolerance is half the last digit shown: 0.005 for a price or a ratio, 0.5 for a count. The figures themselves are in page_figures.csv, one line each.",
  "tables": {
-  "annual_rows": 2016,
-  "monthly_rows": 23688,
-  "last_input_interval": "2026-09-28T04:45:00Z",
-  "built": "Retrieved: 20260929T005555Z (UTC) by warehouse/derived/ercot_peak_premium.py"
+  "annual_rows": 4032,
+  "monthly_rows": 24024,
+  "last_input_interval": "2026-11-15T05:45:00Z",
+  "built": "Retrieved: 20261116T164741Z (UTC) by warehouse/derived/ercot_peak_premium.py"
  },
  "views": 674,
  "views_as_the_note_says": 674,
- "figures": 24786,
- "figures_inside_the_tolerance": 24786,
+ "figures": 25110,
+ "figures_inside_the_tolerance": 25110,
  "views_with_a_second_hub": 122,
- "two_hub_figures": 6214,
- "two_hub_figures_as_the_note_says": 6214,
+ "two_hub_figures": 6266,
+ "two_hub_figures_as_the_note_says": 6266,
  "periods_that_head_a_figure": 12172,
  "periods_written_as_the_note_says": 12172,
  "opening": {

@@ -65,6 +65,27 @@ SERVICES = {"regup": (["x_regup_award_mw"], "x_regup_mcpc"), "regdn": (["x_regdn
 REVENUES = ["energy"] + list(SERVICES) + ["ancillary", "total"]
 SUMS = ["energy_sold_mwh", "energy_bought_mwh", "energy_sold_usd", "energy_bought_usd"] + [f"revenue_{s}_usd" for s in SERVICES]
 CHUNK = 200_000
+# session 7019 (chain 301, done-line request 31): each resource's class by the hours its highest state of charge seen in
+# real time stands for at its highest HSL there (a floor on its duration, not a nameplate): ercot:esr_class_<class>
+CLASS_INPUT = "ercot_sced_esr_hourly"
+CLASSES = ("under_2h", "2_to_4h", "4h_and_over", "not_seen_rt")
+
+
+def duration_classes(path):
+    """{resource: class} from the real-time table: highest x_soc_max_mwh over highest x_hsl_mw over the days held; a
+    resource not in it, or with no positive HSL or no state of charge there, is not_seen_rt."""
+    n = ip.header_rows(path)
+    s = pd.read_csv(path, skiprows=n, usecols=["entity", "x_soc_max_mwh", "x_hsl_mw"], dtype=str, keep_default_na=False)
+    for c in ("x_soc_max_mwh", "x_hsl_mw"):
+        s[c] = pd.to_numeric(s[c].where(s[c] != ""), errors="coerce")
+    g = s.groupby("entity").agg(soc=("x_soc_max_mwh", "max"), hsl=("x_hsl_mw", "max"))
+    out = {}
+    for e, r in g.iterrows():
+        if not (r["hsl"] > 0) or pd.isna(r["soc"]):
+            continue
+        h = r["soc"] / r["hsl"]
+        out[e] = "under_2h" if h < 2 else "2_to_4h" if h < 4 else "4h_and_over"
+    return out
 
 
 def _num(s):
@@ -154,11 +175,11 @@ def unit_of(variable):
     return "count"
 
 
-def rows_of(months, retrieved):
+def rows_of(months, retrieved, entity=ENTITY):
     recs = []
     for month, v in sorted(months.items()):
         for variable, value in v.items():
-            recs.append({"entity": ENTITY, "variable": variable, "ts_utc": f"{month}-01T00:00:00Z", "value": repr(float(value)) if not isinstance(value, int) else str(value),
+            recs.append({"entity": entity, "variable": variable, "ts_utc": f"{month}-01T00:00:00Z", "value": repr(float(value)) if not isinstance(value, int) else str(value),
                          "unit": unit_of(variable), "freq": "P1M", "geo": "US-TX", "market": "ercot_dam", "node": "", "source": SOURCE, "source_url": METHOD_URL,
                          "retrieved_at": retrieved, "vintage": ""})
     return pd.DataFrame(recs, columns=COLS)
@@ -182,6 +203,22 @@ def build(out_dir, input_path, log, run_id, retrieved):
     res, days, total = read_input(input_path, log)
     months = monthly(res, days)
     new = rows_of(months, retrieved)
+    cpath = os.path.join(os.path.dirname(input_path), CLASS_INPUT + ".csv")
+    class_note = f"{CLASS_INPUT} is not on this machine: no class entities this run"
+    if os.path.exists(cpath):
+        cls = duration_classes(cpath)
+        of = res["entity"].map(cls).fillna("not_seen_rt")
+        parts = [new]
+        for c in CLASSES:
+            part = res[of == c]
+            if len(part):
+                parts.append(rows_of(monthly(part, days), retrieved, entity=f"ercot:esr_class_{c}"))
+        new = pd.concat(parts, ignore_index=True)
+        counts = of.groupby(res["entity"]).first().value_counts().to_dict()
+        class_note = (f"Duration classes (session 7019): ercot:esr_class_under_2h, _2_to_4h, _4h_and_over and _not_seen_rt, the same variables over "
+                      f"the resources of each class; a resource's class is its highest state of charge seen in real time ({CLASS_INPUT}, x_soc_max_mwh) "
+                      f"over its highest HSL there, a floor on its hours and not a nameplate; not_seen_rt has no such floor. Resources by class: {counts}.")
+        log("  " + class_note)
     path = os.path.join(out_dir, NAME + ".csv")
     if os.path.exists(path):  # an unchanged row keeps its retrieved_at, so the loader rewrites only what changed
         old = ip.read_series(path, COLS)
@@ -198,7 +235,7 @@ def build(out_dir, input_path, log, run_id, retrieved):
     missing = sum(v["days_missing"] for v in months.values())
     head = [
         "Energy Research Warehouse (ERW): what ERCOT's Energy Storage Resources were awarded day-ahead, the fleet by local month (derived, session 115)",
-        "Shape: series (docs/datastandard.md v0, Decision 40); freq P1M, ts_utc the first day of the local (Central) month at 00:00:00Z; one entity, ercot:esr_fleet. "
+        "Shape: series (docs/datastandard.md v0, Decision 40); freq P1M, ts_utc the first day of the local (Central) month at 00:00:00Z; entity ercot:esr_fleet, and the duration classes below. "
         "Variables: resources, resources_with_award, resource_hours, resource_hours_energy_award (count); mw (MW: the sum of each resource's highest HSL in the month; a "
         "resource with no award is in it); energy_sold_mwh, energy_bought_mwh (MWh); energy_sold_usd, energy_bought_usd, revenue_energy_usd (sold less bought: net of "
         "charging, each award at the resource's own settlement point price); revenue_regup_usd, revenue_regdn_usd, revenue_rrs_usd, revenue_ecrs_usd, revenue_nspin_usd "
@@ -208,8 +245,7 @@ def build(out_dir, input_path, log, run_id, retrieved):
         "earned. \"revenue\" in a variable's name is an award valued at its day-ahead price, nothing more.",
         f"Operating days held: {len(all_days)}, {all_days[0]} to {all_days[-1]} (local, Central); {missing} missing between them. Nothing is filled for a missing day: it "
         "adds nothing to a sum and is counted in days_missing. A month's first or last days outside that span are only the difference of days_in_month and days_held.",
-        "No duration class: ERCOT's file states a resource's power and never its energy, and the warehouse holds no match of ERCOT's resource names to EIA-860M's plants "
-        "(docs/methods/ercot_storage_dam_awards.md).",
+        class_note,
         f"Retrieved: {run_id} (UTC) by warehouse/derived/ercot_storage_dam_awards.py, from {total:,} rows of {INPUT}",
         f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
         f"Source: {SOURCE} ERW derived table, ERCOT storage resources' day-ahead awards by month (docs/methods/ercot_storage_dam_awards.md), {METHOD_URL}",

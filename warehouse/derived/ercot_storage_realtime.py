@@ -351,6 +351,7 @@ def main(argv=None):
         awards_path = os.path.join(ip.OUT_DIR, DAM_MONTHLY + ".csv")
         if os.path.exists(awards_path):
             aw = pd.read_csv(awards_path, skiprows=ip.header_rows(awards_path), dtype=str, keep_default_na=False)
+            aw = aw[aw["entity"] == ENTITY]   # session 7019: the fleet's rows (the table also holds the duration classes)
             aw = aw.assign(month=aw["ts_utc"].str[:7], v=aw["value"].astype(float)).pivot(index="month", columns="variable", values="v")
             for month, v in months.items():
                 if month in aw.index and int(aw.loc[month, "days_held"]) == v["days_held"]:
@@ -362,6 +363,27 @@ def main(argv=None):
         retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         base = dict(entity=ENTITY, geo="US-TX", market="", node="", freq="P1M", source=SOURCE, source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
         rows = [dict(base, variable=k, ts_utc=f"{month}-01T00:00:00Z", value=val, unit=unit_of(k)) for month, v in sorted(months.items()) for k, val in v.items()]
+        # session 7019 (chain 301, done-line request 31): the same figures by duration class, each class's own resources and
+        # MW, the class the awards table's (ercot_storage_dam_awards.duration_classes: a floor, not a nameplate)
+        import ercot_storage_dam_awards as aw_mod
+        cpath = os.path.join(ip.OUT_DIR, aw_mod.CLASS_INPUT + ".csv")
+        class_note = f"{aw_mod.CLASS_INPUT} is not on this machine: no class entities this run"
+        if os.path.exists(cpath):
+            cls = aw_mod.duration_classes(cpath)
+            of_m = ("ercot:" + m["resource"]).map(cls).fillna("not_seen_rt")
+            of_d = ("ercot:" + dm["resource"]).map(cls).fillna("not_seen_rt")
+            for c in aw_mod.CLASSES:
+                mc, dc = m[of_m == c], dm[of_d == c]
+                if not len(mc):
+                    continue
+                mwc = dc.groupby(["month", "resource"])["da_hsl"].max().groupby("month").apply(lambda x: math.fsum(x.clip(lower=0)))
+                cm = monthly(mc, set(matched), mwc.to_dict())
+                rows += [dict(base, entity=f"ercot:esr_class_{c}", variable=k, ts_utc=f"{month}-01T00:00:00Z", value=val, unit=unit_of(k))
+                         for month, v in sorted(cm.items()) for k, val in v.items()]
+            class_note = ("Duration classes (session 7019): ercot:esr_class_under_2h, _2_to_4h, _4h_and_over and _not_seen_rt, the same variables over "
+                          "each class's resources and MW; a resource's class is its highest state of charge seen in real time over its highest HSL there "
+                          "(ercot_storage_dam_awards.duration_classes), a floor on its hours and not a nameplate.")
+            log("  " + class_note)
         priced = sum(v["intervals_priced"] for v in months.values())
         total = sum(v["intervals"] for v in months.values())
         header = [
@@ -373,6 +395,7 @@ def main(argv=None):
             "revenue_da_energy_usd, revenue_da_ancillary_usd, revenue_da_usd (the day-ahead awards at their own prices); revenue_rt_output_hub_usd, "
             "revenue_da_position_hub_usd, revenue_rt_deviation_hub_usd, revenue_market_hub_usd; each revenue also _per_mw; intervals, intervals_priced; "
             "da_node_minus_hub_sold, da_node_minus_hub_bought (USD/MWh).",
+            class_note,
             f"THE REAL-TIME VALUES ARE AT THE HUB AVERAGE'S PRICE ({HUB}), NOT AT EACH RESOURCE'S OWN NODE. ERCOT settles real-time energy at the Resource Node "
             "(Nodal Protocols 6.6.3.1); its public list keeps seven days of node prices and this disclosure is 60 days old when it is published, so the node price of a "
             "disclosed day is not public. Every variable that rests on the hub price carries _hub in its name.",

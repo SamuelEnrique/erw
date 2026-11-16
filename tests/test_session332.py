@@ -31,8 +31,9 @@ class TheDownloads(unittest.TestCase):
         # session 3060: three views of /policy (every action, the week, the monitor), each offering the two tables
         # session 7201 (chain 302): the monitor's line also names state_large_load_laws, whose rows the monitor draws since
         # then; the two other views offer the two tables as before
-        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads"]} />'), 2)
-        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />'), 1)
+        # session 7019 (done-line request 9): the monitor's line no longer names state_large_load_laws (out of release v1)
+        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads"]} />'), 3)
+        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />'), 0)
         es = src("site", "components", "EventStudy.tsx")
         self.assertIn('<TableDownloads tables={[T, "event_study_estimates"]} />', es)
         self.assertIn('<TableDownloads tables={[T, "event_study_estimates"]} />', src("site", "app", "events", "page.tsx"))

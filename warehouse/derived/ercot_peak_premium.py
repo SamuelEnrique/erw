@@ -132,9 +132,20 @@ def expected(start_local, end_local):
     return int((end_local.tz_convert("UTC") - start_local.tz_convert("UTC")) / pd.Timedelta("15min"))
 
 
+def ytd_cut(last_local, year):
+    """The local moment in `year` at the month, day and time of the last input interval (29 February falls back to the
+    28th's same time in a year without it): the end, inclusive, of that year's year to date."""
+    day = last_local.day
+    if last_local.month == 2 and day == 29 and not pd.Timestamp(f"{year}-03-01").is_leap_year:
+        day = 28
+    naive = pd.Timestamp(year=year, month=last_local.month, day=day, hour=last_local.hour, minute=last_local.minute)
+    return naive.tz_localize(TZ, ambiguous=True, nonexistent="shift_forward")
+
+
 def build(d, log):
     now_local = pd.Timestamp.now(tz=TZ)
     last = d["ts"].max()
+    last_local = last.tz_convert(TZ)
     annual, monthly = [], []
     d = d[d["local"].dt.year >= FIRST_YEAR]
     for hub, g in d.groupby("node"):
@@ -152,6 +163,13 @@ def build(d, log):
                 raise RuntimeError(f"{hub} {y}: {len(gy)} intervals, expected {full}")
             for var, (v, unit) in metrics(gy["value"].to_numpy(float), gy["local"].dt.hour.to_numpy()).items():
                 annual.append((hub, var, f"{y}-01-01T00:00:00Z", v, unit))
+            # session 7019 (chain 301, done-line request 36): the same metrics over 1 January 00:00 local to the local day
+            # and time of year of the last input interval, for every year, so the partial year has a like figure beside
+            # each earlier year (ytd_<variable>; for the newest year it is the year's own figure)
+            gt = gy[gy["local"] <= ytd_cut(last_local, y)]
+            if not gt.empty:
+                for var, (v, unit) in metrics(gt["value"].to_numpy(float), gt["local"].dt.hour.to_numpy()).items():
+                    annual.append((hub, f"ytd_{var}", f"{y}-01-01T00:00:00Z", v, unit))
             for m in range(1, 13):
                 gm = gy[months[years == y] == m]
                 ms = pd.Timestamp(f"{y}-{m:02d}-01").tz_localize(TZ)
@@ -204,6 +222,30 @@ def missing_inputs():
     return [n for n in want if not os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))]
 
 
+FAMILIES = ("ercot_all_hub_prices_history", "iso_rtm_hub_prices")   # the consolidated tables that hold the inputs
+
+
+def main_split():
+    """Session 7020 (chain 301): the inputs are members of two consolidated tables; on the data machine they exist only
+    between `consolidate.py split` and `build`. --split runs the split, the build of the metrics, and the build of the
+    families back (the members leave warehouse/output again), so a daily step can call it alone. Exit 1 when any of the
+    three fails; the families are built back whatever the metrics did."""
+    import subprocess
+    cons = [sys.executable, os.path.join(ip.ROOT, "warehouse", "consolidate.py")]
+    fam = [x for f in FAMILIES for x in ("--family", f)]
+    if subprocess.run(cons + ["split"] + fam, cwd=ip.ROOT).returncode != 0:
+        print("ercot_peak_premium FAILED: consolidate.py split failed; nothing built", file=sys.stderr)
+        return 1
+    try:
+        rc = main()
+    finally:
+        back = subprocess.run(cons + ["build"] + fam, cwd=ip.ROOT).returncode
+    if back != 0:
+        print("ercot_peak_premium FAILED: consolidate.py build failed; the members stay in warehouse/output", file=sys.stderr)
+        return 1
+    return rc
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -241,6 +283,11 @@ def main():
                 "peak 16<=h<21; percentiles numpy default (linear); no cap or exclusion.",
                 f"Last input interval: {ip.utc_iso(last)}; the current year and month are partial "
                 "(n_intervals says how many intervals each period holds).",
+            ] + ([
+                "Year to date (session 7019): each ytd_<variable> is the same metric over 1 January 00:00 local to the local "
+                "month, day and time of the last input interval in that year (inclusive), so every year has a figure like "
+                "the partial year's; for the newest year it equals the year's own.",
+            ] if name == "ercot_peak_premium_annual" else []) + [
                 f"License: {license_}. A derived table inherits the most restrictive license of its inputs "
                 "(Decision 23).",
             ]
@@ -266,4 +313,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main_split() if "--split" in sys.argv[1:] else main())
