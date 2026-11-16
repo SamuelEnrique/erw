@@ -32,6 +32,18 @@ Started by the queue step (`310-resume-chain-301.md` taken at `5eed3497e`; the p
 - **25 (b), 42, 43, 48:** ruling (the defaults stand). **46:** waiting for ERCOT's publication by 1 December. **20:** waits for the contracts' next build (the live set's are newer than this machine's and the archive's).
 - **The daily run's failed `dm_storage_offers_rollup`:** the offers builder pivoted every entity of the awards table, which since session 7020 also holds the duration classes. Fixed (the fleet's rows only; test 116).
 
+## The lock's writes (`runs/c301/lock3.sh` from 19:51 UTC, `runs/c301/lock4.sh` from 20:49)
+
+- **31:** the awards table by duration class (1,244 rows) and the real-time tables (node basis 2,064 rows) rebuilt with gate l's builders.
+- **35:** `ercot_peak_premium_node_monthly`, 17,472 rows, new.
+- **30:** `ercot_storage_rt_offers_monthly`, 175 rows (February to August 2026), new. The validator refused the first write for its unit `MWh/MW/day`; `MWh/MW-day` joined the vocabulary (Decision 78) and the table was written again in lock4.
+- **45:** the Order (item 88) and its page pulled through the connector (requests 16 and 17 of the 20 allowed); `texas_transmission_matrix` written, 572 rows; the page file `site/data/datacenter/texas_delivery.json` rebuilt, the 2026 rate's `status` now "approved".
+- **28:** `impact_tax_rules`, 130 rows; one differs from the build before, Nevada's rule gaining `"abates": "tax"`, as the request said.
+- **47:** `scarcity_hours_by_grid`, 201,873 rows, built again so October 2026 is whole (the live set's ran to 30 October 04:00 UTC: the monthly build of 3 November came before October's last day and a half was held).
+- **41:** `iso_queue_statistics`, 8,990 rows from the six queues as the archive holds them.
+- The day-ahead offers rollup with today's fix: 819 monthly rows. The register of source faults: 30 faults, its site copy written.
+- lock3's load refused every table while the refused offers table had no coverage row (the loader's rule since session 65); lock4 loads them all after the offers table is written again.
+
 ## Goal 3
 
 - 19:23 UTC: CAISO's large-loads process page has the same bytes (sha256 `578c69995d9a0388`), its robots file 404 in a call of its own: not filed.
