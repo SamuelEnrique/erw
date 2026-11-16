@@ -1,0 +1,147 @@
+{
+ "note": "The severance tool's cross-check (session 7502): ours beside the publisher's figure, nothing adjusted.",
+ "eia": {
+  "crude": [
+   "Texas Field Production of Crude Oil (Thousand Barrels)",
+   "10/30/2026"
+  ],
+  "first_purchase_price": [
+   "Texas Crude Oil First Purchase Price (Dollars per Barrel)",
+   "11/2/2026"
+  ],
+  "gas": [
+   "Texas Natural Gas Marketed Production  (Million Cubic Feet)",
+   "10/30/2026"
+  ]
+ },
+ "rows": [
+  {
+   "what": "Texas oil rate, percent of market value",
+   "ours": 4.6,
+   "theirs": 4.6,
+   "document": "Texas Comptroller, Crude Oil Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas oil clean-up fee, USD per barrel",
+   "ours": 0.00625,
+   "theirs": 0.00625,
+   "document": "Texas Comptroller, Crude Oil Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas enhanced recovery rate, percent",
+   "ours": 2.3,
+   "theirs": 2.3,
+   "document": "Texas Comptroller, Crude Oil Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas gas rate, percent of market value",
+   "ours": 7.5,
+   "theirs": 7.5,
+   "document": "Texas Comptroller, Natural Gas Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas condensate rate, percent of market value",
+   "ours": 4.6,
+   "theirs": 4.6,
+   "document": "Texas Comptroller, Natural Gas Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas gas regulatory fee, USD per Mcf",
+   "ours": 0.000667,
+   "theirs": 0.000667,
+   "document": "Texas Comptroller, Natural Gas Production Tax (page as read today)",
+   "difference": 0.0,
+   "why": ""
+  },
+  {
+   "what": "Texas certified oil prices, periods the same as published",
+   "ours": 20,
+   "theirs": 20,
+   "document": "Texas Comptroller, low-producing oil leases page",
+   "difference": 0,
+   "why": ""
+  },
+  {
+   "what": "Texas certified oil price, latest period held",
+   "ours": "2026-08",
+   "theirs": "2026-09",
+   "document": "the same page",
+   "difference": null,
+   "why": "published since the rules file was read on 30 September 2026: 2026-09 USD 48.59 (Not Eligible for Credit)"
+  },
+  {
+   "what": "Texas certified gas prices, periods the same as published",
+   "ours": 20,
+   "theirs": 20,
+   "document": "Texas Comptroller, low-producing gas wells page",
+   "difference": 0,
+   "why": ""
+  },
+  {
+   "what": "Texas certified gas price, latest period held",
+   "ours": "2026-08",
+   "theirs": "2026-09",
+   "document": "the same page",
+   "difference": null,
+   "why": "published since the rules file was read on 30 September 2026: 2026-09 USD 1.23 (Eligible for 100 Percent Credit)"
+  },
+  {
+   "what": "Texas oil production tax, fiscal 2025: 4.6 percent of EIA's production at the Texas first purchase price (EIA), USD",
+   "ours": 6621844278,
+   "theirs": 5383668225,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025",
+   "difference": 1238176053,
+   "why": "ours is 23 percent above. What would lower collections, none of it measured here: EIA's crude oil holds lease condensate, which Texas taxes under the gas tax; oil from enhanced recovery pays 2.3 percent; an exempt owner's royalty pays nothing; and collections are cash received, with refunds and late reports"
+  },
+  {
+   "what": "Texas oil production tax, fiscal 2025: 4.6 percent of EIA's production at the WTI Cushing monthly mean, the tool's default, USD",
+   "ours": 6729074711,
+   "theirs": 5383668225,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025",
+   "difference": 1345406486,
+   "why": "ours is 25 percent above. What would lower collections, none of it measured here: EIA's crude oil holds lease condensate, which Texas taxes under the gas tax; oil from enhanced recovery pays 2.3 percent; an exempt owner's royalty pays nothing; and collections are cash received, with refunds and late reports"
+  },
+  {
+   "what": "Texas natural gas production tax, fiscal 2025: 7.5 percent of EIA's marketed production at the Henry Hub monthly mean, USD",
+   "ours": 2749852795,
+   "theirs": 2479282624,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025",
+   "difference": 270570171,
+   "why": "ours is 11 percent above. What moves it, none of it measured here: Henry Hub is not the price at a Texas well; high-cost gas pays a reduced rate and low-producing wells earned a 100 percent credit in every period the Comptroller certified; marketing costs are deducted; and the Comptroller's figure also holds the condensate tax"
+  },
+  {
+   "what": "Texas oil production tax, fiscal 2026: 4.6 percent of EIA's production at the Texas first purchase price (EIA), USD",
+   "ours": 7175971817,
+   "theirs": 5876551070,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026",
+   "difference": 1299420747,
+   "why": "ours is 22 percent above. What would lower collections, none of it measured here: EIA's crude oil holds lease condensate, which Texas taxes under the gas tax; oil from enhanced recovery pays 2.3 percent; an exempt owner's royalty pays nothing; and collections are cash received, with refunds and late reports"
+  },
+  {
+   "what": "Texas oil production tax, fiscal 2026: 4.6 percent of EIA's production at the WTI Cushing monthly mean, the tool's default, USD",
+   "ours": 7215622875,
+   "theirs": 5876551070,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026",
+   "difference": 1339071805,
+   "why": "ours is 23 percent above. What would lower collections, none of it measured here: EIA's crude oil holds lease condensate, which Texas taxes under the gas tax; oil from enhanced recovery pays 2.3 percent; an exempt owner's royalty pays nothing; and collections are cash received, with refunds and late reports"
+  },
+  {
+   "what": "Texas natural gas production tax, fiscal 2026: 7.5 percent of EIA's marketed production at the Henry Hub monthly mean, USD",
+   "ours": 3531268715,
+   "theirs": 2434406070,
+   "document": "Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026",
+   "difference": 1096862645,
+   "why": "ours is 45 percent above. What moves it, none of it measured here: Henry Hub is not the price at a Texas well; high-cost gas pays a reduced rate and low-producing wells earned a 100 percent credit in every period the Comptroller certified; marketing costs are deducted; and the Comptroller's figure also holds the condensate tax"
+  }
+ ]
+}

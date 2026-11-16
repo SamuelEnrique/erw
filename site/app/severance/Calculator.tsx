@@ -18,7 +18,12 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   const [price, setPrice] = useState<number | "">(prices.oil ?? "");
   const [variant, setVariant] = useState("la_oil_pre2025");
   const choice = 0.0024;
-  const [adval, setAdval] = useState(0);
+  // session 7502: the district chosen is kept by its label, not by its rate: three pairs of TRD's 35 districts share a
+  // rate (Rio Arriba 3910 and 3920, Roosevelt 4110 and 4130, San Juan 4521 and 4530), and a list keyed by the rate
+  // showed the first of a pair when a reader chose the second (docs/reviews/severance-faults-2026-11-16.md, row 3)
+  const [district, setDistrict] = useState("");
+  const districtRate = prod.base.find((b) => b.rate === "district")?.districts?.list.find((d) => d.label === district)?.rate;
+  const adval = districtRate === undefined ? 0 : Math.round(districtRate * 1e6) / 1e4;
   const [royaltyPct, setRoyaltyPct] = useState(0);
   const [trucking, setTrucking] = useState(0);
   const [transport, setTransport] = useState(0);
@@ -62,7 +67,7 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
   // session 282: every input back to what the page opens on
   const reset = () => {
     setState("TX"); setProduct("oil"); setVolume(1000); setPrice(prices.oil ?? ""); setVariant("la_oil_pre2025");
-    setAdval(0); setRoyaltyPct(0); setTrucking(0); setTransport(0); setOption(""); setParam({}); setTier({}); setPeriod({}); setCredit("");
+    setDistrict(""); setRoyaltyPct(0); setTrucking(0); setTransport(0); setOption(""); setParam({}); setTier({}); setPeriod({}); setCredit("");
   };
   const src = (id: string) => rules.sources[id];
   const Cite = ({ id }: { id: string }) => <a href={src(id)?.url} className="text-xs">{src(id)?.publisher === "Louisiana State Legislature" ? "La. R.S. 47:633" : src(id)?.title}</a>;
@@ -115,9 +120,9 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
               <input type="number" min={0} step="0.01" value={trucking} onChange={(e) => setTrucking(Math.max(0, Number(e.target.value)))} className={field} />
             </label>
             <label className="col-span-2 flex flex-col">Ad valorem production: your unit&apos;s county, district and suffix (TRD&apos;s 2026 table)
-              <select value={adval} onChange={(e) => setAdval(Number(e.target.value))} className={field}>
-                <option value={0}>Not chosen: ad valorem left out</option>
-                {prod.base.find((b) => b.rate === "district")?.districts?.list.map((d) => <option key={d.label} value={Math.round(d.rate * 1e6) / 1e4}>{d.label}: {(d.rate * 100).toFixed(4)}%</option>)}
+              <select value={district} onChange={(e) => setDistrict(e.target.value)} className={field} data-nm-district={district || "none"}>
+                <option value="">Not chosen: ad valorem left out</option>
+                {prod.base.find((b) => b.rate === "district")?.districts?.list.map((d) => <option key={d.label} value={d.label}>{d.label}: {(d.rate * 100).toFixed(4)}%</option>)}
               </select>
             </label>
           </div>
