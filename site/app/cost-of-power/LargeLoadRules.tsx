@@ -52,7 +52,8 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
   const [limit, setLimit] = useState(PAGE);
   const [region, setRegion] = useState(CHANGE_GROUPS.some(([k]) => k === opened.region) ? opened.region : "");
   const [changeLimit, setChangeLimit] = useState(CHANGE_PAGE);
-  const [jump, setJump] = useState("");
+  // the row the page moves to: a new object each time, so the same rule can be asked for twice
+  const [jump, setJump] = useState<{ id: string }>({ id: known(opened.rule) });
 
   const shown = useMemo(() => sortLines(filterLines(ALL, { states: st ? [st] : [], grids: gr ? [gr] : [], statuses: su ? [su] : [], find: nq }), by, dir), [st, gr, su, nq, by, dir]);
   // the open row is always drawn, whatever the page of the list it is on
@@ -62,17 +63,18 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
   // a link of the page that names a state, a grid, a status, a rule or A and B (the tab's cells, the row's panel) sets it
   // here; a navigation that names none (the hub table's sort, the load's form) leaves the table as the reader set it
   const openedKey = JSON.stringify(opened);
-  useEffect(() => {
+  const [seen, setSeen] = useState(openedKey);
+  if (seen !== openedKey) {
+    setSeen(openedKey);
     if (opened.state) setSt(has(opts.states, opened.state));
     if (opened.grid) setGr(has(opts.grids, opened.grid));
     if (opened.status) setSu(has(opts.statuses, opened.status));
     if (opened.find) setNq(opened.find);
     if (opened.a) setA(known(opened.a));
     if (opened.b) setB(known(opened.b));
-    if (opened.rule) { setOpen(known(opened.rule)); setJump(known(opened.rule)); }
+    if (opened.rule) { setOpen(known(opened.rule)); setJump({ id: known(opened.rule) }); }
     if (opened.state || opened.grid || opened.status || opened.find) setLimit(PAGE);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openedKey]);
+  }
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const put = (k: string, v: string, none = "") => { if (v && v !== none) q.set(k, v); else q.delete(k); };
@@ -82,16 +84,16 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
     window.history.replaceState(null, "", `${window.location.pathname}${s ? `?${s}` : ""}${window.location.hash}`);
   }, [st, gr, su, nq, by, dir, a, b, open, region, openedKey]);
   useEffect(() => {
-    if (!jump) return;
-    document.getElementById(`llr-row-${jump}`)?.scrollIntoView({ block: "center" });
-    setJump("");
+    // the address's own anchor (a row's panel, the section's head) wins on arrival; a rule asked for with no anchor is moved to
+    if (jump.id && (!window.location.hash || window.location.hash === "#llr")) document.getElementById(`llr-row-${jump.id}`)?.scrollIntoView({ block: "center" });
   }, [jump]);
 
   /** Open a rule from elsewhere in the section (a change, a pointer to the utility's other row): the filters that
    * would hide it are lifted, and the page moves to its row. */
   const openRule = (id: string) => {
     if (!filterLines(ALL, { states: st ? [st] : [], grids: gr ? [gr] : [], statuses: su ? [su] : [], find: nq }).some((r) => r.id === id)) { setSt(""); setGr(""); setSu(""); setNq(""); }
-    setOpen(id); setJump(id);
+    setOpen(id); setJump({ id });
+    if (window.location.hash) window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#llr`);
   };
   const seeRow = (id: string): ReactNode => <button type="button" className="underline decoration-dotted" onClick={() => openRule(id)} data-llr-see={id}>see its other row</button>;
   const click = (k: RuleSort) => { if (k === by) setDir(dir === "asc" ? "desc" : "asc"); else { setBy(k); setDir("asc"); } };

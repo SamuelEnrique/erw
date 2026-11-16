@@ -13,6 +13,8 @@ import {
 } from "@/lib/policymonitor";
 import { MonitorCalendar } from "./MonitorCalendar";
 import { MonitorCharts } from "./MonitorCharts";
+// chain 302 (session 7201): the states' laws on large loads, under the records, following the State filter
+import { StateLaws, type LawsProp } from "./StateLaws";
 
 const tip = "cursor-help border-b border-dotted border-muted";
 const HEAD: Record<SortKey, [string, string]> = {
@@ -44,7 +46,7 @@ function Multi({ label, opts, chosen, set, why }: { label: string; opts: Option[
   );
 }
 
-export function MonitorView({ rows, built, held, opened, today }: { rows: MonitorRow[]; built: string; held: number; opened: Filters; today: string }) {
+export function MonitorView({ rows, built, held, opened, today, laws }: { rows: MonitorRow[]; built: string; held: number; opened: Filters; today: string; laws?: LawsProp }) {
   const [f, setF] = useState<Filters>(opened);
   const [sort, setSort] = useState<[SortKey, "asc" | "desc"]>(["date", "desc"]);
   const [open, setOpen] = useState<string | null>(null);
@@ -169,6 +171,7 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
           </button>
         ) : null}
         <MonitorCharts rows={rows} last={last} />
+        {laws ? <StateLaws file={laws} states={f.states} clearStates={() => put({ ...f, states: [] })} /> : null}
       </section>
     </div>
   );

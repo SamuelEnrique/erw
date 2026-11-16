@@ -16,6 +16,9 @@ import { WeekView } from "./WeekView";
 import { MonitorView } from "./MonitorView";
 import { filtersOf, type MonitorFile } from "@/lib/policymonitor";
 import monitorFile from "@/data/policy/monitor.json";
+// chain 302 (session 7201): the states' laws on large loads (state_large_load_laws), from the large-load page file
+import largeLoadFile from "@/data/siting/large_load_rules.json";
+import type { RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
 import { citeOf } from "@/lib/policyreads";
 import status from "@/data/license_status.json";
 
@@ -74,6 +77,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   if (view === "monitor") {
     // session 3060 (chain 166): the monitor, from data/policy/monitor.json alone (warehouse/policy/monitor_site.py)
     const m = monitorFile as unknown as MonitorFile;
+    const ll = largeLoadFile as unknown as LargeLoadFile;
     return (
       <Brand>
       <div data-policy="monitor">
@@ -81,10 +85,11 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         <Views view={view} />
         <PausedLine file={pausedSources().file} names={pausedSources().names} />
         <Section title="The monitor">
-          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)} />
+          <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)}
+            laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved }} />
           <Cite tables={["policy_actions", "policy_reads"]} note="One row a proceeding: the documents of policy_actions that name it, grouped by warehouse/policy/records.py; body, instrument, status, dates, next step and figure by the written rules of warehouse/policy/fields.py; the impact sentence's clause a model's, kept only when its words stand in the text" />
         </Section>
-        <TableDownloads tables={["policy_actions", "policy_reads"]} />
+        <TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />
         <Related href="/policy" />
       </div>
       </Brand>
