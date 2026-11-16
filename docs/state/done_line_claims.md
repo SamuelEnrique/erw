@@ -6,15 +6,15 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 
 | # | Tool | Machine | State |
 |---:|---|---|---|
-| 1 | `/contracts` | samueloldlaptop | done line (branch `wip/7501-contracts`, head `118e668fa`, landing row row 18 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
-| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | done line (branch `wip/7502-severance`, head `c247ad4e1`, landing row row 17 of `docs/state/landing_request_oldlaptop.md`) |
-| 3 | `/shoulder` | samueloldlaptop | done line (branch `wip/7503-shoulder`, head `7820907a4`, landing row row 19 of `docs/state/landing_request_oldlaptop.md`) |
+| 1 | `/contracts` | samueloldlaptop | done line (branch `wip/7501-contracts`, head `f1417cfe7`, landing row 18 of `docs/state/landing_request_oldlaptop.md`); read: samueloldlaptop |
+| 2 | `/severance` with `/severance/finder` and `/severance/lease/real` | samueloldlaptop | done line (branch `wip/7502-severance`, head `c247ad4e1`, landing row 17 of `docs/state/landing_request_oldlaptop.md`) |
+| 3 | `/shoulder` | samueloldlaptop | done line (branch `wip/7503-shoulder`, head `7820907a4`, landing row 19 of `docs/state/landing_request_oldlaptop.md`) |
 | 4 | `/battery/customer` | samueloldlaptop | claimed |
-| 5 | `/cost-of-power/battery/awards` | samueloldlaptop | done line (branch `wip/7505-battery-awards`, head `73837e331`, landing row row 20 of `docs/state/landing_request_oldlaptop.md`) |
-| 6 | `/impact` | samueloldlaptop | done line (branch `wip/7506-impact`, head `946db9195`, landing row row 21 of `docs/state/landing_request_oldlaptop.md`) |
-| 7 | `/explore/ercot-peak-premium` | samueloldlaptop | done line (branch `wip/7507-peak-premium`, head `b35e64e9a`, landing row row 22 of `docs/state/landing_request_oldlaptop.md`) |
-| 8 | `/explore/demand-growth` | samueloldlaptop | done line (branch `wip/7508-demand-growth`, head `66e294497`, landing row row 23 of `docs/state/landing_request_oldlaptop.md`) |
-| 9 | `/explore/interconnection` | samueloldlaptop | done line (branch `wip/7509-interconnection`, head `da5dfd8cb`, landing row row 24 of `docs/state/landing_request_oldlaptop.md`) |
+| 5 | `/cost-of-power/battery/awards` | samueloldlaptop | done line (branch `wip/7505-battery-awards`, head `73837e331`, landing row 20 of `docs/state/landing_request_oldlaptop.md`) |
+| 6 | `/impact` | samueloldlaptop | done line (branch `wip/7506-impact`, head `946db9195`, landing row 21 of `docs/state/landing_request_oldlaptop.md`) |
+| 7 | `/explore/ercot-peak-premium` | samueloldlaptop | done line (branch `wip/7507-peak-premium`, head `b35e64e9a`, landing row 22 of `docs/state/landing_request_oldlaptop.md`) |
+| 8 | `/explore/demand-growth` | samueloldlaptop | done line (branch `wip/7508-demand-growth`, head `66e294497`, landing row 23 of `docs/state/landing_request_oldlaptop.md`) |
+| 9 | `/explore/interconnection` | samueloldlaptop | done line (branch `wip/7509-interconnection`, head `da5dfd8cb`, landing row 24 of `docs/state/landing_request_oldlaptop.md`) |
 | 10 | `/map` | portable-laptop | claimed |
 | 11 | `/events` and its nine event pages | portable-laptop | claimed |
 | 12 | `/grid/caiso/alerts` | portable-laptop | claimed |
