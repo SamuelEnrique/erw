@@ -59,8 +59,13 @@ def compute(deals, links, directory):
     """The figures of the capital rows (pure, on DataFrames of the three tables)."""
     kind = dict(zip(directory["entity_id"], directory["kind"]))
     buyers = defaultdict(set)
+    # session 7001 (companies faults row 22): the distinct buyer companies of each kind, so the view can say how many
+    # buyers a kind's sums are of
+    buyer_ids = defaultdict(set)
     for r in links[(links["input_table"] == "energy_deals") & (links["role"] == "buyer")].itertuples(index=False):
         buyers[r.input_row].add(kind.get(r.company_id, "other"))
+        buyer_ids[r.input_row].add((kind.get(r.company_id, "other"), r.company_id))
+    kind_buyers = defaultdict(set)
     cap = deals[deals["deal_type"].isin(TYPES)].copy()
     by_q = defaultdict(lambda: defaultdict(cell))
     by_seg = defaultdict(cell)
@@ -75,6 +80,8 @@ def compute(deals, links, directory):
         ks = sorted(buyers.get(r["event_id"], set())) or ["not named"]
         for k in ks:                       # a deal with two kinds of buyer counts once in each
             add(by_kind[k], usd, mw)
+        for k, cid in buyer_ids.get(r["event_id"], set()):
+            kind_buyers[k].add(cid)
         add(total, usd, mw)
         rows.append(dict(event_id=r["event_id"], date=r.get("event_date", "")[:10], quarter=q, type=r["deal_type"],
                          buyer=r.get("buyer", ""), seller=r.get("seller", ""), asset=r.get("asset", ""),
@@ -86,7 +93,7 @@ def compute(deals, links, directory):
         types=TYPES, type_words=TYPE_WORDS,
         quarters=[dict(quarter=q, **{t: r1(v[t]) for t in TYPES if t in v}) for q, v in sorted(by_q.items()) if q],
         segments=[dict(segment=k, **r1(v)) for k, v in sorted(by_seg.items(), key=lambda kv: -kv[1]["usd"])],
-        kinds=[dict(kind=k, **r1(v)) for k, v in sorted(by_kind.items(), key=lambda kv: -kv[1]["usd"])],
+        kinds=[dict(kind=k, **r1(v), buyers=len(kind_buyers.get(k, ()))) for k, v in sorted(by_kind.items(), key=lambda kv: -kv[1]["usd"])],
         total=r1(total), disclosed_share=round(total["usd_rows"] / total["rows"], 4) if total["rows"] else None,
         largest=[{**x, "usd": round(x["usd"]), "mw": x["mw"]} for x in largest])
 

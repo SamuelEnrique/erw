@@ -81,7 +81,8 @@ ABBREV = {"elec": "electric", "electrc": "electric", "coop": "cooperative", "co 
           "cooperatve": "cooperative", "assn": "association", "assoc": "association", "mun": "municipal",
           "muni": "municipal", "pwr": "power", "dept": "department", "util": "utility", "utils": "utilities",
           "svc": "service", "svcs": "services", "mgmt": "management", "dist": "district", "auth": "authority",
-          "admin": "administration", "intl": "international", "natl": "national", "pub": "public", "corp": "corp"}
+          "admin": "administration", "intl": "international", "natl": "national", "pub": "public", "corp": "corp",
+          "conn": "connecticut"}        # session 7001 (companies faults row 17): "Dominion Energy Nuclear Conn Inc"
 GENERIC_END = ("energy", "power", "group")
 # a shorter name rule 5 never takes: a common word, a place or a kind, not a company
 COMMON = {"american", "national", "united", "first", "new", "north", "south", "east", "west", "northern", "southern",
@@ -97,8 +98,10 @@ def ascii_fold(s):
 
 
 def norm(name):
-    """The normalized form of a name (rule 1): '' for a blank."""
-    s = ascii_fold(name or "").lower().strip()
+    """The normalized form of a name (rule 1): '' for a blank. Session 7001 (companies faults row 17): EIA-861's newest
+    names carry a state tag at the end ("Union Electric Co - (MO)", 1,627 names), dropped here so that rule 4 finds
+    the NRC's "Union Electric Co." and EIA-860's "Duke Energy Progress, LLC" under EIA's own number."""
+    s = STATE_TAG.sub("", ascii_fold(name or "")).lower().strip()
     if not s:
         return ""
     s = s.replace("&", " and ").replace("+", " and ")
@@ -238,6 +241,19 @@ BA_GRID = {"ERCO": "ERCOT", "CISO": "CAISO", "PJM": "PJM", "MISO": "MISO", "NYIS
            "SWPP": "SPP"}
 RTO_COLS = {"x_rto_caiso": "CAISO", "x_rto_ercot": "ERCOT", "x_rto_pjm": "PJM", "x_rto_nyiso": "NYISO",
             "x_rto_spp": "SPP", "x_rto_miso": "MISO", "x_rto_isone": "ISO-NE"}
+# Session 7001 (companies faults row 21): EIA-861's "Operating in these RTOs" marks a market a utility takes part in,
+# not the grid that serves it (Florida Power & Light marks PJM and MISO in EIA's own 2025 file; Trico Electric
+# Cooperative, Arizona, marks ERCOT). An RTO EIA-861 marks is a company's grid only where the RTO's footprint holds the
+# state EIA lists the utility under. The footprints by state, from each RTO's own map of its members' areas.
+RTO_STATES = {
+    "CAISO": {"CA", "NV"},
+    "ERCOT": {"TX"},
+    "PJM": {"DE", "DC", "IL", "IN", "KY", "MD", "MI", "NJ", "NC", "OH", "PA", "TN", "VA", "WV"},
+    "NYISO": {"NY"},
+    "SPP": {"AR", "CO", "IA", "KS", "LA", "MN", "MO", "MT", "NE", "NM", "ND", "OK", "SD", "TX", "WY"},
+    "MISO": {"AR", "IL", "IN", "IA", "KY", "LA", "MI", "MN", "MS", "MO", "MT", "ND", "SD", "TX", "WI"},
+    "ISO-NE": {"CT", "MA", "ME", "NH", "RI", "VT"},
+}
 
 
 def fuel_of_code(code):
@@ -391,7 +407,9 @@ def m_owners(d, nameplate):
 def m_861(d):
     out = []
     for r in d.to_dict("records"):
-        grids = ";".join(g for c, g in RTO_COLS.items() if str(r.get(c, "")).upper() in ("Y", "TRUE", "1", "X"))
+        st = str(r.get("x_state", "")).strip().upper()
+        grids = ";".join(g for c, g in RTO_COLS.items() if str(r.get(c, "")).upper() in ("Y", "TRUE", "1", "X")
+                         and st in RTO_STATES[g])
         out.append(mention("eia861_utility_data", r["entity_id"], "utility", r["name"], eia_id(r.get("x_utility_number")),
                            date=date_of(r.get("x_year")), state=r.get("x_state", ""), grid=grids,
                            extra=r.get("x_ownership", "")))
@@ -483,6 +501,44 @@ def read_reviewed(path=REVIEWED):
 
 CONF = {"eia_id": 1.0, "reviewed_alias": 0.95, "anchored_name": 0.9, "name": 0.85, "company_word": 0.7}
 
+# Session 7001 (companies faults row 19): one EIA number that carries two firms. Where EIA-861 lists the number only
+# as a power marketer's and no word of its EIA-861 names is in any EIA-860 name under the same number (the plant's
+# operator or owner), the EIA-860 rows are a company of their own, company:eia-<id>-860, named as EIA-860 names it;
+# the EIA-861 rows (and the service territories) keep company:eia-<id>. The words left out of the comparison are the
+# legal forms and the words every power firm uses. On the tables of 6 November 2026 this splits eight numbers, the
+# eight the companies review found (PBF Power Marketing with Kern Community College District, DRW Energy Trading with
+# Santa Teresa Solar, and six more); the 32 renames EIA keeps under one number share a word and stay one company.
+EIA860_TABLES = ("eia860m_operating_generators", "eia860m_planned_generators", "eia860_plants_annual",
+                 "eia860_generator_owners")
+MARKETER = {"Retail Power Marketer", "Wholesale Power Marketer"}
+SPLIT_STOP = LEGAL | {"of", "and", "energy", "power", "electric", "company", "solar", "wind", "project", "storage",
+                      "generation", "holdings", "services", "marketing"}
+
+
+def split_anchors(mentions):
+    """The EIA numbers whose EIA-860 rows are another firm than their EIA-861 power marketer (rule 2's exception)."""
+    u, o = defaultdict(list), defaultdict(list)
+    for m in mentions:
+        if not m["anchor"]:
+            continue
+        if m["table"] == "eia861_utility_data":
+            u[m["anchor"]].append(m)
+        elif m["table"] in EIA860_TABLES:
+            o[m["anchor"]].append(m)
+
+    def words(n):
+        return set(norm(n).split()) - SPLIT_STOP
+
+    out = set()
+    for a in set(u) & set(o):
+        if not all(m["extra"] in MARKETER for m in u[a]):
+            continue
+        uw = set().union(*(words(m["raw"]) for m in u[a]))
+        ow = set().union(*(words(m["raw"]) for m in o[a]))
+        if not (uw & ow):
+            out.add(a)
+    return out
+
 
 def resolve(mentions, reviewed, nrc_pairs=()):
     """Each mention's company: returns (companies {cid: info}, links [mention + cid, rule, confidence])."""
@@ -519,15 +575,20 @@ def resolve(mentions, reviewed, nrc_pairs=()):
             m["anchor"], m["via_rev_id"] = rev_eia[k], True
         if m["anchor"]:
             anchor_keys[k].add(m["anchor"])
+    # rule 2's exception (session 7001): an EIA number that carries a power marketer and another firm's plants
+    split = split_anchors(mentions)
+    side860 = {(m["anchor"], m["key"]) for m in mentions if m["anchor"] in split and m["table"] in EIA860_TABLES}
     # 4. a name without an id joins the one anchored company of that name
-    cid_of = {}
     for m in mentions:
         rule = None
         if m["anchor"]:
             cid = f"company:eia-{m['anchor']}"
+            if m["anchor"] in split and m["table"] in EIA860_TABLES:
+                cid += "-860"
             rule = "reviewed_alias" if m.get("via_rev_id") else "eia_id"
         elif len(anchor_keys.get(m["key"], ())) == 1:
-            cid = f"company:eia-{next(iter(anchor_keys[m['key']]))}"
+            a = next(iter(anchor_keys[m["key"]]))
+            cid = f"company:eia-{a}" + ("-860" if (a, m["key"]) in side860 else "")
             rule = "anchored_name"
         else:
             cid = None
@@ -572,7 +633,10 @@ def resolve(mentions, reviewed, nrc_pairs=()):
 # The companies: name, kind, segment, parent, HQ state, footprint
 
 LAB_KIND = "lab or hyperscaler"
-KIND_ORDER = ["regulator", LAB_KIND, "OEM", "utility", "IPP", "lender or investor", "developer", "operator", "other"]
+# Session 7001 (companies faults row 22): "power marketer", from EIA-861's ownership (Retail or Wholesale Power
+# Marketer), before "other", which a quarter of the companies held.
+KIND_ORDER = ["regulator", LAB_KIND, "OEM", "utility", "IPP", "lender or investor", "developer", "operator",
+              "power marketer", "other"]
 KINDS = set(KIND_ORDER)
 UTILITY_OWNERSHIP = {"Investor Owned", "Cooperative", "Municipal", "Political Subdivision", "State", "Federal",
                      "Municipal Mktg Authority"}
@@ -611,6 +675,8 @@ def kind_for(ms, key, rev_kind):
                 shows.setdefault("regulator", "policy_actions agency")
         elif t == "eia861_utility_data" and m["extra"] in UTILITY_OWNERSHIP:
             shows.setdefault("utility", f"EIA-861 ownership {m['extra']}")
+        elif t == "eia861_utility_data" and m["extra"] in MARKETER:
+            shows.setdefault("power marketer", f"EIA-861 ownership {m['extra']}")
         elif t == "eia860_plants_annual" and m["extra"] == "Electric Utility":
             shows.setdefault("utility", "EIA-860 sector Electric Utility")
         elif t == "eia860_plants_annual" and m["extra"].startswith("IPP"):
@@ -652,6 +718,33 @@ def segment_for(mw_by, n, kind):
     if kind == "regulator":
         return "government", "kind"
     return "", ""
+
+
+def segment_of_mentions(ms, kind):
+    """(segment, basis) from a company's mentions, by build's rules: the MW and rows by fuel or line of its deals (once
+    a deal), operating and planned generators, facilities it operates or develops (once a facility) and live queue
+    positions. Session 7001 (companies faults row 20): companies_page.py calls it on the public links alone."""
+    mw_by, n_by = defaultdict(float), defaultdict(int)
+    deals, fac = set(), set()
+    for m in ms:
+        t, mw = m["table"], num(m["mw"]) or 0
+        if t == "energy_deals" and m["row_id"] not in deals:
+            deals.add(m["row_id"])
+            if m["fuel"]:
+                n_by[m["fuel"]] += 1
+                mw_by[m["fuel"]] += mw
+        elif t in ("eia860m_operating_generators", "eia860m_planned_generators"):
+            mw_by[m["fuel"] or "other"] += mw
+        elif t == "datacenter_facilities" and m["role"] in ("operator", "developer") and m["row_id"] not in fac:
+            fac.add(m["row_id"])
+            mw_by["datacenters"] += mw
+        elif t in ("ercot_interconnection_queue", "nyiso_interconnection_queue"):
+            if m["extra"] not in ("withdrawn", "Completed"):
+                mw_by[m["fuel"] or "other"] += mw
+    if kind == "regulator":
+        mw_by.clear()
+    return segment_for({k: v for k, v in mw_by.items() if k not in ("other", "")},
+                       {k: v for k, v in n_by.items() if k not in ("other", "")}, kind)
 
 
 def build(mentions, rev_kind, rev_parent, nrc_pairs, lic, canon=None):
@@ -739,14 +832,11 @@ def build(mentions, rev_kind, rev_parent, nrc_pairs, lic, canon=None):
             elif t == "nrc_power_reactors" and m["role"] in ("licensee", "operator") and m["row_id"] not in reactors:
                 reactors.add(m["row_id"])
                 f["reactors_mw"] += mw or 0
-        if kind == "regulator":
-            mw_by.clear()
-        seg, seg_basis = segment_for({k: v for k, v in mw_by.items() if k not in ("other", "")},
-                                     {k: v for k, v in n_by.items() if k not in ("other", "")}, kind)
+        seg, seg_basis = segment_of_mentions(ms, kind)
         parent, parent_basis = parent_of.get(cid, ("", ""))
         if parent and norm(parent) == key_of_cid[cid]:
             parent, parent_basis = "", ""
-        anchor = cid.split("company:eia-")[1] if cid.startswith("company:eia-") else ""
+        anchor = re.sub(r"-860$", "", cid.split("company:eia-")[1]) if cid.startswith("company:eia-") else ""
         hq_state = hq.most_common(1)[0][0] if hq else ""
         tables = sorted({m["table"] for m in ms})
         footprint = f["plants_mw"] + f["planned_mw"] + f["queue_mw"] + f["facilities_mw"] + f["deals_mw"] + f["owned_mw"]
@@ -879,7 +969,7 @@ def main(argv=None):
             f"{t} {v['links']:,} ({v['eia_id']:,}, {v['reviewed_alias']:,}, {v['anchored_name']:,}, {v['name']:,}, {v['company_word']:,})"
             for t, v in sorted(rates.items()))
         h1 = [f"Energy Research Warehouse (ERW): the company database (platform tool 10), every company named in {len(INPUTS)} held tables, one row a company (session 3302)",
-              "Shape: entities (docs/datastandard.md v0), entity_type company. entity_id company:eia-<EIA utility id> where the company has one, else company:<normalized name>; kind one of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, other (the first its rows show, kind_basis says which row); segment the fuel or line with the most MW (segment_basis); parent a second field from the NRC and the reviewed aliases only; hq_state from EIA-860's owner address only; first_seen and last_seen the earliest and latest date its rows state; MW are nameplate (EIA-860M), as stated (deals, facilities, queue); owned_mw nameplate times the percent owned; footprint_mw the sum of plants_mw, owned_mw, planned_mw, queue_mw, facilities_mw and deals_mw, a sort key only (a plant both operated and owned counts twice).",
+              "Shape: entities (docs/datastandard.md v0), entity_type company. entity_id company:eia-<EIA utility id> where the company has one (company:eia-<id>-860 for the EIA-860 rows of a number EIA-861 lists as another firm's power marketer, session 7001), else company:<normalized name>; kind one of regulator, lab or hyperscaler, OEM, utility, IPP, lender or investor, developer, operator, power marketer, other (the first its rows show, kind_basis says which row); segment the fuel or line with the most MW (segment_basis); parent a second field from the NRC and the reviewed aliases only; hq_state from EIA-860's owner address only; first_seen and last_seen the earliest and latest date its rows state; MW are nameplate (EIA-860M), as stated (deals, facilities, queue); owned_mw nameplate times the percent owned; footprint_mw the sum of plants_mw, owned_mw, planned_mw, queue_mw, facilities_mw and deals_mw, a sort key only (a plant both operated and owned counts twice).",
               f"Rows: {len(comp):,} companies from {len(links):,} links; {int((comp['eia_utility_id'] != '').sum()):,} with an EIA utility id.",
               rate_line] + common
         h2 = [f"Energy Research Warehouse (ERW): every name a company of the company database goes by, by input table and role (session 3302)",
