@@ -1,0 +1,4 @@
+# Written by "python replication/impact/replicate.py --rows" for replicate.do: 24 rows of the public table
+# nlr_jedi_multipliers and NLR's notice. Not committed: a copy of the data carries the whole notice, and the table is the record.
+*
+!.gitignore
