@@ -140,7 +140,7 @@ def daily_means(path, market_suffix):
         for d, vals in per_day.items():
             start = dt.datetime(d.year, d.month, d.day, tzinfo=tz)
             nxt = dt.datetime.combine(d + dt.timedelta(days=1), dt.time(), tzinfo=tz)
-            n_hours = round((nxt - start).total_seconds() / 3600)
+            n_hours = round((nxt.astimezone(dt.timezone.utc) - start.astimezone(dt.timezone.utc)).total_seconds() / 3600)   # in UTC: a same-zone difference is wall-clock
             if len(vals) == n_hours:
                 means[d] = sum(vals) / n_hours
         out[(market, ent)] = means

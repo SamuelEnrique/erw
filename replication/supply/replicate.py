@@ -93,7 +93,7 @@ def cleared_series(tables, name, tz_name, area):
     for d, n in count.items():
         start = dt.datetime.combine(d, dt.time(), tzinfo=tz)
         nxt = dt.datetime.combine(d + dt.timedelta(days=1), dt.time(), tzinfo=tz)
-        if n == round((nxt - start).total_seconds() / 3600):
+        if n == round((nxt.astimezone(dt.timezone.utc) - start.astimezone(dt.timezone.utc)).total_seconds() / 3600):   # in UTC
             days[d] = hours[d]
     weeks = {}
     for d in days:
@@ -152,10 +152,13 @@ def figures(series, freq):
         xs = [x[1] for x in fives]
         avg = sum(xs) / 5
         out["avg5"] = (avg, min(xs), max(xs), v - avg, v < min(xs) or v > max(xs))
-    if prev and all(c is not None for c in changes):
+    if prev:
         ch = v - prev[1]
-        a5 = sum(changes) / 5
-        out["change"] = (ch, a5, min(changes), max(changes), ch - a5, ch < min(changes) or ch > max(changes))
+        if all(c is not None for c in changes):
+            a5 = sum(changes) / 5
+            out["change"] = (ch, a5, min(changes), max(changes), ch - a5, ch < min(changes) or ch > max(changes))
+        else:   # fewer than five years of changes: the change alone, never "outside"
+            out["change"] = (ch, None, None, None, None, False)
     out["spark"] = pts[-52:]
     return out
 
@@ -205,22 +208,22 @@ def main(argv=None):
             spec = CLEARED.get(rid)
             ser = cleared_series(a.tables, *spec) if spec else {}
         elif g == "position":
-            ser = cftc.get(norm(rid[5:]), {})
+            ser = cftc.get(norm(rid), {})
         elif g == "gastrade":
             def bcfd(s):
                 return {d: x / 1000 / calendar.monthrange(d.year, d.month)[1] for d, x in s.items()}
-            key = norm(rid[4:])
+            key = norm(rid)
             if key in trade:
                 ser = bcfd(trade[key])
             else:   # every other point of exit: the total less the terminals named
-                tot = trade.get(norm("N9133US2"), {})
-                parts = [trade.get(norm(x["id"][4:]), {}) for x in named]
+                tot = trade.get(norm("eia:N9133US2"), {})
+                parts = [trade.get(norm(x["id"]), {}) for x in named]
                 ser = bcfd({d: x - sum(p.get(d, 0.0) for p in parts) for d, x in tot.items()})
         elif g == "prod" and freq == "M":
             lim = month_back(dt.date(built.year, built.month, 1), 3)
-            ser = {d: x for d, x in basin.get(norm(rid[4:]), {}).items() if d <= lim}
+            ser = {d: x for d, x in basin.get(norm(rid), {}).items() if d <= lim}
         else:
-            ser = dict(weekly.get(norm(rid[4:]), {}))
+            ser = dict(weekly.get(norm(rid), {}))
             if r.get("unit") == "million bbl":
                 ser = {d: x / 1000 for d, x in ser.items()}
         got = figures(ser, freq)

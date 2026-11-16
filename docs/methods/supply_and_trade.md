@@ -118,6 +118,21 @@ On the page's file of 10 October 2026 this is the one table of the nine in which
 - **ISO-NE**, legal notice: "You are also hereby put on notice that the Content is protected by copyright under United States laws. Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws." (https://www.iso-ne.com/legal-privacy). **Internal**, the ERW's standing reading since session 65: the table is in no public dataset and no download. Its report answers a plain request with HTTP 403 and answers a session that has opened one of ISO Express's pages (an anonymous cookie, no account); ISO Express's own page puts a CAPTCHA on its search of past dates. The connector therefore asks for the last days only and never walks back through the years.
 - **SPP**, terms and conditions: "Permission is implicitly granted to copy and distribute (via computer network or printed form) in whole or in part (with appropriate citation) EXCEPT when such materials will be used, in whole or in part, within a commercial publication ... Any commercial use of these materials requires prior, express written authorization". (https://www.spp.org/terms-conditions/). Public, with citation.
 
+## The replication (session 7013, chain 301)
+
+`replication/supply/replicate.py` rebuilds each row's series from its table by this note alone (the series ids, the
+million barrels, the gas trade in Bcf a day with the other points of exit as the total less the terminals named, the
+Outlook's months to three before the build, managed money's net, the cleared weeks of seven whole local days ending
+Friday) and recomputes the three comparisons, the change and its surprise, and the spark: 5,125 of 5,125 equal on the
+file rebuilt on 16 November 2026 (76 rows). The fuel burn's 16 rows are counted apart: they are derived from EIA-930's
+hourly generation workbooks held in the data machine's raw store, not from a table. A series whose five years of changes
+are not all held still carries its change, never "outside". `replicate.do` rebuilds five figures of the week of 6
+November 2026 in Stata, its expected values at its top.
+
+The file was three weeks behind on 16 November (built 24 October): the page is built on Saturdays, and the Saturdays of
+31 October, 7 and 14 November fell in the days the daily run's commits were refused. Session 7013 ran the refresh by
+hand (`PYTHON=<the repository's interpreter> bash warehouse/refresh_supply.sh` under the data lock).
+
 ## The release calendar
 
 `warehouse/connectors/release_schedule.py` reads EIA's two schedule pages and writes `warehouse/metadata/release_schedule.json`; the builder works out each report's next date.
