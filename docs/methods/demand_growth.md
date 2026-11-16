@@ -293,6 +293,8 @@ Grids, in the page's order, with the table's entity: ERCOT `eia930:ERCO`, CAISO 
 
 The last whole year of a grid is the newest year with an `avg_demand_mw` row (2025 today); its newest year is the newest with a `ytd_avg_demand_mw` row (2026). The year so far runs from 1 January to the end of the month the table's header names ("year to date: 1 January to the end of MM/YYYY"): October 2026 in the table of 6 November 2026. A year equal to the header's year is written "2026 so far (January to October)" in the year-so-far window.
 
+Since session 7022 (chain 301, the data machine, done-line request 37) the table also writes the change row of the three whole-year windows: `avg_demand_growth_since_2019_mw` and `peak_demand_growth_since_2019_mw` on the last whole year's row, `ytd_avg_demand_growth_since_2019_mw` on the newest year's row, each the difference of the two means as the table rounds them, to one decimal (ERCOT 2025: 55,717.2 less 43,797.6, 11,919.6 MW, on EIA's workbook of 16 November 2026). The table above says "none" for them until the explorer reads them; the rows are there from the table's next build.
+
 ### Every figure, in the page's order
 
 For the grid G and the window W chosen, with L the year read at:
