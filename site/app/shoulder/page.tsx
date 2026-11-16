@@ -4,7 +4,7 @@ import { Brand } from "@/components/Brand";
 import Link from "next/link";
 import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
 import { GRIDS, TABLE, checkKey, choices, completeMonths, dayKey, dayName, hourName, monthName, monthOf, opening, shown, view, type Row, type View } from "@/lib/shoulder";
 import { ShoulderDecisions } from "./Decisions";
@@ -116,6 +116,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const toMidnight = v?.get("shoulder_runs_to_midnight")?.value === 1;
   const toMidnight2 = v?.get("shoulder2_runs_to_midnight")?.value === 1;
   const worstNeeded = v?.year.get("year_worst10_mean_shoulder_hours_needed");
+  const nightLow = (v?.get("midday_low_hour")?.value ?? 12) < 8;   // session 7503: the day's lowest hour of net load falls before 08:00
   const href = (g: string, m: string) => `/shoulder?grid=${g}&month=${m}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
@@ -168,7 +169,9 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                   note={<><Hr row={v.get("shoulder_start_hour")} /> to <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? ", cut at midnight: net load stays above its daily mean" : ""}. <V row={v.get("shoulder_mwh_above_mean")} unit="MWh" /> of net load above the day&apos;s mean.</>} />
                 <HeadlineNumber label="Hours the battery fleet covers" value={<V row={v.get("shoulder_hours_covered")} />} unit="hours"
                   note={<><V row={v.get("fleet_mw")} unit="MW" /> holding <V row={v.get("fleet_mwh")} unit="MWh" />. At that power, all of the shoulder&apos;s MWh above the mean would take <V row={v.get("shoulder_hours_needed")} unit="hours" />.</>} />
+                {/* session 7503: the run is around net load's lowest hour of the whole day; in most Texas months that hour is before dawn, and the tip says so */}
                 <HeadlineNumber label="The midday surplus" value={<V row={v.get("midday_surplus_mwh")} />} unit="MWh"
+                  tip={nightLow ? <Tip id="shoulder-night-low" label="when this month's lowest hour falls"><span data-night-low={v.month}>In this month net load is lowest at {hourName(v.get("midday_low_hour")!.value)}, before the sun is up: the hours counted here run around that hour, so they are mostly the night&apos;s and the morning&apos;s, not only the midday&apos;s.</span></Tip> : undefined}
                   note={<>Net load below its daily mean for <V row={v.get("midday_surplus_hours")} /> hours around its low at <Hr row={v.get("midday_low_hour")} />.{v.get("curtailed_mwh_per_day") ? <> Curtailed: <V row={v.get("curtailed_mwh_per_day")} unit="MWh a day" /> (CAISO&apos;s own count).</> : <> Curtailment is not held for {grid.name}.</>}</>} />
               </HeadlineRow>
 

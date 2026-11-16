@@ -1,4 +1,4 @@
-# ERW test fixture (session 7503): the battery fleet of ERCOT and CAISO, January 2025 to the newest month held, as restored on 2026-10-03. Real rows of the public table storage_buildout_monthly, unchanged, four of its columns; not a table and not a source.
+# ERW test fixture (session 7503): the battery fleet of ERCOT and CAISO, January 2025 to the newest month held, and ERCOT's May 2024, as restored on 2026-10-03. Real rows of the public table storage_buildout_monthly, unchanged, four of its columns; not a table and not a source.
 entity,variable,ts_utc,value
 iso:caiso,battery_operating_mw,2025-08-01T00:00:00Z,14267.3
 iso:caiso,battery_operating_mw,2025-01-01T00:00:00Z,11446.3
@@ -35,6 +35,7 @@ iso:ercot,battery_operating_mw,2025-01-01T00:00:00Z,8523.7
 iso:ercot,battery_operating_mw,2025-11-01T00:00:00Z,12900.8
 iso:ercot,battery_operating_mw,2026-02-01T00:00:00Z,15182.1
 iso:ercot,battery_operating_mw,2025-10-01T00:00:00Z,12417.6
+iso:ercot,battery_operating_mw,2024-05-01T00:00:00Z,4698.9
 iso:ercot,battery_operating_mw,2025-02-01T00:00:00Z,8733.6
 iso:ercot,battery_operating_mw,2026-04-01T00:00:00Z,16116.8
 iso:ercot,battery_operating_mw,2025-07-01T00:00:00Z,10765.6
@@ -70,6 +71,7 @@ iso:ercot,battery_operating_mwh,2026-07-01T00:00:00Z,29759.9
 iso:ercot,battery_operating_mwh,2026-03-01T00:00:00Z,24094.1
 iso:ercot,battery_operating_mwh,2026-08-01T00:00:00Z,30019.8
 iso:ercot,battery_operating_mwh,2026-02-01T00:00:00Z,23446.7
+iso:ercot,battery_operating_mwh,2024-05-01T00:00:00Z,6745.6
 iso:ercot,battery_operating_mwh,2025-03-01T00:00:00Z,12982.7
 iso:ercot,battery_operating_mwh,2025-04-01T00:00:00Z,12982.7
 iso:ercot,battery_operating_mwh,2026-06-01T00:00:00Z,28087.1

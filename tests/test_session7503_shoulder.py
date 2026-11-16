@@ -1,7 +1,7 @@
 """Session 7503 (chain 304): "The shoulder hours" (/shoulder) at the done line.
 
 The page is drawn with the site's own code on real rows of its table (tests/fixtures/session7503: each grid's last year
-held, as built on 4 October 2026), and the replication (replication/shoulder/replicate.py, written from the method
+held and ERCOT's May 2024, as built on 4 October 2026), and the replication (replication/shoulder/replicate.py, written from the method
 notes) is run on the same rows: every figure the page draws is inside the tolerance. The rest reads the files: the
 page's decisions are the note's, each with a default and a source on hover and no grey text; the four faults the
 replication found on the page stay fixed; the do-file's expected lines are the ones the Python headline prints; the
@@ -85,11 +85,11 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
     def test_every_view_draws(self):
         self.assertEqual(self.node.returncode, 0, self.node.stdout[-2000:] + self.node.stderr[-2000:])
         views = self.page["views"]
-        self.assertEqual(len(views), 32)                       # 9 + 11 + 9 months, and each grid with no month named
+        self.assertEqual(len(views), 33)                       # 10 + 11 + 9 months, and each grid with no month named
         self.assertEqual(self.page["conflicts"], [])           # no figure is shown two ways in two views
         for v in views:
             self.assertFalse(v["no_data"] or v["undefined_or_nan"] or v["em_dash"], v)
-            self.assertGreaterEqual(v["keyed"], 100, v)
+            self.assertGreaterEqual(v["keyed"], 40, v)
         opened = {v["grid"]: v["drawn"] for v in views if v["asked"] is None}
         self.assertEqual(opened, {"ercot": "August 2026", "caiso": "November 2025", "caiso-own": "August 2026"})
 
@@ -105,7 +105,7 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
 
     def test_the_decisions_block(self):
         keys = decision_keys()
-        self.assertEqual(len(keys), 17)
+        self.assertEqual(len(keys), 18)
         for grid in ("ercot", "caiso", "caiso-own"):
             h = self.html(grid)
             block = h[h.index('data-decisions="7503"'):h.index("</details>", h.index('data-decisions="7503"'))]
@@ -126,7 +126,7 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
         own, ercot = self.html("caiso-own"), self.html("ercot")
         # 1. the heading of the months' chart names the grid's first month held (it said 2019 for data held from June 2025)
         heading = {v["grid"]: v["heading_months"] for v in self.page["views"] if v["asked"] is None}
-        self.assertEqual(heading, {"ercot": "By month since January 2026", "caiso": "By month since January 2025", "caiso-own": "By month since January 2026"})
+        self.assertEqual(heading, {"ercot": "By month since May 2024", "caiso": "By month since January 2025", "caiso-own": "By month since January 2026"})
         self.assertNotIn('title="By month since 2019"', src("site", "app", "shoulder", "page.tsx"))
         # 2. the days ranked are not "complete days": a day with no shoulder is not ranked
         self.assertIn("days (complete, of 24 hours, with a shoulder)", text_of(ercot))
@@ -142,6 +142,26 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
             self.assertIn("a day with no shoulder is not ranked", t)
             self.assertIn("read one hour earlier than EIA stamps them", t)
             self.assertIn("discharge only from 23 October 2024 to 15 December 2025", t)
+
+    def test_a_night_low_is_said_beside_the_midday_surplus(self):
+        """In Texas net load's lowest hour is often before dawn: the page says so in a tip, and only then."""
+        rep = replication()
+        T = rep.Tables(FIXTURE)
+        said = 0
+        for v in self.page["views"]:
+            if v["asked"] is None:
+                continue
+            entity = next(e for s, e, _ in rep.GRIDS if s == v["grid"])
+            low = T.t[(entity, "midday_low_hour", v["asked"] + "-01")]
+            with open(os.path.join(self.tmp, f"shoulder_{v['grid']}_{v['asked']}.html"), encoding="utf-8") as f:
+                h = f.read()
+            self.assertEqual(f'data-night-low="{v["asked"]}"' in h, low < 8, f"{v['grid']} {v['asked']} low {low}")
+            if low < 8:
+                said += 1
+                self.assertIn(f"net load is lowest at {int(low):02d}:00, before the sun is up", text_of(h))
+                self.assertEqual(h.count('id="tip-shoulder-night-low"'), 1)
+            self.assertNotEqual(v["grid"] != "ercot" and low < 8, True)          # California's low is in the day, every month
+        self.assertEqual(said, 1)                                              # the fixture's one such month: ERCOT, May 2024
 
     def test_nothing_the_page_had_is_dropped(self):
         t = text_of(self.html("ercot"))

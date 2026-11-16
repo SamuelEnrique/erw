@@ -1,4 +1,4 @@
-# ERW test fixture (session 7503): each grid's last year held (ERCOT 2026, California by EIA-930 2025, California by CAISO's own data 2026), as built on 2026-10-04. Real rows of the public table shoulder_hours_monthly, unchanged, four of its columns; not a table and not a source.
+# ERW test fixture (session 7503): each grid's last year held (ERCOT 2026, California by EIA-930 2025, California by CAISO's own data 2026) and ERCOT's May 2024 (a month whose lowest hour of net load is before dawn), as built on 2026-10-04. Real rows of the public table shoulder_hours_monthly, unchanged, four of its columns; not a table and not a source.
 entity,variable,ts_utc,value
 iso:caiso,avg_battery_mw_h00,2025-09-01T00:00:00Z,717.9139
 iso:caiso,avg_battery_mw_h00,2025-10-01T00:00:00Z,823.1694
@@ -3285,6 +3285,7 @@ iso:ercot,avg_battery_mw_h23,2026-06-01T00:00:00Z,414.0667
 iso:ercot,avg_battery_mw_h23,2026-07-01T00:00:00Z,481.9677
 iso:ercot,avg_battery_mw_h23,2026-08-01T00:00:00Z,-11.2258
 iso:ercot,avg_battery_mw_h23,2026-09-01T00:00:00Z,-320.9333
+iso:ercot,avg_demand_mw_h00,2024-05-01T00:00:00Z,48809.871
 iso:ercot,avg_demand_mw_h00,2026-01-01T00:00:00Z,50375.871
 iso:ercot,avg_demand_mw_h00,2026-02-01T00:00:00Z,45802.1429
 iso:ercot,avg_demand_mw_h00,2026-03-01T00:00:00Z,46681.7742
@@ -3294,6 +3295,7 @@ iso:ercot,avg_demand_mw_h00,2026-06-01T00:00:00Z,60053.0667
 iso:ercot,avg_demand_mw_h00,2026-07-01T00:00:00Z,63246.3548
 iso:ercot,avg_demand_mw_h00,2026-08-01T00:00:00Z,66759.5484
 iso:ercot,avg_demand_mw_h00,2026-09-01T00:00:00Z,63625.9333
+iso:ercot,avg_demand_mw_h01,2024-05-01T00:00:00Z,46755.7742
 iso:ercot,avg_demand_mw_h01,2026-01-01T00:00:00Z,49792.5161
 iso:ercot,avg_demand_mw_h01,2026-02-01T00:00:00Z,44849.6786
 iso:ercot,avg_demand_mw_h01,2026-03-01T00:00:00Z,45077.3871
@@ -3303,6 +3305,7 @@ iso:ercot,avg_demand_mw_h01,2026-06-01T00:00:00Z,57507.2333
 iso:ercot,avg_demand_mw_h01,2026-07-01T00:00:00Z,60456.6452
 iso:ercot,avg_demand_mw_h01,2026-08-01T00:00:00Z,63791.3226
 iso:ercot,avg_demand_mw_h01,2026-09-01T00:00:00Z,60980.2
+iso:ercot,avg_demand_mw_h02,2024-05-01T00:00:00Z,45251.5806
 iso:ercot,avg_demand_mw_h02,2026-01-01T00:00:00Z,49644.129
 iso:ercot,avg_demand_mw_h02,2026-02-01T00:00:00Z,44368.4286
 iso:ercot,avg_demand_mw_h02,2026-03-01T00:00:00Z,44113.5667
@@ -3312,6 +3315,7 @@ iso:ercot,avg_demand_mw_h02,2026-06-01T00:00:00Z,55639.9667
 iso:ercot,avg_demand_mw_h02,2026-07-01T00:00:00Z,58326.8387
 iso:ercot,avg_demand_mw_h02,2026-08-01T00:00:00Z,61476.0968
 iso:ercot,avg_demand_mw_h02,2026-09-01T00:00:00Z,58978.7
+iso:ercot,avg_demand_mw_h03,2024-05-01T00:00:00Z,44374.2258
 iso:ercot,avg_demand_mw_h03,2026-01-01T00:00:00Z,49880.6129
 iso:ercot,avg_demand_mw_h03,2026-02-01T00:00:00Z,44351.6071
 iso:ercot,avg_demand_mw_h03,2026-03-01T00:00:00Z,43543.4839
@@ -3321,6 +3325,7 @@ iso:ercot,avg_demand_mw_h03,2026-06-01T00:00:00Z,54477.7667
 iso:ercot,avg_demand_mw_h03,2026-07-01T00:00:00Z,56888.6774
 iso:ercot,avg_demand_mw_h03,2026-08-01T00:00:00Z,59885.5161
 iso:ercot,avg_demand_mw_h03,2026-09-01T00:00:00Z,57667.4667
+iso:ercot,avg_demand_mw_h04,2024-05-01T00:00:00Z,44177.4516
 iso:ercot,avg_demand_mw_h04,2026-01-01T00:00:00Z,50804.7419
 iso:ercot,avg_demand_mw_h04,2026-02-01T00:00:00Z,45050.9286
 iso:ercot,avg_demand_mw_h04,2026-03-01T00:00:00Z,43742.4194
@@ -3330,6 +3335,7 @@ iso:ercot,avg_demand_mw_h04,2026-06-01T00:00:00Z,54088.7667
 iso:ercot,avg_demand_mw_h04,2026-07-01T00:00:00Z,56268.2258
 iso:ercot,avg_demand_mw_h04,2026-08-01T00:00:00Z,59107.7742
 iso:ercot,avg_demand_mw_h04,2026-09-01T00:00:00Z,57165.0
+iso:ercot,avg_demand_mw_h05,2024-05-01T00:00:00Z,44952.0645
 iso:ercot,avg_demand_mw_h05,2026-01-01T00:00:00Z,52654.6774
 iso:ercot,avg_demand_mw_h05,2026-02-01T00:00:00Z,46873.7143
 iso:ercot,avg_demand_mw_h05,2026-03-01T00:00:00Z,44878.9355
@@ -3339,6 +3345,7 @@ iso:ercot,avg_demand_mw_h05,2026-06-01T00:00:00Z,54580.3333
 iso:ercot,avg_demand_mw_h05,2026-07-01T00:00:00Z,56437.9032
 iso:ercot,avg_demand_mw_h05,2026-08-01T00:00:00Z,59248.4839
 iso:ercot,avg_demand_mw_h05,2026-09-01T00:00:00Z,57605.9667
+iso:ercot,avg_demand_mw_h06,2024-05-01T00:00:00Z,46330.0645
 iso:ercot,avg_demand_mw_h06,2026-01-01T00:00:00Z,55304.7097
 iso:ercot,avg_demand_mw_h06,2026-02-01T00:00:00Z,49645.7143
 iso:ercot,avg_demand_mw_h06,2026-03-01T00:00:00Z,46925.2258
@@ -3348,6 +3355,7 @@ iso:ercot,avg_demand_mw_h06,2026-06-01T00:00:00Z,55258.9333
 iso:ercot,avg_demand_mw_h06,2026-07-01T00:00:00Z,56828.2581
 iso:ercot,avg_demand_mw_h06,2026-08-01T00:00:00Z,59889.8065
 iso:ercot,avg_demand_mw_h06,2026-09-01T00:00:00Z,58712.7667
+iso:ercot,avg_demand_mw_h07,2024-05-01T00:00:00Z,47312.0645
 iso:ercot,avg_demand_mw_h07,2026-01-01T00:00:00Z,56893.129
 iso:ercot,avg_demand_mw_h07,2026-02-01T00:00:00Z,50933.7857
 iso:ercot,avg_demand_mw_h07,2026-03-01T00:00:00Z,48134.4839
@@ -3357,6 +3365,7 @@ iso:ercot,avg_demand_mw_h07,2026-06-01T00:00:00Z,56174.7333
 iso:ercot,avg_demand_mw_h07,2026-07-01T00:00:00Z,57565.129
 iso:ercot,avg_demand_mw_h07,2026-08-01T00:00:00Z,59963.871
 iso:ercot,avg_demand_mw_h07,2026-09-01T00:00:00Z,58864.3
+iso:ercot,avg_demand_mw_h08,2024-05-01T00:00:00Z,49147.3548
 iso:ercot,avg_demand_mw_h08,2026-01-01T00:00:00Z,56909.8387
 iso:ercot,avg_demand_mw_h08,2026-02-01T00:00:00Z,51059.8929
 iso:ercot,avg_demand_mw_h08,2026-03-01T00:00:00Z,48820.0
@@ -3366,6 +3375,7 @@ iso:ercot,avg_demand_mw_h08,2026-06-01T00:00:00Z,58603.3667
 iso:ercot,avg_demand_mw_h08,2026-07-01T00:00:00Z,60448.7097
 iso:ercot,avg_demand_mw_h08,2026-08-01T00:00:00Z,62488.5484
 iso:ercot,avg_demand_mw_h08,2026-09-01T00:00:00Z,60713.9667
+iso:ercot,avg_demand_mw_h09,2024-05-01T00:00:00Z,51355.7097
 iso:ercot,avg_demand_mw_h09,2026-01-01T00:00:00Z,56396.871
 iso:ercot,avg_demand_mw_h09,2026-02-01T00:00:00Z,50869.25
 iso:ercot,avg_demand_mw_h09,2026-03-01T00:00:00Z,49893.7419
@@ -3375,6 +3385,7 @@ iso:ercot,avg_demand_mw_h09,2026-06-01T00:00:00Z,61654.7
 iso:ercot,avg_demand_mw_h09,2026-07-01T00:00:00Z,64137.1935
 iso:ercot,avg_demand_mw_h09,2026-08-01T00:00:00Z,66584.0
 iso:ercot,avg_demand_mw_h09,2026-09-01T00:00:00Z,64469.1
+iso:ercot,avg_demand_mw_h10,2024-05-01T00:00:00Z,53717.2258
 iso:ercot,avg_demand_mw_h10,2026-01-01T00:00:00Z,55479.7097
 iso:ercot,avg_demand_mw_h10,2026-02-01T00:00:00Z,50547.6429
 iso:ercot,avg_demand_mw_h10,2026-03-01T00:00:00Z,50886.0
@@ -3384,6 +3395,7 @@ iso:ercot,avg_demand_mw_h10,2026-06-01T00:00:00Z,64979.2667
 iso:ercot,avg_demand_mw_h10,2026-07-01T00:00:00Z,68142.6452
 iso:ercot,avg_demand_mw_h10,2026-08-01T00:00:00Z,71123.2903
 iso:ercot,avg_demand_mw_h10,2026-09-01T00:00:00Z,68672.8667
+iso:ercot,avg_demand_mw_h11,2024-05-01T00:00:00Z,56023.0645
 iso:ercot,avg_demand_mw_h11,2026-01-01T00:00:00Z,54440.9032
 iso:ercot,avg_demand_mw_h11,2026-02-01T00:00:00Z,50290.1786
 iso:ercot,avg_demand_mw_h11,2026-03-01T00:00:00Z,51855.3226
@@ -3393,6 +3405,7 @@ iso:ercot,avg_demand_mw_h11,2026-06-01T00:00:00Z,68249.4
 iso:ercot,avg_demand_mw_h11,2026-07-01T00:00:00Z,72150.0323
 iso:ercot,avg_demand_mw_h11,2026-08-01T00:00:00Z,75868.6774
 iso:ercot,avg_demand_mw_h11,2026-09-01T00:00:00Z,72942.9
+iso:ercot,avg_demand_mw_h12,2024-05-01T00:00:00Z,58207.2258
 iso:ercot,avg_demand_mw_h12,2026-01-01T00:00:00Z,53565.3226
 iso:ercot,avg_demand_mw_h12,2026-02-01T00:00:00Z,50226.3929
 iso:ercot,avg_demand_mw_h12,2026-03-01T00:00:00Z,52890.3871
@@ -3402,6 +3415,7 @@ iso:ercot,avg_demand_mw_h12,2026-06-01T00:00:00Z,71163.7667
 iso:ercot,avg_demand_mw_h12,2026-07-01T00:00:00Z,75762.2581
 iso:ercot,avg_demand_mw_h12,2026-08-01T00:00:00Z,80273.2258
 iso:ercot,avg_demand_mw_h12,2026-09-01T00:00:00Z,76921.7667
+iso:ercot,avg_demand_mw_h13,2024-05-01T00:00:00Z,60223.2581
 iso:ercot,avg_demand_mw_h13,2026-01-01T00:00:00Z,52930.0
 iso:ercot,avg_demand_mw_h13,2026-02-01T00:00:00Z,50436.5
 iso:ercot,avg_demand_mw_h13,2026-03-01T00:00:00Z,54178.3871
@@ -3411,6 +3425,7 @@ iso:ercot,avg_demand_mw_h13,2026-06-01T00:00:00Z,73667.9333
 iso:ercot,avg_demand_mw_h13,2026-07-01T00:00:00Z,78821.0323
 iso:ercot,avg_demand_mw_h13,2026-08-01T00:00:00Z,83944.3226
 iso:ercot,avg_demand_mw_h13,2026-09-01T00:00:00Z,80260.4667
+iso:ercot,avg_demand_mw_h14,2024-05-01T00:00:00Z,61910.5161
 iso:ercot,avg_demand_mw_h14,2026-01-01T00:00:00Z,52507.0645
 iso:ercot,avg_demand_mw_h14,2026-02-01T00:00:00Z,50735.7857
 iso:ercot,avg_demand_mw_h14,2026-03-01T00:00:00Z,55413.1613
@@ -3420,6 +3435,7 @@ iso:ercot,avg_demand_mw_h14,2026-06-01T00:00:00Z,75379.7667
 iso:ercot,avg_demand_mw_h14,2026-07-01T00:00:00Z,80749.8387
 iso:ercot,avg_demand_mw_h14,2026-08-01T00:00:00Z,86290.3548
 iso:ercot,avg_demand_mw_h14,2026-09-01T00:00:00Z,82373.7333
+iso:ercot,avg_demand_mw_h15,2024-05-01T00:00:00Z,63140.9355
 iso:ercot,avg_demand_mw_h15,2026-01-01T00:00:00Z,52441.3871
 iso:ercot,avg_demand_mw_h15,2026-02-01T00:00:00Z,51150.9643
 iso:ercot,avg_demand_mw_h15,2026-03-01T00:00:00Z,56583.4839
@@ -3429,6 +3445,7 @@ iso:ercot,avg_demand_mw_h15,2026-06-01T00:00:00Z,76268.5
 iso:ercot,avg_demand_mw_h15,2026-07-01T00:00:00Z,81804.5161
 iso:ercot,avg_demand_mw_h15,2026-08-01T00:00:00Z,87201.0
 iso:ercot,avg_demand_mw_h15,2026-09-01T00:00:00Z,83509.6333
+iso:ercot,avg_demand_mw_h16,2024-05-01T00:00:00Z,63914.8387
 iso:ercot,avg_demand_mw_h16,2026-01-01T00:00:00Z,52855.2581
 iso:ercot,avg_demand_mw_h16,2026-02-01T00:00:00Z,51679.5357
 iso:ercot,avg_demand_mw_h16,2026-03-01T00:00:00Z,57600.0
@@ -3438,6 +3455,7 @@ iso:ercot,avg_demand_mw_h16,2026-06-01T00:00:00Z,76782.7667
 iso:ercot,avg_demand_mw_h16,2026-07-01T00:00:00Z,82329.2258
 iso:ercot,avg_demand_mw_h16,2026-08-01T00:00:00Z,87702.4839
 iso:ercot,avg_demand_mw_h16,2026-09-01T00:00:00Z,83849.7333
+iso:ercot,avg_demand_mw_h17,2024-05-01T00:00:00Z,63868.0645
 iso:ercot,avg_demand_mw_h17,2026-01-01T00:00:00Z,54033.0968
 iso:ercot,avg_demand_mw_h17,2026-02-01T00:00:00Z,52010.4643
 iso:ercot,avg_demand_mw_h17,2026-03-01T00:00:00Z,58006.8387
@@ -3447,6 +3465,7 @@ iso:ercot,avg_demand_mw_h17,2026-06-01T00:00:00Z,76674.6
 iso:ercot,avg_demand_mw_h17,2026-07-01T00:00:00Z,82224.2258
 iso:ercot,avg_demand_mw_h17,2026-08-01T00:00:00Z,87521.4516
 iso:ercot,avg_demand_mw_h17,2026-09-01T00:00:00Z,83190.3333
+iso:ercot,avg_demand_mw_h18,2024-05-01T00:00:00Z,62665.3871
 iso:ercot,avg_demand_mw_h18,2026-01-01T00:00:00Z,55681.4194
 iso:ercot,avg_demand_mw_h18,2026-02-01T00:00:00Z,52548.25
 iso:ercot,avg_demand_mw_h18,2026-03-01T00:00:00Z,57472.5484
@@ -3456,6 +3475,7 @@ iso:ercot,avg_demand_mw_h18,2026-06-01T00:00:00Z,75902.1667
 iso:ercot,avg_demand_mw_h18,2026-07-01T00:00:00Z,81310.4194
 iso:ercot,avg_demand_mw_h18,2026-08-01T00:00:00Z,86429.3548
 iso:ercot,avg_demand_mw_h18,2026-09-01T00:00:00Z,81338.7333
+iso:ercot,avg_demand_mw_h19,2024-05-01T00:00:00Z,60615.129
 iso:ercot,avg_demand_mw_h19,2026-01-01T00:00:00Z,55803.0323
 iso:ercot,avg_demand_mw_h19,2026-02-01T00:00:00Z,52539.5357
 iso:ercot,avg_demand_mw_h19,2026-03-01T00:00:00Z,56558.0968
@@ -3465,6 +3485,7 @@ iso:ercot,avg_demand_mw_h19,2026-06-01T00:00:00Z,74322.2333
 iso:ercot,avg_demand_mw_h19,2026-07-01T00:00:00Z,79252.3548
 iso:ercot,avg_demand_mw_h19,2026-08-01T00:00:00Z,84100.9032
 iso:ercot,avg_demand_mw_h19,2026-09-01T00:00:00Z,78992.0333
+iso:ercot,avg_demand_mw_h20,2024-05-01T00:00:00Z,59100.0
 iso:ercot,avg_demand_mw_h20,2026-01-01T00:00:00Z,55594.5161
 iso:ercot,avg_demand_mw_h20,2026-02-01T00:00:00Z,51781.75
 iso:ercot,avg_demand_mw_h20,2026-03-01T00:00:00Z,55907.8065
@@ -3474,6 +3495,7 @@ iso:ercot,avg_demand_mw_h20,2026-06-01T00:00:00Z,72122.2333
 iso:ercot,avg_demand_mw_h20,2026-07-01T00:00:00Z,76494.5484
 iso:ercot,avg_demand_mw_h20,2026-08-01T00:00:00Z,81383.0645
 iso:ercot,avg_demand_mw_h20,2026-09-01T00:00:00Z,76795.4
+iso:ercot,avg_demand_mw_h21,2024-05-01T00:00:00Z,57632.9677
 iso:ercot,avg_demand_mw_h21,2026-01-01T00:00:00Z,54935.4516
 iso:ercot,avg_demand_mw_h21,2026-02-01T00:00:00Z,50632.5357
 iso:ercot,avg_demand_mw_h21,2026-03-01T00:00:00Z,54285.7742
@@ -3483,6 +3505,7 @@ iso:ercot,avg_demand_mw_h21,2026-06-01T00:00:00Z,70263.2
 iso:ercot,avg_demand_mw_h21,2026-07-01T00:00:00Z,74243.7097
 iso:ercot,avg_demand_mw_h21,2026-08-01T00:00:00Z,78349.8387
 iso:ercot,avg_demand_mw_h21,2026-09-01T00:00:00Z,73907.1333
+iso:ercot,avg_demand_mw_h22,2024-05-01T00:00:00Z,54941.4194
 iso:ercot,avg_demand_mw_h22,2026-01-01T00:00:00Z,53522.2581
 iso:ercot,avg_demand_mw_h22,2026-02-01T00:00:00Z,48777.7143
 iso:ercot,avg_demand_mw_h22,2026-03-01T00:00:00Z,51816.7097
@@ -3492,6 +3515,7 @@ iso:ercot,avg_demand_mw_h22,2026-06-01T00:00:00Z,67058.5
 iso:ercot,avg_demand_mw_h22,2026-07-01T00:00:00Z,70649.2581
 iso:ercot,avg_demand_mw_h22,2026-08-01T00:00:00Z,74378.7742
 iso:ercot,avg_demand_mw_h22,2026-09-01T00:00:00Z,70427.0
+iso:ercot,avg_demand_mw_h23,2024-05-01T00:00:00Z,51741.1613
 iso:ercot,avg_demand_mw_h23,2026-01-01T00:00:00Z,52028.6774
 iso:ercot,avg_demand_mw_h23,2026-02-01T00:00:00Z,46741.75
 iso:ercot,avg_demand_mw_h23,2026-03-01T00:00:00Z,49108.4516
@@ -3501,6 +3525,7 @@ iso:ercot,avg_demand_mw_h23,2026-06-01T00:00:00Z,63537.1667
 iso:ercot,avg_demand_mw_h23,2026-07-01T00:00:00Z,66872.1935
 iso:ercot,avg_demand_mw_h23,2026-08-01T00:00:00Z,70233.7097
 iso:ercot,avg_demand_mw_h23,2026-09-01T00:00:00Z,66733.9667
+iso:ercot,avg_net_load_mw_h00,2024-05-01T00:00:00Z,31627.0
 iso:ercot,avg_net_load_mw_h00,2026-01-01T00:00:00Z,34981.4839
 iso:ercot,avg_net_load_mw_h00,2026-02-01T00:00:00Z,28962.7143
 iso:ercot,avg_net_load_mw_h00,2026-03-01T00:00:00Z,24686.0323
@@ -3510,6 +3535,7 @@ iso:ercot,avg_net_load_mw_h00,2026-06-01T00:00:00Z,40930.7333
 iso:ercot,avg_net_load_mw_h00,2026-07-01T00:00:00Z,46630.0323
 iso:ercot,avg_net_load_mw_h00,2026-08-01T00:00:00Z,47788.5161
 iso:ercot,avg_net_load_mw_h00,2026-09-01T00:00:00Z,46348.2667
+iso:ercot,avg_net_load_mw_h01,2024-05-01T00:00:00Z,30218.1613
 iso:ercot,avg_net_load_mw_h01,2026-01-01T00:00:00Z,34437.0645
 iso:ercot,avg_net_load_mw_h01,2026-02-01T00:00:00Z,28019.6786
 iso:ercot,avg_net_load_mw_h01,2026-03-01T00:00:00Z,23239.5484
@@ -3519,6 +3545,7 @@ iso:ercot,avg_net_load_mw_h01,2026-06-01T00:00:00Z,39002.1
 iso:ercot,avg_net_load_mw_h01,2026-07-01T00:00:00Z,44471.2581
 iso:ercot,avg_net_load_mw_h01,2026-08-01T00:00:00Z,45317.9355
 iso:ercot,avg_net_load_mw_h01,2026-09-01T00:00:00Z,44294.8667
+iso:ercot,avg_net_load_mw_h02,2024-05-01T00:00:00Z,29353.0323
 iso:ercot,avg_net_load_mw_h02,2026-01-01T00:00:00Z,34414.8387
 iso:ercot,avg_net_load_mw_h02,2026-02-01T00:00:00Z,27514.1071
 iso:ercot,avg_net_load_mw_h02,2026-03-01T00:00:00Z,22036.0667
@@ -3528,6 +3555,7 @@ iso:ercot,avg_net_load_mw_h02,2026-06-01T00:00:00Z,37890.5333
 iso:ercot,avg_net_load_mw_h02,2026-07-01T00:00:00Z,43077.0
 iso:ercot,avg_net_load_mw_h02,2026-08-01T00:00:00Z,43904.6452
 iso:ercot,avg_net_load_mw_h02,2026-09-01T00:00:00Z,43113.9
+iso:ercot,avg_net_load_mw_h03,2024-05-01T00:00:00Z,29176.5806
 iso:ercot,avg_net_load_mw_h03,2026-01-01T00:00:00Z,34836.3548
 iso:ercot,avg_net_load_mw_h03,2026-02-01T00:00:00Z,27669.9643
 iso:ercot,avg_net_load_mw_h03,2026-03-01T00:00:00Z,22562.5806
@@ -3537,6 +3565,7 @@ iso:ercot,avg_net_load_mw_h03,2026-06-01T00:00:00Z,37709.0667
 iso:ercot,avg_net_load_mw_h03,2026-07-01T00:00:00Z,42367.1613
 iso:ercot,avg_net_load_mw_h03,2026-08-01T00:00:00Z,43206.2581
 iso:ercot,avg_net_load_mw_h03,2026-09-01T00:00:00Z,42821.6
+iso:ercot,avg_net_load_mw_h04,2024-05-01T00:00:00Z,29607.2258
 iso:ercot,avg_net_load_mw_h04,2026-01-01T00:00:00Z,35921.3871
 iso:ercot,avg_net_load_mw_h04,2026-02-01T00:00:00Z,28664.8929
 iso:ercot,avg_net_load_mw_h04,2026-03-01T00:00:00Z,23194.0323
@@ -3546,6 +3575,7 @@ iso:ercot,avg_net_load_mw_h04,2026-06-01T00:00:00Z,37997.9667
 iso:ercot,avg_net_load_mw_h04,2026-07-01T00:00:00Z,42546.5806
 iso:ercot,avg_net_load_mw_h04,2026-08-01T00:00:00Z,43392.3226
 iso:ercot,avg_net_load_mw_h04,2026-09-01T00:00:00Z,43507.9333
+iso:ercot,avg_net_load_mw_h05,2024-05-01T00:00:00Z,31093.1613
 iso:ercot,avg_net_load_mw_h05,2026-01-01T00:00:00Z,37949.129
 iso:ercot,avg_net_load_mw_h05,2026-02-01T00:00:00Z,30623.8214
 iso:ercot,avg_net_load_mw_h05,2026-03-01T00:00:00Z,24833.9355
@@ -3555,6 +3585,7 @@ iso:ercot,avg_net_load_mw_h05,2026-06-01T00:00:00Z,38860.3667
 iso:ercot,avg_net_load_mw_h05,2026-07-01T00:00:00Z,43619.7742
 iso:ercot,avg_net_load_mw_h05,2026-08-01T00:00:00Z,44595.4516
 iso:ercot,avg_net_load_mw_h05,2026-09-01T00:00:00Z,45198.9333
+iso:ercot,avg_net_load_mw_h06,2024-05-01T00:00:00Z,33024.6774
 iso:ercot,avg_net_load_mw_h06,2026-01-01T00:00:00Z,40778.2581
 iso:ercot,avg_net_load_mw_h06,2026-02-01T00:00:00Z,33487.1786
 iso:ercot,avg_net_load_mw_h06,2026-03-01T00:00:00Z,27306.6129
@@ -3564,6 +3595,7 @@ iso:ercot,avg_net_load_mw_h06,2026-06-01T00:00:00Z,39726.2333
 iso:ercot,avg_net_load_mw_h06,2026-07-01T00:00:00Z,44745.4839
 iso:ercot,avg_net_load_mw_h06,2026-08-01T00:00:00Z,46216.8065
 iso:ercot,avg_net_load_mw_h06,2026-09-01T00:00:00Z,47282.7
+iso:ercot,avg_net_load_mw_h07,2024-05-01T00:00:00Z,32847.2903
 iso:ercot,avg_net_load_mw_h07,2026-01-01T00:00:00Z,42142.4839
 iso:ercot,avg_net_load_mw_h07,2026-02-01T00:00:00Z,33594.4643
 iso:ercot,avg_net_load_mw_h07,2026-03-01T00:00:00Z,28583.5484
@@ -3573,6 +3605,7 @@ iso:ercot,avg_net_load_mw_h07,2026-06-01T00:00:00Z,36491.9
 iso:ercot,avg_net_load_mw_h07,2026-07-01T00:00:00Z,41487.0645
 iso:ercot,avg_net_load_mw_h07,2026-08-01T00:00:00Z,44355.1935
 iso:ercot,avg_net_load_mw_h07,2026-09-01T00:00:00Z,47244.1333
+iso:ercot,avg_net_load_mw_h08,2024-05-01T00:00:00Z,31316.5484
 iso:ercot,avg_net_load_mw_h08,2026-01-01T00:00:00Z,36131.3548
 iso:ercot,avg_net_load_mw_h08,2026-02-01T00:00:00Z,25361.1071
 iso:ercot,avg_net_load_mw_h08,2026-03-01T00:00:00Z,24086.4839
@@ -3582,6 +3615,7 @@ iso:ercot,avg_net_load_mw_h08,2026-06-01T00:00:00Z,31173.4
 iso:ercot,avg_net_load_mw_h08,2026-07-01T00:00:00Z,33110.0323
 iso:ercot,avg_net_load_mw_h08,2026-08-01T00:00:00Z,34581.3871
 iso:ercot,avg_net_load_mw_h08,2026-09-01T00:00:00Z,38951.9333
+iso:ercot,avg_net_load_mw_h09,2024-05-01T00:00:00Z,30378.1613
 iso:ercot,avg_net_load_mw_h09,2026-01-01T00:00:00Z,28763.4194
 iso:ercot,avg_net_load_mw_h09,2026-02-01T00:00:00Z,19355.1429
 iso:ercot,avg_net_load_mw_h09,2026-03-01T00:00:00Z,17435.6774
@@ -3591,6 +3625,7 @@ iso:ercot,avg_net_load_mw_h09,2026-06-01T00:00:00Z,28433.6333
 iso:ercot,avg_net_load_mw_h09,2026-07-01T00:00:00Z,28836.871
 iso:ercot,avg_net_load_mw_h09,2026-08-01T00:00:00Z,28767.6774
 iso:ercot,avg_net_load_mw_h09,2026-09-01T00:00:00Z,31124.6333
+iso:ercot,avg_net_load_mw_h10,2024-05-01T00:00:00Z,30547.7097
 iso:ercot,avg_net_load_mw_h10,2026-01-01T00:00:00Z,26173.4194
 iso:ercot,avg_net_load_mw_h10,2026-02-01T00:00:00Z,17465.5
 iso:ercot,avg_net_load_mw_h10,2026-03-01T00:00:00Z,15304.7742
@@ -3600,6 +3635,7 @@ iso:ercot,avg_net_load_mw_h10,2026-06-01T00:00:00Z,28593.1
 iso:ercot,avg_net_load_mw_h10,2026-07-01T00:00:00Z,30226.7419
 iso:ercot,avg_net_load_mw_h10,2026-08-01T00:00:00Z,30296.2903
 iso:ercot,avg_net_load_mw_h10,2026-09-01T00:00:00Z,31742.3667
+iso:ercot,avg_net_load_mw_h11,2024-05-01T00:00:00Z,31889.2581
 iso:ercot,avg_net_load_mw_h11,2026-01-01T00:00:00Z,24809.3226
 iso:ercot,avg_net_load_mw_h11,2026-02-01T00:00:00Z,16937.7143
 iso:ercot,avg_net_load_mw_h11,2026-03-01T00:00:00Z,15413.4839
@@ -3609,6 +3645,7 @@ iso:ercot,avg_net_load_mw_h11,2026-06-01T00:00:00Z,30281.3333
 iso:ercot,avg_net_load_mw_h11,2026-07-01T00:00:00Z,33755.0968
 iso:ercot,avg_net_load_mw_h11,2026-08-01T00:00:00Z,34838.6129
 iso:ercot,avg_net_load_mw_h11,2026-09-01T00:00:00Z,35668.0333
+iso:ercot,avg_net_load_mw_h12,2024-05-01T00:00:00Z,33665.0323
 iso:ercot,avg_net_load_mw_h12,2026-01-01T00:00:00Z,24046.2903
 iso:ercot,avg_net_load_mw_h12,2026-02-01T00:00:00Z,17106.25
 iso:ercot,avg_net_load_mw_h12,2026-03-01T00:00:00Z,15961.8065
@@ -3618,6 +3655,7 @@ iso:ercot,avg_net_load_mw_h12,2026-06-01T00:00:00Z,32147.8333
 iso:ercot,avg_net_load_mw_h12,2026-07-01T00:00:00Z,37294.3871
 iso:ercot,avg_net_load_mw_h12,2026-08-01T00:00:00Z,39767.4194
 iso:ercot,avg_net_load_mw_h12,2026-09-01T00:00:00Z,40313.9333
+iso:ercot,avg_net_load_mw_h13,2024-05-01T00:00:00Z,35427.9355
 iso:ercot,avg_net_load_mw_h13,2026-01-01T00:00:00Z,23764.1935
 iso:ercot,avg_net_load_mw_h13,2026-02-01T00:00:00Z,17320.1786
 iso:ercot,avg_net_load_mw_h13,2026-03-01T00:00:00Z,16767.4516
@@ -3627,6 +3665,7 @@ iso:ercot,avg_net_load_mw_h13,2026-06-01T00:00:00Z,34086.6333
 iso:ercot,avg_net_load_mw_h13,2026-07-01T00:00:00Z,40083.1935
 iso:ercot,avg_net_load_mw_h13,2026-08-01T00:00:00Z,43765.6129
 iso:ercot,avg_net_load_mw_h13,2026-09-01T00:00:00Z,44150.5
+iso:ercot,avg_net_load_mw_h14,2024-05-01T00:00:00Z,37067.0968
 iso:ercot,avg_net_load_mw_h14,2026-01-01T00:00:00Z,23996.5484
 iso:ercot,avg_net_load_mw_h14,2026-02-01T00:00:00Z,17706.4286
 iso:ercot,avg_net_load_mw_h14,2026-03-01T00:00:00Z,17649.8387
@@ -3636,6 +3675,7 @@ iso:ercot,avg_net_load_mw_h14,2026-06-01T00:00:00Z,35450.7
 iso:ercot,avg_net_load_mw_h14,2026-07-01T00:00:00Z,41825.7097
 iso:ercot,avg_net_load_mw_h14,2026-08-01T00:00:00Z,46332.6774
 iso:ercot,avg_net_load_mw_h14,2026-09-01T00:00:00Z,46604.5667
+iso:ercot,avg_net_load_mw_h15,2024-05-01T00:00:00Z,38624.0968
 iso:ercot,avg_net_load_mw_h15,2026-01-01T00:00:00Z,25396.8387
 iso:ercot,avg_net_load_mw_h15,2026-02-01T00:00:00Z,18802.1071
 iso:ercot,avg_net_load_mw_h15,2026-03-01T00:00:00Z,18741.9355
@@ -3645,6 +3685,7 @@ iso:ercot,avg_net_load_mw_h15,2026-06-01T00:00:00Z,36558.8333
 iso:ercot,avg_net_load_mw_h15,2026-07-01T00:00:00Z,42956.871
 iso:ercot,avg_net_load_mw_h15,2026-08-01T00:00:00Z,47460.2581
 iso:ercot,avg_net_load_mw_h15,2026-09-01T00:00:00Z,48242.5667
+iso:ercot,avg_net_load_mw_h16,2024-05-01T00:00:00Z,39730.9032
 iso:ercot,avg_net_load_mw_h16,2026-01-01T00:00:00Z,30738.3871
 iso:ercot,avg_net_load_mw_h16,2026-02-01T00:00:00Z,22463.4643
 iso:ercot,avg_net_load_mw_h16,2026-03-01T00:00:00Z,20608.6774
@@ -3654,6 +3695,7 @@ iso:ercot,avg_net_load_mw_h16,2026-06-01T00:00:00Z,37692.7
 iso:ercot,avg_net_load_mw_h16,2026-07-01T00:00:00Z,43467.0
 iso:ercot,avg_net_load_mw_h16,2026-08-01T00:00:00Z,48316.2581
 iso:ercot,avg_net_load_mw_h16,2026-09-01T00:00:00Z,49691.5333
+iso:ercot,avg_net_load_mw_h17,2024-05-01T00:00:00Z,40390.2903
 iso:ercot,avg_net_load_mw_h17,2026-01-01T00:00:00Z,40932.2903
 iso:ercot,avg_net_load_mw_h17,2026-02-01T00:00:00Z,32346.0714
 iso:ercot,avg_net_load_mw_h17,2026-03-01T00:00:00Z,24206.4839
@@ -3663,6 +3705,7 @@ iso:ercot,avg_net_load_mw_h17,2026-06-01T00:00:00Z,38886.5
 iso:ercot,avg_net_load_mw_h17,2026-07-01T00:00:00Z,44245.6774
 iso:ercot,avg_net_load_mw_h17,2026-08-01T00:00:00Z,49325.8387
 iso:ercot,avg_net_load_mw_h17,2026-09-01T00:00:00Z,51640.3333
+iso:ercot,avg_net_load_mw_h18,2024-05-01T00:00:00Z,40958.129
 iso:ercot,avg_net_load_mw_h18,2026-01-01T00:00:00Z,44579.5161
 iso:ercot,avg_net_load_mw_h18,2026-02-01T00:00:00Z,39287.3929
 iso:ercot,avg_net_load_mw_h18,2026-03-01T00:00:00Z,31210.4194
@@ -3672,6 +3715,7 @@ iso:ercot,avg_net_load_mw_h18,2026-06-01T00:00:00Z,41555.1
 iso:ercot,avg_net_load_mw_h18,2026-07-01T00:00:00Z,47039.6452
 iso:ercot,avg_net_load_mw_h18,2026-08-01T00:00:00Z,53689.3226
 iso:ercot,avg_net_load_mw_h18,2026-09-01T00:00:00Z,58311.7667
+iso:ercot,avg_net_load_mw_h19,2024-05-01T00:00:00Z,42851.4839
 iso:ercot,avg_net_load_mw_h19,2026-01-01T00:00:00Z,43482.3548
 iso:ercot,avg_net_load_mw_h19,2026-02-01T00:00:00Z,37897.0357
 iso:ercot,avg_net_load_mw_h19,2026-03-01T00:00:00Z,37069.7419
@@ -3681,6 +3725,7 @@ iso:ercot,avg_net_load_mw_h19,2026-06-01T00:00:00Z,48162.5
 iso:ercot,avg_net_load_mw_h19,2026-07-01T00:00:00Z,55037.1935
 iso:ercot,avg_net_load_mw_h19,2026-08-01T00:00:00Z,63890.2581
 iso:ercot,avg_net_load_mw_h19,2026-09-01T00:00:00Z,64173.5667
+iso:ercot,avg_net_load_mw_h20,2024-05-01T00:00:00Z,43883.5806
 iso:ercot,avg_net_load_mw_h20,2026-01-01T00:00:00Z,42236.7097
 iso:ercot,avg_net_load_mw_h20,2026-02-01T00:00:00Z,35718.0357
 iso:ercot,avg_net_load_mw_h20,2026-03-01T00:00:00Z,35834.871
@@ -3690,6 +3735,7 @@ iso:ercot,avg_net_load_mw_h20,2026-06-01T00:00:00Z,52837.2
 iso:ercot,avg_net_load_mw_h20,2026-07-01T00:00:00Z,60621.6129
 iso:ercot,avg_net_load_mw_h20,2026-08-01T00:00:00Z,66315.7742
 iso:ercot,avg_net_load_mw_h20,2026-09-01T00:00:00Z,62257.2
+iso:ercot,avg_net_load_mw_h21,2024-05-01T00:00:00Z,41554.5484
 iso:ercot,avg_net_load_mw_h21,2026-01-01T00:00:00Z,40730.1935
 iso:ercot,avg_net_load_mw_h21,2026-02-01T00:00:00Z,33837.5357
 iso:ercot,avg_net_load_mw_h21,2026-03-01T00:00:00Z,32954.7097
@@ -3699,6 +3745,7 @@ iso:ercot,avg_net_load_mw_h21,2026-06-01T00:00:00Z,51177.0
 iso:ercot,avg_net_load_mw_h21,2026-07-01T00:00:00Z,58522.2258
 iso:ercot,avg_net_load_mw_h21,2026-08-01T00:00:00Z,61468.8387
 iso:ercot,avg_net_load_mw_h21,2026-09-01T00:00:00Z,57794.7333
+iso:ercot,avg_net_load_mw_h22,2024-05-01T00:00:00Z,38301.2581
 iso:ercot,avg_net_load_mw_h22,2026-01-01T00:00:00Z,38755.2581
 iso:ercot,avg_net_load_mw_h22,2026-02-01T00:00:00Z,31639.1429
 iso:ercot,avg_net_load_mw_h22,2026-03-01T00:00:00Z,29889.6774
@@ -3708,6 +3755,7 @@ iso:ercot,avg_net_load_mw_h22,2026-06-01T00:00:00Z,47229.5667
 iso:ercot,avg_net_load_mw_h22,2026-07-01T00:00:00Z,54203.2903
 iso:ercot,avg_net_load_mw_h22,2026-08-01T00:00:00Z,55989.4194
 iso:ercot,avg_net_load_mw_h22,2026-09-01T00:00:00Z,53231.9333
+iso:ercot,avg_net_load_mw_h23,2024-05-01T00:00:00Z,34932.7742
 iso:ercot,avg_net_load_mw_h23,2026-01-01T00:00:00Z,36998.9032
 iso:ercot,avg_net_load_mw_h23,2026-02-01T00:00:00Z,29534.8214
 iso:ercot,avg_net_load_mw_h23,2026-03-01T00:00:00Z,26983.8065
@@ -3717,6 +3765,7 @@ iso:ercot,avg_net_load_mw_h23,2026-06-01T00:00:00Z,43702.3
 iso:ercot,avg_net_load_mw_h23,2026-07-01T00:00:00Z,50217.3548
 iso:ercot,avg_net_load_mw_h23,2026-08-01T00:00:00Z,51215.1613
 iso:ercot,avg_net_load_mw_h23,2026-09-01T00:00:00Z,49372.2
+iso:ercot,avg_solar_mw_h00,2024-05-01T00:00:00Z,2.0323
 iso:ercot,avg_solar_mw_h00,2026-01-01T00:00:00Z,0.3871
 iso:ercot,avg_solar_mw_h00,2026-02-01T00:00:00Z,0.3214
 iso:ercot,avg_solar_mw_h00,2026-03-01T00:00:00Z,1.0323
@@ -3726,6 +3775,7 @@ iso:ercot,avg_solar_mw_h00,2026-06-01T00:00:00Z,1.1333
 iso:ercot,avg_solar_mw_h00,2026-07-01T00:00:00Z,0.2581
 iso:ercot,avg_solar_mw_h00,2026-08-01T00:00:00Z,0.3548
 iso:ercot,avg_solar_mw_h00,2026-09-01T00:00:00Z,0.2667
+iso:ercot,avg_solar_mw_h01,2024-05-01T00:00:00Z,0.4194
 iso:ercot,avg_solar_mw_h01,2026-01-01T00:00:00Z,0.129
 iso:ercot,avg_solar_mw_h01,2026-02-01T00:00:00Z,0.3571
 iso:ercot,avg_solar_mw_h01,2026-03-01T00:00:00Z,1.3871
@@ -3735,6 +3785,7 @@ iso:ercot,avg_solar_mw_h01,2026-06-01T00:00:00Z,1.2333
 iso:ercot,avg_solar_mw_h01,2026-07-01T00:00:00Z,0.3226
 iso:ercot,avg_solar_mw_h01,2026-08-01T00:00:00Z,0.4194
 iso:ercot,avg_solar_mw_h01,2026-09-01T00:00:00Z,0.3667
+iso:ercot,avg_solar_mw_h02,2024-05-01T00:00:00Z,0.2581
 iso:ercot,avg_solar_mw_h02,2026-01-01T00:00:00Z,0.129
 iso:ercot,avg_solar_mw_h02,2026-02-01T00:00:00Z,0.3929
 iso:ercot,avg_solar_mw_h02,2026-03-01T00:00:00Z,1.3667
@@ -3744,6 +3795,7 @@ iso:ercot,avg_solar_mw_h02,2026-06-01T00:00:00Z,1.5333
 iso:ercot,avg_solar_mw_h02,2026-07-01T00:00:00Z,0.2903
 iso:ercot,avg_solar_mw_h02,2026-08-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h02,2026-09-01T00:00:00Z,0.3333
+iso:ercot,avg_solar_mw_h03,2024-05-01T00:00:00Z,0.2258
 iso:ercot,avg_solar_mw_h03,2026-01-01T00:00:00Z,0.129
 iso:ercot,avg_solar_mw_h03,2026-02-01T00:00:00Z,0.5
 iso:ercot,avg_solar_mw_h03,2026-03-01T00:00:00Z,1.4194
@@ -3753,6 +3805,7 @@ iso:ercot,avg_solar_mw_h03,2026-06-01T00:00:00Z,1.2
 iso:ercot,avg_solar_mw_h03,2026-07-01T00:00:00Z,0.2258
 iso:ercot,avg_solar_mw_h03,2026-08-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h03,2026-09-01T00:00:00Z,0.3
+iso:ercot,avg_solar_mw_h04,2024-05-01T00:00:00Z,0.2258
 iso:ercot,avg_solar_mw_h04,2026-01-01T00:00:00Z,0.129
 iso:ercot,avg_solar_mw_h04,2026-02-01T00:00:00Z,0.3929
 iso:ercot,avg_solar_mw_h04,2026-03-01T00:00:00Z,0.9032
@@ -3762,6 +3815,7 @@ iso:ercot,avg_solar_mw_h04,2026-06-01T00:00:00Z,1.1
 iso:ercot,avg_solar_mw_h04,2026-07-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h04,2026-08-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h04,2026-09-01T00:00:00Z,0.3333
+iso:ercot,avg_solar_mw_h05,2024-05-01T00:00:00Z,0.2581
 iso:ercot,avg_solar_mw_h05,2026-01-01T00:00:00Z,0.1613
 iso:ercot,avg_solar_mw_h05,2026-02-01T00:00:00Z,0.3571
 iso:ercot,avg_solar_mw_h05,2026-03-01T00:00:00Z,0.9677
@@ -3771,6 +3825,7 @@ iso:ercot,avg_solar_mw_h05,2026-06-01T00:00:00Z,1.1333
 iso:ercot,avg_solar_mw_h05,2026-07-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h05,2026-08-01T00:00:00Z,0.1613
 iso:ercot,avg_solar_mw_h05,2026-09-01T00:00:00Z,0.3333
+iso:ercot,avg_solar_mw_h06,2024-05-01T00:00:00Z,44.0323
 iso:ercot,avg_solar_mw_h06,2026-01-01T00:00:00Z,0.1613
 iso:ercot,avg_solar_mw_h06,2026-02-01T00:00:00Z,1.3214
 iso:ercot,avg_solar_mw_h06,2026-03-01T00:00:00Z,2.4516
@@ -3780,6 +3835,7 @@ iso:ercot,avg_solar_mw_h06,2026-06-01T00:00:00Z,194.6
 iso:ercot,avg_solar_mw_h06,2026-07-01T00:00:00Z,108.871
 iso:ercot,avg_solar_mw_h06,2026-08-01T00:00:00Z,8.9677
 iso:ercot,avg_solar_mw_h06,2026-09-01T00:00:00Z,1.0
+iso:ercot,avg_solar_mw_h07,2024-05-01T00:00:00Z,2017.9032
 iso:ercot,avg_solar_mw_h07,2026-01-01T00:00:00Z,403.7097
 iso:ercot,avg_solar_mw_h07,2026-02-01T00:00:00Z,1571.4286
 iso:ercot,avg_solar_mw_h07,2026-03-01T00:00:00Z,618.3871
@@ -3789,6 +3845,7 @@ iso:ercot,avg_solar_mw_h07,2026-06-01T00:00:00Z,5229.9333
 iso:ercot,avg_solar_mw_h07,2026-07-01T00:00:00Z,5297.871
 iso:ercot,avg_solar_mw_h07,2026-08-01T00:00:00Z,3095.3226
 iso:ercot,avg_solar_mw_h07,2026-09-01T00:00:00Z,1204.6667
+iso:ercot,avg_solar_mw_h08,2024-05-01T00:00:00Z,6822.2581
 iso:ercot,avg_solar_mw_h08,2026-01-01T00:00:00Z,7230.1613
 iso:ercot,avg_solar_mw_h08,2026-02-01T00:00:00Z,12014.0
 iso:ercot,avg_solar_mw_h08,2026-03-01T00:00:00Z,7393.2258
@@ -3798,6 +3855,7 @@ iso:ercot,avg_solar_mw_h08,2026-06-01T00:00:00Z,13937.9333
 iso:ercot,avg_solar_mw_h08,2026-07-01T00:00:00Z,18002.1613
 iso:ercot,avg_solar_mw_h08,2026-08-01T00:00:00Z,17571.129
 iso:ercot,avg_solar_mw_h08,2026-09-01T00:00:00Z,13158.6
+iso:ercot,avg_solar_mw_h09,2024-05-01T00:00:00Z,9811.6129
 iso:ercot,avg_solar_mw_h09,2026-01-01T00:00:00Z,16206.2258
 iso:ercot,avg_solar_mw_h09,2026-02-01T00:00:00Z,20142.2857
 iso:ercot,avg_solar_mw_h09,2026-03-01T00:00:00Z,16833.7097
@@ -3807,6 +3865,7 @@ iso:ercot,avg_solar_mw_h09,2026-06-01T00:00:00Z,19289.3667
 iso:ercot,avg_solar_mw_h09,2026-07-01T00:00:00Z,25161.4516
 iso:ercot,avg_solar_mw_h09,2026-08-01T00:00:00Z,27476.9677
 iso:ercot,avg_solar_mw_h09,2026-09-01T00:00:00Z,25203.1667
+iso:ercot,avg_solar_mw_h10,2024-05-01T00:00:00Z,11655.0645
 iso:ercot,avg_solar_mw_h10,2026-01-01T00:00:00Z,18453.129
 iso:ercot,avg_solar_mw_h10,2026-02-01T00:00:00Z,22023.1429
 iso:ercot,avg_solar_mw_h10,2026-03-01T00:00:00Z,20480.871
@@ -3816,6 +3875,7 @@ iso:ercot,avg_solar_mw_h10,2026-06-01T00:00:00Z,22755.6667
 iso:ercot,avg_solar_mw_h10,2026-07-01T00:00:00Z,28323.1613
 iso:ercot,avg_solar_mw_h10,2026-08-01T00:00:00Z,30950.7419
 iso:ercot,avg_solar_mw_h10,2026-09-01T00:00:00Z,28619.0
+iso:ercot,avg_solar_mw_h11,2024-05-01T00:00:00Z,12944.2903
 iso:ercot,avg_solar_mw_h11,2026-01-01T00:00:00Z,18689.0
 iso:ercot,avg_solar_mw_h11,2026-02-01T00:00:00Z,22331.6786
 iso:ercot,avg_solar_mw_h11,2026-03-01T00:00:00Z,22306.1613
@@ -3825,6 +3885,7 @@ iso:ercot,avg_solar_mw_h11,2026-06-01T00:00:00Z,24809.4333
 iso:ercot,avg_solar_mw_h11,2026-07-01T00:00:00Z,29724.7097
 iso:ercot,avg_solar_mw_h11,2026-08-01T00:00:00Z,32439.2258
 iso:ercot,avg_solar_mw_h11,2026-09-01T00:00:00Z,29425.1333
+iso:ercot,avg_solar_mw_h12,2024-05-01T00:00:00Z,13628.0645
 iso:ercot,avg_solar_mw_h12,2026-01-01T00:00:00Z,18497.9677
 iso:ercot,avg_solar_mw_h12,2026-02-01T00:00:00Z,22161.1429
 iso:ercot,avg_solar_mw_h12,2026-03-01T00:00:00Z,23752.4839
@@ -3834,6 +3895,7 @@ iso:ercot,avg_solar_mw_h12,2026-06-01T00:00:00Z,26062.6333
 iso:ercot,avg_solar_mw_h12,2026-07-01T00:00:00Z,30278.5484
 iso:ercot,avg_solar_mw_h12,2026-08-01T00:00:00Z,32681.9355
 iso:ercot,avg_solar_mw_h12,2026-09-01T00:00:00Z,29327.8667
+iso:ercot,avg_solar_mw_h13,2024-05-01T00:00:00Z,13999.4839
 iso:ercot,avg_solar_mw_h13,2026-01-01T00:00:00Z,18257.1935
 iso:ercot,avg_solar_mw_h13,2026-02-01T00:00:00Z,22256.6429
 iso:ercot,avg_solar_mw_h13,2026-03-01T00:00:00Z,24461.4839
@@ -3843,6 +3905,7 @@ iso:ercot,avg_solar_mw_h13,2026-06-01T00:00:00Z,26593.5333
 iso:ercot,avg_solar_mw_h13,2026-07-01T00:00:00Z,30367.3871
 iso:ercot,avg_solar_mw_h13,2026-08-01T00:00:00Z,32335.871
 iso:ercot,avg_solar_mw_h13,2026-09-01T00:00:00Z,28808.7
+iso:ercot,avg_solar_mw_h14,2024-05-01T00:00:00Z,13859.8065
 iso:ercot,avg_solar_mw_h14,2026-01-01T00:00:00Z,17905.8387
 iso:ercot,avg_solar_mw_h14,2026-02-01T00:00:00Z,22120.0357
 iso:ercot,avg_solar_mw_h14,2026-03-01T00:00:00Z,24550.5161
@@ -3852,6 +3915,7 @@ iso:ercot,avg_solar_mw_h14,2026-06-01T00:00:00Z,26652.1333
 iso:ercot,avg_solar_mw_h14,2026-07-01T00:00:00Z,29829.7742
 iso:ercot,avg_solar_mw_h14,2026-08-01T00:00:00Z,31607.6452
 iso:ercot,avg_solar_mw_h14,2026-09-01T00:00:00Z,27982.6333
+iso:ercot,avg_solar_mw_h15,2024-05-01T00:00:00Z,13025.8387
 iso:ercot,avg_solar_mw_h15,2026-01-01T00:00:00Z,16615.5161
 iso:ercot,avg_solar_mw_h15,2026-02-01T00:00:00Z,21201.5
 iso:ercot,avg_solar_mw_h15,2026-03-01T00:00:00Z,24163.0323
@@ -3861,6 +3925,7 @@ iso:ercot,avg_solar_mw_h15,2026-06-01T00:00:00Z,25910.8667
 iso:ercot,avg_solar_mw_h15,2026-07-01T00:00:00Z,28815.0323
 iso:ercot,avg_solar_mw_h15,2026-08-01T00:00:00Z,30698.0968
 iso:ercot,avg_solar_mw_h15,2026-09-01T00:00:00Z,26627.0
+iso:ercot,avg_solar_mw_h16,2024-05-01T00:00:00Z,12015.5806
 iso:ercot,avg_solar_mw_h16,2026-01-01T00:00:00Z,11787.7097
 iso:ercot,avg_solar_mw_h16,2026-02-01T00:00:00Z,17684.4286
 iso:ercot,avg_solar_mw_h16,2026-03-01T00:00:00Z,22707.0
@@ -3870,6 +3935,7 @@ iso:ercot,avg_solar_mw_h16,2026-06-01T00:00:00Z,24632.3333
 iso:ercot,avg_solar_mw_h16,2026-07-01T00:00:00Z,27553.9677
 iso:ercot,avg_solar_mw_h16,2026-08-01T00:00:00Z,29483.129
 iso:ercot,avg_solar_mw_h16,2026-09-01T00:00:00Z,24578.4667
+iso:ercot,avg_solar_mw_h17,2024-05-01T00:00:00Z,10553.6452
 iso:ercot,avg_solar_mw_h17,2026-01-01T00:00:00Z,2665.7097
 iso:ercot,avg_solar_mw_h17,2026-02-01T00:00:00Z,7576.6429
 iso:ercot,avg_solar_mw_h17,2026-03-01T00:00:00Z,18665.3226
@@ -3879,6 +3945,7 @@ iso:ercot,avg_solar_mw_h17,2026-06-01T00:00:00Z,22437.5
 iso:ercot,avg_solar_mw_h17,2026-07-01T00:00:00Z,25457.2903
 iso:ercot,avg_solar_mw_h17,2026-08-01T00:00:00Z,27174.7097
 iso:ercot,avg_solar_mw_h17,2026-09-01T00:00:00Z,20595.1333
+iso:ercot,avg_solar_mw_h18,2024-05-01T00:00:00Z,7973.2258
 iso:ercot,avg_solar_mw_h18,2026-01-01T00:00:00Z,24.6452
 iso:ercot,avg_solar_mw_h18,2026-02-01T00:00:00Z,335.5357
 iso:ercot,avg_solar_mw_h18,2026-03-01T00:00:00Z,9815.5161
@@ -3888,6 +3955,7 @@ iso:ercot,avg_solar_mw_h18,2026-06-01T00:00:00Z,17937.2
 iso:ercot,avg_solar_mw_h18,2026-07-01T00:00:00Z,20643.129
 iso:ercot,avg_solar_mw_h18,2026-08-01T00:00:00Z,20240.5484
 iso:ercot,avg_solar_mw_h18,2026-09-01T00:00:00Z,10525.8333
+iso:ercot,avg_solar_mw_h19,2024-05-01T00:00:00Z,3357.2258
 iso:ercot,avg_solar_mw_h19,2026-01-01T00:00:00Z,1.2903
 iso:ercot,avg_solar_mw_h19,2026-02-01T00:00:00Z,0.8929
 iso:ercot,avg_solar_mw_h19,2026-03-01T00:00:00Z,1305.2581
@@ -3897,6 +3965,7 @@ iso:ercot,avg_solar_mw_h19,2026-06-01T00:00:00Z,8327.9333
 iso:ercot,avg_solar_mw_h19,2026-07-01T00:00:00Z,9561.9677
 iso:ercot,avg_solar_mw_h19,2026-08-01T00:00:00Z,6323.7097
 iso:ercot,avg_solar_mw_h19,2026-09-01T00:00:00Z,1291.7667
+iso:ercot,avg_solar_mw_h20,2024-05-01T00:00:00Z,237.9355
 iso:ercot,avg_solar_mw_h20,2026-01-01T00:00:00Z,0.2258
 iso:ercot,avg_solar_mw_h20,2026-02-01T00:00:00Z,0.7857
 iso:ercot,avg_solar_mw_h20,2026-03-01T00:00:00Z,3.1935
@@ -3906,6 +3975,7 @@ iso:ercot,avg_solar_mw_h20,2026-06-01T00:00:00Z,833.9333
 iso:ercot,avg_solar_mw_h20,2026-07-01T00:00:00Z,870.9032
 iso:ercot,avg_solar_mw_h20,2026-08-01T00:00:00Z,189.1935
 iso:ercot,avg_solar_mw_h20,2026-09-01T00:00:00Z,10.2667
+iso:ercot,avg_solar_mw_h21,2024-05-01T00:00:00Z,0.8387
 iso:ercot,avg_solar_mw_h21,2026-01-01T00:00:00Z,0.1935
 iso:ercot,avg_solar_mw_h21,2026-02-01T00:00:00Z,0.6429
 iso:ercot,avg_solar_mw_h21,2026-03-01T00:00:00Z,0.871
@@ -3915,6 +3985,7 @@ iso:ercot,avg_solar_mw_h21,2026-06-01T00:00:00Z,11.0333
 iso:ercot,avg_solar_mw_h21,2026-07-01T00:00:00Z,0.6452
 iso:ercot,avg_solar_mw_h21,2026-08-01T00:00:00Z,0.1613
 iso:ercot,avg_solar_mw_h21,2026-09-01T00:00:00Z,6.0667
+iso:ercot,avg_solar_mw_h22,2024-05-01T00:00:00Z,3.3871
 iso:ercot,avg_solar_mw_h22,2026-01-01T00:00:00Z,0.2258
 iso:ercot,avg_solar_mw_h22,2026-02-01T00:00:00Z,0.4286
 iso:ercot,avg_solar_mw_h22,2026-03-01T00:00:00Z,0.7742
@@ -3924,6 +3995,7 @@ iso:ercot,avg_solar_mw_h22,2026-06-01T00:00:00Z,2.0
 iso:ercot,avg_solar_mw_h22,2026-07-01T00:00:00Z,0.2581
 iso:ercot,avg_solar_mw_h22,2026-08-01T00:00:00Z,0.5161
 iso:ercot,avg_solar_mw_h22,2026-09-01T00:00:00Z,0.5
+iso:ercot,avg_solar_mw_h23,2024-05-01T00:00:00Z,4.1935
 iso:ercot,avg_solar_mw_h23,2026-01-01T00:00:00Z,0.129
 iso:ercot,avg_solar_mw_h23,2026-02-01T00:00:00Z,0.4286
 iso:ercot,avg_solar_mw_h23,2026-03-01T00:00:00Z,0.8065
@@ -3933,6 +4005,7 @@ iso:ercot,avg_solar_mw_h23,2026-06-01T00:00:00Z,1.2667
 iso:ercot,avg_solar_mw_h23,2026-07-01T00:00:00Z,0.2581
 iso:ercot,avg_solar_mw_h23,2026-08-01T00:00:00Z,0.3871
 iso:ercot,avg_solar_mw_h23,2026-09-01T00:00:00Z,0.3667
+iso:ercot,avg_wind_mw_h00,2024-05-01T00:00:00Z,17180.8387
 iso:ercot,avg_wind_mw_h00,2026-01-01T00:00:00Z,15394.0
 iso:ercot,avg_wind_mw_h00,2026-02-01T00:00:00Z,16839.1071
 iso:ercot,avg_wind_mw_h00,2026-03-01T00:00:00Z,21994.7097
@@ -3942,6 +4015,7 @@ iso:ercot,avg_wind_mw_h00,2026-06-01T00:00:00Z,19121.2
 iso:ercot,avg_wind_mw_h00,2026-07-01T00:00:00Z,16616.0645
 iso:ercot,avg_wind_mw_h00,2026-08-01T00:00:00Z,18970.6774
 iso:ercot,avg_wind_mw_h00,2026-09-01T00:00:00Z,17277.4
+iso:ercot,avg_wind_mw_h01,2024-05-01T00:00:00Z,16537.1935
 iso:ercot,avg_wind_mw_h01,2026-01-01T00:00:00Z,15355.3226
 iso:ercot,avg_wind_mw_h01,2026-02-01T00:00:00Z,16829.6429
 iso:ercot,avg_wind_mw_h01,2026-03-01T00:00:00Z,21836.4516
@@ -3951,6 +4025,7 @@ iso:ercot,avg_wind_mw_h01,2026-06-01T00:00:00Z,18503.9
 iso:ercot,avg_wind_mw_h01,2026-07-01T00:00:00Z,15985.0645
 iso:ercot,avg_wind_mw_h01,2026-08-01T00:00:00Z,18472.9677
 iso:ercot,avg_wind_mw_h01,2026-09-01T00:00:00Z,16684.9667
+iso:ercot,avg_wind_mw_h02,2024-05-01T00:00:00Z,15898.2903
 iso:ercot,avg_wind_mw_h02,2026-01-01T00:00:00Z,15229.1613
 iso:ercot,avg_wind_mw_h02,2026-02-01T00:00:00Z,16853.9286
 iso:ercot,avg_wind_mw_h02,2026-03-01T00:00:00Z,22076.1333
@@ -3960,6 +4035,7 @@ iso:ercot,avg_wind_mw_h02,2026-06-01T00:00:00Z,17747.9
 iso:ercot,avg_wind_mw_h02,2026-07-01T00:00:00Z,15249.5484
 iso:ercot,avg_wind_mw_h02,2026-08-01T00:00:00Z,17571.2581
 iso:ercot,avg_wind_mw_h02,2026-09-01T00:00:00Z,15864.4667
+iso:ercot,avg_wind_mw_h03,2024-05-01T00:00:00Z,15197.4194
 iso:ercot,avg_wind_mw_h03,2026-01-01T00:00:00Z,15044.129
 iso:ercot,avg_wind_mw_h03,2026-02-01T00:00:00Z,16681.1429
 iso:ercot,avg_wind_mw_h03,2026-03-01T00:00:00Z,20979.4839
@@ -3969,6 +4045,7 @@ iso:ercot,avg_wind_mw_h03,2026-06-01T00:00:00Z,16767.5
 iso:ercot,avg_wind_mw_h03,2026-07-01T00:00:00Z,14521.2903
 iso:ercot,avg_wind_mw_h03,2026-08-01T00:00:00Z,16679.0645
 iso:ercot,avg_wind_mw_h03,2026-09-01T00:00:00Z,14845.5667
+iso:ercot,avg_wind_mw_h04,2024-05-01T00:00:00Z,14570.0
 iso:ercot,avg_wind_mw_h04,2026-01-01T00:00:00Z,14883.2258
 iso:ercot,avg_wind_mw_h04,2026-02-01T00:00:00Z,16385.6429
 iso:ercot,avg_wind_mw_h04,2026-03-01T00:00:00Z,20547.4839
@@ -3978,6 +4055,7 @@ iso:ercot,avg_wind_mw_h04,2026-06-01T00:00:00Z,16089.7
 iso:ercot,avg_wind_mw_h04,2026-07-01T00:00:00Z,13721.4516
 iso:ercot,avg_wind_mw_h04,2026-08-01T00:00:00Z,15715.2581
 iso:ercot,avg_wind_mw_h04,2026-09-01T00:00:00Z,13656.7333
+iso:ercot,avg_wind_mw_h05,2024-05-01T00:00:00Z,13858.6452
 iso:ercot,avg_wind_mw_h05,2026-01-01T00:00:00Z,14705.3871
 iso:ercot,avg_wind_mw_h05,2026-02-01T00:00:00Z,16249.5357
 iso:ercot,avg_wind_mw_h05,2026-03-01T00:00:00Z,20044.0323
@@ -3987,6 +4065,7 @@ iso:ercot,avg_wind_mw_h05,2026-06-01T00:00:00Z,15718.8333
 iso:ercot,avg_wind_mw_h05,2026-07-01T00:00:00Z,12817.9355
 iso:ercot,avg_wind_mw_h05,2026-08-01T00:00:00Z,14652.871
 iso:ercot,avg_wind_mw_h05,2026-09-01T00:00:00Z,12406.7
+iso:ercot,avg_wind_mw_h06,2024-05-01T00:00:00Z,13261.3548
 iso:ercot,avg_wind_mw_h06,2026-01-01T00:00:00Z,14526.2903
 iso:ercot,avg_wind_mw_h06,2026-02-01T00:00:00Z,16157.2143
 iso:ercot,avg_wind_mw_h06,2026-03-01T00:00:00Z,19616.1613
@@ -3996,6 +4075,7 @@ iso:ercot,avg_wind_mw_h06,2026-06-01T00:00:00Z,15338.1
 iso:ercot,avg_wind_mw_h06,2026-07-01T00:00:00Z,11973.9032
 iso:ercot,avg_wind_mw_h06,2026-08-01T00:00:00Z,13664.0323
 iso:ercot,avg_wind_mw_h06,2026-09-01T00:00:00Z,11429.0667
+iso:ercot,avg_wind_mw_h07,2024-05-01T00:00:00Z,12446.871
 iso:ercot,avg_wind_mw_h07,2026-01-01T00:00:00Z,14346.9355
 iso:ercot,avg_wind_mw_h07,2026-02-01T00:00:00Z,15767.8929
 iso:ercot,avg_wind_mw_h07,2026-03-01T00:00:00Z,18932.5484
@@ -4005,6 +4085,7 @@ iso:ercot,avg_wind_mw_h07,2026-06-01T00:00:00Z,14452.9
 iso:ercot,avg_wind_mw_h07,2026-07-01T00:00:00Z,10780.1935
 iso:ercot,avg_wind_mw_h07,2026-08-01T00:00:00Z,12513.3548
 iso:ercot,avg_wind_mw_h07,2026-09-01T00:00:00Z,10415.5
+iso:ercot,avg_wind_mw_h08,2024-05-01T00:00:00Z,11008.5484
 iso:ercot,avg_wind_mw_h08,2026-01-01T00:00:00Z,13548.3226
 iso:ercot,avg_wind_mw_h08,2026-02-01T00:00:00Z,13684.7857
 iso:ercot,avg_wind_mw_h08,2026-03-01T00:00:00Z,17340.2903
@@ -4014,6 +4095,7 @@ iso:ercot,avg_wind_mw_h08,2026-06-01T00:00:00Z,13492.0333
 iso:ercot,avg_wind_mw_h08,2026-07-01T00:00:00Z,9336.5161
 iso:ercot,avg_wind_mw_h08,2026-08-01T00:00:00Z,10336.0323
 iso:ercot,avg_wind_mw_h08,2026-09-01T00:00:00Z,8603.4333
+iso:ercot,avg_wind_mw_h09,2024-05-01T00:00:00Z,11165.9355
 iso:ercot,avg_wind_mw_h09,2026-01-01T00:00:00Z,11427.2258
 iso:ercot,avg_wind_mw_h09,2026-02-01T00:00:00Z,11371.8214
 iso:ercot,avg_wind_mw_h09,2026-03-01T00:00:00Z,15624.3548
@@ -4023,6 +4105,7 @@ iso:ercot,avg_wind_mw_h09,2026-06-01T00:00:00Z,13931.7
 iso:ercot,avg_wind_mw_h09,2026-07-01T00:00:00Z,10138.871
 iso:ercot,avg_wind_mw_h09,2026-08-01T00:00:00Z,10339.3548
 iso:ercot,avg_wind_mw_h09,2026-09-01T00:00:00Z,8141.3
+iso:ercot,avg_wind_mw_h10,2024-05-01T00:00:00Z,11514.4516
 iso:ercot,avg_wind_mw_h10,2026-01-01T00:00:00Z,10853.1613
 iso:ercot,avg_wind_mw_h10,2026-02-01T00:00:00Z,11059.0
 iso:ercot,avg_wind_mw_h10,2026-03-01T00:00:00Z,15100.3548
@@ -4032,6 +4115,7 @@ iso:ercot,avg_wind_mw_h10,2026-06-01T00:00:00Z,13630.5
 iso:ercot,avg_wind_mw_h10,2026-07-01T00:00:00Z,9592.7419
 iso:ercot,avg_wind_mw_h10,2026-08-01T00:00:00Z,9876.2581
 iso:ercot,avg_wind_mw_h10,2026-09-01T00:00:00Z,8311.5
+iso:ercot,avg_wind_mw_h11,2024-05-01T00:00:00Z,11189.5161
 iso:ercot,avg_wind_mw_h11,2026-01-01T00:00:00Z,10942.5806
 iso:ercot,avg_wind_mw_h11,2026-02-01T00:00:00Z,11020.7857
 iso:ercot,avg_wind_mw_h11,2026-03-01T00:00:00Z,14135.6774
@@ -4041,6 +4125,7 @@ iso:ercot,avg_wind_mw_h11,2026-06-01T00:00:00Z,13158.6333
 iso:ercot,avg_wind_mw_h11,2026-07-01T00:00:00Z,8670.2258
 iso:ercot,avg_wind_mw_h11,2026-08-01T00:00:00Z,8590.8387
 iso:ercot,avg_wind_mw_h11,2026-09-01T00:00:00Z,7849.7333
+iso:ercot,avg_wind_mw_h12,2024-05-01T00:00:00Z,10914.129
 iso:ercot,avg_wind_mw_h12,2026-01-01T00:00:00Z,11021.0645
 iso:ercot,avg_wind_mw_h12,2026-02-01T00:00:00Z,10959.0
 iso:ercot,avg_wind_mw_h12,2026-03-01T00:00:00Z,13176.0968
@@ -4050,6 +4135,7 @@ iso:ercot,avg_wind_mw_h12,2026-06-01T00:00:00Z,12953.3
 iso:ercot,avg_wind_mw_h12,2026-07-01T00:00:00Z,8189.3226
 iso:ercot,avg_wind_mw_h12,2026-08-01T00:00:00Z,7823.871
 iso:ercot,avg_wind_mw_h12,2026-09-01T00:00:00Z,7279.9667
+iso:ercot,avg_wind_mw_h13,2024-05-01T00:00:00Z,10795.8387
 iso:ercot,avg_wind_mw_h13,2026-01-01T00:00:00Z,10908.6129
 iso:ercot,avg_wind_mw_h13,2026-02-01T00:00:00Z,10859.6786
 iso:ercot,avg_wind_mw_h13,2026-03-01T00:00:00Z,12949.4516
@@ -4059,6 +4145,7 @@ iso:ercot,avg_wind_mw_h13,2026-06-01T00:00:00Z,12987.7667
 iso:ercot,avg_wind_mw_h13,2026-07-01T00:00:00Z,8370.4516
 iso:ercot,avg_wind_mw_h13,2026-08-01T00:00:00Z,7842.8387
 iso:ercot,avg_wind_mw_h13,2026-09-01T00:00:00Z,7301.2667
+iso:ercot,avg_wind_mw_h14,2024-05-01T00:00:00Z,10983.6129
 iso:ercot,avg_wind_mw_h14,2026-01-01T00:00:00Z,10604.6774
 iso:ercot,avg_wind_mw_h14,2026-02-01T00:00:00Z,10909.3214
 iso:ercot,avg_wind_mw_h14,2026-03-01T00:00:00Z,13212.8065
@@ -4068,6 +4155,7 @@ iso:ercot,avg_wind_mw_h14,2026-06-01T00:00:00Z,13276.9333
 iso:ercot,avg_wind_mw_h14,2026-07-01T00:00:00Z,9094.3548
 iso:ercot,avg_wind_mw_h14,2026-08-01T00:00:00Z,8350.0323
 iso:ercot,avg_wind_mw_h14,2026-09-01T00:00:00Z,7786.5333
+iso:ercot,avg_wind_mw_h15,2024-05-01T00:00:00Z,11491.0
 iso:ercot,avg_wind_mw_h15,2026-01-01T00:00:00Z,10429.0323
 iso:ercot,avg_wind_mw_h15,2026-02-01T00:00:00Z,11147.3571
 iso:ercot,avg_wind_mw_h15,2026-03-01T00:00:00Z,13678.5161
@@ -4077,6 +4165,7 @@ iso:ercot,avg_wind_mw_h15,2026-06-01T00:00:00Z,13798.8
 iso:ercot,avg_wind_mw_h15,2026-07-01T00:00:00Z,10032.6129
 iso:ercot,avg_wind_mw_h15,2026-08-01T00:00:00Z,9042.6452
 iso:ercot,avg_wind_mw_h15,2026-09-01T00:00:00Z,8640.0667
+iso:ercot,avg_wind_mw_h16,2024-05-01T00:00:00Z,12168.3548
 iso:ercot,avg_wind_mw_h16,2026-01-01T00:00:00Z,10329.1613
 iso:ercot,avg_wind_mw_h16,2026-02-01T00:00:00Z,11531.6429
 iso:ercot,avg_wind_mw_h16,2026-03-01T00:00:00Z,14284.3226
@@ -4086,6 +4175,7 @@ iso:ercot,avg_wind_mw_h16,2026-06-01T00:00:00Z,14457.7333
 iso:ercot,avg_wind_mw_h16,2026-07-01T00:00:00Z,11308.2581
 iso:ercot,avg_wind_mw_h16,2026-08-01T00:00:00Z,9903.0968
 iso:ercot,avg_wind_mw_h16,2026-09-01T00:00:00Z,9579.7333
+iso:ercot,avg_wind_mw_h17,2024-05-01T00:00:00Z,12924.129
 iso:ercot,avg_wind_mw_h17,2026-01-01T00:00:00Z,10435.0968
 iso:ercot,avg_wind_mw_h17,2026-02-01T00:00:00Z,12087.75
 iso:ercot,avg_wind_mw_h17,2026-03-01T00:00:00Z,15135.0323
@@ -4095,6 +4185,7 @@ iso:ercot,avg_wind_mw_h17,2026-06-01T00:00:00Z,15350.6
 iso:ercot,avg_wind_mw_h17,2026-07-01T00:00:00Z,12521.2581
 iso:ercot,avg_wind_mw_h17,2026-08-01T00:00:00Z,11020.9032
 iso:ercot,avg_wind_mw_h17,2026-09-01T00:00:00Z,10954.8667
+iso:ercot,avg_wind_mw_h18,2024-05-01T00:00:00Z,13734.0323
 iso:ercot,avg_wind_mw_h18,2026-01-01T00:00:00Z,11077.2581
 iso:ercot,avg_wind_mw_h18,2026-02-01T00:00:00Z,12925.3214
 iso:ercot,avg_wind_mw_h18,2026-03-01T00:00:00Z,16446.6129
@@ -4104,6 +4195,7 @@ iso:ercot,avg_wind_mw_h18,2026-06-01T00:00:00Z,16409.8667
 iso:ercot,avg_wind_mw_h18,2026-07-01T00:00:00Z,13627.6452
 iso:ercot,avg_wind_mw_h18,2026-08-01T00:00:00Z,12499.4839
 iso:ercot,avg_wind_mw_h18,2026-09-01T00:00:00Z,12501.1333
+iso:ercot,avg_wind_mw_h19,2024-05-01T00:00:00Z,14406.4194
 iso:ercot,avg_wind_mw_h19,2026-01-01T00:00:00Z,12319.3871
 iso:ercot,avg_wind_mw_h19,2026-02-01T00:00:00Z,14641.6071
 iso:ercot,avg_wind_mw_h19,2026-03-01T00:00:00Z,18183.0968
@@ -4113,6 +4205,7 @@ iso:ercot,avg_wind_mw_h19,2026-06-01T00:00:00Z,17831.8
 iso:ercot,avg_wind_mw_h19,2026-07-01T00:00:00Z,14653.1935
 iso:ercot,avg_wind_mw_h19,2026-08-01T00:00:00Z,13886.9355
 iso:ercot,avg_wind_mw_h19,2026-09-01T00:00:00Z,13526.7
+iso:ercot,avg_wind_mw_h20,2024-05-01T00:00:00Z,14978.4839
 iso:ercot,avg_wind_mw_h20,2026-01-01T00:00:00Z,13357.5806
 iso:ercot,avg_wind_mw_h20,2026-02-01T00:00:00Z,16062.9286
 iso:ercot,avg_wind_mw_h20,2026-03-01T00:00:00Z,20069.7419
@@ -4122,6 +4215,7 @@ iso:ercot,avg_wind_mw_h20,2026-06-01T00:00:00Z,18451.1
 iso:ercot,avg_wind_mw_h20,2026-07-01T00:00:00Z,15002.0323
 iso:ercot,avg_wind_mw_h20,2026-08-01T00:00:00Z,14878.0968
 iso:ercot,avg_wind_mw_h20,2026-09-01T00:00:00Z,14527.9333
+iso:ercot,avg_wind_mw_h21,2024-05-01T00:00:00Z,16077.5806
 iso:ercot,avg_wind_mw_h21,2026-01-01T00:00:00Z,14205.0645
 iso:ercot,avg_wind_mw_h21,2026-02-01T00:00:00Z,16794.3571
 iso:ercot,avg_wind_mw_h21,2026-03-01T00:00:00Z,21330.1935
@@ -4131,6 +4225,7 @@ iso:ercot,avg_wind_mw_h21,2026-06-01T00:00:00Z,19075.1667
 iso:ercot,avg_wind_mw_h21,2026-07-01T00:00:00Z,15720.8387
 iso:ercot,avg_wind_mw_h21,2026-08-01T00:00:00Z,16880.8387
 iso:ercot,avg_wind_mw_h21,2026-09-01T00:00:00Z,16106.3333
+iso:ercot,avg_wind_mw_h22,2024-05-01T00:00:00Z,16636.7742
 iso:ercot,avg_wind_mw_h22,2026-01-01T00:00:00Z,14766.7742
 iso:ercot,avg_wind_mw_h22,2026-02-01T00:00:00Z,17138.1429
 iso:ercot,avg_wind_mw_h22,2026-03-01T00:00:00Z,21926.2581
@@ -4140,6 +4235,7 @@ iso:ercot,avg_wind_mw_h22,2026-06-01T00:00:00Z,19826.9333
 iso:ercot,avg_wind_mw_h22,2026-07-01T00:00:00Z,16445.7097
 iso:ercot,avg_wind_mw_h22,2026-08-01T00:00:00Z,18388.8387
 iso:ercot,avg_wind_mw_h22,2026-09-01T00:00:00Z,17194.5667
+iso:ercot,avg_wind_mw_h23,2024-05-01T00:00:00Z,16804.1935
 iso:ercot,avg_wind_mw_h23,2026-01-01T00:00:00Z,15029.6452
 iso:ercot,avg_wind_mw_h23,2026-02-01T00:00:00Z,17206.5
 iso:ercot,avg_wind_mw_h23,2026-03-01T00:00:00Z,22123.8387
@@ -4309,6 +4405,7 @@ iso:ercot,day_shoulder_start_hour,2026-03-07T00:00:00Z,17.0
 iso:ercot,day_shoulder_start_hour,2026-03-23T00:00:00Z,19.0
 iso:ercot,day_shoulder_start_hour,2026-07-21T00:00:00Z,19.0
 iso:ercot,day_shoulder_start_hour,2026-07-31T00:00:00Z,19.0
+iso:ercot,days_held,2024-05-01T00:00:00Z,31.0
 iso:ercot,days_held,2026-01-01T00:00:00Z,31.0
 iso:ercot,days_held,2026-02-01T00:00:00Z,28.0
 iso:ercot,days_held,2026-03-01T00:00:00Z,31.0
@@ -4318,6 +4415,7 @@ iso:ercot,days_held,2026-06-01T00:00:00Z,30.0
 iso:ercot,days_held,2026-07-01T00:00:00Z,31.0
 iso:ercot,days_held,2026-08-01T00:00:00Z,31.0
 iso:ercot,days_held,2026-09-01T00:00:00Z,30.0
+iso:ercot,days_in_month,2024-05-01T00:00:00Z,31.0
 iso:ercot,days_in_month,2026-01-01T00:00:00Z,31.0
 iso:ercot,days_in_month,2026-02-01T00:00:00Z,28.0
 iso:ercot,days_in_month,2026-03-01T00:00:00Z,31.0
@@ -4327,6 +4425,7 @@ iso:ercot,days_in_month,2026-06-01T00:00:00Z,30.0
 iso:ercot,days_in_month,2026-07-01T00:00:00Z,31.0
 iso:ercot,days_in_month,2026-08-01T00:00:00Z,31.0
 iso:ercot,days_in_month,2026-09-01T00:00:00Z,30.0
+iso:ercot,evening_peak_hour,2024-05-01T00:00:00Z,20.0
 iso:ercot,evening_peak_hour,2026-01-01T00:00:00Z,18.0
 iso:ercot,evening_peak_hour,2026-02-01T00:00:00Z,18.0
 iso:ercot,evening_peak_hour,2026-03-01T00:00:00Z,19.0
@@ -4336,6 +4435,7 @@ iso:ercot,evening_peak_hour,2026-06-01T00:00:00Z,20.0
 iso:ercot,evening_peak_hour,2026-07-01T00:00:00Z,20.0
 iso:ercot,evening_peak_hour,2026-08-01T00:00:00Z,20.0
 iso:ercot,evening_peak_hour,2026-09-01T00:00:00Z,19.0
+iso:ercot,evening_peak_mw,2024-05-01T00:00:00Z,43883.5806
 iso:ercot,evening_peak_mw,2026-01-01T00:00:00Z,44579.5161
 iso:ercot,evening_peak_mw,2026-02-01T00:00:00Z,39287.3929
 iso:ercot,evening_peak_mw,2026-03-01T00:00:00Z,37069.7419
@@ -4345,6 +4445,7 @@ iso:ercot,evening_peak_mw,2026-06-01T00:00:00Z,52837.2
 iso:ercot,evening_peak_mw,2026-07-01T00:00:00Z,60621.6129
 iso:ercot,evening_peak_mw,2026-08-01T00:00:00Z,66315.7742
 iso:ercot,evening_peak_mw,2026-09-01T00:00:00Z,64173.5667
+iso:ercot,fleet_hours,2024-05-01T00:00:00Z,1.4356
 iso:ercot,fleet_hours,2026-01-01T00:00:00Z,1.554
 iso:ercot,fleet_hours,2026-02-01T00:00:00Z,1.5444
 iso:ercot,fleet_hours,2026-03-01T00:00:00Z,1.5379
@@ -4353,6 +4454,7 @@ iso:ercot,fleet_hours,2026-05-01T00:00:00Z,1.555
 iso:ercot,fleet_hours,2026-06-01T00:00:00Z,1.6212
 iso:ercot,fleet_hours,2026-07-01T00:00:00Z,1.647
 iso:ercot,fleet_hours,2026-08-01T00:00:00Z,1.649
+iso:ercot,fleet_mw,2024-05-01T00:00:00Z,4698.9
 iso:ercot,fleet_mw,2026-01-01T00:00:00Z,14204.2
 iso:ercot,fleet_mw,2026-02-01T00:00:00Z,15182.1
 iso:ercot,fleet_mw,2026-03-01T00:00:00Z,15667.0
@@ -4361,6 +4463,7 @@ iso:ercot,fleet_mw,2026-05-01T00:00:00Z,16306.5
 iso:ercot,fleet_mw,2026-06-01T00:00:00Z,17324.7
 iso:ercot,fleet_mw,2026-07-01T00:00:00Z,18069.6
 iso:ercot,fleet_mw,2026-08-01T00:00:00Z,18204.5
+iso:ercot,fleet_mwh,2024-05-01T00:00:00Z,6745.6
 iso:ercot,fleet_mwh,2026-01-01T00:00:00Z,22073.7
 iso:ercot,fleet_mwh,2026-02-01T00:00:00Z,23446.7
 iso:ercot,fleet_mwh,2026-03-01T00:00:00Z,24094.1
@@ -4369,6 +4472,7 @@ iso:ercot,fleet_mwh,2026-05-01T00:00:00Z,25355.8
 iso:ercot,fleet_mwh,2026-06-01T00:00:00Z,28087.1
 iso:ercot,fleet_mwh,2026-07-01T00:00:00Z,29759.9
 iso:ercot,fleet_mwh,2026-08-01T00:00:00Z,30019.8
+iso:ercot,midday_low_hour,2024-05-01T00:00:00Z,3.0
 iso:ercot,midday_low_hour,2026-01-01T00:00:00Z,13.0
 iso:ercot,midday_low_hour,2026-02-01T00:00:00Z,11.0
 iso:ercot,midday_low_hour,2026-03-01T00:00:00Z,10.0
@@ -4378,6 +4482,7 @@ iso:ercot,midday_low_hour,2026-06-01T00:00:00Z,9.0
 iso:ercot,midday_low_hour,2026-07-01T00:00:00Z,9.0
 iso:ercot,midday_low_hour,2026-08-01T00:00:00Z,9.0
 iso:ercot,midday_low_hour,2026-09-01T00:00:00Z,9.0
+iso:ercot,midday_surplus_hours,2024-05-01T00:00:00Z,13.0
 iso:ercot,midday_surplus_hours,2026-01-01T00:00:00Z,8.0
 iso:ercot,midday_surplus_hours,2026-02-01T00:00:00Z,9.0
 iso:ercot,midday_surplus_hours,2026-03-01T00:00:00Z,8.0
@@ -4387,6 +4492,7 @@ iso:ercot,midday_surplus_hours,2026-06-01T00:00:00Z,10.0
 iso:ercot,midday_surplus_hours,2026-07-01T00:00:00Z,10.0
 iso:ercot,midday_surplus_hours,2026-08-01T00:00:00Z,14.0
 iso:ercot,midday_surplus_hours,2026-09-01T00:00:00Z,7.0
+iso:ercot,midday_surplus_mwh,2024-05-01T00:00:00Z,49425.2097
 iso:ercot,midday_surplus_mwh,2026-01-01T00:00:00Z,67976.914
 iso:ercot,midday_surplus_mwh,2026-02-01T00:00:00Z,71725.1384
 iso:ercot,midday_surplus_mwh,2026-03-01T00:00:00Z,54303.7534
@@ -4396,6 +4502,7 @@ iso:ercot,midday_surplus_mwh,2026-06-01T00:00:00Z,55163.7806
 iso:ercot,midday_surplus_mwh,2026-07-01T00:00:00Z,64618.3898
 iso:ercot,midday_surplus_mwh,2026-08-01T00:00:00Z,80960.5054
 iso:ercot,midday_surplus_mwh,2026-09-01T00:00:00Z,59010.2389
+iso:ercot,net_load_mean_mw,2024-05-01T00:00:00Z,34936.0806
 iso:ercot,net_load_mean_mw,2026-01-01T00:00:00Z,34458.1667
 iso:ercot,net_load_mean_mw,2026-02-01T00:00:00Z,27138.1146
 iso:ercot,net_load_mean_mw,2026-03-01T00:00:00Z,24023.4248
@@ -4405,6 +4512,7 @@ iso:ercot,net_load_mean_mw,2026-06-01T00:00:00Z,38607.3847
 iso:ercot,net_load_mean_mw,2026-07-01T00:00:00Z,43766.1358
 iso:ercot,net_load_mean_mw,2026-08-01T00:00:00Z,46449.914
 iso:ercot,net_load_mean_mw,2026-09-01T00:00:00Z,46795.1722
+iso:ercot,shoulder2_end_hour,2024-05-01T00:00:00Z,22.0
 iso:ercot,shoulder2_end_hour,2026-01-01T00:00:00Z,22.0
 iso:ercot,shoulder2_end_hour,2026-02-01T00:00:00Z,22.0
 iso:ercot,shoulder2_end_hour,2026-03-01T00:00:00Z,22.0
@@ -4414,6 +4522,7 @@ iso:ercot,shoulder2_end_hour,2026-06-01T00:00:00Z,23.0
 iso:ercot,shoulder2_end_hour,2026-07-01T00:00:00Z,23.0
 iso:ercot,shoulder2_end_hour,2026-08-01T00:00:00Z,22.0
 iso:ercot,shoulder2_end_hour,2026-09-01T00:00:00Z,22.0
+iso:ercot,shoulder2_hours,2024-05-01T00:00:00Z,3.0
 iso:ercot,shoulder2_hours,2026-01-01T00:00:00Z,5.0
 iso:ercot,shoulder2_hours,2026-02-01T00:00:00Z,4.0
 iso:ercot,shoulder2_hours,2026-03-01T00:00:00Z,4.0
@@ -4423,6 +4532,7 @@ iso:ercot,shoulder2_hours,2026-06-01T00:00:00Z,4.0
 iso:ercot,shoulder2_hours,2026-07-01T00:00:00Z,4.0
 iso:ercot,shoulder2_hours,2026-08-01T00:00:00Z,3.0
 iso:ercot,shoulder2_hours,2026-09-01T00:00:00Z,4.0
+iso:ercot,shoulder2_hours_covered,2024-05-01T00:00:00Z,1.4356
 iso:ercot,shoulder2_hours_covered,2026-01-01T00:00:00Z,1.554
 iso:ercot,shoulder2_hours_covered,2026-02-01T00:00:00Z,1.5444
 iso:ercot,shoulder2_hours_covered,2026-03-01T00:00:00Z,1.5379
@@ -4431,6 +4541,7 @@ iso:ercot,shoulder2_hours_covered,2026-05-01T00:00:00Z,1.555
 iso:ercot,shoulder2_hours_covered,2026-06-01T00:00:00Z,1.6212
 iso:ercot,shoulder2_hours_covered,2026-07-01T00:00:00Z,1.647
 iso:ercot,shoulder2_hours_covered,2026-08-01T00:00:00Z,1.649
+iso:ercot,shoulder2_hours_needed,2024-05-01T00:00:00Z,2.141
 iso:ercot,shoulder2_hours_needed,2026-01-01T00:00:00Z,1.0115
 iso:ercot,shoulder2_hours_needed,2026-02-01T00:00:00Z,0.9148
 iso:ercot,shoulder2_hours_needed,2026-03-01T00:00:00Z,0.95
@@ -4439,6 +4550,7 @@ iso:ercot,shoulder2_hours_needed,2026-05-01T00:00:00Z,1.0456
 iso:ercot,shoulder2_hours_needed,2026-06-01T00:00:00Z,0.9534
 iso:ercot,shoulder2_hours_needed,2026-07-01T00:00:00Z,1.0852
 iso:ercot,shoulder2_hours_needed,2026-08-01T00:00:00Z,1.2374
+iso:ercot,shoulder2_level_mw,2024-05-01T00:00:00Z,39409.8306
 iso:ercot,shoulder2_level_mw,2026-01-01T00:00:00Z,39518.8414
 iso:ercot,shoulder2_level_mw,2026-02-01T00:00:00Z,33212.7537
 iso:ercot,shoulder2_level_mw,2026-03-01T00:00:00Z,30546.5834
@@ -4448,6 +4560,7 @@ iso:ercot,shoulder2_level_mw,2026-06-01T00:00:00Z,45722.2924
 iso:ercot,shoulder2_level_mw,2026-07-01T00:00:00Z,52193.8743
 iso:ercot,shoulder2_level_mw,2026-08-01T00:00:00Z,56382.8441
 iso:ercot,shoulder2_level_mw,2026-09-01T00:00:00Z,55484.3694
+iso:ercot,shoulder2_mwh_above_midpoint,2024-05-01T00:00:00Z,10060.121
 iso:ercot,shoulder2_mwh_above_midpoint,2026-01-01T00:00:00Z,14366.8575
 iso:ercot,shoulder2_mwh_above_midpoint,2026-02-01T00:00:00Z,13888.9851
 iso:ercot,shoulder2_mwh_above_midpoint,2026-03-01T00:00:00Z,14883.4084
@@ -4457,6 +4570,7 @@ iso:ercot,shoulder2_mwh_above_midpoint,2026-06-01T00:00:00Z,16517.0972
 iso:ercot,shoulder2_mwh_above_midpoint,2026-07-01T00:00:00Z,19608.8253
 iso:ercot,shoulder2_mwh_above_midpoint,2026-08-01T00:00:00Z,22526.3387
 iso:ercot,shoulder2_mwh_above_midpoint,2026-09-01T00:00:00Z,20599.7889
+iso:ercot,shoulder2_runs_to_midnight,2024-05-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-01-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-02-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-03-01T00:00:00Z,0.0
@@ -4466,6 +4580,7 @@ iso:ercot,shoulder2_runs_to_midnight,2026-06-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-07-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-08-01T00:00:00Z,0.0
 iso:ercot,shoulder2_runs_to_midnight,2026-09-01T00:00:00Z,0.0
+iso:ercot,shoulder2_start_hour,2024-05-01T00:00:00Z,19.0
 iso:ercot,shoulder2_start_hour,2026-01-01T00:00:00Z,17.0
 iso:ercot,shoulder2_start_hour,2026-02-01T00:00:00Z,18.0
 iso:ercot,shoulder2_start_hour,2026-03-01T00:00:00Z,18.0
@@ -4475,6 +4590,7 @@ iso:ercot,shoulder2_start_hour,2026-06-01T00:00:00Z,19.0
 iso:ercot,shoulder2_start_hour,2026-07-01T00:00:00Z,19.0
 iso:ercot,shoulder2_start_hour,2026-08-01T00:00:00Z,19.0
 iso:ercot,shoulder2_start_hour,2026-09-01T00:00:00Z,18.0
+iso:ercot,shoulder_end_hour,2024-05-01T00:00:00Z,23.0
 iso:ercot,shoulder_end_hour,2026-01-01T00:00:00Z,24.0
 iso:ercot,shoulder_end_hour,2026-02-01T00:00:00Z,24.0
 iso:ercot,shoulder_end_hour,2026-03-01T00:00:00Z,24.0
@@ -4484,6 +4600,7 @@ iso:ercot,shoulder_end_hour,2026-06-01T00:00:00Z,24.0
 iso:ercot,shoulder_end_hour,2026-07-01T00:00:00Z,24.0
 iso:ercot,shoulder_end_hour,2026-08-01T00:00:00Z,24.0
 iso:ercot,shoulder_end_hour,2026-09-01T00:00:00Z,24.0
+iso:ercot,shoulder_hours,2024-05-01T00:00:00Z,4.0
 iso:ercot,shoulder_hours,2026-01-01T00:00:00Z,7.0
 iso:ercot,shoulder_hours,2026-02-01T00:00:00Z,7.0
 iso:ercot,shoulder_hours,2026-03-01T00:00:00Z,6.0
@@ -4493,6 +4610,7 @@ iso:ercot,shoulder_hours,2026-06-01T00:00:00Z,5.0
 iso:ercot,shoulder_hours,2026-07-01T00:00:00Z,5.0
 iso:ercot,shoulder_hours,2026-08-01T00:00:00Z,5.0
 iso:ercot,shoulder_hours,2026-09-01T00:00:00Z,6.0
+iso:ercot,shoulder_hours_covered,2024-05-01T00:00:00Z,1.4356
 iso:ercot,shoulder_hours_covered,2026-01-01T00:00:00Z,1.554
 iso:ercot,shoulder_hours_covered,2026-02-01T00:00:00Z,1.5444
 iso:ercot,shoulder_hours_covered,2026-03-01T00:00:00Z,1.5379
@@ -4501,6 +4619,7 @@ iso:ercot,shoulder_hours_covered,2026-05-01T00:00:00Z,1.555
 iso:ercot,shoulder_hours_covered,2026-06-01T00:00:00Z,1.6212
 iso:ercot,shoulder_hours_covered,2026-07-01T00:00:00Z,1.647
 iso:ercot,shoulder_hours_covered,2026-08-01T00:00:00Z,1.649
+iso:ercot,shoulder_hours_needed,2024-05-01T00:00:00Z,5.7134
 iso:ercot,shoulder_hours_needed,2026-01-01T00:00:00Z,3.2742
 iso:ercot,shoulder_hours_needed,2026-02-01T00:00:00Z,3.3127
 iso:ercot,shoulder_hours_needed,2026-03-01T00:00:00Z,3.1788
@@ -4509,6 +4628,7 @@ iso:ercot,shoulder_hours_needed,2026-05-01T00:00:00Z,3.0834
 iso:ercot,shoulder_hours_needed,2026-06-01T00:00:00Z,2.8902
 iso:ercot,shoulder_hours_needed,2026-07-01T00:00:00Z,3.3078
 iso:ercot,shoulder_hours_needed,2026-08-01T00:00:00Z,3.6601
+iso:ercot,shoulder_mwh_above_mean,2024-05-01T00:00:00Z,26846.5484
 iso:ercot,shoulder_mwh_above_mean,2026-01-01T00:00:00Z,46508.0591
 iso:ercot,shoulder_mwh_above_mean,2026-02-01T00:00:00Z,50293.2336
 iso:ercot,shoulder_mwh_above_mean,2026-03-01T00:00:00Z,49802.6769
@@ -4518,6 +4638,7 @@ iso:ercot,shoulder_mwh_above_mean,2026-06-01T00:00:00Z,50071.6431
 iso:ercot,shoulder_mwh_above_mean,2026-07-01T00:00:00Z,59770.9987
 iso:ercot,shoulder_mwh_above_mean,2026-08-01T00:00:00Z,66629.8817
 iso:ercot,shoulder_mwh_above_mean,2026-09-01T00:00:00Z,64370.3667
+iso:ercot,shoulder_runs_to_midnight,2024-05-01T00:00:00Z,0.0
 iso:ercot,shoulder_runs_to_midnight,2026-01-01T00:00:00Z,1.0
 iso:ercot,shoulder_runs_to_midnight,2026-02-01T00:00:00Z,1.0
 iso:ercot,shoulder_runs_to_midnight,2026-03-01T00:00:00Z,1.0
@@ -4527,6 +4648,7 @@ iso:ercot,shoulder_runs_to_midnight,2026-06-01T00:00:00Z,1.0
 iso:ercot,shoulder_runs_to_midnight,2026-07-01T00:00:00Z,1.0
 iso:ercot,shoulder_runs_to_midnight,2026-08-01T00:00:00Z,1.0
 iso:ercot,shoulder_runs_to_midnight,2026-09-01T00:00:00Z,1.0
+iso:ercot,shoulder_start_hour,2024-05-01T00:00:00Z,19.0
 iso:ercot,shoulder_start_hour,2026-01-01T00:00:00Z,17.0
 iso:ercot,shoulder_start_hour,2026-02-01T00:00:00Z,17.0
 iso:ercot,shoulder_start_hour,2026-03-01T00:00:00Z,18.0

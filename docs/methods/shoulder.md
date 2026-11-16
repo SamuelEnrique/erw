@@ -83,6 +83,7 @@ These are the lines of the page's block "Decisions on this page" (`site/app/shou
 | `average-day` | A month is its average day over its complete days; under 90 percent of days complete, the month is not shown | 90 percent; nothing filled | session 75; EIA Form EIA-930 |
 | `net-load` | Net load is demand less solar and wind | SUN plus SNB, WND plus WNB; imports, hydro, gas and batteries not subtracted | EIA Form EIA-930 |
 | `local-time` | Hours are the grid's clock hours, daylight saving included | Central, Pacific; a day of 23 or 25 hours is never ranked | sessions 75 and 80 |
+| `surplus` | The midday surplus is the run around net load's lowest hour of the whole day | the lowest hour wherever it falls: 09:00 to 14:00 in California; 01:00 to 04:00 in 60 of Texas's 93 months (the last of them May 2024), where the run is mostly the night's | session 75; counted by session 7503 |
 | `fleet` | The fleet is the batteries operating that month in EIA's inventory | EIA-860M operating units; a grid operator's own count is larger (section 9) | `storage_buildout_monthly` |
 | `covered-needed` | Hours covered and hours needed, as rule 5 | the batteries alone, at rated power, full at the start, no losses, no transmission limit | session 75 |
 | `worst-days` | The ten days of each year with the most shoulder energy above the day's own mean | ten; among complete days of 24 hours with a shoulder | session 80 |
@@ -95,7 +96,7 @@ These are the lines of the page's block "Decisions on this page" (`site/app/shou
 
 ## 6. The decisions on the page
 
-The block is drawn under the folds, closed to start, one line a choice, each with a tip that holds its default and its source (no grey text). Its keys, in order: `level`, `start`, `end`, `energy`, `second`, `average-day`, `net-load`, `local-time`, `fleet`, `covered-needed`, `worst-days`, `california`, `late-hours`, `impossible-hours`, `texas-batteries`, `curtailment`, `opening`. `tests/test_session7503_shoulder.py` holds this list to the page's.
+The block is drawn under the folds, closed to start, one line a choice, each with a tip that holds its default and its source (no grey text). Its keys, in order: `level`, `start`, `end`, `energy`, `second`, `average-day`, `net-load`, `local-time`, `surplus`, `fleet`, `covered-needed`, `worst-days`, `california`, `late-hours`, `impossible-hours`, `texas-batteries`, `curtailment`, `opening`. `tests/test_session7503_shoulder.py` holds this list to the page's.
 
 ## 7. What the tool does not hold
 
@@ -143,10 +144,11 @@ Not comparable, and why: CAISO's market monitor's 9,100 MW of average battery di
 1. **Which fleet.** The page sets the shoulder against EIA-860M's operating batteries. ERCOT's market monitor counts more than 17,000 MW and 31,500 MWh at the end of 2025 where the page has 13,909 MW and 21,579 MWh. On the monitor's figures, December 2025's hours needed would be 1.99, not 2.43 (33,810 MWh over 17,000 MW, not over 13,909), and the fleet's hours 1.83, not 1.55. Default taken: EIA-860M stays (one source for both grids, monthly since 2015), and the page's block names the difference.
 2. **The level.** `shoulder_hours.md` already asks: the shoulder ends at midnight in California every month and in Texas since 2025. Default taken: both measures stay, the first as the headline.
 3. **The page's notes are grey text.** The headline numbers', the charts' and the sections' notes are drawn grey by the tools' shared frame (`site/components/tool/ToolPage.tsx`), against the page standard (hover tips only). Default taken: not changed here, since the frame is shared by every tool; the new block has no grey text.
-4. **A and B.** The page shows one grid and one month at a time; a reader comparing Texas with California, or a month with the same month a year before, changes the address. Default taken: not built.
+4. **The midday surplus in Texas was mostly the night until 2024.** The surplus is measured around net load's lowest hour of the day. In California that hour is between 09:00 and 14:00 in every month. In Texas it was between 01:00 and 04:00 in 60 of 93 months, every one of them before June 2024 (wind is high and demand low before dawn), so "the midday surplus" of those months is a run from the small hours into the morning. Since July 2024 the lowest hour is between 09:00 and 14:00, but the run still starts in the night (August 2026: 01:00 to 15:00, 14 hours, around a low at 09:00). Default taken: the rule and the name stay; the page now says so in a tip beside the figure when the lowest hour is before 08:00, and in its decisions. A rule that looks for the low only while the sun is up is the builder's to change, on the owner's word.
+5. **A and B.** The page shows one grid and one month at a time; a reader comparing Texas with California, or a month with the same month a year before, changes the address. Default taken: not built.
 
 ## Sign-off
 
-What is signed for this tool: this note; `shoulder_hours.md`; `replication/shoulder/` (20,633 of 20,634, one rounding edge named; 22,092 of 22,092 from the hours); the cross-check of section 9; the 17 decisions of section 5.
+What is signed for this tool: this note; `shoulder_hours.md`; `replication/shoulder/` (20,633 of 20,634, one rounding edge named; 22,092 of 22,092 from the hours); the cross-check of section 9; the 18 decisions of section 5.
 
 Signed: ____________________  Date: ____________
