@@ -8,7 +8,7 @@
 //   node scripts/map-figures.mjs <out.json>      # written to a file
 //
 // A view is an address of the page (the part after /map). The list: no choice; every option of the five lists alone
-// (4 kinds, 9 grids, 17 technologies, 19 statuses, 53 states); and the combinations a reader makes (two lists at once,
+// (4 kinds, 9 grids, 17 technologies, 19 statuses, 53 states); and 20 combinations a reader makes (two lists at once,
 // a size from and to, a state with a kind). A figure's key is "<view>|<what>"; its value is the number the page writes
 // (a whole number: the page rounds a sum of megawatts once, with Math.round).
 import fs from "node:fs";
@@ -23,8 +23,8 @@ const views = [""];
 for (const which of L.FILTERS) for (const slug of L.optionsOf(f, which)) views.push(`?${which}=${encodeURIComponent(slug)}`);
 views.push("?grid=ercot&tech=solar,battery", "?kind=operating,planned&state=TX,CA&min=100&max=500", "?kind=queue&grid=ercot", "?status=u,v,ts", "?min=1000",
   "?max=1", "?kind=planned&tech=battery", "?kind=operating&grid=caiso&tech=battery", "?kind=queue&state=TX&tech=queue_storage,hybrid", "?kind=datacenter&state=VA",
-  "?kind=operating&tech=nuclear", "?kind=operating,planned&grid=outside", "?state=PR", "?kind=none", "?kind=queue&min=500", "?kind=datacenter&min=100",
-  "?grid=pjm&status=operating&tech=natural_gas,coal", "?kind=planned&status=p,l,t", "?state=TX&min=200&max=400");
+  "?kind=operating&tech=nuclear", "?kind=operating,planned&grid=outside", "?kind=none", "?kind=queue&min=500", "?kind=datacenter&min=100",
+  "?grid=pjm&status=operating&tech=natural_gas,coal", "?kind=planned&status=p,l,t", "?state=TX&min=200&max=400", "?grid=ercot&tech=battery", "?grid=ercot&tech=battery&min=100");
 
 const round = (v) => Math.round(v);
 const figures = [];

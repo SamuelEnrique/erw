@@ -1,7 +1,7 @@
 {
  "tool": "/map",
  "tab": "projects",
- "written": "2026-11-16T12:39:39Z",
+ "written": "2026-11-16T12:43:51Z",
  "page_file_built": "2026-11-15T18:20:08Z",
  "eia_month": "2026-09",
  "workbook": {
@@ -14,7 +14,7 @@
  "queue_vintage_on_the_page": "2026-10-26",
  "datacenter_vintage_read": "2026-11-15",
  "datacenter_vintage_on_the_page": "2026-11-15",
- "views": 121,
+ "views": 123,
  "rows": [
   {
    "kind": "operating",
@@ -56,13 +56,13 @@
  "row_fields_the_same": 34910,
  "row_fields_compared": 34980,
  "tally": {
-  "figures": 6063,
-  "inside": 5762,
+  "figures": 6094,
+  "inside": 5793,
   "named": 301,
   "outside": 0,
   "one_side": 0,
-  "units_alone": 3767,
-  "units_alone_inside": 3767
+  "units_alone": 3790,
+  "units_alone_inside": 3790
  },
  "note": "the page's figure is what its own functions compute on its own file (site/scripts/map-figures.mjs); the replication's is computed from EIA's workbook and the live set's rows by the rules of docs/methods/map.md. Datacenter rows are held (license needed): only counts and sums are written here",
  "figures": [
@@ -41033,279 +41033,6 @@
    "inside": true
   },
   {
-   "key": "?state=PR|rows",
-   "page": 231,
-   "replication": 231,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|units",
-   "page": 231,
-   "replication": 231,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|units_mw",
-   "page": 6497,
-   "replication": 6496.5,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|queue",
-   "page": 0,
-   "replication": 0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|queue_mw",
-   "page": 0,
-   "replication": 0.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|datacenters",
-   "page": 0,
-   "replication": 0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|datacenters_mw",
-   "page": 0,
-   "replication": 0.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|datacenters_with_mw",
-   "page": 0,
-   "replication": 0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|operating|rows",
-   "page": 228,
-   "replication": 228,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|operating|with_mw",
-   "page": 228,
-   "replication": 228,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|operating|mw",
-   "page": 6474,
-   "replication": 6474.3,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|v|rows",
-   "page": 2,
-   "replication": 2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|v|with_mw",
-   "page": 2,
-   "replication": 2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|v|mw",
-   "page": 2,
-   "replication": 2.2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|ts|rows",
-   "page": 1,
-   "replication": 1,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|ts|with_mw",
-   "page": 1,
-   "replication": 1,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|status|ts|mw",
-   "page": 20,
-   "replication": 20.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|solar|operating|rows",
-   "page": 20,
-   "replication": 20,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|solar|operating|mw",
-   "page": 167,
-   "replication": 167.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|solar|planned|rows",
-   "page": 2,
-   "replication": 2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|solar|planned|mw",
-   "page": 22,
-   "replication": 22.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|wind|operating|rows",
-   "page": 3,
-   "replication": 3,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|wind|operating|mw",
-   "page": 128,
-   "replication": 127.8,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|battery|operating|rows",
-   "page": 9,
-   "replication": 9,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|battery|operating|mw",
-   "page": 38,
-   "replication": 38.2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|battery|planned|rows",
-   "page": 1,
-   "replication": 1,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|battery|planned|mw",
-   "page": 0,
-   "replication": 0.2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|natural_gas|operating|rows",
-   "page": 24,
-   "replication": 24,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|natural_gas|operating|mw",
-   "page": 1450,
-   "replication": 1449.9,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|coal|operating|rows",
-   "page": 2,
-   "replication": 2,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|coal|operating|mw",
-   "page": 510,
-   "replication": 510.0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|hydro|operating|rows",
-   "page": 20,
-   "replication": 20,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|hydro|operating|mw",
-   "page": 98,
-   "replication": 98.1,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|petroleum|operating|rows",
-   "page": 146,
-   "replication": 146,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|petroleum|operating|mw",
-   "page": 4079,
-   "replication": 4078.5,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|biomass|operating|rows",
-   "page": 4,
-   "replication": 4,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|tech|biomass|operating|mw",
-   "page": 5,
-   "replication": 4.8,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|drawn",
-   "page": 0,
-   "replication": 0,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
-   "key": "?state=PR|not_drawn",
-   "page": 231,
-   "replication": 231,
-   "tolerance": 0.5,
-   "inside": true
-  },
-  {
    "key": "?kind=none|rows",
    "page": 0,
    "replication": 0,
@@ -42676,6 +42403,496 @@
    "key": "?state=TX&min=200&max=400|not_drawn",
    "page": 2,
    "replication": 2,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|rows",
+   "page": 411,
+   "replication": 411,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|units",
+   "page": 411,
+   "replication": 411,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|units_mw",
+   "page": 43353,
+   "replication": 43353.4,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|queue",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|queue_mw",
+   "page": 0,
+   "replication": 0.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|datacenters",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|datacenters_mw",
+   "page": 0,
+   "replication": 0.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|datacenters_with_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|operating|rows",
+   "page": 266,
+   "replication": 266,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|operating|with_mw",
+   "page": 266,
+   "replication": 266,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|operating|mw",
+   "page": 19195,
+   "replication": 19194.6,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|p|rows",
+   "page": 49,
+   "replication": 49,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|p|with_mw",
+   "page": 49,
+   "replication": 49,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|p|mw",
+   "page": 10406,
+   "replication": 10406.2,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|l|rows",
+   "page": 31,
+   "replication": 31,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|l|with_mw",
+   "page": 31,
+   "replication": 31,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|l|mw",
+   "page": 4686,
+   "replication": 4686.4,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|t|rows",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|t|with_mw",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|t|mw",
+   "page": 1167,
+   "replication": 1166.7,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|u|rows",
+   "page": 20,
+   "replication": 20,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|u|with_mw",
+   "page": 20,
+   "replication": 20,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|u|mw",
+   "page": 3774,
+   "replication": 3773.6,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|v|rows",
+   "page": 26,
+   "replication": 26,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|v|with_mw",
+   "page": 26,
+   "replication": 26,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|v|mw",
+   "page": 2731,
+   "replication": 2731.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|ts|rows",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|ts|with_mw",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|status|ts|mw",
+   "page": 1395,
+   "replication": 1394.9,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|tech|battery|operating|rows",
+   "page": 266,
+   "replication": 266,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|tech|battery|operating|mw",
+   "page": 19195,
+   "replication": 19194.6,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|tech|battery|planned|rows",
+   "page": 145,
+   "replication": 145,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|tech|battery|planned|mw",
+   "page": 24159,
+   "replication": 24158.8,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|drawn",
+   "page": 411,
+   "replication": 411,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery|not_drawn",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|rows",
+   "page": 206,
+   "replication": 206,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|units",
+   "page": 206,
+   "replication": 206,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|units_mw",
+   "page": 38759,
+   "replication": 38758.6,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|queue",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|queue_mw",
+   "page": 0,
+   "replication": 0.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|datacenters",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|datacenters_mw",
+   "page": 0,
+   "replication": 0.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|datacenters_with_mw",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|operating|rows",
+   "page": 98,
+   "replication": 98,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|operating|with_mw",
+   "page": 98,
+   "replication": 98,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|operating|mw",
+   "page": 15912,
+   "replication": 15912.2,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|p|rows",
+   "page": 47,
+   "replication": 47,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|p|with_mw",
+   "page": 47,
+   "replication": 47,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|p|mw",
+   "page": 10279,
+   "replication": 10278.5,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|l|rows",
+   "page": 22,
+   "replication": 22,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|l|with_mw",
+   "page": 22,
+   "replication": 22,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|l|mw",
+   "page": 4231,
+   "replication": 4231.0,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|t|rows",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|t|with_mw",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|t|mw",
+   "page": 993,
+   "replication": 993.1,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|u|rows",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|u|with_mw",
+   "page": 17,
+   "replication": 17,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|u|mw",
+   "page": 3631,
+   "replication": 3630.7,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|v|rows",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|v|with_mw",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|v|mw",
+   "page": 2388,
+   "replication": 2388.3,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|ts|rows",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|ts|with_mw",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|status|ts|mw",
+   "page": 1325,
+   "replication": 1324.8,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|tech|battery|operating|rows",
+   "page": 98,
+   "replication": 98,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|tech|battery|operating|mw",
+   "page": 15912,
+   "replication": 15912.2,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|tech|battery|planned|rows",
+   "page": 108,
+   "replication": 108,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|tech|battery|planned|mw",
+   "page": 22846,
+   "replication": 22846.4,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|drawn",
+   "page": 206,
+   "replication": 206,
+   "tolerance": 0.5,
+   "inside": true
+  },
+  {
+   "key": "?grid=ercot&tech=battery&min=100|not_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5,
    "inside": true
   },

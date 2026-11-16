@@ -98,7 +98,7 @@ The plane is the Albers projection the state outlines are drawn with (us-atlas: 
 
 EIA publishes its own totals of the same inventory: the Electric Power Monthly, Table 6.1, "Electric Generating Summer Capacity Changes (MW)", net summer capacity of utility-scale facilities in service at the end of a month, by technology. It differs from the map's figure in two ways, both EIA's own: it is one month behind the inventory (the table read on 16 November 2026 is of the end of August 2026; the map holds September 2026), and it is net summer capacity where the map sums nameplate. So the cross-check (`replication/map/crosscheck.py`, `crosscheck.csv`) sets three columns side by side for each of EIA's 27 technologies: the map's nameplate megawatts; the same operating units' net summer megawatts from the same workbook, for the 50 states and the District of Columbia; EIA's table.
 
-- For 17 of the 27 technologies the two net summer figures are the same to the tenth of a megawatt (nuclear 98,423.3; conventional steam coal 167,235.5; natural gas combined cycle 295,138.4; conventional hydroelectric 80,046.2).
+- For 18 of the 27 technologies the two net summer figures are the same to the tenth of a megawatt (nuclear 98,423.3; conventional steam coal 167,235.5; natural gas combined cycle 295,138.4; conventional hydroelectric 80,046.2).
 - The others differ by what a month added or took away: solar photovoltaic 169,644.1 against 166,677.0 (2,967.1 more, 1.78 percent); batteries 55,707.8 against 54,097.0 (1,610.8 more, 2.98 percent); natural gas combustion turbines 491.7 more; onshore wind 224.8 more; geothermal 30.0 more; landfill gas 4.0 less; petroleum liquids 3.6 less.
 - Every technology together: 1,324,124.6 MW net summer in the map's units against 1,318,801.0 MW in EIA's table: 5,323.6 MW more, 0.40 percent, one month of change.
 - The map's own figure, nameplate, is 1,423,491.7 MW for the same 28,712 units: 7.5 percent above their net summer capacity. A reader comparing the map with a published "US capacity" should expect that gap; it is the difference of the two measures, not of the units.
@@ -111,12 +111,12 @@ No figure is adjusted to match.
 `replication/map/`:
 
 - `fetch_rows.py` reads EIA's own workbook of the month the page's file names (from the address the file carries), the queue positions of `energy_projects` and the facilities of `datacenter_facilities` from the live set, into `rows/` (never in git: the tracker's rows are held).
-- `site/scripts/map-figures.mjs` runs the page's own functions on the page's own file for 122 views (no choice; every option of the five lists alone; 19 combinations) and writes the figure the page draws for each: 6,063 figures.
+- `site/scripts/map-figures.mjs` runs the page's own functions on the page's own file for 123 views (no choice; every option of the five lists alone; 20 combinations) and writes the figure the page draws for each: 6,094 figures.
 - `replicate.py` computes each of them again from the rows by sections 3 to 11 of this note, and compares a row's own fields (grid, technology, status, state, MW, latitude, longitude) for every row in both. `page_figures.json` and `page_figures.csv` hold both sides.
 - `replicate.do` gives the five headline figures in Stata from `rows/units.csv`, with the expected values at its top.
 - `crosscheck.py` is section 12.
 
-On 16 November 2026: the figures that read the generating units alone, 3,767 of 3,767 inside half a megawatt or half a row; 31,071 of the 31,073 units carry the same seven fields on both sides and the other two differ in their id alone (section 15); the 278 datacenters the same. The queue positions are of another day in the page's copy (26 October) than in the live set (5 November): 3,631 are in both, 70 of them with a field that differs, 78 only on the page, 53 only in the live set, and the 301 figures that sum them differ for that reason and are named, each with both sides.
+On 16 November 2026: the figures that read the generating units alone, 3,790 of 3,790 inside half a megawatt or half a row; 31,071 of the 31,073 units carry the same seven fields on both sides and the other two differ in their id alone (section 15); the 278 datacenters the same. The queue positions are of another day in the page's copy (26 October) than in the live set (5 November): 3,631 are in both, 70 of them with a field that differs, 78 only on the page, 53 only in the live set, and the 301 figures that sum them differ for that reason and are named, each with both sides.
 
 ## 14. The decisions of the tool
 
