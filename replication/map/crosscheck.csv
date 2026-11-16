@@ -1,0 +1,30 @@
+# ERW replication of /map: the map's operating units by EIA technology beside EIA's Electric Power Monthly, Table 6.1 (in service at the end of August 2026). The map holds the inventory of the month after; nameplate is the map's measure, net summer capacity EIA's table's. Method: docs/methods/map.md, section 12.
+technology,operating_units_on_the_map,nameplate_mw_on_the_map,net_summer_mw_same_units_50_states_and_dc,eia_table_6_1_in_service_end_of_august_2026_mw,net_summer_less_eia_mw,percent
+Onshore Wind Turbine,1580,166097.8,165284.1,165059.3,224.8,0.14
+Offshore Wind Turbine,4,972.0,971.3,971.3,0.0,0.0
+Solar Photovoltaic,8375,170776.6,169644.1,166677.0,2967.1,1.78
+Solar Thermal without Energy Storage,9,1000.0,986.4,986.4,0.0,0.0
+Solar Thermal with Energy Storage,3,405.0,405.6,405.6,0.0,0.0
+Conventional Hydroelectric,4003,80163.4,80046.2,80046.2,0.0,0.0
+Wood/Wood Waste Biomass,270,8006.1,7099.2,7099.2,0.0,0.0
+Landfill Gas,1200,1568.9,1472.7,1476.7,-4.0,-0.27
+Municipal Solid Waste,73,2264.8,1891.4,1891.4,0.0,0.0
+Other Waste Biomass,207,668.1,585.4,585.4,0.0,0.0
+Geothermal,164,4092.2,2713.9,2683.9,30.0,1.12
+Natural Gas Fired Combined Cycle,1948,328863.3,295138.4,295138.4,0.0,0.0
+Natural Gas Fired Combustion Turbine,2263,161894.4,137162.6,136670.9,491.7,0.36
+Natural Gas Steam Turbine,552,84701.4,77143.3,77143.3,0.0,0.0
+Natural Gas Internal Combustion Engine,1905,7651.9,7326.8,7328.0,-1.2,-0.02
+Natural Gas with Compressed Air Storage,1,110.0,25.0,25.0,0.0,0.0
+Other Natural Gas,180,350.4,343.6,343.6,0.0,0.0
+Conventional Steam Coal,447,181826.5,167235.5,167235.5,0.0,0.0
+Coal Integrated Gasification Combined Cycle,1,331.5,555.0,555.0,0.0,0.0
+Petroleum Coke,19,1490.9,1311.3,1311.3,0.0,0.0
+Petroleum Liquids,3953,34570.2,26300.1,26303.7,-3.6,-0.01
+Other Gases,66,1946.1,1772.3,1772.3,0.0,0.0
+Hydroelectric Pumped Storage,150,22224.1,23063.1,23063.1,0.0,0.0
+Flywheels,5,47.0,47.0,47.0,0.0,0.0
+Batteries,1156,56120.7,55707.8,54097.0,1610.8,2.98
+Nuclear,96,103698.4,98423.3,98423.3,0.0,0.0
+All Other,82,1650.0,1469.2,1461.2,8.0,0.55
+Every technology above,28712,1423491.7,1324124.6,1318801.0,5323.6,0.4

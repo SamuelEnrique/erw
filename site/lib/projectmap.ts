@@ -256,7 +256,9 @@ export function cardOf(f: MapFile, i: number): Card {
   const rows: CardRow[] = [
     { key: "kind", label: "Kind", value: ONE_OF[kind] + (dc && FROM[m.from[j]] ? `, ${FROM[m.from[j]]}` : "") },
     { key: "technology_group", label: "Technology group", value: dc ? "" : tech.name + (text ? ` (${text})` : "") },
-    { key: "mw", label: "MW", value: mw === null ? "not stated" : `${mw.toLocaleString("en-US")} MW${q ? " requested" : ""}` },
+    // session 7601 (the browser read of 16 November, faults row 5): one decimal, as the mark's hover writes the same figure.
+    // The card wrote "685 MW" for the unit whose hover reads "685.0 MW"
+    { key: "mw", label: "MW", value: mw === null ? "not stated" : `${one(mw)} MW${q ? " requested" : ""}` },
     { key: "status", label: "Status", value: said },
     { key: "state", label: "State", value: f.states[f.s[i]] },
     { key: "county", label: "County", value: f.c[i] >= 0 ? f.counties[f.c[i]] : "" },
