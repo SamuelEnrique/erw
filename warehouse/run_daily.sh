@@ -70,6 +70,10 @@ ISOS="${ISOS:-ercot caiso nyiso spp isone}"
 # within the budget", the step is skipped (exit 75, not a failure for the health gate), and the next run asks again.
 BUDGET=("$PYTHON" warehouse/pull_budget.py --minutes "${PULL_BUDGET_MIN:-15}" --step)
 BUDGET_MARK="publisher did not answer within the budget"
+# Session 7202 (chain 302): a model step the API refused because the key reached its own usage limit exits 75 with
+# "<step> SKIPPED: the key's limit: ... access returns <the API's date>" (warehouse/llm.py, finish). It is recorded as
+# skipped with that reason, in the status file and as one row of erw_health; not a failure, so no alert and no retry.
+KEY_MARK="the key's limit"
 health_row() {
   # session 321 (the morning note's item 5, the owner's default of 19 October 2026): health_row <step> <status> <reason>.
   # A step of this run that failed is a failed row of erw_health, so the day is red in health.py's day record even when
@@ -171,9 +175,9 @@ run_other() {
     # SKIPPED line naming the gap: recorded as skipped, not failed. Session 321: the same for a pull stopped at its
     # budget (warehouse/pull_budget.py), whose reason is preferred to any other SKIPPED line of the step
     local why
-    why=$( (grep -m1 "SKIPPED: ${BUDGET_MARK}" "$out" || grep -m1 "SKIPPED" "$out") | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)
+    why=$( (grep -m1 "SKIPPED: ${BUDGET_MARK}" "$out" || grep -m1 "SKIPPED: ${KEY_MARK}" "$out" || grep -m1 "SKIPPED" "$out") | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)
     echo "$name skipped: $why" >> "$status"
-    case "$why" in "$BUDGET_MARK"*) case "$*" in *"warehouse/health.py run"*) ;; *) health_row "$name" skipped "$why" ;; esac ;; esac
+    case "$why" in "$BUDGET_MARK"*|"$KEY_MARK"*) case "$*" in *"warehouse/health.py run"*) ;; *) health_row "$name" skipped "$why" ;; esac ;; esac
   elif [ "$rc" -eq 0 ]; then
     echo "$name ok" >> "$status"
   else

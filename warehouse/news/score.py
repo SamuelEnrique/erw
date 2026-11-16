@@ -297,7 +297,18 @@ def main(argv=None):
             except Exception as exc:
                 failed_batches += 1
                 log(f"  call {bi} FAILED ({len(batch)} stories left unscored): {ip.redact(repr(exc))[:300]}")
+                if llm.key_limit():   # session 7202: the key's own usage limit: no further call is sent
+                    log(f"  no further call: {llm.key_line()}; {len(batches) - bi} batches not sent")
+                    break
         results.pop("_seen", None)
+        if llm.key_limit() and not results:
+            # session 7202: nothing was scored, so the table and its header are left as they were; the step is skipped
+            msg = f"{llm.key_line()}; 0 of {len(todo)} stories scored, the table is left as it was"
+            log(msg)
+            status.update(status="skipped", detail=msg[:400])
+            ip.write_status("news_score", run_id, [status])
+            log.close()
+            return 1
         now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         upd = df.set_index("event_id")
         # cluster_id: the cluster of the earlier story this one duplicates, else its own id.
@@ -372,4 +383,5 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    sys.exit(llm.finish("news_score", main()))
