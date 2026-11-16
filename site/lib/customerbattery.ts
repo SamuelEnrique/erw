@@ -124,7 +124,7 @@ export function range(f: Field): string {
 // energy rates in cents (Southern California Edison's, as NREL/TP-5400-63162 prints it: 14.66 cents per kWh). Typed so,
 // 14.66 is over the field's limit and was refused with "(0 to 5)" alone, in the place of the one hint that said the
 // field takes dollars; the off-peak field never said it. A refused rate is now told the unit as well as the range.
-/** What a refused field says: its range, and for a rate per kWh that the field takes dollars. */
-export function refusal(f: Field): string {
-  return `Not a number this page can use (${range(f)}).${f.unit === "USD per kWh" ? " The rate is typed in dollars: 12 cents is 0.12." : ""}`;
+/** What a refused rate per kWh is told after its range: that the field takes dollars. Nothing for another field. */
+export function inDollars(f: Field): string {
+  return f.unit === "USD per kWh" ? " The rate is typed in dollars: 12 cents is 0.12." : "";
 }

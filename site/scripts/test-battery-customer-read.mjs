@@ -86,8 +86,10 @@ ok(asPrinted.split(said).length === 3 && asPrinted.includes("2 of 9 still needed
 const kw = draw(T(0, 30.14, 0.1466, 0.0582, 55, 110, 2, 21, 86));
 ok(kw.includes("Not a number this page can use (more than 0, up to 1,000,000).") && !kw.includes("typed in dollars"), "a refused size is told its range alone, as it was");
 const f = Object.fromEntries(lib.FIELDS.map((x) => [x.key, x]));
-ok(lib.refusal(f.peakRate) === said && lib.refusal(f.offPeakRate) === said && lib.refusal(f.demandCharge) === "Not a number this page can use (0 to 500)." && lib.refusal(f.roundTrip) === "Not a number this page can use (1 to 100).",
-  "refusal: the two rates per kWh say dollars; the demand charge and the round trip say their range");
+ok(lib.inDollars(f.peakRate) === " The rate is typed in dollars: 12 cents is 0.12." && lib.inDollars(f.offPeakRate) === lib.inDollars(f.peakRate) && lib.FIELDS.filter((x) => lib.inDollars(x) !== "").length === 2,
+  "the two rates per kWh, and no other field, are told dollars when refused");
+const charge = draw(T(P, 3014, 0.1466, 0.0582, 55, 110, 2, 21, 86));
+ok(charge.includes("Not a number this page can use (0 to 500).") && !charge.includes("typed in dollars"), "a refused demand charge is told its range alone");
 ok(f.peakRate.hint.includes("In dollars") && f.offPeakRate.hint.includes("in dollars"), "both rate fields say dollars under the field before anything is typed");
 
 // 3. whose hours

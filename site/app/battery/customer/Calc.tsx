@@ -5,8 +5,8 @@
 // The arithmetic is lib/customerbattery.ts, which imports nothing.
 // Session 7504: a typed number is printed back as typed (typed, rate), and a refused one is told its range in words.
 import { useState } from "react";
-// Session 7513: a refused rate is told that the field takes dollars (refusal), not its range alone.
-import { FIELDS, qty, rate, readAll, refusal, saving, typed, usd } from "@/lib/customerbattery";
+// Session 7513: a refused rate is told that the field takes dollars (inDollars), not its range alone.
+import { FIELDS, inDollars, qty, range, rate, readAll, saving, typed, usd } from "@/lib/customerbattery";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
@@ -31,7 +31,7 @@ export function Calc() {
                   aria-invalid={bad(f.key) ? "true" : undefined}
                   onChange={(e) => setText((t) => ({ ...t, [f.key]: e.target.value }))}
                 />
-                <span className={`block text-xs ${bad(f.key) ? "text-accent" : "text-muted"}`}>{bad(f.key) ? refusal(f) : f.hint}</span>
+                <span className={`block text-xs ${bad(f.key) ? "text-accent" : "text-muted"}`}>{bad(f.key) ? `Not a number this page can use (${range(f)}).${inDollars(f)}` : f.hint}</span>
               </label>
             ))}
           </div>
