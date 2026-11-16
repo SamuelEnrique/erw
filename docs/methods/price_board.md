@@ -587,3 +587,52 @@ The rows' CSV carries a power row's week and month as its cells show them: `week
 ## A row with no figure prints its words and no digit (session 1632, chain 167)
 
 A held grid's row (`holdRows`) loses its interval's words (`basis`) and the fleet heat rate beside a spark spread (`heat_ref`) with its figures, and a row the builder holds no value for ("not held yet") is written without them: an interval's words carry digits ("24; 23 or 25", "4 15-minute"), and a row with no figure shows its status words and no digit, in its hover and in its line of the rows' CSV. `boardFileChecks` counts a kept `basis` on such a row as a fault. Tests: `tests/test_board_1632.py`.
+
+## The cross-checks (session 7018, chain 301)
+
+The board's EIA closes beside the World Bank's monthly averages of the same benchmarks (World Bank Commodity Price Data, the Pink Sheet, CC BY 4.0; `wb_commodity_prices_monthly`), the board's daily closes averaged over the trading days EIA published in each month (`eia_fuel_spot_prices`). The World Bank compiles its monthly averages from its own assessment and days; a difference is not a fault of the board's figures, which are EIA's closes as published.
+
+| Benchmark | Month | EIA's closes, mean (days) | World Bank | Difference |
+|---|---|---|---|---|
+| Henry Hub, USD/MMBtu | June 2026 | 3.145 (21) | 3.15 | -0.005 |
+| Henry Hub | July 2026 | 2.907 (23) | 2.89 | 0.017 |
+| Henry Hub | August 2026 | 2.785 (21) | 2.77 | 0.015 |
+| Henry Hub | September 2026 | 2.949 (22) | 2.95 | -0.001 |
+| WTI Cushing, USD/bbl | June 2026 | 84.807 (21) | 81.9 | 2.907 |
+| WTI Cushing | July 2026 | 79.994 (23) | 79.4 | 0.594 |
+| WTI Cushing | August 2026 | 83.898 (21) | 82.7 | 1.198 |
+| WTI Cushing | September 2026 | 97.098 (22) | 96.9 | 0.198 |
+| Brent, USD/bbl | June 2026 | 85.399 (22) | 85.4 | -0.001 |
+| Brent | July 2026 | 83.759 (23) | 83.4 | 0.359 |
+| Brent | August 2026 | 91.076 (20) | 90.9 | 0.176 |
+| Brent | September 2026 | 114.159 (22) | 116.8 | -2.641 |
+
+Henry Hub agrees within two cents in every month. The two oil benchmarks agree within 0.6 USD in four of eight months and differ by up to 2.91 USD in the months of the widest moves: WTI fell from 95.96 to 70.56 USD in June 2026 and Brent rose from 96.02 to 130.80 and back to 115.91 in September 2026, so a monthly mean taken over another assessment's days moves by dollars. The power hubs have no second public publisher held: EIA's wholesale daily prices (ICE's, `eia_ice_electricity_daily`) are held internal pending a ruling, and the operators are the board's own sources.
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot (`site/lib/decisions.ts`, `BOARD_DECISIONS`), each choice's default and source on hover:
+
+1. A power row's day is the mean of a complete local operating day: every hour of it held (24; 23 or 25 on the clock-change days), or every 15-minute interval; a day short of one is not drawn, never filled. **Default:** Complete local operating days only, in each grid's own time zone. **Source:** docs/methods/price_board.md, "Common rules"; the operators' day-ahead and real-time settlement point prices. (session 30)
+2. On-peak is the hours ending 7 to 22 local, Monday to Friday (CAISO Monday to Saturday), with NERC's holidays off-peak; every other hour is off-peak. **Default:** Hours ending 7 to 22 local on peak days; NERC holidays off-peak. **Source:** NERC's off-peak holidays and the industry's 5x16 block; docs/methods/price_board.md, the section on peak and off-peak hours. (session 30)
+3. A day's, week's, month's or year's move is the latest less the value held at least 1, 7, 30 or 365 days before, no more than 6 days older than that; with no such base the cell reads "not held yet". **Default:** Bases 1, 7, 30 (28 for a monthly row) and 365 days back, at most 6 days older. **Source:** docs/methods/price_board.md, "The columns of every row"; site/lib/board.ts. (session 132)
+4. A percent is printed beside a move only for a price that cannot be negative: never for power, ancillary services, spreads, rates or a row with a formula, where a base near zero gives a meaningless percent. **Default:** No percent for power, ancillary services, spreads, rates and formulas. **Source:** docs/methods/price_board.md, "The columns of every row". (session 132)
+5. A row is marked stale beside its date past 3 days for a power market's daily row, 10 for another daily row, 17 for a weekly one and 132 for a monthly one, and a stale row prints no move. **Default:** 3, 10, 17, 132 and 135 days by the row's step. **Source:** The owner's ruling of 18 October 2026 (EIA posts spot prices weekly and late); docs/methods/price_board.md, "The held rows and the stale closes". (sessions 304 and 1116; the owner's ruling of 18 October 2026)
+6. The 12-month average and the one-year range are drawn only when the year holds at least 180 daily, 26 weekly, 9 monthly or 4 quarterly values; below that the cell reads "not held yet". **Default:** 180 daily, 26 weekly, 9 monthly or 4 quarterly values of the 365 days. **Source:** docs/methods/price_board.md, "The columns of every row" and "The comparison: a year before and the twelve-month mean". (sessions 1613 and 1617)
+7. Every spark spread is the day-ahead daily mean less 7.0 MMBtu/MWh times Henry Hub, an assumed combined-cycle heat rate and one gas price for every grid; it is labelled indicative. **Default:** 7.0 MMBtu/MWh and Henry Hub, with EIA's fleet heat rate beside it where held. **Source:** EIA, Electric Power Annual, Table 8.1 (the gas fleet's average heat rate, shown beside); EIA's Henry Hub spot price. (session 30)
+8. The dark spread is the month's day-ahead mean less 10.5 MMBtu/MWh times EIA's US average cost of coal delivered to power plants, about the coal fleet's average heat rate; it is monthly and indicative. **Default:** 10.5 MMBtu/MWh and the US average delivered coal cost. **Source:** EIA, Electric Power Annual, Table 8.1; Form EIA-923 (eia_power_plant_fuel_costs). (session 132)
+9. A 3-2-1 crack is two barrels of gasoline and one of diesel, at 42 gallons a barrel, from three barrels of crude, before any cost; a single product's crack is its barrel less the crude's. **Default:** (2 x gasoline + diesel) x 42 / 3 less crude, Gulf Coast products against WTI. **Source:** EIA's daily product and crude spot prices; the industry's 3-2-1 convention. (sessions 132 and 1617)
+10. Under each power row's day high and low, the hours of the last 7 and 30 complete days priced above 100, 250 and 1,000 USD/MWh, the board's own round thresholds; the workbench takes the reader's own. **Default:** 100, 250 and 1,000 USD/MWh. **Source:** The board's own choice; docs/methods/price_board.md, "The week and the month in one row". (session 1612)
+11. No futures price is drawn: NYMEX contracts 1 to 4 need CME Group's license, and EIA's copy of them ended on 5 April 2024, so each futures cell reads "licensed source needed". **Default:** Futures cells read "licensed source needed"; no figure. **Source:** CME Group's terms; EIA's NYMEX futures series, discontinued 5 April 2024. (session 132)
+
+## What waits for the owner (session 7018)
+
+- Whether EIA's wholesale daily prices (ICE's) may be shown, which would give the power hubs a second publisher to check against (held internal since session 2014, which first read it).
+- NYISO's and ISO-NE's rows ("license needed"), PJM's ("licensed source needed") and MISO's (paused): each stands until its license or its review.
+- Futures: CME Group's license.
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:

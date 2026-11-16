@@ -6,6 +6,8 @@ import { AskForm } from "@/app/ask/AskForm";
 import boardQuestions from "@/data/board_questions.json";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { TableLicenses } from "@/components/tool/TableLicenses";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { BOARD_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/board.json";
 import { holdRows, type BoardFile } from "@/lib/board";
 import { gridName, licenseHeldGrids } from "@/lib/license";
@@ -46,5 +48,5 @@ export default function Board() {
   const file = holdRows(raw, licenseHeldGrids().map(gridName));
   // session 502: the same list, with each table's license, under the title
   // session 1137: the rows drawn here, as one CSV (app/board/rows/route.ts), beside each table's own download
-  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none), with a reader in <SiteLink href="/board/rows/python">Python</SiteLink> and in <SiteLink href="/board/rows/stata">Stata</SiteLink></p><section className="mb-6" aria-label="Ask the board" data-board-ask="1"><h2 className="mb-1 text-lg">Ask the board</h2><p className="mb-2 max-w-3xl text-sm">Questions of the board's own derived tables, answered by the general chat: every number from a query, each hub's value with its own date.</p><AskForm examples={BOARD_QUESTIONS} placeholder="For example: which hub is highest today?" /></section><TableDownloads tables={TABLES} /></>} /></Brand>;
+  return <Brand><BoardView file={file} under={<TableLicenses tables={TABLES} />} footer={<><p className="mb-2 text-sm" data-board-rows="1"><SiteLink href="/board/rows">The rows drawn here, as one CSV</SiteLink> (every figure of this page, each with its source; a held row with none), with a reader in <SiteLink href="/board/rows/python">Python</SiteLink> and in <SiteLink href="/board/rows/stata">Stata</SiteLink></p><section className="mb-6" aria-label="Ask the board" data-board-ask="1"><h2 className="mb-1 text-lg">Ask the board</h2><p className="mb-2 max-w-3xl text-sm">Questions of the board's own derived tables, answered by the general chat: every number from a query, each hub's value with its own date.</p><AskForm examples={BOARD_QUESTIONS} placeholder="For example: which hub is highest today?" /></section><DecisionsBlock id="7018" title="Decisions on this page (each with its default and its source on hover)" items={BOARD_DECISIONS} /><TableDownloads tables={TABLES} /></>} /></Brand>;
 }
