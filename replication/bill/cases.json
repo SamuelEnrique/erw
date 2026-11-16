@@ -1,0 +1,24 @@
+{
+  "about": "ERW, What is on an electricity bill (/learn/bill): the cases the replication draws the calculator for (session 7533, chain 304). A case is a bill and the values a reader would type in the calculator's fields; a field not named keeps the bill's default (site/data/bill_rules.json). The five defaults are the page's own; two cases type EIA's 2024 average residential month (Electric Sales, Revenue, and Average Price, Table 5A: California 503 kWh, Texas 1,096 kWh); the others move each field the page offers at least once, among them the two that printed a floating-point kWh before this session (SCE Region 9 in summer, SDG&E with a 333 kWh allowance).",
+  "cases": [
+    { "id": "ca_default", "name": "PG&E E-TOU-C, the defaults", "bill": "CA", "typed": {} },
+    { "id": "sce_default", "name": "SCE TOU-D-4-9PM, the defaults", "bill": "SCE", "typed": {} },
+    { "id": "sdge_default", "name": "SDG&E TOU-DR1, the defaults", "bill": "SDGE", "typed": {} },
+    { "id": "tx_default", "name": "Oncor, the defaults", "bill": "TX", "typed": {} },
+    { "id": "txc_default", "name": "CenterPoint, the defaults", "bill": "TXC", "typed": {} },
+    { "id": "ca_eia_avg", "name": "PG&E, winter, EIA's 2024 California average month (503 kWh)", "bill": "CA", "typed": { "kwh": 503 } },
+    { "id": "tx_eia_avg", "name": "Oncor, EIA's 2024 Texas average month (1,096 kWh), the default energy charge", "bill": "TX", "typed": { "kwh": 1096 } },
+    { "id": "ca_summer_r", "name": "PG&E, summer, territory R, 850 kWh, 25 percent at peak, Income Tier 1, the climate credit", "bill": "CA", "typed": { "kwh": 850, "peakShare": 0.25, "season": "summer", "territory": "R", "tier": "1", "climateCredit": true } },
+    { "id": "ca_low", "name": "PG&E, winter, 200 kWh (all of it inside the baseline)", "bill": "CA", "typed": { "kwh": 200 } },
+    { "id": "ca_x_tier2", "name": "PG&E, winter, territory X, 1,000 kWh, 35 percent at peak, Income Tier 2", "bill": "CA", "typed": { "kwh": 1000, "peakShare": 0.35, "territory": "X", "tier": "2" } },
+    { "id": "sce_summer_9", "name": "SCE, summer, Region 9, 600 kWh (the baseline is 16.9 x 30)", "bill": "SCE", "typed": { "season": "summer" } },
+    { "id": "sce_summer_13", "name": "SCE, summer, Region 13, 1,200 kWh, 30 percent from 4 to 9 p.m., the climate credit", "bill": "SCE", "typed": { "season": "summer", "region": "13", "kwh": 1200, "peakShare": 0.3, "climateCredit": true } },
+    { "id": "sce_winter_6", "name": "SCE, winter, Region 6, 450 kWh, 30 percent from 4 to 9 p.m., 20 percent super off-peak", "bill": "SCE", "typed": { "region": "6", "kwh": 450, "peakShare": 0.3, "superShare": 0.2 } },
+    { "id": "sdge_allow_333", "name": "SDG&E, winter, a 333 kWh allowance (130 percent is 432.9 kWh)", "bill": "SDGE", "typed": { "baselineKwh": 333 } },
+    { "id": "sdge_summer", "name": "SDG&E, summer, 450 kWh, a 250 kWh allowance, 25 percent from 4 to 9 p.m., 30 percent super off-peak", "bill": "SDGE", "typed": { "season": "summer", "kwh": 450, "baselineKwh": 250, "peakShare": 0.25, "superShare": 0.3 } },
+    { "id": "tx_1000_efl", "name": "Oncor, 1,000 kWh, an energy charge of USD 0.1399 per kWh", "bill": "TX", "typed": { "kwh": 1000, "energyRate": 0.1399 } },
+    { "id": "tx_2000", "name": "Oncor, 2,000 kWh, the default energy charge", "bill": "TX", "typed": { "kwh": 2000 } },
+    { "id": "txc_1000", "name": "CenterPoint, 1,000 kWh, an energy charge of USD 0.125 per kWh", "bill": "TXC", "typed": { "kwh": 1000, "energyRate": 0.125 } },
+    { "id": "txc_zero", "name": "CenterPoint, 0 kWh (the fixed charges alone)", "bill": "TXC", "typed": { "kwh": 0 } }
+  ]
+}

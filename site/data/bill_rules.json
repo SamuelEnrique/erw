@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-14.1",
+  "version": "2026-11-16.1",
   "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill. Session 52 adds three bills (SCE TOU-D Option 4-9 PM, SDG&E TOU-DR1, CenterPoint), read as text on 2026-10-01 and checked the same way.",
   "sources": {
     "pge_etouc": {
@@ -951,7 +951,7 @@
           "rate": 0.0,
           "cite": "cnp_tariff",
           "quote": "Residential Service $0.000000 Per kWh",
-          "effective": "Rider IRA (6th revision, effective 5/18/2026)"
+          "effective": "Rider IRA (original sheet, effective 04/28/25; session 7533 read the tariff again on 2026-11-16: the label said 6th revision, effective 5/18/2026, which is the TC5 Refund rider's)"
         },
         {
           "id": "cnp_src2",

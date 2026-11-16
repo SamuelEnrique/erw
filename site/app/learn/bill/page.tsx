@@ -11,6 +11,7 @@ import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { BillCalc } from "./BillCalc";
+import { BillDecisions } from "./Decisions";
 
 // Session 43: electricity bill explainer v0, for learning. Two bills (PG&E E-TOU-C in California, a home in Oncor's
 // area of ERCOT); session 52 adds three (SCE TOU-D-4-9PM, SDG&E TOU-DR1, a home in CenterPoint's area of Houston), every rate from data/bill_rules.json with its tariff passage; the wholesale share from
@@ -128,6 +129,8 @@ export default async function LearnBill() {
       </Section>
       {/* session 335: the page's one table, as CSV with a Python and a Stata reader (session 328's shared line); the bills'
           rates are the site's own file, each with its tariff passage */}
+      {/* session 7533 (chain 304): the choices that move a figure, each with its default and source on hover */}
+      <BillDecisions />
       <TableDownloads tables={[M]} />
     </div>
     </Brand>
