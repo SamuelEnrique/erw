@@ -720,4 +720,5 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    sys.exit(llm.finish("deals", main()))

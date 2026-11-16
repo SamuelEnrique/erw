@@ -2003,6 +2003,16 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"news_roundup_{run_id}.log"))
     status = dict(table="roundup", market="brief", status="ok", detail="")
+    # session 7202 (chain 302): no Roundup is written on a day the scoring was refused by the key's own usage limit
+    # (the day's row of news_score in the run history, warehouse/llm.py, refused_today); a run to --out is not stopped
+    refused = None if args.out else brief.llm.refused_today("news_score")
+    if refused:
+        msg = f"{refused.split('; before the refusal')[0]}; the day's stories were not scored, so no Roundup is written"
+        log(msg)
+        print(f"news_roundup SKIPPED: {msg}")
+        ip.write_status("news_roundup", run_id, [dict(status, status="skipped", detail=msg[:400])])
+        log.close()
+        return brief.llm.SKIP_EXIT
     try:
         now = pd.Timestamp.now(tz="UTC")
         label, start, end, cut = week_bounds(args.week, now)
@@ -2218,4 +2228,5 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    sys.exit(brief.llm.finish("news_roundup", main()))

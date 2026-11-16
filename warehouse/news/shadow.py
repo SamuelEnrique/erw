@@ -303,7 +303,8 @@ def main(argv=None):
                    detail=tb.strip().splitlines()[-1][:300])
     ip.write_status(f"news_shadow_{args.cmd}", run_id, [res])
     log.close()
-    return 0 if res["status"] in ("ok", "skipped") else 1
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    return llm.finish(f"news_shadow_{args.cmd}", 0 if res["status"] in ("ok", "skipped") else 1)
 
 
 if __name__ == "__main__":

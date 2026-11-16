@@ -2756,6 +2756,17 @@ def main(argv=None):
         ip.write_status("news_brief", run_id, [dict(status, status="skipped", detail=msg)])
         log.close()
         return 0
+    # session 7202 (chain 302): no issue is written on a day the scoring was refused by the key's own usage limit: a
+    # Digest with none of the day's stories ranked is not an issue. Read from the scorer's status of this run, or the
+    # run history (warehouse/llm.py, refused_today). A dry run to --out is a person's own and is not stopped.
+    refused = None if args.out else llm.refused_today("news_score", digest_date)
+    if refused:
+        msg = f"{refused.split('; before the refusal')[0]}; the day's stories were not scored, so no issue is written"
+        log(msg)
+        print(f"news_brief SKIPPED: {msg}")
+        ip.write_status("news_brief", run_id, [dict(status, status="skipped", detail=msg[:400])])
+        log.close()
+        return llm.SKIP_EXIT
     try:
         now = pd.Timestamp(args.now).tz_localize("UTC") if args.now and pd.Timestamp(args.now).tzinfo is None else (
             pd.Timestamp(args.now).tz_convert("UTC") if args.now else pd.Timestamp.now(tz="UTC"))
@@ -2908,4 +2919,5 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    sys.exit(llm.finish("news_brief", main()))

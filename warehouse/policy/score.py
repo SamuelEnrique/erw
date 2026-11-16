@@ -185,4 +185,7 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # session 7202: a step the key's own usage limit refused ends as skipped (warehouse/llm.py, finish)
+    _rc = main()
+    import llm  # noqa: E402
+    sys.exit(llm.finish("policy_score", _rc))
