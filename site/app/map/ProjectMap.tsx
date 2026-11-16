@@ -12,7 +12,8 @@ import { baseStyle, token, useEChart } from "@/components/echarts";
 import { InputPanel, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
-  COLOR, COLOR_KEY, EVERYTHING, KIND, SOURCE_RULE, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, sourceOf, sourceWords, tidy, toggle, totals, whole,
+  COLOR, COLOR_KEY, DATE_WORDS, EVERYTHING, KIND, PLACED_AT, SOURCE_RULE, cardOf, circleOf, clickState, dateOf, nearOf, nearest, one, optionsOf, parseChoice, queryOf, select, sizeOf,
+  sourceOf, sourceWords, statusWords, tidy, toggle, totals, whole,
   type CardPart, type Choice, type Filter, type MapFace, type MapFile, type SourceKind,
 } from "@/lib/projectmap";
 
@@ -33,10 +34,16 @@ const HEAVY = new Set(["u", "v", "ts"]);   // EIA's statuses under construction:
 const KIND_WORD = ["Generating units", "Generating units", "Queue positions", "Datacenters"];
 
 const and = (words: string[]) => (words.length < 2 ? words.join("") : `${words.slice(0, -1).join(", ")} and ${words.at(-1)}`);
+const or = (words: string[]) => (words.length < 2 ? words.join("") : `${words.slice(0, -1).join(", ")} or ${words.at(-1)}`);
+const ROW_KIND = ["Operating unit", "Planned unit", "Queue position", "Datacenter"];
+/** The most rows the list under the map draws; it says when there are more. */
+export const NEAR_ROWS_DRAWN = 1000;
 
-export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: unknown }) {
-  // the choice: what the address says until the reader changes it; every change is written back to the address
-  const search = useSyncExternalStore(never, () => window.location.search, () => "");
+export function ProjectMap({ file: f, statesGeo, serverSearch = "" }: { file: MapFace; statesGeo: unknown; serverSearch?: string }) {
+  // the choice: what the address says until the reader changes it; every change is written back to the address.
+  // session 7537: `serverSearch`, the address read when there is no window (the page passes none; a drawing of the
+  // component to HTML passes the address of the view it draws)
+  const search = useSyncExternalStore(never, () => window.location.search, () => serverSearch);
   const fromAddress = useMemo(() => parseChoice(search, f), [search, f]);
   const [own, setOwn] = useState<Choice | null>(null);
   const choice = own ?? fromAddress;
@@ -72,6 +79,23 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
   const sum = useMemo(() => totals(f, picked), [f, picked]);
   const drawn = useMemo(() => picked.filter((i) => xy.x[i] !== null), [picked, xy]);
   const kindOn = (k: number) => choice.kind === null || choice.kind.includes(k);
+  // session 7537 (the read of /map as a developer checking what is planned within 30 miles of a site): the point and
+  // the distance, the rows chosen nearest first, and the circle on the drawing
+  const near = useMemo(() => nearOf({ at: choice.at, within: choice.within }), [choice.at, choice.within]);
+  const nearRows = useMemo(() => (near ? nearest(f, picked, near) : []), [f, picked, near]);
+  const ring = useMemo(() => {
+    if (!near) return null;
+    const at = projection([near.lo, near.la]);
+    const circle = circleOf(near).map((p) => projection([p.lo, p.la])).filter((p): p is [number, number] => p !== null);
+    return { at, circle };
+  }, [near]);
+  // the grids whose queue positions the file holds, and the seven ISOs it holds none of (lib/resources.ts, QUEUE_GRIDS)
+  const queueGrids = useMemo(() => {
+    const has = new Set<number>();
+    for (let i = f.kinds[KIND.queue].start; i < f.kinds[KIND.queue].start + f.kinds[KIND.queue].rows; i++) has.add(f.g[i]);
+    const isos = f.grids.map((g, gi) => ({ g, gi })).filter(({ g }) => g.slug !== "outside" && g.slug !== "none");
+    return { drawn: isos.filter(({ gi }) => has.has(gi)).map(({ g }) => g.name), missing: isos.filter(({ gi }) => !has.has(gi)) };
+  }, [f]);
 
   // the chart's handlers read the newest setters through refs (the chart is built once and redrawn)
   const act = useRef({ change, setCard });
@@ -95,6 +119,13 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
           return { value: [xy.x[i], xy.y[i], i], symbol: "circle", symbolSize: size(f.mw[i]), itemStyle: { color: c, borderColor: panel, borderWidth: 0.4, opacity: 0.78 } };
         }),
       }));
+      // session 7537: the point and its circle, drawn over the rows; they answer to no hover and no click
+      if (ring) {
+        series.push({ name: "The distance chosen", type: "lines", coordinateSystem: "geo", polyline: true, silent: true, z: 5,
+          data: [{ coords: ring.circle }], lineStyle: { color: accent, width: 1.5, type: "dashed", opacity: 0.95 } } as unknown as (typeof series)[number]);
+        if (ring.at) series.push({ name: "The point chosen", type: "scatter", coordinateSystem: "geo", silent: true, z: 6, symbol: "pin", symbolSize: 20,
+          data: [{ value: [ring.at[0], ring.at[1]], itemStyle: { color: accent } }] } as unknown as (typeof series)[number]);
+      }
       const chosen = (chosenStates ?? []).map((s) => STATES[f.states[s]]).filter(Boolean);
       chart.setOption({
         animation: false, textStyle: st.textStyle,
@@ -103,7 +134,8 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
           ...st.tooltip, trigger: "item",
           formatter: (p: { componentType: string; name?: string; value?: number[] }) => {
             if (p.componentType === "geo") return `${p.name}: click to choose it, click again to take it away`;
-            const i = (p.value as number[])[2];
+            const i = (p.value as number[] | undefined)?.[2];
+            if (typeof i !== "number") return "";
             const kind = f.k[i], mw = f.mw[i];
             const name = (f.names[f.n[i]] || "No name in the source").replace(/</g, "&lt;");
             const what = kind === KIND.datacenter ? "Datacenter" : f.techs[f.t[i]].name;
@@ -124,14 +156,14 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
       }, true);
       chart.off("click");
       chart.on("click", (p) => {
-        if (p.componentType === "series") { act.current.setCard((p.value as number[])[2]); return; }
+        if (p.componentType === "series") { const i = (p.value as number[] | undefined)?.[2]; if (typeof i === "number") act.current.setCard(i); return; }
         if (p.componentType !== "geo") return;
         const code = NAME_TO_CODE[p.name as string];
         const s = code ? f.states.indexOf(code) : -1;
         if (s >= 0) act.current.change((c) => ({ ...c, state: clickState(c.state, s, f.states.length) }));
       });
     },
-    [drawn, chosenStates, xy, f, statesGeo],
+    [drawn, chosenStates, xy, f, statesGeo, ring],
   );
 
   const cardBox = useRef<HTMLDivElement>(null);
@@ -164,6 +196,21 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             <input className="w-20 border border-rule bg-white px-2 py-1" inputMode="decimal" placeholder="to" aria-label="Largest size, MW" value={choice.max}
               onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, max: v })); }} data-map-choice="max" />
           </div>
+          {/* session 7537: a point and a distance (lib/projectmap.ts, nearOf); the list below the map follows them */}
+          <div className="mt-3 text-xs uppercase tracking-wide text-muted">
+            Near a point
+            <Tip id="map-near" label="how the distance is measured">
+              Type a point as latitude, longitude in decimal degrees (for example 32.4487, -99.7331, the form a web map copies), or press &quot;Measure from this row&quot; on a row&apos;s card; then a distance in miles. Both are needed. The distance is the great-circle distance on a sphere of the Earth&apos;s mean radius, 3,958.8 miles, from each row&apos;s own point: EIA&apos;s coordinates for a unit, the county&apos;s or the town&apos;s point for a queue position, the city&apos;s point for a datacenter, not their sites. Both ends are counted in; a row with no point is left out. The list under the map gives every row within it, nearest first.
+            </Tip>
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
+            <input className="w-44 border border-rule bg-white px-2 py-1" inputMode="decimal" placeholder="latitude, longitude" aria-label="A point: latitude, longitude in decimal degrees" value={choice.at}
+              onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, at: v })); }} data-map-choice="at" />
+            <span className="text-muted">within</span>
+            <input className="w-16 border border-rule bg-white px-2 py-1" inputMode="decimal" placeholder="miles" aria-label="Distance from the point, miles" value={choice.within}
+              onChange={(e) => { const v = e.target.value; change((c) => ({ ...c, within: v })); }} data-map-choice="within" />
+            <span className="text-muted">miles</span>
+          </div>
           <button type="button" onClick={reset} className="mt-4 border border-rule bg-white px-3 py-1 text-sm hover:text-accent" data-map-reset="1">Reset</button>
         </InputPanel>
       </aside>
@@ -171,6 +218,14 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
       <div className="min-w-0">
         <p className="mb-6 max-w-3xl text-lg leading-relaxed" data-map-summary="1">
           <Sentence f={f} choice={choice} sum={sum} sized={sized} />
+          {queueOn && queueGrids.missing.some(({ gi }) => choice.grid === null || choice.grid.includes(gi)) ? (
+            <span data-map-queues-drawn="1">
+              {" "}Queue positions are those of {and(queueGrids.drawn)} alone: no queue position of {or(queueGrids.missing.map(({ g }) => g.name))} is on this map.
+              <Tip id="map-queues-drawn" label="why some queues are not on the map">
+                Each grid operator&apos;s own terms decide it: MISO&apos;s pulls are paused while its terms are reviewed, NYISO&apos;s legal notice confers no license, and the ERW holds no queue of PJM. Their generating units, operating and planned, are on the map from EIA&apos;s inventory. The line &quot;The queue positions drawn&quot; of Decisions on this page gives the same rule with its sources.
+              </Tip>
+            </span>
+          ) : null}
         </p>
         <div className="mb-10 space-y-5" data-map-totals="1">
           {[0, 2, 3].map((group) => {
@@ -181,7 +236,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
                 <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
                   {group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}
                   <Tip id={`map-totals-${group}`} label={`the totals of ${KIND_WORD[group].toLowerCase()}`}>
-                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load." : "The MW is nameplate capacity, summed over the units of the status."}
+                    {sourceWords(f, SOURCE_KIND[group], SOURCE_RULE.chosen)} {group === KIND.datacenter ? "The MW is summed over the facilities that state one; the count under it says how many do." : group === KIND.queue ? "The MW is what each position asks to connect, not a load. For ERCOT's positions, \"Completed\" is a signed interconnection agreement, built or not: ERCOT's report has no status column (session 7537; docs/methods/energy_projects.md)." : "The MW is nameplate capacity, summed over the units of the status."}
                   </Tip>
                 </h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
@@ -211,9 +266,11 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: u
             </ul>
           ) : null}
           <div ref={cardBox} className="mt-4">
-            <UnitCard f={f} part={part} i={card} close={() => setCard(null)} />
+            <UnitCard f={f} part={part} i={card} close={() => setCard(null)} measure={(at) => change((c) => ({ ...c, at }))} />
           </div>
         </ToolSection>
+
+        {near ? <NearList f={f} near={near} rows={nearRows} open={setCard} /> : null}
 
         <ByTechnology f={f} sum={sum} kindOn={kindOn} />
       </div>
@@ -277,6 +334,9 @@ function Sentence({ f, choice, sum, sized }: { f: MapFace; choice: Choice; sum: 
   const grids = choice.grid === null ? "every grid" : choice.grid.length === 1 ? f.grids[choice.grid[0]].name : `${whole(choice.grid.length)} grids`;
   const states = choice.state === null ? "every state" : choice.state.length === 1 ? (STATES[f.states[choice.state[0]]] ?? "no state stated") : `${whole(choice.state.length)} states`;
   const narrowed = [choice.tech !== null ? "technologies" : "", choice.status !== null ? "statuses" : "", sized ? "sizes" : ""].filter(Boolean);
+  // session 7537: the distance chosen, in the sentence's own words
+  const near = nearOf(choice);
+  const within = near ? <span data-map-near-said="1">, within {near.miles.toLocaleString("en-US")} {near.miles === 1 ? "mile" : "miles"} of {near.la}, {near.lo}</span> : null;
   const [op, pl, q, dc] = sum.byKind;
   const units = op.rows + pl.rows;
   const unitWord = op.rows && pl.rows ? "generating units" : op.rows ? "operating units" : "planned units";
@@ -287,7 +347,7 @@ function Sentence({ f, choice, sum, sized }: { f: MapFace; choice: Choice; sum: 
   if (dc.rows) parts.push(<span key="d"><strong data-source={sd}>{whole(dc.rows)}</strong> datacenters, {dc.withMw ? <><strong data-source={sd}>{whole(dc.mw)} MW</strong> stated at <span data-source={sd}>{whole(dc.withMw)}</span> of them</> : <>no MW stated</>}</span>);
   return (
     <>
-      In {grids} and {states}{narrowed.length ? `, of the ${and(narrowed)} chosen` : ""}, the map holds{" "}
+      In {grids} and {states}{within}{narrowed.length ? `, of the ${and(narrowed)} chosen` : ""}, the map holds{" "}
       {parts.map((p, i) => <span key={i}>{i ? (i === parts.length - 1 ? "; and " : "; ") : ""}{p}</span>)}.
       <Tip id="map-sentence" label="the figures of this sentence">{sourceWords(f, "all", SOURCE_RULE.chosen)} MW is never added across kinds: a unit&apos;s nameplate, a queue position&apos;s request and a datacenter&apos;s stated load are different things.</Tip>
     </>
@@ -325,7 +385,7 @@ function Key({ f, picked }: { f: MapFace; picked: number[] }) {
 }
 
 /** Version 1's card (session 16), read from the page's own file: its columns, and the card's fields of the same file. */
-function UnitCard({ f, part, i, close }: { f: MapFace; part: CardPart | { error: string } | "loading" | null; i: number | null; close: () => void }) {
+function UnitCard({ f, part, i, close, measure }: { f: MapFace; part: CardPart | { error: string } | "loading" | null; i: number | null; close: () => void; measure?: (at: string) => void }) {
   if (i === null) {
     return (
       <aside className="border border-dashed border-rule bg-paper p-3 text-sm text-muted" data-map-card="empty">
@@ -365,10 +425,56 @@ function UnitCard({ f, part, i, close }: { f: MapFace; part: CardPart | { error:
           {c.stories.map((u, k) => <a key={u} href={u} className="mr-2 underline" rel="noreferrer" target="_blank">{k + 1}</a>)}
         </div>
       ) : null}
+      {/* session 7537: this row's point as the point of "Near a point" */}
+      {measure && f.la[i] !== null && f.lo[i] !== null ? (
+        <button type="button" className="mt-2 border border-rule bg-white px-2 py-0.5 text-xs hover:text-accent" onClick={() => measure(`${f.la[i]}, ${f.lo[i]}`)} data-card-measure={`${f.la[i]}, ${f.lo[i]}`}>
+          Measure from this row ({f.la[i]}, {f.lo[i]})
+        </button>
+      ) : null}
       <p className="mt-2 text-xs text-muted" data-card-field="read_from">
         Read from the ERW table <code className="font-mono">{c.table}</code>{c.vintage ? `, vintage ${c.vintage}` : ""}, in the page&apos;s own copy built {c.built.slice(0, 10)}.
       </p>
     </aside>
+  );
+}
+
+/** Session 7537 (the read of /map, rows 1 to 4): every row chosen within the distance of the point, nearest first, by
+ *  name, with what the reader needs to tell a unit from a request: its kind, its status in plain words, its MW, what its
+ *  date is, and where its point is (a queue position at its county's point is not at its site). A name opens its card. */
+export function NearList({ f, near, rows, open }: { f: MapFace; near: { la: number; lo: number; miles: number }; rows: { i: number; miles: number }[]; open?: (i: number) => void }) {
+  const shown = rows.slice(0, NEAR_ROWS_DRAWN);
+  const atCounty = rows.filter(({ i }) => f.k[i] === KIND.queue && f.pr[i] !== 0).length;
+  const queue = rows.filter(({ i }) => f.k[i] === KIND.queue).length;
+  const head = ["Miles", "Name", "Kind", "Technology", "Status", "MW", "Date", "Placed at"];
+  return (
+    <ToolSection title={`Within ${near.miles.toLocaleString("en-US")} miles of ${near.la}, ${near.lo}, nearest first`} id="near"
+      note={<>
+        <span data-map-near-count="1" data-source={sourceOf(f, "all", "the rows chosen within the distance, each row's own fields")}>{whole(rows.length)}</span> {rows.length === 1 ? "row" : "rows"} of what is chosen{rows.length > shown.length ? <>; the nearest <span data-map-near-shown="1">{whole(shown.length)}</span> are listed, and the totals above count them all</> : null}.
+        {atCounty ? <> <span data-map-near-county="1">{whole(atCounty)}</span> of the {whole(queue)} queue positions are measured from their county&apos;s or town&apos;s point, not their site: a position is listed when that point is within the distance, wherever its site lies in the county, and left out when it is not, however near its site.</> : null}
+        <Tip id="map-near-list" label="the figures of this list">{sourceWords(f, "all", "each row's own fields")} The miles are computed in your browser: the great-circle distance on a sphere of 3,958.8 miles from the point to the row&apos;s own point, rounded to a tenth of a mile. A unit&apos;s MW is its nameplate; a queue position&apos;s is what it asks to connect; a datacenter&apos;s is what a story or its operator states. The same project can be a planned unit and a queue position: the map does not match the two, and its totals keep each kind apart.</Tip>
+      </>}>
+      {shown.length ? (
+        <ToolTable caption={`The rows chosen within ${near.miles} miles of the point, nearest first`} minWidth={900} head={head}
+          rows={shown.map(({ i, miles }) => {
+            const k = f.k[i], mw = f.mw[i], name = f.names[f.n[i]] || "No name in the source";
+            return {
+              key: String(i),
+              cells: [
+                <span key="d" data-near-miles={i}>{one(Math.round(miles * 10) / 10)}</span>,
+                open ? <button key="n" type="button" className="text-left underline hover:text-accent" onClick={() => open(i)} data-near-name={i}>{name}</button> : <span key="n" data-near-name={i}>{name}</span>,
+                <span key="k">{ROW_KIND[k]}</span>,
+                <span key="t">{k === KIND.datacenter ? "" : f.techs[f.t[i]].name}</span>,
+                <span key="s" data-near-status={i}>{statusWords(f, i)}</span>,
+                <span key="m" data-near-mw={i}>{mw === null ? "not stated" : `${one(mw)}${k === KIND.queue ? " requested" : ""}`}</span>,
+                <span key="w" data-near-date={i}>{f.d[i] ? `${dateOf(f.d[i])} (${DATE_WORDS[k]})` : "not stated"}</span>,
+                <span key="p" data-near-placed={i}>{PLACED_AT[f.pr[i]] ?? "not placed"}</span>,
+              ],
+            };
+          })} />
+      ) : (
+        <p className="text-sm" data-map-near-none="1">No row chosen lies within {near.miles} miles of the point.</p>
+      )}
+    </ToolSection>
   );
 }
 
