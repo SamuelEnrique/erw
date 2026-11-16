@@ -24,7 +24,14 @@ Energy Research Warehouse (ERW). samueloldlaptop, code role, unattended. Started
 
 - `s7522-before` (13:48 UTC) against `s7522-after1` (13:58): 0 differences (the queue move and resume pointer). Expected.
 - `s7522-after1` against `s7522-after2` (14:03): 0 differences (B10's rows and the pack). Expected.
-- The later pushes: below, under "Snapshots, continued".
+- `s7522-after2` against `s7522-after3` (14:11): 0 differences (B11's rows). Expected.
+- `s7522-after3` against `s7522-after4` (14:12): 0 differences (B12's rows, the note, this report, the resume pointer's removal, `aff8cbc3a`). Expected. Taken about a minute after the push, so the deploy may not yet have been live; the commit holds state files that no page reads.
+- The push of this last record: `s7522-after4` is its before; its after is the next session's before (state files only).
+
+## The queue step
+
+- Run at 14:12 UTC after the resume pointer's removal reached main: exit 3 (`queue/next/` holds 310, 350 and 370, for the data machine and the portable laptop); the machine is off duty and the chain watch sends the one "ready" email.
+- Part C (the other machines' tools read) was not started: the chain file says to go on with it after exit 3, and the owner's instruction for this run says to stop when the queue step exits 3. The owner's instruction was followed. Part C stays open in the progress file.
 
 ## What to review
 
@@ -36,6 +43,7 @@ Energy Research Warehouse (ERW). samueloldlaptop, code role, unattended. Started
 
 ## Decisions made without you
 
+- Part C left open at the queue step's exit 3, as the owner's instruction for this run says, over the chain file's "go on with part C".
 - Chain 304 was taken as interrupted, not running in another session, on the evidence above.
 - One session number a tool for the resumed reads (7522, 7523, 7524), the branches and worktrees kept under their first sessions' numbers.
 - The pack was written beside part B rather than after it: it covers part A's nine tools and reads nothing of B10 to B12.
