@@ -29,7 +29,10 @@ class ThePolicyNumbers(unittest.TestCase):
 class TheDownloads(unittest.TestCase):
     def test_both_policy_views_and_every_event_page_offer_their_tables(self):
         # session 3060: three views of /policy (every action, the week, the monitor), each offering the two tables
-        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads"]} />'), 3)
+        # session 7201 (chain 302): the monitor's line also names state_large_load_laws, whose rows the monitor draws since
+        # then; the two other views offer the two tables as before
+        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads"]} />'), 2)
+        self.assertEqual(src("site", "app", "policy", "page.tsx").count('<TableDownloads tables={["policy_actions", "policy_reads", "state_large_load_laws"]} />'), 1)
         es = src("site", "components", "EventStudy.tsx")
         self.assertIn('<TableDownloads tables={[T, "event_study_estimates"]} />', es)
         self.assertIn('<TableDownloads tables={[T, "event_study_estimates"]} />', src("site", "app", "events", "page.tsx"))

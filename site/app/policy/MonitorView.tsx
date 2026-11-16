@@ -13,6 +13,8 @@ import {
 } from "@/lib/policymonitor";
 import { MonitorCalendar } from "./MonitorCalendar";
 import { MonitorCharts } from "./MonitorCharts";
+// chain 302 (session 7201): the states' laws on large loads, under the records, following the State filter
+import { StateLaws, type LawsProp } from "./StateLaws";
 
 const tip = "cursor-help border-b border-dotted border-muted";
 const HEAD: Record<SortKey, [string, string]> = {
@@ -44,7 +46,7 @@ function Multi({ label, opts, chosen, set, why }: { label: string; opts: Option[
   );
 }
 
-export function MonitorView({ rows, built, held, opened, today }: { rows: MonitorRow[]; built: string; held: number; opened: Filters; today: string }) {
+export function MonitorView({ rows, built, held, opened, today, laws }: { rows: MonitorRow[]; built: string; held: number; opened: Filters; today: string; laws?: LawsProp }) {
   const [f, setF] = useState<Filters>(opened);
   const [sort, setSort] = useState<[SortKey, "asc" | "desc"]>(["date", "desc"]);
   const [open, setOpen] = useState<string | null>(null);
@@ -84,7 +86,7 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
         <Multi label="Status" opts={opts.statuses} chosen={f.statuses} set={(v) => put({ ...f, statuses: v })} why="As of the newest document." />
         <Multi label="Sector" opts={opts.sectors} chosen={f.sectors} set={(v) => put({ ...f, sectors: v })} why="The scorer's sector of the most significant document." />
         <Multi label="Grid" opts={opts.grids} chosen={f.grids} set={(v) => put({ ...f, grids: v })} why="A grid operator the record's reads or titles name." />
-        <Multi label="State" opts={opts.states} chosen={f.states} set={(v) => put({ ...f, states: v })} why="A state the record's documents apply to." />
+        <Multi label="State" opts={opts.states} chosen={f.states} set={(v) => put({ ...f, states: v })} why="A state the record's documents apply to. A record is a federal action or a release of one of four bodies: a state commission's own dockets are not records here, and an action of a grid operator that names no state is under Grid." />
         <label className="mb-2 flex flex-col text-xs text-muted">From
           <input type="date" value={f.from} onChange={(e) => put({ ...f, from: e.target.value })} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
         </label>
@@ -169,6 +171,7 @@ export function MonitorView({ rows, built, held, opened, today }: { rows: Monito
           </button>
         ) : null}
         <MonitorCharts rows={rows} last={last} />
+        {laws ? <StateLaws file={laws} states={f.states} clearStates={() => put({ ...f, states: [] })} /> : null}
       </section>
     </div>
   );
