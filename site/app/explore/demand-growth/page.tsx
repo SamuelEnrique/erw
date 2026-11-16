@@ -15,7 +15,7 @@ import {
 } from "@/lib/explore/demandgrowth";
 import { sourceOf } from "@/lib/explore/source";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
-import { DemandGrowthDecisions } from "./Decisions";
+import { DemandGrowthDecisions } from "@/app/explore/demand-growth/Decisions";
 
 // Session 404: the demand growth explorer (platform tool 5, the second signature explorer), in review. Growth since
 // 2019 by grid and by window of the year, from eia930_demand_growth as it stands in the live set: for any of the seven

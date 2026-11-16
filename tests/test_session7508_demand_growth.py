@@ -53,9 +53,12 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
         cls.tmp = tempfile.mkdtemp(prefix="erw7508_")
         cls.drawn = os.path.join(cls.tmp, "drawn.json")
         env = {k: v for k, v in os.environ.items() if not k.startswith("SUPABASE")}
-        cls.run = subprocess.run([NODE, "--no-warnings", "--import", "./scripts/tsx-register.mjs", "scripts/demand-growth-figures.mjs", ROWS, cls.drawn, "--grids=ercot,us48"],
+        cls.proc = subprocess.run([NODE, "--no-warnings", "--import", "./scripts/tsx-register.mjs", "scripts/demand-growth-figures.mjs", ROWS, cls.drawn, "--grids=ercot,us48"],
                                  cwd=SITE, capture_output=True, text=True, encoding="utf-8", timeout=900, env=env)
-        cls.page = json.load(open(cls.drawn, encoding="utf-8")) if os.path.exists(cls.drawn) else None
+        cls.page = None
+        if os.path.exists(cls.drawn):
+            with open(cls.drawn, encoding="utf-8") as f:
+                cls.page = json.load(f)
 
     @classmethod
     def tearDownClass(cls):
@@ -65,7 +68,7 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
         return next(v for v in self.page["views"] if v["q"].get("grid") == grid and v["q"].get("window") == window and "extra" not in v["q"])
 
     def test_the_page_draws_every_view(self):
-        self.assertEqual(self.run.returncode, 0, self.run.stderr[-2000:])
+        self.assertEqual(self.proc.returncode, 0, self.proc.stderr[-2000:])
         self.assertEqual(len(self.page["views"]), 2 * 39 + 3)
         self.assertEqual(self.page["conflicts"], [])
         for v in self.page["views"]:
@@ -126,8 +129,8 @@ class TheFilesOfTheDoneLine(unittest.TestCase):
         listed = re.findall(r"^\| `([a-z0-9-]+)` \|", section, flags=re.M)
         self.assertEqual(listed, keys)
         block = src("site", "app", "explore", "demand-growth", "Decisions.tsx")
-        self.assertEqual(block.count(" def: "), len(keys))
-        self.assertEqual(block.count(" source: "), len(keys))
+        self.assertEqual(len(re.findall(r'^    def: "', block, flags=re.M)), len(keys))
+        self.assertEqual(len(re.findall(r'^    source: "', block, flags=re.M)), len(keys))
         self.assertNotIn("text-muted", block)
         self.assertIn("<DemandGrowthDecisions />", src("site", "app", "explore", "demand-growth", "page.tsx"))
 
