@@ -1,0 +1,1147 @@
+{
+ "_about": "A sample of shoulder_hours_monthly recomputed from EIA-930's hourly workbooks (replication/shoulder/from_hourly.py): by grid and month, the average day hour by hour and its measures; by grid and year, the days ranked and the ten days' own measures.",
+ "workbooks": {
+  "ERCO": "erco_sheet.csv",
+  "CISO": "ciso_sheet.csv"
+ },
+ "tolerance": 6e-05,
+ "values": 22092,
+ "equal": 22092,
+ "sample": [
+  {
+   "entity": "iso:caiso",
+   "month": "2019-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2019-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2020-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2021-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2022-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2023-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2024-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "month": "2025-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2019",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2020",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2021",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2022",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2023",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2024",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:caiso",
+   "year": "2025",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2019-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2020-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2021-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2022-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-11",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2023-12",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-01",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-02",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-03",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-04",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-05",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-06",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-07",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-08",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-09",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-10",
+   "values": 114,
+   "inside": 114
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-11",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2024-12",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-01",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-02",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-03",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-04",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-05",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-06",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-07",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-08",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-09",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-10",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-11",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2025-12",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-01",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-02",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-03",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-04",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-05",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-06",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-07",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-08",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "month": "2026-09",
+   "values": 138,
+   "inside": 138
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2019",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2020",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2021",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2022",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2023",
+   "values": 112,
+   "inside": 112
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2024",
+   "values": 116,
+   "inside": 116
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2025",
+   "values": 122,
+   "inside": 122
+  },
+  {
+   "entity": "iso:ercot",
+   "year": "2026",
+   "values": 122,
+   "inside": 122
+  }
+ ],
+ "differences": []
+}
