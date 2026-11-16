@@ -90,7 +90,7 @@ class TheTab(unittest.TestCase):
         self.assertEqual(v.count('<RuleLine r={r} x={x} cell="connect" />'), 1)
         self.assertIn("<LargeLoadSection q={q} x={x} />", v)
         s = src("site", "app", "cost-of-power", "LargeLoadSection.tsx")
-        for words in ("no large-load rule found", "no large-load rule read", "its rule's timed steps", "no timed step printed"):
+        for words in ("no large-load rule found", "no large-load rule read", "its rule's timed steps", "no timed step printed", '{rr.own.length ? "utility" : "state"}: '):
             self.assertIn(words, s)
         self.assertIn("rowRules(LARGE_LOAD, utilities, state, r.grid)", s)
         self.assertNotIn("TableDownloads", s, "the tab reads files only: no catalogue read from the database")

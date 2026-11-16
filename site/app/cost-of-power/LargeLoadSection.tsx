@@ -52,7 +52,8 @@ export function RuleLine({ r, x, cell }: { r: Row; x: SitingInputs; cell: "utili
   const timed = rules.some((l) => l.rule && (l.rule.fields.study_timeline?.kind === "value" || l.rule.fields.connection_timeline?.kind === "value"));
   return (
     <span className="block text-xs" data-llr="cell" data-connect-rule={ids.length}>
-      utility: <SiteLink href={rowRuleHref(x, r)} gate="plain" title={what} data-llr-open-row={r.id}>{timed ? "its rule's timed steps" : "its rule"}</SiteLink>
+      {/* the rule of a utility the row names, or, where only a rule for every utility of the state was read, the state's */}
+      {rr.own.length ? "utility" : "state"}: <SiteLink href={rowRuleHref(x, r)} gate="plain" title={what} data-llr-open-row={r.id}>{timed ? "its rule's timed steps" : "its rule"}</SiteLink>
       {timed ? null : <>, <Tip tip="The rule read prints no study time and no time to energize, or the row is held for a license." data={{ "cell-words": "1" }}>no timed step printed</Tip></>}
     </span>
   );

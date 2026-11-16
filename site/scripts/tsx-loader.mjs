@@ -2,9 +2,9 @@
 // site's components (.tsx) as they are and draw them to HTML with react-dom/server, without building the site. The old
 // laptop's memory does not always hold a build; a component that throws while it draws, a held value in the HTML, or a
 // tip with no target is found here in seconds. It turns a .tsx file into JavaScript with the TypeScript compiler the
-// site already has (transpile only: no type check, which `tsc` does), and stands in for the one import that exists only
+// site already has (transpile only: no type check, which `tsc` does), and stands in for the imports that exist only
 // inside Next: the site's link (components/SiteLink.tsx: next/link, the address's hooks and the release gate), drawn as
-// a plain link with its attributes. It is registered in front of scripts/alias-loader.mjs, which resolves "@/..." and
+// a plain link with its attributes; and for next/link and next/navigation themselves, where a component names them. It is registered in front of scripts/alias-loader.mjs, which resolves "@/..." and
 // reads .json (scripts/tsx-register.mjs). It draws what the server would draw first; it runs no effect and no click.
 import fs from "node:fs";
 import { createRequire } from "node:module";
@@ -17,6 +17,11 @@ const STUBS = {
   "@/components/SiteLink": `import { createElement } from "react";
 export function SiteLink({ href, children, gate, prefetch, scroll, ...rest }) { return createElement("a", { href: typeof href === "string" ? href : href?.pathname, "data-site-link": "1", ...rest }, children); }
 export const NO_PREFETCH = []; export const noPrefetch = () => false;`,
+  // the address's hooks, for a client component drawn outside Next: no address, and a router that goes nowhere
+  "next/navigation": `export const useRouter = () => ({ push() {}, replace() {}, refresh() {}, prefetch() {} });
+export const usePathname = () => "/"; export const useSearchParams = () => new URLSearchParams();`,
+  "next/link": `import { createElement } from "react";
+export default function Link({ href, children, prefetch, scroll, replace, ...rest }) { return createElement("a", { href: typeof href === "string" ? href : href?.pathname, ...rest }, children); }`,
 };
 
 export async function resolve(specifier, context, next) {

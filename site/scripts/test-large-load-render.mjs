@@ -148,7 +148,9 @@ for (const r of hubs) {
   const has = rr.own.length + rr.statewide.length > 0;
   if (rr.own.length) tally.opens++; else if (rr.statewide.length) tally.state++; else if (rr.none.length) tally.found++; else tally.read++;
   const linkOk = has ? [u, c].every((s) => s.includes(`llrow=${encodeURIComponent(r.id)}#large-load-rule`)) : [u, c].every((s) => /no large-load rule (found|read)/.test(s) && !s.includes("llrow="));
-  if (!linkOk || !u.includes('data-llr="cell"') || !c.includes("utility: ")) bad.push(r.id);
+  // the connect cell says whose rule it opens: a utility's, or the state's where only a rule for every utility was read
+  const whose = has && !rr.own.length ? "state" : "utility";
+  if (!linkOk || !u.includes('data-llr="cell"') || !text(c).trim().startsWith(`${whose}: `)) bad.push(r.id);
 }
 ok(hubs.length === 48 && !bad.length, `each of the ${hubs.length} hub and zone rows draws its rule line in both cells: ${tally.opens} open a utility's rule, ${tally.state} the state's rule alone, ${tally.found} say no rule found, ${tally.read} no rule read${bad.length ? `; wrong: ${bad.join(", ")}` : ""}`);
 ok(tally.opens >= 15 && tally.opens + tally.state + tally.found + tally.read === 48, "the tally sums to the rows");
