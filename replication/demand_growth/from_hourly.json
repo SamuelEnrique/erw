@@ -1,0 +1,522 @@
+{
+ "table_file": "eia930_demand_growth.csv",
+ "table_rows": 24116,
+ "ytd_through": "10/2026",
+ "areas": {
+  "ERCO": {
+   "last_hour_held_in_workbook": "2026-10-03T04:00:00Z",
+   "hours_from_api": 835,
+   "left_out_since_2019": {
+    "blank": 24,
+    "not_positive": 0,
+    "apart": 0,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "MISO": {
+   "last_hour_held_in_workbook": "2026-10-03T04:00:00Z",
+   "hours_from_api": 883,
+   "left_out_since_2019": {
+    "blank": 0,
+    "not_positive": 0,
+    "apart": 0,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "SWPP": {
+   "last_hour_held_in_workbook": "2026-10-03T04:00:00Z",
+   "hours_from_api": 835,
+   "left_out_since_2019": {
+    "blank": 0,
+    "not_positive": 0,
+    "apart": 2,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "CISO": {
+   "last_hour_held_in_workbook": "2026-10-03T06:00:00Z",
+   "hours_from_api": 737,
+   "left_out_since_2019": {
+    "blank": 25,
+    "not_positive": 0,
+    "apart": 38,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "PJM": {
+   "last_hour_held_in_workbook": "2026-10-03T03:00:00Z",
+   "hours_from_api": 740,
+   "left_out_since_2019": {
+    "blank": 3,
+    "not_positive": 0,
+    "apart": 7,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "NYIS": {
+   "last_hour_held_in_workbook": "2026-10-03T03:00:00Z",
+   "hours_from_api": 884,
+   "left_out_since_2019": {
+    "blank": 0,
+    "not_positive": 12,
+    "apart": 0,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "ISNE": {
+   "last_hour_held_in_workbook": "2026-10-03T03:00:00Z",
+   "hours_from_api": 884,
+   "left_out_since_2019": {
+    "blank": 0,
+    "not_positive": 0,
+    "apart": 0,
+    "out_of_range": 0
+   },
+   "rows_in_table": 3018,
+   "compared": 3011,
+   "equal": 3011
+  },
+  "US48": {
+   "last_hour_held_in_workbook": "2026-10-03T03:00:00Z",
+   "hours_from_api": 884,
+   "left_out_since_2019": {
+    "blank": 0,
+    "not_positive": 0,
+    "apart": 1,
+    "out_of_range": 0
+   },
+   "rows_in_table": 2990,
+   "compared": 2985,
+   "equal": 2983
+  }
+ },
+ "differences": [
+  {
+   "area": "ERCO",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 55880.7,
+   "recomputed": null,
+   "why": "needs hours after the workbook's last"
+  },
+  {
+   "area": "CISO",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 28097.8,
+   "recomputed": null,
+   "why": "needs hours after the workbook's last"
+  },
+  {
+   "area": "PJM",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 86463.2,
+   "recomputed": null,
+   "why": "needs hours after the workbook's last"
+  },
+  {
+   "area": "US48",
+   "variable": "avg_demand_mw_m08",
+   "year": 2026,
+   "table": 592629.3,
+   "recomputed": 592625.6,
+   "x_at_table": null,
+   "x_at_recomputed": null
+  },
+  {
+   "area": "US48",
+   "variable": "avg_demand_mw_m09",
+   "year": 2026,
+   "table": 541551.6,
+   "recomputed": 541210.6,
+   "x_at_table": null,
+   "x_at_recomputed": null
+  }
+ ],
+ "second_source": [
+  {
+   "area": "ERCO",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 33.34,
+   "recomputed": 33.36
+  },
+  {
+   "area": "ERCO",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 59723.4,
+   "recomputed": 59735.0
+  },
+  {
+   "area": "ERCO",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "ERCO",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7247.0
+  },
+  {
+   "area": "ERCO",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 22.19,
+   "recomputed": 22.19
+  },
+  {
+   "area": "ERCO",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 91075.0,
+   "recomputed": 91075.0
+  },
+  {
+   "area": "MISO",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 71220.0,
+   "recomputed": 71220.0
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 4.88,
+   "recomputed": 4.88
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 78318.2,
+   "recomputed": 78318.2
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 4.21,
+   "recomputed": 4.21
+  },
+  {
+   "area": "MISO",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 121514.0,
+   "recomputed": 121514.0
+  },
+  {
+   "area": "SWPP",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 32135.3,
+   "recomputed": 32135.3
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 16.22,
+   "recomputed": 16.22
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 36075.6,
+   "recomputed": 36075.6
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 14.76,
+   "recomputed": 14.76
+  },
+  {
+   "area": "SWPP",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 57964.0,
+   "recomputed": 57964.0
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 10.98,
+   "recomputed": 11.1
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 27348.1,
+   "recomputed": 27376.3
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7294.0,
+   "recomputed": 7239.0
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 13.93,
+   "recomputed": 13.93
+  },
+  {
+   "area": "CISO",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 49959.0,
+   "recomputed": 49959.0
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 8.34,
+   "recomputed": 8.47
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 99399.2,
+   "recomputed": 99512.9
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7243.0
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 6.78,
+   "recomputed": 6.78
+  },
+  {
+   "area": "PJM",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 162648.0,
+   "recomputed": 162648.0
+  },
+  {
+   "area": "NYIS",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 14731.6,
+   "recomputed": 14731.6
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": -3.64,
+   "recomputed": -3.64
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 17246.8,
+   "recomputed": 17246.8
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7289.0,
+   "recomputed": 7289.0
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 2.3,
+   "recomputed": 2.3
+  },
+  {
+   "area": "NYIS",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 31097.0,
+   "recomputed": 31097.0
+  },
+  {
+   "area": "ISNE",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 11391.9,
+   "recomputed": 11391.9
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": -1.2,
+   "recomputed": -1.2
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 13308.1,
+   "recomputed": 13308.1
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_peak_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 5.49,
+   "recomputed": 5.49
+  },
+  {
+   "area": "ISNE",
+   "variable": "ytd_peak_demand_mw",
+   "year": 2026,
+   "table": 25289.0,
+   "recomputed": 25289.0
+  },
+  {
+   "area": "US48",
+   "variable": "avg_demand_mw_m10",
+   "year": 2026,
+   "table": 460894.6,
+   "recomputed": 460066.5
+  },
+  {
+   "area": "US48",
+   "variable": "ytd_avg_demand_growth_since_2019_pct",
+   "year": 2026,
+   "table": 10.24,
+   "recomputed": 10.21
+  },
+  {
+   "area": "US48",
+   "variable": "ytd_avg_demand_mw",
+   "year": 2026,
+   "table": 510596.8,
+   "recomputed": 510478.3
+  },
+  {
+   "area": "US48",
+   "variable": "ytd_hours_in_window",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  },
+  {
+   "area": "US48",
+   "variable": "ytd_hours_used",
+   "year": 2026,
+   "table": 7295.0,
+   "recomputed": 7295.0
+  }
+ ],
+ "summary": {
+  "compared": 24062,
+  "equal": 24060,
+  "second_source_rows": 51,
+  "second_source_equal": 39,
+  "not_recomputed": 3,
+  "recomputed_not_in_table": 0
+ }
+}
