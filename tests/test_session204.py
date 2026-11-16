@@ -31,6 +31,7 @@ import table_stores  # noqa: E402
 FIX = os.path.join(ROOT, "tests", "fixtures", "session120")
 STEPS = ["ercot_rtm_node_prices", "battery_dispatch_export", "battery_scenario_steps", "merchant_revenue", "merchant_hubs",
          "seller_hybrid", "generator_hourly_export"]
+PROFILES = ["mix_profile", "curtailment_profile"]   # session 7014: they left the runner's monthly job (built as table steps)
 BASH = shutil.which("bash")
 
 
@@ -241,7 +242,7 @@ class AnIntervalPostedTwice(unittest.TestCase):
 
 class TheSchedule(unittest.TestCase):
     def test_the_list_names_the_seven_and_the_runners_schedule_is_as_it_was(self):
-        self.assertEqual(list(scheduled.DATA_MACHINE), STEPS)
+        self.assertEqual(list(scheduled.DATA_MACHINE), STEPS + PROFILES)
         self.assertEqual(set(scheduled.DATA_MACHINE) & set(scheduled.JOBS), set())
         self.assertEqual(scheduled.STEPS, {**scheduled.JOBS, **scheduled.DATA_MACHINE})
         for name, j in scheduled.DATA_MACHINE.items():

@@ -111,18 +111,6 @@ JOBS = {
 HISTORIES = ["ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"]
 NODE_ROWS_A_DAY = "500000"   # the owner's ceiling for the node price pull, rows a UTC day (ercot_rt_spp.py holds the count)
 DATA_MACHINE = {
-    # session 7014 (chain 301): the mix and curtailment profiles moved here from the monthly job. The runner built them
-    # from its restored tables, which lack months the history holds; session 2885 put the run of 6 November's files
-    # back, demand growth's file (the monthly mark) stayed, and neither page was built again that month (the profile
-    # still read 5 October on 16 November, the mix 19 October). Here the full tables are held; run_data_machine.sh
-    # builds both each day, puts them back whole if their tests refuse them, and stores their tables.
-    "mix_profile": dict(
-        cadence="data machine, daily", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly", "caiso_fuel_supply_history"],
-        workbooks=ISO_BAS,
-        cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
-    "curtailment_profile": dict(
-        cadence="data machine, daily", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
-        restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
     # the standing pull (the owner's ruling of 12 October 2026, on session 178's request and session 200's
     # recommendation): ERCOT lists seven days of its 15-minute Settlement Point Prices and no more, so a day not pulled
     # within the week cannot be had later. The list and each listed file not yet saved; then the table, merged into the
@@ -168,6 +156,19 @@ DATA_MACHINE = {
         tables=["iso_rtm_hub_prices", "ercot_all_hub_prices_history", "eia860m_operating_generators", "eia860m_retired_generators"],
         files=["site/data/merchant_snapshot.json", "site/data/seller/capture.json"],
         cmd=["warehouse/derived/generator_hourly_export.py", "--cache-dir", "runs/generator_cache"]),
+    # session 7014 (chain 301): the mix and curtailment profiles moved here from the monthly job. The runner built them
+    # from its restored tables, which lack months the history holds; session 2885 put the run of 6 November's files
+    # back, demand growth's file (the monthly mark) stayed, and neither page was built again that month (the profile
+    # still read 5 October on 16 November, the mix 19 October). Here the full tables are held; run_data_machine.sh
+    # builds both each week (the table steps dm_mix_profile and dm_curtailment_profile of
+    # run_data_machine_tables.sh, session 7015), puts them back whole if their tests refuse them, and stores their tables.
+    "mix_profile": dict(
+        cadence="data machine, daily", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly", "caiso_fuel_supply_history"],
+        workbooks=ISO_BAS,
+        cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
+    "curtailment_profile": dict(
+        cadence="data machine, daily", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
+        restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
 }
 STEPS = {**JOBS, **DATA_MACHINE}
 

@@ -157,9 +157,11 @@ TABLES = {
     # session 8 (docs/price-sources.md sections 1, 7 and 8): monthly series
     "eia_crude_first_purchase_prices": dict(
         parts=[dict(route="petroleum/pri/dfp2", series=["F003075793"]),
-               dict(route="petroleum/pri/dfp1", series=["F002038__3"])],
+               # session 7016 (done-line request 24): Texas, Louisiana and New Mexico beside North Dakota, so /severance
+               # can show the state's price at the lease beside WTI Cushing
+               dict(route="petroleum/pri/dfp1", series=["F002038__3", "F003048__3", "F003022__3", "F003035__3"])],
         freq="monthly", geo="US",
-        title="EIA crude oil first purchase prices: Mars blend, North Dakota (a Bakken proxy), monthly",
+        title="EIA crude oil first purchase prices: Mars blend; North Dakota (a Bakken proxy), Texas, Louisiana, New Mexico, monthly",
         report="Domestic Crude Oil First Purchase Prices (by stream; by area)",
         page="https://www.eia.gov/dnav/pet/pet_pri_dfp2_k_m.htm",
         variable=lambda unit: "first_purchase_price"),

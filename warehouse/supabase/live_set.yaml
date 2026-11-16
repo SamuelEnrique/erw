@@ -18,6 +18,7 @@ full:
                                                  # planned generators reach Supabase through energy_projects
   - '^(?!lbnl_)[a-z]+_interconnection_queue$'   # entities tables (session 62: not Berkeley Lab's national history)
   - '^eia_fuel_spot_prices$'
+  - '^eia_crude_first_purchase_prices$'      # session 7016 (done-line request 24): the states' first purchase prices for /severance (about 2,600 rows)
   # session 207: fred_daily_spot_prices is retired (warehouse/metadata/retired_tables.csv); its rows in Supabase stay
   # until a person runs load.py --prune
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
