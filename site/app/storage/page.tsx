@@ -8,6 +8,8 @@ import { Brand } from "@/components/Brand";
 import { Tabs } from "@/components/tool/Tabs";
 import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { STORAGE_DECISIONS } from "@/lib/decisions";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 import { count, day, shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -276,6 +278,7 @@ export default async function Storage({ searchParams }: { searchParams: Promise<
         <div data-storage={tab}>
           <Tabs page="/storage" active={tab} />
           {tab === "buildout" ? <BuildoutView sp={sp} /> : tab === "owners" ? <OwnersView sp={sp} /> : <FleetView />}
+          <DecisionsBlock id="7018-storage" title="Decisions on this page (each with its default and its source on hover)" items={STORAGE_DECISIONS} />
           {/* session 330: each tab's tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
           <TableDownloads tables={tab === "buildout" ? ["storage_buildout_monthly"] : tab === "owners" ? ["storage_owners_monthly"]
             : ["storage_capacity", "storage_daily_cycle", "eia930_all_storage", "caiso_battery_storage"]} />

@@ -127,3 +127,40 @@ Each number `/storage` and `/grid` show carries its key (`site/components/Num.ts
 
 `replication/storage/replicate.py` reads the live set as the page does (the anon key: the fleet, the daily cycle, EIA-930's and CAISO's battery output, the buildout and the owners) and compares every row with the warehouse's tables, and recomputes the fleet's sums from the warehouse: 63,075 of 63,075 equal on 16 November 2026 after one fix (`docs/reviews/storage-faults-2026-11-16.md`: CAISO's revised battery values had reached the live set and not the tables of record). `replicate.do` rebuilds five sums of the fleet in Stata, its expected values at its top.
 
+## The cross-checks (session 7018, chain 301)
+
+The fleet's nameplate (EIA-860M, operating units, vintage 2026-09) beside the highest hour of output each grid's own reporting shows (CAISO's 5-minute data from 24 August 2025; EIA-930's battery series from November 2024, which CAISO does not report), as held on 16 November 2026. Output cannot pass nameplate, and a fleet never discharges whole at once:
+
+| Grid | Operating nameplate, MW | Highest output held, MW | When (UTC) | Share |
+|---|---|---|---|---|
+| CAISO | 17,265.5 | 13,441 (5-minute) | 2026-08-19 03:10 | 78 percent |
+| ERCOT | 19,194.6 | 11,928 (hourly) | 2026-09-03 00:00 | 62 percent |
+| MISO | 1,175.9 | 931 (hourly) | 2026-10-13 22:00 | 79 percent |
+| ISO-NE | 1,021.7 | 516 (hourly) | 2026-03-02 23:00 | 51 percent |
+| SPP | 490.5 | 447 (hourly) | 2026-09-29 22:00 | 91 percent |
+
+Every grid's highest output stands below its nameplate. An hourly mean is lower than a 5-minute peak, and units added after the hour shown raise the nameplate and not the hour. The replication compares every figure the page reads with the tables (63,075 of 63,075).
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot, under each of its tabs (`site/lib/decisions.ts`, `STORAGE_DECISIONS`), each choice's default and source on hover:
+
+1. Battery output is net generation as published: positive while the batteries discharge to the grid, negative while they charge, so a day's charging is the part below zero taken as a positive amount. **Default:** Positive discharging, negative charging. **Source:** EIA-930's battery series (fuel type BAT) and CAISO's Today's Outlook, both signed this way. (session 31)
+2. EIA's hourly period is the hour's end in UTC, so each hour is dated by its start, one hour before EIA's stamp; CAISO's hour is the mean of its twelve 5-minute values. **Default:** Every hour dated by its start. **Source:** EIA API v2, electricity/rto/fuel-type-data; CAISO's 5-minute battery history. (session 31)
+3. A day is the balancing authority's local day and counts only when every hour of it is held (23 or 25 on the clock-change days; for CAISO every 5-minute interval); a day short of one is left out, never filled. **Default:** Whole local days only. **Source:** docs/methods/storage.md, "Days" and "Completeness". (session 31)
+4. Each authority's day is in its own time: Central for ERCOT and SPP, Pacific for CAISO, Eastern for ISO-NE and for the Lower 48 (as EIA's Grid Monitor shows it), and fixed EST for MISO, as MISO publishes. **Default:** Each grid's own local time; MISO on fixed EST. **Source:** The operators' market time zones; EIA's Grid Monitor default. (session 31)
+5. The day's energy out over energy in is not a measured efficiency: charge held across midnight moves it, and so do batteries reported under other fuels (solar or wind with integrated storage). **Default:** Shown as out over in, labelled not an efficiency. **Source:** docs/methods/storage.md, the daily cycle's notes. (session 31)
+6. California is drawn from CAISO's own 5-minute battery data, not EIA-930's, which CAISO does not report as BAT; it includes the batteries of hybrid plants, which CAISO publishes inside its total. **Default:** CAISO's own data for California, labelled as CAISO's. **Source:** CAISO, Today's Outlook, battery storage history ("Total batteries"). (session 34)
+7. The fleet is every generator with EIA's prime mover "Batteries" in EIA-860M, at its nameplate MW and, where EIA gives it, its nameplate energy; the page's sums by status, grid, state and planned year are sums of those rows and nothing else. **Default:** EIA-860M battery units at nameplate; sums of the rows only. **Source:** EIA-860M, Monthly Update to the Annual Electric Generator Report. (session 31)
+8. Energy capacity in MWh is EIA's own figure, carried for operating and retired units; planned units have none in EIA-860M, and a unit's MWh is never estimated from its MW. **Default:** MWh only where EIA states it. **Source:** EIA-860M, "Nameplate Energy Capacity (MWh)". (session 34)
+9. A unit's grid is the ISO of its balancing authority when that is one of the seven; any other unit stands outside the ISOs with its own authority's code, never assigned by its state. **Default:** The ISO of the unit's balancing authority, else outside the ISOs. **Source:** EIA-860M's balancing authority code for each generator. (session 31)
+
+## What waits for the owner (session 7018)
+
+- PJM's and NYISO's battery output (neither reports BAT to EIA-930 by the check of 29 September 2026; their units are in the fleet's sums).
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:
