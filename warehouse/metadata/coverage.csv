@@ -39,7 +39,7 @@ caiso_as_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2026-11-16T07:00:00Z
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-11-16T07:55:00Z,385344,caiso:todays_outlook_storage,2026-11-16T12:23:51Z,pass,public,power,no,source
 caiso_curtailment_daily,CAISO,,1,P1D,2014-05-01T00:00:00Z,2026-11-13T00:00:00Z,25300,caiso:daily_renewable_report;caiso:production_curtailments,2026-11-15T15:16:20Z,pass,public,power,no,source
 caiso_curtailment_intervals,CAISO,,1,P1D;PT1H;PT5M,2019-01-01T00:00:00Z,2026-11-02T07:00:00Z,486469,caiso:daily_renewable_report;caiso:production_curtailments,2026-11-03T17:30:05Z,pass,public,power,no,source
-caiso_curtailment_profile,CAISO,,1,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,6240,erw:caiso_curtailment_profile,2026-11-06T00:32:17Z,pass,public,power,yes,derived
+caiso_curtailment_profile,CAISO,,1,P1M,2019-01-01T00:00:00Z,2026-10-01T00:00:00Z,6240,erw:caiso_curtailment_profile,2026-11-16T12:47:58Z,pass,public,power,yes,derived
 caiso_dam_alert_day_hub_prices,CAISO,caiso_dam,2,PT1H,2023-07-14T07:00:00Z,2025-08-25T06:00:00Z,3024,caiso:PRC_LMP,2026-10-19T11:31:42Z,pass,public,power,no,source
 caiso_dam_cleared_energy,CAISO,caiso_dam,1,PT1H,2025-09-01T00:00:00Z,2026-11-17T07:00:00Z,10455,caiso:ENE_SLRS,2026-11-16T11:49:12Z,pass,public,power,no,source
 caiso_fuel_supply,CAISO,,1,PT1H,2025-06-01T07:00:00Z,2026-11-15T07:00:00Z,162864,caiso:todays_outlook_fuelsource,2026-11-15T14:54:25Z,pass,public,power,no,source

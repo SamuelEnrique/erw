@@ -51,7 +51,9 @@ echo "== ERW monthly builds $(date -u +%FT%TZ) (session 114)"
 # series was pulled by hand and stopped at the report of 26 March 2026 (session 217's report). A soft step: a month
 # ERCOT posts nothing new leaves the table as it is, and a failure never fails the run.
 soft_step ercot_large_load_status "$PYTHON" warehouse/connectors/ercot_large_load_status.py
-for name in mix_profile price_compare demand_growth curtailment_profile project_map large_load_snapshot; do
+# session 7014: mix_profile and curtailment_profile are steps of the data machine's run (warehouse/scheduled.py,
+# DATA_MACHINE), which holds the full tables; here they would be built from the runner's restored, shorter tables
+for name in price_compare demand_growth project_map large_load_snapshot; do
   soft_step "$name" "$PYTHON" warehouse/scheduled.py "$name"
 done
 # Session 2927 (chain 153): the mix's and curtailment's page files held to their own tests, as session 2913 holds the

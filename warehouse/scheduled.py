@@ -86,10 +86,6 @@ JOBS = {
     # (October 2019 to August 2020). Unnamed here, its absence on the runner was not seen, and the run of 6 November wrote
     # CAISO's mix without those months (90 to 80). Named as an input (and, like the others here, never asked of the
     # archive: session 114), a machine that lacks it skips the step and the page keeps the copy it has
-    "mix_profile": dict(
-        cadence="monthly", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly", "caiso_fuel_supply_history"],
-        workbooks=ISO_BAS,
-        cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
     "price_compare": dict(
         cadence="monthly", page="/prices/compare",
         # every price table the comparison reads: without one of them it would write fewer hubs than it holds
@@ -99,9 +95,6 @@ JOBS = {
     "demand_growth": dict(
         cadence="monthly", page="/demand", workbooks=ISO_BAS + ["US48"],
         cmd=["warehouse/derived/demand_growth.py", "--snapshot"]),
-    "curtailment_profile": dict(
-        cadence="monthly", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
-        restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
     "project_map": dict(
         # session 167: /map is one page; its file (site/data/map.json) also reads the queue positions and the datacenters
         cadence="monthly", page="/map", tables=["eia860m_operating_generators", "eia860m_planned_generators", "energy_projects", "datacenter_facilities"],
@@ -118,6 +111,18 @@ JOBS = {
 HISTORIES = ["ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"]
 NODE_ROWS_A_DAY = "500000"   # the owner's ceiling for the node price pull, rows a UTC day (ercot_rt_spp.py holds the count)
 DATA_MACHINE = {
+    # session 7014 (chain 301): the mix and curtailment profiles moved here from the monthly job. The runner built them
+    # from its restored tables, which lack months the history holds; session 2885 put the run of 6 November's files
+    # back, demand growth's file (the monthly mark) stayed, and neither page was built again that month (the profile
+    # still read 5 October on 16 November, the mix 19 October). Here the full tables are held; run_data_machine.sh
+    # builds both each day, puts them back whole if their tests refuse them, and stores their tables.
+    "mix_profile": dict(
+        cadence="data machine, daily", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly", "caiso_fuel_supply_history"],
+        workbooks=ISO_BAS,
+        cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
+    "curtailment_profile": dict(
+        cadence="data machine, daily", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
+        restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
     # the standing pull (the owner's ruling of 12 October 2026, on session 178's request and session 200's
     # recommendation): ERCOT lists seven days of its 15-minute Settlement Point Prices and no more, so a day not pulled
     # within the week cannot be had later. The list and each listed file not yet saved; then the table, merged into the
