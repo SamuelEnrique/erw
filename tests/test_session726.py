@@ -44,7 +44,9 @@ class Kinds(unittest.TestCase):
         cls.o = run()
 
     def test_each_row_s_kind_is_its_seller_s_service(self):
-        self.assertEqual(self.o["pjm"], "Delivery")       # FirstEnergy Pennsylvania: the wires
+        # session 7009 (chain 301, the old laptop's data request 23): the PJM row no longer stands in Allegheny County, so
+        # it draws no county's utility (FirstEnergy Pennsylvania's delivery before)
+        self.assertIsNone(self.o["pjm"])
         self.assertEqual(self.o["nyc"], "Delivery")       # Consolidated Edison: the wires
         self.assertEqual(self.o["sp15"], "Bundled")       # Southern California Edison
         self.assertEqual(self.o["words"], {"Bundled": "", "Delivery": "delivery only", "Energy": "energy only"})
