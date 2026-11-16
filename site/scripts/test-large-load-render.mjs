@@ -87,6 +87,9 @@ ok(csvRows.length === 122 && searched > 100 && !leaked.length, `${searched} valu
 
 // ---- the filters, as the address sets them
 const tx = table({ state: "TX" });
+// session 7204: the State filter chooses the changes too
+const txChanges = L.filterChanges(file.changes, [], ["TX"]).length;
+ok(txChanges > 0 && text(tx).includes(`${txChanges} of 94 changes, TX (the State filter above;`) && count(tx.slice(tx.indexOf('id="large-load-changes"')), /data-llr-change="[^"]+" data-llr-held="1"/g) === 0, `the rules' State filter chooses the changes too: ${txChanges} of Texas, and no held change's row (its state is not known) is drawn`);
 ok(count(tx, /data-llr-row="/g) === L.largeLoadStat(file, "largeload|rules|state|TX") && text(tx).includes(`${L.largeLoadStat(file, "largeload|rules|state|TX")} of 122 rules shown (TX)`), "the address's state sets the filter: the rules of Texas, public and held");
 const held = table({ status: "held" });
 ok(count(held, /data-llr-row="/g) === 12 && text(held).includes("22 of 122 rules shown (license needed)"), "the status filter's held choice shows the 22 rows held for a license");

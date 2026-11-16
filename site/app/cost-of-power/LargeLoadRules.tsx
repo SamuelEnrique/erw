@@ -58,7 +58,9 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
   const shown = useMemo(() => sortLines(filterLines(ALL, { states: st ? [st] : [], grids: gr ? [gr] : [], statuses: su ? [su] : [], find: nq }), by, dir), [st, gr, su, nq, by, dir]);
   // the open row is always drawn, whatever the page of the list it is on
   const drawnRows = useMemo(() => { const i = shown.findIndex((r) => r.id === open); return shown.slice(0, Math.max(limit, i + 1)); }, [shown, limit, open]);
-  const changes = useMemo(() => filterChanges(FILE.changes, region ? [region] : []), [region]);
+  // session 7204 (the read of /policy, row 3): the rules' State filter chooses the changes too, so a reader who came for
+  // one state's rules sees that state's changes under them; the region's buttons narrow further
+  const changes = useMemo(() => filterChanges(FILE.changes, region ? [region] : [], st ? [st] : []), [region, st]);
 
   // a link of the page that names a state, a grid, a status, a rule or A and B (the tab's cells, the row's panel) sets it
   // here; a navigation that names none (the hub table's sort, the load's form) leaves the table as the reader set it
@@ -202,7 +204,7 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
         })}
       </div>
       <p className="mb-2 text-sm" role="status" data-llr-changes-shown={changes.length}>
-        {changes.length} of {FILE.changes.length} changes{region ? `, ${groupWords(region)}` : ""}, newest first: <Tip tip={`Filings, orders, effective dates, amendments, denials, suspensions and hearings from 15 August to 13 November 2026, each read in its own document (${CHANGES_TABLE}). A change dated to a month is drawn as that month.`}>15 August to 13 November 2026</Tip>.
+        {changes.length} of {FILE.changes.length} changes{region ? `, ${groupWords(region)}` : ""}{st ? <>, {st} (the State filter above; <button type="button" className="underline" onClick={() => { setSt(""); setLimit(PAGE); }} data-llr-changes-all="1">every state</button>)</> : null}, newest first: <Tip tip={`Filings, orders, effective dates, amendments, denials, suspensions and hearings from 15 August to 13 November 2026, each read in its own document (${CHANGES_TABLE}). A change dated to a month is drawn as that month.`}>15 August to 13 November 2026</Tip>.
         {" "}<Download make={() => changesCsv(changes, FILE, address)} name={CHANGES_CSV_NAME} mark={{ "data-llr-csv": "changes" }}>CSV of these</Download>,{" "}
         <Download make={() => pythonReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.py" type="text/x-python" mark={{ "data-download": "python" }}>Python</Download>,{" "}
         <Download make={() => stataReader(CHANGES_CSV_NAME, CHANGE_CSV_COLS, "the changes to large-load rules as filtered on /cost-of-power?view=allgrids")} name="erw-large-load-rule-changes.do" type="text/plain" mark={{ "data-download": "stata" }}>Stata</Download>
@@ -213,7 +215,8 @@ export function LargeLoadRules({ opened, address }: { opened: Opened; address: s
           <thead><tr className="border-b border-ink text-xs">{["Date", "Region", "Utility", "What happened", "Rule it changed"].map((h) => <th key={h} scope="col" className="px-2 py-1.5 font-normal">{h}</th>)}</tr></thead>
           <tbody>
             {changes.slice(0, changeLimit).map((c) => <ChangeRow key={c.id} c={c} openRule={openRule} />)}
-            {FILE.held_changes.filter((h) => !region || h.id.startsWith(`${region}-`)).map((h) => (
+            {/* a held change is its utility's name alone: with a state chosen its state is not known, so it is not drawn */}
+            {(st ? [] : FILE.held_changes.filter((h) => !region || h.id.startsWith(`${region}-`))).map((h) => (
               <tr key={h.id} className="border-b border-rule align-top" data-llr-change={h.id} data-llr-held="1">
                 <td className="px-2 py-1.5"><Blank tip={HELD_ROW_TIP(h.utility)} table={CHANGES_TABLE} what="Date" /></td>
                 <td className="px-2 py-1.5"><Blank tip={HELD_ROW_TIP(h.utility)} table={CHANGES_TABLE} what="Region" /></td>
