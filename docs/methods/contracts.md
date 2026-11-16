@@ -287,3 +287,29 @@ faults are in [`docs/reviews/contracts-faults-2026-11-16.md`](../reviews/contrac
 The price rule, the name rules and the megawatts rule of sections 5 to 7 were completed in this note from the
 builders' code before the replication was written: the tables' notes gave their sense and not their exact patterns.
 The replication is therefore a second implementation of rules read once, not a second reading of them.
+
+## 12. Since session 7510: what the list also draws
+
+The page was read as the reader it is for on 16 November 2026
+([`docs/reviews/contracts-read-2026-11-16.md`](../reviews/contracts-read-2026-11-16.md)). Nothing of sections 1 to 11
+changed; the list by quarter signed draws these beside what it drew:
+
+- **The days of a short term.** A term the page draws as under one year (0.9 years or less to its one decimal) also
+  gives its days: the days from the commencement date to the termination date, both counted. A strip of one month is
+  "0.1 years: 30 days". A term of 1.0 years or more gives no days.
+- **A number with no unit.** A rate filed as a number with empty rate units is followed by "(no unit filed)".
+- **The priced rows whose number is 0.** The note under "Rows with a price as a number" says how many of the rows
+  counted there file the number 0 (a rate that is not empty and reads as a number equal to zero). They stay counted
+  among the rows with a price as a number: the filer filed a number.
+- **The panel.** A quarter's link and a product's link keep the balancing authority chosen. The authority chosen
+  stays in the panel, with its rows, when it is not one of the entries listed (none of its rows in the quarter, or an
+  entry past the fourteenth). The rows beside each quarter are every product's, delivered anywhere, and say so on
+  hover. The code of one of the seven grids the site names says the grid's name on hover (`site/lib/gridtool.ts`).
+- **The address.** A quarter that is named and not listed (a year, a quarter not held) shows the newest quarter
+  listed and says so.
+- **One row** reads "1 row ... was signed", one agreement "1 agreement".
+
+The replication computes the first three for every page it draws (`terms_in_days_drawn`, `no_unit_marks`,
+`priced_zero`); `site/scripts/test-contracts-read.mjs` holds the rest on made-up rows.
+On 16 November 2026, with the three: 2,728 of 2,804 figures inside the tolerance, 76 named (fault 7), none
+unexplained; 785 of 785 words the same. The 2,615 figures of section 11 are among them, unchanged.

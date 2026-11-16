@@ -18,7 +18,7 @@
  "drawn_on": "2026-11-16",
  "source": "ferc_eqr_contracts and ferc_eqr_contracts_history as CSV in warehouse/output (internal tables: FERC Electric Quarterly Reports, eqrreportviewer.ferc.gov)",
  "note": "the page's figure is what its own code draws (site/scripts/contracts-figures.mjs) when it is served the stored summary the loader's own function computes on these tables; the page is in review and its table is internal, so a visitor is drawn none of them. A party's name and a party's own figure are compared and not written.",
- "result": "2539 of 2615 inside the tolerance; 76 named; 0 not explained",
+ "result": "2728 of 2804 inside the tolerance; 76 named; 0 not explained",
  "words": "785 of 785 the same",
  "checks": {
   "check|companies_with_a_contract_row|2025_Q3": 3025,
@@ -9417,9 +9417,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q1|all|every|no_unit_marks",
+   "page": 43,
+   "replication": 43,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q1|all|every|priced",
    "page": 572,
    "replication": 572,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|all|every|priced_zero",
+   "page": 183,
+   "replication": 183,
    "tolerance": 0.5
   },
   {
@@ -9438,6 +9450,12 @@
    "key": "quarter|2024-Q1|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|all|every|terms_in_days_drawn",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -9495,9 +9513,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q1|capacity|every|no_unit_marks",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q1|capacity|every|priced",
    "page": 51,
    "replication": 51,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|capacity|every|priced_zero",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -9516,6 +9546,12 @@
    "key": "quarter|2024-Q1|capacity|every|table_rows_drawn",
    "page": 139,
    "replication": 139,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|capacity|every|terms_in_days_drawn",
+   "page": 19,
+   "replication": 19,
    "tolerance": 0.5
   },
   {
@@ -9573,9 +9609,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q1|energy|every|no_unit_marks",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q1|energy|every|priced",
    "page": 51,
    "replication": 51,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|energy|every|priced_zero",
+   "page": 11,
+   "replication": 11,
    "tolerance": 0.5
   },
   {
@@ -9594,6 +9642,12 @@
    "key": "quarter|2024-Q1|energy|every|table_rows_drawn",
    "page": 199,
    "replication": 199,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|energy|every|terms_in_days_drawn",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -9651,9 +9705,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q1|power|every|no_unit_marks",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q1|power|every|priced",
    "page": 102,
    "replication": 102,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|power|every|priced_zero",
+   "page": 19,
+   "replication": 19,
    "tolerance": 0.5
   },
   {
@@ -9672,6 +9738,12 @@
    "key": "quarter|2024-Q1|power|every|table_rows_drawn",
    "page": 338,
    "replication": 338,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|power|every|terms_in_days_drawn",
+   "page": 27,
+   "replication": 27,
    "tolerance": 0.5
   },
   {
@@ -9723,7 +9795,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2024-Q1|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q1|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -9742,6 +9826,12 @@
   },
   {
    "key": "quarter|2024-Q1|tolling|every|table_rows_drawn",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q1|tolling|every|terms_in_days_drawn",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -9801,9 +9891,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q2|all|every|no_unit_marks",
+   "page": 58,
+   "replication": 58,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q2|all|every|priced",
    "page": 613,
    "replication": 613,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|all|every|priced_zero",
+   "page": 331,
+   "replication": 331,
    "tolerance": 0.5
   },
   {
@@ -9822,6 +9924,12 @@
    "key": "quarter|2024-Q2|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|all|every|terms_in_days_drawn",
+   "page": 4,
+   "replication": 4,
    "tolerance": 0.5
   },
   {
@@ -9879,9 +9987,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q2|capacity|every|no_unit_marks",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q2|capacity|every|priced",
    "page": 29,
    "replication": 29,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|capacity|every|priced_zero",
+   "page": 4,
+   "replication": 4,
    "tolerance": 0.5
   },
   {
@@ -9900,6 +10020,12 @@
    "key": "quarter|2024-Q2|capacity|every|table_rows_drawn",
    "page": 102,
    "replication": 102,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|capacity|every|terms_in_days_drawn",
+   "page": 7,
+   "replication": 7,
    "tolerance": 0.5
   },
   {
@@ -9957,9 +10083,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q2|energy|every|no_unit_marks",
+   "page": 34,
+   "replication": 34,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q2|energy|every|priced",
    "page": 72,
    "replication": 72,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|energy|every|priced_zero",
+   "page": 33,
+   "replication": 33,
    "tolerance": 0.5
   },
   {
@@ -9978,6 +10116,12 @@
    "key": "quarter|2024-Q2|energy|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|energy|every|terms_in_days_drawn",
+   "page": 2,
+   "replication": 2,
    "tolerance": 0.5
   },
   {
@@ -10035,9 +10179,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q2|power|every|no_unit_marks",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q2|power|every|priced",
    "page": 101,
    "replication": 101,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|power|every|priced_zero",
+   "page": 37,
+   "replication": 37,
    "tolerance": 0.5
   },
   {
@@ -10056,6 +10212,12 @@
    "key": "quarter|2024-Q2|power|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|power|every|terms_in_days_drawn",
+   "page": 6,
+   "replication": 6,
    "tolerance": 0.5
   },
   {
@@ -10113,7 +10275,19 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q2|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q2|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -10134,6 +10308,12 @@
    "key": "quarter|2024-Q2|tolling|every|table_rows_drawn",
    "page": 4,
    "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q2|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -10191,9 +10371,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q3|all|every|no_unit_marks",
+   "page": 52,
+   "replication": 52,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q3|all|every|priced",
    "page": 1000,
    "replication": 1000,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|all|every|priced_zero",
+   "page": 414,
+   "replication": 414,
    "tolerance": 0.5
   },
   {
@@ -10212,6 +10404,12 @@
    "key": "quarter|2024-Q3|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|all|every|terms_in_days_drawn",
+   "page": 3,
+   "replication": 3,
    "tolerance": 0.5
   },
   {
@@ -10269,9 +10467,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q3|capacity|every|no_unit_marks",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q3|capacity|every|priced",
    "page": 119,
    "replication": 119,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|capacity|every|priced_zero",
+   "page": 16,
+   "replication": 16,
    "tolerance": 0.5
   },
   {
@@ -10290,6 +10500,12 @@
    "key": "quarter|2024-Q3|capacity|every|table_rows_drawn",
    "page": 242,
    "replication": 242,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|capacity|every|terms_in_days_drawn",
+   "page": 3,
+   "replication": 3,
    "tolerance": 0.5
   },
   {
@@ -10347,9 +10563,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q3|energy|every|no_unit_marks",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q3|energy|every|priced",
    "page": 114,
    "replication": 114,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|energy|every|priced_zero",
+   "page": 22,
+   "replication": 22,
    "tolerance": 0.5
   },
   {
@@ -10368,6 +10596,12 @@
    "key": "quarter|2024-Q3|energy|every|table_rows_drawn",
    "page": 276,
    "replication": 276,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|energy|every|terms_in_days_drawn",
+   "page": 4,
+   "replication": 4,
    "tolerance": 0.5
   },
   {
@@ -10425,9 +10659,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q3|power|every|no_unit_marks",
+   "page": 23,
+   "replication": 23,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q3|power|every|priced",
    "page": 234,
    "replication": 234,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|power|every|priced_zero",
+   "page": 38,
+   "replication": 38,
    "tolerance": 0.5
   },
   {
@@ -10446,6 +10692,12 @@
    "key": "quarter|2024-Q3|power|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|power|every|terms_in_days_drawn",
+   "page": 5,
+   "replication": 5,
    "tolerance": 0.5
   },
   {
@@ -10503,9 +10755,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q3|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q3|tolling|every|priced",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|tolling|every|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -10524,6 +10788,12 @@
    "key": "quarter|2024-Q3|tolling|every|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q3|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -10581,9 +10851,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q4|all|every|no_unit_marks",
+   "page": 97,
+   "replication": 97,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q4|all|every|priced",
    "page": 787,
    "replication": 787,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|all|every|priced_zero",
+   "page": 583,
+   "replication": 583,
    "tolerance": 0.5
   },
   {
@@ -10602,6 +10884,12 @@
    "key": "quarter|2024-Q4|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|all|every|terms_in_days_drawn",
+   "page": 9,
+   "replication": 9,
    "tolerance": 0.5
   },
   {
@@ -10659,9 +10947,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q4|capacity|every|no_unit_marks",
+   "page": 24,
+   "replication": 24,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q4|capacity|every|priced",
    "page": 42,
    "replication": 42,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|capacity|every|priced_zero",
+   "page": 29,
+   "replication": 29,
    "tolerance": 0.5
   },
   {
@@ -10680,6 +10980,12 @@
    "key": "quarter|2024-Q4|capacity|every|table_rows_drawn",
    "page": 138,
    "replication": 138,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|capacity|every|terms_in_days_drawn",
+   "page": 10,
+   "replication": 10,
    "tolerance": 0.5
   },
   {
@@ -10737,9 +11043,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q4|energy|every|no_unit_marks",
+   "page": 51,
+   "replication": 51,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q4|energy|every|priced",
    "page": 112,
    "replication": 112,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|energy|every|priced_zero",
+   "page": 45,
+   "replication": 45,
    "tolerance": 0.5
   },
   {
@@ -10758,6 +11076,12 @@
    "key": "quarter|2024-Q4|energy|every|table_rows_drawn",
    "page": 322,
    "replication": 322,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|energy|every|terms_in_days_drawn",
+   "page": 13,
+   "replication": 13,
    "tolerance": 0.5
   },
   {
@@ -10815,9 +11139,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q4|power|every|no_unit_marks",
+   "page": 53,
+   "replication": 53,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q4|power|every|priced",
    "page": 156,
    "replication": 156,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|power|every|priced_zero",
+   "page": 75,
+   "replication": 75,
    "tolerance": 0.5
   },
   {
@@ -10836,6 +11172,12 @@
    "key": "quarter|2024-Q4|power|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|power|every|terms_in_days_drawn",
+   "page": 21,
+   "replication": 21,
    "tolerance": 0.5
   },
   {
@@ -10893,9 +11235,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2024-Q4|tolling|every|no_unit_marks",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2024-Q4|tolling|every|priced",
    "page": 2,
    "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|tolling|every|priced_zero",
+   "page": 1,
+   "replication": 1,
    "tolerance": 0.5
   },
   {
@@ -10914,6 +11268,12 @@
    "key": "quarter|2024-Q4|tolling|every|table_rows_drawn",
    "page": 4,
    "replication": 4,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2024-Q4|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -10971,9 +11331,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q1|all|every|no_unit_marks",
+   "page": 35,
+   "replication": 35,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q1|all|every|priced",
    "page": 1408,
    "replication": 1408,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|all|every|priced_zero",
+   "page": 475,
+   "replication": 475,
    "tolerance": 0.5
   },
   {
@@ -10992,6 +11364,12 @@
    "key": "quarter|2025-Q1|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|all|every|terms_in_days_drawn",
+   "page": 2,
+   "replication": 2,
    "tolerance": 0.5
   },
   {
@@ -11049,9 +11427,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q1|capacity|every|no_unit_marks",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q1|capacity|every|priced",
    "page": 88,
    "replication": 88,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|capacity|every|priced_zero",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -11070,6 +11460,12 @@
    "key": "quarter|2025-Q1|capacity|every|table_rows_drawn",
    "page": 171,
    "replication": 171,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|capacity|every|terms_in_days_drawn",
+   "page": 29,
+   "replication": 29,
    "tolerance": 0.5
   },
   {
@@ -11127,9 +11523,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q1|energy|every|no_unit_marks",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q1|energy|every|priced",
    "page": 62,
    "replication": 62,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|energy|every|priced_zero",
+   "page": 21,
+   "replication": 21,
    "tolerance": 0.5
   },
   {
@@ -11148,6 +11556,12 @@
    "key": "quarter|2025-Q1|energy|every|table_rows_drawn",
    "page": 219,
    "replication": 219,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|energy|every|terms_in_days_drawn",
+   "page": 4,
+   "replication": 4,
    "tolerance": 0.5
   },
   {
@@ -11205,9 +11619,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q1|power|every|no_unit_marks",
+   "page": 34,
+   "replication": 34,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q1|power|every|priced",
    "page": 150,
    "replication": 150,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|power|every|priced_zero",
+   "page": 29,
+   "replication": 29,
    "tolerance": 0.5
   },
   {
@@ -11226,6 +11652,12 @@
    "key": "quarter|2025-Q1|power|every|table_rows_drawn",
    "page": 390,
    "replication": 390,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|power|every|terms_in_days_drawn",
+   "page": 33,
+   "replication": 33,
    "tolerance": 0.5
   },
   {
@@ -11277,7 +11709,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2025-Q1|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q1|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -11296,6 +11740,12 @@
   },
   {
    "key": "quarter|2025-Q1|tolling|every|table_rows_drawn",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q1|tolling|every|terms_in_days_drawn",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -11355,9 +11805,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q2|all|every|no_unit_marks",
+   "page": 60,
+   "replication": 60,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q2|all|every|priced",
    "page": 1194,
    "replication": 1194,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|all|every|priced_zero",
+   "page": 493,
+   "replication": 493,
    "tolerance": 0.5
   },
   {
@@ -11376,6 +11838,12 @@
    "key": "quarter|2025-Q2|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|all|every|terms_in_days_drawn",
+   "page": 13,
+   "replication": 13,
    "tolerance": 0.5
   },
   {
@@ -11433,9 +11901,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q2|capacity|every|no_unit_marks",
+   "page": 7,
+   "replication": 7,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q2|capacity|every|priced",
    "page": 55,
    "replication": 55,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|capacity|every|priced_zero",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -11454,6 +11934,12 @@
    "key": "quarter|2025-Q2|capacity|every|table_rows_drawn",
    "page": 142,
    "replication": 142,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|capacity|every|terms_in_days_drawn",
+   "page": 14,
+   "replication": 14,
    "tolerance": 0.5
   },
   {
@@ -11511,9 +11997,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q2|energy|every|no_unit_marks",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q2|energy|every|priced",
    "page": 52,
    "replication": 52,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|energy|every|priced_zero",
+   "page": 12,
+   "replication": 12,
    "tolerance": 0.5
   },
   {
@@ -11532,6 +12030,12 @@
    "key": "quarter|2025-Q2|energy|every|table_rows_drawn",
    "page": 212,
    "replication": 212,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|energy|every|terms_in_days_drawn",
+   "page": 13,
+   "replication": 13,
    "tolerance": 0.5
   },
   {
@@ -11589,9 +12093,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q2|power|every|no_unit_marks",
+   "page": 19,
+   "replication": 19,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q2|power|every|priced",
    "page": 107,
    "replication": 107,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|power|every|priced_zero",
+   "page": 20,
+   "replication": 20,
    "tolerance": 0.5
   },
   {
@@ -11610,6 +12126,12 @@
    "key": "quarter|2025-Q2|power|every|table_rows_drawn",
    "page": 354,
    "replication": 354,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|power|every|terms_in_days_drawn",
+   "page": 27,
+   "replication": 27,
    "tolerance": 0.5
   },
   {
@@ -11661,7 +12183,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2025-Q2|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q2|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -11680,6 +12214,12 @@
   },
   {
    "key": "quarter|2025-Q2|tolling|every|table_rows_drawn",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q2|tolling|every|terms_in_days_drawn",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -11739,9 +12279,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q3|all|every|no_unit_marks",
+   "page": 71,
+   "replication": 71,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q3|all|every|priced",
    "page": 457,
    "replication": 457,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|all|every|priced_zero",
+   "page": 300,
+   "replication": 300,
    "tolerance": 0.5
   },
   {
@@ -11760,6 +12312,12 @@
    "key": "quarter|2025-Q3|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|all|every|terms_in_days_drawn",
+   "page": 10,
+   "replication": 10,
    "tolerance": 0.5
   },
   {
@@ -11817,9 +12375,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q3|capacity|every|no_unit_marks",
+   "page": 2,
+   "replication": 2,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q3|capacity|every|priced",
    "page": 34,
    "replication": 34,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|capacity|every|priced_zero",
+   "page": 5,
+   "replication": 5,
    "tolerance": 0.5
   },
   {
@@ -11838,6 +12408,12 @@
    "key": "quarter|2025-Q3|capacity|every|table_rows_drawn",
    "page": 99,
    "replication": 99,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|capacity|every|terms_in_days_drawn",
+   "page": 14,
+   "replication": 14,
    "tolerance": 0.5
   },
   {
@@ -11895,9 +12471,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q3|energy|every|no_unit_marks",
+   "page": 14,
+   "replication": 14,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q3|energy|every|priced",
    "page": 50,
    "replication": 50,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|energy|every|priced_zero",
+   "page": 9,
+   "replication": 9,
    "tolerance": 0.5
   },
   {
@@ -11916,6 +12504,12 @@
    "key": "quarter|2025-Q3|energy|every|table_rows_drawn",
    "page": 174,
    "replication": 174,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|energy|every|terms_in_days_drawn",
+   "page": 15,
+   "replication": 15,
    "tolerance": 0.5
   },
   {
@@ -11973,9 +12567,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q3|power|every|no_unit_marks",
+   "page": 16,
+   "replication": 16,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q3|power|every|priced",
    "page": 84,
    "replication": 84,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|power|every|priced_zero",
+   "page": 14,
+   "replication": 14,
    "tolerance": 0.5
   },
   {
@@ -11994,6 +12600,12 @@
    "key": "quarter|2025-Q3|power|every|table_rows_drawn",
    "page": 273,
    "replication": 273,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|power|every|terms_in_days_drawn",
+   "page": 29,
+   "replication": 29,
    "tolerance": 0.5
   },
   {
@@ -12045,7 +12657,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2025-Q3|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q3|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -12064,6 +12688,12 @@
   },
   {
    "key": "quarter|2025-Q3|tolling|every|table_rows_drawn",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q3|tolling|every|terms_in_days_drawn",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -12123,9 +12753,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q4|all|every|no_unit_marks",
+   "page": 42,
+   "replication": 42,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q4|all|every|priced",
    "page": 627,
    "replication": 627,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|all|every|priced_zero",
+   "page": 401,
+   "replication": 401,
    "tolerance": 0.5
   },
   {
@@ -12144,6 +12786,12 @@
    "key": "quarter|2025-Q4|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|all|every|terms_in_days_drawn",
+   "page": 9,
+   "replication": 9,
    "tolerance": 0.5
   },
   {
@@ -12201,9 +12849,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q4|capacity|every|no_unit_marks",
+   "page": 10,
+   "replication": 10,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q4|capacity|every|priced",
    "page": 42,
    "replication": 42,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|capacity|every|priced_zero",
+   "page": 17,
+   "replication": 17,
    "tolerance": 0.5
   },
   {
@@ -12222,6 +12882,12 @@
    "key": "quarter|2025-Q4|capacity|every|table_rows_drawn",
    "page": 104,
    "replication": 104,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|capacity|every|terms_in_days_drawn",
+   "page": 22,
+   "replication": 22,
    "tolerance": 0.5
   },
   {
@@ -12279,9 +12945,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q4|energy|every|no_unit_marks",
+   "page": 22,
+   "replication": 22,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q4|energy|every|priced",
    "page": 61,
    "replication": 61,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|energy|every|priced_zero",
+   "page": 22,
+   "replication": 22,
    "tolerance": 0.5
   },
   {
@@ -12300,6 +12978,12 @@
    "key": "quarter|2025-Q4|energy|every|table_rows_drawn",
    "page": 206,
    "replication": 206,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|energy|every|terms_in_days_drawn",
+   "page": 11,
+   "replication": 11,
    "tolerance": 0.5
   },
   {
@@ -12357,9 +13041,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q4|power|every|no_unit_marks",
+   "page": 32,
+   "replication": 32,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q4|power|every|priced",
    "page": 104,
    "replication": 104,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|power|every|priced_zero",
+   "page": 39,
+   "replication": 39,
    "tolerance": 0.5
   },
   {
@@ -12378,6 +13074,12 @@
    "key": "quarter|2025-Q4|power|every|table_rows_drawn",
    "page": 311,
    "replication": 311,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|power|every|terms_in_days_drawn",
+   "page": 33,
+   "replication": 33,
    "tolerance": 0.5
   },
   {
@@ -12435,9 +13137,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2025-Q4|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2025-Q4|tolling|every|priced",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|tolling|every|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -12456,6 +13170,12 @@
    "key": "quarter|2025-Q4|tolling|every|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2025-Q4|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -12513,9 +13233,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q1|all|every|no_unit_marks",
+   "page": 59,
+   "replication": 59,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q1|all|every|priced",
    "page": 856,
    "replication": 856,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|all|every|priced_zero",
+   "page": 607,
+   "replication": 607,
    "tolerance": 0.5
   },
   {
@@ -12534,6 +13266,12 @@
    "key": "quarter|2026-Q1|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|all|every|terms_in_days_drawn",
+   "page": 19,
+   "replication": 19,
    "tolerance": 0.5
   },
   {
@@ -12591,9 +13329,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q1|capacity|every|no_unit_marks",
+   "page": 3,
+   "replication": 3,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q1|capacity|every|priced",
    "page": 102,
    "replication": 102,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|capacity|every|priced_zero",
+   "page": 9,
+   "replication": 9,
    "tolerance": 0.5
   },
   {
@@ -12612,6 +13362,12 @@
    "key": "quarter|2026-Q1|capacity|every|table_rows_drawn",
    "page": 203,
    "replication": 203,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|capacity|every|terms_in_days_drawn",
+   "page": 63,
+   "replication": 63,
    "tolerance": 0.5
   },
   {
@@ -12669,9 +13425,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q1|energy|every|no_unit_marks",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q1|energy|every|priced",
    "page": 63,
    "replication": 63,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|energy|every|priced_zero",
+   "page": 5,
+   "replication": 5,
    "tolerance": 0.5
   },
   {
@@ -12690,6 +13458,12 @@
    "key": "quarter|2026-Q1|energy|every|table_rows_drawn",
    "page": 192,
    "replication": 192,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|energy|every|terms_in_days_drawn",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -12747,9 +13521,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q1|power|every|no_unit_marks",
+   "page": 8,
+   "replication": 8,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q1|power|every|priced",
    "page": 165,
    "replication": 165,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|power|every|priced_zero",
+   "page": 14,
+   "replication": 14,
    "tolerance": 0.5
   },
   {
@@ -12768,6 +13554,12 @@
    "key": "quarter|2026-Q1|power|every|table_rows_drawn",
    "page": 396,
    "replication": 396,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|power|every|terms_in_days_drawn",
+   "page": 71,
+   "replication": 71,
    "tolerance": 0.5
   },
   {
@@ -12825,7 +13617,19 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q1|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q1|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -12846,6 +13650,12 @@
    "key": "quarter|2026-Q1|tolling|every|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q1|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -12903,9 +13713,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|all|every|no_unit_marks",
+   "page": 139,
+   "replication": 139,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|all|every|priced",
    "page": 500,
    "replication": 500,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|all|every|priced_zero",
+   "page": 322,
+   "replication": 322,
    "tolerance": 0.5
   },
   {
@@ -12924,6 +13746,12 @@
    "key": "quarter|2026-Q2|all|every|table_rows_drawn",
    "page": 400,
    "replication": 400,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|all|every|terms_in_days_drawn",
+   "page": 3,
+   "replication": 3,
    "tolerance": 0.5
   },
   {
@@ -12981,9 +13809,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|capacity|every|no_unit_marks",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|capacity|every|priced",
    "page": 56,
    "replication": 56,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|capacity|every|priced_zero",
+   "page": 6,
+   "replication": 6,
    "tolerance": 0.5
   },
   {
@@ -13002,6 +13842,12 @@
    "key": "quarter|2026-Q2|capacity|every|table_rows_drawn",
    "page": 100,
    "replication": 100,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|capacity|every|terms_in_days_drawn",
+   "page": 45,
+   "replication": 45,
    "tolerance": 0.5
   },
   {
@@ -13059,9 +13905,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|energy|every|no_unit_marks",
+   "page": 4,
+   "replication": 4,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|energy|every|priced",
    "page": 56,
    "replication": 56,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|energy|every|priced_zero",
+   "page": 11,
+   "replication": 11,
    "tolerance": 0.5
   },
   {
@@ -13080,6 +13938,12 @@
    "key": "quarter|2026-Q2|energy|every|table_rows_drawn",
    "page": 126,
    "replication": 126,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|energy|every|terms_in_days_drawn",
+   "page": 7,
+   "replication": 7,
    "tolerance": 0.5
   },
   {
@@ -13131,9 +13995,21 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2026-Q2|power|AMMO|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|AMMO|priced",
    "page": 2,
    "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|AMMO|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13152,6 +14028,12 @@
    "key": "quarter|2026-Q2|power|AMMO|table_rows_drawn",
    "page": 2,
    "replication": 2,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|AMMO|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13209,9 +14091,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|BPAT|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|BPAT|priced",
    "page": 3,
    "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|BPAT|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13230,6 +14124,12 @@
    "key": "quarter|2026-Q2|power|BPAT|table_rows_drawn",
    "page": 3,
    "replication": 3,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|BPAT|terms_in_days_drawn",
+   "page": 2,
+   "replication": 2,
    "tolerance": 0.5
   },
   {
@@ -13287,9 +14187,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|CISO|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|CISO|priced",
    "page": 7,
    "replication": 7,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|CISO|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13308,6 +14220,12 @@
    "key": "quarter|2026-Q2|power|CISO|table_rows_drawn",
    "page": 23,
    "replication": 23,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|CISO|terms_in_days_drawn",
+   "page": 7,
+   "replication": 7,
    "tolerance": 0.5
   },
   {
@@ -13365,7 +14283,19 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|EES|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|EES|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|EES|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -13386,6 +14316,12 @@
    "key": "quarter|2026-Q2|power|EES|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|EES|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13437,9 +14373,21 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2026-Q2|power|FPC|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|FPC|priced",
    "page": 35,
    "replication": 35,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|FPC|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13458,6 +14406,12 @@
    "key": "quarter|2026-Q2|power|FPC|table_rows_drawn",
    "page": 35,
    "replication": 35,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|FPC|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13509,7 +14463,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2026-Q2|power|ISNE|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|ISNE|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|ISNE|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -13530,6 +14496,12 @@
    "key": "quarter|2026-Q2|power|ISNE|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|ISNE|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13587,9 +14559,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|MISO|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|MISO|priced",
    "page": 10,
    "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|MISO|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13608,6 +14592,12 @@
    "key": "quarter|2026-Q2|power|MISO|table_rows_drawn",
    "page": 10,
    "replication": 10,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|MISO|terms_in_days_drawn",
+   "page": 8,
+   "replication": 8,
    "tolerance": 0.5
   },
   {
@@ -13665,9 +14655,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|NYIS|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|NYIS|priced",
    "page": 9,
    "replication": 9,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|NYIS|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13684,6 +14686,12 @@
   },
   {
    "key": "quarter|2026-Q2|power|NYIS|table_rows_drawn",
+   "page": 12,
+   "replication": 12,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|NYIS|terms_in_days_drawn",
    "page": 12,
    "replication": 12,
    "tolerance": 0.5
@@ -13743,9 +14751,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|PJM|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|PJM|priced",
    "page": 23,
    "replication": 23,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|PJM|priced_zero",
+   "page": 4,
+   "replication": 4,
    "tolerance": 0.5
   },
   {
@@ -13764,6 +14784,12 @@
    "key": "quarter|2026-Q2|power|PJM|table_rows_drawn",
    "page": 31,
    "replication": 31,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|PJM|terms_in_days_drawn",
+   "page": 14,
+   "replication": 14,
    "tolerance": 0.5
   },
   {
@@ -13821,7 +14847,19 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|PSCO|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|PSCO|priced",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|PSCO|priced_zero",
    "page": 1,
    "replication": 1,
    "tolerance": 0.5
@@ -13840,6 +14878,12 @@
   },
   {
    "key": "quarter|2026-Q2|power|PSCO|table_rows_drawn",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|PSCO|terms_in_days_drawn",
    "page": 1,
    "replication": 1,
    "tolerance": 0.5
@@ -13899,9 +14943,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|SWPP|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|SWPP|priced",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|SWPP|priced_zero",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -13918,6 +14974,12 @@
   },
   {
    "key": "quarter|2026-Q2|power|SWPP|table_rows_drawn",
+   "page": 1,
+   "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|SWPP|terms_in_days_drawn",
    "page": 1,
    "replication": 1,
    "tolerance": 0.5
@@ -13971,7 +15033,19 @@
    "tolerance": 0.5
   },
   {
+   "key": "quarter|2026-Q2|power|WACM|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|WACM|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|WACM|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -13992,6 +15066,12 @@
    "key": "quarter|2026-Q2|power|WACM|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|WACM|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {
@@ -14049,9 +15129,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|every|no_unit_marks",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|every|priced",
    "page": 112,
    "replication": 112,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|every|priced_zero",
+   "page": 17,
+   "replication": 17,
    "tolerance": 0.5
   },
   {
@@ -14070,6 +15162,12 @@
    "key": "quarter|2026-Q2|power|every|table_rows_drawn",
    "page": 227,
    "replication": 227,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|every|terms_in_days_drawn",
+   "page": 52,
+   "replication": 52,
    "tolerance": 0.5
   },
   {
@@ -14127,9 +15225,21 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|power|not stated|no_unit_marks",
+   "page": 5,
+   "replication": 5,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|power|not stated|priced",
    "page": 21,
    "replication": 21,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|not stated|priced_zero",
+   "page": 12,
+   "replication": 12,
    "tolerance": 0.5
   },
   {
@@ -14148,6 +15258,12 @@
    "key": "quarter|2026-Q2|power|not stated|table_rows_drawn",
    "page": 106,
    "replication": 106,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|power|not stated|terms_in_days_drawn",
+   "page": 7,
+   "replication": 7,
    "tolerance": 0.5
   },
   {
@@ -14205,7 +15321,19 @@
    "tolerance": 0.05
   },
   {
+   "key": "quarter|2026-Q2|tolling|every|no_unit_marks",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
    "key": "quarter|2026-Q2|tolling|every|priced",
+   "page": 0,
+   "replication": 0,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|tolling|every|priced_zero",
    "page": 0,
    "replication": 0,
    "tolerance": 0.5
@@ -14226,6 +15354,12 @@
    "key": "quarter|2026-Q2|tolling|every|table_rows_drawn",
    "page": 1,
    "replication": 1,
+   "tolerance": 0.5
+  },
+  {
+   "key": "quarter|2026-Q2|tolling|every|terms_in_days_drawn",
+   "page": 0,
+   "replication": 0,
    "tolerance": 0.5
   },
   {

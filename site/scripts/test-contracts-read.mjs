@@ -13,7 +13,9 @@
 //   8. the fold "What a row is" names the quantity and the price units, the rows that differ only in their price,
 //      and a market operator as the buyer;
 //   9. a grid's balancing authority code that is not its name says the name on hover;
-//  10. the megawatts view gives no advice.
+//  10. the megawatts view gives no advice;
+//  11. the priced rows whose number is 0 are counted in the headline's note.
+// The numbers are the rows of the review file's table.
 //   node --import ./scripts/tsx-register.mjs scripts/test-contracts-read.mjs
 import { register } from "node:module";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -34,9 +36,9 @@ const row = (i, day, over = {}) => ({ event_id: `made-up:${i}`, event_date: day,
   rate: "", rate_units: "", rate_description: "Market Based", pod_ba: "", pod_location: "", quarter: "2026_Q2", ...over });
 const Q2 = [
   row(1, "2026-06-20", { pod_ba: "SWPP", rate: "31.5", rate_units: "$/MWH", rate_description: "" }),                                       // 15.0 years, a price with its unit
-  row(2, "2026-06-12", { pod_ba: "CISO", product: "CAPACITY", term: "ST", commencement: "20260801", termination: "20260831", quantity: "10", units: "MW-MO", rate: "3000", rate_units: "$/MW-MO", rate_description: "" }),   // one month
-  row(3, "2026-06-11", { pod_ba: "CISO", product: "CAPACITY", term: "ST", commencement: "20261001", termination: "20261014", rate: "11.24", rate_units: "", rate_description: "" }),   // 14 days, a number with no unit
-  row(4, "2026-05-02", { pod_ba: "CISO", product: "CAPACITY", commencement: "20260101", termination: "20261231", rate: "3", rate_units: "$/KW-MO", rate_description: "" }),              // 1.0 years: no days
+  row(2, "2026-06-12", { pod_ba: "CISO", product: "CAPACITY", term: "ST", commencement: "20260801", termination: "20260831", quantity: "10", units: "MW-MO", rate: "4100", rate_units: "$/MW-MO", rate_description: "" }),   // one month
+  row(3, "2026-06-11", { pod_ba: "CISO", product: "CAPACITY", term: "ST", commencement: "20261001", termination: "20261014", rate: "7.5", rate_units: "", rate_description: "" }),   // 14 days, a number with no unit
+  row(4, "2026-05-02", { pod_ba: "CISO", product: "CAPACITY", commencement: "20260101", termination: "20261231", rate: "5", rate_units: "$/KW-MO", rate_description: "" }),              // 1.0 years: no days
   row(5, "2026-04-20", { pod_ba: "PJM" }),
   row(6, "2026-04-03", { pod_ba: "DUK", commencement: "20260403", termination: "20260403" }),                                              // a term of one day
 ];
@@ -115,13 +117,22 @@ ok(/\(15\.0 years\)/.test(one) && !/data-term-days=/.test(one), "row 6: a term o
 ok(/\(0\.0 years<span data-term-days="1">: 1 day<\/span>\)/.test(await draw({ q: "2026-Q2", product: "energy", ba: "DUK" })), "row 6: a term of one day reads \"1 day\"");
 
 // ---- row 7: a number filed with no unit
-ok((ciso.match(/data-no-unit="1"/g) ?? []).length === 1 && /11\.24<span[^>]*data-no-unit="1"> \(no unit filed\)<\/span>/.test(ciso) && />3000 \$\/MW-MO</.test(ciso) && />3 \$\/KW-MO</.test(ciso), "row 7: a number filed with no unit says so; a number with its unit is as before");
+ok((ciso.match(/data-no-unit="1"/g) ?? []).length === 1 && /7\.5<span[^>]*data-no-unit="1"> \(no unit filed\)<\/span>/.test(ciso) && />4100 \$\/MW-MO</.test(ciso) && />5 \$\/KW-MO</.test(ciso), "row 7: a number filed with no unit says so; a number with its unit is as before");
 ok(!/data-no-unit/.test(pjm) && />Market Based</.test(pjm), "row 7: a rate filed as words is as before");
+
+// ---- row 11: a number that is 0 is counted among the priced rows, and said
+const zeros = [row(40, "2026-03-20", { pod_ba: "MISO", rate: "0", rate_units: "$/MWH", rate_description: "" }), row(41, "2026-03-19", { pod_ba: "MISO", rate: "0.0000", rate_units: "", rate_description: "" }),
+  row(42, "2026-03-18", { pod_ba: "MISO", rate: "12", rate_units: "$/MWH", rate_description: "" }), row(43, "2026-03-17", { pod_ba: "MISO" })];
+ok(C.counts(zeros).zero === 2 && C.counts(zeros).priced === 3 && C.counts(Q2).zero === 0 && C.counts([row(44, "2026-03-01", { rate: " ", rate_description: "0" })]).zero === 0, "row 11: a rate filed as 0 or 0.0000 is a number that is zero; an empty rate is not");
+all.push(...zeros);
+const miso = await draw({ q: "2026-Q1", product: "energy", ba: "MISO" });
+ok(/data-zero="2"/.test(miso) && /The other 1 gives words: a market-based rate, a formula, or nothing\. 2 of the 3 file the number 0\./.test(text(miso)) && marked(miso, "priced") === "3", "row 11: the headline's note says how many of the priced rows file the number 0");
+ok(!/data-zero=/.test(ciso) && !/data-zero=/.test(one) && !/file the number 0|files the number 0/.test(text(ciso)), "row 11: nothing is said where no row files 0");
 
 // ---- row 8: the fold names what the cells hold
 const t = text(open);
 ok(/data-fold-quantity="1"/.test(open) && /megawatts by the month, the day or the year \(MW-MO, MW-DAY, MW-YR\)/.test(t), "row 8: the fold says what a quantity's units are");
-ok(/3 \$\/KW-MO and 3,000 \$\/MW-MO are the same price/.test(t) && /is not converted/.test(t), "row 8: the fold says a price filed in two units is not converted");
+ok(/1 \$\/KW-MO and 1,000 \$\/MW-MO are the same price/.test(t) && /is not converted/.test(t), "row 8: the fold says a price filed in two units is not converted");
 ok(/data-fold-repeat="1"/.test(open) && /one agreement can file a row for each year, month or peak period of its price/.test(t) && /is not shown here yet/.test(t), "row 8: the fold says why rows of one agreement differ only in their price, and that the period is not shown");
 ok(/data-fold-operator="1"/.test(open) && /a sale into an organized market is filed with the operator as its customer/.test(t), "row 8: the fold says what a market operator as the buyer is");
 ok(/A term under one year also gives its days, the first and the last both counted/.test(t), "row 6: the fold says how the days are counted");

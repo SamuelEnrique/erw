@@ -146,6 +146,17 @@ class Row:
         self.product_fields = " | ".join(r[c] for c in ("x_product_name", "x_product_type_name", "x_class_name", "x_term_name", "x_increment_name"))
 
 
+def is_zero(rate):
+    """Session 7510: a rate filed as the number 0 (the note, section 12): not empty, and a number equal to zero."""
+    s = rate.strip()
+    if s == "":
+        return False
+    try:
+        return float(s) == 0
+    except ValueError:
+        return False
+
+
 def authority(v):
     """A delivery balancing authority as the panel names it (the note, section 3): FERC's code trimmed and in capitals,
     'not stated' for a row that files none."""
@@ -354,6 +365,11 @@ def compute(rows, history, ceiling, load_day, today, near=True):
         F[f"{k}|terms_in_years_drawn"] = len(years)
         if years:
             F[f"{k}|longest_term_years_drawn"] = max(years)
+        # session 7510 (the note, section 12): a term the page draws as under one year also gives its days; a number
+        # filed with no unit says so; the priced rows whose number is 0 are counted in the headline's note
+        F[f"{k}|terms_in_days_drawn"] = sum(1 for y in years if float(f"{y:.1f}") < 1)
+        F[f"{k}|no_unit_marks"] = sum(1 for r in drawn if r.rate.strip() != "" and r.rate_units.strip() == "")
+        F[f"{k}|priced_zero"] = sum(1 for r in shown if is_zero(r.rate))
         return of_product
 
     for q in listed:

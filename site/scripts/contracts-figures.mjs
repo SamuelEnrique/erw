@@ -113,6 +113,10 @@ async function main() {
     const years = [...t.matchAll(/\((\d+\.\d) years(?: ?: [\d,]+ days?)? ?\)/g)].map((m) => Number(m[1]));   // session 7510: a term under a year also gives its days, in a span of its own
     put(`${k}|terms_in_years_drawn`, years.length);
     if (years.length) put(`${k}|longest_term_years_drawn`, Math.max(...years));
+    // session 7510 (the page read as its reader): the terms that also give their days, the numbers filed with no unit, and the priced rows whose number is 0
+    put(`${k}|terms_in_days_drawn`, (html.match(/data-term-days="/g) ?? []).length);
+    put(`${k}|no_unit_marks`, (html.match(/data-no-unit="1"/g) ?? []).length);
+    put(`${k}|priced_zero`, num((html.match(/data-zero="(\d+)"/) ?? [])[1] ?? "0"));
     return html;
   };
   for (const h of held) {
