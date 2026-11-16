@@ -4,6 +4,8 @@ import { SiteLink } from "@/components/SiteLink";
 import { Brand } from "@/components/Brand";  // session 242: the page takes the brand (it was built on ToolPage and carried no wrapper)
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/price_compare.json";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { COMPARE_DECISIONS } from "@/lib/decisions";
 import { MARKETS, MEASURES, TABLE, choices, href, label, lacking, monthName, ordered, periodName, two, valueOf, type CompareFile, type Row } from "@/lib/pricecompare";
 
 // Session 96: "Where power is cheap", in review (lib/release.ts), in the battery page's layout: every public hub and
@@ -159,6 +161,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               <li>Whether power can be had there at all: an interconnection or a large-load request is its own queue.</li>
             </ul>
           </Fold>
+          <DecisionsBlock id="7018-compare" title="Decisions on this page (each with its default and its source on hover)" items={COMPARE_DECISIONS} />
           <SourceLine tables={[TABLE, "iso_hub_prices_history", "ercot_all_hub_prices_history", "iso_dam_hub_prices", "iso_rtm_hub_prices", "isone_dam_zone_prices", "isone_rtm_zone_prices_hourly", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "carbon_intensity_daily"]}
             note={<>Built {file.built.slice(0, 10)}. This page is in review and reads the site&apos;s own copy of the comparison.</>} />
         </div>

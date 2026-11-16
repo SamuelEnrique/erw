@@ -243,7 +243,8 @@ class ThePage(unittest.TestCase):
         self.assertEqual(d["href"], "/curtailment?period=2024-04")                                               # session 144: the one page's address
         self.assertEqual(d["cover"], ["none", "part", "all"])
         self.assertEqual((d["cats"], d["batt"]), ([False, True], [False, True]))
-        self.assertEqual((d["bm"][0], len(d["bm"])), ("2025-09", 13))
+        self.assertEqual(d["bm"][0], "2025-09")                                                              # session 7014: October 2026 joined (14 months)
+        self.assertGreaterEqual(len(d["bm"]), 13)
         r = c["months"]["2026-05"]
         best = max(range(24), key=lambda h: r[f"curtailed_solar_mwh_h{h:02d}"] + r[f"curtailed_wind_mwh_h{h:02d}"])
         self.assertEqual(d["peak"], {"hour": best, "solar": r[f"curtailed_solar_mwh_h{best:02d}"], "wind": r[f"curtailed_wind_mwh_h{best:02d}"]})

@@ -199,3 +199,50 @@ The owner's rule (7 October 2026): the schematic of tiles becomes a true map onl
 - **Downloads** (session 331): under the page, the tables the source line names for the grid chosen, each as the live
   set's CSV with a Python and a Stata reader of that CSV, or named with its place on Redivis where the live set does
   not hold it (session 328's shared line).
+
+## The replication (session 7014, chain 301)
+
+`replication/curtailment/replicate.py` rebuilds California's profile (`curtailment_profile.json`) from `caiso_curtailment_intervals` and `caiso_battery_storage`, and Texas's hours and days (`curtailment/ercot.json`) from `ercot_wind_solar_hsl_hourly`, by the notes alone: 11,515 of 11,515 equal on 16 November 2026, after its findings (`docs/reviews/curtailment-faults-2026-11-16.md`). The profile was a month behind: a put-back of 6 November left the monthly mark moved and the file not built. Since session 7014 the profile and the mix are built on the data machine each day. One rule the note left implicit: a Texas fuel's hour counts in its day's sums when that fuel has both its values, while the day's held hours count only hours with all four. `replicate.do` rebuilds five figures of California in Stata, its expected values at its top. Shares, free energy and worth (`shares.json`, `free_energy.json`, `worth.json`) are not yet replicated.
+
+## The cross-checks (session 7018, chain 301)
+
+**California against EIA.** EIA, Today in Energy, "Solar and wind power curtailments are increasing in California" (28 May 2025, https://www.eia.gov/todayinenergy/detail.php?id=65364, read 16 November 2026): "In 2024, CAISO curtailed 3.4 million megawatthours (MWh) of utility-scale wind and solar output, a 29% increase from the amount of electricity curtailed in 2023", and "Solar accounted for 93% of all the energy curtailed in CAISO in 2024."
+
+| Figure | EIA | The page's file (`curtailment_profile.json`) |
+|---|---|---|
+| CAISO's wind and solar curtailed, 2024 | 3.4 million MWh | 3,423,377 MWh (solar 3,192,599.8, wind 230,776.8) |
+| Change from 2023 | 29 percent | 28.7 percent (2023: 2,659,526 MWh) |
+| Solar's share of 2024 | 93 percent | 93.3 percent |
+
+**California's two CAISO products.** The profile, from CAISO's five-minute record, against the daily table, from CAISO's daily figures, by year: 2022 to 2025 equal within 0.3 MWh a year (2025: solar 3,482,322.8 against 3,482,322.9, wind 283,305.3 against 283,305.0). Before 2026 both come from CAISO's production and curtailment workbook, so this checks the ERW's two sums, not two publishers.
+
+**Texas.** Over the six days both ERCOT reports were held, the hourly table's 36 day-figures differ from the daily table's by at most 0.12 MWh on sums near 200,000 MWh (the note's "Texas: nine days, by the hour").
+
+The replication recomputes California's profile and Texas's hours and days from their tables (11,515 of 11,515).
+
+## The decisions on the page (session 7018, chain 301)
+
+The page draws these at its foot (`site/lib/decisions.ts`, `CURTAILMENT_DECISIONS`), each choice's default and source on hover:
+
+1. Each grid's number is what that grid publishes: CAISO's and SPP's own curtailment, ERCOT's output below the High Sustained Limit as the ERW's estimate, and no figure for a grid that publishes none or needs a license; the three are not comparable and are never summed. **Default:** Each operator's own figure, labelled; never a sum across grids. **Source:** CAISO's production and curtailment data and Daily Renewable Report; SPP's curtailment reports; ERCOT's hourly wind and solar reports. (sessions 18 and 144)
+2. ERCOT publishes no curtailment figure: output below the limit is max(0, limit less output) each hour, wind and solar each on its own, and includes ramping, telemetry and averaging, so the page calls it "output below HSL", never curtailment. **Default:** Called output below HSL; the ERW's estimate. **Source:** ERCOT, Hourly Averaged Actual and Forecasted Values (wind NP4-742-CD, solar by region); docs/methods/curtailment.md, "ERCOT". (session 18)
+3. A share is curtailed MWh over curtailed plus wind and solar output, over the days of the month both are held, written when those days hold at least 95 percent of the month's hours; one output source a month, nothing scaled up to a whole month. **Default:** Over the days both are held; 95 percent of the month's hours. **Source:** docs/methods/curtailment.md, "The share of available output". (session 144)
+4. SPP's share divides SPP's own curtailment by itself plus EIA-930's hourly wind and solar generation for SPP in the same hours: the operator's curtailment over a denominator the ERW builds from EIA's hours. **Default:** SPP's curtailment over EIA-930's SPP generation. **Source:** SPP's curtailment reports; EIA Form EIA-930, hourly generation by fuel for SWPP. (session 144)
+5. A year's share is the same division over the months of the year that have a share, their curtailed MWh over their curtailed plus output MWh, never another denominator. **Default:** The months with a share, summed then divided. **Source:** docs/methods/curtailment.md, "The share of available output". (session 144)
+6. California by the hour, by month and by reason counts a month when at least 90 percent of its days are held, its figure the sum over the days held, never scaled up; hours and months are Pacific. **Default:** 90 percent of the days; Pacific time. **Source:** CAISO's five-minute curtailment record and its daily report by hour from 2026; docs/methods/caiso_curtailment_intervals.md. (session 98)
+7. Curtailment beside battery charging compares two system totals by month from September 2025; an hour counts as charging when the batteries took in more than they gave back, and the page does not say the batteries could have taken what was turned down. **Default:** System totals by month; no claim of what could have been stored. **Source:** CAISO's Today's Outlook battery output; docs/methods/caiso_curtailment_intervals.md, "The batteries". (session 98)
+8. Where free energy is counts the hours priced below zero and under USD 5 per MWh, real time where a place holds it for 95 percent of the window, else day-ahead, in each grid's standard time; a count needs 95 percent of the window's hours. **Default:** Below zero and under USD 5; real time where held, else day-ahead. **Source:** The operators' public hub and zone prices; docs/methods/curtailment.md, "Where free energy is". (session 144)
+9. What curtailment is worth values each hour's curtailed MWh at the hub's price of that hour, a month written when the curtailment covers 90 percent of its days and the price 95 percent of its hours; an hour with no price is left out of both sides. **Default:** Each hour at the hub's price; 90 and 95 percent coverage. **Source:** docs/methods/curtailment.md, "What it is worth". (session 144)
+10. A place is drawn on a true map only where its operator publishes the boundary; every other place is a schematic tile shaded by its count, and the page says it is a schematic, since no hub or zone point is made up. **Default:** A true map only from a published boundary. **Source:** The operators' published zone boundaries; docs/methods/curtailment.md, "Session 149". (session 149)
+11. ISO-NE's monthly undelivered energy is not pulled under its legal notice, NYISO prints curtailment only in a monthly PDF, PJM's needs a license, and MISO publishes no series and is paused: each is named with the reason and no number. **Default:** Named with the reason, no figure. **Source:** The operators' terms and published reports, as docs/methods/curtailment.md, "NYISO and ISO-NE", records them. (session 144)
+
+## What waits for the owner (session 7018)
+
+- ERCOT's limit at the autumn hour of 1 November 2026 (`docs/reviews/curtailment-faults-2026-11-16.md`, row 3).
+- ISO-NE's undelivered energy (its legal notice), NYISO's, PJM's (a license) and MISO's (paused).
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:

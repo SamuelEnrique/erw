@@ -405,8 +405,9 @@ def main(argv=None):
                 "spread_hub (a day's 16 dearest intervals less its 16 cheapest, averaged over whole_days: what moving four hours a day could capture, before losses). "
                 f"The entity ercot:{ALL_NODES} sums the points up, each counted once: nodes, nodes_with_spread, whole_days, spread_hub, spread_node_median, _mean, _p10, _p90, "
                 "nodes_spread_above_hub, mean_node_median, mean_hub, mean_abs_difference_median, intervals_median.",
-                f"Coverage: {nb['node'].nunique()} settlement points, {nb['first'].min()} to {nb['last'].max()}. ERCOT's public list keeps seven days of node prices: this is "
-                "the week listed when it was pulled, not the months the storage disclosure covers.",
+                f"Coverage: {nb['node'].nunique()} settlement points, {nb['first'].min()} to {nb['last'].max()}: every day of ercot_rtm_node_prices, which the data "
+                "machine pulls each day while ERCOT lists the report (seven days at a time, kept since 28 September 2026; session 7016 corrected this line, "
+                "which said one week); not the months the storage disclosure covers.",
                 f"Retrieved: {run_id} (UTC) by warehouse/derived/ercot_storage_realtime.py",
                 f"Run log: warehouse/output/logs/ercot_storage_realtime_{run_id}.log",
                 f"Source: {SOURCE} ERW derived table (docs/methods/ercot_storage_realtime.md), {METHOD_URL}",

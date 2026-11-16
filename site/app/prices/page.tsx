@@ -12,6 +12,8 @@ import { node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { PRICES_DECISIONS } from "@/lib/decisions";
 import { TableLicenses } from "@/components/tool/TableLicenses";
 import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
@@ -55,6 +57,8 @@ export default async function Prices({ searchParams }: { searchParams: Promise<R
           {tab === "ercot" ? <PeakPremiumView under={<TableLicenses tables={ERCOT_TABLES} />} /> : <NowView />}
           {/* session 328: each tab's public tables, as CSV with a Python and a Stata reader (latest_prices is the live set's
               own table, refreshed every 15 minutes, and is not an ERW table: its intervals reach the real-time tables) */}
+          {/* session 7018: the first tab's decisions (the ERCOT tab carries the peak premium explorer's own) */}
+          {tab === "ercot" ? null : <DecisionsBlock id="7018-prices" title="Decisions on this page (each with its default and its source on hover)" items={PRICES_DECISIONS} />}
           <TableDownloads tables={tab === "ercot" ? ERCOT_TABLES : NOW_TABLES} />
           <Related href="/prices" />
         </div>

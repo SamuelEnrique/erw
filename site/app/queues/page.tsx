@@ -4,6 +4,8 @@ import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/queues.json";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { QUEUES_DECISIONS } from "@/lib/decisions";
 import { GRIDS, TABLE, TECHS, choices, href, outcome, peakActive, two, viewOf, whole, yearsOf, type QueueFile, type View } from "@/lib/queues";
 
 // Session 95: "The interconnection queue", in review (lib/release.ts), in the battery page's layout: choose a grid and a
@@ -226,6 +228,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
             <p className="max-w-3xl">Counts and sums of the file&apos;s rows, grouped by Berkeley Lab&apos;s region and by its clean technology label. A past request entered from {p0} to {p1} and has a known status. A share is given when at least {file.min_share} past requests are counted,
               a median when at least {file.min_median} requests are dated. Nothing is estimated. The full method: <SiteLink href={METHOD}>the interconnection queue, summarized</SiteLink>.</p>
           </Fold>
+          <DecisionsBlock id="7018-queues" title="Decisions on this page (each with its default and its source on hover)" items={QUEUES_DECISIONS} />
           <SourceLine tables={[TABLE, "lbnl_interconnection_queue"]}
             note={<>Data: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file, licensed CC BY 4.0; retrieved {file.input_retrieved.slice(0, 10)}, summarized {file.built.slice(0, 10)}. This page is in review and reads the site&apos;s own copy of the summary.</>} />
         </div>

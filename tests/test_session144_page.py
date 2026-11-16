@@ -277,7 +277,7 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("/curtailment/v2", src("site", "lib", "audience.ts"))
         self.assertIn('href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by grid', src("site", "lib", "pages.ts"))
         import scheduled
-        self.assertEqual(scheduled.JOBS["curtailment_profile"]["page"], "/curtailment")
+        self.assertEqual(scheduled.STEPS["curtailment_profile"]["page"], "/curtailment")   # session 7014: a step of the data machine
 
     def test_the_address_of_a_choice(self):
         d = node("import * as c from './lib/curtailment.ts'; import * as v from './lib/curtailmentv2.ts';"

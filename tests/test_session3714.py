@@ -110,7 +110,7 @@ class TheRestoreStep(unittest.TestCase):
     def test_mix_profile_names_every_table_it_reads(self):
         # named as an input, never asked of the archive (session 114's rule for this builder): without it the step skips
         s = module("scheduled", "warehouse", "scheduled.py")
-        job = s.JOBS["mix_profile"]
+        job = s.STEPS["mix_profile"]   # session 7014: a step of the data machine (DATA_MACHINE)
         self.assertIn("caiso_fuel_supply_history", job["tables"])
         self.assertNotIn("caiso_fuel_supply_history", job.get("restore", []))
         with open(os.path.join(ROOT, "warehouse", "derived", "mix_profile.py"), encoding="utf-8") as f:

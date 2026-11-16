@@ -8,6 +8,8 @@ import { SiteLink } from "@/components/SiteLink";
 import { Term } from "@/components/Term";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { TableDownloads } from "@/components/tool/TableDownloads";
+import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
+import { CURTAILMENT_DECISIONS } from "@/lib/decisions";
 import ercotJson from "@/data/curtailment/ercot.json";
 import freeJson from "@/data/curtailment/free_energy.json";
 import sharesJson from "@/data/curtailment/shares.json";
@@ -357,6 +359,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
           </div>
           <SourceLine tables={srcTables}
             note={<>Data: California ISO, Production and curtailments data, the Daily Renewable Report and Today&apos;s Outlook; Southwest Power Pool, VER Curtailments; ERCOT, Wind and Solar Power Production; EIA-930; each grid&apos;s public prices. Credit: California ISO. Built {profile.built.slice(0, 10)} (California by the hour), {shares.built.slice(0, 10)} (shares), {free.built.slice(0, 10)} (prices), {worth.built.slice(0, 10)} (worth), {ercot.built.slice(0, 10)} (Texas). This page is in review.</>} />
+          <DecisionsBlock id="7018-curtailment" title="Decisions on this page (each with its default and its source on hover)" items={CURTAILMENT_DECISIONS} />
           {/* session 331: the grid's tables, as CSV with a Python and a Stata reader (session 328's shared line) */}
           <TableDownloads tables={srcTables} />
           <Related href="/curtailment" />

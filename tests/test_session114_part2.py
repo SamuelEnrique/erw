@@ -39,7 +39,9 @@ DAILY = ["eia930_daily_interchange", "eia930_daily_demand", "network_replay"]
 # ERCOT's 60-Day DAM Disclosure, approved in that session's prompt (tests/test_session116.py holds its rules). These
 # tests pinned the list as session 114 left it; they now set that one step aside by name and pin the rest as before.
 STANDING_PULL = "ercot_storage_dam"
-MONTHLY = ["mix_profile", "price_compare", "demand_growth", "curtailment_profile", "project_map", "large_load_snapshot"]
+# session 7014 (chain 301): mix_profile and curtailment_profile moved to the data machine's run (DATA_MACHINE): the runner
+# built them from restored tables shorter than the history
+MONTHLY = ["price_compare", "demand_growth", "project_map", "large_load_snapshot"]
 BASH = shutil.which("bash")
 
 
@@ -420,7 +422,9 @@ class BuiltDate(unittest.TestCase):
     }
 
     def test_each_page_prints_its_files_built_stamp(self):
-        self.assertEqual(sorted(self.PAGES), sorted({j["page"] for n, j in scheduled.JOBS.items() if n != STANDING_PULL}))
+        # session 7014: the mix and curtailment profiles are steps of the data machine (DATA_MACHINE), their pages unchanged
+        moved = {n: scheduled.STEPS[n] for n in ("mix_profile", "curtailment_profile")}
+        self.assertEqual(sorted(self.PAGES), sorted({j["page"] for n, j in list(scheduled.JOBS.items()) + list(moved.items()) if n != STANDING_PULL}))
         for page, (src, expr, files) in self.PAGES.items():
             self.assertIn(expr, text(*src.split("/")), page)
             for f in files:

@@ -141,10 +141,16 @@ def income(path):
                 cur = s
                 notes = re.findall(r"\(([^)]*)\)", r[0])
                 ded, ex = r[7], r[9]
+                # session 7016 (chain 301, done-line request 10): a credit printed in the deduction's column (Utah: "$966
+                # credit") is a credit against the tax, not a deduction from income; before, only the exemption's column
+                # was tested for the word
+                ded_credit = money(ded) if "credit" in ded.lower() else None
+                ex_credit = money(ex) if "credit" in ex.lower() else None
+                credits = [c for c in (ded_credit, ex_credit) if c is not None]
                 out[s] = {"name": re.sub(r"\s*\(.*$", "", r[0]), "footnotes": notes[0] if notes else "", "brackets": [],
-                          "standard_deduction_single": money(ded), "standard_deduction_text": ded,
-                          "personal_exemption_single": money(ex) if "credit" not in ex.lower() else None,
-                          "personal_credit_single": money(ex) if "credit" in ex.lower() else None, "personal_exemption_text": ex}
+                          "standard_deduction_single": money(ded) if ded_credit is None else None, "standard_deduction_text": ded,
+                          "personal_exemption_single": money(ex) if ex_credit is None else None,
+                          "personal_credit_single": sum(credits) if credits else None, "personal_exemption_text": ex}
             elif s != cur:
                 return None, f"income: continuation {r[0]!r} under {cur}"
             rate = r[1].strip()
@@ -249,6 +255,10 @@ def gas(folder):
     hr = capex.get("heat_rate_btu_per_kwh_hhv")
     hh = [r for r in rows(os.path.join(folder, "eia_steo_forecasts.csv"))
           if r["entity"] == "eia_steo:NGHHUUS" and r["ts_utc"].startswith("2025-") and r["x_kind"] == "history"]
+    # session 7016 (chain 301, done-line request 11): the table keeps each STEO release (vintage); on 16 November it held
+    # those of 6 October and 10 November, 24 history months of 2025, and the build refused. The newest release is read.
+    newest = max((r["vintage"] for r in hh), default="")
+    hh = [r for r in hh if r["vintage"] == newest]
     if len(hh) != 12 or not hr:
         return None, f"gas: {len(hh)} history months of 2025 for NGHHUUS, heat rate {hr}"
     price = sum(float(r["value"]) for r in hh) / 12

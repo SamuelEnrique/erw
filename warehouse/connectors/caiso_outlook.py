@@ -58,6 +58,11 @@ def day_rows(day, log):
     d = pd.read_csv(io.StringIO(r.text))
     if "Time" not in d.columns or not set(COLS) <= set(d.columns):
         raise RuntimeError(f"{url}: columns {list(d.columns)}")
+    # session 7016 (chain 301): on the spring clock change CAISO prints 288 rows, the hour that does not exist (02:00 to
+    # 02:55) as twelve rows with every value blank; they are dropped before the clock is read (a blank row was dropped
+    # below anyway). A row of that hour that holds a value still stops the day (NonExistentTimeError). 8 March 2026 was
+    # refused for this, in this table and in caiso_battery_storage.
+    d = d.dropna(subset=list(COLS), how="all").reset_index(drop=True)
     start = pd.Timestamp(day).tz_localize(TZ)
     end = pd.Timestamp(day + dt.timedelta(days=1)).tz_localize(TZ)
     expected = int((end - start) / pd.Timedelta(minutes=5))
@@ -83,6 +88,8 @@ def day_rows(day, log):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="CAISO Today's Outlook battery storage")
     ap.add_argument("--days", type=int, default=30)
+    ap.add_argument("--start", help="session 7016: first Pacific day, YYYY-MM-DD (with --end: those days, not the last --days)")
+    ap.add_argument("--end", help="session 7016: last Pacific day, YYYY-MM-DD (default: --start)")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -92,8 +99,13 @@ def main(argv=None):
     try:
         today = pd.Timestamp.now(tz=TZ).date()
         frames, short = [], []
-        for k in range(args.days, 0, -1):
-            day = today - dt.timedelta(days=k)
+        if args.start:
+            first = dt.date.fromisoformat(args.start)
+            last = dt.date.fromisoformat(args.end) if args.end else first
+            days = [first + dt.timedelta(days=k) for k in range((last - first).days + 1)]
+        else:
+            days = [today - dt.timedelta(days=k) for k in range(args.days, 0, -1)]
+        for day in days:
             try:
                 rows, why = day_rows(day, log)
             except Exception as exc:
@@ -106,15 +118,16 @@ def main(argv=None):
             frames.append(rows)
             log(f"  {day}: {len(rows) // len(COLS)} intervals")
         if not frames:
-            raise RuntimeError(f"no complete day among the last {args.days}: {short[:3]}")
+            raise RuntimeError(f"no complete day among the {len(days)} asked: {short[:3]}")
         s = pd.concat(frames, ignore_index=True)
         header = [
             "Energy Research Warehouse (ERW): CAISO battery storage output, 5-minute (Today's Outlook)",
             "Shape: series (docs/datastandard.md v0). freq PT5M; ts_utc is the interval start. MW; positive is "
             "discharge to the grid, negative is charging. batteries_mw is CAISO's Total batteries column; "
             "standalone_batteries_mw and hybrid_batteries_mw are its two parts as CAISO publishes them.",
-            f"Window: the last {args.days} complete Pacific days each run, merged into earlier runs; a day short of "
-            "any 5-minute interval is not written" + (f" (this run: {'; '.join(short)})" if short else "") + ".",
+            (f"Window: the Pacific days {days[0]} to {days[-1]} asked by hand (--start), merged into earlier runs; a day short of "
+             if args.start else f"Window: the last {args.days} complete Pacific days each run, merged into earlier runs; a day short of ")
+            + "any 5-minute interval is not written" + (f" (this run: {'; '.join(short)})" if short else "") + ".",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/caiso_outlook.py",
             f"Run log: warehouse/output/logs/caiso_outlook_{run_id}.log",
             f"Raw files: warehouse/raw/caiso_outlook/{run_id}/ (not in git)",

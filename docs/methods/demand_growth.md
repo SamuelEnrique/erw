@@ -220,3 +220,51 @@ The choices made on `/explore/demand-growth`, one line each with its session; se
 5. 2026-10-23, session 2201: every figure carries its source in its hover (the table, the grid's name, the variable, the year, EIA-930 and this note), read from the figure's key by `site/lib/explore/source.ts`; the three headline numbers carry the same words in the brand's tip, the table figures the title alone.
 6. 2026-10-23, 2201: the brand's bar chart (`site/components/tool/GroupedBars.tsx`, drawn on the server) is wrapped in `BarsHover.tsx`, a client component that draws the brand's hover card for the group under the pointer or the keyboard's arrows; the SVG, its `<title>` a group and every figure are as before, and the card's words are written on the server. The seller page and the datacenter grids view, which draw the same chart, gain the card the same way.
 7. 2026-10-23, session 2204: on reading, nothing of the page's type, color, tables or charts stood outside `docs/brand.md` (`site/app/tokens.css` carries the explorer's frame to the brand); no change.
+
+## The replication (session 7014, chain 301)
+
+`replication/demand/replicate.py` rebuilds every figure of `site/data/demand_growth.json` from EIA-930's nine workbooks by this note alone (the hour dated by its start, California's late hours set back, the screen, the 95 and 90 percent rules, the year to date, the change from 2019 on the last whole year's row) and the counts of hours left out. On the workbooks saved on 2 November 2026: 24,241 of 24,245 equal. The four others are the Lower 48's: one more hour apart from its neighbours (the workbook's last hour, 2026-11-02 04:00 UTC, partly summed on the day of the fetch) and the means of September and October 2026 and the year to date, which move with each day's workbook while EIA fills in the balancing authorities' late hours (October: 460,798.6 MW on 2 November, 460,894.6 in the page built from the fetch of 6 November, 461,062.9 on 9 November). Three rules the note leaves implicit and the replication found: an hour's four neighbours are the nearest hours held and above zero; the hours left out are counted from 2019 to the workbook's last row, EIA's blank last day included (so every area counts 24 blank hours more than its record holds); California's emptied hour of 2 December 2025 has no row and is not counted. The change of a month, hour or cell from 2019 is the change of the two printed means (one decimal). `replicate.do` rebuilds five figures of ERCOT in Stata, its expected values at its top.
+
+## The cross-checks (session 7018, chain 301)
+
+Two operators' own load beside EIA-930's figures for their grids, on 16 November 2026.
+
+**ERCOT** (ERCOT, Hourly Load Data Archives, native load, the system total in `ercot_zone_load_hourly`; Central years):
+
+| Year | ERCOT's own mean, MW (hours) | EIA-930 mean, MW (hours used) | ERCOT's own peak hour, MW | EIA-930 peak hour, MW | Peak's hour (UTC) |
+|---|---|---|---|---|---|
+| 2019 | 43,817.9 (8,760) | 43,797.6 (8,760) | 74,665.6 | 74,533 | 2019-08-12 21:00, both |
+| 2023 | 50,747.6 (8,760) | 51,007.2 (8,760) | 85,464.1 | 85,432 | 2023-08-10 22:00, both |
+| 2024 | 52,537.8 (8,784) | 52,779.8 (8,784) | 85,198.9 | 85,544 | 2024-08-20 22:00, both |
+| 2025 | 55,734.4 (8,760) | 55,717.2 (8,736) | 83,679.0 | 83,597 | 2025-08-18 22:00, both |
+
+The two means agree within 0.5 percent each year, and every year's peak falls in the same hour in both. ERCOT's archive is native load and EIA-930's is the balancing authority's adjusted demand, so they need not be equal.
+
+**CAISO** (its system load from OASIS, `caiso_area_load_hourly`, held from September 2021; Pacific time, January to October): EIA-930's figure was 99.50 to 99.61 percent of CAISO's on the same hours from 2021 to 2025, and 100.02 percent in 2026; January to October 2026 over 2025, CAISO's own load rose 5.57 percent and EIA's figure 6.03 (`docs/state/data_requests_done_line.md`, row 15).
+
+The replication recomputes every figure of the page's file from EIA's workbooks (24,241 of 24,245; the four are the Lower 48's late hours).
+
+## The decisions on the page (session 7018, chain 301)
+
+The as-metered view draws these at its foot (`site/lib/decisions.ts`, `DEMAND_DECISIONS`), each choice's default and source on hover:
+
+1. Weather is not removed: a year's demand is what was metered that year, heat waves and cold snaps included, so growth between two years is the difference of what was metered, not of a normal year. **Default:** As metered; the weather view removes it. **Source:** EIA Form EIA-930, hourly demand by balancing authority; docs/methods/demand_weather.md for the second view. (session 97)
+2. An hour is used when its demand is held, above zero and within 25 percent of the median of the four hours around it, since EIA's file holds faulty hours and a faulty high hour would be a year's peak; nothing is filled. **Default:** Within 25 percent of the median of the four nearest held hours. **Source:** docs/methods/demand_growth.md, "Which hours are used": the steepest real ramps move about a tenth in an hour. (session 97)
+3. A year's average and peak are written when at least 95 percent of its hours are used, a month when 95 percent of its hours are, and a month's hour of the day when 90 percent are. **Default:** 95 percent for a year or a month; 90 percent for a cell. **Source:** docs/methods/demand_growth.md, "The rows". (session 97)
+4. Growth is measured against 2019, the last whole year before the pandemic in the file, and the newest partial year is set against the same months of every earlier year. **Default:** 2019 as the base; the year to date against the same months. **Source:** docs/methods/demand_growth.md, "The rows". (session 97)
+5. An hour's demand is the average over the hour, so an operator's own record peak, measured over minutes, reads a little higher: ERCOT's 2023 record is 85,508 MW and the hour here 85,432. **Default:** Hourly averages, as EIA publishes them. **Source:** ERCOT's published 2023 peak; EIA-930's hourly demand. (session 97)
+6. The Lower 48 has averages and no peak: its demand is EIA's sum over every balancing authority, faulty hours included, and such an hour passes the screen while it would set the peak. **Default:** No peak for the Lower 48. **Source:** docs/methods/demand_growth.md, "The Lower 48 has no peak". (session 97)
+7. California's hours of November 2023 to 2 December 2025 are read one hour earlier, since EIA dated them one hour late; a row that would land on an hour already held is dropped and the emptied hour is not filled. **Default:** Set back one hour, 31 October 2023 23:00 to 2 December 2025 23:00 UTC. **Source:** docs/methods/eia930_caiso_break.md, "The late hours": against CAISO's own data and against the sun. (session 82)
+8. A balancing authority's demand is EIA's Adjusted demand, and the Lower 48's is EIA's Demand, whose workbook has no adjusted column; each hour is dated by its start. **Default:** Adjusted demand for an authority; Demand for the Lower 48. **Source:** EIA-930's per-area workbooks, sheet "Published Hourly Data". (session 97)
+9. The areas are the seven grid operators' balancing authorities and the Lower 48; the larger authorities outside them (TVA, Southern, Bonneville and others) are not held since 2019 and are not shown. **Default:** Seven operators and the Lower 48. **Source:** docs/methods/demand_growth.md, "Input". (session 97)
+
+## What waits for the owner (session 7018)
+
+- The balancing authorities outside the seven operators (a pull of the same public EIA record).
+- Whether EIA's California series, which moved about 0.45 points against CAISO's own load in 2026, should be read beside CAISO's for 2026's growth.
+
+## Sign-off
+
+- Signed off by:
+- Date:
+- Items of the section above ruled, and how:

@@ -24,7 +24,7 @@ def src(*parts):
 class TheSchedule(unittest.TestCase):
     def test_mix_profile_is_a_weekly_step_of_the_data_machine(self):
         steps = src("warehouse", "run_data_machine_tables.sh")
-        self.assertIn('"dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py"', steps)
+        self.assertIn('"dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py --snapshot"', steps)   # session 7015: its page files too
 
     def test_refresh_mix_is_called_by_no_job(self):
         for rel in ("warehouse/run_daily.sh", "warehouse/run_data_machine.sh", "warehouse/run_monthly.sh"):

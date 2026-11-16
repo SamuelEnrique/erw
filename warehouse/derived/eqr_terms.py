@@ -87,6 +87,7 @@ import eqr_buyers as eb  # noqa: E402
 import iso_prices as ip  # noqa: E402
 
 CONTRACTS, HISTORY, NAMES = "ferc_eqr_contracts", "ferc_eqr_contracts_history", "ferc_eqr_buyer_names"
+TOTALS = "ferc_eqr_party_totals"   # session 7016: a party's place by contracts is read from it (x_rank)
 PLANTS = "eia860m_operating_generators"
 TERMS, PARTY_MW, CHANGES = "ferc_eqr_contract_terms", "ferc_eqr_party_mw", "ferc_eqr_quarter_changes"
 SOURCE = "erw:eqr_terms"
@@ -217,9 +218,20 @@ def quarter_changes(frames):
     return out
 
 
-def party_mw(t):
+def party_mw(t, totals=None):
     """The parties of energy, capacity and tolling whose contracts in force state megawatts, ranked by megawatts. t: the
-    terms rows (with seller, company id, counted-as buyer, product, contract, mw). Rows of dicts."""
+    terms rows (with seller, company id, counted-as buyer, product, contract, mw). Rows of dicts.
+
+    rank_contracts is the party's place in ferc_eqr_party_totals (totals: that table), its x_rank by contracts, then rows,
+    then name over every row of the product, which is the place the page names (session 7016, chain 301, done-line
+    request 4: it was ranked here by contracts then name over the in-force rows only, and 76 of the 105 cells drawn
+    differed). A buyer is found by product and name, a seller by product and company id; a party the table does not
+    hold has no place (blank). Without the table, every place is blank."""
+    place = {}
+    if totals is not None:
+        for r in totals.to_dict("records"):
+            k = r["name"] if r["x_role"] == "buyer" else r["x_company_id"]
+            place[(r["x_role"], r["x_product"], k)] = int(r["x_rank"])
     x = t[(t["status"] == "in_force") & t["x_product"].isin(PRODUCTS.values())].copy()
     x["mw_n"] = pd.to_numeric(x["mw"], errors="coerce").where(x["x_mw_ranked"] == "yes")
     x["over"] = x["x_mw_ranked"] == "no"
@@ -232,12 +244,11 @@ def party_mw(t):
         names = x.groupby(key)["seller"].agg(lambda s: s.value_counts().index[0]) if role == "seller" else None
         for product, p in g.groupby("x_product"):
             p = p.assign(name=p[key] if role == "buyer" else p[key].map(names))
-            by_contracts = p.sort_values(["contracts", "name"], ascending=[False, True]).reset_index(drop=True)
-            rank_c = {r[key]: i for i, r in enumerate(by_contracts.to_dict("records"), 1)}
             have = p[p["with_mw"] > 0].sort_values(["mw", "name"], ascending=[False, True]).reset_index(drop=True)
             for i, r in enumerate(have.to_dict("records"), 1):
                 rows.append(dict(role=role, product=product, rank_mw=i, name=r["name"], mw=round(float(r["mw"]), 3), contracts_with_mw=int(r["with_mw"]), contracts=int(r["contracts"]),
-                                 rank_contracts=rank_c[r[key]], contracts_over=int(r["over"]), company_id=r[key] if role == "seller" else ""))
+                                 rank_contracts=place.get((role, product, r[key]), ""), contracts_over=int(r["over"]),
+                                 company_id=r[key] if role == "seller" else ""))
     return rows
 
 
@@ -334,7 +345,10 @@ def main(argv=None):
     elsewhere = {c: int(d[c].str.contains(STORAGE_WORD).sum()) for c in ("x_rate_description", "x_contract_service_agreement_id", "x_ferc_tariff_reference", "x_seller_company_name") if c in d.columns}
     log(f"  storage: no product field names storage or a battery in any row ({int((t['x_tag'] == 'storage').sum())} tagged); the words appear, untagged, in: {elsewhere}")
     scope = t.assign(seller=d["x_seller_company_name"].values, company_id=d["x_company_id"].values)
-    pm = party_mw(scope)
+    totals, _ = read_table(TOTALS, inputs)
+    if totals is None:
+        log(f"  {TOTALS} is not on this machine: x_rank_contracts left blank")
+    pm = party_mw(scope, totals)
     common = dict(geo="US", lat="", lon="", capacity_mw="", status_date="", operator="", source=SOURCE, source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
     pm_t = pd.DataFrame([dict(entity_id=f"ferc_eqr_party_mw:{r['role']}:{r['product']}:{r['rank_mw']:05d}", entity_type="company", name=r["name"], status="active", **common,
                               x_role=r["role"], x_product=r["product"], x_rank_mw=r["rank_mw"], x_mw_stated=r["mw"], x_contracts_with_mw=r["contracts_with_mw"], x_contracts=r["contracts"],

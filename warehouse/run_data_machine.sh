@@ -97,6 +97,7 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
             site/data/seller/hybrid.json site/public/seller/prices
             site/data/board.json site/public/board
+            site/data/curtailment_profile.json site/data/mix   # session 7014: the profiles' page files (dm_monthly_profiles)
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
@@ -475,6 +476,12 @@ group dm_test_replication "dm_datacenter_page dm_datacenter_export dm_datacenter
   site/data/datacenter site/public/datacenter site/data/findings site/public/findings \
   replication/datacenter/page_figures.json replication/datacenter/page_figures.csv docs/methods/automated_analysis_findings.md \
   replication/analysis/page_figures.json replication/analysis/page_figures.csv
+# Session 7014 (chain 301): the mix and curtailment profiles' page files, built by the weekly table steps above
+# (dm_mix_profile, dm_curtailment_profile in warehouse/run_data_machine_tables.sh, which also store their tables): on a
+# week they ran, the monthly job's tests of those files, and a refused build is put back whole.
+if grep -qE "^(dm_mix_profile|dm_curtailment_profile) ok" "$status"; then
+  group dm_monthly_profiles "dm_mix_profile dm_curtailment_profile"     "tests.test_session94 tests.test_session98 tests.test_session133 tests.test_session144_page" --     site/data/curtailment_profile.json site/data/mix
+fi
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
