@@ -20,13 +20,13 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 
 | Step | State | Session |
 |---|---|---|
-| The method note `docs/methods/datacenter_tracker.md` | open | |
-| The replication `replication/datacenter_tracker/replicate.py`, N of N | open | |
-| The Stata do-file, five headline figures | open | |
-| The cross-check table with its sources | open | |
-| The decisions block on the page | open | |
-| The faults this work finds; the four `ruling` rows in plain words | open | |
-| The landing request row | open | |
+| The method note `docs/methods/datacenter_tracker.md` | done `8ae74bfef` (thirteen sections and the sign-off block; its figures held to the day's by a test) | 7401 |
+| The replication `replication/datacenter_tracker/replicate.py`, N of N | done `1e0eb26ba`: 454 of 454 inside the tolerance on the live set's 458 rows of 16 November 09:18 UTC, against the page's own functions | 7400 |
+| The Stata do-file, five headline figures | done `dd059732e` (expected values at its top; not run, Stata is not on this machine; its Python mirror prints the same five lines) | 7403 |
+| The cross-check table with its sources | done `dd059732e`: ten rows (Berkeley Lab, EIA, ERCOT, PJM, Dominion, AEP), each read from the publisher's own file, robots first; MISO not requested (paused) | 7403 |
+| The decisions block on the page | done `8ae74bfef`: twelve choices, each with its default and source on hover, at the foot of both views; type checked, not built | 7402 |
+| The faults this work finds; the four `ruling` rows in plain words | done `8ae74bfef`: rows 15 to 21 (15 fixed with a test; 17 `ruling`, default the page unchanged; 16 and 18 to 21 `data machine`); the four rulings restated with their defaults | 7400 to 7403 |
+| The landing request row | done (row 33 of `docs/state/landing_request_portable.md`, head `dd059732e`, marked not yet requested while the deal tracker moves the head) | 7403 |
 
 ## Goal 2: the deal tracker, `/deals`
 
@@ -53,4 +53,10 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 
 ## Needs the key
 
-None yet.
+- **Four megawatt rows of the datacenter tracker found wrong against their stories' own words** (faults rows 18 to 21: a tenant named as operator, 1,000 MW; a fuel-cell plant's 702 MW; a turbine project's 1,200 MW; the Utah join, 9,400 MW). A re-extraction of those facilities' stories would correct them. Estimated cost: under USD 1 for the four rows' stories; the whole news table's rebuild is the data machine's to price. Not run.
+
+## For Samuel's ruling (each with the default taken)
+
+- **The public repository tracks the held tables' own files** (`warehouse/output/datacenter_facilities.csv`, `energy_deals.csv`, both evidence tables and three more). Default: nothing changed (session 7400's report).
+- **The views by operator read the operator alone**, so "operator not stated" holds 26,124 of the 28,254 MW stated (datacenter faults row 17). Default: unchanged, said in the page's decisions.
+- **PJM's two figures in the cross-check** (its load report, and Dominion's presentation on its committee page). Default: kept, as facts with links.
