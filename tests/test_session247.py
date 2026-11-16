@@ -99,7 +99,8 @@ class TheBlock(unittest.TestCase):
         only = re.search(r"LIVE_ONLY='\^\(([a-z0-9_|]+)\)\$'", self.text).group(1).split("|")
         self.assertEqual(only, ["caiso_reliability_daily", "caiso_grid_emergencies", "storage_owners_monthly", "shoulder_hours_monthly", "ercot_rtm_price_adders",
                                 "scarcity_hours_by_grid",                                           # session 254
-                                "ercot_peak_premium_annual", "ercot_peak_premium_monthly"])          # session 7020: built here daily
+                                "ercot_peak_premium_annual", "ercot_peak_premium_monthly",          # session 7020: built here daily
+                                "cost_of_power_monthly", "cost_of_power_hourly_profile", "cost_of_power_carbon"])   # session 7050
         live = yaml.safe_load(src("warehouse", "supabase", "live_set.yaml"))
         for t in only:
             self.assertEqual(load.live_rule(t), ("full", None), t)
@@ -124,7 +125,7 @@ class TheBlock(unittest.TestCase):
         r = run(["--list"])
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = r.stdout.strip().splitlines()
-        self.assertEqual(len(lines), 28)                                                           # ten steps since session 254, eight more since session 271, two since 277, the two loads, and two since session 3795 (the per-reactor outages' new days and the fleet table), and two since session 7015 (the curtailment profile, the queue statistics), and one since session 7020 (the peak premium)
+        self.assertEqual(len(lines), 29)                                                           # ten steps since session 254, eight more since session 271, two since 277, the two loads, and two since session 3795 (the per-reactor outages' new days and the fleet table), and two since session 7015 (the curtailment profile, the queue statistics), and one since session 7020 (the peak premium), and one since session 7050 (the cost of power)
         self.assertTrue(lines[0].startswith("dm_eia930_total_interchange: eia930_daily_total_interchange (daily): python warehouse/connectors/"), lines[0])
         self.assertTrue(lines[-2].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-2])
         self.assertTrue(lines[-1].startswith("dm_live_set_weekly (weekly): python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])
