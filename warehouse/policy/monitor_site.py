@@ -90,6 +90,7 @@ def build(actions, reads=None, impacts=None, today=None):
         docs = by_id.loc[ids]
         newest = docs.iloc[-1]
         grids, states, plain, impact = [], [], "", None
+        plain_doc = None                    # session 7001 (policy faults row 12): the document the plain read is of
         for eid, d in docs.iterrows():
             x = rd.get(eid)
             if x:
@@ -97,7 +98,9 @@ def build(actions, reads=None, impacts=None, today=None):
                     k = ISO_NAMES.get(g.strip().upper())
                     if k and k not in grids:
                         grids.append(k)
-                plain = x.get("plain_read") or plain
+                if x.get("plain_read"):
+                    plain, plain_doc = x["plain_read"], {"event_id": eid, "date": str(d["event_date"])[:10],
+                                                         "newest": eid == newest.name}
             for g in grids_named(d["title"]):
                 if g not in grids:
                     grids.append(g)
@@ -120,6 +123,14 @@ def build(actions, reads=None, impacts=None, today=None):
                 steps.append({"kind": kind, "date": date, "words": words[k] if k < len(words) else "", "event_id": eid})
         steps.sort(key=lambda s: (s["date"], s["kind"]))
         table, page = pi.bears_on(newest.to_dict() | {"body": r["body"]})
+        # session 7001 (policy faults row 18): the document that scored the record's significance (the highest of its
+        # documents, the first of them by date where two tie), with the scorer's why
+        sig_doc = None
+        if r["significance"]:
+            for eid, d in docs.iterrows():
+                if pd.to_numeric(str(d.get("significance", "")).strip() or "nan", errors="coerce") == float(r["significance"]):
+                    sig_doc = {"event_id": eid, "date": str(d["event_date"])[:10], "why": d.get("why", "") or ""}
+                    break
         row = {"id": r["event_id"], "date": r["event_date"], "first": r["first_date"], "body": r["body"],
                "instrument": newest["instrument"], "title": r["title"], "status": r["status"],
                "sector": r["sector"], "significance": int(r["significance"]) if r["significance"] else None,
@@ -128,7 +139,8 @@ def build(actions, reads=None, impacts=None, today=None):
                "steps": steps,
                "figure": {"value": float(r["figure_value"]), "unit": r["figure_unit"], "words": r["figure_evidence"],
                           "event_id": r["figure_event_id"]} if r["figure_value"] else None,
-               "impact": impact, "plain": plain or None, "bears_on": {"table": table, "page": page},
+               "impact": impact, "plain": plain or None, "plain_doc": plain_doc if plain else None,
+               "significance_doc": sig_doc, "bears_on": {"table": table, "page": page},
                "sources": [u for u in r["source_urls"].split(";") if u][::-1],
                "news": [u for u in r["news_story_urls"].split(";") if u],
                "history": [h for h in r["history"].split(" | ") if h],

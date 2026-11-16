@@ -504,6 +504,27 @@ def read_texts(rows, held, store, log, max_requests=300, max_bytes=300_000_000, 
                 "no more printed texts are asked for in this run")
             return None, b""
         return got[0], got[1]
+    def reask(r, old):
+        """Session 7001 (policy faults row 7): a text read before session 3056's fields, on a machine with no store
+        (the runner), left its fields from the record and summary alone (1,702 of 2,063 documents on 16 November
+        2026), so its dated steps never came from the text. Such a document is asked again, within the run's
+        ceilings, and its fields read from its text; a document whose fields came from its text is not asked again."""
+        ff = old.get("fields_from") or ""
+        return old.get("text_status") == "read" and bool(ff) and "text" not in ff and bool(r.get("_text_url"))
+
+    def keep_held(r, old):
+        """What the table held of a document's text, and its fields where they were read from it."""
+        for c in TEXT_COLS:
+            r[c] = old.get(c, "")
+        if "text" in (old.get("fields_from") or ""):   # session 3056: the fields read from its text before
+            for c in FIELD_COLS:
+                r[c] = old.get(c, "")
+        if old["text_status"] == "read":
+            if old.get("title_register"):
+                r["title"] = old["title"]
+            r["states"] = place_states(r["title"], f"{r['abstract']} {r.get('_topics', '')}", r["first_paragraph"],
+                                       r.get("place_words", ""))
+
     for r in sorted((x for x in rows if x.get("fr_document_number")), key=lambda x: x["event_date"], reverse=True):
         num, old = r["fr_document_number"], held.get(r["event_id"], {})
         path = os.path.join(store, re.sub(r"[^A-Za-z0-9_.-]", "_", num) + ".txt")
@@ -514,17 +535,8 @@ def read_texts(rows, held, store, log, max_requests=300, max_bytes=300_000_000, 
             r["text_status"] = "read"
             r["text_read_at"] = old.get("text_read_at") or ip.utc_iso(pd.Timestamp(os.path.getmtime(path), unit="s", tz="UTC"))
             n["store"] += 1
-        elif old.get("text_status"):
-            for c in TEXT_COLS:
-                r[c] = old.get(c, "")
-            if "text" in (old.get("fields_from") or ""):   # session 3056: the fields read from its text before
-                for c in FIELD_COLS:
-                    r[c] = old.get(c, "")
-            if old["text_status"] == "read":
-                if old.get("title_register"):
-                    r["title"] = old["title"]
-                r["states"] = place_states(r["title"], f"{r['abstract']} {r.get('_topics', '')}", r["first_paragraph"],
-                                           r.get("place_words", ""))
+        elif old.get("text_status") and not reask(r, old):
+            keep_held(r, old)
             n["table"] += 1
             continue
         else:
@@ -533,6 +545,8 @@ def read_texts(rows, held, store, log, max_requests=300, max_bytes=300_000_000, 
                 continue   # no printed text address in the record (or one that holds an e-mail address: not requested)
             if ended[0] or n["asked"] >= max_requests or n["bytes"] + 5_000_000 > max_bytes:
                 n["left"] += 1
+                if old.get("text_status"):     # session 7001: a text to ask again keeps what it held until then
+                    keep_held(r, old)
                 continue
             try:
                 status, content = ask_politely(url, num)
