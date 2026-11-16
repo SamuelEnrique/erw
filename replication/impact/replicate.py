@@ -285,7 +285,10 @@ def property_tax(P, x, i):
             else:
                 exempt = ex.get("exempt_share", 0)
         taxed = 1 - exempt
-        return spend * share * taxed * (x["own"] / 100), spend * share * taxed, [{"id": "own", "kind": "own"}] + ([ex] if ex else [])
+        # an abatement of the tax (Nevada, NRS 701A.370: "55 percent of the taxes") leaves the taxable value whole
+        # (the note, section 12.1, "An exemption of part of the own rate's base"); an exemption of value takes its share off
+        value = spend * share * (1 if ex is not None and ex.get("abates") == "tax" else taxed)
+        return spend * share * taxed * (x["own"] / 100), value, [{"id": "own", "kind": "own"}] + ([ex] if ex else [])
     return None, None, []
 
 

@@ -51,6 +51,9 @@ export type PropertyRule = {
   /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year;
    *  with requires "option" and years (session 4262, Nevada's abatement) only when the option is on, for that many years from the first construction year */
   exempt_share?: number; until_year?: number;
+  /** own_exempt (session 7515, Nevada): the statute abates a share of the tax, not of the value (NRS 701A.370: "55 percent
+   *  of the taxes"), so the year's taxable value stays whole while the tax is the taxed share's */
+  abates?: "tax";
   /** own_exempt (session 4272, Virginia's solar exemption): only above and below a size (MW AC, both exclusive), and the
    *  exempt share in steps by operating year (each step until an operating year, the last for the rest) */
   above_mw?: number; below_mw?: number; exempt_steps?: { until?: number; share: number }[];
@@ -263,7 +266,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
       && (r.min_mw === undefined || x.mw >= r.min_mw));
     const exShare = ex?.exempt_steps ? (ex.exempt_steps.find((st) => st.until === undefined || i < st.until)?.share ?? 0) : (ex?.exempt_share ?? 0);
     const taxed = ex ? 1 - exShare : 1;
-    return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * taxed };
+    // session 7515: an abatement of the tax (Nevada) leaves the taxable value whole; an exemption of value takes its share off
+    return { tax: spend * share * taxed * (x.own / 100), rule: ex ? `own+${ex.id}` : "own", value: spend * share * (ex?.abates === "tax" ? 1 : taxed) };
   }
   return { tax: null, rule: null };
 }
