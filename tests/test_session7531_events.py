@@ -180,7 +180,8 @@ class TheWrittenParts(unittest.TestCase):
     def test_faults_file(self):
         t = src("docs", "reviews", "events-faults-2026-11-16.md")
         rows = re.findall(r"^\| (\d+) \| ([a-z ,]+) \|", t, re.M)
-        self.assertEqual([int(n) for n, _ in rows], list(range(1, 11)))
+        # session 7602 (chain 305, browser reads rows 80 and 82): row 11, the event-day table's frame, kind "site"
+        self.assertEqual([int(n) for n, _ in rows], list(range(1, 12)))
         kinds = [k for _, k in rows]
         self.assertEqual(kinds.count("site, fixed"), 3)
         self.assertEqual(kinds.count("ruling"), 5)

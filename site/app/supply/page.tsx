@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Fragment } from "react";
 import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Band, Trend } from "@/components/supply/SupplyCharts";
@@ -74,7 +75,9 @@ function Table({ group, c }: { group: Group; c: Choice }) {
         <p className="mb-1 text-xs" data-grid-links="1">
           <span title="The Grid page's Mix view: each grid's generation by every source (gas, coal, nuclear, wind, solar, hydro, batteries), hour by hour and month by month, from the same EIA-930 hours as the rows below. Its Network view: what the grid takes from and sends to each neighbour, the last twelve months.">Each grid&apos;s generation by every source, and what it takes from and sends to each neighbour, on the Grid page:</span>{" "}
           {BURN_GRIDS.map((g, i) => (
-            <span key={g.slug} className="whitespace-nowrap">{i ? "; " : ""}{g.label} <SiteLink href={gridHref(g.slug, "mix")} data-grid-mix={g.slug}>mix</SiteLink>, <SiteLink href={gridHref(g.slug, "network")} data-grid-network={g.slug}>neighbours</SiteLink></span>
+            // chain 305 (session 7602, browser read row 179): the "; " stands outside the unbreakable span, so the line can break
+            // between two grids; inside it, there was no space between spans and at 390 px the line ran to 899 px
+            <Fragment key={g.slug}>{i ? "; " : ""}<span className="whitespace-nowrap">{g.label} <SiteLink href={gridHref(g.slug, "mix")} data-grid-mix={g.slug}>mix</SiteLink>, <SiteLink href={gridHref(g.slug, "network")} data-grid-network={g.slug}>neighbours</SiteLink></span></Fragment>
           ))}
         </p>
       ) : null}
