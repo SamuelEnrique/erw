@@ -81,7 +81,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 320 | `wip/alt-impact-17` | 30.0 | seen: impact-17-1280.png with production's -default-1280 twins | 7800 |
 | B | 355 | `wip/alt-prices-1` | 29.1 | wanted | |
 | B | 357 | `wip/alt-prices-2` | 28.5 | wanted | |
-| B | 292 | `wip/alt-shoulder-3` | 28.2 | wanted | |
+| B | 292 | `wip/alt-shoulder-3` | 28.2 | seen: shoulder-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 344 | `wip/alt-play-battery-1` | 25.5 | wanted | |
 | B | 346 | `wip/alt-play-battery-2` | 24.3 | wanted | |
 | B | 323 | `wip/alt-impact-19` | 21.4 | seen: impact-19-1280.png with production's -default-1280 twins | 7800 |
