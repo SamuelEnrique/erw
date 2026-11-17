@@ -13,7 +13,12 @@ The chain: `queue/done/402-day-17-november-oldlaptop-rulings-ranked.md`. One lin
 
 ## Part A: the ranked list
 
-- not begun
+How it is made: each tool's entries are in `runs/c402/entries/<tool>.json` on the old laptop (not in git), and `runs/c402/render.py` draws `docs/reviews/rulings-ranked-2026-11-17.md` from them; `runs/c402/scan.md` holds the scan of the 40 measurement files (which lines go to which section, and which go to part B). A restarted session writes the entries of the tools not listed here, runs the script and pushes.
+
+- The scan of all 40 measurement files (sections, sizes, the ten largest headline changes): done, session 7900.
+- grid (2 entries), interconnection (3; its line 4 is already on main, to part B), policy (3), companies (1), shoulder (6), play-battery (4), battery-customer (5): done, session 7900.
+- board: lines 2 and 4 done; lines 1, 3 and 5 wait for the site-wide license tool's entries. impact: line 2 done, the rest not begun.
+- First push: 27 entries, the ten largest headline changes among them, session 7900.
 
 ## Part B: the defaults list
 
