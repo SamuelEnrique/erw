@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { InputPanel, SourceLine, Tip, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import { FOOTPRINT_WORDS, noneHeldWords } from "@/lib/companydb";
 import { KIND_ORDER, PAGE_SIZE, SORTS, filterRows, hrefOf, idTag, indexRows, mw, count, pageOf, plural, queryOf, sharedNames, stateLabel, statesCell, type CompanyIndex, type IndexRow, type Query, type Sort } from "@/lib/companydb";
 import { companyIndex } from "@/lib/companydata";
 
@@ -150,13 +151,13 @@ export default async function Companies({ searchParams }: { searchParams: Promis
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "planned_mw", sourceOf("planned_mw: EIA-860M planned generators' nameplate"))}</td>
                     <td className="px-3 py-1.5 text-right">{figureCell(r, "queue_mw", sourceOf("queue_mw: ERCOT queue positions neither withdrawn nor completed"))}</td>
                     <td className="px-3 py-1.5 text-right">{r.n_policy_actions ? <Key id={r.id} col="n_policy_actions" raw={r.n_policy_actions} source={sourceOf("n_policy_actions: policy_actions rows")}>{count(r.n_policy_actions)}</Key> : <span className="text-muted">0</span>}</td>
-                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf("footprint_mw: operating, owned, planned and queue MW summed, a sort key"))}</td>
+                    <td className="px-3 py-1.5 text-right">{figureCell(r, "footprint_mw", sourceOf(FOOTPRINT_WORDS))}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {!rows.length ? <p className="mt-3 text-sm" data-companies-none="1">No listed company matches. <Link href="/companies">Every company</Link>.</p> : null}
+          {!rows.length ? <p className="mt-3 text-sm" data-companies-none="1">No listed company matches.{ix.held_only ? <> {noneHeldWords(ix.held_only)}</> : null} <Link href="/companies">Every company</Link>.</p> : null}
           {pages > 1 ? (
             <nav aria-label="Pages" className="mt-4 flex flex-wrap items-baseline gap-x-4 text-sm">
               {page > 1 ? <Link href={hrefOf("/companies", q, { page: page - 1 })} rel="prev">Previous {PAGE_SIZE}</Link> : null}

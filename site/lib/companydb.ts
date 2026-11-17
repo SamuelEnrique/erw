@@ -287,6 +287,13 @@ export function linksCsv(c: Company, links: Link[], ix: Pick<CompanyIndex, "buil
 }
 
 /** The index's rows of a query as a CSV. */
+// Session 7562 (the companies read, row 3): the Footprint column's hover said "a sort key" and not that a plant both
+// operated and owned counts twice (280 listed companies hold both on 16 November 2026: Susquehanna's 2,532 MW reads
+// 4,810.8). Row 4: an empty search said nothing of the companies named only in held tables (Amazon, Microsoft, Meta).
+export const FOOTPRINT_WORDS = "footprint_mw: operating, owned, planned and queue MW summed. An order for the list, not a fleet: a plant the company both operates and owns is counted twice";
+export const noneHeldWords = (n: number): string =>
+  `${n.toLocaleString("en-US")} ${n === 1 ? "company is" : "companies are"} named only in tables held for a license (deals, datacenters, NYISO's queue, policy actions) and not listed: a company the ERW knows only from a deal or a datacenter is among them.`;
+
 export function indexCsv(rows: IndexRow[], ix: Pick<CompanyIndex, "built" | "columns" | "held_tables" | "held_only">, q: Query, url: string): string {
   const cols = ix.columns;
   const head = [
