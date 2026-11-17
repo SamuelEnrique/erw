@@ -31,3 +31,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /grid | portable-laptop | 7616 | claimed | docs/reviews/ruling-impact-grid-2026-11-17.md |
 | /supply | samueloldlaptop | 7589 | done | docs/reviews/ruling-impact-supply-2026-11-17.md |
 | /storage | samueloldlaptop | 7590 | done | docs/reviews/ruling-impact-storage-2026-11-17.md |
+| /demand | samueloldlaptop | 7591 | claimed | docs/reviews/ruling-impact-demand-2026-11-17.md |
