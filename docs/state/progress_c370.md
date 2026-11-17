@@ -11,6 +11,7 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 ## Part A: the desk
 
 - Desk gate a (`wip/c370-desk-a`, `715e1b046`): old laptop rows 29, 30, 31, 32, 34, 35, 36 merged on main without a conflict; failed 3 tests (two headerless tables in reports 7531 and 7534 for the waits reader, test 188; test 7534's two replays need the site's packages); fixed (`a8431f37d` with main merged); desk gate b started 00:00 UTC. (7050)
+- Desk gate b (`a8431f37d`): suite passed; check-values failed one figure of row 30's `/grid/caiso/alerts` ("-479,791" for -479791.0043). Gate c (`097c519a1`): the same (a key rule did not reach it: the figure is a `data-format="usd"` amount, read by check-values' own usd()); fixed at the cause (a usd amount under a million is also read as whole dollars; 395 of 395 on the page against gate c's build). Desk gate d (`3d44e533b`) started 01:10 UTC. (7050)
 
 ## Part A: the data requests (`docs/state/data_requests_done_line.md` unless named)
 
