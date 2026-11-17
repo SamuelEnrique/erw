@@ -61,6 +61,22 @@ export const variableWords = (v: string) => VARIABLE_WORDS[v] ?? v;
 
 /** Session 7539 (the read, rows 2 and 5): an interval's start in UTC and in the grid's own clock, for a hover. */
 const ZONE: Record<string, string> = { ERCOT: "America/Chicago", SPP: "America/Chicago", MISO: "America/Chicago", CAISO: "America/Los_Angeles", NYISO: "America/New_York", "ISO-NE": "America/New_York" };
+/** Ruling alternative 1 of /prices (session 7723, branch wip/alt-prices-1; not a default on main): a hub's rows split into
+ *  on-peak (06:00 to 22:00 local, Monday to Friday, as the price board counts them; holidays are not taken out) and
+ *  off-peak, by the start of each row in the grid's own time zone. On main the table gives one set of figures. */
+export function splitPeak(rows: SeriesRow[], iso: string): { on: SeriesRow[]; off: SeriesRow[] } {
+  const z = ZONE[iso];
+  const on: SeriesRow[] = [], off: SeriesRow[] = [];
+  if (!z) return { on, off: rows.slice() };
+  const fmt = new Intl.DateTimeFormat("en-US", { timeZone: z, weekday: "short", hour: "2-digit", hour12: false });
+  for (const r of rows) {
+    const parts = Object.fromEntries(fmt.formatToParts(new Date(r.ts_utc)).map((p) => [p.type, p.value]));
+    const h = Number(parts.hour) % 24, wd = parts.weekday;
+    (wd !== "Sat" && wd !== "Sun" && h >= 6 && h < 22 ? on : off).push(r);
+  }
+  return { on, off };
+}
+
 export function whenWords(ts: string, iso: string): string {
   const z = ZONE[iso];
   const local = z ? new Date(ts).toLocaleString("en-US", { timeZone: z, year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZoneName: "short" }) : "";
