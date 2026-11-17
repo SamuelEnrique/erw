@@ -5,22 +5,42 @@ Unattended session. Model spend USD 0: no model API was called. Nothing was post
 
 ## What landed
 
-Status: in progress (the landing gate is waiting for the build lock). This section is completed when the branch lands.
+Landed on main at 11:21:59 UTC as merge commit `256e8b0a0` ("Merge task/linkedin-post-template: checks passed (run
+44068123810)"), which brings in the gated commit `4733a9498` (branch `wip/linkedin-post-template`: `686d69920` the
+template and first post, `a28ca3088` the follow-up, and two merges of origin/main made by the gate script). The merge
+changed exactly these files on main: the four render files, `linkedin_post_template.patch` (removed),
+`motion/package-lock.json`, `motion/package.json`, `motion/render_post.mjs`, `motion/specs/posts/queue_withdrawn.json`,
+`motion/src/Post.tsx` and `motion/src/Root.tsx`. `site/lib/release.ts` is untouched.
+
+- Gates (`scripts/land_check.py` through `runs/c153/gate_held.sh`, one hold of the build lock with the hand checks):
+  `bd124795e` passed every step at 09:35 (hand checks 09:39); `4733a9498` passed every step at 10:42 (hand checks
+  10:46). Logs in `runs/land_check/<sha>.txt` and `runs/linkedin/` (not in git).
+- Freeze: `scripts/freeze.py status` exit 0 (no freeze) before each gate and before the push. The push was at 10:47
+  UTC, outside the 14:00 to 16:15 UTC window.
+- GitHub run 44068123810 (code branch): checks passed; main had moved, so the merge job ran the suite again and merged.
+- Deploy: Vercel status success for `256e8b0a0`; the live site served its deployment (`data-dpl-id`
+  `dpl_FWrTcAyGBznsRBDynPsb9PhyRvL4`) at 11:23:34 UTC.
+- Snapshots (CLAUDE.md rule 8): `before-4733a949` (10:47:36 UTC) and `after-4733a949` (11:23:41 UTC), 25 pages each,
+  0 failed. `compare`: 0 differences on all 25 pages. Expected: the landing changes no site file, and every page is in
+  review. Note that production had already moved between the two snapshots to another deployment
+  (`dpl_C5MCz8gcCRD7xHVRhKuMJRvFnCPZ`, other sessions' commits on main); it also showed no difference.
+- Nothing was posted or published anywhere.
+
+Progress log of the landing:
 
 - 09:10 UTC: the gate still waits for the build lock, held by another window's gate (`c370-gate-n`) since 08:30.
 - 09:35 UTC: the gate of `bd124795e` (the branch merged with main) passed freeze to check_cross_checks; check_csp running. A follow-up from Samuel (new source line, square master re-rendered) waits for the gate to end, then goes through a second gate.
 - 09:39 UTC: the first gate and its hand checks passed every step for `bd124795e`. 09:40: the follow-up committed as `a28ca3088`; its gate waits for the build lock (held by `c370-gate-p` since 09:40), as of 10:00.
 - 10:18 UTC: the lock was taken and main merged again; the second gate checks `4733a9498` (suite running at 10:25).
 - 10:46 UTC: the second gate and its hand checks passed every step for `4733a9498` (suite: 10044 tests, OK, 464 skipped; check_values passed with only the known license-hold floors, /policy). 10:47: freeze status 0; before snapshot `before-4733a949` (25 pages, 0 failed); pushed to `task/linkedin-post-template`. Main had moved by docs-only commits since the gate (clean merge-tree); `task/7052-data-p` in flight trial-merges clean; `task/198-battery-data` (37 days, not judged by the gate) conflicts, as before.
-- Branch: `wip/linkedin-post-template`, first commit `686d69920` (the patch applied unchanged, the lock file, the spec
-  and the four render files).
 
 ## The four render files
 
 All in `docs/research/motion/posts/`:
 
-- `queue_withdrawn_post_2160x2160.mp4` (h264, 2160 x 2160, 450 frames, silent)
-- `queue_withdrawn_post_2160x2160_last.png` (2160 x 2160)
+- `queue_withdrawn_post_2160x2160.mp4` (h264, 2160 x 2160, 450 frames, silent; re-rendered with the new source line,
+  see the follow-up below)
+- `queue_withdrawn_post_2160x2160_last.png` (2160 x 2160; re-rendered likewise)
 - `queue_withdrawn_post_2160x2700.mp4` (h264, 2160 x 2700, 450 frames, silent; rendered with `--height 1350`)
 - `queue_withdrawn_post_2160x2700_last.png` (2160 x 2700)
 
@@ -43,8 +63,8 @@ Every row of `motion/specs/posts/queue_withdrawn.json` equals the "Withdrawn" se
 | Wind | Wind | 77.39141525501205 |
 | Other | Other | 83.92781211146371 |
 
-`numbers.projects` is 22348, the figure "22,348" in the source line. No difference, so the spec was not edited and both
-masters were rendered.
+`numbers.projects` is 22348, the figure "22,348" in the spec's original source line. No difference, so the spec was not
+edited and both masters were rendered. (The follow-up below later removed the count from the source line.)
 
 ## The follow-up: source line changed, square master re-rendered
 
@@ -70,6 +90,11 @@ Other includes offshore wind, hydro, coal, nuclear, and geothermal."
 
 ## How it went
 
+- I passed the first gate `--task task/linkedin-post-template`, so its printed push command named
+  `task/task/linkedin-post-template`. It was not used: the second gate ran with `--task linkedin-post-template`, and
+  the push went to `task/linkedin-post-template`.
+- The gate script kept its clean worktrees `../erw-land-bd124795` and `../erw-land-4733a949` (`--keep-worktree`); they
+  hold no branch and were left in place, as were `../erw-linkedin` and `../erw-linkedin-note`.
 - Step 1 said to check out main in the repository. The main checkout held another agent's uncommitted work under the
   data lock (`c370-152`), so the branch was made from `origin/main` (`1dc009dad`) in a separate worktree,
   `../erw-linkedin`, and the main checkout was left as it was.
