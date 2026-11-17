@@ -131,7 +131,8 @@ export type Result = {
   /** production: a tax on MWh was applied in some year (fault 20: the page's MWh column asks this, not a rule's id) */
   property: { held: boolean; rule: string | null; note: string; production: boolean };
   severance: { held: boolean; note: string };
-  sales: { held: boolean; note: string };
+  /** state, local: ruling alternative 25 (wip/alt-impact-25): the sales and use tax split into the state's part and the average local part (null where not held) */
+  sales: { held: boolean; note: string; state: number | null; local: number | null };
 };
 export type Severance = (state: string, volumeMcf: number, priceUsdPerMcf: number) => number | null;
 
@@ -278,7 +279,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     ok: false, years: [], sums: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null },
     pv: { jobs: 0, earnings: 0, output: 0, property: null, sales: null, income: 0, severance: null, taxes: 0 },
     construction: { jobs: ZERO(), earnings: ZERO(), output: ZERO() }, operations: { jobs: ZERO(), earnings: ZERO(), output: ZERO() },
-    property: { held: false, rule: null, note: "", production: false }, severance: { held: false, note: "" }, sales: { held: false, note: "" },
+    property: { held: false, rule: null, note: "", production: false }, severance: { held: false, note: "" }, sales: { held: false, note: "", state: null, local: null },
   };
   const jc = P.jediCosts.technologies[x.tech];
   const cost = jc?.states[x.state]?.cost_usd_per_mw;
@@ -302,6 +303,10 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
   // sales tax (section 5)
   const salesHeld = x.taxable !== null;
   const salesTotal = salesHeld ? S * (x.taxable! / 100) * (x.sales / 100) * (1 - x.exempt / 100) : null;
+  // ruling alternative 25 (wip/alt-impact-25, not a default on main): the state's part at its own rate (no more than the rate typed), the rest local
+  const stateRate = Math.min(x.sales, (P.sales.states[x.state]?.state_rate ?? 0) * 100);
+  const salesState = salesTotal === null ? null : S * (x.taxable! / 100) * (stateRate / 100) * (1 - x.exempt / 100);
+  const salesLocal = salesTotal === null || salesState === null ? null : salesTotal - salesState;
   // severance (section 7)
   let sevYear: number | null = null, sevNote = "";
   if (x.tech === "natural_gas") {
@@ -360,7 +365,7 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     property: { held: propHeld && !propGap, rule: propRule, note: propNote,
       production: rules.some((r) => r.kind === "production" && (propRule ?? "").split("+").includes(r.id)) },
     severance: { held: sevYear !== null, note: sevNote },
-    sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology" },
+    sales: { held: salesHeld, note: salesHeld ? (x.exempt > 0 ? "after the exemption" : "before exemptions") : "no taxable share held for this technology", state: salesState, local: salesLocal },
   };
 }
 function scale(r: Record<Effect, number>, f: number): Record<Effect, number> {
@@ -410,6 +415,7 @@ export function stat(r: Result, figure: string): number | null {
     const v = (y as unknown as Record<string, number | null>)[s];
     return v === undefined ? null : v;
   };
+  if (p[0] === "split") return p[1] === "state" ? r.sales.state : p[1] === "local" ? r.sales.local : null;   // wip/alt-impact-25
   if (p[0] === "y1") return pick(r.years.find((y) => y.phase === "operations"), p[1]);
   if (p[0] === "year") return pick(r.years.find((y) => y.year === Number(p[1])), p[2]);
   return null;

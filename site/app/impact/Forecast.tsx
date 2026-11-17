@@ -217,6 +217,11 @@ const LINES: Line[] = [
   { key: "propl", label: "Property tax over the life", tip: "Every operating year added, in 2025 dollars.", figure: "sum:property", fmt: usd, why: (r) => (r.property.held ? null : r.property.note) },
   { key: "sales", label: "Sales and use tax", tip: "On the taxable share of the construction spending at the state and average local rate, spread over the build.", figure: "sum:sales", fmt: usd,
     why: (r) => (r.sales.held ? null : r.sales.note) },
+  // ruling alternative 25 (wip/alt-impact-25, not a default on main): the sales and use tax split into its two receivers (main: one figure)
+  { key: "salesst", label: "Sales and use tax, the state's part", tip: "Of the sales and use tax, the part at the state's own rate (the Tax Foundation's table, 2026), no more than the rate typed. Default on the site: one figure. Source: Tax Foundation, State and Local Sales Tax Rates, Midyear 2026.", figure: "split:state", fmt: usd,
+    why: (r) => (r.sales.held ? null : r.sales.note) },
+  { key: "saleslo", label: "Sales and use tax, at the average local rate", tip: "The rest of the sales and use tax: at the population-weighted average local rate, which the localities receive; the reader's own locality's rate may differ. Default on the site: one figure. Source: Tax Foundation, State and Local Sales Tax Rates, Midyear 2026.", figure: "split:local", fmt: usd,
+    why: (r) => (r.sales.held ? null : r.sales.note) },
   { key: "income", label: "State income tax over the life", tip: "Each job taxed as one single filer on the average earnings, by the state's 2026 brackets, every year of the build and the operation.", figure: "sum:income", fmt: usd },
   { key: "sev", label: "Severance, each year", tip: "On the gas a gas plant burns that is produced in the state, by /severance's rules (Texas, Louisiana, New Mexico).", figure: "y1:severance", fmt: usd,
     why: (r) => (r.severance.held ? null : r.severance.note) },

@@ -327,6 +327,9 @@ def run(P, jedi, x):
             c[(m, e)] = rows[("construction", e, m)] / cost * spend_jedi * local * k
             o[(m, e)] = rows[("operations", e, m)] * basis_mw * local * (x["om"] / 100) * k
     sales_total = None if x["taxable"] is None else spend * (x["taxable"] / 100) * (x["sales"] / 100) * (1 - x["exempt"] / 100)
+    # ruling alternative 25 (wip/alt-impact-25): the state's part at its own rate (no more than the rate typed), the rest local
+    state_rate = min(x["sales"], P.sales.get(x["state"], {}).get("state_rate", 0) * 100)
+    sales_state = None if sales_total is None else spend * (x["taxable"] / 100) * (state_rate / 100) * (1 - x["exempt"] / 100)
     sev_year = None
     if tech == "natural_gas" and x["instate"] > 0 and x["gasprice"] is not None:
         mmbtu = x["mw"] * 8760 * x["cf"] * x["heat"] / 1000
@@ -371,10 +374,12 @@ def run(P, jedi, x):
     pv = {"earnings": total("earnings", True), "property": total("property", True) if whole else None, "sales": total("sales", True),
           "income": total("income", True), "severance": None if sev_year is None else total("severance", True)}
     pv["taxes"] = (pv["property"] or 0) + (pv["sales"] or 0) + pv["income"] + (pv["severance"] or 0)
-    return {"c": c, "o": o, "years": years, "sums": sums, "pv": pv, "production": production}
+    return {"c": c, "o": o, "years": years, "sums": sums, "pv": pv, "production": production,
+            "split": {"state": sales_state, "local": None if sales_state is None else sales_total - sales_state}}   # split: wip/alt-impact-25
 
 
-ROW_FIGURE = {"cjobs": "c:jobs:total", "ojobs": "o:jobs:total", "cearn": "c:earnings:total", "oearn": "o:earnings:total",
+ROW_FIGURE = {"salesst": "split:state", "saleslo": "split:local",   # the two split rows: wip/alt-impact-25
+              "cjobs": "c:jobs:total", "ojobs": "o:jobs:total", "cearn": "c:earnings:total", "oearn": "o:earnings:total",
               "cout": "c:output:total", "oout": "o:output:total", "prop1": "y1:property", "propl": "sum:property",
               "sales": "sum:sales", "income": "sum:income", "sev": "y1:severance", "pvtax": "pv:taxes", "pvearn": "pv:earnings"}
 
@@ -389,6 +394,7 @@ def table_figures(x, r):
     out["y1:property"] = first["property"]
     out["sum:property"] = r["sums"]["property"]
     out["sum:sales"] = r["sums"]["sales"]
+    out["split:state"], out["split:local"] = r["split"]["state"], r["split"]["local"]   # ruling alternative 25 (wip/alt-impact-25)
     out["sum:income"] = r["sums"]["income"]
     out["y1:severance"] = first["severance"]
     out["pv:taxes"] = r["pv"]["taxes"]
