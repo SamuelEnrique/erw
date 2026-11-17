@@ -50,6 +50,7 @@ class TheTaxableValue(unittest.TestCase):
         tech, state, given = self.m.scenario_values(query, "a")
         return self.m.inputs(self.P, tech, state, given)
 
+    @unittest.skip("ruling alternative 21 (wip/alt-impact-21): Nevada's 20 abated years are counted from the first operating year here, so the years and figures session 7515's read pins (from the first construction year) move; tests/test_alt_impact_21.py pins the other choice")
     def test_nevada_abates_the_tax_and_not_the_value(self):
         on = self.scenario({**NEVADA, "iaval": "1"})
         off = self.scenario(NEVADA)
@@ -84,6 +85,7 @@ class TheTaxableValue(unittest.TestCase):
 
 
 class ThePageDrawn(unittest.TestCase):
+    @unittest.skip("ruling alternative 21 (wip/alt-impact-21): Nevada's 20 abated years are counted from the first operating year here, so the years and figures session 7515's read pins (from the first construction year) move; tests/test_alt_impact_21.py pins the other choice")
     def test_the_table_by_year_shows_the_whole_value(self):
         node = shutil.which("node")
         if not node or not os.path.isdir(os.path.join(ROOT, "site", "node_modules")) or not os.path.exists(JEDI):
