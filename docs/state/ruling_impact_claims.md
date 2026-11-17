@@ -37,7 +37,7 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /research | portable-laptop | 7617 | done | docs/reviews/ruling-impact-research-2026-11-17.md |
 | /datacenters | samueloldlaptop | 7594 | done | docs/reviews/ruling-impact-datacenters-2026-11-17.md |
 | /deals | samueloldlaptop | 7595 | done | docs/reviews/ruling-impact-deals-2026-11-17.md |
-| /policy | portable-laptop | 7618 | claimed | docs/reviews/ruling-impact-policy-2026-11-17.md |
+| /policy | portable-laptop | 7618 | done | docs/reviews/ruling-impact-policy-2026-11-17.md |
 | /companies | samueloldlaptop | 7596 | done | docs/reviews/ruling-impact-companies-2026-11-17.md |
 | /attention | samueloldlaptop | 7597 | done | docs/reviews/ruling-impact-attention-2026-11-17.md |
 | Across the five signed tools | samueloldlaptop | 7598 | done | docs/reviews/ruling-impact-five-signed-2026-11-17.md |
