@@ -97,6 +97,10 @@ SHORT = 0.9
 SIX_BASE = "https://www.eia.gov/electricity/gridmonitor/sixMonthFiles/"
 SIX_SOURCE = "eia:gridmonitor/sixMonthFiles"
 SIX_COL = "Total Interchange (MW) (Adjusted)"
+# Ruling alternative 1 of the data machine's tables (session 7713, branch wip/alt-site-data-machine-1; not a default on
+# main): the six-month file does not fill a day the API lacks, since it matches the API on 96.3 percent of the days
+# compared, not all; a short month stays as the API answers it. main: True (filled, the difference written in the method).
+SIX_FILL = False
 
 
 def short_months(counts, today, years=2):
@@ -212,7 +216,7 @@ def main():
             # the months asked again that are still short: each balancing authority day the API lacks, from the six-month file
             again = {m: int((x["period"].str[:7] == m).sum()) for m in short}
             still = [m for m in short_months({**counts, **again}, today) if m in short]
-            if still:
+            if still and SIX_FILL:   # wip/alt-site-data-machine-1
                 six = six_fill(set(still), set(zip(x["respondent"], x["period"])), log)
                 filled = len(six)
                 if filled:
