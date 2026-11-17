@@ -11,6 +11,7 @@ Status: in progress (the landing gate is waiting for the build lock). This secti
 - 09:35 UTC: the gate of `bd124795e` (the branch merged with main) passed freeze to check_cross_checks; check_csp running. A follow-up from Samuel (new source line, square master re-rendered) waits for the gate to end, then goes through a second gate.
 - 09:39 UTC: the first gate and its hand checks passed every step for `bd124795e`. 09:40: the follow-up committed as `a28ca3088`; its gate waits for the build lock (held by `c370-gate-p` since 09:40), as of 10:00.
 - 10:18 UTC: the lock was taken and main merged again; the second gate checks `4733a9498` (suite running at 10:25).
+- 10:46 UTC: the second gate and its hand checks passed every step for `4733a9498` (suite: 10044 tests, OK, 464 skipped; check_values passed with only the known license-hold floors, /policy). 10:47: freeze status 0; before snapshot `before-4733a949` (25 pages, 0 failed); pushed to `task/linkedin-post-template`. Main had moved by docs-only commits since the gate (clean merge-tree); `task/7052-data-p` in flight trial-merges clean; `task/198-battery-data` (37 days, not judged by the gate) conflicts, as before.
 - Branch: `wip/linkedin-post-template`, first commit `686d69920` (the patch applied unchanged, the lock file, the spec
   and the four render files).
 
