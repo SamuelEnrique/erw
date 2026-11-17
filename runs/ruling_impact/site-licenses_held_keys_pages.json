@@ -1,0 +1,4377 @@
+{
+ "/events": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:US48|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2026-01-29T00:00:00+00:00|cold_2026"
+   }
+  ],
+  "shown": 2,
+  "words": 18
+ },
+ "/events/caiso-heat-2020": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-15T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|intensity_generation|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|weather_share|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2020|eia930:CISO|demand_mwh|day|2020-08-24|hi"
+   }
+  ],
+  "shown": 0,
+  "words": 134
+ },
+ "/events/caiso-heat-2022": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-01T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-06T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-01T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-01T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|intensity_generation|2022-09-08T00:00:00+00:00|caiso_heat_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|weather_share|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-08-31|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-08-31|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-08-31|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|caiso_heat_2022|eia930:CISO|demand_mwh|day|2022-09-09|hi"
+   }
+  ],
+  "shown": 0,
+  "words": 110
+ },
+ "/events/cold-2025": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|intensity_generation|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|intensity_generation|2025-01-20T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_pct_vs_baseline|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|intensity_generation|2025-01-19T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2025-01-25T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2025-01-25T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|intensity_generation|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2025-01-25T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2025-01-25T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|intensity_generation|2025-01-21T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2025-01-20T00:00:00+00:00|cold_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ISNE|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ISNE|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ISNE|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:ISNE|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:MISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:MISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:MISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:MISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:NYIS|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:NYIS|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:NYIS|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:NYIS|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:SWPP|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:SWPP|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:SWPP|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:SWPP|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2025|eia930:PJM|demand_mwh|day|2025-01-26|hi"
+   }
+  ],
+  "shown": 10,
+  "words": 176
+ },
+ "/events/cold-2026": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2026-01-29T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2026-01-26T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2026-01-29T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|intensity_generation|2026-01-24T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2026-01-27T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|intensity_generation|2026-01-29T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_pct_vs_baseline|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2026-01-26T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|intensity_generation|2026-01-26T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2026-01-30T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2026-01-25T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|intensity_generation|2026-01-25T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2026-01-31T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2026-01-26T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2026-01-25T00:00:00+00:00|cold_2026"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ISNE|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ISNE|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ISNE|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:ISNE|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:MISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:MISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:MISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:MISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:NYIS|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:NYIS|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:NYIS|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:NYIS|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:SWPP|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:SWPP|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:SWPP|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:SWPP|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-29|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-30|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-30|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-30|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-31|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-31|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-01-31|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|cold_2026|eia930:PJM|demand_mwh|day|2026-02-02|hi"
+   }
+  ],
+  "shown": 10,
+  "words": 180
+ },
+ "/events/covid-2020": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_pct_vs_baseline_week|2020-04-12T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_pct_vs_baseline_week|2020-05-24T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_pct_vs_baseline_week|2020-05-24T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:US48|demand_pct_vs_baseline_week|2020-03-01T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:US48|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:CISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:ISNE|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:MISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:NYIS|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:PJM|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:SWPP|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-10|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-29|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-30|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-30|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-30|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-31|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-31|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-03-31|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-10|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-29|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-30|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-30|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-04-30|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-10|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-29|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-30|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-30|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-30|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-31|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-31|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|covid_2020|eia930:US48|demand_mwh|day|2020-05-31|hi"
+   }
+  ],
+  "shown": 7,
+  "words": 685
+ },
+ "/events/east-heat-2025": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|intensity_generation|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|intensity_generation|2025-06-25T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|intensity_generation|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2025-06-22T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2025-06-22T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|intensity_generation|2025-06-24T00:00:00+00:00|east_heat_2025"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:NYIS|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:NYIS|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:NYIS|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:NYIS|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:ISNE|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:ISNE|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:ISNE|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:ISNE|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:MISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:MISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:MISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:MISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|east_heat_2025|eia930:PJM|demand_mwh|day|2025-06-28|hi"
+   }
+  ],
+  "shown": 0,
+  "words": 138
+ },
+ "/events/elliott-2022": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-22T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|intensity_generation|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:MISO|intensity_generation|2022-12-21T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-22T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:SWPP|intensity_generation|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|demand_max_mw|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:NYIS|intensity_generation|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|demand_max_mw|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ISNE|intensity_generation|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2022-12-24T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|weather_share|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:ISNE|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:MISO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:NYIS|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:SWPP|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|elliott_2022|eia930:PJM|demand_mwh|day|2022-12-29|hi"
+   }
+  ],
+  "shown": 10,
+  "words": 228
+ },
+ "/events/ercot-heat-2023": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-09-06T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2023-08-13T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-13T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2023-08-26T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|weather_share|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-10|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-24|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-25|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-25|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-25|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-26|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-26|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-26|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-27|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-27|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-27|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-28|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-28|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-28|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-29|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-29|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-29|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-30|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-30|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-30|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-31|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-31|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-08-31|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-01|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-01|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-01|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-02|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-02|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-02|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-03|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-03|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-03|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-04|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-04|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-04|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-05|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-05|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-05|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-06|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-06|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-06|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|ercot_heat_2023|eia930:ERCO|demand_mwh|day|2023-09-10|hi"
+   }
+  ],
+  "shown": 11,
+  "words": 294
+ },
+ "/events/uri-2021": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-24T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-15T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|net_generation_mwh_day_change|2021-02-15T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|net_generation_mwh_vs_baseline|2021-02-21T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|intensity_generation|2021-02-09T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|cf"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|weather_share|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled|pct"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|pooled_temp|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-07|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-08|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-09|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-10|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-11|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-12|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-13|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-14|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-15|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-16|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-17|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-18|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-19|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-20|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-21|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-22|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-23|hi"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|est"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|lo"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "es|uri_2021|eia930:ERCO|demand_mwh|day|2021-02-24|hi"
+   }
+  ],
+  "shown": 9,
+  "words": 154
+ },
+ "/learn/bill": {
+  "status": 200,
+  "held": [],
+  "shown": 20,
+  "words": 2
+ },
+ "/learn/problems": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 0
+ },
+ "/learn/problems/know-your-grid": {
+  "status": 200,
+  "held": [],
+  "shown": 67,
+  "words": 0
+ },
+ "/learn/problems/prices-and-your-bill": {
+  "status": 200,
+  "held": [],
+  "shown": 69,
+  "words": 0
+ },
+ "/learn/problems/when-the-grid-broke": {
+  "status": 200,
+  "held": [
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+   },
+   {
+    "table": "event_window_daily",
+    "key": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+   }
+  ],
+  "shown": 27,
+  "words": 46
+ },
+ "/learn/problems/storage-and-taxes": {
+  "status": 200,
+  "held": [],
+  "shown": 79,
+  "words": 0
+ },
+ "/learn/problems/networks-and-money": {
+  "status": 200,
+  "held": [],
+  "shown": 60,
+  "words": 0
+ },
+ "/map": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 6
+ }
+}

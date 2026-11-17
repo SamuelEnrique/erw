@@ -1,0 +1,27 @@
+datacenter_facilities: 458 rows, 274 counted; MW stated by 21: 28,254 MW (the page's 28,254 MW by 21)
+
+== line 1: the facilities held whole (default) or the rows whose every source is public shown, each with its license
+counted rows whose source is public in the registry and every cited page a public source's (the operators' own location pages, ERCOT): 210 of 274; MW stated by 3 of them, 882 MW; the other 64 rest on at least one news source (internal) and stay held
+
+== line 2: the by-grid view's peak hour and generating capacity (EIA's public figures) shown while the facilities are held
+   caiso: peak hour 2025 43,860 MW; generating capacity 90,303.3 MW (list 2026-08)
+   ercot: peak hour 2025 83,597 MW; generating capacity 164,685.4 MW (list 2026-08)
+   isone: peak hour 2025 25,898 MW; generating capacity 35,400.4 MW (list 2026-08)
+   miso: peak hour 2025 120,343 MW; generating capacity 195,472.7 MW (list 2026-08)
+   nyiso: peak hour 2025 31,857 MW; generating capacity 42,786.6 MW (list 2026-08)
+   pjm: peak hour 2025 160,560 MW; generating capacity 210,667.4 MW (list 2026-08)
+   spp: peak hour 2025 54,411 MW; generating capacity 96,914.2 MW (list 2026-08)
+14 cells would go from the hold's footnote to a figure; the share of peak (a facility figure) stays held
+
+== line 3: the project map's datacenter layer while the tracker shows none
+the map's file of 2026-11-16T16:45:58Z: 278 datacenters, 28,254.0 MW stated (the rulings file's 263 and 15,384 MW are an earlier build); held there too, these leave the map (ruling-impact-map-2026-11-17.md, line 1); the tracker's own figures do not move
+
+== line 4: the views by operator count a facility under its developer where no operator is named
+'operator not stated' (rows stating MW): 13 facilities, 26,124 MW of 28,254; counted under the developer where one is named: 4 facilities, 5,420 MW (-20,704 MW, -79.3 percent); 9 facilities move to their developers' lines (names not printed: held)
+
+== line 5: the headline 'Megawatts stated' with a line naming the share held by its two largest rows
+the two largest rows hold 19,800 of 28,254 MW (70.1 percent); one figure added, none moves
+
+== lines 6 and 7: the cross-check's published figures on the page; PJM's two figures in the cross-check
+Virginia: 33 facilities counted, 0 MW stated; the cross-check's Dominion figure beside it: a 4,800 MW datacenter billing peak
+line 7: dropping PJM's two figures removes two rows of the cross-check note (PJM's 2026 load report; Dominion's presentation on PJM's committee page); no figure of the page moves

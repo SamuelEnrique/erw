@@ -1,0 +1,31 @@
+monitor.json: built 2026-11-16, 2078 documents, 1533 records
+
+== line 1: the hold for the PUCT's rows
+policy_actions in the live set: 2063 documents; the PUCT's news releases 37 (1.8 percent); by source {'federalregister:api': 1792, 'nrc:news': 158, 'cpuc:news': 38, 'doe:news': 38, 'puct:news': 37}
+policy_reads: {'erw:policy_reads': 412}
+records of the monitor whose body is the PUCT: 21 of 1533 (1.4 percent)
+the view as it opens (significance 5 or more): 295 records shown, the PUCT's 2: without them 293 (-0.7 percent); 'records held' 1533 to 1512 (-1.4 percent)
+/policy: checked figures drawn 0; held checked figures 0; drawn 'license needed' 1
+/policy?view=monitor: checked figures drawn 149; held checked figures 0; drawn 'license needed' 0
+/policy?view=monitor&state=VA: checked figures drawn 78; held checked figures 0; drawn 'license needed' 0
+
+== line 2: Virginia's filter
+-- the view as it opens (significance 5 or more, any date: OPEN_FILTERS): 295 records
+records whose states hold VA: 7
+records whose grids hold PJM: 14; naming no state (PJM-wide): 7; naming a state: 7 {'PA': 4, 'VA': 3, 'WA': 1, 'IL': 1, 'MD': 1, 'WV': 1, 'OH': 1}
+Virginia with the PJM-wide records: 14 (+7, +100.0 percent)
+each PJM footprint state's filter, now and with the PJM-wide records:
+  DC 0 to 7; DE 0 to 7; IL 6 to 13; IN 2 to 9; KY 8 to 15; MD 2 to 9; MI 3 to 10; NC 3 to 10; NJ 0 to 7; OH 4 to 11; PA 7 to 14; TN 7 to 14; VA 7 to 14; WV 3 to 10
+-- every record (the significance floor lifted): 1533 records
+records whose states hold VA: 27
+records whose grids hold PJM: 17; naming no state (PJM-wide): 8; naming a state: 9 {'PA': 6, 'VA': 3, 'WA': 1, 'IL': 1, 'MD': 1, 'WV': 1, 'OH': 1}
+Virginia with the PJM-wide records: 35 (+8, +29.6 percent)
+each PJM footprint state's filter, now and with the PJM-wide records:
+  DC 0 to 8; DE 3 to 11; IL 23 to 31; IN 12 to 20; KY 25 to 33; MD 5 to 13; MI 27 to 35; NC 18 to 26; NJ 5 to 13; OH 22 to 30; PA 45 to 53; TN 13 to 21; VA 27 to 35; WV 30 to 38
+
+== line 3: Michigan among the large-load laws
+large_load_rules.json built 2026-11-16T17:10:29Z: 27 laws shown, 1 held; counts {'rules': {'in effect': 52, 'approved': 21, 'proposed': 25, 'ordered': 1, 'denied': 1}, 'laws': {'in effect': 10, 'enacted': 6, 'passed': 3, 'passed one chamber': 3, 'introduced': 3, 'vetoed': 1, 'died': 1}, 'changes': 94, 'held': {'rules': 22, 'changes': 4, 'laws': 1}}
+  Michigan: Enrolled H.B. 4906 (Public Act 207 of 2024); status in effect; smallest load None
+states with a law: 26; Michigan's laws 1
+laws by status: {'passed': 3, 'introduced': 3, 'in effect': 10, 'enacted': 6, 'passed one chamber': 3, 'vetoed': 1, 'died': 1}
+without Michigan's: 26 laws shown (-3.7 percent); states with a law 25; 'in effect' laws 10 to 9

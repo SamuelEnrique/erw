@@ -66,7 +66,7 @@ FUELS = ("solar", "wind")
 SIDES = (("rtm", "rt"), ("dam", "da"))
 # the price tables read: the comparison's own, and the two histories of session 140 when they are on the machine
 EXTRA = ["ercot_zone_prices_history", "iso_zone_prices_history"]
-TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history"] + EXTRA + [t for t in pc.TABLES if t not in ("iso_hub_prices_history", "ercot_all_hub_prices_history")]
+TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history"] + EXTRA + [t for t in pc.TABLES if t not in ["iso_hub_prices_history", "ercot_all_hub_prices_history"] + EXTRA]  # session 7052: the comparison reads the ERCOT zone history too (request 142); read once
 # the public grids, with each one's main hub (the seller's model is priced there) and its time zone
 GRIDS = {
     "ercot": dict(name="ERCOT", tz="America/Chicago", main="HB_HUBAVG"),

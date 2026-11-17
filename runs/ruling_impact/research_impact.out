@@ -1,0 +1,18 @@
+== line 1: Wyoming, natural gas, net generation by month
+Redivis dataset datapages.erw:b9wm, version next: 307 months, 2001-01 to 2026-07; retrieved 2026-10-10T14:43:14Z; source eia:electricity/electric-power-operational-data
+  2024-07: 765,381 MWh
+  2026-06: 563,755 MWh
+  2026-07: 1,028,747 MWh
+  2026-08: not held
+August 2026: 1,060,504 MWh (the stored chart of 12 November, not in this copy of the table)
+the record before August 2026 (every month held before it): 1,028,747 MWh, 2026-07
+the record before July 2026: 765,381 MWh, 2024-07
+the stored chart: 'the record until now was 765,381 MWh, in July 2024': August above it by 295,123 MWh, 38.6 percent
+corrected with this copy's July 2026, 1,028,747 MWh: August above it by 31,757 MWh, 3.1 percent; the record cell moves +263,366 MWh, +34.4 percent, its month from 2024-07 to 2026-07
+corrected with the ruling's July 2026 (the data machine's newer copy), 1,034,451 MWh: August above it by 26,053 MWh, 2.5 percent; the record cell moves +269,070 MWh, +35.2 percent, its month from 2024-07 to 2026-07
+
+== line 2: the three findings cards built from internal tables
+gas_sets_price: title words 6; tables ['ercot_all_hub_prices_history', 'iso_rtm_hub_prices', 'nyiso_rtm_zone_prices', 'isone_zone_prices_history', 'eia_fuel_spot_prices']; callouts 3; numbers 18; chart kind grouped_bar, series 5, points 40; downloads 3; computed 2026-11-12T18:02:53Z
+siting_flexible: title words 4; tables ['ercot_all_hub_prices_history', 'ercot_zone_prices_history', 'ercot_4cp_intervals', 'texas_transmission_matrix']; callouts 3; numbers 13; chart kind bars_free, series 2, points 28; downloads 3; computed 2026-11-16T21:47:20Z
+siting_gigawatt: title words 5; tables ['ercot_all_hub_prices_history', 'ercot_zone_prices_history', 'ercot_4cp_intervals', 'texas_transmission_matrix', 'interconnection_durations']; callouts 3; numbers 18; chart kind bars_free, series 2, points 28; downloads 3; computed 2026-11-16T21:47:20Z
+cards in site/data/findings: 15: ['batteries_curtailment', 'batteries_curtailment_hourly', 'batteries_lunch', 'batteries_lunch_grids', 'catalogue', 'gas_sets_price', 'impact_study', 'negative_prices_west', 'peak_hour_grids', 'peak_hour_moved', 'queue_divorce', 'siting_battery_swing', 'siting_flexible', 'siting_gigawatt', 'who_rescues_whom']

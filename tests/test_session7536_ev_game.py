@@ -80,14 +80,14 @@ class TheReplication(unittest.TestCase):
         self.assertEqual(shown[("never", "save_year_label")], "Extra a year with the EV")
         self.assertEqual(shown[("no_cross", "chart_cross_label")], "none")
         self.assertIn("public charger", shown[("public_waiting", "waiting")])
-        self.assertEqual(shown[("state_KY", "payback")], "3.0 years")
-        self.assertEqual(shown[("state_HI", "npv")], "-$1,056")
+        self.assertEqual(shown[("state_KY", "payback")], "3.3 years")  # session 7052: the prices of the file built 17 November 2026
+        self.assertEqual(shown[("state_HI", "npv")], "-$2,720")  # session 7052: the same
         self.assertEqual(len([c for c in page["cases"] if c["id"].startswith("state_")]), 51)
 
     def test_crosscheck_prints_the_published_figures(self):
         code, out = replicate("--crosscheck")
         self.assertEqual(code, 0, out)
-        self.assertIn("EIA weekly series: 4.354 | +0.000", out)
+        self.assertIn("EIA weekly series: 3.995 | +0.000", out)  # session 7052: the week of 2026-11-09
         self.assertIn("PG&E E-TOU-C", out)
 
 

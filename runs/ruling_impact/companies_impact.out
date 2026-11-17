@@ -1,0 +1,26 @@
+companies in the directory: 12,724
+companies naming a parent: 11; parents named: 6; parents with a page here: 5
+the parents whose page would gain most (operating MW of plants operated; owned MW), own figures -> with the subsidiaries summed:
+   Duke Energy: 2 subsidiaries; operated 0.0 -> 38,147.3 MW; owned 0.0 -> 543.8 MW
+   Dominion Generation: 3 subsidiaries; operated 0.0 -> 28,681.0 MW; owned 0.0 -> 5,821.5 MW
+   energy-department: 3 subsidiaries; operated 0.0 -> 0.0 MW; owned 0.0 -> 0.0 MW
+   Talen Energy Corporation: 1 subsidiaries; operated 0.0 -> 0.0 MW; owned 0.0 -> 0.0 MW
+   Entergy Nuclear Operations, Inc.: 1 subsidiaries; operated 0.0 -> 0.0 MW; owned 0.0 -> 0.0 MW
+   Energy Harbor Corp.: 1 subsidiaries; operated 0.0 -> 0.0 MW; owned 1,144.8 -> 1,144.8 MW
+parents whose figures would move: 2
+
+the rulings line's example, Constellation Energy Corporation, by name (no parent list names its subsidiaries yet):
+   Constellation Nuclear (eia-55951): operated 23,798.1 MW, owned 6,228.3 MW, parent ''
+   Constellation Power, Inc (eia-6035): operated 7,734.1 MW, owned 0.0 MW, parent ''
+   Constellation Power Source Generation, LLC (eia-4161): operated 575.1 MW, owned 0.0 MW, parent ''
+   Constellation New Energy Inc. (eia-60396): operated 33.0 MW, owned 0.0 MW, parent ''
+   Constellation Solar Horizons LLC (eia-57065): operated 13.7 MW, owned 0.0 MW, parent ''
+   Constellation Energy Corporation (constellation): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation Energy Power Choice Inc. (eia-50149): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation Energy Services NY, Inc. (eia-21258): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation NewEnergy, Inc (eia-13374): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation Solar Holding, LLC (eia-59086): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation Energy Services, Inc. (eia-21795): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation South Texas, LLC (constellation-south-texas): operated 0.0 MW, owned 0.0 MW, parent ''
+   Constellation Energy Generation, LLC (eia-65506): operated 0.0 MW, owned 0.0 MW, parent 'Constellation Energy Corporation'
+   summed by name: operated 32,154.0 MW, owned 6,228.3 MW; a subsidiary not named Constellation is not found this way

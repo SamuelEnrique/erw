@@ -8,6 +8,7 @@ storage_buildout_monthly,iso:ercot,battery_operating_mw,2026-05-01T00:00:00Z,163
 storage_buildout_monthly,iso:ercot,battery_operating_mw,2026-06-01T00:00:00Z,17324.7,MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mw,2026-07-01T00:00:00Z,18069.6,MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mw,2026-08-01T00:00:00Z,18204.5,MW,2026-10-03T08:00:34Z,erw:storage_buildout
+storage_buildout_monthly,iso:ercot,battery_operating_mw,2026-09-01T00:00:00Z,19194.6,MW,2026-10-24T14:50:31Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2025-12-01T00:00:00Z,1.5514,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-01-01T00:00:00Z,1.554,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-02-01T00:00:00Z,1.5444,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
@@ -17,6 +18,7 @@ storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-05-01T00:00
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-06-01T00:00:00Z,1.6212,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-07-01T00:00:00Z,1.647,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-08-01T00:00:00Z,1.649,MWh/MW,2026-10-03T08:00:34Z,erw:storage_buildout
+storage_buildout_monthly,iso:ercot,battery_operating_mwh_per_mw,2026-09-01T00:00:00Z,1.6525,MWh/MW,2026-10-24T14:50:31Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_units,2025-12-01T00:00:00Z,204.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_units,2026-01-01T00:00:00Z,208.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_units,2026-02-01T00:00:00Z,221.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
@@ -26,3 +28,4 @@ storage_buildout_monthly,iso:ercot,battery_operating_units,2026-05-01T00:00:00Z,
 storage_buildout_monthly,iso:ercot,battery_operating_units,2026-06-01T00:00:00Z,247.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_units,2026-07-01T00:00:00Z,257.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
 storage_buildout_monthly,iso:ercot,battery_operating_units,2026-08-01T00:00:00Z,259.0,count,2026-10-03T08:00:34Z,erw:storage_buildout
+storage_buildout_monthly,iso:ercot,battery_operating_units,2026-09-01T00:00:00Z,266.0,count,2026-10-24T14:50:31Z,erw:storage_buildout

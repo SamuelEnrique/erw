@@ -1,0 +1,41 @@
+{
+ "id": "queue_withdrawn_post",
+ "type": "post",
+ "width": 1080,
+ "height": 1080,
+ "frames": 450,
+ "decimals": 1,
+ "title": "Grid connection requests withdrawn, filed 2000-2020",
+ "source": "Source: Berkeley Lab, Queued Up (2026 edition). Share of requested MW withdrawn by technology, interconnection requests filed 2000-2020, status end-2025. Wind is onshore; Other includes offshore wind, hydro, coal, nuclear, and geothermal.",
+ "rows": [
+  {
+   "label": "All Technologies",
+   "value": 75.2141195848057
+  },
+  {
+   "label": "Battery",
+   "value": 63.95506614918607
+  },
+  {
+   "label": "Gas",
+   "value": 79.44978254195402
+  },
+  {
+   "label": "Solar",
+   "value": 70.86663828189789
+  },
+  {
+   "label": "Solar and Battery",
+   "value": 53.23596506930892
+  },
+  {
+   "label": "Wind",
+   "value": 77.39141525501205
+  },
+  {
+   "label": "Other",
+   "value": 83.92781211146371
+  }
+ ],
+ "_numbers_from": "site/data/findings/queue_divorce.json (chart.series Withdrawn, computed_at 2026-11-12T18:02:53Z); projects 22348"
+}

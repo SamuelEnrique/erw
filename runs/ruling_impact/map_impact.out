@@ -1,0 +1,14 @@
+map.json built 2026-11-16T16:45:58Z: 35,035 points; operating 28,712 (1,423,491.7 MW), planned 2,361 (290,264.2 MW), queue 3,684 (768,296.0 MW), datacenters 278 (28,254.0 MW)
+
+== line 1: the queue positions' MW kept as the table states them (other choice) or rounded to one decimal in the map's file (default)
+the file's 3,684 queue rows sum to 768,296.9 MW (the page writes 768,297 MW requested); each row is rounded to 0.1 MW, so the sum can be off by at most 184.2 MW. On the build the faults file read, the table summed to 761,478.2 MW and the page wrote 761,479: +0.8 MW (+0.0001 percent). The table's own sum for this build needs the live set's rows, which this machine does not hold: not computed
+
+== line 2: the Projects tab's queue and datacenter layers drawn from the map's own copy (default) or held like their tables
+held as points without name, operator or MW: 3,684 queue positions lose 768,296.0 MW and 278 datacenters lose 28,254.0 MW from every sum and tip; the tab's total of points stays 35,035
+held as no layer: the tab draws 31,073 points (31,073 generating units, 1,713,755.9 MW); the queue's and the datacenters' counts and MW leave the tab
+the hold lifted for those rows: nothing on the tab moves; the tables' own pages would show the same rows
+
+== line 3: planned units and queue positions matched by name and county, so a project counts once
+queue positions whose name and county match a planned unit's (names compared without words such as Solar, BESS, LLC): 154; their MW 30,170.5 (3.93 percent of the queue's MW)
+the three the rulings line names, as matched here: [('Funston Solar', 351.1), ('Tiger Solar', 250.9), ('Chimney Rock BESS', 156.0)]
+matched, the queue layer's sum would fall by that MW (or the planned layer's, by the rule chosen); the match is by words only and a ruling would fix its rule

@@ -61,7 +61,11 @@ PROFILE_MONTHS = 12
 HUB_HISTORY = "iso_hub_prices_history"  # session 49: a year of the other ISOs' main hubs
 # session 49: a second hub per ISO, priced like the main one and weighted by the same BA's demand: CAISO's NP15, the
 # wholesale reference of PG&E's bill (/learn/bill); its demand weights are CAISO's whole BA, not Northern California's
-EXTRA = {"caiso": ["TH_NP15_GEN-APND"]}
+EXTRA = {"caiso": ["TH_NP15_GEN-APND"],
+         # session 7052 (chain 370, done-line request 209): ERCOT's Houston and North load zones, for CenterPoint's and Oncor's
+         # homes on /learn/bill, priced from ercot_zone_prices_history and weighted by ERCOT's whole demand as CAISO's two are
+         "ercot": ["LZ_HOUSTON", "LZ_NORTH"]}
+ZONE_HISTORY = "ercot_zone_prices_history"
 r4 = pb.r4
 
 
@@ -87,7 +91,10 @@ def prices_of(iso, mk, log):
     df = pb.read_table(table, market=market, node=pb.MAIN[iso])
     parts = [df]
     hname = None
-    if iso == "ercot":  # the history, then the rolling table from where the history ends
+    if iso == "ercot" and pb.MAIN[iso].startswith("LZ_"):  # session 7052: a load zone, from the zone history alone
+        hname = ZONE_HISTORY
+        parts = [pb.read_table(ZONE_HISTORY, market=market, node=pb.MAIN[iso])]
+    elif iso == "ercot":  # the history, then the rolling table from where the history ends
         hname = pb.HISTORY
         hist = pb.read_table(pb.HISTORY, market=market, node=pb.MAIN[iso])
         parts = [hist, df[df["ts"] > hist["ts"].max()] if len(hist) else df]
@@ -212,7 +219,7 @@ def write(name, rows, title, notes, run_id, used, left, log):
         f"Retrieved: {run_id} (UTC) by warehouse/derived/cost_of_power.py",
         f"Run log: warehouse/output/logs/cost_of_power_{run_id}.log",
         f"Source: {SOURCE} ERW derived table, cost-of-power method (docs/methods/cost_of_power.md), {METHOD_URL}",
-        "Derived from: ercot_all_hub_prices_history; iso_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; nyiso_rtm_zone_prices; "
+        "Derived from: ercot_all_hub_prices_history; ercot_zone_prices_history; iso_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; nyiso_rtm_zone_prices; "
         "nyiso_dam_zone_prices; isone_rtm_zone_prices_hourly; isone_dam_zone_prices",
         "Also read: EIA's hourly demand, net generation and CO2 from the per-BA workbooks (source "
         "eia:gridmonitor/knownissues/xls), the emissions connector's extracts: " + "; ".join(used),

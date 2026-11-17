@@ -189,7 +189,9 @@ class ThePage(unittest.TestCase):
         self.assertEqual(d["o"], sorted(d["o"]))
         self.assertEqual(d["lastCarbon"], "spp:SPPNORTH_HUB")                    # a hub that lacks the measure goes last, whatever the direction
         # session 7051 (request 139): ISO-NE's and NYISO's rows are held for license and written to the copy by name only
-        self.assertEqual((d["n"], d["rt"], d["lack"]), (9, 9, []))
+        # session 7052 (request 142): ERCOT's eight load zones join the comparison; the four non-opt-in zones' real-time
+        # prices are not in ercot_zone_prices_history's window, so they lack the real-time measures
+        self.assertEqual((d["n"], d["rt"], d["lack"]), (17, 13, ["ercot:LZ_AEN", "ercot:LZ_CPS", "ercot:LZ_LCRA", "ercot:LZ_RAYBN"]))
         self.assertEqual(d["href"], "/prices/compare?period=year&market=dam&sort=neg")
         self.assertEqual(d["label"], ["ERCOT, North hub", "X, Y"])
         self.assertEqual(d["when"], ["the twelve months to October 2026", "October 2026"])

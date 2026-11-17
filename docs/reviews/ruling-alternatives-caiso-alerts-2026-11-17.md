@@ -1,0 +1,11 @@
+# Ruling alternatives: /grid/caiso/alerts (17 November 2026)
+
+Session 7714 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.md`). For each line of `docs/reviews/ruling-impact-caiso-alerts-2026-11-17.md` whose change is 1 percent or more, or that adds or removes a figure, the other choice is built on its own branch from origin/main, with a test that pins the figure under it. The branch number is the line's number in the impact file. No branch asks to land; no default on main changed; no builder was run into `warehouse/output`.
+
+- **No model call** was made (spend USD 0).
+- **Line 1 is not built: it needs data not held.** Valuing the 34 alert days of 2018 to 2022 at a daily on-peak price index needs that index, which the warehouse does not hold (data request row 200); a second figure cannot be computed or pinned without it.
+- **Line 2** moves one cell by 1 percent or more (2021-07-29's percent, -0.18 to -0.17, -5.6 percent of the cell) and one by a cent (2024's year MWh); it is built.
+
+| # | Line | Branch | Figure, main's rule | Figure, the other choice | Files touched | Test | Browser row |
+|---|---|---|---|---|---|---|---|
+| 2 | Two cells rounded twice sit one off in the last digit: store four or more decimals in the builder | `wip/alt-caiso-alerts-2` (`32a0d8608`) | Four decimals stored: "Every alert day, ranked", 2021-07-29's percent -0.18 (the table holds -0.175 of -0.174972); "Year by year", 2024's MWh -16,893.33 (the table holds -16,893.325) | Six decimals stored (`DECIMALS`): 2021-07-29 reads -0.17 (one in the last digit, -5.6 percent of the cell); 2024 moves to -16,893.32 the same way at the builder's next run; no other cell of the 471 the replication rebuilds moves. Pinned on the builder's constant and on the page's own rounding rule applied to the stored figure; the year MWh's unrounded value is not on this machine, so it is not pinned to a figure | `warehouse/derived/flex_alert_scorecard.py` (`DECIMALS`, the rows written to six decimals), `site/scripts/alt-caiso-alerts-figures.mjs`, `tests/test_alt_caiso_alerts_2.py` | `tests/test_alt_caiso_alerts_2.py`, 2 of 2; the nine test files that name the builder or the page, 97 tests, pass | 336 |

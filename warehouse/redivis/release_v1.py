@@ -440,6 +440,9 @@ STORAGE_HELD["ercot_peak_premium_node_monthly"] = ("held: first written on 16 No
 # Session 7022 (chain 301): the fleet's real-time offers by price (done-line request 30), the same
 STORAGE_HELD["ercot_storage_rt_offers_monthly"] = ("held: first written on 16 November 2026 (chain 301, session 7022), after the v1 "
                                                    "package was prepared: in v1 when the owner adds it to the package's list")
+# Session 7052 (chain 370): CAISO's 5-minute demand on the Flex Alert days (done-line request 201), the same
+STORAGE_HELD["caiso_outlook_demand"] = ("held: first written on 17 November 2026 (chain 370, session 7052), after the v1 "
+                                        "package was prepared: in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"

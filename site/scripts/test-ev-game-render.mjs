@@ -20,20 +20,20 @@ const check = (ok, what) => { if (!ok) bad++; console.log(`${ok ? "ok  " : "FAIL
 // the page as every visitor opens it: the United States at the defaults, its four keyed figures
 const open = draw(null);
 check(/<option value="US" selected="">/.test(open), "the game opens on the United States");
-check(/data-check="ev\|US\|payback" data-raw="3.2">3.2</.test(open), "the opening payback carries its key, 3.2 years");
-check(/\$<span data-check="ev\|US\|npv" data-raw="5131">5,131</.test(open), "the opening net present value carries its key, $5,131");
+check(/data-check="ev\|US\|payback" data-raw="3.6">3.6</.test(open), "the opening payback carries its key, 3.6 years");  // session 7052: the file built 17 November 2026
+check(/\$<span data-check="ev\|US\|npv" data-raw="3887">3,887</.test(open), "the opening net present value carries its key, $3,887");
 check(!/license needed/.test(open) && !/data-license-held/.test(open), "no figure of the game is held for a license (its keys, ev|..., name no table)");
 
 // fault 1: a keyed payback that rounds to a whole number of years is printed to one decimal, as every other payback is
-for (const code of ["KY", "NE", "ND", "TN", "DC", "NJ"]) {
+for (const code of ["KY", "NE", "ND", "TN", "DC", "NJ", "AR", "GA", "IL", "WI"]) {  // session 7052: four states that print a whole number at the 17 November prices
   const m = draw({ code }).match(/data-check="ev\|[A-Z]+\|payback" data-raw="([\d.]+)">([^<]+)</);
   check(m && /^\d+\.\d$/.test(m[2]) && Number(m[2]) === Number(m[1]), `fault 1: ${code} at the defaults prints its payback as ${m ? m[2] : "nothing"} years (one decimal)`);
 }
-check(/>3\.0<\/span> years/.test(draw({ code: "KY" })), "fault 1: Kentucky reads 3.0 years, not 3 years");
+check(/>4\.0<\/span> years/.test(draw({ code: "GA" })), "fault 1: Georgia reads 4.0 years, not 4 years");  // session 7052: Kentucky read 3.0 at the 15 October prices, 3.3 now
 
 // fault 2: a net present value below zero at the defaults keeps its key, the sign before the dollar
 const hi = draw({ code: "HI" });
-check(/-\$<span data-check="ev\|HI\|npv" data-raw="-1056">1,056</.test(hi), "fault 2: Hawaii's net present value at the defaults reads -$1,056 and keeps its key");
+check(/-\$<span data-check="ev\|HI\|npv" data-raw="-2720">2,720</.test(hi), "fault 2: Hawaii's net present value at the defaults reads -$2,720 and keeps its key");  // session 7052: the 17 November prices
 
 // fault 4: a state without a held price says which price is missing, not that a public charger's price is wanted
 const noPower = D.states.map((s) => (s.code === "VT" ? { ...s, power: null } : s));
