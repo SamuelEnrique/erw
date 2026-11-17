@@ -173,6 +173,13 @@ export function defaultsTDSP(rules: Rules, key: string): TXInput {
   return { kwh: rules.bills[key].defaults.kwh, energyRate: rules.bills[key].energy_default.rate };
 }
 
+/** Ruling alternative 4 of /learn/bill (session 7715, finished by session 7900, branch wip/alt-bill-4; not a default on
+ * main): the wholesale share counts the energy lost on the wires. A home's metered kWh times 1.05 is bought at the
+ * price point ("about 5 percent", the figure the ruling question names; no utility's own loss factor is held). main:
+ * metered kWh, no losses. The load-zone half of the question is not built: ERCOT's zone prices are not held. */
+export const LOSS_FACTOR = 1.05;
+export const wholesaleUsdOf = (kwh: number, pricePerMwh: number) => (kwh * LOSS_FACTOR * pricePerMwh) / 1000;
+
 /** Every bill's default, by key: the page's five. */
 export const BILL_KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"] as const;
 export type BillKey = (typeof BILL_KEYS)[number];

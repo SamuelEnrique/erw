@@ -58,15 +58,15 @@
     {
      "key": "card|CA|wholesale_usd",
      "name": "CA card: wholesale energy (USD)",
-     "shown": "26.91",
-     "value": 26.91,
+     "shown": "28.25",
+     "value": 28.25,
      "tolerance": 0.005
     },
     {
      "key": "card|CA|share_pct",
      "name": "CA card: wholesale share (percent)",
-     "shown": "11.72",
-     "value": 11.72,
+     "shown": "12.30",
+     "value": 12.3,
      "tolerance": 0.005
     },
     {
@@ -100,15 +100,15 @@
     {
      "key": "card|SCE|wholesale_usd",
      "name": "SCE card: wholesale energy (USD)",
-     "shown": "23.11",
-     "value": 23.11,
+     "shown": "24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
      "key": "card|SCE|share_pct",
      "name": "SCE card: wholesale share (percent)",
-     "shown": "10.28",
-     "value": 10.28,
+     "shown": "10.80",
+     "value": 10.8,
      "tolerance": 0.005
     },
     {
@@ -142,15 +142,15 @@
     {
      "key": "card|SDGE|wholesale_usd",
      "name": "SDGE card: wholesale energy (USD)",
-     "shown": "23.11",
-     "value": 23.11,
+     "shown": "24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
      "key": "card|SDGE|share_pct",
      "name": "SDGE card: wholesale share (percent)",
-     "shown": "6.94",
-     "value": 6.94,
+     "shown": "7.29",
+     "value": 7.29,
      "tolerance": 0.005
     },
     {
@@ -184,15 +184,15 @@
     {
      "key": "card|TX|wholesale_usd",
      "name": "TX card: wholesale energy (USD)",
-     "shown": "23.70",
-     "value": 23.7,
+     "shown": "24.89",
+     "value": 24.89,
      "tolerance": 0.005
     },
     {
      "key": "card|TX|share_pct",
      "name": "TX card: wholesale share (percent)",
-     "shown": "24.88",
-     "value": 24.88,
+     "shown": "26.12",
+     "value": 26.12,
      "tolerance": 0.005
     },
     {
@@ -233,15 +233,15 @@
     {
      "key": "card|TXC|wholesale_usd",
      "name": "TXC card: wholesale energy (USD)",
-     "shown": "23.70",
-     "value": 23.7,
+     "shown": "24.89",
+     "value": 24.89,
      "tolerance": 0.005
     },
     {
      "key": "card|TXC|share_pct",
      "name": "TXC card: wholesale share (percent)",
-     "shown": "24.88",
-     "value": 24.88,
+     "shown": "26.12",
+     "value": 26.12,
      "tolerance": 0.005
     },
     {
@@ -418,8 +418,8 @@
     {
      "key": "opens|bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$26.91",
-     "value": 26.91,
+     "shown": "$28.25",
+     "value": 28.25,
      "tolerance": 0.005
     },
     {
@@ -453,8 +453,8 @@
     {
      "key": "opens|bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$202.72",
-     "value": 202.72,
+     "shown": "$201.38",
+     "value": 201.38,
      "tolerance": 0.005
     },
     {
@@ -779,8 +779,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$26.91",
-     "value": 26.91,
+     "shown": "$28.25",
+     "value": 28.25,
      "tolerance": 0.005
     },
     {
@@ -814,8 +814,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$202.72",
-     "value": 202.72,
+     "shown": "$201.38",
+     "value": 201.38,
      "tolerance": 0.005
     }
    ]
@@ -883,15 +883,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "10",
-     "value": 10,
+     "shown": "11",
+     "value": 11,
      "tolerance": 0.5
     },
     {
@@ -918,8 +918,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$201.65",
-     "value": 201.65,
+     "shown": "$200.50",
+     "value": 200.5,
      "tolerance": 0.005
     }
    ]
@@ -971,8 +971,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
@@ -1006,8 +1006,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$309.80",
-     "value": 309.8,
+     "shown": "$308.64",
+     "value": 308.64,
      "tolerance": 0.005
     }
    ]
@@ -1123,15 +1123,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.70",
-     "value": 23.7,
+     "shown": "$24.89",
+     "value": 24.89,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "25",
-     "value": 25,
+     "shown": "26",
+     "value": 26,
      "tolerance": 0.5
     },
     {
@@ -1158,8 +1158,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$71.57",
-     "value": 71.57,
+     "shown": "$70.39",
+     "value": 70.39,
      "tolerance": 0.005
     }
    ]
@@ -1315,15 +1315,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.70",
-     "value": 23.7,
+     "shown": "$24.89",
+     "value": 24.89,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "25",
-     "value": 25,
+     "shown": "26",
+     "value": 26,
      "tolerance": 0.5
     },
     {
@@ -1350,8 +1350,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$71.58",
-     "value": 71.58,
+     "shown": "$70.39",
+     "value": 70.39,
      "tolerance": 0.005
     }
    ]
@@ -1517,8 +1517,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$22.56",
-     "value": 22.56,
+     "shown": "$23.69",
+     "value": 23.69,
      "tolerance": 0.005
     },
     {
@@ -1552,8 +1552,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$170.84",
-     "value": 170.84,
+     "shown": "$169.71",
+     "value": 169.71,
      "tolerance": 0.005
     }
    ]
@@ -1671,15 +1671,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$43.30",
-     "value": 43.3,
+     "shown": "$45.46",
+     "value": 45.46,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "25",
-     "value": 25,
+     "shown": "27",
+     "value": 27,
      "tolerance": 0.5
     },
     {
@@ -1706,8 +1706,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$127.38",
-     "value": 127.38,
+     "shown": "$125.22",
+     "value": 125.22,
      "tolerance": 0.005
     }
    ]
@@ -1886,15 +1886,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$38.12",
-     "value": 38.12,
+     "shown": "$40.03",
+     "value": 40.03,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "13",
-     "value": 13,
+     "shown": "14",
+     "value": 14,
      "tolerance": 0.5
     },
     {
@@ -1921,8 +1921,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$254.02",
-     "value": 254.02,
+     "shown": "$252.11",
+     "value": 252.11,
      "tolerance": 0.005
     }
    ]
@@ -2088,8 +2088,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$8.97",
-     "value": 8.97,
+     "shown": "$9.42",
+     "value": 9.42,
      "tolerance": 0.005
     },
     {
@@ -2123,8 +2123,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$73.27",
-     "value": 73.27,
+     "shown": "$72.82",
+     "value": 72.82,
      "tolerance": 0.005
     }
    ]
@@ -2293,15 +2293,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$44.85",
-     "value": 44.85,
+     "shown": "$47.09",
+     "value": 47.09,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "12",
-     "value": 12,
+     "shown": "13",
+     "value": 13,
      "tolerance": 0.5
     },
     {
@@ -2328,8 +2328,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$321.44",
-     "value": 321.44,
+     "shown": "$319.20",
+     "value": 319.2,
      "tolerance": 0.005
     }
    ]
@@ -2399,15 +2399,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "11",
-     "value": 11,
+     "shown": "12",
+     "value": 12,
      "tolerance": 0.5
     },
     {
@@ -2434,8 +2434,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$185.68",
-     "value": 185.68,
+     "shown": "$184.52",
+     "value": 184.52,
      "tolerance": 0.005
     }
    ]
@@ -2517,15 +2517,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$46.22",
-     "value": 46.22,
+     "shown": "$48.53",
+     "value": 48.53,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "11",
-     "value": 11,
+     "shown": "12",
+     "value": 12,
      "tolerance": 0.5
     },
     {
@@ -2552,8 +2552,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$371.14",
-     "value": 371.14,
+     "shown": "$368.83",
+     "value": 368.83,
      "tolerance": 0.005
     }
    ]
@@ -2626,8 +2626,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$17.33",
-     "value": 17.33,
+     "shown": "$18.20",
+     "value": 18.2,
      "tolerance": 0.005
     },
     {
@@ -2661,8 +2661,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$159.60",
-     "value": 159.6,
+     "shown": "$158.73",
+     "value": 158.73,
      "tolerance": 0.005
     }
    ]
@@ -2716,8 +2716,8 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$23.11",
-     "value": 23.11,
+     "shown": "$24.27",
+     "value": 24.27,
      "tolerance": 0.005
     },
     {
@@ -2751,8 +2751,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$263.47",
-     "value": 263.47,
+     "shown": "$262.31",
+     "value": 262.31,
      "tolerance": 0.005
     }
    ]
@@ -2810,15 +2810,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$17.33",
-     "value": 17.33,
+     "shown": "$18.20",
+     "value": 18.2,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "8",
-     "value": 8,
+     "shown": "9",
+     "value": 9,
      "tolerance": 0.5
     },
     {
@@ -2845,8 +2845,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$194.00",
-     "value": 194,
+     "shown": "$193.13",
+     "value": 193.13,
      "tolerance": 0.005
     }
    ]
@@ -2965,15 +2965,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$39.50",
-     "value": 39.5,
+     "shown": "$41.48",
+     "value": 41.48,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "19",
-     "value": 19,
+     "shown": "20",
+     "value": 20,
      "tolerance": 0.5
     },
     {
@@ -3000,8 +3000,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$165.78",
-     "value": 165.78,
+     "shown": "$163.80",
+     "value": 163.8,
      "tolerance": 0.005
     }
    ]
@@ -3119,15 +3119,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$79.01",
-     "value": 79.01,
+     "shown": "$82.96",
+     "value": 82.96,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "26",
-     "value": 26,
+     "shown": "27",
+     "value": 27,
      "tolerance": 0.5
     },
     {
@@ -3154,8 +3154,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$229.10",
-     "value": 229.1,
+     "shown": "$225.15",
+     "value": 225.15,
      "tolerance": 0.005
     }
    ]
@@ -3314,15 +3314,15 @@
     {
      "key": "bar|wholesale_usd",
      "name": "The bar: wholesale energy (USD)",
-     "shown": "$39.50",
-     "value": 39.5,
+     "shown": "$41.48",
+     "value": 41.48,
      "tolerance": 0.005
     },
     {
      "key": "bar|share_pct",
      "name": "The bar: wholesale energy's share of the bill (percent)",
-     "shown": "20",
-     "value": 20,
+     "shown": "21",
+     "value": 21,
      "tolerance": 0.5
     },
     {
@@ -3349,8 +3349,8 @@
     {
      "key": "bar|rest_usd",
      "name": "The bar: everything else (USD)",
-     "shown": "$155.73",
-     "value": 155.73,
+     "shown": "$153.75",
+     "value": 153.75,
      "tolerance": 0.005
     }
    ]

@@ -7,7 +7,7 @@
 // under the super off-peak share: SCE's summer has no super off-peak hours, so the share is billed in winter only.
 import { Fragment, useMemo, useState } from "react";
 import {
-  BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
+  BILL_KEYS, LOSS_FACTOR, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, wholesaleUsdOf, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
 } from "@/lib/bill";
 
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -24,7 +24,7 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
     [rules, key, ca, tou, tx]);
   const b = rules.bills[key];
   const w = wholesale[key];
-  const wholesaleUsd = w ? (bill.kwh * w.price) / 1000 : null;
+  const wholesaleUsd = w ? wholesaleUsdOf(bill.kwh, w.price) : null;   // wip/alt-bill-4: with the wires' losses
   const src = (id: string) => rules.sources[id];
   const groups: Record<string, Line[]> = {};
   for (const l of bill.lines) (groups[l.group ?? "Other"] ??= []).push(l);
@@ -164,7 +164,7 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
                 <div style={{ width: `${(1 - share) * 100}%`, background: "var(--color-rule)" }} />
               </div>
               <p className="text-xs">
-                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
+                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}, counted with the {Math.round((LOSS_FACTOR - 1) * 100)} percent lost on the wires on the way to the home (an assumption; the site&apos;s default counts the metered kWh only). <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
               </p>
             </div>
           ) : null}

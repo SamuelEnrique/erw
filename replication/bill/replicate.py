@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RULES = os.path.join(ROOT, "site", "data", "bill_rules.json")
 KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"]
+LOSS_FACTOR = 1.05   # ruling alternative 4 (wip/alt-bill-4, not a default on main): the wires' losses in the wholesale share; main 1
 
 
 def load_json(path):
@@ -188,7 +189,7 @@ def expected(rules, key, typed, w):
     if x["kwh"]:
         out["per_kwh"] = total / x["kwh"]
     if w is not None and total > 0:
-        wusd = x["kwh"] * w["price"] / 1000
+        wusd = x["kwh"] * LOSS_FACTOR * w["price"] / 1000
         out["bar|wholesale_usd"] = wusd
         out["bar|share_pct"] = half_up(max(0.0, min(1.0, wusd / total)) * 100)
         out["bar|kwh"] = x["kwh"]
@@ -206,7 +207,7 @@ def expected_page(rules, ws):
         out[f"card|{k}|kwh"] = x["kwh"]
         w = ws[k]
         if w is not None:
-            wusd = x["kwh"] * w["price"] / 1000
+            wusd = x["kwh"] * LOSS_FACTOR * w["price"] / 1000
             out[f"card|{k}|wholesale_usd"] = wusd
             out[f"card|{k}|share_pct"] = wusd / e["total"] * 100
             out[f"card|{k}|price"] = w["price"]

@@ -6,7 +6,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import rules from "@/data/bill_rules.json";
-import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
+import { BILL_KEYS, LOSS_FACTOR, defaultBill, wholesaleUsdOf, type BillKey } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -89,7 +89,7 @@ export default async function LearnBill() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {BILL_KEYS.map((s) => {
             const w = W[s];
-            const wUsd = w ? (bills[s].kwh * w.row.value) / 1000 : null;
+            const wUsd = w ? wholesaleUsdOf(bills[s].kwh, w.row.value) : null;   // wip/alt-bill-4: with the wires' losses
             return (
               <div key={s} className="border border-rule bg-panel p-3 text-sm">
                 <p className="font-semibold">{rules.bills[s].name}</p>
@@ -98,6 +98,7 @@ export default async function LearnBill() {
                   <p>
                     Wholesale energy: <Num check={`bill|${s}|wholesale|${w.row.ts_utc}`} raw={wUsd}>{shown(wUsd)}</Num> USD, <Num check={`bill|${s}|share|${w.row.ts_utc}`} raw={(wUsd / bills[s].total) * 100}>{shown((wUsd / bills[s].total) * 100)}</Num> percent
                     of the bill, at <Num check={`series|${M}|${w.row.entity}|${w.row.variable}|${w.row.ts_utc}`} raw={w.row.value}>{shown(w.row.value)}</Num> USD/MWh ({w.row.ts_utc.slice(0, 7)}{w.partial ? ", a partial month" : ""}).
+                    {" "}Counted with the {Math.round((LOSS_FACTOR - 1) * 100)} percent lost on the wires.
                   </p>
                 ) : <p className="text-muted">The wholesale price is not held.</p>}
                 <p className="text-xs text-muted">{note[s]}</p>

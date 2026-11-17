@@ -25,7 +25,8 @@ class TheBill(unittest.TestCase):
         self.assertIn("every default home uses 600 kWh a month", note)
         rules = json.loads(src("site", "data", "bill_rules.json"))
         self.assertEqual({b["defaults"]["kwh"] for b in rules["bills"].values()}, {600})
-        self.assertIn("const wUsd = w ? (bills[s].kwh * w.row.value) / 1000 : null;", src("site", "app", "learn", "bill", "page.tsx"))
+        # ruling alternative 4 (wip/alt-bill-4, not a default on main): main's line is (bills[s].kwh * w.row.value) / 1000
+        self.assertIn("const wUsd = w ? wholesaleUsdOf(bills[s].kwh, w.row.value) : null;", src("site", "app", "learn", "bill", "page.tsx"))
         self.assertIn('export const BILL_KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"] as const;', src("site", "lib", "bill.ts"))
 
 
