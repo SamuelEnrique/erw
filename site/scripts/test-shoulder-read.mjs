@@ -146,7 +146,8 @@ for (const [name, html] of [["ERCOT, August 2025", e25], ["ERCOT, August 2023", 
     "By year: the second measure and the ten worst days", "The definitions, exactly as computed", "What this cannot see", "Decisions on this page"].every((w) => t.includes(w))
     && (html.match(/<svg /g) ?? []).length === 2 && !dash.test(html) && !/\bundefined\b|\bNaN\b/.test(t), `${name}: every block the page had is there, two charts, no dash, no "undefined"`);
 }
-ok(e23.includes('data-night-low="2023-08"') && !e25.includes("data-night-low"), "case 4: August 2023, lowest before dawn, keeps part A's tip beside the midday surplus; August 2025 has none");
+// ruling alternative 1 (wip/alt-shoulder-1): the hover says the low is looked for while the sun is up, in every month; a table of main's rule with a night low adds a sentence
+ok(e23.includes('data-sun-up="2023-08"') && e25.includes('data-sun-up="2025-08"') && words(e23).includes("lowest hour of the whole day falls before 08:00") && !words(e25).includes("lowest hour of the whole day falls before 08:00"), "case 4 under alternative 1: both months say the sun-up rule on hover; August 2023, lowest before dawn in main's table, says so");
 
 console.log(`${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;

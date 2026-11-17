@@ -24,7 +24,8 @@ demand, solar and wind held) of demand, solar, wind, net load (demand less solar
 discharging). A month is written only when at least 90 percent of its days are complete; never filled.
 
 On the average day:
-- midday surplus: the run of hours around net load's lowest hour in which net load is below its daily mean; its MWh are
+- midday surplus: the run of hours around net load's lowest hour while the sun is up (solar at least SUN_UP of its
+  highest hour; ruling alternative 1, wip/alt-shoulder-1) in which net load is below its daily mean; its MWh are
   the sum of (mean less net load) over those hours;
 - evening shoulder: from the first hour after solar's highest hour in which solar is below half of that highest value,
   to the first hour, after net load has risen above its daily mean, in which net load is back at or below that mean;
@@ -94,6 +95,7 @@ WORST = 10   # the days ranked per grid and local year
 SUPPLY_ALL = ["batteries_mw", "biogas_mw", "biomass_mw", "coal_mw", "geothermal_mw", "imports_mw", "large_hydro_mw",
               "natural_gas_mw", "nuclear_mw", "other_mw", "small_hydro_mw", "solar_mw", "wind_mw"]
 NEAR = 0.9
+SUN_UP = 0.05   # ruling alternative 1 of /shoulder (wip/alt-shoulder-1): "the sun is up" is solar at least 5 percent of the day's highest hour; a ruling would fix it
 COLS = {"Adjusted demand": "demand", "Adjusted SUN Gen": "sun", "Adjusted SNB Gen": "snb", "Adjusted WND Gen": "wnd",
         "Adjusted WNB Gen": "wnb", "Adjusted BAT Gen": "bat"}
 
@@ -184,7 +186,11 @@ def day_metrics(avg):
     nl = avg["net_load"].to_numpy(dtype=float)
     sol = avg["solar"].to_numpy(dtype=float)
     mean = float(nl.mean())
-    low = int(nl.argmin())
+    # Ruling alternative 1 of /shoulder (session 7703, branch wip/alt-shoulder-1; not a default on main): the midday low
+    # is looked for only while the sun is up, the hours whose solar is at least SUN_UP of the average day's highest hour
+    # (main: the whole day's lowest hour, which in most Texas months before 2024 falls before dawn).
+    up = [h for h in range(24) if sol.max() > 0 and sol[h] >= SUN_UP * sol.max()]
+    low = min(up, key=lambda h: (nl[h], h)) if up else int(nl.argmin())
     a = low
     while a - 1 >= 0 and nl[a - 1] < mean:
         a -= 1
