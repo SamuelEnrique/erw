@@ -17,7 +17,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
 | /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
 | /cost-of-power/battery/awards | samueloldlaptop | 7705 | done | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
-| /impact | samueloldlaptop | 7706 | claimed | docs/reviews/ruling-alternatives-impact-2026-11-17.md |
+| /impact | samueloldlaptop | 7706 | done | docs/reviews/ruling-alternatives-impact-2026-11-17.md |
 | Site-wide: Ask (the chat) | samueloldlaptop | 7707 | done | docs/reviews/ruling-alternatives-site-ask-2026-11-17.md |
 | /explore/ercot-peak-premium | samueloldlaptop | 7708 | done | docs/reviews/ruling-alternatives-ercot-peak-premium-2026-11-17.md |
 | /explore/demand-growth | samueloldlaptop | 7709 | done | docs/reviews/ruling-alternatives-demand-growth-2026-11-17.md |
