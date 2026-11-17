@@ -64,7 +64,7 @@ class TheParameters(unittest.TestCase):
         t = load("jedi_taxable.json")["technologies"]
         self.assertAlmostEqual(t["land_based_wind"]["taxable_share"], 22682269.377612367 / 0.0635 / 435992965.3256575, places=6)
         self.assertAlmostEqual(t["natural_gas"]["taxable_share"], 15147058.823529413 / 0.04 / 625000000, places=6)
-        self.assertIsNone(t["geothermal"]["taxable_share"])
+        self.assertAlmostEqual(t["geothermal"]["taxable_share"], 5920244 / 178446043, places=6)   # ruling alternative 3 (wip/alt-impact-3): one plant's note; main: None
 
     def test_the_deflator_is_history_through_2025(self):
         d = load("deflator.json")

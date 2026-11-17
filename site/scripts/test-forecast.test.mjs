@@ -36,7 +36,7 @@ test("defaults: EIA's state capex in 2025 dollars, its construction time rounded
   assert.equal(g.build, 2); assert.equal(g.life, 40); assert.equal(g.heat, 6266); assert.equal(g.cf, 0.65); assert.equal(g.instate, 0);
   const geo = F.defaults(P, "geothermal", "tx");
   near(geo.capex, Math.round(3963 * (idx["2025"] / idx["2023"]) * 100) / 100, 1e-12, "no Texas figure: EIA's base case");
-  assert.equal(geo.taxable, null);
+  assert.equal(geo.taxable, 3.3177);   // ruling alternative 3 (wip/alt-impact-3, not a default on main): one plant's note; main: null
   const ca = F.defaults(P, "geothermal", "ca");
   const cities = P.eiaCapex.technologies.geothermal.states.ca.cities.map((c) => c.usd_per_kw);
   near(ca.capex, Math.round((cities.reduce((a, b) => a + b, 0) / cities.length) * (idx["2025"] / idx["2023"]) * 100) / 100, 1e-12, "California: the mean of its cities");
@@ -162,7 +162,7 @@ test("sales tax: spending times the taxable share times the rate, less the exemp
   near(r.sums.sales, total, 1e-6); near(r.years[0].sales, total / 2, 1e-6);
   assert.equal(r.sales.note, "after the exemption");
   const geo = F.run(F.defaults(P, "geothermal", "ca"), ROWS, P);
-  assert.equal(geo.sums.sales, null); assert.equal(geo.sales.held, false);
+  assert.ok(geo.sums.sales > 0); assert.equal(geo.sales.held, true);   // ruling alternative 3 (wip/alt-impact-3): a taxable share held; main: null, false
 });
 
 test("severance: the gas plant's in-state fuel at the heat rate, capacity factor and price", () => {

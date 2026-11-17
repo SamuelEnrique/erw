@@ -48,7 +48,7 @@ class TheForecastParameters(unittest.TestCase):
         self.assertEqual(wind.unit, "USD/kW")
         hr = d[(d.entity == "forecast:gas:natural_gas:us") & (d.variable == "heat_rate")].iloc[0]
         self.assertAlmostEqual(hr.value, gas["heat_rate_btu_per_kwh"] / 1000.0)
-        self.assertNotIn("forecast:jedi_taxable:geothermal:us", set(d.entity))   # JEDI's geothermal model has no sales tax line
+        self.assertIn("forecast:jedi_taxable:geothermal:us", set(d.entity))   # ruling alternative 3 (wip/alt-impact-3): one plant's share held; main: not in
         self.assertEqual(set(d.unit) - {"USD/kW", "USD/MW", "month", "MW", "year", "MMBtu/MWh", "ratio", "USD/MMBtu", "Btu/ft3"}, set())
         # session 3948 (request 2): JEDI's construction cost per MW, as jedi_costs.json holds it
         costs = json.load(open(os.path.join(ROOT, "site", "data", "forecast", "jedi_costs.json"), encoding="utf-8"))

@@ -59,7 +59,7 @@ if (!jediFile || !fs.existsSync(jediFile)) {
   ok(same === years && years === 40, `the abated and the unabated scenario show one taxable value in every operating year (${same} of ${years})`);
   ok(Math.abs(a["year:2045:property"].raw / b["year:2045:property"].raw - 0.45) < 1e-9 && Math.abs(a["year:2046:property"].raw / b["year:2046:property"].raw - 1) < 1e-9, "the tax is 45 percent of the unabated through 2045 and equal from 2046 (20 years from the first construction year, as before)");
   ok(a["year:2046:value"].raw < a["year:2045:value"].raw, `the taxable value falls from 2045 to 2046 (${a["year:2045:value"].text} to ${a["year:2046:value"].text}); it rose there before`);
-  ok(Math.abs(a["sum:property"].raw - 36044603.1654399) < 1 && Math.abs(a["pv:taxes"].raw - 10706988.897748992) < 1, `the life's property tax and the taxes' present value are what they were (${a["sum:property"].text}, ${a["pv:taxes"].text})`);
+  ok(Math.abs(a["sum:property"].raw - 36044603.1654399) < 1 && Math.abs(a["pv:taxes"].raw - 11178864.389869979) < 1 /* ruling alternative 3 (wip/alt-impact-3): the sales tax at 3.3 percent added; main: 10706988.897748992 */, `the life's property tax and the taxes' present value are what they were (${a["sum:property"].text}, ${a["pv:taxes"].text})`);
 
   // a statute that exempts value keeps the taxed share as the taxable value: Florida solar, 80 percent exempt through 2037
   const fl = draw("tech=utility_pv&state=fl&mw=100&cost=1500&start=2027&own=1&ownyears=30", "a");

@@ -23,8 +23,10 @@
    "note": "JEDI's PV model computes no sales tax at its defaults: DefaultData!D59, Sales Tax Exemption (percent of local taxes), is 1 (100 percent). The share here is the base the tax would fall on where a state taxes these purchases."
   },
   "geothermal": {
-   "taxable_share": null,
-   "note": "JEDI's geothermal model has no sales tax line (searched for \"sales tax\" and \"taxable\" in every sheet): no taxable share is held, and the tool shows no sales tax figure for geothermal unless the reader types a share."
+   "taxable_share": 0.033177,
+   "note": "JEDI's geothermal model has no sales tax line (searched for \"sales tax\" and \"taxable\" in every sheet): no taxable share is held, and the tool shows no sales tax figure for geothermal unless the reader types a share.",
+   "arithmetic": "the purchases subject to the sales and use tax over the investment, Nevada Department of Taxation's fiscal note for Lone Mountain Geothermal: 5,920,244 / 178,446,043 = 0.033177",
+   "branch": "ruling alternative 3 of /impact (wip/alt-impact-3, session 7706): not a default on main (main: null, not given). One plant's figure, and the Budget Division's note for the same plant gives USD 86,426,913 (48 percent); the Department of Taxation's is taken, the agency that collects the tax."
   }
  }
 }
