@@ -228,6 +228,17 @@ export function zeroPriced(rows: Contract[]): number {
   return rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length;
 }
 
+/** Ruling alternative 5 of /contracts (session 7701, branch wip/alt-contracts-5; not a default on main): a capacity price
+ * filed as a number in one of six units is also given in USD per kW-month. A day is 1/30.4375 of a month (365.25 days
+ * over 12 months; 30 or the month's own days are other choices a ruling would fix); a MW is 1,000 kW. */
+export const KW_MONTH: Record<string, number> = { "$/KW-MO": 1, "$/MW-MO": 0.001, "$/KW-DAY": 365.25 / 12, "$/MW-DAY": 365.25 / 12 / 1000, "$/KW-YR": 1 / 12, "$/MW-YR": 1 / 12000 };
+/** The row's capacity price in USD per kW-month; null for another product, a rate that is no number or is 0, or a unit not in KW_MONTH. */
+export function kwMonth(r: Contract): number | null {
+  if (up(r.product) !== "CAPACITY") return null;
+  const s = (r.rate ?? "").trim(), n = Number(s), f = KW_MONTH[up(r.rate_units)];
+  return s === "" || !Number.isFinite(n) || n === 0 || f === undefined ? null : n * f;
+}
+
 /** The delivery balancing authorities of the rows, most rows first. */
 export function byBa(rows: Contract[]): { ba: string; rows: number }[] {
   const m = new Map<string, number>();

@@ -127,6 +127,21 @@ for (const view of ["largest", "mw"]) {
   sound(html, `the ${view} view`);
 }
 
+// ---- ruling alternative 5 (session 7701, wip/alt-contracts-5, not a default on main): a capacity price also in USD per kW-month
+{
+  all.push(row(50, "2026-06-23", { product: "CAPACITY", rate: "4941", rate_units: "$/MW-MO", rate_description: "" }), row(51, "2026-06-24", { product: "Capacity", rate: "164.7", rate_units: "$/MW-DAY", rate_description: "" }),
+    row(52, "2026-06-25", { product: "CAPACITY", rate: "0", rate_units: "$/KW-MO", rate_description: "" }), row(53, "2026-06-26", { product: "CAPACITY", rate: "16.75", rate_units: "", rate_description: "" }));
+  const alt = await draw({ product: "capacity" });
+  const at = text(alt);
+  ok(/USD 4\.94 per kW-month/.test(at) && /USD 5\.01 per kW-month/.test(at) && (alt.match(/data-kw-month="/g) ?? []).length === 2,
+    "alternative 5: 4,941 $/MW-MO reads USD 4.94 per kW-month and 164.7 $/MW-DAY USD 5.01; a 0 and a rate with no unit are not converted");
+  ok(/data-kw-month-head="2"/.test(alt) && /a day is 1\/30\.4375 of a month/.test(at), "alternative 5: the column head says on hover how the price is converted, and how many");
+  ok(!/data-kw-month/.test(await draw({ product: "energy" })), "alternative 5: an energy price is not converted and the head has no hover");
+  ok(Math.abs(C.kwMonth({ product: "CAPACITY", rate: "24", rate_units: "$/KW-YR" }) - 2) < 1e-12 && C.kwMonth({ product: "ENERGY", rate: "41.5", rate_units: "$/MWH" }) === null, "alternative 5: a year is twelve months; energy has no kW-month figure");
+  sound(alt, "alternative 5, the list by quarter signed");
+  all.splice(all.length - 4, 4);
+}
+
 // ---- the decisions
 const D = CONTRACTS_DECISIONS;
 ok(D.length >= 15 && new Set(D.map((d) => d.key)).size === D.length && D.every((d) => d.text && d.session && d.def && d.source), `${D.length} decisions, each with its own key, its session, its default and its source`);

@@ -6,7 +6,7 @@ import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHea
 import { attempt } from "@/lib/supabase";
 import { GRID_CHOICES } from "@/lib/gridtool";
 import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baName, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarterNotListed, quarters,
-  rateText, some, termDays, termYears, viewOf, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+  kwMonth, rateText, some, termDays, termYears, viewOf, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
@@ -55,6 +55,12 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const all: Contract[] = read?.ok ? read.data : [];
   const rows = filter(all, product, ba);
   const c = counts(rows), zero = zeroPriced(rows);   // session 7510: the priced rows whose number is 0
+  // ruling alternative 5 (wip/alt-contracts-5, not a default on main): a capacity price also in USD per kW-month
+  const converted = rows.slice(0, SHOWN).filter((r) => kwMonth(r) !== null).length;
+  const priceHead = converted > 0 ? <span key="ph">Price, as filed<Tip id="contracts-kw-month" label="the price in USD per kW-month"><span data-kw-month-head={converted}>Under {count(converted)} capacity
+    {some(converted, " price", " prices")} filed as a number, the same price in USD per kW-month, so that prices filed per MW, per kW, per day, per month and per year can be compared:
+    1 $/MW-MO is 0.001 $/KW-MO; a day is 1/30.4375 of a month (365.25 days over 12 months); a year is 12 months. A rate of 0, a rate with no unit and an energy price are not converted.
+    Default on the site: as filed only. Source: FERC Electric Quarterly Reports, the rate and its unit as filed.</span></Tip></span> : "Price, as filed";
   const bas = byBa(filter(all, product, null));
   const ercot = summary.ok ? summary.data.by_ba.filter((b) => baOf(b.ba) === "ERCO").reduce((a, b) => a + b.rows, 0) : 0;   // session 7501: whatever its capitals
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
@@ -142,7 +148,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                 </HeadlineRow>
                 <ToolSection title={`Signed in ${quarter.replace("-", " ")}`} note={rows.length > SHOWN ? `The first ${SHOWN} of ${count(rows.length)} rows, newest first. Narrow by product or balancing authority to see the rest.` : "Newest first. Every cell is as the seller filed it."}>
                   <ToolTable caption={`Contracts signed in ${quarter.replace("-", " ")}, as filed with FERC`} minWidth={980} words
-                    head={["Signed", "Seller", "Buyer", "Product", "Term", "Quantity", "Price, as filed", "Delivered"]}
+                    head={["Signed", "Seller", "Buyer", "Product", "Term", "Quantity", priceHead, "Delivered"]}
                     rows={rows.slice(0, SHOWN).map((r) => {
                       const t = termYears(r), days = termDays(r), rate = rateText(r);
                       return {
@@ -152,7 +158,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                           <>{fercDate(r.commencement) || "not stated"} to {fercDate(r.termination) || "no end filed"}{t !== null ? <span className="text-muted"> ({t.toFixed(1)} years{days !== null ? <span data-term-days={days}>: {count(days)} {some(days, "day")}</span> : null})</span> : null}</>,
                           (r.quantity ?? "").trim() === "" ? <span className="text-muted">not stated</span> : `${r.quantity} ${r.units ?? ""}`,
                           // session 7510: a number filed with no unit says so (it stood as a bare number)
-                          rate.numeric ? <>{rate.text}{(r.rate_units ?? "").trim() === "" ? <span className="text-muted" data-no-unit="1"> (no unit filed)</span> : null}</> : <span className="text-muted">{rate.text}</span>,
+                          rate.numeric ? <>{rate.text}{(r.rate_units ?? "").trim() === "" ? <span className="text-muted" data-no-unit="1"> (no unit filed)</span> : null}{kwMonth(r) !== null ? <span className="block" data-kw-month={kwMonth(r)}>USD {(kwMonth(r) ?? 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} per kW-month</span> : null}</> : <span className="text-muted">{rate.text}</span>,
                           <>{(r.pod_ba ?? "").trim() || <span className="text-muted">not stated</span>}{r.pod_location ? <span className="text-muted">, {r.pod_location}</span> : null}</>],
                       };
                     })} />
