@@ -39,8 +39,67 @@ export const KIND = { operating: 0, planned: 1, queue: 2, datacenter: 3 } as con
 /** The five choices that are lists. `null`: every one (no choice made); a list: those positions only (an empty list: none). */
 export const FILTERS = ["kind", "grid", "tech", "status", "state"] as const;
 export type Filter = (typeof FILTERS)[number];
-export type Choice = Record<Filter, number[] | null> & { min: string; max: string };
-export const EVERYTHING: Choice = { kind: null, grid: null, tech: null, status: null, state: null, min: "", max: "" };
+// Session 7537 (chain 304, part C): `at` and `within`, a point and a distance in miles (below, "Near a point").
+export type Choice = Record<Filter, number[] | null> & { min: string; max: string; at: string; within: string };
+export const EVERYTHING: Choice = { kind: null, grid: null, tech: null, status: null, state: null, min: "", max: "", at: "", within: "" };
+
+// Session 7537 (chain 304, part C, the read of /map as a developer checking what is planned within 30 miles of a
+// candidate site; docs/reviews/map-read-2026-11-16.md, rows 1 to 3): a point and a distance. The page had no way to
+// ask "within 30 miles of here": a state was the smallest choice. A point is typed as "latitude, longitude" in decimal
+// degrees (the form a web map copies); the distance is the great-circle distance on a sphere of the Earth's mean
+// radius, 3,958.8 miles, from the row's own point: EIA's coordinates for a unit, the county's or the town's internal
+// point for a queue position, the city's point for a datacenter (the "Placed at" of a row says which). Both ends are
+// counted in. A row with no point cannot be said to be near and is left out once a distance is asked for.
+export const EARTH_MILES = 3958.8;
+export type Point = { la: number; lo: number };
+/** A point typed by the reader: "lat, lon" in decimal degrees, or nothing. */
+export function pointOf(text: string): Point | null {
+  const m = text.trim().match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+  if (!m) return null;
+  const la = Number(m[1]), lo = Number(m[2]);
+  return Math.abs(la) <= 90 && Math.abs(lo) <= 180 ? { la, lo } : null;
+}
+const rad = (d: number) => (d * Math.PI) / 180;
+/** The great-circle distance in miles between two points (the haversine formula). */
+export function milesBetween(la1: number, lo1: number, la2: number, lo2: number): number {
+  const a = Math.sin(rad(la2 - la1) / 2) ** 2 + Math.cos(rad(la1)) * Math.cos(rad(la2)) * Math.sin(rad(lo2 - lo1) / 2) ** 2;
+  return 2 * EARTH_MILES * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+/** The point and the distance of a choice, when both are given; a point alone or a distance alone chooses nothing. */
+export function nearOf(c: Pick<Choice, "at" | "within">): (Point & { miles: number }) | null {
+  const p = pointOf(c.at ?? ""), miles = sizeOf(c.within ?? "", -1);
+  return p && miles >= 0 ? { ...p, miles } : null;
+}
+/** The circle of a distance around a point, as `steps` points (latitude and longitude), for the drawing. */
+export function circleOf(n: Point & { miles: number }, steps = 72): Point[] {
+  const d = n.miles / EARTH_MILES, la1 = rad(n.la), lo1 = rad(n.lo), out: Point[] = [];
+  for (let s = 0; s <= steps; s++) {
+    const b = (2 * Math.PI * s) / steps;
+    const la2 = Math.asin(Math.sin(la1) * Math.cos(d) + Math.cos(la1) * Math.sin(d) * Math.cos(b));
+    const lo2 = lo1 + Math.atan2(Math.sin(b) * Math.sin(d) * Math.cos(la1), Math.cos(d) - Math.sin(la1) * Math.sin(la2));
+    out.push({ la: (la2 * 180) / Math.PI, lo: (((lo2 * 180) / Math.PI + 540) % 360) - 180 });
+  }
+  return out;
+}
+/** The rows chosen with their distance from the point, nearest first (the file's order among equals). */
+export function nearest(f: Pick<MapFile, "la" | "lo">, picked: number[], n: Point): { i: number; miles: number }[] {
+  return picked
+    .filter((i) => f.la[i] !== null && f.lo[i] !== null)
+    .map((i) => ({ i, miles: milesBetween(n.la, n.lo, f.la[i] as number, f.lo[i] as number) }))
+    .sort((a, b) => a.miles - b.miles || a.i - b.i);
+}
+/** Where a row's point is, in the words of the list (the file's precision code). */
+export const PLACED_AT = ["exact coordinates", "county point", "city or town point", "operator's coordinates", "not placed"];
+/** What a row's date is, in the words of the list. */
+export const DATE_WORDS = ["began operating", "planned operation", "entered the queue", "planned year, as stated"];
+/** A row's status in the list's words. ERCOT's "Completed" is not ERCOT's word: its report has no status column, and the
+ *  library the connector reads it through writes "Completed" when the interconnection agreement is signed, built or
+ *  not (docs/methods/energy_projects.md, "ERCOT's 'Completed' is not ERCOT's word", session 7518). */
+export function statusWords(f: Pick<MapFile, "k" | "g" | "st" | "grids" | "statuses">, i: number): string {
+  const s = f.statuses[f.st[i]];
+  if (f.k[i] === KIND.queue && s.slug === "q-completed" && f.grids[f.g[i]].slug === "ercot") return "Agreement signed, built or not (ERCOT; the table says completed)";
+  return s.name;
+}
 
 /** The slug a state has in the address: its postal code; "na" for a row whose source names no state. */
 export const stateSlug = (code: string) => code || "na";
@@ -84,6 +143,10 @@ export function parseChoice(search: string, f: Pick<MapFile, "kinds" | "grids" |
   const min = (q.get("min") ?? "").trim(), max = (q.get("max") ?? "").trim();
   if (sizeOf(min, -1) >= 0) c.min = min;
   if (sizeOf(max, -1) >= 0) c.max = max;
+  // session 7537: ?at=32.4487,-99.7331&within=30
+  const at = (q.get("at") ?? "").trim(), within = (q.get("within") ?? "").trim();
+  if (pointOf(at)) c.at = at;
+  if (sizeOf(within, -1) >= 0) c.within = within;
   return c;
 }
 export function queryOf(c: Choice, f: Pick<MapFile, "kinds" | "grids" | "techs" | "statuses" | "states">): string {
@@ -96,6 +159,9 @@ export function queryOf(c: Choice, f: Pick<MapFile, "kinds" | "grids" | "techs" 
   }
   if (sizeOf(c.min, -1) >= 0) parts.push(`min=${encodeURIComponent(c.min.trim().replace(/,/g, ""))}`);
   if (sizeOf(c.max, -1) >= 0) parts.push(`max=${encodeURIComponent(c.max.trim().replace(/,/g, ""))}`);
+  const p = pointOf(c.at ?? "");
+  if (p) parts.push(`at=${p.la},${p.lo}`);
+  if (sizeOf(c.within ?? "", -1) >= 0) parts.push(`within=${encodeURIComponent((c.within ?? "").trim().replace(/,/g, ""))}`);
   return parts.length ? `?${parts.join("&")}` : "";
 }
 
@@ -114,8 +180,10 @@ export function clickState(list: number[] | null, i: number, options: number): n
 
 /** The positions of the rows a choice selects, in the file's order. A row whose source states no MW is selected only
  *  while no size is asked for: it cannot be said to fit one. */
-export function select(f: Pick<MapFile, "k" | "g" | "t" | "st" | "s" | "mw">, c: Choice): number[] {
+export function select(f: Pick<MapFile, "k" | "g" | "t" | "st" | "s" | "mw"> & Partial<Pick<MapFile, "la" | "lo">>, c: Choice): number[] {
   const lo = sizeOf(c.min, -1), hi = sizeOf(c.max, -1), sized = lo >= 0 || hi >= 0;
+  // session 7537: a point and a distance, when both are given (nearOf); a row with no point is then left out
+  const near = nearOf(c);
   const has = (list: number[] | null) => (list === null ? null : new Set(list));
   const kind = has(c.kind), grid = has(c.grid), tech = has(c.tech), status = has(c.status), state = has(c.state);
   const out: number[] = [];
@@ -128,6 +196,10 @@ export function select(f: Pick<MapFile, "k" | "g" | "t" | "st" | "s" | "mw">, c:
     if (sized) {
       const mw = f.mw[i];
       if (mw === null || (lo >= 0 && mw < lo) || (hi >= 0 && mw > hi)) continue;
+    }
+    if (near) {
+      const la = f.la?.[i] ?? null, lon = f.lo?.[i] ?? null;
+      if (la === null || lon === null || milesBetween(near.la, near.lo, la, lon) > near.miles) continue;
     }
     out.push(i);
   }

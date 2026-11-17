@@ -627,6 +627,17 @@ The page draws these at its foot (`site/lib/decisions.ts`, `BOARD_DECISIONS`), e
 10. Under each power row's day high and low, the hours of the last 7 and 30 complete days priced above 100, 250 and 1,000 USD/MWh, the board's own round thresholds; the workbench takes the reader's own. **Default:** 100, 250 and 1,000 USD/MWh. **Source:** The board's own choice; docs/methods/price_board.md, "The week and the month in one row". (session 1612)
 11. No futures price is drawn: NYMEX contracts 1 to 4 need CME Group's license, and EIA's copy of them ended on 5 April 2024, so each futures cell reads "licensed source needed". **Default:** Futures cells read "licensed source needed"; no figure. **Source:** CME Group's terms; EIA's NYMEX futures series, discontinued 5 April 2024. (session 132)
 
+## The headline strip and the week table, as a trader reads them (session 7538, chain 304, part C)
+
+The board read as a trader checking the morning's prices against the day before and a year before (`docs/reviews/board-read-2026-11-16.md`, 20 rows). What changed on the page, each held by `site/scripts/test-board-read.mjs`:
+
+- **The strip's closes** (Henry Hub, WTI, Brent, Brent minus WTI) follow the tile's rule (`closeAge`, through `headDate` in `site/lib/board.ts`): a close past its threshold reads "(stale)" beside its date, its age on hover. On the file of 16 November Henry Hub's close of 3 November is stale.
+- **The strip's lowest and highest grid** are among the main hubs of the grids priced on the day (ERCOT, CAISO and SPP on that file): the label counts them ("Lowest of 3 grids, day-ahead") and the hover names them and the grids not on the board in the page's status words (`gridExtremesWords`; `gridExtremes` now also returns `priced`).
+- **The strip's two range cells** give their value's date and stale mark; their candidates are the benchmarks of every step, so a monthly average can stand there (the read's ruling, row 15).
+- **The week table's "RT minus DA"** is real time less day-ahead, the mean of the week's 7 daily differences: the group "Day-ahead minus real time" takes the other order, and its 7-day avg is the same figure with its sign turned (the column's hover says so).
+- **The week table's 30-day volatility** carries the page's "stale" mark when its date is more than 3 days before the build (`weekStale`, the power groups' threshold): ERCOT's stopped on 6 November 2026, when two missing day-ahead days left no 31 days running.
+- **The formula mark** "f" says on hover that the row is a formula of other rows and that the formula is in the name's hover.
+
 ## What waits for the owner (session 7018)
 
 - Whether EIA's wholesale daily prices (ICE's) may be shown, which would give the power hubs a second publisher to check against (held internal since session 2014, which first read it).

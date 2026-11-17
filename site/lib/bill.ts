@@ -4,6 +4,11 @@
 
 /** Session 279: a rate as the tariff writes it, the sign before the dollar: a credit reads "-$0.00857", not "$-0.00857". */
 const rate = (v: unknown) => (Number(v) < 0 ? `-$${String(v).replace("-", "")}` : `$${v}`);
+/** Session 7533 (chain 304): a computed kWh as a line prints it, to a tenth (the time-of-use lines' own precision). A
+ * baseline is a daily quantity times the days, and in floating point 16.9 x 30 is 506.99999999999994: SCE's Region 9
+ * (the default) printed "506.99999999999994 kWh within the Region 9 baseline" in summer, and SDG&E's 130 percent of a
+ * 333 kWh allowance "432.90000000000003 kWh". The amount is computed on the unrounded kWh, as before. */
+export const kwhs = (v: number) => String(Math.round(v * 10) / 10);
 
 export type Line = { id: string; name: string; group?: string; what: string; why: string; amount: number; cite: string; quote: string; effective: string; detail: string };
 export type Bill = { lines: Line[]; total: number; kwh: number };
@@ -36,7 +41,7 @@ export function billCA(rules: Rules, x: CAInput): Bill {
       lines.push(mk(c, x.kwh * (x.peakShare * pk + (1 - x.peakShare) * off), `${x.kwh} kWh, ${Math.round(x.peakShare * 100)}% at ${rate(pk)}, the rest at ${rate(off)}`));
     } else if (c.basis === "per_kWh_baseline_split") {
       const r = c.rate as { baseline: number; over: number };
-      lines.push(mk(c, base * r.baseline + (x.kwh - base) * r.over, `${base} kWh within the baseline at ${rate(r.baseline)}, ${x.kwh - base} kWh above at ${rate(r.over)}`));
+      lines.push(mk(c, base * r.baseline + (x.kwh - base) * r.over, `${kwhs(base)} kWh within the baseline at ${rate(r.baseline)}, ${kwhs(x.kwh - base)} kWh above at ${rate(r.over)}`));
     } else {
       lines.push(mk(c, x.kwh * (c.rate as number), `${x.kwh} kWh at ${rate(c.rate)}`));
     }
@@ -137,7 +142,7 @@ export function billTOU(rules: Rules, key: string, x: TOUInput): Bill {
   const bc = b.baseline_credit;
   lines.push({ id: `${key.toLowerCase()}_baseline`, name: "Baseline credit", group: "Credits", what: bc.what, why: bc.why, amount: base * bc.rate,
     cite: bc.cite, quote: bc.quote, effective: bc.effective,
-    detail: b.kind === "sce" ? `${base} kWh within the Region ${x.region ?? b.defaults.region} baseline at ${rate(bc.rate)}` : `${base} kWh (up to 130 percent of your ${x.baselineKwh ?? 0} kWh allowance) at ${rate(bc.rate)}` });
+    detail: b.kind === "sce" ? `${kwhs(base)} kWh within the Region ${x.region ?? b.defaults.region} baseline at ${rate(bc.rate)}` : `${kwhs(base)} kWh (up to 130 percent of your ${x.baselineKwh ?? 0} kWh allowance) at ${rate(bc.rate)}` });
   const bs = b.base_services;
   lines.push({ id: `${key.toLowerCase()}_bsc`, name: "Base Services Charge", group: "Fixed", what: bs.what, why: bs.why, amount: x.days * bs.rate,
     cite: bs.cite, quote: bs.quote, effective: bs.effective, detail: `${x.days} days at ${rate(bs.rate)} a day` });

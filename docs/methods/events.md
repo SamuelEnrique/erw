@@ -199,3 +199,150 @@ Under each chart is a one-line figure read from a row of the table, each with a 
   the index, `event_window_daily` as the live set's CSV with a Python and a Stata reader of that CSV, and
   `event_study_estimates` named with its place on Redivis (not in the live set: the pages compute the same estimates,
   `event_study.md`).
+
+## The tool as a reader meets it (session 7531, 16 November 2026)
+
+Session 7531 (chain 304) took `/events` to the done line: this note completed, a replication, a cross-check, a
+decisions block and a faults file. The sections above are the table's method, event by event; this one is the pages.
+The estimates' method is the table's own note, [`event_study.md`](event_study.md); the other notes of the tool's
+neighbourhood ([`doe_oe417_events.md`](doe_oe417_events.md), [`noaa_ncei_billion_disasters.md`](noaa_ncei_billion_disasters.md),
+[`eia930_event_hourly_interchange.md`](eia930_event_hourly_interchange.md)) are tables no page of `/events` reads today.
+
+### The ten pages and what each shows
+
+- **The index** (`/events`): nine cards, one an event, each with its window, its grids and one figure: the highest (or,
+  for COVID-19, the lowest) row of one variable of one entity inside the window (the cards' list below). Under them the
+  two tables as downloads, the link to the Flex Alert scorecard, and the decisions block.
+- **Uri** (`/events/uri-2021`): four charts (ERCOT's hub average real-time price, demand served, net generation, carbon
+  intensity), each with 2021 against 2019 and 2020 on the same calendar days; seven figures under them; the event study
+  block (ERCOT's demand served and the hub price).
+- **COVID-19** (`/events/covid-2020`): weekly demand against the baseline for eight grids on one axis; one small chart a
+  grid (2020, and the same weekday of 2019 and, for the seven ISO grids, 2018); under each, the deepest weekly drop and,
+  when it differs, the deepest from the week of 2020-03-22 on; ERCOT's hub prices for context; the event study block
+  (the Lower 48 first, then the seven grids, and the hub price).
+- **The seven pages on the shared template** (`EventWindow`: CAISO 2020, CAISO 2022, Elliott, ERCOT 2023, the January
+  2025 cold, the June 2025 heat, the January 2026 cold): the peak hour against the baseline, all grids on one axis; the
+  page's own sentence under it; for each grid a chart of its highest hour each day with the same weekdays 364 and 728
+  days earlier, and one line (the peak against the baseline and its MW, the window's highest hour, the highest carbon
+  intensity); carbon intensity, all grids; ERCOT's hub prices where the page has them; the other hubs where it has
+  them; CAISO 2022 adds CAISO's notices day by day; then the event study block.
+- **Every page ends** with the event study block ("What the estimates say") and the decisions block.
+
+### The figures on the pages, each with its table and rule
+
+Every figure is a row of `event_window_daily` picked by the rule its sentence states, or an estimate computed from the
+table's daily rows at build time (`event_study.md`). "In the window" is the event's local days, both ends included; of
+two equal values the earlier day is taken.
+
+| Page | Figure | Entity, variable | Rule |
+|---|---|---|---|
+| Index | each card | Uri and ERCOT 2023: `ercot:HB_HUBAVG`, `rt_max`; COVID-19: `eia930:US48`, `demand_pct_vs_baseline_week`; CAISO 2020: `eia930:CISO`, `demand_max_pct_vs_baseline`; CAISO 2022: `eia930:CISO`, `demand_max_mw`; Elliott and the three events of 2025 and 2026: `eia930:PJM`, `demand_max_mw` | the highest in the window; COVID-19 the lowest from the week of 2020-03-22 on (session 7531) |
+| Uri | highest 15-minute real-time price, and the highest of 2019 and 2020 | `ercot:HB_HUBAVG`, `rt_max` | the highest of 2021's days; the highest of the baseline days |
+| Uri | lowest hour of demand served; the lowest on 2021-02-15 | `eia930:ERCO`, `demand_min_mw` | the lowest of 2021's days; the named day |
+| Uri | largest day-to-day fall; largest shortfall against the baseline | `eia930:ERCO`, `net_generation_mwh_day_change`, `net_generation_mwh_vs_baseline` | the lowest of 2021's days |
+| Uri | highest carbon intensity | `eia930:ERCO`, `intensity_generation` | the highest of 2021's days |
+| COVID-19 | deepest weekly drop; deepest from the week of 2020-03-22 | each grid's `demand_pct_vs_baseline_week` | the lowest week; the lowest from 2020-03-22, shown only when its week differs |
+| Template | the peak against the baseline and its MW | each grid's `demand_max_pct_vs_baseline`, then `demand_max_mw` of that day | the highest in the window |
+| Template | the window's highest hour; the highest carbon intensity | each grid's `demand_max_mw`, `intensity_generation` | the highest in the window |
+| Template | ERCOT's hub: highest 15 minutes, highest daily mean, highest day-ahead hour | `ercot:HB_HUBAVG`, `rt_max`, `rt_mean`, `da_max` | the highest in the window |
+| Template | each other hub: the same three | `miso:INDIANA.HUB` (real-time hourly), `nyiso:N.Y.C.`, `isone:.H.INTERNAL_HUB`, `spp:SPPNORTH_HUB` | the highest in the window |
+| CAISO 2020 | the peak against the baseline on 14 and 15 August, and the highest | `eia930:CISO`, `demand_max_pct_vs_baseline` | the named days; the highest in the window |
+| CAISO 2022 | the highest hour; the peak against the baseline, highest and on 2022-09-06 | `eia930:CISO`, `demand_max_mw`, `demand_max_pct_vs_baseline` | the highest; the named day |
+| CAISO 2022 | CAISO's notices by day | `caiso_grid_emergencies`, each local day of the window and its notice types | as the report lists them |
+| Elliott | PJM's highest hour; ISO-NE's peak against the baseline; SPP's highest hour and its hour on 2022-12-23 | `demand_max_mw`, `demand_max_pct_vs_baseline` | the highest; the named day |
+| ERCOT 2023 | the highest hour on 2023-09-06; the window's highest hour; the highest 15-minute price | `eia930:ERCO`, `demand_max_mw`; `ercot:HB_HUBAVG`, `rt_max` | the named day; the highest |
+| Jan. 2025 and Jan. 2026 colds | PJM's highest hour, MISO's (2025) or ERCOT's (2026), PJM's peak against the baseline | `demand_max_mw`, `demand_max_pct_vs_baseline` | the highest |
+| June 2025 heat | PJM's highest hour; NYISO's and ISO-NE's peak against the baseline | `demand_max_mw`, `demand_max_pct_vs_baseline` | the highest |
+| Every event page | the event study block: the lead grid's pooled effect, its interval, its percent of the expected and the MWh a day expected; with temperature where a station is held, and the weather share under its condition; a row a grid (and the hub price where the page shows ERCOT's hub); each event day's effect | `demand_mwh` (`rt_mean` for the hub), daily rows | `event_study.md`, `dow_year_mean_v1` and `dow_year_temp_v1` |
+
+### Assumptions, with their defaults and sources
+
+The decisions block below lists them, each as the pages draw it. The ones that move figures most: the window's dates;
+the baseline (the same weekday 364 and 728 days earlier; Uri the same calendar days of 2019 and 2020); demand served,
+not wanted; complete days only; and, for the estimates, the absence of a trend (growth since the baseline years counts
+as effect) and of weather in the first estimate.
+
+### What the tool does not hold
+
+- **Load shed** (MW or customers): ERCOT, CAISO and the southeast balancing authorities report it; the table holds
+  demand served only, and the pages say so where it matters (Uri, CAISO 2020, Elliott).
+- **Generator outages** (FERC's 90,500 MW for Elliott; ERCOT's 34,000 MW averaged over two days of Uri): quoted where a
+  page quotes them, never computed.
+- **CAISO's prices** for 2020 and 2022, and **PJM's prices** at any date: CAISO's are not held for those years, PJM's
+  are internal.
+- **Weather** for the January 2025 cold, the June 2025 heat and the January 2026 cold: no station is held, so no
+  estimate there controls for temperature.
+- **Other states' stay-at-home orders** in 2020, and the hourly profile of each effect (`event_study.md` holds it in the
+  table; no page shows it).
+- **Baseline days for the hubs beyond ERCOT's**: their history starts on 2024-09-01.
+
+### The license hold as it stands
+
+Since 21 October 2026 `event_window_daily` and `event_study_estimates` are "license needed", held by grid for ISO-NE,
+MISO and NYISO (`site/data/license_status.json`). The site's checked-number component draws a figure as "license
+needed" when its key names a held grid, and also when its key names no grid the license module knows. EIA-930's
+entities (`eia930:CISO`, `eia930:PJM`, `eia930:US48` and the others) are of the second kind, so on the built pages
+every EIA-930 figure and every estimate is drawn "license needed" (1,117 of the 1,127 numbers the ten pages compute),
+and only ERCOT's and SPP's hub figures are drawn as numbers. The license module's own words say a row of no grid is
+kept. That is fault 1 of [`docs/reviews/events-faults-2026-11-16.md`](../reviews/events-faults-2026-11-16.md), a
+ruling: no hold is lifted here.
+
+### Corrections of 16 November 2026 (session 7531)
+
+- **COVID-19's baseline in the page's words.** The section "Session 49" above restored 2018 for the seven ISO grids,
+  but the page went on saying its weekly figures were against 2019 alone. Recomputed from the table, NYISO's week of
+  2020-05-17 is -15.23 percent against 2018 and 2019 (the table's row) and would be -11.77 against 2019 alone; PJM's
+  -17.10 and -14.83. The page now says 2018 and 2019 (the Lower 48 2019 alone) and draws 2018's days (fault 2).
+- **The index's COVID-19 card** read the lowest week of the whole window, the week of 2020-03-01, before any order
+  (-11.82 percent); it now reads from the week of 2020-03-22, as the event page does: -10.62 percent, the week of
+  2020-05-17 (fault 3).
+- **ERCOT's September 2023 record.** "The summer 2023 heat in ERCOT" above quotes ERCOT's 82,705 MW of 6 September as
+  its September record. ERCOT's release of 14 September 2023 lists 83,911 MW on 7 September and 84,182 MW on
+  8 September, both inside the window (EIA: 83,913 and 84,185 MW), and an all-time record of 85,464 MW on 10 August
+  (EIA: 85,432). The page now says so (fault 4).
+
+## The decisions on the pages
+
+Drawn at the foot of every page (`site/app/events/Decisions.tsx`), each with its default, its source and its session
+in a hover tip; the index draws the first thirteen, the COVID-19 page all fifteen. No choice is editable: the pages
+have no input, and every figure is fixed when the table is built or the page is drawn.
+
+| # | Key | The choice | Default | Source |
+|---|---|---|---|---|
+| 1 | `window` | each event a fixed window of local days, both ends included | each event's dates (sections above) | each event's section |
+| 2 | `baseline` | the same weekday 364 and 728 days earlier | Uri the same calendar days of 2019 and 2020; COVID-19 2019 and 2018 (the Lower 48 2019) | "Baseline: weekday-aligned", "Session 49" |
+| 3 | `local-day` | the grid's own local day (MISO Eastern Standard Time all year) | each grid's zone | "The second event: COVID-19" |
+| 4 | `complete` | a day only when every interval is held; nothing filled | complete days only | "Complete days only" |
+| 5 | `served` | demand served, not wanted | EIA-930 demand | "Demand during load shed is load served" |
+| 6 | `peak-hour` | the day's highest hour over the mean of the baseline days' highest hours | `demand_max_pct_vs_baseline` | "Session 39" |
+| 7 | `pick` | each figure the row its sentence's rule picks; the earlier day of equal values | the first in day order | "The figures on the pages, each with its table and rule" |
+| 8 | `intensity` | CO2 from generation over net generation | kg CO2 per MWh generated | "Sources and variables" |
+| 9 | `price` | ERCOT's hub average; four other hubs from 2024-09-01 | HB_HUBAVG; MISO hourly | "Session 64" |
+| 10 | `spec` | weekday and year effects, the event year the average baseline year | `dow_year_mean_v1` | `event_study.md` |
+| 11 | `inference` | 95 percent normal intervals, HC1 | z = 1.96 | `event_study.md`, "Inference" |
+| 12 | `temperature` | degree days at 65 F and their squares at the grid's airports | the stations listed in `event_study.md` | `event_study.md` |
+| 13 | `weather-share` | the share printed only when the two estimates share a sign and the second is no larger | under that condition | `event_study.md`, "What the pages say" |
+| 14 | `after-order` | COVID-19: the deepest week from the week of 2020-03-22 | 2020-03-22 | Executive Order N-33-20 |
+| 15 | `weeks` | COVID-19: Sunday to Saturday weeks, all fourteen days complete | thirteen weeks | "Weeks" |
+
+## The replication and the cross-check (session 7531)
+
+- **`replication/events/replicate.py`**, written from this note and `event_study.md` and the public table alone,
+  standard library only. On the table retrieved 19 October 2026: every figure the ten pages print that is not held,
+  1,149 of 1,149 (1,100 numbers and the event study tables' day counts) inside half the page's last shown digit, each
+  pick the same row; the table's comparison rows recomputed from its level rows, 2,890 of 2,890; the 62 pooled
+  estimates not held and their intervals against the builder's `event_study_estimates`, 186 of 186; fifteen sentences
+  of the pages that state a fact of the rows, all true. The pages' figures come from the pages drawn with the site's
+  own components (`site/scripts/events-pages.mjs`, with the hold set aside for the drawing only). `replicate.do` gives
+  five headline figures in Stata. Run: `python replication/events/replicate.py` (on the rows copied beside it) or
+  `--tables <the warehouse's output folder>`.
+- **Held rows are not in the replication (session 7531's held-row fix, 16 November 2026).** The counts were 1,176 of
+  1,176 and 195 of 195; they moved because the rows and figures of ISO-NE's, MISO's and NYISO's hubs are held (both
+  tables "license needed", held by grid: `site/lib/license.ts` `licenseHeldRow`) and the replication sits in a public
+  repository. It drops a held row as it reads it, counts the 27 page figures and 3 pooled estimates (9 numbers) of
+  those hubs as "held, not recomputed here", and copies none of the 484 held rows of `event_window_daily` or the 3 of
+  `event_study_estimates` beside it (each file's first line gives the count). A row of no grid (`eia930:NYIS`,
+  `noaa:...`) is kept, as the rule keeps it.
+- **The cross-check**: [`docs/reviews/events-crosscheck-2026-11-16.md`](../reviews/events-crosscheck-2026-11-16.md),
+  sixteen rows against FERC's, CAISO's, ERCOT's, PJM's and EIA's own accounts. Every peak stands within 2.0 percent of
+  the operator's; the differences are of definition (an instant against an hourly mean, losses allocated, settlement).

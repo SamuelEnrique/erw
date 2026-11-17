@@ -1456,7 +1456,11 @@ async function main() {
       // session 4219 (chain 239): the forecast on /impact writes its figures as lib/forecast.ts's displayOf does (jobs to one
       // decimal under 100, whole above; dollars as "USD 41 million"), the text compared with that form of the raw
       const forecastOk = /^forecast\|/.test(check) && forecastLib !== null && text === forecastLib.displayOf(check.slice(check.lastIndexOf("|") + 1), Number(raw));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne || forecastOk;
+      // chain 370 (session 7050, the landing desk): a <span data-format="usd"> amount under a million is written by the site's
+      // usdShort (lib/batterystack.ts) at the runtime's own precision; /grid/caiso/alerts' day effect shows "-479,791" for
+      // -479791.0043, so the whole dollars are the figure too
+      const usdWhole = usdFormat && Math.abs(Number(raw)) < 1e6 && text.startsWith(Math.round(Number(raw)).toLocaleString("en-US"));
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with

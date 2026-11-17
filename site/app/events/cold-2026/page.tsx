@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { EventWindow, N, day, pickOf } from "../EventWindow";
 
 // Session 319: the late January 2026 cold, event cold_2026 of event_window_daily (docs/methods/events.md, "Session 308":
@@ -76,6 +77,8 @@ export default function Cold2026() {
     />
     {/* the event study, as for every event: demand and, where it has baseline days, ERCOT's hub price */}
     <EventStudy event="cold_2026" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
+    {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    <EventDecisions event="cold_2026" />
     </div>
     </Brand>
   );

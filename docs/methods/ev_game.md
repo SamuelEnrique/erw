@@ -122,3 +122,89 @@ The page opens on the United States at the defaults, so the server's page carrie
 `data/ev_prices.json` and `lib/ev.ts` at the defaults: `power_cents` (the home price in cents a kWh, two decimals),
 `gas` (USD a gallon, as held), `payback` (years, one decimal) and `npv` (USD, whole). A state chosen in the browser is the
 family's own reading and is not keyed.
+
+## The game at the done line (session 7536, chain 304, 16 November 2026)
+
+### Which section of this note holds
+
+This note has grown by sessions and keeps every section. Where two disagree, the later holds: the five screens of
+session 294 and the "words beside it" rule of session 2402 were replaced by the one screen of sessions 3275 to 3278
+(above, "One screen, sources on hover"), and session 2402's line that no figure carries a check key was replaced by
+"The figures keyed for check-values" (above). One correction to that section: a state chosen in the browser at the
+defaults draws the same four keys under its own code (`ev|KY|payback`); `check-values` never sees them, because it reads
+the server's page, which is always the United States.
+
+### Every view and every figure, as a player meets them
+
+One screen. On the left, "Your family": the state menu; the electricity and gasoline sliders, each with the state's
+price as its default; the sliders for miles, mpg, kWh a mile, the two cars' prices and the share charged at home; the
+public charger's price box (shown only below 100 percent at home); the years and the rate; the credit switch with its
+amount (shown only when on); "Reset everything". Each slider shows its value in grey while it is the default and in ink,
+with "changed by you" and a reset named for it, once moved; its tip says the default and its source. On the right:
+
+| Figure | Rule (the note's "The model") | Shown as |
+|---|---|---|
+| Payback | extra to buy / a year's saving; "at once" when extra <= 0; "never" when the saving <= 0 | years, one decimal |
+| Payback's tip | what the EV costs more to buy, after the credit when it is on | whole dollars |
+| Net present value, N years | sum over t = 1..N of saving / (1 + rate)^t, less the extra | whole dollars, a minus before the dollar below zero |
+| Net present value's tip | the rate | percent, one decimal |
+| A year of gasoline | miles / mpg x gasoline price | whole dollars |
+| A year of electricity | miles x kWh a mile x the price a kWh (home share at the home price, the rest at the typed public price) | whole dollars |
+| Saved a year with the EV, or Extra a year with the EV | gasoline less electricity; the name turns to "Extra" below zero and the amount is shown without its sign | whole dollars |
+| The chart's summary (its spoken label) | each car at year 0 (its price, the EV's less the credit) and at year N (plus N years of fuel), and the crossing | whole dollars; the crossing to one decimal |
+| "they cross at X years" | the payback, drawn only when 0 < payback <= the years kept | years, one decimal |
+| The chart's hover | each car at the year pointed at | whole dollars (not drawn without a pointer: a browser read) |
+| "Every number, for your parents" | every input's value with its source, or "changed by you"; the credit; the day the prices were built | as the sliders |
+| In place of the results | when some charging is away from home and no valid public price is typed: "Type a public charger's price on the left to see the results."; when the state has no held price (none today): that the warehouse holds no price for it | words |
+
+### The chart's axes
+
+The money axis runs from $0 to the first step at or above the dearest point of either line, in steps of $5k, or $10k
+when the dearest point is above $40,000, or $20k above $100,000. The year axis labels every year from 0 to the years
+kept, and every second year (the even ones) when more than 10 years are kept.
+
+### The choices that move a figure
+
+The page's fold "Decisions in this game" (`site/app/play/ev/Decisions.tsx`, session 7536) lists eleven, each with its
+default and its source on hover: `home-price` (the state's residential average, every utility and hour, not an EV
+rate), `gasoline-price` (regular, the state's weekly series or its PADD region's), `prices-held` (both prices flat for
+every year), `home-share` (100 percent at home; a public price only as typed), `miles` (15,000), `cars` (the 2025
+Equinox pair at 27 mpg and 0.31 kWh a mile, wall to wheels), `car-prices` (before destination, $28,600 and $33,600),
+`payback` (undiscounted), `npv` (5 percent, end of each year, 8 years), `credit` (off; $7,500 when on), and `left-out`
+(repairs, insurance, a charger, incentives, fees and resale). Every one a player can change is changed in place, in the
+slider the line names.
+
+### What the game does not hold
+
+No public charging price (the player types one), no time-of-use or EV rate of any utility, no price for a state's
+own gasoline outside EIA's nine states, no forecast of either price, no model year after 2025, no state or utility
+incentive, no used car, no lease, and nothing about the player: what is typed stays in the browser.
+
+### The replication
+
+`replication/ev_game/replicate.py`, written from this note and the two tables, not from the page's code. The game is
+drawn to HTML with the site's own code (`site/scripts/ev-game-figures.mjs`) as it opens, for each of the 51 states at
+the defaults, and for eleven players' cases (`replication/ev_game/cases.json`: the hand-worked Texas and Ohio
+households, an EV that never pays back, 15 years at 0 percent, 2 years with no crossing, the two waiting cases, a
+$3,000 credit, Hawaii at 30,000 miles and 10 percent, New York with both prices moved, and an $80,000 EV). On
+16 November 2026: **5,141 of 5,141 figures** inside half the page's last shown digit over 63 cases; the prices of
+`site/data/ev_prices.json` against the tables' rows, 104 checked, **102 equal and 2 named** (EIA revised New York's July
+2026 residential price from 299.0 to 298.9 USD/MWh and Pennsylvania's from 217.2 to 217.1 after the file was built). It
+also names that the file is older than the tables: electricity July 2026 where the table holds August, gasoline the week
+of October 5 where the table holds November 2. `replicate.do` rebuilds the five headline figures of the opening page
+(a year of gasoline 2,418.89, of electricity 851.41, saved 1,567.47, payback 3.19 years, net present value 5,130.92).
+
+### The cross-check (read 16 November 2026; robots files read first)
+
+| Figure | Ours | Theirs (publisher, document, date) | Difference | Why |
+|---|---|---|---|---|
+| US regular gasoline, week of October 5, 2026 | $4.354 | $4.354: EIA, Weekly U.S. Regular All Formulations Retail Gasoline Prices, series EMM_EPMR_PTE_NUS_DPG | 0 | the same survey |
+| US regular gasoline, newest | $4.354 (October 5) | $3.995 (November 9): the same EIA series | +$0.359 | the game's file was built 15 October and not since (fault 5) |
+| US regular gasoline, 1 to 15 July 2026 | $3.816 (the table's weeks of July 6 and 13) | $3.84: DOE Alternative Fuels Data Center, Alternative Fuel Price Report, July 2026 | -$0.024 | AFDC's own survey of stations over the fortnight, not EIA's Monday survey |
+| Residential electricity, August 2026, 13 places | the table: US 18.16, CA 29.75, TX 15.91, OH 19.38, NY 28.65, MA 30.48, HI 47.18, FL 14.99, WA 14.63, AL 16.33, LA 12.87, ND 13.31, CT 24.51 cents | the same, each: EIA, Electric Power Monthly, Table 5.6.A (released October 23, 2026) | 0.00 each | the table is EIA's; the game still shows July (fault 5) |
+| California's home price | 33.61 cents (July 2026); a year of charging $1,563 at the defaults | PG&E E-TOU-C off-peak total rates, 36.757 cents winter and 39.940 summer, as read 30 September 2026 (`site/data/bill_rules.json`): $1,709 and $1,857 | -3.15 and -6.33 cents | the state's average spreads every utility, hour and baseline credit; PG&E is the dearest of the three large utilities and its rates are before the baseline credit of 8.14 cents |
+| The federal credit | off; $7,500 when switched on | the IRS, Credits for new clean vehicles purchased in 2023 or after (Page Last Reviewed or Updated: 13-Jul-2026): "not available for vehicles acquired after Sept. 30, 2025"; "up to $7,500" | none | |
+
+Not read: fueleconomy.gov (its robots file twice refused the connection, so no request was made to it; the mpg, the
+kWh a mile and the 15,000 miles stand as read on 15 October 2026); PG&E's EV2-A schedule (fetched, but no PDF reader
+on this machine); Chevrolet's prices (no request: the defaults stay "to confirm").

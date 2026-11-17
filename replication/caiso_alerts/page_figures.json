@@ -1,0 +1,3691 @@
+{
+ "page": "/grid/caiso/alerts",
+ "drawn_by": "site/scripts/caiso-alerts-figures.mjs (session 7532)",
+ "tables": {
+  "flex_alert_effects": "20261002T051248Z",
+  "flex_alert_model": "20261002T051248Z",
+  "caiso_grid_emergencies": "20261013T075148Z"
+ },
+ "asked": [
+  "flex_alert_effects: 2973 rows",
+  "flex_alert_model: 353 rows",
+  "caiso_grid_emergencies: 320 rows",
+  ": not answered"
+ ],
+ "nums": [
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_days|2018-07-01T00:00:00Z",
+   "raw": "38",
+   "shown": "38",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_hours|2018-07-01T00:00:00Z",
+   "raw": "204",
+   "shown": "204",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "-503.1849",
+   "shown": "-503.18",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "-1274.8892",
+   "shown": "-1,274.89",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "247.377",
+   "shown": "247.38",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_pct|2018-07-01T00:00:00Z",
+   "raw": "-1.2012",
+   "shown": "-1.20",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh|2018-07-01T00:00:00Z",
+   "raw": "-102649.7286",
+   "shown": "-102,649.73",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_lo|2018-07-01T00:00:00Z",
+   "raw": "-260077.3898",
+   "shown": "-260,077.39",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_reduction_mwh_hi|2018-07-01T00:00:00Z",
+   "raw": "50464.9058",
+   "shown": "50,464.91",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-239.3376",
+   "shown": "-239.34",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1598.5565",
+   "shown": "1,598.56",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|oos_mape_pct|2018-07-01T00:00:00Z",
+   "raw": "3.18",
+   "shown": "3.18",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|oos_days|2018-07-01T00:00:00Z",
+   "raw": "128",
+   "shown": "128",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-272.2928",
+   "shown": "-272.29",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1917.8568",
+   "shown": "1,917.86",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "-58.9951",
+   "shown": "-59.00",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "-756.8456",
+   "shown": "-756.85",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_minimal_pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "545.7158",
+   "shown": "545.72",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-497.0896",
+   "shown": "-497.09",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1744.533",
+   "shown": "1,744.53",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "861.164",
+   "shown": "861.16",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "197.2489",
+   "shown": "197.25",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "1478.8353",
+   "shown": "1,478.84",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-273.0323",
+   "shown": "-273.03",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1635.2012",
+   "shown": "1,635.20",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "-460.338",
+   "shown": "-460.34",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "-1189.51",
+   "shown": "-1,189.51",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_prev24sq_pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "227.6675",
+   "shown": "227.67",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-486.6435",
+   "shown": "-486.64",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1728.4556",
+   "shown": "1,728.46",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "896.8515",
+   "shown": "896.85",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "233.9626",
+   "shown": "233.96",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_base_cdh_dew_pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "1510.4997",
+   "shown": "1,510.50",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_chosen_oos_bias_mw|2018-07-01T00:00:00Z",
+   "raw": "-239.3376",
+   "shown": "-239.34",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_chosen_oos_rmse_mw|2018-07-01T00:00:00Z",
+   "raw": "1598.5565",
+   "shown": "1,598.56",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw|2018-07-01T00:00:00Z",
+   "raw": "-503.1849",
+   "shown": "-503.18",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw_lo|2018-07-01T00:00:00Z",
+   "raw": "-1274.8892",
+   "shown": "-1,274.89",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|variant_chosen_pooled_reduction_mw_hi|2018-07-01T00:00:00Z",
+   "raw": "247.377",
+   "shown": "247.38",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|heldout_threshold_temp_f|2018-07-01T00:00:00Z",
+   "raw": "87.008",
+   "shown": "87.01",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|alert_days_hotter_than_threshold|2018-07-01T00:00:00Z",
+   "raw": "34",
+   "shown": "34",
+   "section": "The answer, pooled"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-09T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-09T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-09T00:00:00Z",
+   "raw": "100.49",
+   "shown": "100.49",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-09T00:00:00Z",
+   "raw": "0",
+   "shown": "0",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-09T00:00:00Z",
+   "raw": "4379.7058",
+   "shown": "4,379.71",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-09T00:00:00Z",
+   "raw": "1122.4232",
+   "shown": "1,122.42",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-09T00:00:00Z",
+   "raw": "7742.5444",
+   "shown": "7,742.54",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-09T00:00:00Z",
+   "raw": "9.6825",
+   "shown": "9.68",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-07T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-07T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-07T00:00:00Z",
+   "raw": "93.542",
+   "shown": "93.54",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-07T00:00:00Z",
+   "raw": "3",
+   "shown": "3",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-07T00:00:00Z",
+   "raw": "2391.4126",
+   "shown": "2,391.41",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-07T00:00:00Z",
+   "raw": "-449.0006",
+   "shown": "-449.00",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-07T00:00:00Z",
+   "raw": "5091.0332",
+   "shown": "5,091.03",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-07T00:00:00Z",
+   "raw": "5.5881",
+   "shown": "5.59",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-09T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-09T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-09T00:00:00Z",
+   "raw": "90.752",
+   "shown": "90.75",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-09T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-09T00:00:00Z",
+   "raw": "2159.404",
+   "shown": "2,159.40",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-09T00:00:00Z",
+   "raw": "-97.8422",
+   "shown": "-97.84",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-09T00:00:00Z",
+   "raw": "4425.0586",
+   "shown": "4,425.06",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-09T00:00:00Z",
+   "raw": "4.9687",
+   "shown": "4.97",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-08T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-08T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-08T00:00:00Z",
+   "raw": "101.426",
+   "shown": "101.43",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-08T00:00:00Z",
+   "raw": "0",
+   "shown": "0",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-08T00:00:00Z",
+   "raw": "1835.7003",
+   "shown": "1,835.70",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-08T00:00:00Z",
+   "raw": "-1004.0434",
+   "shown": "-1,004.04",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-08T00:00:00Z",
+   "raw": "4399.3487",
+   "shown": "4,399.35",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-08T00:00:00Z",
+   "raw": "3.7713",
+   "shown": "3.77",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-16T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-16T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-16T00:00:00Z",
+   "raw": "98.564",
+   "shown": "98.56",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-16T00:00:00Z",
+   "raw": "1",
+   "shown": "1",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-16T00:00:00Z",
+   "raw": "1671.6111",
+   "shown": "1,671.61",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-16T00:00:00Z",
+   "raw": "-898.7732",
+   "shown": "-898.77",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-16T00:00:00Z",
+   "raw": "4250.5201",
+   "shown": "4,250.52",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-16T00:00:00Z",
+   "raw": "3.8791",
+   "shown": "3.88",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-10T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-10T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-10T00:00:00Z",
+   "raw": "91.292",
+   "shown": "91.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-10T00:00:00Z",
+   "raw": "12",
+   "shown": "12",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-10T00:00:00Z",
+   "raw": "1589.6013",
+   "shown": "1,589.60",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-10T00:00:00Z",
+   "raw": "-589.9169",
+   "shown": "-589.92",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-10T00:00:00Z",
+   "raw": "3749.1914",
+   "shown": "3,749.19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-10T00:00:00Z",
+   "raw": "3.8853",
+   "shown": "3.89",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-04T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-04T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-04T00:00:00Z",
+   "raw": "97.79",
+   "shown": "97.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-04T00:00:00Z",
+   "raw": "1",
+   "shown": "1",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-04T00:00:00Z",
+   "raw": "1196.2474",
+   "shown": "1,196.25",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-04T00:00:00Z",
+   "raw": "-1556.7293",
+   "shown": "-1,556.73",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-04T00:00:00Z",
+   "raw": "3624.0775",
+   "shown": "3,624.08",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-04T00:00:00Z",
+   "raw": "2.7139",
+   "shown": "2.71",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-18T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-18T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-18T00:00:00Z",
+   "raw": "94.01",
+   "shown": "94.01",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-18T00:00:00Z",
+   "raw": "2",
+   "shown": "2",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-18T00:00:00Z",
+   "raw": "1185.6901",
+   "shown": "1,185.69",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-18T00:00:00Z",
+   "raw": "-1379.4081",
+   "shown": "-1,379.41",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-18T00:00:00Z",
+   "raw": "3570.8809",
+   "shown": "3,570.88",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-18T00:00:00Z",
+   "raw": "2.5894",
+   "shown": "2.59",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-17T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-17T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-17T00:00:00Z",
+   "raw": "90.464",
+   "shown": "90.46",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-17T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-17T00:00:00Z",
+   "raw": "460.1103",
+   "shown": "460.11",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-17T00:00:00Z",
+   "raw": "-2013.7026",
+   "shown": "-2,013.70",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-17T00:00:00Z",
+   "raw": "2723.9113",
+   "shown": "2,723.91",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-17T00:00:00Z",
+   "raw": "1.0567",
+   "shown": "1.06",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-06T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-06T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-06T00:00:00Z",
+   "raw": "100.562",
+   "shown": "100.56",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-06T00:00:00Z",
+   "raw": "0",
+   "shown": "0",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-06T00:00:00Z",
+   "raw": "258.2391",
+   "shown": "258.24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-06T00:00:00Z",
+   "raw": "-2580.1748",
+   "shown": "-2,580.17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-06T00:00:00Z",
+   "raw": "3015.7036",
+   "shown": "3,015.70",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-06T00:00:00Z",
+   "raw": "0.571",
+   "shown": "0.57",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-14T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-14T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-14T00:00:00Z",
+   "raw": "91.97",
+   "shown": "91.97",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-14T00:00:00Z",
+   "raw": "8",
+   "shown": "8",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-14T00:00:00Z",
+   "raw": "106.5886",
+   "shown": "106.59",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-14T00:00:00Z",
+   "raw": "-2181.3184",
+   "shown": "-2,181.32",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-14T00:00:00Z",
+   "raw": "2399.6745",
+   "shown": "2,399.67",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-14T00:00:00Z",
+   "raw": "0.2415",
+   "shown": "0.24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-29T00:00:00Z",
+   "raw": "18",
+   "shown": "18",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-29T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-29T00:00:00Z",
+   "raw": "86.396",
+   "shown": "86.40",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-29T00:00:00Z",
+   "raw": "162",
+   "shown": "162",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-29T00:00:00Z",
+   "raw": "-69.4991",
+   "shown": "-69.50",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-29T00:00:00Z",
+   "raw": "-2460.5193",
+   "shown": "-2,460.52",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-29T00:00:00Z",
+   "raw": "2016.3292",
+   "shown": "2,016.33",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-29T00:00:00Z",
+   "raw": "-0.175",
+   "shown": "-0.18",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-10-15T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-10-15T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-10-15T00:00:00Z",
+   "raw": "85.658",
+   "shown": "85.66",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-10-15T00:00:00Z",
+   "raw": "211",
+   "shown": "211",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-15T00:00:00Z",
+   "raw": "-155.1531",
+   "shown": "-155.15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-10-15T00:00:00Z",
+   "raw": "-2440.3621",
+   "shown": "-2,440.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-10-15T00:00:00Z",
+   "raw": "2025.3554",
+   "shown": "2,025.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-10-15T00:00:00Z",
+   "raw": "-0.4416",
+   "shown": "-0.44",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2019-07-28T00:00:00Z",
+   "raw": "18",
+   "shown": "18",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2019-07-28T00:00:00Z",
+   "raw": "24",
+   "shown": "24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2019-07-28T00:00:00Z",
+   "raw": "87.332",
+   "shown": "87.33",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2019-07-28T00:00:00Z",
+   "raw": "109",
+   "shown": "109",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2019-07-28T00:00:00Z",
+   "raw": "-225.4965",
+   "shown": "-225.50",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2019-07-28T00:00:00Z",
+   "raw": "-2220.792",
+   "shown": "-2,220.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2019-07-28T00:00:00Z",
+   "raw": "1501.2153",
+   "shown": "1,501.22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2019-07-28T00:00:00Z",
+   "raw": "-0.6441",
+   "shown": "-0.64",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-07-28T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-07-28T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-07-28T00:00:00Z",
+   "raw": "85.82",
+   "shown": "85.82",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-07-28T00:00:00Z",
+   "raw": "200",
+   "shown": "200",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-28T00:00:00Z",
+   "raw": "-261.836",
+   "shown": "-261.84",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-07-28T00:00:00Z",
+   "raw": "-2629.8085",
+   "shown": "-2,629.81",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-07-28T00:00:00Z",
+   "raw": "1951.8247",
+   "shown": "1,951.82",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-28T00:00:00Z",
+   "raw": "-0.6641",
+   "shown": "-0.66",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-06-18T00:00:00Z",
+   "raw": "18",
+   "shown": "18",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-06-18T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-06-18T00:00:00Z",
+   "raw": "88.646",
+   "shown": "88.65",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-06-18T00:00:00Z",
+   "raw": "49",
+   "shown": "49",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-18T00:00:00Z",
+   "raw": "-494.2455",
+   "shown": "-494.25",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-06-18T00:00:00Z",
+   "raw": "-2886.3633",
+   "shown": "-2,886.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-06-18T00:00:00Z",
+   "raw": "1853.3599",
+   "shown": "1,853.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-06-18T00:00:00Z",
+   "raw": "-1.2874",
+   "shown": "-1.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-01T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-01T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-01T00:00:00Z",
+   "raw": "94.406",
+   "shown": "94.41",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-01T00:00:00Z",
+   "raw": "2",
+   "shown": "2",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-01T00:00:00Z",
+   "raw": "-658.2857",
+   "shown": "-658.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-01T00:00:00Z",
+   "raw": "-3049.6635",
+   "shown": "-3,049.66",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-01T00:00:00Z",
+   "raw": "1618.0524",
+   "shown": "1,618.05",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-01T00:00:00Z",
+   "raw": "-1.4601",
+   "shown": "-1.46",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-06-17T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-06-17T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-06-17T00:00:00Z",
+   "raw": "87.242",
+   "shown": "87.24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-06-17T00:00:00Z",
+   "raw": "114",
+   "shown": "114",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-17T00:00:00Z",
+   "raw": "-760.2484",
+   "shown": "-760.25",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-06-17T00:00:00Z",
+   "raw": "-2866.2238",
+   "shown": "-2,866.22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-06-17T00:00:00Z",
+   "raw": "1323.6561",
+   "shown": "1,323.66",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-06-17T00:00:00Z",
+   "raw": "-1.9649",
+   "shown": "-1.96",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-10-01T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-10-01T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-10-01T00:00:00Z",
+   "raw": "92.102",
+   "shown": "92.10",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-10-01T00:00:00Z",
+   "raw": "8",
+   "shown": "8",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-01T00:00:00Z",
+   "raw": "-761.0627",
+   "shown": "-761.06",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-10-01T00:00:00Z",
+   "raw": "-3059.7259",
+   "shown": "-3,059.73",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-10-01T00:00:00Z",
+   "raw": "1475.7701",
+   "shown": "1,475.77",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-10-01T00:00:00Z",
+   "raw": "-1.9421",
+   "shown": "-1.94",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-15T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-15T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-15T00:00:00Z",
+   "raw": "93.029",
+   "shown": "93.03",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-15T00:00:00Z",
+   "raw": "5",
+   "shown": "5",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-15T00:00:00Z",
+   "raw": "-763.6689",
+   "shown": "-763.67",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-15T00:00:00Z",
+   "raw": "-3103.0027",
+   "shown": "-3,103.00",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-15T00:00:00Z",
+   "raw": "1751.3596",
+   "shown": "1,751.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-15T00:00:00Z",
+   "raw": "-1.7932",
+   "shown": "-1.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-20T00:00:00Z",
+   "raw": "19",
+   "shown": "19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-20T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-20T00:00:00Z",
+   "raw": "87.782",
+   "shown": "87.78",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-20T00:00:00Z",
+   "raw": "87",
+   "shown": "87",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-20T00:00:00Z",
+   "raw": "-1041.4981",
+   "shown": "-1,041.50",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-20T00:00:00Z",
+   "raw": "-3128.2863",
+   "shown": "-3,128.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-20T00:00:00Z",
+   "raw": "829.4705",
+   "shown": "829.47",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-20T00:00:00Z",
+   "raw": "-2.6161",
+   "shown": "-2.62",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|value_usd|2023-07-20T00:00:00Z",
+   "raw": "-479791.0043",
+   "shown": "-479,791",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-08-19T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-08-19T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-08-19T00:00:00Z",
+   "raw": "91.616",
+   "shown": "91.62",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-08-19T00:00:00Z",
+   "raw": "11",
+   "shown": "11",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-19T00:00:00Z",
+   "raw": "-1108.7852",
+   "shown": "-1,108.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-08-19T00:00:00Z",
+   "raw": "-3401.3243",
+   "shown": "-3,401.32",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-08-19T00:00:00Z",
+   "raw": "1250.4102",
+   "shown": "1,250.41",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-08-19T00:00:00Z",
+   "raw": "-2.6302",
+   "shown": "-2.63",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-08-31T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-08-31T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-08-31T00:00:00Z",
+   "raw": "91.112",
+   "shown": "91.11",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-08-31T00:00:00Z",
+   "raw": "13",
+   "shown": "13",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-31T00:00:00Z",
+   "raw": "-1251.4347",
+   "shown": "-1,251.43",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-08-31T00:00:00Z",
+   "raw": "-3616.1532",
+   "shown": "-3,616.15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-08-31T00:00:00Z",
+   "raw": "948.1908",
+   "shown": "948.19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-08-31T00:00:00Z",
+   "raw": "-2.9384",
+   "shown": "-2.94",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-05T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-05T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-05T00:00:00Z",
+   "raw": "97.502",
+   "shown": "97.50",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-05T00:00:00Z",
+   "raw": "1",
+   "shown": "1",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-05T00:00:00Z",
+   "raw": "-1266.05",
+   "shown": "-1,266.05",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-05T00:00:00Z",
+   "raw": "-4118.9147",
+   "shown": "-4,118.91",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-05T00:00:00Z",
+   "raw": "1339.8869",
+   "shown": "1,339.89",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-05T00:00:00Z",
+   "raw": "-2.7857",
+   "shown": "-2.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-09-08T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-09-08T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-09-08T00:00:00Z",
+   "raw": "87.368",
+   "shown": "87.37",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-09-08T00:00:00Z",
+   "raw": "109",
+   "shown": "109",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-08T00:00:00Z",
+   "raw": "-1354.9468",
+   "shown": "-1,354.95",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-09-08T00:00:00Z",
+   "raw": "-3831.5385",
+   "shown": "-3,831.54",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-09-08T00:00:00Z",
+   "raw": "822.5545",
+   "shown": "822.55",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-09-08T00:00:00Z",
+   "raw": "-3.3352",
+   "shown": "-3.34",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2021-09-09T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2021-09-09T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2021-09-09T00:00:00Z",
+   "raw": "91.85",
+   "shown": "91.85",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2021-09-09T00:00:00Z",
+   "raw": "9",
+   "shown": "9",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-09T00:00:00Z",
+   "raw": "-1413.4365",
+   "shown": "-1,413.44",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2021-09-09T00:00:00Z",
+   "raw": "-3545.6148",
+   "shown": "-3,545.61",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2021-09-09T00:00:00Z",
+   "raw": "737.5675",
+   "shown": "737.57",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2021-09-09T00:00:00Z",
+   "raw": "-3.5334",
+   "shown": "-3.53",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-06T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-06T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-06T00:00:00Z",
+   "raw": "98.78",
+   "shown": "98.78",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-06T00:00:00Z",
+   "raw": "1",
+   "shown": "1",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-06T00:00:00Z",
+   "raw": "-1451.9962",
+   "shown": "-1,452.00",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-06T00:00:00Z",
+   "raw": "-4565.3102",
+   "shown": "-4,565.31",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-06T00:00:00Z",
+   "raw": "1494.7464",
+   "shown": "1,494.75",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-06T00:00:00Z",
+   "raw": "-3.0388",
+   "shown": "-3.04",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2018-07-24T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2018-07-24T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2018-07-24T00:00:00Z",
+   "raw": "91.058",
+   "shown": "91.06",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2018-07-24T00:00:00Z",
+   "raw": "14",
+   "shown": "14",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-24T00:00:00Z",
+   "raw": "-1695.8369",
+   "shown": "-1,695.84",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2018-07-24T00:00:00Z",
+   "raw": "-4206.932",
+   "shown": "-4,206.93",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2018-07-24T00:00:00Z",
+   "raw": "612.5115",
+   "shown": "612.51",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2018-07-24T00:00:00Z",
+   "raw": "-3.944",
+   "shown": "-3.94",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2019-06-11T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2019-06-11T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2019-06-11T00:00:00Z",
+   "raw": "87.314",
+   "shown": "87.31",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2019-06-11T00:00:00Z",
+   "raw": "110",
+   "shown": "110",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2019-06-11T00:00:00Z",
+   "raw": "-1890.8104",
+   "shown": "-1,890.81",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2019-06-11T00:00:00Z",
+   "raw": "-4147.9343",
+   "shown": "-4,147.93",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2019-06-11T00:00:00Z",
+   "raw": "332.2123",
+   "shown": "332.21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2019-06-11T00:00:00Z",
+   "raw": "-4.8886",
+   "shown": "-4.89",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2018-07-25T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2018-07-25T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2018-07-25T00:00:00Z",
+   "raw": "89.726",
+   "shown": "89.73",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2018-07-25T00:00:00Z",
+   "raw": "30",
+   "shown": "30",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-25T00:00:00Z",
+   "raw": "-1916.1586",
+   "shown": "-1,916.16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2018-07-25T00:00:00Z",
+   "raw": "-4434.583",
+   "shown": "-4,434.58",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2018-07-25T00:00:00Z",
+   "raw": "306.1133",
+   "shown": "306.11",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2018-07-25T00:00:00Z",
+   "raw": "-4.4875",
+   "shown": "-4.49",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-02T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-02T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-02T00:00:00Z",
+   "raw": "92.444",
+   "shown": "92.44",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-02T00:00:00Z",
+   "raw": "8",
+   "shown": "8",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-02T00:00:00Z",
+   "raw": "-1997.3582",
+   "shown": "-1,997.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-02T00:00:00Z",
+   "raw": "-4704.204",
+   "shown": "-4,704.20",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-02T00:00:00Z",
+   "raw": "349.9962",
+   "shown": "350.00",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-02T00:00:00Z",
+   "raw": "-4.7081",
+   "shown": "-4.71",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-03T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-03T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-03T00:00:00Z",
+   "raw": "93.362",
+   "shown": "93.36",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-03T00:00:00Z",
+   "raw": "4",
+   "shown": "4",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-03T00:00:00Z",
+   "raw": "-1998.4511",
+   "shown": "-1,998.45",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-03T00:00:00Z",
+   "raw": "-4651.716",
+   "shown": "-4,651.72",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-03T00:00:00Z",
+   "raw": "317.7851",
+   "shown": "317.79",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-03T00:00:00Z",
+   "raw": "-4.9167",
+   "shown": "-4.92",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-26T00:00:00Z",
+   "raw": "18",
+   "shown": "18",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-26T00:00:00Z",
+   "raw": "22",
+   "shown": "22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-26T00:00:00Z",
+   "raw": "87.926",
+   "shown": "87.93",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-26T00:00:00Z",
+   "raw": "77",
+   "shown": "77",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-26T00:00:00Z",
+   "raw": "-2361.8887",
+   "shown": "-2,361.89",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-26T00:00:00Z",
+   "raw": "-4374.4218",
+   "shown": "-4,374.42",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-26T00:00:00Z",
+   "raw": "-269.749",
+   "shown": "-269.75",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-26T00:00:00Z",
+   "raw": "-5.9722",
+   "shown": "-5.97",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|value_usd|2023-07-26T00:00:00Z",
+   "raw": "-1329252.2199",
+   "shown": "-1.33 million",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2024-07-24T00:00:00Z",
+   "raw": "17",
+   "shown": "17",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2024-07-24T00:00:00Z",
+   "raw": "24",
+   "shown": "24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2024-07-24T00:00:00Z",
+   "raw": "88.124",
+   "shown": "88.12",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2024-07-24T00:00:00Z",
+   "raw": "69",
+   "shown": "69",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2024-07-24T00:00:00Z",
+   "raw": "-2413.3321",
+   "shown": "-2,413.33",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2024-07-24T00:00:00Z",
+   "raw": "-4526.2188",
+   "shown": "-4,526.22",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2024-07-24T00:00:00Z",
+   "raw": "-638.2905",
+   "shown": "-638.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2024-07-24T00:00:00Z",
+   "raw": "-6.0545",
+   "shown": "-6.05",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|value_usd|2024-07-24T00:00:00Z",
+   "raw": "-1684221.0857",
+   "shown": "-1.68 million",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2020-09-05T00:00:00Z",
+   "raw": "15",
+   "shown": "15",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2020-09-05T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2020-09-05T00:00:00Z",
+   "raw": "91.193",
+   "shown": "91.19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2020-09-05T00:00:00Z",
+   "raw": "13",
+   "shown": "13",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-05T00:00:00Z",
+   "raw": "-2556.1139",
+   "shown": "-2,556.11",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2020-09-05T00:00:00Z",
+   "raw": "-5331.9122",
+   "shown": "-5,331.91",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2020-09-05T00:00:00Z",
+   "raw": "-296.1336",
+   "shown": "-296.13",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2020-09-05T00:00:00Z",
+   "raw": "-6.1982",
+   "shown": "-6.20",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-08-17T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-08-17T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-08-17T00:00:00Z",
+   "raw": "83.84",
+   "shown": "83.84",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-08-17T00:00:00Z",
+   "raw": "363",
+   "shown": "363",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-17T00:00:00Z",
+   "raw": "-2597.2757",
+   "shown": "-2,597.28",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-08-17T00:00:00Z",
+   "raw": "-5126.2404",
+   "shown": "-5,126.24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-08-17T00:00:00Z",
+   "raw": "-359.2853",
+   "shown": "-359.29",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-08-17T00:00:00Z",
+   "raw": "-6.6445",
+   "shown": "-6.64",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2023-07-25T00:00:00Z",
+   "raw": "19",
+   "shown": "19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2023-07-25T00:00:00Z",
+   "raw": "24",
+   "shown": "24",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2023-07-25T00:00:00Z",
+   "raw": "87.188",
+   "shown": "87.19",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-25T00:00:00Z",
+   "raw": "118",
+   "shown": "118",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-25T00:00:00Z",
+   "raw": "-2788.8501",
+   "shown": "-2,788.85",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2023-07-25T00:00:00Z",
+   "raw": "-4561.549",
+   "shown": "-4,561.55",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2023-07-25T00:00:00Z",
+   "raw": "-978.3404",
+   "shown": "-978.34",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2023-07-25T00:00:00Z",
+   "raw": "-7.4064",
+   "shown": "-7.41",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|value_usd|2023-07-25T00:00:00Z",
+   "raw": "-1976096.3702",
+   "shown": "-1.98 million",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_first_hour|2022-09-07T00:00:00Z",
+   "raw": "16",
+   "shown": "16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|alert_last_hour|2022-09-07T00:00:00Z",
+   "raw": "21",
+   "shown": "21",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|temp_max_f|2022-09-07T00:00:00Z",
+   "raw": "94.478",
+   "shown": "94.48",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|train_days_as_hot|2022-09-07T00:00:00Z",
+   "raw": "2",
+   "shown": "2",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-07T00:00:00Z",
+   "raw": "-4170.9283",
+   "shown": "-4,170.93",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_lo|2022-09-07T00:00:00Z",
+   "raw": "-6934.1627",
+   "shown": "-6,934.16",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw_hi|2022-09-07T00:00:00Z",
+   "raw": "-1417.634",
+   "shown": "-1,417.63",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_pct|2022-09-07T00:00:00Z",
+   "raw": "-9.4416",
+   "shown": "-9.44",
+   "section": "Every alert day, ranked"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2018-01-01T00:00:00Z",
+   "raw": "2",
+   "shown": "2",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2018-01-01T00:00:00Z",
+   "raw": "8",
+   "shown": "8",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2018-01-01T00:00:00Z",
+   "raw": "-1805.9977",
+   "shown": "-1,806.00",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2018-01-01T00:00:00Z",
+   "raw": "-3652.1167",
+   "shown": "-3,652.12",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2018-01-01T00:00:00Z",
+   "raw": "166.6804",
+   "shown": "166.68",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2018-01-01T00:00:00Z",
+   "raw": "-14447.9818",
+   "shown": "-14,447.98",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2019-01-01T00:00:00Z",
+   "raw": "2",
+   "shown": "2",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2019-01-01T00:00:00Z",
+   "raw": "12",
+   "shown": "12",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2019-01-01T00:00:00Z",
+   "raw": "-1058.1535",
+   "shown": "-1,058.15",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2019-01-01T00:00:00Z",
+   "raw": "-2611.3272",
+   "shown": "-2,611.33",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2019-01-01T00:00:00Z",
+   "raw": "547.2274",
+   "shown": "547.23",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2019-01-01T00:00:00Z",
+   "raw": "-12697.8415",
+   "shown": "-12,697.84",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2020-01-01T00:00:00Z",
+   "raw": "11",
+   "shown": "11",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2020-01-01T00:00:00Z",
+   "raw": "71",
+   "shown": "71",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2020-01-01T00:00:00Z",
+   "raw": "102.8105",
+   "shown": "102.81",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2020-01-01T00:00:00Z",
+   "raw": "-968.7926",
+   "shown": "-968.79",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2020-01-01T00:00:00Z",
+   "raw": "1150.6262",
+   "shown": "1,150.63",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2020-01-01T00:00:00Z",
+   "raw": "7299.5457",
+   "shown": "7,299.55",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2021-01-01T00:00:00Z",
+   "raw": "8",
+   "shown": "8",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2021-01-01T00:00:00Z",
+   "raw": "36",
+   "shown": "36",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2021-01-01T00:00:00Z",
+   "raw": "-52.7374",
+   "shown": "-52.74",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2021-01-01T00:00:00Z",
+   "raw": "-1001.647",
+   "shown": "-1,001.65",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2021-01-01T00:00:00Z",
+   "raw": "933.3631",
+   "shown": "933.36",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2021-01-01T00:00:00Z",
+   "raw": "-1898.5458",
+   "shown": "-1,898.55",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2022-01-01T00:00:00Z",
+   "raw": "11",
+   "shown": "11",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2022-01-01T00:00:00Z",
+   "raw": "58",
+   "shown": "58",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2022-01-01T00:00:00Z",
+   "raw": "-646.4704",
+   "shown": "-646.47",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2022-01-01T00:00:00Z",
+   "raw": "-2066.3471",
+   "shown": "-2,066.35",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2022-01-01T00:00:00Z",
+   "raw": "694.3714",
+   "shown": "694.37",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2022-01-01T00:00:00Z",
+   "raw": "-37495.2813",
+   "shown": "-37,495.28",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2023-01-01T00:00:00Z",
+   "raw": "3",
+   "shown": "3",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2023-01-01T00:00:00Z",
+   "raw": "12",
+   "shown": "12",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2023-01-01T00:00:00Z",
+   "raw": "-2209.6916",
+   "shown": "-2,209.69",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2023-01-01T00:00:00Z",
+   "raw": "-3417.8889",
+   "shown": "-3,417.89",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2023-01-01T00:00:00Z",
+   "raw": "-856.973",
+   "shown": "-856.97",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2023-01-01T00:00:00Z",
+   "raw": "-26516.299",
+   "shown": "-26,516.30",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_days|2024-01-01T00:00:00Z",
+   "raw": "1",
+   "shown": "1",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_hours|2024-01-01T00:00:00Z",
+   "raw": "7",
+   "shown": "7",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw|2024-01-01T00:00:00Z",
+   "raw": "-2413.3321",
+   "shown": "-2,413.33",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_lo|2024-01-01T00:00:00Z",
+   "raw": "-4526.2188",
+   "shown": "-4,526.22",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mw_hi|2024-01-01T00:00:00Z",
+   "raw": "-638.2905",
+   "shown": "-638.29",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2024-01-01T00:00:00Z",
+   "raw": "-16893.325",
+   "shown": "-16,893.33",
+   "section": "Year by year"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-24T00:00:00Z",
+   "raw": "-1695.8369",
+   "shown": "-1,695.84",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2018-07-25T00:00:00Z",
+   "raw": "-1916.1586",
+   "shown": "-1,916.16",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2019-06-11T00:00:00Z",
+   "raw": "-1890.8104",
+   "shown": "-1,890.81",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2019-07-28T00:00:00Z",
+   "raw": "-225.4965",
+   "shown": "-225.50",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-14T00:00:00Z",
+   "raw": "106.5886",
+   "shown": "106.59",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-15T00:00:00Z",
+   "raw": "-763.6689",
+   "shown": "-763.67",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-16T00:00:00Z",
+   "raw": "1671.6111",
+   "shown": "1,671.61",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-17T00:00:00Z",
+   "raw": "460.1103",
+   "shown": "460.11",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-18T00:00:00Z",
+   "raw": "1185.6901",
+   "shown": "1,185.69",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-08-19T00:00:00Z",
+   "raw": "-1108.7852",
+   "shown": "-1,108.79",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-05T00:00:00Z",
+   "raw": "-2556.1139",
+   "shown": "-2,556.11",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-06T00:00:00Z",
+   "raw": "258.2391",
+   "shown": "258.24",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-09-07T00:00:00Z",
+   "raw": "2391.4126",
+   "shown": "2,391.41",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-01T00:00:00Z",
+   "raw": "-761.0627",
+   "shown": "-761.06",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2020-10-15T00:00:00Z",
+   "raw": "-155.1531",
+   "shown": "-155.15",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-17T00:00:00Z",
+   "raw": "-760.2484",
+   "shown": "-760.25",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-06-18T00:00:00Z",
+   "raw": "-494.2455",
+   "shown": "-494.25",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-09T00:00:00Z",
+   "raw": "2159.404",
+   "shown": "2,159.40",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-10T00:00:00Z",
+   "raw": "1589.6013",
+   "shown": "1,589.60",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-28T00:00:00Z",
+   "raw": "-261.836",
+   "shown": "-261.84",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-07-29T00:00:00Z",
+   "raw": "-69.4991",
+   "shown": "-69.50",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-08T00:00:00Z",
+   "raw": "-1354.9468",
+   "shown": "-1,354.95",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2021-09-09T00:00:00Z",
+   "raw": "-1413.4365",
+   "shown": "-1,413.44",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-17T00:00:00Z",
+   "raw": "-2597.2757",
+   "shown": "-2,597.28",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-08-31T00:00:00Z",
+   "raw": "-1251.4347",
+   "shown": "-1,251.43",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-01T00:00:00Z",
+   "raw": "-658.2857",
+   "shown": "-658.29",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-02T00:00:00Z",
+   "raw": "-1997.3582",
+   "shown": "-1,997.36",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-03T00:00:00Z",
+   "raw": "-1998.4511",
+   "shown": "-1,998.45",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-04T00:00:00Z",
+   "raw": "1196.2474",
+   "shown": "1,196.25",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-05T00:00:00Z",
+   "raw": "-1266.05",
+   "shown": "-1,266.05",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-06T00:00:00Z",
+   "raw": "-1451.9962",
+   "shown": "-1,452.00",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-07T00:00:00Z",
+   "raw": "-4170.9283",
+   "shown": "-4,170.93",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-08T00:00:00Z",
+   "raw": "1835.7003",
+   "shown": "1,835.70",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2022-09-09T00:00:00Z",
+   "raw": "4379.7058",
+   "shown": "4,379.71",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-20T00:00:00Z",
+   "raw": "-1041.4981",
+   "shown": "-1,041.50",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-25T00:00:00Z",
+   "raw": "-2788.8501",
+   "shown": "-2,788.85",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2023-07-26T00:00:00Z",
+   "raw": "-2361.8887",
+   "shown": "-2,361.89",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_effects|eia930:CISO|reduction_mw|2024-07-24T00:00:00Z",
+   "raw": "-2413.3321",
+   "shown": "-2,413.33",
+   "section": "Each alert day through the evening"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_value_hours|2018-07-01T00:00:00Z",
+   "raw": "19",
+   "shown": "19",
+   "section": "What it was worth, at the day-ahead price"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_value_usd|2018-07-01T00:00:00Z",
+   "raw": "-5469360.6801",
+   "shown": "-5.47 million",
+   "section": "What it was worth, at the day-ahead price"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_value_usd_lo|2018-07-01T00:00:00Z",
+   "raw": "-8043179.4743",
+   "shown": "-8.04 million",
+   "section": "What it was worth, at the day-ahead price"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|pooled_value_usd_hi|2018-07-01T00:00:00Z",
+   "raw": "-2603889.6595",
+   "shown": "-2.6 million",
+   "section": "What it was worth, at the day-ahead price"
+  },
+  {
+   "key": "series|flex_alert_model|erw:flex_alert_model|heldout_price_mean_usd_mwh|2018-07-01T00:00:00Z",
+   "raw": "137.0749",
+   "shown": "137.07",
+   "section": "What it was worth, at the day-ahead price"
+  }
+ ],
+ "ranked": [
+  {
+   "day": "2022-09-09",
+   "notices": "EEA 1, EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "100.49",
+   "as_hot": "0",
+   "cut": "4,379.71 ( 1,122.42 to 7,742.54 )",
+   "pct": "9.68",
+   "value": "no price"
+  },
+  {
+   "day": "2020-09-07",
+   "notices": "Flex Alert",
+   "hours": "15 :00 to 21 :00",
+   "high": "93.54",
+   "as_hot": "3",
+   "cut": "2,391.41 ( -449.00 to 5,091.03 )",
+   "pct": "5.59",
+   "value": "no price"
+  },
+  {
+   "day": "2021-07-09",
+   "notices": "Flex Alert, Stage 2, Warning",
+   "hours": "16 :00 to 21 :00",
+   "high": "90.75",
+   "as_hot": "17",
+   "cut": "2,159.40 ( -97.84 to 4,425.06 )",
+   "pct": "4.97",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-08",
+   "notices": "EEA 1, EEA 2, EEA Watch, Flex Alert",
+   "hours": "15 :00 to 22 :00",
+   "high": "101.43",
+   "as_hot": "0",
+   "cut": "1,835.70 ( -1,004.04 to 4,399.35 )",
+   "pct": "3.77",
+   "value": "no price"
+  },
+  {
+   "day": "2020-08-16",
+   "notices": "Alert, Flex Alert, Warning",
+   "hours": "15 :00 to 22 :00",
+   "high": "98.56",
+   "as_hot": "1",
+   "cut": "1,671.61 ( -898.77 to 4,250.52 )",
+   "pct": "3.88",
+   "value": "no price"
+  },
+  {
+   "day": "2021-07-10",
+   "notices": "Flex Alert, Warning",
+   "hours": "16 :00 to 21 :00",
+   "high": "91.29",
+   "as_hot": "12",
+   "cut": "1,589.60 ( -589.92 to 3,749.19 )",
+   "pct": "3.89",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-04",
+   "notices": "EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "97.79",
+   "as_hot": "1",
+   "cut": "1,196.25 ( -1,556.73 to 3,624.08 )",
+   "pct": "2.71",
+   "value": "no price"
+  },
+  {
+   "day": "2020-08-18",
+   "notices": "Alert, Flex Alert, Load interruption, Stage 2, Warning",
+   "hours": "15 :00 to 22 :00",
+   "high": "94.01",
+   "as_hot": "2",
+   "cut": "1,185.69 ( -1,379.41 to 3,570.88 )",
+   "pct": "2.59",
+   "value": "no price"
+  },
+  {
+   "day": "2020-08-17",
+   "notices": "Alert, Flex Alert, Stage 2, Warning",
+   "hours": "15 :00 to 22 :00",
+   "high": "90.46",
+   "as_hot": "21",
+   "cut": "460.11 ( -2,013.70 to 2,723.91 )",
+   "pct": "1.06",
+   "value": "no price"
+  },
+  {
+   "day": "2020-09-06",
+   "notices": "Alert, Flex Alert, Stage 2, Warning",
+   "hours": "15 :00 to 21 :00",
+   "high": "100.56",
+   "as_hot": "0",
+   "cut": "258.24 ( -2,580.17 to 3,015.70 )",
+   "pct": "0.57",
+   "value": "no price"
+  },
+  {
+   "day": "2020-08-14",
+   "notices": "Alert, Flex Alert, Stage 2, Stage 3, Warning",
+   "hours": "15 :00 to 22 :00",
+   "high": "91.97",
+   "as_hot": "8",
+   "cut": "106.59 ( -2,181.32 to 2,399.67 )",
+   "pct": "0.24",
+   "value": "no price"
+  },
+  {
+   "day": "2021-07-29",
+   "notices": "Warning",
+   "hours": "18 :00 to 21 :00",
+   "high": "86.40",
+   "as_hot": "162",
+   "cut": "-69.50 ( -2,460.52 to 2,016.33 )",
+   "pct": "-0.18",
+   "value": "no price"
+  },
+  {
+   "day": "2020-10-15",
+   "notices": "Alert, Flex Alert",
+   "hours": "15 :00 to 22 :00",
+   "high": "85.66",
+   "as_hot": "211",
+   "cut": "-155.15 ( -2,440.36 to 2,025.36 )",
+   "pct": "-0.44",
+   "value": "no price"
+  },
+  {
+   "day": "2019-07-28",
+   "notices": "Warning",
+   "hours": "18 :00 to 24 :00",
+   "high": "87.33",
+   "as_hot": "109",
+   "cut": "-225.50 ( -2,220.79 to 1,501.22 )",
+   "pct": "-0.64",
+   "value": "no price"
+  },
+  {
+   "day": "2021-07-28",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "85.82",
+   "as_hot": "200",
+   "cut": "-261.84 ( -2,629.81 to 1,951.82 )",
+   "pct": "-0.66",
+   "value": "no price"
+  },
+  {
+   "day": "2021-06-18",
+   "notices": "Flex Alert",
+   "hours": "18 :00 to 21 :00",
+   "high": "88.65",
+   "as_hot": "49",
+   "cut": "-494.25 ( -2,886.36 to 1,853.36 )",
+   "pct": "-1.29",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-01",
+   "notices": "EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "94.41",
+   "as_hot": "2",
+   "cut": "-658.29 ( -3,049.66 to 1,618.05 )",
+   "pct": "-1.46",
+   "value": "no price"
+  },
+  {
+   "day": "2021-06-17",
+   "notices": "Flex Alert, Warning",
+   "hours": "17 :00 to 22 :00",
+   "high": "87.24",
+   "as_hot": "114",
+   "cut": "-760.25 ( -2,866.22 to 1,323.66 )",
+   "pct": "-1.96",
+   "value": "no price"
+  },
+  {
+   "day": "2020-10-01",
+   "notices": "Alert",
+   "hours": "15 :00 to 22 :00",
+   "high": "92.10",
+   "as_hot": "8",
+   "cut": "-761.06 ( -3,059.73 to 1,475.77 )",
+   "pct": "-1.94",
+   "value": "no price"
+  },
+  {
+   "day": "2020-08-15",
+   "notices": "Alert, Stage 2, Stage 3, Warning",
+   "hours": "17 :00 to 21 :00",
+   "high": "93.03",
+   "as_hot": "5",
+   "cut": "-763.67 ( -3,103.00 to 1,751.36 )",
+   "pct": "-1.79",
+   "value": "no price"
+  },
+  {
+   "day": "2023-07-20",
+   "notices": "EEA 1",
+   "hours": "19 :00 to 22 :00",
+   "high": "87.78",
+   "as_hot": "87",
+   "cut": "-1,041.50 ( -3,128.29 to 829.47 )",
+   "pct": "-2.62",
+   "value": "-479,791"
+  },
+  {
+   "day": "2020-08-19",
+   "notices": "Alert, Flex Alert",
+   "hours": "15 :00 to 22 :00",
+   "high": "91.62",
+   "as_hot": "11",
+   "cut": "-1,108.79 ( -3,401.32 to 1,250.41 )",
+   "pct": "-2.63",
+   "value": "no price"
+  },
+  {
+   "day": "2022-08-31",
+   "notices": "EEA 1, EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "91.11",
+   "as_hot": "13",
+   "cut": "-1,251.43 ( -3,616.15 to 948.19 )",
+   "pct": "-2.94",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-05",
+   "notices": "EEA 1, EEA 2, EEA Watch, Flex Alert",
+   "hours": "16 :00 to 22 :00",
+   "high": "97.50",
+   "as_hot": "1",
+   "cut": "-1,266.05 ( -4,118.91 to 1,339.89 )",
+   "pct": "-2.79",
+   "value": "no price"
+  },
+  {
+   "day": "2021-09-08",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "87.37",
+   "as_hot": "109",
+   "cut": "-1,354.95 ( -3,831.54 to 822.55 )",
+   "pct": "-3.34",
+   "value": "no price"
+  },
+  {
+   "day": "2021-09-09",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "91.85",
+   "as_hot": "9",
+   "cut": "-1,413.44 ( -3,545.61 to 737.57 )",
+   "pct": "-3.53",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-06",
+   "notices": "EEA 1, EEA 2, EEA 3, EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "98.78",
+   "as_hot": "1",
+   "cut": "-1,452.00 ( -4,565.31 to 1,494.75 )",
+   "pct": "-3.04",
+   "value": "no price"
+  },
+  {
+   "day": "2018-07-24",
+   "notices": "Flex Alert",
+   "hours": "17 :00 to 21 :00",
+   "high": "91.06",
+   "as_hot": "14",
+   "cut": "-1,695.84 ( -4,206.93 to 612.51 )",
+   "pct": "-3.94",
+   "value": "no price"
+  },
+  {
+   "day": "2019-06-11",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 22 :00",
+   "high": "87.31",
+   "as_hot": "110",
+   "cut": "-1,890.81 ( -4,147.93 to 332.21 )",
+   "pct": "-4.89",
+   "value": "no price"
+  },
+  {
+   "day": "2018-07-25",
+   "notices": "Flex Alert",
+   "hours": "17 :00 to 21 :00",
+   "high": "89.73",
+   "as_hot": "30",
+   "cut": "-1,916.16 ( -4,434.58 to 306.11 )",
+   "pct": "-4.49",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-02",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "92.44",
+   "as_hot": "8",
+   "cut": "-1,997.36 ( -4,704.20 to 350.00 )",
+   "pct": "-4.71",
+   "value": "no price"
+  },
+  {
+   "day": "2022-09-03",
+   "notices": "EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "93.36",
+   "as_hot": "4",
+   "cut": "-1,998.45 ( -4,651.72 to 317.79 )",
+   "pct": "-4.92",
+   "value": "no price"
+  },
+  {
+   "day": "2023-07-26",
+   "notices": "EEA Watch",
+   "hours": "18 :00 to 22 :00",
+   "high": "87.93",
+   "as_hot": "77",
+   "cut": "-2,361.89 ( -4,374.42 to -269.75 )",
+   "pct": "-5.97",
+   "value": "-1.33 million"
+  },
+  {
+   "day": "2024-07-24",
+   "notices": "EEA Watch",
+   "hours": "17 :00 to 24 :00",
+   "high": "88.12",
+   "as_hot": "69",
+   "cut": "-2,413.33 ( -4,526.22 to -638.29 )",
+   "pct": "-6.05",
+   "value": "-1.68 million"
+  },
+  {
+   "day": "2020-09-05",
+   "notices": "Flex Alert, Stage 2, Warning",
+   "hours": "15 :00 to 21 :00",
+   "high": "91.19",
+   "as_hot": "13",
+   "cut": "-2,556.11 ( -5,331.91 to -296.13 )",
+   "pct": "-6.20",
+   "value": "no price"
+  },
+  {
+   "day": "2022-08-17",
+   "notices": "Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "83.84",
+   "as_hot": "363",
+   "cut": "-2,597.28 ( -5,126.24 to -359.29 )",
+   "pct": "-6.64",
+   "value": "no price"
+  },
+  {
+   "day": "2023-07-25",
+   "notices": "EEA Watch",
+   "hours": "19 :00 to 24 :00",
+   "high": "87.19",
+   "as_hot": "118",
+   "cut": "-2,788.85 ( -4,561.55 to -978.34 )",
+   "pct": "-7.41",
+   "value": "-1.98 million"
+  },
+  {
+   "day": "2022-09-07",
+   "notices": "EEA 1, EEA 2, EEA Watch, Flex Alert",
+   "hours": "16 :00 to 21 :00",
+   "high": "94.48",
+   "as_hot": "2",
+   "cut": "-4,170.93 ( -6,934.16 to -1,417.63 )",
+   "pct": "-9.44",
+   "value": "no price"
+  }
+ ],
+ "panels": [
+  {
+   "day": "2018-07-24",
+   "caption": "2018-07-24 : cut -1,695.84 MW"
+  },
+  {
+   "day": "2018-07-25",
+   "caption": "2018-07-25 : cut -1,916.16 MW"
+  },
+  {
+   "day": "2019-06-11",
+   "caption": "2019-06-11 : cut -1,890.81 MW"
+  },
+  {
+   "day": "2019-07-28",
+   "caption": "2019-07-28 : cut -225.50 MW"
+  },
+  {
+   "day": "2020-08-14",
+   "caption": "2020-08-14 : cut 106.59 MW"
+  },
+  {
+   "day": "2020-08-15",
+   "caption": "2020-08-15 : cut -763.67 MW"
+  },
+  {
+   "day": "2020-08-16",
+   "caption": "2020-08-16 : cut 1,671.61 MW"
+  },
+  {
+   "day": "2020-08-17",
+   "caption": "2020-08-17 : cut 460.11 MW"
+  },
+  {
+   "day": "2020-08-18",
+   "caption": "2020-08-18 : cut 1,185.69 MW"
+  },
+  {
+   "day": "2020-08-19",
+   "caption": "2020-08-19 : cut -1,108.79 MW"
+  },
+  {
+   "day": "2020-09-05",
+   "caption": "2020-09-05 : cut -2,556.11 MW"
+  },
+  {
+   "day": "2020-09-06",
+   "caption": "2020-09-06 : cut 258.24 MW"
+  },
+  {
+   "day": "2020-09-07",
+   "caption": "2020-09-07 : cut 2,391.41 MW"
+  },
+  {
+   "day": "2020-10-01",
+   "caption": "2020-10-01 : cut -761.06 MW"
+  },
+  {
+   "day": "2020-10-15",
+   "caption": "2020-10-15 : cut -155.15 MW"
+  },
+  {
+   "day": "2021-06-17",
+   "caption": "2021-06-17 : cut -760.25 MW"
+  },
+  {
+   "day": "2021-06-18",
+   "caption": "2021-06-18 : cut -494.25 MW"
+  },
+  {
+   "day": "2021-07-09",
+   "caption": "2021-07-09 : cut 2,159.40 MW"
+  },
+  {
+   "day": "2021-07-10",
+   "caption": "2021-07-10 : cut 1,589.60 MW"
+  },
+  {
+   "day": "2021-07-28",
+   "caption": "2021-07-28 : cut -261.84 MW"
+  },
+  {
+   "day": "2021-07-29",
+   "caption": "2021-07-29 : cut -69.50 MW"
+  },
+  {
+   "day": "2021-09-08",
+   "caption": "2021-09-08 : cut -1,354.95 MW"
+  },
+  {
+   "day": "2021-09-09",
+   "caption": "2021-09-09 : cut -1,413.44 MW"
+  },
+  {
+   "day": "2022-08-17",
+   "caption": "2022-08-17 : cut -2,597.28 MW"
+  },
+  {
+   "day": "2022-08-31",
+   "caption": "2022-08-31 : cut -1,251.43 MW"
+  },
+  {
+   "day": "2022-09-01",
+   "caption": "2022-09-01 : cut -658.29 MW"
+  },
+  {
+   "day": "2022-09-02",
+   "caption": "2022-09-02 : cut -1,997.36 MW"
+  },
+  {
+   "day": "2022-09-03",
+   "caption": "2022-09-03 : cut -1,998.45 MW"
+  },
+  {
+   "day": "2022-09-04",
+   "caption": "2022-09-04 : cut 1,196.25 MW"
+  },
+  {
+   "day": "2022-09-05",
+   "caption": "2022-09-05 : cut -1,266.05 MW"
+  },
+  {
+   "day": "2022-09-06",
+   "caption": "2022-09-06 : cut -1,452.00 MW"
+  },
+  {
+   "day": "2022-09-07",
+   "caption": "2022-09-07 : cut -4,170.93 MW"
+  },
+  {
+   "day": "2022-09-08",
+   "caption": "2022-09-08 : cut 1,835.70 MW"
+  },
+  {
+   "day": "2022-09-09",
+   "caption": "2022-09-09 : cut 4,379.71 MW"
+  },
+  {
+   "day": "2023-07-20",
+   "caption": "2023-07-20 : cut -1,041.50 MW"
+  },
+  {
+   "day": "2023-07-25",
+   "caption": "2023-07-25 : cut -2,788.85 MW"
+  },
+  {
+   "day": "2023-07-26",
+   "caption": "2023-07-26 : cut -2,361.89 MW"
+  },
+  {
+   "day": "2024-07-24",
+   "caption": "2024-07-24 : cut -2,413.33 MW"
+  }
+ ],
+ "words": {
+  "h1": "The Flex Alert scorecard: CAISO, 2018 to 2024",
+  "ran": "above",
+  "zero": "includes zero",
+  "last_alert": "2024-07-24",
+  "days_priced": 4,
+  "days_shown": 38,
+  "oasis_months": 39,
+  "report_ends": "2026-10-08",
+  "later_alert_days": 0,
+  "tip_left_out": true,
+  "decisions": 11
+ },
+ "svgs": [
+  {
+   "label": "Estimated demand reduction by year, MW, with 90 percent intervals",
+   "texts": [
+    "-4,526",
+    "-2,263",
+    "0",
+    "575",
+    "1,151",
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "31 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 4,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "31 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 4,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "29 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "40 GW",
+    "27 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "49 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 4,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "49 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "48 GW",
+    "33 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "52 GW",
+    "33 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "46 GW",
+    "27 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "51 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "48 GW",
+    "30 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "44 GW",
+    "27 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "40 GW",
+    "25 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "42 GW",
+    "28 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "42 GW",
+    "28 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 3,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "44 GW",
+    "30 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "28 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "29 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 3,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "45 GW",
+    "28 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "45 GW",
+    "28 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "31 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "47 GW",
+    "29 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "50 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "46 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "45 GW",
+    "30 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "48 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "50 GW",
+    "35 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 6,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "53 GW",
+    "35 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "50 GW",
+    "34 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "55 GW",
+    "35 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "53 GW",
+    "34 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "27 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 3,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "27 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 5,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "43 GW",
+    "30 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 4,
+   "circles": 0
+  },
+  {
+   "label": "Actual and predicted demand through the evening",
+   "texts": [
+    "45 GW",
+    "32 GW",
+    "12 :00",
+    "15 :00",
+    "18 :00",
+    "21 :00"
+   ],
+   "rects": 7,
+   "circles": 0
+  },
+  {
+   "label": "Model error on the hottest non-alert days against temperature",
+   "texts": [
+    "-4,704",
+    "0",
+    "4,704",
+    "87.0 F",
+    "99.5 F, the day's highest weighted temperature"
+   ],
+   "rects": 0,
+   "circles": 128
+  }
+ ]
+}

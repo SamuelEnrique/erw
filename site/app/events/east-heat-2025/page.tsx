@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { EventWindow, N, day, pickOf } from "../EventWindow";
 
 // Session 64: the June 2025 heat, event east_heat_2025 of event_window_daily (docs/methods/events.md): PJM, NYISO, ISO-NE
@@ -66,6 +67,8 @@ export default function EastHeat2025() {
       }}
     />
     <EventStudy event="east_heat_2025" grids={["eia930:PJM", "eia930:NYIS", "eia930:ISNE", "eia930:MISO"]} primary="eia930:PJM" />
+    {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+    <EventDecisions event="east_heat_2025" />
     </div>
     </Brand>
   );

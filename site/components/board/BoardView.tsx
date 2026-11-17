@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, THRESHOLDS, windowWords, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, THRESHOLDS, windowWords, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, gridExtremesWords, headDate, weekStale, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type MoveKey, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -176,7 +176,8 @@ function MoveCell({ row, k, built }: { row: Row; k: MoveKey; built: string }) {
 function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row; group: Group; open: boolean; onOpen: (id: string) => void; file: BoardFile; hidden?: boolean; domId?: string }) {
   const words = (
     <span className={row.status === "ok" ? "text-ink" : "text-muted"} title={nameTitle(row, file.sources)}>
-      {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted">f</sup> : null}
+      {/* session 7538 (the board read, row 10): the mark said nothing of itself; its hover says what it is */}
+      {row.label}{row.formula ? <sup className="ml-0.5 text-xs text-muted" title="A formula of other rows of the board: the formula is in the name's hover." data-formula-mark={row.id}>f</sup> : null}
     </span>
   );
   const name = (
@@ -328,7 +329,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
             <tr className="border-b border-rule text-xs text-muted">
               <th className="py-1 pl-2 text-left font-normal">Hub or zone</th>
               <th className="pr-3 text-right font-normal">Day-ahead, latest</th>
-              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal">{n}, week</th>)}
+              {/* session 7538 (the board read, row 8): "RT minus DA" is real time less day-ahead, the opposite sign of the group
+                  "Day-ahead minus real time, by hub" above, whose 7-day avg is this figure with its sign turned */}
+              {WEEK_COLS.map(([k, n]) => <th key={k} className="pr-3 text-right font-normal" {...(k === "da_rt_spread_mean_usd" ? { title: "Real time less day-ahead: the mean of the week's 7 daily differences, the real-time daily mean less the day-ahead daily mean. The group \"Day-ahead minus real time, by hub\" takes the other order, so its 7-day avg is this figure with its sign turned.", "data-week-sign": "1" } : {})}>{n}, week</th>)}
               <th className="pr-3 text-right font-normal">Largest RT minus DA</th>
               <th className="pr-3 text-right font-normal">Hours RT over DA + 50</th>
               <th className="pr-2 text-right font-normal">30-day volatility</th>
@@ -342,7 +345,9 @@ function WeekTable({ file, grid, pick, onOpen, unfolded, fold }: { file: BoardFi
                 {WEEK_COLS.map(([k]) => <td key={k} className="pr-3 text-right">{cell(w, k)}</td>)}
                 <td className="pr-3 text-right">{w.max_spread ? <span title={`${dateWords(w.max_spread.start)} to ${dateWords(w.max_spread.end)}`}>{two(w.max_spread.v)}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
                 <td className="pr-3 text-right">{w.hours50 ? <span title={`${dateWords(w.hours50.start)} to ${dateWords(w.hours50.end)}`}>{w.hours50.v.toLocaleString("en-US")}</span> : <span className="text-xs text-muted" title="Needs a real-time price on each of the week's 7 days.">not held yet</span>}</td>
-                <td className="pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}`}>{two(w.vol.v)}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
+                {/* session 7538 (the board read, row 9): a volatility measured days before the build is marked stale, as a row is
+                    (ERCOT's stopped on 6 November, two day-ahead days short, and read as current) */}
+                <td className="whitespace-nowrap pr-2 text-right">{w.vol ? <span title={`as of ${dateWords(w.vol.t)}${weekStale(w.vol.t, file.built) ? `: ${weekStale(w.vol.t, file.built)}` : ""}`}>{two(w.vol.v)}{weekStale(w.vol.t, file.built) ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent" data-week-stale={`${w.hub}|vol`}>stale</span> : null}</span> : <span className="text-xs text-muted" title="Needs 31 days of day-ahead prices.">not held yet</span>}</td>
               </tr>
             ))}
             {/* session 1116: a grid held for a license on the day is one line, as MISO's and PJM's are (lib/board.ts, holdRows) */}
@@ -405,18 +410,27 @@ function TopTwelve({ file, onOpen }: { file: BoardFile; onOpen: (id: string) => 
 function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market: "da" | "rt"; setMarket: (m: "da" | "rt") => void; onOpen: (id: string) => void }) {
   const ex = gridExtremes(file, market), rx = rangeExtremes(file);
   const row = (id: string) => file.rows.find((r) => r.id === id && r.status === "ok");
-  const cells: { k: string; label: string; r?: Row; v?: number; note: string }[] = [];
+  // session 7538 (the board read): a cell's hover words beside its row's name (`tip`), and its stale mark (`stale`)
+  const cells: { k: string; label: string; r?: Row; v?: number; note: string; tip?: string; stale?: boolean }[] = [];
   if (ex) {
-    cells.push({ k: "low", label: `Lowest grid, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${dateWords(ex.day)}` });
-    cells.push({ k: "high", label: `Highest grid, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${dateWords(ex.day)}` });
+    // row 4: "Highest grid" was read as the highest of the seven grids; it is the highest of the grids priced here, so the
+    // label counts them and the hover names them and the grids not on the board
+    const words = gridExtremesWords(ex, file.held ?? []);
+    const of = `of ${ex.grids} ${ex.grids === 1 ? "grid" : "grids"}`;
+    cells.push({ k: "low", label: `Lowest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.low.row, v: ex.low.v, note: `${ex.low.row.label}, ${dateWords(ex.day)}`, tip: words });
+    cells.push({ k: "high", label: `Highest ${of}, ${market === "da" ? "day-ahead" : "real time"}`, r: ex.high.row, v: ex.high.v, note: `${ex.high.row.label}, ${dateWords(ex.day)}`, tip: words });
   }
   for (const [id, label] of [["eia-henry-hub-spot", "Henry Hub gas"], ["eia-wti-cushing-spot", "WTI crude"], ["eia-brent-spot", "Brent crude"], ["erw-brent-minus-wti", "Brent minus WTI"]] as const) {
     const r = row(id);
-    if (r) cells.push({ k: id, label, r, v: r.last!.v, note: dateWords(r.last!.t) });
+    // row 1: a stale close says so, as its tile and its row do (Henry Hub's close of 3 November read as current here)
+    if (r) { const d = headDate(r, file.built); cells.push({ k: id, label, r, v: r.last!.v, note: d.words, tip: d.title, stale: d.stale }); }
   }
   if (rx) {
-    cells.push({ k: "top", label: "Highest in its year's range", r: rx.top, v: rx.top.last!.v, note: `${rx.top.label}, ${rx.top.at}: ${Math.round(rx.top.range!.pos! * 100)}% of the way up` });
-    cells.push({ k: "bottom", label: "Lowest in its year's range", r: rx.bottom, v: rx.bottom.last!.v, note: `${rx.bottom.label}, ${rx.bottom.at}: ${Math.round(rx.bottom.range!.pos! * 100)}% of the way up` });
+    // row 5: the value's date (a monthly average was drawn with none), and its stale mark
+    for (const [k, label, r] of [["top", "Highest in its year's range", rx.top], ["bottom", "Lowest in its year's range", rx.bottom]] as const) {
+      const d = headDate(r, file.built);
+      cells.push({ k, label, r, v: r.last!.v, note: `${r.label}, ${r.at}, ${d.words}: ${Math.round(r.range!.pos! * 100)}% of the way up`, tip: d.title, stale: d.stale });
+    }
   }
   return (
     <div className="mb-4" data-headline="1">
@@ -426,7 +440,8 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
       </div>
       <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4 xl:grid-cols-8">
         {cells.map((c) => (
-          <button key={c.k} type="button" onClick={() => c.r && onOpen(c.r.id)} className="bg-white px-2 py-1.5 text-left hover:bg-paper" title={c.r ? `${c.r.label}${c.r.at ? `, ${c.r.at}` : ""}. Open in the workbench.` : undefined}>
+          <button key={c.k} type="button" onClick={() => c.r && onOpen(c.r.id)} className="bg-white px-2 py-1.5 text-left hover:bg-paper" data-head-cell={c.k} {...(c.stale ? { "data-head-stale": c.k } : {})}
+            title={c.r ? `${c.note.startsWith(c.r.label) ? c.note : `${c.r.label}${c.r.at ? `, ${c.r.at}` : ""}: ${c.note}`}.${c.tip ? ` ${c.tip.replace(/\.$/, "")}.` : ""} Open in the workbench.` : undefined}>
             <span className="block text-xs text-muted">{c.label}</span>
             <span className="block font-serif text-xl tabular-nums" data-n={`head|${c.k}`}>{c.r && c.v !== undefined ? fmt(c.v, c.r.unit) : ""}<span className="ml-1 font-sans text-xs text-muted">{c.r?.unit}</span></span>
             <span className="block truncate text-xs text-muted">{c.note}</span>

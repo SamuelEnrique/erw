@@ -1,0 +1,440 @@
+case,key,name,shown,value,tolerance,detail
+page,card|CA|total,CA card: total (USD),229.63,229.63,0.005,
+page,card|CA|kwh,CA card: kWh,600,600,0.5,
+page,card|CA|wholesale_usd,CA card: wholesale energy (USD),26.91,26.91,0.005,
+page,card|CA|share_pct,CA card: wholesale share (percent),11.72,11.72,0.005,
+page,card|CA|price,CA card: wholesale price (USD/MWh),44.85,44.85,0.005,
+page,card|CA|month,CA card: the price's month,2026-09,2026-09,,
+page,card|SCE|total,SCE card: total (USD),224.76,224.76,0.005,
+page,card|SCE|kwh,SCE card: kWh,600,600,0.5,
+page,card|SCE|wholesale_usd,SCE card: wholesale energy (USD),23.11,23.11,0.005,
+page,card|SCE|share_pct,SCE card: wholesale share (percent),10.28,10.28,0.005,
+page,card|SCE|price,SCE card: wholesale price (USD/MWh),38.52,38.52,0.005,
+page,card|SCE|month,SCE card: the price's month,2026-09,2026-09,,
+page,card|SDGE|total,SDGE card: total (USD),332.91,332.91,0.005,
+page,card|SDGE|kwh,SDGE card: kWh,600,600,0.5,
+page,card|SDGE|wholesale_usd,SDGE card: wholesale energy (USD),23.11,23.11,0.005,
+page,card|SDGE|share_pct,SDGE card: wholesale share (percent),6.94,6.94,0.005,
+page,card|SDGE|price,SDGE card: wholesale price (USD/MWh),38.52,38.52,0.005,
+page,card|SDGE|month,SDGE card: the price's month,2026-09,2026-09,,
+page,card|TX|total,TX card: total (USD),95.27,95.27,0.005,
+page,card|TX|kwh,TX card: kWh,600,600,0.5,
+page,card|TX|wholesale_usd,TX card: wholesale energy (USD),23.70,23.7,0.005,
+page,card|TX|share_pct,TX card: wholesale share (percent),24.88,24.88,0.005,
+page,card|TX|price,TX card: wholesale price (USD/MWh),39.50,39.5,0.005,
+page,card|TX|month,TX card: the price's month,2026-09,2026-09,,
+page,card|TX|energy_rate,TX card: the energy charge of the default (USD per kWh),0.0907,0.0907,0.00005,
+page,card|TXC|total,TXC card: total (USD),95.28,95.28,0.005,
+page,card|TXC|kwh,TXC card: kWh,600,600,0.5,
+page,card|TXC|wholesale_usd,TXC card: wholesale energy (USD),23.70,23.7,0.005,
+page,card|TXC|share_pct,TXC card: wholesale share (percent),24.88,24.88,0.005,
+page,card|TXC|price,TXC card: wholesale price (USD/MWh),39.50,39.5,0.005,
+page,card|TXC|month,TXC card: the price's month,2026-09,2026-09,,
+page,card|TXC|energy_rate,TXC card: the energy charge of the default (USD per kWh),0.0853,0.0853,0.00005,
+page,opens|line|Generation,Generation: Generation (USD),$69.45,69.45,0.005,"600 kWh, 20% at $0.1371, the rest at $0.11042"
+page,opens|line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$6.07,-6.07,0.005,600 kWh at -$0.01011
+page,opens|line|Distribution,Distribution: Distribution (USD),$88.27,88.27,0.005,"600 kWh, 20% at $0.14977, the rest at $0.14645"
+page,opens|line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,600 kWh at $0
+page,opens|line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$13.81,13.81,0.005,"225 kWh within the baseline at -$0.02786, 375 kWh above at $0.05354"
+page,opens|line|Transmission,Transmission: Transmission (USD),$27.83,27.83,0.005,600 kWh at $0.04638
+page,opens|line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$2.72,2.72,0.005,600 kWh at $0.00453
+page,opens|line|Reliability Services,Transmission: Reliability Services (USD),$0.08,0.08,0.005,600 kWh at $0.00013
+page,opens|line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$3.68,3.68,0.005,600 kWh at $0.00614
+page,opens|line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.01,-0.01,0.005,600 kWh at -$0.00002
+page,opens|line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.16,0.16,0.005,600 kWh at $0.00027
+page,opens|line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.01,0.01,0.005,600 kWh at $0.00002
+page,opens|line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$3.55,3.55,0.005,600 kWh at $0.00591
+page,opens|line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$2.35,2.35,0.005,600 kWh at $0.00391
+page,opens|line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$5.14,5.14,0.005,600 kWh at $0.00857
+page,opens|line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$5.14,-5.14,0.005,600 kWh at -$0.00857
+page,opens|line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+page,opens|total,Total (USD),$229.63,229.63,0.005,
+page,opens|per_kwh,"Per kWh, all in (USD)",$0.38,0.38,0.005,
+page,opens|bar|wholesale_usd,The bar: wholesale energy (USD),$26.91,26.91,0.005,
+page,opens|bar|share_pct,The bar: wholesale energy's share of the bill (percent),12,12,0.5,
+page,opens|bar|kwh,The bar: the kWh,600,600,0.5,
+page,opens|bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+page,opens|bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+page,opens|bar|rest_usd,The bar: everything else (USD),$202.72,202.72,0.005,
+page,opens|territory|P|summer,Territory P: kWh a day in summer,13.5,13.5,0.05,
+page,opens|territory|P|winter,Territory P: kWh a day in winter,11,11,0.5,
+page,opens|territory|Q|summer,Territory Q: kWh a day in summer,9.8,9.8,0.05,
+page,opens|territory|Q|winter,Territory Q: kWh a day in winter,11,11,0.5,
+page,opens|territory|R|summer,Territory R: kWh a day in summer,17.7,17.7,0.05,
+page,opens|territory|R|winter,Territory R: kWh a day in winter,10.4,10.4,0.05,
+page,opens|territory|S|summer,Territory S: kWh a day in summer,15,15,0.5,
+page,opens|territory|S|winter,Territory S: kWh a day in winter,10.2,10.2,0.05,
+page,opens|territory|T|summer,Territory T: kWh a day in summer,6.5,6.5,0.05,
+page,opens|territory|T|winter,Territory T: kWh a day in winter,7.5,7.5,0.05,
+page,opens|territory|V|summer,Territory V: kWh a day in summer,7.1,7.1,0.05,
+page,opens|territory|V|winter,Territory V: kWh a day in winter,8.1,8.1,0.05,
+page,opens|territory|W|summer,Territory W: kWh a day in summer,19.2,19.2,0.05,
+page,opens|territory|W|winter,Territory W: kWh a day in winter,9.8,9.8,0.05,
+page,opens|territory|X|summer,Territory X: kWh a day in summer,9.8,9.8,0.05,
+page,opens|territory|X|winter,Territory X: kWh a day in winter,9.7,9.7,0.05,
+page,opens|territory|Y|summer,Territory Y: kWh a day in summer,10.5,10.5,0.05,
+page,opens|territory|Y|winter,Territory Y: kWh a day in winter,11.1,11.1,0.05,
+page,opens|territory|Z|summer,Territory Z: kWh a day in summer,5.9,5.9,0.05,
+page,opens|territory|Z|winter,Territory Z: kWh a day in winter,7.8,7.8,0.05,
+page,opens|tier|1,Income tier 1: USD a day,0.19713,0.19713,0.000005,
+page,opens|tier|2,Income tier 2: USD a day,0.39688,0.39688,0.000005,
+page,opens|tier|3,Income tier 3: USD a day,0.79343,0.79343,0.000005,
+ca_default,line|Generation,Generation: Generation (USD),$69.45,69.45,0.005,"600 kWh, 20% at $0.1371, the rest at $0.11042"
+ca_default,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$6.07,-6.07,0.005,600 kWh at -$0.01011
+ca_default,line|Distribution,Distribution: Distribution (USD),$88.27,88.27,0.005,"600 kWh, 20% at $0.14977, the rest at $0.14645"
+ca_default,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,600 kWh at $0
+ca_default,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$13.81,13.81,0.005,"225 kWh within the baseline at -$0.02786, 375 kWh above at $0.05354"
+ca_default,line|Transmission,Transmission: Transmission (USD),$27.83,27.83,0.005,600 kWh at $0.04638
+ca_default,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$2.72,2.72,0.005,600 kWh at $0.00453
+ca_default,line|Reliability Services,Transmission: Reliability Services (USD),$0.08,0.08,0.005,600 kWh at $0.00013
+ca_default,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$3.68,3.68,0.005,600 kWh at $0.00614
+ca_default,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.01,-0.01,0.005,600 kWh at -$0.00002
+ca_default,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.16,0.16,0.005,600 kWh at $0.00027
+ca_default,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.01,0.01,0.005,600 kWh at $0.00002
+ca_default,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$3.55,3.55,0.005,600 kWh at $0.00591
+ca_default,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$2.35,2.35,0.005,600 kWh at $0.00391
+ca_default,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$5.14,5.14,0.005,600 kWh at $0.00857
+ca_default,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$5.14,-5.14,0.005,600 kWh at -$0.00857
+ca_default,line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+ca_default,total,Total (USD),$229.63,229.63,0.005,
+ca_default,per_kwh,"Per kWh, all in (USD)",$0.38,0.38,0.005,
+ca_default,bar|wholesale_usd,The bar: wholesale energy (USD),$26.91,26.91,0.005,
+ca_default,bar|share_pct,The bar: wholesale energy's share of the bill (percent),12,12,0.5,
+ca_default,bar|kwh,The bar: the kWh,600,600,0.5,
+ca_default,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+ca_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+ca_default,bar|rest_usd,The bar: everything else (USD),$202.72,202.72,0.005,
+sce_default,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$166.45,166.45,0.005,"120 kWh mid-peak at $0.33156, 200 kWh super off-peak at $0.25153, 280 kWh off-peak at $0.2727"
+sce_default,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$3.71,3.71,0.005,600 kWh at $0.00619
+sce_default,line|Generation,Energy: Generation (USD),$67.14,67.14,0.005,"120 kWh mid-peak at $0.17956, 200 kWh super off-peak at $0.08452, 280 kWh off-peak at $0.10245"
+sce_default,line|Baseline credit,Credits: Baseline credit (USD),-$36.36,-36.36,0.005,360 kWh within the Region 9 baseline at -$0.10099
+sce_default,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.82,23.82,0.005,30 days at $0.794 a day
+sce_default,total,Total (USD),$224.76,224.76,0.005,
+sce_default,per_kwh,"Per kWh, all in (USD)",$0.37,0.37,0.005,
+sce_default,bar|wholesale_usd,The bar: wholesale energy (USD),$23.11,23.11,0.005,
+sce_default,bar|share_pct,The bar: wholesale energy's share of the bill (percent),10,10,0.5,
+sce_default,bar|kwh,The bar: the kWh,600,600,0.5,
+sce_default,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sce_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sce_default,bar|rest_usd,The bar: everything else (USD),$201.65,201.65,0.005,
+sdge_default,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$309.11,309.11,0.005,"120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
+sdge_default,line|Baseline credit,Credits: Baseline credit (USD),$0.00,0,0.005,0 kWh (up to 130 percent of your 0 kWh allowance) at -$0.10702
+sdge_default,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+sdge_default,total,Total (USD),$332.91,332.91,0.005,
+sdge_default,per_kwh,"Per kWh, all in (USD)",$0.55,0.55,0.005,
+sdge_default,bar|wholesale_usd,The bar: wholesale energy (USD),$23.11,23.11,0.005,
+sdge_default,bar|share_pct,The bar: wholesale energy's share of the bill (percent),7,7,0.5,
+sdge_default,bar|kwh,The bar: the kWh,600,600,0.5,
+sdge_default,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sdge_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sdge_default,bar|rest_usd,The bar: everything else (USD),$309.80,309.8,0.005,
+tx_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$54.42,54.42,0.005,600 kWh at $0.0907
+tx_default,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
+tx_default,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
+tx_default,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$21.63,21.63,0.005,600 kWh at $0.036043
+tx_default,line|Transmission Cost Recovery Factor (TCRF),Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD),$11.43,11.43,0.005,600 kWh at $0.019046
+tx_default,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$0.89,0.89,0.005,600 kWh at $0.001487
+tx_default,line|Distribution Cost Recovery Factor (DCRF),Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD),$0.00,0,0.005,600 kWh at $0
+tx_default,line|Nuclear Decommissioning Charge (NDC),Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD),$0.00,0,0.005,600 kWh at $0
+tx_default,line|Rate Case Expense Surcharge (RCE),Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD),$0.05,0.05,0.005,600 kWh at $0.000086
+tx_default,line|Mobile Generation Rider (MG),Delivery (Oncor): Mobile Generation Rider (MG) (USD),$0.62,0.62,0.005,600 kWh at $0.001027
+tx_default,line|Interim Surcharge (IS),Delivery (Oncor): Interim Surcharge (IS) (USD),$2.18,2.18,0.005,600 kWh at $0.003633
+tx_default,total,Total (USD),$95.27,95.27,0.005,
+tx_default,per_kwh,"Per kWh, all in (USD)",$0.16,0.16,0.005,
+tx_default,bar|wholesale_usd,The bar: wholesale energy (USD),$23.70,23.7,0.005,
+tx_default,bar|share_pct,The bar: wholesale energy's share of the bill (percent),25,25,0.5,
+tx_default,bar|kwh,The bar: the kWh,600,600,0.5,
+tx_default,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+tx_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+tx_default,bar|rest_usd,The bar: everything else (USD),$71.57,71.57,0.005,
+txc_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$51.18,51.18,0.005,600 kWh at $0.0853
+txc_default,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
+txc_default,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
+txc_default,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$13.94,13.94,0.005,600 kWh at $0.02324
+txc_default,line|Transmission Cost Recovery Factor (TCRF),Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD),$18.49,18.49,0.005,600 kWh at $0.030812
+txc_default,line|Distribution Cost Recovery Factor (DCRF),Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD),$3.68,3.68,0.005,600 kWh at $0.006137
+txc_default,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$0.95,0.95,0.005,600 kWh at $0.001576
+txc_default,line|Nuclear Decommissioning Charge (NDC),Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD),$0.01,0.01,0.005,600 kWh at $0.000013
+txc_default,line|Temporary Emergency Electric Energy Facilities (TEEEF),Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD),$0.45,0.45,0.005,600 kWh at $0.000742
+txc_default,line|Rate Case Expense Surcharge (RCE),Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD),$0.03,0.03,0.005,600 kWh at $0.000048
+txc_default,line|Inflation Reduction Act 2022 (IRA),Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD),$0.00,0,0.005,600 kWh at $0
+txc_default,line|System Restoration Charge II (SRC II),Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD),$0.38,0.38,0.005,600 kWh at $0.000636
+txc_default,line|ADFIT Credit II,Delivery (CenterPoint): ADFIT Credit II (USD),-$0.01,-0.01,0.005,600 kWh at -$0.000023
+txc_default,line|System Restoration Charge III (SRC III),Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD),$1.71,1.71,0.005,600 kWh at $0.002848
+txc_default,line|ADFIT Credit III,Delivery (CenterPoint): ADFIT Credit III (USD),-$0.25,-0.25,0.005,600 kWh at -$0.000418
+txc_default,line|TC5 Refund,Delivery (CenterPoint): TC5 Refund (USD),-$0.17,-0.17,0.005,600 kWh at -$0.000278
+txc_default,total,Total (USD),$95.28,95.28,0.005,
+txc_default,per_kwh,"Per kWh, all in (USD)",$0.16,0.16,0.005,
+txc_default,bar|wholesale_usd,The bar: wholesale energy (USD),$23.70,23.7,0.005,
+txc_default,bar|share_pct,The bar: wholesale energy's share of the bill (percent),25,25,0.5,
+txc_default,bar|kwh,The bar: the kWh,600,600,0.5,
+txc_default,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+txc_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+txc_default,bar|rest_usd,The bar: everything else (USD),$71.58,71.58,0.005,
+ca_eia_avg,line|Generation,Generation: Generation (USD),$58.23,58.23,0.005,"503 kWh, 20% at $0.1371, the rest at $0.11042"
+ca_eia_avg,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$5.09,-5.09,0.005,503 kWh at -$0.01011
+ca_eia_avg,line|Distribution,Distribution: Distribution (USD),$74.00,74,0.005,"503 kWh, 20% at $0.14977, the rest at $0.14645"
+ca_eia_avg,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,503 kWh at $0
+ca_eia_avg,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$8.62,8.62,0.005,"225 kWh within the baseline at -$0.02786, 278 kWh above at $0.05354"
+ca_eia_avg,line|Transmission,Transmission: Transmission (USD),$23.33,23.33,0.005,503 kWh at $0.04638
+ca_eia_avg,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$2.28,2.28,0.005,503 kWh at $0.00453
+ca_eia_avg,line|Reliability Services,Transmission: Reliability Services (USD),$0.07,0.07,0.005,503 kWh at $0.00013
+ca_eia_avg,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$3.09,3.09,0.005,503 kWh at $0.00614
+ca_eia_avg,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.01,-0.01,0.005,503 kWh at -$0.00002
+ca_eia_avg,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.14,0.14,0.005,503 kWh at $0.00027
+ca_eia_avg,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.01,0.01,0.005,503 kWh at $0.00002
+ca_eia_avg,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$2.97,2.97,0.005,503 kWh at $0.00591
+ca_eia_avg,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$1.97,1.97,0.005,503 kWh at $0.00391
+ca_eia_avg,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$4.31,4.31,0.005,503 kWh at $0.00857
+ca_eia_avg,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$4.31,-4.31,0.005,503 kWh at -$0.00857
+ca_eia_avg,line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+ca_eia_avg,total,Total (USD),$193.39,193.39,0.005,
+ca_eia_avg,per_kwh,"Per kWh, all in (USD)",$0.38,0.38,0.005,
+ca_eia_avg,bar|wholesale_usd,The bar: wholesale energy (USD),$22.56,22.56,0.005,
+ca_eia_avg,bar|share_pct,The bar: wholesale energy's share of the bill (percent),12,12,0.5,
+ca_eia_avg,bar|kwh,The bar: the kWh,503,503,0.5,
+ca_eia_avg,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+ca_eia_avg,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+ca_eia_avg,bar|rest_usd,The bar: everything else (USD),$170.84,170.84,0.005,
+tx_eia_avg,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$99.41,99.41,0.005,1096 kWh at $0.0907
+tx_eia_avg,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
+tx_eia_avg,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
+tx_eia_avg,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$39.50,39.5,0.005,1096 kWh at $0.036043
+tx_eia_avg,line|Transmission Cost Recovery Factor (TCRF),Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD),$20.87,20.87,0.005,1096 kWh at $0.019046
+tx_eia_avg,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$1.63,1.63,0.005,1096 kWh at $0.001487
+tx_eia_avg,line|Distribution Cost Recovery Factor (DCRF),Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD),$0.00,0,0.005,1096 kWh at $0
+tx_eia_avg,line|Nuclear Decommissioning Charge (NDC),Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD),$0.00,0,0.005,1096 kWh at $0
+tx_eia_avg,line|Rate Case Expense Surcharge (RCE),Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD),$0.09,0.09,0.005,1096 kWh at $0.000086
+tx_eia_avg,line|Mobile Generation Rider (MG),Delivery (Oncor): Mobile Generation Rider (MG) (USD),$1.13,1.13,0.005,1096 kWh at $0.001027
+tx_eia_avg,line|Interim Surcharge (IS),Delivery (Oncor): Interim Surcharge (IS) (USD),$3.98,3.98,0.005,1096 kWh at $0.003633
+tx_eia_avg,total,Total (USD),$170.68,170.68,0.005,
+tx_eia_avg,per_kwh,"Per kWh, all in (USD)",$0.16,0.16,0.005,
+tx_eia_avg,bar|wholesale_usd,The bar: wholesale energy (USD),$43.30,43.3,0.005,
+tx_eia_avg,bar|share_pct,The bar: wholesale energy's share of the bill (percent),25,25,0.5,
+tx_eia_avg,bar|kwh,The bar: the kWh,1096,1096,0.5,
+tx_eia_avg,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+tx_eia_avg,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+tx_eia_avg,bar|rest_usd,The bar: everything else (USD),$127.38,127.38,0.005,
+ca_summer_r,line|Generation,Generation: Generation (USD),$110.98,110.98,0.005,"850 kWh, 25% at $0.20782, the rest at $0.10482"
+ca_summer_r,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$8.59,-8.59,0.005,850 kWh at -$0.01011
+ca_summer_r,line|Distribution,Distribution: Distribution (USD),$160.55,160.55,0.005,"850 kWh, 25% at $0.20388, the rest at $0.18388"
+ca_summer_r,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,850 kWh at $0
+ca_summer_r,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$2.29,2.29,0.005,"531 kWh within the baseline at -$0.02786, 319 kWh above at $0.05354"
+ca_summer_r,line|Transmission,Transmission: Transmission (USD),$39.42,39.42,0.005,850 kWh at $0.04638
+ca_summer_r,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$3.85,3.85,0.005,850 kWh at $0.00453
+ca_summer_r,line|Reliability Services,Transmission: Reliability Services (USD),$0.11,0.11,0.005,850 kWh at $0.00013
+ca_summer_r,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$5.22,5.22,0.005,850 kWh at $0.00614
+ca_summer_r,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.02,-0.02,0.005,850 kWh at -$0.00002
+ca_summer_r,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.23,0.23,0.005,850 kWh at $0.00027
+ca_summer_r,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.02,0.02,0.005,850 kWh at $0.00002
+ca_summer_r,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$5.02,5.02,0.005,850 kWh at $0.00591
+ca_summer_r,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$3.32,3.32,0.005,850 kWh at $0.00391
+ca_summer_r,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$7.28,7.28,0.005,850 kWh at $0.00857
+ca_summer_r,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$7.28,-7.28,0.005,850 kWh at -$0.00857
+ca_summer_r,line|Base Services Charge (Income Tier 1),Fixed: Base Services Charge (Income Tier 1) (USD),$5.91,5.91,0.005,30 days at $0.19713 a day
+ca_summer_r,line|California Climate Credit,Credits: California Climate Credit (USD),-$36.18,-36.18,0.005,"once, in the August or September bill"
+ca_summer_r,total,Total (USD),$292.14,292.14,0.005,
+ca_summer_r,per_kwh,"Per kWh, all in (USD)",$0.34,0.34,0.005,
+ca_summer_r,bar|wholesale_usd,The bar: wholesale energy (USD),$38.12,38.12,0.005,
+ca_summer_r,bar|share_pct,The bar: wholesale energy's share of the bill (percent),13,13,0.5,
+ca_summer_r,bar|kwh,The bar: the kWh,850,850,0.5,
+ca_summer_r,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+ca_summer_r,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+ca_summer_r,bar|rest_usd,The bar: everything else (USD),$254.02,254.02,0.005,
+ca_low,line|Generation,Generation: Generation (USD),$23.15,23.15,0.005,"200 kWh, 20% at $0.1371, the rest at $0.11042"
+ca_low,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$2.02,-2.02,0.005,200 kWh at -$0.01011
+ca_low,line|Distribution,Distribution: Distribution (USD),$29.42,29.42,0.005,"200 kWh, 20% at $0.14977, the rest at $0.14645"
+ca_low,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,200 kWh at $0
+ca_low,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),-$5.57,-5.57,0.005,"200 kWh within the baseline at -$0.02786, 0 kWh above at $0.05354"
+ca_low,line|Transmission,Transmission: Transmission (USD),$9.28,9.28,0.005,200 kWh at $0.04638
+ca_low,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$0.91,0.91,0.005,200 kWh at $0.00453
+ca_low,line|Reliability Services,Transmission: Reliability Services (USD),$0.03,0.03,0.005,200 kWh at $0.00013
+ca_low,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$1.23,1.23,0.005,200 kWh at $0.00614
+ca_low,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.00,0,0.005,200 kWh at -$0.00002
+ca_low,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.05,0.05,0.005,200 kWh at $0.00027
+ca_low,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.00,0,0.005,200 kWh at $0.00002
+ca_low,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$1.18,1.18,0.005,200 kWh at $0.00591
+ca_low,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$0.78,0.78,0.005,200 kWh at $0.00391
+ca_low,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$1.71,1.71,0.005,200 kWh at $0.00857
+ca_low,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$1.71,-1.71,0.005,200 kWh at -$0.00857
+ca_low,line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+ca_low,total,Total (USD),$82.24,82.24,0.005,
+ca_low,per_kwh,"Per kWh, all in (USD)",$0.41,0.41,0.005,
+ca_low,bar|wholesale_usd,The bar: wholesale energy (USD),$8.97,8.97,0.005,
+ca_low,bar|share_pct,The bar: wholesale energy's share of the bill (percent),11,11,0.5,
+ca_low,bar|kwh,The bar: the kWh,200,200,0.5,
+ca_low,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+ca_low,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+ca_low,bar|rest_usd,The bar: everything else (USD),$73.27,73.27,0.005,
+ca_x_tier2,line|Generation,Generation: Generation (USD),$119.76,119.76,0.005,"1000 kWh, 35% at $0.1371, the rest at $0.11042"
+ca_x_tier2,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$10.11,-10.11,0.005,1000 kWh at -$0.01011
+ca_x_tier2,line|Distribution,Distribution: Distribution (USD),$147.61,147.61,0.005,"1000 kWh, 35% at $0.14977, the rest at $0.14645"
+ca_x_tier2,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,1000 kWh at $0
+ca_x_tier2,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$29.85,29.85,0.005,"291 kWh within the baseline at -$0.02786, 709 kWh above at $0.05354"
+ca_x_tier2,line|Transmission,Transmission: Transmission (USD),$46.38,46.38,0.005,1000 kWh at $0.04638
+ca_x_tier2,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$4.53,4.53,0.005,1000 kWh at $0.00453
+ca_x_tier2,line|Reliability Services,Transmission: Reliability Services (USD),$0.13,0.13,0.005,1000 kWh at $0.00013
+ca_x_tier2,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$6.14,6.14,0.005,1000 kWh at $0.00614
+ca_x_tier2,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.02,-0.02,0.005,1000 kWh at -$0.00002
+ca_x_tier2,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.27,0.27,0.005,1000 kWh at $0.00027
+ca_x_tier2,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.02,0.02,0.005,1000 kWh at $0.00002
+ca_x_tier2,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$5.91,5.91,0.005,1000 kWh at $0.00591
+ca_x_tier2,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$3.91,3.91,0.005,1000 kWh at $0.00391
+ca_x_tier2,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$8.57,8.57,0.005,1000 kWh at $0.00857
+ca_x_tier2,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$8.57,-8.57,0.005,1000 kWh at -$0.00857
+ca_x_tier2,line|Base Services Charge (Income Tier 2),Fixed: Base Services Charge (Income Tier 2) (USD),$11.91,11.91,0.005,30 days at $0.39688 a day
+ca_x_tier2,total,Total (USD),$366.29,366.29,0.005,
+ca_x_tier2,per_kwh,"Per kWh, all in (USD)",$0.37,0.37,0.005,
+ca_x_tier2,bar|wholesale_usd,The bar: wholesale energy (USD),$44.85,44.85,0.005,
+ca_x_tier2,bar|share_pct,The bar: wholesale energy's share of the bill (percent),12,12,0.5,
+ca_x_tier2,bar|kwh,The bar: the kWh,1000,1000,0.5,
+ca_x_tier2,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
+ca_x_tier2,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+ca_x_tier2,bar|rest_usd,The bar: everything else (USD),$321.44,321.44,0.005,
+sce_summer_9,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$170.68,170.68,0.005,"85.7 kWh on-peak at $0.33156, 34.3 kWh mid-peak at $0.33156, 480 kWh off-peak at $0.2727"
+sce_summer_9,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$3.71,3.71,0.005,600 kWh at $0.00619
+sce_summer_9,line|Generation,Energy: Generation (USD),$61.77,61.77,0.005,"85.7 kWh on-peak at $0.25321, 34.3 kWh mid-peak at $0.13326, 480 kWh off-peak at $0.07396"
+sce_summer_9,line|Baseline credit,Credits: Baseline credit (USD),-$51.20,-51.2,0.005,507 kWh within the Region 9 baseline at -$0.10099
+sce_summer_9,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.82,23.82,0.005,30 days at $0.794 a day
+sce_summer_9,total,Total (USD),$208.79,208.79,0.005,
+sce_summer_9,per_kwh,"Per kWh, all in (USD)",$0.35,0.35,0.005,
+sce_summer_9,bar|wholesale_usd,The bar: wholesale energy (USD),$23.11,23.11,0.005,
+sce_summer_9,bar|share_pct,The bar: wholesale energy's share of the bill (percent),11,11,0.5,
+sce_summer_9,bar|kwh,The bar: the kWh,600,600,0.5,
+sce_summer_9,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sce_summer_9,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sce_summer_9,bar|rest_usd,The bar: everything else (USD),$185.68,185.68,0.005,
+sce_summer_13,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$348.43,348.43,0.005,"257.1 kWh on-peak at $0.33156, 102.9 kWh mid-peak at $0.33156, 840 kWh off-peak at $0.2727"
+sce_summer_13,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$7.43,7.43,0.005,1200 kWh at $0.00619
+sce_summer_13,line|Generation,Energy: Generation (USD),$140.94,140.94,0.005,"257.1 kWh on-peak at $0.25321, 102.9 kWh mid-peak at $0.13326, 840 kWh off-peak at $0.07396"
+sce_summer_13,line|Baseline credit,Credits: Baseline credit (USD),-$67.26,-67.26,0.005,666 kWh within the Region 13 baseline at -$0.10099
+sce_summer_13,line|California Climate Credit,Credits: California Climate Credit (USD),-$36.00,-36,0.005,"once, twice a year"
+sce_summer_13,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.82,23.82,0.005,30 days at $0.794 a day
+sce_summer_13,total,Total (USD),$417.36,417.36,0.005,
+sce_summer_13,per_kwh,"Per kWh, all in (USD)",$0.35,0.35,0.005,
+sce_summer_13,bar|wholesale_usd,The bar: wholesale energy (USD),$46.22,46.22,0.005,
+sce_summer_13,bar|share_pct,The bar: wholesale energy's share of the bill (percent),11,11,0.5,
+sce_summer_13,bar|kwh,The bar: the kWh,1200,1200,0.5,
+sce_summer_13,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sce_summer_13,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sce_summer_13,bar|rest_usd,The bar: everything else (USD),$371.14,371.14,0.005,
+sce_winter_6,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$128.76,128.76,0.005,"135 kWh mid-peak at $0.33156, 90 kWh super off-peak at $0.25153, 225 kWh off-peak at $0.2727"
+sce_winter_6,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$2.79,2.79,0.005,450 kWh at $0.00619
+sce_winter_6,line|Generation,Energy: Generation (USD),$54.90,54.9,0.005,"135 kWh mid-peak at $0.17956, 90 kWh super off-peak at $0.08452, 225 kWh off-peak at $0.10245"
+sce_winter_6,line|Baseline credit,Credits: Baseline credit (USD),-$33.33,-33.33,0.005,330 kWh within the Region 6 baseline at -$0.10099
+sce_winter_6,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.82,23.82,0.005,30 days at $0.794 a day
+sce_winter_6,total,Total (USD),$176.93,176.93,0.005,
+sce_winter_6,per_kwh,"Per kWh, all in (USD)",$0.39,0.39,0.005,
+sce_winter_6,bar|wholesale_usd,The bar: wholesale energy (USD),$17.33,17.33,0.005,
+sce_winter_6,bar|share_pct,The bar: wholesale energy's share of the bill (percent),10,10,0.5,
+sce_winter_6,bar|kwh,The bar: the kWh,450,450,0.5,
+sce_winter_6,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sce_winter_6,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sce_winter_6,bar|rest_usd,The bar: everything else (USD),$159.60,159.6,0.005,
+sdge_allow_333,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$309.11,309.11,0.005,"120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
+sdge_allow_333,line|Baseline credit,Credits: Baseline credit (USD),-$46.33,-46.33,0.005,432.9 kWh (up to 130 percent of your 333 kWh allowance) at -$0.10702
+sdge_allow_333,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+sdge_allow_333,total,Total (USD),$286.58,286.58,0.005,
+sdge_allow_333,per_kwh,"Per kWh, all in (USD)",$0.48,0.48,0.005,
+sdge_allow_333,bar|wholesale_usd,The bar: wholesale energy (USD),$23.11,23.11,0.005,
+sdge_allow_333,bar|share_pct,The bar: wholesale energy's share of the bill (percent),8,8,0.5,
+sdge_allow_333,bar|kwh,The bar: the kWh,600,600,0.5,
+sdge_allow_333,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sdge_allow_333,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sdge_allow_333,bar|rest_usd,The bar: everything else (USD),$263.47,263.47,0.005,
+sdge_summer,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$222.31,222.31,0.005,"112.5 kWh on-peak at $0.69135, 135 kWh super off-peak at $0.37433, 202.5 kWh off-peak at $0.46421"
+sdge_summer,line|Baseline credit,Credits: Baseline credit (USD),-$34.78,-34.78,0.005,325 kWh (up to 130 percent of your 250 kWh allowance) at -$0.10702
+sdge_summer,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+sdge_summer,total,Total (USD),$211.34,211.34,0.005,
+sdge_summer,per_kwh,"Per kWh, all in (USD)",$0.47,0.47,0.005,
+sdge_summer,bar|wholesale_usd,The bar: wholesale energy (USD),$17.33,17.33,0.005,
+sdge_summer,bar|share_pct,The bar: wholesale energy's share of the bill (percent),8,8,0.5,
+sdge_summer,bar|kwh,The bar: the kWh,450,450,0.5,
+sdge_summer,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
+sdge_summer,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+sdge_summer,bar|rest_usd,The bar: everything else (USD),$194.00,194,0.005,
+tx_1000_efl,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$139.90,139.9,0.005,1000 kWh at $0.1399
+tx_1000_efl,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
+tx_1000_efl,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
+tx_1000_efl,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$36.04,36.04,0.005,1000 kWh at $0.036043
+tx_1000_efl,line|Transmission Cost Recovery Factor (TCRF),Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD),$19.05,19.05,0.005,1000 kWh at $0.019046
+tx_1000_efl,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$1.49,1.49,0.005,1000 kWh at $0.001487
+tx_1000_efl,line|Distribution Cost Recovery Factor (DCRF),Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD),$0.00,0,0.005,1000 kWh at $0
+tx_1000_efl,line|Nuclear Decommissioning Charge (NDC),Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD),$0.00,0,0.005,1000 kWh at $0
+tx_1000_efl,line|Rate Case Expense Surcharge (RCE),Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD),$0.09,0.09,0.005,1000 kWh at $0.000086
+tx_1000_efl,line|Mobile Generation Rider (MG),Delivery (Oncor): Mobile Generation Rider (MG) (USD),$1.03,1.03,0.005,1000 kWh at $0.001027
+tx_1000_efl,line|Interim Surcharge (IS),Delivery (Oncor): Interim Surcharge (IS) (USD),$3.63,3.63,0.005,1000 kWh at $0.003633
+tx_1000_efl,total,Total (USD),$205.28,205.28,0.005,
+tx_1000_efl,per_kwh,"Per kWh, all in (USD)",$0.21,0.21,0.005,
+tx_1000_efl,bar|wholesale_usd,The bar: wholesale energy (USD),$39.50,39.5,0.005,
+tx_1000_efl,bar|share_pct,The bar: wholesale energy's share of the bill (percent),19,19,0.5,
+tx_1000_efl,bar|kwh,The bar: the kWh,1000,1000,0.5,
+tx_1000_efl,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+tx_1000_efl,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+tx_1000_efl,bar|rest_usd,The bar: everything else (USD),$165.78,165.78,0.005,
+tx_2000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$181.40,181.4,0.005,2000 kWh at $0.0907
+tx_2000,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
+tx_2000,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
+tx_2000,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$72.09,72.09,0.005,2000 kWh at $0.036043
+tx_2000,line|Transmission Cost Recovery Factor (TCRF),Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD),$38.09,38.09,0.005,2000 kWh at $0.019046
+tx_2000,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$2.97,2.97,0.005,2000 kWh at $0.001487
+tx_2000,line|Distribution Cost Recovery Factor (DCRF),Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD),$0.00,0,0.005,2000 kWh at $0
+tx_2000,line|Nuclear Decommissioning Charge (NDC),Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD),$0.00,0,0.005,2000 kWh at $0
+tx_2000,line|Rate Case Expense Surcharge (RCE),Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD),$0.17,0.17,0.005,2000 kWh at $0.000086
+tx_2000,line|Mobile Generation Rider (MG),Delivery (Oncor): Mobile Generation Rider (MG) (USD),$2.05,2.05,0.005,2000 kWh at $0.001027
+tx_2000,line|Interim Surcharge (IS),Delivery (Oncor): Interim Surcharge (IS) (USD),$7.27,7.27,0.005,2000 kWh at $0.003633
+tx_2000,total,Total (USD),$308.10,308.1,0.005,
+tx_2000,per_kwh,"Per kWh, all in (USD)",$0.15,0.15,0.005,
+tx_2000,bar|wholesale_usd,The bar: wholesale energy (USD),$79.01,79.01,0.005,
+tx_2000,bar|share_pct,The bar: wholesale energy's share of the bill (percent),26,26,0.5,
+tx_2000,bar|kwh,The bar: the kWh,2000,2000,0.5,
+tx_2000,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+tx_2000,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+tx_2000,bar|rest_usd,The bar: everything else (USD),$229.10,229.1,0.005,
+txc_1000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$125.00,125,0.005,1000 kWh at $0.125
+txc_1000,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
+txc_1000,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
+txc_1000,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$23.24,23.24,0.005,1000 kWh at $0.02324
+txc_1000,line|Transmission Cost Recovery Factor (TCRF),Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD),$30.81,30.81,0.005,1000 kWh at $0.030812
+txc_1000,line|Distribution Cost Recovery Factor (DCRF),Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD),$6.14,6.14,0.005,1000 kWh at $0.006137
+txc_1000,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$1.58,1.58,0.005,1000 kWh at $0.001576
+txc_1000,line|Nuclear Decommissioning Charge (NDC),Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD),$0.01,0.01,0.005,1000 kWh at $0.000013
+txc_1000,line|Temporary Emergency Electric Energy Facilities (TEEEF),Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD),$0.74,0.74,0.005,1000 kWh at $0.000742
+txc_1000,line|Rate Case Expense Surcharge (RCE),Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD),$0.05,0.05,0.005,1000 kWh at $0.000048
+txc_1000,line|Inflation Reduction Act 2022 (IRA),Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD),$0.00,0,0.005,1000 kWh at $0
+txc_1000,line|System Restoration Charge II (SRC II),Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD),$0.64,0.64,0.005,1000 kWh at $0.000636
+txc_1000,line|ADFIT Credit II,Delivery (CenterPoint): ADFIT Credit II (USD),-$0.02,-0.02,0.005,1000 kWh at -$0.000023
+txc_1000,line|System Restoration Charge III (SRC III),Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD),$2.85,2.85,0.005,1000 kWh at $0.002848
+txc_1000,line|ADFIT Credit III,Delivery (CenterPoint): ADFIT Credit III (USD),-$0.42,-0.42,0.005,1000 kWh at -$0.000418
+txc_1000,line|TC5 Refund,Delivery (CenterPoint): TC5 Refund (USD),-$0.28,-0.28,0.005,1000 kWh at -$0.000278
+txc_1000,total,Total (USD),$195.23,195.23,0.005,
+txc_1000,per_kwh,"Per kWh, all in (USD)",$0.20,0.2,0.005,
+txc_1000,bar|wholesale_usd,The bar: wholesale energy (USD),$39.50,39.5,0.005,
+txc_1000,bar|share_pct,The bar: wholesale energy's share of the bill (percent),20,20,0.5,
+txc_1000,bar|kwh,The bar: the kWh,1000,1000,0.5,
+txc_1000,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+txc_1000,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+txc_1000,bar|rest_usd,The bar: everything else (USD),$155.73,155.73,0.005,
+txc_zero,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$0.00,0,0.005,0 kWh at $0.0853
+txc_zero,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
+txc_zero,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
+txc_zero,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$0.00,0,0.005,0 kWh at $0.02324
+txc_zero,line|Transmission Cost Recovery Factor (TCRF),Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD),$0.00,0,0.005,0 kWh at $0.030812
+txc_zero,line|Distribution Cost Recovery Factor (DCRF),Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD),$0.00,0,0.005,0 kWh at $0.006137
+txc_zero,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$0.00,0,0.005,0 kWh at $0.001576
+txc_zero,line|Nuclear Decommissioning Charge (NDC),Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD),$0.00,0,0.005,0 kWh at $0.000013
+txc_zero,line|Temporary Emergency Electric Energy Facilities (TEEEF),Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD),$0.00,0,0.005,0 kWh at $0.000742
+txc_zero,line|Rate Case Expense Surcharge (RCE),Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD),$0.00,0,0.005,0 kWh at $0.000048
+txc_zero,line|Inflation Reduction Act 2022 (IRA),Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD),$0.00,0,0.005,0 kWh at $0
+txc_zero,line|System Restoration Charge II (SRC II),Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD),$0.00,0,0.005,0 kWh at $0.000636
+txc_zero,line|ADFIT Credit II,Delivery (CenterPoint): ADFIT Credit II (USD),$0.00,0,0.005,0 kWh at -$0.000023
+txc_zero,line|System Restoration Charge III (SRC III),Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD),$0.00,0,0.005,0 kWh at $0.002848
+txc_zero,line|ADFIT Credit III,Delivery (CenterPoint): ADFIT Credit III (USD),$0.00,0,0.005,0 kWh at -$0.000418
+txc_zero,line|TC5 Refund,Delivery (CenterPoint): TC5 Refund (USD),$0.00,0,0.005,0 kWh at -$0.000278
+txc_zero,total,Total (USD),$4.90,4.9,0.005,
+txc_zero,bar|wholesale_usd,The bar: wholesale energy (USD),$0.00,0,0.005,
+txc_zero,bar|share_pct,The bar: wholesale energy's share of the bill (percent),0,0,0.5,
+txc_zero,bar|kwh,The bar: the kWh,0,0,0.5,
+txc_zero,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
+txc_zero,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
+txc_zero,bar|rest_usd,The bar: everything else (USD),$4.90,4.9,0.005,

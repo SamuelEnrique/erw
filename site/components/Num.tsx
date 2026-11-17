@@ -20,6 +20,9 @@ const KEY_TABLE: Record<string, string> = {
   // session 264 added ms| (the generator page's month spans of merchant_revenue_monthly); the chain's landing of 14 October maps it as mr|
 };
 
+/** Session 7533: the grid of each bill's wholesale price on /learn/bill (site/data/bill_rules.json, `iso`). */
+export const BILL_GRID: Record<string, string> = { CA: "caiso", SCE: "caiso", SDGE: "caiso", TX: "ercot", TXC: "ercot" };
+
 /** The held table (and the row's entity) a check key names, or null when the key names no table or none that is held. */
 export function heldBy(check: string): { table: string; title: string } | null {
   const p = check.split("|");
@@ -34,6 +37,17 @@ export function heldBy(check: string): { table: string; title: string } | null {
     return g && g !== "-" && licenseHeldGrid(g) ? { table: `finding ${p[1]}`, title: licenseGridTitle(g) } : null;
   }
   if (head === "digest_chart") return p[2] && licenseHeldRow(p[2], null) ? { table: p[2], title: licenseTitle(p[2]) } : null;
+  // session 7533 (chain 304): a bill's figures (bill|<bill>|total, bill|<bill>|wholesale|<ts>, bill|<bill>|share|<ts>, on
+  // /learn/bill and the problem sets) name no entity, so cost_of_power_monthly, held by grid since 21 October (ISO-NE,
+  // MISO, NYISO), was asked about whole and every one of the five bills' totals, wholesale sums and shares printed
+  // "license needed", though no bill is in a held grid and a total is tariff arithmetic that reads no table. A total is
+  // never held; the other two are held by the grid of the bill's wholesale price (BILL_GRID, the `iso` of each bill in
+  // site/data/bill_rules.json, held equal by tests/test_session7533_bill.py).
+  if (head === "bill") {
+    if (p[2] === "total") return null;
+    const g = BILL_GRID[p[1]];
+    return !g || licenseHeldRow("cost_of_power_monthly", `iso:${g}`) ? { table: "cost_of_power_monthly", title: licenseTitle("cost_of_power_monthly") } : null;
+  }
   if (head === "latest_prices") {
     const g = gridOfEntity(p[1]);
     return g && licenseHeldGrid(g) ? { table: "latest_prices", title: licenseGridTitle(g) } : null;

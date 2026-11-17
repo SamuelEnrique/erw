@@ -1,0 +1,39 @@
+# replicate.py on the page as origin/main drew it on 2026-11-16 (site/lib/bill.ts and site/components/Num.tsx of origin/main, the same cases and rows): 17 figures not inside the tolerance, the faults of rows 1 and 2 of docs/reviews/bill-faults-2026-11-16.md. Written by session 7533; kept as the evidence, not rewritten.
+page: 82 of 97
+ca_default: 42 of 42
+sce_default: 18 of 18
+sdge_default: 14 of 14
+tx_default: 30 of 30
+txc_default: 40 of 40
+ca_eia_avg: 42 of 42
+tx_eia_avg: 30 of 30
+ca_summer_r: 44 of 44
+ca_low: 42 of 42
+ca_x_tier2: 42 of 42
+sce_summer_9: 17 of 18
+sce_summer_13: 20 of 20
+sce_winter_6: 18 of 18
+sdge_allow_333: 13 of 14
+sdge_summer: 14 of 14
+tx_1000_efl: 30 of 30
+tx_2000: 30 of 30
+txc_1000: 40 of 40
+txc_zero: 39 of 39
+page | card|CA|total | shown "license needed" | recomputed 229.62990000000002 | NOT PRINTED
+page | card|CA|wholesale_usd | shown "license needed" | recomputed 26.90814 | NOT PRINTED
+page | card|CA|share_pct | shown "license needed" | recomputed 11.718047170686395 | NOT PRINTED
+page | card|SCE|total | shown "license needed" | recomputed 224.76478200000003 | NOT PRINTED
+page | card|SCE|wholesale_usd | shown "license needed" | recomputed 23.111639999999998 | NOT PRINTED
+page | card|SCE|share_pct | shown "license needed" | recomputed 10.282589556223268 | NOT PRINTED
+page | card|SDGE|total | shown "license needed" | recomputed 332.9090208 | NOT PRINTED
+page | card|SDGE|wholesale_usd | shown "license needed" | recomputed 23.111639999999998 | NOT PRINTED
+page | card|SDGE|share_pct | shown "license needed" | recomputed 6.942329151808913 | NOT PRINTED
+page | card|TX|total | shown "license needed" | recomputed 95.2732 | NOT PRINTED
+page | card|TX|wholesale_usd | shown "license needed" | recomputed 23.70222 | NOT PRINTED
+page | card|TX|share_pct | shown "license needed" | recomputed 24.878160909888614 | NOT PRINTED
+page | card|TXC|total | shown "license needed" | recomputed 95.2798 | NOT PRINTED
+page | card|TXC|wholesale_usd | shown "license needed" | recomputed 23.70222 | NOT PRINTED
+page | card|TXC|share_pct | shown "license needed" | recomputed 24.87643760797147 | NOT PRINTED
+sce_summer_9 | line|Baseline credit words | shown "506.99999999999994 kWh within the Region 9 baseline at -$0.10099" | recomputed numbers [0.10099, 9.0, 506.99999999999994]
+sdge_allow_333 | line|Baseline credit words | shown "432.90000000000003 kWh (up to 130 percent of your 333 kWh allowance) at -$0.10702" | recomputed numbers [0.10702, 130, 333, 432.90000000000003]
+652 of 669 figures inside half the page's last shown digit (wholesale rows: source_rows.csv; rules 2026-11-16.1)
