@@ -90,7 +90,7 @@ state_AL,field_gas,"The input gas, as shown",$3.911,3.911,0.0005
 state_AL,field_gas_mine,The input gas: changed by you,default,,
 state_AL,tip_gas_default,The input gas: the default its tip names,$3.911,3.911,0.0005
 state_AL,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_AL,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (PADD 3): EIA does not publish a weekly price for Alabama, so this is its region's",,
+state_AL,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (Petroleum Administration for Defense District, PADD 3): EIA does not publish a weekly price for Alabama, so this is its region's, the price the game gives Alabama, Arkansas, Louisiana, Mississippi and New Mexico",,
 state_AL,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R30_DPG,,
 state_AL,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_AL,field_miles_mine,The input miles: changed by you,default,,
@@ -173,7 +173,7 @@ state_AK,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 state_AK,field_gas_mine,The input gas: changed by you,default,,
 state_AK,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 state_AK,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_AK,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Alaska, so this is its region's",,
+state_AK,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Alaska, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 state_AK,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 state_AK,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_AK,field_miles_mine,The input miles: changed by you,default,,
@@ -256,7 +256,7 @@ state_AZ,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 state_AZ,field_gas_mine,The input gas: changed by you,default,,
 state_AZ,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 state_AZ,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_AZ,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Arizona, so this is its region's",,
+state_AZ,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Arizona, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 state_AZ,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 state_AZ,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_AZ,field_miles_mine,The input miles: changed by you,default,,
@@ -339,7 +339,7 @@ state_AR,field_gas,"The input gas, as shown",$3.911,3.911,0.0005
 state_AR,field_gas_mine,The input gas: changed by you,default,,
 state_AR,tip_gas_default,The input gas: the default its tip names,$3.911,3.911,0.0005
 state_AR,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_AR,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (PADD 3): EIA does not publish a weekly price for Arkansas, so this is its region's",,
+state_AR,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (Petroleum Administration for Defense District, PADD 3): EIA does not publish a weekly price for Arkansas, so this is its region's, the price the game gives Alabama, Arkansas, Louisiana, Mississippi and New Mexico",,
 state_AR,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R30_DPG,,
 state_AR,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_AR,field_miles_mine,The input miles: changed by you,default,,
@@ -588,7 +588,7 @@ state_CT,field_gas,"The input gas, as shown",$4.343,4.343,0.0005
 state_CT,field_gas_mine,The input gas: changed by you,default,,
 state_CT,tip_gas_default,The input gas: the default its tip names,$4.343,4.343,0.0005
 state_CT,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_CT,tip_gas_where,The gasoline tip: whose price,"New England (PADD 1A): EIA does not publish a weekly price for Connecticut, so this is its region's",,
+state_CT,tip_gas_where,The gasoline tip: whose price,"New England (Petroleum Administration for Defense District, PADD 1A): EIA does not publish a weekly price for Connecticut, so this is its region's, the price the game gives Connecticut, Maine, New Hampshire, Rhode Island and Vermont",,
 state_CT,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1X_DPG,,
 state_CT,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_CT,field_miles_mine,The input miles: changed by you,default,,
@@ -671,7 +671,7 @@ state_DE,field_gas,"The input gas, as shown",$4.363,4.363,0.0005
 state_DE,field_gas_mine,The input gas: changed by you,default,,
 state_DE,tip_gas_default,The input gas: the default its tip names,$4.363,4.363,0.0005
 state_DE,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_DE,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (PADD 1B): EIA does not publish a weekly price for Delaware, so this is its region's",,
+state_DE,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (Petroleum Administration for Defense District, PADD 1B): EIA does not publish a weekly price for Delaware, so this is its region's, the price the game gives Delaware, District of Columbia, Maryland, New Jersey and Pennsylvania",,
 state_DE,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Y_DPG,,
 state_DE,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_DE,field_miles_mine,The input miles: changed by you,default,,
@@ -754,7 +754,7 @@ state_DC,field_gas,"The input gas, as shown",$4.363,4.363,0.0005
 state_DC,field_gas_mine,The input gas: changed by you,default,,
 state_DC,tip_gas_default,The input gas: the default its tip names,$4.363,4.363,0.0005
 state_DC,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_DC,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (PADD 1B): EIA does not publish a weekly price for District of Columbia, so this is its region's",,
+state_DC,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (Petroleum Administration for Defense District, PADD 1B): EIA does not publish a weekly price for District of Columbia, so this is its region's, the price the game gives Delaware, District of Columbia, Maryland, New Jersey and Pennsylvania",,
 state_DC,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Y_DPG,,
 state_DC,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_DC,field_miles_mine,The input miles: changed by you,default,,
@@ -920,7 +920,7 @@ state_GA,field_gas,"The input gas, as shown",$3.959,3.959,0.0005
 state_GA,field_gas_mine,The input gas: changed by you,default,,
 state_GA,tip_gas_default,The input gas: the default its tip names,$3.959,3.959,0.0005
 state_GA,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_GA,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (PADD 1C): EIA does not publish a weekly price for Georgia, so this is its region's",,
+state_GA,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (Petroleum Administration for Defense District, PADD 1C): EIA does not publish a weekly price for Georgia, so this is its region's, the price the game gives Georgia, North Carolina, South Carolina, Virginia and West Virginia",,
 state_GA,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Z_DPG,,
 state_GA,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_GA,field_miles_mine,The input miles: changed by you,default,,
@@ -1003,7 +1003,7 @@ state_HI,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 state_HI,field_gas_mine,The input gas: changed by you,default,,
 state_HI,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 state_HI,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_HI,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Hawaii, so this is its region's",,
+state_HI,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Hawaii, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 state_HI,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 state_HI,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_HI,field_miles_mine,The input miles: changed by you,default,,
@@ -1086,7 +1086,7 @@ state_ID,field_gas,"The input gas, as shown",$4.417,4.417,0.0005
 state_ID,field_gas_mine,The input gas: changed by you,default,,
 state_ID,tip_gas_default,The input gas: the default its tip names,$4.417,4.417,0.0005
 state_ID,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_ID,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (PADD 4): EIA does not publish a weekly price for Idaho, so this is its region's",,
+state_ID,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (Petroleum Administration for Defense District, PADD 4): EIA does not publish a weekly price for Idaho, so this is its region's, the price the game gives Idaho, Montana, Utah and Wyoming",,
 state_ID,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R40_DPG,,
 state_ID,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_ID,field_miles_mine,The input miles: changed by you,default,,
@@ -1169,7 +1169,7 @@ state_IL,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_IL,field_gas_mine,The input gas: changed by you,default,,
 state_IL,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_IL,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_IL,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Illinois, so this is its region's",,
+state_IL,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Illinois, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_IL,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_IL,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_IL,field_miles_mine,The input miles: changed by you,default,,
@@ -1252,7 +1252,7 @@ state_IN,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_IN,field_gas_mine,The input gas: changed by you,default,,
 state_IN,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_IN,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_IN,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Indiana, so this is its region's",,
+state_IN,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Indiana, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_IN,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_IN,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_IN,field_miles_mine,The input miles: changed by you,default,,
@@ -1335,7 +1335,7 @@ state_IA,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_IA,field_gas_mine,The input gas: changed by you,default,,
 state_IA,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_IA,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_IA,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Iowa, so this is its region's",,
+state_IA,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Iowa, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_IA,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_IA,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_IA,field_miles_mine,The input miles: changed by you,default,,
@@ -1418,7 +1418,7 @@ state_KS,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_KS,field_gas_mine,The input gas: changed by you,default,,
 state_KS,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_KS,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_KS,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Kansas, so this is its region's",,
+state_KS,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Kansas, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_KS,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_KS,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_KS,field_miles_mine,The input miles: changed by you,default,,
@@ -1501,7 +1501,7 @@ state_KY,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_KY,field_gas_mine,The input gas: changed by you,default,,
 state_KY,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_KY,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_KY,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Kentucky, so this is its region's",,
+state_KY,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Kentucky, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_KY,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_KY,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_KY,field_miles_mine,The input miles: changed by you,default,,
@@ -1584,7 +1584,7 @@ state_LA,field_gas,"The input gas, as shown",$3.911,3.911,0.0005
 state_LA,field_gas_mine,The input gas: changed by you,default,,
 state_LA,tip_gas_default,The input gas: the default its tip names,$3.911,3.911,0.0005
 state_LA,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_LA,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (PADD 3): EIA does not publish a weekly price for Louisiana, so this is its region's",,
+state_LA,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (Petroleum Administration for Defense District, PADD 3): EIA does not publish a weekly price for Louisiana, so this is its region's, the price the game gives Alabama, Arkansas, Louisiana, Mississippi and New Mexico",,
 state_LA,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R30_DPG,,
 state_LA,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_LA,field_miles_mine,The input miles: changed by you,default,,
@@ -1667,7 +1667,7 @@ state_ME,field_gas,"The input gas, as shown",$4.343,4.343,0.0005
 state_ME,field_gas_mine,The input gas: changed by you,default,,
 state_ME,tip_gas_default,The input gas: the default its tip names,$4.343,4.343,0.0005
 state_ME,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_ME,tip_gas_where,The gasoline tip: whose price,"New England (PADD 1A): EIA does not publish a weekly price for Maine, so this is its region's",,
+state_ME,tip_gas_where,The gasoline tip: whose price,"New England (Petroleum Administration for Defense District, PADD 1A): EIA does not publish a weekly price for Maine, so this is its region's, the price the game gives Connecticut, Maine, New Hampshire, Rhode Island and Vermont",,
 state_ME,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1X_DPG,,
 state_ME,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_ME,field_miles_mine,The input miles: changed by you,default,,
@@ -1750,7 +1750,7 @@ state_MD,field_gas,"The input gas, as shown",$4.363,4.363,0.0005
 state_MD,field_gas_mine,The input gas: changed by you,default,,
 state_MD,tip_gas_default,The input gas: the default its tip names,$4.363,4.363,0.0005
 state_MD,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_MD,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (PADD 1B): EIA does not publish a weekly price for Maryland, so this is its region's",,
+state_MD,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (Petroleum Administration for Defense District, PADD 1B): EIA does not publish a weekly price for Maryland, so this is its region's, the price the game gives Delaware, District of Columbia, Maryland, New Jersey and Pennsylvania",,
 state_MD,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Y_DPG,,
 state_MD,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_MD,field_miles_mine,The input miles: changed by you,default,,
@@ -1916,7 +1916,7 @@ state_MI,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_MI,field_gas_mine,The input gas: changed by you,default,,
 state_MI,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_MI,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_MI,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Michigan, so this is its region's",,
+state_MI,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Michigan, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_MI,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_MI,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_MI,field_miles_mine,The input miles: changed by you,default,,
@@ -2082,7 +2082,7 @@ state_MS,field_gas,"The input gas, as shown",$3.911,3.911,0.0005
 state_MS,field_gas_mine,The input gas: changed by you,default,,
 state_MS,tip_gas_default,The input gas: the default its tip names,$3.911,3.911,0.0005
 state_MS,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_MS,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (PADD 3): EIA does not publish a weekly price for Mississippi, so this is its region's",,
+state_MS,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (Petroleum Administration for Defense District, PADD 3): EIA does not publish a weekly price for Mississippi, so this is its region's, the price the game gives Alabama, Arkansas, Louisiana, Mississippi and New Mexico",,
 state_MS,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R30_DPG,,
 state_MS,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_MS,field_miles_mine,The input miles: changed by you,default,,
@@ -2165,7 +2165,7 @@ state_MO,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_MO,field_gas_mine,The input gas: changed by you,default,,
 state_MO,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_MO,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_MO,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Missouri, so this is its region's",,
+state_MO,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Missouri, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_MO,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_MO,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_MO,field_miles_mine,The input miles: changed by you,default,,
@@ -2248,7 +2248,7 @@ state_MT,field_gas,"The input gas, as shown",$4.417,4.417,0.0005
 state_MT,field_gas_mine,The input gas: changed by you,default,,
 state_MT,tip_gas_default,The input gas: the default its tip names,$4.417,4.417,0.0005
 state_MT,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_MT,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (PADD 4): EIA does not publish a weekly price for Montana, so this is its region's",,
+state_MT,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (Petroleum Administration for Defense District, PADD 4): EIA does not publish a weekly price for Montana, so this is its region's, the price the game gives Idaho, Montana, Utah and Wyoming",,
 state_MT,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R40_DPG,,
 state_MT,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_MT,field_miles_mine,The input miles: changed by you,default,,
@@ -2331,7 +2331,7 @@ state_NE,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_NE,field_gas_mine,The input gas: changed by you,default,,
 state_NE,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_NE,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NE,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Nebraska, so this is its region's",,
+state_NE,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Nebraska, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_NE,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_NE,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NE,field_miles_mine,The input miles: changed by you,default,,
@@ -2414,7 +2414,7 @@ state_NV,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 state_NV,field_gas_mine,The input gas: changed by you,default,,
 state_NV,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 state_NV,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NV,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Nevada, so this is its region's",,
+state_NV,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Nevada, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 state_NV,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 state_NV,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NV,field_miles_mine,The input miles: changed by you,default,,
@@ -2497,7 +2497,7 @@ state_NH,field_gas,"The input gas, as shown",$4.343,4.343,0.0005
 state_NH,field_gas_mine,The input gas: changed by you,default,,
 state_NH,tip_gas_default,The input gas: the default its tip names,$4.343,4.343,0.0005
 state_NH,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NH,tip_gas_where,The gasoline tip: whose price,"New England (PADD 1A): EIA does not publish a weekly price for New Hampshire, so this is its region's",,
+state_NH,tip_gas_where,The gasoline tip: whose price,"New England (Petroleum Administration for Defense District, PADD 1A): EIA does not publish a weekly price for New Hampshire, so this is its region's, the price the game gives Connecticut, Maine, New Hampshire, Rhode Island and Vermont",,
 state_NH,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1X_DPG,,
 state_NH,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NH,field_miles_mine,The input miles: changed by you,default,,
@@ -2580,7 +2580,7 @@ state_NJ,field_gas,"The input gas, as shown",$4.363,4.363,0.0005
 state_NJ,field_gas_mine,The input gas: changed by you,default,,
 state_NJ,tip_gas_default,The input gas: the default its tip names,$4.363,4.363,0.0005
 state_NJ,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NJ,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (PADD 1B): EIA does not publish a weekly price for New Jersey, so this is its region's",,
+state_NJ,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (Petroleum Administration for Defense District, PADD 1B): EIA does not publish a weekly price for New Jersey, so this is its region's, the price the game gives Delaware, District of Columbia, Maryland, New Jersey and Pennsylvania",,
 state_NJ,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Y_DPG,,
 state_NJ,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NJ,field_miles_mine,The input miles: changed by you,default,,
@@ -2663,7 +2663,7 @@ state_NM,field_gas,"The input gas, as shown",$3.911,3.911,0.0005
 state_NM,field_gas_mine,The input gas: changed by you,default,,
 state_NM,tip_gas_default,The input gas: the default its tip names,$3.911,3.911,0.0005
 state_NM,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NM,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (PADD 3): EIA does not publish a weekly price for New Mexico, so this is its region's",,
+state_NM,tip_gas_where,The gasoline tip: whose price,"the Gulf Coast (Petroleum Administration for Defense District, PADD 3): EIA does not publish a weekly price for New Mexico, so this is its region's, the price the game gives Alabama, Arkansas, Louisiana, Mississippi and New Mexico",,
 state_NM,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R30_DPG,,
 state_NM,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NM,field_miles_mine,The input miles: changed by you,default,,
@@ -2829,7 +2829,7 @@ state_NC,field_gas,"The input gas, as shown",$3.959,3.959,0.0005
 state_NC,field_gas_mine,The input gas: changed by you,default,,
 state_NC,tip_gas_default,The input gas: the default its tip names,$3.959,3.959,0.0005
 state_NC,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_NC,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (PADD 1C): EIA does not publish a weekly price for North Carolina, so this is its region's",,
+state_NC,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (Petroleum Administration for Defense District, PADD 1C): EIA does not publish a weekly price for North Carolina, so this is its region's, the price the game gives Georgia, North Carolina, South Carolina, Virginia and West Virginia",,
 state_NC,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Z_DPG,,
 state_NC,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_NC,field_miles_mine,The input miles: changed by you,default,,
@@ -2912,7 +2912,7 @@ state_ND,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_ND,field_gas_mine,The input gas: changed by you,default,,
 state_ND,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_ND,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_ND,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for North Dakota, so this is its region's",,
+state_ND,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for North Dakota, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_ND,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_ND,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_ND,field_miles_mine,The input miles: changed by you,default,,
@@ -3078,7 +3078,7 @@ state_OK,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_OK,field_gas_mine,The input gas: changed by you,default,,
 state_OK,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_OK,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_OK,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Oklahoma, so this is its region's",,
+state_OK,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Oklahoma, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_OK,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_OK,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_OK,field_miles_mine,The input miles: changed by you,default,,
@@ -3161,7 +3161,7 @@ state_OR,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 state_OR,field_gas_mine,The input gas: changed by you,default,,
 state_OR,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 state_OR,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_OR,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Oregon, so this is its region's",,
+state_OR,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Oregon, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 state_OR,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 state_OR,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_OR,field_miles_mine,The input miles: changed by you,default,,
@@ -3244,7 +3244,7 @@ state_PA,field_gas,"The input gas, as shown",$4.363,4.363,0.0005
 state_PA,field_gas_mine,The input gas: changed by you,default,,
 state_PA,tip_gas_default,The input gas: the default its tip names,$4.363,4.363,0.0005
 state_PA,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_PA,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (PADD 1B): EIA does not publish a weekly price for Pennsylvania, so this is its region's",,
+state_PA,tip_gas_where,The gasoline tip: whose price,"the Central Atlantic (Petroleum Administration for Defense District, PADD 1B): EIA does not publish a weekly price for Pennsylvania, so this is its region's, the price the game gives Delaware, District of Columbia, Maryland, New Jersey and Pennsylvania",,
 state_PA,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Y_DPG,,
 state_PA,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_PA,field_miles_mine,The input miles: changed by you,default,,
@@ -3327,7 +3327,7 @@ state_RI,field_gas,"The input gas, as shown",$4.343,4.343,0.0005
 state_RI,field_gas_mine,The input gas: changed by you,default,,
 state_RI,tip_gas_default,The input gas: the default its tip names,$4.343,4.343,0.0005
 state_RI,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_RI,tip_gas_where,The gasoline tip: whose price,"New England (PADD 1A): EIA does not publish a weekly price for Rhode Island, so this is its region's",,
+state_RI,tip_gas_where,The gasoline tip: whose price,"New England (Petroleum Administration for Defense District, PADD 1A): EIA does not publish a weekly price for Rhode Island, so this is its region's, the price the game gives Connecticut, Maine, New Hampshire, Rhode Island and Vermont",,
 state_RI,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1X_DPG,,
 state_RI,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_RI,field_miles_mine,The input miles: changed by you,default,,
@@ -3410,7 +3410,7 @@ state_SC,field_gas,"The input gas, as shown",$3.959,3.959,0.0005
 state_SC,field_gas_mine,The input gas: changed by you,default,,
 state_SC,tip_gas_default,The input gas: the default its tip names,$3.959,3.959,0.0005
 state_SC,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_SC,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (PADD 1C): EIA does not publish a weekly price for South Carolina, so this is its region's",,
+state_SC,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (Petroleum Administration for Defense District, PADD 1C): EIA does not publish a weekly price for South Carolina, so this is its region's, the price the game gives Georgia, North Carolina, South Carolina, Virginia and West Virginia",,
 state_SC,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Z_DPG,,
 state_SC,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_SC,field_miles_mine,The input miles: changed by you,default,,
@@ -3493,7 +3493,7 @@ state_SD,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_SD,field_gas_mine,The input gas: changed by you,default,,
 state_SD,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_SD,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_SD,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for South Dakota, so this is its region's",,
+state_SD,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for South Dakota, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_SD,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_SD,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_SD,field_miles_mine,The input miles: changed by you,default,,
@@ -3576,7 +3576,7 @@ state_TN,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_TN,field_gas_mine,The input gas: changed by you,default,,
 state_TN,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_TN,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_TN,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Tennessee, so this is its region's",,
+state_TN,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Tennessee, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_TN,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_TN,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_TN,field_miles_mine,The input miles: changed by you,default,,
@@ -3742,7 +3742,7 @@ state_UT,field_gas,"The input gas, as shown",$4.417,4.417,0.0005
 state_UT,field_gas_mine,The input gas: changed by you,default,,
 state_UT,tip_gas_default,The input gas: the default its tip names,$4.417,4.417,0.0005
 state_UT,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_UT,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (PADD 4): EIA does not publish a weekly price for Utah, so this is its region's",,
+state_UT,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (Petroleum Administration for Defense District, PADD 4): EIA does not publish a weekly price for Utah, so this is its region's, the price the game gives Idaho, Montana, Utah and Wyoming",,
 state_UT,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R40_DPG,,
 state_UT,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_UT,field_miles_mine,The input miles: changed by you,default,,
@@ -3825,7 +3825,7 @@ state_VT,field_gas,"The input gas, as shown",$4.343,4.343,0.0005
 state_VT,field_gas_mine,The input gas: changed by you,default,,
 state_VT,tip_gas_default,The input gas: the default its tip names,$4.343,4.343,0.0005
 state_VT,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_VT,tip_gas_where,The gasoline tip: whose price,"New England (PADD 1A): EIA does not publish a weekly price for Vermont, so this is its region's",,
+state_VT,tip_gas_where,The gasoline tip: whose price,"New England (Petroleum Administration for Defense District, PADD 1A): EIA does not publish a weekly price for Vermont, so this is its region's, the price the game gives Connecticut, Maine, New Hampshire, Rhode Island and Vermont",,
 state_VT,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1X_DPG,,
 state_VT,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_VT,field_miles_mine,The input miles: changed by you,default,,
@@ -3908,7 +3908,7 @@ state_VA,field_gas,"The input gas, as shown",$3.959,3.959,0.0005
 state_VA,field_gas_mine,The input gas: changed by you,default,,
 state_VA,tip_gas_default,The input gas: the default its tip names,$3.959,3.959,0.0005
 state_VA,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_VA,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (PADD 1C): EIA does not publish a weekly price for Virginia, so this is its region's",,
+state_VA,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (Petroleum Administration for Defense District, PADD 1C): EIA does not publish a weekly price for Virginia, so this is its region's, the price the game gives Georgia, North Carolina, South Carolina, Virginia and West Virginia",,
 state_VA,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Z_DPG,,
 state_VA,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_VA,field_miles_mine,The input miles: changed by you,default,,
@@ -4074,7 +4074,7 @@ state_WV,field_gas,"The input gas, as shown",$3.959,3.959,0.0005
 state_WV,field_gas_mine,The input gas: changed by you,default,,
 state_WV,tip_gas_default,The input gas: the default its tip names,$3.959,3.959,0.0005
 state_WV,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_WV,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (PADD 1C): EIA does not publish a weekly price for West Virginia, so this is its region's",,
+state_WV,tip_gas_where,The gasoline tip: whose price,"the Lower Atlantic (Petroleum Administration for Defense District, PADD 1C): EIA does not publish a weekly price for West Virginia, so this is its region's, the price the game gives Georgia, North Carolina, South Carolina, Virginia and West Virginia",,
 state_WV,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R1Z_DPG,,
 state_WV,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_WV,field_miles_mine,The input miles: changed by you,default,,
@@ -4157,7 +4157,7 @@ state_WI,field_gas,"The input gas, as shown",$4.109,4.109,0.0005
 state_WI,field_gas_mine,The input gas: changed by you,default,,
 state_WI,tip_gas_default,The input gas: the default its tip names,$4.109,4.109,0.0005
 state_WI,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_WI,tip_gas_where,The gasoline tip: whose price,"the Midwest (PADD 2): EIA does not publish a weekly price for Wisconsin, so this is its region's",,
+state_WI,tip_gas_where,The gasoline tip: whose price,"the Midwest (Petroleum Administration for Defense District, PADD 2): EIA does not publish a weekly price for Wisconsin, so this is its region's, the price the game gives Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Missouri, Nebraska, North Dakota, Oklahoma, South Dakota, Tennessee and Wisconsin",,
 state_WI,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R20_DPG,,
 state_WI,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_WI,field_miles_mine,The input miles: changed by you,default,,
@@ -4240,7 +4240,7 @@ state_WY,field_gas,"The input gas, as shown",$4.417,4.417,0.0005
 state_WY,field_gas_mine,The input gas: changed by you,default,,
 state_WY,tip_gas_default,The input gas: the default its tip names,$4.417,4.417,0.0005
 state_WY,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-state_WY,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (PADD 4): EIA does not publish a weekly price for Wyoming, so this is its region's",,
+state_WY,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (Petroleum Administration for Defense District, PADD 4): EIA does not publish a weekly price for Wyoming, so this is its region's, the price the game gives Idaho, Montana, Utah and Wyoming",,
 state_WY,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R40_DPG,,
 state_WY,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 state_WY,field_miles_mine,The input miles: changed by you,default,,
@@ -4917,7 +4917,7 @@ hawaii_far_dear,field_gas,"The input gas, as shown",$5.116,5.116,0.0005
 hawaii_far_dear,field_gas_mine,The input gas: changed by you,default,,
 hawaii_far_dear,tip_gas_default,The input gas: the default its tip names,$5.116,5.116,0.0005
 hawaii_far_dear,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-hawaii_far_dear,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (PADD 5 except California): EIA does not publish a weekly price for Hawaii, so this is its region's",,
+hawaii_far_dear,tip_gas_where,The gasoline tip: whose price,"the West Coast without California (Petroleum Administration for Defense District, PADD 5 except California): EIA does not publish a weekly price for Hawaii, so this is its region's, the price the game gives Alaska, Arizona, Hawaii, Nevada and Oregon",,
 hawaii_far_dear,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R5XCA_DPG,,
 hawaii_far_dear,field_miles,"The input miles, as shown","30,000 miles",30000,0.5
 hawaii_far_dear,field_miles_mine,The input miles: changed by you,changed by you,,
@@ -5071,7 +5071,7 @@ wyoming_dear_ev,field_gas,"The input gas, as shown",$4.417,4.417,0.0005
 wyoming_dear_ev,field_gas_mine,The input gas: changed by you,default,,
 wyoming_dear_ev,tip_gas_default,The input gas: the default its tip names,$4.417,4.417,0.0005
 wyoming_dear_ev,tip_gas_week,The gasoline tip: the week,"October 5, 2026",,
-wyoming_dear_ev,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (PADD 4): EIA does not publish a weekly price for Wyoming, so this is its region's",,
+wyoming_dear_ev,tip_gas_where,The gasoline tip: whose price,"the Rocky Mountains (Petroleum Administration for Defense District, PADD 4): EIA does not publish a weekly price for Wyoming, so this is its region's, the price the game gives Idaho, Montana, Utah and Wyoming",,
 wyoming_dear_ev,tip_gas_entity,The gasoline tip: the entity,eia:EMM_EPMR_PTE_R40_DPG,,
 wyoming_dear_ev,field_miles,"The input miles, as shown","15,000 miles",15000,0.5
 wyoming_dear_ev,field_miles_mine,The input miles: changed by you,default,,

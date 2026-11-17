@@ -138,7 +138,12 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
   const atDefaults = !creditOn && gasOver === null && powerOver === null && FIELDS.every((k) => v[k] === DEFAULTS[k].value);
   const k = atDefaults && place.power && place.gas ? keyed(place.power.value, place.gas.value) : null;
   const ck = (f: string) => `ev|${place.code}|${f}`;
-  const gasWhere = place.gas?.where === "region" ? `${place.gas.region}: EIA does not publish a weekly price for ${st?.name}, so this is its region's` : place.gas?.where === "us" ? "the US average" : `${st?.name}'s own weekly series`;
+  // session 7550 (the read): a regional price names its region in plain words (a PADD spelled out) and the states the game
+  // gives that price, read from the file, so a Phoenix commuter sees that Arizona's is the West Coast's less California
+  const sameRegion = place.gas?.where === "region" ? states.filter((s) => s.gas?.entity === place.gas?.entity).map((s) => s.name) : [];
+  const regionWords = (place.gas?.region ?? "").replace(/PADD/, "Petroleum Administration for Defense District, PADD");
+  const listed = sameRegion.length > 1 ? `${sameRegion.slice(0, -1).join(", ")} and ${sameRegion[sameRegion.length - 1]}` : sameRegion.join("");
+  const gasWhere = place.gas?.where === "region" ? `${regionWords}: EIA does not publish a weekly price for ${st?.name}, so this is its region's, the price the game gives ${listed}` : place.gas?.where === "us" ? "the US average" : `${st?.name}'s own weekly series`;
   const fieldOf = (key: Key) => {
     const d = DEFAULTS[key];
     return <Field key={key} id={key} label={d.label} tip={<>Default {FMT[key](d.value)}. {d.source}.</>} value={v[key]} shown={FMT[key](v[key])} mine={v[key] !== d.value} min={d.min} max={d.max} step={d.step} set={set(key)} reset={() => set(key)(d.value)} />;
@@ -159,7 +164,10 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
         </div>
         {place.power ? (
           <Field id="power" label="Electricity at home, cents a kWh" value={power!} shown={`${n2(power! / 10)} cents`} mine={powerOver !== null} min={50} max={600} step={1}
-            tip={<>Default {n2(place.power.value / 10)} cents: the average price homes paid in {where} in {month(place.power.ts)}, the newest month EIA has published. Table {place.power.table}, entity {place.power.entity}.</>}
+            tip={<>Default {n2(place.power.value / 10)} cents: the average price homes paid in {where} in {month(place.power.ts)}, the newest month EIA has published. Table {place.power.table}, entity {place.power.entity}.
+              {/* session 7550 (the read): what the average is, and for California where a utility's own tariff is drawn (/learn/bill's PG&E card stood beside this figure, neither naming the other) */}
+              {" "}It is every utility&apos;s homes together, every hour, fixed charges included; your own utility&apos;s rate, a time-of-use or EV rate among them, can be higher or lower: move the slider to it.
+              {place.code === "CA" ? <> <Link href="/learn/bill" prefetch={false}>What is on an electricity bill</Link> draws a bill on PG&amp;E&apos;s, SCE&apos;s and SDG&amp;E&apos;s own tariffs.</> : null}</>}
             set={setPowerOver} reset={() => setPowerOver(null)} />
         ) : <p className="mb-4 text-sm">Electricity: not held for {where}.</p>}
         {place.gas ? (
@@ -200,7 +208,7 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
                 </div>
               </div>
               <div className="border-t-2 border-accent pt-2" data-npv>
-                <div className="text-xs uppercase tracking-wide text-muted">Net present value, {x.years} year{x.years === 1 ? "" : "s"}<span className="normal-case tracking-normal"><Tip id="ev-npv-tip" label="Net present value">What choosing the EV is worth today: each year&apos;s saving on fuel, counted for less the later it comes (at {n2(x.rate, 1)} percent a year), added up, less what the EV costs more to buy. Above zero, the EV comes out ahead at these prices; below zero, the gasoline car does. Left out: repairs and maintenance, insurance, a home charger, state incentives, and what each car is worth when sold.</Tip></span></div>
+                <div className="text-xs uppercase tracking-wide text-muted">Net present value, {x.years} year{x.years === 1 ? "" : "s"}<span className="normal-case tracking-normal"><Tip id="ev-npv-tip" label="Net present value">What choosing the EV is worth today: each year&apos;s saving on fuel ({usd(r.saveYear, 2)} a year here, to the cent: the table below rounds it to the dollar), counted for less the later it comes (at {n2(x.rate, 1)} percent a year), added up, less what the EV costs more to buy. Above zero, the EV comes out ahead at these prices; below zero, the gasoline car does. Left out: repairs and maintenance, insurance, a home charger, state incentives, and what each car is worth when sold.</Tip></span></div>
                 <div className="mt-1 font-serif text-3xl tabular-nums text-ink">
                   {/* session 7536: a keyed value below zero keeps its key too (the sign before the dollar, as usd() writes it) */}
                   {k ? <>{k.npv < 0 ? "-" : ""}$<Num check={ck("npv")} raw={k.npv}>{Math.abs(k.npv).toLocaleString("en-US")}</Num></> : usd(r.npv)}

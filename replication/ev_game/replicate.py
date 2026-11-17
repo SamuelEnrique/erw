@@ -186,7 +186,11 @@ def expected(key, c, prices):
             return "the US average"
         if c["code"] in OWN:
             return f"{place['name']}'s own weekly series"
-        return ("contains", PADD[region_of(c["code"])][0] + ")", f"EIA does not publish a weekly price for {place['name']}, so this is its region's")
+        # session 7550 (the read): the tip also names the states the region's price is given to, the region's states
+        # less those with their own series (EIA's PADD definitions above), in the file's order of names
+        given = sorted((s["name"] for s in prices["states"] if s["code"] in PADD[region_of(c["code"])][1].split() and s["code"] not in OWN))
+        listed = ", ".join(given[:-1]) + " and " + given[-1] if len(given) > 1 else "".join(given)
+        return ("contains", PADD[region_of(c["code"])][0] + ")", f"EIA does not publish a weekly price for {place['name']}, so this is its region's, the price the game gives {listed}", "Petroleum Administration for Defense District")
     if key == "credit_switch":
         return "on" if c["credit_on"] else "off"
     if key == "waiting":
