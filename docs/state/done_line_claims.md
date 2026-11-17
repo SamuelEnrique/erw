@@ -33,4 +33,17 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 
 Not in the split: `/ask` and `/thesis` (they need the key), the Digest and the Roundup (paused this week), the pages that are not tools (`/about`, `/data`, `/terms`, `/privacy`, `/subscribe`, `/tour`, `/home/v2`, `/in-review`, the draft reports).
 
-The ten tools already at the done line before this file (battery, generator, datacenter cost, Automated Analysis, Grid, the datacenter tracker, the deal tracker, companies, the policy monitor, attention) are not rows here.
+The ten tools already at the done line before this file (battery, generator, datacenter cost, Automated Analysis, Grid, the datacenter tracker, the deal tracker, companies, the policy monitor, attention) are not rows here, except the six below.
+
+## The six tools of the first ten with no read (added by session 7560, samueloldlaptop, 17 November 2026 UTC)
+
+Asked by Samuel: the reader's read, in chain 304's part B form, for the six tools of the first ten that had no `docs/reviews/<tool>-read-2026-11-16.md` on any branch (checked on all 568 remote branches at 03:40 UTC on 17 November: battery, generator, datacenter cost and the policy monitor have reads; these six do not). All six reads go on branch `wip/7560-six-reads`, one session a tool.
+
+| # | Tool | At the done line | State |
+|---:|---|---|---|
+| 25 | `/datacenters` (the datacenter tracker) | chain 303, `docs/reviews/trackers-signature-pack-2026-11-16.md` | read: samueloldlaptop, claimed (session 7560) |
+| 26 | `/deals` (the deal tracker) | chain 303, the same pack | read: samueloldlaptop, claimed (session 7561) |
+| 27 | `/companies` | chain 303's portable run | read: samueloldlaptop, claimed (session 7562) |
+| 28 | `/attention` | chain 303's portable run | read: samueloldlaptop, claimed (session 7563) |
+| 29 | `/research` (Automated Analysis) | the five tools' pack, `docs/reviews/five-tools-signature-pack-2026-11-14.md` | read: samueloldlaptop, claimed (session 7564) |
+| 30 | `/grid` | the five tools' pack | read: samueloldlaptop, claimed (session 7565) |
