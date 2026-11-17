@@ -346,3 +346,19 @@ have no input, and every figure is fixed when the table is built or the page is 
 - **The cross-check**: [`docs/reviews/events-crosscheck-2026-11-16.md`](../reviews/events-crosscheck-2026-11-16.md),
   sixteen rows against FERC's, CAISO's, ERCOT's, PJM's and EIA's own accounts. Every peak stands within 2.0 percent of
   the operator's; the differences are of definition (an instant against an hourly mean, losses allocated, settlement).
+
+## The read of 16 November 2026 (session 7549, chain 304, part B)
+
+The ten pages read as an operator's or a regulator's analyst would read a named event:
+[`docs/reviews/events-read-2026-11-16.md`](../reviews/events-read-2026-11-16.md) (15 rows). What it changed on the
+pages, each a sentence added and nothing removed:
+
+- **Uri:** the window's highest hour of demand served and the baseline days' highest (`eia930:ERCO`, `demand_max_mw`:
+  the highest of 2021's days, and of the 2019 and 2020 days), the same rows and rule `/learn/problems` uses; beside
+  them FERC's 69,871 MW and 20,000 MW of firm load shed, linked. The replication takes the two figures: **1,151 of
+  1,151** (1,102 numbers and the day counts; it was 1,149 and 1,100).
+- **The September 2022 heat:** CAISO's own "record load of 52,061 MW on Sept. 6", linked, beside EIA's hour; and the
+  framing no longer says the page shows the temperature at Sacramento and Los Angeles, which it does not draw: the
+  temperature enters the second estimate only.
+- **Elliott:** the inquiry report's two PJM figures (135,296 MW, PJM's peak reported elsewhere, and 134,189 MW with
+  500 kV losses allocated) beside EIA's 135,328 MW.
