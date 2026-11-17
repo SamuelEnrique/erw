@@ -35,6 +35,11 @@ const NAME_TO_CODE: Record<string, string> = Object.fromEntries(Object.entries(S
 const geoName = (g: string) => geoWords(g, STATES);
 const select = "border border-rule bg-white px-2 py-1 text-sm lg:w-full";
 const rowButton = "text-left underline decoration-dotted underline-offset-2 hover:text-accent";
+// Session 7624, the other choice of the ruling on small cells (wip/alt-attention-1, not landed): a cell with fewer than
+// ten stories prints its counts and no Friction Index
+export const MIN_STORIES = 10;
+const few = (c: { stories: number }) => c.stories < MIN_STORIES;
+const countsOnly = (c: { stories: number; opposition: number }) => `${c.opposition.toLocaleString("en-US")} of ${c.stories.toLocaleString("en-US")}`;
 
 export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; statesGeo: unknown }) {
   // the week the page opens on: the latest with at least fifty classified stories, none after the build's week
@@ -80,7 +85,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
     const att: (number | null)[] = [], fri: (number | null)[] = [], n: number[] = [], opp: number[] = [];
     for (const i of span) {
       const c = cellOf.get(`${sector}|${gi}|${i}`);
-      att.push(c ? c.attention : null); fri.push(c ? c.friction : null); n.push(c ? c.stories : 0); opp.push(c ? c.opposition : 0);
+      att.push(c ? c.attention : null); fri.push(c && !few(c) ? c.friction : null); n.push(c ? c.stories : 0); opp.push(c ? c.opposition : 0);
     }
     return { att, fri, n, opp };
   }, [span, cellOf, sector, gi]);
@@ -116,7 +121,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
     const out: { name: string; value: number; code: string; cell: Cell }[] = [];
     for (const st of f.states) {
       const c = cellOf.get(`${sector}|${f.geos.indexOf("US-" + st)}|${week}`);
-      if (c) out.push({ name: STATES[st] ?? st, value: measure === "attention" ? c.attention : c.friction, code: st, cell: c });
+      if (c && (measure === "attention" || !few(c))) out.push({ name: STATES[st] ?? st, value: measure === "attention" ? c.attention : c.friction, code: st, cell: c });
     }
     return out;
   }, [f, cellOf, sector, week, measure]);
@@ -136,7 +141,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
             const c = p.data?.cell;
             if (!c) return `${p.name}: no story of ${sectorName.toLowerCase()} named this state in the week of ${day(wk)}`;
             return `<div style="max-width:17rem;white-space:normal"><strong>${p.name}</strong>, week of ${day(wk)}<br/>${whole(c.stories)} ${c.stories === 1 ? "story" : "stories"}, Attention Index ${pct(c.attention)}<br/>`
-              + `${whole(c.opposition)} reporting opposition, Friction Index ${pct(c.friction)}<br/><span style="color:${muted}">Click the state to choose it.</span></div>`;
+              + `${whole(c.opposition)} reporting opposition, ${few(c) ? `fewer than ${MIN_STORIES} stories, no Friction Index` : `Friction Index ${pct(c.friction)}`}<br/><span style="color:${muted}">Click the state to choose it.</span></div>`;
           },
         },
         visualMap: {
@@ -220,8 +225,8 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
             note={d ? <>of {S(ATT, "attention:corpus:all", "stories_judged", d.judged, whole(d.judged))} judged stories this week ({S(ATT, "attention:corpus:all", "stories_classified", d.classified, whole(d.classified))} classified, {S(ATT, "attention:corpus:all", "stories_unsent_zero", d.zero, whole(d.zero))} scored 0 by the news scorer and not sent; {S(ATT, "attention:corpus:all", "stories_week", d.week, whole(d.week))} held)</> : undefined} />
           <HeadlineNumber label="Attention Index" unit="% of the week's judged stories"
             value={S(ATT, entity, "attention_index", cell.attention, pct(cell.attention))} />
-          <HeadlineNumber label="Friction Index" unit="% of these stories reporting opposition"
-            value={S(FRI, entity, "friction_index", cell.friction, pct(cell.friction))}
+          <HeadlineNumber label="Friction Index" unit={few(cell) ? `stories report opposition: fewer than ${MIN_STORIES}, so no index` : "% of these stories reporting opposition"}
+            value={few(cell) ? <span data-friction-counts-only="1">{countsOnly(cell)}</span> : S(FRI, entity, "friction_index", cell.friction, pct(cell.friction))}
             note={<>{S(FRI, entity, "opposition_stories", cell.opposition, whole(cell.opposition))} {cell.opposition === 1 ? "story" : "stories"}{rising.kinds.length ? ": " : ""}{rising.kinds.map(([k, n], j) => <span key={k}>{j ? ", " : ""}{S(FRI, entity, `kind_${k}`, n, whole(n))} {KIND_NAME[k] ?? k}</span>)}</>} />
           <HeadlineNumber label="Tone" unit="mean, -1 to +1"
             value={S(ATT, entity, "tone_mean", cell.tone, tone(cell.tone))}
@@ -242,7 +247,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
         note="Percent of the cell's stories that report opposition. A week with few stories swings widely; the hover gives the counts.">
         <SeriesChart id="friction-line" title="Friction Index" unit="%" kind="line" scale="linear" fmt={pct}
           categories={categories} series={[{ name: "Friction Index", color: "var(--chart-blue)", values: series.fri }]}
-          says={(i) => `Week of ${day(f.weeks[span[i]])}${weekTo(span[i])}: ${series.fri[i] === null ? "no story" : `${pct(series.fri[i] as number)} (${whole(series.opp[i])} of ${whole(series.n[i])} stories report opposition)`}`}
+          says={(i) => `Week of ${day(f.weeks[span[i]])}${weekTo(span[i])}: ${series.fri[i] === null ? (series.n[i] > 0 ? `fewer than ${MIN_STORIES} stories, no index: ${whole(series.opp[i])} of ${whole(series.n[i])} report opposition` : "no story") : `${pct(series.fri[i] as number)} (${whole(series.opp[i])} of ${whole(series.n[i])} stories report opposition)`}`}
           saysOnCard partialWords="Partly classified or not over" />
       </ToolSection>
 
@@ -258,7 +263,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
                 return { key: r.code, cells: [
                   <button key="s" type="button" className={rowButton} onClick={() => openCell(sector, "US-" + r.code)} data-attention-open={`state:${r.code}`}>{STATES[r.code] ?? r.code}</button>,
                   S(ATT, ent, "stories", r.cell.stories, whole(r.cell.stories)), S(ATT, ent, "attention_index", r.cell.attention, pct(r.cell.attention)),
-                  S(FRI, ent, "opposition_stories", r.cell.opposition, whole(r.cell.opposition)), S(FRI, ent, "friction_index", r.cell.friction, pct(r.cell.friction))] };
+                  S(FRI, ent, "opposition_stories", r.cell.opposition, whole(r.cell.opposition)), few(r.cell) ? <span key="f" data-friction-counts-only="1">fewer than {MIN_STORIES} stories</span> : S(FRI, ent, "friction_index", r.cell.friction, pct(r.cell.friction))] };
               })} minWidth={0} />
           </div>
         )}
