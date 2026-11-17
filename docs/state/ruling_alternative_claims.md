@@ -30,4 +30,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /learn/bill | samueloldlaptop | 7715 | claimed | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | samueloldlaptop | 7716 | done | docs/reviews/ruling-alternatives-site-sources-2026-11-17.md |
 | /learn/problems | samueloldlaptop | 7717 | done | docs/reviews/ruling-alternatives-problem-sets-2026-11-17.md |
-| /play/battery | samueloldlaptop | 7718 | claimed | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
+| /play/battery | samueloldlaptop | 7718 | done | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
