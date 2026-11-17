@@ -1,0 +1,32 @@
+== line 1: two windows (the twelve months to October 2026, and October 2026) or any months: calendar 2025 and summer 2026 as examples
+ercot:HB_HUBAVG dam: twelve months 34.59; calendar 2025 33.50; summer 2026 (June to August) 30.96
+ercot:HB_HUBAVG rtm: twelve months 32.50; calendar 2025 32.49; summer 2026 (June to August) 31.42
+ercot:HB_WEST dam: twelve months 33.21; calendar 2025 33.74; summer 2026 (June to August) 29.07
+ercot:HB_WEST rtm: twelve months 31.04; calendar 2025 32.88; summer 2026 (June to August) 29.85
+caiso:TH_SP15_GEN-APND dam: twelve months 30.27; calendar 2025 32.22; summer 2026 (June to August) 34.83
+caiso:TH_SP15_GEN-APND rtm: twelve months 29.71; calendar 2025 31.19; summer 2026 (June to August) 36.33
+caiso:TH_NP15_GEN-APND dam: twelve months 34.11; calendar 2025 38.23; summer 2026 (June to August) 35.38
+caiso:TH_NP15_GEN-APND rtm: twelve months 33.16; calendar 2025 37.26; summer 2026 (June to August) 34.75
+spp:SPPNORTH_HUB dam: twelve months 34.27; calendar 2025 28.09; summer 2026 (June to August) 40.17
+spp:SPPNORTH_HUB rtm: twelve months 31.66; calendar 2025 27.02; summer 2026 (June to August) 39.53
+
+== line 2: one time convention for a month: clock time here (default) against standard time (the cost of power page), September 2026
+ercot:HB_HUBAVG dam: clock 38.7972 -> standard 38.8301 (+0.0329); day spread 44.11 -> 44.11
+ercot:HB_HUBAVG rtm: clock 38.3874 -> standard 38.3979 (+0.0105); day spread 42.86 -> 42.86
+ercot:HB_WEST dam: clock 38.3625 -> standard 38.4080 (+0.0455); day spread 48.89 -> 48.89
+ercot:HB_WEST rtm: clock 37.0265 -> standard 37.0483 (+0.0217); day spread 44.33 -> 44.33
+caiso:TH_SP15_GEN-APND dam: clock 40.7681 -> standard 40.7901 (+0.0220); day spread 33.47 -> 33.47
+caiso:TH_SP15_GEN-APND rtm: clock 38.3092 -> standard 38.2836 (-0.0256); day spread 29.83 -> 29.67
+caiso:TH_NP15_GEN-APND dam: clock 45.0942 -> standard 45.1186 (+0.0244); day spread 26.18 -> 26.18
+caiso:TH_NP15_GEN-APND rtm: clock 44.2548 -> standard 44.2591 (+0.0044); day spread 21.36 -> 21.36
+spp:SPPNORTH_HUB dam: clock 36.2065 -> standard 36.2146 (+0.0081); day spread 55.55 -> 55.55
+spp:SPPNORTH_HUB rtm: clock 36.6821 -> standard 36.6474 (-0.0347); day spread 63.61 -> 63.61
+
+== line 3: ISO-NE's and NYISO's grid carbon intensity (EIA-930, public) shown while their prices stay held
+isone twelve months: 227.6 (kg CO2 per MWh generated, 363 of 365 days)
+isone October 2026: 210.5 (kg CO2 per MWh generated, 30 of 31 days)
+nyiso twelve months: 247.3 (kg CO2 per MWh generated, 361 of 365 days)
+nyiso October 2026: 216.3 (kg CO2 per MWh generated, 31 of 31 days)
+   for scale, ercot twelve months: 301.1
+   for scale, caiso twelve months: 117.7
+   for scale, spp twelve months: nan

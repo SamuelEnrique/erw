@@ -91,7 +91,11 @@ function bounds(vs: number[], fromZero: boolean): Bounds {
   if (!vs.length) return { lo: 0, hi: 1, step: 0.25 };
   let lo = Math.min(...vs), hi = Math.max(...vs);
   if (fromZero) lo = Math.min(0, lo);
-  if (hi === lo) hi = lo + 1;
+  // Chain 305 (session 7602, browser read row 63): one value alone (a chart of one point, a flat line) is padded by a
+  // tenth of its size on each side. It was given one whole unit above it, so a share of 0.75 drew an axis to 1.8.
+  // A zero alone keeps its axis of 0 to 1.
+  if (hi === lo && lo === 0) hi = 1;
+  else if (hi === lo) { const pad = Math.abs(lo) / 10; lo -= pad; hi += pad; }
   const step = nice(hi - lo);
   return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step };
 }

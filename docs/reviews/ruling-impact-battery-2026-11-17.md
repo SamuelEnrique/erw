@@ -1,0 +1,12 @@
+# Ruling impact: /cost-of-power/battery, what a battery earns (17 November 2026)
+
+Session 7599 (samueloldlaptop; the last number of this chain's range, taken for two tools). The two lines marked "Changes a figure" under /cost-of-power/battery in `docs/reviews/rulings-for-samuel-2026-11-17.md` (branch `wip/7560-six-reads`). Ordered by the size of the change. No page and no default was changed.
+
+- **Script:** `runs/ruling_impact/battery_impact.py`, its printout `battery_impact.out`. It reads `battery_stack_monthly` (retrieved 21 October 2026), the model the page draws: a year's revenue per kW is the sum of its twelve months' revenue per MW over 1,000. The default year recomputed here reads CAISO SP15's 4-hour battery with perfect foresight at USD 79.31 per kW, the figure the signature pack names.
+- **A partial month:** this copy holds 19 of October 2026's 31 days (21 on the day-ahead schedule), so the other choice's year is understated here by the missing days; the data machine's whole October would give the true figure.
+- **No model call** (spend USD 0).
+
+| # | Line (the question) | Cells | Default | Other choice | Change |
+|---|---|---|---|---|---|
+| 1 | Test 178 holds the battery method note to fixed months, so the page stays on October 2025 to September 2026: should the note follow the data instead | Every figure of the page's year: the income headline and table, for each hub, duration and strategy | October 2025 to September 2026 | The twelve months to the newest (November 2025 to October 2026) | On this copy every year falls but one, by 0.6 to 3.5 percent, since October 2026 (19 days) replaces a whole October 2025: ERCOT Hub average, 4 hours, perfect foresight USD 81.40 to 79.07 per kW a year (-2.9 percent); 8 hours 98.94 to 96.16; CAISO SP15, 4 hours, perfect foresight 79.31 to 77.71 (-2.0 percent); 8 hours 97.79 to 94.38 (-3.5 percent); SP15 2 hours day-ahead 50.24 to 50.38 (+0.3 percent). With October whole the falls would be smaller; that figure is not computed here |
+| 2 | Keep the fold under the income table (each month's days held and the storage nodes' four-hour spread at the 10th percentile, median and 90th), or keep those rows in the CSV alone, as the ruling of 12 October moved monthly rows | The fold (48 cells: 4 figures for each of 12 months) | Leave the fold | The CSV alone | 48 cells leave the page and stay in the download; no other figure moves |

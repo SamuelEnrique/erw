@@ -1,0 +1,23 @@
+{
+ "/policy": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 2,
+  "text": 1
+ },
+ "/policy?view=monitor": {
+  "status": 200,
+  "held": [],
+  "shown": 149,
+  "words": 13,
+  "text": 0
+ },
+ "/policy?view=monitor&state=VA": {
+  "status": 200,
+  "held": [],
+  "shown": 78,
+  "words": 5,
+  "text": 0
+ }
+}

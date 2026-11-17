@@ -1,0 +1,23 @@
+the US as it opens (gasoline 4.354 USD/gal of 2026-10-05, electricity 183.1 USD/MWh of 2026-07-01): saved a year USD 1,567, payback 3.2 years, net present value USD 5,131
+
+== line 1: the price file as built on 15 October 2026 (default) or rebuilt daily from the newest rows
+gasoline 4.153 (2026-11-02): saved a year USD 1,456, payback 3.4 years, net present value USD 4,409
+and electricity 181.6 (2026-08-01): saved a year USD 1,463, payback 3.4 years, net present value USD 4,454
+the rulings line's example, gasoline 3.995: saved a year USD 1,368, payback 3.7 years, net present value USD 3,842
+CA as it opens (power 336.1, gas 6.227): saved a year USD 1,897, payback 2.6 years, net present value USD 7,258 | newest power 297.5 (2026-08-01): saved a year USD 2,076, payback 2.4 years, net present value USD 8,418
+TX as it opens (power 158.8, gas 3.874): saved a year USD 1,414, payback 3.5 years, net present value USD 4,138 | newest power 159.1 (2026-08-01): saved a year USD 1,412, payback 3.5 years, net present value USD 4,129
+NY as it opens (power 299, gas 4.38): saved a year USD 1,043, payback 4.8 years, net present value USD 1,741 | newest power 286.5 (2026-08-01): saved a year USD 1,101, payback 4.5 years, net present value USD 2,117
+
+== line 2: home electricity at the state's average residential price (default) or a time-of-use rate (PG&E E-TOU-C off-peak)
+California as it opens (336.1 USD/MWh, EIA's average): saved a year USD 1,897, payback 2.6 years, net present value USD 7,258
+PG&E E-TOU-C off-peak 36.757 cents: saved a year USD 1,750, payback 2.9 years, net present value USD 6,312
+PG&E E-TOU-C off-peak 39.940 cents: saved a year USD 1,602, payback 3.1 years, net present value USD 5,356
+
+== line 3: the car prices of the 2025 models (default, 'to confirm') or the 2026 models'
+the 2026 prices are not held: not computed. Each USD 1,000 on the EV's price moves the payback by +0.64 years and the net present value by USD -1,000 (US defaults)
+
+== line 4: the efficiency and miles defaults as read on 15 October 2026 (default) or read again from fueleconomy.gov
+not computed: fueleconomy.gov refused the connection, so no newer figure is held; the defaults stand (27 mpg, 0.31 kWh a mile, 15,000 miles)
+
+== line 5: the electricity slider by 0.1 cent (default) or a box to three decimals (39.940 set as 39.9)
+California at 39.940 cents: payback 3.12 years, net present value USD 5,355.58; at 39.9: 3.12 and 5,367.60; difference +0.004 years and USD -12.02

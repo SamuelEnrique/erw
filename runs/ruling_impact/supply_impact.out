@@ -1,0 +1,26 @@
+supply.json built 2026-11-17T04:51:44Z: 100 rows
+
+== line 1: two grids side by side, their burn rows over the weeks both hold (PJM against MISO)
+natural-gas (bcf/d): PJM's newest week 2026-11-13 (6.2311), MISO's 2026-11-06 (4.9927): the table compares two different weeks; over the 50 weeks both hold, the newest common week 2026-10-30: PJM 6.0751, MISO 4.9173 (PJM less MISO +1.1578); mean over the common weeks PJM 7.4053, MISO 5.0917
+coal (thousand short tons/d): PJM's newest week 2026-11-13 (177.1149), MISO's 2026-11-06 (202.2435): the table compares two different weeks; over the 50 weeks both hold, the newest common week 2026-10-30: PJM 154.7938, MISO 217.3841 (PJM less MISO -62.5903); mean over the common weeks PJM 227.7683, MISO 272.6826
+
+== line 2: a row of each grid's net imports for the newest whole month (EIA-930 total interchange)
+ERCOT: 2026-10 (29 days) net imports 66 GWh (95 MW on average)
+CAISO: 2026-10 (30 days) net imports 2,831 GWh (3,932 MW on average)
+PJM: 2026-10 (31 days) net imports -359 GWh (-483 MW on average)
+MISO: 2026-10 (31 days) net imports 1,217 GWh (1,635 MW on average)
+SPP: 2026-10 (31 days) net imports -344 GWh (-462 MW on average)
+NYISO: 2026-10 (31 days) net imports 1,377 GWh (1,851 MW on average)
+ISO-NE: 2026-10 (30 days) net imports -23 GWh (-32 MW on average)
+
+== line 3: 'Changes outside the five years' range': every series (default) or only series whose latest value is above a floor
+default: 21 lines: LNG exports, every other point of exit together, monthly (latest 0.004 bcf/d, 31.76 ranges); Distillate stocks, United States (latest 103.33 million bbl, 1.85 ranges); Crude oil production, Alaska, weekly (latest 496.0 thousand bbl/d, 1.17 ranges); Crude oil production, Permian, monthly (latest 6821.978 thousand bbl/d, 1.14 ranges); Refinery utilization, Gulf Coast (PADD 3) (latest 95.4 percent, 1.11 ranges); LNG exports, Cameron, LA, monthly (latest 2.0563 bcf/d, 0.87 ranges); Crude oil production, Haynesville, monthly (latest 32.2824 thousand bbl/d, 0.78 ranges); Crude runs, Midwest (PADD 2) (latest 4140.0 thousand bbl/d, 0.71 ranges); Natural gas marketed production, Rest of the Lower 48, monthly (latest 25.8612 bcf/d, 0.65 ranges); LNG exports, Corpus Christi, TX, monthly (latest 3.037 bcf/d, 0.65 ranges); Product net imports, United States (latest -6382.0 thousand bbl/d, 0.62 ranges); Gasoline imports, United States (latest 11.0 thousand bbl/d, 0.62 ranges); Natural gas marketed production, Haynesville, monthly (latest 17.632 bcf/d, 0.61 ranges); Product exports, United States (latest 7543.0 thousand bbl/d, 0.59 ranges); Working gas in storage, Midwest (latest 1129.0 bcf, 0.57 ranges); LNG exports, Sabine Pass, LA, monthly (latest 3.8351 bcf/d, 0.54 ranges); Coal burned for power, ERCOT (latest 100.2907 thousand short tons/d, 0.53 ranges); Crude oil imports, United States (latest 6698.0 thousand bbl/d, 0.50 ranges); LNG exports, Elba Island, GA, monthly (latest 0.3521 bcf/d, 0.37 ranges); LNG exports, all terminals, monthly (latest 16.6005 bcf/d, 0.36 ranges); Refinery utilization, United States (latest 95.2 percent, 0.28 ranges)
+a floor of 1 percent of the series' own five-year average (an example of a stated floor): 21 lines; first LNG exports, every other point of exit together, monthly
+a floor of 5 percent of the series' own five-year average (an example of a stated floor): 21 lines; first LNG exports, every other point of exit together, monthly
+lines whose latest value is under 0.05 Bcf a day: 1 (LNG exports, every other point of exit together, monthly)
+
+== line 4: the grid pages' ask panel and NYISO's and ISO-NE's cleared rows
+cleared-nyiso: status licensed, no value in the file
+cleared-iso-ne: status licensed, no value in the file
+cleared-pjm: status licensed, no value in the file
+on this build the file carries no value for the held grids' cleared rows (the builder's fix, request 154): a hold in the panel moves no figure today

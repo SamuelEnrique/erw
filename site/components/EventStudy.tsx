@@ -135,6 +135,9 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
       </div>
       <details className="text-sm">
         <summary className="cursor-pointer text-muted">Each event day&apos;s estimate, {name}, demand served (MWh)</summary>
+        {/* chain 305 (session 7602, browser reads rows 80 and 82): at 390 px this table is 468 px wide and pushed the
+            page sideways once the fold was opened; it scrolls in its own frame, as the table above does */}
+        <div className="overflow-x-auto">
         <table className="mt-1 text-left text-xs">
           <thead><tr className="text-muted"><th className="pr-4">Day</th><th className="pr-4 text-right">Effect</th><th className="text-right">95 percent interval</th></tr></thead>
           <tbody>
@@ -147,6 +150,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
             ))}
           </tbody>
         </table>
+        </div>
       </details>
       <Cite tables={[T]} note="Estimated here with lib/eventstudy.ts, the twin of warehouse/derived/event_study.py, whose table event_study_estimates holds the same estimates" />
       {/* session 332: every event page ends with this block, so the page's tables are offered here, as CSV with a Python and a

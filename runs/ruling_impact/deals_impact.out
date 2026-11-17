@@ -1,0 +1,18 @@
+energy_deals: 583 rows, 5 folded by the register: 578 deals; MW stated by 35: 40,297 MW (the rulings file: 590 deals, 43,119 MW)
+
+== line 1: the deals table held whole (default) or the rows whose every source is public shown
+deals whose source is public in the registry: 0 of 578, MW 0; the others (578) rest on news sources (internal). Sources of the deals: {'Reuters': 183, 'Bloomberg.com': 79, 'Hart Energy': 66, 'Financial Times': 41, 'Bloomberg': 39, 'WSJ': 37, 'LNG Prime': 30, 'Data Center Dynamics': 24}
+
+== line 2: no floor of the extraction's confidence (default) or 'Sure at least' 0.5 or 0.7
+floor None: 578 deals (100.0 percent), MW 40,297 (100.0 percent), AI-power deals 212, with a price 0
+floor 0.5: 525 deals (90.8 percent), MW 40,297 (100.0 percent), AI-power deals 201, with a price 0
+floor 0.7: 281 deals (48.6 percent), MW 21,705 (53.9 percent), AI-power deals 99, with a price 0
+
+== line 3: the views read the grid from the state alone (default) or a grid the story names first, as the table's Grid column
+deals whose table Grid differs from the state's grid: 1; by pair (table, state's): [('PJM', 'not stated')]
+
+== line 4: a folded row's figure carried to the kept row where only the folded row states it (the warehouse's own merge)
+kept rows without MW whose folded row states it: 1, 433 MW; MW disclosed 40,297 -> 40,730 (+1.07 percent)
+
+== line 5: 'a deal is energy's where its asset is energy' written into the extraction's prompt, and the older rows read again
+not computed: reading the rows again is a model call (spend USD 0, the key at its limit); the faults file's count is about 51 rows (funding rounds, chip contracts, sales of non-energy businesses) of 578, which would leave every count

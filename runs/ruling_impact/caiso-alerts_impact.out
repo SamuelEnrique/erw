@@ -1,0 +1,15 @@
+== line 1: two cells rounded twice (the table's three decimals, then the page's two)
+2021-07-29 reduction_pct: the table holds -0.175; the page rounds it to -0.18; at the builder's full precision (-0.174972, the replication's sum of the hours) the page would read -0.17
+2024 year_reduction_mwh: the table holds -16893.325; the page rounds it to -16,893.33; from the hours (-16,893.3249) it would read -16,893.32
+each moves by one in the last digit shown: 0.01 points (5.7 percent of the cell) and USD-free 0.01 MWh (0.00006 percent)
+
+== line 2: alert days valued at the hour's day-ahead price (default) or, where none is held, at a daily on-peak index (a second figure)
+alert days with an estimate: 38; valued at the day-ahead price: 4; 'no price': 34
+   2018: 2 alert days, 2 with no price, their estimated reduction -14,447.98 MWh
+   2019: 2 alert days, 2 with no price, their estimated reduction -12,697.84 MWh
+   2020: 11 alert days, 11 with no price, their estimated reduction 7,299.55 MWh
+   2021: 8 alert days, 8 with no price, their estimated reduction -1,898.55 MWh
+   2022: 11 alert days, 11 with no price, their estimated reduction -37,495.28 MWh
+   2023: 3 alert days, 0 with no price, their estimated reduction 0.00 MWh
+   2024: 1 alert days, 0 with no price, their estimated reduction 0.00 MWh
+the daily on-peak index for 2018 to 2022 is not held (data request row 200): the second figure's dollars are not computed; each unpriced day would gain one cell, its reduction in MWh times the index

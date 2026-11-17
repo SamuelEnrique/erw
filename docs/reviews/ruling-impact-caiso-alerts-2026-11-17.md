@@ -1,0 +1,11 @@
+# Ruling impact: /grid/caiso/alerts, the Flex Alert scorecard (17 November 2026)
+
+Session 7580 (samueloldlaptop). The two lines marked "Changes a figure" under the Flex Alert scorecard in `docs/reviews/rulings-for-samuel-2026-11-17.md` (branch `wip/7560-six-reads`): each figure under the default and under the other choice, the cells it moves, the change in units and percent. Ordered by the size of the change. No page and no default was changed.
+
+- **Script:** `runs/ruling_impact/caiso-alerts_impact.py`, its printout `caiso-alerts_impact.out`; the replication run beside it, `caiso_alerts_rep.out` (`replication/caiso_alerts/replicate.py`: 471 figures rebuilt from the public tables, 467 inside half the last digit, 4 named). Rows: `replication/caiso_alerts/public_rows.csv` (`flex_alert_effects`, `flex_alert_model`, `caiso_dam_alert_day_hub_prices`, public).
+- **No model call** (spend USD 0).
+
+| # | Line (the question) | Page and cells | Default | Other choice | Change |
+|---|---|---|---|---|---|
+| 1 | Once a daily on-peak price index is held for 2018 to 2022 (data request row 200), value those alert days at it as a second, labelled figure | `/grid/caiso/alerts`, "Every alert day, ranked", the value column; "Year by year" | An hour valued at its own day-ahead price, or "no price" | A second figure at the daily index | 34 of the 38 alert days with an estimate read "no price" today (all of 2018 to 2022: 2, 2, 11, 8 and 11 days); only the 4 days of 2023 and 2024 are valued. Each of the 34 would gain one cell, its estimated reduction times the day's index. The reductions to be valued, as the table holds them: 2018 -14,447.98 MWh, 2019 -12,697.84, 2020 7,299.55, 2021 -1,898.55, 2022 -37,495.28. The dollars are not computed: the index is data not held |
+| 2 | Two cells rounded twice sit one off in the last digit: store four or more decimals in the builder (a data request) | "Every alert day, ranked", 2021-07-29's percent; "Year by year", 2024's MWh | No change | The builder keeps more decimals | 2021-07-29: -0.18 to -0.17 percent (the table holds -0.175 of -0.174972). 2024: -16,893.33 to -16,893.32 MWh (the table holds -16,893.325 of -16,893.3249). Each moves by one in the last digit shown; no other cell of the 471 rebuilt moves |

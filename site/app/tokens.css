@@ -661,6 +661,12 @@ body:has(.brand-a) > footer :focus-visible {
     overflow-y: auto;
   }
 }
+/* chain 305 (session 7605, the findings library read as its reader): on a narrow screen the grid's one column took
+   the widest card's least width, so a card's table of estimates, though in a frame that scrolls, held the page at 712
+   px on a 390 px phone once its method fold was opened. The cards' column may shrink to the screen */
+.brand-a .with-index > .index-main {
+  min-width: 0;
+}
 .brand-a .index-list {
   margin-top: 4px;
   font-size: 14px;

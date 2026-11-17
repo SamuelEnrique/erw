@@ -1,0 +1,33 @@
+== provenance
+spp_interconnection_queue: latest retrieved 2026-11-16 14:53:13+00:00, source spp:interconnection_queue
+lbnl_interconnection_queue: latest retrieved 2026-10-02 09:16:25+00:00, source lbnl:queued_up
+hub_price_comparison: latest retrieved 2026-11-17 07:41:45+00:00, source erw:hub_price_comparison
+iso_dam_hub_prices: latest retrieved 2026-11-16 14:17:39+00:00, source caiso:PRC_LMP
+iso_trader_daily: latest retrieved 2026-11-16 14:38:24+00:00, source erw:trader_view
+price_board_spreads: latest retrieved 2026-11-16 14:59:49+00:00, source erw:price_board
+
+== line 1: SPP's withdrawn queue, summed (landing row 14 of the old laptop)
+now, the table read whole (the fix, landed): 2059 withdrawn requests, 419,935.335 MW
+14 November (docs/methods/ask.md, session 6192): the paged read gave 419,388.735 MW where the rows summed to 419,636.335: -247.600 MW, -0.06 percent
+
+== line 2: Berkeley Lab's queue figures for a held grid's region
+whole table: 38201 rows, 7,098,411.8 MW; active 8513 rows, 1,864,769.8 MW
+ISO-NE: active 72 rows 14,623.2 MW; operational 228 rows 16,515.9 MW; withdrawn 982 rows 118,080.5 MW
+NYISO: active 190 rows 27,119.2 MW; operational 215 rows 24,796.9 MW; withdrawn 1531 rows 324,101.3 MW
+MISO: active 1646 rows 350,124.6 MW; operational 515 rows 73,274.0 MW; withdrawn 3263 rows 622,888.2 MW
+the three regions: 8642 rows (22.6 percent of the table), 1,571,523.7 MW; active 1908 rows, 391,867.0 MW
+a national active total over Berkeley Lab's table: 1,864,769.8 MW with them, 1,472,902.8 MW without: -391,867.0 MW, -21.01 percent
+
+== line 3: a spread across two grids in Ask ERCOT (CAISO's SP15 less ERCOT's hub average)
+October 2026, day-ahead, monthly table: SP15 46.78, ERCOT hub average 36.73, SP15 less ERCOT +10.05 USD/MWh
+October 2026, real time, monthly table: SP15 43.37, ERCOT hub average 37.02, SP15 less ERCOT +6.35 USD/MWh
+the board's daily means: 80 common days, latest 2026-11-15 -5.88; October 31 days, mean of the daily spreads +10.05 USD/MWh
+
+== line 4: October's day-ahead average at SP15 from two tables
+hourly table iso_dam_hub_prices, October (Pacific days): 471 hours held, mean 41.94 USD/MWh (2026-10-12 16:00:00+00:00 to 2026-11-01 06:00:00+00:00)
+the same by UTC days: 464 hours, mean 41.77
+monthly table hub_price_comparison: 46.78 USD/MWh over 744 hours held
+daily table iso_trader_daily: 29 days held in October, mean of daily means 46.72
+board table price_board_spreads: 31 days held in October, mean of daily means 46.78
+the hourly window against the whole month: 41.94 to 46.78: +4.84 USD/MWh, +11.55 percent
+14 November's pair (note_2026-11-14_portable_p3.md ruling 6): 41.81 over 543 hours against 46.78: +4.97, +11.89 percent

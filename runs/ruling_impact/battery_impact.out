@@ -1,0 +1,17 @@
+== line 1: the battery page's year, October 2025 to September 2026 (default) or the twelve months to the newest (November 2025 to October 2026)
+ercot:HB_HUBAVG foresight 2h: 58.63 -> 56.93 USD per kW a year (-2.9 percent); October 2026 holds 19 days on this copy, October 2025 5.06 against October 2026 3.36 per kW
+ercot:HB_HUBAVG foresight 4h: 81.40 -> 79.07 USD per kW a year (-2.9 percent); October 2026 holds 19 days on this copy, October 2025 7.27 against October 2026 4.94 per kW
+ercot:HB_HUBAVG foresight 8h: 98.94 -> 96.16 USD per kW a year (-2.8 percent); October 2026 holds 19 days on this copy, October 2025 8.88 against October 2026 6.09 per kW
+ercot:HB_HUBAVG dayahead 2h: 51.07 -> 49.70 USD per kW a year (-2.7 percent); October 2026 holds 21 days on this copy, October 2025 4.37 against October 2026 3.00 per kW
+ercot:HB_HUBAVG dayahead 4h: 73.00 -> 71.49 USD per kW a year (-2.1 percent); October 2026 holds 21 days on this copy, October 2025 6.24 against October 2026 4.73 per kW
+ercot:HB_HUBAVG dayahead 8h: 90.36 -> 88.77 USD per kW a year (-1.8 percent); October 2026 holds 21 days on this copy, October 2025 7.61 against October 2026 6.02 per kW
+caiso:TH_SP15_GEN-APND foresight 2h: 61.29 -> 60.92 USD per kW a year (-0.6 percent); October 2026 holds 19 days on this copy, October 2025 5.26 against October 2026 4.89 per kW
+caiso:TH_SP15_GEN-APND foresight 4h: 79.31 -> 77.71 USD per kW a year (-2.0 percent); October 2026 holds 19 days on this copy, October 2025 7.24 against October 2026 5.64 per kW
+caiso:TH_SP15_GEN-APND foresight 8h: 97.79 -> 94.38 USD per kW a year (-3.5 percent); October 2026 holds 19 days on this copy, October 2025 9.74 against October 2026 6.33 per kW
+caiso:TH_SP15_GEN-APND dayahead 2h: 50.24 -> 50.38 USD per kW a year (+0.3 percent); October 2026 holds 21 days on this copy, October 2025 4.84 against October 2026 4.98 per kW
+caiso:TH_SP15_GEN-APND dayahead 4h: 65.22 -> 64.28 USD per kW a year (-1.4 percent); October 2026 holds 21 days on this copy, October 2025 6.78 against October 2026 5.84 per kW
+caiso:TH_SP15_GEN-APND dayahead 8h: 86.41 -> 83.50 USD per kW a year (-3.4 percent); October 2026 holds 21 days on this copy, October 2025 9.95 against October 2026 7.04 per kW
+October 2026 is partial on this copy (19 of 31 days), so the other choice's year is understated here; on the data machine's whole October the figure differs
+
+== line 2: the fold under the income table (each month: days held; the four-hour spread at the 10th percentile, median and 90th)
+the fold holds 4 figures for each of the 12 months: 48 cells; left out, they stay in the CSV; no other figure moves
