@@ -11,6 +11,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { STORAGE_DECISIONS } from "@/lib/decisions";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
+import { monthTotal } from "@/lib/storagemonth";   // wip/alt-storage-1
 import { count, day, shown } from "@/lib/format";
 import { DISCHARGED_TITLE, inventory, notHeld } from "@/lib/storagefleet"; // session 7542: the read of 16 November 2026
 import { attempt } from "@/lib/supabase";
@@ -229,6 +230,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
             <th className="pr-2 text-right font-normal">Out over in</th>
             <th className="pr-2 text-right font-normal">Peak discharge hour</th>
             <th className="pr-2 text-right font-normal">Peak charge hour</th>
+            <th className="pr-2 text-right font-normal" title="The newest calendar month whose every local day is held, summed from the daily rows. Default on the site: the newest day and the 30-day spark only. Source: storage_daily_cycle (ruling alternative 1, wip/alt-storage-1)." data-month-head="1">Discharged, newest whole month</th>
             <th className="font-normal">Discharged, last 30 days</th>
           </tr>
         </thead>
@@ -247,6 +249,8 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
                 <td className="pr-2 text-right">{b.code === "us48" || at("mwh_charged")?.value === 0 ? <span data-no-ratio={b.code}>-</span> : N(at("round_trip_ratio"))}</td>
                 <td className="pr-2 text-right">{N(at("peak_discharge_hour"), true)}{at("peak_discharge_hour") ? ":00" : ""}</td>
                 <td className="pr-2 text-right">{N(at("peak_charge_hour"), true)}{at("peak_charge_hour") ? ":00" : ""}</td>
+                {/* ruling alternative 1 (wip/alt-storage-1, not a default on main): the newest whole month's total */}
+                <td className="pr-2 text-right" data-month={b.code}>{((mt) => mt ? <span title={`${mt.days} days, ${shown(mt.perDay)} MWh a day`}><span data-month-mwh={mt.mwh}>{shown(mt.mwh)}</span> <span className="text-[11px] text-muted">{mt.month}</span></span> : <span className="text-muted">no whole month</span>)(monthTotal(rows, b.entity))}</td>
                 <td>
                   <InlineSpark values={dis.slice(-30).map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${b.label} battery MWh discharged per day, the last 30 days held${notHeld(dis.slice(-30))}`} />
                 </td>
