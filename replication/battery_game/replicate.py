@@ -527,10 +527,46 @@ def day_claims(levels):
     return out
 
 
+def headlines(by):
+    """The five headline figures replicate.do recomputes, here from the same rules (heat = 2023-08-10, Normal, the
+    default battery; the plays are cases.json's)."""
+    heat = by["heat"]
+    R = rules({"kwh": 13.5, "kw": 5, "rte": 0.9, "reserve": 0.25, "deg": 0.11}, "normal", [])
+    plan = next(c for c in CASES if c["id"] == "heat|normal|perfect")["actions"]
+    rule8 = next(c for c in CASES if c["id"] == "heat|normal|rule8")["actions"]
+    g = glance_expected(heat)
+    perfect, plain = play(heat, plan, R)["score"], play(heat, rule8, R)["score"]
+    d = {x[0]: x[1] for x in day_claims(list(by.values()))}
+    return [
+        ("1. heat, the day at a glance: lowest, average, highest, USD/MWh", f"{g['glance_lo']:.2f}, {g['glance_avg']:.4f}, {g['glance_hi']:.2f}"),
+        ("2. heat, Normal: the perfect battery's score, USD", f"{perfect:.4f}"),
+        ("3. heat, Normal: the plain rule's score (8 cheapest charge, 8 dearest sell), USD", f"{plain:.4f}"),
+        ("4. heat, Normal: the perfect battery's fleet of 10,000 homes, USD", f"{perfect * FLEET:.2f}"),
+        ("5. caiso-duck: the rise from the 12:00 to 15:00 mean to the 18:00 to 21:00 mean, USD/MWh", d["why caiso-duck, the rise"]),
+    ]
+
+
+def write_stata(by):
+    """stata_input.csv: one row an interval of the heat day and the duck day (slug, i, the local clock, the real price,
+    the perfect plan's and the plain rule's actions on Normal), for replicate.do."""
+    path = os.path.join(HERE, "stata_input.csv")
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["slug", "i", "clock", "price", "act_perfect", "act_rule8"])
+        for slug in ("heat", "caiso-duck"):
+            lv = by[slug]
+            plan = next(c for c in CASES if c["id"] == f"{slug}|normal|perfect")["actions"]
+            rule8 = next(c for c in CASES if c["id"] == f"{slug}|normal|rule8")["actions"]
+            for i, p in enumerate(lv["price"]):
+                w.writerow([slug, i, clock(lv, i), repr(p), plan[i], rule8[i]])
+    print(f"wrote {path}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tables", default=os.path.join(ROOT, "warehouse", "output"))
     ap.add_argument("--verbose", action="store_true")
+    ap.add_argument("--write", action="store_true", help="write stata_input.csv for replicate.do")
     a = ap.parse_args()
     global CASES
     CASES = json.load(open(os.path.join(HERE, "cases.json"), encoding="utf-8"))["cases"]
@@ -600,6 +636,11 @@ def main():
         n += 1
         ok += bool(good)
         print(f"{'ok  ' if good else 'DIFF'} {line}")
+    print("\nthe five headline figures (replicate.do):")
+    for what, v in headlines(by):
+        print(f"     {what}: {v}")
+    if a.write:
+        write_stata(by)
     print(f"\n{ok} of {n} figures inside half the page's last shown digit (times and words equal)")
     sys.exit(0 if ok == n and not [l for l in notes if l.startswith("DIFF")] else 1)
 
