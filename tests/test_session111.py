@@ -47,6 +47,7 @@ class TheGuideAgainstTheModel(unittest.TestCase):
         cls.m = node(MODEL)
         cls.guide = " ".join(src("docs", "battery_game_demo.md").split())
 
+    @unittest.skip("ruling alternative 2 of /play/battery (wip/alt-play-battery-2): every score is counted net of the starting charge; this test pins scores or a brute force of the free start (main), which move by design. The other choice is pinned in tests/test_alt_play_battery_2.py")
     def test_the_figures_the_guide_gives_are_the_models(self):
         m = self.m
         self.assertIn(f"**${m['normal']['perfect']:.2f}**", self.guide)             # the perfect battery, the simple page (Normal)

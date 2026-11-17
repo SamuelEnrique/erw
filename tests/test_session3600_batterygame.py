@@ -22,6 +22,7 @@ NODE = shutil.which("node")
 
 
 class Rulings(unittest.TestCase):
+    @unittest.skip("ruling alternative 2 of /play/battery (wip/alt-play-battery-2): every score is counted net of the starting charge; this test pins scores or a brute force of the free start (main), which move by design. The other choice is pinned in tests/test_alt_play_battery_2.py")
     def test_node_rulings(self):
         if not NODE:
             self.skipTest("node is not installed")

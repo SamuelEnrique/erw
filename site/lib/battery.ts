@@ -298,6 +298,14 @@ export type Result = {
  * that many intervals (the page, mid-game: the state so far, with nothing of the hours not yet played; before it the
  * page scored the rest of the day as idle, so on Hard the charge shown already had the coming outage taken out of it, and
  * an outage that idling would lose ended the round before it began). */
+/** Ruling alternative 2 (session 7718, branch wip/alt-play-battery-2; not a default on main): the score is counted net of
+ *  the starting charge, the half-full battery's kWh valued at the day's first price (USD per MWh / 1,000). On main the
+ *  start is free (the game rule since session 38). At a negative first price the start is worth less than nothing, and
+ *  the score rises. */
+export function startValue(prices: number[], r: Rules = V1): number {
+  return prices.length ? (r.start * prices[0]) / 1000 : 0;
+}
+
 export function simulate(prices: number[], actions: Action[], r: Rules = V1, solar?: number[] | null, upto?: number): Result {
   const em = emergencyOf(prices, r);
   const P = em.prices;
@@ -339,7 +347,7 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
     if (r.money0 + cash - wear + sold + (vppKwh * bonusPrice) / 1000 < 0) { end = i; why = "bankrupt"; break; }
   }
   const bonus = (vppKwh * bonusPrice) / 1000;
-  const score = cash - wear + bonus + sold - penalty;
+  const score = cash - wear + bonus + sold - penalty - startValue(P, r);   // startValue: wip/alt-play-battery-2
   let outageNeedKwh = 0;
   if (em.outage) for (let j = em.outage.first; j <= em.outage.last; j++) outageNeedKwh += Math.max(0, need - sun[j]) / r.eta;
   return { cash, wear, bonus, score, soc: path, vppKwh, money: r.money0 + score, end, why, outageStartKwh, outageNeedKwh, prices: P,
@@ -429,7 +437,7 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
   const actions: Action[] = [];
   for (let n = best; n && n.prev; n = n.prev) actions.unshift(n.a);
   while (actions.length < P.length) actions.push(0);  // after an early end nothing counts
-  return { score: best ? best.value : 0, actions: actions.slice(0, Math.max(stop, actions.length)).slice(0, P.length) };
+  return { score: (best ? best.value : 0) - startValue(P, r), actions: actions.slice(0, Math.max(stop, actions.length)).slice(0, P.length) };   // startValue: wip/alt-play-battery-2
 }
 
 /** Session 66: every interval's price as the page may show it. A spiked price (Hard's emergency: the price played is

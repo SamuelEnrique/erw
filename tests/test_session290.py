@@ -53,6 +53,7 @@ class TheTable(unittest.TestCase):
 
 @unittest.skipUnless(NODE, "node is not installed")
 class TheCounts(unittest.TestCase):
+    @unittest.skip("ruling alternative 2 of /play/battery (wip/alt-play-battery-2): every score is counted net of the starting charge; this test pins scores or a brute force of the free start (main), which move by design. The other choice is pinned in tests/test_alt_play_battery_2.py")
     def test_tally_against_the_scorer(self):
         r = subprocess.run([NODE, "--input-type=module", "-e", """import * as b from './lib/battery.ts'; import fs from 'node:fs';
 const l = JSON.parse(fs.readFileSync('data/battery_levels.json', 'utf-8')).levels.find((x) => x.date === '2023-08-10');
@@ -71,6 +72,7 @@ console.log(JSON.stringify(out));"""], cwd=SITE, capture_output=True, text=True,
         self.assertAlmostEqual(o["hard"]["score"], 48.36345717559472, places=6)   # the demo guide's figure (tests/test_session111.py)
         self.assertAlmostEqual(o["solar"], 34.32379413373751, places=6)            # the roof alone
 
+    @unittest.skip("ruling alternative 2 of /play/battery (wip/alt-play-battery-2): every score is counted net of the starting charge; this test pins scores or a brute force of the free start (main), which move by design. The other choice is pinned in tests/test_alt_play_battery_2.py")
     def test_the_battery_test_checks_it(self):
         r = subprocess.run([NODE, "scripts/test-battery.mjs"], cwd=SITE, capture_output=True, text=True, timeout=900)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:])

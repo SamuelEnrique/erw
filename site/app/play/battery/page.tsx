@@ -104,7 +104,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             the complete days the warehouse holds since 2025-09-01: the lowest mean price from 10:00 to 15:00 Pacific, and the largest rise from the 12:00 to 15:00
             mean to the 18:00 to 21:00 mean. The battery, the home,
             the brand (&quot;Mockingbird Home Battery&quot; is made up) and the fleet of 10,000 homes are fictional. On Normal and Hard the battery&apos;s settings are yours to set, within
-            stated ranges; by default 13.5 kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions), a {Math.round(SETTINGS.reserve.def * 100)} percent backup reserve and a
+            stated ranges; by default 13.5 kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions; the score is counted net of that start, valued at the day&apos;s first price: ruling alternative 2, on the site the start is free), a {Math.round(SETTINGS.reserve.def * 100)} percent backup reserve and a
             degradation cost of $0.11 per kWh discharged (from Lazard&apos;s 2025 storage cost study), both enforced on Hard. Every assumption and its source:{" "}
             <Link href="/data/methods/battery_game">the method</Link>.
           </p>

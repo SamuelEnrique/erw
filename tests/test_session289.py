@@ -130,6 +130,7 @@ console.log(JSON.stringify({ v: b.RULES_VERSION, reserve: b.DEFAULT_SETTINGS.res
             self.assertNotRegex(bad, rx)
         self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "supabase", "rollbacks", "033_game_v5.sql")))
 
+    @unittest.skip("ruling alternative 2 of /play/battery (wip/alt-play-battery-2): every score is counted net of the starting charge; this test pins scores or a brute force of the free start (main), which move by design. The other choice is pinned in tests/test_alt_play_battery_2.py")
     def test_the_battery_test_passes(self):
         r = subprocess.run([NODE, "scripts/test-battery.mjs"], cwd=SITE, capture_output=True, text=True, timeout=900)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:])
