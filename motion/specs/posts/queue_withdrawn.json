@@ -6,7 +6,7 @@
  "frames": 450,
  "decimals": 1,
  "title": "Grid connection requests withdrawn, filed 2000-2020",
- "source": "Source: Berkeley Lab, Queued Up (2026 edition). Share of requested MW withdrawn by technology for 22,348 interconnection requests filed 2000-2020, status end-2025. Other includes hydro, coal, nuclear, and geothermal.",
+ "source": "Source: Berkeley Lab, Queued Up (2026 edition). Share of requested MW withdrawn by technology, interconnection requests filed 2000-2020, status end-2025. Wind is onshore; Other includes offshore wind, hydro, coal, nuclear, and geothermal.",
  "rows": [
   {
    "label": "All Technologies",
