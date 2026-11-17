@@ -41,6 +41,6 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /prices | samueloldlaptop | 7723 | done | docs/reviews/ruling-alternatives-prices-2026-11-17.md |
 | /prices/compare | samueloldlaptop | 7724 | claimed | docs/reviews/ruling-alternatives-compare-2026-11-17.md |
 | /grid | samueloldlaptop | 7725 | claimed | docs/reviews/ruling-alternatives-grid-2026-11-17.md |
-| /supply | samueloldlaptop | 7726 | claimed | docs/reviews/ruling-alternatives-supply-2026-11-17.md |
+| /supply | samueloldlaptop | 7726 | done | docs/reviews/ruling-alternatives-supply-2026-11-17.md |
 | /storage | samueloldlaptop | 7727 | done | docs/reviews/ruling-alternatives-storage-2026-11-17.md |
 | /demand | samueloldlaptop | 7728 | done | docs/reviews/ruling-alternatives-demand-2026-11-17.md |
