@@ -31,6 +31,15 @@ One row a tool. A machine reads this file after a `git fetch` and before it star
 | 23 | `/curtailment` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h); read: samueloldlaptop (session 7544, branch `wip/7544-curtailment-read`, head `a291b1b16`, landing row 42 of `docs/state/landing_request_oldlaptop.md`) |
 | 24 | `/queues` | lab-desktop | done line (branch `wip/c301-later`, head `a4dc611c3` or later: the replication, the faults, the cross-checks, the decisions block, the sign-off; the pack `docs/reviews/desktop-tools-signature-pack-2026-11-16.md`; lands with chain 301's gate h); read: samueloldlaptop (session 7545, branch `wip/7545-queues-read`, head `3d443cf6a`, landing row 43 of `docs/state/landing_request_oldlaptop.md`) |
 
+The four tools below reached the done line before this file (chains 269 and 303) and are in part C of chain 305 alone, which reads each as its reader. They are claimed here so that no other machine reads them twice (session 7602).
+
+| # | Tool | Machine | State |
+|---:|---|---|---|
+| 25 | The datacenter tracker, `/datacenters` | portable-laptop | done line before this file (`docs/reviews/trackers-signature-pack-2026-11-16.md`); read: portable-laptop claimed (session 7602) |
+| 26 | The deal tracker, `/deals` | portable-laptop | done line before this file (the same pack); read: portable-laptop claimed (session 7602) |
+| 27 | Automated Analysis, `/research` | portable-laptop | done line before this file (`docs/reviews/five-tools-signature-pack-2026-11-14.md`); read: portable-laptop claimed (session 7602) |
+| 28 | Grid, `/grid` | portable-laptop | done line before this file (the same pack); read: portable-laptop claimed (session 7602) |
+
 Not in the split: `/ask` and `/thesis` (they need the key), the Digest and the Roundup (paused this week), the pages that are not tools (`/about`, `/data`, `/terms`, `/privacy`, `/subscribe`, `/tour`, `/home/v2`, `/in-review`, the draft reports).
 
 The ten tools already at the done line before this file (battery, generator, datacenter cost, Automated Analysis, Grid, the datacenter tracker, the deal tracker, companies, the policy monitor, attention) are not rows here.

@@ -22,7 +22,7 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | The large-load pages of chain 302, built here from `wip/7200-large-load` (not landed), read at 1280 and 390 px | done (`wip/7600-large-load-read`: 15 numbered rows in `docs/reviews/large-load-on-site/browser-read-2026-11-16.md`; 12 site faults fixed with tests, 2 requests of the data machine (rows 8 and 9), 1 ruling with its default; 17 of 17 figures in their table rows; axe, no rule broken; landing row 34 of `docs/state/landing_request_portable.md`) | 7600 |
 | `docs/state/browser_reads_wanted.md`, rows 1 to 14 (the old laptop's `/severance`, `/contracts`, `/shoulder`, `/cost-of-power/battery/awards`) | done (`b137693bb`: 8 seen, 6 with a fault. The shared "i" mark's box past a phone's screen, fixed for every page on `wip/7600-large-load-read`; one sentence of `/shoulder`, fixed on `wip/7600-shoulder-read`, landing row 35; index and 24 screenshots in `docs/reviews/browser-reads-2026-11-16/`) | 7600 |
 | `docs/state/browser_reads_wanted.md`, rows 15 to 31 (the old laptop's `/impact` and its three explorers) | done (`ce9be9911`: 13 seen, 4 with a fault: three the shared mark's; one of its own and on production too, the demand growth chart's hover card drew no figure, fixed on `wip/7601-demand-growth-read`, landing row 36) | 7601 |
-| `docs/state/browser_reads_wanted.md`, rows 32 on (added by the old laptop from 12:35 UTC) | open (read at the start of session 7602) | |
+| `docs/state/browser_reads_wanted.md`, rows 32 on (added by the old laptop from 12:35 UTC) | in work (session 7602: the old laptop's 27 branches merged on this machine with `wip/7600-large-load-read`, no conflict, one build, read at 1280 and 390 px) | 7602 |
 | The snapshots of the live pages around session 7600's pushes to main (`c305-before`, `c305-after-7600`) | done (25 pages, 0 differences; every push held state and queue files only) | 7600 |
 
 ## Part B: the done line for this machine's seven tools
@@ -30,18 +30,22 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | Tool | State | Session |
 |---|---|---|
 | `/map` | done line (`wip/7601-map` at `884c94071`: the note, the replication (the units 3,790 of 3,790 against EIA's own workbook; 301 queue figures named), the cross-check (18 of 27 technologies the same as EIA's table), 11 decisions on the page, the browser read, 8 faults: 3 fixed, 3 requests (rows 32 to 34), 2 rulings; landing row 37) | 7601 |
-| `/events` and its nine event pages | open | |
-| `/grid/caiso/alerts` | open | |
-| `/learn/bill` | open | |
-| `/learn/problems` | open | |
-| `/play/battery` | open | |
-| `/play/ev` | open | |
+| `/events` and its nine event pages | skipped: moved to samueloldlaptop by Samuel's instruction of 16 November 2026, about 22:00 UTC (`docs/state/note_2026-11-17_oldlaptop_c304.md`, "The second run"); done line there on `wip/7531-events-b` (landing row 29 of `docs/state/landing_request_oldlaptop.md`, landed by chain 370) | 7602 |
+| `/grid/caiso/alerts` | skipped: moved to samueloldlaptop, as above; done line on `wip/7532-caiso-alerts` (landing row 30, landed) | 7602 |
+| `/learn/bill` | skipped: moved to samueloldlaptop, as above; done line on `wip/7533-learn-bill` (landing row 31, landed) | 7602 |
+| `/learn/problems` | skipped: moved to samueloldlaptop, as above; done line on `wip/7534-learn-problems-b` (landing row 32, landed) | 7602 |
+| `/play/battery` | skipped: moved to samueloldlaptop, as above; done line on `wip/7535-play-battery` (landing row 33) | 7602 |
+| `/play/ev` | skipped: moved to samueloldlaptop, as above; done line on `wip/7536-play-ev` (landing row 34, landed) | 7602 |
 
 ## Part C: each tool read as the reader it is for
 
 | Tool | State | Session |
 |---|---|---|
-| This machine's seven tools, then the datacenter tracker, the deal tracker, Automated Analysis and Grid | open | |
+| This machine's seven tools | skipped: all seven read by samueloldlaptop (`/map` in session 7537 on `wip/7537-map-read`; the six in sessions 7546 to 7551 on their own branches), each marked `read: samueloldlaptop` in `docs/state/done_line_claims.md` | 7602 |
+| The datacenter tracker (`/datacenters`) | open: no `datacenters-read-2026-11-16.md` on any branch (searched every remote branch, session 7602) | |
+| The deal tracker (`/deals`) | open: no read on any branch | |
+| Automated Analysis (`/research`) | open: no read on any branch | |
+| Grid (`/grid`) | open: no read on any branch | |
 
 ## Needs the key
 
