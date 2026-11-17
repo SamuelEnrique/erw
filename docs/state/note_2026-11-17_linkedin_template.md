@@ -9,6 +9,7 @@ Status: in progress (the landing gate is waiting for the build lock). This secti
 
 - 09:10 UTC: the gate still waits for the build lock, held by another window's gate (`c370-gate-n`) since 08:30.
 - 09:35 UTC: the gate of `bd124795e` (the branch merged with main) passed freeze to check_cross_checks; check_csp running. A follow-up from Samuel (new source line, square master re-rendered) waits for the gate to end, then goes through a second gate.
+- 09:39 UTC: the first gate and its hand checks passed every step for `bd124795e`. 09:40: the follow-up committed as `a28ca3088`; its gate waits for the build lock (held by `c370-gate-p` since 09:40), as of 10:00.
 - Branch: `wip/linkedin-post-template`, first commit `686d69920` (the patch applied unchanged, the lock file, the spec
   and the four render files).
 
