@@ -49,6 +49,8 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 
 - Request 143: write SPP's CO2 generated (and so its intensity of generation) on days EIA leaves the consumed side blank? Default: no (session 6's ruling a stands); SPP's twelve months read "not held". (7051)
 
+- Request 200: EIA's robots file disallows `/*archive/`, the only place its ICE files for 2014 to 2025 are linked. Download the 2018 to 2025 files by hand for the connector's offline read? Default: not fetched; the alert days of 2018 to 2022 keep no daily ICE price. (7052)
+
 ## Decisions made without you
 
 - Request 239: the two CAISO levels' rooftop shapes kept as written; the newer EIA-860M vintage would have moved them by 13 MW of late-listed nameplate, and the request moved nothing. (7052)
