@@ -12,4 +12,5 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /impact | samueloldlaptop | 7575 | done | docs/reviews/ruling-impact-impact-2026-11-17.md |
 | Site-wide: Ask (the chat) | portable-laptop | 7611 | done | docs/reviews/ruling-impact-site-ask-2026-11-17.md |
 | /explore/ercot-peak-premium | samueloldlaptop | 7576 | done | docs/reviews/ruling-impact-ercot-peak-premium-2026-11-17.md |
-| /explore/demand-growth | samueloldlaptop | 7577 | claimed | docs/reviews/ruling-impact-demand-growth-2026-11-17.md |
+| /explore/demand-growth | samueloldlaptop | 7577 | done | docs/reviews/ruling-impact-demand-growth-2026-11-17.md |
+| /explore/interconnection | samueloldlaptop | 7578 | claimed | docs/reviews/ruling-impact-interconnection-2026-11-17.md |

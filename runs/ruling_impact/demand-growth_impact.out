@@ -1,0 +1,27 @@
+eia930_demand_growth rows as the page reads them (table_rows.csv, 16 November 2026): years 2019 to 2026; last whole year 2025
+
+== line 1: California's growth with the batteries' charging (the table's row) and without (a second row)
+June to December 2025: demand +2.81 percent on the same months of 2019 (26,383 to 27,124 MW, +741 MW); the charging 1,690 MW; demand less the charging -3.60 percent; CAISO's own demand -3.25 percent; retail sales -2.28 percent; the charging is 228 percent of the growth
+January to August 2026: demand +10.75 percent on the same months of 2019 (24,282 to 26,893 MW, +2,611 MW); the charging 2,114 MW; demand less the charging +2.05 percent; CAISO's own demand +2.13 percent; retail sales -2.90 percent; the charging is 81 percent of the growth
+EIA's demand less CAISO's own is the charging to within 300 MW in 14 of the 16 months held (2025-06 to 2026-09)
+the page's headline for CAISO (2025 on 2019, the whole year): +4.45 percent. A second row for the whole year needs the charging of January to May 2025, which CAISO's own data on this machine does not hold (iso:caiso_own starts in June 2025): the whole-year figure without the charging is not computed
+
+== line 2: a month's window: growth read at 2025 (default) or written for 2026's months
+ERCOT: Jan +35.69 -> +33.62 (-2.07 points); Feb +32.93 -> +27.20 (-5.73 points); Mar +24.79 -> +36.34 (+11.55 points); Apr +36.25 -> +41.35 (+5.10 points); May +28.51 -> +30.57 (+2.06 points); Jun +28.49 -> +34.34 (+5.85 points); Jul +21.97 -> +31.30 (+9.32 points); Aug +18.02 -> +29.90 (+11.88 points); Sep +17.85 -> +34.94 (+17.08 points); Oct +33.68 -> +35.67 (+1.98 points)
+CAISO: Jan +4.99 -> +7.25 (+2.26 points); Feb +4.95 -> +8.62 (+3.66 points); Mar +14.05 -> +26.56 (+12.51 points); Apr +3.36 -> +6.62 (+3.26 points); May +9.93 -> +10.36 (+0.43 points); Jun +3.50 -> +7.17 (+3.66 points); Jul -2.01 -> +8.82 (+10.83 points); Aug +2.66 -> +12.63 (+9.97 points); Sep +4.73 -> +6.59 (+1.86 points); Oct +4.99 -> +18.33 (+13.34 points)
+PJM: Jan +9.31 -> +10.09 (+0.78 points); Feb +6.48 -> +12.10 (+5.62 points); Mar -2.73 -> +1.27 (+4.00 points); Apr +6.21 -> +9.45 (+3.24 points); May -0.07 -> +5.52 (+5.58 points); Jun +14.18 -> +12.25 (-1.93 points); Jul +6.26 -> +5.12 (-1.13 points); Aug +0.58 -> +9.08 (+8.50 points); Sep +0.30 -> +9.88 (+9.58 points); Oct +5.79 -> +9.32 (+3.54 points)
+MISO: Jan +4.89 -> +4.34 (-0.56 points); Feb +2.67 -> -0.15 (-2.82 points); Mar -5.01 -> -1.09 (+3.92 points); Apr +1.41 -> +4.73 (+3.32 points); May -1.37 -> +2.14 (+3.51 points); Jun +8.48 -> +8.45 (-0.04 points); Jul +5.32 -> +8.25 (+2.92 points); Aug +2.68 -> +7.93 (+5.26 points); Sep -1.80 -> +6.87 (+8.68 points); Oct +2.95 -> +5.65 (+2.70 points)
+SPP: Jan +14.74 -> +12.17 (-2.57 points); Feb +11.86 -> +3.35 (-8.51 points); Mar +5.31 -> +13.63 (+8.31 points); Apr +12.60 -> +18.07 (+5.47 points); May +12.60 -> +19.58 (+6.98 points); Jun +15.31 -> +20.43 (+5.12 points); Jul +12.29 -> +19.20 (+6.91 points); Aug +8.46 -> +19.58 (+11.13 points); Sep +1.45 -> +17.28 (+15.82 points); Oct +16.12 -> +17.58 (+1.46 points)
+NYISO: Jan +1.75 -> +3.29 (+1.54 points); Feb +1.05 -> +4.64 (+3.59 points); Mar -8.21 -> -6.03 (+2.19 points); Apr -3.76 -> -5.78 (-2.03 points); May -4.57 -> -5.35 (-0.78 points); Jun +2.70 -> -0.84 (-3.54 points); Jul -2.71 -> -10.49 (-7.77 points); Aug -9.39 -> -3.75 (+5.64 points); Sep -6.54 -> -4.48 (+2.06 points); Oct -4.83 -> -6.33 (-1.50 points)
+ISO-NE: Jan +2.07 -> +5.12 (+3.05 points); Feb +2.06 -> +7.06 (+5.00 points); Mar -7.69 -> -2.54 (+5.14 points); Apr -6.67 -> -5.14 (+1.52 points); May -5.68 -> -3.22 (+2.46 points); Jun +4.23 -> +3.90 (-0.33 points); Jul -3.59 -> -9.34 (-5.74 points); Aug -10.18 -> -0.24 (+9.94 points); Sep -4.90 -> -2.69 (+2.21 points); Oct -4.14 -> -4.50 (-0.35 points)
+Lower 48: Jan +12.22 -> +10.55 (-1.66 points); Feb +8.23 -> +9.15 (+0.93 points); Mar +2.15 -> +7.07 (+4.92 points); Apr +8.56 -> +10.61 (+2.04 points); May +5.01 -> +7.78 (+2.77 points); Jun +12.03 -> +13.26 (+1.23 points); Jul +8.00 -> +10.48 (+2.49 points); Aug +3.95 -> +12.16 (+8.21 points); Sep +1.63 -> +10.42 (+8.79 points); Oct +6.77 -> +10.04 (+3.27 points)
+
+== line 3: a site's MW as a share of the grid's growth since 2019 (average demand, 2025 less 2019)
+ERCOT: average demand 43,798 MW in 2019, 55,717 in 2025, growth +11,920 MW; a 300 MW site is 2.52 percent of it; 1,000 MW 8.39 percent
+CAISO: average demand 24,476 MW in 2019, 25,565 in 2025, growth +1,089 MW; a 300 MW site is 27.54 percent of it; 1,000 MW 91.80 percent
+PJM: average demand 91,354 MW in 2019, 96,257 in 2025, growth +4,903 MW; a 300 MW site is 6.12 percent of it; 1,000 MW 20.39 percent
+MISO: average demand 74,147 MW in 2019, 75,780 in 2025, growth +1,633 MW; a 300 MW site is 18.37 percent of it; 1,000 MW 61.24 percent
+SPP: average demand 30,764 MW in 2019, 34,191 in 2025, growth +3,427 MW; a 300 MW site is 8.75 percent of it; 1,000 MW 29.18 percent
+NYISO: average demand 17,789 MW in 2019, 17,304 in 2025, growth -485 MW; a 300 MW site is not a share (the grid's demand fell)
+ISO-NE: average demand 13,503 MW in 2019, 13,160 in 2025, growth -343 MW; a 300 MW site is not a share (the grid's demand fell)
+Lower 48: average demand 458,599 MW in 2019, 490,819 in 2025, growth +32,220 MW; a 300 MW site is 0.93 percent of it; 1,000 MW 3.10 percent
