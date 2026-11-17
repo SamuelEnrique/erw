@@ -81,7 +81,9 @@ function figuresOf(html) {
   f.push({ key: "chart_cross_label", name: "The chart's crossing label", shown: cross ? cross[1] : "none", value: cross ? Number(cross[1]) : null, tolerance: cross ? tol(cross[1]) : null });
   const svg = html.match(/<svg[\s\S]*?<\/svg>/);
   if (svg) {
-    const yt = [...svg[0].matchAll(/text-anchor="end"[^>]*>([^<]+)<\/text>/g)].map((m) => m[1]);
+    // chain 370 (session 7050): the crossing label is drawn with text-anchor="end" too, and is its own figure
+    // (chart_cross_label above), so the money axis is the ticks that begin with a dollar sign
+    const yt = [...svg[0].matchAll(/text-anchor="end"[^>]*>([^<]+)<\/text>/g)].map((m) => m[1]).filter((t) => !t.startsWith("they cross at"));
     const xt = [...svg[0].matchAll(/text-anchor="middle"[^>]*>([^<]*)<\/text>/g)].map((m) => m[1]).filter((t) => t !== "years");
     f.push({ key: "chart_y_ticks", name: "The chart's money axis", shown: yt.join(" "), value: null, tolerance: null });
     f.push({ key: "chart_x_labels", name: "The chart's year axis (blank: a year not labelled)", shown: xt.map((t) => t || "_").join(" "), value: null, tolerance: null });

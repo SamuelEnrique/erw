@@ -103,6 +103,14 @@ def span(time_frame, day):
         a, b = parse_date(ds[0][0]), parse_date(ds[-1][0])
         if a and b and a <= b and (b - a).days < 60:
             return [a + dt.timedelta(days=k) for k in range((b - a).days + 1)], f"{a} {ds[0][1]}", f"{b} {ds[-1][1]}"
+    # session 7050 (done-line request 59): one date and two clock times, "10/1/2020 15:00:00 through 22:00:00", is that
+    # date's own window, whatever day the notice was issued (the Flex Alert of 1 October 2020, issued 30 September), as
+    # warehouse/derived/flex_alert_scorecard.py window() reads it
+    m = re.match(r"\s*(\d{1,2}/\d{1,2}/\d{4})\s+(\d{1,2}:\d{2})(?::\d{2})?\s+through\s+(\d{1,2}:\d{2})(?::\d{2})?\s*$", time_frame)
+    if m:
+        a = parse_date(m.group(1))
+        if a:
+            return [a], f"{a} {m.group(2)}", f"{a} {m.group(3)}"
     m = re.search(r"(\d{1,2}:?\d{2})\s*-\s*(\d{1,2}:?\d{2})", time_frame)
     if m:
         return [day], f"{day} {m.group(1)}", f"{day} {m.group(2)}"

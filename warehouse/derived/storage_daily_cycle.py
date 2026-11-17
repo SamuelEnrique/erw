@@ -60,6 +60,20 @@ def hours_in(day, tz):
                 - pd.Timestamp(day).tz_localize(tz)) / pd.Timedelta(hours=1))
 
 
+# Session 7050 (chain 370, done-line request 79): EIA's API posts an hour early and fills it in later; ERCOT's 14 November
+# 2026 was written with every hour present and its evening discharge at 853 MW where the day before reached 8,438 (the
+# workbook of 16 November held none of those evening hours yet). The storage connector asks for its last three days
+# again each run, so a local day is written only when it ended at least SETTLE_HOURS before the area's newest held
+# hour: by then the day has been asked for again since its first posting. A day left out is written by a later run.
+SETTLE_HOURS = 48
+
+
+def settled(day, tz, newest):
+    """Whether a local day ended at least SETTLE_HOURS before newest (the area's newest held hour, UTC)."""
+    end = (pd.Timestamp(day) + pd.Timedelta(days=1)).tz_localize(tz).tz_convert("UTC")
+    return newest - end >= pd.Timedelta(hours=SETTLE_HOURS - 1)
+
+
 def day_rows(x, who, day, retrieved):
     """One complete local day's rows from its hourly values x (columns value, ts, hour)."""
     t = f"{day.isoformat()}T00:00:00Z"
@@ -121,15 +135,20 @@ def main():
             local = g["ts"].dt.tz_convert(tz)
             g = g.assign(day=local.dt.date, hour=local.dt.hour)
             entity, geo = g["entity"].iloc[0], g["geo"].iloc[0]
-            n_days = n_left = 0
+            n_days = n_left = n_recent = 0
+            newest = g["ts"].max()
             for day, x in g.groupby("day"):
                 if len(x) != hours_in(day, tz):
                     n_left += 1
                     continue
+                if not settled(day, tz, newest):
+                    n_recent += 1
+                    continue
                 n_days += 1
                 rows += day_rows(x, dict(entity=entity, geo=geo, source="erw:storage_daily_cycle", ba=ba), day,
                                  retrieved)
-            log(f"  {ba}: {n_days} complete local days, {n_left} partial days left out ({tz})")
+            log(f"  {ba}: {n_days} complete local days, {n_left} partial days left out, {n_recent} days within "
+                f"{SETTLE_HOURS} hours of the newest hour held left out until EIA has been asked again ({tz})")
         caiso = caiso_rows(retrieved, log)  # session 34
         rows += caiso
         out = pd.DataFrame(rows)[COLS].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
@@ -138,7 +157,8 @@ def main():
             "(derived, session 31) and, for CAISO, from CAISO's own data (session 34)",
             "Shape: series (docs/datastandard.md v0), partition column ba; freq P1D, ts_utc the local day at "
             "00:00:00Z (ERCO, SWPP America/Chicago; MISO EST; ISNE, US48 America/New_York; CISO America/Los_Angeles). "
-            "Complete local days only.",
+            "Complete local days only, and (session 7050) only those that ended at least 48 hours before the area's "
+            "newest hour held, so EIA has been asked for them again since their first posting.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/storage_daily_cycle.py",
             f"Run log: warehouse/output/logs/storage_daily_cycle_{run_id}.log",
             f"Source: erw:storage_daily_cycle ERW derived table, storage method (docs/methods/storage.md), {METHOD_URL}",
