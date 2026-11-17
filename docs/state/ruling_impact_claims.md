@@ -20,4 +20,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /grid/caiso/alerts | samueloldlaptop | 7580 | done | docs/reviews/ruling-impact-caiso-alerts-2026-11-17.md |
 | /learn/bill | samueloldlaptop | 7581 | done | docs/reviews/ruling-impact-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | portable-laptop | 7614 | claimed | docs/reviews/ruling-impact-site-sources-2026-11-17.md |
-| /learn/problems | samueloldlaptop | 7582 | claimed | docs/reviews/ruling-impact-problem-sets-2026-11-17.md |
+| /learn/problems | samueloldlaptop | 7582 | done | docs/reviews/ruling-impact-problem-sets-2026-11-17.md |
