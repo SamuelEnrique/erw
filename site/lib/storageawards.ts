@@ -68,7 +68,7 @@ const num = (v: number | string | null | undefined): number | null => {
 
 /** The months of the table, oldest first, each with the model's figure for the same month where the model holds one.
  * A month without its days or without its three per-MW sums is not a month the page can show, and is left out. */
-export function monthsOf(rows: Row[], model: Row[] = []): Month[] {
+export function monthsOf(rows: Row[], model: Row[] = [], prefix: string = MODEL_PREFIX): Month[] {   // prefix: wip/alt-battery-awards-1
   const by = new Map<string, Map<string, number>>();
   for (const r of rows) {
     const v = num(r.value);
@@ -80,10 +80,10 @@ export function monthsOf(rows: Row[], model: Row[] = []): Month[] {
   const mod = new Map<string, Map<string, number>>();
   for (const r of model) {
     const v = num(r.value);
-    if (v === null || !r.variable.startsWith(MODEL_PREFIX)) continue;
+    if (v === null || !r.variable.startsWith(prefix)) continue;
     const m = r.ts_utc.slice(0, 7);
     if (!mod.has(m)) mod.set(m, new Map());
-    mod.get(m)!.set(r.variable.slice(MODEL_PREFIX.length), v);
+    mod.get(m)!.set(r.variable.slice(prefix.length), v);
   }
   const out: Month[] = [];
   for (const m of [...by.keys()].sort()) {
@@ -230,6 +230,10 @@ const GAP_AWARD_VARIABLES = ["days_held", "days_in_month", "revenue_total_usd_pe
 /** The model's variables the gap reads, without their prefix, and with it (the page's read). */
 const GAP_MODEL = ["days_held", "days_in_month", "revenue_total_usd_per_mw", "revenue_energy_usd_per_mw", "discharged_mwh_per_mw", ...PRODUCTS.map((p) => `revenue_${p.key}_usd_per_mw`)];
 export const MODEL_GAP_VARIABLES = GAP_MODEL.map((v) => MODEL_PREFIX + v);
+/** Ruling alternative 1 (wip/alt-battery-awards-1, not a default on main): the same model for a 4-hour battery, beside the 2-hour. */
+export const MODEL_PREFIX_4H = "dayahead_4h_";
+export const MODEL_VARIABLES_4H = MODEL_VARIABLES.map((v) => MODEL_PREFIX_4H + v.slice(MODEL_PREFIX.length));
+export const MODEL_GAP_VARIABLES_4H = GAP_MODEL.map((v) => MODEL_PREFIX_4H + v);
 
 export type Band = {
   /** the price, USD per MWh; null is "at any price" */
@@ -285,8 +289,8 @@ function pivot(rows: Row[], prefix = ""): Map<string, Map<string, number>> {
 
 /** The gap between the model and the awards over the months held whole, and its three parts; null when no month is
  * held whole by the awards table, the offers table and the model with every figure the arithmetic needs. */
-export function gapOf(fleet: Row[], offers: Row[], model: Row[]): Gap | null {
-  const A = pivot(fleet), O = pivot(offers), M = pivot(model, MODEL_PREFIX);
+export function gapOf(fleet: Row[], offers: Row[], model: Row[], prefix: string = MODEL_PREFIX): Gap | null {   // prefix: wip/alt-battery-awards-1
+  const A = pivot(fleet), O = pivot(offers), M = pivot(model, prefix);
   const months: string[] = [], leftOut: { m: string; why: string }[] = [];
   const wholeIn = (g: Map<string, number> | undefined) => !!g && g.get("days_held") !== undefined && g.get("days_held") === g.get("days_in_month");
   const lacks = (g: Map<string, number>, need: string[]) => need.filter((k) => !g.has(k));

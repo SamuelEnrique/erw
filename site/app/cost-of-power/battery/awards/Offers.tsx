@@ -18,7 +18,9 @@ const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2,
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const points = (v: number) => (v * 100).toFixed(1);
 
-export function OffersSection({ gap, unread, loaded }: {
+export function OffersSection({ gap, gap4 = null, unread, loaded }: {
+  /** ruling alternative 1 (wip/alt-battery-awards-1, not a default on main): the same arithmetic on the 4-hour battery's model */
+  gap4?: Gap | null;
   /** the arithmetic's result; null when no month is held whole by all three tables */
   gap: Gap | null;
   /** why the offers table (or the model's rows) could not be read, when it could not */
@@ -38,6 +40,9 @@ export function OffersSection({ gap, unread, loaded }: {
   } else {
     const g = gap, e = g.energy;
     const of = (v: number) => (g.gapKw !== 0 ? pct(v / g.gapKw) : "");
+    const g4 = gap4 && gap4.months.join(",") === g.months.join(",") ? gap4 : null;   // the 4-hour column only over the same months
+    const of4 = (v: number) => (g4 && g4.gapKw !== 0 ? pct(v / g4.gapKw) : "");
+    const four = (key: string, v: number | undefined) => (g4 && v !== undefined ? [<span key="v4" data-offers-part-4h={key} data-offers-raw={v}>{usd(v)}</span>, of4(v)] : []);
     const months = span(g.months);
     const withGap = g.services.filter((s) => s.gapKw > 0);
     const covered = withGap.filter((s) => s.unawardedKw >= s.gapKw), short = withGap.filter((s) => s.unawardedKw < s.gapKw);
@@ -55,15 +60,15 @@ export function OffersSection({ gap, unread, loaded }: {
       <div className="space-y-6" data-offers-gap="1" data-offers-months={g.months.join(",")}>
         <div className="max-w-3xl space-y-2 text-sm">
           <p>Over {months}, the model&apos;s 2-hour battery makes USD {usd(g.modelKw)} per kW on its day-ahead schedule and the fleet&apos;s day-ahead awards come to USD {usd(g.awardsKw)} per kW:
-            a gap of USD {usd(g.gapKw)}. The offers ERCOT discloses split it in three.</p>
+            a gap of USD {usd(g.gapKw)}. The offers ERCOT discloses split it in three.{g4 ? <span data-offers-4h="1"> The same model's 4-hour battery makes USD {usd(g4.modelKw)} per kW: a gap of USD {usd(g4.gapKw)}, split the same way in the last two columns.</span> : null}</p>
         </div>
         <ToolTable caption="The gap between the model's figure and the awards, in three parts" minWidth={520}
-          head={["Of the gap", "USD per kW", "Share of the gap"]}
+          head={["Of the gap", "USD per kW", "Share of the gap", ...(g4 ? ["4-hour battery, USD per kW", "Share of its gap"] : [])]}
           rows={[
-            { key: "never", cells: ["Capacity never offered day-ahead", <span key="v" data-offers-part="never" data-offers-raw={g.neverOfferedKw}>{usd(g.neverOfferedKw)}</span>, of(g.neverOfferedKw)] },
-            { key: "unawarded", cells: ["Offered day-ahead and not awarded", <span key="v" data-offers-part="unawarded" data-offers-raw={g.offeredNotAwardedKw}>{usd(g.offeredNotAwardedKw)}</span>, of(g.offeredNotAwardedKw)] },
-            { key: "price", cells: ["Price", <span key="v" data-offers-part="price" data-offers-raw={g.priceKw}>{usd(g.priceKw)}</span>, of(g.priceKw)] },
-            { key: "gap", highlight: true, cells: ["The gap: the model's figure less the awards", <span key="v" data-offers-part="gap" data-offers-raw={g.gapKw}>{usd(g.gapKw)}</span>, of(g.gapKw)] },
+            { key: "never", cells: ["Capacity never offered day-ahead", <span key="v" data-offers-part="never" data-offers-raw={g.neverOfferedKw}>{usd(g.neverOfferedKw)}</span>, of(g.neverOfferedKw), ...four("never", g4?.neverOfferedKw)] },
+            { key: "unawarded", cells: ["Offered day-ahead and not awarded", <span key="v" data-offers-part="unawarded" data-offers-raw={g.offeredNotAwardedKw}>{usd(g.offeredNotAwardedKw)}</span>, of(g.offeredNotAwardedKw), ...four("unawarded", g4?.offeredNotAwardedKw)] },
+            { key: "price", cells: ["Price", <span key="v" data-offers-part="price" data-offers-raw={g.priceKw}>{usd(g.priceKw)}</span>, of(g.priceKw), ...four("price", g4?.priceKw)] },
+            { key: "gap", highlight: true, cells: ["The gap: the model's figure less the awards", <span key="v" data-offers-part="gap" data-offers-raw={g.gapKw}>{usd(g.gapKw)}</span>, of(g.gapKw), ...four("gap", g4?.gapKw)] },
           ]} />
         <ul className="max-w-3xl list-disc space-y-1.5 pl-4 text-sm">
           <li><strong>Never offered.</strong> {points(g.noOfferShare)} percent of the fleet&apos;s limit-hours (each resource&apos;s limit, hour by hour) carried no day-ahead offer of any kind, no energy curve and no
