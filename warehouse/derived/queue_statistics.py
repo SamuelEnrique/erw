@@ -72,6 +72,10 @@ def stats(q, iso):
         out[f"mw_{k}"] = (0.0 if not m.any() else float(mw[m].sum(min_count=1)) if mw[m].notna().any() else None, "MW")
     if "withdrawn" in groups and out["positions_entered"][0]:
         out["withdrawal_rate"] = (out["positions_withdrawn"][0] / out["positions_entered"][0], "ratio")
+    # ruling alternative 3 of /explore/interconnection (session 7710, branch wip/alt-interconnection-3; not a default on
+    # main): the withdrawn share by MW, withdrawn MW over MW entered, where both are held and MW entered is above zero
+    if "withdrawn" in groups and out.get("mw_withdrawn", (None,))[0] is not None and (out.get("mw_entered", (None,))[0] or 0) > 0:
+        out["mw_withdrawal_rate"] = (out["mw_withdrawn"][0] / out["mw_entered"][0], "ratio")
     if iso not in NO_IN_SERVICE:
         op = q[s == "completed"]
         qd = pd.to_datetime(op["queue_date"], errors="coerce")
@@ -156,6 +160,8 @@ def rule_words(iso, variable):
         return "SPP's Commercial Operation Date, which may be the date requested rather than achieved"
     if variable.startswith("wait_"):
         return "queue date to in-service date, operating positions with both dates"
+    if variable == "mw_withdrawal_rate":   # wip/alt-interconnection-3
+        return "withdrawn MW over MW entered, as the queue states MW"
     if variable == "withdrawal_rate":
         return "withdrawn positions over positions entered"
     return "the queue connector's status (STATUS_MAP of warehouse/connectors/iso_queues.py)"
@@ -234,7 +240,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): interconnection queue statistics by ISO and entry year (derived, session 348)",
             "Shape: series (docs/datastandard.md v0). entity <iso>:queue_<entry year>; variables positions_ and mw_ entered, withdrawn, "
-            "operating, waiting and status_not_stated; withdrawal_rate; wait_positions, wait_years_median, wait_years_mean. Since session "
+            "operating, waiting and status_not_stated; withdrawal_rate; mw_withdrawal_rate (withdrawn MW over MW entered: ruling alternative 3 of /explore/interconnection, branch wip/alt-interconnection-3); wait_positions, wait_years_median, wait_years_mean. Since session "
             "7022 the same by technology group, entity <iso>:tech_<group>:queue_<entry year>, group storage, solar, solar_storage, wind, "
             "gas, other or not_stated (the queue gives no technology), from the queue's fuel_technology; a group with no position in a "
             "year has no row",

@@ -172,7 +172,9 @@ export default async function InterconnectionExplorer({ searchParams }: { search
   const prefix = measure === "mw" ? "mw" : "positions";
   // session 7518: a queue's own words for a status where it has them (ERCOT: "Agreement signed", "No agreement yet")
   const words = (key: (typeof STATUSES)[number]["key"]) => statusWords(iso, key);
-  const third: [string, string] = has("withdrawal_rate") ? ["withdrawal_rate", "Withdrawn, share of positions entered"] : [`${prefix}_waiting`, `${words("waiting").label}, ${unit}`];
+  // ruling alternative 3 (wip/alt-interconnection-3, not a default on main): in the MW view the withdrawn share is by MW
+  const rateVar = measure === "mw" && has("mw_withdrawal_rate") ? "mw_withdrawal_rate" : "withdrawal_rate";
+  const third: [string, string] = has(rateVar) ? [rateVar, rateVar === "mw_withdrawal_rate" ? "Withdrawn, share of MW entered" : "Withdrawn, share of positions entered"] : [`${prefix}_waiting`, `${words("waiting").label}, ${unit}`];
   const along = (v: string): Line["points"] => span
     .map((y) => ({ t: Date.UTC(y, 0, 1) / 1000, v: valueOf(rows, iso, y, v) }))
     .filter((p): p is { t: number; v: number } => p.v !== undefined);
@@ -203,9 +205,10 @@ export default async function InterconnectionExplorer({ searchParams }: { search
       </div>
 
       {has("withdrawal_rate") ? (
-        <ChartFrame title={`${name}: the share of each entry year's positions withdrawn`} note="Withdrawn positions over positions entered, by count, one point an entry year.">
+        <ChartFrame title={rateVar === "mw_withdrawal_rate" ? `${name}: the share of each entry year's MW withdrawn` : `${name}: the share of each entry year's positions withdrawn`}
+          note={rateVar === "mw_withdrawal_rate" ? "Withdrawn MW over MW entered, as the queue states MW, one point an entry year (ruling alternative 3; on the site the share is by count in both views)." : "Withdrawn positions over positions entered, by count, one point an entry year."}>
           <LineChart x="year" unit="share" height={240} ariaLabel={`${name}: withdrawn share of positions entered, by entry year`}
-            lines={[{ label: "Withdrawn, share of entered", points: along("withdrawal_rate"), color: "accent" }]} />
+            lines={[{ label: "Withdrawn, share of entered", points: along(rateVar), color: "accent" }]} />
         </ChartFrame>
       ) : null}
       {has("wait_years_median") ? (
@@ -220,12 +223,12 @@ export default async function InterconnectionExplorer({ searchParams }: { search
         note={<>Each figure is one row of the table; the page adds none up. {undated !== null ? <>The table&apos;s header counts <Num check={headerKey(iso, UNDATED, name)} raw={undated} source={`${TABLE}: the header line "${UNDATED}", ${name}. Source: the table's own header, written when the table was built from ${name}'s queue (${iso}_interconnection_queue). Method: Energy projects, Queue statistics.`}>{shown(undated)}</Num> of {name}&apos;s positions with no queue date, in no year.</> : null}</>}>
         <ToolTable caption={`${name}'s queue by entry year and status, ${unit}`} minWidth={measure === "mw" ? 640 : 820}
           head={measure === "mw"
-            ? ["Entry year", "Entered", ...ownHead]
+            ? ["Entry year", "Entered", ...ownHead, ...(rateVar === "mw_withdrawal_rate" ? ["Withdrawn, share of MW entered"] : [])]
             : ["Entry year", "Entered", ...ownHead, "Withdrawn, share of entered", "Median wait, years", "Waits counted"]}
           rows={span.map((y) => ({
             key: String(y), muted: partial(y),
             cells: [`${y}${partial(y) ? " (partial)" : ""}`, <N key="e" y={y} v={`${prefix}_entered`} />, ...STATUSES.map((s) => <N key={s.key} y={y} v={`${prefix}_${s.key}`} />),
-              ...(measure === "mw" ? [] : [<N key="r" y={y} v="withdrawal_rate" />, <N key="m" y={y} v="wait_years_median" />, <N key="c" y={y} v="wait_positions" />])],
+              ...(measure === "mw" ? (rateVar === "mw_withdrawal_rate" ? [<N key="r" y={y} v="mw_withdrawal_rate" />] : []) : [<N key="r" y={y} v="withdrawal_rate" />, <N key="m" y={y} v="wait_years_median" />, <N key="c" y={y} v="wait_positions" />])],
           }))} />
       </ToolSection>
 
