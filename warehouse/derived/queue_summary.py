@@ -184,6 +184,36 @@ def summarize(x, last_year):
     return out
 
 
+def not_comparable(d, summary):
+    """Session 7052 (chain 370, done-line request 189): a grid whose file types no withdrawn and no suspended request as
+    a hybrid (type_2 empty for every one of them) while it types active or operating ones so, has solar-with-storage
+    shares that are the file's labels, not a count: a withdrawn solar-with-storage request there is counted as Solar or
+    Battery alone. Berkeley Lab's codebook says only "If populated, indicates hybrid / co-located project" of type_2.
+    Returns {"<grid>|solar_battery": why}, and the United States' pair when it counts such a grid's past requests.
+    The figures stand as written; the mark says they cannot be set beside another grid's."""
+    hyb = d["type_2"].notna() & (d["type_2"].astype(str).str.strip() != "") if "type_2" in d else pd.Series(False, index=d.index)
+    out, past = {}, []
+    for grid, (region, _) in GRIDS.items():
+        if region is None:
+            continue
+        g = d["region"] == region
+        closed = g & d["status"].isin(["withdrawn", "suspended"])
+        live = g & d["status"].isin(["active", "operational", "operating"])
+        if int(closed.sum()) >= MIN_SHARE and int((hyb & closed).sum()) == 0 and int((hyb & live).sum()) > 0:
+            n = summary.get((grid, "solar_battery"), {}).get("whole", {}).get("past_requests", 0)
+            out[f"{grid}|solar_battery"] = (f"The file types none of {region}'s {int((closed & (d['status'] == 'withdrawn')).sum()):,} withdrawn and "
+                                            f"{int((closed & (d['status'] == 'suspended')).sum()):,} suspended requests as a hybrid (no second part), while "
+                                            f"{int((hyb & live).sum()):,} of its active and operating requests have one. A withdrawn solar-with-storage request "
+                                            f"there is counted as Solar or Battery alone, so its shares of solar with storage ({n:,} past requests) are the "
+                                            "file's labels, not a count, and are not comparable with another grid's. Berkeley Lab's codebook says only that a "
+                                            "populated type_2 indicates a hybrid or co-located project.")
+            past.append((region, n))
+    if past:
+        out["us|solar_battery"] = ("The United States' solar-with-storage shares count " + ", ".join(f"{region}'s {n:,} past requests" for region, n in past)
+                                   + ", none of them withdrawn by the file's labels (above), so its withdrawn share reads lower than a count would.")
+    return out
+
+
 def unit_of(variable):
     if variable.endswith("share_pct"):
         return "pct"
@@ -213,13 +243,14 @@ def rows_of(summary, last_year, retrieved, vintage):
     return rows
 
 
-def snapshot(summary, last_year, retrieved, vintage, input_retrieved, counts):
+def snapshot(summary, last_year, retrieved, vintage, input_retrieved, counts, marks=None):
     os.makedirs(os.path.dirname(SITE_FILE), exist_ok=True)
     views = {f"{g}|{t}": {"years": {str(y): r for y, r in sorted(s["years"].items())}, "on": {str(y): r for y, r in sorted(s["on"].items())}, "whole": s["whole"]}
              for (g, t), s in summary.items()}
     with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
         json.dump(dict(table=NAME, built=retrieved, vintage=vintage, input_retrieved=input_retrieved, last_year=last_year, past=[PAST_FROM, last_year - PAST_LAG],
-                       min_share=MIN_SHARE, min_median=MIN_MEDIAN, grids=list(GRIDS), techs=TECH_ORDER, counts=counts, views=views), f, separators=(",", ":"))
+                       min_share=MIN_SHARE, min_median=MIN_MEDIAN, grids=list(GRIDS), techs=TECH_ORDER, counts=counts, views=views,
+                       not_comparable=marks or {}), f, separators=(",", ":"))  # session 7052: request 189
 
 
 def main(argv=None):
@@ -273,7 +304,9 @@ def main(argv=None):
                             report="The interconnection queue summarized by grid and technology, from Berkeley Lab and GridTracker's Queued Up data file (CC BY 4.0)",
                             report_url=METHOD_URL, document_list="docs/methods/interconnection_queue_summary.md", license="public", tables=[NAME])])
     if a.snapshot:
-        snapshot(summary, last_year, retrieved, vintage, input_retrieved, counts)
+        marks = not_comparable(d, summary)
+        log(f"  not comparable: {sorted(marks)}")
+        snapshot(summary, last_year, retrieved, vintage, input_retrieved, counts, marks)
     log.close()
     print(f"{NAME}: {len(out):,} rows, {out['entity'].nunique()} grid and technology pairs; {counts}"
           + ("; the site's copy written" if a.snapshot else "") + (f" (trial, under {a.out_dir}; input read from {inputs})" if a.out_dir else ""))
