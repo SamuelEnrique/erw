@@ -8,6 +8,9 @@ Precheck passed. Freeze: none.
 
 - **Gate l** (`db047b792`, `wip/c370-desk-c`, portable row 38) passed every step: suite, build, check-values (only the license holds' floors), routes, cross-checks, csp. Snapshot `before-db047b79` taken (25 pages, 0 checked numbers: every page is in review); pushed to `task/7052-desk` at 07:55 UTC (run 44042463853).
 
+- **Desk stack c landed.** The checks of run 44042463853 passed, and its merge job lost a race to another push to main; the failed job was rerun once (the suite again on the moved main) and merged at `1dc009dad` (08:40 UTC). Snapshots `before-db047b79-b` (taken again after main moved), `after-db047b79`: **0 differences**. Portable row 38 marked landed.
+- **What a reader now sees** (production, the internal cookie, headless Chrome): `/supply`, `/events/uri-2021` and `/events/caiso-heat-2022` at 1280 px and at 477 px (the narrowest window headless Chrome would open; 390 px was not reached): no page is wider than its window, with every fold open; the grids line of `/supply` breaks between grids (445 px at the narrow window). The one-point chart's axis and the wide tooltip were not exercised.
+
 ## Done-line requests
 
 - **209, done.** ERCOT's Houston and North load zones in `cost_of_power_monthly`, from `ercot_zone_prices_history`, loaded.
