@@ -259,12 +259,14 @@
     "quote": "54. a. The sales price from the sale of wind energy conversion property or hydroelectricity conversion property to be used as an electric power source and the sale of the materials used to manufacture, install, or construct wind energy conversion property or hydroelectricity conversion property used or to be used as an electric power source."
    },
    "utility_pv": {
-    "exempt_pct": 67.2131,
+    "exempt_pct": 100,
     "cite": "ia_423_3",
     "subdivision": "423.3(90)",
     "quote": "90. The sales price from the sale of solar energy equipment. For purposes of this subsection, \"solar energy equipment\" means equipment that is primarily used to collect and convert incident solar radiation into thermal, mechanical, or electrical energy or equipment that is primarily used to transform such converted solar energy to a storage point or to a point of use.",
     "arithmetic": "JEDI's utility PV taxable base is its materials and equipment, 0.642105 of the cost: mounting 0.105263, modules 0.368421, electrical 0.105263, inverter 0.063158. The modules (collect and convert) and the inverter (transform to a point of use) are the equipment the subsection names: (0.368421 + 0.063158) / 0.642105 = 0.672131 of the tax. Mounting and electrical materials are not named, so their tax stays.",
-    "ruling": "Whether Iowa's solar exemption reaches racking and wiring is a reading of the statute: default, it does not (67.2 percent of the tax exempt)."
+    "ruling": "Whether Iowa's solar exemption reaches racking and wiring is a reading of the statute: default, it does not (67.2 percent of the tax exempt).",
+    "branch": "ruling alternative 7 of /impact (wip/alt-impact-7, session 7706): not a default on main (main: 67.2131)",
+    "tip": "Ruling alternative 7: the exemption is taken to reach the racking and wiring (JEDI's mounting and electrical lines) with the modules and inverters, all of JEDI's taxable purchases: 100 percent; with the racking alone it would be (0.105263 + 0.368421 + 0.063158) / 0.642105 = 83.6 percent. Default on the site: 67.2131 percent."
    }
   },
   "nd": {
