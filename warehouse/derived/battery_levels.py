@@ -127,6 +127,17 @@ def solar_day(log):
     return day, float(share[day])
 
 
+def solar_window(log):
+    """Session 7051 (chain 370, done-line request 89): the window the solar-heavy day was chosen over, from the choice's own
+    log line ("32 complete days 2026-08-26 to 2026-09-26"), so the line names its end as well as its start."""
+    import re
+    for x in log:
+        m = re.match(r"solar-heavy: .*?(\d+) complete days (\S+) to (\S+)\)", x)
+        if m:
+            return f"{int(m.group(1))} complete days, {m.group(2)} to {m.group(3)}"
+    return "from 2026-08-26"
+
+
 def level(slug, title, why, df, table, grid="ERCOT", tz=TZ, entity="ercot:HB_HUBAVG", variable="spp_rtm", market="ercot_rtm", rule=None):
     rows = df.sort_values("ts")
     return {
@@ -171,7 +182,7 @@ def ercot_levels(log):
         level("heat", "A summer scarcity day", "2023-08-10, a hot August day with a 3,842.89 USD/MWh interval.", of(hist, "2023-08-10"), pb.HISTORY),
         level("calm", "A calm spring day", f"{calm}: the narrowest range of real-time prices of any day, March to May 2026.", of(hist, calm), pb.HISTORY),
         level("solar", "A solar-heavy day", f"{sday}: solar made {share * 100:.1f} percent of ERCOT's net generation, the most of the days the warehouse "
-              f"holds EIA's fuel mix for (from 2026-08-26).", of(rt, sday), "iso_rtm_hub_prices"),
+              f"holds EIA's fuel mix for ({solar_window(log)}).", of(rt, sday), "iso_rtm_hub_prices"),
         level("negative", "A negative-price day", f"{neg}: the lowest average real-time price of any day since 2015.", of(hist, neg), pb.HISTORY),
     ]
     # the heat day's line states its highest interval: read it, never write it by hand
@@ -222,6 +233,9 @@ def main(argv=None):
         log += [x for x in old.get("log", []) if not x.startswith("caiso")]
         note = "ERCOT days kept as written in session 38 (pass --rebuild-ercot to choose them again)"
     for lv in ercot:
+        if lv.get("slug", lv.get("id")) == "solar" or lv.get("why", "").endswith("(from 2026-08-26)."):
+            # session 7051: a kept solar level's line names its window's end, read from its own log line
+            lv["why"] = lv["why"].replace("(from 2026-08-26).", f"({solar_window(log)}).")
         lv.setdefault("grid", "ERCOT")
         lv.setdefault("tz", TZ)
     levels = ercot + caiso_levels(log, {lv["date"] for lv in ercot})
