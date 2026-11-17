@@ -92,7 +92,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 281 | `wip/alt-contracts-2` | 15.2 | wanted | |
 | B | 367 | `wip/alt-grid-2` | 13.42 | wanted | |
 | B | 314 | `wip/alt-site-ask-3` | 11.55 | wanted | |
-| B | 356 | `wip/alt-map-1` | 11.3 | wanted | |
+| B | 356 | `wip/alt-map-1` | 11.3 | seen: map-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 296 | `wip/alt-battery-awards-3` | 11.0 | wanted | |
 | B | 309 | `wip/alt-impact-9` | 10.0 | wanted | |
 | B | 282 | `wip/alt-contracts-4` | 9.5 | wanted | |
