@@ -9,7 +9,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /cost-of-power | portable-laptop | 7622 | done | docs/reviews/ruling-alternatives-cost-of-power-2026-11-17.md |
 | Across the five signed tools | portable-laptop | 7623 | done | docs/reviews/ruling-alternatives-five-signed-2026-11-17.md |
 | /attention | portable-laptop | 7624 | done | docs/reviews/ruling-alternatives-attention-2026-11-17.md |
-| /companies | portable-laptop | 7625 | claimed | docs/reviews/ruling-alternatives-companies-2026-11-17.md |
+| /companies | portable-laptop | 7625 | done | docs/reviews/ruling-alternatives-companies-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
