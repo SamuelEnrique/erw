@@ -577,7 +577,8 @@ export function weekStale(t: string, built: string): string | null {
 /** The prices nearest the top and the bottom of their own one-year range (spreads left out). */
 export function rangeExtremes(file: BoardFile) {
   const BENCHMARKS = ["power", "gas", "crude", "products", "metals", "rates", "carbon"];
-  const rows = file.rows.filter((r) => r.status === "ok" && !r.formula && BENCHMARKS.includes(r.group) && r.range && r.range.pos !== null && (r.tags.scope ?? "main") === "main" && (r.tags.kind ?? "daily") === "daily")
+  // ruling alternative 4 (wip/alt-board-4, not a default on main): daily series only (r.freq "D"); main lets a monthly series stand
+  const rows = file.rows.filter((r) => r.status === "ok" && !r.formula && BENCHMARKS.includes(r.group) && r.range && r.range.pos !== null && (r.tags.scope ?? "main") === "main" && (r.tags.kind ?? "daily") === "daily" && r.freq === "D")
     .sort((a, b) => b.range!.pos! - a.range!.pos!);
   return rows.length ? { top: rows[0], bottom: rows[rows.length - 1] } : null;
 }

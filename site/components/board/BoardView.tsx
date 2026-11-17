@@ -429,7 +429,7 @@ function Headline({ file, market, setMarket, onOpen }: { file: BoardFile; market
     // row 5: the value's date (a monthly average was drawn with none), and its stale mark
     for (const [k, label, r] of [["top", "Highest in its year's range", rx.top], ["bottom", "Lowest in its year's range", rx.bottom]] as const) {
       const d = headDate(r, file.built);
-      cells.push({ k, label, r, v: r.last!.v, note: `${r.label}, ${r.at}, ${d.words}: ${Math.round(r.range!.pos! * 100)}% of the way up`, tip: d.title, stale: d.stale });
+      cells.push({ k, label, r, v: r.last!.v, note: `${r.label}, ${r.at}, ${d.words}: ${Math.round(r.range!.pos! * 100)}% of the way up`, tip: `${d.title ?? ""}${d.title ? ". " : ""}Daily series only: a weekly or monthly series does not stand here (ruling alternative 4; on the site any step can). Source: the row's own one-year range.`, stale: d.stale });   // wip/alt-board-4
     }
   }
   return (
