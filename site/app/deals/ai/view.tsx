@@ -5,7 +5,7 @@ import { SourceLine, ToolHeader, ToolSection } from "@/components/tool/ToolPage"
 import { HeldRows } from "@/components/tool/HeldRows";
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
-import { fold, toDeal, whole, type Deal, type DealRow, type Pair } from "@/lib/deals2";
+import { atFloor, fold, toDeal, whole, type Deal, type DealRow, type Pair } from "@/lib/deals2";
 import { AI_DIMENSIONS, SUPPLY_LABEL, aiCells, aiKey, largest, supplyOf } from "@/lib/dealsai";
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
@@ -61,7 +61,7 @@ export async function AiView({ sp }: { sp: Record<string, string | undefined> })
   const read = await attempt(deals);
   const by = AI_DIMENSIONS.some((d) => d.id === sp.aby) ? (sp.aby as string) : "buyer";
   const dim = AI_DIMENSIONS.find((d) => d.id === by)!;
-  const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
+  const all = read.ok ? atFloor(fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS)) : [];   // session 7627 (wip/alt-deals-1): at the floor
   const ai = all.filter((d) => d.ai);
   // session 1852 (deals faults row 3): the two top-ten lists are of power and infrastructure deals; a capital deal (an
   // acquisition at its valuation, a funding round, a financing) stays in the table's Capital and acquisitions row

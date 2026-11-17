@@ -5,7 +5,7 @@ import { ChartFrame, SourceLine, ToolHeader, ToolSection } from "@/components/to
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import {
-  DIMENSIONS, FEWER, MIN_DISCLOSED, NOT_STATED, PRICE_DIMENSIONS, comparables, compKey, fold, priceCells, priceKey, priced,
+  DIMENSIONS, FEWER, MIN_DISCLOSED, NOT_STATED, PRICE_DIMENSIONS, atFloor, comparables, compKey, fold, priceCells, priceKey, priced,
   shown as shownOf, toDeal, whole, type Cell, type Deal, type DealRow, type Pair,
 } from "@/lib/deals2";
 import { PlaceDeal } from "./PlaceDeal";
@@ -112,7 +112,7 @@ export async function ComparablesView({ sp }: { sp: Record<string, string | unde
   const read = await attempt(deals);
   const by = DIMENSIONS.some((d) => d.id === sp.by) ? (sp.by as string) : "type";
   const dim = DIMENSIONS.find((d) => d.id === by)!;
-  const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
+  const all = read.ok ? atFloor(fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS)) : [];   // session 7627 (wip/alt-deals-1): at the floor
   const cells = comparables(all, by);
   const what: "price" | "mw" = cells.some((c) => c.medianPrice !== null) ? "price" : "mw";
   const charted = cells.filter((c) => c.value !== "" && (what === "price" ? c.medianPrice : c.medianMw) !== null).length;

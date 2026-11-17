@@ -3,7 +3,7 @@ import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, 
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
 import {
-  GRIDS, GROUPS, KINDS, NOT_STATED, STATUSES, TYPE_LABEL, counts, fold, hrefOf, inputsOf, monthWords, months, parties, select, selectionWords, summary, technologies, toDeal, usd, whole,
+  GRIDS, GROUPS, KINDS, NOT_STATED, STATUSES, TYPE_LABEL, atFloor, counts, fold, hrefOf, inputsOf, monthWords, months, parties, select, selectionWords, summary, technologies, toDeal, usd, whole,
   type Deal, type DealRow, type Inputs, type Pair,
 } from "@/lib/deals2";
 import { isLicenseReason } from "@/lib/license";
@@ -162,7 +162,7 @@ function Choices({ x, all, held = false }: { x: Inputs; all: Deal[]; held?: bool
 export async function TrackerView({ sp }: { sp: Record<string, string | undefined> }) {
   const read = await attempt(deals);
   const rows = read.ok ? (read.data as unknown as DealRow[]) : [];
-  const all = fold(rows.map(toDeal), PAIRS);
+  const all = atFloor(fold(rows.map(toDeal), PAIRS));   // session 7627 (wip/alt-deals-1): at the floor
   const x = inputsOf(sp, all);
   const shown = select(all, x);
   const c = counts(shown), ca = counts(all);

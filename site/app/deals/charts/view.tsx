@@ -6,7 +6,7 @@ import { HeldRows } from "@/components/tool/HeldRows";
 import { BarsHover } from "@/components/tool/BarsHover";   // session 1853 (deals faults row 8): the brand's hover card on the two charts by quarter
 import duplicates from "@/data/deal_duplicates.json";
 import { deals } from "@/lib/data";
-import { fold, toDeal, whole, type DealRow, type Pair } from "@/lib/deals2";
+import { atFloor, fold, toDeal, whole, type DealRow, type Pair } from "@/lib/deals2";
 import { GROUPS, aiShare, mwByQuarter, pricePoints, topParties } from "@/lib/dealsai";
 import { isLicenseReason } from "@/lib/license";
 import { attempt } from "@/lib/supabase";
@@ -183,7 +183,7 @@ function Table({ head, rows, caption }: { head: string[]; rows: (string | React.
 
 export async function ChartsView() {
   const read = await attempt(deals);
-  const all = read.ok ? fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS) : [];
+  const all = read.ok ? atFloor(fold((read.data as unknown as DealRow[]).map(toDeal), PAIRS)) : [];   // session 7627 (wip/alt-deals-1): at the floor
   const stacks = mwByQuarter(all), pts = pricePoints(all), shares = aiShare(all), parties = topParties(all);
   return (
     <>

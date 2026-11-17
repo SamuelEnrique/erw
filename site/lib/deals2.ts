@@ -30,7 +30,14 @@ export type Deal = {
   /** session 2240: the kind of warehouse/deals/fields.py (session 2232) where the row has it, else read from the type;
    * the buyer and seller as one name a company (session 2234) where held, else as extracted; the AI tag's basis */
   kind: string; buyerName: string; sellerName: string; aiBasis: string;
+  /** session 7627 (wip/alt-deals-1, not landed): the extraction's confidence, 0 to 1 */
+  confidence: number | null;
 };
+
+/** Session 7627, the other choice of the ruling on a floor of the extraction's confidence (wip/alt-deals-1, not
+ * landed): the tracker, the comparables and the AI view open at "Sure at least" 0.7, as the Roundup's tables do; a row
+ * under the floor, or with no confidence, is not shown. */
+export const SURE_FLOOR = 0.7;
 
 export type Pair = { duplicate: string; kept: string; ruling: string; reason: string; found: string };
 
@@ -127,6 +134,7 @@ export function toDeal(r: DealRow): Deal {
     source: r.source, links: links.length ? links : [r.source_url].filter(Boolean), folded: [],
     kind: x.kind || FORM_KIND[type] || "other", buyerName: x.buyer_name || buyer, sellerName: x.seller_name || seller,
     aiBasis: x.ai_power_basis ?? "",
+    confidence: num(x.confidence),
   };
 }
 
@@ -144,6 +152,9 @@ export function fold(deals: Deal[], pairs: Pair[]): Deal[] {
   }
   return [...by.values()].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.id.localeCompare(b.id)));
 }
+/** Session 7627 (wip/alt-deals-1, not landed): the deals at the floor, each as folded, by its kept row's confidence.
+ * Every view of the tracker reads its deals through this. */
+export const atFloor = (deals: Deal[]): Deal[] => deals.filter((d) => (d.confidence ?? 0) >= SURE_FLOOR);
 
 export type Inputs = { type: string; tech: string; grid: string; party: string; year: string; view: "" | "storage" | "ai";
   /** session 465: a kind of tool 6 (KINDS) and a status the stories state (STATUSES), "" for every one */
