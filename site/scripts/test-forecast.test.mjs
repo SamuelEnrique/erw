@@ -277,7 +277,7 @@ test("sales tax: a statute's exemption is the default (Minnesota wind), elsewher
   const r = F.run(mn, ROWS, P);
   assert.equal(r.sums.sales, 0); assert.equal(r.sales.note, "after the exemption");
   assert.equal(F.defaults(P, "utility_pv", "mn").exempt, 100, "solar: 297A.67 subd. 29, read by the re-check of session 4301");
-  assert.equal(F.defaults(P, "land_based_wind", "tx").exempt, 0);
+  assert.equal(F.defaults(P, "land_based_wind", "tx").exempt, 66.9358);   // ruling alternative 10 (wip/alt-impact-10): the machinery share; main: 0
 });
 
 test("a figure's text: jobs to one decimal under 100 and whole above, dollars short with USD", () => {

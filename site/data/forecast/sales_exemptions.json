@@ -1137,6 +1137,26 @@
     "exempt_pct": 0,
     "tip": "District of Columbia: no sales tax exemption for generating equipment or a plant's construction materials is among the District's listed exemptions (the Chief Financial Officer's 2024 tax expenditure report): 0."
    }
+  },
+  "tx": {
+   "land_based_wind": {
+    "exempt_pct": 66.9358,
+    "cite": "nlr_jedi_wind_defaultdata",
+    "branch": "ruling alternative 10 of /impact (wip/alt-impact-10, session 7706): not a default on main (main: no Texas entry, 0)",
+    "tip": "Texas (ruling alternative 10): no Texas statute on the sales tax of generating equipment is held here; the machinery share the other states hold is applied, the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases. Default on the site: 0, an upper bound of the tax."
+   },
+   "utility_pv": {
+    "exempt_pct": 67.2132,
+    "cite": "nlr_jedi_wind_defaultdata",
+    "branch": "ruling alternative 10 of /impact (wip/alt-impact-10, session 7706): not a default on main (main: no Texas entry, 0)",
+    "tip": "Texas (ruling alternative 10): no Texas statute on the sales tax of generating equipment is held here; the machinery share the other states hold is applied, the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent of JEDI's taxable purchases. Default on the site: 0, an upper bound of the tax."
+   },
+   "natural_gas": {
+    "exempt_pct": 58.2524,
+    "cite": "nlr_jedi_ngas_projectdata",
+    "branch": "ruling alternative 10 of /impact (wip/alt-impact-10, session 7706): not a default on main (main: no Texas entry, 0)",
+    "tip": "Texas (ruling alternative 10): no Texas statute on the sales tax of generating equipment is held here; the machinery share the other states hold is applied, JEDI's power generation equipment, 220,588,235 / 378,676,471 = 58.3 percent of its taxable purchases. Default on the site: 0, an upper bound of the tax."
+   }
   }
  }
 }
