@@ -1,5 +1,5 @@
 {
-  "_about": "Energy Research Warehouse (ERW) site metadata: which ERW tables hold each ISO's day-ahead and real-time prices, and the main hub or zone the home page shows for each ISO. Table, entity and variable names are exactly those in warehouse/output and Supabase. PJM is absent: its prices are licensed for internal use only (license internal) and never shown on the public site. SPP has no real-time series table in the ERW (docs/platform-tools.md), only the latest interval in latest_prices. Session 29: the CAISO, ERCOT, MISO and SPP hub prices are the consolidated tables iso_dam_hub_prices and iso_rtm_hub_prices; market names each ISO's rows in them (docs/migrations/2026-09-29-consolidation.md).",
+  "_about": "Energy Research Warehouse (ERW) site metadata: which ERW tables hold each ISO's day-ahead and real-time prices, and the main hub or zone the home page shows for each ISO. Table, entity and variable names are exactly those in warehouse/output and Supabase. PJM is absent: its prices are licensed for internal use only (license internal) and never shown on the public site. SPP's real-time rows are named here (iso_rtm_hub_prices, market spp_rtm, variable lmp_rtm_15m_mean, every fifteen minutes): ruling alternative 4 of /prices, branch wip/alt-prices-4, not a default on main; on main SPP has no real-time table named here. Session 29: the CAISO, ERCOT, MISO and SPP hub prices are the consolidated tables iso_dam_hub_prices and iso_rtm_hub_prices; market names each ISO's rows in them (docs/migrations/2026-09-29-consolidation.md).",
   "isos": [
     {
       "iso": "ERCOT",
@@ -68,7 +68,12 @@
     {
       "iso": "SPP",
       "main": "spp:SPPNORTH_HUB",
-      "rt": null,
+      "rt": {
+        "table": "iso_rtm_hub_prices",
+        "variable": "lmp_rtm_15m_mean",
+        "freq": "PT15M",
+        "market": "spp_rtm"
+      },
       "da": {
         "table": "iso_dam_hub_prices",
         "variable": "lmp_dam",
