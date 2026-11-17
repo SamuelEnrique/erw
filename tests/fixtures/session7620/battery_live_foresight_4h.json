@@ -1,0 +1,5336 @@
+{
+"caiso:TH_SP15_GEN-APND": [
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-02-01",
+"value": 29.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-04-01",
+"value": 27.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-10-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-11-01",
+"value": 15.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-02-01",
+"value": 29.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-04-01",
+"value": 3.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-10-01",
+"value": 1.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-04-01",
+"value": 3.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-10-01",
+"value": 1.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-08-01",
+"value": 94.8351
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-09-01",
+"value": 105.7045
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-10-01",
+"value": 113.4234
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-11-01",
+"value": 111.154
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-12-01",
+"value": 103.6445
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-01-01",
+"value": 111.3434
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-02-01",
+"value": 103.4351
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-03-01",
+"value": 113.7729
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-04-01",
+"value": 111.2834
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-05-01",
+"value": 112.4129
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-06-01",
+"value": 95.174
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-07-01",
+"value": 91.6362
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-08-01",
+"value": 99.6456
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-09-01",
+"value": 99.754
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-10-01",
+"value": 112.014
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-11-01",
+"value": 108.7034
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-12-01",
+"value": 105.6445
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-01-01",
+"value": 111.7834
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-02-01",
+"value": 99.2045
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-03-01",
+"value": 110.134
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-04-01",
+"value": 94.1456
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-05-01",
+"value": 102.2045
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-06-01",
+"value": 93.6045
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-07-01",
+"value": 96.174
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-08-01",
+"value": 99.0551
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-09-01",
+"value": 104.7845
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-10-01",
+"value": 113.734
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-11-01",
+"value": 105.0362
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-12-01",
+"value": 108.2245
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-01-01",
+"value": 110.074
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-02-01",
+"value": 95.3656
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-03-01",
+"value": 114.1329
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-04-01",
+"value": 108.7034
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-05-01",
+"value": 110.6234
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-06-01",
+"value": 101.5056
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-07-01",
+"value": 109.654
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-08-01",
+"value": 103.2056
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-09-01",
+"value": 100.7256
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-10-01",
+"value": 93.1078
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-11-01",
+"value": 51.0828
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 12792.422
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 3697.7201
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 5065.4166
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 3547.0323
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 2974.8745
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 3782.5984
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 3495.2497
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 4696.2928
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 3474.2297
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 3403.823
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 3743.2502
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 9152.7263
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 6205.877
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 6021.8732
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 3966.8406
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 3502.327
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 2603.883
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 3615.2955
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 4576.9631
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 5544.7186
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 4249.0095
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 4438.0547
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 4062.4752
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 3717.2863
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 3975.4452
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 3283.5483
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 2567.442
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 2111.5627
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 1579.158
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 1994.8441
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 1960.5434
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 2952.1939
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 3161.0323
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 3838.1806
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 2814.7978
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 2692.0681
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 4569.5628
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 4083.406
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 4532.5829
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 1300.2446
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 4144.408
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 3562.1552
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 7402.2881
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 6231.3316
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 4198.44
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 6488.5861
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 6120.0577
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 8711.4144
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 8434.2293
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 7256.8439
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 3756.0613
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 3996.4405
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 2267.3071
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 3291.6042
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 3752.0529
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 5074.424
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 2812.1806
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 5176.7309
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 6070.1663
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 7532.3944
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 5028.0254
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 4134.5823
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 3034.9962
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 2035.6753
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 2743.0123
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 3097.6231
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 4677.4025
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 2837.3102
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 1910.0668
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 2578.3242
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 2542.1539
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 7244.5521
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 3232.4513
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 3656.896
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 2917.9218
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 4331.7131
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 6303.076
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 2751.6471
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 3208.1973
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 1931.2604
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 5528.4671
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 173.9845
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 338.5683
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 9.7621
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 25.9522
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 74.4626
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 40.9604
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 38.0225
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 19.8198
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 26.7053
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 40.384
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 260.1952
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 743.5189
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 403.0762
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 37.0654
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 8.1572
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 28.8901
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 24.6831
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 24.6273
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 39.6174
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 48.3666
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 32.0808
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 26.039
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 15.8847
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 189.8588
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 77.167
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 37.5765
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 45.8235
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 67.151
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 108.3147
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 47.0323
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 91.2181
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 67.8192
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 31.0799
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 36.9674
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 75.7232
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 218.6762
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 92.7492
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 480.7096
+},
+{
+"variable": "foresight_4h_revenue_nonspin_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 0.9168
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 3937.8314
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 2771.7507
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 3164.1566
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 2788.0707
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 2466.5056
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 3250.1262
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 2968.2944
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 3812.6213
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 2725.064
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 2877.1755
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 3231.5951
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 3789.7759
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 3638.8216
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 3427.7936
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 2923.8678
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 3044.1908
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 2204.9599
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 3075.1914
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 3728.2891
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 4145.5936
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 2944.5178
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 3156.189
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 3284.8135
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 2823.2079
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 2774.5847
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 2460.0875
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 2110.9578
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 1745.4267
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 1145.6113
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 1336.3168
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 1302.8694
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 1747.6586
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 1896.6048
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 2286.4296
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 1783.0537
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 1582.1465
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 1757.1776
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 1926.5893
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 1588.633
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 741.8818
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 3301.499
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 725.9403
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 1521.8895
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 720.8646
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 457.6065
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 417.7969
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 435.0434
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 812.095
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 715.0693
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 465.0308
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 471.2711
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 5095.8915
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 1823.5365
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 2191.0034
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 1005.9074
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 448.9689
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 369.0399
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 514.891
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 792.9172
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 1357.8896
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 1231.8536
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 1249.7849
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 751.6228
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 878.1937
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 991.7113
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 744.2188
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 418.9077
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 320.3125
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 365.0176
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 526.0068
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 610.6417
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 1108.6397
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 1153.3485
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 1506.3226
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 992.0822
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 1034.1984
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 2593.709
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 2062.6675
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 2461.3603
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 557.446
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 24.6245
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 26.0446
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 40.8022
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 28.3349
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 24.8103
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 40.2128
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 50.9515
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 33.5541
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 14.2767
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 34.9114
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 6.8637
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 1.01
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 0.9932
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 0.5299
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 31.1294
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 1.6179
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 24.2715
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 19.2904
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 2.075
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 1.3781
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 24.2058
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 4.6776
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 43.2598
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 14.3487
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 2.6945
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 1.4
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 1.88
+},
+{
+"variable": "foresight_4h_revenue_spin_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 16936.83
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 7259.8753
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 12467.7046
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 9778.3638
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 7173.3145
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 10271.1845
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 9615.3074
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 13407.7073
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 11908.459
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 10660.6669
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 7499.3114
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 13149.1668
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 8473.1841
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 9313.4774
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 7718.8935
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 8576.7509
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 5416.0636
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 8792.0264
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 10647.1294
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 13077.113
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 9277.0349
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 8572.637
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 7097.4714
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 5752.9616
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 6718.4575
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 6381.1714
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 7244.8445
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 4948.8729
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 3489.2248
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 4573.1682
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 4502.6973
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 10196.7461
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 6393.4836
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 7495.0766
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 5732.7195
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 7023.7812
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 10872.6388
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 6835.0532
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 7740.7802
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-11-01",
+"value": 3231.505
+}
+],
+"ercot:HB_HUBAVG": [
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2023-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-02-01",
+"value": 29.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2024-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2025-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_held",
+"ts_utc": "2026-10-01",
+"value": 29.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2023-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-02-01",
+"value": 29.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2024-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-11-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2025-12-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-01-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-02-01",
+"value": 28.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-03-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-04-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-05-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-06-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-07-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-08-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-09-01",
+"value": 30.0
+},
+{
+"variable": "foresight_4h_days_in_month",
+"ts_utc": "2026-10-01",
+"value": 31.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out",
+"ts_utc": "2026-10-01",
+"value": 2.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_ancillary",
+"ts_utc": "2026-10-01",
+"value": 1.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2023-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2024-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-11-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2025-12-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-01-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-02-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-03-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-04-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-05-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-06-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-07-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-08-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_days_left_out_energy",
+"ts_utc": "2026-10-01",
+"value": 1.0
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-08-01",
+"value": 94.4267
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-09-01",
+"value": 92.8995
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-10-01",
+"value": 94.9839
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-11-01",
+"value": 101.694
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2023-12-01",
+"value": 108.634
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-01-01",
+"value": 111.3161
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-02-01",
+"value": 104.5856
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-03-01",
+"value": 112.5634
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-04-01",
+"value": 106.7691
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-05-01",
+"value": 103.6144
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-06-01",
+"value": 102.6367
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-07-01",
+"value": 106.2779
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-08-01",
+"value": 106.414
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-09-01",
+"value": 101.4667
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-10-01",
+"value": 113.4234
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-11-01",
+"value": 109.8511
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2024-12-01",
+"value": 112.4234
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-01-01",
+"value": 113.184
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-02-01",
+"value": 100.2951
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-03-01",
+"value": 114.9929
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-04-01",
+"value": 108.2375
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-05-01",
+"value": 109.4303
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-06-01",
+"value": 109.0351
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-07-01",
+"value": 111.854
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-08-01",
+"value": 110.854
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-09-01",
+"value": 109.714
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-10-01",
+"value": 114.9929
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-11-01",
+"value": 110.4234
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2025-12-01",
+"value": 113.2202
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-01-01",
+"value": 113.1584
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-02-01",
+"value": 101.2652
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-03-01",
+"value": 114.9929
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-04-01",
+"value": 107.5061
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-05-01",
+"value": 111.2134
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-06-01",
+"value": 108.2734
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-07-01",
+"value": 112.697
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-08-01",
+"value": 114.5629
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-09-01",
+"value": 108.7342
+},
+{
+"variable": "foresight_4h_discharged_mwh_per_mw",
+"ts_utc": "2026-10-01",
+"value": 106.284
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 200735.1114
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 38785.5932
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 12887.8952
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 7723.7022
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 3232.3618
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 20545.9128
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 2361.6124
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 5183.5342
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 6059.5199
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 21333.3318
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 7810.1436
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 3480.7747
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 8111.2921
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 2238.3283
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 3589.1605
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 2437.1383
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 1827.5433
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 1929.972
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 2838.8791
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 2274.2599
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 2151.8652
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 5953.2266
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 2148.7661
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 1781.6963
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 2387.2909
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 1197.8232
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 1847.5529
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 2495.9322
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 3043.2561
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 6653.3988
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 973.634
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 996.745
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 2326.195
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 2272.0905
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 1413.223
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 1079.3892
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 1387.9027
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 2314.2862
+},
+{
+"variable": "foresight_4h_revenue_ancillary_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 1882.3532
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 107853.8426
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 12021.8005
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 5132.4395
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 3663.0728
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 520.2812
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 4151.7259
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 507.4204
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 2142.7266
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 2742.3039
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 14505.7786
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 5139.0577
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 994.4756
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 2599.5355
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 78.2485
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 456.2607
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 198.4559
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 23.7239
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 89.53
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 98.3442
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 44.4854
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 55.4824
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 173.1933
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 23.3839
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 53.0147
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 53.51
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 9.6882
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 3.691
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 794.4966
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 9.5715
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 0.1153
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 71.1468
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 230.7154
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 39.5166
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 73.2745
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 220.2596
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 488.2017
+},
+{
+"variable": "foresight_4h_revenue_ecrs_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 63.759
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 64793.6966
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 31013.6102
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 3630.4172
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 3611.3255
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 3328.7515
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 4745.5381
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 3045.3808
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 4451.3544
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 8177.4415
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 9979.6893
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 2959.7843
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 2539.7256
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 8872.59
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 3158.0748
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 3914.94
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 7924.7279
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 2927.2261
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 4847.1712
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 3534.9439
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 5235.6036
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 6309.0384
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 6973.025
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 3439.0029
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 4540.5871
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 4379.283
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 4300.5367
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 5419.4098
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 4377.433
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 4033.054
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 7973.1879
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 3142.6367
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 4676.9771
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 6543.9157
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 2721.0726
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 2183.6823
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 2857.7738
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 6115.112
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 4554.3291
+},
+{
+"variable": "foresight_4h_revenue_energy_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 4325.5714
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 5.7358
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 150.8286
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 743.4745
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 423.8251
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 81.8636
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 308.1074
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 76.7612
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 328.8773
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 402.6514
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 1804.0331
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 36.3403
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 27.6387
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 10.2403
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 14.0938
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 75.0959
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 128.7011
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 77.7976
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 70.3445
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 21.6233
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 109.9982
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 197.7248
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 2404.1928
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 79.546
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 14.4802
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 1.4004
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 0.0
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 15.8579
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 127.0528
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 931.6093
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 517.2898
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 123.7904
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 221.9304
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 744.0517
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 501.0054
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 361.51
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 165.2913
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 169.928
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 326.9549
+},
+{
+"variable": "foresight_4h_revenue_nspin_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 387.0004
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 60893.3525
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 17680.6273
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 3891.9336
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 1895.4504
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 1438.2516
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 7376.9477
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 1102.0572
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 1734.9354
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 1898.836
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 4393.6488
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 2181.3534
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 1566.9597
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 3191.1935
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 1059.9154
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 973.6199
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 744.7564
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 954.2372
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 729.7308
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 962.2748
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 942.2562
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 993.5159
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 1454.9324
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 792.9609
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 656.4062
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 916.0808
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 611.3245
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 898.194
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 1164.0312
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 1029.4829
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 1138.5783
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 518.2555
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 444.7565
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 862.3548
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 1003.3918
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 680.1706
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 600.5911
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 670.2886
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 979.6174
+},
+{
+"variable": "foresight_4h_revenue_regdn_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 869.1551
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 21653.019
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 5340.129
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 2403.8903
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 1314.447
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 1132.2527
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 2855.5144
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 617.2244
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 745.0296
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 624.0799
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 354.7141
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 391.0
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 750.2413
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 1295.5949
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 721.8974
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 855.8304
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 590.7444
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 616.4732
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 413.1189
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 572.3052
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 587.296
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 512.5796
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 769.5846
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 711.8216
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 631.1682
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 787.34
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 457.1576
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 686.4784
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 693.1648
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 840.3171
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 1531.7016
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 302.0918
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 282.8538
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 439.0105
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 518.5632
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 293.3592
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 237.6609
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 320.0676
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 496.968
+},
+{
+"variable": "foresight_4h_revenue_regup_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 514.1469
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 10329.1615
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 3592.2078
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 716.1573
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 426.9069
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 59.7126
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 5853.6174
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 58.1492
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 231.9653
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 391.6486
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 275.1572
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 62.3922
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 141.4593
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 1014.7279
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 364.1731
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 1228.3535
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 774.4804
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 155.3114
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 627.2478
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 1184.3316
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 590.224
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 392.5625
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 1151.3235
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 541.0537
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 426.6271
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 628.9598
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 129.341
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 247.0225
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 501.9952
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 238.1558
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 2671.3325
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 19.9248
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 47.0891
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 209.6311
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 18.4148
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 38.6667
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 2.5714
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 7.3588
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 22.5443
+},
+{
+"variable": "foresight_4h_revenue_rrs_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 48.2917
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-08-01",
+"value": 265528.808
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-09-01",
+"value": 69799.2034
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-10-01",
+"value": 16518.3124
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-11-01",
+"value": 11335.0277
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2023-12-01",
+"value": 6561.1133
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-01-01",
+"value": 25291.4509
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-02-01",
+"value": 5406.9932
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-03-01",
+"value": 9634.8886
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-04-01",
+"value": 14236.9614
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-05-01",
+"value": 31313.0211
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-06-01",
+"value": 10769.9279
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-07-01",
+"value": 6020.5002
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-08-01",
+"value": 16983.8822
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-09-01",
+"value": 5396.403
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-10-01",
+"value": 7504.1005
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-11-01",
+"value": 10361.8662
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2024-12-01",
+"value": 4754.7693
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-01-01",
+"value": 6777.1432
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-02-01",
+"value": 6373.823
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-03-01",
+"value": 7509.8635
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-04-01",
+"value": 8460.9035
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-05-01",
+"value": 12926.2516
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-06-01",
+"value": 5587.769
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-07-01",
+"value": 6322.2834
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-08-01",
+"value": 6766.5739
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-09-01",
+"value": 5498.3598
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-10-01",
+"value": 7266.9627
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-11-01",
+"value": 6873.3653
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2025-12-01",
+"value": 7076.3101
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-01-01",
+"value": 14626.5867
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-02-01",
+"value": 4116.2707
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-03-01",
+"value": 5673.7221
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-04-01",
+"value": 8870.1106
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-05-01",
+"value": 4993.1631
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-06-01",
+"value": 3596.9053
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-07-01",
+"value": 3937.163
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-08-01",
+"value": 7503.0147
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-09-01",
+"value": 6868.6153
+},
+{
+"variable": "foresight_4h_revenue_total_usd_per_mw",
+"ts_utc": "2026-10-01",
+"value": 6207.9246
+}
+]
+}
