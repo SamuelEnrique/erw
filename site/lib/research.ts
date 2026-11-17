@@ -42,6 +42,24 @@ export function roundupChart(week: string): WeekChart {
 }
 
 /** The newest week whose Roundup holds a chart section; else the newest week with a chart of the rule; else null. */
+/** The ISO week of a day, "2026-W47". */
+export function isoWeekOf(d: Date): string {
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  const dow = t.getUTCDay() || 7;
+  t.setUTCDate(t.getUTCDate() + 4 - dow);   // the week's Thursday names its year
+  const y = t.getUTCFullYear();
+  const w = Math.ceil(((t.getTime() - Date.UTC(y, 0, 1)) / 86400000 + 1) / 7);
+  return `${y}-W${String(w).padStart(2, "0")}`;
+}
+/** Session 7564 (the Research read, row 3): the weekly chart's heading. A Roundup's chart is of the week just ended, so
+ *  "This week's chart" stands while the newest is of this ISO week or the one before; an older one (the Roundup paused,
+ *  2026-W45 on 17 November 2026) is named for what it is. */
+export function weekChartTitle(week: string | null, now: Date = new Date()): string {
+  if (!week) return "This week's chart";
+  const prev = isoWeekOf(new Date(now.getTime() - 7 * 86400000));
+  return week >= prev ? `This week's chart, ${week}` : `The newest weekly chart, ${week}: none since`;
+}
+
 export function newestChartWeek(): string | null {
   return weeklyWeeks().find((w) => roundupChartSection(w)) ?? Object.keys(DOCS.analysis?.weeks ?? {}).sort().reverse()[0] ?? null;
 }

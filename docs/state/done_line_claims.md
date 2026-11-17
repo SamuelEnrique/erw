@@ -45,5 +45,5 @@ Asked by Samuel: the reader's read, in chain 304's part B form, for the six tool
 | 26 | `/deals` (the deal tracker) | chain 303, the same pack | read: samueloldlaptop (session 7561, `docs/reviews/deals-read-2026-11-16.md`, 10 rows: 2 site fixed, 1 data machine, 1 key, 1 license, 3 rulings, 2 browser; landing row 50) |
 | 27 | `/companies` | chain 303's portable run | read: samueloldlaptop (session 7562, `docs/reviews/companies-read-2026-11-16.md`, 10 rows: 2 site fixed, 2 data machine, 3 rulings, 1 license, 2 browser; landing row 50) |
 | 28 | `/attention` | chain 303's portable run | read: samueloldlaptop (session 7563, `docs/reviews/attention-read-2026-11-16.md`, 8 rows: 1 site fixed, 1 data machine, 3 rulings, 1 key, 2 browser; landing row 50) |
-| 29 | `/research` (Automated Analysis) | the five tools' pack, `docs/reviews/five-tools-signature-pack-2026-11-14.md` | read: samueloldlaptop, claimed (session 7564) |
+| 29 | `/research` (Automated Analysis) | the five tools' pack, `docs/reviews/five-tools-signature-pack-2026-11-14.md` | read: samueloldlaptop (session 7564, `docs/reviews/research-read-2026-11-16.md`, 8 rows: 2 site fixed, 2 data machine, 2 rulings, 2 browser; landing row 50) |
 | 30 | `/grid` | the five tools' pack | read: samueloldlaptop, claimed (session 7565) |

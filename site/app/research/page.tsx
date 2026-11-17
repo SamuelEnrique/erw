@@ -16,7 +16,7 @@ import { Library } from "@/components/research/Library";
 import { ofTheFlow } from "@/lib/analysisflow";
 import { DOCS, analysisWeeks, digestChartDays, digestDates, weeklyWeeks } from "@/lib/markdown";
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
-import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, topicLabel, topicsOf } from "@/lib/research";
+import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, weekChartTitle, topicLabel, topicsOf } from "@/lib/research";
 import { ChartOfWeekView } from "./view";
 import { figureText } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them
 
@@ -165,7 +165,7 @@ export default async function ResearchPage() {
             )}
           </ToolSection>
 
-          <ToolSection title={week ? `This week's chart, ${week}` : "This week's chart"} id="week" note={WEEK_NOTE}>
+          <ToolSection title={weekChartTitle(week)} id="week" note={WEEK_NOTE}>   {/* session 7564: an old week named as such */}
             {wk?.card ? (
               <figure className="lead-chart" data-week-chart={wk.week} data-week-card={wk.card.card_id}>
                 <div>

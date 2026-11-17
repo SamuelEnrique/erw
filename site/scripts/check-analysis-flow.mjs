@@ -273,7 +273,7 @@ try {
     // session 238: the page is Research, in the order of the owner: the form, the chart of today, the chart of the week, the library, the archive.
     // The scanner's group is a title inside the library and the results of the week are folded under the chart of the week, so the titles read are h2, h3 and summary
     for (const h of ["Findings library", "Found by the scanner", "Ask for an analysis", "Requests", "Today's chart", "Chart archive"]) check(pg.heads.includes(h), `the section "${h}" is on the page`);
-    check(pg.heads.some((h) => h.startsWith("This week's chart")), "the chart of the week is on the page");
+    check(pg.heads.some((h) => h.startsWith("This week's chart") || h.startsWith("The newest weekly chart")), "the chart of the week is on the page (session 7564: an old week is named \"The newest weekly chart\")");
     check(pg.heads.some((h) => h.startsWith("This week's results")), "the week's results table is on the page");
     check(!pg.heads.includes("Template gallery") && !pg.heads.includes("Ask for a finding") && !pg.heads.includes("Impact of an event on a series") && !pg.oldRow, "the three old sections are gone: one flow holds them");
     check(pg.list && pg.roundup === current.length, `the list of requests stands under the flow; Use in Roundup is on each of the ${current.length} cards`, `(${pg.roundup})`);

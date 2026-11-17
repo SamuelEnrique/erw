@@ -4,6 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { ChartSpec } from "./findingchart";
+import { holdCard } from "./cardhold";
 
 export type Callout = { label: string; before: { period: string; text: string }; after: { period: string; text: string }; unit: string };
 export type EffectRow = { measure: string; coef_per_gw: number; se: number; p: number; n: number; r2: number };
@@ -52,7 +53,7 @@ export function loadCards(): Card[] {
   if (!fs.existsSync(DIR)) return [];
   const cards = fs.readdirSync(DIR)
     .filter((f) => f.endsWith(".json") && f !== "catalogue.json")
-    .map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")) as Card);
+    .map((f) => holdCard(JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")) as Card));   // session 7564: held grids held throughout
   const rank = (c: Card) => (ORDER.indexOf(c.id) + 1 || 99) + (c.card_id === c.id ? 0 : 0.5);
   return cards.sort((a, b) => rank(a) - rank(b) || a.card_id.localeCompare(b.card_id));
 }
@@ -60,7 +61,7 @@ export function loadCards(): Card[] {
 export function loadCard(cardId: string): Card | null {
   const f = path.join(DIR, `${cardId}.json`);
   if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;
-  return JSON.parse(fs.readFileSync(f, "utf8")) as Card;
+  return holdCard(JSON.parse(fs.readFileSync(f, "utf8")) as Card);   // session 7564
 }
 
 export function loadCatalogue(): CatalogueEntry[] {
