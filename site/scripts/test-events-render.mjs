@@ -98,7 +98,7 @@ const fig = JSON.parse(fs.readFileSync(here("../../replication/events/page_figur
 const count = Object.values(fig.pages).reduce((a, p) => a + p.figures.length, 0);
 // session 7531's held-row fix: the 27 figures of ISO-NE's, MISO's and NYISO's hubs are counted (heldFigures), not written
 const heldFigures = Object.values(fig.pages).reduce((a, p) => a + (p.heldFigures ?? 0), 0);
-ok(count === 1100 && heldFigures === 27 && Object.keys(fig.pages).length === 10 && /^\d{8}T\d{6}Z$/.test(fig.tables.event_window_daily) && fig.pages["caiso-heat-2022"].lines.length === 10,
+ok(count === 1102 && heldFigures === 27 && Object.keys(fig.pages).length === 10 && /^\d{8}T\d{6}Z$/.test(fig.tables.event_window_daily) && fig.pages["caiso-heat-2022"].lines.length === 10,
   `page_figures.json: ${count} figures of ten pages (${heldFigures} held, counted and not written) drawn on the table retrieved ${fig.tables.event_window_daily}, and the ten days of CAISO's notices`);
 ok(!/"check": "(series\|event_window_daily|es\|[^|]+)\|(isone|miso|nyiso):/.test(JSON.stringify(fig, null, 1)), "page_figures.json holds no figure of ISO-NE's, MISO's or NYISO's rows");
 

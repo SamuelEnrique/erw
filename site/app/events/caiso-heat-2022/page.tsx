@@ -19,6 +19,8 @@ const EV = "caiso_heat_2022";
 const E = "eia930:CISO";
 const START = "2022-08-31", END = "2022-09-09";
 const GEHR = "https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf";
+// session 7549: CAISO's own account of the record, read by session 7531 (docs/reviews/events-crosscheck-2026-11-16.md, row 6)
+const MSC = "https://www.caiso.com/documents/summerheatwave-presentation-nov21_2022.pdf";
 const NAMES: Record<string, string> = {
   flex_alert: "Flex Alert", rmo: "Restricted Maintenance Operations", eea_watch: "EEA Watch", eea1: "Energy Emergency Alert 1", eea2: "Energy Emergency Alert 2",
   eea3: "Energy Emergency Alert 3", transmission_emergency: "Transmission Emergency",
@@ -43,8 +45,12 @@ export default async function CaisoHeat2022() {
           <p>
             Ten days of heat across the West, 2022-08-31 to 2022-09-09. CAISO called Flex Alerts, asking Californians to conserve, and on one evening
             declared its highest emergency, an Energy Emergency Alert 3 (<a href={GEHR}>California ISO, Grid Emergencies History Report</a>). This page sets CAISO&apos;s
-            demand served, its peak hour each day and the carbon intensity of its generation against the same weekdays 364 and 728 days earlier, with
-            the temperature at Sacramento and Los Angeles.
+            demand served, its peak hour each day and the carbon intensity of its generation against the same weekdays 364 and 728 days earlier; the
+            temperature at Sacramento and Los Angeles enters the second estimate at the foot of the page. {/* session 7549: it said "with the temperature
+            at Sacramento and Los Angeles", and no temperature is drawn (docs/reviews/events-read-2026-11-16.md, row 5) */}
+            <span data-events-read="caiso-record">CAISO wrote that it &quot;set a record load of 52,061 MW on Sept. 6&quot; (<a href={MSC}>CAISO, Summer 2022 Heatwave
+            Discussion, Market Surveillance Committee, 21 November 2022</a>, page 4): CAISO&apos;s own reading inside the hour, where EIA-930, which this page reads,
+            gives the mean of each hour.</span>
           </p>
         }
         caveat={

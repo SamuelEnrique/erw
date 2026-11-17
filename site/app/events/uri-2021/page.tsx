@@ -23,6 +23,8 @@ export const revalidate = 3600;
 const T = "event_window_daily";
 const METHOD = "/data/methods/events";
 const EIA_URL = "https://www.eia.gov/todayinenergy/detail.php?id=46836";
+// session 7549: the joint report as FERC posts it (nerc.com's robots file refuses AI agents; session 7531 read FERC's copy)
+const FERC_URI = "https://www.ferc.gov/sites/default/files/2022-12/A-3%20-%20The%20February%202021%20Cold%20Weather%20Outages%20in%20Texas%20and%20the%20South%20Central%20United%20States.pdf";
 const YEARS = [
   { y: "2021", label: "2021 (Uri)", color: "accent" },
   { y: "2020", label: "2020", color: "var(--color-fuel-gas)" },
@@ -64,6 +66,7 @@ export default async function Uri() {
   const rows = got.ok ? got.data : [];
   const ev = ["2021"], base = ["2019", "2020"];
   const rtPeak = pick(rows, "rt_max", ev, "max"), rtBase = pick(rows, "rt_max", base, "max");
+  const hiDemand = pick(rows, "demand_max_mw", ev, "max"), hiBase = pick(rows, "demand_max_mw", base, "max");  // session 7549
   const lowDemand = pick(rows, "demand_min_mw", ev, "min");
   const low15 = rows.find((r) => r.variable === "demand_min_mw" && r.ts_utc.slice(0, 10) === "2021-02-15");
   const fall = pick(rows, "net_generation_mwh_day_change", ev, "min");
@@ -104,6 +107,13 @@ export default async function Uri() {
           <Section title="Demand served" aside={<Tier />}>
             {chart("demand_mwh", "MWh", "ERCOT demand served per day, February 7 to 24 of 2019, 2020 and 2021")}
             <p className="mt-1 text-sm">
+              {/* session 7549: the window's highest hour, which /learn/problems prints from the same rows and an analyst checks
+                  first against FERC's account (docs/reviews/events-read-2026-11-16.md, rows 1 and 2) */}
+              <span data-events-read="uri-peak">Highest hour of demand served in the window: <N r={hiDemand} /> MW on {day(hiDemand)}; the highest on the same
+              days of 2019 and 2020 was <N r={hiBase} /> MW ({day(hiBase)}). FERC, NERC and the Regional Entities give 69,871 MW as &quot;ERCOT&apos;s 2021
+              all-time winter peak load&quot;, with no hour, and 20,000 MW as the firm load ERCOT shed at the worst point (<a href={FERC_URI}>FERC, The
+              February 2021 Cold Weather Outages in Texas and the South Central United States, tracking of December 2022</a>, page 2). EIA&apos;s figure is
+              the mean of an hour of demand served, and shed load is not in it.</span>{" "}
               Lowest hour of demand served in the window: <N r={lowDemand} /> MW on {day(lowDemand)}, after the storm. On 2021-02-15, the
               first day of rotating outages, the lowest hour was <N r={low15} /> MW.
             </p>

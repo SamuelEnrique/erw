@@ -62,7 +62,10 @@ export default function Elliott2022() {
         return (
           <>
             <p className="mb-2">
-              PJM&apos;s highest hour in EIA&apos;s data, <N r={pjm} event={EV} /> MW on {day(pjm)}, agrees with the report&apos;s &quot;about 136,000 MW&quot; on Dec. 23. The forced
+              PJM&apos;s highest hour in EIA&apos;s data, <N r={pjm} event={EV} /> MW on {day(pjm)}, agrees with the report&apos;s &quot;about 136,000 MW&quot; on Dec. 23. {/* session 7549: the inquiry
+              report's two PJM figures, which an analyst checks against (docs/reviews/events-read-2026-11-16.md, row 7) */}
+              <span data-events-read="pjm-ferc">The FERC and NERC inquiry report gives 135,296 MW as PJM&apos;s peak reported elsewhere, and 134,189 MW as its hourly
+              peak of Dec. 23 with 500 kV losses allocated (<a href={FERC}>Figure 13 and its note</a>).</span> The forced
               outages of Dec. 24 do not show in demand served: PJM served its load. ISO-NE barely moved: its peak hour was at most <N r={ne} event={EV} />% above the
               baseline ({day(ne)}).
             </p>

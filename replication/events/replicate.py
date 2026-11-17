@@ -448,6 +448,8 @@ def expect_all(rows: Rows):
     y21 = lambda d: d.startswith("2021")
     yb = lambda d: d[:4] in ("2019", "2020")
     x.row(rows.pick(ev, HUB, "rt_max", "max", y21), ev); x.row(rows.pick(ev, HUB, "rt_max", "max", yb), ev)
+    # session 7549 (the read): the window's highest hour of demand served and the baseline days' highest
+    x.row(rows.pick(ev, "eia930:ERCO", "demand_max_mw", "max", y21), ev); x.row(rows.pick(ev, "eia930:ERCO", "demand_max_mw", "max", yb), ev)
     x.row(rows.pick(ev, "eia930:ERCO", "demand_min_mw", "min", y21), ev); x.row(rows.at(ev, "eia930:ERCO", "demand_min_mw", "2021-02-15"), ev)
     x.row(rows.pick(ev, "eia930:ERCO", "net_generation_mwh_day_change", "min", y21), ev)
     x.row(rows.pick(ev, "eia930:ERCO", "net_generation_mwh_vs_baseline", "min", y21), ev)

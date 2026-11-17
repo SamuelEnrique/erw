@@ -87,6 +87,16 @@
      "shown": "1,691.63"
     },
     {
+     "check": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00Z|uri_2021",
+     "raw": 69215,
+     "shown": "69,215"
+    },
+    {
+     "check": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00Z|uri_2021",
+     "raw": 54634,
+     "shown": "54,634"
+    },
+    {
      "check": "series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-24T00:00:00Z|uri_2021",
      "raw": 27719,
      "shown": "27,719"

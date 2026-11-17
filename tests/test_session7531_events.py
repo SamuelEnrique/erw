@@ -63,7 +63,7 @@ class TheReplication(unittest.TestCase):
         self.assertEqual(self.code, 0, self.out[-3000:])
         # session 7531's held-row fix: 27 figures of ISO-NE's, MISO's and NYISO's hubs and 3 of their estimates are held,
         # counted and not recomputed (the run said 1176 of 1176 and 195 of 195 before)
-        self.assertIn("part 1, the pages' figures: 1149 of 1149 pass (named 0); held, not recomputed here: 27", self.out)
+        self.assertIn("part 1, the pages' figures: 1151 of 1151 pass (named 0); held, not recomputed here: 27", self.out)
         self.assertIn("part 2, the table's comparison rows recomputed from its level rows: 2890 of 2890", self.out)
         self.assertRegex(self.out, r"part 3, the pooled estimates against event_study_estimates \(retrieved \d{8}T\d{6}Z\): 186 of 186; held, not recomputed here: 3 estimates")
         self.assertIn("29469 rows kept, 484 held", self.out)
@@ -74,12 +74,12 @@ class TheReplication(unittest.TestCase):
     def test_page_figures_file(self):
         with open(os.path.join(REP, "page_figures.json"), encoding="utf-8") as f:
             fig = json.load(f)
-        self.assertEqual(sum(len(p["figures"]) for p in fig["pages"].values()), 1100)
+        self.assertEqual(sum(len(p["figures"]) for p in fig["pages"].values()), 1102)  # session 7549: Uri's highest hour and its baseline's
         self.assertEqual(sum(p.get("heldFigures", 0) for p in fig["pages"].values()), 27)
         self.assertEqual(fig["tables"]["event_window_daily"], "20261019T094329Z")
         with open(os.path.join(REP, "page_figures.csv"), encoding="utf-8", newline="") as f:
             rows = list(csv.DictReader(f))
-        self.assertEqual(len(rows), 1100 + 9)  # each number not held, and one line of day counts a page with an event study
+        self.assertEqual(len(rows), 1102 + 9)  # each number not held, and one line of day counts a page with an event study
         self.assertTrue(all(r["pass"] == "yes" for r in rows))
 
     def test_the_rows_beside_are_the_public_table(self):
