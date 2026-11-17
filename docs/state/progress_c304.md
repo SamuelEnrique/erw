@@ -119,3 +119,13 @@ Samuel's words, typed into this machine's session at about 22:00 UTC: tools 11 t
 | /events and its nine pages (read) | samueloldlaptop | done 1ee8233fc on `wip/7531-events-b` (landing row 29): the reader, an operator's or a regulator's analyst checking a named event against the operator's own account; five cases (Uri, the September 2022 California heat, Elliott, the figures shared with `/demand`, `/grid/caiso` and `/learn/problems`, Elliott's estimates); rows: 15 (5 site fixed, 0 data machine, 4 browser, 6 rulings); every shared figure agrees in value, shown on two pages and held on two (fault 1); replication 1,151 of 1,151 | 7549 |
 | /play/battery (read) | samueloldlaptop | done 0fb8d3d3d on wip/7535-play-battery (landing row 33): the reader a student or new analyst playing a named day and a teacher setting it for a class; five cases (Uri 15 February 2021 Normal, the 2023 heat 10 August 2023 Hard, the CAISO duck day 24 July 2026 Easy, a class on Uri's day, the fleet beside /storage and the grid page); rows: 15 (5 site fixed, 1 data machine, 4 browser, 5 rulings) | 7551 |
 | /play/ev (read) | samueloldlaptop | done 3c5bbabaf on wip/7536-play-ev (landing row 34): the reader a household choosing between the 2025 Equinox and Equinox EV in a named state, and a student; five cases (a Phoenix commuter; a Minneapolis family, 10 years, November 2026; a Fresno driver on PG&E, the average beside E-TOU-C and EV2-A; a student checking 3.2 years and $5,131; A and B with the board of the same day); rows: 13 (4 site fixed, 2 data machine, 3 browser, 4 rulings); replication 5245 of 5245 | 7550 |
+
+### The last session of the second run
+
+| Step | State | Session |
+|---|---|---|
+| Every tool marked done line has a read | done: 24 of 24 rows of `docs/state/done_line_claims.md` at the done line with a read, checked row by row at `58c4f36d7` | 7530 |
+| The pack: a section "The second run: six more tools" in `docs/reviews/done-line-pack-oldlaptop-2026-11-16.md` | done (this commit): six sittings, rulings 98 to 151; no do-file run (Stata is not on this machine) | 7530 |
+| The note: a section "The second run" in `docs/state/note_2026-11-17_oldlaptop_c304.md` | done (this commit) | 7530 |
+| The report `archive/sessions/SESSION_7530_REPORT.md` | done (this commit) | 7530 |
+| The resume file removed; the queue step | (next commits) | 7530 |
