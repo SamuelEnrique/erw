@@ -110,7 +110,7 @@ def property_tax(d, i):
             if i < r["years"]:
                 return 0.0
         elif r["kind"] == "valuation":
-            if r.get("requires") == "option" and not x["iaval"]:
+            if (r.get("requires") == "option" and not x["iaval"]) or (r.get("requires") == "no_option" and x["iaval"]):   # no_option: wip/alt-impact-1
                 continue
             if x["levy"] is None:
                 return None
@@ -232,7 +232,7 @@ export function stataOf(P: Params, x: Record<View, Inputs>, rows: Record<View, R
         parts.push(`cond(i < ${rl.years}, ${xi.mw} * ${Math.min(rl.usd_per_mw_max ?? Infinity, Math.max(rl.usd_per_mw_min ?? 0, xi.optrate))}, .)`);
       } else if (rl.kind === "exempt_years") {
         exemptYears = rl.years ?? 0;
-      } else if (rl.kind === "valuation" && (rl.requires !== "option" || xi.iaval) && xi.levy !== null) {
+      } else if (rl.kind === "valuation" && (rl.requires !== "option" || xi.iaval) && (rl.requires !== "no_option" || !xi.iaval) && xi.levy !== null) {
         const s = rl.schedule_pct;
         const base = rl.usd_per_mw_value !== undefined ? `${xi.mw} * ${rl.usd_per_mw_value}` : spend;
         const pct = s ? `cond(i < ${s.length}, ${s.map((v, k) => `(i == ${k}) * ${v}`).join(" + ")}, ${rl.then_pct})`

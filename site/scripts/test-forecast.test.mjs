@@ -482,7 +482,8 @@ test("a state's own assessment (valuation without the option): applies without t
   near(F.propertyTax(P2, x, 9).tax, 150e6 * 0.03 * 0.060, 1e-12, "the floor");
   assert.equal(F.propertyTax(P2, { ...x, levy: null }, 0).tax, null, "no levy, no figure");
   assert.equal(F.defaults(P, "land_based_wind", "ia").levy, null, "Iowa: no statewide levy held");
-  assert.equal(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "ia"), levy: 30 }, 3).tax, null, "Iowa still needs its ordinance");
+  // ruling alternative 1 (wip/alt-impact-1, not a default on main): without the ordinance the levy typed is applied to the whole cost; main: null
+  near(F.propertyTax(P, { ...F.defaults(P, "land_based_wind", "ia"), levy: 30 }, 3).tax, F.defaults(P, "land_based_wind", "ia").capex * F.defaults(P, "land_based_wind", "ia").mw * 1000 * 0.030, 1e-12, "Iowa without its ordinance: the levy on the whole cost");
 });
 
 test("fault 22: every property rule carries its hover words with a citation, and the own rate's words where it acts on one", () => {

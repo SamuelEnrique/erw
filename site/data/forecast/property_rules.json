@@ -745,6 +745,24 @@
      "option_tip": "Iowa Code 427B.26 applies where the county or city has adopted it by ordinance: 0 percent of net acquisition cost the first year, 5 points more each year, 30 percent from the seventh."
     },
     {
+     "id": "ia_wind_full_cost",
+     "technologies": [
+      "land_based_wind"
+     ],
+     "kind": "valuation",
+     "basis": "capital cost",
+     "schedule_pct": [
+      100
+     ],
+     "then_pct": 100,
+     "requires": "no_option",
+     "cite": "ia_427b_26",
+     "quote": "A city council or county board of supervisors may provide by ordinance for the special valuation of wind energy conversion property as provided in subsection 2.",
+     "branch": "ruling alternative 1 of /impact (wip/alt-impact-1, session 7706): not a default on main",
+     "not_modeled": "No Iowa schedule for wind property outside a 427B.26 ordinance is held: the levy typed is applied to the whole capital cost in every year, an upper bound.",
+     "tip": "Iowa, no ordinance (ruling alternative 1): no county or city special valuation (Code 427B.26) applies, and no other schedule for wind property is held, so the levy typed is applied to the whole capital cost in every year, an upper bound. Default on the site: not held."
+    },
+    {
      "id": "ia_generation_tax",
      "technologies": [
       "utility_pv",

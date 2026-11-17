@@ -240,6 +240,8 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
       else if (r.kind === "valuation") {
         // Iowa's special valuation needs the county's ordinance (the local option); a state's own assessment does not
         if (r.requires === "option" && !x.iaval) continue;
+        // ruling alternative 1 (wip/alt-impact-1, not a default on main): a rule for wind with no ordinance applies only with the option off
+        if (r.requires === "no_option" && x.iaval) continue;
         if (x.levy === null) return { tax: null, rule: r.id };
         const base = r.usd_per_mw_value !== undefined ? x.mw * r.usd_per_mw_value : spend;
         const pct = r.schedule_pct ? (i < r.schedule_pct.length ? r.schedule_pct[i] : (r.then_pct ?? 0))
