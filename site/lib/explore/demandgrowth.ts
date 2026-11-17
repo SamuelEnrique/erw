@@ -85,3 +85,24 @@ export const monthName = (m: number) => MONTH_NAMES[m - 1];
 
 /** The address of a view. */
 export const viewHref = (grid: string, win: string) => `/explore/demand-growth?grid=${grid}&window=${win}`;
+
+// Ruling alternative 3 (session 7709, branch wip/alt-demand-growth-3; not a default on main): a site's own MW as a share
+// of a grid's growth since the base year, the whole year's average demand at the last whole year less the base year's.
+// A grid whose demand fell has no growth to take a share of, and is said so. No figure that stands moves.
+/** A site's MW as typed ("300", "1,000"), above 0 and at most 100,000; null for anything else. */
+export function siteMw(v: string | undefined): number | null {
+  const s = (v ?? "").trim().replace(/,/g, "");
+  if (!/^\d+(\.\d+)?$/.test(s)) return null;
+  const n = Number(s);
+  return n > 0 && n <= 100000 ? n : null;
+}
+export type SiteShare = { year: number; base: number; latest: number; growthMw: number; sharePct: number | null };
+/** The grid's growth in MW of average demand, base year to its last whole year, and the site's share of it (null when
+ *  the demand fell or did not move); null when either year's average is not held. */
+export function siteShare(rows: Row[], entity: string, mw: number): SiteShare | null {
+  const y = lastWhole(rows, entity);
+  const a = y === undefined ? undefined : valueOf(rows, entity, "avg_demand_mw", y), b = valueOf(rows, entity, "avg_demand_mw", BASE);
+  if (y === undefined || a === undefined || b === undefined) return null;
+  const growthMw = a - b;
+  return { year: y, base: b, latest: a, growthMw, sharePct: growthMw > 0 ? (100 * mw) / growthMw : null };
+}

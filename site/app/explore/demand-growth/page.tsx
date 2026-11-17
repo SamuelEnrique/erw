@@ -8,14 +8,15 @@ import { HeldFreshness } from "@/components/explore/HeldFreshness";
 import { GroupedBars } from "@/components/tool/GroupedBars";
 import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { headers } from "@/lib/data";
-import { choose, isoKey, type Params } from "@/lib/explore";
+import { choose, isoKey, param, type Params } from "@/lib/explore";
 import {
   BASE, DEFAULT_GRID, DEFAULT_WINDOW, GRIDS, TABLE, WINDOWS, entityOf, lastWhole, latestOf, monthName, newest, valueOf, variablesOf,
-  viewHref, windowOf, yearTs, yearsOf, ytdThrough, type Row,
+  siteMw, viewHref, windowOf, yearTs, yearsOf, ytdThrough, type Row,
 } from "@/lib/explore/demandgrowth";
 import { sourceOf } from "@/lib/explore/source";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { DemandGrowthDecisions } from "@/app/explore/demand-growth/Decisions";
+import { SiteShareSection } from "@/app/explore/demand-growth/SiteShare";   // ruling alternative 3 (wip/alt-demand-growth-3)
 
 // Session 404: the demand growth explorer (platform tool 5, the second signature explorer), in review. Growth since
 // 2019 by grid and by window of the year, from eia930_demand_growth as it stands in the live set: for any of the seven
@@ -194,6 +195,8 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
             };
           })} />
       </ToolSection>
+
+      <SiteShareSection rows={rows} grid={grid.slug} win={win.slug} mw={siteMw(param(sp, "site"))} typed={param(sp, "site")} />
 
       <ChartFrame title={`${grid.name}: growth since ${BASE}, year by year, by window`}
         note={<>Each bar is a year&apos;s row of the table, against {BASE}; the three figures of a year are in its hover.{noPeak ? " No peak is given for the Lower 48 (the method note says why)." : ""}{through ? ` The year so far compares 1 January to the end of ${monthName(through.month)} of each year with the same months of ${BASE}; ${through.year} has only that window.` : ""}</>}>
