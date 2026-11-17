@@ -6,7 +6,7 @@ import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHea
 import { attempt } from "@/lib/supabase";
 import { GRID_CHOICES } from "@/lib/gridtool";
 import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baName, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarterNotListed, quarters,
-  rateText, some, termDays, termYears, viewOf, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+  rateText, some, termDays, termYears, viewOf, withoutOperators, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
@@ -53,9 +53,10 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const notListed = v.view === "quarter" ? quarterNotListed(q.q, held.map((h) => h.quarter)) : null;
   const read = quarter && v.view === "quarter" ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
   const all: Contract[] = read?.ok ? read.data : [];
-  const rows = filter(all, product, ba);
+  const asFiled = filter(all, product, ba);
+  const rows = withoutOperators(asFiled), operators = asFiled.length - rows.length;   // ruling alternative 3 (wip/alt-contracts-3): a market operator buyer left out
   const c = counts(rows), zero = zeroPriced(rows);   // session 7510: the priced rows whose number is 0
-  const bas = byBa(filter(all, product, null));
+  const bas = byBa(withoutOperators(filter(all, product, null)));
   const ercot = summary.ok ? summary.data.by_ba.filter((b) => baOf(b.ba) === "ERCO").reduce((a, b) => a + b.rows, 0) : 0;   // session 7501: whatever its capitals
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
@@ -131,7 +132,9 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                 {/* session 7510: one row is "1 row ... was signed", not "1 rows ... were" */}
                 <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                   Among the contracts filed with FERC, <span data-n="rows">{count(c.rows)}</span> {some(c.rows, "row")} of {product.label.toLowerCase()}{ba ? ` delivered in ${ba}` : ""} {some(c.rows, "was", "were")}{" "}
-                  signed in {quarter.replace("-", " ")}: <span data-n="agreements">{count(c.agreements)}</span> {some(c.agreements, "agreement")} between <span data-n="sellers">{count(c.sellers)}</span> {some(c.sellers, "seller")}{" "}
+                  signed in {quarter.replace("-", " ")}{operators > 0 ? <Tip id="contracts-operators-out" label={`${count(operators)} ${some(operators, "row")} left out`}><span data-operators={operators}>{count(operators)} more {some(operators, "row")}
+                    {some(operators, " names", " name")} a market operator as the buyer (PJM, MISO, SPP, ERCOT, CAISO, ISO New England, NYISO, by the words of the name filed): a sale into the market, not a contract with a party,
+                    left out of every count and of the list. Default on the site: counted. Source: FERC Electric Quarterly Reports, the buyer&apos;s name as filed.</span></Tip> : null}: <span data-n="agreements">{count(c.agreements)}</span> {some(c.agreements, "agreement")} between <span data-n="sellers">{count(c.sellers)}</span> {some(c.sellers, "seller")}{" "}
                   and <span data-n="buyers">{count(c.buyers)}</span> {some(c.buyers, "buyer")}. <span data-n="priced">{count(c.priced)}</span> of the rows {some(c.priced, "states", "state")} a price as a number.
                 </p>
                 <HeadlineRow>

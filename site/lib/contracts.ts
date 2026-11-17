@@ -228,6 +228,15 @@ export function zeroPriced(rows: Contract[]): number {
   return rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length;
 }
 
+/** Ruling alternative 3 of /contracts (session 7701, branch wip/alt-contracts-3; not a default on main): a row whose
+ * buyer is a market operator (PJM, MISO, SPP, ERCOT, CAISO, ISO New England, NYISO, or any "independent system
+ * operator" or regional transmission organisation, by the words of the buyer's name as filed) is a sale into the market,
+ * not a contract with a party, and is left out of the rows signed. The list of names is this branch's default, not a
+ * ruling (docs/reviews/ruling-impact-contracts-2026-11-17.md, "What a ruling would also have to fix"). */
+export const OPERATOR_BUYER = /\bPJM\b|MIDCONTINENT INDEPENDENT|\bMISO\b|MIDWEST INDEPENDENT TRANSMISSION|SOUTHWEST POWER POOL|\bSPP\b|ELECTRIC RELIABILITY COUNCIL|\bERCOT\b|CALIFORNIA INDEPENDENT SYSTEM|\bCAISO\b|\bISO NEW ENGLAND|\bISO-NE\b|NEW YORK INDEPENDENT SYSTEM|\bNYISO\b|INDEPENDENT SYSTEM OPERATOR|REGIONAL TRANSMISSION ORG/i;
+export const isOperatorBuyer = (r: Contract) => OPERATOR_BUYER.test(r.buyer ?? "");
+export const withoutOperators = (rows: Contract[]) => rows.filter((r) => !isOperatorBuyer(r));
+
 /** The delivery balancing authorities of the rows, most rows first. */
 export function byBa(rows: Contract[]): { ba: string; rows: number }[] {
   const m = new Map<string, number>();

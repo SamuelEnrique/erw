@@ -127,6 +127,22 @@ for (const view of ["largest", "mw"]) {
   sound(html, `the ${view} view`);
 }
 
+// ---- ruling alternative 3 (session 7701, wip/alt-contracts-3, not a default on main): a row whose buyer is a market
+// operator is left out of the rows signed and of the list, and the sentence says how many on hover
+{
+  all.push(row(40, "2026-06-21", { buyer: "PJM Settlement, Inc." }), row(41, "2026-06-22", { buyer: "Example Independent System Operator", product: "Capacity" }));
+  const alt = await draw({});
+  ok(marked(alt, "rows") === "8" && /data-operators="2"/.test(alt) && /2 more rows\s+name a market operator as the buyer/.test(text(alt)) && !/PJM Settlement/.test(alt),
+    "alternative 3: two rows whose buyer is a market operator are left out of the 8 rows signed and of the list, and the hover says 2");
+  const energy = await draw({ product: "energy" });
+  ok(/data-operators="1"/.test(energy) && /1 more row\s+names a market operator/.test(text(energy)), "alternative 3: the count follows the product chosen");
+  ok(C.isOperatorBuyer({ buyer: "Midcontinent Independent System Operator, Inc." }) && C.isOperatorBuyer({ buyer: "ISO New England Inc." })
+    && !C.isOperatorBuyer({ buyer: "Example Power Company" }) && !C.isOperatorBuyer({ buyer: null }), "alternative 3: the operator names are matched by their words; a party's name is not");
+  sound(alt, "alternative 3, the list by quarter signed");
+  all.splice(all.length - 2, 2);
+  ok(!/data-operators=/.test(await draw({})), "alternative 3: with no operator buyer the sentence has no such hover");
+}
+
 // ---- the decisions
 const D = CONTRACTS_DECISIONS;
 ok(D.length >= 15 && new Set(D.map((d) => d.key)).size === D.length && D.every((d) => d.text && d.session && d.def && d.source), `${D.length} decisions, each with its own key, its session, its default and its source`);
