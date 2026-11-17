@@ -1,0 +1,8 @@
+5817 rows
+caiso:TH_SP15_GEN-APND foresight_4h_ newest 2026-11 days 15.0 of 30.0 | Oct25-Sep26 79.31 12 | to newest 2025-12 2026-11 78.09
+caiso:TH_SP15_GEN-APND foresight_8h_ newest 2026-11 days 15.0 of 30.0 | Oct25-Sep26 97.79 12 | to newest 2025-12 2026-11 95.0
+caiso:TH_SP15_GEN-APND dayahead_2h_ newest 2026-11 days 16.0 of 30.0 | Oct25-Sep26 50.24 12 | to newest 2025-12 2026-11 50.71
+ercot:HB_HUBAVG foresight_4h_ newest 2026-10 days 29.0 of 31.0 | Oct25-Sep26 81.4 12 | to newest 2025-11 2026-10 80.34
+ercot:HB_HUBAVG foresight_8h_ newest 2026-10 days 29.0 of 31.0 | Oct25-Sep26 98.94 12 | to newest 2025-11 2026-10 97.73
+ercot:HB_HUBAVG dayahead_2h_ newest 2026-10 days 30.0 of 31.0 | Oct25-Sep26 51.07 12 | to newest 2025-11 2026-10 50.45
+fixture ../erw-alt/tests/fixtures/session7620/battery_live_foresight_4h.json
