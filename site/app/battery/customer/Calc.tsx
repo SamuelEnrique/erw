@@ -81,7 +81,8 @@ export function Calc() {
                   <strong>The energy.</strong>{" "}
                   {s.shifts ? (
                     <>Each day it runs, the battery puts out {qty(s.dischargedKwh)} kWh in the peak hours and takes in {qty(s.chargedKwh)} kWh off-peak (more, because of the round
-                      trip). That is {usd(s.shiftPerDay)} a day, {usd(s.energySaved)} over {typed(x.days)} days.</>
+                      trip). That is {usd(s.shiftPerDay)} a day, {usd(s.energySaved)} over {typed(x.days)} days.{s.capped ? <span data-capped={s.capKwh}> The battery holds {typed(x.batteryKwh)} kWh,
+                      but your building takes at most {qty(s.capKwh)} kWh in the peak hours ({typed(x.peakKw)} kW for {typed(x.peakHours)} hours): only that much is moved.</span> : null}</>
                   ) : (
                     <>At your rates moving energy does not pay: each kWh out at the peak rate costs more than it saves once the round trip is counted (the peak rate would
                       have to pass ${qty(s.breakEvenRate, 3)} per kWh). So the battery is run only for the peak, {qty(s.cyclesForPeak)} kWh a day, and the energy it loses

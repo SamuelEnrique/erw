@@ -42,9 +42,10 @@ export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
     def: "21 days.",
     source: "The calendar: 2026 has 261 weekdays, 21.75 a month, and about 21 once a tariff's holidays are out. Tariffs differ: Salt River Project's E-32 counts Monday to Friday, Seattle City Light's rates Monday to Saturday, about 26 days a month." },
   { key: "one-cycle",
-    text: "When moving energy pays, the battery makes one full cycle on each day it runs: all of its energy out in the peak-rate hours, whatever the building uses in those hours, and that much divided by the round trip back in off-peak.",
-    def: "One full cycle a day.",
-    source: "A choice of session 88. The National Renewable Energy Laboratory calls a cycle on every day a worst case for the energy used (Neubauer and Simpson, 2015, page 9)." },
+    // ruling alternative 4 (wip/alt-battery-customer-4, not a default on main): the energy moved is capped by the building's peak
+    text: "When moving energy pays, the battery makes one cycle on each day it runs: its energy out in the peak-rate hours, but no more than the building can take there (its peak kW times the peak hours), and that much divided by the round trip back in off-peak.",
+    def: "One cycle a day, capped at the peak kW times the peak hours (on the site: one full cycle, whatever the building uses).",
+    source: "The ruling's other choice: the peak is an upper bound on the load in those hours (the page asks for no load). The National Renewable Energy Laboratory calls a cycle on every day a worst case for the energy used (Neubauer and Simpson, 2015, page 9)." },
   { key: "when-shifting-pays",
     text: "Moving energy is counted only when it pays: when the peak rate is above the off-peak rate divided by the round trip. When it does not, the battery cycles only what the peak needs on each day it runs, and the energy lost on the way is counted as a cost.",
     def: "Decided by the two rates typed. With one price for every hour it never pays.",
