@@ -557,6 +557,7 @@ async function truth(check) {
       const rules = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
       forecastSev = (state, volume, price) => {
         const st = state.toUpperCase();
+        if (rules.states[st]?.held) return NaN;   // ruling alternative 14 (wip/alt-impact-14): a held rate
         if (!rules.states[st]?.products?.gas) return null;
         const r = S.compute(rules, { state: st, product: "gas", volume, price });
         return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);

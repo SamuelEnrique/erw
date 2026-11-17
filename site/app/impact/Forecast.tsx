@@ -32,6 +32,7 @@ const plain = (v: number, d = 2) => v.toLocaleString("en-US", { maximumFractionD
 function severanceOf(rules: Rules) {
   return (state: string, volume: number, price: number): number | null => {
     const st = state.toUpperCase();
+    if ((rules.states[st] as { held?: boolean } | undefined)?.held) return NaN;   // ruling alternative 14 (wip/alt-impact-14): a held rate, "license needed"
     if (!rules.states[st]?.products?.gas) return null;
     const r = compute(rules, { state: st, product: "gas", volume, price });
     return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);

@@ -309,7 +309,9 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
       const mmbtu = x.mw * 8760 * x.cf * x.heat / 1000;
       const mcf = mmbtu / (P.gas.btu_per_cf / 1000);
       sevYear = sev(x.state, mcf * (x.instate / 100), x.gasprice * (P.gas.btu_per_cf / 1000));
-      sevNote = sevYear === null ? "no severance rule held for this state" : "";
+      // ruling alternative 14 (wip/alt-impact-14, not a default on main): NaN from the callback is a rate whose table is held
+      if (sevYear !== null && Number.isNaN(sevYear)) { sevYear = null; sevNote = "license needed: the rate's table is held"; }
+      else sevNote = sevYear === null ? "no severance rule held for this state" : "";
     } else sevNote = x.instate > 0 ? "no severance rule held for this state" : "no in-state fuel given";
   } else sevNote = "a wind, solar or geothermal plant burns no gas";
   const st = P.income.states[x.state];

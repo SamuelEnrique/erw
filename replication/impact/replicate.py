@@ -75,7 +75,7 @@ class Params:
         self.taxable = load("jedi_taxable.json")["technologies"]
         self.gas = load("gas.json")
         self.exempt = load("sales_exemptions.json")["states"]
-        self.severance = load("severance_rules.json", os.path.join(ROOT, "site", "data"))["states"]
+        self.severance = {k: v for k, v in load("severance_rules.json", os.path.join(ROOT, "site", "data"))["states"].items() if k not in ("LA",)}   # ruling alternative 14 (wip/alt-impact-14): a held rate, no figure; main: every state
 
     def to2025(self, year):
         return self.index[str(BASE_YEAR)] / self.index[str(year)]
