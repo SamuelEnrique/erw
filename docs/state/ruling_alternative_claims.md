@@ -35,6 +35,6 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /play/battery | samueloldlaptop | 7718 | done | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
 | Site-wide: licenses and holds | samueloldlaptop | 7719 | done | docs/reviews/ruling-alternatives-site-licenses-2026-11-17.md |
 | /play/ev | samueloldlaptop | 7720 | done | docs/reviews/ruling-alternatives-ev-game-2026-11-17.md |
-| /map | samueloldlaptop | 7721 | claimed | docs/reviews/ruling-alternatives-map-2026-11-17.md |
+| /map | samueloldlaptop | 7721 | done | docs/reviews/ruling-alternatives-map-2026-11-17.md |
 | /board | samueloldlaptop | 7722 | claimed | docs/reviews/ruling-alternatives-board-2026-11-17.md |
 | /prices | samueloldlaptop | 7723 | claimed | docs/reviews/ruling-alternatives-prices-2026-11-17.md |
