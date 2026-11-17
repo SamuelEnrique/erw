@@ -156,6 +156,10 @@ export function judgeKey(key, held, heldGrids) {
   if (head.startsWith("series")) table = p[1] ?? "";
   else if (head === "event" || head === "entity") table = p[1] ?? "";
   else if (head === "event_count") table = p[1] ?? "";   // session 4005: as Num.tsx heldBy
+  // session 7603: as Num.tsx heldBy, a grid's peak, capacity and reserve margin on the datacenter tracker are their own
+  // public tables' figures, not datacenter_facilities'
+  else if (head === "dcgrid" && (p[1] === "peak_mw" || p[1] === "capacity_mw")) table = "grid_peak_vs_capacity";
+  else if (head === "dcgrid" && p[1] === "reserve_margin") table = "ercot_cdr_reserve_margins";
   else if (head in KEY_TABLE) table = KEY_TABLE[head];
   else if (head === "digest_chart") table = p[2] ?? "";
   if (table) {
