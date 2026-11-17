@@ -76,7 +76,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 335 | `wip/alt-impact-24` | 43.0 | seen: impact-24-1280.png with production's -default-1280 twins | 7800 |
 | B | 294 | `wip/alt-shoulder-4` | 37.7 | wanted | |
 | B | 298 | `wip/alt-battery-awards-2` | 34.5 | wanted | |
-| B | 287 | `wip/alt-battery-customer-2` | 34.3 | wanted | |
+| B | 287 | `wip/alt-battery-customer-2` | 34.3 | seen: battery-customer-2-1280.png, battery-customer-2-cleared-1280.png with production's -default-1280 twins | 7800 |
 | B | 324 | `wip/alt-interconnection-1` | 34.0 | wanted | |
 | B | 320 | `wip/alt-impact-17` | 30.0 | seen: impact-17-1280.png with production's -default-1280 twins | 7800 |
 | B | 355 | `wip/alt-prices-1` | 29.1 | wanted | |
