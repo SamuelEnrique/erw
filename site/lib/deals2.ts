@@ -139,6 +139,13 @@ export function fold(deals: Deal[], pairs: Pair[]): Deal[] {
     const kept = by.get(p.kept), dup = by.get(p.duplicate);
     if (!kept || !dup) continue;
     for (const u of dup.links) if (!kept.links.includes(u)) kept.links.push(u);
+    // session 7627, the other choice of the ruling on folded figures (wip/alt-deals-2, not landed): the kept row takes a
+    // figure only the folded row states, as the warehouse's own merge does; a figure the kept row states is kept
+    if (kept.mw === null && dup.mw !== null) kept.mw = dup.mw;
+    if (kept.mwh === null && dup.mwh !== null) kept.mwh = dup.mwh;
+    if (kept.dollars === null && dup.dollars !== null) kept.dollars = dup.dollars;
+    if (kept.price === null && dup.price !== null) kept.price = dup.price;
+    if (kept.termYears === null && dup.termYears !== null) kept.termYears = dup.termYears;
     kept.folded.push(dup.id);
     by.delete(dup.id);
   }
