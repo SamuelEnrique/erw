@@ -1,0 +1,28 @@
+{
+ "about": "ERW, Should your family get an EV? (/play/ev): the players' cases the replication draws and recomputes. 'opens' is the page as every visitor opens it (the United States, every default). 'every_state' draws each of the 51 states of site/data/ev_prices.json at the defaults, as if chosen in the state menu. Each case of 'moved' is a player's moves: 'code' the state chosen, 'v' the sliders moved (miles, mpg, kwhPerMile, gasCar, evCar, homeShare, years, rate, credit), 'creditOn' the credit switch, 'gas' and 'power' a price slider moved (USD a gallon; USD/MWh, which the page shows as cents a kWh), 'publicCents' what was typed in the public charger's box. Written by session 7536 (chain 304).",
+ "every_state": true,
+ "moved": [
+  {"id": "texas_household", "name": "Texas: 12,000 miles, 30 mpg, 0.28 kWh a mile, $25,000 and $35,000, 10 years, the credit on at $7,500, 80 percent at home and 45 cents at a public charger (the hand-worked household 2 of site/scripts/test-ev.mjs)",
+   "start": {"code": "TX", "v": {"miles": 12000, "mpg": 30, "kwhPerMile": 0.28, "gasCar": 25000, "evCar": 35000, "homeShare": 80, "years": 10, "rate": 5, "credit": 7500}, "creditOn": true, "publicCents": "45"}},
+  {"id": "ohio_cheaper_ev", "name": "Ohio: an EV $1,000 cheaper than the gasoline car, 8,000 miles, 40 mpg, 0.35 kWh a mile, 5 years at 3 percent (household 3): payback at once",
+   "start": {"code": "OH", "v": {"miles": 8000, "mpg": 40, "kwhPerMile": 0.35, "gasCar": 30000, "evCar": 29000, "years": 5, "rate": 3}}},
+  {"id": "never", "name": "The United States with gasoline moved to $2.00 and electricity to 60 cents: the EV costs more to run, never pays back",
+   "start": {"code": "US", "gas": 2, "power": 600}},
+  {"id": "long_keep_no_discount", "name": "California kept 15 years at 0 percent: every second year labelled on the chart, the net present value undiscounted",
+   "start": {"code": "CA", "v": {"years": 15, "rate": 0}}},
+  {"id": "no_cross", "name": "The United States kept 2 years: the payback falls after the years kept, so the chart marks no crossing",
+   "start": {"code": "US", "v": {"years": 2}}},
+  {"id": "public_waiting", "name": "Half the charging away from home and no public price typed: the results wait",
+   "start": {"code": "US", "v": {"homeShare": 50}}},
+  {"id": "public_not_a_number", "name": "Half away from home and the public price box holding 'abc': the results wait",
+   "start": {"code": "US", "v": {"homeShare": 50}, "publicCents": "abc"}},
+  {"id": "credit_3000", "name": "The United States with the credit on at $3,000",
+   "start": {"code": "US", "v": {"credit": 3000}, "creditOn": true}},
+  {"id": "hawaii_far_dear", "name": "Hawaii, 30,000 miles a year at 10 percent",
+   "start": {"code": "HI", "v": {"miles": 30000, "rate": 10}}},
+  {"id": "new_york_prices_moved", "name": "New York with electricity moved to 25 cents and gasoline to $3.50, a $45,000 EV, 12 years",
+   "start": {"code": "NY", "power": 250, "gas": 3.5, "v": {"evCar": 45000, "years": 12}}},
+  {"id": "wyoming_dear_ev", "name": "Wyoming, an $80,000 EV against a $20,000 gasoline car, 13 mpg: payback past the years kept and the net present value below zero",
+   "start": {"code": "WY", "v": {"evCar": 80000, "gasCar": 20000, "mpg": 13}}}
+ ]
+}
