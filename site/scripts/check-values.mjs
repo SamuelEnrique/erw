@@ -558,7 +558,7 @@ async function truth(check) {
       forecastSev = (state, volume, price) => {
         const st = state.toUpperCase();
         if (!rules.states[st]?.products?.gas) return null;
-        const r = S.compute(rules, { state: st, product: "gas", volume, price });
+        const r = S.compute(rules, { state: st, product: "gas", volume, price, adval: F.districtAdval(rules, st) });   // ruling alternative 20 (wip/alt-impact-20)
         return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);
       };
     }

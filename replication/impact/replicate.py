@@ -26,6 +26,7 @@ Exit 0 when every figure matches, 1 when one does not, 2 when an input cannot be
 import csv
 import json
 import math
+import statistics   # wip/alt-impact-20
 import os
 import sys
 
@@ -301,7 +302,9 @@ def severance(P, state, volume_mcf, price_per_mcf):
     value = volume_mcf * price_per_mcf        # no royalty, trucking or transport is deducted (none is given)
     total = 0.0
     for b in gas["base"]:
-        rate = b["rate"] if isinstance(b["rate"], (int, float)) else 0.0   # New Mexico's district ad valorem: no district given
+        rate = b["rate"] if isinstance(b["rate"], (int, float)) else 0.0
+        if b["rate"] == "district" and b.get("districts", {}).get("list"):   # ruling alternative 20 (wip/alt-impact-20): the districts' median; main: 0
+            rate = statistics.median(d["rate"] for d in b["districts"]["list"])
         total += volume_mcf * rate if b["basis"] == "per_unit" else value * rate
     for f in gas.get("fees", []):
         total += volume_mcf * f["per_unit"]

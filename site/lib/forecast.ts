@@ -135,6 +135,18 @@ export type Result = {
 };
 export type Severance = (state: string, volumeMcf: number, priceUsdPerMcf: number) => number | null;
 
+/** Ruling alternative 20 (wip/alt-impact-20, not a default on main): a gas plant's ad valorem production tax by district
+ *  (New Mexico) is added at the median of the districts /severance holds, in percent, for the `adval` of lib/severance.ts's
+ *  input; undefined where the state's gas rule has no district rate (main adds none: the input's default, 0). */
+export function districtAdval(rules: unknown, state: string): number | undefined {
+  const gas = (rules as { states?: Record<string, { products?: { gas?: { base?: { rate: unknown; districts?: { list: { rate: number }[] } }[] } } }> })
+    .states?.[state]?.products?.gas;
+  const list = gas?.base?.find((b) => b.rate === "district")?.districts?.list.map((d) => d.rate).sort((a, b) => a - b);
+  if (!list || !list.length) return undefined;
+  const m = list.length % 2 ? list[(list.length - 1) / 2] : (list[list.length / 2 - 1] + list[list.length / 2]) / 2;
+  return m * 100;
+}
+
 // ---- small helpers -------------------------------------------------------------------------------------------------
 const ZERO = (): Record<Effect, number> => ({ onsite: 0, supply_chain: 0, induced: 0, total: 0 });
 export const num = (v: number | string | null | undefined) => (v === null || v === undefined || v === "" ? NaN : Number(v));

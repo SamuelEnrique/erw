@@ -12,7 +12,7 @@ import { Tip } from "@/components/tool/ToolPage";
 import { Num } from "@/components/Num";
 import { TECHS, stateName } from "@/lib/impact";
 import { compute, type Rules } from "@/lib/severance";
-import { displayOf, inputsKey, jobsText, run, stat, unpack, usdText, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
+import { displayOf, districtAdval, inputsKey, jobsText, run, stat, unpack, usdText, type Inputs, type Packed, type Params, type Result, type TechKey } from "@/lib/forecast";
 import { FIELDS, GROUPS, STATE_LIST, clampTo, dropParam, queryWithProjects, resolve, stateOfIx, techOfIx, type Both, type FieldDef, type Values } from "@/lib/forecastui";
 import type { Planned } from "@/lib/forecast";
 import { csvOf, pythonOf, stataOf } from "@/lib/forecastfiles";
@@ -33,7 +33,7 @@ function severanceOf(rules: Rules) {
   return (state: string, volume: number, price: number): number | null => {
     const st = state.toUpperCase();
     if (!rules.states[st]?.products?.gas) return null;
-    const r = compute(rules, { state: st, product: "gas", volume, price });
+    const r = compute(rules, { state: st, product: "gas", volume, price, adval: districtAdval(rules, st) });   // adval: ruling alternative 20 (wip/alt-impact-20)
     return r.baseTotal + r.fees.reduce((a, f) => a + f.amount, 0);
   };
 }
