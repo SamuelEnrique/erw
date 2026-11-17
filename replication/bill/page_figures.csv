@@ -56,6 +56,36 @@ page,opens|bar|kwh,The bar: the kWh,600,600,0.5,
 page,opens|bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 page,opens|bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 page,opens|bar|rest_usd,The bar: everything else (USD),$202.72,202.72,0.005,
+page,opens|power|line,Under the bar: the power line's name,Generation,Generation,,
+page,opens|power|usd,Under the bar: the power line (USD),$69.45,69.45,0.005,
+page,opens|power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+page,opens|power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$26.91,26.91,0.005,
+page,opens|month|2026-10|partial,"The month field: 2026-10 (partial), USD/MWh",50.11,50.11,0.005,
+page,opens|month|2026-09,"The month field: 2026-09, USD/MWh",44.85,44.85,0.005,
+page,opens|month|2026-08,"The month field: 2026-08, USD/MWh",46.99,46.99,0.005,
+page,opens|month|2026-07,"The month field: 2026-07, USD/MWh",37.66,37.66,0.005,
+page,opens|month|2026-06,"The month field: 2026-06, USD/MWh",21.26,21.26,0.005,
+page,opens|month|2026-05,"The month field: 2026-05, USD/MWh",16.31,16.31,0.005,
+page,opens|month|2026-04,"The month field: 2026-04, USD/MWh",12.52,12.52,0.005,
+page,opens|month|2026-03|partial,"The month field: 2026-03 (partial), USD/MWh",26.57,26.57,0.005,
+page,opens|month|2026-02|partial,"The month field: 2026-02 (partial), USD/MWh",27.92,27.92,0.005,
+page,opens|month|2026-01|partial,"The month field: 2026-01 (partial), USD/MWh",33.66,33.66,0.005,
+page,opens|month|2025-12|partial,"The month field: 2025-12 (partial), USD/MWh",36.99,36.99,0.005,
+page,opens|month|2025-11|partial,"The month field: 2025-11 (partial), USD/MWh",50.52,50.52,0.005,
+page,opens|month|2025-10|partial,"The month field: 2025-10 (partial), USD/MWh",42.76,42.76,0.005,
+page,opens|month|2025-09,"The month field: 2025-09, USD/MWh",46.43,46.43,0.005,
+page,opens|month|2025-08,"The month field: 2025-08, USD/MWh",40.22,40.22,0.005,
+page,opens|month|2025-07,"The month field: 2025-07, USD/MWh",36.23,36.23,0.005,
+page,opens|month|2025-06,"The month field: 2025-06, USD/MWh",31.95,31.95,0.005,
+page,opens|month|2025-05,"The month field: 2025-05, USD/MWh",25.82,25.82,0.005,
+page,opens|month|2025-04,"The month field: 2025-04, USD/MWh",24.45,24.45,0.005,
+page,opens|month|2025-03|partial,"The month field: 2025-03 (partial), USD/MWh",32.26,32.26,0.005,
+page,opens|month|2025-02,"The month field: 2025-02, USD/MWh",39.36,39.36,0.005,
+page,opens|month|2025-01,"The month field: 2025-01, USD/MWh",49.05,49.05,0.005,
+page,opens|month|2024-12,"The month field: 2024-12, USD/MWh",45.89,45.89,0.005,
+page,opens|month|2024-11|partial,"The month field: 2024-11 (partial), USD/MWh",47.61,47.61,0.005,
+page,opens|month|2024-10|partial,"The month field: 2024-10 (partial), USD/MWh",52.58,52.58,0.005,
+page,opens|month|2024-09,"The month field: 2024-09, USD/MWh",34.30,34.3,0.005,
 page,opens|territory|P|summer,Territory P: kWh a day in summer,13.5,13.5,0.05,
 page,opens|territory|P|winter,Territory P: kWh a day in winter,11,11,0.5,
 page,opens|territory|Q|summer,Territory Q: kWh a day in summer,9.8,9.8,0.05,
@@ -104,6 +134,10 @@ ca_default,bar|kwh,The bar: the kWh,600,600,0.5,
 ca_default,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 ca_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 ca_default,bar|rest_usd,The bar: everything else (USD),$202.72,202.72,0.005,
+ca_default,power|line,Under the bar: the power line's name,Generation,Generation,,
+ca_default,power|usd,Under the bar: the power line (USD),$69.45,69.45,0.005,
+ca_default,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+ca_default,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$26.91,26.91,0.005,
 sce_default,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$166.45,166.45,0.005,"120 kWh mid-peak at $0.33156, 200 kWh super off-peak at $0.25153, 280 kWh off-peak at $0.2727"
 sce_default,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$3.71,3.71,0.005,600 kWh at $0.00619
 sce_default,line|Generation,Energy: Generation (USD),$67.14,67.14,0.005,"120 kWh mid-peak at $0.17956, 200 kWh super off-peak at $0.08452, 280 kWh off-peak at $0.10245"
@@ -117,6 +151,10 @@ sce_default,bar|kwh,The bar: the kWh,600,600,0.5,
 sce_default,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sce_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sce_default,bar|rest_usd,The bar: everything else (USD),$201.65,201.65,0.005,
+sce_default,power|line,Under the bar: the power line's name,Generation,Generation,,
+sce_default,power|usd,Under the bar: the power line (USD),$67.14,67.14,0.005,
+sce_default,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+sce_default,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$23.11,23.11,0.005,
 sdge_default,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$309.11,309.11,0.005,"120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
 sdge_default,line|Baseline credit,Credits: Baseline credit (USD),$0.00,0,0.005,0 kWh (up to 130 percent of your 0 kWh allowance) at -$0.10702
 sdge_default,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
@@ -128,6 +166,7 @@ sdge_default,bar|kwh,The bar: the kWh,600,600,0.5,
 sdge_default,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sdge_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sdge_default,bar|rest_usd,The bar: everything else (USD),$309.80,309.8,0.005,
+sdge_default,power|none,Under the bar: no power line (SDG&E),none,none,,
 tx_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$54.42,54.42,0.005,600 kWh at $0.0907
 tx_default,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_default,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
@@ -147,6 +186,10 @@ tx_default,bar|kwh,The bar: the kWh,600,600,0.5,
 tx_default,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 tx_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 tx_default,bar|rest_usd,The bar: everything else (USD),$71.57,71.57,0.005,
+tx_default,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+tx_default,power|usd,Under the bar: the power line (USD),$54.42,54.42,0.005,
+tx_default,power|share_pct,Under the bar: the power line's share of the bill (percent),57,57,0.5,
+tx_default,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$23.70,23.7,0.005,
 txc_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$51.18,51.18,0.005,600 kWh at $0.0853
 txc_default,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_default,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
@@ -171,6 +214,10 @@ txc_default,bar|kwh,The bar: the kWh,600,600,0.5,
 txc_default,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 txc_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 txc_default,bar|rest_usd,The bar: everything else (USD),$71.58,71.58,0.005,
+txc_default,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+txc_default,power|usd,Under the bar: the power line (USD),$51.18,51.18,0.005,
+txc_default,power|share_pct,Under the bar: the power line's share of the bill (percent),54,54,0.5,
+txc_default,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$23.70,23.7,0.005,
 ca_eia_avg,line|Generation,Generation: Generation (USD),$58.23,58.23,0.005,"503 kWh, 20% at $0.1371, the rest at $0.11042"
 ca_eia_avg,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$5.09,-5.09,0.005,503 kWh at -$0.01011
 ca_eia_avg,line|Distribution,Distribution: Distribution (USD),$74.00,74,0.005,"503 kWh, 20% at $0.14977, the rest at $0.14645"
@@ -196,6 +243,10 @@ ca_eia_avg,bar|kwh,The bar: the kWh,503,503,0.5,
 ca_eia_avg,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 ca_eia_avg,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 ca_eia_avg,bar|rest_usd,The bar: everything else (USD),$170.84,170.84,0.005,
+ca_eia_avg,power|line,Under the bar: the power line's name,Generation,Generation,,
+ca_eia_avg,power|usd,Under the bar: the power line (USD),$58.23,58.23,0.005,
+ca_eia_avg,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+ca_eia_avg,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$22.56,22.56,0.005,
 tx_eia_avg,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$99.41,99.41,0.005,1096 kWh at $0.0907
 tx_eia_avg,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_eia_avg,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
@@ -215,6 +266,10 @@ tx_eia_avg,bar|kwh,The bar: the kWh,1096,1096,0.5,
 tx_eia_avg,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 tx_eia_avg,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 tx_eia_avg,bar|rest_usd,The bar: everything else (USD),$127.38,127.38,0.005,
+tx_eia_avg,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+tx_eia_avg,power|usd,Under the bar: the power line (USD),$99.41,99.41,0.005,
+tx_eia_avg,power|share_pct,Under the bar: the power line's share of the bill (percent),58,58,0.5,
+tx_eia_avg,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$43.30,43.3,0.005,
 ca_summer_r,line|Generation,Generation: Generation (USD),$110.98,110.98,0.005,"850 kWh, 25% at $0.20782, the rest at $0.10482"
 ca_summer_r,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$8.59,-8.59,0.005,850 kWh at -$0.01011
 ca_summer_r,line|Distribution,Distribution: Distribution (USD),$160.55,160.55,0.005,"850 kWh, 25% at $0.20388, the rest at $0.18388"
@@ -241,6 +296,10 @@ ca_summer_r,bar|kwh,The bar: the kWh,850,850,0.5,
 ca_summer_r,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 ca_summer_r,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 ca_summer_r,bar|rest_usd,The bar: everything else (USD),$254.02,254.02,0.005,
+ca_summer_r,power|line,Under the bar: the power line's name,Generation,Generation,,
+ca_summer_r,power|usd,Under the bar: the power line (USD),$110.98,110.98,0.005,
+ca_summer_r,power|share_pct,Under the bar: the power line's share of the bill (percent),38,38,0.5,
+ca_summer_r,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$38.12,38.12,0.005,
 ca_low,line|Generation,Generation: Generation (USD),$23.15,23.15,0.005,"200 kWh, 20% at $0.1371, the rest at $0.11042"
 ca_low,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$2.02,-2.02,0.005,200 kWh at -$0.01011
 ca_low,line|Distribution,Distribution: Distribution (USD),$29.42,29.42,0.005,"200 kWh, 20% at $0.14977, the rest at $0.14645"
@@ -266,6 +325,10 @@ ca_low,bar|kwh,The bar: the kWh,200,200,0.5,
 ca_low,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 ca_low,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 ca_low,bar|rest_usd,The bar: everything else (USD),$73.27,73.27,0.005,
+ca_low,power|line,Under the bar: the power line's name,Generation,Generation,,
+ca_low,power|usd,Under the bar: the power line (USD),$23.15,23.15,0.005,
+ca_low,power|share_pct,Under the bar: the power line's share of the bill (percent),28,28,0.5,
+ca_low,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$8.97,8.97,0.005,
 ca_x_tier2,line|Generation,Generation: Generation (USD),$119.76,119.76,0.005,"1000 kWh, 35% at $0.1371, the rest at $0.11042"
 ca_x_tier2,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$10.11,-10.11,0.005,1000 kWh at -$0.01011
 ca_x_tier2,line|Distribution,Distribution: Distribution (USD),$147.61,147.61,0.005,"1000 kWh, 35% at $0.14977, the rest at $0.14645"
@@ -291,6 +354,10 @@ ca_x_tier2,bar|kwh,The bar: the kWh,1000,1000,0.5,
 ca_x_tier2,bar|price,The bar: the wholesale price (USD/MWh),44.85,44.85,0.005,
 ca_x_tier2,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 ca_x_tier2,bar|rest_usd,The bar: everything else (USD),$321.44,321.44,0.005,
+ca_x_tier2,power|line,Under the bar: the power line's name,Generation,Generation,,
+ca_x_tier2,power|usd,Under the bar: the power line (USD),$119.76,119.76,0.005,
+ca_x_tier2,power|share_pct,Under the bar: the power line's share of the bill (percent),33,33,0.5,
+ca_x_tier2,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$44.85,44.85,0.005,
 sce_summer_9,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$170.68,170.68,0.005,"85.7 kWh on-peak at $0.33156, 34.3 kWh mid-peak at $0.33156, 480 kWh off-peak at $0.2727"
 sce_summer_9,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$3.71,3.71,0.005,600 kWh at $0.00619
 sce_summer_9,line|Generation,Energy: Generation (USD),$61.77,61.77,0.005,"85.7 kWh on-peak at $0.25321, 34.3 kWh mid-peak at $0.13326, 480 kWh off-peak at $0.07396"
@@ -304,6 +371,10 @@ sce_summer_9,bar|kwh,The bar: the kWh,600,600,0.5,
 sce_summer_9,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sce_summer_9,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sce_summer_9,bar|rest_usd,The bar: everything else (USD),$185.68,185.68,0.005,
+sce_summer_9,power|line,Under the bar: the power line's name,Generation,Generation,,
+sce_summer_9,power|usd,Under the bar: the power line (USD),$61.77,61.77,0.005,
+sce_summer_9,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+sce_summer_9,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$23.11,23.11,0.005,
 sce_summer_13,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$348.43,348.43,0.005,"257.1 kWh on-peak at $0.33156, 102.9 kWh mid-peak at $0.33156, 840 kWh off-peak at $0.2727"
 sce_summer_13,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$7.43,7.43,0.005,1200 kWh at $0.00619
 sce_summer_13,line|Generation,Energy: Generation (USD),$140.94,140.94,0.005,"257.1 kWh on-peak at $0.25321, 102.9 kWh mid-peak at $0.13326, 840 kWh off-peak at $0.07396"
@@ -318,6 +389,10 @@ sce_summer_13,bar|kwh,The bar: the kWh,1200,1200,0.5,
 sce_summer_13,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sce_summer_13,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sce_summer_13,bar|rest_usd,The bar: everything else (USD),$371.14,371.14,0.005,
+sce_summer_13,power|line,Under the bar: the power line's name,Generation,Generation,,
+sce_summer_13,power|usd,Under the bar: the power line (USD),$140.94,140.94,0.005,
+sce_summer_13,power|share_pct,Under the bar: the power line's share of the bill (percent),34,34,0.5,
+sce_summer_13,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$46.22,46.22,0.005,
 sce_winter_6,line|Delivery service energy charge,Delivery: Delivery service energy charge (USD),$128.76,128.76,0.005,"135 kWh mid-peak at $0.33156, 90 kWh super off-peak at $0.25153, 225 kWh off-peak at $0.2727"
 sce_winter_6,line|Fixed Recovery Charge,Delivery: Fixed Recovery Charge (USD),$2.79,2.79,0.005,450 kWh at $0.00619
 sce_winter_6,line|Generation,Energy: Generation (USD),$54.90,54.9,0.005,"135 kWh mid-peak at $0.17956, 90 kWh super off-peak at $0.08452, 225 kWh off-peak at $0.10245"
@@ -331,6 +406,10 @@ sce_winter_6,bar|kwh,The bar: the kWh,450,450,0.5,
 sce_winter_6,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sce_winter_6,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sce_winter_6,bar|rest_usd,The bar: everything else (USD),$159.60,159.6,0.005,
+sce_winter_6,power|line,Under the bar: the power line's name,Generation,Generation,,
+sce_winter_6,power|usd,Under the bar: the power line (USD),$54.90,54.9,0.005,
+sce_winter_6,power|share_pct,Under the bar: the power line's share of the bill (percent),31,31,0.5,
+sce_winter_6,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$17.33,17.33,0.005,
 sdge_allow_333,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$309.11,309.11,0.005,"120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
 sdge_allow_333,line|Baseline credit,Credits: Baseline credit (USD),-$46.33,-46.33,0.005,432.9 kWh (up to 130 percent of your 333 kWh allowance) at -$0.10702
 sdge_allow_333,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
@@ -342,6 +421,7 @@ sdge_allow_333,bar|kwh,The bar: the kWh,600,600,0.5,
 sdge_allow_333,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sdge_allow_333,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sdge_allow_333,bar|rest_usd,The bar: everything else (USD),$263.47,263.47,0.005,
+sdge_allow_333,power|none,Under the bar: no power line (SDG&E),none,none,,
 sdge_summer,"line|Energy charge (delivery and commodity, total)","Energy and delivery: Energy charge (delivery and commodity, total) (USD)",$222.31,222.31,0.005,"112.5 kWh on-peak at $0.69135, 135 kWh super off-peak at $0.37433, 202.5 kWh off-peak at $0.46421"
 sdge_summer,line|Baseline credit,Credits: Baseline credit (USD),-$34.78,-34.78,0.005,325 kWh (up to 130 percent of your 250 kWh allowance) at -$0.10702
 sdge_summer,line|Base Services Charge,Fixed: Base Services Charge (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
@@ -353,6 +433,7 @@ sdge_summer,bar|kwh,The bar: the kWh,450,450,0.5,
 sdge_summer,bar|price,The bar: the wholesale price (USD/MWh),38.52,38.52,0.005,
 sdge_summer,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sdge_summer,bar|rest_usd,The bar: everything else (USD),$194.00,194,0.005,
+sdge_summer,power|none,Under the bar: no power line (SDG&E),none,none,,
 tx_1000_efl,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$139.90,139.9,0.005,1000 kWh at $0.1399
 tx_1000_efl,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_1000_efl,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
@@ -372,6 +453,10 @@ tx_1000_efl,bar|kwh,The bar: the kWh,1000,1000,0.5,
 tx_1000_efl,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 tx_1000_efl,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 tx_1000_efl,bar|rest_usd,The bar: everything else (USD),$165.78,165.78,0.005,
+tx_1000_efl,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+tx_1000_efl,power|usd,Under the bar: the power line (USD),$139.90,139.9,0.005,
+tx_1000_efl,power|share_pct,Under the bar: the power line's share of the bill (percent),68,68,0.5,
+tx_1000_efl,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$39.50,39.5,0.005,
 tx_2000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$181.40,181.4,0.005,2000 kWh at $0.0907
 tx_2000,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_2000,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
@@ -391,6 +476,10 @@ tx_2000,bar|kwh,The bar: the kWh,2000,2000,0.5,
 tx_2000,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 tx_2000,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 tx_2000,bar|rest_usd,The bar: everything else (USD),$229.10,229.1,0.005,
+tx_2000,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+tx_2000,power|usd,Under the bar: the power line (USD),$181.40,181.4,0.005,
+tx_2000,power|share_pct,Under the bar: the power line's share of the bill (percent),59,59,0.5,
+tx_2000,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$79.01,79.01,0.005,
 txc_1000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$125.00,125,0.005,1000 kWh at $0.125
 txc_1000,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_1000,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
@@ -415,6 +504,10 @@ txc_1000,bar|kwh,The bar: the kWh,1000,1000,0.5,
 txc_1000,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 txc_1000,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 txc_1000,bar|rest_usd,The bar: everything else (USD),$155.73,155.73,0.005,
+txc_1000,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+txc_1000,power|usd,Under the bar: the power line (USD),$125.00,125,0.005,
+txc_1000,power|share_pct,Under the bar: the power line's share of the bill (percent),64,64,0.5,
+txc_1000,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$39.50,39.5,0.005,
 txc_zero,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$0.00,0,0.005,0 kWh at $0.0853
 txc_zero,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_zero,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
@@ -438,3 +531,373 @@ txc_zero,bar|kwh,The bar: the kWh,0,0,0.5,
 txc_zero,bar|price,The bar: the wholesale price (USD/MWh),39.50,39.5,0.005,
 txc_zero,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 txc_zero,bar|rest_usd,The bar: everything else (USD),$4.90,4.9,0.005,
+txc_zero,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+txc_zero,power|usd,Under the bar: the power line (USD),$0.00,0,0.005,
+txc_zero,power|share_pct,Under the bar: the power line's share of the bill (percent),0,0,0.5,
+txc_zero,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$0.00,0,0.005,
+read_fresno_aug,line|Generation,Generation: Generation (USD),$117.51,117.51,0.005,"900 kWh, 25% at $0.20782, the rest at $0.10482"
+read_fresno_aug,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$9.10,-9.1,0.005,900 kWh at -$0.01011
+read_fresno_aug,line|Distribution,Distribution: Distribution (USD),$169.99,169.99,0.005,"900 kWh, 25% at $0.20388, the rest at $0.18388"
+read_fresno_aug,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,900 kWh at $0
+read_fresno_aug,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$4.96,4.96,0.005,"531 kWh within the baseline at -$0.02786, 369 kWh above at $0.05354"
+read_fresno_aug,line|Transmission,Transmission: Transmission (USD),$41.74,41.74,0.005,900 kWh at $0.04638
+read_fresno_aug,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$4.08,4.08,0.005,900 kWh at $0.00453
+read_fresno_aug,line|Reliability Services,Transmission: Reliability Services (USD),$0.12,0.12,0.005,900 kWh at $0.00013
+read_fresno_aug,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$5.53,5.53,0.005,900 kWh at $0.00614
+read_fresno_aug,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.02,-0.02,0.005,900 kWh at -$0.00002
+read_fresno_aug,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.24,0.24,0.005,900 kWh at $0.00027
+read_fresno_aug,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.02,0.02,0.005,900 kWh at $0.00002
+read_fresno_aug,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$5.32,5.32,0.005,900 kWh at $0.00591
+read_fresno_aug,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$3.52,3.52,0.005,900 kWh at $0.00391
+read_fresno_aug,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$7.71,7.71,0.005,900 kWh at $0.00857
+read_fresno_aug,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$7.71,-7.71,0.005,900 kWh at -$0.00857
+read_fresno_aug,line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+read_fresno_aug,total,Total (USD),$367.71,367.71,0.005,
+read_fresno_aug,per_kwh,"Per kWh, all in (USD)",$0.41,0.41,0.005,
+read_fresno_aug,bar|wholesale_usd,The bar: wholesale energy (USD),$42.29,42.29,0.005,
+read_fresno_aug,bar|share_pct,The bar: wholesale energy's share of the bill (percent),11,11,0.5,
+read_fresno_aug,bar|kwh,The bar: the kWh,900,900,0.5,
+read_fresno_aug,bar|price,The bar: the wholesale price (USD/MWh),46.99,46.99,0.005,
+read_fresno_aug,bar|month,The bar: the wholesale price's month,2026-08,2026-08,,
+read_fresno_aug,bar|rest_usd,The bar: everything else (USD),$325.43,325.43,0.005,
+read_fresno_aug,power|line,Under the bar: the power line's name,Generation,Generation,,
+read_fresno_aug,power|usd,Under the bar: the power line (USD),$117.51,117.51,0.005,
+read_fresno_aug,power|share_pct,Under the bar: the power line's share of the bill (percent),32,32,0.5,
+read_fresno_aug,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$42.29,42.29,0.005,
+read_fresno_aug,month|2026-10|partial,"The month field: 2026-10 (partial), USD/MWh",50.11,50.11,0.005,
+read_fresno_aug,month|2026-09,"The month field: 2026-09, USD/MWh",44.85,44.85,0.005,
+read_fresno_aug,month|2026-08,"The month field: 2026-08, USD/MWh",46.99,46.99,0.005,
+read_fresno_aug,month|2026-07,"The month field: 2026-07, USD/MWh",37.66,37.66,0.005,
+read_fresno_aug,month|2026-06,"The month field: 2026-06, USD/MWh",21.26,21.26,0.005,
+read_fresno_aug,month|2026-05,"The month field: 2026-05, USD/MWh",16.31,16.31,0.005,
+read_fresno_aug,month|2026-04,"The month field: 2026-04, USD/MWh",12.52,12.52,0.005,
+read_fresno_aug,month|2026-03|partial,"The month field: 2026-03 (partial), USD/MWh",26.57,26.57,0.005,
+read_fresno_aug,month|2026-02|partial,"The month field: 2026-02 (partial), USD/MWh",27.92,27.92,0.005,
+read_fresno_aug,month|2026-01|partial,"The month field: 2026-01 (partial), USD/MWh",33.66,33.66,0.005,
+read_fresno_aug,month|2025-12|partial,"The month field: 2025-12 (partial), USD/MWh",36.99,36.99,0.005,
+read_fresno_aug,month|2025-11|partial,"The month field: 2025-11 (partial), USD/MWh",50.52,50.52,0.005,
+read_fresno_aug,month|2025-10|partial,"The month field: 2025-10 (partial), USD/MWh",42.76,42.76,0.005,
+read_fresno_aug,month|2025-09,"The month field: 2025-09, USD/MWh",46.43,46.43,0.005,
+read_fresno_aug,month|2025-08,"The month field: 2025-08, USD/MWh",40.22,40.22,0.005,
+read_fresno_aug,month|2025-07,"The month field: 2025-07, USD/MWh",36.23,36.23,0.005,
+read_fresno_aug,month|2025-06,"The month field: 2025-06, USD/MWh",31.95,31.95,0.005,
+read_fresno_aug,month|2025-05,"The month field: 2025-05, USD/MWh",25.82,25.82,0.005,
+read_fresno_aug,month|2025-04,"The month field: 2025-04, USD/MWh",24.45,24.45,0.005,
+read_fresno_aug,month|2025-03|partial,"The month field: 2025-03 (partial), USD/MWh",32.26,32.26,0.005,
+read_fresno_aug,month|2025-02,"The month field: 2025-02, USD/MWh",39.36,39.36,0.005,
+read_fresno_aug,month|2025-01,"The month field: 2025-01, USD/MWh",49.05,49.05,0.005,
+read_fresno_aug,month|2024-12,"The month field: 2024-12, USD/MWh",45.89,45.89,0.005,
+read_fresno_aug,month|2024-11|partial,"The month field: 2024-11 (partial), USD/MWh",47.61,47.61,0.005,
+read_fresno_aug,month|2024-10|partial,"The month field: 2024-10 (partial), USD/MWh",52.58,52.58,0.005,
+read_fresno_aug,month|2024-09,"The month field: 2024-09, USD/MWh",34.30,34.3,0.005,
+read_houston_aug,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$175.00,175,0.005,1400 kWh at $0.125
+read_houston_aug,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
+read_houston_aug,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
+read_houston_aug,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$32.54,32.54,0.005,1400 kWh at $0.02324
+read_houston_aug,line|Transmission Cost Recovery Factor (TCRF),Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD),$43.14,43.14,0.005,1400 kWh at $0.030812
+read_houston_aug,line|Distribution Cost Recovery Factor (DCRF),Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD),$8.59,8.59,0.005,1400 kWh at $0.006137
+read_houston_aug,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$2.21,2.21,0.005,1400 kWh at $0.001576
+read_houston_aug,line|Nuclear Decommissioning Charge (NDC),Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD),$0.02,0.02,0.005,1400 kWh at $0.000013
+read_houston_aug,line|Temporary Emergency Electric Energy Facilities (TEEEF),Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD),$1.04,1.04,0.005,1400 kWh at $0.000742
+read_houston_aug,line|Rate Case Expense Surcharge (RCE),Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD),$0.07,0.07,0.005,1400 kWh at $0.000048
+read_houston_aug,line|Inflation Reduction Act 2022 (IRA),Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD),$0.00,0,0.005,1400 kWh at $0
+read_houston_aug,line|System Restoration Charge II (SRC II),Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD),$0.89,0.89,0.005,1400 kWh at $0.000636
+read_houston_aug,line|ADFIT Credit II,Delivery (CenterPoint): ADFIT Credit II (USD),-$0.03,-0.03,0.005,1400 kWh at -$0.000023
+read_houston_aug,line|System Restoration Charge III (SRC III),Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD),$3.99,3.99,0.005,1400 kWh at $0.002848
+read_houston_aug,line|ADFIT Credit III,Delivery (CenterPoint): ADFIT Credit III (USD),-$0.59,-0.59,0.005,1400 kWh at -$0.000418
+read_houston_aug,line|TC5 Refund,Delivery (CenterPoint): TC5 Refund (USD),-$0.39,-0.39,0.005,1400 kWh at -$0.000278
+read_houston_aug,total,Total (USD),$271.37,271.37,0.005,
+read_houston_aug,per_kwh,"Per kWh, all in (USD)",$0.19,0.19,0.005,
+read_houston_aug,bar|wholesale_usd,The bar: wholesale energy (USD),$51.37,51.37,0.005,
+read_houston_aug,bar|share_pct,The bar: wholesale energy's share of the bill (percent),19,19,0.5,
+read_houston_aug,bar|kwh,The bar: the kWh,1400,1400,0.5,
+read_houston_aug,bar|price,The bar: the wholesale price (USD/MWh),36.70,36.7,0.005,
+read_houston_aug,bar|month,The bar: the wholesale price's month,2026-08,2026-08,,
+read_houston_aug,bar|rest_usd,The bar: everything else (USD),$219.99,219.99,0.005,
+read_houston_aug,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+read_houston_aug,power|usd,Under the bar: the power line (USD),$175.00,175,0.005,
+read_houston_aug,power|share_pct,Under the bar: the power line's share of the bill (percent),64,64,0.5,
+read_houston_aug,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$51.37,51.37,0.005,
+read_houston_aug,month|2026-10|partial,"The month field: 2026-10 (partial), USD/MWh",42.63,42.63,0.005,
+read_houston_aug,month|2026-09,"The month field: 2026-09, USD/MWh",39.50,39.5,0.005,
+read_houston_aug,month|2026-08,"The month field: 2026-08, USD/MWh",36.70,36.7,0.005,
+read_houston_aug,month|2026-07,"The month field: 2026-07, USD/MWh",29.79,29.79,0.005,
+read_houston_aug,month|2026-06,"The month field: 2026-06, USD/MWh",29.40,29.4,0.005,
+read_houston_aug,month|2026-05,"The month field: 2026-05, USD/MWh",26.66,26.66,0.005,
+read_houston_aug,month|2026-04,"The month field: 2026-04, USD/MWh",35.15,35.15,0.005,
+read_houston_aug,month|2026-03,"The month field: 2026-03, USD/MWh",23.05,23.05,0.005,
+read_houston_aug,month|2026-02,"The month field: 2026-02, USD/MWh",20.52,20.52,0.005,
+read_houston_aug,month|2026-01,"The month field: 2026-01, USD/MWh",54.48,54.48,0.005,
+read_houston_aug,month|2025-12|partial,"The month field: 2025-12 (partial), USD/MWh",35.33,35.33,0.005,
+read_houston_aug,month|2025-11,"The month field: 2025-11, USD/MWh",34.67,34.67,0.005,
+read_houston_aug,month|2025-10,"The month field: 2025-10, USD/MWh",34.68,34.68,0.005,
+read_houston_aug,month|2025-09,"The month field: 2025-09, USD/MWh",32.40,32.4,0.005,
+read_houston_aug,month|2025-08,"The month field: 2025-08, USD/MWh",37.48,37.48,0.005,
+read_houston_aug,month|2025-07,"The month field: 2025-07, USD/MWh",34.18,34.18,0.005,
+read_houston_aug,month|2025-06,"The month field: 2025-06, USD/MWh",29.56,29.56,0.005,
+read_houston_aug,month|2025-05,"The month field: 2025-05, USD/MWh",37.99,37.99,0.005,
+read_houston_aug,month|2025-04,"The month field: 2025-04, USD/MWh",31.25,31.25,0.005,
+read_houston_aug,month|2025-03,"The month field: 2025-03, USD/MWh",26.96,26.96,0.005,
+read_houston_aug,month|2025-02,"The month field: 2025-02, USD/MWh",34.46,34.46,0.005,
+read_houston_aug,month|2025-01,"The month field: 2025-01, USD/MWh",33.02,33.02,0.005,
+read_houston_aug,month|2024-12,"The month field: 2024-12, USD/MWh",25.77,25.77,0.005,
+read_houston_aug,month|2024-11,"The month field: 2024-11, USD/MWh",31.37,31.37,0.005,
+read_houston_aug,month|2024-10,"The month field: 2024-10, USD/MWh",25.54,25.54,0.005,
+read_houston_aug,month|2024-09,"The month field: 2024-09, USD/MWh",25.09,25.09,0.005,
+read_houston_aug,month|2024-08,"The month field: 2024-08, USD/MWh",39.26,39.26,0.005,
+read_houston_aug,month|2024-07,"The month field: 2024-07, USD/MWh",23.32,23.32,0.005,
+read_houston_aug,month|2024-06,"The month field: 2024-06, USD/MWh",29.20,29.2,0.005,
+read_houston_aug,month|2024-05,"The month field: 2024-05, USD/MWh",41.15,41.15,0.005,
+read_houston_aug,month|2024-04,"The month field: 2024-04, USD/MWh",25.64,25.64,0.005,
+read_houston_aug,month|2024-03,"The month field: 2024-03, USD/MWh",21.56,21.56,0.005,
+read_houston_aug,month|2024-02,"The month field: 2024-02, USD/MWh",14.83,14.83,0.005,
+read_houston_aug,month|2024-01,"The month field: 2024-01, USD/MWh",36.80,36.8,0.005,
+read_houston_aug,month|2023-12,"The month field: 2023-12, USD/MWh",21.72,21.72,0.005,
+read_houston_aug,month|2023-11,"The month field: 2023-11, USD/MWh",30.18,30.18,0.005,
+read_houston_aug,month|2023-10,"The month field: 2023-10, USD/MWh",29.13,29.13,0.005,
+read_houston_aug,month|2023-09,"The month field: 2023-09, USD/MWh",107.46,107.46,0.005,
+read_houston_aug,month|2023-08,"The month field: 2023-08, USD/MWh",220.97,220.97,0.005,
+read_houston_aug,month|2023-07,"The month field: 2023-07, USD/MWh",47.20,47.2,0.005,
+read_houston_aug,month|2023-06,"The month field: 2023-06, USD/MWh",73.18,73.18,0.005,
+read_houston_aug,month|2023-05,"The month field: 2023-05, USD/MWh",30.99,30.99,0.005,
+read_houston_aug,month|2023-04,"The month field: 2023-04, USD/MWh",20.19,20.19,0.005,
+read_houston_aug,month|2023-03,"The month field: 2023-03, USD/MWh",26.47,26.47,0.005,
+read_houston_aug,month|2023-02,"The month field: 2023-02, USD/MWh",19.17,19.17,0.005,
+read_houston_aug,month|2023-01,"The month field: 2023-01, USD/MWh",23.80,23.8,0.005,
+read_houston_aug,month|2022-12,"The month field: 2022-12, USD/MWh",63.00,63,0.005,
+read_houston_aug,month|2022-11,"The month field: 2022-11, USD/MWh",41.22,41.22,0.005,
+read_houston_aug,month|2022-10,"The month field: 2022-10, USD/MWh",51.54,51.54,0.005,
+read_houston_aug,month|2022-09,"The month field: 2022-09, USD/MWh",67.01,67.01,0.005,
+read_houston_aug,month|2022-08,"The month field: 2022-08, USD/MWh",93.11,93.11,0.005,
+read_houston_aug,month|2022-07,"The month field: 2022-07, USD/MWh",162.31,162.31,0.005,
+read_houston_aug,month|2022-06,"The month field: 2022-06, USD/MWh",67.81,67.81,0.005,
+read_houston_aug,month|2022-05,"The month field: 2022-05, USD/MWh",97.94,97.94,0.005,
+read_houston_aug,month|2022-04,"The month field: 2022-04, USD/MWh",51.00,51,0.005,
+read_houston_aug,month|2022-03,"The month field: 2022-03, USD/MWh",33.06,33.06,0.005,
+read_houston_aug,month|2022-02,"The month field: 2022-02, USD/MWh",54.38,54.38,0.005,
+read_houston_aug,month|2022-01,"The month field: 2022-01, USD/MWh",30.07,30.07,0.005,
+read_houston_aug,month|2021-12,"The month field: 2021-12, USD/MWh",26.35,26.35,0.005,
+read_houston_aug,month|2021-11,"The month field: 2021-11, USD/MWh",41.41,41.41,0.005,
+read_houston_aug,month|2021-10,"The month field: 2021-10, USD/MWh",49.56,49.56,0.005,
+read_houston_aug,month|2021-09,"The month field: 2021-09, USD/MWh",44.17,44.17,0.005,
+read_houston_aug,month|2021-08,"The month field: 2021-08, USD/MWh",37.15,37.15,0.005,
+read_houston_aug,month|2021-07,"The month field: 2021-07, USD/MWh",39.61,39.61,0.005,
+read_houston_aug,month|2021-06,"The month field: 2021-06, USD/MWh",43.29,43.29,0.005,
+read_houston_aug,month|2021-05,"The month field: 2021-05, USD/MWh",24.10,24.1,0.005,
+read_houston_aug,month|2021-04,"The month field: 2021-04, USD/MWh",51.61,51.61,0.005,
+read_houston_aug,month|2021-03,"The month field: 2021-03, USD/MWh",19.96,19.96,0.005,
+read_houston_aug,month|2021-02,"The month field: 2021-02, USD/MWh",1768.62,1768.62,0.005,
+read_houston_aug,month|2021-01,"The month field: 2021-01, USD/MWh",21.29,21.29,0.005,
+read_houston_aug,month|2020-12,"The month field: 2020-12, USD/MWh",19.80,19.8,0.005,
+read_houston_aug,month|2020-11,"The month field: 2020-11, USD/MWh",23.75,23.75,0.005,
+read_houston_aug,month|2020-10,"The month field: 2020-10, USD/MWh",32.13,32.13,0.005,
+read_houston_aug,month|2020-09,"The month field: 2020-09, USD/MWh",22.22,22.22,0.005,
+read_houston_aug,month|2020-08,"The month field: 2020-08, USD/MWh",39.17,39.17,0.005,
+read_houston_aug,month|2020-07,"The month field: 2020-07, USD/MWh",20.51,20.51,0.005,
+read_houston_aug,month|2020-06,"The month field: 2020-06, USD/MWh",15.72,15.72,0.005,
+read_houston_aug,month|2020-05,"The month field: 2020-05, USD/MWh",18.88,18.88,0.005,
+read_houston_aug,month|2020-04,"The month field: 2020-04, USD/MWh",20.09,20.09,0.005,
+read_houston_aug,month|2020-03,"The month field: 2020-03, USD/MWh",24.58,24.58,0.005,
+read_houston_aug,month|2020-02,"The month field: 2020-02, USD/MWh",19.24,19.24,0.005,
+read_houston_aug,month|2020-01,"The month field: 2020-01, USD/MWh",16.11,16.11,0.005,
+read_houston_aug,month|2019-12,"The month field: 2019-12, USD/MWh",16.90,16.9,0.005,
+read_houston_aug,month|2019-11,"The month field: 2019-11, USD/MWh",24.83,24.83,0.005,
+read_houston_aug,month|2019-10,"The month field: 2019-10, USD/MWh",33.30,33.3,0.005,
+read_houston_aug,month|2019-09,"The month field: 2019-09, USD/MWh",57.31,57.31,0.005,
+read_houston_aug,month|2019-08,"The month field: 2019-08, USD/MWh",162.42,162.42,0.005,
+read_houston_aug,month|2019-07,"The month field: 2019-07, USD/MWh",33.54,33.54,0.005,
+read_houston_aug,month|2019-06,"The month field: 2019-06, USD/MWh",27.31,27.31,0.005,
+read_houston_aug,month|2019-05,"The month field: 2019-05, USD/MWh",25.88,25.88,0.005,
+read_houston_aug,month|2019-04,"The month field: 2019-04, USD/MWh",25.55,25.55,0.005,
+read_houston_aug,month|2019-03,"The month field: 2019-03, USD/MWh",28.02,28.02,0.005,
+read_houston_aug,month|2019-02,"The month field: 2019-02, USD/MWh",25.17,25.17,0.005,
+read_houston_aug,month|2019-01,"The month field: 2019-01, USD/MWh",24.03,24.03,0.005,
+read_houston_aug,month|2018-12,"The month field: 2018-12, USD/MWh",28.16,28.16,0.005,
+read_houston_aug,month|2018-11|partial,"The month field: 2018-11 (partial), USD/MWh",37.81,37.81,0.005,
+read_houston_aug,month|2018-10,"The month field: 2018-10, USD/MWh",37.34,37.34,0.005,
+read_houston_aug,month|2018-09,"The month field: 2018-09, USD/MWh",29.18,29.18,0.005,
+read_houston_aug,month|2018-08,"The month field: 2018-08, USD/MWh",38.22,38.22,0.005,
+read_houston_aug,month|2018-07|partial,"The month field: 2018-07 (partial), USD/MWh",47.98,47.98,0.005,
+read_student_apr,line|Generation,Generation: Generation (USD),$69.45,69.45,0.005,"600 kWh, 20% at $0.1371, the rest at $0.11042"
+read_student_apr,line|Bundled Power Charge Indifference Adjustment,Generation: Bundled Power Charge Indifference Adjustment (USD),-$6.07,-6.07,0.005,600 kWh at -$0.01011
+read_student_apr,line|Distribution,Distribution: Distribution (USD),$88.27,88.27,0.005,"600 kWh, 20% at $0.14977, the rest at $0.14645"
+read_student_apr,line|New System Generation Charge,Distribution: New System Generation Charge (USD),$0.00,0,0.005,600 kWh at $0
+read_student_apr,line|Conservation Incentive Adjustment,Distribution: Conservation Incentive Adjustment (USD),$13.81,13.81,0.005,"225 kWh within the baseline at -$0.02786, 375 kWh above at $0.05354"
+read_student_apr,line|Transmission,Transmission: Transmission (USD),$27.83,27.83,0.005,600 kWh at $0.04638
+read_student_apr,line|Transmission Rate Adjustments,Transmission: Transmission Rate Adjustments (USD),$2.72,2.72,0.005,600 kWh at $0.00453
+read_student_apr,line|Reliability Services,Transmission: Reliability Services (USD),$0.08,0.08,0.005,600 kWh at $0.00013
+read_student_apr,line|Public Purpose Programs,Other charges: Public Purpose Programs (USD),$3.68,3.68,0.005,600 kWh at $0.00614
+read_student_apr,line|Nuclear Decommissioning,Other charges: Nuclear Decommissioning (USD),-$0.01,-0.01,0.005,600 kWh at -$0.00002
+read_student_apr,line|Competition Transition Charges,Other charges: Competition Transition Charges (USD),$0.16,0.16,0.005,600 kWh at $0.00027
+read_student_apr,line|Energy Cost Recovery Amount,Other charges: Energy Cost Recovery Amount (USD),$0.01,0.01,0.005,600 kWh at $0.00002
+read_student_apr,line|Wildfire Fund Charge,Other charges: Wildfire Fund Charge (USD),$3.55,3.55,0.005,600 kWh at $0.00591
+read_student_apr,line|Wildfire Hardening Charge,Other charges: Wildfire Hardening Charge (USD),$2.35,2.35,0.005,600 kWh at $0.00391
+read_student_apr,line|Recovery Bond Charge,Other charges: Recovery Bond Charge (USD),$5.14,5.14,0.005,600 kWh at $0.00857
+read_student_apr,line|Recovery Bond Credit,Other charges: Recovery Bond Credit (USD),-$5.14,-5.14,0.005,600 kWh at -$0.00857
+read_student_apr,line|Base Services Charge (Income Tier 3),Fixed: Base Services Charge (Income Tier 3) (USD),$23.80,23.8,0.005,30 days at $0.79343 a day
+read_student_apr,total,Total (USD),$229.63,229.63,0.005,
+read_student_apr,per_kwh,"Per kWh, all in (USD)",$0.38,0.38,0.005,
+read_student_apr,bar|wholesale_usd,The bar: wholesale energy (USD),$7.51,7.51,0.005,
+read_student_apr,bar|share_pct,The bar: wholesale energy's share of the bill (percent),3,3,0.5,
+read_student_apr,bar|kwh,The bar: the kWh,600,600,0.5,
+read_student_apr,bar|price,The bar: the wholesale price (USD/MWh),12.52,12.52,0.005,
+read_student_apr,bar|month,The bar: the wholesale price's month,2026-04,2026-04,,
+read_student_apr,bar|rest_usd,The bar: everything else (USD),$222.12,222.12,0.005,
+read_student_apr,power|line,Under the bar: the power line's name,Generation,Generation,,
+read_student_apr,power|usd,Under the bar: the power line (USD),$69.45,69.45,0.005,
+read_student_apr,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
+read_student_apr,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$7.51,7.51,0.005,
+read_student_apr,month|2026-10|partial,"The month field: 2026-10 (partial), USD/MWh",50.11,50.11,0.005,
+read_student_apr,month|2026-09,"The month field: 2026-09, USD/MWh",44.85,44.85,0.005,
+read_student_apr,month|2026-08,"The month field: 2026-08, USD/MWh",46.99,46.99,0.005,
+read_student_apr,month|2026-07,"The month field: 2026-07, USD/MWh",37.66,37.66,0.005,
+read_student_apr,month|2026-06,"The month field: 2026-06, USD/MWh",21.26,21.26,0.005,
+read_student_apr,month|2026-05,"The month field: 2026-05, USD/MWh",16.31,16.31,0.005,
+read_student_apr,month|2026-04,"The month field: 2026-04, USD/MWh",12.52,12.52,0.005,
+read_student_apr,month|2026-03|partial,"The month field: 2026-03 (partial), USD/MWh",26.57,26.57,0.005,
+read_student_apr,month|2026-02|partial,"The month field: 2026-02 (partial), USD/MWh",27.92,27.92,0.005,
+read_student_apr,month|2026-01|partial,"The month field: 2026-01 (partial), USD/MWh",33.66,33.66,0.005,
+read_student_apr,month|2025-12|partial,"The month field: 2025-12 (partial), USD/MWh",36.99,36.99,0.005,
+read_student_apr,month|2025-11|partial,"The month field: 2025-11 (partial), USD/MWh",50.52,50.52,0.005,
+read_student_apr,month|2025-10|partial,"The month field: 2025-10 (partial), USD/MWh",42.76,42.76,0.005,
+read_student_apr,month|2025-09,"The month field: 2025-09, USD/MWh",46.43,46.43,0.005,
+read_student_apr,month|2025-08,"The month field: 2025-08, USD/MWh",40.22,40.22,0.005,
+read_student_apr,month|2025-07,"The month field: 2025-07, USD/MWh",36.23,36.23,0.005,
+read_student_apr,month|2025-06,"The month field: 2025-06, USD/MWh",31.95,31.95,0.005,
+read_student_apr,month|2025-05,"The month field: 2025-05, USD/MWh",25.82,25.82,0.005,
+read_student_apr,month|2025-04,"The month field: 2025-04, USD/MWh",24.45,24.45,0.005,
+read_student_apr,month|2025-03|partial,"The month field: 2025-03 (partial), USD/MWh",32.26,32.26,0.005,
+read_student_apr,month|2025-02,"The month field: 2025-02, USD/MWh",39.36,39.36,0.005,
+read_student_apr,month|2025-01,"The month field: 2025-01, USD/MWh",49.05,49.05,0.005,
+read_student_apr,month|2024-12,"The month field: 2024-12, USD/MWh",45.89,45.89,0.005,
+read_student_apr,month|2024-11|partial,"The month field: 2024-11 (partial), USD/MWh",47.61,47.61,0.005,
+read_student_apr,month|2024-10|partial,"The month field: 2024-10 (partial), USD/MWh",52.58,52.58,0.005,
+read_student_apr,month|2024-09,"The month field: 2024-09, USD/MWh",34.30,34.3,0.005,
+read_houston_oct_partial,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$51.18,51.18,0.005,600 kWh at $0.0853
+read_houston_oct_partial,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
+read_houston_oct_partial,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
+read_houston_oct_partial,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$13.94,13.94,0.005,600 kWh at $0.02324
+read_houston_oct_partial,line|Transmission Cost Recovery Factor (TCRF),Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD),$18.49,18.49,0.005,600 kWh at $0.030812
+read_houston_oct_partial,line|Distribution Cost Recovery Factor (DCRF),Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD),$3.68,3.68,0.005,600 kWh at $0.006137
+read_houston_oct_partial,line|Energy Efficiency Cost Recovery Factor (EECRF),Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD),$0.95,0.95,0.005,600 kWh at $0.001576
+read_houston_oct_partial,line|Nuclear Decommissioning Charge (NDC),Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD),$0.01,0.01,0.005,600 kWh at $0.000013
+read_houston_oct_partial,line|Temporary Emergency Electric Energy Facilities (TEEEF),Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD),$0.45,0.45,0.005,600 kWh at $0.000742
+read_houston_oct_partial,line|Rate Case Expense Surcharge (RCE),Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD),$0.03,0.03,0.005,600 kWh at $0.000048
+read_houston_oct_partial,line|Inflation Reduction Act 2022 (IRA),Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD),$0.00,0,0.005,600 kWh at $0
+read_houston_oct_partial,line|System Restoration Charge II (SRC II),Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD),$0.38,0.38,0.005,600 kWh at $0.000636
+read_houston_oct_partial,line|ADFIT Credit II,Delivery (CenterPoint): ADFIT Credit II (USD),-$0.01,-0.01,0.005,600 kWh at -$0.000023
+read_houston_oct_partial,line|System Restoration Charge III (SRC III),Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD),$1.71,1.71,0.005,600 kWh at $0.002848
+read_houston_oct_partial,line|ADFIT Credit III,Delivery (CenterPoint): ADFIT Credit III (USD),-$0.25,-0.25,0.005,600 kWh at -$0.000418
+read_houston_oct_partial,line|TC5 Refund,Delivery (CenterPoint): TC5 Refund (USD),-$0.17,-0.17,0.005,600 kWh at -$0.000278
+read_houston_oct_partial,total,Total (USD),$95.28,95.28,0.005,
+read_houston_oct_partial,per_kwh,"Per kWh, all in (USD)",$0.16,0.16,0.005,
+read_houston_oct_partial,bar|wholesale_usd,The bar: wholesale energy (USD),$25.58,25.58,0.005,
+read_houston_oct_partial,bar|share_pct,The bar: wholesale energy's share of the bill (percent),27,27,0.5,
+read_houston_oct_partial,bar|kwh,The bar: the kWh,600,600,0.5,
+read_houston_oct_partial,bar|price,The bar: the wholesale price (USD/MWh),42.63,42.63,0.005,
+read_houston_oct_partial,bar|month,The bar: the wholesale price's month,2026-10,2026-10,,
+read_houston_oct_partial,bar|rest_usd,The bar: everything else (USD),$69.70,69.7,0.005,
+read_houston_oct_partial,power|line,Under the bar: the power line's name,Energy charge (your retail electric provider),Energy charge (your retail electric provider),,
+read_houston_oct_partial,power|usd,Under the bar: the power line (USD),$51.18,51.18,0.005,
+read_houston_oct_partial,power|share_pct,Under the bar: the power line's share of the bill (percent),54,54,0.5,
+read_houston_oct_partial,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$25.58,25.58,0.005,
+read_houston_oct_partial,month|2026-10|partial,"The month field: 2026-10 (partial), USD/MWh",42.63,42.63,0.005,
+read_houston_oct_partial,month|2026-09,"The month field: 2026-09, USD/MWh",39.50,39.5,0.005,
+read_houston_oct_partial,month|2026-08,"The month field: 2026-08, USD/MWh",36.70,36.7,0.005,
+read_houston_oct_partial,month|2026-07,"The month field: 2026-07, USD/MWh",29.79,29.79,0.005,
+read_houston_oct_partial,month|2026-06,"The month field: 2026-06, USD/MWh",29.40,29.4,0.005,
+read_houston_oct_partial,month|2026-05,"The month field: 2026-05, USD/MWh",26.66,26.66,0.005,
+read_houston_oct_partial,month|2026-04,"The month field: 2026-04, USD/MWh",35.15,35.15,0.005,
+read_houston_oct_partial,month|2026-03,"The month field: 2026-03, USD/MWh",23.05,23.05,0.005,
+read_houston_oct_partial,month|2026-02,"The month field: 2026-02, USD/MWh",20.52,20.52,0.005,
+read_houston_oct_partial,month|2026-01,"The month field: 2026-01, USD/MWh",54.48,54.48,0.005,
+read_houston_oct_partial,month|2025-12|partial,"The month field: 2025-12 (partial), USD/MWh",35.33,35.33,0.005,
+read_houston_oct_partial,month|2025-11,"The month field: 2025-11, USD/MWh",34.67,34.67,0.005,
+read_houston_oct_partial,month|2025-10,"The month field: 2025-10, USD/MWh",34.68,34.68,0.005,
+read_houston_oct_partial,month|2025-09,"The month field: 2025-09, USD/MWh",32.40,32.4,0.005,
+read_houston_oct_partial,month|2025-08,"The month field: 2025-08, USD/MWh",37.48,37.48,0.005,
+read_houston_oct_partial,month|2025-07,"The month field: 2025-07, USD/MWh",34.18,34.18,0.005,
+read_houston_oct_partial,month|2025-06,"The month field: 2025-06, USD/MWh",29.56,29.56,0.005,
+read_houston_oct_partial,month|2025-05,"The month field: 2025-05, USD/MWh",37.99,37.99,0.005,
+read_houston_oct_partial,month|2025-04,"The month field: 2025-04, USD/MWh",31.25,31.25,0.005,
+read_houston_oct_partial,month|2025-03,"The month field: 2025-03, USD/MWh",26.96,26.96,0.005,
+read_houston_oct_partial,month|2025-02,"The month field: 2025-02, USD/MWh",34.46,34.46,0.005,
+read_houston_oct_partial,month|2025-01,"The month field: 2025-01, USD/MWh",33.02,33.02,0.005,
+read_houston_oct_partial,month|2024-12,"The month field: 2024-12, USD/MWh",25.77,25.77,0.005,
+read_houston_oct_partial,month|2024-11,"The month field: 2024-11, USD/MWh",31.37,31.37,0.005,
+read_houston_oct_partial,month|2024-10,"The month field: 2024-10, USD/MWh",25.54,25.54,0.005,
+read_houston_oct_partial,month|2024-09,"The month field: 2024-09, USD/MWh",25.09,25.09,0.005,
+read_houston_oct_partial,month|2024-08,"The month field: 2024-08, USD/MWh",39.26,39.26,0.005,
+read_houston_oct_partial,month|2024-07,"The month field: 2024-07, USD/MWh",23.32,23.32,0.005,
+read_houston_oct_partial,month|2024-06,"The month field: 2024-06, USD/MWh",29.20,29.2,0.005,
+read_houston_oct_partial,month|2024-05,"The month field: 2024-05, USD/MWh",41.15,41.15,0.005,
+read_houston_oct_partial,month|2024-04,"The month field: 2024-04, USD/MWh",25.64,25.64,0.005,
+read_houston_oct_partial,month|2024-03,"The month field: 2024-03, USD/MWh",21.56,21.56,0.005,
+read_houston_oct_partial,month|2024-02,"The month field: 2024-02, USD/MWh",14.83,14.83,0.005,
+read_houston_oct_partial,month|2024-01,"The month field: 2024-01, USD/MWh",36.80,36.8,0.005,
+read_houston_oct_partial,month|2023-12,"The month field: 2023-12, USD/MWh",21.72,21.72,0.005,
+read_houston_oct_partial,month|2023-11,"The month field: 2023-11, USD/MWh",30.18,30.18,0.005,
+read_houston_oct_partial,month|2023-10,"The month field: 2023-10, USD/MWh",29.13,29.13,0.005,
+read_houston_oct_partial,month|2023-09,"The month field: 2023-09, USD/MWh",107.46,107.46,0.005,
+read_houston_oct_partial,month|2023-08,"The month field: 2023-08, USD/MWh",220.97,220.97,0.005,
+read_houston_oct_partial,month|2023-07,"The month field: 2023-07, USD/MWh",47.20,47.2,0.005,
+read_houston_oct_partial,month|2023-06,"The month field: 2023-06, USD/MWh",73.18,73.18,0.005,
+read_houston_oct_partial,month|2023-05,"The month field: 2023-05, USD/MWh",30.99,30.99,0.005,
+read_houston_oct_partial,month|2023-04,"The month field: 2023-04, USD/MWh",20.19,20.19,0.005,
+read_houston_oct_partial,month|2023-03,"The month field: 2023-03, USD/MWh",26.47,26.47,0.005,
+read_houston_oct_partial,month|2023-02,"The month field: 2023-02, USD/MWh",19.17,19.17,0.005,
+read_houston_oct_partial,month|2023-01,"The month field: 2023-01, USD/MWh",23.80,23.8,0.005,
+read_houston_oct_partial,month|2022-12,"The month field: 2022-12, USD/MWh",63.00,63,0.005,
+read_houston_oct_partial,month|2022-11,"The month field: 2022-11, USD/MWh",41.22,41.22,0.005,
+read_houston_oct_partial,month|2022-10,"The month field: 2022-10, USD/MWh",51.54,51.54,0.005,
+read_houston_oct_partial,month|2022-09,"The month field: 2022-09, USD/MWh",67.01,67.01,0.005,
+read_houston_oct_partial,month|2022-08,"The month field: 2022-08, USD/MWh",93.11,93.11,0.005,
+read_houston_oct_partial,month|2022-07,"The month field: 2022-07, USD/MWh",162.31,162.31,0.005,
+read_houston_oct_partial,month|2022-06,"The month field: 2022-06, USD/MWh",67.81,67.81,0.005,
+read_houston_oct_partial,month|2022-05,"The month field: 2022-05, USD/MWh",97.94,97.94,0.005,
+read_houston_oct_partial,month|2022-04,"The month field: 2022-04, USD/MWh",51.00,51,0.005,
+read_houston_oct_partial,month|2022-03,"The month field: 2022-03, USD/MWh",33.06,33.06,0.005,
+read_houston_oct_partial,month|2022-02,"The month field: 2022-02, USD/MWh",54.38,54.38,0.005,
+read_houston_oct_partial,month|2022-01,"The month field: 2022-01, USD/MWh",30.07,30.07,0.005,
+read_houston_oct_partial,month|2021-12,"The month field: 2021-12, USD/MWh",26.35,26.35,0.005,
+read_houston_oct_partial,month|2021-11,"The month field: 2021-11, USD/MWh",41.41,41.41,0.005,
+read_houston_oct_partial,month|2021-10,"The month field: 2021-10, USD/MWh",49.56,49.56,0.005,
+read_houston_oct_partial,month|2021-09,"The month field: 2021-09, USD/MWh",44.17,44.17,0.005,
+read_houston_oct_partial,month|2021-08,"The month field: 2021-08, USD/MWh",37.15,37.15,0.005,
+read_houston_oct_partial,month|2021-07,"The month field: 2021-07, USD/MWh",39.61,39.61,0.005,
+read_houston_oct_partial,month|2021-06,"The month field: 2021-06, USD/MWh",43.29,43.29,0.005,
+read_houston_oct_partial,month|2021-05,"The month field: 2021-05, USD/MWh",24.10,24.1,0.005,
+read_houston_oct_partial,month|2021-04,"The month field: 2021-04, USD/MWh",51.61,51.61,0.005,
+read_houston_oct_partial,month|2021-03,"The month field: 2021-03, USD/MWh",19.96,19.96,0.005,
+read_houston_oct_partial,month|2021-02,"The month field: 2021-02, USD/MWh",1768.62,1768.62,0.005,
+read_houston_oct_partial,month|2021-01,"The month field: 2021-01, USD/MWh",21.29,21.29,0.005,
+read_houston_oct_partial,month|2020-12,"The month field: 2020-12, USD/MWh",19.80,19.8,0.005,
+read_houston_oct_partial,month|2020-11,"The month field: 2020-11, USD/MWh",23.75,23.75,0.005,
+read_houston_oct_partial,month|2020-10,"The month field: 2020-10, USD/MWh",32.13,32.13,0.005,
+read_houston_oct_partial,month|2020-09,"The month field: 2020-09, USD/MWh",22.22,22.22,0.005,
+read_houston_oct_partial,month|2020-08,"The month field: 2020-08, USD/MWh",39.17,39.17,0.005,
+read_houston_oct_partial,month|2020-07,"The month field: 2020-07, USD/MWh",20.51,20.51,0.005,
+read_houston_oct_partial,month|2020-06,"The month field: 2020-06, USD/MWh",15.72,15.72,0.005,
+read_houston_oct_partial,month|2020-05,"The month field: 2020-05, USD/MWh",18.88,18.88,0.005,
+read_houston_oct_partial,month|2020-04,"The month field: 2020-04, USD/MWh",20.09,20.09,0.005,
+read_houston_oct_partial,month|2020-03,"The month field: 2020-03, USD/MWh",24.58,24.58,0.005,
+read_houston_oct_partial,month|2020-02,"The month field: 2020-02, USD/MWh",19.24,19.24,0.005,
+read_houston_oct_partial,month|2020-01,"The month field: 2020-01, USD/MWh",16.11,16.11,0.005,
+read_houston_oct_partial,month|2019-12,"The month field: 2019-12, USD/MWh",16.90,16.9,0.005,
+read_houston_oct_partial,month|2019-11,"The month field: 2019-11, USD/MWh",24.83,24.83,0.005,
+read_houston_oct_partial,month|2019-10,"The month field: 2019-10, USD/MWh",33.30,33.3,0.005,
+read_houston_oct_partial,month|2019-09,"The month field: 2019-09, USD/MWh",57.31,57.31,0.005,
+read_houston_oct_partial,month|2019-08,"The month field: 2019-08, USD/MWh",162.42,162.42,0.005,
+read_houston_oct_partial,month|2019-07,"The month field: 2019-07, USD/MWh",33.54,33.54,0.005,
+read_houston_oct_partial,month|2019-06,"The month field: 2019-06, USD/MWh",27.31,27.31,0.005,
+read_houston_oct_partial,month|2019-05,"The month field: 2019-05, USD/MWh",25.88,25.88,0.005,
+read_houston_oct_partial,month|2019-04,"The month field: 2019-04, USD/MWh",25.55,25.55,0.005,
+read_houston_oct_partial,month|2019-03,"The month field: 2019-03, USD/MWh",28.02,28.02,0.005,
+read_houston_oct_partial,month|2019-02,"The month field: 2019-02, USD/MWh",25.17,25.17,0.005,
+read_houston_oct_partial,month|2019-01,"The month field: 2019-01, USD/MWh",24.03,24.03,0.005,
+read_houston_oct_partial,month|2018-12,"The month field: 2018-12, USD/MWh",28.16,28.16,0.005,
+read_houston_oct_partial,month|2018-11|partial,"The month field: 2018-11 (partial), USD/MWh",37.81,37.81,0.005,
+read_houston_oct_partial,month|2018-10,"The month field: 2018-10, USD/MWh",37.34,37.34,0.005,
+read_houston_oct_partial,month|2018-09,"The month field: 2018-09, USD/MWh",29.18,29.18,0.005,
+read_houston_oct_partial,month|2018-08,"The month field: 2018-08, USD/MWh",38.22,38.22,0.005,
+read_houston_oct_partial,month|2018-07|partial,"The month field: 2018-07 (partial), USD/MWh",47.98,47.98,0.005,

@@ -19,6 +19,10 @@
     { "id": "tx_1000_efl", "name": "Oncor, 1,000 kWh, an energy charge of USD 0.1399 per kWh", "bill": "TX", "typed": { "kwh": 1000, "energyRate": 0.1399 } },
     { "id": "tx_2000", "name": "Oncor, 2,000 kWh, the default energy charge", "bill": "TX", "typed": { "kwh": 2000 } },
     { "id": "txc_1000", "name": "CenterPoint, 1,000 kWh, an energy charge of USD 0.125 per kWh", "bill": "TXC", "typed": { "kwh": 1000, "energyRate": 0.125 } },
-    { "id": "txc_zero", "name": "CenterPoint, 0 kWh (the fixed charges alone)", "bill": "TXC", "typed": { "kwh": 0 } }
+    { "id": "txc_zero", "name": "CenterPoint, 0 kWh (the fixed charges alone)", "bill": "TXC", "typed": { "kwh": 0 } },
+    { "id": "read_fresno_aug", "name": "Session 7547's read, case 1: a PG&E home in Fresno (Territory R, Preliminary Statement Part A), an August 2026 bill, summer, 900 kWh, 25 percent from 4 to 9 p.m., the wholesale month set to 2026-08", "bill": "CA", "typed": { "kwh": 900, "peakShare": 0.25, "season": "summer", "territory": "R", "month": "2026-08" } },
+    { "id": "read_houston_aug", "name": "Session 7547's read, case 2: a CenterPoint home in Houston, an August 2026 bill, 1,400 kWh, an energy charge of USD 0.125 per kWh typed from a plan's label, the wholesale month set to 2026-08", "bill": "TXC", "typed": { "kwh": 1400, "energyRate": 0.125, "month": "2026-08" } },
+    { "id": "read_student_apr", "name": "Session 7547's read, case 3: the default PG&E bill with the wholesale month set to 2026-04 (NP15's lowest month held), against the default month", "bill": "CA", "typed": { "month": "2026-04" } },
+    { "id": "read_houston_oct_partial", "name": "Session 7547's read: CenterPoint, the defaults, the wholesale month set to 2026-10 (48 hours held: partial)", "bill": "TXC", "typed": { "month": "2026-10" } }
   ]
 }

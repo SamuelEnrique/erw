@@ -5,30 +5,57 @@
 // Session 7533 (chain 304): `first`, the bill the calculator opens on (the page passes none: PG&E, as before), so a script
 // can draw each of the five without a click (site/scripts/bill-figures.mjs, replication/bill/). And the SCE summer line
 // under the super off-peak share: SCE's summer has no super off-peak hours, so the share is billed in winter only.
+// Session 7547 (chain 304, part B, the read as a household with its own bill in hand): (1) `history`, every month of the
+// bill's wholesale price held, newest first, and a field "Wholesale price, month" (default: the month the cards use), so a
+// reader sets the month of the bill in hand, and a student sees the share move with the month; the bill's lines stay at
+// the rates as read. (2) Under the bar, the bill's own power line beside the wholesale energy (PG&E's and SCE's
+// "Generation", the Texas retailer's energy charge; SDG&E's tariff splits none out), because the "Everything else" of the
+// bar holds the rest of that line too, and the sentence said only wires, programs and fixed charges.
 import { Fragment, useMemo, useState } from "react";
+import { Tip } from "@/components/tool/ToolPage";
 import {
   BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
 } from "@/lib/bill";
+
+/** Session 7547: the line of each bill that charges for the power itself (its id in lib/bill.ts and the rules file), and
+ * who sets its price. SDG&E's TOU-DR1 is one total line (the commodity rate inside it), so it has none. */
+export const POWER_LINE: Record<BillKey, { id: string; who: string } | null> = {
+  CA: { id: "gen", who: "PG&E" },
+  SCE: { id: "sce_generation", who: "SCE" },
+  SDGE: null,
+  TX: { id: "rep_energy", who: "the retail electric provider" },
+  TXC: { id: "txc_energy", who: "the retail electric provider" },
+};
+export type WholesaleMonth = { month: string; price: number; partial: boolean };
 
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const field = "w-full border border-rule bg-panel px-2 py-1 text-sm";
 const pct = (v: string) => Math.min(100, Math.max(0, Number(v))) / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey }) {
+export function BillCalc({ rules, wholesale, first = "CA", history = {}, firstMonth = null }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey; history?: Record<string, WholesaleMonth[]>; firstMonth?: string | null }) {
   const [key, setKey] = useState<BillKey>(first);
+  // session 7547: the month the reader chose for the wholesale price; null is the default (the cards' month). `firstMonth`
+  // lets a script draw a chosen month without a click, as `first` does for the bill
+  const [month, setMonth] = useState<string | null>(firstMonth);
   const [ca, setCa] = useState<CAInput>(defaultsCA(rules));
   const [tou, setTou] = useState<Record<"SCE" | "SDGE", TOUInput>>({ SCE: defaultsTOU(rules, "SCE"), SDGE: defaultsTOU(rules, "SDGE") });
   const [tx, setTx] = useState<Record<"TX" | "TXC", TXInput>>({ TX: defaultsTX(rules), TXC: defaultsTDSP(rules, "TXC") });
   const bill = useMemo(() => (key === "CA" ? billCA(rules, ca) : key === "SCE" || key === "SDGE" ? billTOU(rules, key, tou[key]) : key === "TX" ? billTX(rules, tx.TX) : billTDSP(rules, key, tx.TXC)),
     [rules, key, ca, tou, tx]);
   const b = rules.bills[key];
-  const w = wholesale[key];
+  const months = history[key] ?? [];
+  const picked = month !== null ? months.find((m) => m.month === month) ?? null : null;
+  const w = picked ?? wholesale[key];
   const wholesaleUsd = w ? (bill.kwh * w.price) / 1000 : null;
   const src = (id: string) => rules.sources[id];
   const groups: Record<string, Line[]> = {};
   for (const l of bill.lines) (groups[l.group ?? "Other"] ??= []).push(l);
   const share = wholesaleUsd !== null && bill.total > 0 ? Math.max(0, Math.min(1, wholesaleUsd / bill.total)) : null;
+  // session 7547: the bill's own power line, drawn beside the wholesale energy under the bar
+  const pl = POWER_LINE[key];
+  const plLine = pl ? bill.lines.find((l) => l.id === pl.id) : undefined;
+  const power = pl && plLine ? { line: plLine, who: pl.who } : null;
   const kwh = key === "CA" ? ca.kwh : key === "SCE" || key === "SDGE" ? tou[key].kwh : tx[key].kwh;
   const setKwh = (v: number) => {
     if (key === "CA") setCa({ ...ca, kwh: v });
@@ -38,6 +65,7 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
   // session 261: one press puts the chosen bill's inputs back to its defaults (docs/brand.md, section 7); the other
   // four bills keep what the reader typed
   const reset = () => {
+    setMonth(null);  // session 7547: the wholesale month back to the cards' month
     if (key === "CA") setCa(defaultsCA(rules));
     else if (key === "SCE" || key === "SDGE") { setTou({ ...tou, [key]: defaultsTOU(rules, key) }); setHeld(null); }
     else setTx({ ...tx, [key]: key === "TX" ? defaultsTX(rules) : defaultsTDSP(rules, key) });
@@ -76,7 +104,13 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
                   {Object.entries(rules.bills.CA.seasons).map(([k, s]) => <option key={k} value={k}>{(s as { label: string }).label}</option>)}
                 </select>
               </label>
-              <label className="flex flex-col">Baseline territory (default T, San Francisco)
+              <label className="flex flex-col" data-territory-tip="7547"><span>Baseline territory (default T, San Francisco)
+                {/* session 7547: a reader outside San Francisco (Fresno, in the read's cases) is told where the letter is found */}
+                <Tip id="bill-territory-7547" label="which baseline territory a home is in">
+                  PG&amp;E&apos;s Electric Preliminary Statement Part A gives each county&apos;s territory, by elevation where a county spans several:
+                  for example, {rules.bills.CA.default_territory.examples.words} ({rules.bills.CA.default_territory.examples.sheet}: &quot;{rules.bills.CA.default_territory.examples.quote}&quot;),
+                  and San Francisco is all T. The daily quantities are Sheet 5&apos;s, Code B (basic, not all-electric).
+                </Tip></span>
                 <select value={ca.territory} onChange={(e) => setCa({ ...ca, territory: e.target.value })} className={field}>
                   {Object.entries(rules.bills.CA.baseline_quantities.code_B).map(([k, q]) => <option key={k} value={k}>Territory {k}: {(q as number[])[0]} kWh a day in summer, {(q as number[])[1]} in winter</option>)}
                 </select>
@@ -126,6 +160,22 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
               <span className="mt-1 text-xs text-muted">Default: {b.energy_default.derivation}.</span>
             </label>
           )}
+          {months.length ? (
+            <label className="flex flex-col" data-bill-month="7547">
+              <span>Wholesale price, month (default: the latest complete month, as on the cards)
+                <Tip id="bill-month-7547" label="the wholesale price's month">
+                  Set the month of the bill in hand. Only the wholesale price, and so the wholesale energy and its share, change with
+                  the month: every line of the bill stays at the tariff&apos;s rates as read ({b.iso === "ercot" ? "Oncor 2026-09-30, CenterPoint 2026-10-01" : "PG&E 2026-09-30, SCE and SDG&E 2026-10-01"}), and a bill of an earlier
+                  month was charged that month&apos;s rates, which this page does not hold. A month marked partial lacks a price in some hours.
+                  Source: the ERW table cost_of_power_monthly, {b.wholesale_label ?? "ERCOT's hub average"}, the load-weighted real-time price.
+                </Tip>
+              </span>
+              <select value={picked ? picked.month : ""} onChange={(e) => setMonth(e.target.value === "" ? null : e.target.value)} className={field}>
+                <option value="">{wholesale[key] ? `${wholesale[key]!.month}, the default` : "the default"}</option>
+                {months.map((m) => <option key={m.month} value={m.month}>{m.month}: ${m.price.toFixed(2)} per MWh{m.partial ? " (partial)" : ""}</option>)}
+              </select>
+            </label>
+          ) : null}
           <button type="button" onClick={reset} className="border border-rule px-3 py-1">Reset this bill to its defaults</button>
         </div>
 
@@ -164,8 +214,23 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
                 <div style={{ width: `${(1 - share) * 100}%`, background: "var(--color-rule)" }} />
               </div>
               <p className="text-xs">
-                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
+                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? (picked ? " (a partial month)" : " (a partial month, the latest held)") : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: {power ? "the rest of the bill's power line (below), " : key === "SDGE" ? "the rest of the power, inside SDG&E's one line, " : ""}the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
               </p>
+              {power ? (
+                <p className="mt-1 text-xs" data-power-line={power.line.id}>
+                  The bill&apos;s own power line: <span data-power-usd={power.line.amount}>{power.line.name} {usd(power.line.amount)}, {Math.round((power.line.amount / bill.total) * 100)} percent of the bill</span>, beside the wholesale energy&apos;s {usd(wholesaleUsd)}.
+                  <Tip id="bill-power-7547" label="the power line beside the wholesale energy">
+                    The power line is what {power.who} charges for the power. {b.iso === "ercot"
+                      ? "It is the plan's price, set by the retailer, which pays for the power the retailer buys (much of it ahead, at fixed prices) and the retailer's own costs."
+                      : `It is the tariff's generation rate, which pays for all the power ${power.who} buys and makes over the year (its contracts, its own plants, capacity held for the hottest hours), not the hour's market price alone.`}
+                    {" "}The wholesale energy is the same kWh at the grid&apos;s real-time market price; the difference between the two is part of &quot;Everything else&quot;. Source: the line&apos;s own tariff passage (open it in the table) and the ERW table cost_of_power_monthly.
+                  </Tip>
+                </p>
+              ) : key === "SDGE" ? (
+                <p className="mt-1 text-xs" data-power-line="none">
+                  SDG&amp;E&apos;s tariff gives the power and the wires together in one line (its commodity rate is inside the total), so no power line of this bill is set beside the wholesale energy.
+                </p>
+              ) : null}
             </div>
           ) : null}
         </div>

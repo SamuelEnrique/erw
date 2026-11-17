@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-16.1",
+  "version": "2026-11-16.2",
   "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill. Session 52 adds three bills (SCE TOU-D Option 4-9 PM, SDG&E TOU-DR1, CenterPoint), read as text on 2026-10-01 and checked the same way.",
   "sources": {
     "pge_etouc": {
@@ -152,7 +152,14 @@
         "territory": "T",
         "cite": "pge_prelim_a",
         "quote": "SAN FRANCISCO All T",
-        "label": "Territory T (San Francisco)"
+        "label": "Territory T (San Francisco)",
+        "examples": {
+          "added": "session 7547 (chain 304, part B), read as text on 2026-11-16",
+          "cite": "pge_prelim_a",
+          "sheet": "Sheet 1 (Cal. P.U.C. Sheet No. 34601-E, Advice 4535-E-A)",
+          "quote": "FRESNO* Under 3,500' R 3,501'-6,500' Y Over 6,500' Z",
+          "words": "Fresno County below 3,500 feet is Territory R; from 3,501 to 6,500 feet Y; above 6,500 feet Z"
+        }
       },
       "base_services": {
         "cite": "pge_etouc",

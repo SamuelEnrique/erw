@@ -61,6 +61,25 @@ def wholesale(rows, entity):
     return {"price": by[m]["rt_load_weighted"], "month": m, "partial": m not in full}
 
 
+def months_held(rows, entity):
+    """Session 7547 (the read): the note, "The month field": every month with a load-weighted price for the bill's zone,
+    newest first, each with its price and whether it is partial (rt_hours not equal to hours_in_month)."""
+    by = {}
+    for r in rows:
+        if r["entity"] == entity:
+            by.setdefault(r["month"], {})[r["variable"]] = r["value"]
+    out = []
+    for m in sorted((m for m, v in by.items() if "rt_load_weighted" in v), reverse=True):
+        full = by[m].get("rt_hours") is not None and by[m].get("rt_hours") == by[m].get("hours_in_month")
+        out.append({"price": by[m]["rt_load_weighted"], "month": m, "partial": not full})
+    return out
+
+
+# the note, "The power line": the line of each bill that charges for the power itself; SDG&E's tariff splits none out
+POWER_LINE = {"CA": "Generation", "SCE": "Generation", "SDGE": None, "TX": "Energy charge (your retail electric provider)",
+              "TXC": "Energy charge (your retail electric provider)"}
+
+
 # --- the arithmetic, line by line (the note) ----------------------------------------------------------------------
 
 def defaults(rules, key, typed):
@@ -195,7 +214,21 @@ def expected(rules, key, typed, w):
         out["bar|price"] = w["price"]
         out["bar|month"] = w["month"]
         out["bar|rest_usd"] = total - wusd
+        # session 7547: the power line under the bar
+        if POWER_LINE[key] is None:
+            out["power|none"] = "none"
+        else:
+            amount = sum(a for n, a, _ in lines if n == POWER_LINE[key])
+            out["power|line"] = POWER_LINE[key]
+            out["power|usd"] = amount
+            out["power|share_pct"] = half_up(amount / total * 100)
+            out["power|wholesale_usd"] = wusd
     return out, nums, x
+
+
+def expected_months(rows, rules, key):
+    """Session 7547: the options of the month field, by key (a partial month's key ends in '|partial')."""
+    return {f"month|{m['month']}" + ("|partial" if m["partial"] else ""): m["price"] for m in months_held(rows, rules["bills"][key]["wholesale_entity"])}
 
 
 def expected_page(rules, ws):
@@ -299,9 +332,18 @@ def run(argv):
     for c in figs["cases"]:
         if c["id"] == "page":
             exp, nums = expected_page(rules, ws)
+            exp.update({f"opens|{k}": v for k, v in expected_months(rows, rules, "CA").items()})
         else:
             src = cases[c["id"]]
-            exp, nums, _ = expected(rules, src["bill"], src["typed"], ws[src["bill"]])
+            w = ws[src["bill"]]
+            month = src["typed"].get("month")
+            if month:
+                # session 7547: the case sets the wholesale month; the field's options are every month held
+                held = {m["month"]: m for m in months_held(rows, rules["bills"][src["bill"]]["wholesale_entity"])}
+                w = held.get(month, w)
+            exp, nums, _ = expected(rules, src["bill"], src["typed"], w)
+            if month:
+                exp.update(expected_months(rows, rules, src["bill"]))
         o, b = compare(c["id"], c["figures"], exp, nums, report)
         ok, bad = ok + o, bad + b
         print(f"{c['id']}: {o} of {o + b}")

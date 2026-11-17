@@ -30,15 +30,18 @@ function Chip() {
   );
 }
 
-/** The load-weighted real-time price of the latest complete month, else the latest month held (partial). */
-async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean } | null> {
+/** The load-weighted real-time price of the latest complete month, else the latest month held (partial). Session 7547
+ * (chain 304, part B): with it, every month held for the entity, newest first (`months`), so Build a bill can set the
+ * reader's own month against the bill (the read's rows 1 and 3: a bill in hand is of a given month). */
+async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean; months: { month: string; price: number; partial: boolean }[] } | null> {
   const rows = await series(M, { entity });
   const by = new Map<string, Record<string, SeriesRow>>();
   for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
   const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
   const full = months.filter((m) => by.get(m)!.rt_hours?.value === by.get(m)!.hours_in_month?.value);
   const m = full.at(-1) ?? months.at(-1);
-  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m) } : null;
+  const list = [...months].reverse().map((x) => ({ month: x, price: by.get(x)!.rt_load_weighted.value, partial: !full.includes(x) }));
+  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m), months: list } : null;
 }
 
 const GLOSSARY: [string, string, string][] = [
@@ -62,6 +65,8 @@ export default async function LearnBill() {
   const W = Object.fromEntries(BILL_KEYS.map((k) => [k, byEnt[rules.bills[k].wholesale_entity]])) as Record<BillKey, Awaited<ReturnType<typeof wholesaleOf>>>;
   const bills = Object.fromEntries(BILL_KEYS.map((k) => [k, defaultBill(rules, k)])) as Record<BillKey, ReturnType<typeof defaultBill>>;
   const wholesale = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? { price: W[s]!.row.value, month: W[s]!.row.ts_utc.slice(0, 7), partial: W[s]!.partial } : null]));
+  // session 7547: every month held for each bill's wholesale zone, for the calculator's month field
+  const history = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? W[s]!.months : []]));
   const note: Record<BillKey, string> = {
     CA: "Winter (the season on 2026-10-01, when the tariffs were read), 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.",
     SCE: "Winter (the season on 2026-10-01), 20 percent from 4 to 9 p.m., a third in 8 a.m. to 4 p.m., Baseline Region 9, 30 days.",
@@ -111,7 +116,7 @@ export default async function LearnBill() {
       </Section>
 
       <Section title="Build a bill">
-        <BillCalc rules={rules} wholesale={wholesale} />
+        <BillCalc rules={rules} wholesale={wholesale} history={history} />
         <p className="mt-3 max-w-3xl text-sm">
           What is the rest? Each line of the bill above names it, in the utility&apos;s own tariff: the local wires, poles and transformers
           (distribution), the high-voltage grid (transmission), the meter and fixed charges, and programs the state funds through the bill, such as

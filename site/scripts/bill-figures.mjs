@@ -105,6 +105,18 @@ function calcFigures(html) {
     out.push({ key: "bar|month", name: "The bar: the wholesale price's month", shown: bar[5], value: bar[5], tolerance: null });
     out.push(fig("bar|rest_usd", "The bar: everything else (USD)", bar[6]));
   }
+  // session 7547 (chain 304, part B): the bill's own power line under the bar, and the month field's options
+  const pw = html.match(/data-power-line="([^"]+)">([\s\S]*?)<\/p>/);
+  if (pw && pw[1] === "none") out.push({ key: "power|none", name: "Under the bar: no power line (SDG&E)", shown: "none", value: "none", tolerance: null });
+  else if (pw) {
+    const m = pw[2].match(/<span data-power-usd="[^"]*">([^<]*?) (-?\$[\d,.]+), (\d+) percent of the bill<\/span>, beside the wholesale energy&#x27;s (-?\$[\d,.]+)\./);
+    if (m) {
+      out.push({ key: "power|line", name: "Under the bar: the power line's name", shown: ent(m[1]), value: ent(m[1]), tolerance: null });
+      out.push(fig("power|usd", "Under the bar: the power line (USD)", m[2]), fig("power|share_pct", "Under the bar: the power line's share of the bill (percent)", m[3]), fig("power|wholesale_usd", "Under the bar: the wholesale energy beside it (USD)", m[4]));
+    }
+  }
+  for (const [, mo, p, part] of html.matchAll(/<option value="(\d{4}-\d{2})"[^>]*>\d{4}-\d{2}: \$([\d.]+) per MWh( \(partial\))?<\/option>/g))
+    out.push(fig(`month|${mo}${part ? "|partial" : ""}`, `The month field: ${mo}${part ? " (partial)" : ""}, USD/MWh`, p));
   return out;
 }
 
@@ -147,15 +159,26 @@ function rulesFor(c) {
     if (x.energyRate !== undefined) b.energy_default.rate = x.energyRate;
   } else {
     const map = { kwh: "kwh", peakShare: "peak_share", superShare: "super_share", season: "season", territory: "territory", tier: "income_tier", climateCredit: "climate_credit", region: "region", baselineKwh: "baseline_kwh" };
-    for (const [k, v] of Object.entries(x)) b.defaults[map[k]] = v;
+    for (const [k, v] of Object.entries(x)) if (k !== "month") b.defaults[map[k]] = v;
   }
   return r;
+}
+
+/** Session 7547: for a case that types a wholesale month, the months the page's server hands the calculator for the
+ * bill's zone (page.tsx, wholesaleOf: every month with a load-weighted price, newest first, partial when its rt_hours
+ * are not its hours_in_month), standing in for the server's read as the fetch stand-in does for the page. */
+function historyOf(entity) {
+  const by = new Map();
+  for (const r of rows.filter((x) => x.entity === entity)) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7)))[r.variable] = r.value;
+  return [...by.keys()].filter((m) => by.get(m).rt_load_weighted !== undefined).sort().reverse()
+    .map((m) => ({ month: m, price: by.get(m).rt_load_weighted, partial: by.get(m).rt_hours !== by.get(m).hours_in_month }));
 }
 
 const { BillCalc } = await import("../app/learn/bill/BillCalc.tsx");
 const out = [{ id: "page", name: "The page as it opens (the five cards and the calculator on PG&E)", bill: null, typed: null, figures: page }];
 for (const c of cases) {
-  const html = renderToStaticMarkup(h(BillCalc, { rules: rulesFor(c), wholesale: Object.fromEntries(KEYS.map((k) => [k, wholesale[k] && { price: wholesale[k].price, month: wholesale[k].month, partial: wholesale[k].partial }])), first: c.bill }));
+  const extra = c.typed.month ? { history: { [c.bill]: historyOf(rules.bills[c.bill].wholesale_entity) }, firstMonth: c.typed.month } : {};
+  const html = renderToStaticMarkup(h(BillCalc, { rules: rulesFor(c), wholesale: Object.fromEntries(KEYS.map((k) => [k, wholesale[k] && { price: wholesale[k].price, month: wholesale[k].month, partial: wholesale[k].partial }])), first: c.bill, ...extra }));
   out.push({ id: c.id, name: c.name, bill: c.bill, typed: c.typed, figures: calcFigures(html) });
 }
 
