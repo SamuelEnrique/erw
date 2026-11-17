@@ -47,11 +47,21 @@ export const ORDER = ["batteries_lunch", "gas_sets_price", "queue_divorce", "pea
 
 ORDER.push("impact_study"); // session 181: impact of X on Y
 
+/** Session 7629, the other choice of the ruling on the cards built from internal tables (wip/alt-research-1, not
+ * landed): three cards read tables the ERW holds internal (ISO-NE's prices for gas_sets_price; the PUCT's transmission
+ * matrices for the two siting cards), so they are withdrawn: out of the library, and their own addresses answer as a
+ * card that does not exist. Their files are kept on disk, not deleted. */
+export const WITHDRAWN: Record<string, string> = {
+  gas_sets_price: "reads ISO-NE's zone prices (iso_rtm_hub_prices and the zone price history), held internal",
+  siting_flexible: "reads the PUCT's transmission charge matrices (texas_transmission_matrix), held internal",
+  siting_gigawatt: "reads the PUCT's transmission charge matrices (texas_transmission_matrix), held internal",
+};
+
 /** Every card file, the default cards first in the engine's order, then the cards with chosen inputs. */
 export function loadCards(): Card[] {
   if (!fs.existsSync(DIR)) return [];
   const cards = fs.readdirSync(DIR)
-    .filter((f) => f.endsWith(".json") && f !== "catalogue.json")
+    .filter((f) => f.endsWith(".json") && f !== "catalogue.json" && !(f.replace(/\.json$/, "") in WITHDRAWN))
     .map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")) as Card);
   const rank = (c: Card) => (ORDER.indexOf(c.id) + 1 || 99) + (c.card_id === c.id ? 0 : 0.5);
   return cards.sort((a, b) => rank(a) - rank(b) || a.card_id.localeCompare(b.card_id));
@@ -59,13 +69,14 @@ export function loadCards(): Card[] {
 
 export function loadCard(cardId: string): Card | null {
   const f = path.join(DIR, `${cardId}.json`);
-  if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;
+  if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f) || cardId in WITHDRAWN) return null;
   return JSON.parse(fs.readFileSync(f, "utf8")) as Card;
 }
 
 export function loadCatalogue(): CatalogueEntry[] {
   const f = path.join(DIR, "catalogue.json");
-  return fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, "utf8")) as CatalogueEntry[]) : [];
+  // session 7629 (wip/alt-research-1): a withdrawn card cannot be asked for either
+  return fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, "utf8")) as CatalogueEntry[]).filter((e) => !(String((e as { id?: string }).id ?? "") in WITHDRAWN)) : [];
 }
 
 /** The ISO week (YYYY-Www, UTC) the next Sunday Roundup is written for: the week that holds today, Monday to Sunday. */

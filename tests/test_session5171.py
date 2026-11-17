@@ -88,7 +88,7 @@ READS_THE_DISK = {
     "lib/companydata.ts": "if (!/^[a-z0-9-]{1,80}$/.test(id)) return null;",
     "lib/datacenterdata.ts": "const g = INDEX.grids[grid];",
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
-    "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;",
+    "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f) || cardId in WITHDRAWN) return null;",
     "lib/howsoondata.ts": None,
     "lib/policyweekdata.ts": None,
     "lib/problemEditions.ts": r"if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !editions().includes(date)) return null;",
