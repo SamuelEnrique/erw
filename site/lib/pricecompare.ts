@@ -104,6 +104,9 @@ export const lacking = (rows: Row[], market: Market) => rows.filter((r) => value
 
 const NAMES: Record<string, string> = {
   "ercot:HB_BUSAVG": "Bus Average hub", "ercot:HB_HOUSTON": "Houston hub", "ercot:HB_HUBAVG": "Hub Average", "ercot:HB_NORTH": "North hub", "ercot:HB_SOUTH": "South hub", "ercot:HB_WEST": "West hub",
+  // session 7052 (done-line request 142): ERCOT's eight load zones (ercot_zone_prices_history)
+  "ercot:LZ_AEN": "Austin Energy load zone", "ercot:LZ_CPS": "CPS Energy (San Antonio) load zone", "ercot:LZ_HOUSTON": "Houston load zone", "ercot:LZ_LCRA": "LCRA load zone",
+  "ercot:LZ_NORTH": "North load zone", "ercot:LZ_RAYBN": "Rayburn load zone", "ercot:LZ_SOUTH": "South load zone", "ercot:LZ_WEST": "West load zone",
   "caiso:TH_NP15_GEN-APND": "NP15 hub (north)", "caiso:TH_SP15_GEN-APND": "SP15 hub (south)", "caiso:TH_ZP26_GEN-APND": "ZP26 hub (central)",
   "isone:.H.INTERNAL_HUB": "Internal Hub", "isone:.Z.CONNECTICUT": "Connecticut zone", "isone:.Z.MAINE": "Maine zone", "isone:.Z.NEMASSBOST": "Northeast Massachusetts and Boston zone",
   "isone:.Z.NEWHAMPSHIRE": "New Hampshire zone", "isone:.Z.RHODEISLAND": "Rhode Island zone", "isone:.Z.SEMASS": "Southeast Massachusetts zone", "isone:.Z.VERMONT": "Vermont zone",

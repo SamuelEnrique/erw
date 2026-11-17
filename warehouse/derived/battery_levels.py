@@ -247,6 +247,8 @@ def main(argv=None):
             was = held.get((lv.get("slug"), lv.get("date")))
             if was and lv.get("solar") is None and was.get("solar") is not None:
                 lv["solar"], lv["solar_source"] = was["solar"], was.get("solar_source")
+            if was and "fleet" not in lv and "fleet" in was:  # session 7052: the battery fleet battery_solar.py wrote
+                lv["fleet"] = was["fleet"]
     out = {
         "note": "ERW, session 38: the home battery game's famous days. ERCOT HB_HUBAVG real-time settlement point prices, "
                 "USD/MWh, every 15-minute interval of the operating day (Central time); session 56: two CAISO SP15 days, the 15-minute "

@@ -67,6 +67,16 @@ A county point is drawn differently from an exact one on the map, and the click 
 
 The table is a snapshot (Decision 21), rebuilt by `warehouse/run_daily.sh` after the EIA-860M and queue connectors. In CI the queue tables are on the runner only on Mondays (and on a manual run with `queues` set to 1); on other days the script skips with a warning and the previous load stays in Supabase.
 
+## The proposed in-service date (session 7052, chain 370, done-line request 109)
+
+A queue position's only date was its queue date. `energy_projects` now carries `proposed_date`, the queue table's
+`proposed_in_service_date` as the grid operator's report states it (ERCOT, CAISO, SPP, ISO-NE, and NYISO and MISO, whose
+rows the map holds back), empty where the report gives none and for EIA's units, whose dates stay in `date`. The map's
+file carries it for every queue position it shows (`more.queue.proposed`, a date as `d` writes one, 0 where none: 3,252
+of 3,684 on 17 November 2026). It is not in the live set: a new live column needs a migration, a person's step, so
+`live_set.yaml`'s select is unchanged. A proposed date is the developer's stated plan in the operator's report, not a
+forecast, and many have passed.
+
 ## The page: /map, one page (session 167)
 
 Since session 167 the project map is one page at `/map`: the layout and data of version 2 (session 105, `/map/v2`, which now redirects to `/map`) with what version 1 offered (sessions 16 and 22) carried over. Both earlier versions are kept, unrouted, in `site/app/_retired/map-v1` and `map-v2`. This section is the page's Method note; the page itself carries one source line.
