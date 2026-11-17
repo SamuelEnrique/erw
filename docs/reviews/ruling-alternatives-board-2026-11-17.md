@@ -1,0 +1,13 @@
+# Ruling alternatives: /board (17 November 2026)
+
+Session 7722 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.md`). For each line of `docs/reviews/ruling-impact-board-2026-11-17.md` whose change is 1 percent or more, or that adds or removes a figure, the other choice is built on its own branch from origin/main, with a test that pins the figure under it. The branch number is the line's number in the impact file. No branch asks to land; no default on main changed.
+
+- **The figures are the board's own:** its library (`site/lib/board.ts`) on its committed file (`site/data/board.json`, built 17 November 2026: 1,315 rows, 1,204 ok). No held value is read, written or printed: held rows carry none, and only counts and public rows are named.
+- **No model call** was made (spend USD 0).
+- **Not built:** line 1 (the held grids shown once a permission is recorded) and line 5 (ICE's indices printed without ICE's licence): each draws a figure the site holds for a licence, and the owner's rules of 16 November (rule 5) say a hold is never lifted or worked around. Line 3 (buy access to held prices) is a purchase, not code. Line 6 (refill ERCOT's days of 7 to 9 November): the days are in no table on this machine, data not held.
+- **Known failure, not this work's:** `site/scripts/test-board.mjs` stops at the same assertion (19 !== 6) on clean origin/main; noted, not fixed.
+- **Order by size:** line 2 (removes 464 figures), line 4 (both of the strip's range cells change).
+
+| # | Line | Branch | Figure, main's rule | Figure, the other choice | Files touched | Test | Browser row |
+|---|---|---|---|---|---|---|---|
+| 2 | On a row marked stale, blank the 7-day and 30-day averages and the 30-day low to high too | `wip/alt-board-2` (`6f90fb3f9`) | Drawn, each stating its days on hover: on the file of 17 November, 116 rows past their stale age draw a 7-day average (among them ERCOT's and SPP's real-time peak rows, 4 days old) | Blanked, each reading "stale" with the row's age on hover, as the moves and the 12-month average already are: 464 window figures go blank (the two averages, the 30-day low and high, on 116 rows); 157 fresh rows keep theirs. Computed with the board's own library on its committed file, as the impact file has it | `site/lib/board.ts` (`windowsShown`), `site/components/board/BoardView.tsx` (the three cells), `site/scripts/alt-board-figures.mjs`, `tests/test_alt_board_2.py` | `tests/test_alt_board_2.py`, 2 of 2; the 37 test files that name the board, 254 tests, pass; `test-board-read.mjs` 31 of 31; `test-board.mjs` fails as on clean origin/main; no new type error | 358 |
