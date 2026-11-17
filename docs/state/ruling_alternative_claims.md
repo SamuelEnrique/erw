@@ -26,3 +26,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /events | samueloldlaptop | 7712 | claimed | docs/reviews/ruling-alternatives-events-2026-11-17.md |
 | Site-wide: the data machine and its tables | samueloldlaptop | 7713 | done | docs/reviews/ruling-alternatives-site-data-machine-2026-11-17.md |
 | /grid/caiso/alerts | samueloldlaptop | 7714 | done | docs/reviews/ruling-alternatives-caiso-alerts-2026-11-17.md |
+| /learn/bill | samueloldlaptop | 7715 | claimed | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
