@@ -116,8 +116,13 @@ DC_STATUS = [("operating", "Operating"), ("under_construction", "Under construct
              ("completed", "Completed"), ("withdrawn", "Withdrawn"), ("", "Not stated")]
 # the queues whose rows the page may draw (site/lib/resources.ts, QUEUE_GRIDS, is the one list a person switches; a test
 # holds the two equal). A held grid's rows are counted and never written to the file
-QUEUE_SHOWN = {"ercot": "ERCOT", "spp": "SPP", "caiso": "CAISO", "isone": "ISO-NE"}
-QUEUE_HELD = {"miso": ("MISO", "paused while terms are reviewed"), "nyiso": ("NYISO", "NYISO's terms do not allow it")}
+# ruling alternative 1 of /map (session 7721, branch wip/alt-map-1; not a default on main): the map's copy of a held table is
+# held as the license file holds the table: energy_projects is held by grid (ISO-NE's rows), so ISO-NE's queue rows are not
+# written; datacenter_facilities is held whole, so its layer is not written (DC_HELD). main: both drawn.
+QUEUE_SHOWN = {"ercot": "ERCOT", "spp": "SPP", "caiso": "CAISO"}
+QUEUE_HELD = {"miso": ("MISO", "paused while terms are reviewed"), "nyiso": ("NYISO", "NYISO's terms do not allow it"),
+              "isone": ("ISO-NE", "license needed")}   # isone: wip/alt-map-1
+DC_HELD = ("Datacenters", "license needed")   # wip/alt-map-1: datacenter_facilities is held whole
 PAGE_TECHS = TECHS[:-1] + [("queue_storage", "Storage (queue positions)"), ("hybrid", "Hybrid"), ("transmission", "Transmission"),
                            ("datacenter", "Datacenter (a load)"), TECHS[-1]]
 NO_GRID = ("none", "Grid not stated")
@@ -178,6 +183,9 @@ def page_rows(out=None):
     dc = read("datacenter_facilities", out)
     without_state = int((dc["state"] == "").sum())
     dc = dc[dc["state"] != ""].copy()                  # a US map: a facility the table places in no US state is counted, not written
+    dc_held = int(len(dc)) if DC_HELD else 0           # wip/alt-map-1: the layer is held whole: counted, never written
+    if DC_HELD:
+        dc = dc.iloc[0:0].copy()
     dc["source_kind"] = dc["kind"]                     # the table's own kind: news, operator or queue
     dc["kind"] = "datacenter"
     dc["grid"] = NO_GRID[0]
@@ -207,7 +215,7 @@ def page_rows(out=None):
     rows = pd.concat(parts, ignore_index=True)
     if rows["entity_id"].duplicated().any():
         raise ValueError("an entity is twice in the map's rows")
-    return rows, held, without_state
+    return rows, held, without_state, dc_held
 
 
 def _index(values):
@@ -217,7 +225,7 @@ def _index(values):
 
 def build_page(out=None, card=True):
     """The one page's file. `card=False` leaves out what only the unit card reads (to weigh it; the page needs it)."""
-    r, held, without_state = page_rows(out)
+    r, held, without_state, dc_held = page_rows(out)
     eia = r[r["kind"].isin(["operating", "planned"])]
     vintages = sorted(set(eia["vintage"]))
     if len(vintages) != 1:
@@ -244,12 +252,14 @@ def build_page(out=None, card=True):
         "kinds": [{"slug": k, "name": n, "start": int(is_kind[k].values.argmax()) if is_kind[k].any() else len(r), "rows": int(is_kind[k].sum())} for k, n in KINDS],
         "grids": [{"slug": slug, "name": name} for _, slug, name in GRIDS] + [{"slug": OUTSIDE[0], "name": OUTSIDE[1]}, {"slug": NO_GRID[0], "name": NO_GRID[1]}],
         "techs": [{"slug": t, "name": n} for t, n in PAGE_TECHS], "statuses": statuses, "states": states, "names": names, "held": held,
+        "held_layers": [{"kind": "datacenter", "name": DC_HELD[0], "words": DC_HELD[1], "rows": dc_held}] if DC_HELD else [],   # wip/alt-map-1
         "counts": {"rows": int(len(r)), **{k: int(is_kind[k].sum()) for k in kinds}, **{k + "_mw": round(float(r.loc[is_kind[k], "mw"].sum()), 1) for k in kinds},
                    "units": int(len(eia)), "units_mw": round(float(eia["mw"].sum()), 1),
                    "batteries": int((r["tech"] == "battery").sum()), "under_1_mw": int((eia["mw"] < 1).sum()),
                    "without_balancing_authority": int((u["balancing_authority"] == "").sum()),
                    "without_mw": int(r["mw"].isna().sum()), "not_placed": int((r["precision"] == 4).sum()),
-                   "datacenters_without_state": without_state, "queue_rows_held": int(sum(h["rows"] for h in held))},
+                   "datacenters_without_state": without_state, "queue_rows_held": int(sum(h["rows"] for h in held)),
+                   "datacenter_rows_held": dc_held},   # wip/alt-map-1
         # one column a field, a row a position: a kind after another (kinds[].start), the largest first inside a kind
         "k": [kinds.index(x) for x in r["kind"]], "n": [name_i[x] for x in r["name"]], "s": [states.index(x) for x in r["state"]],
         "g": [grids.index(x) for x in r["grid"]], "t": [techs.index(x) for x in r["tech"]], "st": [st_i[x] for x in r["st_slug"]],

@@ -177,7 +177,8 @@ check(R.levelFor([], 10) === null && R.levelFor([{ file: "a", cell_deg: 0.1 }], 
 
   const ids = R.QUEUE_GRIDS.map((g) => g.id).join();
   const shown = R.QUEUE_GRIDS.filter((g) => g.shown).map((g) => g.id).join(), miso = R.QUEUE_GRIDS.find((g) => g.id === "miso"), nyiso = R.QUEUE_GRIDS.find((g) => g.id === "nyiso");
-  check(ids === "ercot,spp,caiso,isone,miso,nyiso" && shown === "ercot,spp,caiso,isone", "the queue overlay knows six grids and draws four: ERCOT, SPP, CAISO, ISO-NE");
+  // ruling alternative 1 of /map (wip/alt-map-1): ISO-NE's queue rows are held (main: draws four, ISO-NE among them)
+  check(ids === "ercot,spp,caiso,isone,miso,nyiso" && shown === "ercot,spp,caiso", "the queue overlay knows six grids and draws three: ERCOT, SPP, CAISO");
   check(miso && !miso.shown && miso.words === "paused while terms are reviewed" && R.queueLine(miso) === "MISO: paused while terms are reviewed" && miso.why.includes("You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App."),
     'MISO is not shown and reads "MISO: paused while terms are reviewed", with the sentence of its terms on hover');
   check(nyiso && !nyiso.shown && nyiso.words === "NYISO's terms do not allow it" && R.queueLine(nyiso) === "NYISO's terms do not allow it" && nyiso.why.includes("Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site") && nyiso.why.includes("All Rights Reserved."),

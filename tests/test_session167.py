@@ -84,6 +84,7 @@ class TheFile(unittest.TestCase):
         self.assertTrue(all(s["slug"].startswith("dc-") for s in self.f["statuses"] if s["kind"] == 3))
         self.assertNotIn("q-withdrawn", [s["slug"] for s in self.f["statuses"]])     # a withdrawn position is not on the map
 
+    @unittest.skip("ruling alternative 1 of /map (wip/alt-map-1): the committed site/data/map.json is the data machine's build under main's rule (ISO-NE's queue rows and the datacenters drawn); the branch's builder writes it without them at its next run. The other choice is pinned with the builder's own page_rows in tests/test_alt_map_1.py")
     def test_held_queues_never_reach_the_file(self):
         shown_false = set(re.findall(r'id: "([a-z]+)", label: "[^"]+", shown: false', src("site", "lib", "resources.ts")))
         self.assertEqual(shown_false, set(pm.QUEUE_HELD))                           # the one list a person switches

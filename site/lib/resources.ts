@@ -274,7 +274,8 @@ export const QUEUE_GRIDS: QueueGrid[] = [
   { id: "ercot", label: "ERCOT", shown: true, words: "", why: "" },
   { id: "spp", label: "SPP", shown: true, words: "", why: "" },
   { id: "caiso", label: "CAISO", shown: true, words: "", why: "" },
-  { id: "isone", label: "ISO-NE", shown: true, words: "", why: "" },
+  // ruling alternative 1 of /map (wip/alt-map-1, not a default on main): ISO-NE's rows of energy_projects are license needed
+  { id: "isone", label: "ISO-NE", shown: false, words: "license needed", why: "ISO-NE's rows of energy_projects are held for a license (site/data/license_status.json, from 21 October 2026): the map holds its copy as the table is held, so ISO-NE's queue rows are not drawn or counted. On the site they are drawn." },
   {
     id: "miso", label: "MISO", shown: false, words: "paused while terms are reviewed",
     why: "Pulls of MISO's servers are paused since 4 October 2026 while a person reviews MISO's terms, which say: \"You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App.\" MISO's queue rows are not drawn while the review lasts.",
