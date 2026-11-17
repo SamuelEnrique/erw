@@ -1,0 +1,47 @@
+day-ahead hubs: ['caiso:TH_NP15_GEN-APND', 'caiso:TH_SP15_GEN-APND', 'ercot:HB_HOUSTON', 'ercot:HB_HUBAVG', 'ercot:HB_NORTH', 'ercot:HB_WEST', 'spp:SPPNORTH_HUB', 'spp:SPPSOUTH_HUB']; real-time hubs: ['caiso:TH_NP15_GEN-APND', 'caiso:TH_SP15_GEN-APND', 'ercot:HB_HOUSTON', 'ercot:HB_HUBAVG', 'ercot:HB_NORTH', 'ercot:HB_WEST', 'spp:SPPNORTH_HUB', 'spp:SPPSOUTH_HUB']; the newest real-time hour 2026-11-13T07; the rolling 30 days from 2026-10-14 07:00 UTC
+
+== line 1: a calendar month's line (October 2026) under the rolling 30 days
+real time ercot:HB_HUBAVG: rolling 30 days 36.07 USD/MWh (598 hours); October 2026 37.06 (720 hours; +2.7 percent); October's low -8.42, high 293.90
+real time ercot:HB_WEST: rolling 30 days 37.79 USD/MWh (598 hours); October 2026 38.57 (720 hours; +2.1 percent); October's low -22.33, high 318.74
+real time ercot:HB_HOUSTON: rolling 30 days 36.64 USD/MWh (598 hours); October 2026 38.71 (720 hours; +5.6 percent); October's low -0.29, high 313.47
+real time ercot:HB_NORTH: rolling 30 days 31.98 USD/MWh (598 hours); October 2026 33.86 (720 hours; +5.9 percent); October's low -19.23, high 293.82
+real time caiso:TH_SP15_GEN-APND: rolling 30 days 41.79 USD/MWh (600 hours); October 2026 43.94 (720 hours; +5.1 percent); October's low -13.02, high 174.47
+real time caiso:TH_NP15_GEN-APND: rolling 30 days 50.23 USD/MWh (600 hours); October 2026 48.98 (720 hours; -2.5 percent); October's low 0.99, high 173.10
+real time spp:SPPNORTH_HUB: rolling 30 days 26.13 USD/MWh (360 hours); October 2026 33.56 (552 hours; +28.5 percent); October's low -21.27, high 914.62
+real time spp:SPPSOUTH_HUB: rolling 30 days 20.06 USD/MWh (360 hours); October 2026 25.31 (552 hours; +26.2 percent); October's low -41.98, high 784.19
+day-ahead ercot:HB_HUBAVG: rolling 30 days 35.60 USD/MWh (672 hours); October 2026 36.73 (744 hours; +3.2 percent); October's low 2.18, high 160.75
+day-ahead ercot:HB_WEST: rolling 30 days 36.29 USD/MWh (672 hours); October 2026 36.79 (744 hours; +1.4 percent); October's low -15.88, high 179.40
+day-ahead ercot:HB_HOUSTON: rolling 30 days 36.15 USD/MWh (672 hours); October 2026 38.09 (744 hours; +5.3 percent); October's low 5.89, high 159.85
+day-ahead ercot:HB_NORTH: rolling 30 days 32.29 USD/MWh (672 hours); October 2026 34.47 (744 hours; +6.7 percent); October's low 0.01, high 170.41
+day-ahead caiso:TH_SP15_GEN-APND: rolling 30 days 41.95 USD/MWh (672 hours); October 2026 46.78 (744 hours; +11.5 percent); October's low -40.00, high 228.96
+day-ahead caiso:TH_NP15_GEN-APND: rolling 30 days 48.05 USD/MWh (672 hours); October 2026 50.59 (744 hours; +5.3 percent); October's low 20.99, high 242.52
+day-ahead spp:SPPNORTH_HUB: rolling 30 days 30.29 USD/MWh (648 hours); October 2026 33.16 (720 hours; +9.5 percent); October's low -15.00, high 212.87
+day-ahead spp:SPPSOUTH_HUB: rolling 30 days 22.85 USD/MWh (648 hours); October 2026 23.66 (720 hours; +3.5 percent); October's low -31.74, high 197.90
+
+== line 2: a second hub, A less B over the hours both hold (ERCOT West less Houston, the rolling 30 days)
+real time: 598 hours; mean West less Houston +1.14 USD/MWh; median +0.00; lowest -217.67 (2026-11-02T22Z), highest +407.81 (2026-11-12T03Z); hours West below Houston 297
+day-ahead: 672 hours; mean West less Houston +0.14 USD/MWh; median +1.22; lowest -51.48 (2026-11-03T16Z), highest +50.08 (2026-11-04T09Z); hours West below Houston 290
+
+== line 3: SPP's hub pages and /network on SPP's real-time table instead of day-ahead
+spp:SPPNORTH_HUB: rolling 30 days over 360 hours both hold: day-ahead 28.33, real time 26.13 USD/MWh (-7.8 percent); an hour's real time less day-ahead from -61.48 to +177.51; latest hour 2026-11-13T05Z: 34.61 -> 21.12
+   SPP real-time history held: 2026-09-24T05 to 2026-11-13T05 (768 hours), which the hub pages would gain
+spp:SPPSOUTH_HUB: rolling 30 days over 360 hours both hold: day-ahead 20.68, real time 20.06 USD/MWh (-3.0 percent); an hour's real time less day-ahead from -40.25 to +82.62; latest hour 2026-11-13T05Z: 24.93 -> 14.63
+   SPP real-time history held: 2026-09-24T05 to 2026-11-13T05 (768 hours), which the hub pages would gain
+
+== line 4: the hub's table split into on-peak (06:00 to 22:00 local, Monday to Friday) and off-peak hours
+real time ercot:HB_HUBAVG: all hours 36.07; on-peak 38.26 (304 h, +6.1 percent); off-peak 33.79 (294 h, -6.3 percent)
+real time ercot:HB_WEST: all hours 37.79; on-peak 37.90 (304 h, +0.3 percent); off-peak 37.66 (294 h, -0.3 percent)
+real time ercot:HB_HOUSTON: all hours 36.64; on-peak 39.84 (304 h, +8.7 percent); off-peak 33.33 (294 h, -9.0 percent)
+real time ercot:HB_NORTH: all hours 31.98; on-peak 33.84 (304 h, +5.8 percent); off-peak 30.04 (294 h, -6.0 percent)
+real time caiso:TH_SP15_GEN-APND: all hours 41.79; on-peak 36.75 (304 h, -12.1 percent); off-peak 46.97 (296 h, +12.4 percent)
+real time caiso:TH_NP15_GEN-APND: all hours 50.23; on-peak 50.48 (304 h, +0.5 percent); off-peak 49.98 (296 h, -0.5 percent)
+real time spp:SPPNORTH_HUB: all hours 26.13; on-peak 30.66 (160 h, +17.3 percent); off-peak 22.50 (200 h, -13.9 percent)
+real time spp:SPPSOUTH_HUB: all hours 20.06; on-peak 23.80 (160 h, +18.6 percent); off-peak 17.07 (200 h, -14.9 percent)
+day-ahead ercot:HB_HUBAVG: all hours 35.60; on-peak 37.91 (352 h, +6.5 percent); off-peak 33.05 (320 h, -7.2 percent)
+day-ahead ercot:HB_WEST: all hours 36.29; on-peak 37.00 (352 h, +1.9 percent); off-peak 35.51 (320 h, -2.1 percent)
+day-ahead ercot:HB_HOUSTON: all hours 36.15; on-peak 39.42 (352 h, +9.0 percent); off-peak 32.56 (320 h, -9.9 percent)
+day-ahead ercot:HB_NORTH: all hours 32.29; on-peak 33.92 (352 h, +5.1 percent); off-peak 30.50 (320 h, -5.6 percent)
+day-ahead caiso:TH_SP15_GEN-APND: all hours 41.95; on-peak 37.31 (352 h, -11.0 percent); off-peak 47.04 (320 h, +12.2 percent)
+day-ahead caiso:TH_NP15_GEN-APND: all hours 48.05; on-peak 47.39 (352 h, -1.4 percent); off-peak 48.78 (320 h, +1.5 percent)
+day-ahead spp:SPPNORTH_HUB: all hours 30.29; on-peak 39.10 (336 h, +29.1 percent); off-peak 20.79 (312 h, -31.4 percent)
+day-ahead spp:SPPSOUTH_HUB: all hours 22.85; on-peak 30.23 (336 h, +32.3 percent); off-peak 14.91 (312 h, -34.7 percent)
