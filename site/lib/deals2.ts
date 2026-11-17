@@ -239,6 +239,18 @@ export function parties(deals: Deal[], min = 2): { name: string; n: number }[] {
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const monthWords = (m: string) => `${MONTHS[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`;
 export const whole = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+/** Session 7560 (the deals read, row 2): the page's opening line from the rows themselves. It said "since 2025-10-01"
+ *  while 42 of the 590 rows are dated earlier (each row is dated by its first story). Days are written in words. */
+export function coverageWords(dates: string[]): string {
+  const days = dates.map((d) => d.slice(0, 10)).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort();
+  const lead = "Energy deals reported in the news, from the stories the ERW scores, each with its sources";
+  if (days.length === 0) return `${lead}.`;
+  const words = (d: string) => `${Number(d.slice(8, 10))} ${MONTHS[Number(d.slice(5, 7)) - 1]} ${d.slice(0, 4)}`;
+  const early = days.filter((d) => d < "2025-10-01").length;
+  const tail = early === 0 ? "" : early * 2 < days.length ? "; most are dated 1 October 2025 or later" : "";
+  return `${lead}: each dated by its first story, from ${words(days[0])} to ${words(days[days.length - 1])}${tail}.`;
+}
+
 /** US dollars, short: 6000000000 gives "6 billion". */
 export function usd(v: number): string {
   const t = (x: number) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });

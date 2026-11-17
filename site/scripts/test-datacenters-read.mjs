@@ -28,13 +28,13 @@ const rows = [
 ];
 const html = renderToStaticMarkup(h(DatacentersTable, { rows }));
 
-check(html.includes(">queue: completed<") && !/>completed</.test(html), "ERCOT's Completed reads 'queue: completed', never a bare 'completed'");
-check(html.includes(">queue: active<") && !/>active</.test(html), "a queue's Active reads 'queue: active', never a bare 'active'");
+check(html.includes(">queue position: completed<") && !/>completed</.test(html), "ERCOT's Completed reads 'queue position: completed', never a bare 'completed'");
+check(html.includes(">queue position: active<") && !/>active</.test(html), "a queue's Active reads 'queue position: active', never a bare 'active'");
 check(html.includes(`title="${QUEUE_STATUS.completed.tip.replace(/'/g, "&#x27;")}"`), "the completed status carries its tip: a signed agreement, built or not");
 check(html.includes('data-facility-grid="none"') && html.includes(`>${NO_GRID.text}<`), "Phoenix's row says no ISO is set, not a blank");
 check((html.match(/data-facility-grid="none"/g) ?? []).length === 1, "a row with no US state carries no grid line (one 'no ISO set' of four rows)");
 check(html.includes('data-facility-grid="ERCOT"'), "a queue row keeps its grid");
-check(html.includes('<option value="completed">queue: completed</option>'), "the Status filter names the queue's statuses the same way");
+check(html.includes('<option value="completed">queue position: completed</option>'), "the Status filter names the queue's statuses the same way");
 const withScore = renderToStaticMarkup(h(DatacentersTable, { rows: [{ ...rows[3], confidence: 0.7 }] }));
 check(withScore.includes('data-confidence="1"') && withScore.includes("does not say how likely the facility is to be built"), "'model confidence 0.7' says on hover what it scores (row 9)");
 

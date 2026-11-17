@@ -91,8 +91,8 @@ const label = (s: string) => QUEUE_STATUS[s]?.text ?? s.replace("_", " ");
 // (planned, under construction, operating, withdrawn): ERCOT's "Completed" is a signed agreement, built or not, and
 // "Active" is a position still in the queue. Bare, both read as a running facility.
 export const QUEUE_STATUS: Record<string, { text: string; tip: string }> = {
-  completed: { text: "queue: completed", tip: "A queue position's status as its grid's queue gives it. For ERCOT it is a signed interconnection agreement, built or not (ERCOT's queue report has no status column). It does not say the datacenter runs." },
-  active: { text: "queue: active", tip: "A position still active in its grid's interconnection queue: in study or waiting, not built. It does not say the datacenter runs." },
+  completed: { text: "queue position: completed", tip: "A queue position's status as its grid's queue gives it. For ERCOT it is a signed interconnection agreement, built or not (ERCOT's queue report has no status column). It does not say the datacenter runs." },
+  active: { text: "queue position: active", tip: "A position still active in its grid's interconnection queue: in study or waiting, not built. It does not say the datacenter runs." },
 };
 // Session 7560 (row 9): the words the news extraction is asked to give its confidence in (warehouse/datacenters/extract.py)
 export const CONFIDENCE_TIP = "The extraction's own score, 0 to 1, that the story describes one real, specific facility and that its fields are right: 0.8 or more for a named operator at a named place the words state, 0.6 to 0.8 where a field is unclear. It does not say how likely the facility is to be built.";

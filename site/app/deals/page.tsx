@@ -17,6 +17,7 @@ import { one, tabOf } from "@/lib/tabs";
 import { CompaniesView } from "../companies/view";
 import { DealsTable, type Deal } from "./DealsTable";
 import { monthBlock, rowOf } from "@/lib/dealsview";
+import { coverageWords } from "@/lib/deals2";
 import { TrackerView } from "./v2/view";
 import { ComparablesView } from "./comparables/view";
 import { AiView } from "./ai/view";
@@ -65,7 +66,8 @@ async function DealsView() {
     <>
       <h1 className="mb-1 text-3xl">Energy deals</h1>
       <p className="mb-2 max-w-3xl">
-        Energy deals reported in the news since 2025-10-01, from the stories the ERW scores, each with its sources.
+        {/* session 7560 (the deals read, row 2): the span from the rows, not a fixed day the rows contradict */}
+        {coverageWords(res.ok ? res.data.map((r) => r.event_date) : [])}
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,

@@ -43,7 +43,10 @@ export function PlaceDeal({ deals, technologies, grids }: { deals: Deal[]; techn
       </form>
       <p className="self-start border-l-2 border-accent bg-paper px-4 py-3 text-sm" role="status" aria-live="polite" data-place-line={line ? `${line.below}/${line.equal}/${line.above}` : ""}>
         {line === null ? (
-          <span className="text-muted">Type a price to place it among the prices the stories state.</span>
+          // session 7560 (the deals read, row 4): say before any typing when there is nothing to place a price against
+          deals.length < MIN_DISCLOSED
+            ? <span data-place-none={deals.length}>{deals.length === 0 ? "No PPA or offtake held states a price" : `Only ${deals.length} PPA${deals.length === 1 ? "" : "s"} or offtakes held state a price`} in US dollars per MWh, so a price typed here has nothing to be placed against: fewer than {MIN_DISCLOSED}.</span>
+            : <span className="text-muted">Type a price to place it among the {deals.length} prices the stories state.</span>
         ) : line.count < MIN_DISCLOSED ? (
           <>Fewer than {MIN_DISCLOSED} PPAs or offtakes state a price ({line.count} in {line.scope}): there is nothing to place USD {whole(p)} per MWh against.</>
         ) : (
