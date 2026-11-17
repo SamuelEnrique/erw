@@ -19,6 +19,7 @@ compares markets; it does not price a location.
 | `iso_dam_hub_prices`, `iso_rtm_hub_prices` | the daily run's hubs since late August 2026: CAISO 3, ERCOT 6, SPP 2 (and MISO 8, not used) |
 | `isone_dam_zone_prices`, `isone_rtm_zone_prices`, `isone_rtm_zone_prices_hourly` | ISO-NE's eight load zones and its hub, since late August 2026 |
 | `nyiso_dam_zone_prices`, `nyiso_rtm_zone_prices` | NYISO's eleven zones, since late August 2026 |
+| `ercot_zone_prices_history` | ERCOT's eight load zones (Austin Energy, CPS Energy, Houston, LCRA, North, Rayburn, South, West), day-ahead and real-time, from 2015 (session 7052, done-line request 142: so LZ_WEST can stand beside HB_WEST) |
 | `carbon_intensity_daily` | each grid's carbon intensity of generation by day (EIA-930 emissions; California by the warehouse's join) |
 
 A row held in two tables is read once, from the first of the list.
