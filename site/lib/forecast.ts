@@ -51,6 +51,8 @@ export type PropertyRule = {
   /** own_exempt (session 4257, Florida's device exemption): the share of the reader's own rate's base exempt, through a calendar year;
    *  with requires "option" and years (session 4262, Nevada's abatement) only when the option is on, for that many years from the first construction year */
   exempt_share?: number; until_year?: number;
+  /** ruling alternative 28 (wip/alt-impact-28): a tax of this percent of gross energy earnings (MWh times the sale price typed), on a note rule */
+  earnings_pct?: number;
   /** own_exempt (session 7515, Nevada): the statute abates a share of the tax, not of the value (NRS 701A.370: "55 percent
    *  of the taxes"), so the year's taxable value stays whole while the tax is the taxed share's */
   abates?: "tax";
@@ -110,6 +112,9 @@ export type Inputs = {
   own: number | null; ownyears: number | null;
   /** gas plant: heat rate (Btu/kWh), in-state share of the fuel (percent), price (USD/MMBtu, 2025) */
   heat: number; instate: number; gasprice: number | null;
+  /** ruling alternative 28 (wip/alt-impact-28, not a default on main): a sale price the reader types, USD per MWh, for a tax on gross
+   *  energy earnings (Idaho); null: not given (main has no such input) */
+  saleprice: number | null;
 };
 
 export type Streams = { jobs: number; earnings: number; output: number; property: number | null; sales: number | null; income: number; severance: number | null };
@@ -179,7 +184,7 @@ export function defaults(P: Params, tech: TechKey, state: string): Inputs {
     exempt: P.exemptions?.states[state]?.[tech]?.exempt_pct ?? 0, iaval: false,
     optrate: P.property.states[state]?.rules.find((r) => r.kind === "capacity_option" && r.technologies.includes(tech))?.default_usd_per_mw ?? null,
     levy: P.property.states[state]?.rules.find((r) => r.kind === "valuation" && r.technologies.includes(tech))?.default_levy ?? null, own: null, ownyears: null,
-    heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4),
+    heat: P.gas.heat_rate_btu_per_kwh, instate: 0, gasprice: P.gas.price_usd_per_mmbtu === null ? null : round(P.gas.price_usd_per_mmbtu, 4), saleprice: null,
   };
 }
 export const round = (v: number, d: number) => Math.round(v * 10 ** d) / 10 ** d;
@@ -225,6 +230,10 @@ export function propertyTax(P: Params, x: Inputs, i: number): { tax: number | nu
         // a scenario with no capacity factor (geothermal) has no production tax: the Python and Stata files do the same
         const rate = tierRate(r, x.mw);
         if (rate > 0 && Number.isFinite(mwh)) { tax += i < (r.exempt_years ?? 0) ? 0 : mwh * rate; used.push(r.id); }
+      }
+      else if (r.kind === "note" && r.earnings_pct !== undefined) {
+        // ruling alternative 28 (wip/alt-impact-28): gross energy earnings at the sale price typed (Idaho); no price, no figure
+        if (x.saleprice !== null && x.saleprice !== undefined && Number.isFinite(mwh)) { tax += mwh * x.saleprice * (r.earnings_pct / 100); used.push(r.id); }
       }
       else if (r.kind === "capacity_option") {
         // a county's agreement (off by default): the reader's rate within the statute's range, for the agreement's years
@@ -371,7 +380,7 @@ function scale(r: Record<Effect, number>, f: number): Record<Effect, number> {
 // A figure's key is forecast|<every input of its scenario, in KEY_ORDER, "-" for not given>|<figure>, so that
 // scripts/check-values.mjs recomputes it from its own read of the JEDI rows and the parameter files, with nothing else.
 export const KEY_ORDER: (keyof Inputs)[] = ["tech", "state", "mw", "capex", "start", "build", "life", "local", "om", "rate", "cf", "ilr", "sales", "taxable",
-  "exempt", "iaval", "levy", "own", "ownyears", "heat", "instate", "gasprice", "optrate"];
+  "exempt", "iaval", "levy", "own", "ownyears", "heat", "instate", "gasprice", "optrate", "saleprice"];   // saleprice: wip/alt-impact-28
 export function inputsKey(x: Inputs): string {
   return ["forecast", ...KEY_ORDER.map((k) => { const v = x[k]; return v === null ? "-" : typeof v === "boolean" ? (v ? "1" : "0") : String(v); })].join("|");
 }

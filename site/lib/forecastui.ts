@@ -94,6 +94,11 @@ export const FIELDS: FieldDef[] = [
     applies: (t, s, P) => (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.requires === "option"),
     source: (t, s, P) => (P.property.states[s]?.rules ?? []).find((r) => r.technologies.includes(t) && r.requires === "option")?.option_tip
       ?? "No local option is held for this state and technology." },
+  // ruling alternative 28 (wip/alt-impact-28, not a default on main): a sale price for a tax on gross energy earnings (Idaho)
+  { key: "saleprice", label: "Sale price of the power", unit: "USD per MWh", min: 0, max: 1000, whole: false, group: "taxes", nullable: true,
+    applies: (t, s, P) => (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.earnings_pct !== undefined),
+    source: (t, s, P) => (P.property.states[s]?.rules ?? []).find((r) => r.technologies.includes(t) && r.earnings_pct !== undefined)?.tip
+      ?? "No sale price is held: the reader's own." },
   { key: "optrate", label: "Fee in lieu", unit: "USD per MW a year", min: 0, max: 20000, whole: false, group: "taxes", nullable: true,
     applies: (t, s, P) => (P.property.states[s]?.rules ?? []).some((r) => r.technologies.includes(t) && r.kind === "capacity_option"),
     source: (t, s, P) => (P.property.states[s]?.rules ?? []).find((r) => r.technologies.includes(t) && r.kind === "capacity_option")?.rate_tip

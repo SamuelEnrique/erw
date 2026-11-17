@@ -37,7 +37,7 @@ export function params(): Params {
     op_years: r.op_years, built_before: r.built_before,
     years: r.years, usd_per_mw_min: r.usd_per_mw_min, usd_per_mw_max: r.usd_per_mw_max, default_usd_per_mw: r.default_usd_per_mw,
     exempt_years: r.exempt_years, adds_to_property: r.adds_to_property, exempt_share: r.exempt_share, until_year: r.until_year,
-    above_mw: r.above_mw, below_mw: r.below_mw, exempt_steps: r.exempt_steps, abates: r.abates })) }]));  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
+    above_mw: r.above_mw, below_mw: r.below_mw, exempt_steps: r.exempt_steps, abates: r.abates, earnings_pct: (r as { earnings_pct?: number }).earnings_pct })) }]));   // earnings_pct: wip/alt-impact-28  // fault 15: every field of PropertyRule kept (Kansas's years were dropped)
   return {
     jediCosts: { technologies: slimJc } as Params["jediCosts"],
     eiaCapex: { technologies: slimEc } as unknown as Params["eiaCapex"],

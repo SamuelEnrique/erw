@@ -2229,14 +2229,34 @@
     {
      "id": "id_note",
      "technologies": [
-      "land_based_wind",
-      "utility_pv",
-      "natural_gas",
-      "geothermal"
+      "natural_gas"
      ],
      "kind": "note",
      "cite": "id_63_3502b",
      "tip": "Idaho: wind and geothermal producers pay 3 percent and solar producers 3.5 percent of gross energy earnings, in place of property tax (Code 63-3502B, 63-602JJ); the tool holds no sale price: no rule held (ruling 16)."
+    },
+    {
+     "id": "id_earnings_wind_geo",
+     "technologies": [
+      "land_based_wind",
+      "geothermal"
+     ],
+     "kind": "note",
+     "earnings_pct": 3,
+     "cite": "id_63_3502b",
+     "branch": "ruling alternative 28 of /impact (wip/alt-impact-28, session 7706): not a default on main (main: one note, no sale price input)",
+     "tip": "Idaho: wind and geothermal producers pay 3 percent of gross energy earnings, in place of property tax (Code 63-3502B, 63-602JJ). Ruling alternative 28: with a sale price typed (USD per MWh; none is held), the tax is the year's MWh times the price times the percent. Default on the site: no rule held, no price asked."
+    },
+    {
+     "id": "id_earnings_solar",
+     "technologies": [
+      "utility_pv"
+     ],
+     "kind": "note",
+     "earnings_pct": 3.5,
+     "cite": "id_63_3502b",
+     "branch": "ruling alternative 28 of /impact (wip/alt-impact-28, session 7706): not a default on main (main: one note, no sale price input)",
+     "tip": "Idaho: solar producers pay 3.5 percent of gross energy earnings, in place of property tax (Code 63-3502B, 63-602JJ). Ruling alternative 28: with a sale price typed (USD per MWh; none is held), the tax is the year's MWh times the price times the percent. Default on the site: no rule held, no price asked."
     }
    ]
   },

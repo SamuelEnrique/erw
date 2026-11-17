@@ -100,6 +100,9 @@ def property_tax(d, i):
                 total += 0.0 if i < r.get("exempt_years", 0) else mwh * rate; used = True
                 adds = r.get("adds_to_property", False) if not used_rules else adds and r.get("adds_to_property", False)
                 used_rules.append(r["id"])
+        elif r["kind"] == "note" and r.get("earnings_pct") is not None:   # ruling alternative 28 (wip/alt-impact-28): gross energy earnings
+            if x.get("saleprice") is not None and mwh == mwh:
+                total += mwh * x["saleprice"] * r["earnings_pct"] / 100; used = True
         elif r["kind"] == "capacity_option":
             if not x["iaval"] or x["optrate"] is None:
                 continue
