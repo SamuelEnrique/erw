@@ -87,8 +87,10 @@ export const LIFE = 20, HURDLE = 9.6;
 /** The defaults: the way of running as "Your load" has it, the power per GPU and the overhead ratio as the page cites
  * them (session 195: "Your load" no longer holds those two; scenario A does, and sets the headline), and the five the
  * page does not otherwise hold. */
-export function defaultsOf(load: { run: number; gpu: number; pue: number }): Assumptions {
-  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };
+// Session 7622 (wip/alt-cost-of-power-2, not landed): `adder`, when given, is the delivery default of the site's wires
+// utility (its tariff lines' first total, USD per MWh); without it the default is none, as before.
+export function defaultsOf(load: { run: number; gpu: number; pue: number; adder?: number }): Assumptions {
+  return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: load.adder ?? 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */

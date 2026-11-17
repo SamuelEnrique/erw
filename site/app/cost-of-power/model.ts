@@ -13,7 +13,7 @@ import {
 } from "@/lib/datacenter";
 import { FLAT, FLEX, SITE_B, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
 import { ownWay, readAnswers, waysOf, type Ruled as AnswerRuled } from "@/lib/datacenter/answers";
-import { deliveryOf, utilitiesOf } from "@/lib/datacenter/delivery";
+import { deliveryOf, slugOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { blockOf as rulesBlockOf, docketWords, rulesGrid } from "@/lib/rules";
 import { rulesFile } from "@/lib/rulesdata";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -242,7 +242,15 @@ export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: str
   }
   const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
   // session 195: the power per GPU and the overhead ratio are scenario A's; their defaults are the two the page cites
-  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
+  // session 7622, the other choice of the ruling on energy and delivery together (wip/alt-cost-of-power-2, not landed):
+  // in ERCOT, once the site's wires utility is known (named by the address, util=<its slug>: no zone's wires utility is
+  // one of the four alone), the scenarios' delivery default is that utility's tariff total at the load's size (the first
+  // total, conditional lines left out), so the three headline numbers count energy and delivery together
+  const utilAsked = x.grid === "ercot" && typeof q.util === "string" ? utilitiesOf(DELIVERY.rows).find((u) => slugOf(u) === q.util) : undefined;
+  const utilDelivery = utilAsked ? deliveryOf(DELIVERY.rows, utilAsked, x.mw) : null;
+  const adderDefault = utilDelivery ? Math.round(utilDelivery.total * 100) / 100 : undefined;
+  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: win ? windowWords(win).label.replace(" (default)", "") : l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue, ...(adderDefault !== undefined ? { adder: adderDefault } : {}) }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source,
+    ...(utilDelivery ? { adderSource: `${utilDelivery.utility}'s delivery and transmission tariff lines for a flat ${size} load at transmission voltage, the first total of "Delivery charges" below (${utilDelivery.lines} lines; ${utilDelivery.conditional} conditional, left out)` } : {}), ways,
     words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
 

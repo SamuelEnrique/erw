@@ -48,7 +48,7 @@ export type Facts = {
   /** `size` is the load's size in words ("100 MW"), `place` where it is and how it buys ("LZ_NORTH in ERCOT, real time") */
   mw: number; size: string; place: string; span: string | null;
   /** how "Your load" runs (0 flat, 1 flexible), the page's cited power per GPU and overhead ratio, and the source of each */
-  load: { run: number; gpu: number; pue: number }; gpuSource: string; pueSource: string;
+  load: { run: number; gpu: number; pue: number; adder?: number }; gpuSource: string; pueSource: string; adderSource?: string;
   ways: Ways;
   /** each way in words, and why a way is not held */
   words: [string, string]; why: [string, string];
@@ -65,7 +65,7 @@ const siteOf = (f: Facts, p: View) => (p === "b" && f.b ? f.b : f);
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
-export function LoadDecisions({ load, open, initial, children }: { load: { run: number; gpu: number; pue: number }; open: [boolean, boolean]; initial: Record<string, string | undefined>; children: ReactNode }) {
+export function LoadDecisions({ load, open, initial, children }: { load: { run: number; gpu: number; pue: number; adder?: number }; open: [boolean, boolean]; initial: Record<string, string | undefined>; children: ReactNode }) {
   const d = useMemo(() => defaultsOf(load), [load]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   return <ScenarioState start={parseScenarios(initial, d, open)} query={query} drop={drop}>{children}</ScenarioState>;
@@ -104,7 +104,7 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
   const diff = differing(s.a, s.b);
   const twoSites = !!f.b;
   type Col = (typeof cols)["a"];
-  const sourceOf = (k: Key) => (k === "gpu" || k === "pue" ? (k === "gpu" ? f.gpuSource : f.pueSource).replace(/\.$/, "") : SPECS[k].source);
+  const sourceOf = (k: Key) => (k === "gpu" || k === "pue" ? (k === "gpu" ? f.gpuSource : f.pueSource).replace(/\.$/, "") : k === "adder" && f.adderSource ? f.adderSource : SPECS[k].source);
   const rising = (g: number) => `${g > 0 ? "rising" : "falling"} ${plain(Math.abs(g))} percent a year`;
   const wayLabel = (v: number) => (v === FLEX ? `Flexible: ${f.words[FLEX]}` : "Flat: the same in every hour");
   const contractNote = (c: Col) => (c.y.cshare > 0 ? `${plain(c.y.cshare)} percent of the energy contracted at USD ${plain(c.y.cprice)} per MWh; ` : "");

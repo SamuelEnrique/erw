@@ -33,11 +33,15 @@ export function LoadHeadline({ facts: f, foreseen, missing }: { facts: Facts; fo
   const own = run === (f.load.run === FLEX ? FLEX : FLAT);
   const contracted = (a.cshare ?? 0) > 0 && !!w;
   const per = w ? (contracted ? (marketYear(a, w) + contractYear(a, w)) / w.energy : w.per) : null;
+  // session 7622, the other choice of the ruling on energy and delivery together (wip/alt-cost-of-power-2, not landed):
+  // once the site's wires utility is known, the first number is energy and delivery, scenario A's delivery charge added
+  const withDelivery = !!f.adderSource && a.adder > 0 && !!w;
+  const shown = per !== null ? per + (withDelivery ? a.adder : 0) : null;
   return (
     <HeadlineRow>
-      <HeadlineNumber label={contracted ? "Last twelve months, energy with the contract" : "Last twelve months, market energy"}
-        value={w && per !== null ? <><span data-headline-contract={contracted ? "1" : undefined}>USD {two(per)}</span><span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : missing}
-        note={w ? <>USD {usdShort((contracted ? marketYear(a, w) + contractYear(a, w) : w.cost) * f.mw)} for {whole(w.energy * f.mw)} MWh, {f.span}.{contracted ? <span data-headline-contract="2"> Scenario A&apos;s contract: {plain(a.cshare)} percent of the energy at USD {plain(a.cprice)} per MWh, the rest at the market&apos;s USD {two(w.per)}.</span> : null}{own ? foreseen : <span data-scenario-a-run="1"> Scenario A runs {run === FLEX ? `flexible (${f.words[FLEX]})` : "flat"}. The sections below are the load as &quot;Your load&quot; describes it.</span>}</> : null} />
+      <HeadlineNumber label={withDelivery ? (contracted ? "Last twelve months, energy with the contract, and delivery" : "Last twelve months, energy and delivery") : contracted ? "Last twelve months, energy with the contract" : "Last twelve months, market energy"}
+        value={w && shown !== null ? <><span data-headline-contract={contracted ? "1" : undefined} data-headline-delivery={withDelivery ? "1" : undefined}>USD {two(shown)}</span><span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : missing}
+        note={w ? <>USD {usdShort(((contracted ? marketYear(a, w) + contractYear(a, w) : w.cost) + (withDelivery ? a.adder * w.energy : 0)) * f.mw)} for {whole(w.energy * f.mw)} MWh, {f.span}.{withDelivery && per !== null ? <span data-headline-delivery="2"> Energy USD {two(per)} per MWh and delivery USD {plain(a.adder)}, as scenario A has it.</span> : null}{contracted ? <span data-headline-contract="2"> Scenario A&apos;s contract: {plain(a.cshare)} percent of the energy at USD {plain(a.cprice)} per MWh, the rest at the market&apos;s USD {two(w.per)}.</span> : null}{own ? foreseen : <span data-scenario-a-run="1"> Scenario A runs {run === FLEX ? `flexible (${f.words[FLEX]})` : "flat"}. The sections below are the load as &quot;Your load&quot; describes it.</span>}</> : null} />
       <HeadlineNumber label="A bad month: the worst tenth of the last 36"
         value={bad ? <>USD {two(bad.per)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : missing}
         note={bad ? <>{monthName(bad.m)}. One month in ten of the {bad.of} held from {monthName(bad.first)} to {monthName(bad.to)} cost this or more.</> : null} />

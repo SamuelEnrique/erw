@@ -438,7 +438,9 @@ class ThePage(unittest.TestCase):
             self.assertIsNotNone(spec, k)
             lows = {"FLAT": 0, "FLEX": 1}
             self.assertEqual((float(lows.get(spec.group(1), spec.group(1))), float(lows.get(spec.group(2), spec.group(2))), float(spec.group(4))), (lo, hi, SWING[k]), k)
-        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 213
+        # session 7622 (wip/alt-cost-of-power-2, the other choice of the ruling on energy and delivery together): the
+        # delivery default is the named wires utility's total when given, else none
+        self.assertIn("return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: load.adder ?? 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE, cshare: 0, cprice: 0 };", self.lib)   # session 213
         self.assertIn("export const LIFE = 20, HURDLE = 9.6;", self.lib)                 # session 196: Lazard's weighted cost
 
     def test_each_default_states_its_source_and_the_uncited_say_so(self):
@@ -447,7 +449,8 @@ class ThePage(unittest.TestCase):
         self.assertIn('gpu: { value: 1.3, unit: "kW per GPU", source: "NVIDIA DGX H100 system', dc)
         self.assertIn('pue: { value: 1.56, unit: "facility power over IT power", source: "Uptime Institute, Global Data Center Survey 2024', dc)
         # session 195: the two are scenario A's, and their defaults are the page's cited ones
-        self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", self.page)
+        # session 7622 (wip/alt-cost-of-power-2): the load also carries the named wires utility's delivery default
+        self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue, ...(adderDefault !== undefined ? { adder: adderDefault } : {}) }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", self.page)
         # the four no source in the repository gives say so on the page, and are not dressed as cited
         for words in ("No cited forecast is held, so the default is no change", "No cited cost is held, so the default is none", "No cited term is held for a datacenter's power. The default is 20 years",
                       "It is the cost of capital of a power plant's builder, not a datacenter's own, for which no cited rate is held"):
