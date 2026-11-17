@@ -105,7 +105,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 361 | `wip/alt-board-4` | 4.86 | wanted | |
 | B | 359 | `wip/alt-map-2` | 4.1 | seen: map-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 300 | `wip/alt-impact-3` | 3.3 | seen: impact-3-1280.png with production's -default-1280 twins | 7800 |
-| B | 343 | `wip/alt-impact-28` | 3.0 | wanted | |
+| B | 343 | `wip/alt-impact-28` | 3.0 | seen: impact-28-1280.png with production's -default-1280 twins | 7800 |
 | B | 325 | `wip/alt-demand-growth-3` | 2.52 | wanted | |
 | B | 330 | `wip/alt-impact-22` | 1.9 | seen: impact-22-1280.png with production's -default-1280 twins | 7800 |
 | B | 327 | `wip/alt-impact-20` | 1.249 | seen: impact-20-1280.png with production's -default-1280 twins | 7800 |
