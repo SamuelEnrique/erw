@@ -15,7 +15,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /datacenters | portable-laptop | 7628 | done | docs/reviews/ruling-alternatives-datacenters-2026-11-17.md |
 | /research | portable-laptop | 7629 | done | docs/reviews/ruling-alternatives-research-2026-11-17.md |
 | /queues | portable-laptop | 7630 | done | docs/reviews/ruling-alternatives-queues-2026-11-17.md |
-| /curtailment | portable-laptop | 7631 | claimed | docs/reviews/ruling-alternatives-curtailment-2026-11-17.md |
+| /curtailment | portable-laptop | 7631 | done | docs/reviews/ruling-alternatives-curtailment-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
