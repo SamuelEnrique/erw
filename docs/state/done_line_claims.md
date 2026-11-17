@@ -41,7 +41,7 @@ Asked by Samuel: the reader's read, in chain 304's part B form, for the six tool
 
 | # | Tool | At the done line | State |
 |---:|---|---|---|
-| 25 | `/datacenters` (the datacenter tracker) | chain 303, `docs/reviews/trackers-signature-pack-2026-11-16.md` | read: samueloldlaptop, claimed (session 7560) |
+| 25 | `/datacenters` (the datacenter tracker) | chain 303, `docs/reviews/trackers-signature-pack-2026-11-16.md` | read: samueloldlaptop (session 7560, `docs/reviews/datacenters-read-2026-11-16.md`, 12 rows: 3 site fixed, 4 data machine, 2 browser, 3 rulings; landing row 50) |
 | 26 | `/deals` (the deal tracker) | chain 303, the same pack | read: samueloldlaptop, claimed (session 7561) |
 | 27 | `/companies` | chain 303's portable run | read: samueloldlaptop, claimed (session 7562) |
 | 28 | `/attention` | chain 303's portable run | read: samueloldlaptop, claimed (session 7563) |

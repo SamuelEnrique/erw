@@ -86,7 +86,19 @@ const NO_COUNTRY = "country not stated";
 const NO_COUNTRY_WHY = "No source the ERW reads states a country. This row may be outside the US, or a US site whose story or operator page names no state. It is left out of the totals and the bars.";
 
 const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort();
-const label = (s: string) => s.replace("_", " ");
+const label = (s: string) => QUEUE_STATUS[s]?.text ?? s.replace("_", " ");
+// Session 7560 (the reader's read, row 2): two statuses come only from a grid's queue, not from the cleaned vocabulary
+// (planned, under construction, operating, withdrawn): ERCOT's "Completed" is a signed agreement, built or not, and
+// "Active" is a position still in the queue. Bare, both read as a running facility.
+export const QUEUE_STATUS: Record<string, { text: string; tip: string }> = {
+  completed: { text: "queue: completed", tip: "A queue position's status as its grid's queue gives it. For ERCOT it is a signed interconnection agreement, built or not (ERCOT's queue report has no status column). It does not say the datacenter runs." },
+  active: { text: "queue: active", tip: "A position still active in its grid's interconnection queue: in study or waiting, not built. It does not say the datacenter runs." },
+};
+// Session 7560 (row 9): the words the news extraction is asked to give its confidence in (warehouse/datacenters/extract.py)
+export const CONFIDENCE_TIP = "The extraction's own score, 0 to 1, that the story describes one real, specific facility and that its fields are right: 0.8 or more for a named operator at a named place the words state, 0.6 to 0.8 where a field is unclear. It does not say how likely the facility is to be built.";
+// Session 7560 (row 3): a row with no grid. The tracker sets an ISO's name only; Arizona's, Georgia's and other states
+// whose utilities run their own balancing areas have none, nor has a state split between grids that no story names.
+export const NO_GRID = { text: "no ISO set", tip: "The tracker names an ISO only (a story's, its queue's, or the one that serves most of its state). None is set where the state's utilities run their own balancing areas outside the ISOs (Arizona, Georgia and most of the West and Southeast), or where the state is split between grids and no story names one." };
 const NO_OPERATOR = "Operator not stated";
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 
@@ -223,7 +235,8 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                   {[f.city, f.county, f.state].filter(Boolean).join(", ") || blank}
                   {f.country ? null : <div className="text-xs text-muted" title={NO_COUNTRY_WHY} data-no-country="1">{NO_COUNTRY}</div>}
                   {f.placed ? <div className="text-xs text-muted">on the map</div> : null}
-                  {f.grid ? <div className="text-xs" title={`The grid: ${GRID_BASIS[f.gridBasis] ?? "as the table gives it"}`} data-facility-grid={f.grid}>{f.grid}</div> : null}
+                  {f.grid ? <div className="text-xs" title={`The grid: ${GRID_BASIS[f.gridBasis] ?? "as the table gives it"}`} data-facility-grid={f.grid}>{f.grid}</div>
+                    : f.country ? <div className="text-xs text-muted" title={NO_GRID.tip} data-facility-grid="none">{NO_GRID.text}</div> : null}
                   {f.siting ? <div className="text-xs" data-facility-siting={f.siting.how}><a href={f.siting.href} className="underline" aria-label={`${f.site || f.operator}: what a load of its size pays at ${f.siting.row}, on the All grids tab. ${f.siting.why}`}>on All grids</a>{" "}<span className="text-muted">({f.siting.how === "county" ? "its county" : "its state"})</span></div> : null}
                 </td>
                 <td className="py-1 pr-3 text-right tabular-nums">
@@ -232,7 +245,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                   {f.mw !== null && f.mwBasis ? <div className="text-xs text-muted" title="What the stated MW measures, as the words say" data-mw-basis={f.mwBasis}>{BASIS_LABEL[f.mwBasis] ?? f.mwBasis}</div> : null}
                   {f.queueMw !== null ? <div className="text-xs text-muted">queue: {f.queueMw.toLocaleString("en-US")} MW generation or storage</div> : null}
                 </td>
-                <td className="py-1 pr-3">{f.status ? label(f.status) : blank}</td>
+                <td className="py-1 pr-3">{f.status ? <span title={QUEUE_STATUS[f.status]?.tip} data-status={f.status}>{label(f.status)}</span> : blank}</td>
                 <td className="py-1 pr-3 tabular-nums">
                   {f.plannedYear || blank}
                   {f.energizedYear ? <div className="text-xs text-muted" title="The year it is to be energized or come online, as stated">energized {f.energizedYear}</div> : null}
@@ -250,7 +263,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                       {i + 1}
                     </a>
                   ))}
-                  {f.confidence !== null ? <div className="text-xs text-muted">model confidence {f.confidence}</div> : null}
+                  {f.confidence !== null ? <div className="text-xs text-muted" title={CONFIDENCE_TIP} data-confidence="1">model confidence {f.confidence}</div> : null}
                 </td>
               </tr>
             ))}

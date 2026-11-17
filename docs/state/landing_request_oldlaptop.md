@@ -48,6 +48,8 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 43 | `wip/7545-queues-read` | `3d443cf6a` | `7545-queues-read` | 7545 | 2026-11-16 | `site/scripts/test-queues-read.mjs` (29 of 29, the page drawn to HTML by its own function without a build, on the site's file); pytest `test_session95, 241a, 7018_queues_done, 7518_interconnection_read, 105, 138, 3009, 3011`: 66 passed, 14 skipped by their rules; `tsc` on `app/queues/page.tsx` and `lib/queues.ts`, exit 0; not built here (memory); `check-queues`, `check-values` and `check-routes` not run | requested |
 | 39 | `wip/7541-supply-read-b` | `af5deaca7` | `7541-supply-read` | 7541 | 2026-11-16 | `site/scripts/test-supply-read.mjs` (10 of 10, the page drawn whole without a build on the site's file after the day's hold); `site/scripts/test-supply.mjs` (9 of 9); `tests/test_session134`, `136`, `241a`, `247`, `281`, `333`: 91 passed; `tsc` on `lib/supply.ts`: exit 0; not built here (memory); `check-supply` and `check-routes` not run | requested |
 
+| 50 | `wip/7560-six-reads` | see the section | `7560-six-reads` | 7560 to 7566 | 2026-11-17 | the reads of the six tools of the first ten with no read; tests per tool in the section "Row 50" | requested (grows with each tool) |
+
 ## Row 1: what it holds
 
 Sessions 1600 to 1605, stacked: `wip/1600-board` to `wip/1604-board` are ancestors of `wip/1605-board`.
@@ -564,3 +566,11 @@ Branch `wip/7202-key-refusal` from `origin/main`. Report: `archive/sessions/SESS
 - **Before landing:** a site build on the landing machine; `check-supply.mjs` on the built site (its cleared check now expects "license needed" for each held grid); `check-values` on `/supply` (two fewer `data-n` keys: `cleared-nyiso|last` and `cleared-iso-ne|last`, held).
 - **Snapshot differences to expect:** none on the 25 addresses (every page is in review). With the review cookie: on `/supply` the two held rows, the links line, the state names, the new hovers. **Tables:** none.
 - **After the landing:** rows 176 to 180 of `docs/state/browser_reads_wanted.md`; data request rows 149 to 154.
+
+## Row 50: what it holds (sessions 7560 to 7566, samueloldlaptop, the six tools of the first ten read as their readers, and the rulings list)
+
+- **Stacked on** origin/main `0ab3ec772`. One branch for the six reads; a tool's commits are named by its session. This machine cannot build the site (memory): every page change is held by a test that draws the component to HTML with the site's own code.
+- **Session 7560, `/datacenters`:** `site/app/datacenters/DatacentersTable.tsx` (the queue's two statuses as "queue: completed" and "queue: active" with tips, `QUEUE_STATUS`; "no ISO set" under a US row with no grid, `NO_GRID`; the tip on "model confidence", `CONFIDENCE_TIP`); new `site/scripts/test-datacenters-read.mjs` (8 of 8); `docs/reviews/datacenters-read-2026-11-16.md`. Tests: pytest `test_session2243_deals, 240, 241c, 282, 719, 7400_trackers` (49 passed); `tsc` not run; `check-values` not run (no server). No figure moves; no `data-n` key changes. Browser reads 301 and 302; data requests 301 to 304.
+- **What does not change:** any table, builder or site data file; `site/lib/release.ts`; `site/lib/license.ts`; `site/components/Num.tsx`; `replication/`.
+- **Before landing:** a site build on the landing machine; `cd site && node --import ./scripts/tsx-register.mjs scripts/test-datacenters-read.mjs`; `check-values` on `/datacenters`.
+- **Snapshot differences to expect:** none on the 25 addresses (every page is in review). **Tables:** none.
