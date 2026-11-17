@@ -20,6 +20,8 @@ For each hub or zone (entity <iso>:<node>), each market (dam: day-ahead; rtm: re
     <m>_above_200_hours_share_pct     pct       the share with a price above USD 200 per MWh
     <m>_day_spread_top4_bottom4       USD/MWh   on the average day (the mean price of each local hour of the day over the
                                                 window), the mean of its four dearest hours less the mean of its four cheapest
+    <m>_daily_spread_mean_top4_bottom4 USD/MWh  (session 7051) the mean over the window's whole local days of each day's four
+                                                dearest hours less its four cheapest; <m>_daily_spread_days the days used
     <m>_hours_held, <m>_hours_in_window   count
 and once per entity and window, the carbon intensity of its grid's generation:
     grid_carbon_intensity             kgCO2/MWh the mean of the daily intensities held (carbon_intensity_daily)
@@ -136,8 +138,17 @@ def measures(h, tz):
     if len(day) < 24:
         return None
     top, bottom = day.nlargest(4).mean(), day.nsmallest(4).mean()
-    return {"avg_price": round(float(h.mean()), 2), "negative_hours_share_pct": round(100 * float((h < 0).mean()), 2),
-            "above_200_hours_share_pct": round(100 * float((h > HIGH).mean()), 2), "day_spread_top4_bottom4": round(float(top - bottom), 2)}
+    out = {"avg_price": round(float(h.mean()), 2), "negative_hours_share_pct": round(100 * float((h < 0).mean()), 2),
+           "above_200_hours_share_pct": round(100 * float((h > HIGH).mean()), 2), "day_spread_top4_bottom4": round(float(top - bottom), 2)}
+    # session 7051 (chain 370, done-line request 141): each whole local day's four dearest less four cheapest hours, and the
+    # mean over the window's whole days (a day with an hour missing is left out; the count says how many were used)
+    ld = h.index.tz_convert(tz)
+    spreads = [g.nlargest(4).mean() - g.nsmallest(4).mean() for d, g in h.groupby(ld.date)
+               if len(g) == int((pd.Timestamp(d + pd.Timedelta(days=1), tz=tz) - pd.Timestamp(d, tz=tz)) / pd.Timedelta(hours=1))]
+    if spreads:
+        out["daily_spread_mean_top4_bottom4"] = round(float(sum(spreads) / len(spreads)), 2)
+        out["daily_spread_days"] = len(spreads)
+    return out
 
 
 def carbon(in_dir, ba, start, end):
@@ -151,11 +162,31 @@ def carbon(in_dir, ba, start, end):
     return round(float(c["value"].mean()), 2), len(c), due
 
 
-def last_whole_month(x):
+def last_whole_month(x, hidden=()):
     """The last calendar month every market side of the hub history holds to its end: the month before the month of the
-    earliest of the sides' newest timestamps."""
+    earliest of the sides' newest timestamps. Session 7051 (chain 370, done-line requests 129 and 140): a grid whose pulls
+    are paused (hidden: MISO since 4 October 2026) is not compared, so its stopped history no longer holds every other
+    grid's window at September."""
+    if len(hidden):
+        x = x[~x["entity"].str.split(":").str[0].isin(list(hidden))]
     newest = x.groupby(["entity", "side"])["ts"].max().min()
     return (newest.tz_convert("UTC").to_period("M") - 1).strftime("%Y-%m")
+
+
+def site_view(view, held_not_shown, held):
+    """Session 7050 (chain 370, done-line request 139): the site's copy is in the public repository, so a grid whose
+    figures are held for license (warehouse/metadata/license_status.csv: ISO-NE and NYISO from 21 October 2026) is
+    written there by name only, entity, grid and node, as a paused grid's hubs are; the table keeps every row."""
+    out = {w: [r for r in rows if r["grid"] not in held] for w, rows in view.items()}
+    names = list(held_not_shown)
+    seen = {r["entity"] for r in names}
+    for w in ("year", "month"):
+        for r in view[w]:
+            if r["grid"] in held and r["entity"] not in seen:
+                seen.add(r["entity"])
+                names.append({"entity": r["entity"], "grid": r["grid"], "node": r["node"],
+                              "reason": f"{r['grid']}'s own terms ask for written permission to republish its data, and none is recorded yet: held, not shown (license needed)"})
+    return out, names
 
 
 def build(x, in_dir, end_month, hidden, log):
@@ -193,7 +224,7 @@ def build(x, in_dir, end_month, hidden, log):
                 m.update(hours_held=int(len(h)), hours_in_window=n)
                 rec[f"{side}_basis"] = basis
                 for k, v in m.items():
-                    unit = "pct" if k.endswith("pct") else "count" if k.startswith("hours") else "USD/MWh"
+                    unit = "pct" if k.endswith("pct") else "count" if (k.startswith("hours") or k.endswith("_days")) else "USD/MWh"
                     rows.append(dict(entity=entity, variable=f"{side}_{k}", ts_utc=f"{start}T00:00:00Z", value=v, unit=unit, freq=freq, geo=geo, market="", node=node))
                     rec[f"{side}_{k}"] = v
                 wrote = True
@@ -235,7 +266,7 @@ def main(argv=None):
     log(f"  licenses: {len(internal)} of the {len(TABLES)} price tables are internal {internal}; publishers under review: {sorted(hidden)}")
     x = read_prices(inputs, "2025-08-01", log)
     x = x[~x["table"].isin(internal)]
-    end_month = a.end or last_whole_month(x[x["table"] == "iso_hub_prices_history"])
+    end_month = a.end or last_whole_month(x[x["table"] == "iso_hub_prices_history"], hidden)
     rows, view, held_not_shown, windows = build(x, inputs, end_month, hidden, log)
     out = pd.DataFrame(rows)
     out["source"], out["source_url"], out["retrieved_at"], out["vintage"] = SOURCE, METHOD_URL, retrieved, ""
@@ -266,6 +297,9 @@ def main(argv=None):
                             document_list="docs/methods/hub_price_comparison.md", license="public", tables=[NAME])])
     if a.snapshot:
         os.makedirs(os.path.dirname(SITE_FILE), exist_ok=True)
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+        import license_status as ls  # session 7050: the grids held for license on the day
+        view, held_not_shown = site_view(view, held_not_shown, ls.held_grids())
         with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
             json.dump(dict(table=NAME, built=retrieved, end_month=end_month, windows={k: {"start": v[0], "end": v[1], "freq": v[2]} for k, v in windows.items()},
                            near_hours=NEAR_HOURS, near_days=NEAR_DAYS, high=HIGH, year=view["year"], month=view["month"], held_not_shown=held_not_shown,

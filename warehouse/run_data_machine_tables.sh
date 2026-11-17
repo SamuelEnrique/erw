@@ -122,7 +122,9 @@ fi
 # 16 November). dm_queue_statistics (done-line request 16) builds the queue statistics from
 # the six queues as the runner last pulled them, rebuilt from the archive (--restore). dm_cost_of_power (session 7050,
 # done-line request 69): the cost of power by hub and month, which no run built after 4 October (its tables stood at
-# September 2026 while four pages read them), here where the hub histories and EIA's workbooks are held.
+# September 2026 while four pages read them), here where the hub histories and EIA's workbooks are held. dm_demand_weather
+# (session 7051, request 170): demand with the weather taken out, after the week's NOAA hours (no schedule built it after
+# 6 October), with its site copy.
 TABLE_STEPS=(
   "dm_eia930_total_interchange|eia930_daily_total_interchange|daily|warehouse/connectors/eia930_daily_total_interchange.py"
   "dm_caiso_ws_forecast|caiso_wind_solar_forecast|daily|warehouse/connectors/caiso_wind_solar_forecast.py --start SINCE"
@@ -131,7 +133,7 @@ TABLE_STEPS=(
   "dm_caiso_emergencies|caiso_grid_emergencies|daily|warehouse/connectors/caiso_emergencies.py"
   "dm_caiso_reliability|caiso_reliability_daily|daily|warehouse/derived/caiso_reliability.py"
   "dm_caiso_curtailment|caiso_curtailment_intervals|monthly pull|warehouse/connectors/caiso_curtailment_intervals.py --new-only"
-  "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py"
+  "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py --snapshot"
   "dm_shoulder_hours|shoulder_hours_monthly|monthly|warehouse/derived/shoulder_hours.py"
   "dm_scarcity_hours|scarcity_hours_by_grid|monthly|warehouse/derived/scarcity_hours_by_grid.py"
   "dm_ercot_large_load|ercot_large_load_status|daily|warehouse/connectors/ercot_large_load_status.py"
@@ -151,10 +153,11 @@ TABLE_STEPS=(
   "dm_nuclear_fleet|nuclear_fleet_status|daily|warehouse/derived/nuclear_fleet_status.py"
   "dm_peak_premium|ercot_peak_premium_annual,ercot_peak_premium_monthly|daily|warehouse/derived/ercot_peak_premium.py --split"
   "dm_cost_of_power|cost_of_power_monthly,cost_of_power_hourly_profile,cost_of_power_carbon|daily|warehouse/derived/cost_of_power.py"
+  "dm_demand_weather|eia930_demand_weather|weekly|warehouse/derived/demand_weather.py --snapshot --before warehouse/derived/reference/demand_weather_session126.json"
 )
 # session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
 # only those a live-set rule names, and writes what changed)
-WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records|eia_nuclear_outages_generator_daily|nuclear_fleet_status|caiso_curtailment_profile|iso_queue_statistics|ercot_peak_premium_annual|ercot_peak_premium_monthly|cost_of_power_monthly|cost_of_power_hourly_profile|cost_of_power_carbon)$'
+WEEKLY_LIVE='^(iso_zone_prices_history|caiso_reliability_daily|caiso_grid_emergencies|storage_owners_monthly|shoulder_hours_monthly|ercot_rtm_price_adders|scarcity_hours_by_grid|eia930_daily_total_interchange|caiso_wind_solar_forecast|ercot_wind_solar_forecast|nrc_reactor_status|caiso_curtailment_intervals|ercot_large_load_status|ercot_all_hub_prices_history|ercot_sced_esr_hourly|ercot_storage_rt_monthly|ercot_storage_node_basis|clean_energy_hourly|clean_energy_summary|noaa_grid_weather_hourly|noaa_grid_weather_daily|noaa_grid_weather_stations|noaa_station_weather_hourly|ercot_rtm_node_prices|ercot_zone_prices_history|carb_auction_allowance_prices|carb_lcfs_credit_prices|merchant_revenue_monthly|generation_mix_hourly_profile|generation_mix_records|eia_nuclear_outages_generator_daily|nuclear_fleet_status|caiso_curtailment_profile|iso_queue_statistics|ercot_peak_premium_annual|ercot_peak_premium_monthly|cost_of_power_monthly|cost_of_power_hourly_profile|cost_of_power_carbon|eia930_demand_weather)$'
 
 # the tables of this block that the live set holds (warehouse/supabase/live_set.yaml gives each its rule; the others
 # are histories, or held out of the catalogue, and are not loaded), and session 244's table, which only this machine builds

@@ -296,6 +296,17 @@ def ercot(in_dir, ercot_dir, log):
                 read_from=os.path.relpath(path, ROOT).replace(os.sep, "/"), hubs={})
     prices = read_hubs(in_dir, [f"ercot:{n}" for n in HUBS["ercot"]], ip.utc_iso(below.index.min()), log)
     tz = TZ["ercot"]
+    # session 7051 (chain 370, done-line request 181): a local month whose every hour is held is a whole month, valued by
+    # the file's own monthly rule as CAISO's months are (October 2026 was whole, 744 of 744 hours, and was not written)
+    per_month = pd.Series(1, index=below.index).groupby(below.index.tz_convert(tz).strftime("%Y-%m")).size()
+    whole_m = [m for m, n in per_month.items() if n == len(month_hours(m, tz))]
+    if whole_m:
+        base["months"] = {m: {"hours": int(per_month[m]),
+                              "below_hsl_mwh": round(float(below.reindex(month_hours(m, tz)).sum()), 1),
+                              "hsl_mwh": round(float(hsl.reindex(month_hours(m, tz)).sum()), 1)} for m in whole_m}
+        base["last_month"] = whole_m[-1]
+        base["months_missing"] = (f"whole months held: {', '.join(whole_m)}; a month with an hour missing is not written, and the history "
+                                  "before 19 September 2026 is not openly published")
     iv = pd.DataFrame({"ts": below.index, "mwh": below.values, "dur": 1.0})
     iv = iv[iv["mwh"] > 0]
     for node in HUBS["ercot"]:
@@ -311,7 +322,16 @@ def ercot(in_dir, ercot_dir, log):
                 continue
             priced = sides[k].reindex(below.index).dropna().index
             r.update(first_hour_priced=ip.utc_iso(priced.min()), last_hour_priced=ip.utc_iso(priced.max()), window="the hours held, not a month")
-            base["hubs"][node][k] = {"freq": sides["freq"][k], "tables": sides["tables"][k], "window": r}
+            months, missing = {}, {}
+            for m in whole_m:   # session 7051: each whole month, as CAISO's
+                idx = month_hours(m, tz)
+                mr = value_of(below.reindex(idx).fillna(0.0), sides[k])
+                mr.update(days_held=pd.Period(m).days_in_month, days_in_month=pd.Period(m).days_in_month, hours_in_month=len(idx))
+                if mr["hours_priced"] < NEAR_HOURS * len(idx):
+                    missing[m] = f"the hub's price is held for {mr['hours_priced']:,} of the month's {len(idx):,} hours, under {NEAR_HOURS:.0%}"
+                    continue
+                months[m] = mr
+            base["hubs"][node][k] = {"freq": sides["freq"][k], "tables": sides["tables"][k], "window": r, "months": months, "missing": missing}
             log(f"  ercot {node} {k}: {r['hours_priced']} of {r['hours']} hours priced")
     days = iv["ts"].dt.tz_convert(tz).dt.strftime("%Y-%m-%d")
     full = [d for d, n in below.groupby(below.index.tz_convert(tz).strftime("%Y-%m-%d")).size().items() if n == fe_day_hours(d, tz)]
