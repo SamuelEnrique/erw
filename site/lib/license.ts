@@ -131,8 +131,18 @@ export function gridOfEntity(entity: string | undefined | null): string {
   const q = /^([a-z]+)_(?:load_)?queue$/.exec(head);
   if (q && q[1] in GRID_NAME) return q[1];
   if (head === "iso" && m[2].toLowerCase() in GRID_NAME) return m[2].toLowerCase();
+  // ruling alternative 1 of /events (session 7712, branch wip/alt-events-1; not a default on main), choice (a): an EIA-930
+  // entity is named to its grid by EIA's balancing authority code ("eia930:CISO" is CAISO's, "eia930:ISNE" ISO-NE's);
+  // any other EIA-930 entity (the Lower 48, a balancing authority that is no grid of the seven) is of no grid. On main an
+  // EIA-930 entity names no grid, so a figure of a table held by grid is held whatever its balancing authority.
+  if (head === "eia930") return EIA930_GRID[m[2].toUpperCase()] ?? "";
   return "";
 }
+/** Ruling alternative 1 of /events (wip/alt-events-1): EIA-930's codes of the seven grids. */
+export const EIA930_GRID: Record<string, string> = { CISO: "caiso", ERCO: "ercot", PJM: "pjm", SWPP: "spp", ISNE: "isone", MISO: "miso", NYIS: "nyiso" };
+/** Ruling alternative 1 of /events (wip/alt-events-1): an EIA-930 entity of no grid (the Lower 48, another balancing
+ *  authority), which a table held by grid shows: it is no held grid's row. */
+export const eia930NoGrid = (entity: string): boolean => /^eia930:/i.test(entity) && gridOfEntity(entity) === "";
 
 /** Session 382: the grid a check key names as an input, in the entity form ("iso:ercot"), or undefined. The generator
  *  page's model keys (mr|iso=ercot&asset=solar&...|<stat>, ms|iso=ercot&...&hub=HB_WEST&market=rt|<span>|<stat>) carry

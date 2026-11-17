@@ -88,7 +88,12 @@ def grid_of_entity(entity):
         return q.group(1)
     if head == "iso" and m.group(2).lower() in GRID_NAME:
         return m.group(2).lower()
+    if head == "eia930":   # ruling alternative 1 of /events (wip/alt-events-1), as site/lib/license.ts EIA930_GRID
+        return EIA930_GRID.get(m.group(2).upper(), "")
     return ""
+
+
+EIA930_GRID = {"CISO": "caiso", "ERCO": "ercot", "PJM": "pjm", "SWPP": "spp", "ISNE": "isone", "MISO": "miso", "NYIS": "nyiso"}
 
 
 def held_row(table, entity=None, whole=False, now=None):
