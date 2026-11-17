@@ -65,7 +65,9 @@ ok(r10.applied[0].effect.includes(`certified price $${short.price.toFixed(2)} fo
 const tip3 = tipOf(gas, "sev-period-tx_lp_gas");
 ok(tip3 && tip3.includes(`The latest month this page holds is ${cert.as_of}.`) && tip3.includes("The price box is not changed by this list.") && tip3.includes("in 2026-10"), "row 3: the report period's tip names the latest month held and the month the price box opened on");
 ok(/<select[^>]*aria-label="Report period, Low-producing gas well credit"/.test(gas) && words(gas).includes("Report period (the production month)"), "row 3: the list is named, and says the period is the production month");
-ok(words(gas).includes("$417.11") && words(gas).includes("a 100 percent credit (certified price $1.36 for 2026-08, 2005 dollars)"), "case 1: 1,860 Mcf at $2.99: tax $417.11, a 100 percent credit for 2026-08");
+// ruling alternative 3 (wip/alt-severance-3, not a default on main): the calculator takes each Mcf as 1.034 MMBtu, so
+// main's $417.11 reads $431.29 here (+3.40 percent); the Lease tab below is not moved by this branch
+ok(words(gas).includes("$431.29") && !words(gas).includes("$417.11") && words(gas).includes("a 100 percent credit (certified price $1.36 for 2026-08, 2005 dollars)"), "case 1: 1,860 Mcf at $2.99 per MMBtu, 1.034 MMBtu an Mcf: tax $431.29 (main $417.11), a 100 percent credit for 2026-08");
 
 const months = ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"];
 const panhandle = lease(file(months.map((m) => ({ state: "TX", well_id: "GAS-60", month: m, gas_mcf: 60 * days(m), well_type: "gas" }))));
