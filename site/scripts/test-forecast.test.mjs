@@ -327,10 +327,10 @@ test("property tax: Kansas's exemption by operating year", () => {
 
 test("property tax: Oregon's solar fee in lieu by county agreement, within its range, for its years", () => {
   const or = { ...F.defaults(P, "utility_pv", "or"), mw: 50 };
-  assert.equal(or.optrate, 7000); assert.equal(or.iaval, false);
+  assert.equal(or.optrate, 5500); assert.equal(or.iaval, false);   // ruling alternative 19 (wip/alt-impact-19): the statute's minimum; main: 7000
   assert.equal(F.propertyTax(P, or, 0).tax, null, "off by default");
   const on = { ...or, iaval: true };
-  near(F.propertyTax(P, on, 0).tax, 50 * 7000); near(F.propertyTax(P, on, 19).tax, 50 * 7000);
+  near(F.propertyTax(P, on, 0).tax, 50 * 5500); near(F.propertyTax(P, on, 19).tax, 50 * 5500);   // alternative 19; main: 7000
   assert.equal(F.propertyTax(P, on, 20).tax, null, "no rule held after the agreement's 20 years");
   near(F.propertyTax(P, { ...on, optrate: 4000 }, 0).tax, 50 * 5500, 1e-12, "held to the statute's minimum");
   assert.equal(F.defaults(P, "land_based_wind", "or").optrate, null, "the fee is a solar project's");

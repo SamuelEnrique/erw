@@ -856,7 +856,7 @@
      "kind": "capacity_option",
      "usd_per_mw_min": 5500,
      "usd_per_mw_max": 7000,
-     "default_usd_per_mw": 7000,
+     "default_usd_per_mw": 5500,
      "years": 20,
      "requires": "option",
      "cite": "or_2015_c571",
@@ -866,7 +866,8 @@
      "not_modeled": "The agreement is the county's and the owner's: the tool offers it as a choice, off by default. The repeal of 2 January 2028: a project must be exempt under an agreement by then; the tool does not test the date. After the agreement's years no rule is held (no life total unless the reader types a rate). The land's treatment, which the agreement sets.",
      "tip": "Oregon: a county and a solar project outside any city may agree to exempt it for up to 20 years for a fee of USD 5,500 to 7,000 per MW a year (Oregon Laws 2015, chapter 571, in the notes to ORS 307.175).",
      "option_tip": "Oregon (2015 c.571, notes to ORS 307.175): a county and a solar project outside any city may agree to exempt it and take a fee in lieu, USD 5,500 to 7,000 per MW of nameplate a year, for up to 20 years; agreements end with projects exempt by 2 January 2028.",
-     "rate_tip": "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range."
+     "rate_tip": "Within the statute's USD 5,500 to 7,000 (a rate outside it is held to it). Default 7,000, the statute's maximum and its one fixed rate until the 2021 amendment set the range. Ruling alternative 19: the field starts at the statute's minimum, USD 5,500 per MW. Default on the site: USD 7,000, the maximum.",
+     "branch": "ruling alternative 19 of /impact (wip/alt-impact-19, session 7706): not a default on main (main: default_usd_per_mw 7000, the statute's maximum)"
     }
    ]
   },
