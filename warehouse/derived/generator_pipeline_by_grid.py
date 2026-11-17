@@ -13,7 +13,7 @@ Planned, Planned_PR, Operating and Operating_PR sheets). Method: docs/methods/ge
     entity    eia860m_pipeline:<balancing authority>:<state>:<energy source code>:<EIA status>:<planned year> for a cell
               of a snapshot; eia860m_pipeline:<balancing authority> and eia860m_pipeline:US for the moves
     ts_utc    the snapshot's month (its first day); freq P1M
-    variables a cell: planned_mw (nameplate MW), planned_count (generators), datacenter_mw (the MW of the cell's
+    variables a cell: planned_mw (nameplate MW), planned_count (generators); on main also datacenter_mw (dropped on wip/alt-site-data-machine-2: the MW of the cell's
               datacenter-tagged generators: a plant or owner whose name names a data center or a lab, the rule below)
               the moves from the month before to this one, keyed by plant and generator id: entered_mw (planned now, in
               neither list before), online_mw (planned before, operating now), left_mw (planned before, in neither list
@@ -120,8 +120,9 @@ def cells(plan, vintage, source_url):
     plan = plan.assign(ba=plan["ba"].replace("", "none"))
     for (ba, st, fu, sta, yr), g in plan.groupby(["ba", "state", "fuel", "status", "year"]):
         ent = f"eia860m_pipeline:{ba}:{st}:{fu}:{sta}:{yr}"
-        for var, val, unit in (("planned_mw", round(float(g["mw"].sum()), 3), "MW"), ("planned_count", int(len(g)), "count"),
-                               ("datacenter_mw", round(float(g.loc[g["tag"], "mw"].sum()), 3), "MW")):
+        # ruling alternative 2 (a) of the data machine's tables (session 7713, branch wip/alt-site-data-machine-2; not a default
+        # on main): datacenter_mw is dropped, as it read 0 MW in every one of its 1,671 rows; main: kept
+        for var, val, unit in (("planned_mw", round(float(g["mw"].sum()), 3), "MW"), ("planned_count", int(len(g)), "count")):
             rows.append({"entity": ent, "variable": var, "ts_utc": f"{vintage}-01T00:00:00Z", "value": val, "unit": unit, "freq": "P1M",
                          "geo": f"US-{st}" if re.match(r"^[A-Z]{2}$", st) else "US", "market": "", "node": "", "source": SOURCE,
                          "source_url": source_url, "vintage": vintage, "x_ba": ba, "x_state": st, "x_energy_source": fu, "x_status": sta,
@@ -189,7 +190,7 @@ def main(argv=None):
         header = [
             "Energy Research Warehouse (ERW): EIA-860M's planned generators by balancing authority, state, fuel, status and planned year, each snapshot month, and the moves between two months (derived, session 2951)",
             "Shape: series (docs/datastandard.md v0). entity eia860m_pipeline:<BA>:<state>:<energy source>:<status>:<year> (a cell) or eia860m_pipeline:<BA> and :US (the moves); "
-            "ts_utc the snapshot month; variables planned_mw, planned_count, datacenter_mw for a cell; entered_, online_, left_, status_moved_, slipped_ (mw and count) for the moves.",
+            "ts_utc the snapshot month; variables planned_mw and planned_count for a cell (datacenter_mw dropped: ruling alternative 2 (a), branch wip/alt-site-data-machine-2); entered_, online_, left_, status_moved_, slipped_ (mw and count) for the moves.",
             f"Snapshots: {info['vintage']} (eia860m_planned_generators and eia860m_operating_generators) and {info.get('earlier') or 'none earlier held'}"
             + (f" ({os.path.relpath(info['earlier_path'], ROOT).replace(os.sep, '/')})" if info.get("earlier_path") else "") + ".",
             "Moves " + (f"{info['earlier']} to {info['vintage']}: " + "; ".join(f"{k} {n} generators, {mw} MW" for k, (n, mw) in mv.items()) if mv else "none: no earlier month held") + ".",
