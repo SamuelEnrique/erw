@@ -545,11 +545,20 @@ export function Preview({ level, hard, onDone, hover }: { level: GameLevel; hard
 /** Session 7535 (chain 304): the end's money in detail, the two fleets and the rules played, moved out of Game unchanged
  * so that site/scripts/battery-game-figures.mjs can draw it for the replication (replication/battery_game/). */
 export function EndDetail({ result, perfect, easy, server }: { result: { mine: Result; rules: Rules; preset: string }; perfect: Result; easy: boolean; server: string }) {
+  // session 7551 (the read, rows 1 and 2): the money in detail on Easy too (Easy's score holds the fleet bonus, a game
+  // rule: USD 44.98 of the perfect battery's 240.23 on Winter Storm Uri's day), and one sentence on what a real battery is
+  // paid, with the trades' own money per kW of the battery's power and the battery page's rules beside the game's
+  const kw = result.rules.kw;
   return (
     <p className="mt-2 text-sm" data-end-detail>
-      {!easy ? <>In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}. </> : null}
+      In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? <>, plus the <span className="cursor-help border-b border-dotted border-muted" title="A game rule: in the fleet call's hour (the day's dearest clock hour) each kWh delivered also earns that hour's mean price, never below zero. No market pays it to a home; it stands in for what an aggregator may pass on (the rules section below)." data-bonus-hover="1">fleet bonus</span> {usd(result.mine.bonus)}</> : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}.{" "}
       <span className="cursor-help border-b border-dotted border-muted" title={`A fictional fleet of ${FLEET.toLocaleString("en-US")} homes, each with this battery and each playing as you did: your score times ${FLEET.toLocaleString("en-US")}, and the perfect battery's times the same. A game rule, not a real fleet's earnings.`} data-fleet-end="1">Your fleet of {FLEET.toLocaleString("en-US")} homes</span>: <strong>{usd(result.mine.score * FLEET)}</strong>; the perfect battery&apos;s fleet: {usd(perfect.score * FLEET)}.
-      {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null} <span className="text-muted">{server}</span>
+      {!easy ? <> The rules: {presetLabel(result.preset)}.</> : null}{" "}
+      <span data-real-battery="1">
+        A real battery is paid by other rules. Per kW of this battery&apos;s {kw} kW, your trades netted <span data-real-mine-kw="1">{usd(result.mine.cash / kw)}</span> and the perfect battery&apos;s <span data-real-perfect-kw="1">{usd(perfect.cash / kw)}</span> (the market&apos;s money alone: no fleet bonus{result.mine.wear > 0 || perfect.wear > 0 ? ", before wear" : ""}).{" "}
+        <Link href="/cost-of-power/battery">The battery page</Link> models a grid battery of 2, 4 or 8 hours per kW of its power, with ancillary services, which the game does not hold; its stress days (Winter Storm Uri, Winter Storm Elliott, ERCOT&apos;s 2023 heat, CAISO&apos;s days of grid notices) are the same kind of day as the game&apos;s famous ones, but each is modeled on hourly prices, from an empty battery, one cycle a day at most, at an 86 percent round trip, so its figures and the game&apos;s are not the same measure.
+      </span>{" "}
+      <span className="text-muted">{server}</span>
     </p>
   );
 }
@@ -612,9 +621,37 @@ const MODE_LINE: Record<Difficulty, string> = {
 };
 const MODES = ["easy", "normal", "hard"] as const;
 
-export function Game({ levels, top: firstTop, presets: firstPresets, initialMode = "easy" }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; initialMode?: Difficulty }) {
+/** Session 7551 (the read, row 3: a teacher sends a class to one day): the level an address names, by its slug or its
+ * date (`?day=uri` or `?day=2021-02-15`); an unknown or absent day is the first level (today's, when there is one). */
+export function dayIndex(levels: { slug: string; date: string }[], day: string | undefined): number {
+  if (!day) return 0;
+  const i = levels.findIndex((l) => l.slug === day || l.date === day);
+  return i < 0 ? 0 : i;
+}
+/** Session 7551: the link to the chosen day and mode, for a class: everyone who opens it plays the same prices and joins
+ * the same leaderboard (the board follows the day, the mode and the battery). Today's level has no address of its own:
+ * it moves with the warehouse, so its link says it is today's. */
+export function DayLink({ mode, level }: { mode: Difficulty; level: { slug: string; date: string; title: string } }) {
+  const today = level.slug === "today";
+  return (
+    <p className="mb-1 text-sm" data-day-link={today ? "today" : level.slug}>
+      <Link href={gameAddress("/play/battery", mode, level.slug)}>{today ? "The link to today's level" : `The link to ${level.title}, ${level.date}`}</Link>
+      {" "}<span className="cursor-help border-b border-dotted border-muted" title={today ? "Today's level is the latest complete day the warehouse holds, so this address opens on a newer day tomorrow. A famous day's link always opens on that day." : "This address opens the game on this day and mode. Everyone who opens it plays the same real prices, and a posted score joins the same leaderboard as long as the battery is the same."}>(what it opens)</span>
+    </p>
+  );
+}
+/** Session 7551: the page's address for a mode and a day: `?mode=` unless Easy, `?day=` unless today's level. */
+export function gameAddress(path: string, mode: Difficulty, slug: string): string {
+  const q = new URLSearchParams();
+  if (mode !== "easy") q.set("mode", mode);
+  if (slug && slug !== "today") q.set("day", slug);
+  const s = q.toString();
+  return s ? `${path}?${s}` : path;
+}
+
+export function Game({ levels, top: firstTop, presets: firstPresets, initialMode = "easy", initialDay }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; initialMode?: Difficulty; initialDay?: string }) {
   const [phase, setPhase] = useState<Phase>("pick");
-  const [pick, setPick] = useState(0);
+  const [pick, setPick] = useState(() => dayIndex(levels, initialDay));  // session 7551: the address's day
   const level = levels[pick];
   const n = level.price.length;
   const [draft, setDraft] = useState(toDraft(DEFAULT_SETTINGS));
@@ -929,7 +966,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
   const chooseMode = (d: Difficulty) => {
     setDifficulty(d);
     if (phase === "done") setPhase("pick");
-    try { window.history.replaceState(null, "", `${window.location.pathname}${d === "easy" ? "" : `?mode=${d}`}`); } catch { /* the address stays */ }
+    try { window.history.replaceState(null, "", gameAddress(window.location.pathname, d, level.slug)); } catch { /* the address stays */ }
+  };
+  // session 7551: picking a day writes it into the address, so the address a teacher copies opens on that day
+  const chooseDay = (i: number) => {
+    setPick(i);
+    try { window.history.replaceState(null, "", gameAddress(window.location.pathname, difficulty, levels[i].slug)); } catch { /* the address stays */ }
   };
 
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
@@ -1008,7 +1050,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
         <div>
           {easy ? <p className="mb-3 text-base">Buy power into your battery when it is cheap and sell it when it is dear. You start with $5; the game ends if you go below $0.</p> : null}
           <label className="mb-1 block text-sm">The day:{" "}
-            <select value={pick} onChange={(e) => setPick(Number(e.target.value))} className="max-w-full border border-rule bg-panel px-2 py-1">
+            <select value={pick} onChange={(e) => chooseDay(Number(e.target.value))} className="max-w-full border border-rule bg-panel px-2 py-1">
               {(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr)).map((gr) => (
                 <optgroup key={gr} label={`${GRIDS[gr].name}, ${GRIDS[gr].zone} time`}>
                   {levels.map((l, i) => (l.grid === gr ? <option key={l.slug} value={i}>{l.title}, {l.date}</option> : null))}
@@ -1016,6 +1058,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
               ))}
             </select>
           </label>
+          <DayLink mode={difficulty} level={level} />
+
           <p className="mb-3 max-w-3xl text-xs text-muted">{level.why}{level.rule ? ` The rule: ${level.rule}` : ""}{!easy && ev ? <> <Link href={ev.href}>What happened: {ev.label}</Link></> : null}</p>
           {difficulty === "hard" && need > 0 ? <p className="mb-3 max-w-3xl text-sm">Hard, on this day: after the dearest hour the grid goes down for two hours. {keepWords}</p> : null}
           {!easy ? <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} addonsOn={addonsOn} setAddonsOn={setAddonsOn} available={available} level={level} /> : null}

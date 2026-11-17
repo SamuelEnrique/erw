@@ -7,13 +7,14 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
 import { redirect } from "next/navigation";
-import { ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, FLEET, FLEET_MW, FLEET_MWH, LIGHTS_OUT, presetOf, SETTINGS, SOLAR, SPIKE_LABEL, START_MONEY, type Difficulty } from "@/lib/battery";
-import { storageUnits, type StorageUnit } from "@/lib/data";
+import { ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, LIGHTS_OUT, presetOf, SETTINGS, SOLAR, SPIKE_LABEL, START_MONEY, type Difficulty } from "@/lib/battery";
+import { storageUnits } from "@/lib/data";
 import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/lib/game";
 import { FAMOUS, todayLevel, TZ, type Level } from "@/lib/levels";
 import { attempt } from "@/lib/supabase";
 import { Game, type GameLevel } from "./Game";
 import { GameDecisions } from "./Decisions";
+import { RealFleet } from "./RealFleet";  // session 7551: moved out, with CAISO beside ERCOT
 
 // Session 38: the home battery game, MVP. Real prices (ERCOT HB_HUBAVG real-time, one operating day: today's level
 // from the live set, five famous days from the history); a fictional battery, home, brand and fleet.
@@ -21,41 +22,6 @@ export const metadata: Metadata = { title: "The home battery game" };
 export const revalidate = 600;
 
 const T = "iso_rtm_hub_prices";
-
-// Session 46: the fictional fleet beside ERCOT's real one: the operating battery units of storage_capacity (EIA-860M)
-// whose balancing authority is ERCOT. Each sum carries the check key check-values.mjs recomputes.
-function RealFleet({ units }: { units: StorageUnit[] }) {
-  const op = units.filter((u) => u.iso === "ERCOT" && u.status === "operating");
-  const mw = Math.round(op.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
-  const withMwh = op.filter((u) => u.mwh !== null && u.mwh !== "");
-  const mwh = Math.round(withMwh.reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
-  const ratio = mw / FLEET_MW;
-  const cell = "border border-rule bg-panel p-3";
-  return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      <div className={cell}>
-        <div className="text-xs text-muted">The game&apos;s fleet (fictional)</div>
-        <div className="text-2xl tabular-nums"><Num check="battery|fleet_mw" raw={FLEET_MW}>{shown(FLEET_MW)}</Num> <span className="text-sm text-muted">MW</span></div>
-        <div className="text-sm">
-          <Num check="battery|fleet_mwh" raw={FLEET_MWH}>{shown(FLEET_MWH)}</Num> MWh: {FLEET.toLocaleString("en-US")} homes, each 5 kW and 13.5 kWh (an assumption)
-        </div>
-      </div>
-      <div className={cell}>
-        <div className="text-xs text-muted">ERCOT&apos;s real battery fleet, operating (EIA-860M)</div>
-        <div className="text-2xl tabular-nums"><Num check="storage|iso_mw|ERCOT|operating" raw={mw}>{shown(mw)}</Num> <span className="text-sm text-muted">MW</span></div>
-        <div className="text-sm">
-          <Num check="storage|iso_n|ERCOT|operating" raw={op.length}>{op.length.toLocaleString("en-US")}</Num> units;{" "}
-          <Num check="storage|iso_mwh|ERCOT|operating" raw={mwh}>{shown(mwh)}</Num> MWh where EIA gives the energy capacity (
-          <Num check="storage|iso_n_mwh|ERCOT|operating" raw={withMwh.length}>{withMwh.length.toLocaleString("en-US")}</Num> units)
-        </div>
-      </div>
-      <p className="text-sm sm:col-span-2">
-        ERCOT&apos;s real fleet has <Num check="calc|ratio|storage~iso_mw~ERCOT~operating|battery~fleet_mw" raw={ratio}>{shown(ratio)}</Num> times the power of
-        the game&apos;s 10,000 homes. A real grid battery is a power plant: it bids into the same real-time market the game replays.
-      </p>
-    </div>
-  );
-}
 
 export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   // Session 289 (Samuel's ruling 16 of 14 October 2026): one page, three modes, Easy first. The simple page and the full
@@ -87,7 +53,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         cheap, sell when it is dear, and see what a battery that knew every price would have earned.
       </p>
       <Section title="Play">
-        <Game levels={levels} top={first} presets={presets} initialMode={mode} />
+        <Game levels={levels} top={first} presets={presets} initialMode={mode} initialDay={typeof q.day === "string" ? q.day : undefined} />
       </Section>
       <Section title="The day and the battery">
         <div className="space-y-2 text-sm">
@@ -137,20 +103,20 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           <ul className="max-w-3xl list-disc space-y-1 pl-5">
             <li><strong>When:</strong> the call is the day&apos;s dearest clock hour, with a 15-minute warning. In the pilot, dispatch comes from ERCOT&apos;s Security-Constrained Economic Dispatch (SCED), every five minutes, when prices and the grid call for it; nobody knows the dearest hour in advance. The warning and the hour are the game&apos;s choices.</li>
             <li><strong>How long:</strong> one hour. The pilot&apos;s deployment test lasts &quot;at least one full 15-minute Settlement Interval&quot;; a real call lasts as long as the instruction does.</li>
-            <li><strong>What the battery is paid:</strong> every kWh sold, in or out of the call, earns the real-time price, as an ADER&apos;s energy is settled at a market price (the game uses the hub average, not the battery&apos;s Load Zone price). In the call hour, each kWh delivered also earns a bonus of the hour&apos;s mean price (never below zero). The bonus is the game&apos;s stand-in for what an aggregator may pass on to a home: the pilot also lets ADERs earn ancillary-service payments (ECRS and Non-Spin), whose prices the game does not hold, and what a home is paid is set by its retailer or aggregator, not by ERCOT.</li>
+            <li><strong>What the battery is paid:</strong> every kWh sold, in or out of the call, earns the real-time price, as an ADER&apos;s energy is settled at a market price (the game uses the hub average, not the battery&apos;s Load Zone price). In the call hour, each kWh delivered also earns a bonus of the hour&apos;s mean price (never below zero). The bonus is the game&apos;s stand-in for what an aggregator may pass on to a home: the pilot also lets ADERs earn ancillary-service payments (<span className="cursor-help border-b border-dotted border-muted" title="ERCOT Contingency Reserve Service: capacity held ready to answer a sudden loss of supply within ten minutes.">ECRS</span> and <span className="cursor-help border-b border-dotted border-muted" title="Non-Spinning Reserve: capacity that can be brought online within thirty minutes when ERCOT calls for it.">Non-Spin</span>), whose prices the game does not hold, and what a home is paid is set by its retailer or aggregator, not by ERCOT.</li>
             <li><strong>The reserve:</strong> on Hard, the battery never discharges below its backup reserve, even in the call.</li>
             <li><strong>Size:</strong> the game&apos;s fleet of 10,000 homes is 50 MW. The pilot&apos;s Phase 3 limit is 500 MW of ADERs system-wide.</li>
           </ul>
           <p className="max-w-3xl text-xs text-muted">
             Source: ERCOT, <a href="https://www.ercot.com/files/docs/2026/03/02/ADER-Pilot-Project-Governing-Document-Phase-3.3.docx">ADER Pilot Project Governing Document, Phase 3.3</a>, from{" "}
             <a href="https://www.ercot.com/mktrules/pilots/ader">ERCOT&apos;s ADER pilot page</a>, read on 2026-10-01. The game is not the program: no telemetry,
-            no qualification, no Base Point Deviation, no ancillary-service awards.
+            no qualification, no <span className="cursor-help border-b border-dotted border-muted" title="ERCOT's charge on a resource whose output strays from its dispatch instruction (its base point) by more than the tolerance its rules allow.">Base Point Deviation</span>, no ancillary-service awards.
           </p>
         </div>
       </Section>
       <Section title="The fleet: fictional and real">
         {fleet.ok ? <RealFleet units={fleet.data} /> : <NoData what="ERCOT's battery fleet" reason={fleet.reason} />}
-        <Cite tables={["storage_capacity"]} note="Operating battery units whose balancing authority is ERCOT: nameplate MW, and EIA's energy capacity (MWh) where it gives one. The game's fleet is fictional" />
+        <Cite tables={["storage_capacity"]} note="Operating battery units whose balancing authority is ERCOT or CAISO, in the EIA's latest monthly inventory: nameplate MW, and EIA's energy capacity (MWh) where it gives one. The game's fleet is fictional" />
       </Section>
       <Section title="What is stored">
         <p className="max-w-3xl text-sm">

@@ -364,19 +364,21 @@ def expected(case, level, R, cache):
                 e["worst_price"] = w["price"]
                 if w["spike"]:
                     e["worst_real"] = w["real"]
-    # in detail, and the two fleets
-    if case["difficulty"] != "easy":
-        e["detail_cash"] = mine["cash"]
-        if mine["wear"] > 0:
-            e["detail_wear"] = mine["wear"]
-        if mine["bonus"] > 0:
-            e["detail_bonus"] = mine["bonus"]
-        if R["solar"]:
-            e["detail_roof"] = mine["roof"]
-        if mine["penalty"] > 0:
-            e["detail_penalty"] = mine["penalty"]
+    # in detail, and the two fleets (session 7551, the read's row 1: the line in detail is printed on Easy too)
+    e["detail_cash"] = mine["cash"]
+    if mine["wear"] > 0:
+        e["detail_wear"] = mine["wear"]
+    if mine["bonus"] > 0:
+        e["detail_bonus"] = mine["bonus"]
+    if R["solar"]:
+        e["detail_roof"] = mine["roof"]
+    if mine["penalty"] > 0:
+        e["detail_penalty"] = mine["penalty"]
     e["fleet_mine"] = mine["score"] * FLEET
     e["fleet_perfect"] = opt * FLEET
+    # session 7551 (the read's row 2): the trades' own money (the market alone) per kW of the battery's power
+    e["real_mine_kw"] = mine["cash"] / R["kw"]
+    e["real_perfect_kw"] = perfect["cash"] / R["kw"]
     e["share_pct"] = js_round(mine["score"] / opt * 100) if opt > 0 else "none"
     return e, mine, perfect, opt
 

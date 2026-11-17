@@ -1,6 +1,6 @@
 {
  "note": "ERW, session 7535: the figures /play/battery shows a player, read off its end screen drawn with the site's own components (site/scripts/battery-game-figures.mjs). Each figure as printed.",
- "n": 3290,
+ "n": 3535,
  "figures": [
   {
    "case": "uri|easy|perfect",
@@ -94,6 +94,16 @@
   },
   {
    "case": "uri|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$195.25"
+  },
+  {
+   "case": "uri|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$44.98"
+  },
+  {
+   "case": "uri|easy|perfect",
    "key": "fleet_mine",
    "shown": "$2,402,273.97"
   },
@@ -101,6 +111,16 @@
    "case": "uri|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$2,402,273.97"
+  },
+  {
+   "case": "uri|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$39.05"
+  },
+  {
+   "case": "uri|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
   },
   {
    "case": "uri|easy|perfect",
@@ -229,6 +249,11 @@
   },
   {
    "case": "uri|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "uri|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -236,6 +261,16 @@
    "case": "uri|easy|wait",
    "key": "fleet_perfect",
    "shown": "$2,402,273.97"
+  },
+  {
+   "case": "uri|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "uri|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
   },
   {
    "case": "uri|easy|wait",
@@ -334,6 +369,16 @@
   },
   {
    "case": "uri|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$76.20"
+  },
+  {
+   "case": "uri|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$44.98"
+  },
+  {
+   "case": "uri|easy|rule8",
    "key": "fleet_mine",
    "shown": "$1,211,818.39"
   },
@@ -341,6 +386,16 @@
    "case": "uri|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$2,402,273.97"
+  },
+  {
+   "case": "uri|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$15.24"
+  },
+  {
+   "case": "uri|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
   },
   {
    "case": "uri|easy|rule8",
@@ -461,6 +516,16 @@
    "case": "uri|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$2,402,273.97"
+  },
+  {
+   "case": "uri|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$39.05"
+  },
+  {
+   "case": "uri|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
   },
   {
    "case": "uri|normal|perfect",
@@ -644,6 +709,16 @@
   },
   {
    "case": "uri|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "uri|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
+  },
+  {
+   "case": "uri|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -789,6 +864,16 @@
   },
   {
    "case": "uri|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$15.24"
+  },
+  {
+   "case": "uri|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
+  },
+  {
+   "case": "uri|normal|rule8",
    "key": "share_pct",
    "shown": "50"
   },
@@ -916,6 +1001,16 @@
    "case": "uri|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$1,546,717.68"
+  },
+  {
+   "case": "uri|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
   },
   {
    "case": "uri|hard|perfect",
@@ -1134,6 +1229,16 @@
   },
   {
    "case": "uri|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "uri|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -1289,6 +1394,16 @@
   },
   {
    "case": "uri|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$12.99"
+  },
+  {
+   "case": "uri|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard|rule8",
    "key": "share_pct",
    "shown": "70"
   },
@@ -1421,6 +1536,16 @@
    "case": "uri|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$2,329,457.11"
+  },
+  {
+   "case": "uri|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
   },
   {
    "case": "uri|hard-solar|perfect",
@@ -1644,6 +1769,16 @@
   },
   {
    "case": "uri|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "uri|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard-solar|wait",
    "key": "share_pct",
    "shown": "34"
   },
@@ -1804,6 +1939,16 @@
   },
   {
    "case": "uri|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$12.99"
+  },
+  {
+   "case": "uri|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$23.10"
+  },
+  {
+   "case": "uri|hard-solar|rule8",
    "key": "share_pct",
    "shown": "80"
   },
@@ -1944,6 +2089,16 @@
   },
   {
    "case": "uri|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$2.16"
+  },
+  {
+   "case": "uri|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$39.05"
+  },
+  {
+   "case": "uri|normal|charge",
    "key": "share_pct",
    "shown": "-4"
   },
@@ -2071,6 +2226,16 @@
    "case": "uri|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$1,860,158.30"
+  },
+  {
+   "case": "uri|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$28.79"
+  },
+  {
+   "case": "uri|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$28.79"
   },
   {
    "case": "uri|hard-r0|perfect",
@@ -2329,6 +2494,16 @@
   },
   {
    "case": "uri|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$11.28"
+  },
+  {
+   "case": "uri|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$28.79"
+  },
+  {
+   "case": "uri|hard-r0|sell",
    "key": "share_pct",
    "shown": "-27"
   },
@@ -2424,6 +2599,16 @@
   },
   {
    "case": "heat|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$44.79"
+  },
+  {
+   "case": "heat|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$16.18"
+  },
+  {
+   "case": "heat|easy|perfect",
    "key": "fleet_mine",
    "shown": "$609,710.12"
   },
@@ -2431,6 +2616,16 @@
    "case": "heat|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$609,710.12"
+  },
+  {
+   "case": "heat|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$8.96"
+  },
+  {
+   "case": "heat|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
   },
   {
    "case": "heat|easy|perfect",
@@ -2559,6 +2754,11 @@
   },
   {
    "case": "heat|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "heat|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -2566,6 +2766,16 @@
    "case": "heat|easy|wait",
    "key": "fleet_perfect",
    "shown": "$609,710.12"
+  },
+  {
+   "case": "heat|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "heat|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
   },
   {
    "case": "heat|easy|wait",
@@ -2664,6 +2874,16 @@
   },
   {
    "case": "heat|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$31.75"
+  },
+  {
+   "case": "heat|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$12.14"
+  },
+  {
+   "case": "heat|easy|rule8",
    "key": "fleet_mine",
    "shown": "$438,903.45"
   },
@@ -2671,6 +2891,16 @@
    "case": "heat|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$609,710.12"
+  },
+  {
+   "case": "heat|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$6.35"
+  },
+  {
+   "case": "heat|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
   },
   {
    "case": "heat|easy|rule8",
@@ -2791,6 +3021,16 @@
    "case": "heat|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$609,710.12"
+  },
+  {
+   "case": "heat|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$8.96"
+  },
+  {
+   "case": "heat|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
   },
   {
    "case": "heat|normal|perfect",
@@ -2974,6 +3214,16 @@
   },
   {
    "case": "heat|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "heat|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
+  },
+  {
+   "case": "heat|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -3119,6 +3369,16 @@
   },
   {
    "case": "heat|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$6.35"
+  },
+  {
+   "case": "heat|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
+  },
+  {
+   "case": "heat|normal|rule8",
    "key": "share_pct",
    "shown": "72"
   },
@@ -3246,6 +3506,16 @@
    "case": "heat|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$483,634.57"
+  },
+  {
+   "case": "heat|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$5.76"
+  },
+  {
+   "case": "heat|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$5.76"
   },
   {
    "case": "heat|hard|perfect",
@@ -3469,6 +3739,16 @@
   },
   {
    "case": "heat|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "heat|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$5.76"
+  },
+  {
+   "case": "heat|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -3629,6 +3909,16 @@
   },
   {
    "case": "heat|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$4.03"
+  },
+  {
+   "case": "heat|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$5.76"
+  },
+  {
+   "case": "heat|hard|rule8",
    "key": "share_pct",
    "shown": "73"
   },
@@ -3761,6 +4051,16 @@
    "case": "heat|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$883,416.10"
+  },
+  {
+   "case": "heat|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$7.01"
+  },
+  {
+   "case": "heat|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$7.01"
   },
   {
    "case": "heat|hard-solar|perfect",
@@ -3979,6 +4279,16 @@
   },
   {
    "case": "heat|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "heat|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$7.01"
+  },
+  {
+   "case": "heat|hard-solar|wait",
    "key": "share_pct",
    "shown": "39"
   },
@@ -4144,6 +4454,16 @@
   },
   {
    "case": "heat|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$4.03"
+  },
+  {
+   "case": "heat|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$7.01"
+  },
+  {
+   "case": "heat|hard-solar|rule8",
    "key": "share_pct",
    "shown": "79"
   },
@@ -4279,6 +4599,16 @@
   },
   {
    "case": "heat|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$0.04"
+  },
+  {
+   "case": "heat|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$8.96"
+  },
+  {
+   "case": "heat|normal|charge",
    "key": "share_pct",
    "shown": "0"
   },
@@ -4406,6 +4736,16 @@
    "case": "heat|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$512,372.12"
+  },
+  {
+   "case": "heat|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$6.39"
+  },
+  {
+   "case": "heat|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$6.39"
   },
   {
    "case": "heat|hard-r0|perfect",
@@ -4664,6 +5004,16 @@
   },
   {
    "case": "heat|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$0.04"
+  },
+  {
+   "case": "heat|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$6.39"
+  },
+  {
+   "case": "heat|hard-r0|sell",
    "key": "share_pct",
    "shown": "-206"
   },
@@ -4759,6 +5109,16 @@
   },
   {
    "case": "calm|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$0.29"
+  },
+  {
+   "case": "calm|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$0.15"
+  },
+  {
+   "case": "calm|easy|perfect",
    "key": "fleet_mine",
    "shown": "$4,406.01"
   },
@@ -4766,6 +5126,16 @@
    "case": "calm|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$4,406.01"
+  },
+  {
+   "case": "calm|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.06"
+  },
+  {
+   "case": "calm|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
   },
   {
    "case": "calm|easy|perfect",
@@ -4894,6 +5264,11 @@
   },
   {
    "case": "calm|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -4901,6 +5276,16 @@
    "case": "calm|easy|wait",
    "key": "fleet_perfect",
    "shown": "$4,406.01"
+  },
+  {
+   "case": "calm|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
   },
   {
    "case": "calm|easy|wait",
@@ -4999,6 +5384,16 @@
   },
   {
    "case": "calm|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$0.10"
+  },
+  {
+   "case": "calm|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$0.04"
+  },
+  {
+   "case": "calm|easy|rule8",
    "key": "fleet_mine",
    "shown": "$1,430.18"
   },
@@ -5006,6 +5401,16 @@
    "case": "calm|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$4,406.01"
+  },
+  {
+   "case": "calm|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.02"
+  },
+  {
+   "case": "calm|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
   },
   {
    "case": "calm|easy|rule8",
@@ -5126,6 +5531,16 @@
    "case": "calm|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$4,406.01"
+  },
+  {
+   "case": "calm|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.06"
+  },
+  {
+   "case": "calm|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
   },
   {
    "case": "calm|normal|perfect",
@@ -5309,6 +5724,16 @@
   },
   {
    "case": "calm|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
+  },
+  {
+   "case": "calm|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -5454,6 +5879,16 @@
   },
   {
    "case": "calm|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.02"
+  },
+  {
+   "case": "calm|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
+  },
+  {
+   "case": "calm|normal|rule8",
    "key": "share_pct",
    "shown": "32"
   },
@@ -5581,6 +6016,16 @@
    "case": "calm|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$294,860.70"
+  },
+  {
+   "case": "calm|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
   },
   {
    "case": "calm|hard|perfect",
@@ -5804,6 +6249,16 @@
   },
   {
    "case": "calm|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -5959,6 +6414,16 @@
   },
   {
    "case": "calm|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard|rule8",
    "key": "share_pct",
    "shown": "-2"
   },
@@ -6091,6 +6556,16 @@
    "case": "calm|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$333,264.98"
+  },
+  {
+   "case": "calm|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
   },
   {
    "case": "calm|hard-solar|perfect",
@@ -6309,6 +6784,16 @@
   },
   {
    "case": "calm|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard-solar|wait",
    "key": "share_pct",
    "shown": "12"
   },
@@ -6469,6 +6954,16 @@
   },
   {
    "case": "calm|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "calm|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard-solar|rule8",
    "key": "share_pct",
    "shown": "10"
   },
@@ -6604,6 +7099,16 @@
   },
   {
    "case": "calm|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$0.04"
+  },
+  {
+   "case": "calm|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$0.06"
+  },
+  {
+   "case": "calm|normal|charge",
    "key": "share_pct",
    "shown": "-42"
   },
@@ -6731,6 +7236,16 @@
    "case": "calm|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$294,860.70"
+  },
+  {
+   "case": "calm|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
   },
   {
    "case": "calm|hard-r0|perfect",
@@ -6989,6 +7504,16 @@
   },
   {
    "case": "calm|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$0.03"
+  },
+  {
+   "case": "calm|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$3.00"
+  },
+  {
+   "case": "calm|hard-r0|sell",
    "key": "share_pct",
    "shown": "-358"
   },
@@ -7084,6 +7609,16 @@
   },
   {
    "case": "solar|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$0.67"
+  },
+  {
+   "case": "solar|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$0.27"
+  },
+  {
+   "case": "solar|easy|perfect",
    "key": "fleet_mine",
    "shown": "$9,328.16"
   },
@@ -7091,6 +7626,16 @@
    "case": "solar|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$9,328.16"
+  },
+  {
+   "case": "solar|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "solar|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
   },
   {
    "case": "solar|easy|perfect",
@@ -7219,6 +7764,11 @@
   },
   {
    "case": "solar|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "solar|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -7226,6 +7776,16 @@
    "case": "solar|easy|wait",
    "key": "fleet_perfect",
    "shown": "$9,328.16"
+  },
+  {
+   "case": "solar|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "solar|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
   },
   {
    "case": "solar|easy|wait",
@@ -7324,6 +7884,16 @@
   },
   {
    "case": "solar|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$0.45"
+  },
+  {
+   "case": "solar|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$0.20"
+  },
+  {
+   "case": "solar|easy|rule8",
    "key": "fleet_mine",
    "shown": "$6,500.20"
   },
@@ -7331,6 +7901,16 @@
    "case": "solar|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$9,328.16"
+  },
+  {
+   "case": "solar|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.09"
+  },
+  {
+   "case": "solar|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
   },
   {
    "case": "solar|easy|rule8",
@@ -7451,6 +8031,16 @@
    "case": "solar|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$9,328.16"
+  },
+  {
+   "case": "solar|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "solar|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
   },
   {
    "case": "solar|normal|perfect",
@@ -7634,6 +8224,16 @@
   },
   {
    "case": "solar|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "solar|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "solar|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -7779,6 +8379,16 @@
   },
   {
    "case": "solar|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.09"
+  },
+  {
+   "case": "solar|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "solar|normal|rule8",
    "key": "share_pct",
    "shown": "70"
   },
@@ -7906,6 +8516,16 @@
    "case": "solar|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$296,087.17"
+  },
+  {
+   "case": "solar|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
   },
   {
    "case": "solar|hard|perfect",
@@ -8129,6 +8749,16 @@
   },
   {
    "case": "solar|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "solar|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -8289,6 +8919,16 @@
   },
   {
    "case": "solar|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$1.92"
+  },
+  {
+   "case": "solar|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard|rule8",
    "key": "share_pct",
    "shown": "68"
   },
@@ -8421,6 +9061,16 @@
    "case": "solar|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$309,640.75"
+  },
+  {
+   "case": "solar|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
   },
   {
    "case": "solar|hard-solar|perfect",
@@ -8649,6 +9299,16 @@
   },
   {
    "case": "solar|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "solar|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard-solar|wait",
    "key": "share_pct",
    "shown": "4"
   },
@@ -8814,6 +9474,16 @@
   },
   {
    "case": "solar|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$1.92"
+  },
+  {
+   "case": "solar|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard-solar|rule8",
    "key": "share_pct",
    "shown": "69"
   },
@@ -8949,6 +9619,16 @@
   },
   {
    "case": "solar|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$0.04"
+  },
+  {
+   "case": "solar|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "solar|normal|charge",
    "key": "share_pct",
    "shown": "-19"
   },
@@ -9076,6 +9756,16 @@
    "case": "solar|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$296,087.17"
+  },
+  {
+   "case": "solar|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
   },
   {
    "case": "solar|hard-r0|perfect",
@@ -9334,6 +10024,16 @@
   },
   {
    "case": "solar|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$0.03"
+  },
+  {
+   "case": "solar|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$3.02"
+  },
+  {
+   "case": "solar|hard-r0|sell",
    "key": "share_pct",
    "shown": "-357"
   },
@@ -9429,6 +10129,16 @@
   },
   {
    "case": "negative|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$0.70"
+  },
+  {
+   "case": "negative|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$0.10"
+  },
+  {
+   "case": "negative|easy|perfect",
    "key": "fleet_mine",
    "shown": "$7,948.91"
   },
@@ -9436,6 +10146,16 @@
    "case": "negative|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$7,948.91"
+  },
+  {
+   "case": "negative|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.14"
+  },
+  {
+   "case": "negative|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
   },
   {
    "case": "negative|easy|perfect",
@@ -9564,6 +10284,11 @@
   },
   {
    "case": "negative|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "negative|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -9571,6 +10296,16 @@
    "case": "negative|easy|wait",
    "key": "fleet_perfect",
    "shown": "$7,948.91"
+  },
+  {
+   "case": "negative|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "negative|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
   },
   {
    "case": "negative|easy|wait",
@@ -9669,6 +10404,16 @@
   },
   {
    "case": "negative|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$0.42"
+  },
+  {
+   "case": "negative|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$0.07"
+  },
+  {
+   "case": "negative|easy|rule8",
    "key": "fleet_mine",
    "shown": "$4,931.22"
   },
@@ -9676,6 +10421,16 @@
    "case": "negative|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$7,948.91"
+  },
+  {
+   "case": "negative|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.08"
+  },
+  {
+   "case": "negative|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
   },
   {
    "case": "negative|easy|rule8",
@@ -9796,6 +10551,16 @@
    "case": "negative|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$7,948.91"
+  },
+  {
+   "case": "negative|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.14"
+  },
+  {
+   "case": "negative|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
   },
   {
    "case": "negative|normal|perfect",
@@ -9979,6 +10744,16 @@
   },
   {
    "case": "negative|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "negative|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
+  },
+  {
+   "case": "negative|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -10124,6 +10899,16 @@
   },
   {
    "case": "negative|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.08"
+  },
+  {
+   "case": "negative|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
+  },
+  {
+   "case": "negative|normal|rule8",
    "key": "share_pct",
    "shown": "62"
   },
@@ -10251,6 +11036,16 @@
    "case": "negative|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$297,236.08"
+  },
+  {
+   "case": "negative|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "negative|hard|perfect",
@@ -10474,6 +11269,16 @@
   },
   {
    "case": "negative|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "negative|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -10634,6 +11439,16 @@
   },
   {
    "case": "negative|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$2.75"
+  },
+  {
+   "case": "negative|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard|rule8",
    "key": "share_pct",
    "shown": "82"
   },
@@ -10766,6 +11581,16 @@
    "case": "negative|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$297,281.22"
+  },
+  {
+   "case": "negative|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "negative|hard-solar|perfect",
@@ -10994,6 +11819,16 @@
   },
   {
    "case": "negative|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "negative|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard-solar|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -11159,6 +11994,16 @@
   },
   {
    "case": "negative|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$2.75"
+  },
+  {
+   "case": "negative|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard-solar|rule8",
    "key": "share_pct",
    "shown": "82"
   },
@@ -11294,6 +12139,16 @@
   },
   {
    "case": "negative|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "$0.04"
+  },
+  {
+   "case": "negative|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$0.14"
+  },
+  {
+   "case": "negative|normal|charge",
    "key": "share_pct",
    "shown": "28"
   },
@@ -11421,6 +12276,16 @@
    "case": "negative|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$297,236.08"
+  },
+  {
+   "case": "negative|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "negative|hard-r0|perfect",
@@ -11679,6 +12544,16 @@
   },
   {
    "case": "negative|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "-$0.04"
+  },
+  {
+   "case": "negative|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "negative|hard-r0|sell",
    "key": "share_pct",
    "shown": "-356"
   },
@@ -11774,6 +12649,16 @@
   },
   {
    "case": "caiso-solar-noon|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$0.76"
+  },
+  {
+   "case": "caiso-solar-noon|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$0.06"
+  },
+  {
+   "case": "caiso-solar-noon|easy|perfect",
    "key": "fleet_mine",
    "shown": "$8,266.53"
   },
@@ -11781,6 +12666,16 @@
    "case": "caiso-solar-noon|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$8,266.53"
+  },
+  {
+   "case": "caiso-solar-noon|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.15"
+  },
+  {
+   "case": "caiso-solar-noon|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
   },
   {
    "case": "caiso-solar-noon|easy|perfect",
@@ -11909,6 +12804,11 @@
   },
   {
    "case": "caiso-solar-noon|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-solar-noon|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -11916,6 +12816,16 @@
    "case": "caiso-solar-noon|easy|wait",
    "key": "fleet_perfect",
    "shown": "$8,266.53"
+  },
+  {
+   "case": "caiso-solar-noon|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-solar-noon|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
   },
   {
    "case": "caiso-solar-noon|easy|wait",
@@ -12014,6 +12924,16 @@
   },
   {
    "case": "caiso-solar-noon|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$0.49"
+  },
+  {
+   "case": "caiso-solar-noon|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$0.05"
+  },
+  {
+   "case": "caiso-solar-noon|easy|rule8",
    "key": "fleet_mine",
    "shown": "$5,338.64"
   },
@@ -12021,6 +12941,16 @@
    "case": "caiso-solar-noon|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$8,266.53"
+  },
+  {
+   "case": "caiso-solar-noon|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.10"
+  },
+  {
+   "case": "caiso-solar-noon|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
   },
   {
    "case": "caiso-solar-noon|easy|rule8",
@@ -12141,6 +13071,16 @@
    "case": "caiso-solar-noon|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$8,266.53"
+  },
+  {
+   "case": "caiso-solar-noon|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$0.15"
+  },
+  {
+   "case": "caiso-solar-noon|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
   },
   {
    "case": "caiso-solar-noon|normal|perfect",
@@ -12324,6 +13264,16 @@
   },
   {
    "case": "caiso-solar-noon|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-solar-noon|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
+  },
+  {
+   "case": "caiso-solar-noon|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -12469,6 +13419,16 @@
   },
   {
    "case": "caiso-solar-noon|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$0.10"
+  },
+  {
+   "case": "caiso-solar-noon|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
+  },
+  {
+   "case": "caiso-solar-noon|normal|rule8",
    "key": "share_pct",
    "shown": "65"
   },
@@ -12596,6 +13556,16 @@
    "case": "caiso-solar-noon|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$297,128.30"
+  },
+  {
+   "case": "caiso-solar-noon|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "caiso-solar-noon|hard|perfect",
@@ -12819,6 +13789,16 @@
   },
   {
    "case": "caiso-solar-noon|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-solar-noon|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -12979,6 +13959,16 @@
   },
   {
    "case": "caiso-solar-noon|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$2.78"
+  },
+  {
+   "case": "caiso-solar-noon|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard|rule8",
    "key": "share_pct",
    "shown": "81"
   },
@@ -13111,6 +14101,16 @@
    "case": "caiso-solar-noon|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$298,700.17"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "caiso-solar-noon|hard-solar|perfect",
@@ -13339,6 +14339,16 @@
   },
   {
    "case": "caiso-solar-noon|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|wait",
    "key": "share_pct",
    "shown": "1"
   },
@@ -13504,6 +14514,16 @@
   },
   {
    "case": "caiso-solar-noon|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$2.78"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard-solar|rule8",
    "key": "share_pct",
    "shown": "81"
   },
@@ -13639,6 +14659,16 @@
   },
   {
    "case": "caiso-solar-noon|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$0.01"
+  },
+  {
+   "case": "caiso-solar-noon|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$0.15"
+  },
+  {
+   "case": "caiso-solar-noon|normal|charge",
    "key": "share_pct",
    "shown": "-9"
   },
@@ -13766,6 +14796,16 @@
    "case": "caiso-solar-noon|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$297,128.30"
+  },
+  {
+   "case": "caiso-solar-noon|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
   },
   {
    "case": "caiso-solar-noon|hard-r0|perfect",
@@ -14024,6 +15064,16 @@
   },
   {
    "case": "caiso-solar-noon|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$0.01"
+  },
+  {
+   "case": "caiso-solar-noon|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$3.05"
+  },
+  {
+   "case": "caiso-solar-noon|hard-r0|sell",
    "key": "share_pct",
    "shown": "-356"
   },
@@ -14119,6 +15169,16 @@
   },
   {
    "case": "caiso-duck|easy|perfect",
+   "key": "detail_cash",
+   "shown": "$8.40"
+  },
+  {
+   "case": "caiso-duck|easy|perfect",
+   "key": "detail_bonus",
+   "shown": "$4.58"
+  },
+  {
+   "case": "caiso-duck|easy|perfect",
    "key": "fleet_mine",
    "shown": "$129,805.95"
   },
@@ -14126,6 +15186,16 @@
    "case": "caiso-duck|easy|perfect",
    "key": "fleet_perfect",
    "shown": "$129,805.95"
+  },
+  {
+   "case": "caiso-duck|easy|perfect",
+   "key": "real_mine_kw",
+   "shown": "$1.68"
+  },
+  {
+   "case": "caiso-duck|easy|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
   },
   {
    "case": "caiso-duck|easy|perfect",
@@ -14254,6 +15324,11 @@
   },
   {
    "case": "caiso-duck|easy|wait",
+   "key": "detail_cash",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-duck|easy|wait",
    "key": "fleet_mine",
    "shown": "$0.00"
   },
@@ -14261,6 +15336,16 @@
    "case": "caiso-duck|easy|wait",
    "key": "fleet_perfect",
    "shown": "$129,805.95"
+  },
+  {
+   "case": "caiso-duck|easy|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-duck|easy|wait",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
   },
   {
    "case": "caiso-duck|easy|wait",
@@ -14359,6 +15444,16 @@
   },
   {
    "case": "caiso-duck|easy|rule8",
+   "key": "detail_cash",
+   "shown": "$6.62"
+  },
+  {
+   "case": "caiso-duck|easy|rule8",
+   "key": "detail_bonus",
+   "shown": "$4.58"
+  },
+  {
+   "case": "caiso-duck|easy|rule8",
    "key": "fleet_mine",
    "shown": "$112,003.66"
   },
@@ -14366,6 +15461,16 @@
    "case": "caiso-duck|easy|rule8",
    "key": "fleet_perfect",
    "shown": "$129,805.95"
+  },
+  {
+   "case": "caiso-duck|easy|rule8",
+   "key": "real_mine_kw",
+   "shown": "$1.32"
+  },
+  {
+   "case": "caiso-duck|easy|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
   },
   {
    "case": "caiso-duck|easy|rule8",
@@ -14486,6 +15591,16 @@
    "case": "caiso-duck|normal|perfect",
    "key": "fleet_perfect",
    "shown": "$129,805.95"
+  },
+  {
+   "case": "caiso-duck|normal|perfect",
+   "key": "real_mine_kw",
+   "shown": "$1.68"
+  },
+  {
+   "case": "caiso-duck|normal|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
   },
   {
    "case": "caiso-duck|normal|perfect",
@@ -14669,6 +15784,16 @@
   },
   {
    "case": "caiso-duck|normal|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-duck|normal|wait",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
+  },
+  {
+   "case": "caiso-duck|normal|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -14814,6 +15939,16 @@
   },
   {
    "case": "caiso-duck|normal|rule8",
+   "key": "real_mine_kw",
+   "shown": "$1.32"
+  },
+  {
+   "case": "caiso-duck|normal|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
+  },
+  {
+   "case": "caiso-duck|normal|rule8",
    "key": "share_pct",
    "shown": "86"
   },
@@ -14941,6 +16076,16 @@
    "case": "caiso-duck|hard|perfect",
    "key": "fleet_perfect",
    "shown": "$343,022.15"
+  },
+  {
+   "case": "caiso-duck|hard|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
   },
   {
    "case": "caiso-duck|hard|perfect",
@@ -15164,6 +16309,16 @@
   },
   {
    "case": "caiso-duck|hard|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-duck|hard|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard|wait",
    "key": "share_pct",
    "shown": "0"
   },
@@ -15319,6 +16474,16 @@
   },
   {
    "case": "caiso-duck|hard|rule8",
+   "key": "real_mine_kw",
+   "shown": "$3.69"
+  },
+  {
+   "case": "caiso-duck|hard|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard|rule8",
    "key": "share_pct",
    "shown": "100"
   },
@@ -15451,6 +16616,16 @@
    "case": "caiso-duck|hard-solar|perfect",
    "key": "fleet_perfect",
    "shown": "$380,442.28"
+  },
+  {
+   "case": "caiso-duck|hard-solar|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard-solar|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
   },
   {
    "case": "caiso-duck|hard-solar|perfect",
@@ -15679,6 +16854,16 @@
   },
   {
    "case": "caiso-duck|hard-solar|wait",
+   "key": "real_mine_kw",
+   "shown": "$0.00"
+  },
+  {
+   "case": "caiso-duck|hard-solar|wait",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard-solar|wait",
    "key": "share_pct",
    "shown": "10"
   },
@@ -15839,6 +17024,16 @@
   },
   {
    "case": "caiso-duck|hard-solar|rule8",
+   "key": "real_mine_kw",
+   "shown": "$3.69"
+  },
+  {
+   "case": "caiso-duck|hard-solar|rule8",
+   "key": "real_perfect_kw",
+   "shown": "$3.73"
+  },
+  {
+   "case": "caiso-duck|hard-solar|rule8",
    "key": "share_pct",
    "shown": "100"
   },
@@ -15974,6 +17169,16 @@
   },
   {
    "case": "caiso-duck|normal|charge",
+   "key": "real_mine_kw",
+   "shown": "-$0.15"
+  },
+  {
+   "case": "caiso-duck|normal|charge",
+   "key": "real_perfect_kw",
+   "shown": "$1.68"
+  },
+  {
+   "case": "caiso-duck|normal|charge",
    "key": "share_pct",
    "shown": "-6"
   },
@@ -16101,6 +17306,16 @@
    "case": "caiso-duck|hard-r0|perfect",
    "key": "fleet_perfect",
    "shown": "$345,739.89"
+  },
+  {
+   "case": "caiso-duck|hard-r0|perfect",
+   "key": "real_mine_kw",
+   "shown": "$3.86"
+  },
+  {
+   "case": "caiso-duck|hard-r0|perfect",
+   "key": "real_perfect_kw",
+   "shown": "$3.86"
   },
   {
    "case": "caiso-duck|hard-r0|perfect",
@@ -16356,6 +17571,16 @@
    "case": "caiso-duck|hard-r0|sell",
    "key": "fleet_perfect",
    "shown": "$345,739.89"
+  },
+  {
+   "case": "caiso-duck|hard-r0|sell",
+   "key": "real_mine_kw",
+   "shown": "$0.13"
+  },
+  {
+   "case": "caiso-duck|hard-r0|sell",
+   "key": "real_perfect_kw",
+   "shown": "$3.86"
   },
   {
    "case": "caiso-duck|hard-r0|sell",

@@ -110,11 +110,13 @@ function worst(c, html) {
 }
 function detail(c, html, easy) {
   const t = words(html);
-  if (!easy) {
-    read(c, "detail", t, new RegExp(`^In detail: ${N} in the market(?:, less ${N} of wear)?(?:, plus the fleet bonus ${N})?(?:, plus ${N} for the roof's power)?(?:, less the lights-out charge ${N})?\\.`),
-      ["detail_cash", "detail_wear", "detail_bonus", "detail_roof", "detail_penalty"]);
-  }
+  // session 7551 (the read, row 1): the line in detail is drawn on Easy too; `easy` is kept for the call's form
+  void easy;
+  read(c, "detail", t, new RegExp(`^In detail: ${N} in the market(?:, less ${N} of wear)?(?:, plus the fleet bonus ${N})?(?:, plus ${N} for the roof's power)?(?:, less the lights-out charge ${N})?\\.`),
+    ["detail_cash", "detail_wear", "detail_bonus", "detail_roof", "detail_penalty"]);
   read(c, "detail", t, new RegExp(`Your fleet of 10,000 homes: ${N}; the perfect battery's fleet: ${N}\\.`), ["fleet_mine", "fleet_perfect"]);
+  // session 7551 (the read, row 2): the trades' own money per kW of the battery's power, the player's and the perfect battery's
+  read(c, "detail", t, new RegExp(`Per kW of this battery's ${N} kW, your trades netted ${N} and the perfect battery's ${N} \\(`), ["", "real_mine_kw", "real_perfect_kw"]);
 }
 function debrief(c, html) {
   const t = words(html);
