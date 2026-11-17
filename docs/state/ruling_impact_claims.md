@@ -16,6 +16,6 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /explore/interconnection | samueloldlaptop | 7578 | done | docs/reviews/ruling-impact-interconnection-2026-11-17.md |
 | Site-wide: the Digest and the Roundup | portable-laptop | 7612 | done | docs/reviews/ruling-impact-site-digest-2026-11-17.md |
 | /events | samueloldlaptop | 7579 | done | docs/reviews/ruling-impact-events-2026-11-17.md |
-| Site-wide: the data machine and its tables | portable-laptop | 7613 | claimed | docs/reviews/ruling-impact-site-data-machine-2026-11-17.md |
+| Site-wide: the data machine and its tables | portable-laptop | 7613 | done | docs/reviews/ruling-impact-site-data-machine-2026-11-17.md |
 | /grid/caiso/alerts | samueloldlaptop | 7580 | done | docs/reviews/ruling-impact-caiso-alerts-2026-11-17.md |
 | /learn/bill | samueloldlaptop | 7581 | claimed | docs/reviews/ruling-impact-bill-2026-11-17.md |
