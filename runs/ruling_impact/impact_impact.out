@@ -1,0 +1,152 @@
+
+== line 1: Nevada, local option on and a rate typed: 'Taxable value' whole (the change made) or 45 percent
+first operating year 2028: whole 178.45 million against 45 percent 80.30 million; years whose cell moves: 18; property tax over the life 36.04 million and 36.04 million (no tax moves); taxes, present value 10.71 million and 10.71 million
+
+== line 2: 'Taxes, present value' adds only the taxes with a figure: how many default cases read a 0 or a partial sum
+Lone Mountain as opened: property None, sales None, income 0.0, severance None: the cell reads USD 0
+of 202 default cases (technology and state): 175 leave a tax out of the sum; 11 read USD 0 made of taxes not held: geothermal/ak, geothermal/fl, geothermal/nh, geothermal/nv, geothermal/sd, geothermal/tn, geothermal/tx, geothermal/wy, land_based_wind/nh, natural_gas/nh, utility_pv/nh
+the page as it opens (Texas wind): 19.92 million, all of it sales and use tax (19.92 million); property not held, income 0
+
+== line 3: Nevada's 20 abated years from the first construction year (default) or from the first operating year
+construction years 2; the first 20 operating years (2028 to 2047): paid 16.24 million against 14.76 million (the Department of Taxation: USD 15,034,766); over the life 36.04 million against 34.56 million; property, present value 10.71 million against 10.34 million (-3.5%)
+
+== line 4: Geothermal's taxable share of spending: not given (default) or one plant's 3.3 or 48 percent
+Lone Mountain, 3.3 percent: sales and use tax 'not held' -> 0.49 million; taxes, present value USD 0 -> 0.47 million
+Lone Mountain, 48 percent: sales and use tax 'not held' -> 7.06 million; taxes, present value USD 0 -> 6.83 million
+every state's geothermal case moves the same way (51 states with JEDI rows)
+
+== line 5: New Mexico gas plant, all fuel in state: severance with no district (default) or with a district's ad valorem rate
+lowest district (0.71 percent): severance each year 12.26 million -> 13.36 million (+8.9%)
+median district (1.25 percent): severance each year 12.26 million -> 14.19 million (+15.7%)
+highest district (1.72 percent): severance each year 12.26 million -> 14.92 million (+21.7%)
+35 districts held in severance_rules.json; the gas plant's value of fuel a year 154.39 million
+
+== line 6: Louisiana gas plant, all fuel in state: severance drawn (default) or held because its rate's table is held
+severance each year 6.41 million -> 'license needed' (blank); over the life 256.40 million; taxes, present value 155.15 million -> 75.28 million (-51.5%)
+
+== line 7: Jobs: the three effects added (default) or the on-site figure beside them
+Lone Mountain: construction job-years 605, on site 259 (43 percent); operating jobs a year 32.0, on site 23.1
+the page as it opens: construction job-years 515, on site 72 (14 percent); operating jobs a year 44.7, on site 9.1
+CPV Basin Ranch: construction job-years 2,358, on site 747 (32 percent); operating jobs a year 232.5, on site 73.2
+
+== line 8: Sales and use tax as one figure (default) or split into the state's rate and the average local rate
+the page as it opens: 19.92 million = state 15.18 million (6.25 points) + average local 4.74 million (1.95 points)
+CPV Basin Ranch: 60.99 million = state 46.48 million (6.25 points) + average local 14.50 million (1.95 points)
+Lone Mountain: 0.49 million = state 0.40 million (6.85 points) + average local 0.08 million (1.39 points)
+
+== line 9: A and B: no difference column (default) or a third column, B less A
+Lone Mountain, option on (A) and off (B), y1:property: A 0.88 million, B 1.95 million, B less A 1.07 million
+Lone Mountain, option on (A) and off (B), sum:property: A 36.04 million, B 52.60 million, B less A 16.55 million
+Lone Mountain, option on (A) and off (B), pv:taxes: A 10.71 million, B 19.65 million, B less A 8.94 million
+Lone Mountain, option on (A) and off (B), c:jobs:total: A 0.00 million, B 0.00 million, B less A 0.00 million
+the column adds 13 cells (one per row of the table)
+
+== line 10: Iowa wind without the ordinance: 'not held' (default) or the levy applied to the capital cost
+with the ordinance (A): over the life 76.43 million, present value 30.99 million; without (B): none
+without, levy 30 on the whole cost each year (no Iowa schedule for unordained wind is held, so no depreciation): 11.85 million a year, 296.25 million over 25 years, present value 138.09 million; what the ordinance gives up 219.82 million over the life (an upper bound)
+
+== line 11: Capital cost of wind: EIA's USD 1,482 per kW (default); the seller page's USD 2,100 (Lazard) named in the hover, or used
+the page as it opens: construction job-years 515 -> 730 (+41.7%); sales and use tax 19.92 million -> 28.22 million; taxes, present value 19.92 million -> 28.22 million; with 30 years too: earnings, present value 83.59 million -> 103.46 million
+named in the hover only: no figure moves
+
+== line 12: New York: 100 percent exempt (default) or the machinery share the other states hold
+New York land_based_wind, 200 MW default: sales and use tax 0.00 million -> 8.66 million; taxes, present value 4.17 million -> 12.83 million
+New York utility_pv, 150 MW default: sales and use tax 0.00 million -> 4.81 million; taxes, present value 7.08 million -> 11.89 million
+New York natural_gas, 1,227 MW default: sales and use tax 0.00 million -> 29.56 million; taxes, present value 23.55 million -> 52.14 million
+
+== line 13: Wisconsin solar: 83.6 percent exempt (mounting, modules, inverters; default) or 100 percent (the electrical materials too)
+Wisconsin solar default: sales and use tax 1.48 million -> 0.00 million (-100.0%); the 100 percent is an upper bound: the share of the remaining 16.4 percent that is electrical is not held
+
+== line 14: Missouri machinery and California's 3.9375 points: foundations not counted (default) or counted
+mo land_based_wind: exempt 66.9358 -> 100 (every taxable purchase exempt, the bound): sales and use tax 7.69 million -> 0.00 million (-100.0%)
+ca utility_pv: exempt 29.3081 -> 43.6 (3.9375 / 9.03 of the tax on every purchase, the bound): sales and use tax 10.83 million -> 8.64 million (-20.2%)
+ca land_based_wind: exempt 29.1871 -> 43.6 (the same bound): sales and use tax 19.56 million -> 15.58 million (-20.4%)
+the foundations' own share of JEDI's purchases is not held: the change lies between 0 and the bound
+
+== line 15: Gas: exempt machinery JEDI's power generation equipment, 58.3 percent (default), or with the plant equipment, 84.5 percent
+   ga: 21.51 million -> 7.99 million (-62.9%)
+   in: 19.76 million -> 7.34 million (-62.9%)
+   ks: 24.16 million -> 8.97 million (-62.9%)
+   ma: 21.26 million -> 7.89 million (-62.9%)
+   mi: 17.68 million -> 6.56 million (-62.9%)
+   mo: 25.52 million -> 9.48 million (-62.9%)
+   oh: 20.20 million -> 7.50 million (-62.9%)
+   pa: 20.09 million -> 7.46 million (-62.9%)
+   sc: 20.46 million -> 7.60 million (-62.9%)
+   vt: 19.01 million -> 7.06 million (-62.9%)
+   wi: 17.27 million -> 6.41 million (-62.9%)
+   wv: 18.93 million -> 7.03 million (-62.9%)
+12 states move; wind's towers: their share of JEDI's purchases is not in the files (the workbook's tower line is not held), so the wind half of the line is not computed
+
+== line 24: Iowa solar: 67.2 percent exempt (modules and inverters; default) or with the racking (83.6) or everything (100)
+Iowa solar default, 83.6 percent: sales and use tax 3.47 million -> 1.74 million (-50.0%)
+Iowa solar default, 100.0 percent: sales and use tax 3.47 million -> 0.00 million (-100.0%)
+
+== line 25: Texas: no sales tax exemption share (default, an upper bound) or the machinery share of the other states
+Texas land_based_wind (200 MW): sales and use tax 19.92 million -> 6.58 million (-66.9%); taxes, present value 19.92 million -> 6.58 million
+Texas utility_pv (150 MW): sales and use tax 12.01 million -> 3.94 million (-67.2%); taxes, present value 12.01 million -> 3.94 million
+Texas natural_gas (1,445 MW): sales and use tax 60.99 million -> 25.46 million (-58.3%); taxes, present value 229.31 million -> 194.95 million
+
+== line 16: California solar, gas and geothermal at cost (default) or by AH 581 Table 4
+not computed: the Board of Equalization's Table 4 factors are not held in the repository (the note, section 10)
+
+== line 17: Washington geothermal at cost (default) or by the steam and gas fired column 7.5 (the schedule Washington's gas plants use)
+Washington geothermal default (levy 8.96): property over the life 80.89 million -> 34.66 million (-57.2%); first year 2.02 million -> 1.87 million; taxes, present value 25.20 million -> 15.48 million
+
+== line 18: South Carolina at cost (default) or 11 percent a year off to a 10 percent floor (class 6(a))
+South Carolina utility_pv, a levy of 300 per 1,000 typed (an example; the percent holds at any levy): property over the life 261.62 million -> 54.43 million (-79.2%); present value 96.78 million -> 30.78 million (-68.2%)
+South Carolina land_based_wind, a levy of 300 per 1,000 typed (an example; the percent holds at any levy): property over the life 258.58 million -> 65.84 million (-74.5%); present value 120.54 million -> 42.10 million (-65.1%)
+South Carolina natural_gas, a levy of 300 per 1,000 typed (an example; the percent holds at any levy): property over the life 1,500.31 million -> 385.99 million (-74.3%); present value 467.33 million -> 170.16 million (-63.6%)
+
+== line 19: West Virginia: the county table (default) or central assessment by the state
+not computed: the state's central assessment values a plant as a unit, and no unit value or method for a merchant plant is held
+
+== line 20: Kentucky at cost (default) or the 62A500 Class VI factors
+not computed: the 62A500 factors are not held (and the note says they exclude public service companies)
+
+== line 21: Texas wind, gas and geothermal at cost (default) or Harris County's 20-year industrial column
+not computed: Harris County Appraisal District's schedule is not held
+
+== line 22: Texas solar: the district's 10-year schedule (default) or a straight line over 10 years to 20 percent
+Texas solar default, a levy of 20 per 1,000 typed (an example): property over the life 47.43 million -> 48.34 million (+1.9%); present value 24.19 million -> 24.76 million (+2.3%); schedule [92, 84, 76, 67, 58, 49, 39, 30, 24, 21] against [92, 84, 76, 68, 60, 52, 44, 36, 28, 20]
+
+== line 23: New Mexico solar: no federal credit deducted (default) or the 30 percent investment tax credit deducted from the cost taxed
+New Mexico solar default, a levy of 30 per 1,000 typed (an example): property over the life 35.90 million -> 25.13 million (-30.0%); the credit's rate (30 percent at the base, more with adders) is a choice the ruling would fix
+
+== line 26: Kansas: the ten-year exemption assumed granted (default) or not
+Kansas wind default: years 1 to 10 USD 0; after them 'not held', so the life has no total (None)
+with an own rate of 1.5 percent over 25 years typed (an example): granted 22.16 million over the life, not granted 60.02 million (+170.8%); present value 7.90 million -> 35.21 million
+
+== line 27: Oregon solar fee in lieu: USD 7,000 per MW (default, the statute's maximum) or a lower negotiated figure (the statute's minimum USD 5,500)
+Oregon solar default 150 MW, option on: each year 1.05 million -> 0.82 million (-21.4 percent); the 20 years 21.00 million -> 16.50 million; after year 20 no figure either way; present value of the fee 11.12 million -> 8.74 million
+
+== line 28: Virginia solar: subsection F's steps 80, 70, 60 (default) or subsection D's flat 80 percent; the revenue share
+Virginia solar 100 MW, an own rate of 1.0 percent over 35 years typed (an example): property over the life 9.24 million -> 5.68 million (-38.5%); present value 4.08 million -> 2.84 million (-30.5%)
+the revenue share (USD per MW, Code 58.1-2636) needs a price forecast the tool does not hold: not computed
+
+== line 29: Illinois and Ohio statutes: no rule held (default) or a person reads them
+not computed: the statutes were not read (their hosts are not requested until the owner rules); no figure exists to compare
+
+== line 30: Wisconsin's payments to towns and counties: on the property line (default); the caps per resident
+Wisconsin wind default 200 MW: USD 1,000,000 a year on the line; the caps need the town's and county's residents and the caps' statute read: not computed
+
+== line 31: Idaho's tax on gross energy earnings: not held (default) or a sale price added
+Idaho wind default 200 MW at capacity factor 0.3832: 671,366 MWh a year; the tax is 3 percent of earnings, USD 20,141 a year for each USD 1 per MWh of sale price. No Idaho sale price is held in the warehouse: the figure is not computed
+
+== line 32: Dollars of other years: STEO's copy of BEA's deflator (default) or BEA's own
+not computed: BEA's tables need an API key the ERW does not hold (the note, section 10)
+
+== line 33: Earnings per job: JEDI's (default) or BLS's county wages (QCEW)
+not computed: QCEW is not held (www.bls.gov refuses automated reads)
+
+== line 34: The Tax Foundation's tables: used with attribution (default) or replaced by the statutes
+which figures rest on them: sales_tax.json (state and average local rate, 51 rows, 'Tax Foundation, State and Local Sales Tax Rates, Midyear 2026') and income_tax.json (brackets, 51 rows, 'Tax Foundation, State Individual Income Tax Rates and Brackets, 2026'): every sales and income tax figure. Replaced by the statutes, a state's own rate and brackets are the statute's figures and would not move where the Foundation copied them right; the average local rate has no statute (the Foundation's population-weighted mean): left out, the page as it opens reads sales and use tax 19.92 million -> 15.18 million (-23.8%, the state's 6.25 percent alone). New York gas as an income-tax case: income tax over the life 45.65 million, which rests on the brackets
+
+== line 35: The Lincoln Institute's study: not used (default)
+not computed: the study is not held (its host disallows automated reads)
+
+== line 36: Texas rows citing comptroller.texas.gov: kept (default) or left out
+the Texas rows that cite comptroller.texas.gov: property_rules.json's tx_solar and tx_property (sources tx_comptroller_valuing, tx_96_1569, tx_96_313), and the gas severance from severance_rules.json (tx_cpa_gas, the Comptroller's natural gas production tax page). Texas's sales tax rates come from the Tax Foundation, not the Comptroller
+Texas utility_pv, a levy of 20 per 1,000 typed (an example): property over the life 47.43 million -> not held; severance over the life none -> none either way; taxes, present value 36.20 million -> 12.01 million (-66.8%)
+Texas land_based_wind, a levy of 20 per 1,000 typed (an example): property over the life 148.22 million -> not held; severance over the life none -> none either way; taxes, present value 89.01 million -> 19.92 million (-77.6%)
+Texas natural_gas, a levy of 20 per 1,000 typed (an example): property over the life 982.05 million -> not held; severance over the life 546.79 million -> not held; taxes, present value 535.21 million -> 58.99 million (-89.0%)

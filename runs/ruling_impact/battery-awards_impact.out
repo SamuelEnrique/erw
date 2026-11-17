@@ -1,0 +1,51 @@
+== line 1: 'The model's' column, one 2-hour battery on the day-ahead schedule (default), beside a 4-hour one (day-ahead, and with foresight)
+2025-12: awards 0.48; model 2h day-ahead 4.33; dayahead_4h 5.83 (+34.8%); foresight_4h 7.08 (+63.6%); foresight_2h 5.15 (+19.1%)
+2026-01: awards 2.36; model 2h day-ahead 11.33; dayahead_4h 14.83 (+30.9%); foresight_4h 14.63 (+29.1%); foresight_2h 11.33 (+0.0%)
+2026-02: awards 0.45; model 2h day-ahead 2.20; dayahead_4h 3.28 (+49.0%); foresight_4h 4.12 (+87.2%); foresight_2h 2.77 (+25.8%)
+2026-03: awards 0.70; model 2h day-ahead 2.80; dayahead_4h 4.30 (+53.7%); foresight_4h 5.67 (+102.6%); foresight_2h 3.98 (+42.1%)
+2026-04: awards 1.13; model 2h day-ahead 5.12; dayahead_4h 7.54 (+47.3%); foresight_4h 8.87 (+73.3%); foresight_2h 6.33 (+23.6%)
+2026-05: awards 0.72; model 2h day-ahead 3.53; dayahead_4h 4.95 (+40.2%); foresight_4h 4.99 (+41.5%); foresight_2h 3.67 (+4.0%)
+2026-06: awards 0.48; model 2h day-ahead 2.29; dayahead_4h 3.26 (+42.4%); foresight_4h 3.60 (+57.3%); foresight_2h 2.56 (+11.9%)
+2026-07: awards 0.68; model 2h day-ahead 2.87; dayahead_4h 4.45 (+54.7%); foresight_4h 3.94 (+37.0%); foresight_2h 2.69 (-6.5%)
+2026-08: awards 0.12; model 2h day-ahead 3.57; dayahead_4h 5.63 (+57.6%); foresight_4h 7.50 (+110.0%); foresight_2h 5.16 (+44.5%)
+year 2026: model 30.14 USD/kW, awards' share 21.7%; dayahead_4h model 42.60 (+41.3%), share 15.3% (-6.3 points); foresight_4h model 45.81 (+52.0%), share 14.2% (-7.4 points); foresight_2h model 33.32 (+10.6%), share 19.6% (-2.1 points)
+offers|model_kw: 2h 30.14; dayahead_4h 42.60 (+41.3%); foresight_4h 45.81 (+52.0%); foresight_2h 33.32 (+10.6%)
+offers|gap_kw: 2h 23.61; dayahead_4h 36.07 (+52.8%); foresight_4h 39.29 (+66.4%); foresight_2h 26.80 (+13.5%)
+offers|part|never_kw: 2h 9.70; dayahead_4h 13.72 (+41.3%); foresight_4h 14.75 (+52.0%); foresight_2h 10.73 (+10.6%)
+offers|part|unawarded_kw: 2h 14.53; dayahead_4h 23.14 (+59.3%); foresight_4h 25.03 (+72.3%); foresight_2h 16.07 (+10.6%)
+offers|part|price_kw: 2h -0.62; dayahead_4h -0.78 (+25.9%); foresight_4h -0.50 (-19.5%); foresight_2h -0.01 (-98.7%)
+offers|five|model_kw_month: 2h 2.24; dayahead_4h 2.17 (-2.8%); foresight_4h 2.24 (+0.4%); foresight_2h 2.26 (+1.2%)
+offers|five|ratio: 2h 5.64; dayahead_4h 5.48 (-2.8%); foresight_4h 5.66 (+0.4%); foresight_2h 5.71 (+1.2%)
+rt|whole|model_kw: 2h 18.81; dayahead_4h 27.77 (+47.6%); foresight_4h 31.19 (+65.8%); foresight_2h 21.99 (+16.9%)
+
+== line 2: the gap between the model and the awards in three parts, over the months together (default) and for each month
+together: model 30.14, awards 6.53, gap 23.61; never 9.70 (41.1%); unawarded 14.53 (61.5%); price -0.62 (-2.6%)
+2025-12: not whole in the three tables, no parts
+2026-01: model 11.33, awards 2.36, gap 8.97; never 3.10 (34.5%, together 41.1%); unawarded 6.08 (67.7%, together 61.5%); price -0.20 (-2.2%, together -2.6%)
+2026-02: model 2.20, awards 0.45, gap 1.75; never 0.66 (37.8%, together 41.1%); unawarded 1.14 (64.9%, together 61.5%); price -0.05 (-2.6%, together -2.6%)
+2026-03: model 2.80, awards 0.70, gap 2.10; never 0.88 (41.9%, together 41.1%); unawarded 1.29 (61.5%, together 61.5%); price -0.07 (-3.4%, together -2.6%)
+2026-04: model 5.12, awards 1.13, gap 3.99; never 1.76 (44.2%, together 41.1%); unawarded 2.36 (59.2%, together 61.5%); price -0.14 (-3.5%, together -2.6%)
+2026-05: model 3.53, awards 0.72, gap 2.81; never 1.23 (43.9%, together 41.1%); unawarded 1.65 (58.8%, together 61.5%); price -0.07 (-2.6%, together -2.6%)
+2026-06: model 2.29, awards 0.48, gap 1.80; never 0.75 (41.7%, together 41.1%); unawarded 1.15 (63.7%, together 61.5%); price -0.10 (-5.4%, together -2.6%)
+2026-07: model 2.87, awards 0.68, gap 2.19; never 0.95 (43.5%, together 41.1%); unawarded 1.30 (59.4%, together 61.5%); price -0.06 (-2.9%, together -2.6%)
+2026-08: not whole in the three tables, no parts
+
+== line 3: the fleet's duration in the decisions tip, the monitor's (default) and the EIA's beside it
+the monitor: 31,500 MWh over 17,000 MW = 1.85 hours (Potomac Economics, June 2026; the tip says 'about 1.9')
+   EIA-860M 2025-12: 1.55 MWh per MW, 13,909.3 MW
+   EIA-860M 2026-01: 1.55 MWh per MW, 14,204.2 MW
+   EIA-860M 2026-02: 1.54 MWh per MW, 15,182.1 MW
+   EIA-860M 2026-03: 1.54 MWh per MW, 15,667.0 MW
+   EIA-860M 2026-04: 1.55 MWh per MW, 16,116.8 MW
+   EIA-860M 2026-05: 1.55 MWh per MW, 16,306.5 MW
+   EIA-860M 2026-06: 1.62 MWh per MW, 17,324.7 MW
+   EIA-860M 2026-07: 1.65 MWh per MW, 18,069.6 MW
+   EIA-860M 2026-08: 1.65 MWh per MW, 18,204.5 MW
+
+== line 4: an A and B of two settlement points from ercot_storage_node_basis
+   the page's spread_node_p90: 109.2049 (week of 2026-09-28)
+   the page's spread_node_p10: 52.8992 (week of 2026-09-28)
+   the page's spread_node_median: 68.2232 (week of 2026-09-28)
+   the page's spread_hub: 57.5967 (week of 2026-09-28)
+   the page's nodes_with_spread: 293.0 (week of 2026-09-28)
+points with a spread: 293; lowest 47.60, highest 354.96, median 68.22 USD/MWh: an A and B adds two cells the reader picks; no figure that stands moves

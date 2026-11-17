@@ -1,0 +1,61 @@
+tables: ferc_eqr_contracts, 186,873 rows filed for 2026-Q2, retrieved # Retrieved: 20261004T035009Z (UTC) by warehouse/connectors/ferc_eqr_contracts.py; the quarter's file Last-Modified Sat, 03 Oct 2026 07:19:42 GMT; 2 requests, 8,404,311 bytes; live window from 2024-01-09; largest station 6,809.0 MW; default quarter 2026-Q2
+
+== line 1: MW filed, with and without the ceiling of 6,809.0 MW
+energy buyers: column total over every party 15,438,102.6 -> 382,365.6 MW (-97.5%); cells of the first 25 that move: 2; place 18: -100.0% (1 rows over); place 22: -99.9% (25 rows over)
+energy sellers: column total over every party 15,438,102.6 -> 382,365.6 MW (-97.5%); cells of the first 25 that move: 0
+capacity buyers: column total over every party 168,997.3 -> 86,280.2 MW (-48.9%); cells of the first 25 that move: 0
+capacity sellers: column total over every party 168,997.3 -> 86,280.2 MW (-48.9%); cells of the first 25 that move: 0
+tolling buyers: column total over every party 524.9 -> 524.9 MW (+0.0%); cells of the first 25 that move: 0
+tolling sellers: column total over every party 524.9 -> 524.9 MW (+0.0%); cells of the first 25 that move: 0
+
+== line 2: the list's counts by agreement and seller name (default) against contract, filer and merged buyer name
+2026-Q2 power: agreements 174 -> contracts 175 (+0.6%); sellers 78 -> filers 78 (+0.0%); buyers 95 -> merged buyers 86 (-9.5%)
+2026-Q1 power: agreements 243 -> contracts 243 (+0.0%); sellers 102 -> filers 102 (+0.0%); buyers 161 -> merged buyers 136 (-15.5%)
+2025-Q4 power: agreements 213 -> contracts 214 (+0.5%); sellers 134 -> filers 134 (+0.0%); buyers 143 -> merged buyers 135 (-5.6%)
+2025-Q3 power: agreements 167 -> contracts 168 (+0.6%); sellers 94 -> filers 94 (+0.0%); buyers 136 -> merged buyers 121 (-11.0%)
+
+== line 3: rows with a price as a number, a 0 counted (default) or not
+listed rows of energy, capacity and tolling, 12 quarters: 3,778 rows; numbers 1,314 -> 1,013 (-22.9%), zeros 301
+headline 2026-Q2 power: 112 of 227 -> 95 of 227 (-15.2%)
+headline 2026-Q2 energy: 56 of 126 -> 45 of 126 (-19.6%)
+headline 2026-Q2 capacity: 56 of 100 -> 50 of 100 (-10.7%)
+headline 2026-Q2 tolling: 0 of 1 -> 0 of 1 (n/a)
+headline 2026-Q1 power: 165 of 396 -> 151 of 396 (-8.5%)
+headline 2026-Q1 energy: 63 of 192 -> 58 of 192 (-7.9%)
+headline 2026-Q1 capacity: 102 of 203 -> 93 of 203 (-8.8%)
+headline 2026-Q1 tolling: 0 of 1 -> 0 of 1 (n/a)
+headline 2025-Q4 power: 104 of 311 -> 65 of 311 (-37.5%)
+headline 2025-Q4 energy: 61 of 206 -> 39 of 206 (-36.1%)
+headline 2025-Q4 capacity: 42 of 104 -> 25 of 104 (-40.5%)
+headline 2025-Q4 tolling: 1 of 1 -> 1 of 1 (+0.0%)
+headline 2025-Q3 power: 84 of 273 -> 70 of 273 (-16.7%)
+headline 2025-Q3 energy: 50 of 174 -> 41 of 174 (-18.0%)
+headline 2025-Q3 capacity: 34 of 99 -> 29 of 99 (-14.7%)
+headline 2025-Q3 tolling: 0 of 0 -> 0 of 0 (n/a)
+terms view, 'rows that file their rate as a number' over the quarter's file: 81,718 -> 44,643 (-45.4%)
+
+== line 4: capacity prices as filed against a second figure in USD per kW-month
+2026-Q2 capacity, 100 rows drawn, 50 non-zero numbers: $/MW-MO 33 rows, median 4,941.00; $/MW-DAY 15 rows, median 164.70; $/KW-MO 2 rows, median 5.75; convertible 50 -> cells added 50, median of the converted 5.01 USD/kW-month (min 1.826, max 15.45)
+2026-Q1 capacity, 203 rows drawn, 93 non-zero numbers: $/MW-MO 43 rows, median 6,950.00; $/KW-MO 29 rows, median 7.35; $/MW-DAY 20 rows, median 115.00; (no unit) 1 rows, median 16.75; convertible 92 -> cells added 92, median of the converted 6.97 USD/kW-month (min 0.263, max 8,845.00)
+2025-Q4 capacity, 104 rows drawn, 25 non-zero numbers: $/MW-MO 11 rows, median 6,405.00; $/KW-MO 9 rows, median 6.00; $/MW-DAY 3 rows, median 185.00; (no unit) 2 rows, median 2,609.25; convertible 23 -> cells added 23, median of the converted 6.00 USD/kW-month (min 0.830, max 10.65)
+2025-Q3 capacity, 99 rows drawn, 29 non-zero numbers: $/KW-MO 13 rows, median 3.00; $/MW-MO 13 rows, median 5,500.00; $/MW-DAY 2 rows, median 181.12; $/KW-YR 1 rows, median 24.00; convertible 29 -> cells added 29, median of the converted 5.00 USD/kW-month (min 1.000, max 29.00)
+
+== line 5: rows whose buyer's name is a market operator's, counted (default) or left out
+listed rows of energy, capacity and tolling, 12 quarters: 3,778; operator buyers 356; rows signed 3,778 -> 3,422 (-9.4%)
+operator names matched (market operators are public bodies, not contract parties of the license): {'PJM SETTLEMENT INC': 170, 'MIDCONTINENT INDEPENDENT SYSTEM OPERATOR INC': 44, 'ISO NEW ENGLAND INC': 42, 'CALIFORNIA INDEPENDENT SYSTEM OPERATOR CORP': 26, 'CALIFORNIA INDEPENDENT SYSTEM OPERATOR': 17, 'SOUTHWEST POWER POOL INC': 17, 'NEW YORK INDEPENDENT SYSTEM OPERATOR': 16, 'SOUTHWEST POWER POOL': 8, 'PJM INTERCONNECTION LLC': 7, 'PJM SETTLEMENTS INC': 4, 'CAISO': 2, 'MIDCONTINTENT INDEPENDENT SYSTEM OPERATOR INC': 1}
+rows signed 2026-Q2 power: 227 -> 192 (-15.4%)
+rows signed 2026-Q2 energy: 126 -> 100 (-20.6%)
+rows signed 2026-Q2 capacity: 100 -> 91 (-9.0%)
+rows signed 2026-Q2 tolling: 1 -> 1 (+0.0%)
+rows signed 2026-Q1 power: 396 -> 385 (-2.8%)
+rows signed 2026-Q1 energy: 192 -> 182 (-5.2%)
+rows signed 2026-Q1 capacity: 203 -> 202 (-0.5%)
+rows signed 2026-Q1 tolling: 1 -> 1 (+0.0%)
+rows signed 2025-Q4 power: 311 -> 263 (-15.4%)
+rows signed 2025-Q4 energy: 206 -> 174 (-15.5%)
+rows signed 2025-Q4 capacity: 104 -> 88 (-15.4%)
+rows signed 2025-Q4 tolling: 1 -> 1 (+0.0%)
+rows signed 2025-Q3 power: 273 -> 269 (-1.5%)
+rows signed 2025-Q3 energy: 174 -> 171 (-1.7%)
+rows signed 2025-Q3 capacity: 99 -> 98 (-1.0%)
+rows signed 2025-Q3 tolling: 0 -> 0 (n/a)

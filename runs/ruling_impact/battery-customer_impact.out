@@ -1,0 +1,49 @@
+== line 1: 'Saved a year', twelve of the month typed against Salt River Project E-32's own seasons
+srp-e32-summer-peak: twelve of the month 13,376.42 against the year by seasons 8,783.57: -4,592.85 (-34.3%)
+srp-e32-summer: twelve of the month 8,916.55 against the year by seasons 8,783.57: -132.98 (-1.5%)
+srp-e32-winter: twelve of the month 7,163.97 against the year by seasons 8,783.57: +1,619.60 (+22.6%)
+the other tariff cases print no season (Seattle, Austin) or one season only (SCE 2013 summer): the year does not move for them on the rates read
+
+== line 2: energy moved each day capped at the peak kW times the peak hours (the most the building could take)
+opens: no figure
+browser-proof: moves 800.0 kWh a day, the cap 2,000.0: no change
+seattle-md-city-tou: moves 400.0 kWh a day, the cap 1,600.0: no change
+seattle-md-downtown-tou: moves 400.0 kWh a day, the cap 1,600.0: no change
+seattle-lg-city: moves 2,000.0 kWh a day, the cap 8,000.0: no change
+srp-e32-summer-peak: moves 400.0 kWh a day, the cap 2,000.0: no change
+srp-e32-summer: moves 400.0 kWh a day, the cap 2,000.0: no change
+srp-e32-winter: moves 400.0 kWh a day, the cap 2,000.0: no change
+austin-sv2: the battery does not shift energy (peak rate too low): nothing to cap
+austin-sv3: the battery does not shift energy (peak rate too low): nothing to cap
+sce-tou-gs-2-b-2013-summer: moves 400.0 kWh a day, the cap 1,600.0: no change
+decimals: moves 13.5 kWh a day, the cap 93.8: no change
+the faults file's example (a 50 kW peak, the browser proof's 200 kW, 800 kWh battery and rates): energy 2,008.47 -> 502.12 a month (-75.0%); year 34,901.65 -> 16,825.41 (-51.8%)
+
+== line 3: 'How long your peak lasts' at its starting 2 hours against 4, 5 and 6 (the tariffs' peak-rate windows)
+seattle-md-city-tou (typed 4 h): year 2 h 12,795; 4 h 12,795 (+0.0%); 5 h 11,509 (-10.1%); 6 h 10,651 (-16.8%)
+seattle-md-downtown-tou (typed 4 h): year 2 h 21,733; 4 h 21,733 (+0.0%); 5 h 18,807 (-13.5%); 6 h 16,857 (-22.4%)
+seattle-lg-city (typed 4 h): year 2 h 62,059; 4 h 62,059 (+0.0%); 5 h 55,843 (-10.0%); 6 h 51,699 (-16.7%)
+srp-e32-summer-peak (typed 5 h): year 2 h 14,996; 4 h 14,996 (+0.0%); 5 h 13,376 (-10.8%); 6 h 12,296 (-18.0%)
+srp-e32-summer (typed 5 h): year 2 h 10,129; 4 h 10,129 (+0.0%); 5 h 8,917 (-12.0%); 6 h 8,109 (-19.9%)
+srp-e32-winter (typed 5 h): year 2 h 8,232; 4 h 8,232 (+0.0%); 5 h 7,164 (-13.0%); 6 h 6,452 (-21.6%)
+austin-sv2 (typed 2 h): year 2 h 8,931; 4 h 4,326 (-51.6%); 5 h 3,405 (-61.9%); 6 h 2,791 (-68.7%)
+austin-sv3 (typed 2 h): year 2 h 53,286; 4 h 25,956 (-51.3%); 5 h 20,490 (-61.5%); 6 h 16,846 (-68.4%)
+sce-tou-gs-2-b-2013-summer (typed 4 h): year 2 h 44,124; 4 h 44,124 (+0.0%); 5 h 36,890 (-16.4%); 6 h 32,068 (-27.3%)
+
+== line 4: 'From shaving the peak' as an upper bound against NREL's about 85 percent (NREL/TP-5400-63162, January 2015)
+seattle-md-city-tou: from the peak 536.00 -> 455.60 a month (-80.40); year 12,795.06 -> 11,830.26 (-7.5%)
+seattle-md-downtown-tou: from the peak 1,219.00 -> 1,036.15 a month (-182.85); year 21,732.89 -> 19,538.69 (-10.1%)
+seattle-lg-city: from the peak 2,590.00 -> 2,201.50 a month (-388.50); year 62,059.42 -> 57,397.42 (-7.5%)
+srp-e32-summer-peak: from the peak 540.00 -> 459.00 a month (-81.00); year 13,376.42 -> 12,404.42 (-7.3%)
+srp-e32-summer: from the peak 404.00 -> 343.40 a month (-60.60); year 8,916.55 -> 8,189.35 (-8.2%)
+srp-e32-winter: from the peak 356.00 -> 302.60 a month (-53.40); year 7,163.97 -> 6,523.17 (-8.9%)
+austin-sv2: from the peak 767.50 -> 652.38 a month (-115.12); year 8,931.16 -> 7,549.66 (-15.5%)
+austin-sv3: from the peak 4,555.00 -> 3,871.75 a month (-683.25); year 53,285.72 -> 45,086.72 (-15.4%)
+sce-tou-gs-2-b-2013-summer: from the peak 3,014.00 -> 2,561.90 a month (-452.10); year 44,123.70 -> 38,698.50 (-12.3%)
+
+== line 5: the rates' limit, USD 5 per kWh (default) against USD 1
+the highest rate typed in the nine tariff cases: USD 0.1924 per kWh: no case is refused under a limit of USD 1
+the read's store (247 kW, 55 kW and 110 kWh), 4.9 and 2.5 typed for cents, demand charge 5.36 (Seattle City, 26 days): limit 5: USD 71,938 a year; limit 1: refused, no figure (in dollars, 0.049 and 0.025: USD 4,222)
+the read's store (247 kW, 55 kW and 110 kWh), 4.9 and 2.5 typed for cents, demand charge 12.19 (Seattle Downtown, 26 days): limit 5: USD 76,446 a year; limit 1: refused, no figure (in dollars, 0.049 and 0.025: USD 8,729)
+the read's store (247 kW, 55 kW and 110 kWh), 4.9 and 2.5 typed for cents, demand charge 6.75 (SRP summer peak, 22 days): limit 5: USD 62,332 a year; limit 1: refused, no figure (in dollars, 0.049 and 0.025: USD 5,034)
+the read's store (247 kW, 55 kW and 110 kWh), 4.9 and 2.5 typed for cents, demand charge 15.35 (Austin, 21 days): limit 5: USD 65,378 a year; limit 1: refused, no figure (in dollars, 0.049 and 0.025: USD 10,683)

@@ -1,0 +1,44 @@
+== line 1: the fleet at the end of 2025, EIA-860M against the market monitors
+iso:ercot 2025-12: shoulder 33,810.10 MWh above the mean; EIA-860M 13,909 MW, 21,579 MWh: hours needed 2.43, fleet hours 1.55; monitor 17,000 MW: hours needed 1.99 (-0.44, -18.2%), fleet hours 1.85 (+0.30, +19.4%); second measure hours needed 0.73 -> 0.60; Potomac Economics, 2025 State of the Market Report for the ERCOT Electricity Markets, June 2026, page ii: more than 17,000 MW and 31,500 MWh
+iso:caiso_own 2025-12: shoulder 45,185.70 MWh above the mean; EIA-860M 15,760 MW, 54,150 MWh: hours needed 2.87, fleet hours 3.44; monitor 17,000 MW: hours needed 2.66 (-0.21, -7.3%), fleet hours: the monitor gives no MWh; second measure hours needed 1.07 -> 0.99; CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, page 23: over 17 GW
+other months: the monitors publish a year-end count only; a monthly series is data not held
+
+== line 2: the headline, the shoulder against the daily mean (default) or the second measure to the evening peak's midpoint
+iso:ercot opening month 2026-08: hours 5 -> 3; MWh 66,630 -> 22,526 (-66.2%); hours needed 3.66 -> 1.24 (-66.2%); midnight-cut 1 -> 0
+   2024 mean of 12 months: hours needed 6.15 -> 2.16 (-64.8%); months cut at midnight 3 -> 0
+   2025 mean of 12 months: hours needed 4.21 -> 1.37 (-67.5%); months cut at midnight 11 -> 0
+iso:caiso opening month 2025-11: hours 8 -> 7; MWh 36,217 -> 11,861 (-67.2%); hours needed 2.38 -> 0.78 (-67.2%); midnight-cut 1 -> 0
+   2024 mean of 12 months: hours needed 4.19 -> 1.51 (-64.1%); months cut at midnight 12 -> 4
+   2025 mean of 11 months: hours needed 3.20 -> 1.20 (-62.6%); months cut at midnight 11 -> 5
+iso:caiso_own opening month 2026-08: hours 6 -> 6; MWh 69,482 -> 26,249 (-62.2%); hours needed 4.06 -> 1.54 (-62.2%); midnight-cut 1 -> 1
+   2025 mean of 7 months: hours needed 3.99 -> 1.56 (-60.9%); months cut at midnight 7 -> 5
+
+== line 3: the midday surplus around the whole day's low (default) or the low while the sun is up (solar at least 5 percent of its daily peak)
+iso:ercot: 60 of 93 months move
+   2023-08: low 03:00 -> 09:00; hours 12 -> 12; MWh 97,240 -> 97,240 (+0.0%)
+   2023-09: low 03:00 -> 09:00; hours 12 -> 12; MWh 89,608 -> 89,608 (+0.0%)
+   2023-10: low 03:00 -> 09:00; hours 13 -> 13; MWh 43,627 -> 43,627 (+0.0%)
+   2023-11: low 02:00 -> 12:00; hours 6 -> 7; MWh 17,933 -> 8,925 (-50.2%)
+   2024-04: low 03:00 -> 09:00; hours 16 -> 16; MWh 38,539 -> 38,539 (+0.0%)
+   2024-05: low 03:00 -> 09:00; hours 13 -> 13; MWh 49,425 -> 49,425 (+0.0%)
+   of the 60: the run and the MWh stay the same in 38 (the night's low and the day's low lie in one run below the mean); largest change 2019-02 -100.0%
+iso:caiso: 0 of 81 months move
+
+== line 5: the fleet's hours needed (default) against the MW of batteries of 2, 4 or 8 hours the shoulder's energy needs
+iso:ercot 2026-08: shoulder 66,630 MWh, 5 hours; fleet 18,204 MW, hours needed 3.66; 2-hour batteries: 33,315 MW (183 percent of the fleet's MW), covering 2 of 5 hours; 4-hour batteries: 16,657 MW (92 percent of the fleet's MW), covering 4 of 5 hours; 8-hour batteries: 8,329 MW (46 percent of the fleet's MW), covering 5 of 5 hours
+iso:caiso 2025-11: shoulder 36,217 MWh, 8 hours; fleet 15,221 MW, hours needed 2.38; 2-hour batteries: 18,109 MW (119 percent of the fleet's MW), covering 2 of 8 hours; 4-hour batteries: 9,054 MW (59 percent of the fleet's MW), covering 4 of 8 hours; 8-hour batteries: 4,527 MW (30 percent of the fleet's MW), covering 8 of 8 hours
+
+== line 6: California's shoulder on EIA-930's demand (iso:caiso) against CAISO's own supply (iso:caiso_own)
+2025-06: MWh above the mean 47,397 -> 60,760 (+28.2%); hours needed 3.55 -> 4.55; hours 5 -> 5; mean 15,779 -> 12,693 MW
+2025-07: MWh above the mean 47,303 -> 60,633 (+28.2%); hours needed 3.48 -> 4.46; hours 5 -> 5; mean 17,377 -> 14,349 MW
+2025-08: MWh above the mean 51,772 -> 66,294 (+28.1%); hours needed 3.63 -> 4.65; hours 6 -> 6; mean 21,271 -> 18,253 MW
+2025-09: MWh above the mean 46,458 -> 60,347 (+29.9%); hours needed 3.23 -> 4.19; hours 6 -> 6; mean 21,602 -> 18,795 MW
+2025-10: MWh above the mean 41,416 -> 58,868 (+42.1%); hours needed 2.76 -> 3.92; hours 7 -> 7; mean 17,736 -> 15,015 MW
+2025-11: MWh above the mean 36,217 -> 50,369 (+39.1%); hours needed 2.38 -> 3.31; hours 8 -> 8; mean 18,962 -> 16,927 MW
+
+== line 4: ERCOT's ten worst days of 2025, by energy above the day's mean (default) or by the evening's highest net load; workbook 20261004T021615.318504Z_00004_ERCO.xlsx (EIA, retrieved 2026-10-04)
+days ranked: 360 (table's count rule)
+default ten: 2025-01-31 peak 46,346 MW, 118,153 MWh, 2025-12-10 peak 46,636 MW, 114,808 MWh, 2025-02-27 peak 45,200 MW, 105,346 MWh, 2025-11-07 peak 51,072 MW, 104,271 MWh, 2025-12-14 peak 49,799 MW, 101,710 MWh, 2025-11-30 peak 47,453 MW, 101,615 MWh, 2025-01-19 peak 58,028 MW, 94,637 MWh, 2025-12-29 peak 52,653 MW, 91,167 MWh, 2025-12-18 peak 40,269 MW, 89,511 MWh, 2025-10-20 peak 50,056 MW, 89,511 MWh
+other ten:   2025-08-18 peak 68,781 MW, 84,209 MWh, 2025-08-20 peak 68,408 MW, 59,205 MWh, 2025-08-19 peak 67,907 MW, 47,806 MWh, 2025-07-30 peak 67,697 MW, 72,794 MWh, 2025-07-31 peak 67,473 MW, 58,388 MWh, 2025-09-03 peak 67,258 MW, 47,807 MWh, 2025-08-24 peak 66,236 MW, 65,265 MWh, 2025-09-04 peak 66,141 MW, 78,061 MWh, 2025-07-29 peak 65,890 MW, 69,096 MWh, 2025-08-11 peak 65,427 MW, 59,427 MWh
+default: mean energy above the mean 101,073 MWh; mean hours needed 8.88 (10 days with a fleet); mean evening peak 48,751 MW; months ['01', '02', '10', '11', '12']; days in both tens 10
+other: mean energy above the mean 64,206 MWh; mean hours needed 5.78 (10 days with a fleet); mean evening peak 67,122 MW; months ['07', '08', '09']; days in both tens 0

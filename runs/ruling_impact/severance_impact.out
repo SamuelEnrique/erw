@@ -1,0 +1,52 @@
+prices: eia_fuel_spot_prices.csv # Retrieved: 20261113T144313Z (UTC) by warehouse/connectors/eia_fuels.py via the EIA API v2
+entities: eia:wti_cushing eia:henry_hub
+calculator defaults: {'month': '2026-10', 'value': 102.07, 'days': 22} {'month': '2026-10', 'value': 2.99, 'days': 22}
+
+== line 1: base tax at the default price (latest complete month) against the period's own mean
+TX gas 1,860: default price 2.99 (2026-10); 2026-08 at its own mean 2.79: 417.11 -> 389.20 (-27.90, -6.69%); over 45 earlier months from 2023-01: from -50.17% (2024-03) to +158.19% (2026-01)
+   the 20 certified report periods of the low-producing gas credit: from -7.36% to +158.19%; the credit is 100 percent in every one, so the tax after it is 0 either way
+TX oil 1,000: default price 102.07 (2026-10); 2026-08 at its own mean 83.9: 4,695.22 -> 3,859.40 (-835.82, -17.80%); over 45 earlier months from 2023-01: from -43.21% (2025-12) to +0.06% (2026-05)
+
+== line 2: the problem sets' unrounded mean against /severance's mean rounded to the cent
+TX oil 1,000 in 2026-10: mean 102.066364 rounded 102.07: /severance 4,695.22; unrounded 4,695.05; difference -0.17 (-0.00%)
+LA oil 1,000 in 2026-10: mean 102.066364 rounded 102.07: /severance 12,758.75; unrounded 12,758.30; difference -0.45 (-0.00%)
+NM oil 1,000 in 2026-10: mean 102.066364 rounded 102.07: /severance 7,287.80; unrounded 7,287.54; difference -0.26 (-0.00%)
+TX gas 2,400 in 2026-08: mean 2.785238 rounded 2.79: /severance 502.20; unrounded 501.34; difference -0.86 (-0.17%)
+
+== lines 3 and 4: one well's 46,500 Mcf at USD 2.99 (the read's case)
+gas.json keys with btu: {'heat_rate_btu_per_kwh': 6266, 'price_usd_per_mmbtu': 3.5267, 'btu_per_cf': 1034, 'btu_per_cf_source': {'btu_per_cf': 1034, 'year': 2024, 'series': 'Electric Power', 'url': 'https://www.eia.gov/dnav/ng/ng_cons_heat_dcu_nus_a.htm', 'read': '2026-11-13, chain 239 session 4202 (runs/w4/probe.csv request 43)', 'words': 'Heat Content of Natural Gas Consumed (Btu per Cubic Foot), U.S., Electric Power, 2024: 1,034'}}
+TX gas tax /severance 10,427.62; at 1.034 MMBtu per Mcf 10,782.16 (+354.54, +3.40%)
+fee 31.02: tax plus fee 10,458.64 (+0.30%); with both rules 10,813.18 (+3.70%)
+   LA gas: 7,040.10 by /severance; bases ['per_unit']: the Btu factor moves only a percent of value
+   NM gas: 11,039.38 by /severance; bases ['pct_value', 'pct_value', 'pct_value', 'pct_value']: the Btu factor moves only a percent of value
+
+== lines 5 and 6: the low-producing oil credit's percent in every certified report period held
+   2026-08: certified 53.55 -> credit 0.0 percent
+   2026-07: certified 57.34 -> credit 0.0 percent
+   2026-06: certified 58.09 -> credit 0.0 percent
+   2026-05: certified 49.94 -> credit 0.0 percent
+   2026-04: certified 42.26 -> credit 0.0 percent
+   2026-03: certified 35.95 -> credit 0.0 percent
+   2026-02: certified 35.12 -> credit 0.0 percent
+   2026-01: certified 35.23 -> credit 0.0 percent
+   2025-12: certified 36.52 -> credit 0.0 percent
+   2025-11: certified 37.58 -> credit 0.0 percent
+   2025-10: certified 39.12 -> credit 0.0 percent
+   2025-09: certified 39.91 -> credit 0.0 percent
+   2025-08: certified 39.33 -> credit 0.0 percent
+   2025-07: certified 38.53 -> credit 0.0 percent
+   2025-06: certified 38.88 -> credit 0.0 percent
+   2025-05: certified 41.06 -> credit 0.0 percent
+   2025-04: certified 43.59 -> credit 0.0 percent
+   2025-03: certified 44.03 -> credit 0.0 percent
+   2025-02: certified 43.8 -> credit 0.0 percent
+   2025-01: certified 43.3 -> credit 0.0 percent
+every period's credit is 0 percent while the certified price is above USD 30: a lease flagged or not owes the same tax
+
+== line 7: tax at the base rate on all production against the Comptroller's collections
+Texas oil production tax, fiscal 2025: 4.6 percent of EIA's production at the Texas first purchase price (EIA), USD: ours 6,621,844,278 against 5,383,668,225 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025): +23.00% above
+Texas oil production tax, fiscal 2025: 4.6 percent of EIA's production at the WTI Cushing monthly mean, the tool's default, USD: ours 6,729,074,711 against 5,383,668,225 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025): +24.99% above
+Texas natural gas production tax, fiscal 2025: 7.5 percent of EIA's marketed production at the Henry Hub monthly mean, USD: ours 2,749,852,795 against 2,479,282,624 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2025): +10.91% above
+Texas oil production tax, fiscal 2026: 4.6 percent of EIA's production at the Texas first purchase price (EIA), USD: ours 7,175,971,817 against 5,876,551,070 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026): +22.11% above
+Texas oil production tax, fiscal 2026: 4.6 percent of EIA's production at the WTI Cushing monthly mean, the tool's default, USD: ours 7,215,622,875 against 5,876,551,070 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026): +22.79% above
+Texas natural gas production tax, fiscal 2026: 7.5 percent of EIA's marketed production at the Henry Hub monthly mean, USD: ours 3,531,268,715 against 2,434,406,070 (Texas Comptroller, Historical All Funds (Excluding Trusts) Revenue, fiscal 2026): +45.06% above
