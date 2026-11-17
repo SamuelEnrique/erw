@@ -8,6 +8,7 @@ import { count, price } from "@/lib/format";
 import { STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
 import { scrollRegion } from "@/lib/cells";   // session 1587: the states table reachable by keyboard (AccessLint)
+import { Hint } from "@/components/demand/Hint";   // session 7543: the page's own hover placeholder, as the other two views use it
 
 // Session 239: the consumption view of /demand (lib/demandpage.ts, lib/tabs.ts). What /consumption drew is drawn here,
 // block for block; the page (app/demand/page.tsx) carries the brand, the sheet, the tabs and the Related line, and
@@ -22,6 +23,9 @@ const SECTORS = [
   { id: "TRA", label: "Transportation" },
 ];
 const exact = (v: number) => (Number.isInteger(v) ? count(v) : price(v));
+// session 7543 (the read of /demand, row 9): a year's sales in whole MWh. EIA gives million kWh to five decimals, so the
+// connector's MWh carry hundredths ("4,122,912,131.80 MWh") that no reader uses; the raw value stays on the check key
+const mwh = (v: number) => count(v);
 // one decimal; a value that rounds to zero is written 0.0, never -0.0
 const one = (v: number) => (Math.abs(v) < 0.05 ? "0.0" : v.toFixed(1));
 const pct = (v: number | null) => (v === null ? "" : `${v >= 0.05 ? "+" : ""}${one(v)}%`);
@@ -40,6 +44,17 @@ function monthsBack(ts: string, k: number): string {
 }
 
 type Window = { from: string; to: string }; // [from, to) as ISO month starts
+
+/** Session 7543 (the read of /demand, row 11): the months of the two windows the table holds no row for, as a "no data"
+ *  cell's hover, so a reader knows which month stops the 12-month total. */
+export function missingWhy(rows: SeriesRow[], entity: string, cur: Window, prev: Window): string {
+  const have = new Set(rows.filter((x) => x.entity === entity).map((x) => new Date(x.ts_utc).toISOString().slice(0, 7)));
+  const gone: string[] = [];
+  for (const w of [prev, cur]) for (let k = 0; k < 12; k++) { const m = monthsBack(w.to, 12 - k).slice(0, 7); if (!have.has(m)) gone.push(m); }
+  return gone.length
+    ? `${entity}: no row for ${gone.join(", ")} in ${SALES} as the site holds it, so no 12-month total is given.`
+    : `${entity}: no 12-month total is given.`;
+}
 
 function total(rows: SeriesRow[], entity: string, w: Window, n: number) {
   // compare parsed times: Supabase writes "+00:00" where the window bounds write "Z"
@@ -81,9 +96,9 @@ export async function ConsumptionView() {
         Electricity sold to homes, businesses, industry and transport in every state, monthly to {latest.slice(0, 7)}, from <Term t="EIA" first />&apos;s monthly
         survey of utilities and retail sellers (Form EIA-861M).
       </p>
-      <p className="mb-6 max-w-3xl text-sm text-muted">
-        The sector shares, the change over the latest 12 months against the 12 before, and where industrial and commercial load is growing fastest.
-        Sums of 12 months, so seasons cancel out. The latest month EIA has published is {latest.slice(0, 7)}.
+      {/* session 7543 (the read, row 10): the page standard puts explanations in hovers, never in grey text; the words are as they were */}
+      <p className="mb-6 max-w-3xl text-sm" data-consumption-what="1">
+        <Hint words="What is compared" why={`The sector shares, the change over the latest 12 months against the 12 before, and where industrial and commercial load is growing fastest. Sums of 12 months, so seasons cancel out. The latest month EIA has published is ${latest.slice(0, 7)}.`} />
       </p>
 
       <Section title="United States" id="us">
@@ -93,7 +108,7 @@ export async function ConsumptionView() {
           <p className="text-sm">
             Retail sales, {label}:{" "}
             <Num check={esum("US", "ALL", cur)} raw={us.all.a}>
-              {exact(us.all.a)}
+              {mwh(us.all.a)}
             </Num>{" "}
             MWh, {pct(us.all.growth)} on {prevLabel}.{" "}
             {SECTORS.map((s) => `${s.label} ${us.by[s.id].a !== null ? `${one((100 * us.by[s.id].a!) / us.all.a!)}%` : "no data"} (${pct(us.by[s.id].growth)})`).join("; ")}.
@@ -122,7 +137,7 @@ export async function ConsumptionView() {
                       <td className="py-1 pr-3">{STATES[t.st]}</td>
                       <td className="py-1 pr-3 text-right tabular-nums">
                         <Num check={esum(t.st, sec, cur)} raw={t.by[sec].a!}>
-                          {exact(t.by[sec].a!)}
+                          {mwh(t.by[sec].a!)}
                         </Num>
                       </td>
                       <td className="py-1 pr-3 text-right tabular-nums">
@@ -159,7 +174,7 @@ export async function ConsumptionView() {
               {table.map((t) => (
                 <tr key={t.st} className="border-b border-rule/60">
                   <td className="py-1 pr-3">{STATES[t.st]}</td>
-                  <td className="py-1 pr-3 text-right tabular-nums">{t.all.a !== null ? exact(t.all.a) : "no data"}</td>
+                  <td className="py-1 pr-3 text-right tabular-nums">{t.all.a !== null ? mwh(t.all.a) : <span title={missingWhy(rows, ent(t.st, "ALL"), cur, prev)} data-no-data={`${t.st}|ALL`}>no data</span>}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{pct(t.all.growth)}</td>
                   {SECTORS.map((s) => {
                     const x = t.by[s.id];
@@ -168,7 +183,7 @@ export async function ConsumptionView() {
                         {!rows.some((r) => r.entity === ent(t.st, s.id))
                           ? ""
                           : x.a === null || !t.all.a
-                            ? "no data"
+                            ? <span title={missingWhy(rows, ent(t.st, s.id), cur, prev)} data-no-data={`${t.st}|${s.id}`}>no data</span>
                             : `${one((100 * x.a) / t.all.a)}%${x.growth !== null ? ` (${pct(x.growth)})` : ""}`}
                       </td>
                     );
@@ -178,11 +193,8 @@ export async function ConsumptionView() {
             </tbody>
           </table>
         </div>
-        <p className="mt-1 text-xs text-muted">
-          Share of the state&apos;s all-sector retail sales over {label}; in brackets, the change on {prevLabel} (none where the earlier total
-          is zero). &quot;No data&quot;: EIA published no value for a month of the window, so no 12-month total is given. Blank: EIA reports no
-          such sector for the state. Transportation is electric rail and transit; EIA counts it only in some
-          states.
+        <p className="mt-1 text-sm" data-states-what="1">
+          <Hint words="How to read the table" why={`Share of the state's all-sector retail sales over ${label}; in brackets, the change on ${prevLabel} (none where the earlier total is zero). "No data": EIA published no value for a month of the window, so no 12-month total is given. Blank: EIA reports no such sector for the state. Transportation is electric rail and transit; EIA counts it only in some states.`} />
         </p>
         <Cite tables={[SALES]} />
       </Section>
@@ -190,6 +202,10 @@ export async function ConsumptionView() {
       <Section title="Industrial and commercial energy, all fuels (US)" id="mer">
         {!mer.ok ? (
           <NoData what={MER} reason={mer.reason} />
+        ) : !mer.data.length ? (
+          // session 7543 (the read, row 11): a read that answers with no rows said so, as the sales read does; it threw
+          // ("Invalid time value") and took the whole view down with it
+          <NoData what={MER} reason="the table returned no rows" />
         ) : (
           (() => {
             const ml = mer.data.reduce((a, r) => (r.ts_utc > a ? r.ts_utc : a), "");

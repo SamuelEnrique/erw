@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ChartFrame, Fold, InputPanel, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/demand_weather.json";
-import { FIGURES, ORDER, TABLE, choices, day, figureOf, href, lastWholeYear, one, reading, signed, split, whole, years, type Figure, type WeatherFile } from "@/lib/demandweather";
+import { FIGURES, ORDER, TABLE, choices, day, figureOf, href, lastWholeYear, meteredWhy, one, reading, signed, split, summaryParts, whole, years, type Figure, type WeatherFile } from "@/lib/demandweather";
+import meteredJson from "@/data/demand_growth.json";
+import type { DemandFile } from "@/lib/demandgrowth";
 import { Hint } from "./Hint";
 import { Hover } from "./Hover";
 
@@ -15,6 +17,7 @@ import { Hover } from "./Hover";
 // and the method is docs/methods/demand_weather.md.
 
 const file = fileJson as unknown as WeatherFile;
+const metered = meteredJson as unknown as DemandFile;   // session 7543: the as-metered view's copy, for the hover of "Metered, MW"
 /** The years the fit was made on: growth is against their average. */
 export const FIT_YEARS = { from: file.train[0], to: file.train[file.train.length - 1] };
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
@@ -71,6 +74,8 @@ export function WeatherView({ q }: { q: Record<string, string | undefined> }) {
   const ys = years(file);
   const t0 = file.train[0], t1 = file.train[file.train.length - 1];
   const { found, not, absent } = split(file, year, figure.key);
+  const { up, down, within, beyond } = summaryParts(found, not);
+  const list = (xs: typeof found) => (xs.length ? <>: {xs.map((x, i) => <span key={x.ba}>{i ? (i === xs.length - 1 ? " and " : ", ") : ""}{x.name} (<N k={`sum|${x.ba}|u`}>{signed(x.g!.unexplained_pct)}</N> percent, give or take <N k={`sum|${x.ba}|pm`}>{one(x.g!.uncertainty_pct!)}</N>)</span>)}</> : null);
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const pm = (g: Figure, k: string) => (g.uncertainty_pct === null ? NOT : <N k={k}>{one(g.uncertainty_pct)}</N>);
   const lower = figure.name.charAt(0).toLowerCase() + figure.name.slice(1);
@@ -85,10 +90,15 @@ export function WeatherView({ q }: { q: Record<string, string | undefined> }) {
 
   return (
     <div data-view-body="weather">
+      {/* session 7543 (the read, rows 3 and 4): a finding below zero is growth by less than the temperature explains, not by
+          more; and a peak beyond the weather the fit saw is not a finding for that reason, not for being inside the fit's
+          error (ERCOT's summer peak of 2026: +16.0, give or take 6.2). Where neither occurs the sentence is as it was. */}
       <p className="mb-4 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-        In {year}, against the average of {t0} to {t1}, {lower} grew by more than the temperature explains in <N k="sum|found">{String(found.length)}</N> of the {ORDER.length - absent.length} grids that hold the figure
-        {found.length ? <>: {found.map((x, i) => <span key={x.ba}>{i ? (i === found.length - 1 ? " and " : ", ") : ""}{x.name} (<N k={`sum|${x.ba}|u`}>{signed(x.g!.unexplained_pct)}</N> percent, give or take <N k={`sum|${x.ba}|pm`}>{one(x.g!.uncertainty_pct!)}</N>)</span>)}</> : null}
-        {not.length ? <>; in {found.length ? "the other " : ""}<N k="sum|not">{String(not.length)}</N> the part the temperature does not explain is smaller than the fit&apos;s own error</> : null}.
+        In {year}, against the average of {t0} to {t1}, {lower} grew by more than the temperature explains in <N k="sum|found">{String(up.length)}</N> of the {ORDER.length - absent.length} grids that hold the figure
+        {list(up)}
+        {down.length ? <>, and by less than it explains in <N k="sum|down">{String(down.length)}</N>{list(down)}</> : null}
+        {within.length ? <>; in {found.length && !beyond.length ? "the other " : ""}<N k="sum|not">{String(within.length)}</N> the part the temperature does not explain is smaller than the fit&apos;s own error</> : null}
+        {beyond.length ? <>; in <N k="sum|beyond">{String(beyond.length)}</N> the peak hour was {figure.key === "winter_peak" ? "colder" : "hotter"} than any hour of {t0} to {t1}, beyond the weather the fit saw, so the figure is not called a finding{list(beyond)}</> : null}.
       </p>
       <p className="mb-8 text-sm" data-remainder="1">
         <Hint words="What the remainder is not." why="It is growth the temperature does not explain. More people, electric heating and vehicles, new industry and datacenters are all in it together, and so are things that lower metered demand: rooftop solar, efficiency, a recession. The warehouse cannot split them, and this page does not say which it is." />
@@ -118,11 +128,11 @@ export function WeatherView({ q }: { q: Record<string, string | undefined> }) {
           <ToolSection title="By grid and year" id="table"
             note={<Hint words="What the columns mean" why={`Percent of the mean of ${t0} to ${t1}. Growth is the sum of the two columns after it. Temperature: the growth the year's temperature${dew} explain. A remainder is called a finding only when it is larger than its give or take; "beyond" when the peak hour was hotter (summer) or colder (winter) than any hour of ${t0} to ${t1}, so the fit is reaching past what it was made on and the figure is not called a finding. A peak is one hour, so its uncertainty is never less than the fit's error on a single hour. "${ys[ys.length - 1]}, part" is 1 January to ${through}, against the same days of ${t0} to ${t1}.`} />}>
             <ToolTable minWidth={640} caption={`${figure.name}: growth, the part the temperature explains and the part it does not, by grid and year`}
-              head={["Grid", "Year", "Metered, MW", "Growth", "Temperature", "Not explained", "Give or take", "Finding"]}
+              head={["Grid", "Year", <span key="m" title="The figure from metered demand, read on the hours whose weather all five of the grid's stations hold: the hours the fit is read on. Each cell's hover sets it beside the as-metered view." className="cursor-help border-b border-dotted border-muted" data-metered-head="1">Metered, MW</span>, "Growth", "Temperature", "Not explained", "Give or take", "Finding"]}
               rows={ORDER.flatMap((ba) => ys.map((y) => {
                 const g = figureOf(file, ba, y, figure.key), k = `t|${ba}|${y}`;
                 return { key: k, highlight: y === year, muted: !g, cells: g
-                  ? [file.grids[ba].name, partial(ba, y) && g.window !== "the season" ? `${y}, part` : y, <N key="a" k={`${k}|mw`}>{whole(g.actual)}</N>, <N key="g" k={`${k}|g`}>{signed(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed(g.weather_pct)}</N>,
+                  ? [file.grids[ba].name, partial(ba, y) && g.window !== "the season" ? `${y}, part` : y, <span key="a" title={meteredWhy(file.grids[ba].name, y, figure.key, g, metered.areas[ba]?.years[y])} data-metered-why={`${ba}|${y}`}><N k={`${k}|mw`}>{whole(g.actual)}</N></span>, <N key="g" k={`${k}|g`}>{signed(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed(g.weather_pct)}</N>,
                     <N key="u" k={`${k}|u`}>{signed(g.unexplained_pct)}</N>, pm(g, `${k}|pm`), <span key="r" data-reading={g.finding ? "finding" : "no"} title={reading(g)}>{g.finding ? "yes" : g.outside ? "beyond" : "no"}</span>]
                   : [file.grids[ba].name, y, NOT, NOT, NOT, NOT, NOT, ""] };
               }))} />
