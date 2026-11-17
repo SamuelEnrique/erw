@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 7546: the link to the Flex Alert scorecard passes the release gate
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
-import { SiteLink as Link } from "@/components/SiteLink";  // session 7546: the link to the Flex Alert scorecard passes the release gate
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the August 2020 heat wave in CAISO, event caiso_heat_2020 of event_window_daily (docs/methods/events.md).
