@@ -33,7 +33,7 @@
    "entity": "ercot:HB_HUBAVG"
   }
  },
- "figures": 902,
+ "figures": 911,
  "cases": [
   {
    "id": "page",
@@ -1300,6 +1300,13 @@
      "detail": "600 kWh at $0.0907"
     },
     {
+     "key": "group|Delivery (Oncor)",
+     "name": "Delivery (Oncor): the lines together (USD)",
+     "shown": "$40.85",
+     "value": 40.85,
+     "tolerance": 0.005
+    },
+    {
      "key": "line|Customer Charge",
      "name": "Delivery (Oncor): Customer Charge (USD)",
      "shown": "$1.48",
@@ -1478,6 +1485,13 @@
      "value": 51.18,
      "tolerance": 0.005,
      "detail": "600 kWh at $0.0853"
+    },
+    {
+     "key": "group|Delivery (CenterPoint)",
+     "name": "Delivery (CenterPoint): the lines together (USD)",
+     "shown": "$44.10",
+     "value": 44.1,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -1930,6 +1944,13 @@
      "value": 99.41,
      "tolerance": 0.005,
      "detail": "1096 kWh at $0.0907"
+    },
+    {
+     "key": "group|Delivery (Oncor)",
+     "name": "Delivery (Oncor): the lines together (USD)",
+     "shown": "$71.27",
+     "value": 71.27,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -3436,6 +3457,13 @@
      "detail": "1000 kWh at $0.1399"
     },
     {
+     "key": "group|Delivery (Oncor)",
+     "name": "Delivery (Oncor): the lines together (USD)",
+     "shown": "$65.38",
+     "value": 65.38,
+     "tolerance": 0.005
+    },
+    {
      "key": "line|Customer Charge",
      "name": "Delivery (Oncor): Customer Charge (USD)",
      "shown": "$1.48",
@@ -3616,6 +3644,13 @@
      "value": 181.4,
      "tolerance": 0.005,
      "detail": "2000 kWh at $0.0907"
+    },
+    {
+     "key": "group|Delivery (Oncor)",
+     "name": "Delivery (Oncor): the lines together (USD)",
+     "shown": "$126.70",
+     "value": 126.7,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -3799,6 +3834,13 @@
      "value": 125,
      "tolerance": 0.005,
      "detail": "1000 kWh at $0.125"
+    },
+    {
+     "key": "group|Delivery (CenterPoint)",
+     "name": "Delivery (CenterPoint): the lines together (USD)",
+     "shown": "$70.23",
+     "value": 70.23,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -4021,6 +4063,13 @@
      "value": 0,
      "tolerance": 0.005,
      "detail": "0 kWh at $0.0853"
+    },
+    {
+     "key": "group|Delivery (CenterPoint)",
+     "name": "Delivery (CenterPoint): the lines together (USD)",
+     "shown": "$4.90",
+     "value": 4.9,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -4654,6 +4703,13 @@
      "value": 175,
      "tolerance": 0.005,
      "detail": "1400 kWh at $0.125"
+    },
+    {
+     "key": "group|Delivery (CenterPoint)",
+     "name": "Delivery (CenterPoint): the lines together (USD)",
+     "shown": "$96.37",
+     "value": 96.37,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",
@@ -5988,6 +6044,13 @@
      "value": 51.18,
      "tolerance": 0.005,
      "detail": "600 kWh at $0.0853"
+    },
+    {
+     "key": "group|Delivery (CenterPoint)",
+     "name": "Delivery (CenterPoint): the lines together (USD)",
+     "shown": "$44.10",
+     "value": 44.1,
+     "tolerance": 0.005
     },
     {
      "key": "line|Customer Charge",

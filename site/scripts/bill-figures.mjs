@@ -85,7 +85,13 @@ function calcFigures(html) {
   let group = "";
   for (const tr of tbody.split("<tr").slice(1)) {
     const g = tr.match(/scope="rowgroup"[^>]*>([^<]*)</);
-    if (g) { group = ent(g[1]); continue; }
+    if (g) {
+      group = ent(g[1]);
+      // session 7547: a Texas bill's delivery lines together, on the group's own row
+      const gs = tr.match(/data-group-sum="[^"]*">([^<]*)</);
+      if (gs) out.push(fig(`group|${group}`, `${group}: the lines together (USD)`, gs[1]));
+      continue;
+    }
     const name = tr.match(/<summary[^>]*>([\s\S]*?)<\/summary>/);
     const amt = tr.match(/<td[^>]*>([^<]*)<\/td>/);
     if (name && amt) {

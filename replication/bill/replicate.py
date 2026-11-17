@@ -214,6 +214,10 @@ def expected(rules, key, typed, w):
         out["bar|price"] = w["price"]
         out["bar|month"] = w["month"]
         out["bar|rest_usd"] = total - wusd
+    if key in ("TX", "TXC"):
+        # session 7547: the note, "The delivery lines together": every line of the wires company (all but the energy charge)
+        out["group|Delivery (" + ("Oncor" if key == "TX" else "CenterPoint") + ")"] = sum(a for n, a, _ in lines if n != POWER_LINE[key])
+    if w is not None and total > 0:
         # session 7547: the power line under the bar
         if POWER_LINE[key] is None:
             out["power|none"] = "none"

@@ -187,7 +187,12 @@ export function BillCalc({ rules, wholesale, first = "CA", history = {}, firstMo
             <tbody>
               {Object.entries(groups).map(([g, ls]) => (
                 <Fragment key={g}>
-                  <tr><th scope="rowgroup" colSpan={2} className="pt-2 text-left text-xs font-normal uppercase tracking-wide text-muted">{g}</th></tr>
+                  {/* session 7547: in Texas the wires company's lines together, the one sum a retailer's bill passes through */}
+                  {(key === "TX" || key === "TXC") && g.startsWith("Delivery") ? (
+                    <tr><th scope="rowgroup" className="pt-2 text-left text-xs font-normal uppercase tracking-wide text-muted">{g}<Tip id={`bill-delivery-${key}-7547`} label="the delivery lines together">Every line of {key === "TX" ? "Oncor" : "CenterPoint"} below, added: the delivery charges a retail electric provider passes through to the customer, which a retailer&apos;s bill may show as one sum. The energy charge above is the retailer&apos;s own.</Tip></th><td className="pt-2 text-right font-mono text-xs" data-group-sum={g}>{usd(ls.reduce((a, l) => a + l.amount, 0))}</td></tr>
+                  ) : (
+                    <tr><th scope="rowgroup" colSpan={2} className="pt-2 text-left text-xs font-normal uppercase tracking-wide text-muted">{g}</th></tr>
+                  )}
                   {ls.map((l) => (
                     <tr key={l.id} className="border-t border-rule align-top">
                       <th scope="row" className="py-1 pr-2 text-left font-normal">

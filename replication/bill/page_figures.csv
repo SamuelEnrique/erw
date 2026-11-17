@@ -168,6 +168,7 @@ sdge_default,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sdge_default,bar|rest_usd,The bar: everything else (USD),$309.80,309.8,0.005,
 sdge_default,power|none,Under the bar: no power line (SDG&E),none,none,,
 tx_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$54.42,54.42,0.005,600 kWh at $0.0907
+tx_default,group|Delivery (Oncor),Delivery (Oncor): the lines together (USD),$40.85,40.85,0.005,
 tx_default,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_default,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
 tx_default,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$21.63,21.63,0.005,600 kWh at $0.036043
@@ -191,6 +192,7 @@ tx_default,power|usd,Under the bar: the power line (USD),$54.42,54.42,0.005,
 tx_default,power|share_pct,Under the bar: the power line's share of the bill (percent),57,57,0.5,
 tx_default,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$23.70,23.7,0.005,
 txc_default,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$51.18,51.18,0.005,600 kWh at $0.0853
+txc_default,group|Delivery (CenterPoint),Delivery (CenterPoint): the lines together (USD),$44.10,44.1,0.005,
 txc_default,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_default,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
 txc_default,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$13.94,13.94,0.005,600 kWh at $0.02324
@@ -248,6 +250,7 @@ ca_eia_avg,power|usd,Under the bar: the power line (USD),$58.23,58.23,0.005,
 ca_eia_avg,power|share_pct,Under the bar: the power line's share of the bill (percent),30,30,0.5,
 ca_eia_avg,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$22.56,22.56,0.005,
 tx_eia_avg,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$99.41,99.41,0.005,1096 kWh at $0.0907
+tx_eia_avg,group|Delivery (Oncor),Delivery (Oncor): the lines together (USD),$71.27,71.27,0.005,
 tx_eia_avg,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_eia_avg,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
 tx_eia_avg,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$39.50,39.5,0.005,1096 kWh at $0.036043
@@ -435,6 +438,7 @@ sdge_summer,bar|month,The bar: the wholesale price's month,2026-09,2026-09,,
 sdge_summer,bar|rest_usd,The bar: everything else (USD),$194.00,194,0.005,
 sdge_summer,power|none,Under the bar: no power line (SDG&E),none,none,,
 tx_1000_efl,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$139.90,139.9,0.005,1000 kWh at $0.1399
+tx_1000_efl,group|Delivery (Oncor),Delivery (Oncor): the lines together (USD),$65.38,65.38,0.005,
 tx_1000_efl,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_1000_efl,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
 tx_1000_efl,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$36.04,36.04,0.005,1000 kWh at $0.036043
@@ -458,6 +462,7 @@ tx_1000_efl,power|usd,Under the bar: the power line (USD),$139.90,139.9,0.005,
 tx_1000_efl,power|share_pct,Under the bar: the power line's share of the bill (percent),68,68,0.5,
 tx_1000_efl,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$39.50,39.5,0.005,
 tx_2000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$181.40,181.4,0.005,2000 kWh at $0.0907
+tx_2000,group|Delivery (Oncor),Delivery (Oncor): the lines together (USD),$126.70,126.7,0.005,
 tx_2000,line|Customer Charge,Delivery (Oncor): Customer Charge (USD),$1.48,1.48,0.005,per month
 tx_2000,line|Metering Charge,Delivery (Oncor): Metering Charge (USD),$2.58,2.58,0.005,per month
 tx_2000,line|Distribution System Charge,Delivery (Oncor): Distribution System Charge (USD),$72.09,72.09,0.005,2000 kWh at $0.036043
@@ -481,6 +486,7 @@ tx_2000,power|usd,Under the bar: the power line (USD),$181.40,181.4,0.005,
 tx_2000,power|share_pct,Under the bar: the power line's share of the bill (percent),59,59,0.5,
 tx_2000,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$79.01,79.01,0.005,
 txc_1000,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$125.00,125,0.005,1000 kWh at $0.125
+txc_1000,group|Delivery (CenterPoint),Delivery (CenterPoint): the lines together (USD),$70.23,70.23,0.005,
 txc_1000,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_1000,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
 txc_1000,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$23.24,23.24,0.005,1000 kWh at $0.02324
@@ -509,6 +515,7 @@ txc_1000,power|usd,Under the bar: the power line (USD),$125.00,125,0.005,
 txc_1000,power|share_pct,Under the bar: the power line's share of the bill (percent),64,64,0.5,
 txc_1000,power|wholesale_usd,Under the bar: the wholesale energy beside it (USD),$39.50,39.5,0.005,
 txc_zero,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$0.00,0,0.005,0 kWh at $0.0853
+txc_zero,group|Delivery (CenterPoint),Delivery (CenterPoint): the lines together (USD),$4.90,4.9,0.005,
 txc_zero,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 txc_zero,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
 txc_zero,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$0.00,0,0.005,0 kWh at $0.02324
@@ -591,6 +598,7 @@ read_fresno_aug,month|2024-11|partial,"The month field: 2024-11 (partial), USD/M
 read_fresno_aug,month|2024-10|partial,"The month field: 2024-10 (partial), USD/MWh",52.58,52.58,0.005,
 read_fresno_aug,month|2024-09,"The month field: 2024-09, USD/MWh",34.30,34.3,0.005,
 read_houston_aug,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$175.00,175,0.005,1400 kWh at $0.125
+read_houston_aug,group|Delivery (CenterPoint),Delivery (CenterPoint): the lines together (USD),$96.37,96.37,0.005,
 read_houston_aug,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 read_houston_aug,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
 read_houston_aug,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$32.54,32.54,0.005,1400 kWh at $0.02324
@@ -774,6 +782,7 @@ read_student_apr,month|2024-11|partial,"The month field: 2024-11 (partial), USD/
 read_student_apr,month|2024-10|partial,"The month field: 2024-10 (partial), USD/MWh",52.58,52.58,0.005,
 read_student_apr,month|2024-09,"The month field: 2024-09, USD/MWh",34.30,34.3,0.005,
 read_houston_oct_partial,line|Energy charge (your retail electric provider),Energy: Energy charge (your retail electric provider) (USD),$51.18,51.18,0.005,600 kWh at $0.0853
+read_houston_oct_partial,group|Delivery (CenterPoint),Delivery (CenterPoint): the lines together (USD),$44.10,44.1,0.005,
 read_houston_oct_partial,line|Customer Charge,Delivery (CenterPoint): Customer Charge (USD),$2.11,2.11,0.005,per month
 read_houston_oct_partial,line|Metering Charge,Delivery (CenterPoint): Metering Charge (USD),$2.79,2.79,0.005,per month
 read_houston_oct_partial,line|Distribution System Charge,Delivery (CenterPoint): Distribution System Charge (USD),$13.94,13.94,0.005,600 kWh at $0.02324
