@@ -374,7 +374,8 @@ def run(P, jedi, x):
     return {"c": c, "o": o, "years": years, "sums": sums, "pv": pv, "production": production}
 
 
-ROW_FIGURE = {"cjobs": "c:jobs:total", "ojobs": "o:jobs:total", "cearn": "c:earnings:total", "oearn": "o:earnings:total",
+ROW_FIGURE = {"cjobs": "c:jobs:total", "ojobs": "o:jobs:total", "cjobsite": "c:jobs:onsite", "ojobsite": "o:jobs:onsite",   # the two on-site rows: wip/alt-impact-24
+              "cearn": "c:earnings:total", "oearn": "o:earnings:total",
               "cout": "c:output:total", "oout": "o:output:total", "prop1": "y1:property", "propl": "sum:property",
               "sales": "sum:sales", "income": "sum:income", "sev": "y1:severance", "pvtax": "pv:taxes", "pvearn": "pv:earnings"}
 
@@ -386,6 +387,7 @@ def table_figures(x, r):
     for m in MEASURES:
         out[f"c:{m}:total"] = r["c"][(m, "total")]
         out[f"o:{m}:total"] = r["o"][(m, "total")]
+    out["c:jobs:onsite"], out["o:jobs:onsite"] = r["c"][("jobs", "onsite")], r["o"][("jobs", "onsite")]   # ruling alternative 24 (wip/alt-impact-24)
     out["y1:property"] = first["property"]
     out["sum:property"] = r["sums"]["property"]
     out["sum:sales"] = r["sums"]["sales"]
