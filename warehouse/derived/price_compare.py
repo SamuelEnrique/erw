@@ -163,6 +163,26 @@ def carbon(in_dir, ba, start, end):
     return round(float(c["value"].mean()), 2), len(c), due
 
 
+# Ruling alternative 1 of /prices/compare (session 7724, branch wip/alt-compare-1; not a default on main): the grids held for
+# license whose carbon intensity, EIA's public figure (carbon_intensity_daily, a public table the Grid tool draws), is
+# written to the site's copy while their prices stay held, by grid and window. Never MISO (paused: no MISO figure at all).
+HELD_CARBON_SHOWN = {"isone": "ISO-NE", "nyiso": "NYISO"}
+
+
+def held_carbon(in_dir, windows, held):
+    """{grid name: {window: {intensity, days_held, days_due}}} for the held grids of HELD_CARBON_SHOWN; a window held under
+    90 percent of its days is written with no intensity, as a shown row's is."""
+    out = {}
+    for iso, name in HELD_CARBON_SHOWN.items():
+        if name not in held:
+            continue
+        out[name] = {}
+        for w, (start, end, _) in windows.items():
+            v, n, due = carbon(in_dir, GRIDS[iso]["ba"], start, end)
+            out[name][w] = {"intensity": v, "days_held": n, "days_due": due}
+    return out
+
+
 def last_whole_month(x, hidden=()):
     """The last calendar month every market side of the hub history holds to its end: the month before the month of the
     earliest of the sides' newest timestamps. Session 7051 (chain 370, done-line requests 129 and 140): a grid whose pulls
@@ -304,7 +324,7 @@ def main(argv=None):
         with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
             json.dump(dict(table=NAME, built=retrieved, end_month=end_month, windows={k: {"start": v[0], "end": v[1], "freq": v[2]} for k, v in windows.items()},
                            near_hours=NEAR_HOURS, near_days=NEAR_DAYS, high=HIGH, year=view["year"], month=view["month"], held_not_shown=held_not_shown,
-                           internal_tables=internal, not_held=["PJM"]), f, separators=(",", ":"))
+                           internal_tables=internal, not_held=["PJM"], held_carbon=held_carbon(inputs, windows, ls.held_grids())), f, separators=(",", ":"))   # held_carbon: wip/alt-compare-1
     log.close()
     print(f"{NAME}: {len(out):,} rows; twelve months to {end_month}: {len(view['year'])} hubs; the month {end_month}: {len(view['month'])} hubs and zones; "
           f"held, not shown: {len(held_not_shown)}" + ("; the site's copy written" if a.snapshot else "") + (f" (trial, under {a.out_dir}; inputs read from {inputs})" if a.out_dir else ""))

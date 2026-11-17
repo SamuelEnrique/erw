@@ -14,6 +14,8 @@ export type Hidden = { entity: string; grid: string; node: string; reason: strin
 export type CompareFile = {
   table: string; built: string; end_month: string; windows: Record<"year" | "month", { start: string; end: string; freq: string }>;
   near_hours: number; near_days: number; high: number; year: Row[]; month: Row[]; held_not_shown: Hidden[]; internal_tables: string[]; not_held: string[];
+  /** ruling alternative 1 (wip/alt-compare-1): the held grids' carbon intensity by window (absent from main's file) */
+  held_carbon?: Record<string, Record<"year" | "month", { intensity: number | null; days_held: number; days_due: number }>>;
 };
 
 export const PERIODS = ["year", "month"] as const;
