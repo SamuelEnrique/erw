@@ -35,10 +35,10 @@ The four tools below reached the done line before this file (chains 269 and 303)
 
 | # | Tool | Machine | State |
 |---:|---|---|---|
-| 25 | The datacenter tracker, `/datacenters` | portable-laptop | done line before this file (`docs/reviews/trackers-signature-pack-2026-11-16.md`); read: portable-laptop claimed (session 7602) |
-| 26 | The deal tracker, `/deals` | portable-laptop | done line before this file (the same pack); read: portable-laptop claimed (session 7602) |
-| 27 | Automated Analysis, `/research` | portable-laptop | done line before this file (`docs/reviews/five-tools-signature-pack-2026-11-14.md`); read: portable-laptop claimed (session 7602) |
-| 28 | Grid, `/grid` | portable-laptop | done line before this file (the same pack); read: portable-laptop claimed (session 7602) |
+| 25 | The datacenter tracker, `/datacenters` | portable-laptop | done line before this file (`docs/reviews/trackers-signature-pack-2026-11-16.md`); read: portable-laptop (session 7603, branch `wip/7603-datacenters-read`, landing row 39 of `docs/state/landing_request_portable.md`) |
+| 26 | The deal tracker, `/deals` | portable-laptop | done line before this file (the same pack); read: portable-laptop (session 7604, branch `wip/7603-datacenters-read`, landing row 39) |
+| 27 | Automated Analysis, `/research` | portable-laptop | done line before this file (`docs/reviews/five-tools-signature-pack-2026-11-14.md`); read: portable-laptop (session 7605, branch `wip/7603-datacenters-read`, landing row 39) |
+| 28 | Grid, `/grid` | portable-laptop | done line before this file (the same pack); read: portable-laptop (session 7606, branch `wip/7603-datacenters-read`, landing row 39) |
 
 Not in the split: `/ask` and `/thesis` (they need the key), the Digest and the Roundup (paused this week), the pages that are not tools (`/about`, `/data`, `/terms`, `/privacy`, `/subscribe`, `/tour`, `/home/v2`, `/in-review`, the draft reports).
 
