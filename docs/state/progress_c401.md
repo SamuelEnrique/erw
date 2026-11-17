@@ -97,7 +97,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 309 | `wip/alt-impact-9` | 10.0 | seen: impact-9-1280.png with production's -default-1280 twins | 7800 |
 | B | 282 | `wip/alt-contracts-4` | 9.5 | not seen: no pictures | 7800 |
 | B | 328 | `wip/alt-impact-21` | 9.1 | seen: impact-21-1280.png with production's -default-1280 twins | 7800 |
-| B | 342 | `wip/alt-bill-1` | 7.9 | wanted | |
+| B | 342 | `wip/alt-bill-1` | 7.9 | seen: bill-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 360 | `wip/alt-prices-4` | 7.8 | wanted | |
 | B | 285 | `wip/alt-severance-1` | 6.7 | seen: severance-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 322 | `wip/alt-impact-18` | 6.25 | seen: impact-18-1280.png with production's -default-1280 twins | 7800 |
