@@ -29,7 +29,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 368 | `wip/alt-demand-3` | 117.7 | seen: demand-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 370 | `wip/alt-grid-1` | 114.0 | seen: grid-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 279 | `wip/alt-contracts-1` | 100.0 | not seen: no pictures | 7800 |
-| B | 283 | `wip/alt-contracts-5` | 100.0 | wanted | |
+| B | 283 | `wip/alt-contracts-5` | 100.0 | seen: contracts-5-1280.png, contracts-5-head-1280.png with production's -default-1280 twins | 7800 |
 | B | 286 | `wip/alt-shoulder-1` | 100.0 | wanted | |
 | B | 291 | `wip/alt-battery-customer-5` | 100.0 | wanted | |
 | B | 295 | `wip/alt-impact-1` | 100.0 | wanted | |
