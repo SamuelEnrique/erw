@@ -27,5 +27,5 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /map | samueloldlaptop | 7585 | done | docs/reviews/ruling-impact-map-2026-11-17.md |
 | /board | samueloldlaptop | 7586 | done | docs/reviews/ruling-impact-board-2026-11-17.md |
 | /prices | samueloldlaptop | 7587 | done | docs/reviews/ruling-impact-prices-2026-11-17.md |
-| /prices/compare | samueloldlaptop | 7588 | claimed | docs/reviews/ruling-impact-compare-2026-11-17.md |
+| /prices/compare | samueloldlaptop | 7588 | done | docs/reviews/ruling-impact-compare-2026-11-17.md |
 | /grid | portable-laptop | 7616 | claimed | docs/reviews/ruling-impact-grid-2026-11-17.md |
