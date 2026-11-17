@@ -374,3 +374,30 @@ load; today's level has no solar shape; the leaderboard's scores are stored, the
   the real fleet against the market monitor's 2025 figure.
 - **The faults** (`docs/reviews/battery-game-faults-2026-11-16.md`): 10, of which 6 site faults fixed, 1 for the data
   machine (the solar day's line), 3 rulings.
+
+## The read (session 7551, chain 304 part B, 16 November 2026)
+
+The game read as a student, a new analyst and a teacher would bring it (`docs/reviews/battery-game-read-2026-11-16.md`,
+15 rows). What it changed in the views above; the rows of "The done line" stand, and where one changed it is said here.
+
+- **In detail and the fleets:** drawn after every play, Easy included (the row above said Normal and Hard). Easy's
+  score holds the fleet bonus, a game rule; the line now takes it apart from the market's money, and "fleet bonus" says
+  on hover what it is. After the fleets, one sentence: per kW of the battery's power, the money of the play's trades
+  alone (`cash` over `kw`: no bonus, before wear) for the play and for the perfect battery, then the rules of the
+  battery page's stress days (2, 4 or 8 hours, hourly prices, from empty, one cycle a day at most, an 86 percent round
+  trip, ancillary services) beside the game's, and that the two are not the same measure. No figure of the battery page
+  is drawn here.
+- **The day's address:** `?day=<slug>` or `?day=<date>` opens the game on that frozen day (`dayIndex`; an unknown day
+  is the first level); picking a day or a mode writes `?mode=` (unless Easy) and `?day=` (unless today's level) into
+  the address (`gameAddress`); under the day list a link to the chosen day and mode (`DayLink`). Today's level has no
+  address of its own: it moves with the warehouse.
+- **The fleets:** CAISO's operating fleet beside ERCOT's, from the same rows of `storage_capacity` by the same rule
+  (balancing authority, status `operating`; MWh where the EIA gives an energy capacity), with its four check keys and its
+  ratio to the game's 50 MW; both cards say they are the EIA's latest monthly inventory, not the fleet on the day
+  played. The cards are drawn by `app/play/battery/RealFleet.tsx` (moved out of `page.tsx`, ERCOT's words and keys
+  unchanged).
+- **The words:** ECRS, Non-Spin and Base Point Deviation say what they are on hover in the fleet call section.
+- **The replication:** `replicate.py --tables` reads the Easy line in detail and the two figures per kW: 3,549 of
+  3,549 on this machine's tables (3,540 of 3,540 from the frozen days alone).
+- **What it still does not hold:** the fleet on the level's day (data request 239), a real battery's earnings by day,
+  and a score net of the starting charge (a ruling in the read).
