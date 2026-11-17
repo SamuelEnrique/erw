@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-16",
+ "written": "2026-11-17",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -874,6 +874,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "caiso_outlook_demand": {
+   "status": "public",
+   "pages": []
   },
   "caiso_reliability_daily": {
    "status": "public",
@@ -2856,7 +2860,9 @@
   },
   "ercot_peak_premium_node_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_rtm_node_prices": {
    "status": "public",
@@ -2911,7 +2917,9 @@
   },
   "ercot_storage_rt_offers_monthly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "ercot_transmission_projects": {
    "status": "public",
@@ -3606,6 +3614,7 @@
    "pages": [
     "/data",
     "/data/faults",
+    "/demand",
     "/grid"
    ]
   },
@@ -4223,6 +4232,7 @@
    "status": "public",
    "pages": [
     "/data",
+    "/demand",
     "/shoulder"
    ]
   },
@@ -4696,7 +4706,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 489
+   "public": 491
   },
   "/data/faults": {
    "label": "Known faults in source data",
@@ -4871,7 +4881,7 @@
    "dark": "none",
    "license_needed": [],
    "internal": 0,
-   "public": 6
+   "public": 8
   },
   "/curtailment": {
    "label": "Curtailment",

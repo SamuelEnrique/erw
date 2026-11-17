@@ -14,7 +14,7 @@ import { isLicenseReason } from "@/lib/license";   // session 1855 (datacenter f
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import loadJson from "@/data/large_load_status.json";
 import type { EntityRow } from "@/lib/data";
-import { countryOf, dayWords, facilityCounts, impossible, monthMismatch, span, summary, whole, type Facility, type LoadFile, type Report } from "@/lib/largeload";
+import { countryOf, dayWords, facilityCounts, impossible, monthMismatch, reportMonth, span, summary, whole, type Facility, type LoadFile, type Report } from "@/lib/largeload";
 
 const KIND: Record<string, string> = { operator: "an operator's own list", news: "news stories", queue: "an interconnection queue" };
 const ENTITY = "ercot:large_load";
@@ -84,7 +84,7 @@ export function LargeLoad({ read }: { read: Read }) {
               <span key="a" data-load-row={`${r.day}|approved`}>{cell(r, "approved")}</span>,
               <span key="n">{cell(r, "nonsimultaneous")}</span>,
               <span key="s">{cell(r, "simultaneous")}</span>,
-              <span key="m" className={monthMismatch(r) ? "" : "text-muted"}>{r.month_as_written || "not stated"}{monthMismatch(r) ? " (as written; the report is of " + r.day.slice(0, 4) + ")" : ""}</span>],
+              <span key="m" className={monthMismatch(r) ? "" : "text-muted"}>{r.month_as_written || "not stated"}{monthMismatch(r) ? " (as written; the report is of " + reportMonth(r) + ")" : ""}</span>],
           }))} />
         <ul className="mt-3 max-w-3xl list-disc space-y-1 pl-5 text-sm">
           <li><strong>Load requested is not held.</strong> ERCOT&apos;s report shows the whole queue by status (no studies submitted, under ERCOT review, planning studies approved, approved to energize, observed energized) as a picture of a chart. The ERW does not read a number off a picture, so those figures are not here.</li>
