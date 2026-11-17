@@ -89,7 +89,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 299 | `wip/alt-shoulder-5` | 18.2 | not seen: no pictures | 7800 |
 | B | 372 | `wip/alt-compare-2` | 18.0 | seen: compare-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 280 | `wip/alt-contracts-3` | 15.4 | seen: contracts-3-1280.png with production's -default-1280 twins | 7800 |
-| B | 281 | `wip/alt-contracts-2` | 15.2 | wanted | |
+| B | 281 | `wip/alt-contracts-2` | 15.2 | seen: contracts-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 367 | `wip/alt-grid-2` | 13.42 | wanted | |
 | B | 314 | `wip/alt-site-ask-3` | 11.55 | wanted | |
 | B | 356 | `wip/alt-map-1` | 11.3 | seen: map-1-1280.png with production's -default-1280 twins | 7800 |
