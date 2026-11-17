@@ -8,7 +8,7 @@
 // the arithmetic is lib/ev.ts; the method docs/methods/ev_game.md. The brand's rules (docs/brand.md): tokens only,
 // square, no motion, cardinal for the highlighted series (the EV).
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { DEFAULTS, IRS_URL, NO_CREDIT_LINE, chargePrice, cumulative, keyed, verdict, type Inputs } from "@/lib/ev";
+import { DEFAULTS, IRS_URL, NO_CREDIT_LINE, TOU_DEFAULT, chargePrice, cumulative, keyed, verdict, type Inputs } from "@/lib/ev";
 import { PrintButton } from "@/app/learn/problems/PrintButton";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Num } from "@/components/Num";
@@ -128,7 +128,9 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
   const st = states.find((s) => s.code === code) ?? null;
   const place = st ?? us;
   const where = st ? st.name : "the United States as a whole";
-  const gas = gasOver ?? place.gas?.value ?? null, power = powerOver ?? place.power?.value ?? null;
+  // ruling alternative 1 (wip/alt-ev-game-1, not a default on main): a time-of-use rate where the site holds one
+  const tou = st ? TOU_DEFAULT[st.code] ?? null : null, defPower = tou ? tou.value : place.power?.value ?? null;
+  const gas = gasOver ?? place.gas?.value ?? null, power = powerOver ?? defPower;
   const pub = publicCents.trim() === "" ? null : Number(publicCents) * 10;   // cents a kWh to USD/MWh
   const x: Inputs | null = gas !== null && power !== null ? { miles: v.miles, mpg: v.mpg, kwhPerMile: v.kwhPerMile, gasUsdPerGal: gas, powerUsdPerMwh: power, gasCar: v.gasCar, evCar: v.evCar, years: v.years, rate: v.rate, credit: creditOn ? v.credit : 0, homeShare: v.homeShare, publicUsdPerMwh: pub !== null && Number.isFinite(pub) && pub >= 0 ? pub : null } : null;
   const priced = x !== null && chargePrice(x) !== null;
@@ -136,7 +138,7 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
   const c = x && priced ? cumulative(x) : null;
   // the server's page (the United States, every default, nothing moved) carries the keyed figures for check-values
   const atDefaults = !creditOn && gasOver === null && powerOver === null && FIELDS.every((k) => v[k] === DEFAULTS[k].value);
-  const k = atDefaults && place.power && place.gas ? keyed(place.power.value, place.gas.value) : null;
+  const k = atDefaults && defPower !== null && place.gas ? keyed(defPower, place.gas.value) : null;
   const ck = (f: string) => `ev|${place.code}|${f}`;
   const gasWhere = place.gas?.where === "region" ? `${place.gas.region}: EIA does not publish a weekly price for ${st?.name}, so this is its region's` : place.gas?.where === "us" ? "the US average" : `${st?.name}'s own weekly series`;
   const fieldOf = (key: Key) => {
@@ -159,7 +161,8 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
         </div>
         {place.power ? (
           <Field id="power" label="Electricity at home, cents a kWh" value={power!} shown={`${n2(power! / 10)} cents`} mine={powerOver !== null} min={50} max={600} step={1}
-            tip={<>Default {n2(place.power.value / 10)} cents: the average price homes paid in {where} in {month(place.power.ts)}, the newest month EIA has published. Table {place.power.table}, entity {place.power.entity}.</>}
+            tip={tou ? <span data-ev-tou={st?.code}>Default {n2(tou.value / 10)} cents: {tou.label}, a family&apos;s time-of-use rate, for charging at night. Source: {tou.source}. Default on the site: the average price homes paid in {where} in {month(place.power.ts)}, {n2(place.power.value / 10)} cents (table {place.power.table}).</span>
+              : <>Default {n2(place.power.value / 10)} cents: the average price homes paid in {where} in {month(place.power.ts)}, the newest month EIA has published. Table {place.power.table}, entity {place.power.entity}.</>}
             set={setPowerOver} reset={() => setPowerOver(null)} />
         ) : <p className="mb-4 text-sm">Electricity: not held for {where}.</p>}
         {place.gas ? (
@@ -237,7 +240,7 @@ export function EvGame({ states, us, built, start }: { states: StatePrices[]; us
           <table className="mt-3 w-full text-sm" aria-label="Every number used">
             <thead><tr className="text-left text-xs"><th className="py-1 font-normal">Number</th><th className="py-1 pl-2 text-right font-normal">Value</th><th className="py-1 pl-2 font-normal">Where it comes from</th></tr></thead>
             <tbody>
-              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Electricity at home</th><td className="py-1 pl-2 text-right font-mono">{power !== null ? `${n2(power / 10)} cents/kWh` : "not held"}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{powerOver !== null ? "changed by you" : place.power ? `${place.power.table}, ${place.power.entity}, ${month(place.power.ts)}` : ""}</td></tr>
+              <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Electricity at home</th><td className="py-1 pl-2 text-right font-mono">{power !== null ? `${n2(power / 10)} cents/kWh` : "not held"}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{powerOver !== null ? "changed by you" : tou ? `${tou.label} (wip/alt-ev-game-1)` : place.power ? `${place.power.table}, ${place.power.entity}, ${month(place.power.ts)}` : ""}</td></tr>
               <tr className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">Gasoline</th><td className="py-1 pl-2 text-right font-mono">{gas !== null ? `${usd(gas, 3)}/gal` : "not held"}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{gasOver !== null ? "changed by you" : place.gas ? `${place.gas.table}, ${place.gas.entity}, week of ${day(place.gas.ts)}` : ""}</td></tr>
               {FIELDS.map((kk) => (
                 <tr key={kk} className="border-b border-rule"><th scope="row" className="py-1 text-left font-normal">{DEFAULTS[kk].label}</th><td className="py-1 pl-2 text-right font-mono">{FMT[kk](v[kk])}</td><td className="py-1 pl-2 text-xs [overflow-wrap:anywhere]">{v[kk] !== DEFAULTS[kk].value ? "changed by you" : DEFAULTS[kk].source}</td></tr>

@@ -24,6 +24,17 @@ export const DEFAULTS: Defaults = {
 export const NO_CREDIT_LINE = "No federal credit for cars bought after 30 September 2025.";
 export const IRS_URL = "https://www.irs.gov/credits-deductions/credits-for-new-clean-vehicles-purchased-in-2023-or-after";
 
+/** Ruling alternative 1 of /play/ev (session 7720, branch wip/alt-ev-game-1; not a default on main): where the site holds a
+ *  family's time-of-use rate, home charging defaults to its off-peak price, not the state's average residential price.
+ *  California: PG&E Electric Schedule E-TOU-C, off-peak total rate, winter (1 October through 31 May, eight months of the
+ *  twelve), USD 0.36757 per kWh = 367.57 USD/MWh, as site/data/bill_rules.json holds it (read 30 September 2026); the
+ *  summer off-peak is 0.3994. On main every state takes its average (California 33.61 cents, July 2026). */
+export const TOU_DEFAULT: Record<string, { value: number; label: string; source: string; url: string }> = {
+  CA: { value: 367.57, label: "PG&E's E-TOU-C off-peak total rate, winter (October through May)",
+    source: "Pacific Gas and Electric, Electric Schedule E-TOU-C, as site/data/bill_rules.json holds it (read 30 September 2026)",
+    url: "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf" },
+};
+
 export type Inputs = { miles: number; mpg: number; kwhPerMile: number; gasUsdPerGal: number; powerUsdPerMwh: number; gasCar: number; evCar: number; years: number; rate: number; credit: number;
   /** session 3276: percent of charging at home (default 100) and the public charger's price for the rest, USD/MWh */
   homeShare?: number; publicUsdPerMwh?: number | null };

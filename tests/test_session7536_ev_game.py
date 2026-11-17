@@ -53,14 +53,14 @@ class ThePageDrawn(unittest.TestCase):
 
     def test_the_game_prints_the_committed_figures(self):
         self.assertEqual(self.figures.returncode, 0, self.figures.stdout[-3000:] + self.figures.stderr[-1500:])
-        self.assertIn("5141 figures, as committed", self.figures.stdout)
+        self.assertIn("5139 figures, as committed", self.figures.stdout)   # 5139: wip/alt-ev-game-1, California's time-of-use tip names no month (main: 5141)
 
 
 class TheReplication(unittest.TestCase):
     def test_every_figure_inside(self):
         code, out = replicate()
         self.assertEqual(code, 0, out[-3000:])
-        self.assertIn("5141 of 5141 inside half the page's last shown digit (63 cases)", out)
+        self.assertIn("5139 of 5139 inside half the page's last shown digit (63 cases)", out)   # wip/alt-ev-game-1 (main: 5141)
         self.assertNotIn("NOT INSIDE", out)
         self.assertNotIn("NOT EQUAL", out)
 

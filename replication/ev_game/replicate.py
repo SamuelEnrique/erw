@@ -28,6 +28,10 @@ import json
 import math
 import os
 import sys
+
+# Ruling alternative 1 of /play/ev (session 7720, branch wip/alt-ev-game-1; not a default on main): California's home price
+# defaults to PG&E's E-TOU-C winter off-peak total rate, USD 0.36757 per kWh (site/data/bill_rules.json, read 30 September 2026).
+TOU_DEFAULT = {"CA": 367.57}
 from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -119,7 +123,9 @@ def case_inputs(start, prices):
     v.update(start.get("v", {}))
     credit_on = bool(start.get("creditOn"))
     gas = start["gas"] if start.get("gas") is not None else (place["gas"] or {}).get("value")
-    power = start["power"] if start.get("power") is not None else (place["power"] or {}).get("value")
+    # ruling alternative 1 (wip/alt-ev-game-1): a time-of-use default where the site holds one (PG&E E-TOU-C winter off-peak, site/data/bill_rules.json)
+    tou = TOU_DEFAULT.get(code) if place is not None and code != "US" else None
+    power = start["power"] if start.get("power") is not None else tou if tou is not None else (place["power"] or {}).get("value")
     typed = start.get("publicCents", "")
     try:
         pub = float(typed) * 10 if typed.strip() != "" else None
@@ -170,7 +176,7 @@ def expected(key, c, prices):
     if key.startswith("field_"):
         return v[key[6:]]
     if key == "tip_power_default":
-        return place["power"]["value"] / 10
+        return (TOU_DEFAULT.get(c["code"]) or place["power"]["value"]) / 10   # TOU: wip/alt-ev-game-1
     if key == "tip_gas_default":
         return place["gas"]["value"]
     if key.startswith("tip_") and key.endswith("_default"):
@@ -242,6 +248,8 @@ def expected(key, c, prices):
     if key.startswith("parents_src_"):
         k = key[12:]
         if k == "electricity_at_home":
+            if not c["power_over"] and c["code"] in TOU_DEFAULT:   # wip/alt-ev-game-1
+                return "PG&E's E-TOU-C off-peak total rate, winter (October through May) (wip/alt-ev-game-1)"
             return "changed by you" if c["power_over"] else f"{E_TABLE}, {place['power']['entity']}, {month_words(place['power']['ts'])}"
         if k == "gasoline":
             return "changed by you" if c["gas_over"] else f"{G_TABLE}, {place['gas']['entity']}, week of {day_words(place['gas']['ts'])}"

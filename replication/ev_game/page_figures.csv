@@ -414,10 +414,9 @@ state_AR,raw_payback,The key ev|AR|payback: its raw value,4,4,1e-9
 state_AR,raw_npv,The key ev|AR|npv: its raw value,3180,3180,1e-9
 state_AR,raw_power_cents,The key ev|AR|power_cents: its raw value,14.37,14.37,1e-9
 state_AR,raw_gas,The key ev|AR|gas: its raw value,3.481,3.481,1e-9
-state_CA,field_power,"The input power, as shown",29.75 cents,29.75,0.005
+state_CA,field_power,"The input power, as shown",36.76 cents,36.76,0.005
 state_CA,field_power_mine,The input power: changed by you,default,,
-state_CA,tip_power_default,The input power: the default its tip names,29.75,29.75,0.005
-state_CA,tip_power_month,The electricity tip: the month,August 2026,,
+state_CA,tip_power_default,The input power: the default its tip names,36.76,36.76,0.005
 state_CA,field_gas,"The input gas, as shown",$5.562,5.562,0.0005
 state_CA,field_gas_mine,The input gas: changed by you,default,,
 state_CA,tip_gas_default,The input gas: the default its tip names,$5.562,5.562,0.0005
@@ -449,29 +448,29 @@ state_CA,field_rate,"The input rate, as shown",5.0 percent,5,0.05
 state_CA,field_rate_mine,The input rate: changed by you,default,,
 state_CA,tip_rate_default,The input rate: the default its tip names,5.0,5,0.05
 state_CA,credit_switch,The federal credit switch,off,,
-state_CA,payback,Payback,2.9 years,2.9,0.05
+state_CA,payback,Payback,3.6 years,3.6,0.05
 state_CA,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 state_CA,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-state_CA,npv,Net present value,"$6,030",6030,0.5
+state_CA,npv,Net present value,"$3,924",3924,0.5
 state_CA,npv_years,Net present value: the years in its heading,8,8,0.5
 state_CA,npv_tip_rate,Net present value's tip: the rate,5.0,5,0.05
 state_CA,gas_year,A year of gasoline,"$3,090",3090,0.5
-state_CA,ev_year,A year of electricity,"$1,383",1383,0.5
+state_CA,ev_year,A year of electricity,"$1,709",1709,0.5
 state_CA,save_year_label,The third fuel row's name,Saved a year with the EV,,
-state_CA,save_year,Saved a year with the EV,"$1,707",1707,0.5
-state_CA,sr_power_cents,The screen reader's line: cents a kWh,29.75,29.75,0.005
+state_CA,save_year,Saved a year with the EV,"$1,381",1381,0.5
+state_CA,sr_power_cents,The screen reader's line: cents a kWh,36.76,36.76,0.005
 state_CA,sr_gas,The screen reader's line: dollars a gallon,5.562,5.562,0.0005
 state_CA,chart_years,The chart's summary: years,8,8,0.5
 state_CA,chart_gas_start,The chart: the gasoline car at year 0,"$28,600",28600,0.5
 state_CA,chart_gas_end,The chart: the gasoline car at the last year,"$53,320",53320,0.5
 state_CA,chart_ev_start,The chart: the EV at year 0,"$33,600",33600,0.5
-state_CA,chart_ev_end,The chart: the EV at the last year,"$44,667",44667,0.5
-state_CA,chart_summary_cross,The chart's summary: where the lines cross,2.9,2.9,0.05
-state_CA,chart_cross_label,The chart's crossing label,2.9,2.9,0.05
+state_CA,chart_ev_end,The chart: the EV at the last year,"$47,274",47274,0.5
+state_CA,chart_summary_cross,The chart's summary: where the lines cross,3.6,3.6,0.05
+state_CA,chart_cross_label,The chart's crossing label,3.6,3.6,0.05
 state_CA,chart_y_ticks,The chart's money axis,$0 $10k $20k $30k $40k $50k $60k,,
 state_CA,chart_x_labels,The chart's year axis (blank: a year not labelled),0 1 2 3 4 5 6 7 8,,
-state_CA,parents_electricity_at_home,For your parents: Electricity at home,29.75 cents/kWh,29.75,0.005
-state_CA,parents_src_electricity_at_home,"For your parents: Electricity at home, where it comes from","eia_retail_electricity_prices, eia:retail_price:CA:RES, August 2026",,
+state_CA,parents_electricity_at_home,For your parents: Electricity at home,36.76 cents/kWh,36.76,0.005
+state_CA,parents_src_electricity_at_home,"For your parents: Electricity at home, where it comes from","PG&E's E-TOU-C off-peak total rate, winter (October through May) (wip/alt-ev-game-1)",,
 state_CA,parents_gasoline,For your parents: Gasoline,$5.562/gal,5.562,0.0005
 state_CA,parents_src_gasoline,"For your parents: Gasoline, where it comes from","eia_regional_retail_fuel_prices, eia:EMM_EPMR_PTE_SCA_DPG, week of November 9, 2026",,
 state_CA,parents_miles_a_year,For your parents: Miles a year,"15,000 miles",15000,0.5
@@ -493,9 +492,9 @@ state_CA,parents_src_interest_rate_percent_a_year,"For your parents: Interest ra
 state_CA,parents_federal_tax_credit,For your parents: Federal tax credit,$0,0,0.5
 state_CA,parents_src_federal_tax_credit,"For your parents: Federal tax credit, where it comes from",No federal credit for cars bought after 30 September 2025. (irs.gov),,
 state_CA,built,The day the prices were built into the game,2026-11-17,,
-state_CA,raw_payback,The key ev|CA|payback: its raw value,2.9,2.9,1e-9
-state_CA,raw_npv,The key ev|CA|npv: its raw value,6030,6030,1e-9
-state_CA,raw_power_cents,The key ev|CA|power_cents: its raw value,29.75,29.75,1e-9
+state_CA,raw_payback,The key ev|CA|payback: its raw value,3.6,3.6,1e-9
+state_CA,raw_npv,The key ev|CA|npv: its raw value,3924,3924,1e-9
+state_CA,raw_power_cents,The key ev|CA|power_cents: its raw value,36.76,36.76,1e-9
 state_CA,raw_gas,The key ev|CA|gas: its raw value,5.562,5.562,1e-9
 state_CO,field_power,"The input power, as shown",17.17 cents,17.17,0.005
 state_CO,field_power_mine,The input power: changed by you,default,,
@@ -4551,10 +4550,9 @@ never,parents_src_interest_rate_percent_a_year,"For your parents: Interest rate,
 never,parents_federal_tax_credit,For your parents: Federal tax credit,$0,0,0.5
 never,parents_src_federal_tax_credit,"For your parents: Federal tax credit, where it comes from",No federal credit for cars bought after 30 September 2025. (irs.gov),,
 never,built,The day the prices were built into the game,2026-11-17,,
-long_keep_no_discount,field_power,"The input power, as shown",29.75 cents,29.75,0.005
+long_keep_no_discount,field_power,"The input power, as shown",36.76 cents,36.76,0.005
 long_keep_no_discount,field_power_mine,The input power: changed by you,default,,
-long_keep_no_discount,tip_power_default,The input power: the default its tip names,29.75,29.75,0.005
-long_keep_no_discount,tip_power_month,The electricity tip: the month,August 2026,,
+long_keep_no_discount,tip_power_default,The input power: the default its tip names,36.76,36.76,0.005
 long_keep_no_discount,field_gas,"The input gas, as shown",$5.562,5.562,0.0005
 long_keep_no_discount,field_gas_mine,The input gas: changed by you,default,,
 long_keep_no_discount,tip_gas_default,The input gas: the default its tip names,$5.562,5.562,0.0005
@@ -4586,27 +4584,27 @@ long_keep_no_discount,field_rate,"The input rate, as shown",0.0 percent,0,0.05
 long_keep_no_discount,field_rate_mine,The input rate: changed by you,changed by you,,
 long_keep_no_discount,tip_rate_default,The input rate: the default its tip names,5.0,5,0.05
 long_keep_no_discount,credit_switch,The federal credit switch,off,,
-long_keep_no_discount,payback,Payback,2.9 years,2.9,0.05
+long_keep_no_discount,payback,Payback,3.6 years,3.6,0.05
 long_keep_no_discount,payback_tip_extra,Payback's tip: what the EV costs more to buy,"$5,000",5000,0.5
 long_keep_no_discount,payback_tip_after_credit,Payback's tip says 'after the credit',no,,
-long_keep_no_discount,npv,Net present value,"$20,599",20599,0.5
+long_keep_no_discount,npv,Net present value,"$15,712",15712,0.5
 long_keep_no_discount,npv_years,Net present value: the years in its heading,15,15,0.5
 long_keep_no_discount,npv_tip_rate,Net present value's tip: the rate,0.0,0,0.05
 long_keep_no_discount,gas_year,A year of gasoline,"$3,090",3090,0.5
-long_keep_no_discount,ev_year,A year of electricity,"$1,383",1383,0.5
+long_keep_no_discount,ev_year,A year of electricity,"$1,709",1709,0.5
 long_keep_no_discount,save_year_label,The third fuel row's name,Saved a year with the EV,,
-long_keep_no_discount,save_year,Saved a year with the EV,"$1,707",1707,0.5
+long_keep_no_discount,save_year,Saved a year with the EV,"$1,381",1381,0.5
 long_keep_no_discount,chart_years,The chart's summary: years,15,15,0.5
 long_keep_no_discount,chart_gas_start,The chart: the gasoline car at year 0,"$28,600",28600,0.5
 long_keep_no_discount,chart_gas_end,The chart: the gasoline car at the last year,"$74,950",74950,0.5
 long_keep_no_discount,chart_ev_start,The chart: the EV at year 0,"$33,600",33600,0.5
-long_keep_no_discount,chart_ev_end,The chart: the EV at the last year,"$54,351",54351,0.5
-long_keep_no_discount,chart_summary_cross,The chart's summary: where the lines cross,2.9,2.9,0.05
-long_keep_no_discount,chart_cross_label,The chart's crossing label,2.9,2.9,0.05
+long_keep_no_discount,chart_ev_end,The chart: the EV at the last year,"$59,238",59238,0.5
+long_keep_no_discount,chart_summary_cross,The chart's summary: where the lines cross,3.6,3.6,0.05
+long_keep_no_discount,chart_cross_label,The chart's crossing label,3.6,3.6,0.05
 long_keep_no_discount,chart_y_ticks,The chart's money axis,$0 $10k $20k $30k $40k $50k $60k $70k $80k,,
 long_keep_no_discount,chart_x_labels,The chart's year axis (blank: a year not labelled),0 _ 2 _ 4 _ 6 _ 8 _ 10 _ 12 _ 14 _,,
-long_keep_no_discount,parents_electricity_at_home,For your parents: Electricity at home,29.75 cents/kWh,29.75,0.005
-long_keep_no_discount,parents_src_electricity_at_home,"For your parents: Electricity at home, where it comes from","eia_retail_electricity_prices, eia:retail_price:CA:RES, August 2026",,
+long_keep_no_discount,parents_electricity_at_home,For your parents: Electricity at home,36.76 cents/kWh,36.76,0.005
+long_keep_no_discount,parents_src_electricity_at_home,"For your parents: Electricity at home, where it comes from","PG&E's E-TOU-C off-peak total rate, winter (October through May) (wip/alt-ev-game-1)",,
 long_keep_no_discount,parents_gasoline,For your parents: Gasoline,$5.562/gal,5.562,0.0005
 long_keep_no_discount,parents_src_gasoline,"For your parents: Gasoline, where it comes from","eia_regional_retail_fuel_prices, eia:EMM_EPMR_PTE_SCA_DPG, week of November 9, 2026",,
 long_keep_no_discount,parents_miles_a_year,For your parents: Miles a year,"15,000 miles",15000,0.5
