@@ -13,3 +13,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
 | /cost-of-power/battery/awards | samueloldlaptop | 7705 | done | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
 | /impact | samueloldlaptop | 7706 | claimed | docs/reviews/ruling-alternatives-impact-2026-11-17.md |
+| Site-wide: Ask (the chat) | samueloldlaptop | 7707 | claimed | docs/reviews/ruling-alternatives-site-ask-2026-11-17.md |
