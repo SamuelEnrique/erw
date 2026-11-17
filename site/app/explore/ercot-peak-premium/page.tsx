@@ -9,7 +9,7 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } 
 import { headers } from "@/lib/data";
 import { MONTHS, choose, isoKey, longTime, type Params } from "@/lib/explore";
 import {
-  ANNUAL, BLOCKS, FIGURES, MONTHLY, SIDE, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
+  ANNUAL, BLOCKS, FIGURES, MEANS, MONTHLY, SIDE, STATS, THESIS_HUB, fullYear, lastInput, partialMonth, periodTs, valueOf, type Row,
 } from "@/lib/explore/peakpremium";
 import { sourceOf } from "@/lib/explore/source";
 import { node, price } from "@/lib/format";
@@ -196,6 +196,21 @@ export default async function PeakPremiumExplorer({ searchParams }: { searchPara
           head={["Figure", ...pair.map(mark)]}
           rows={FIGURES.map((f) => ({ key: f.v, cells: [f.label, ...pair.map((y) => <N key={y} v={f.v} y={y} unit={f.unit} />)] }))} />
       </ToolSection>
+
+      {/* ruling alternative 1 (wip/alt-ercot-peak-premium-1, not a default on main): means and the traded block beside the medians */}
+      {MEANS.some((f) => f.v !== "peak_median" && f.v !== "all_median" && pair.some((y) => has(f.v, y))) ? (
+        <ToolSection id="means" title={`Means and the traded block beside the medians, ${name}`}>
+          <p className="mb-2 max-w-3xl text-sm" data-means="1">
+            The medians above beside the figures published sources give: plain means, a mean weighted by load, and the 06:00 to 22:00 weekday block that is traded.
+            <Tip id="means-tip" label="how the means are made">
+              Each figure is one row of the table. A mean counts every interval&apos;s price, so a few hours of scarcity move it where they do not move a median. The load-weighted mean weights each 15-minute price at the hub by ERCOT&apos;s system load of its hour; ERCOT&apos;s market monitor (Potomac Economics, State of the Market Report) weights each load zone&apos;s price by that zone&apos;s load, so the two differ. The traded block is 06:00 to 22:00, Monday to Friday, by the local hour an interval starts. Default on the site: the medians of the 16:00 to 21:00 block only. Source: ERCOT real-time settlement point prices (NP6-785-ER, NP6-905-CD); ERCOT hourly system load.
+            </Tip>
+          </p>
+          <ToolTable caption={`${name}: medians, means and the traded block in ${pair.map(when).join(" and ")}`} minWidth={420}
+            head={["Figure", ...pair.map(mark)]}
+            rows={MEANS.map((f) => ({ key: f.v, highlight: f.v === "peak_median", cells: [f.label, ...pair.map((y) => <N key={y} v={f.v} y={y} unit={f.unit} />)] }))} />
+        </ToolSection>
+      ) : null}
 
       {vs ? (
         <ToolSection id="two-hubs" title={`Two hubs side by side: ${name} and ${node(vs)}`}>
