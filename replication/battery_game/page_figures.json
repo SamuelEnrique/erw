@@ -1,6 +1,6 @@
 {
  "note": "ERW, session 7535: the figures /play/battery shows a player, read off its end screen drawn with the site's own components (site/scripts/battery-game-figures.mjs). Each figure as printed.",
- "n": 3288,
+ "n": 3290,
  "figures": [
   {
    "case": "uri|easy|perfect",
@@ -3833,6 +3833,11 @@
    "shown": "roof"
   },
   {
+   "case": "heat|hard-solar|day",
+   "key": "outage_charge",
+   "shown": "roof"
+  },
+  {
    "case": "heat|hard-solar|wait",
    "key": "end_you_earned",
    "shown": "$34.32"
@@ -6155,6 +6160,11 @@
   {
    "case": "calm|hard-solar|day",
    "key": "keep",
+   "shown": "roof"
+  },
+  {
+   "case": "calm|hard-solar|day",
+   "key": "outage_charge",
    "shown": "roof"
   },
   {
@@ -14515,7 +14525,7 @@
   {
    "case": "caiso-duck|normal|day",
    "key": "deb_discharged",
-   "shown": "discharged 00:15 to 01:45, 04:30 to 06:30, 07:00 to 07:30 and 13:30 to 13:45, and 4 more"
+   "shown": "discharged 00:15 to 01:45, 04:30 to 06:30, 07:00 to 07:15 and 13:30 to 13:45, and 4 more"
   },
   {
    "case": "caiso-duck|normal|day",

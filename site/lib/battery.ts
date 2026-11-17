@@ -415,8 +415,10 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
         // session 7535 (docs/reviews/battery-game-faults-2026-11-16.md, row 3): a charge into a full battery or a sale
         // from an empty one (or one at its reserve) moves nothing and is waiting in every respect (no cash, no wear, no
         // delivery, the roof's money the same); it is not kept as a move, so the debrief and the replay never say the
-        // perfect battery "charged" through hours it sat full. The score is unchanged.
-        if (a !== 0 && x.soc === n.soc) continue;
+        // perfect battery "charged" through hours it sat full. The score is unchanged. Session 7535 (row 4): "moves
+        // nothing" is read at the states' own grain (a nanowatt-hour, the key below), so a sale of a rounding residue
+        // (1e-15 kWh left after a charge and a sale) is not kept as a move either.
+        if (a !== 0 && Math.round(x.soc * 1e9) === Math.round(n.soc * 1e9)) continue;
         const value = n.value + x.cash - x.wear + roofSale(sun[i], P[i], x.soc - n.soc, r).usd + (inVpp ? (x.delivered * bonusPrice) / 1000 : 0);
         if (r.money0 + value < 0) { endAt({ soc: x.soc, value, prev: n, a }, i); continue; }  // bankrupt: the game ends
         const k = Math.round(x.soc * 1e9);

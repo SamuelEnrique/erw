@@ -589,6 +589,20 @@ export function keepWordsFor(need: number, rules: Rules): string {
  * house's need, less the roof, which is the battery's need times its one-way efficiency) at the value of lost load. */
 export const outageChargeFor = (need: number, rules: Rules) => (need * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000;
 
+/** The banner in the outage (Hard). Session 7535 (faults file, row 5): when the roof carries the house through the whole
+ * outage (`need` is 0) the battery cannot run dry, and the banner no longer says the dark house would pay "$0.00"; it says
+ * the roof carries the house. Otherwise the words are as they were. */
+export function OutageBanner({ need, rules }: { need: number; rules: Rules }) {
+  return (
+    <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status" data-outage-banner>
+      Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}.{" "}
+      {need > 0
+        ? <>If the battery runs dry, the lights go out, the round ends, and you pay for the power the house needed in the whole outage ({usd(outageChargeFor(need, rules))}): a dark house in a grid emergency is what the battery is there to prevent.</>
+        : <>Today the roof carries the house through the whole outage, so the battery cannot run dry: a dark house in a grid emergency is what the battery and the roof are there to prevent.</>}
+    </div>
+  );
+}
+
 /** Session 289: the one page's three modes, in a line each (Samuel's ruling 16 of 14 October 2026). Session 7535: Hard's
  * wear is charged on each kWh drawn out of the battery, not on each kWh sold (faults file, row 1). */
 const MODE_LINE: Record<Difficulty, string> = {
@@ -1022,10 +1036,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, initialMode
                 <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : result && result.mine.why ? `ended at ${at(result.mine.end)}` : "end of day"}</span>
               </div>
               {inOutage ? (
-                <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
-                  Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
-                  and you pay for the power the house needed in the whole outage ({usd(outageChargeFor(perfect.outageNeedKwh, rules))}): a dark house in a grid emergency is what the battery is there to prevent.
-                </div>
+                <OutageBanner need={perfect.outageNeedKwh} rules={rules} />
               ) : inSpike ? (
                 <div className="mb-1 border border-ink bg-paper px-2 py-1 text-sm" role="status">
                   Grid emergency and fleet call (game rules): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap, and each kWh you sell this hour also earns the fleet bonus. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours. {keepWords}

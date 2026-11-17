@@ -129,11 +129,16 @@ function preview(c, html) {
 }
 function hardWords(c, need, r) {
   const w = G.keepWordsFor(need, r);
-  if (!w) { put(c, "keep", "none"); return; }
-  if (w.startsWith("Today the roof")) { put(c, "keep", "roof"); return; }
+  if (!w) { put(c, "keep", "none"); outageBanner(c, need, r); return; }
+  if (w.startsWith("Today the roof")) { put(c, "keep", "roof"); outageBanner(c, need, r); return; }
   read(c, "keep", w, new RegExp(`need ${N} kWh from the battery in the outage; your backup reserve holds (?:only )?${N} kWh, (enough by itself|so keep at least ${N} kWh)`), ["keep_need", "keep_reserve", "keep_verdict", "keep_at_least"]);
-  const usd = (v) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;  // the banner's usd()
-  put(c, "outage_charge", usd(G.outageChargeFor(need, r)));
+  outageBanner(c, need, r);
+}
+/** The banner in the outage (OutageBanner): the charge a dark house would pay, or "roof" when the roof carries it all. */
+function outageBanner(c, need, r) {
+  const t = words(renderToStaticMarkup(h(G.OutageBanner, { need, rules: r })));
+  if (t.includes("Today the roof carries the house")) { put(c, "outage_charge", "roof"); return; }
+  read(c, "outage", t, new RegExp(`the house needed in the whole outage \\(${N}\\)`), ["outage_charge"]);
 }
 
 // ---- draw every case -------------------------------------------------------------------------------------------------

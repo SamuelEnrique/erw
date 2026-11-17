@@ -86,7 +86,11 @@ class TheGame(unittest.TestCase):
         game = src("site", "app", "play", "battery", "Game.tsx")
         # session 289 (ruling 2a): the notice and the announcement say the need against the reserve, in one sentence
         self.assertIn("The house will need ${need.toFixed(2)} kWh from the battery in the outage; your backup reserve holds ${rules.reserveKwh.toFixed(2)} kWh, enough by itself", game)
-        self.assertIn("const need = perfect.outageNeedKwh, reserveOk = rules.reserveKwh + 1e-9 >= need;", game)
+        # session 7535: the words moved unchanged into keepWordsFor (so the replication reads them); the need is the
+        # perfect battery's outageNeedKwh, and "enough" is the reserve against it, as before
+        self.assertIn("const need = perfect.outageNeedKwh;", game)
+        self.assertIn("const keepWords = keepWordsFor(need, rules);", game)
+        self.assertIn("const reserveOk = rules.reserveKwh + 1e-9 >= need;", game)
         self.assertIn("so keep at least ${need.toFixed(2)} kWh", game)
 
     def test_the_board_carries_the_marks_the_browser_check_reads(self):

@@ -388,8 +388,12 @@ def day_expected(level, R, plan_actions, opt):
     pk, lo = real.index(max(real)), real.index(min(real))
     perfect = play(level, plan_actions, R)
     did = moves_of(perfect["path"])
+    # the debrief names the plan's trades ("buy when power is cheap, sell when it is dear"); in the outage there is no
+    # market and no trade (the battery carries the house, or the roof charges it), so those intervals are not runs
+    o = perfect["out"]
+    market = [0 if (o and o[0] <= i <= o[1]) else d for i, d in enumerate(did)]
     e.update(deb_peak=real[pk], deb_peak_at=clock(level, pk), deb_low=real[lo], deb_low_at=clock(level, lo), deb_vpp_at=clock(level, perfect["call"]))
-    ch, dis = runs_text(level, did, 1), runs_text(level, did, -1)
+    ch, dis = runs_text(level, market, 1), runs_text(level, market, -1)
     e["deb_charged"] = f"charged {ch}" if ch else "never charged"
     e["deb_discharged"] = f"discharged {dis}" if dis else "never discharged"
     e.update(deb_kwh=R["kwh"], deb_kw=R["kw"], deb_loss_pct=js_round((1 - R["rte"]) * 100))
@@ -408,8 +412,10 @@ def day_expected(level, R, plan_actions, opt):
                 e["keep_at_least"] = need
             e["outage_charge"] = need * R["eta"] * VOLL / 1000
         else:
+            # the roof carries the house through the whole outage: the battery cannot run dry, and the banner says so
+            # (faults file, row 5: it said a dark house would pay $0.00)
             e["keep"] = "roof" if R["solar"] else "none"
-            e["outage_charge"] = 0.0
+            e["outage_charge"] = "roof" if R["solar"] else 0.0
     # the plan as the page states it scores the optimum, and keeps no move that moves nothing (faults file, row 3)
     noop = sum(1 for i, a in enumerate(plan_actions) if a != 0 and did[i] == 0 and not (perfect["out"] and perfect["out"][0] <= i <= perfect["out"][1]) and (perfect["end"] is None or i <= perfect["end"]))
     return e, perfect["score"], noop
