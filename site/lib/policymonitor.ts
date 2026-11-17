@@ -49,11 +49,18 @@ export const OPEN_FILTERS: Filters = { ...NO_FILTERS, minSig: 5 };
 const any = (chosen: string[], have: string[] | undefined) => chosen.length === 0 || (have ?? []).some((x) => chosen.includes(x));
 const one = (chosen: string[], v: string | undefined) => chosen.length === 0 || (v !== undefined && chosen.includes(v));
 
+/** Session 7626, the other choice of the ruling on PJM-wide records (wip/alt-policy-1, not landed): the states and the
+ * District of Columbia of PJM's footprint (PJM, "Who we are": 13 states and DC; five of them in part). A record that
+ * names PJM and no state is PJM-wide and binds each of them, so a State filter of any of them keeps it. */
+export const PJM_STATES = ["DE", "DC", "IL", "IN", "KY", "MD", "MI", "NJ", "NC", "OH", "PA", "TN", "VA", "WV"];
+export const pjmWide = (r: Pick<MonitorRow, "grids" | "states">) => (r.grids ?? []).includes("pjm") && !(r.states ?? []).length;
+const stateHolds = (chosen: string[], r: MonitorRow) => any(chosen, r.states) || (pjmWide(r) && chosen.some((s) => PJM_STATES.includes(s)));
+
 /** The rows the filters leave. A filter left empty holds every row; a row's date is its newest document's. */
 export function filterRows(rows: MonitorRow[], f: Filters): MonitorRow[] {
   return rows.filter((r) =>
     one(f.bodies, r.body) && one(f.instruments, r.instrument) && one(f.sectors, r.sector) && any(f.grids, r.grids) &&
-    any(f.states, r.states) && one(f.statuses, r.status) && (!f.from || r.date >= f.from) && (!f.to || r.date <= f.to) &&
+    stateHolds(f.states, r) && one(f.statuses, r.status) && (!f.from || r.date >= f.from) && (!f.to || r.date <= f.to) &&
     (f.minSig === null || (r.significance ?? -1) >= f.minSig));
 }
 
