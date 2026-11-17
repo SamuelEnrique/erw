@@ -11,6 +11,9 @@ export const revalidate = 3600;
 
 const EV = "elliott_2022";
 const FERC = "https://www.ferc.gov/sites/default/files/2024-02/24_Winter-Storm_Elliot_0207_UPDATE.pdf";
+// ruling alternative 5 (session 7712, wip/alt-events-5, not a default on main): SPP's all-time winter peak as the FERC and NERC
+// inquiry report on Winter Storm Elliott gives it (the rulings file of 17 November 2026; docs/reviews/ruling-impact-events-2026-11-17.md)
+const SPP_WINTER_PEAK_FERC = 47157;
 const PJM = "https://www.pjm.com/-/media/DotCom/library/reports-notices/special-reports/2023/20230717-winter-storm-elliott-event-analysis-and-recommendation-report.pdf";
 const inWin = (d: string) => d >= "2022-12-19" && d <= "2022-12-29";
 
@@ -69,7 +72,9 @@ export default function Elliott2022() {
             <p>
               <strong>A date that does not match.</strong> PJM&apos;s report says SPP &quot;set a new winter peak&quot; on Dec. 23. In EIA&apos;s hourly data SPP&apos;s highest hour of the
               window is on {day(spp)}, <N r={spp} event={EV} /> MW, the hour from 18:00 Central time, which is 00:00 UTC on Dec. 23; on 2022-12-23 itself (Central
-              time) its highest hour was <N r={spp23} event={EV} /> MW. The warehouse holds no SPP peak record to say which count the report used.
+              time) its highest hour was <N r={spp23} event={EV} /> MW. {/* ruling alternative 5 (session 7712, wip/alt-events-5, not a default on main): FERC's figure cited */}
+              FERC and NERC&apos;s inquiry report gives SPP&apos;s all-time winter peak as <span data-ferc-spp-peak={SPP_WINTER_PEAK_FERC}>{SPP_WINTER_PEAK_FERC.toLocaleString("en-US")}</span> MW (<a href={FERC}>FERC,
+              NERC and the Regional Entities, inquiry report</a>), beside EIA&apos;s highest hour above; the warehouse holds no SPP peak record of its own.
             </p>
           </>
         );
