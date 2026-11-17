@@ -465,9 +465,9 @@ test("Virginia's solar exemption: 80, 70 and 60 percent by years in service, mor
   const va = { ...F.defaults(P, "utility_pv", "va"), mw: 100, capex: 1500, own: 0.8, ownyears: 30 };
   near(F.propertyTax(P, va, 0).tax, 150e6 * 0.2 * 0.008);
   near(F.propertyTax(P, va, 4).tax, 150e6 * (1 - 4 / 30) * 0.2 * 0.008, 1e-12, "the fifth year");
-  near(F.propertyTax(P, va, 5).tax, 150e6 * (1 - 5 / 30) * 0.3 * 0.008, 1e-12, "the sixth year");
-  near(F.propertyTax(P, va, 10).tax, 150e6 * (1 - 10 / 30) * 0.4 * 0.008, 1e-12, "the eleventh year");
-  near(F.propertyTax(P, va, 25).tax, 150e6 * (1 - 25 / 30) * 0.4 * 0.008, 1e-12, "and after");
+  near(F.propertyTax(P, va, 5).tax, 150e6 * (1 - 5 / 30) * 0.2 * 0.008, 1e-12, "the sixth year: ruling alternative 16 (wip/alt-impact-16), subsection D's flat 80 percent; main: 0.3");
+  near(F.propertyTax(P, va, 10).tax, 150e6 * (1 - 10 / 30) * 0.2 * 0.008, 1e-12, "the eleventh year (alternative 16; main: 0.4)");
+  near(F.propertyTax(P, va, 25).tax, 150e6 * (1 - 25 / 30) * 0.2 * 0.008, 1e-12, "and after (alternative 16; main: 0.4)");
   near(F.propertyTax(P, { ...va, mw: 200, capex: 750 }, 0).tax, 150e6 * 0.008, 1e-12, "150 MW or more: no exemption");
   near(F.propertyTax(P, { ...va, mw: 5, capex: 30000 }, 0).tax, 150e6 * 0.008, 1e-12, "5 MW: not this clause");
 });
