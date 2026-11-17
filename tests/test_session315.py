@@ -45,7 +45,7 @@ class TheFormFirst(unittest.TestCase):
         at = [page.index(o) for o in order]
         self.assertEqual(at, sorted(at))
         self.assertIn("export default async function ResearchPage()", page)
-        # session 7603 (chain 305): the list leaves out a table held whole, so it is the public tables its legend names
+        # session 7605 (chain 305): the list leaves out a table held whole, so it is the public tables its legend names
         self.assertIn("tables = (await liveCatalogue()).map((r) => r.table_name).filter((t) => !(licenseNeeded(t) && !licenseByGrid(t) && !licenseByRow(t))).sort();", page)
         for f in ("site/lib/pages.ts", "site/app/research/page.tsx", "site/components/analysis/AskForm.tsx"):
             body = re.sub(r"//.*", "", src(*f.split("/")))

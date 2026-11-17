@@ -19,7 +19,7 @@ import { DOCS, analysisWeeks, digestChartDays, digestDates, weeklyWeeks } from "
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
 import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, topicLabel, topicsOf } from "@/lib/research";
 import { ChartOfWeekView } from "./view";
-import { figureText, figureWords } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them; session 7603: their keys in plain words
+import { figureText, figureWords } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them; session 7605: their keys in plain words
 
 // Session 5503 (chain 269): what makes each chart, and when, in the words of the method note's "Final form"
 const TODAY_NOTE = "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date.";
@@ -63,7 +63,7 @@ export default async function ResearchPage() {
   // session 315: the public tables of the live set, for the reader's form (optional there: a failed read leaves the
   // list empty and the form says so; the page is not held back for it)
   let tables: string[] = [];
-  // chain 305 (session 7603, read as its reader): a table held whole (license needed, not by grid or by row:
+  // chain 305 (session 7605, read as its reader): a table held whole (license needed, not by grid or by row:
   // energy_deals, datacenter_facilities, news_index among them) is not offered, so the list is what its legend says,
   // public tables; one held by grid or by row keeps its public rows and stays
   try { tables = (await liveCatalogue()).map((r) => r.table_name).filter((t) => !(licenseNeeded(t) && !licenseByGrid(t) && !licenseByRow(t))).sort(); } catch { tables = []; }

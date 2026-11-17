@@ -8,7 +8,7 @@ import type { Card } from "./findings";
  * number as the chart-maker rounds it (warehouse/analysis/findings/daily_chart.py nd_for; the same rule as
  * lib/digest.ts chartText and the value checker's digest_chart rule, tests/test_session5501.py holding the three
  * together); a value that is not a number keeps its text. */
-/** Chain 305 (session 7603, Automated Analysis read as its reader): the plain words for the keys of the record's
+/** Chain 305 (session 7605, Automated Analysis read as its reader): the plain words for the keys of the record's
  * figures under today's chart. They were printed as the scanner names them ("sigma", "stood points", "margin sigmas"),
  * words a fund analyst would not know. A key not listed is printed as before, its underscores as spaces. */
 export const FIGURE_WORDS: Record<string, string> = {

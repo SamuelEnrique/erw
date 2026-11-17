@@ -1,4 +1,4 @@
-"""Session 7603 (chain 305, part C, the portable laptop): Automated Analysis (`/research`) read as its reader, a fund
+"""Session 7605 (chain 305, part C, the portable laptop): Automated Analysis (`/research`) read as its reader, a fund
 analyst reading the week's findings (docs/reviews/research-read-2026-11-16.md).
 
 1. At 390 px, with a finding's "Method, the table of estimates" opened, the page was 712 px wide: the library's grid
