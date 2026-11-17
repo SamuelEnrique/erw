@@ -202,11 +202,19 @@ class OnThePage(unittest.TestCase):
         self.assertNotIn("last", self.rows["cleared-pjm"])
 
     def test_the_five_operators_rows_hold_a_whole_week_in_mwh_a_day(self):
-        for rid in ("cleared-ercot", "cleared-caiso", "cleared-nyiso", "cleared-iso-ne", "cleared-spp"):
+        # session 7051 (request 154): NYISO's and ISO-NE's rows are held (license needed, and an internal table) and carry
+        # status and note only; an operator whose newest whole week is older than STALE_CLEARED says so (ERCOT on 17 November)
+        for rid in ("cleared-ercot", "cleared-caiso", "cleared-spp"):
             r = self.rows[rid]
+            if r["status"] == "not_held":
+                self.assertIn("the last whole week held ended", r["note"], rid)
+                continue
             self.assertEqual((r["status"], r["unit"], r["freq"]), ("ok", "MWh/d", "W"), rid)
             self.assertGreater(r["last"]["v"], 100000, rid)                     # a grid clears far more than 100 GWh a day
             self.assertEqual(dt.date.fromisoformat(r["last"]["t"]).weekday(), 4, rid)     # a week ends on a Friday
+        for rid in ("cleared-nyiso", "cleared-iso-ne"):
+            self.assertEqual(self.rows[rid]["status"], "licensed", rid)
+            self.assertNotIn("last", self.rows[rid], rid)
 
     def test_miso_and_pjm_fuel_burn_rows_are_shown_because_they_are_federal_data(self):
         # the owner's ruling (the chain prompt of 6 October 2026): figures from EIA-930 are shown for every grid

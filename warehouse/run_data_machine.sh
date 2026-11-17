@@ -99,6 +99,8 @@ PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtail
             site/data/board.json site/public/board
             site/data/curtailment_profile.json site/data/mix   # session 7014: the profiles' page files (dm_monthly_profiles)
             site/data/map.json site/data/map_v2.json)   # session 349: the map's copy (dm_project_map)
+PAGE_PATHS+=(site/data/storage_owners.json   # session 7050: the owners tab's copy, written by dm_storage_owners --snapshot
+            site/data/demand_weather.json)   # session 7051: demand with the weather taken out (dm_demand_weather --snapshot)
 PAGE_PATHS+=(replication/datacenter/page_figures.json replication/datacenter/page_figures.csv   # session 3779: dm_datacenter_figures
             docs/methods/automated_analysis_findings.md   # session 3779: dm_cross_check_rows
             replication/analysis/page_figures.json replication/analysis/page_figures.csv)   # session 3803: dm_analysis_figures
