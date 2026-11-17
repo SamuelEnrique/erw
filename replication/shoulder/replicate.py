@@ -307,10 +307,12 @@ def compare(T, page):
     for key, v in page["chart_month"].items():
         entity, name = key.split("|")
         m = month_of_name(name)
-        one(f"months|{entity}|shoulder_hours|{m}", "the months' chart, on hover", v["shoulder"], (entity, "shoulder_hours", m + "-01"))
-        one(f"months|{entity}|shoulder_hours_covered|{m}", "the months' chart, on hover", v["covered"], (entity, "shoulder_hours_covered", m + "-01"))
+        # ruling alternative 2 of /shoulder (wip/alt-shoulder-2, not a default on main): the months' chart draws the headline
+        # measure, the second (shoulder2_*); main's chart draws the shoulder against the daily mean
+        one(f"months|{entity}|shoulder2_hours|{m}", "the months' chart, on hover", v["shoulder"], (entity, "shoulder2_hours", m + "-01"))
+        one(f"months|{entity}|shoulder2_hours_covered|{m}", "the months' chart, on hover", v["covered"], (entity, "shoulder2_hours_covered", m + "-01"))
         if "needed" in v:        # session 7512: the hover line also gives the hours needed
-            one(f"months|{entity}|shoulder_hours_needed|{m}", "the months' chart, on hover", v["needed"], (entity, "shoulder_hours_needed", m + "-01"))
+            one(f"months|{entity}|shoulder2_hours_needed|{m}", "the months' chart, on hover", v["needed"], (entity, "shoulder2_hours_needed", m + "-01"))
     for slug, entity, _ in GRIDS:
         ours = opening(T, entity)
         for v in page["views"]:
@@ -323,7 +325,7 @@ def compare(T, page):
         if not v["drawn"]:
             continue
         m = month_of_name(v["drawn"])
-        ours = R.get((entity, "shoulder_runs_to_midnight", m + "-01")) == 1
+        ours = R.get((entity, "shoulder2_runs_to_midnight", m + "-01")) == 1   # ruling alternative 2 (wip/alt-shoulder-2): the summary states the second measure
         rows.append((f"midnight|{entity}|{m}", "the summary's \"(midnight)\"", "yes" if v["midnight"] else "no", "yes" if ours else "no", None, None, v["midnight"] == ours,
                      "recomputed from the average day"))
     return rows

@@ -57,14 +57,15 @@ const dash = new RegExp(`[${String.fromCharCode(0x2013)}${String.fromCharCode(0x
 // ---- case 1: is four hours enough for ERCOT's evening in August 2025, and was it in August 2023
 const e25 = await draw({ grid: "ercot", month: "2025-08" }), e23 = await draw({ grid: "ercot", month: "2023-08" });
 const sum25 = words((e25.match(/<p[^>]*data-summary="1"[^>]*>([\s\S]*?)<\/p>/) ?? ["", ""])[1]);
-ok(/^In August 2025, ERCOT's evening shoulder lasted 5 hours, from 19:00 to 24:00 \(midnight\)/.test(sum25) && sum25.includes("they would need 4.30 hours on the average day"), `the case's answer is the summary's: "${sum25.slice(0, 96)}..."`);
+// ruling alternative 2 (wip/alt-shoulder-2): the headline is the second measure; main reads "5 hours, from 19:00 to 24:00 (midnight)" and "4.30 hours"
+ok(/^In August 2025, ERCOT's evening shoulder lasted 3 hours, from 19:00 to 22:00 ;/.test(sum25) && sum25.includes("they would need 1.51 hours on the average day"), `the case's answer is the summary's, under alternative 2: "${sum25.slice(0, 96)}..."`);
 ok(notShown(e25).length === 0 && notShown(e23).length === 0, "a month the grid holds draws no line about what is not shown");
 // row 3: the daily mean the shoulder is measured against is written, not only drawn
 const mean25 = held.get("iso:ercot|net_load_mean_mw|2025-08-01");
 ok(mean25 !== undefined && raw(e25, key("iso:ercot", "net_load_mean_mw", "2025-08-01")) === mean25 && words(e25).includes(`the dashed line is net load's daily mean, ${two(mean25)} MW.`), `row 3: the chart's note writes net load's daily mean (${two(mean25)} MW), a row of the table`);
 // row 2: the same month of another year is read on the months' chart: its hover gives the hours needed too
 const need23 = held.get("iso:ercot|shoulder_hours_needed|2023-08-01");
-ok(e25.includes(`<title>August 2023: shoulder 4 hours; fleet covers 1.37; hours needed ${two(need23)}</title>`) && two(need23) === "11.75", `row 2: on the August 2025 view, the months' chart says of August 2023 "hours needed ${two(need23)}"`);
+ok(e25.includes("<title>August 2023: shoulder 3 hours; fleet covers 1.37; hours needed 4.67</title>"), "row 2 under alternative 2: on the August 2025 view, the months' chart says of August 2023 the second measure, \"hours needed 4.67\" (main: 11.75)");
 ok([...e25.matchAll(/<title>[A-Z][a-z]+ \d{4}: shoulder [^<]*; hours needed ([\d.,]+|not held)<\/title>/g)].length === 2, "row 2: every month of the chart carries it (the fixture's two ERCOT months)");
 // row 4: a figure not held keeps no unit
 ok(!/not held hours/.test(words(e23)) && e23.includes('data-battery-hours="not held"') && words(e23).includes("the batteries' output in those shoulders is not held for ERCOT in 2023."), "row 4: 2023, when Texas's battery output is not held: no \"not held hours\", the words say what is not held");
@@ -124,9 +125,9 @@ ok(words(aug).includes("CAISO's own demand leaves the fleet's charging out; over
 
 // row 8: hours needed against the hours the fleet holds, said in words beside the two figures
 const head2 = (html) => words((html.match(/Hours the battery fleet covers[\s\S]*?The midday surplus/) ?? [""])[0]);
-ok(o26.includes('data-needed-against-held="less"') && head2(o26).includes("would take 3.27 hours , less than the 3.43 hours it holds ."), "row 8: California, April 2026: \"would take 3.27 hours, less than the 3.43 hours it holds\"");
-ok(e25.includes('data-needed-against-held="more"') && head2(e25).includes("would take 4.30 hours , more than the 1.52 hours it holds ."), "row 8: ERCOT, August 2025: \"would take 4.30 hours, more than the 1.52 hours it holds\"");
-ok(c24.includes('data-needed-against-held="more"') && head2(c24).includes("would take 4.13 hours , more than the 3.39 hours it holds ."), "row 8: California, April 2024: 4.13 hours against 3.39 held");
+ok(o26.includes('data-needed-against-held="less"') && head2(o26).includes("would take 1.35 hours , less than the 3.43 hours it holds ."), "row 8 under alternative 2: California, April 2026: \"would take 1.35 hours, less than the 3.43 hours it holds\"");
+ok(e25.includes('data-needed-against-held="less"') && head2(e25).includes("would take 1.51 hours , less than the 1.52 hours it holds ."), "row 8 under alternative 2: ERCOT, August 2025: \"would take 1.51 hours, less than the 1.52 hours it holds\"");
+ok(c24.includes('data-needed-against-held="less"') && head2(c24).includes("would take 1.58 hours , less than the 3.39 hours it holds ."), "row 8 under alternative 2: California, April 2024: 1.58 hours against 3.39 held");
 
 // ---- the price: the page holds none, says so, and sends the reader to the page that does, for the grid shown
 const ready = B.GRIDS.filter((g) => g.ready && g.hub && g.from);
@@ -142,7 +143,7 @@ ok(ready.length === 2 && priceWords.includes("ERCOT at its hub average from 2018
 // ---- nothing the page had is dropped, and nothing is written that should not be
 for (const [name, html] of [["ERCOT, August 2025", e25], ["ERCOT, August 2023", e23], ["CAISO by EIA-930, August 2025", c25], ["CAISO's own data, April 2026", o26]]) {
   const t = words(html);
-  ok(["The evening shoulder", "Hours the battery fleet covers", "The midday surplus", "The average day", "The shoulder, second measure", "Hours needed, second measure", "The shoulder hours by year",
+  ok(["The evening shoulder", "Hours the battery fleet covers", "The midday surplus", "The average day", "The shoulder, against the daily mean", "Hours needed, against the daily mean", "The shoulder hours by year",   /* alternative 2 */
     "By year: the second measure and the ten worst days", "The definitions, exactly as computed", "What this cannot see", "Decisions on this page"].every((w) => t.includes(w))
     && (html.match(/<svg /g) ?? []).length === 2 && !dash.test(html) && !/\bundefined\b|\bNaN\b/.test(t), `${name}: every block the page had is there, two charts, no dash, no "undefined"`);
 }

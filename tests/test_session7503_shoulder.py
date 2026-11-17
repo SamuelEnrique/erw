@@ -181,8 +181,8 @@ class ThePageDrawnAndReplicated(unittest.TestCase):
 
     def test_nothing_the_page_had_is_dropped(self):
         t = text_of(self.html("ercot"))
-        for words in ("The evening shoulder", "Hours the battery fleet covers", "The midday surplus", "The average day", "The shoulder, second measure",
-                      "Hours needed, second measure", "The ten worst days of 2026", "The shoulder hours by year", "By year: the second measure and the ten worst days",
+        for words in ("The evening shoulder", "Hours the battery fleet covers", "The midday surplus", "The average day", "The shoulder, against the daily mean",   # ruling alternative 2 (wip/alt-shoulder-2): the section swapped
+                      "Hours needed, against the daily mean", "The ten worst days of 2026", "The shoulder hours by year", "By year: the second measure and the ten worst days",
                       "The definitions, exactly as computed", "What this cannot see"):
             self.assertIn(words, t)
         self.assertEqual(len(re.findall(r"<svg ", self.html("ercot"))), 2)

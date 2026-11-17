@@ -43,7 +43,7 @@ export function index(rows: Row[]): Map<string, Row> {
  * they are held for some grids only, and the page says so in words. */
 export const REQUIRED = [
   "days_held", "shoulder_hours", "shoulder_start_hour", "shoulder_end_hour", "shoulder_mwh_above_mean", "fleet_mw", "fleet_mwh", "fleet_hours",
-  "shoulder_hours_covered", "shoulder_hours_needed", "midday_surplus_mwh", "midday_surplus_hours", "midday_low_hour",
+  "shoulder2_hours_covered", "shoulder_hours_needed", "midday_surplus_mwh", "midday_surplus_hours", "midday_low_hour",   // shoulder2_hours_covered: ruling alternative 2 (wip/alt-shoulder-2), the headline's
   "shoulder2_hours", "shoulder2_start_hour", "shoulder2_end_hour", "shoulder2_mwh_above_midpoint", "shoulder2_hours_needed", "evening_peak_mw", "evening_peak_hour",
 ] as const;
 
@@ -104,6 +104,17 @@ export function bothHold(rows: Row[], a: Grid, b: Grid): string[] {
   return [...of(a)].filter((m) => inB.has(m)).sort();
 }
 
+/** Ruling alternative 2 of /shoulder (session 7703, branch wip/alt-shoulder-2; not a default on main): the headline is the
+ * second measure, the run around the evening's highest net load above the midpoint between the daily mean and that
+ * peak; the first measure, against the daily mean, takes the second measure's place lower on the page. The variables of
+ * each, so that the page swaps rows, not arithmetic. */
+export const MEASURES = {
+  headline: { hours: "shoulder2_hours", start: "shoulder2_start_hour", end: "shoulder2_end_hour", mwh: "shoulder2_mwh_above_midpoint", covered: "shoulder2_hours_covered",
+    needed: "shoulder2_hours_needed", toMidnight: "shoulder2_runs_to_midnight", worstNeeded: "year_worst10_mean_shoulder2_hours_needed", above: "the midpoint between the daily mean and the evening peak" },
+  other: { hours: "shoulder_hours", start: "shoulder_start_hour", end: "shoulder_end_hour", mwh: "shoulder_mwh_above_mean", covered: "shoulder_hours_covered",
+    needed: "shoulder_hours_needed", toMidnight: "shoulder_runs_to_midnight", worstNeeded: "year_worst10_mean_shoulder_hours_needed", above: "the daily mean" },
+} as const;
+
 export type Series = "demand" | "solar" | "wind" | "net_load" | "battery";
 export type View = {
   grid: Grid; month: string; months: string[];
@@ -128,7 +139,8 @@ export function view(rows: Row[], grid: Grid, month: string): View {
     hour: (s, h) => at(`avg_${s}_mw_h${String(h).padStart(2, "0")}`, month),
     get: (v) => at(v, month),
     hasBattery: !!at("avg_battery_mw_h00", month),
-    monthly: months.map((m) => ({ month: m, shoulder: at("shoulder_hours", m), covered: at("shoulder_hours_covered", m), needed: at("shoulder_hours_needed", m), fleetHours: at("fleet_hours", m) })),
+    // ruling alternative 2 (wip/alt-shoulder-2): the monthly chart draws the headline measure
+    monthly: months.map((m) => ({ month: m, shoulder: at(MEASURES.headline.hours, m), covered: at(MEASURES.headline.covered, m), needed: at(MEASURES.headline.needed, m), fleetHours: at("fleet_hours", m) })),
     years: years.map((y) => ({ year: y.slice(0, 4), get: (v: string) => at(v, y) })),
     worst: worstDays(rows, grid, month.slice(0, 4)),
     year: { year: month.slice(0, 4), get: (v: string) => at(v, `${month.slice(0, 4)}-01`) },
