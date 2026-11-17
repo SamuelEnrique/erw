@@ -10,12 +10,13 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 
 ## Part A: the desk
 
-- Desk gate a (`wip/c370-desk-a`, `715e1b046`): old laptop rows 29, 30, 31, 32, 34, 35, 36 merged on main without a conflict; gate started 23:31 UTC. (7050)
+- Desk gate a (`wip/c370-desk-a`, `715e1b046`): old laptop rows 29, 30, 31, 32, 34, 35, 36 merged on main without a conflict; failed 3 tests (two headerless tables in reports 7531 and 7534 for the waits reader, test 188; test 7534's two replays need the site's packages); fixed (`a8431f37d` with main merged); desk gate b started 00:00 UTC. (7050)
 
 ## Part A: the data requests (`docs/state/data_requests_done_line.md` unless named)
 
 - 30, 31, 35, 45, 47: done in session 7022 (chain 301), marked here. (7050)
-- Open, in order: 59, 69, 49, 99, 79, 80, 109, 110, 119, 120, 121, 122. (7050)
+- 69 done (the cost of power through October, loaded; a daily step `dm_cost_of_power`); 59 done (the Flex Alert of 1 October 2020 on its day, loaded); 79 done (a storage day written 48 hours after its end; test 7050_storage_settle) and 80 done (ERCOT's battery hours of 4 to 8 November pulled); 119 done (a board row the new build does not make anchors nothing; the board rebuilt); 120 answered (EIA's own repeat on holidays; the price board note); 110 done at the cause (request 40); 121 ruling (ruling 2); 122 checked in part (11 November SPP's own gap; the October days need a per-day option). (7050)
+- 49 in part: the live set holds the build of 2026-10-19T09:43:29Z, 29,953 rows, the old laptop's; `replication/events/replicate.py` comes with desk row 29 and runs after the landing. 99 waits for desk row 34 (its figure script). 109 open: a queue position's proposed date carried into `energy_projects` (a new column of a live table) and the map's file. (7050)
 
 ## Part B: the eight tools read as their reader
 
