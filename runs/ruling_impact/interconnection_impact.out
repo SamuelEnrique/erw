@@ -1,0 +1,27 @@
+== line 1: the opening view, CAISO's newest year that is over (default) or a year with tens of positions, or ERCOT, or SPP
+default: CAISO 2023: entered 4 positions (664 MW); reached operation 0; withdrawn share 1.00; waiting 0
+CAISO's newest year with 20 or more positions: 2021: CAISO 2021: entered 361 positions (105,537 MW); reached operation 2; withdrawn share 0.71; waiting 104
+ERCOT's newest year that is over (2025): ERCOT 2025: entered 354 positions (104,175 MW); reached operation 55; withdrawn share nan; waiting 299
+SPP's newest year that is over (2025): SPP 2025: entered 421 positions (105,219 MW); reached operation 0; withdrawn share 0.48; waiting 201
+
+== line 2: 'Withdrawn, share of positions entered' by count (default) or by MW, in the MW view
+CAISO: 19 years with 10 or more positions; 2016 0.76 -> 0.79; 2017 0.74 -> 0.61; 2018 0.70 -> 0.76; 2019 0.72 -> 0.68; 2020 0.73 -> 0.75; 2021 0.71 -> 0.67; the largest gap 2003 0.36 -> 0.63 (+27 points)
+ERCOT: no year holds a withdrawn MW and a share (the queue file lists no withdrawn positions): nothing moves
+SPP: 26 years with 10 or more positions; 2021 0.61 -> 0.61; 2022 0.72 -> 0.75; 2023 0.78 -> 0.81; 2024 0.46 -> 0.50; 2025 0.48 -> 0.48; 2026 0.12 -> 0.05; the largest gap 2001 0.76 -> 0.91 (+16 points)
+
+== line 3: ERCOT's 'Reached operation' as the connector reads it (an agreement signed) or by an in-service day
+the queue table's statuses: {'active': 1198, 'completed': 580}
+entry 2018: the table's positions_operating 31 (6,345 MW); in the queue file 'operating' 32 (6,514 MW), of which an actual in-service day held 21 (4,474 MW), a projected day already past 1, the rest a day still to come
+entry 2019: the table's positions_operating 28 (5,594 MW); in the queue file 'operating' 29 (5,797 MW), of which an actual in-service day held 7 (1,585 MW), a projected day already past 0, the rest a day still to come
+entry 2020: the table's positions_operating 46 (12,635 MW); in the queue file 'operating' 48 (12,739 MW), of which an actual in-service day held 12 (2,773 MW), a projected day already past 1, the rest a day still to come
+entry 2021: the table's positions_operating 72 (12,163 MW); in the queue file 'operating' 73 (12,226 MW), of which an actual in-service day held 15 (2,611 MW), a projected day already past 4, the rest a day still to come
+entry 2022: the table's positions_operating 115 (23,750 MW); in the queue file 'operating' 116 (24,127 MW), of which an actual in-service day held 15 (2,407 MW), a projected day already past 2, the rest a day still to come
+entry 2023: the table's positions_operating 118 (27,652 MW); in the queue file 'operating' 117 (27,482 MW), of which an actual in-service day held 7 (716 MW), a projected day already past 0, the rest a day still to come
+entry 2024: the table's positions_operating 92 (24,429 MW); in the queue file 'operating' 89 (23,617 MW), of which an actual in-service day held 9 (1,830 MW), a projected day already past 1, the rest a day still to come
+entry 2025: the table's positions_operating 55 (20,949 MW); in the queue file 'operating' 44 (18,044 MW), of which an actual in-service day held 0 (0 MW), a projected day already past 1, the rest a day still to come
+entry 2026: the table's positions_operating 1 (1,300 MW); in the queue file 'operating' 1 (1,300 MW), of which an actual in-service day held 0 (0 MW), a projected day already past 0, the rest a day still to come
+
+== line 4: MW cells of a status with no position: 'not held' (default) or 0
+CAISO: 35 MW cells read 'not held' where the count is 0 and would read 0
+ERCOT: 16 MW cells read 'not held' where the count is 0 and would read 0
+SPP: 42 MW cells read 'not held' where the count is 0 and would read 0
