@@ -53,9 +53,14 @@ async function view(slug, year) {
     if (f.uncertainty_pct !== null) want(`${k}|pm`, g.one(f.uncertainty_pct));
   }
   const { found, not } = g.split(file, String(year), figure.key);
-  want("sum|found", String(found.length));
-  for (const x of found) { want(`sum|${x.ba}|u`, g.signed(x.g.unexplained_pct)); want(`sum|${x.ba}|pm`, g.one(x.g.uncertainty_pct)); }
-  if (not.length) want("sum|not", String(not.length));
+  // session 7543: the summary in four parts (lib/demandweather.ts, summaryParts): above zero, below zero, inside the
+  // fit's error, and beyond the weather the fit saw
+  const { up, down, within, beyond } = g.summaryParts(found, not);
+  want("sum|found", String(up.length));
+  if (down.length) want("sum|down", String(down.length));
+  for (const x of [...found, ...beyond]) { want(`sum|${x.ba}|u`, g.signed(x.g.unexplained_pct)); want(`sum|${x.ba}|pm`, g.one(x.g.uncertainty_pct)); }
+  if (within.length) want("sum|not", String(within.length));
+  if (beyond.length) want("sum|beyond", String(beyond.length));
   for (const ba of g.ORDER) for (const y of file.train) { const h = file.grids[ba].holdout[String(y)]?.[figure.key]; if (h) want(`h|${ba}|${y}`, g.signed(h.unexplained_pct)); }
   check(wrong.length === 0, `${tag} every marked number is the copy's (${Object.keys(got).length} on the page, ${rows} rows of the table)${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`);
   const drawn = [...html.matchAll(/data-grid="([A-Z]+)"/g)].map((x) => x[1]);

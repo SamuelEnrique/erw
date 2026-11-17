@@ -80,6 +80,34 @@ export function split(f: WeatherFile, year: string, key: string) {
   const found = all.filter((x) => x.g && x.g.finding).sort((a, b) => Math.abs(b.g!.unexplained_pct) - Math.abs(a.g!.unexplained_pct));
   return { found, not: all.filter((x) => x.g && !x.g.finding), absent: all.filter((x) => !x.g) };
 }
+/** Session 7543 (the read of /demand, rows 3 and 4): the grids of the summary sentence in four parts. A finding above
+ *  zero grew by more than the temperature explains, one below zero by less; of the rest, a peak beyond the weather the
+ *  fit saw is not a finding for that reason, and the others are inside the fit's own error. */
+export function summaryParts<T extends { g: Figure | null }>(found: T[], not: T[]) {
+  return {
+    up: found.filter((x) => x.g!.unexplained_pct >= 0), down: found.filter((x) => x.g!.unexplained_pct < 0),
+    within: not.filter((x) => !x.g!.outside), beyond: not.filter((x) => x.g!.outside),
+  };
+}
+/** Session 7543 (the read, row 2): the hover of a "Metered, MW" cell. The figure is read on the hours the fit holds (all
+ *  five stations' weather held), so a year's energy can stand some MW from the as-metered view's average of the same
+ *  year, which uses every hour that passes the screen. `m` is that year's row of the as-metered table (or undefined). */
+export function meteredWhy(name: string, year: string, key: string, g: Figure, m: Record<string, number> | undefined): string {
+  const hours = `${whole(g.used)} of ${whole(g.wanted)} ${key === "overnight_min" ? "days" : "hours"}`;
+  const on = key === "energy" ? `the mean of the ${hours} whose weather all five stations hold, the hours the fit is read on`
+    : key === "overnight_min" ? `the mean over the ${hours} whose six night hours are all used`
+    : `the highest of the ${hours} of the season whose weather all five stations hold`;
+  let beside = "";
+  if (key === "energy") {
+    beside = m?.avg_demand_mw !== undefined
+      ? ` The as-metered view's average of ${year} is ${whole(m.avg_demand_mw)} MW, over the ${whole(m.hours_used)} hours it uses (every hour that passes the screen, weather or not): ${whole(Math.abs(g.actual - m.avg_demand_mw))} MW apart.`
+      : ` The as-metered view's year so far runs to the end of its last whole month, another window.`;
+  } else if (key !== "overnight_min") {
+    const peak = m?.peak_demand_mw ?? m?.ytd_peak_demand_mw;
+    if (peak !== undefined) beside = ` The as-metered view's highest hour of ${year}${m?.peak_demand_mw === undefined ? " so far" : ""} is ${whole(peak)} MW${Math.round(peak) === Math.round(g.actual) ? ": the same hour" : ""}.`;
+  }
+  return `${name}, ${year}: ${whole(g.actual)} MW, ${on}.${beside}`;
+}
 /** Every finding of the table, strongest first: by how many times its uncertainty the remainder is. */
 export function strongest(f: WeatherFile, n = 5) {
   const out: { ba: string; name: string; year: string; key: string; g: Figure; times: number }[] = [];

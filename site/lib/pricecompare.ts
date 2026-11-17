@@ -39,9 +39,46 @@ export function choices(q: Record<string, string | undefined>): Choice {
   const dir = q.dir === "asc" || q.dir === "desc" ? q.dir : sort.first;
   return { period, market, sort, dir };
 }
-export function href(c: { period: string; market: string; sort: string; dir?: string }): string {
-  return `/prices/compare?period=${c.period}&market=${c.market}&sort=${c.sort}${c.dir ? `&dir=${c.dir}` : ""}`;
+export function href(c: { period: string; market: string; sort: string; dir?: string; a?: string; b?: string }): string {
+  // session 7540: the A and B chosen ride along on every link of the page, so a change of period, market or order keeps them
+  return `/prices/compare?period=${c.period}&market=${c.market}&sort=${c.sort}${c.dir ? `&dir=${c.dir}` : ""}${c.a ? `&a=${encodeURIComponent(c.a)}` : ""}${c.b ? `&b=${encodeURIComponent(c.b)}` : ""}`;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 7540 (chain 304, part C: the page read as a fund analyst setting two hubs side by side;
+// docs/reviews/compare-read-2026-11-16.md): the license hold, A and B, and ERCOT's two averaged hubs in words.
+// ---------------------------------------------------------------------------------------------------------------------
+
+/** A row held under a license on the day: its name only, never a figure. */
+export type HeldRow = { entity: string; grid: string; node: string };
+/** The rows of a period split by the license hold of the day (`isHeld` is lib/license.ts licenseHeldRow(TABLE, entity):
+ *  hub_price_comparison is held by grid, ISO-NE, MISO and NYISO). A held row keeps its name and loses every figure, so
+ *  no held figure reaches the page or the browser (the price board's rule, lib/board.ts holdRows). */
+export function hold(rows: Row[], isHeld: (entity: string) => boolean): { shown: Row[]; held: HeldRow[] } {
+  const shown: Row[] = [], held: HeldRow[] = [];
+  for (const r of rows) {
+    if (isHeld(r.entity)) held.push({ entity: r.entity, grid: r.grid, node: r.node });
+    else shown.push(r);
+  }
+  held.sort((x, y) => x.entity.localeCompare(y.entity));
+  return { shown, held };
+}
+/** The grids of the held rows, in their order. */
+export const heldGrids = (held: HeldRow[]) => [...new Set(held.map((h) => h.grid))];
+
+/** A and B from the address: an entity as the table writes it ("ercot:HB_WEST"), or nothing. */
+export type Pair = { a?: string; b?: string };
+export function pairOf(q: Record<string, string | undefined>): Pair {
+  const ok = (v?: string) => (v && v.length <= 80 && /^[a-z]+:[A-Za-z0-9_. -]+$/.test(v) ? v : undefined);
+  return { a: ok(q.a), b: ok(q.b) };
+}
+
+/** What a name does not say, on hover: ERCOT's two hubs that are averages of other prices (ERCOT Nodal Protocols,
+ *  section 3.5.2). On every window here the Hub Average's figure is the mean of the four hubs' own. */
+export const NAME_WORDS: Record<string, string> = {
+  "ercot:HB_HUBAVG": "ERCOT's Hub Average: the simple average of the prices of its four trading hubs, North, South, Houston and West (ERCOT Nodal Protocols, section 3.5.2). Its average here is the mean of the four hubs' averages.",
+  "ercot:HB_BUSAVG": "ERCOT's Bus Average hub: the simple average of the prices at the hub buses of its four trading hubs, North, South, Houston and West (ERCOT Nodal Protocols, section 3.5.2).",
+};
 
 /** A measure of a row in a market: the grid's carbon intensity is the same in both markets. */
 export function valueOf(r: Row, market: Market, m: Measure): number | undefined {

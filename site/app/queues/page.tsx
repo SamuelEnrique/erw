@@ -6,7 +6,11 @@ import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, 
 import fileJson from "@/data/queues.json";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { QUEUES_DECISIONS } from "@/lib/decisions";
-import { GRIDS, TABLE, TECHS, choices, href, outcome, peakActive, two, viewOf, whole, yearsOf, type QueueFile, type View } from "@/lib/queues";
+import { GRIDS, TABLE, TECHS, choices, href, noneWithdrawn, onYears, outcome, peakActive, queueOf, two, viewOf, whole, withdrawnOf, yearsOf, type Grid, type QueueFile, type Tech, type View } from "@/lib/queues";
+// Session 7545 (chain 304, part C: the read, docs/reviews/queues-read-2026-11-16.md): every grid for the chosen
+// technology side by side (row 1), the one operation year written when it is the only one (row 2), the share withdrawn
+// of a view the file labels no withdrawn request with said on the figure (row 3), each year entered as counts (row 5),
+// the operators' own queue lists named (row 6), the load the file does not hold (row 7), and three words (rows 8 to 10).
 
 // Session 95: "The interconnection queue", in review (lib/release.ts), in the battery page's layout: choose a grid and a
 // technology; the capacity still active by the year it entered; what became of past requests (the share that reached
@@ -21,6 +25,22 @@ const METHOD = "/data/methods/interconnection_queue_summary";
 const COLOR = { operating: "var(--color-fuel-nuclear)", withdrawn: "var(--color-rule)", open: "var(--color-accent)", active: "var(--color-accent)", line: "var(--color-ink)" };
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
 const NOT = <span className="text-muted">not held</span>;
+const DATELESS = "ISO-NE's requests that reached operation carry no operation date in the file, so ISO-NE has no wait to give, in any technology. Source: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file.";
+/** "not held" for a median: for ISO-NE, why, on hover (row 10). */
+const notMedian = (grid: string) => (grid === "isone" ? <span className="text-muted" title={DATELESS} data-dateless="isone">not held</span> : NOT);
+/** Row 3: the hover on a share withdrawn of 0.00 that is the file's labels, not a count. */
+function flatWords(grid: Grid, tech: Tech, allWithdrawn: number | null) {
+  return `The file holds no withdrawn and no suspended ${tech.noun} in ${grid.place}, in any year${allWithdrawn !== null ? `, while ${whole(allWithdrawn)} of ${grid.place}'s requests of every technology with a year entered are withdrawn` : ""}. `
+    + `So 0.00 percent is what the file's labels give, not a count of requests that stayed in the queue: the method note, "What the reader meets", says which labels. Source: Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file.`;
+}
+/** A share cell; for a view the file labels no withdrawn request with, the share withdrawn carries row 3's hover. */
+function Withdrawn({ v, k, grid, tech }: { v: View; k: string; grid: Grid; tech: Tech }) {
+  const x = v.whole.past_withdrawn_share_pct;
+  if (x === undefined) return NOT;
+  if (!noneWithdrawn(v, file.min_share)) return <N k={k}>{two(x)}</N>;
+  const all = viewOf(file, grid.slug, "all");
+  return <span title={flatWords(grid, tech, all ? withdrawnOf(all) : null)} data-none-withdrawn={`${grid.slug}|${tech.slug}`} className="underline decoration-dotted"><N k={k}>{two(x)}</N></span>;
+}
 
 /** Active capacity by the year the request entered the queue: one bar per year, MW. */
 function ActiveChart({ view, name }: { view: View; name: string }) {
@@ -95,8 +115,10 @@ function OutcomeChart({ view, name }: { view: View; name: string }) {
 /** Median years from request to operation, by the year the request began operating. */
 function YearsChart({ view, name }: { view: View; name: string }) {
   const W = 760, H = 220, L = 46, R = 12, top = 16, bot = 30;
-  const pts = Object.entries(view.on).map(([y, r]) => ({ year: Number(y), ...r })).filter((p) => p.year >= 2000).sort((a, b) => a.year - b.year);
-  if (pts.length < 2) return <p className="border border-rule bg-paper px-3 py-2 text-sm" data-chart="years-none">Fewer than two operation years hold {file.min_median} dated requests for {name}: no line is drawn.</p>;
+  const pts = onYears(view).filter((p) => p.year >= 2000);
+  // row 2: one year that holds a median is written out, not dropped with "no line"
+  if (pts.length === 1) return <p className="border border-rule bg-paper px-3 py-2 text-sm" data-chart="years-one">Only one operation year holds {file.min_median} or more dated requests for {name}: those that began operating in {pts[0].year} took a median of <N k={`on|${pts[0].year}|on_median_years_to_operation`}>{two(pts[0].on_median_years_to_operation)}</N> years from request to operation, over <N k={`on|${pts[0].year}|on_requests_dated`}>{whole(pts[0].on_requests_dated)}</N> dated requests. One year draws no line.</p>;
+  if (pts.length < 2) return <p className="border border-rule bg-paper px-3 py-2 text-sm" data-chart="years-none">No operation year holds {file.min_median} or more dated requests for {name}: no line is drawn.</p>;
   const y0 = pts[0].year, y1 = file.last_year;
   const hi = Math.max(...pts.map((p) => p.on_median_years_to_operation)) * 1.15;
   const x = (yr: number) => L + ((yr - y0 + 0.5) / (y1 - y0 + 1)) * (W - L - R);
@@ -115,6 +137,21 @@ function YearsChart({ view, name }: { view: View; name: string }) {
       {Array.from({ length: y1 - y0 + 1 }, (_, i) => y0 + i).filter((yr) => yr % 5 === 0).map((yr) => <text key={yr} x={x(yr)} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{yr}</text>)}
       <text x={L} y={11} fontSize="11" fill="var(--color-muted)">years, by year operation began</text>
     </svg>
+  );
+}
+
+/** Row 5: each year entered as the table's counts, so a reader can set one year beside another page's count of it
+ *  without reading a bar's hover. Every year of the view with a request, the years before 2000 too. */
+function YearsTable({ view, name }: { view: View; name: string }) {
+  const ys = Object.entries(view.years).map(([y, r]) => ({ y, r })).sort((a, b) => Number(a.y) - Number(b.y));
+  const cols: (keyof View["years"][string])[] = ["requests_entered", "mw_entered", "requests_operating", "requests_withdrawn", "requests_active", "requests_suspended", "mw_active"];
+  return (
+    <div data-years-table="1">
+      <ToolTable minWidth={760} caption={`${name}: every year entered, counted`}
+        head={["Year entered", "Requests entered", "MW entered", "Reached operation", "Withdrawn", "Still active", "Suspended", "MW still active"]}
+        rows={ys.map(({ y, r }) => ({ key: y, cells: [y, ...cols.map((c) => <N key={c} k={`year|${y}|${c}`}>{whole(r[c])}</N>)] }))} />
+      <p className="mt-2 max-w-3xl text-sm">Each row is the requests that entered the queue that year, by their status at the end of {file.last_year}; a request with no year entered is in no row ({whole(view.whole.requests_without_year)} of this view&apos;s {whole(view.whole.total_requests)}). Requests, except the two MW columns. A request of unknown status is counted as entered and in no status.</p>
+    </div>
   );
 }
 
@@ -137,7 +174,8 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
       <ToolHeader title="The interconnection queue"
         lead={<>Before a power plant or a battery can connect to the grid it waits in a queue for a study and an agreement. Choose a grid and a technology: how much capacity is waiting and since when,
           what became of the requests of earlier years, and how long the ones that were built took. From Berkeley Lab and GridTracker&apos;s record of every request, through the end of {file.last_year}.
-          See also <SiteLink href="/storage?tab=buildout">the storage build-out</SiteLink> and <SiteLink href="/map">the project map</SiteLink>.</>} />
+          See also <SiteLink href="/storage?tab=buildout">the storage build-out</SiteLink> and <SiteLink href="/map">the project map</SiteLink>.{" "}
+          <span data-other-source="1">The grid operators&apos; own queue lists, as the ERW pulls them, are counted on <SiteLink href="/explore/interconnection">the interconnection queue explorer</SiteLink> and <SiteLink href="/map?tab=queues">the map&apos;s Queues tab</SiteLink>: another source, read on another day, so their count for a grid and an entry year is not this page&apos;s.</span></>} />
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note={<>Requests through the end of {file.last_year}. A request is counted once, under the operator whose queue holds it.</>}>
@@ -158,7 +196,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
           ) : (
             <>
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                At the end of {file.last_year}, <N k="total_active_requests">{whole(w.total_active_requests)}</N> {tech.noun} were active in {grid.place}&apos;s queue{grid.slug === "us" ? "s" : ""}, for <N k="total_active_mw">{whole(w.total_active_mw)}</N> MW.{" "}
+                At the end of {file.last_year}, <N k="total_active_requests">{whole(w.total_active_requests)}</N> {tech.noun} were active in {queueOf(grid)}, for <N k="total_active_mw">{whole(w.total_active_mw)}</N> MW.{" "}
                 {w.past_operating_share_pct !== undefined
                   ? <>Of the <N k="past_requests">{whole(w.past_requests)}</N> that entered from {p0} to {p1}, <N k="past_operating_share_pct">{two(w.past_operating_share_pct)}</N> percent reached operation and <N k="past_withdrawn_share_pct">{two(w.past_withdrawn_share_pct!)}</N> percent were withdrawn.</>
                   : <>Only <N k="past_requests">{whole(w.past_requests)}</N> entered from {p0} to {p1}: too few for a share.</>}{" "}
@@ -168,12 +206,12 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               </p>
               <HeadlineRow>
                 <HeadlineNumber label="Active capacity" value={<N k="head|active_mw">{whole(w.total_active_mw)}</N>} unit="MW"
-                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> requests. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> requests, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> The most entered in {peak.year}.</> : null}</>} />
+                  note={<><N k="head|active_requests">{whole(w.total_active_requests)}</N> {w.total_active_requests === 1 ? "request" : "requests"}. Suspended, and not counted here: <N k="head|suspended_requests">{whole(w.total_suspended_requests)}</N> {w.total_suspended_requests === 1 ? "request" : "requests"}, <N k="head|suspended_mw">{whole(w.total_suspended_mw)}</N> MW.{peak ? <> The most entered in {peak.year}.</> : null}</>} />
                 <HeadlineNumber label={`Reached operation, of ${p0} to ${p1}`} value={share(w.past_operating_share_pct, "head|operating")} unit={w.past_operating_share_pct !== undefined ? "percent" : undefined}
                   note={w.past_operating_share_pct !== undefined ? <>Of <N k="head|past_requests">{whole(w.past_requests)}</N> requests. By capacity: {share(w.past_mw_operating_share_pct, "head|operating_mw")} percent of <N k="head|past_mw">{whole(w.past_mw)}</N> MW.</> : <>Fewer than {file.min_share} requests entered in those years: no share is given.</>} />
-                <HeadlineNumber label="Withdrawn" value={share(w.past_withdrawn_share_pct, "head|withdrawn")} unit={w.past_withdrawn_share_pct !== undefined ? "percent" : undefined}
+                <HeadlineNumber label="Withdrawn" value={<Withdrawn v={view} k="head|withdrawn" grid={grid} tech={tech} />} unit={w.past_withdrawn_share_pct !== undefined ? "percent" : undefined}
                   note={w.past_withdrawn_share_pct !== undefined ? <>By capacity: {share(w.past_mw_withdrawn_share_pct, "head|withdrawn_mw")} percent. Still active or suspended: {share(w.past_open_share_pct, "head|open")} percent of the requests.</> : null} />
-                <HeadlineNumber label="Request to operation" value={share(w.median_years_to_operation, "head|median")} unit={w.median_years_to_operation !== undefined ? "years, median" : undefined}
+                <HeadlineNumber label="Request to operation" value={w.median_years_to_operation === undefined ? notMedian(grid.slug) : share(w.median_years_to_operation, "head|median")} unit={w.median_years_to_operation !== undefined ? "years, median" : undefined}
                   note={<>Over <N k="head|dated">{whole(w.years_to_operation_n)}</N> of the <N k="head|operating_requests">{whole(w.operating_requests)}</N> requests that reached operation: the ones with both dates.</>} />
               </HeadlineRow>
 
@@ -189,6 +227,9 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
                 <ChartFrame title={`${name}: by year entered`} legend={[{ label: "Reached operation", color: COLOR.operating }, { label: "Still active or suspended", color: COLOR.open }, { label: "Withdrawn", color: COLOR.withdrawn }]}>
                   <OutcomeChart view={view} name={name} />
                 </ChartFrame>
+                <Fold title="Every year entered, in requests and MW">
+                  <YearsTable view={view} name={name} />
+                </Fold>
               </ToolSection>
 
               <ToolSection title="How long the built ones took"
@@ -207,9 +248,21 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               rows={kinds.map(({ t, v }) => ({ key: t.slug, highlight: t.slug === tech.slug || (tech.slug === "all" && (t.slug === "battery" || t.slug === "solar_battery")), cells: v ? [
                 <Link key="l" href={href(grid.slug, t.slug)} className="text-ink">{t.name}</Link>,
                 <N key="a" k={`kind|${t.slug}|total_active_mw`}>{whole(v.whole.total_active_mw)}</N>, <N key="r" k={`kind|${t.slug}|total_active_requests`}>{whole(v.whole.total_active_requests)}</N>,
-                share(v.whole.past_operating_share_pct, `kind|${t.slug}|past_operating_share_pct`), share(v.whole.past_withdrawn_share_pct, `kind|${t.slug}|past_withdrawn_share_pct`),
-                share(v.whole.median_years_to_operation, `kind|${t.slug}|median_years_to_operation`),
+                share(v.whole.past_operating_share_pct, `kind|${t.slug}|past_operating_share_pct`), <Withdrawn key="w" v={v} k={`kind|${t.slug}|past_withdrawn_share_pct`} grid={grid} tech={t} />,
+                v.whole.median_years_to_operation === undefined ? notMedian(grid.slug) : share(v.whole.median_years_to_operation, `kind|${t.slug}|median_years_to_operation`),
               ] : [t.name, "none", "none", NOT, NOT, NOT] }))} />
+          </ToolSection>
+
+          {/* row 1: the chosen technology in every grid, side by side, for a reader choosing where to file */}
+          <ToolSection title={`${tech.name}: every grid`} id="grids">
+            <ToolTable minWidth={760} caption={`${tech.name}: the queue of every grid, side by side`}
+              head={["Grid", "Active, MW", "Active requests", "Reached operation, percent", "Withdrawn, percent", "Median years to operation"]}
+              rows={GRIDS.map((g) => { const v = viewOf(file, g.slug, tech.slug); return { key: g.slug, highlight: g.slug === grid.slug, cells: v ? [
+                <Link key="l" href={href(g.slug, tech.slug)} className="text-ink">{g.name}</Link>,
+                <N key="a" k={`grid|${g.slug}|total_active_mw`}>{whole(v.whole.total_active_mw)}</N>, <N key="r" k={`grid|${g.slug}|total_active_requests`}>{whole(v.whole.total_active_requests)}</N>,
+                share(v.whole.past_operating_share_pct, `grid|${g.slug}|past_operating_share_pct`), <Withdrawn key="w" v={v} k={`grid|${g.slug}|past_withdrawn_share_pct`} grid={g} tech={tech} />,
+                v.whole.median_years_to_operation === undefined ? notMedian(g.slug) : share(v.whole.median_years_to_operation, `grid|${g.slug}|median_years_to_operation`),
+              ] : [g.name, "none", "none", NOT, NOT, NOT] }; })} />
           </ToolSection>
 
           <Fold title="What the file does not hold">
@@ -222,6 +275,8 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
               <li>Whether an active request will be built. Most are not: that is what the shares above measure for earlier years.</li>
               <li>Cost, the developer, the network upgrades asked for, or the reason a request was withdrawn.</li>
               <li>The same project twice: a developer may file at several points for one plant, and each request counts.</li>
+              <li data-no-load="1">A load. Every request here is a power plant or a battery asking to connect; a data center&apos;s or any other large customer&apos;s request to draw power is in no edition of the file, and no wait here is a load&apos;s.
+                ERCOT&apos;s large loads (MW approved to energize, report by report) are on <SiteLink href="/datacenters">the datacenters page</SiteLink>; the All grids tab of <SiteLink href="/cost-of-power?view=allgrids">the cost of power</SiteLink> sets each grid&apos;s wait for generators beside the large-load rules the ERW has read.</li>
             </ul>
           </Fold>
           <Fold title="How it is computed">

@@ -18,6 +18,12 @@ import { TableLicenses } from "@/components/tool/TableLicenses";
 import { ToolPage } from "@/components/tool/ToolPage";
 import { one, tabOf } from "@/lib/tabs";
 import { PeakPremiumView } from "../explorer/ercot-peak-premium/view";
+import { variableWords } from "@/lib/pricehub";
+import { label } from "@/lib/pricecompare";
+import { LICENSE_NEEDED, isLicenseReason, licenseGridTitle } from "@/lib/license";
+
+/** Session 7539 (the read, row 6): a hub or zone as a reader names it ("ERCOT, West hub"). */
+const hubName = (e: string, iso: string) => label({ entity: e, grid: iso, node: node(e) });
 
 export const revalidate = 900;
 export const metadata: Metadata = { title: "Prices" };
@@ -80,7 +86,9 @@ async function NowView() {
       <TableLicenses tables={NOW_TABLES} />
       <p className="mb-2 max-w-3xl">
         The newest real-time and day-ahead power prices at every public hub and zone of six <Term t="ISO" first />s, refreshed every 15 minutes, from each ISO&apos;s
-        market data.
+        market data.{" "}
+        {/* session 7539 (the read, row 8): the page for a month or twelve months of every hub side by side */}
+        Each hub over the last whole month and the last twelve months, side by side: <Link href="/prices/compare" data-compare-link="1">where power is cheap</Link>.
       </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
         Select a hub or zone for its last 30 days. <Term t="PJM" first /> prices are licensed for internal use and are not shown.{" "}
@@ -92,10 +100,34 @@ async function NowView() {
         const ents = latest.ok ? latest.data.filter((r) => r.entity.startsWith(prefix)) : [];
         const daRows = rows.ok ? rows.data : [];
         const entities = Array.from(new Set([...ents.map((e) => e.entity), ...daRows.map((r) => r.entity)])).sort();
+        // session 7539 (the read, row 1): a grid whose day-ahead read was refused for a license, with no row read
+        const held = !rows.ok && isLicenseReason(rows.reason) && entities.length === 0;
         return (
           <Section key={m.iso} title={m.iso} id={m.iso.toLowerCase()}>
-            {!rows.ok ? <NoData what={`${m.iso} day-ahead`} reason={rows.reason} /> : null}
-            {entities.length === 0 ? (
+            {!rows.ok && !held ? <NoData what={`${m.iso} day-ahead`} reason={rows.reason} /> : null}
+            {held ? (
+              // session 7539 (the read, row 1): a held grid read "license needed" and then "no data: no NYISO rows in
+              // latest_prices or nyiso_dam_zone_prices", as if the grid had no prices; its rows are held, not absent. Its
+              // main hub or zone is named, each price cell blank with "license needed" and the publisher's words on hover
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-sm" data-held-grid={m.iso}>
+                  <thead>
+                    <tr className="border-b border-rule text-left text-xs text-muted">
+                      <th className="py-1 pr-3 font-normal">Hub or zone</th>
+                      <th className="py-1 pr-3 text-right font-normal">Real time, USD/MWh</th>
+                      <th className="py-1 pr-3 text-right font-normal">Day-ahead this hour, USD/MWh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-rule/60">
+                      <td className="py-1 pr-3"><span className="font-mono" title={hubName(m.main, m.iso)}>{node(m.main)}</span><span className="ml-2 text-xs text-muted">main</span></td>
+                      <td className="py-1 pr-3 text-right"><span className="text-muted" title={licenseGridTitle(m.iso)}>{LICENSE_NEEDED}</span></td>
+                      <td className="py-1 pr-3 text-right"><span className="text-muted" title={licenseGridTitle(m.iso)}>{LICENSE_NEEDED}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : entities.length === 0 ? (
               <NoData reason={`no ${m.iso} rows in latest_prices or ${m.da.table}`} />
             ) : (
               <div className="overflow-x-auto">
@@ -116,7 +148,8 @@ async function NowView() {
                       return (
                         <tr key={e} className="border-b border-rule/60">
                           <td className="py-1 pr-3">
-                            <Link href={`/prices/${encodeURIComponent(e)}`} className="font-mono">
+                            {/* session 7539 (the read, row 6): the hub as a reader names it, on hover */}
+                            <Link href={`/prices/${encodeURIComponent(e)}`} className="font-mono" title={hubName(e, m.iso)}>
                               {node(e)}
                             </Link>
                             {e === m.main ? <span className="ml-2 text-xs text-muted">main</span> : null}
@@ -130,7 +163,8 @@ async function NowView() {
                               <span className="text-xs text-muted">no data: not in latest_prices</span>
                             )}
                           </td>
-                          <td className="py-1 pr-3 text-xs text-muted">{rt ? `${utc(rt.ts_utc).replace(" UTC", "")} (${rt.variable})` : ""}</td>
+                          {/* session 7539 (the read, row 6): the interval in words, the variable's code on hover */}
+                          <td className="py-1 pr-3 text-xs text-muted">{rt ? <span title={`${rt.variable}: ${variableWords(rt.variable)}`}>{`${utc(rt.ts_utc).replace(" UTC", "")} (${variableWords(rt.variable)})`}</span> : ""}</td>
                           <td className="py-1 pr-3 text-right tabular-nums">
                             {d ? (
                               <Num check={`series|${m.da.table}|${e}|${m.da.variable}|${d.ts_utc}`} raw={d.value}>
