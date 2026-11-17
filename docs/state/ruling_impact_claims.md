@@ -29,4 +29,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /prices | samueloldlaptop | 7587 | done | docs/reviews/ruling-impact-prices-2026-11-17.md |
 | /prices/compare | samueloldlaptop | 7588 | done | docs/reviews/ruling-impact-compare-2026-11-17.md |
 | /grid | portable-laptop | 7616 | claimed | docs/reviews/ruling-impact-grid-2026-11-17.md |
-| /supply | samueloldlaptop | 7589 | claimed | docs/reviews/ruling-impact-supply-2026-11-17.md |
+| /supply | samueloldlaptop | 7589 | done | docs/reviews/ruling-impact-supply-2026-11-17.md |
