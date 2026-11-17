@@ -100,7 +100,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 342 | `wip/alt-bill-1` | 7.9 | wanted | |
 | B | 360 | `wip/alt-prices-4` | 7.8 | wanted | |
 | B | 285 | `wip/alt-severance-1` | 6.7 | wanted | |
-| B | 322 | `wip/alt-impact-18` | 6.25 | wanted | |
+| B | 322 | `wip/alt-impact-18` | 6.25 | seen: impact-18-1280.png with production's -default-1280 twins | 7800 |
 | B | 336 | `wip/alt-caiso-alerts-2` | 5.6 | wanted | |
 | B | 361 | `wip/alt-board-4` | 4.86 | wanted | |
 | B | 359 | `wip/alt-map-2` | 4.1 | seen: map-2-1280.png with production's -default-1280 twins | 7800 |
