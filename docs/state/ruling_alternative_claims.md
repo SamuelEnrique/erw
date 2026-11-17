@@ -11,3 +11,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7703 | claimed | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
 | /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
+| /cost-of-power/battery/awards | samueloldlaptop | 7705 | claimed | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
