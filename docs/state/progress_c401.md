@@ -41,7 +41,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 308 | `wip/alt-site-ask-1` | 100.0 | not seen: no pictures | 7800 |
 | B | 317 | `wip/alt-demand-growth-2` | 100.0 | wanted | |
 | B | 319 | `wip/alt-site-ask-2` | 100.0 | not seen: no pictures | 7800 |
-| B | 321 | `wip/alt-demand-growth-1` | 100.0 | wanted | |
+| B | 321 | `wip/alt-demand-growth-1` | 100.0 | seen: demand-growth-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 326 | `wip/alt-interconnection-2` | 100.0 | wanted | |
 | B | 329 | `wip/alt-interconnection-3` | 100.0 | wanted | |
 | B | 332 | `wip/alt-impact-23` | 100.0 | wanted | |
