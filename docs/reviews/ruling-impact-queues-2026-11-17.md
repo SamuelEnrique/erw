@@ -1,0 +1,11 @@
+# Ruling impact: /queues, the interconnection queue (17 November 2026)
+
+Session 7593 (samueloldlaptop). The two lines marked "Changes a figure" under /queues in `docs/reviews/rulings-for-samuel-2026-11-17.md` (branch `wip/7560-six-reads`): each figure under the default and under the other choice, the cells it moves, the change in units and percent. Ordered by the size of the change. No page and no default was changed.
+
+- **Script:** `runs/ruling_impact/queues_impact.py`, its printout `queues_impact.out`. It reads the page's file `site/data/queues.json` (built 17 November 2026, Berkeley Lab's 2026 edition through 2025), the rows of `lbnl_interconnection_queue` by the rules of `replication/queues/replicate.py` (imported), and the All grids tab's own file `site/data/siting/connect.json` (operation years 2023 to 2025, at least 5 requests). Every median recomputed over every year equals the page's.
+- **No model call** (spend USD 0).
+
+| # | Line (the question) | Cells | Default | Other choice | Change |
+|---|---|---|---|---|---|
+| 1 | Give the headline "Request to operation" a second wait, the last three operation years as the All grids tab counts them, beside the median over every year | `/queues`, the headline for each grid (a second figure) | One median over every year | Also the median of the requests that reached operation in 2023 to 2025 | The recent wait is longer in every grid: ERCOT 3.70 to 3.82 years (+3.3 percent; 227 requests), CAISO 6.02 to 8.33 (+38.4 percent), PJM 3.15 to 5.94 (+88.6 percent), SPP 4.06 to 7.05 (+73.8), MISO 3.04 to 4.87 (+60.0), NYISO 4.61 to 7.27 (+58.0, 5 requests), the Southeast 3.79 to 4.97 (+31.1), the West 2.05 to 4.09 (+99.9). Each equals the All grids tab's median in months (ERCOT 45.8, PJM 71.3), so the two pages would agree on one figure |
+| 2 | Reconcile storage in the queue to Berkeley Lab's summary ("approximately 749 GW") instead of the file's parts (552.7 GW) | `/queues`, storage's active MW (the US figure) | The file's parts as filed | Reconciled | The US storage figure 552.7 to 749 GW (+196.3 GW, +35.5 percent). The summary gives no split by grid or by year, so only the US total could be reconciled; the grids' battery parts (ERCOT 165.3 GW, CAISO 109.8, the West 118.9, MISO 54.9, SPP 30.8, PJM 29.0, the Southeast 17.4) would no longer add up to it |
