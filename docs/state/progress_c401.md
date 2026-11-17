@@ -66,7 +66,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 350 | `wip/alt-events-3` | 78.0 | not seen: no pictures | 7800 |
 | B | 290 | `wip/alt-battery-customer-4` | 75.0 | seen: battery-customer-4-1280.png with production's -default-1280 twins | 7800 |
 | B | 307 | `wip/alt-impact-8` | 66.8 | seen: impact-8-1280.png with production's -default-1280 twins | 7800 |
-| B | 289 | `wip/alt-shoulder-2` | 66.2 | wanted | |
+| B | 289 | `wip/alt-shoulder-2` | 66.2 | seen: shoulder-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 297 | `wip/alt-impact-2` | 58.3 | seen: impact-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 310 | `wip/alt-impact-10` | 58.2524 | seen: impact-10-1280.png with production's -default-1280 twins | 7800 |
 | B | 293 | `wip/alt-battery-awards-1` | 54.7 | wanted | |
