@@ -1,0 +1,25 @@
+days: uri (2021-02-15), heat (2023-08-10), calm (2026-04-26), solar (2026-08-29), negative (2025-01-05), caiso-solar-noon (2026-04-27), caiso-duck (2026-07-24)
+
+== line 1: the perfect battery's score as the game counts it (default) or net of the half-full start valued at the day's first price (Normal)
+uri: perfect 240.23 USD; the starting 6.75 kWh at the first price 8,644.11 USD/MWh is worth 58.35; net 181.88 (-24.3%)
+heat: perfect 60.97 USD; the starting 6.75 kWh at the first price 27.63 USD/MWh is worth 0.19; net 60.78 (-0.3%)
+calm: perfect 0.44 USD; the starting 6.75 kWh at the first price 27.05 USD/MWh is worth 0.18; net 0.26 (-41.4%)
+solar: perfect 0.93 USD; the starting 6.75 kWh at the first price 23.52 USD/MWh is worth 0.16; net 0.77 (-17.0%)
+negative: perfect 0.79 USD; the starting 6.75 kWh at the first price -31.57 USD/MWh is worth -0.21; net 1.01 (+26.8%)
+caiso-solar-noon: perfect 0.83 USD; the starting 6.75 kWh at the first price 12.15 USD/MWh is worth 0.08; net 0.74 (-9.9%)
+caiso-duck: perfect 12.98 USD; the starting 6.75 kWh at the first price 73.33 USD/MWh is worth 0.49; net 12.49 (-3.8%)
+
+== line 2: the game's battery (13.5 kWh and 5 kW, 2.7 hours; default) or one of the battery page's durations at the same 5 kW
+uri: 2.7 h 240.23; 2 h (10 kWh) 203.31 (-15.4%); 4 h (20 kWh) 301.40 (+25.5%); 8 h (40 kWh) 398.07 (+65.7%)
+heat: 2.7 h 60.97; 2 h (10 kWh) 52.70 (-13.6%); 4 h (20 kWh) 67.98 (+11.5%); 8 h (40 kWh) 74.46 (+22.1%)
+calm: 2.7 h 0.44; 2 h (10 kWh) 0.39 (-12.1%); 4 h (20 kWh) 0.53 (+19.6%); 8 h (40 kWh) 0.78 (+78.1%)
+solar: 2.7 h 0.93; 2 h (10 kWh) 0.78 (-15.9%); 4 h (20 kWh) 1.15 (+22.9%); 8 h (40 kWh) 1.56 (+67.5%)
+negative: 2.7 h 0.79; 2 h (10 kWh) 0.68 (-14.6%); 4 h (20 kWh) 1.01 (+26.7%); 8 h (40 kWh) 1.54 (+93.5%)
+caiso-solar-noon: 2.7 h 0.83; 2 h (10 kWh) 0.69 (-16.1%); 4 h (20 kWh) 1.01 (+22.5%); 8 h (40 kWh) 1.40 (+68.8%)
+caiso-duck: 2.7 h 12.98; 2 h (10 kWh) 12.65 (-2.5%); 4 h (20 kWh) 13.48 (+3.9%); 8 h (40 kWh) 14.46 (+11.4%)
+
+== line 3: the August 2023 day's line: ERCOT's demand that day
+EIA-930's highest ERCOT hour in August 2023: 85,432 MW on 2023-08-10; Potomac Economics' 2023 State of the Market Report: 85.7 GW, ERCOT's record of 2023 (difference +268 MW, +0.31 percent)
+
+== line 4: the game's lights-out charge at USD 35,000 per MWh (default, the PUCT's value of lost load) beside ERCOT's shortage-pricing value, USD 5,000 since 1 January 2022
+a lights out on Hard charges the outage's unserved energy, at most 3.0 kWh (1.5 kW for two hours, less the roof): USD 105.00 at 35,000 against 15.00 at 5,000 (-85.7 percent). The ruling is one sentence: no figure that stands moves
