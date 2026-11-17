@@ -206,7 +206,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         lead={<>What a solar plant, a wind plant, a battery or a gas peaker earned selling at the hub price: by year, the price it received against the flat average, whether that covers its debt, and whether it is worth building, with or without a contract. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", hub: hubName(hub.id), asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
-      <SellerDecisions key={scenarioKey} costs={costs} mw={x.mw} initial={scenarioParams} credits={facts.credits}>
+      <SellerDecisions key={scenarioKey} costs={costs} mw={x.mw} initial={scenarioParams} credits={facts.credits} noDeg={facts.noDeg}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your plant">

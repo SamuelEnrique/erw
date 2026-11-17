@@ -430,6 +430,8 @@ export async function modelOf(q: Record<string, string | undefined>) {
       : `No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`,
     // session 353: the credits offered for this asset, the contract's shape and the flat price a block settles against
     credits: CREDITS_OF(x.asset), shape, flat: win && winSpan ? winSpan.flat : s.twelve ? s.twelve.flat : null,
+    // session 7620, the other choice of the ruling on the peaker's degradation (wip/alt-seller-1, not landed)
+    noDeg: peaker,
   };
   // session 353: at a node, the twelve months' revenue moves by the basis on the plant's energy (scenarios A and B only)
   if (node && facts.twelve && !win) facts.twelve = { ...facts.twelve, revenueKw: facts.twelve.revenueKw + node.adjKw, at: `a node at the ${node.pct.slice(1)}th percentile of ${node.cls} nodes' basis to ${hubName(cg.main)}` };

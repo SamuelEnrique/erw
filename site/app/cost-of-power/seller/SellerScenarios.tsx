@@ -77,6 +77,10 @@ export type Facts = {
   battery: { withIt: number; without: number; words: string } | null; batteryWhy: string;
   /** session 353: the tax credits offered for the asset; the contract's shape; the hub's flat price a block settles at */
   credits?: Key[]; shape?: "generated" | "block"; flat?: number | null;
+  /** session 7620, the other choice of the ruling on the peaker's degradation (wip/alt-seller-1, not landed): a gas
+   * peaker's output is not degraded by the revenue cut, so the field and its bar in "What matters most" are dropped and
+   * the rate is held at the peaker's default, none */
+  noDeg?: boolean;
 };
 /** The contract the arithmetic reads: the page's form of it and the last twelve months' energy (session 212); session
  * 353: its shape, and the flat price a block is settled against. */
@@ -86,12 +90,14 @@ const contractOf = (f: Pick<Facts, "contract" | "twelve" | "shape" | "flat">): C
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
-export function SellerDecisions({ costs, mw, initial, credits = CREDIT_KEYS, children }: { costs: { capex: number; fom: number; life: number; deg?: number }; mw: number; initial: Record<string, string | undefined>; credits?: Key[]; children: ReactNode }) {
+export function SellerDecisions({ costs, mw, initial, credits = CREDIT_KEYS, noDeg = false, children }: { costs: { capex: number; fom: number; life: number; deg?: number }; mw: number; initial: Record<string, string | undefined>; credits?: Key[]; noDeg?: boolean; children: ReactNode }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   // session 353: a credit not offered for this asset is held at its default, none, whatever an address says
   const start = parseScenarios(initial, d, mw);
   for (const p of ["a", "b"] as View[]) for (const k of CREDIT_KEYS) if (!credits.includes(k)) start[p][k] = d[k];
+  // session 7620 (wip/alt-seller-1): a peaker's degradation is not a field, so it is held at its default whatever an address says
+  if (noDeg) for (const p of ["a", "b"] as View[]) start[p].deg = d.deg;
   return <ScenarioState start={start} query={query} drop={drop}>{children}</ScenarioState>;
 }
 
@@ -184,7 +190,7 @@ function useBlock(f: Facts) {
   const c = contractOf(f);
   const col = (p: View) => ({ p, y: s[p], r: f.twelve ? resultOf(s[p], f.twelve.revenueKw, c) : null });
   const cols = { a: col("a"), b: col("b") };
-  const bars = f.twelve ? sensitivity(a, f.twelve.revenueKw, c) : [];
+  const bars = (f.twelve ? sensitivity(a, f.twelve.revenueKw, c) : []).filter((b) => !(f.noDeg && b.key === "deg"));
   const side = (t: Side | null) => (t ? `${usd(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
   const chartBars: ChartBar[] = bars.map((b) => ({ key: b.key, label: b.label, step: b.key === "cprice" ? contractUnits(f.contract).priceStep : b.step, base: b.base * scale, size: b.size * scale,
     down: b.down ? { value: b.down.value, v: b.down.npv * scale } : null, up: b.up ? { value: b.up.value, v: b.up.npv * scale } : null }));
@@ -205,7 +211,7 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" || k === "ppa" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
 
   // session 353: a tax credit is a field only for an asset it is offered for
-  const fields: Field[] = KEYS.filter((k) => !CREDIT_KEYS.includes(k) || (f.credits ?? CREDIT_KEYS).includes(k)).map((k) => {
+  const fields: Field[] = KEYS.filter((k) => (!CREDIT_KEYS.includes(k) || (f.credits ?? CREDIT_KEYS).includes(k)) && !(f.noDeg && k === "deg")).map((k) => {
     const sp = SPECS[k];
     // session 212: the contract's units are the asset's (a share of the energy at a price per MWh; a toll on the capacity)
     const unit = k === "cshare" ? u.shareUnit : k === "cprice" ? u.priceUnit : sp.unit;
