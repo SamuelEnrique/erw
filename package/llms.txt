@@ -775,7 +775,7 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-17T06:03:54Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-17T05:55:22Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-17T06:03:58Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-17T05:55:22Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
 656 tables: 482 public, 174 held. Spans and rows move daily: erw.coverage() gives today's.
 
@@ -1459,7 +1459,7 @@ Ask:
 
 The tools' pages, Economics:
 - /board (Price board): Every price held on one dense screen: power by hub and zone, gas, crude, products, retail fuel and electricity, coal, metals, rates and credits, each with its moves, trend and one-year range, the spreads, and a workbench to compare any two series.
-- /prices (Prices): Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent; and, on the ERCOT tab, how ERCOT real-time prices spread across the day, by hub and year since 2015.
+- /prices (Prices): Every public ISO hub and zone, the newest real-time interval and the day-ahead hour, and each hub's last 30 days; and, on the ERCOT tab, how ERCOT real-time prices spread across the day, by hub and year since 2015.
 - /supply (Supply and trade): Is the market tighter or looser than last week, last year and normal for the season: gas storage, crude and product stocks, production, refining, trade, fuel burned for power and positioning, each against its five-year range.
 - /contracts (Power contracts): Where bilateral power contracts are being signed: seller, buyer, product, term, price as filed and delivery point, by the quarter of signing, from the contracts sellers file with FERC.
 - /severance (Severance tax): State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited; and, on the Lease tab, the same calculator for every well and month of a lease file, computed in the browser: nothing is sent.
