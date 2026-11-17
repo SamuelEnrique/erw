@@ -20,12 +20,16 @@ How it is made: each tool's entries are in `runs/c402/entries/<tool>.json` on th
 - First push: 27 entries, the ten largest headline changes among them, session 7900.
 - Every tool written, session 7900: impact (26 entries), contracts (5), severance (3), battery-awards (4), bill (5), board (5), cost-of-power (5), battery (2), seller (2), events (6), ercot-peak-premium (1), demand-growth (3), caiso-alerts (2), ev-game (1), map (2), prices (4), compare (2), supply (3), storage (1), demand (3), curtailment (2), queues (2), datacenters (4), deals (3), attention (1), research (2), site-ask (3), site-data-machine (2), site-digest (1). The tools with no entry (five-signed, problem-sets, site-sources; site-licenses is merged into the events and board entries) go to part B.
 - The list as pushed: 129 entries (31 change a headline figure, 36 another figure, 62 add or remove one); keep 15, switch 26, no basis 88; 12 figures that do not agree.
-- The pass over the first 30 (figures against their sources, screenshot links against the desktop's pushes): not begun.
+- The pass over the first 30 (figures against their sources, screenshot links against the desktop's pushes): done, session 7900. Every number found in a printout or a branch's test (`runs/c402/check30.py`, its output `runs/c402/check30.out`); one figure this session had derived was removed; the list redrawn with the pictures on main (41 entries with the other choice's picture, 17 with the page as it is today).
 
 ## Part B: the defaults list
 
-- not begun
+How it is made: `runs/c402/partb.py` draws `docs/reviews/rulings-defaults-2026-11-17.md` from the rulings list (saved as `runs/c402_rulings_for_samuel.md`) and the sorting and rewordings in `runs/c402/partb_data.py`.
+
+- Done, session 7900: 227 questions (183 by page, 41 held by a license or a publisher, 3 needing the key); 133 lines are in the ranked list, 3 ask a question it holds, 23 repeat another line, 6 are signature lines; 31 signature lines at the foot.
 
 ## The last session
 
-- not begun
+- The note `docs/state/note_2026-11-17_oldlaptop_c402.md` and the report `archive/sessions/SESSION_7900_REPORT.md`: done, session 7900.
+- Rule 8: before and after snapshots of the 25 live pages, 0 differences.
+- The resume file removed and the queue step run: done, session 7900 (see the report's last lines in the session's own output).
