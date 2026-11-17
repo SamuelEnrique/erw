@@ -21,6 +21,10 @@ import { DEMAND_DECISIONS } from "@/lib/decisions";
 import { ConsumptionView } from "../consumption/view";
 import { DEMAND_GROWTH_DECISIONS } from "../explore/demand-growth/Decisions";
 import faultsJson from "@/data/data_faults.json";
+// ruling alternative 3 (wip/alt-demand-3, not a default on main): ERCOT's load zones, built by site/scripts/build-zone-growth.mjs
+import zoneJson from "@/data/zone_growth.json";
+const ZONE_NAMES: Record<string, string> = { "ercot:FWEST": "Far West", "ercot:NORTH": "North", "ercot:SCENT": "South Central", "ercot:SOUTH": "South", "ercot:EAST": "East",
+  "ercot:COAST": "Coast", "ercot:NCENT": "North Central", "ercot:WEST": "West", "ercot:system": "ERCOT, all zones" };
 import { demandGrowth } from "@/lib/siting";
 
 // Session 7543 (chain 304, part C: the read of /demand as a utility planner reads it,
@@ -245,6 +249,18 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
               rows={ranked.map((r, i) => ({ key: r.ba, highlight: r.ba === ba, muted: r.ba === "US48", cells: [r.ba === "US48" ? "" : String(ranked.filter((x) => x.ba !== "US48").findIndex((x) => x.ba === r.ba) + 1), <Link key="l" href={href(slugOf(r.ba), rank.slug)} className="text-ink" data-ranked={`${i}|${r.ba}`}>{r.name}</Link>,
                 g(r.avg, `rank|${r.ba}|avg`), g(r.peak, `rank|${r.ba}|peak`), g(r.ytd, `rank|${r.ba}|ytd`)] }))} />
           </ToolSection>
+
+          {/* ruling alternative 3 (wip/alt-demand-3, not a default on main): each of ERCOT's load zones' own growth */}
+          {ba === "ERCO" && zoneJson.last ? (
+            <ToolSection title={`ERCOT's load zones: mean load, ${zoneJson.base} against ${zoneJson.last}`} id="zones"
+              note={<Hint words="What the zones are" why={`ERCOT's own hourly native load by weather zone (${zoneJson.source}; ${zoneJson.retrieved}): each zone's mean hourly load over every hour of ${zoneJson.base} and of ${zoneJson.last}, both years held whole. A zone is ERCOT's, not EIA's; ERCOT's total here is ERCOT's own and can differ from EIA-930's. Default on the site: no zone is drawn.`} />}>
+              <ToolTable minWidth={520} caption={`ERCOT's load zones, mean load ${zoneJson.base} and ${zoneJson.last}, largest growth first`}
+                head={["Zone", `${zoneJson.base}, MW`, `${zoneJson.last}, MW`, "Change, MW", "Change, percent"]}
+                rows={zoneJson.zones.filter((z) => z.base_mw !== null).map((z) => ({ key: z.entity, muted: z.entity === "ercot:system", cells: [ZONE_NAMES[z.entity] ?? z.entity,
+                  <N key="b" k={`zone|${z.entity}|base`}>{whole(z.base_mw!)}</N>, <N key="l" k={`zone|${z.entity}|last`}>{whole(z.last_mw!)}</N>,
+                  <N key="c" k={`zone|${z.entity}|mw`}>{`${z.change_mw! > 0 ? "+" : ""}${whole(z.change_mw!)}`}</N>, <N key="p" k={`zone|${z.entity}|pct`}>{signed(z.change_pct!)}</N>] }))} />
+            </ToolSection>
+          ) : null}
 
           {ba === "CISO" ? (
             <ToolSection title="California across the break of December 2025" id="break"

@@ -1,0 +1,73 @@
+{
+ "built_by": "site/scripts/build-zone-growth.mjs (wip/alt-demand-3)",
+ "table": "ercot_zone_load_hourly",
+ "source": "ERCOT, Hourly Load Data Archives, through the ERW table ercot_zone_load_hourly",
+ "retrieved": "Retrieved: 20261019T113456Z (UTC) by warehouse/connectors/ercot_zone_load.py",
+ "base": "2019",
+ "last": "2025",
+ "zones": [
+  {
+   "entity": "ercot:FWEST",
+   "base_mw": 3435.234,
+   "last_mw": 7477.778,
+   "change_mw": 4042.545,
+   "change_pct": 117.679
+  },
+  {
+   "entity": "ercot:NORTH",
+   "base_mw": 854.141,
+   "last_mw": 1689.362,
+   "change_mw": 835.222,
+   "change_pct": 97.785
+  },
+  {
+   "entity": "ercot:SCENT",
+   "base_mw": 6970.153,
+   "last_mw": 8876.653,
+   "change_mw": 1906.499,
+   "change_pct": 27.352
+  },
+  {
+   "entity": "ercot:system",
+   "base_mw": 43817.338,
+   "last_mw": 55732.679,
+   "change_mw": 11915.341,
+   "change_pct": 27.193
+  },
+  {
+   "entity": "ercot:SOUTH",
+   "base_mw": 3608.064,
+   "last_mw": 4434.518,
+   "change_mw": 826.454,
+   "change_pct": 22.906
+  },
+  {
+   "entity": "ercot:EAST",
+   "base_mw": 1485.11,
+   "last_mw": 1817.901,
+   "change_mw": 332.792,
+   "change_pct": 22.409
+  },
+  {
+   "entity": "ercot:COAST",
+   "base_mw": 12353.966,
+   "last_mw": 14745.269,
+   "change_mw": 2391.303,
+   "change_pct": 19.357
+  },
+  {
+   "entity": "ercot:NCENT",
+   "base_mw": 13818.843,
+   "last_mw": 15306.701,
+   "change_mw": 1487.858,
+   "change_pct": 10.767
+  },
+  {
+   "entity": "ercot:WEST",
+   "base_mw": 1291.828,
+   "last_mw": 1384.496,
+   "change_mw": 92.668,
+   "change_pct": 7.173
+  }
+ ]
+}
