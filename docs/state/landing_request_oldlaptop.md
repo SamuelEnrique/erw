@@ -44,6 +44,7 @@ Energy Research Warehouse (ERW). Written by chain 165 (`queue/done/165-day-6-nov
 | 40 | `wip/7542-storage-read` | `e8ffc18ff` | `7542-storage-read` | 7542 | 2026-11-16 | `site/scripts/test-storage-read.mjs` (25 of 25, the line chart drawn to HTML without a build, the helpers on made-up rows, the page files read); `site/scripts/test-buildout.mjs` (935 checks); `tsc` on the six changed files, exit 0; pytest `test_session120_page, 122, 123, 153, 300, 87, 90, 92, 138, 144_page, 303, 403, 404, 405, 416, 794, 2203, 318, 332, 417, 584, 149_checks, 248, 410, 502, 88` pass; `148` and `161` fail one Ask node test each, as on clean origin/main; not built here (memory); `check-values` and `check-routes` not run | requested |
 | 41 | `wip/7543-demand-read` | `8ec599dec` | `7543-demand-read` | 7543 | 2026-11-16 | `site/scripts/test-demand-read.mjs` (24 of 24, every view drawn to HTML by the page's own function without a build, the consumption tab on made-up rows, five cases); pytest `test_session114_part2, 126, 129, 152, 239, 331, 7018_demand_done, 7022_demand_growth, 7508_demand_growth, 7517_demand_growth_read`: 159 passed, 5 skipped by their rules; `tsc` on the five changed source files, exit 0; not built here (memory); `check-demand`, `check-demand-weather`, `check-values` and `check-routes` not run | requested |
 | 42 | `wip/7544-curtailment-read` | `a291b1b16` | `7544-curtailment-read` | 7544 | 2026-11-16 | `site/scripts/test-curtailment-read.mjs` (24 of 24, the whole page drawn to HTML by its own function without a build, on the site's files); pytest `test_session114_part2, 144_page, 149_map, 153, 215, 238, 241a, 281, 317, 321, 331, 412, 7018_curtailment_done, 98`: 205 passed, 10 skipped by their rules; node `test-freeenergy`, `test-seller-read`, `test-ask-tables` pass; `tsc` not run; not built here (memory); `check-curtailment`, `check-values` and `check-routes` not run | requested |
+| 33 | `wip/7535-play-battery` | `544328a5b` | `7535-play-battery` | 7535 | 2026-11-16 | `tests/test_session7535_battery_game.py` (13 passed) and `site/scripts/test-battery-game-render.mjs` (85 of 85, the changed pieces drawn to HTML without a build); the 18 older test files that name the game or `lib/battery.ts` (`test_session111`, `177`, `203`, `239`, `242`, `288`, `289`, `290`, `294`, `3600_batterygame`, `38`, `50`, `5171`, `53`, `55`, `56`, `66`, `70`): 190 passed, 4 skipped; `test-battery.mjs`, `test-battery-rulings.mjs`, `test-usage.mjs`, `test-battery-customer-read.mjs`: exit 0; `battery-game-figures.mjs --check` exit 0; `replication/battery_game/replicate.py --tables` (this machine's tables): 3,304 of 3,304, exit 0; not built and not type checked here (memory); `check-values` and `check-routes` not run | |
 
 ## Row 1: what it holds
 
@@ -497,3 +498,27 @@ Branch `wip/7202-key-refusal` from `origin/main`. Report: `archive/sessions/SESS
 - **Before landing:** a site build on the landing machine (`tsc` was not run here); `node --import ./scripts/battery-awards-page-register.mjs scripts/test-curtailment-read.mjs`; `node scripts/check-curtailment.mjs` against the built page (the new `data-n` keys above must be known to it or ignored); `check-values` on `/curtailment`.
 - **Snapshot differences to expect:** none on the 25 addresses (`/curtailment` is in review; a visitor is shown the in-review page). **Tables:** none.
 - **After the landing:** browser reads 206 to 208; data requests 179 to 183 are the data machine's and do not hold this row.
+
+## Row 33: what it holds (chain 304, session 7535, the home battery game at the done line)
+
+- **Stacked on** origin/main at `900fa95fc` (the branch's base). Report: `archive/sessions/SESSION_7535_REPORT.md` on
+  the branch.
+- **What changes:** `/play/battery`: `site/lib/battery.ts` `optimum` keeps no move that moves nothing (a full battery's
+  charge, an empty one's sale, a residue's sale under a nanowatt-hour; no score changes); `Game.tsx`: Hard's wear said
+  per kWh drawn out of the battery (mode line, end sentence), the end screen's pieces exported (`EndTable`, `WorstHour`,
+  `EarlyEnd`, `Preview`, `EndDetail`, `Debrief`, `keepWordsFor`, `outageChargeFor`, `OutageBanner`: moved, words
+  unchanged but the banner's roof case); `page.tsx`: the cap "since 1 January 2022", the source line's seven days and
+  three tables, the new decisions fold (`Decisions.tsx`, 15 choices, server-drawn words, no state, no request). New:
+  `replication/battery_game/`, `docs/reviews/battery-game-faults-2026-11-16.md`,
+  `docs/reviews/battery-game-crosscheck-2026-11-16.md`, `site/scripts/battery-game-figures.mjs`,
+  `site/scripts/test-battery-game-render.mjs`, `tests/test_session7535_battery_game.py`; the note's new section;
+  `tests/test_session111.py` follows the moved line.
+- **What does not change:** every score and perfect score on every day and mode (the render test replays each plan to
+  its score), the rules' constants, the leaderboard, the presets (`v5`), the server's rescoring, the eight check keys
+  and their figures, `site/lib/release.ts`, every table.
+- **Before landing:** a build on the landing machine (the first build of `Decisions.tsx` and the changed `Game.tsx`), a
+  play in each mode in a browser (the game is client-side), and `check-values` on `/play/battery` (the same keys).
+- **Snapshot differences to expect:** none on the 25 addresses (the page is in review and not among them). With the
+  review cookie: `/play/battery` differs by the rules section's cap date, the source line, and the decisions fold;
+  `/data/methods/battery_game` by its new section. **Tables:** none.
+- **After the landing:** rows 116 to 119 of `docs/state/browser_reads_wanted.md`; data request row 89.
