@@ -11,3 +11,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /cost-of-power/battery/awards | samueloldlaptop | 7574 | done | docs/reviews/ruling-impact-battery-awards-2026-11-17.md |
 | /impact | samueloldlaptop | 7575 | done | docs/reviews/ruling-impact-impact-2026-11-17.md |
 | Site-wide: Ask (the chat) | portable-laptop | 7611 | claimed | docs/reviews/ruling-impact-site-ask-2026-11-17.md |
+| /explore/ercot-peak-premium | samueloldlaptop | 7576 | claimed | docs/reviews/ruling-impact-ercot-peak-premium-2026-11-17.md |
