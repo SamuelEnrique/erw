@@ -46,7 +46,8 @@ export type Difficulty = "easy" | "normal" | "hard";
  * June 2025, LCOS v10.0, Key Assumptions, Residential Standalone (0.006 MW / 0.025 MWh): initial capital cost (DC)
  * USD 721 to 1,338 per kWh, lifetime storage output 158 MWh, efficiency 91 to 88 percent. */
 export const SETTINGS: Record<keyof Settings, { label: string; unit: string; def: number; min: number; max: number; step: number; source: string }> = {
-  kwh: { label: "Usable energy", unit: "kWh", def: 13.5, min: 5, max: 30, step: 0.5, source: "assumption: one home battery's usable energy, the session 38 game's" },
+  // ruling alternative 1 (wip/alt-play-battery-1, not a default on main): a 4-hour battery, one of the battery page's durations; main: 13.5
+  kwh: { label: "Usable energy", unit: "kWh", def: 20, min: 5, max: 30, step: 0.5, source: "four hours at the game's 5 kW, the battery page's 4-hour duration (ruling alternative 1; on the site 13.5 kWh, one home battery's usable energy, the session 38 game's)" },
   kw: { label: "Continuous power", unit: "kW", def: 5, min: 1, max: 11.5, step: 0.5, source: "assumption, the session 38 game's; ERCOT's ADER governing document gives +/-5 kW as its example of a battery's rated dispatchable range" },
   rte: { label: "Round-trip efficiency", unit: "percent", def: 0.9, min: 0.75, max: 0.95, step: 0.01, source: "assumption, inside Lazard's 88 to 91 percent for residential standalone storage (LCOS v10.0, 2025)" },
   reserve: { label: "Backup reserve", unit: "percent", def: 0.25, min: 0, max: 0.5, step: 0.05, source: "the share kept back for an outage, enforced on Hard: 25 percent by default (Samuel's ruling of 14 October 2026), so the default battery's reserve carries the house through Hard's outage" },

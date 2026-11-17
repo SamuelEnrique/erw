@@ -36,7 +36,7 @@ function RealFleet({ units }: { units: StorageUnit[] }) {
         <div className="text-xs text-muted">The game&apos;s fleet (fictional)</div>
         <div className="text-2xl tabular-nums"><Num check="battery|fleet_mw" raw={FLEET_MW}>{shown(FLEET_MW)}</Num> <span className="text-sm text-muted">MW</span></div>
         <div className="text-sm">
-          <Num check="battery|fleet_mwh" raw={FLEET_MWH}>{shown(FLEET_MWH)}</Num> MWh: {FLEET.toLocaleString("en-US")} homes, each 5 kW and 13.5 kWh (an assumption)
+          <Num check="battery|fleet_mwh" raw={FLEET_MWH}>{shown(FLEET_MWH)}</Num> MWh: {FLEET.toLocaleString("en-US")} homes, each 5 kW and {SETTINGS.kwh.def} kWh (an assumption)
         </div>
       </div>
       <div className={cell}>
@@ -104,7 +104,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             the complete days the warehouse holds since 2025-09-01: the lowest mean price from 10:00 to 15:00 Pacific, and the largest rise from the 12:00 to 15:00
             mean to the 18:00 to 21:00 mean. The battery, the home,
             the brand (&quot;Mockingbird Home Battery&quot; is made up) and the fleet of 10,000 homes are fictional. On Normal and Hard the battery&apos;s settings are yours to set, within
-            stated ranges; by default 13.5 kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions), a {Math.round(SETTINGS.reserve.def * 100)} percent backup reserve and a
+            stated ranges; by default {SETTINGS.kwh.def} kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions), a {Math.round(SETTINGS.reserve.def * 100)} percent backup reserve and a
             degradation cost of $0.11 per kWh discharged (from Lazard&apos;s 2025 storage cost study), both enforced on Hard. Every assumption and its source:{" "}
             <Link href="/data/methods/battery_game">the method</Link>.
           </p>
@@ -121,7 +121,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             <li><strong>Where USD {LIGHTS_OUT.usdPerMwh.toLocaleString("en-US")} per MWh comes from:</strong> it is the value of lost load, the worth of power that is not delivered, that the Public Utility Commission of Texas approved for the ERCOT region on 29 August 2024 (Project No. 55837; <a href={LIGHTS_OUT.release}>its press release of that day</a>). It rounds the one-hour, system-wide value of ERCOT&apos;s study by The Brattle Group, USD {LIGHTS_OUT.study.toLocaleString("en-US")} per MWh (<a href={LIGHTS_OUT.report}>the study</a>). It is the value for all customers together: the same study found a much lower one for residential customers alone, USD {LIGHTS_OUT.residential.toLocaleString("en-US")} per MWh for a one-hour outage. The Commission approved it for planning the grid&apos;s reliability; nobody is billed it. Charging a house at it is the game&apos;s rule, and the game uses the Texas figure on the California days too.</li>
             <li><strong>The perfect battery</strong> plays by the same rules: it never runs out of money, and it never gives up the house where the lights can be kept on.</li>
             <li><strong>Add-ons (Hard only, off by default).</strong> {ADDONS.solar.label}: {ADDONS.solar.what}. The shape is the whole fleet&apos;s, not one roof&apos;s: the hourly output of the grid&apos;s solar plants per MW installed (EIA-930 generation over EIA-860M nameplate, as <Link href="/cost-of-power/seller">the seller&apos;s tab</Link> uses), kept between 0 and 1, times {SOLAR.kw} kW. The shape is the fleet&apos;s output over its registered capacity, and it can pass 1 when new plants report output before they are registered. Where the warehouse holds no shape for a level&apos;s day the add-on is unavailable for it; nothing is filled in. {withSolar.length ? `Days with a shape: ${withSolar.join(", ")}.` : "No level holds a shape yet, so the add-on is unavailable on every level for now."}</li>
-            <li><strong>The backup reserve (version 5):</strong> {Math.round(SETTINGS.reserve.def * 100)} percent by default, {(13.5 * SETTINGS.reserve.def).toFixed(2)} kWh of the default battery: more than the {((EMERGENCY.houseKw * EMERGENCY.outageIntervals) / 4 / Math.sqrt(0.9)).toFixed(2)} kWh the house takes from it in the outage, so selling down to the reserve line keeps the lights on. Until version 5 it was 20 percent, not enough.</li>
+            <li><strong>The backup reserve (version 5):</strong> {Math.round(SETTINGS.reserve.def * 100)} percent by default, {(SETTINGS.kwh.def * SETTINGS.reserve.def).toFixed(2)} kWh of the default battery: more than the {((EMERGENCY.houseKw * EMERGENCY.outageIntervals) / 4 / Math.sqrt(0.9)).toFixed(2)} kWh the house takes from it in the outage, so selling down to the reserve line keeps the lights on. Until version 5 it was 20 percent, not enough.</li>
             <li><strong>The leaderboard</strong> ranks version 5 plays only against version 5 plays with the same mode, battery and add-ons; a board from before says &quot;v4 rules&quot;, &quot;v3 rules&quot; or &quot;v2 rules&quot;.</li>
           </ul>
         </div>
