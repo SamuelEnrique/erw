@@ -1051,7 +1051,6 @@
      ],
      "kind": "own_exempt",
      "exempt_share": 0.55,
-     "abates": "tax",
      "years": 20,
      "requires": "option",
      "cite": "nv_701a",
@@ -1061,7 +1060,8 @@
      "tip": "Nevada: where the Office of Energy approves it, 55 percent of the property tax is abated for the 20 fiscal years after approval for a facility of 10 MW or more (NRS 701A.370, 701A.360).",
      "own_tip": "Nevada's partial abatement (NRS 701A.370), where approved (the local option above), takes 55 percent off the tax for the 20 fiscal years after approval, counted here from the first construction year: a rate typed here is the reader's own, applied to the capital cost as it falls, 45 percent of it charged in those years.",
      "option_tip": "Nevada (NRS 701A.360 to 701A.370): the Office of Energy's Director may approve a partial abatement of 55 percent of the property tax for the 20 fiscal years after approval, for a facility that meets the statute's tests of construction jobs, investment and wages; the county may deny it within 30 days. It acts on the property tax rate typed below.",
-     "min_mw": 10
+     "min_mw": 10,
+     "branch": "ruling alternative 13 of /impact (wip/alt-impact-13, session 7706): not a default on main (main: abates \"tax\", the taxable value whole; this is the undo of session 7515's change, commit 3baff8839)"
     }
    ]
   },

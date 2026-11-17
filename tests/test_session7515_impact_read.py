@@ -50,6 +50,7 @@ class TheTaxableValue(unittest.TestCase):
         tech, state, given = self.m.scenario_values(query, "a")
         return self.m.inputs(self.P, tech, state, given)
 
+    @unittest.skip("ruling alternative 13 (wip/alt-impact-13): this branch is the undo of session 7515's change (the taxable value at 45 percent in an abated year); tests/test_alt_impact_13.py pins the other choice")
     def test_nevada_abates_the_tax_and_not_the_value(self):
         on = self.scenario({**NEVADA, "iaval": "1"})
         off = self.scenario(NEVADA)
@@ -73,6 +74,7 @@ class TheTaxableValue(unittest.TestCase):
         self.assertAlmostEqual(value, 150e6 * 0.2, delta=1e-3)
         self.assertAlmostEqual(tax, 150e6 * 0.2 * 0.01, delta=1e-3)
 
+    @unittest.skip("ruling alternative 13 (wip/alt-impact-13): this branch is the undo of session 7515's change (the taxable value at 45 percent in an abated year); tests/test_alt_impact_13.py pins the other choice")
     def test_the_rule_file_marks_nevada_alone_and_the_trim_keeps_the_mark(self):
         rules = json.loads(read("site", "data", "forecast", "property_rules.json"))
         marked = [(s, r["id"]) for s, v in rules["states"].items() for r in v["rules"] if r.get("abates") == "tax"]
@@ -84,6 +86,7 @@ class TheTaxableValue(unittest.TestCase):
 
 
 class ThePageDrawn(unittest.TestCase):
+    @unittest.skip("ruling alternative 13 (wip/alt-impact-13): this branch is the undo of session 7515's change (the taxable value at 45 percent in an abated year); tests/test_alt_impact_13.py pins the other choice")
     def test_the_table_by_year_shows_the_whole_value(self):
         node = shutil.which("node")
         if not node or not os.path.isdir(os.path.join(ROOT, "site", "node_modules")) or not os.path.exists(JEDI):
