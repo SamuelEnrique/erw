@@ -56,6 +56,38 @@ Added by the old laptop from 11:40 UTC, on four more branches (`wip/7506-impact`
 | 30 | `/explore/interconnection?queue=caiso&from=2020&to=2010` | First entry year 2010, Last entry year 2020; the titles read "2010 to 2020" (twice), never "2020 to 2010" | none | `row-30-queue-years-1280.png` |
 | 31 | `/explore/interconnection?queue=ercot` | The line reads "... \"Entered\" counts the positions of an entry year that are still in the report, not every request made that year", wrapped, the page 390 px wide. The freshness line reads "Stale since 5 November 2026 ... last computed on 5 November 2026 (10 days ago)": more than eight days, so the mark is as the rule has it | none | `row-31-queue-ercot-390.png` |
 
+## Rows 32 to 278 (session 7602)
+
+Session 7602, chain 305 (part A again), 17 November 2026, the portable laptop. 130 rows the old laptop added in its chain 304 (the first run's rows 32 to 75 and the second run's 76 to 278, with gaps in the numbering). Each row's state, with what was seen, is written in `docs/state/browser_reads_wanted.md` (on main): **119 seen, 4 seen in part or in words that differ from the row's (50, 51, 138, 267), 7 with a fault** (rows 52, 55, 62, 63, 80, 82 and 179: six fixed here, one a data fault). No row was left `wanted`.
+
+### How they were read
+
+- **The build:** the old laptop's 27 branches named by the rows (`wip/7501-contracts` to `wip/7545-queues-read`, the heads of 17 November), merged on this machine with `wip/7600-large-load-read` into a branch that is not pushed: no conflict. Built in the foreground and served here. Most of the stacks have since landed on main (chain 301's gate j, chain 370's desk), all but `/play/battery`.
+- **The browser:** the machine's own Chrome, headless, through `site/scripts/read-rows-c305.mjs` (new, on this branch), in the internal view, at 1280 by 900 and at 390 by 844 as a phone. Each row is a line of `s7602/rows-*.json` (the steps: clicks, typing, selects, every mark hovered by the mouse and focused as a tap does, the mouse moved across a chart at 25 to 60 places and three heights, the wheel turned on the map); the reader writes what it found and `s7602/show.mjs` prints it. Nothing in the reader decides a row: each state was written from its output and the pictures.
+- **Two plays of the battery game** were played to their end with no move (Hard on the summer scarcity day, Normal on CAISO's steepest evening ramp; Easy on Uri at both widths), which is what rows 117, 118 and 267 needed, except row 267's "plus the fleet bonus" (drawn only when a play earns one: not seen).
+- **Then again** with the four fixes merged (below), on a second build: rows 52, 62, 63, 80, 82 and 179 read once more (`row-*-after-*.png`).
+
+### The faults
+
+| Row | Page | Fault | Done |
+|---:|---|---|---|
+| 52, 62 | `/impact` (the headline "Property tax, first operating year"), `/explore/demand-growth?grid=caiso` (a decision's source of over 1,000 characters) | The shared mark's placer capped a box taller than its room (432 px at 1280) and it scrolled inside itself | Fixed in `site/components/largeload/TipPlace.tsx`: such a box is widened up to 576 px where the window allows; read again: whole at 1280 (576 by 248 px and 576 by 284 px). On a phone it still scrolls inside itself. Row 16 of `docs/reviews/large-load-on-site/browser-read-2026-11-16.md` |
+| 63 | `/explore/interconnection?queue=spp&from=2018&to=2018` | A one-point chart's share axis ran 0.6 to 1.8 | Fixed in `site/components/TimeChart.tsx` (a value alone padded by a tenth of itself); read again: 0.55 to 0.75. Row 19 of `docs/reviews/interconnection-faults-2026-11-16.md` |
+| 80, 82 | Every event page, the fold "Each event day's estimate" | A table 468 px wide with no frame: the page grew to 469 px at 390 once opened (on production too) | Fixed in `site/components/EventStudy.tsx`; read again: 390 px. Row 11 of `docs/reviews/events-faults-2026-11-16.md` |
+| 179 | `/supply`, the burn table's links line | No place to break: the line ran to 899 px at 390 (on production too) | Fixed in `site/app/supply/page.tsx`; read again: 390 px. Row 25 of `docs/reviews/supply-read-2026-11-16.md` |
+| 55 | `/cost-of-power/battery/awards` beside `/cost-of-power/battery` | The two pages give the same comparison as USD 0.37 against 2.10 (5.60 times, 8 months) and USD 0.40 against 2.24 (5.64 times, January to July): the battery page reads a snapshot written on 10 October and never again | A data fault: request row 261 of `docs/state/data_requests_done_line.md`; row 10 of `docs/reviews/battery-awards-faults-2026-11-16.md` |
+
+### Seen differently from the row, not a fault
+
+- Rows 69, 156, 157 and 268 were written on the month before: the figures are the live set's newer ones (USD 80.34 and 106 months on the battery page; "2,400 of 2,784" on the hub page; ERCOT's fleet 19,194.60 MW and CAISO's 17,265.50 MW in the game).
+- Row 50: the impact page's charts now say "2027 build: Property 0 USD (2025), Income 0 USD (2025)", not the row's "property not held, sales none" (row 6 of that tool's read stays a ruling). Row 51: Utah is not drawn on "Taxes, present value, in other states" at the row's address, so its hover could not be read; Nevada's could.
+- Row 138: the card was opened from the list's name, not by a click on the map's canvas. Row 129: the arrow keys were not tried. Row 35: the page's own count of resources was read (15 and 15), not `check-no-request.mjs`.
+- Row 96: the one "license needed" on `/learn/bill` is the downloads' line (the table is held for download), not a card; a card's figure carries a check key and no hover title.
+
+### Pictures
+
+175 more, `row-32-*` to `row-278-*` (1280 and 390 px where the row asks both), and the after pictures of the six fixed rows.
+
 ## For the old laptop's next rows
 
 A row is readable here when its branch can be fetched: nothing has to land first. The four branches were merged for one build; a branch that does not merge with the others is built alone.

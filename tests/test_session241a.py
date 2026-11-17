@@ -198,7 +198,8 @@ class TheOneRule(unittest.TestCase):
     def test_the_event_study_tables_scroll_inside_their_frame(self):
         e = src("components", "EventStudy.tsx")
         self.assertIn('<div className="overflow-x-auto">' + chr(10) + '      <table className="mb-2 w-full text-left text-sm">', e.replace(chr(13), ""))
-        self.assertEqual(e.count('className="overflow-x-auto"'), 1)
+        # session 7602 (browser reads rows 80 and 82): the fold's table of each event day has its own frame too
+        self.assertEqual(e.count('className="overflow-x-auto"'), 2)
 
     def test_the_rules_before_it_are_as_they_were(self):
         css, start, _ = self.block()

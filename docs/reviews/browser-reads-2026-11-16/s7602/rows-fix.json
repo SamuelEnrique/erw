@@ -1,0 +1,8 @@
+[
+ {"row":52,"path":"/impact?tech=natural_gas&state=tx&mw=1445&start=2027&instate=100&bmw=1445&bstart=2027","shot":"after-impact-property-tip","expect":[],"steps":[{"tips":"span.tip[data-tip] > button[aria-label='About Property tax, first operating year']"}]},
+ {"row":62,"path":"/explore/demand-growth?grid=caiso","shot":"after-demand-caiso-fold","expect":[],"steps":[{"openFolds":true},{"tips":""}]},
+ {"row":63,"path":"/explore/interconnection?queue=spp&from=2018&to=2018","widths":[1280],"shot":"after-queue-spp-2018","expect":[],"steps":[{"eval":"[...document.querySelectorAll('svg')].map(s=>[...s.querySelectorAll('text')].map(t=>t.textContent).join(' ')).filter(t=>/share|years/.test(t))"}]},
+ {"row":80,"path":"/events/covid-2020","widths":[390],"shot":"after-covid-fold","expect":[],"steps":[{"openFolds":true},{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"}]},
+ {"row":82,"path":"/events/uri-2021","widths":[390],"shot":"after-uri-fold","expect":[],"steps":[{"openFolds":true},{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"}]},
+ {"row":179,"path":"/supply","widths":[390],"shot":"after-supply","expect":[],"steps":[{"eval":"[document.documentElement.scrollWidth, document.documentElement.clientWidth]"},{"scroll":"Fuel burned for power"},{"shot":"links"}]}
+]

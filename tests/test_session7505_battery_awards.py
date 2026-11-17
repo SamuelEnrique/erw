@@ -146,9 +146,10 @@ class TheNoteAndTheFaults(unittest.TestCase):
     def test_the_faults_file_numbers_its_rows(self):
         faults = src("docs", "reviews", "battery-awards-faults-2026-11-16.md")
         kinds = re.findall(r"(?m)^\| (\d+) \| (site, fixed|note, completed|data machine|ruling) \|", faults)
-        self.assertEqual([int(n) for n, _ in kinds], list(range(1, 10)))
+        # session 7602 (chain 305, browser read row 55): row 10, the battery page's snapshot a month behind, for the data machine
+        self.assertEqual([int(n) for n, _ in kinds], list(range(1, 11)))
         self.assertEqual(sum(k == "site, fixed" for _, k in kinds), 1)
-        self.assertEqual(sum(k == "data machine" for _, k in kinds), 1)
+        self.assertEqual(sum(k == "data machine" for _, k in kinds), 2)
         self.assertEqual(sum(k == "ruling" for _, k in kinds), 5)
 
 
