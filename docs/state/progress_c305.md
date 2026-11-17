@@ -22,7 +22,7 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | The large-load pages of chain 302, built here from `wip/7200-large-load` (not landed), read at 1280 and 390 px | done (`wip/7600-large-load-read`: 15 numbered rows in `docs/reviews/large-load-on-site/browser-read-2026-11-16.md`; 12 site faults fixed with tests, 2 requests of the data machine (rows 8 and 9), 1 ruling with its default; 17 of 17 figures in their table rows; axe, no rule broken; landing row 34 of `docs/state/landing_request_portable.md`) | 7600 |
 | `docs/state/browser_reads_wanted.md`, rows 1 to 14 (the old laptop's `/severance`, `/contracts`, `/shoulder`, `/cost-of-power/battery/awards`) | done (`b137693bb`: 8 seen, 6 with a fault. The shared "i" mark's box past a phone's screen, fixed for every page on `wip/7600-large-load-read`; one sentence of `/shoulder`, fixed on `wip/7600-shoulder-read`, landing row 35; index and 24 screenshots in `docs/reviews/browser-reads-2026-11-16/`) | 7600 |
 | `docs/state/browser_reads_wanted.md`, rows 15 to 31 (the old laptop's `/impact` and its three explorers) | done (`ce9be9911`: 13 seen, 4 with a fault: three the shared mark's; one of its own and on production too, the demand growth chart's hover card drew no figure, fixed on `wip/7601-demand-growth-read`, landing row 36) | 7601 |
-| `docs/state/browser_reads_wanted.md`, rows 32 on (added by the old laptop from 12:35 UTC) | in work (session 7602: the old laptop's 27 branches merged on this machine with `wip/7600-large-load-read`, no conflict, one build, read at 1280 and 390 px) | 7602 |
+| `docs/state/browser_reads_wanted.md`, rows 32 on (added by the old laptop from 12:35 UTC) | done (`wip/7602-landed-reads` at `eef5b5861`, landing row 38; the rows marked on main): 130 rows read on a build of the old laptop's 27 branches, 119 seen, 4 seen in part, 7 with a fault. Six fixed with tests and read again on a second build: the placer widens a tall box (rows 52, 62), a one-point chart's axis (row 63), the event-day table's frame (rows 80, 82, on production too), `/supply`'s links line (row 179, on production too). One for the data machine: the battery page's awards snapshot of 10 October (row 55, request 261). Section "Rows 32 to 278" of `docs/reviews/browser-reads-2026-11-16/README.md`, 175 pictures | 7602 |
 | The snapshots of the live pages around session 7600's pushes to main (`c305-before`, `c305-after-7600`) | done (25 pages, 0 differences; every push held state and queue files only) | 7600 |
 
 ## Part B: the done line for this machine's seven tools
@@ -42,14 +42,23 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | Tool | State | Session |
 |---|---|---|
 | This machine's seven tools | skipped: all seven read by samueloldlaptop (`/map` in session 7537 on `wip/7537-map-read`; the six in sessions 7546 to 7551 on their own branches), each marked `read: samueloldlaptop` in `docs/state/done_line_claims.md` | 7602 |
-| The datacenter tracker (`/datacenters`) | open: no `datacenters-read-2026-11-16.md` on any branch (searched every remote branch, session 7602) | |
-| The deal tracker (`/deals`) | open: no read on any branch | |
-| Automated Analysis (`/research`) | open: no read on any branch | |
-| Grid (`/grid`) | open: no read on any branch | |
+| The datacenter tracker (`/datacenters`) | done (`wip/7603-datacenters-read`, landing row 39): as a fund analyst sizing datacenter load in one territory; 7 rows: 2 site fixed (a grid's public peak, capacity and reserve margin printed as held; the note beside a report's month), 2 license, 2 rulings (one the map's open row 7), 1 seen | 7603 |
+| The deal tracker (`/deals`) | done (same branch): as an AI lab's infrastructure lead; every view held (583 rows): 5 rows, no site fault, one taken to the research read | 7604 |
+| Automated Analysis (`/research`) | done (same branch): as a fund analyst reading the week's findings; 8 rows: 4 site fixed (the page at 712 px on a phone; the record's figures in the scanner's words; held tables offered as public; **two cards' small multiples drew NYISO's and ISO-NE's held prices**, found by `check-holds.mjs`, on main too, now taken out on the server), 2 data machine (requests 262 and 263), 1 key, 1 ruling | 7605 |
+| Grid (`/grid`) | done (same branch): as a utility market analyst on ERCOT; 5 rows, no site fault, every shared figure agrees (`/storage`, the exchange, `/demand`); 1 ruling (ERCOT's own peak record not beside EIA-930's 91,075 MW) | 7606 |
+
+## The last session
+
+| Step | State | Session |
+|---|---|---|
+| The pack `docs/reviews/done-line-pack-portable-2026-11-16.md` | done (this commit) | 7607 |
+| The note `docs/state/note_2026-11-17_portable_c305.md` | done (this commit) | 7607 |
+| The resume file `queue/next/351-resume-chain-305.md` removed | done (its own commit, after this one) | 7607 |
+| The queue step | after the removal; exit 3 means part D, which has no tool left (every claims row read), and its first bullet, the browser reads wanted, is read to row 278 | 7607 |
 
 ## Needs the key
 
-- Nothing so far. No model was called by any session of this chain; no other key or route was tried.
+- No model was called by any session of this chain; no other key or route was tried. Two features were read and not used: "Ask the warehouse" on `/research` (about USD 0.05 a request) and "Ask ERCOT about this view" on `/grid` (about USD 0.02 a question): about USD 0.07 for one of each, not measured.
 
 ## For Samuel's ruling (each with the default taken)
 
@@ -61,3 +70,5 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 
 - The first build of session 7600 started at 1,760 MB free, under the chain's 2 GB (the measure before it read 2,268 MB and was not taken again). Every later build is gated on a fresh measure.
 - Two of Samuel's windows were closed by their own window to free memory, as the chain's rule says: the Snipping Tool and the Edge window (a Google Doc and one more page).
+- Session 7602's second build (the fixes merged) started with 1,175 MB free, under the chain's 2 GB: the measure and the build ran in one command, so the build was not held back. It finished (exit 0). Every later build is measured first, alone.
+- Session 7602's first two pushes to main (the resume file, then the progress and claims files) went out with no before snapshot. The snapshot taken after them (`c305-7602-a`, 25 pages) against session 7600's last (`c305-after-7600`): 0 differences. Every later push of the session has its snapshot before and after.

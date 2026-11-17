@@ -84,7 +84,14 @@ def figures(pts, freq):
     else:
         slack = SLACK.get(freq, 6)
         for k, n in BACK.get(freq, {}).items():
-            b = held_before(pts, t - dt.timedelta(days=n), slack)
+            if freq == "W" and k == "y":
+                # session 7051 (the note's rule since request 149): a weekly series' year base is the value 364 days back,
+                # or the nearest within 3 days (the same week a year before, as EIA's report sets it)
+                target = t - dt.timedelta(days=364)
+                near = [(d, x) for d, x in pts if abs((d - target).days) <= 3]
+                b = min(near, key=lambda p: (abs((p[0] - target).days), p[0])) if near else None
+            else:
+                b = held_before(pts, t - dt.timedelta(days=n), slack)
             if b:
                 moves[k] = (b[0].isoformat(), b[1], v - b[1])
         b = held_before(pts, dt.date(t.year - 1, 12, 31), slack)

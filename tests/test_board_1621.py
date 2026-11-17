@@ -66,7 +66,7 @@ class AsksKeys(unittest.TestCase):
         out = re.search(r"out = dict\(last=dict\(t=d0\.isoformat\(\), v=round\(v0, 4\)\), moves=moves, range=rng\)", src)
         self.assertIsNotNone(out)
         self.assertIn('moves = {"d": move(prev), "w": move(back(7))', src)
-        self.assertIn('"y": move(back(365)), "ytd": move(year_end(days, d0, freq))}', src)
+        self.assertIn('"y": move(year_back()), "ytd": move(year_end(days, d0, freq))}', src)   # session 7051: a weekly year base (request 149)
 
 
 if __name__ == "__main__":
