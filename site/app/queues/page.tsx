@@ -21,6 +21,9 @@ import { GRIDS, TABLE, TECHS, choices, href, noneWithdrawn, onYears, outcome, pe
 export const metadata: Metadata = { title: "The interconnection queue", robots: { index: false, follow: false } };
 
 const file = fileJson as unknown as QueueFile;
+// Session 7630 (wip/alt-queues-2, not landed): Berkeley Lab's summary of storage in the queue, "approximately 749 GW"
+// (Queued Up, 2026 edition, the summary; docs/reviews/ruling-impact-queues-2026-11-17.md, line 2)
+const STORAGE_SUMMARY_GW = 749;
 const METHOD = "/data/methods/interconnection_queue_summary";
 const COLOR = { operating: "var(--color-fuel-nuclear)", withdrawn: "var(--color-rule)", open: "var(--color-accent)", active: "var(--color-accent)", line: "var(--color-ink)" };
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
@@ -251,6 +254,13 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
                 share(v.whole.past_operating_share_pct, `kind|${t.slug}|past_operating_share_pct`), <Withdrawn key="w" v={v} k={`kind|${t.slug}|past_withdrawn_share_pct`} grid={grid} tech={t} />,
                 v.whole.median_years_to_operation === undefined ? notMedian(grid.slug) : share(v.whole.median_years_to_operation, `kind|${t.slug}|median_years_to_operation`),
               ] : [t.name, "none", "none", NOT, NOT, NOT] }))} />
+            {/* session 7630, the other choice of the ruling on storage in the queue (wip/alt-queues-2, not landed): the US
+                storage figure reconciled to Berkeley Lab's own summary, beside what the file's parts sum to; the summary gives
+                no split by grid or year, so only the US figure is reconciled */}
+            {grid.slug === "us" && viewOf(file, "us", "all") ? (() => {
+              const x = viewOf(file, "us", "all")!.whole as unknown as Record<string, number>, parts = (x.active_mw_parts_battery ?? 0) + (x.active_mw_parts_other_storage ?? 0);
+              return <p className="mt-2 max-w-3xl text-sm" data-storage-reconciled={STORAGE_SUMMARY_GW}>Storage in the queue, every part: <strong>about {STORAGE_SUMMARY_GW} GW</strong>, Berkeley Lab&apos;s own summary of the {file.vintage.split(" ")[0]} edition. The file&apos;s parts (batteries alone, and the storage part of each hybrid) sum to {(parts / 1000).toFixed(1)} GW; the summary gives no split by grid or by year, so the grids&apos; parts do not add up to it.</p>;
+            })() : null}
           </ToolSection>
 
           {/* row 1: the chosen technology in every grid, side by side, for a reader choosing where to file */}
