@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
-import { OFFERS_TABLE, SERVICE_FULL, list, pct, span, usd, whole, type Gap } from "@/lib/storageawards";
+import { OFFERS_TABLE, SERVICE_FULL, list, monthName, pct, span, usd, whole, type Gap } from "@/lib/storageawards";
 
 // Session 116: the one section added to /cost-of-power/battery/awards. What the fleet offered day-ahead, from
 // ercot_storage_dam_offers_monthly (warehouse/derived, from the Energy Bid/Offer Curves of ERCOT's 60d_DAM_ESR_Data and
@@ -18,7 +18,9 @@ const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2,
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const points = (v: number) => (v * 100).toFixed(1);
 
-export function OffersSection({ gap, unread, loaded }: {
+export function OffersSection({ gap, gapMonths = [], unread, loaded }: {
+  /** ruling alternative 2 (wip/alt-battery-awards-2, not a default on main): the same three parts for each month */
+  gapMonths?: Gap[];
   /** the arithmetic's result; null when no month is held whole by all three tables */
   gap: Gap | null;
   /** why the offers table (or the model's rows) could not be read, when it could not */
@@ -65,6 +67,20 @@ export function OffersSection({ gap, unread, loaded }: {
             { key: "price", cells: ["Price", <span key="v" data-offers-part="price" data-offers-raw={g.priceKw}>{usd(g.priceKw)}</span>, of(g.priceKw)] },
             { key: "gap", highlight: true, cells: ["The gap: the model's figure less the awards", <span key="v" data-offers-part="gap" data-offers-raw={g.gapKw}>{usd(g.gapKw)}</span>, of(g.gapKw)] },
           ]} />
+        {gapMonths.length ? (
+          <ToolTable caption="The same three parts, month by month" minWidth={680}
+            head={["Month", "The gap, USD per kW", "Never offered", "Offered, not awarded", "Price"]}
+            rows={gapMonths.map((x) => {
+              const sh = (v: number) => (x.gapKw !== 0 ? ` (${pct(v / x.gapKw)})` : "");
+              return { key: x.months[0], cells: [
+                <span key="m" data-offers-month={x.months[0]}>{monthName(x.months[0])}</span>,
+                <span key="g" data-offers-month-part={`${x.months[0]}|gap`} data-offers-raw={x.gapKw}>{usd(x.gapKw)}</span>,
+                <span key="n" data-offers-month-part={`${x.months[0]}|never`} data-offers-raw={x.neverOfferedKw}>{usd(x.neverOfferedKw)}{sh(x.neverOfferedKw)}</span>,
+                <span key="u" data-offers-month-part={`${x.months[0]}|unawarded`} data-offers-raw={x.offeredNotAwardedKw}>{usd(x.offeredNotAwardedKw)}{sh(x.offeredNotAwardedKw)}</span>,
+                <span key="p" data-offers-month-part={`${x.months[0]}|price`} data-offers-raw={x.priceKw}>{usd(x.priceKw)}{sh(x.priceKw)}</span>,
+              ] };
+            })} />
+        ) : null}
         <ul className="max-w-3xl list-disc space-y-1.5 pl-4 text-sm">
           <li><strong>Never offered.</strong> {points(g.noOfferShare)} percent of the fleet&apos;s limit-hours (each resource&apos;s limit, hour by hour) carried no day-ahead offer of any kind, no energy curve and no
             ancillary service offer; {points(g.noOfferOutShare)} points of that were resources on outage. That share of the model&apos;s USD {usd(g.modelKw)} is USD {usd(g.neverOfferedKw)}.

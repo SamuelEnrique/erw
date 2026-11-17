@@ -3,7 +3,7 @@ import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  ENTITY, INVENTORY_ENTITY, INVENTORY_TABLE, INVENTORY_VARIABLES, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf,
+  ENTITY, INVENTORY_ENTITY, INVENTORY_TABLE, INVENTORY_VARIABLES, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapByMonth, gapOf,
   inventoryOf, kw, monthName, monthsOf, newestComplete, perKw, servicesOf,
   shortMonth, span, summary, whole, years,
   type Month, type Row,
@@ -127,6 +127,8 @@ export default async function Awards() {
   const firstOffer = offers.reduce((a, r) => (a === "" || r.ts_utc < a ? r.ts_utc : a), "");
   const readGapModel = firstOffer ? await attempt(() => modelGapRows(firstOffer)) : null;
   const gap = read.ok && readOffers.ok && readGapModel?.ok ? gapOf(read.data, offers, readGapModel.data) : null;
+  // ruling alternative 2 (wip/alt-battery-awards-2, not a default on main): the three parts month by month
+  const gapMonths = read.ok && readOffers.ok && readGapModel?.ok ? gapByMonth(read.data, offers, readGapModel.data) : [];
   const offersUnread = !readOffers.ok ? readOffers.reason : readGapModel && !readGapModel.ok ? `the model's rows for the same months: ${readGapModel.reason}` : null;
   const ms = monthsOf(read.ok ? read.data : [], readModel.ok ? readModel.data : []);
   const ys = years(ms);
@@ -249,7 +251,7 @@ export default async function Awards() {
                 </div>
               </ToolSection>
 
-              <OffersSection gap={gap} unread={offersUnread} loaded={offers.length > 0} />
+              <OffersSection gap={gap} gapMonths={gapMonths} unread={offersUnread} loaded={offers.length > 0} />
 
               <RealTimeSection months={rtMonths} basis={readBasis.ok ? basisOf(readBasis.data) : null} unread={readRt.ok ? null : readRt.reason} basisUnread={readBasis.ok ? null : readBasis.reason} />
             </>

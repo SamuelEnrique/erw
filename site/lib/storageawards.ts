@@ -344,3 +344,13 @@ export const usd = (v: number): string => (v < 0 ? "-" : "") + Math.abs(v).toLoc
 export const pct = (v: number, digits = 0): string => `${(v * 100).toFixed(digits)}%`;
 /** Words joined as a list: "a", "a and b", "a, b and c". */
 export const list = (xs: string[]): string => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
+
+/** Ruling alternative 2 (session 7705, branch wip/alt-battery-awards-2; not a default on main): the gap's three parts for
+ * each month, the same arithmetic as gapOf on one month's rows at a time. Only the months gapOf sums appear; a month it
+ * leaves out (not whole in all three tables) gets none. */
+export function gapByMonth(fleet: Row[], offers: Row[], model: Row[]): Gap[] {
+  const all = gapOf(fleet, offers, model);
+  if (!all) return [];
+  const of = (rows: Row[], m: string) => rows.filter((r) => r.ts_utc.slice(0, 7) === m);
+  return all.months.map((m) => gapOf(of(fleet, m), of(offers, m), of(model, m))).filter((g): g is Gap => g !== null);
+}
