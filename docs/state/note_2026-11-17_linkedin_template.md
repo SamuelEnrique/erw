@@ -43,6 +43,28 @@ Every row of `motion/specs/posts/queue_withdrawn.json` equals the "Withdrawn" se
 `numbers.projects` is 22348, the figure "22,348" in the source line. No difference, so the spec was not edited and both
 masters were rendered.
 
+## The follow-up: source line changed, square master re-rendered
+
+At Samuel's request (17 November 2026, while the first gate ran), "source" in
+`motion/specs/posts/queue_withdrawn.json` is now exactly: "Source: Berkeley Lab, Queued Up (2026 edition). Share of
+requested MW withdrawn by technology, interconnection requests filed 2000-2020, status end-2025. Wind is onshore;
+Other includes offshore wind, hydro, coal, nuclear, and geothermal."
+
+- The request count was removed because Berkeley Lab's published count (21,927, from 7 ISO/RTOs and 33 non-ISO
+  balancing areas) differs from the file-wide count (22,348, `numbers.projects` in
+  `site/data/findings/queue_divorce.json`).
+- Wind is onshore only: the findings' method puts offshore wind in Other (its grouping: "Other (hydro, coal, nuclear,
+  offshore wind, geothermal, wind and battery, other)"). The new source line does not name "wind and battery" or
+  "other", which are also in Other; the text was set as given.
+- The seven row values were not changed; the number check above still holds for them.
+- `queue_withdrawn_post_2160x2160.mp4` and `queue_withdrawn_post_2160x2160_last.png` were re-rendered (commit
+  `a28ca3088`; h264, 2160 x 2160, 450 frames). The new last frame was opened: the new source line under the rule, no
+  text cut off, nothing highlighted.
+- The 2160 x 2700 files were not re-rendered (only the square master was asked for), so they still carry the old source
+  line with "22,348". Rerun `node render_post.mjs specs/posts/queue_withdrawn.json --height 1350` from `motion/` to
+  bring them in line.
+- The spec's `_numbers_from` field still ends "projects 22348". It is not drawn on the post and was left as it was.
+
 ## How it went
 
 - Step 1 said to check out main in the repository. The main checkout held another agent's uncommitted work under the
