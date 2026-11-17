@@ -1460,7 +1460,7 @@ async function main() {
       // usdShort (lib/batterystack.ts) at the runtime's own precision; /grid/caiso/alerts' day effect shows "-479,791" for
       // -479791.0043, so the whole dollars are the figure too
       const usdWhole = usdFormat && Math.abs(Number(raw)) < 1e6 && text.startsWith(Math.round(Number(raw)).toLocaleString("en-US"));
-      const textOk = usdWhole || hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne || forecastOk;
+      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || usdWhole || chartOk || dcWhole || dcOne || forecastOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
