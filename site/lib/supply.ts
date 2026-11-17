@@ -142,7 +142,17 @@ export const rowsOf = (file: SupplyFile, group: string) => file.rows.filter((r) 
  *  by how far the change stands from the five-year average change, in units of that range. */
 export function surprises(file: SupplyFile): Row[] {
   const far = (r: Row) => { const c = r.change!; const span = (c.hi ?? 0) - (c.lo ?? 0); return span > 0 ? Math.abs(c.surprise ?? 0) / span : 0; };
-  return file.rows.filter((r) => r.status === "ok" && r.change?.outside && r.change.surprise !== null).sort((a, b) => far(b) - far(a));
+  return file.rows.filter((r) => r.status === "ok" && r.change?.outside && r.change.surprise !== null && !belowFloor(r)).sort((a, b) => far(b) - far(a));
+}
+/** Ruling alternative 1 of /supply (session 7726, branch wip/alt-supply-1; not a default on main): a series whose latest
+ *  value is below a stated floor, in the series' own unit, is left out of "Changes outside the five years' range": its
+ *  five years' range is near zero, so any change stands many ranges out. The floor is stated for Bcf a day only, 0.05 (a
+ *  share of the series' own five-year average, 1 or 5 percent, leaves nothing out, as the small series' average is as
+ *  small; the form of the floor is part of the ruling). On main every series is ranked. */
+export const SURPRISE_FLOOR: Record<string, number> = { "bcf/d": 0.05 };
+export function belowFloor(r: Row): boolean {
+  const f = SURPRISE_FLOOR[r.unit];
+  return f !== undefined && r.last !== undefined && r.last !== null && Math.abs(r.last.v) < f;
 }
 /** The headline answers: for the stock series a desk reads first, tighter or looser against each of the three. */
 export const HEADLINE = ["eia-nw2-epg0-swo-r48-bcf", "eia-wcestus1", "eia-w-epc0-sax-ycuok-mbbl", "eia-wgtstus1", "eia-wdistus1"];

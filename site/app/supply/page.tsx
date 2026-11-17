@@ -174,7 +174,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
 
       <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <section aria-label="Surprises" className="min-w-0" data-surprises="1">
-          <h2 className="mb-1 text-xs uppercase tracking-wide text-muted">Changes outside the five years&apos; range, in the newest reports</h2>
+          <h2 className="mb-1 text-xs uppercase tracking-wide text-muted">Changes outside the five years&apos; range, in the newest reports<span className="normal-case tracking-normal" data-surprise-floor="1" title="A series whose latest value is under 0.05 Bcf a day is left out of this list: its five years' range is near zero, so any change stands many ranges out (ruling alternative 1, wip/alt-supply-1). Default on the site: every series is ranked. Source: the page's own rule, site/lib/supply.ts."> (a floor of 0.05 Bcf a day)</span></h2>
           {sur.length ? (
             <ul className="grid grid-cols-1 gap-x-6 text-xs tabular-nums sm:grid-cols-2">
               {sur.map((r) => (

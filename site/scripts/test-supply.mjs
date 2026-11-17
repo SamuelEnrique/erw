@@ -84,7 +84,8 @@ test("the next release is this week's standing day, or the date its publisher mo
 });
 test("the surprises are the rows whose newest change is outside its five years, the farthest first", () => {
   const got = s.surprises(file);
-  const want = file.rows.filter((r) => r.status === "ok" && r.change && r.change.outside && r.change.surprise !== null);
+  // ruling alternative 1 (wip/alt-supply-1): a series under the floor is left out (main: every row outside its five years)
+  const want = file.rows.filter((r) => r.status === "ok" && r.change && r.change.outside && r.change.surprise !== null && !s.belowFloor(r));
   assert.equal(got.length, want.length);
   assert.ok(got.every((r) => r.change.v < r.change.lo || r.change.v > r.change.hi));
   const far = (r) => Math.abs(r.change.surprise) / (r.change.hi - r.change.lo);
