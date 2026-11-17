@@ -202,6 +202,10 @@ export async function ConsumptionView() {
       <Section title="Industrial and commercial energy, all fuels (US)" id="mer">
         {!mer.ok ? (
           <NoData what={MER} reason={mer.reason} />
+        ) : !mer.data.length ? (
+          // session 7543 (the read, row 11): a read that answers with no rows said so, as the sales read does; it threw
+          // ("Invalid time value") and took the whole view down with it
+          <NoData what={MER} reason="the table returned no rows" />
         ) : (
           (() => {
             const ml = mer.data.reduce((a, r) => (r.ts_utc > a ? r.ts_utc : a), "");
