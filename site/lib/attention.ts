@@ -119,6 +119,22 @@ export function placesOf(f: AttentionFile, week: number, sector: number) {
   return [...m.values()].sort((a, b) => b.stories - a.stories || b.opposition - a.opposition || a.place.localeCompare(b.place));
 }
 
+/** Session 7563 (the attention read, row 2): the week's stories held beside the four weeks before it that have a
+ *  classified story, so "What rose" says when a change is a share of a thin week (2 November 2026 holds 631 stories,
+ *  the four before 1,954 to 3,146). Null when no week before is classified. */
+export function weekBesideBefore(f: AttentionFile, week: number): { held: number; low: number; high: number; weeks: number } | null {
+  const d = denomOf(f, week);
+  const before = f.denominators.filter((x) => x[0] < week && x[0] >= week - 4 && x[3] > 0).map((x) => x[1]);
+  if (!d || before.length === 0) return null;
+  return { held: d[1], low: Math.min(...before), high: Math.max(...before), weeks: before.length };
+}
+export function besideWords(b: { held: number; low: number; high: number; weeks: number } | null): string {
+  if (!b) return "";
+  const range = b.low === b.high ? whole(b.low) : `${whole(b.low)} to ${whole(b.high)}`;
+  const thin = b.held < b.low / 2 ? " A share of a week this thin moves more with each story." : "";
+  return ` This week holds ${whole(b.held)} stories; the ${b.weeks === 1 ? "classified week" : `${b.weeks} classified weeks`} before it held ${range}.${thin}`;
+}
+
 /** The week's rising rows: the sectors (All energy left out) and the states, largest change first. */
 export function risingOf(f: AttentionFile, week: number) {
   const rows = f.rising.filter((r) => r[0] === week);

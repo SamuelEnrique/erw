@@ -23,7 +23,7 @@ import { SeriesChart } from "@/components/tool/SeriesChart";
 import { HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
   ATT, FRI, KIND_NAME, SECTOR_NAME, builtDay, cellWeeks, chooseWeek, day, fileKey, fileSource, geoWords, hasUsFlag, holdsBuild, inCell,
-  isPartial, mapRows, noCellLine, openingWeek, pct, placeKey, placeSource, placesOf, risingKey, risingOf, risingSource, seriesKey,
+  isPartial, besideWords, weekBesideBefore, mapRows, noCellLine, openingWeek, pct, placeKey, placeSource, placesOf, risingKey, risingOf, risingSource, seriesKey,
   seriesSource, spanOf, weekOptions, weekWords, whole, type AttentionFile, type Cell, type Place, type Story,
 } from "@/lib/attention";
 import { STATES } from "@/lib/regions";
@@ -266,7 +266,7 @@ export function AttentionView({ file: f, statesGeo }: { file: AttentionFile; sta
       </ToolSection>
 
       <ToolSection title={`What rose in the week of ${day(wk)}`} id="attention-rising"
-        note="Each sector's and state's Attention Index this week against the mean of the four weeks before (a week without a row counts as zero). Places are the counties, cities and metros the week's stories named.">
+        note={`Each sector's and state's Attention Index this week against the mean of the four weeks before (a week without a row counts as zero). Places are the counties, cities and metros the week's stories named.${besideWords(weekBesideBefore(f, week))}`}>
         <div className="grid gap-6 md:grid-cols-3">
           {rising.sectors.length ? (
             <ToolTable caption="Sectors, every story" head={["Sector", "This week %", "Four weeks before %", "Change"]}
