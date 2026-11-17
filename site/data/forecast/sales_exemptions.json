@@ -802,10 +802,11 @@
   },
   "wi": {
    "utility_pv": {
-    "exempt_pct": 83.6066,
+    "exempt_pct": 100,
     "cite": "wi_77_54_56",
-    "tip": "Wisconsin exempts a product powered by the sun that produces at least 200 watts of alternating current, contractors included (Statutes 77.54(56)); Publication 207 names the cells, modules and arrays with their trackers, and the inverters. The tool holds the mounting, modules and inverters, (0.105263 + 0.368421 + 0.063158) / 0.642105 = 83.6 percent of JEDI's taxable purchases; foundations and collection equipment are taxed.",
-    "quote": "whose power source is wind energy, direct radiant energy received from the sun, or gas generated from anaerobic digestion of animal manure and other agricultural waste, if the product produces at least 200 watts of alternating current"
+    "tip": "Wisconsin exempts a product powered by the sun that produces at least 200 watts of alternating current, contractors included (Statutes 77.54(56)); Publication 207 names the cells, modules and arrays with their trackers, and the inverters. The tool holds the mounting, modules and inverters, (0.105263 + 0.368421 + 0.063158) / 0.642105 = 83.6 percent of JEDI's taxable purchases; foundations and collection equipment are taxed. Ruling alternative 5: the exemption is taken to reach the electrical materials too, all of JEDI's taxable purchases: 100 percent, the bound, since the electrical share that qualifies is not held. Default on the site: 83.6066 percent.",
+    "quote": "whose power source is wind energy, direct radiant energy received from the sun, or gas generated from anaerobic digestion of animal manure and other agricultural waste, if the product produces at least 200 watts of alternating current",
+    "branch": "ruling alternative 5 of /impact (wip/alt-impact-5, session 7706): not a default on main (main: 83.6066)"
    },
    "land_based_wind": {
     "exempt_pct": 80.9942,

@@ -365,7 +365,7 @@ test("sales tax: the 25 states read by session 6051, the generating machinery's 
   assert.equal(F.defaults(P, "utility_pv", "mo").exempt, 100, "Missouri 144.030.2(46): the systems and their materials");
   assert.equal(F.defaults(P, "geothermal", "nm").exempt, 100, "New Mexico, Laws 2024 chapter 67 section 39");
   assert.equal(F.defaults(P, "utility_pv", "nm").exempt, 0, "a government buyer's only");
-  near(F.defaults(P, "utility_pv", "wi").exempt, (0.105263 + 0.368421 + 0.063158) / 0.642105 * 100, 1e-5, "Wisconsin 77.54(56): with the mounting");
+  assert.equal(F.defaults(P, "utility_pv", "wi").exempt, 100, "Wisconsin 77.54(56): ruling alternative 5 (wip/alt-impact-5), the electrical materials too, the bound; main: (0.105263 + 0.368421 + 0.063158) / 0.642105");
   near(F.defaults(P, "utility_pv", "ca").exempt, 3.9375 / 9.03 * pv, 1e-3, "California: 3.9375 points of the rate on the machinery");
   assert.equal(F.defaults(P, "utility_pv", "ut").exempt, 0, "Utah's exemption ends 30 June 2027");
   for (const s of ["al", "ar", "ca", "dc", "ga", "id", "in", "ks", "la", "ma", "mi", "mo", "ms", "nm", "nv", "oh", "ok", "pa", "sc", "tn", "ut", "vt", "wi", "wv", "wy"])
