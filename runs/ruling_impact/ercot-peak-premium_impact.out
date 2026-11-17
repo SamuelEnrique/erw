@@ -1,0 +1,22 @@
+ercot:HB_HUBAVG: 415,584 intervals from 2015 to 2026-11-13T05:45:00Z; the local tables' last input 2026-09-28T04:45:00Z
+
+== line 1: the peak block's median (the page) beside a plain mean, a load-weighted mean and the traded 06:00 to 22:00 weekday block
+year | page: peak median | peak mean | all-interval median | all-interval mean | load-weighted mean (all) | 06-22 weekday median | 06-22 weekday mean
+2016 | 21.72 | 27.54 | 18.20 | 21.60 | 23.53 | 20.30 | 25.23
+2017 | 23.74 | 30.77 | 20.32 | 24.95 | 26.64 | 21.55 | 28.54
+2018 | 27.27 | 40.11 | 20.78 | 29.66 | 33.00 | 24.55 | 35.71
+2019 | 23.02 | 54.57 | 19.07 | 35.77 | 44.55 | 21.23 | 50.39
+2020 | 19.28 | 30.74 | 16.56 | 21.18 | 23.05 | 18.01 | 25.91
+2021 | 31.78 | 162.50 | 24.60 | 148.19 | 164.93 | 27.96 | 175.95
+2022 | 58.74 | 96.05 | 44.02 | 62.30 | 72.04 | 48.48 | 78.30
+2023 | 28.39 | 127.63 | 21.37 | 48.36 | 62.50 | 23.22 | 72.10
+2024 | 27.20 | 51.01 | 19.60 | 26.83 | 28.88 | 20.81 | 31.68
+2025 | 37.03 | 48.13 | 25.68 | 32.49 | 33.67 | 27.09 | 36.16
+published for 2024 (Potomac Economics, 2024 State of the Market Report for the ERCOT markets, May 2025): load-weighted average real-time price USD 31.91 per MWh (the faults file's row 11)
+
+== line 2: the tables as held (to 2026-09-28T04:45:00Z) against the tables computed to the newest interval held here (2026-11-13T05:45:00Z)
+year 2026: n_intervals 25916 -> 29856; peak_median 32.75 -> 34.45; midday_median 20.45 -> 21.2; peak_minus_midday_median 12.29 -> 13.24; all_p999 677.25 -> 643.89; n_scarcity 4 -> 4; n_negative 609 -> 654
+September 2026: n_intervals 2592 -> 2880; peak_median 50.15 -> 48.48; midday_median 33.39 -> 32.35; peak_minus_midday_median 16.76 -> 16.13; all_p999 377.06 -> 375.02; n_scarcity 0 -> 0; n_negative 0 -> 0
+October 2026: n_intervals not held -> 2880; peak_median not held -> 42.67; midday_median not held -> 25.47; peak_minus_midday_median not held -> 17.2; all_p999 not held -> 262.85; n_scarcity not held -> 0; n_negative not held -> 45
+November 2026: n_intervals not held -> 772; peak_median not held -> 56.75; midday_median not held -> 28.38; peak_minus_midday_median not held -> 28.37; all_p999 not held -> 487.98; n_scarcity not held -> 0; n_negative not held -> 0
+the production tables were last computed on 21 October 2026 (the catalogue on 16 November); this machine's copy stops at 28 September, so the change on the site is the part after 21 October
