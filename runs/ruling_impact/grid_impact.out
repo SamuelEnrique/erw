@@ -1,0 +1,54 @@
+eia930_all_demand: latest retrieved 2026-11-16 14:34:02+00:00, source eia:electricity/rto/region-data
+carbon_intensity_hourly: latest retrieved 2026-11-17 04:43:53+00:00, source erw:carbon_intensity
+snapshot built 2026-11-17T08:05:28Z; exchange hours 2026-11-08T05:00:00Z to 2026-11-15T04:00:00Z
+
+ERCOT's exchange at the snapshot's newest hour, to fix the sign: net out -145.0 MW (the page read 145 MW in on 16 November)
+
+== ERCOT (eia930:ERCO)
+default: demand 54,008 MW at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand 54,234 MW (72 hours older): +0.42 percent, +226 MW
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out -145 to 20 MW (+165 MW)
+line 2: the snapshot's demand 46,760 MW at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -13.42 percent, -7,248 MW
+
+== CAISO (eia930:CISO)
+default: demand 23,294 MW at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand 26,528 MW (72 hours older): +13.88 percent, +3,234 MW
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out -5,604 to 675 MW (+6,279 MW)
+line 2: the snapshot's demand 23,425 MW at 2026-11-17 06:00 UTC, 31 hours newer than the table's: +0.56 percent, +131 MW
+
+== PJM (eia930:PJM)
+default: demand 98,443 MW at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand 99,115 MW (72 hours older): +0.68 percent, +672 MW
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out 1,267 to 2,716 MW (+1,449 MW)
+line 2: the snapshot's demand 90,018 MW at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -8.56 percent, -8,425 MW
+
+== SPP (eia930:SWPP)
+default: demand 33,770 MW at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand 33,343 MW (72 hours older): -1.26 percent, -427 MW
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out 1,544 to -1,112 MW (-2,656 MW)
+line 2: the snapshot's demand 30,799 MW at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -8.80 percent, -2,971 MW
+
+== MISO (eia930:MISO)
+default: demand held grid: not written at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand held grid: not written (72 hours older): +4.12 percent
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out held grid: not written
+line 2: the snapshot's demand held grid: not written at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -4.61 percent
+
+== NYISO (eia930:NYIS)
+default: demand held grid: not written at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand held grid: not written (72 hours older): +3.17 percent
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out held grid: not written
+line 2: the snapshot's demand held grid: not written at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -20.25 percent
+
+== ISO-NE (eia930:ISNE)
+default: demand held grid: not written at 2026-11-15 23:00 UTC; exchange at 2026-11-15 04:00 UTC; carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand held grid: not written (72 hours older): +0.36 percent
+line 1: the exchange from 11-15 04:00 to 11-12 23:00 UTC: net out held grid: not written
+line 2: the snapshot's demand held grid: not written at 2026-11-17 06:00 UTC, 31 hours newer than the table's: -18.86 percent
+
+== Lower 48 (eia930:US48)
+default: demand 482,563 MW at 2026-11-15 23:00 UTC; no exchange (not a node); carbon at 2026-11-12 23:00 UTC
+line 1: the common hour 2026-11-12 23:00 UTC: demand 491,760 MW (72 hours older): +1.91 percent, +9,197 MW
+line 2: the snapshot holds no demand for it
+
+read at 2026-11-17 08:55 UTC
