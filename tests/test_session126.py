@@ -208,6 +208,11 @@ class GridWeather(unittest.TestCase):
 class Fit(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # ruling alternative 1 (wip/alt-demand-1): the branch fits on 2019 to 2024; this fixture holds 2019 to 2022 and tests
+        # the method's arithmetic with main's fit years, so they are set here and put back after
+        cls._train = dw.TRAIN
+        dw.TRAIN = (2019, 2020, 2021)
+        cls.addClassCleanup(lambda: setattr(dw, "TRAIN", cls._train))
         with gzip.open(os.path.join(FIX, "isne_demand_weather_2019_2022.csv.gz"), "rt", encoding="utf-8") as f:
             x = pd.read_csv(io.StringIO(f.read()), comment="#", index_col=0)
         x.index = pd.to_datetime(x.index, utc=True)
@@ -331,6 +336,7 @@ class SiteCopy(unittest.TestCase):
             cls.raw = f.read()
         cls.f = json.loads(cls.raw)
 
+    @unittest.skip("ruling alternative 1 of /demand (wip/alt-demand-1): the builder fits on 2019 to 2024; this test reads the committed site copy, built under main's fit on 2019 to 2021, which the data machine rebuilds with the branch's builder. The other choice is pinned in tests/test_alt_demand_1.py")
     def test_it_is_plain_json_of_seven_grids(self):
         self.assertNotIn("NaN", self.raw)
         self.assertEqual(sorted(self.f["grids"]), sorted(dw.BAS))

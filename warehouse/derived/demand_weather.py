@@ -78,7 +78,9 @@ SOURCE = "erw:demand_weather"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/demand_weather.md"
 WEATHER = "noaa_grid_weather_hourly"
 SITE_FILE = os.path.join(ROOT, "site", "data", "demand_weather.json")
-TRAIN = (2019, 2020, 2021)
+# ruling alternative 1 of /demand (session 7728, branch wip/alt-demand-1; not a default on main): the fit on 2019 to 2024, six
+# left-out years, so the hot summers of 2025 and 2026 are measured against a fit that has seen more heat; main: 2019 to 2021
+TRAIN = (2019, 2020, 2021, 2022, 2023, 2024)
 SUMMER, WINTER = (6, 7, 8, 9), (12, 1, 2)
 NIGHT = (0, 1, 2, 3, 4, 5)        # local hours, hour beginning
 NEAR = 0.95                       # a figure is written when at least this share of its hours, or days, is used
