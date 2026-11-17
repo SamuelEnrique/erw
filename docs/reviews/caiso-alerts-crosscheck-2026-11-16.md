@@ -73,3 +73,35 @@ The pooled cut (-503.18 MW, interval -1,274.9 to 247.4), its MWh and percent, th
 hours) and the model's hot-day error (-239.34 MW over 128 days) are this scorecard's own and no published estimate
 covers the same days, hours and counterfactual. CAISO and the state publish what programs were dispatched, not an
 independent estimate of every alert day; the method says so (`flex_alert_scorecard.md`, section 1).
+
+## 5. Added by the read (session 7546): CAISO's day-ahead forecast against the peak, August and September 2020
+
+Read on 16 November 2026: **CAISO, CPUC and CEC, "Final Root Cause Analysis: Mid-August 2020 Extreme Heat Wave"**, 13
+January 2021, `https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf`
+(2,874,811 bytes; CAISO's robots file read again first, the same day: it disallows `/resources/*` only). One request,
+with the contact string. Table 5.1 (printed page 66), "Day-Ahead Peak Forecast vs. Actual Peak During Heat Event
+(Updated)", which the report says "was largely realized due to the statewide efforts and includes the impacts of
+activated demand response programs"; and section 3.3.4: "the state significantly reduced peak demand by as much as
+4,000 MW (compared to day-ahead forecasts) on August 17 through 19". Beside each alert day of the table, the
+scorecard's rows (`flex_alert_effects`, PT1H and P1D, as retrieved on 2 October 2026). 2020-09-04 is in CAISO's table
+and is not an alert day.
+
+| Day | CAISO day-ahead peak forecast, MW | CAISO peak, MW | CAISO's difference | Highest hour served (EIA-930), MW | The model's highest hour, MW | Its gap to CAISO's forecast | The scorecard's cut, alert hours, MW |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 2020-08-14 | 46,257 | 46,802 | +545 | 46,024 | 46,545.46 | +288.46 | 106.59 |
+| 2020-08-15 | 45,514 | 44,957 | -557 | 44,528 | 44,315.36 | -1,198.64 | -763.67 |
+| 2020-08-16 | 44,395 | 43,816 | -579 | 43,216 | 46,206.64 | +1,811.64 | 1,671.61 |
+| 2020-08-17 | 49,824 | 45,169 | -4,655 | 44,706 | 45,349.58 | -4,474.42 | 460.11 |
+| 2020-08-18 | 50,485 | 47,120 | -3,365 | 46,643 | 48,781.60 | -1,703.40 | 1,185.69 |
+| 2020-08-19 | 47,382 | 46,074 | -1,308 | 45,501 | 44,252.32 | -3,129.68 | -1,108.79 |
+| 2020-09-05 | 45,231 | 46,272 | +1,041 | 45,450 | 43,474.40 | -1,756.60 | -2,556.11 |
+| 2020-09-06 | 49,166 | 46,887 | -2,279 | 46,184 | 47,951.75 | -1,214.25 | 258.24 |
+| 2020-09-07 | 45,797 | 41,774 | -4,023 | 41,550 | 44,785.19 | -1,011.81 | 2,391.41 |
+
+**Why they differ.** CAISO's difference is the peak against a forecast made the day before, with the forecast weather;
+the scorecard's cut is the alert hours' mean against a model given the weather that came. On 2020-08-17 the model's
+highest hour stands 4,474 MW under CAISO's day-ahead forecast and 643 MW above the highest hour served, so nearly all of
+CAISO's 4,655 MW is the forecast standing above what the day's weather predicts. On 2020-09-07 both stand far above
+what was served (CAISO's -4,023; the scorecard's cut 2,391.41, the second largest of its 38 days). CAISO's peak is of
+one-minute data (the report, section 3.5) and stands 224 to 822 MW above the EIA-930 hour on these nine days, as an instant stands above an
+hour's mean. Nothing is adjusted. The page states the 2020-08-17 pair since session 7546 (the read, row 1).

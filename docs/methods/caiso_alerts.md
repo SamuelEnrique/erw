@@ -61,7 +61,10 @@ last section. It is not a forecast, and it values no avoided outage.
 - **"Each alert day through the evening"**: a panel a day with `reduction_mw` in its caption and a chart of the PT1H rows
   from 12:00 to 23:00 Pacific: `actual_mw` (cardinal), `predicted_mw` (dashed), the band `predicted_mw_lo` to
   `predicted_mw_hi`, and a box on each hour with `alert_hour` 1. The axis labels are the lowest and highest of actual and
-  the band, in whole GW.
+  the band, in whole GW. Since session 7546 each hour carries a hover over a full-height strip of the hour, in whole MW
+  (JavaScript's rounding): "H:00 to H+1:00: served `actual_mw` MW, model `predicted_mw` (band `predicted_mw_lo` to
+  `predicted_mw_hi`), predicted less served `predicted_mw` less `actual_mw`", with ", alert hour" where `alert_hour` is 1,
+  and "not held" for a value the rows lack. The strips are not alert-hour boxes.
 - **"What it was worth, at the day-ahead price"**: `pooled_value_hours`, `pooled_value_usd` with `_lo` and `_hi`,
   `heldout_price_mean_usd_mwh`; the count of alert days with a `value_usd` row, of all alert days. A figure in dollars
   of a million or more is printed in millions or billions to two decimals; under a million, in whole dollars (since
@@ -72,7 +75,12 @@ last section. It is not a forecast, and it values no avoided outage.
 - **"What the estimate can and cannot say"**: words, and one sentence from the rows (since session 7532): how far CAISO's
   notices run as the warehouse holds them (the latest `event_date`), and whether any day after the last scored alert day
   carries a notice of an alert kind, which the scorecard would not yet hold. On the tables of 16 November 2026: the
-  notices run to 2026-10-08 and none follows 2024-07-24.
+  notices run to 2026-10-08 and none follows 2024-07-24. Since session 7546 (the read,
+  [`caiso-alerts-read-2026-11-16.md`](../reviews/caiso-alerts-read-2026-11-16.md)): the first point adds the years the
+  two paid programs began (ELRP 2021, DSGS 2022) and what ran in August 2020; a point sets two published figures beside
+  the page's rows, CAISO's day-ahead peak forecast against the peak on 2020-08-17 (Final Root Cause Analysis, Table 5.1)
+  beside the model's highest `predicted_mw` hour of that day, and the EIA's drop of 2,100 MW on 2022-09-06 beside that
+  day's `reduction_mw`; and the sentence linking the two heat-wave pages says their day estimate is another measure.
 - **The decisions** (since session 7532): section 6, at the foot.
 
 ## 3. The rules a second implementation needs
@@ -124,6 +132,10 @@ The four named differences (faults file, rows 3, 6 and 7):
   high, 87.926 F, at the table's three decimals; the builder compared unrounded highs.
 - 2020-10-01, CAISO's notices: the page prints "Alert"; by the rule, "Alert, Flex Alert". The table dates that day's
   Flex Alert 2020-09-30, the day it was issued.
+
+Since session 7546 the page draws 1,092 figures: the 634 above, 456 hours' hovers and two checked numbers in the
+cautions (the model's highest hour of 2020-08-17 and the cut of 2022-09-06). **929 rebuilt: 925 agree, the same 4
+differ and are named; 163 named as panel-only.**
 
 `python replication/caiso_alerts/replicate.py` runs on `public_rows.csv` and `notices_rows.csv`, the rows the page reads,
 copied beside it, and prints the same counts. `replicate.do` rebuilds the five headline figures in Stata from
