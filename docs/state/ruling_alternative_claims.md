@@ -5,4 +5,5 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | Tool | Machine | Session | State | File |
 |---|---|---|---|---|
 | /cost-of-power/battery | portable-laptop | 7620 | done | docs/reviews/ruling-alternatives-battery-2026-11-17.md |
+| /cost-of-power/seller | portable-laptop | 7621 | claimed | docs/reviews/ruling-alternatives-seller-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | claimed | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
