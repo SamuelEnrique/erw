@@ -8,20 +8,21 @@
 * This do-file has not been run: Stata is not installed on the machine that wrote it. "python replicate.py" computes the
 * same figures from the same file (page_figures.csv, the column "ours", at the keys named below).
 
-* Expected values, on the tables as retrieved on 5 October 2026 (the awards to 5 August 2026) and 21 October 2026 (the model):
+* Expected values, on the tables as retrieved on 16 November 2026 (the awards, to August 2026) and 14 November 2026 (the model);
+* written again by session 7052 (chain 370, done-line request 261) with the rows beside this file:
 
 *   1. July 2026, awarded day-ahead, USD per kW of the fleet: 0.68 (0.6815)                    key month|2026-07|total_kw
 
-*   2. January to July 2026, the months held whole: awarded 6.53 (6.5282), the model 30.14 (30.1379), awards as a share of the model 22 percent (21.66)
+*   2. January to August 2026, the months held whole: awarded 7.55 (7.5465), the model 33.71 (33.7113), awards as a share of the model 22 percent (22.39)
 *                                                                                              keys year|2026|awarded_whole_kw, model_whole_kw, share_of_model_pct
 
-*   3. The gap of 23.61 (23.6097) in three parts: never offered 9.70 (9.7041), offered and not awarded 14.53 (14.5278), price -0.62 (-0.6222)
+*   3. The gap of 26.16 (26.1648) in three parts: never offered 10.71 (10.7111), offered and not awarded 16.20 (16.1972), price -0.74 (-0.7435)
 *                                                                                              keys offers|gap_kw, offers|part|never_kw, unawarded_kw, price_kw
 
 *   4. February to July 2026: day-ahead awards 4.17 (4.1713), real-time deviations at the hub average's price 3.00 (2.9974), together 7.17 (7.1688), the model 18.81 (18.8081)
 *                                                                                              keys rt|whole|dayahead_kw, deviation_kw, market_kw, model_kw
 
-*   5. Resource-hours with a day-ahead energy award: 7.0 percent (127,958 of 1,833,357)          keys share|energy_award_pct, with_award, resource_hours
+*   5. Resource-hours with a day-ahead energy award: 7.2 percent (146,317 of 2,042,277)          keys share|energy_award_pct, with_award, resource_hours
 
 * The figures change when the data machine rebuilds the tables: after a new copy, compare with python replicate.py.
 

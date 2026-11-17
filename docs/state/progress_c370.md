@@ -51,6 +51,8 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 
 - Request 200: EIA's robots file disallows `/*archive/`, the only place its ICE files for 2014 to 2025 are linked. Download the 2018 to 2025 files by hand for the connector's offline read? Default: not fetched; the alert days of 2018 to 2022 keep no daily ICE price. (7052)
 
+- Request 261: a daily `battery_awards_compare.py --snapshot` step on the data machine? Each new month would move the method note's table (test 178), the replication's rows and the do-file's expected values (test 7505), which pin the file; the step would have to rewrite all three and the tests read them. Default: not added; the file is written again by hand with the three (done 17 November, January to August 2026). (7052)
+
 ## Decisions made without you
 
 - Request 239: the two CAISO levels' rooftop shapes kept as written; the newer EIA-860M vintage would have moved them by 13 MW of late-listed nameplate, and the request moved nothing. (7052)
