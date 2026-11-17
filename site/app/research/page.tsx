@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Brand } from "@/components/Brand";
 import { Fold, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
-import { FindingCard } from "@/components/analysis/FindingCard";
+import { FindingCard, heldMultiples } from "@/components/analysis/FindingCard";   // session 7605: heldMultiples, a held grid's panels out
 import { CardChart } from "@/components/analysis/CardChart";
 import { RequestForm } from "@/components/analysis/RequestForm";
 import { AskForm } from "@/components/analysis/AskForm";   // session 315: the reader's own question, first
@@ -173,7 +173,7 @@ export default async function ResearchPage() {
             {wk?.card ? (
               <figure className="lead-chart" data-week-chart={wk.week} data-week-card={wk.card.card_id}>
                 <div>
-                  <CardChart spec={wk.card.chart} label={wk.card.title} height={360} />
+                  <CardChart spec={heldMultiples(wk.card.chart)} label={wk.card.title} height={360} />
                 </div>
                 <figcaption>
                   <p className="lead-date">Chosen for the Roundup of {wk.week}</p>

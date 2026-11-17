@@ -44,6 +44,27 @@ class TheRecordsWords(unittest.TestCase):
         self.assertNotIn('{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart', p)
 
 
+class TheHeldGridsPanels(unittest.TestCase):
+    """4. site/scripts/check-holds.mjs, run on this session's build, found the small multiples of two cards
+    (batteries_lunch_grids, peak_hour_grids) drawing NYISO's and ISO-NE's panels from tables held by grid. A held grid's
+    panel is now taken out on the server, so its figures are not in the page; the chart says which grids and why."""
+
+    def test_the_server_takes_a_held_grids_panel_out(self):
+        s = src("site", "components", "analysis", "FindingCard.tsx")
+        self.assertIn("export function heldMultiples(spec: ChartSpec): ChartSpec {", s)
+        self.assertIn("const held = m.panels.filter((p) => licenseHeldGrid(p.grid));", s)
+        self.assertIn("panels: m.panels.filter((p) => !licenseHeldGrid(p.grid))", s)
+        self.assertEqual(s.count("spec={heldMultiples("), 3)   # the renderer's frame, the form chart, a further chart
+        self.assertIn("<CardChart spec={heldMultiples(wk.card.chart)}", src("site", "app", "research", "page.tsx"))
+
+    def test_the_client_chart_asks_no_license_and_draws_the_line(self):
+        s = src("site", "components", "analysis", "MultiChart.tsx")
+        self.assertNotIn("@/lib/license", s)          # the license file stays out of the client bundle
+        self.assertIn("held?: { grid: string; words: string; why: string }[];", s)
+        self.assertIn("data-multi-held=", s)
+        self.assertIn("license needed (${h.why})", s)
+
+
 class ThePublicTables(unittest.TestCase):
     def test_a_table_held_whole_is_not_offered(self):
         p = src("site", "app", "research", "page.tsx")
