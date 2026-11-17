@@ -126,7 +126,8 @@ const zeros = [row(40, "2026-03-20", { pod_ba: "MISO", rate: "0", rate_units: "$
 ok(C.zeroPriced(zeros) === 2 && C.counts(zeros).priced === 3 && C.zeroPriced(Q2) === 0 && C.zeroPriced([row(44, "2026-03-01", { rate: " ", rate_description: "0" })]) === 0 && !("zero" in C.counts(zeros)),"row 11: a rate filed as 0 or 0.0000 is a number that is zero; an empty rate is not");
 all.push(...zeros);
 const miso = await draw({ q: "2026-Q1", product: "energy", ba: "MISO" });
-ok(/data-zero="2"/.test(miso) && /The other 1 gives words: a market-based rate, a formula, or nothing\. 2 of the 3 file the number 0\./.test(text(miso)) && marked(miso, "priced") === "3", "row 11: the headline's note says how many of the priced rows file the number 0");
+// ruling alternative 2 (wip/alt-contracts-2): the two rows that file 0 are not counted as priced; main holds 3 priced and "2 of the 3 file the number 0"
+ok(/data-zero="2"/.test(miso) && /The other 3 give words, the number 0, or nothing. 2 of them file the number 0./.test(text(miso)) && marked(miso, "priced") === "1" && /data-zero-rule="1"/.test(miso), "row 11 under alternative 2: the two rows that file 0 are not priced, and the note says why on hover");
 ok(!/data-zero=/.test(ciso) && !/data-zero=/.test(one) && !/file the number 0|files the number 0/.test(text(ciso)), "row 11: nothing is said where no row files 0");
 
 // ---- row 8: the fold names what the cells hold

@@ -231,7 +231,7 @@ class TheLoadersSummary(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
         json.dumps(got)
         self.assertEqual((got["quarter"], got["rows"], got["mw_ceiling"]), ("2026_Q2", 5, 6809.0))
-        self.assertEqual(got["prices"], {"filed_number": 1, "none": 1, "words_only": 3, "read": 2, "read_usd_per_mwh": 1, "read_by_unit": {"$/MWH": 1, "$/KW-MO": 1}, "unread": {"no_dollar_amount": 1}})
+        self.assertEqual(got["prices"], {"filed_number": 1, "none": 1, "zero": 0, "words_only": 3, "read": 2, "read_usd_per_mwh": 1, "read_by_unit": {"$/MWH": 1, "$/KW-MO": 1}, "unread": {"no_dollar_amount": 1}})   # zero: wip/alt-contracts-2
         self.assertEqual(got["mw"]["by_product"]["energy"], {"contracts": 4, "contracts_with_mw": 1, "contracts_over": 1})
         self.assertEqual((got["mw"]["rows_stated"], got["mw"]["rows_over"]), (2, 1))
         self.assertEqual((got["tags"]["tolling_rows"], got["tags"]["tolling_contracts"], got["tags"]["storage_rows"], got["tags"]["storage_words_rows"]), (1, 1, 0, 1))

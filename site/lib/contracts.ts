@@ -32,7 +32,7 @@ export type Change = { quarter: string; product: string; contracts_in_force: num
 export type Terms = {
   quarter: string | null; top: number; rows: number; mw_ceiling: number | null;
   mw: { rows_stated: number; rows_over: number; by_product: Record<string, { contracts: number; contracts_with_mw: number; contracts_over: number }> };
-  prices: { filed_number: number; none: number; words_only: number; read: number; read_usd_per_mwh: number; read_by_unit: Record<string, number>; unread: Record<string, number> };
+  prices: { filed_number: number; none: number; zero?: number; words_only: number; read: number; read_usd_per_mwh: number; read_by_unit: Record<string, number>; unread: Record<string, number> };
   buyers: { rows_merged: number };
   tags: { tolling_rows: number; tolling_contracts: number; storage_rows: number; storage_words_elsewhere: Record<string, number>; storage_words_rows: number };
   by_mw: Record<"buyer" | "seller", Record<"energy" | "capacity" | "tolling", MwList>>;
@@ -227,6 +227,10 @@ export function counts(rows: Contract[]) {
 export function zeroPriced(rows: Contract[]): number {
   return rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length;
 }
+
+/** Ruling alternative 2 of /contracts (session 7701, branch wip/alt-contracts-2; not a default on main): the rows with a
+ * price as a number, a rate filed as the number 0 not counted (main counts it: counts().priced). */
+export const pricedNotZero = (rows: Contract[]) => counts(rows).priced - zeroPriced(rows);
 
 /** The delivery balancing authorities of the rows, most rows first. */
 export function byBa(rows: Contract[]): { ba: string; rows: number }[] {

@@ -321,7 +321,7 @@ def eqr_terms(top=None, out_dir=None):
     return {
         "quarter": t["x_quarter"].iloc[0] if len(t) else None, "top": top, "rows": int(len(t)), "mw_ceiling": ceiling,
         "mw": {"rows_stated": int((t["mw"] != "").sum()), "rows_over": int((t["x_mw_ranked"] == "no").sum()), "by_product": stated},
-        "prices": {"filed_number": int((t["x_rate_kind"] == "number").sum()), "none": int((t["x_rate_kind"] == "none").sum()),
+        "prices": {"filed_number": int((t["x_rate_kind"] == "number").sum()), "none": int((t["x_rate_kind"] == "none").sum()), "zero": int((t["x_rate_kind"] == "zero").sum()),   # zero: wip/alt-contracts-2
                    "words_only": int(len(words)), "read": int(len(read)), "read_usd_per_mwh": int((t["x_price_source"] == "words").sum()),
                    "read_by_unit": {k: int(v) for k, v in read["x_price_words_unit"].value_counts().items()},
                    "unread": {k: int(v) for k, v in words[words["x_price_words"] == ""]["x_price_unread"].value_counts().items()}},

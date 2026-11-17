@@ -29,7 +29,7 @@ ferc_eqr_contract_terms (events): one row for each row of ferc_eqr_contracts, wi
     x_price_words, x_price_words_unit     the number and the unit read from the words, in FERC's own spelling of the unit
                              ($/MWH, $/KWH, $/KW-MO, $/MW-MO, $/MW-DAY, $/KW-DAY, $/KW-YR, $/MW-YR, $/KW-WK, $/MW-WK)
     x_price_unread           for a row whose rate is words and no number: why no price was read (the list below), or ""
-    x_rate_kind              number (a rate is filed as a number, in any unit), words (words and no number), none
+    x_rate_kind              number (a rate is filed as a number other than 0, in any unit), zero (filed as the number 0: ruling alternative 2 of /contracts, wip/alt-contracts-2), words (words and no number), none
     x_tag                    tolling, or storage, from the product fields only; "" otherwise
     x_storage_words_in       the other fields of the row in which the words storage, battery or BESS stand (rate
                              description, agreement identifier, tariff reference, seller name), separated by ";". Not a
@@ -276,7 +276,8 @@ def terms(d, names, first_seen, held, retrieved, ceiling):
         price.append(v * PER_MWH[unit] if v is not None and unit in PER_MWH else None)
         src.append("words" if v is not None and unit in PER_MWH else "")
     key = contract_key(d)
-    kind = ["number" if r == r else "words" if str(text).strip() else "none" for r, text in zip(rate_num, d["x_rate_description"])]
+    # ruling alternative 2 of /contracts (wip/alt-contracts-2, not a default on main): a rate filed as the number 0 is its own kind, "zero", not "number"
+    kind = ["zero" if r == 0 else "number" if r == r else "words" if str(text).strip() else "none" for r, text in zip(rate_num, d["x_rate_description"])]
     hits = {label: d[c].str.contains(STORAGE_WORD) if c in d.columns else pd.Series(False, index=d.index) for c, label in OTHER_FIELDS.items()}
     elsewhere = [";".join(label for label in hits if hits[label].iat[i]) for i in range(len(d))]
     out = pd.DataFrame({

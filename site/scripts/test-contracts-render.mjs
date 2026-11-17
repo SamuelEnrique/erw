@@ -127,6 +127,16 @@ for (const view of ["largest", "mw"]) {
   sound(html, `the ${view} view`);
 }
 
+// ---- ruling alternative 2 (session 7701, wip/alt-contracts-2, not a default on main): a rate filed as the number 0 is not a price
+{
+  summary.terms.prices.zero = 5;
+  const alt = await draw({ view: "terms" });
+  ok(/data-terms-zero="5"/.test(alt) && /5 file the number 0/.test(text(alt)) && /read as no price and is not\s+counted among the rows that file a number/.test(text(alt)), "alternative 2: the terms view says on hover how many rows file 0 and that they are not counted as a number");
+  sound(alt, "alternative 2, what the filings state");
+  delete summary.terms.prices.zero;
+  ok(!/data-terms-zero=/.test(await draw({ view: "terms" })), "alternative 2: a summary built before the branch's builder says nothing of zeros");
+}
+
 // ---- the decisions
 const D = CONTRACTS_DECISIONS;
 ok(D.length >= 15 && new Set(D.map((d) => d.key)).size === D.length && D.every((d) => d.text && d.session && d.def && d.source), `${D.length} decisions, each with its own key, its session, its default and its source`);
