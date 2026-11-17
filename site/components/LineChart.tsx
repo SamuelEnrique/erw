@@ -26,7 +26,9 @@ export function LineChart({ lines, unit, height = 280, ariaLabel, x = "minute", 
       ariaLabel={ariaLabel}
       x={x}
       unit2={unit2}
-      series={lines.map((l) => ({ name: l.label, color: l.color, step: l.step, dashed: l.color === "muted", y2: l.y2, points: gapped(l.points, l.gap).map((p): [number, number | null] => [x === "hour_of_day" ? p.t : p.t * 1000, p.v]) }))}
+      series={lines.map((l) => ({ name: l.label, color: l.color, step: l.step, dashed: l.color === "muted", y2: l.y2, points: l.gap
+        ? gapped(l.points, l.gap).map((p): [number, number | null] => [x === "hour_of_day" ? p.t : p.t * 1000, p.v])
+        : l.points.map((p) => [x === "hour_of_day" ? p.t : p.t * 1000, p.v]) }))}
     />
   );
 }
