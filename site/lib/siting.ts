@@ -437,6 +437,17 @@ export type TariffFile = { table: string; built: string; held: string[]; utiliti
  * commission's document states, with its duration as printed, newest document first. */
 export type ConnRuleStep = { document: string; date: string; step: string; duration: string; unit: string; mw: string; page: string; section: string; printed: string; url: string };
 export type ConnRulesFile = { table: string; built: string; grids: Record<string, ConnRuleStep[]> };
+/** Session 7622, the other choice of the ruling on CAISO's large-load steps (wip/alt-cost-of-power-4, not landed): a
+ * step a later proposal states with no duration takes the duration an earlier proposal of the same grid states for the
+ * same step (the step's words before its first parenthesis), with `carried` naming the earlier document. */
+export function carriedSteps(g: ConnRuleStep[]): (ConnRuleStep & { carried?: string })[] {
+  const stem = (s: string) => s.split("(")[0].trim().toLowerCase();
+  return g.map((x) => {
+    if (x.duration) return x;
+    const from = g.filter((y) => y.duration && y.date < x.date && stem(y.step) === stem(x.step)).sort((a, b) => b.date.localeCompare(a.date))[0];
+    return from ? { ...x, duration: from.duration, unit: from.unit, carried: from.document } : x;
+  });
+}
 /** The per-kW delivery figure a schedule prints, in the order a transmission-voltage load would read it. */
 const TARIFF_KW = ["demand_charge_transmission", "demand_charge", "grid_charge_transmission", "demand_charge_summer", "demand_charge_distribution"];
 /** Session 3764: a non-ERCOT row's transmission cell from its utility's filed schedule, when one is held: the per-kW figure
@@ -460,10 +471,11 @@ export function tariffWords(f: Files, r: Row): { why: string; words: string } | 
 /** Session 3764: the steps an operator's or a commission's documents state for connecting a large load in the row's grid,
  * those with a duration first, as one hover line; null when none is held (conn_rules.json). */
 export function filedSteps(f: Files, r: Row): string | null {
-  const g = f.connRules?.grids[r.grid];
-  if (!g?.length) return null;
+  const g0 = f.connRules?.grids[r.grid];
+  if (!g0?.length) return null;
+  const g = carriedSteps(g0);
   const timed = g.filter((x) => x.duration).slice(0, 4);
-  const lines = (timed.length ? timed : g.slice(0, 3)).map((x) => `${x.step}${x.duration ? `: ${x.duration} ${x.unit}` : ""} (${x.document}, ${x.page ? `page ${x.page}` : x.section})`);
+  const lines = (timed.length ? timed : g.slice(0, 3)).map((x) => `${x.step}${x.duration ? `: ${x.duration} ${x.unit}${x.carried ? `, carried from ${x.carried}, which states it; this document states none` : ""}` : ""} (${x.document}, ${x.page ? `page ${x.page}` : x.section})`);
   return `What the documents held state for ${GRID_NAMES[r.grid]} (${f.connRules?.table}): ${lines.join("; ")}.`;
 }
 export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): CpCharge | { why: string; words: string } {
