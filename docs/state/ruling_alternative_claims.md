@@ -12,7 +12,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /companies | portable-laptop | 7625 | done | docs/reviews/ruling-alternatives-companies-2026-11-17.md |
 | /policy | portable-laptop | 7626 | done | docs/reviews/ruling-alternatives-policy-2026-11-17.md |
 | /deals | portable-laptop | 7627 | done | docs/reviews/ruling-alternatives-deals-2026-11-17.md |
-| /datacenters | portable-laptop | 7628 | claimed | docs/reviews/ruling-alternatives-datacenters-2026-11-17.md |
+| /datacenters | portable-laptop | 7628 | done | docs/reviews/ruling-alternatives-datacenters-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
@@ -30,4 +30,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /learn/bill | samueloldlaptop | 7715 | claimed | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | samueloldlaptop | 7716 | done | docs/reviews/ruling-alternatives-site-sources-2026-11-17.md |
 | /learn/problems | samueloldlaptop | 7717 | done | docs/reviews/ruling-alternatives-problem-sets-2026-11-17.md |
-| /play/battery | samueloldlaptop | 7718 | claimed | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
+| /play/battery | samueloldlaptop | 7718 | done | docs/reviews/ruling-alternatives-play-battery-2026-11-17.md |
