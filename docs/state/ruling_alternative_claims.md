@@ -36,3 +36,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /play/ev | samueloldlaptop | 7720 | done | docs/reviews/ruling-alternatives-ev-game-2026-11-17.md |
 | /map | samueloldlaptop | 7721 | claimed | docs/reviews/ruling-alternatives-map-2026-11-17.md |
 | /board | samueloldlaptop | 7722 | claimed | docs/reviews/ruling-alternatives-board-2026-11-17.md |
+| /prices | samueloldlaptop | 7723 | claimed | docs/reviews/ruling-alternatives-prices-2026-11-17.md |
