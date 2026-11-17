@@ -190,7 +190,6 @@ class TheTwoImplementations(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             return self.R.compare(P, self.jedi, self.pf)
 
-    @unittest.skip("ruling alternative 8 (wip/alt-impact-8): replication/impact/page_figures.json holds the figures main draws for Texas (Gigawatt Solar, CPV Basin Ranch, the page as it opens); the replication here follows the other choice, and the committed figures are not regenerated (impact-figures.mjs --check fails on clean main on this machine). tests/test_alt_impact_8.py pins the other choice")
     def test_every_figure_the_page_draws_is_recomputed(self):
         self.assertGreater(len(self.pf["figures"]), 5000)
         self.assertEqual(self.differences(self.P), 0)
