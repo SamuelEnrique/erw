@@ -208,7 +208,7 @@ function HubTable({ g, grid, pick, caption }: { g: WorthGrid; grid: string; pick
   );
 }
 
-export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estimate: string }) {
+export function Worth({ file, c, estimate, batteryRevenue = {} }: { file: WorthFile; c: Choice; estimate: string; batteryRevenue?: Record<string, Record<string, number>> }) {
   const g = file.grids[c.grid];
   const dur = String(c.dur);
   const durLinks = <span className="flex gap-x-3 text-xs">{file.durations_hours.map((d) => <Link key={d} href={link({ ...c, dur: d as 2 | 4 | 8 }, "worth")} scroll={false} aria-current={d === c.dur ? "true" : undefined} className={item(d === c.dur)} data-dur={d}>{d} hours</Link>)}</span>;
@@ -268,6 +268,11 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
             <HeadlineNumber label={`What ${an(dur)} ${dur}-hour fleet could have absorbed, as a share of that`} value={b?.fleet ? <N k="bat|share">{two(b.fleet.absorbable_pct_of_fleet_charged[dur])}</N> : <Blank why={b?.fleet_missing ?? "the fleet is not held for this period"} />} unit={b?.fleet ? "percent" : undefined}
               note={b?.fleet ? <><N k="bat|absorb">{whole(b.fleet.absorb_fleet_mwh[dur])}</N> MWh, at the fleet&apos;s own highest charging rate.</> : undefined} />
           </HeadlineRow>
+          {/* session 7631, the other choice of the ruling on the battery page's revenue (wip/alt-curtailment-1, not landed) */}
+          {(() => { const rv = p.length === 7 ? batteryRevenue[p] : undefined, f = rv?.[`foresight_${dur}h`], d = rv?.[`dayahead_${dur}h`];
+            return f !== undefined || d !== undefined ? <p className="mb-4 max-w-3xl text-sm" data-battery-revenue={`${p}|${dur}`}>
+              What the battery page says the same battery earned at SP15 in {periodWords(p)}: USD <strong>{f !== undefined ? two(f) : "not held"}</strong> per kW of power with perfect foresight, USD {d !== undefined ? two(d) : "not held"} on the day-ahead schedule (<Link href={`/cost-of-power/battery?grid=caiso&dur=${dur}`}>What a battery earns</Link>, battery_stack_monthly).
+            </p> : null; })()}
           <ChartFrame title={`By month: curtailed, what ${an(dur)} ${dur}-hour fleet could have absorbed, and what the fleet charged`}
             legend={[{ label: "Curtailed", color: "var(--color-fuel-solar)" }, { label: `${An(dur)} ${dur}-hour fleet could have absorbed`, color: "var(--color-accent)" }, { label: "The fleet charged in those hours", color: "var(--color-fuel-storage)" }]}>
             <XY id="battery-months" x={fm} unit="MWh" label={`California: curtailed energy, what ${an(dur)} ${dur}-hour battery fleet could have absorbed and what the fleet charged in the curtailed hours, by month`}

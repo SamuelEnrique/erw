@@ -27,7 +27,7 @@ import {
 import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { count, price } from "@/lib/format";
 import { FACE, ranked, type FreeFile } from "@/lib/freeenergy";
-import { attempt } from "@/lib/supabase";
+import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { NoData } from "@/components/NoData";
 import { licenseHeldGrid, licenseReason } from "@/lib/license";  // session 215
 import { XY } from "./Charts";
@@ -212,6 +212,13 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
   const [monthly, daily] = g.daily
     ? await Promise.all([attempt(() => series(MONTHLY, { entity: g.entity })), attempt(() => series(g.daily!, { entity: g.entity, since: daysAgo(100) }))])
     : [null, null];
+  // session 7631, the other choice of the ruling on the battery page's revenue (wip/alt-curtailment-1, not landed): the
+  // battery page's own monthly revenue at SP15 (battery_stack_monthly, the live set: the rows the battery page reads),
+  // drawn beside "A battery of N hours" for the month chosen
+  const batRead = c.grid === "caiso" ? await attempt(() => rest<{ variable: string; ts_utc: string; value: number }>("series", { select: "variable,ts_utc,value",
+    table_name: "eq.battery_stack_monthly", entity: "eq.caiso:TH_SP15_GEN-APND", variable: `like.*_revenue_total_usd_per_mw`, order: "variable,ts_utc" }, HOURLY)) : null;
+  const batteryRevenue: Record<string, Record<string, number>> = {};
+  if (batRead?.ok) for (const r of batRead.data) (batteryRevenue[r.ts_utc.slice(0, 7)] ??= {})[r.variable.replace("_revenue_total_usd_per_mw", "")] = Number(r.value) / 1000;
   const months = Object.keys(profile.months).sort();
   const years = [...new Set(months.map((m) => m.slice(0, 4)))];
   const face = FACE[c.grid];
@@ -342,7 +349,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
           ) : (
             <>
               <FreeEnergy file={free} c={keep} zones={zones} />
-              <Worth file={worth} c={{ ...keep, period: c.grid === "caiso" ? period : null }} estimate={FACE.ercot.line} />
+              <Worth file={worth} c={{ ...keep, period: c.grid === "caiso" ? period : null }} estimate={FACE.ercot.line} batteryRevenue={batteryRevenue} />
             </>
           )}
 
