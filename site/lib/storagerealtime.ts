@@ -197,3 +197,21 @@ export function basisOf(rows: Row[]): Basis | null {
   return { from, nodes, nodesWithSpread: get("nodes_with_spread"), wholeDays: get("whole_days"), spreadHub: get("spread_hub"), spreadMedian: get("spread_node_median"),
     spreadP10: get("spread_node_p10"), spreadP90: get("spread_node_p90"), aboveHub: get("nodes_spread_above_hub"), meanAbsDifference: get("mean_abs_difference_median") };
 }
+
+// Ruling alternative 4 (session 7705, branch wip/alt-battery-awards-4; not a default on main): an A and B of two
+// settlement points by name. Each point's own real-time spread over the days measured (the variable spread_node of
+// ercot_storage_node_basis, one row a point, entity "ercot:<point>") and its place among the points, widest first.
+export const POINT_VARIABLE = "spread_node";
+export type PointRow = { entity: string; ts_utc: string; value: number | string };
+export type Point = { name: string; spread: number; place: number; of: number };
+/** The points with a spread, widest first (ties by name), each with its place. */
+export function pointsOf(rows: PointRow[]): Point[] {
+  const out = rows.map((r) => ({ name: r.entity.replace(/^ercot:/, ""), spread: num(r.value) })).filter((p): p is { name: string; spread: number } => p.spread !== null && p.name !== "esr_nodes");
+  out.sort((a, b) => b.spread - a.spread || a.name.localeCompare(b.name));
+  return out.map((p, i) => ({ ...p, place: i + 1, of: out.length }));
+}
+/** The point a reader named, as the list names it (trimmed, in capitals); null for a name the list does not hold. */
+export function pointNamed(points: Point[], name: string | undefined): Point | null {
+  const n = (name ?? "").trim().toUpperCase();
+  return n ? points.find((p) => p.name.toUpperCase() === n) ?? null : null;
+}

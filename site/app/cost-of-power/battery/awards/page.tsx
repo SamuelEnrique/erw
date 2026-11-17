@@ -8,7 +8,7 @@ import {
   shortMonth, span, summary, whole, years,
   type Month, type Row,
 } from "@/lib/storageawards";
-import { BASIS_ENTITY, BASIS_TABLE, BASIS_VARIABLES, RT_ENTITY, RT_TABLE, RT_VARIABLES, basisOf, rtMonthsOf } from "@/lib/storagerealtime";
+import { BASIS_ENTITY, BASIS_TABLE, BASIS_VARIABLES, POINT_VARIABLE, RT_ENTITY, RT_TABLE, RT_VARIABLES, basisOf, pointNamed, pointsOf, rtMonthsOf, type PointRow } from "@/lib/storagerealtime";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../../Tabs";
 import { AwardsDecisions } from "./Decisions";
@@ -120,7 +120,15 @@ function MonthBars({ ms }: { ms: Month[] }) {
 
 const notHeld = <span className="text-muted">not held</span>;
 
-export default async function Awards() {
+/** Ruling alternative 4 (wip/alt-battery-awards-4, not a default on main): each storage point's own spread, for an A and B. */
+async function pointRows(): Promise<PointRow[]> {
+  return rest<PointRow>("series", { select: "entity,ts_utc,value", table_name: `eq.${BASIS_TABLE}`, variable: `eq.${POINT_VARIABLE}`, order: "entity" }, HOURLY);
+}
+
+export default async function Awards({ searchParams }: { searchParams?: Promise<Record<string, string | undefined>> } = {}) {
+  const q = (await searchParams) ?? {};   // a and b: wip/alt-battery-awards-4
+  const readPoints = await attempt(pointRows);
+  const points = readPoints.ok ? pointsOf(readPoints.data) : [];
   const [read, readModel, readOffers, readRt, readBasis, readInventory] = await Promise.all([attempt(fleetRows), attempt(modelRows), attempt(offerRows), attempt(realTimeRows), attempt(basisRows), attempt(inventoryRows)]);
   const rtMonths = readRt.ok ? rtMonthsOf(readRt.data, readModel.ok ? readModel.data : [], MODEL_PREFIX) : [];
   const offers = readOffers.ok ? readOffers.data : [];
@@ -251,7 +259,8 @@ export default async function Awards() {
 
               <OffersSection gap={gap} unread={offersUnread} loaded={offers.length > 0} />
 
-              <RealTimeSection months={rtMonths} basis={readBasis.ok ? basisOf(readBasis.data) : null} unread={readRt.ok ? null : readRt.reason} basisUnread={readBasis.ok ? null : readBasis.reason} />
+              <RealTimeSection months={rtMonths} basis={readBasis.ok ? basisOf(readBasis.data) : null} unread={readRt.ok ? null : readRt.reason} basisUnread={readBasis.ok ? null : readBasis.reason}
+                points={points} a={q.a} b={q.b} pointA={pointNamed(points, q.a)} pointB={pointNamed(points, q.b)} pointsUnread={readPoints.ok ? null : readPoints.reason} />
             </>
           )}
         </div>

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { Tip, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { SERVICE_FULL, kw, list, monthName, pct, span, usd, whole } from "@/lib/storageawards";
-import { BASIS_TABLE, RT_TABLE, rtAncillary, rtEnergy, rtTotal, type Basis, type RtMonth } from "@/lib/storagerealtime";
+import { BASIS_TABLE, RT_TABLE, rtAncillary, rtEnergy, rtTotal, type Basis, type Point, type RtMonth } from "@/lib/storagerealtime";
 
 // Session 120: the real-time side, one section added to /cost-of-power/battery/awards. What the fleet did in real time,
 // from ercot_storage_rt_monthly (warehouse/derived, from the file 60d_ESR_Data_in_SCED of ERCOT's 60-Day SCED Disclosure
@@ -21,7 +21,9 @@ const signed = (usdPerMw: number) => (usdPerMw > 0 ? "+" : "") + kw(usdPerMw);
 const mwh = (v: number) => Math.round(v).toLocaleString("en-US");
 const notHeld = <span className="text-muted">not held</span>;
 
-export function RealTimeSection({ months, basis, unread, basisUnread }: {
+export function RealTimeSection({ months, basis, unread, basisUnread, points = [], a, b, pointA = null, pointB = null, pointsUnread = null }: {
+  /** ruling alternative 4 (wip/alt-battery-awards-4, not a default on main): every point's own spread, the two names asked for and the two points found */
+  points?: Point[]; a?: string; b?: string; pointA?: Point | null; pointB?: Point | null; pointsUnread?: string | null;
   /** the months of the real-time table, oldest first; empty when it is not loaded */
   months: RtMonth[];
   /** the week of node prices against the hub; null when that table gave no row */
@@ -185,7 +187,37 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               <p data-rt-nodes-further="1">No settlement point is named on this page: the figures above are the {whole(basis.nodes)} points&apos; median and middle eight tenths. Each point by ERCOT&apos;s name, with its day-ahead price against
                 the hub and its four-hour swing over twelve months, is a row of <Link href="/cost-of-power?view=allgrids&rows=nodes">the ERCOT node list on the All grids tab</Link>, which can be searched by name. The storage
                 points&apos; day-ahead spread against the hub, month by month, is on <Link href="/cost-of-power/battery">the battery page</Link> under &quot;At its own node&quot;. Each point&apos;s own real-time spread over
-                the{nodeDays ? ` ${nodeDays}` : ""} days measured here is a row of the table <code className="font-mono">{BASIS_TABLE}</code> (the variable spread_node), which no page draws by point.</p>
+                the{nodeDays ? ` ${nodeDays}` : ""} days measured here is a row of the table <code className="font-mono">{BASIS_TABLE}</code> (the variable spread_node), drawn by point in the box below.</p>
+              {/* ruling alternative 4 (wip/alt-battery-awards-4, not a default on main): two settlement points by name, side by side */}
+              <div id="ab" className="border border-rule bg-paper px-3 py-3 text-sm" data-rt-ab="1">
+                <h4 className="mb-2 font-semibold">Two points side by side<Tip id="rt-ab-tip" label="the two points"><span data-rt-ab-tip="1">Each point&apos;s own spread over the{nodeDays ? ` ${nodeDays}` : ""} whole days measured:
+                  its four dearest hours a day of real-time prices less its four cheapest, averaged, and its place among the {points.length} points with a spread, widest first. Default on the site: no point named.
+                  Source: {BASIS_TABLE}, the variable spread_node, from ERCOT&apos;s real-time settlement point prices.</span></Tip></h4>
+                {pointsUnread !== null ? <p role="status">The points could not be read, so none is shown: {pointsUnread}</p> : (
+                  <form method="get" action="/cost-of-power/battery/awards#ab" className="mb-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
+                    {(["a", "b"] as const).map((k) => (
+                      <label key={k} className="block">
+                        <span className="font-semibold">Point {k.toUpperCase()}</span>
+                        <select name={k} defaultValue={(k === "a" ? pointA : pointB)?.name ?? ""} className="mt-1 w-full border border-rule bg-white px-2 py-1" data-rt-ab-select={k}>
+                          <option value="">Choose a point</option>
+                          {[...points].sort((x, y) => x.name.localeCompare(y.name)).map((p) => <option key={p.name} value={p.name}>{p.name}</option>)}
+                        </select>
+                      </label>
+                    ))}
+                    <button type="submit" className="self-end border border-rule bg-white px-3 py-1">Compare</button>
+                  </form>
+                )}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {([["A", a, pointA], ["B", b, pointB]] as const).map(([k, asked, p]) => (
+                    <div key={k} className="border-t-2 border-accent pt-2" data-rt-ab-cell={k}>
+                      <div className="text-xs uppercase tracking-wide text-muted">Point {k}{p ? `: ${p.name}` : ""}</div>
+                      {p ? <><div className="font-serif text-2xl" data-rt-ab-spread={k} data-rt-ab-raw={p.spread}>USD {two(p.spread)} per MWh</div>
+                        <div className="text-xs" data-rt-ab-place={k}>{whole(p.place)} of {whole(p.of)}, widest first{basis?.spreadHub != null ? `; the hub average: USD ${two(basis.spreadHub)}` : ""}</div></>
+                        : <div className="text-muted">{asked ? `"${asked}" is not one of the ${points.length} points` : "No point chosen"}</div>}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
