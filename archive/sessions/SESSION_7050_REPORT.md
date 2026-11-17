@@ -10,6 +10,8 @@ Taken by chain 301's queue step (`e6b9450bb`) after chain 301's last session (70
 - **Gate a** (`715e1b046`) failed 3 tests: the waits reader (test 188) read two tables of reports 7531 and 7534 that had no header row (rows copied from the request files) as paragraphs; each got its source file's header. Test 7534's two replays import the site's `react`, absent where the gate's suite runs; they now skip there, as the other node-reading tests do (they pass with the packages, checked).
 - **Gate b** (`a8431f37d`): the suite passed (9,998 tests); check-values failed one figure of row 30's page: `/grid/caiso/alerts` writes a day's effect in USD whole under a million ("-479,791" for -479791.0043), and check-values expected two decimals. A whole-dollar rule added for that key.
 - **Gate c** (`097c519a1`): started 00:32 UTC.
+- Gate c failed the same figure: it is a `data-format="usd"` amount, read by check-values' own usd(); fixed at the cause (an amount under a million is also read as whole dollars; 395 of 395 on the page against gate c's build). Gate d failed test 315 (the line's pinned first term); fixed. **Gate e** (`8f10ebcfa`) passed every step; landed through `task/7050-desk` (run 44000977927) at `695d8f9f4`. Snapshots `before-8f10ebcf` and `after-8f10ebcf`: **0 differences** (expected: every page is in review). The rows marked landed (`79ea9acf0`): 0 differences.
+- **Chain 370's branch** (`5926ae36f`) passed gate f and landed through `task/7050-data` (run 44008498501) at `0ab3ec772`: snapshots `before-5926ae36`, `after-5926ae36`, **0 differences**.
 
 ## Done-line requests
 
@@ -23,6 +25,7 @@ Taken by chain 301's queue step (`e6b9450bb`) after chain 301's last session (70
 - **110, done at the cause** by session 7022's request 40 (ERCOT's milestones in the queue connector), from the runner's next pull.
 - **121, ruling** (ruling 2: ERCOT's 7 and 8 November only through the frozen paths; not refilled). **122, checked in part** (11 November is SPP's own gap; the October days wait for a per-day option of the connector).
 - **49, in part:** the live set holds the old laptop's build (2026-10-19T09:43:29Z, 29,953 rows); the replication comes with desk row 29. **99** waits for desk row 34's figure script. **109, open:** a queue position's proposed date through `energy_projects` and the map's file.
+- After the desk landed: **49, done** (`replication/events/replicate.py` on the live set's build: 1,149 of 1,149 page figures, 2,890 of 2,890 rows, 186 of 186 estimates). **99, in part:** the rebuilt prices give 5,245 of 5,245 once the figure script stops reading the chart's crossing label as a money tick (fixed); the file is not committed because the new prices move the hand-worked examples tests 294 and 7536 pin, which must be recomputed with it.
 
 ## Errors
 
