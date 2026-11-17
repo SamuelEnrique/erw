@@ -8,7 +8,8 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
-import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, NET_IMPORT_TABLE, NET_IMPORT_VARS, netImports, type NetImport, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HOURLY, attempt, rest } from "@/lib/supabase";   // wip/alt-supply-3
 import { licenseGridTitle, licenseHeldGrids } from "@/lib/license";
 import { GRID_CHOICES, gridHref } from "@/lib/gridtool";
 
@@ -65,7 +66,7 @@ function Surprise({ row }: { row: Row }) {
   );
 }
 
-function Table({ group, c }: { group: Group; c: Choice }) {
+function Table({ group, c, nets = [] }: { group: Group; c: Choice; nets?: NetImport[] }) {
   const rows = rowsOf(file, group.id);
   const pos = group.id === "position";
   return (
@@ -79,6 +80,16 @@ function Table({ group, c }: { group: Group; c: Choice }) {
             // between two grids; inside it, there was no space between spans and at 390 px the line ran to 899 px
             <Fragment key={g.slug}>{i ? "; " : ""}<span className="whitespace-nowrap">{g.label} <SiteLink href={gridHref(g.slug, "mix")} data-grid-mix={g.slug}>mix</SiteLink>, <SiteLink href={gridHref(g.slug, "network")} data-grid-network={g.slug}>neighbours</SiteLink></span></Fragment>
           ))}
+        </p>
+      ) : null}
+      {/* ruling alternative 3 (wip/alt-supply-3, not a default on main): each grid's net imports, the newest month */}
+      {group.id === "burn" && nets.length ? (
+        <p className="mb-1 text-xs" data-net-imports="1">
+          <span title="EIA's total interchange over every day it reports in the month, from the Grid page's table (ba_supply_monthly); a negative figure is a net exporter. Default on the site: linked to the Grid page, no figure here. Source: EIA, Form EIA-930.">Net imports, {dateWords(nets[0].month + "-01", "M")}:</span>{" "}
+          {nets.map((n, i) => {
+            const label = BURN_GRIDS.find((g) => g.ba === n.ba)?.label ?? n.ba;
+            return <Fragment key={n.ba}>{i ? "; " : ""}<span className="whitespace-nowrap" data-net-import={n.ba} title={`${n.month}: ${n.days} days held${n.daysInMonth && n.days !== n.daysInMonth ? ` of ${n.daysInMonth}` : ""}, an average of ${Math.round(n.mw).toLocaleString("en-US")} MW`}>{label} {Math.round(n.gwh).toLocaleString("en-US")} GWh</span></Fragment>;
+          })}
         </p>
       ) : null}
       <div className="overflow-x-auto">
@@ -139,6 +150,11 @@ function Table({ group, c }: { group: Group; c: Choice }) {
 }
 
 export default async function Supply({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  // ruling alternative 3 (wip/alt-supply-3, not a default on main): each grid's net imports, the newest month, from the Grid page's table
+  const bas = BURN_GRIDS.map((g) => g.ba);
+  const netRead = await attempt(() => rest<{ entity: string; variable: string; ts_utc: string; value: number }>("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${NET_IMPORT_TABLE}`,
+    entity: `in.(${bas.map((b) => `"eia930:${b}"`).join(",")})`, variable: `in.(${NET_IMPORT_VARS.join(",")})`, order: "entity,variable,ts_utc" }, HOURLY));
+  const nets = netRead.ok ? netImports(netRead.data, bas) : [];
   const c = choiceOf(await searchParams, file);
   const shown = file.groups.filter((g) => !c.groups.length || c.groups.includes(g.id));
   const open = c.s ? file.rows.find((r) => r.id === c.s) ?? null : null;
@@ -228,7 +244,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
         </section>
       ) : null}
 
-      {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
+      {shown.map((g) => <Table key={g.id} group={g} c={c} nets={g.id === "burn" ? nets : []} />)}
       {/* session 333: the tables to download, as CSV with a Python and a Stata reader (session 328's shared line) */}
       <DecisionsBlock id="7018-supply" title="Decisions on this page (each with its default and its source on hover)" items={SUPPLY_DECISIONS} />
       <TableDownloads tables={TABLES} />

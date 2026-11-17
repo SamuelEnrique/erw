@@ -144,6 +144,28 @@ export function surprises(file: SupplyFile): Row[] {
   const far = (r: Row) => { const c = r.change!; const span = (c.hi ?? 0) - (c.lo ?? 0); return span > 0 ? Math.abs(c.surprise ?? 0) / span : 0; };
   return file.rows.filter((r) => r.status === "ok" && r.change?.outside && r.change.surprise !== null).sort((a, b) => far(b) - far(a));
 }
+/** Ruling alternative 3 of /supply (session 7726, branch wip/alt-supply-3; not a default on main): a row of each grid's net
+ *  imports for the newest month, from the Grid page's table (ba_supply_monthly, warehouse/derived/ba_supply.py): EIA's
+ *  total interchange over every day it reports in the month (total_interchange_all_days_mwh over total_interchange_days),
+ *  in GWh and as an average MW over those days; a negative figure is a net exporter. On main the page links to the Grid
+ *  page and draws no figure of it. */
+export const NET_IMPORT_TABLE = "ba_supply_monthly";
+export const NET_IMPORT_VARS = ["total_interchange_all_days_mwh", "total_interchange_days", "days_in_month"];
+export type NetImport = { ba: string; month: string; gwh: number; mw: number; days: number; daysInMonth: number | null };
+export function netImports(rows: { entity: string; variable: string; ts_utc: string; value: number }[], bas: string[]): NetImport[] {
+  const out: NetImport[] = [];
+  for (const ba of bas) {
+    const mine = rows.filter((r) => r.entity === `eia930:${ba}`);
+    const months = [...new Set(mine.filter((r) => r.variable === "total_interchange_all_days_mwh").map((r) => r.ts_utc))].sort();
+    const m = months.at(-1);
+    if (!m) continue;
+    const v = (name: string) => mine.find((r) => r.ts_utc === m && r.variable === name)?.value ?? null;
+    const mwh = v("total_interchange_all_days_mwh"), days = v("total_interchange_days");
+    if (mwh === null || !days) continue;
+    out.push({ ba, month: m.slice(0, 7), gwh: mwh / 1000, mw: mwh / (days * 24), days, daysInMonth: v("days_in_month") });
+  }
+  return out;
+}
 /** The headline answers: for the stock series a desk reads first, tighter or looser against each of the three. */
 export const HEADLINE = ["eia-nw2-epg0-swo-r48-bcf", "eia-wcestus1", "eia-w-epc0-sax-ycuok-mbbl", "eia-wgtstus1", "eia-wdistus1"];
 
