@@ -126,7 +126,8 @@ console.log(JSON.stringify({ shown, same }));
 
     def test_the_page_writes_them_through_it_and_the_checker_accepts_the_form(self):
         page = src("site", "app", "research", "page.tsx")
-        self.assertIn('import { figureText } from "@/lib/researchrules";', page)
+        # session 7603 (chain 305): figureWords beside it, the record's keys in plain words
+        self.assertIn('import { figureText, figureWords } from "@/lib/researchrules";', page)
         self.assertIn('<span className="font-mono">{figureText(v)}</span>', page)
         self.assertNotIn('<span className="font-mono">{String(v)}</span>', page)
         check = src("site", "scripts", "check-values.mjs")

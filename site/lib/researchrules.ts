@@ -8,6 +8,23 @@ import type { Card } from "./findings";
  * number as the chart-maker rounds it (warehouse/analysis/findings/daily_chart.py nd_for; the same rule as
  * lib/digest.ts chartText and the value checker's digest_chart rule, tests/test_session5501.py holding the three
  * together); a value that is not a number keeps its text. */
+/** Chain 305 (session 7603, Automated Analysis read as its reader): the plain words for the keys of the record's
+ * figures under today's chart. They were printed as the scanner names them ("sigma", "stood points", "margin sigmas"),
+ * words a fund analyst would not know. A key not listed is printed as before, its underscores as spaces. */
+export const FIGURE_WORDS: Record<string, string> = {
+  value: "the new value",
+  old_record: "the record before",
+  threshold: "the level to beat",
+  margin: "above the record by",
+  sigma: "the series' usual move (one standard deviation)",
+  margin_sigmas: "the margin in those moves",
+  strength: "the flag's strength (the margin in those moves)",
+  stood_points: "periods the record before had stood",
+  history_points: "periods of history",
+  history_years: "years of history",
+};
+export const figureWords = (k: string): string => FIGURE_WORDS[k] ?? k.replace(/_/g, " ");
+
 export function figureText(v: unknown): string {
   const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : NaN;
   if (!Number.isFinite(n)) return String(v);
