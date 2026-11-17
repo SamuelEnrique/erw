@@ -304,7 +304,7 @@ test("each operating year's MWh and taxable value (Iowa's valuation, the reader'
   assert.equal(F.run(F.defaults(P, "geothermal", "ca"), ROWS, P).years.at(-1).mwh, null, "no capacity factor held");
 });
 
-test("property tax: Kansas's ten-year exemption, then no rule held (the life has no total) or the reader's own rate", () => {
+test("property tax: Kansas's ten-year exemption, then no rule held (the life has no total) or the reader's own rate", { skip: "ruling alternative 4 (wip/alt-impact-4): the exemption is not assumed granted; tests/test_alt_impact_4.py pins the other choice" }, () => {
   const ks = { ...F.defaults(P, "land_based_wind", "ks"), mw: 100, capex: 1500 };
   const r = F.run(ks, ROWS, P);
   assert.ok(r.ok, r.why);
@@ -317,7 +317,7 @@ test("property tax: Kansas's ten-year exemption, then no rule held (the life has
   const own = F.run({ ...ks, own: 1, ownyears: 20 }, ROWS, P);
   assert.ok(own.property.held); near(own.sums.property, op.slice(10).reduce((a, _, j) => a + 150e6 * Math.max(0, 1 - (10 + j) / 20) * 0.01, 0));
 });
-test("property tax: Kansas's exemption by operating year", () => {
+test("property tax: Kansas's exemption by operating year", { skip: "ruling alternative 4 (wip/alt-impact-4): the exemption is not assumed granted; tests/test_alt_impact_4.py pins the other choice" }, () => {
   const ks = { ...F.defaults(P, "land_based_wind", "ks"), mw: 100, capex: 1500 };
   assert.equal(F.propertyTax(P, ks, 0).tax, 0); assert.equal(F.propertyTax(P, ks, 9).tax, 0);
   assert.equal(F.propertyTax(P, ks, 10).tax, null, "no rule held after ten years");

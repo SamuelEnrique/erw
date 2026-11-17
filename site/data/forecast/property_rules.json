@@ -836,12 +836,13 @@
       "utility_pv",
       "geothermal"
      ],
-     "kind": "exempt_years",
+     "kind": "note",
      "years": 10,
      "cite": "ks_79_201",
      "quote": "Any exemption granted under the provisions of this subsection for such property when the applicant, after December 31, 2016, has filed such application or filed such application and received a conditional use permit, shall be in effect for the 10 taxable years immediately following the taxable year in which construction or installation of such property is completed. For purposes of this section, \"renewable energy resources or technologies\" shall include wind, solar, photovoltaic, biomass, hydropower, geothermal and landfill gas resources or technologies.",
      "not_modeled": "The exemption is granted by the Board of Tax Appeals on application; the tool assumes it is granted. After the ten years the property is taxed like other property, and no rule for that is held: the reader's own rate fills those years. Payments in lieu agreed with a county during the exemption (Jayhawk's USD 2,000 per MW, section 9 of the note) are agreements, not the statute.",
-     "tip": "Kansas: property generating electricity from wind, solar or geothermal is exempt for the 10 taxable years after construction (K.S.A. 79-201, Eleventh); no rule is held after them."
+     "tip": "Kansas (ruling alternative 4): property generating electricity from wind, solar or geothermal may be exempt for the 10 taxable years after construction (K.S.A. 79-201, Eleventh), but only when the Board of Tax Appeals grants the application; the tool does not assume it granted, so no rule is held for any year and the reader's own rate fills them. Default on the site: granted, 0 for the 10 years.",
+     "branch": "ruling alternative 4 of /impact (wip/alt-impact-4, session 7706): not a default on main (main: kind exempt_years, assumed granted)"
     }
    ]
   },
