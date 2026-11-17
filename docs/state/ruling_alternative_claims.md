@@ -8,3 +8,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /cost-of-power/seller | portable-laptop | 7621 | claimed | docs/reviews/ruling-alternatives-seller-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
+| /shoulder | samueloldlaptop | 7703 | claimed | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
