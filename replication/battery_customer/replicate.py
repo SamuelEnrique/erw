@@ -30,8 +30,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FIELDS = [
     ("peakKw", 0, 1e6, False, None),
     ("demandCharge", 0, 500, True, None),
-    ("peakRate", 0, 5, True, None),
-    ("offPeakRate", 0, 5, True, None),
+    ("peakRate", 0, 1, True, None),   # ruling alternative 5 (wip/alt-battery-customer-5): USD 1 a kWh; main: 5
+    ("offPeakRate", 0, 1, True, None),
     ("batteryKw", 0, 1e6, False, None),
     ("batteryKwh", 0, 1e7, False, None),
     ("peakHours", 0, 24, False, "2"),

@@ -77,11 +77,12 @@ ok(Math.round(yearOf(...city, 55, 110, 4, 26, 86) - yearOf(city[0], mid, city[2]
   "row 6: discharged at the mid-peak rate the year is $522 lower for the small battery and $1,897 lower for the unit");
 ok(lib.usd(247 * 6.75) === "$1,667" && (247 - 5) * 6.75 === 1633.5, "row 5: the page's demand charge before, $1,667, against the plan's own (all kW over 5 kW), $1,633.50");
 const cent = draw(T(P, ...[city[0]], 4.9, 2.5, 55, 110, 4, 26, 86));
-ok(cent.includes("$5,847 a month, $70,169 a year"), "row 4 (a ruling, not changed): 4.9 and 2.5 typed for cents are taken as dollars, $70,169 a year");
+// ruling alternative 5 (wip/alt-battery-customer-5): under a limit of USD 1 the two rates typed for cents are refused; main reads them as dollars, $70,169 a year
+ok(!cent.includes("Saved a year") && cent.split("Not a number this page can use (0 to 1).").length === 3, "row 4 under alternative 5: 4.9 and 2.5 typed for cents are refused, and no figure is shown");
 
 // 2. a rate typed in cents
 const asPrinted = draw(T(P, 30.14, 14.66, 5.82, 55, 110, 2, 21, 86));
-const said = "Not a number this page can use (0 to 5). The rate is typed in dollars: 12 cents is 0.12.";
+const said = "Not a number this page can use (0 to 1). The rate is typed in dollars: 12 cents is 0.12.";   // alternative 5; main: (0 to 5)
 ok(asPrinted.split(said).length === 3 && asPrinted.includes("2 of 9 still needed.") && !asPrinted.includes("Saved a year"), "row 1: 14.66 and 5.82 (cents, as the sheet prints them) are each refused with the unit as well as the range, and no figure is shown");
 const kw = draw(T(0, 30.14, 0.1466, 0.0582, 55, 110, 2, 21, 86));
 ok(kw.includes("Not a number this page can use (more than 0, up to 1,000,000).") && !kw.includes("typed in dollars"), "a refused size is told its range alone, as it was");

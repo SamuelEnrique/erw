@@ -24,8 +24,10 @@ export type Inputs = {
 export const FIELDS: Field[] = [
   { key: "peakKw", label: "Your peak demand", unit: "kW", hint: "The highest demand on your bill in a month.", min: 0, max: 1e6 },
   { key: "demandCharge", label: "Demand charge", unit: "USD per kW a month", hint: "What your tariff charges for each kW of that peak.", min: 0, max: 500, zero: true },
-  { key: "peakRate", label: "Energy rate, peak hours", unit: "USD per kWh", hint: "In dollars: 0.25 is 25 cents.", min: 0, max: 5, zero: true },
-  { key: "offPeakRate", label: "Energy rate, off-peak hours", unit: "USD per kWh", hint: "The rate in the hours the battery would charge, in dollars.", min: 0, max: 5, zero: true },
+  // ruling alternative 5 (wip/alt-battery-customer-5, not a default on main): the energy rates' limit is USD 1 per kWh, so a
+  // rate typed in cents above 1 cent is refused, not read as dollars; main: USD 5
+  { key: "peakRate", label: "Energy rate, peak hours", unit: "USD per kWh", hint: "In dollars: 0.25 is 25 cents.", min: 0, max: 1, zero: true },
+  { key: "offPeakRate", label: "Energy rate, off-peak hours", unit: "USD per kWh", hint: "The rate in the hours the battery would charge, in dollars.", min: 0, max: 1, zero: true },
   { key: "batteryKw", label: "Battery power", unit: "kW", hint: "How fast it can discharge.", min: 0, max: 1e6 },
   { key: "batteryKwh", label: "Battery energy", unit: "kWh", hint: "How much it holds. Energy over power is its duration.", min: 0, max: 1e7 },
   { key: "peakHours", label: "How long your peak lasts", unit: "hours", hint: "How long your own demand stays near its highest, in the hours your demand charge counts. The battery must hold its discharge this long to lower the peak.", start: "2", min: 0, max: 24 },
