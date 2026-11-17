@@ -150,3 +150,22 @@ def held_grid_of(table, entity=None, scope=None, now=None):
     if g == "miso":
         raise ValueError(MISO_PAUSED)
     return g if g and held_row(table, f"{g}:x", now=now) else ""
+
+
+# Ruling alternative 1 of Ask (session 7707, branch wip/alt-site-ask-1; not a default on main), as heldrows.ts REGION_HOLD:
+# Berkeley Lab's queue names each request's grid in `region`; its rows in ISO-NE and NYISO (whose own queues are license
+# needed) are held, and its rows in MISO are MISO's own (the pause). On main they are given, named as Berkeley Lab's.
+REGION_HOLD = {"lbnl_interconnection_queue": "region"}
+REGION_GRID = {"ISO-NE": "isone", "NYISO": "nyiso", "MISO": "miso"}
+
+
+def region_held(table, region, now=None):
+    """'held', 'paused' (MISO) or '' for a row of `table` whose region column reads `region`."""
+    if table not in REGION_HOLD or not isinstance(region, str):
+        return ""
+    g = REGION_GRID.get(region.strip())
+    if not g:
+        return ""
+    if g == "miso":
+        return "paused"
+    return "held" if license_needed(f"{g}_interconnection_queue", now) else ""

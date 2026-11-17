@@ -288,6 +288,11 @@ def _table(name):
             own = kept["entity_id"].map(hold.miso_own).astype(bool)
             if own.any():
                 kept = kept[~own]
+        rcol = hold.REGION_HOLD.get(name)   # ruling alternative 1 (wip/alt-site-ask-1): a held grid's region in a public table
+        if rcol and rcol in kept.columns:
+            by_region = kept[rcol].map(lambda v: hold.region_held(name, v)).astype(str)
+            if (by_region != "").any():
+                kept = kept[by_region == ""]
         if kept is not df:
             attrs = df.attrs
             kept = kept.copy()
@@ -767,6 +772,13 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         # is refused in the hold's words or the pause's, not answered "no rows match" (the rows are in the table as the
         # backend gave it; they were left out above)
         raw = _select(_table_read(table), shape, entity, variable, start, end, where, tz or "UTC")[0]
+        rcol = hold.REGION_HOLD.get(table)   # wip/alt-site-ask-1: a read that matched only a held grid's region is refused
+        if len(raw) and rcol and rcol in raw.columns:
+            kinds = set(raw[rcol].map(lambda v: hold.region_held(table, v)).astype(str))
+            if kinds == {"paused"}:
+                raise ToolError(hold.MISO_PAUSED)
+            if kinds <= {"held", "paused"}:
+                raise ToolError(hold.held_rows_words(table))
         if len(raw) and "entity_id" in raw.columns:
             if raw["entity_id"].map(hold.miso_own).astype(bool).all():
                 raise ToolError(hold.MISO_PAUSED)

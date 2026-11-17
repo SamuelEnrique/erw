@@ -17,7 +17,7 @@ import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateCol
 import { addLocalTimes, zoneOfEntity } from "./plaintime";
 import { NOT_LISTED_NOTE, notListedWords, notLiveWords } from "./refused";
 import verdictFile from "@/data/table_verdicts.json";   // session 6113: the license record's word for every table of the record
-import { heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
+import { REGION_HOLD, heldRowsWords, keepRows, ownGrid, ownTableWords } from "./heldrows";   // session 5260: the hold by grid for a table of things
 import { THRESHOLD_NONE, ThresholdError, applyThreshold, readThreshold, type Threshold } from "./threshold";   // session 3297
 import { windowOf } from "./window";   // session 5267: whether a bounded window of a series is whole
 import { spanOutside } from "./window";   // session 6131: a period outside a table's own span
@@ -564,6 +564,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (shape === "series") sel.push("entity", "variable", "unit");
   if (shape === "series" && a.day === THIS_WEEK) sel.push("freq");   // session 161: the step, to say whether a day of the week is whole
   if (shape === "entities") sel.push("id:entity_id");
+  if (REGION_HOLD[a.table]) sel.push(`region_held:${colRef(shape, REGION_HOLD[a.table])}`);   // ruling alternative 1 (wip/alt-site-ask-1): the column a row is held by
   // a read by a date column is in the order of the rows' own ids, so that a read of more than one page holds each row once
   // session 6192 (chain 283): and a read by the time column is in the order of the time and then of the rows' own ids. By
   // the time alone the order was not whole: the rows of a queue's snapshot share one status date, a page was cut anywhere

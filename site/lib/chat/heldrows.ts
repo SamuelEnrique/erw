@@ -37,6 +37,22 @@ export function rowId(r: Record<string, unknown>): string {
   return "";
 }
 
+/** Ruling alternative 1 of Ask (session 7707, branch wip/alt-site-ask-1; not a default on main): a public table that
+ *  carries a held grid's figures under another publisher's name is held by its region column too. Berkeley Lab's queue
+ *  (lbnl_interconnection_queue) names each request's grid in `region`; its rows in ISO-NE and NYISO (whose own queues are
+ *  license needed) are held, and its rows in MISO are left out as MISO's own (the pause). On main they are given, named
+ *  as Berkeley Lab's (the license file). The tools read the column as `region_held` (lib/chat/tools.ts). */
+export const REGION_HOLD: Record<string, string> = { lbnl_interconnection_queue: "region" };
+export const REGION_GRID: Record<string, string> = { "ISO-NE": "isone", NYISO: "nyiso", MISO: "miso" };
+/** Whether a row's region is a held grid's: "held", "paused" (MISO), or "" for none. */
+export function regionHeld(table: string, region: unknown): "held" | "paused" | "" {
+  if (!REGION_HOLD[table] || typeof region !== "string") return "";
+  const g = REGION_GRID[region.trim()];
+  if (!g) return "";
+  if (g === "miso") return "paused";
+  return licenseNeeded(`${g}_interconnection_queue`) ? "held" : "";
+}
+
 /** The rows of a table of things or of events without the held grids' own and without MISO's own, and how many of each
  *  were left out. A series table's rows come back as they are. */
 export function keepRows<T extends Record<string, unknown>>(table: string, shape: string, rows: T[]): { kept: T[]; held: number; paused: number } {
@@ -46,6 +62,10 @@ export function keepRows<T extends Record<string, unknown>>(table: string, shape
   const kept = rows.filter((r) => {
     const id = rowId(r);
     if (misoOwnId(id)) { paused += 1; return false; }
+    // wip/alt-site-ask-1: read as region_held by a query, inside `extra` by a read of every column (a description's sample)
+    const byRegion = regionHeld(table, r.region_held ?? (r.extra as Record<string, unknown> | undefined)?.[REGION_HOLD[table] ?? ""]);
+    if (byRegion === "paused") { paused += 1; return false; }
+    if (byRegion === "held") { held += 1; return false; }
     if (byGrid && licenseHeldRow(table, id)) { held += 1; return false; }
     return true;
   });
