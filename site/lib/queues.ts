@@ -79,6 +79,25 @@ export function outcome(row: YearRow | null): { operating: number; withdrawn: nu
   return { operating: row.requests_operating / n, withdrawn: row.requests_withdrawn / n, open: (row.requests_active + row.requests_suspended) / n, n };
 }
 
+/** Session 7545 (the read, row 9): the queue of a place, as the page's sentence writes it: "ERCOT's queue", "the United States' queues". */
+export const queueOf = (grid: Grid) => (grid.slug === "us" ? `${grid.place}' queues` : `${grid.place}'s queue`);
+
+/** Session 7545 (the read, row 3): a view whose years hold no withdrawn and no suspended request at all, though enough past requests
+ *  for a share are counted. Its share withdrawn is 0.00 because the file labels no such request with this technology, so
+ *  the page says so on the figure. In the 2026 edition only ERCOT's solar with storage (66 past requests, none withdrawn
+ *  in any year, while 1,158 of ERCOT's requests are withdrawn). */
+export function noneWithdrawn(view: View, minShare: number): boolean {
+  const ys = Object.values(view.years);
+  const wd = ys.reduce((a, r) => a + r.requests_withdrawn + r.requests_suspended, 0);
+  return wd === 0 && view.whole.past_requests >= minShare;
+}
+
+/** The withdrawn requests of every year of a view (requests with no year entered are in no year, so not here). */
+export const withdrawnOf = (view: View) => Object.values(view.years).reduce((a, r) => a + r.requests_withdrawn, 0);
+
+/** Session 7545 (the read, row 2): the operation years of a view that hold a median, in order. */
+export const onYears = (view: View) => Object.entries(view.on).map(([y, r]) => ({ year: Number(y), ...r })).sort((a, b) => a.year - b.year);
+
 /** The year in which the most active capacity entered. */
 export function peakActive(view: View): { year: string; mw: number } | null {
   let best: { year: string; mw: number } | null = null;
