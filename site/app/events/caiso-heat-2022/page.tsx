@@ -58,11 +58,21 @@ export default async function CaisoHeat2022() {
           const hi = pickOf(rows, E, "demand_max_mw", "max", inWin);
           const hiPct = pickOf(rows, E, "demand_max_pct_vs_baseline", "max", inWin);
           const d6 = find(rows, E, "demand_max_pct_vs_baseline", "2022-09-06");
+          // ruling alternative 6 of /events (session 7712, wip/alt-events-6, not a default on main): each airport's hottest day
+          const sac = pickOf(rows, "noaa:SAC", "temp_max_f", "max", inWin), lax = pickOf(rows, "noaa:LAX", "temp_max_f", "max", inWin);
           return (
+            <>
             <p>
               <strong>The peak.</strong> CAISO&apos;s highest hour of demand served in the window was <N r={hi} event={EV} /> MW on {day(hi)}; against the baseline,
               the peak hour rose most on {day(hiPct)}, <N r={hiPct} event={EV} />% above it, and on 2022-09-06 it was <N r={d6} event={EV} />% above.
             </p>
+            {sac || lax ? (
+              <p data-airport-hottest="1">
+                <strong>The heat.</strong> The hottest day of the window{sac ? <> at Sacramento was {day(sac)}, <N r={sac} event={EV} /> F at its highest</> : null}
+                {sac && lax ? "; " : null}{lax ? <>{sac ? "at" : " at"} Los Angeles {day(lax)}, <N r={lax} event={EV} /> F</> : null} (NOAA ISD-Lite, the airports&apos; hourly temperatures).
+              </p>
+            ) : null}
+            </>
           );
         }}
       />
