@@ -24,6 +24,7 @@ Nothing is estimated and no unit is left out: a unit with no technology group is
 """
 import argparse
 import json
+import re
 import os
 import sys
 
@@ -133,6 +134,15 @@ def _date(text):
     return int(t) if t.isdigit() and len(t) == 4 else 0
 
 
+MATCH_DROP = r"\b(BESS|ESS|SOLAR|WIND|STORAGE|ENERGY|PROJECT|PROJECTS|CENTER|FARM|LLC|LP|INC|II|I|III|IV|PV|PHASE|STATION)\b"   # wip/alt-map-2
+
+
+def match_name(s):
+    """A project's name as the match reads it (wip/alt-map-2): capitals, without the words of MATCH_DROP and the signs."""
+    s = re.sub(MATCH_DROP, " ", str(s or "").upper())
+    return " ".join(re.sub(r"[^A-Z0-9 ]", " ", s).split())
+
+
 def page_rows(out=None):
     """Every row of the one page, one frame, a kind after another, the largest first inside a kind; the queues held
     back with their row counts; and the number of datacenters the table places in no US state."""
@@ -175,6 +185,14 @@ def page_rows(out=None):
     q["role"] = (q["operator_role"] == "developer").astype(int)
     q["technology_text"] = q["technology"]
 
+    # ruling alternative 2 of /map (session 7721, branch wip/alt-map-2; not a default on main): a queue position whose name,
+    # without the words of MATCH_DROP, and county match a planned unit's is the same project: it is counted once, under the
+    # planned unit (EIA-860M), and not written in the queue layer. The match is by words only; its rule is the ruling's.
+    plan_keys = {(match_name(n), c) for n, c in zip(d.loc[d["kind"] == "planned", "name"], d.loc[d["kind"] == "planned", "county"].fillna(""))}
+    dup = [bool(match_name(n)) and (match_name(n), c) in plan_keys for n, c in zip(q["name"], q["county"].fillna(""))]
+    matched = {"rows": int(sum(dup)), "mw": round(float(q.loc[dup, "mw"].sum()), 1)}
+    q = q[[not x for x in dup]].copy()
+
     dc = read("datacenter_facilities", out)
     without_state = int((dc["state"] == "").sum())
     dc = dc[dc["state"] != ""].copy()                  # a US map: a facility the table places in no US state is counted, not written
@@ -207,7 +225,7 @@ def page_rows(out=None):
     rows = pd.concat(parts, ignore_index=True)
     if rows["entity_id"].duplicated().any():
         raise ValueError("an entity is twice in the map's rows")
-    return rows, held, without_state
+    return rows, held, without_state, matched
 
 
 def _index(values):
@@ -217,7 +235,7 @@ def _index(values):
 
 def build_page(out=None, card=True):
     """The one page's file. `card=False` leaves out what only the unit card reads (to weigh it; the page needs it)."""
-    r, held, without_state = page_rows(out)
+    r, held, without_state, matched = page_rows(out)
     eia = r[r["kind"].isin(["operating", "planned"])]
     vintages = sorted(set(eia["vintage"]))
     if len(vintages) != 1:
@@ -249,7 +267,8 @@ def build_page(out=None, card=True):
                    "batteries": int((r["tech"] == "battery").sum()), "under_1_mw": int((eia["mw"] < 1).sum()),
                    "without_balancing_authority": int((u["balancing_authority"] == "").sum()),
                    "without_mw": int(r["mw"].isna().sum()), "not_placed": int((r["precision"] == 4).sum()),
-                   "datacenters_without_state": without_state, "queue_rows_held": int(sum(h["rows"] for h in held))},
+                   "datacenters_without_state": without_state, "queue_rows_held": int(sum(h["rows"] for h in held)),
+                   "queue_rows_matched": matched["rows"], "queue_mw_matched": matched["mw"]},   # wip/alt-map-2
         # one column a field, a row a position: a kind after another (kinds[].start), the largest first inside a kind
         "k": [kinds.index(x) for x in r["kind"]], "n": [name_i[x] for x in r["name"]], "s": [states.index(x) for x in r["state"]],
         "g": [grids.index(x) for x in r["grid"]], "t": [techs.index(x) for x in r["tech"]], "st": [st_i[x] for x in r["st_slug"]],
