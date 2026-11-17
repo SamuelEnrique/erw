@@ -23,6 +23,7 @@ import { completeHour } from "@/lib/networkV3";
 import { attempt } from "@/lib/supabase";
 import { GridYesterday } from "./Conditions";
 import { GridNowParts } from "./YourGrid";
+import { DAILY_TABLE_TIP } from "@/lib/gridwords";   // session 7565
 
 const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";
 const H = 3_600_000;
@@ -79,7 +80,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       <p className="mb-8 max-w-3xl text-base leading-relaxed" data-now-sentence={grid.slug}>
         {d ? (
           <>
-            In the hour starting {hourOf(d.ts_utc, tz)}, the latest EIA has published, {grid.slug === "us48" ? "the Lower 48 states" : grid.label} used <N t={DEMAND} r={d} /> MW
+            {/* session 7565 (the Grid read, row 2): the newest hour of the daily table, not of EIA; the hourly snapshot of the Network tab runs a day ahead */}
+            In the hour starting {hourOf(d.ts_utc, tz)}, <span title={DAILY_TABLE_TIP} data-latest-held="1">the latest the warehouse&apos;s daily table holds</span>,{grid.slug === "us48" ? "the Lower 48 states" : grid.label} used <N t={DEMAND} r={d} /> MW
             {dWeek ? <>, {d.value > dWeek.value ? "more than" : d.value < dWeek.value ? "less than" : "the same as"} the <N t={DEMAND} r={dWeek} /> MW of the same hour a week earlier</> : null}.
           </>
         ) : <>The latest hour of demand could not be read just now. </>}

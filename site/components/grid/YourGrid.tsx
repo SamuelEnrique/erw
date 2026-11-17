@@ -17,6 +17,7 @@ import { Reliability } from "./Reliability";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 import { carbonLeftOut, carbonLeftOutMonths, monthRuns } from "@/lib/carbonLeftOut";  // session 118
+import { CARBON_WINDOW_WORDS } from "@/lib/gridwords";  // session 7565
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -80,7 +81,7 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
     <>
       <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
         <div className="text-sm">
-          <div className="text-xs text-muted">Demand in the latest hour EIA has published ({local(last.ts_utc, g.tz)})</div>
+          <div className="text-xs text-muted">Demand in the latest hour the warehouse holds ({local(last.ts_utc, g.tz)})</div>
           <div className="mb-2 text-3xl tabular-nums"><N t={T} r={last} /> <span className="text-sm text-muted">MW</span></div>
           <div className="text-xs text-muted">The same hour a week earlier</div>
           <div className="mb-2 tabular-nums">{sameHour ? <><N t={T} r={sameHour} /> MW</> : <span className="text-muted">not held</span>}</div>
@@ -94,8 +95,10 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
         </div>
       </div>
       <p className="mt-1 text-xs text-muted">
-        Demand is how much power customers use each hour. EIA publishes each grid&apos;s hourly demand an hour or so after the hour, so &quot;right now&quot;
-        is the latest hour it has published. Last week&apos;s line is moved forward seven days so the two days line up.
+        {/* session 7565 (the Grid read, row 2): the table loads by the day, so "right now" is its newest hour, not the newest hour of EIA */}
+        Demand is how much power customers use each hour. EIA publishes each grid&apos;s hourly demand an hour or so after the hour; the warehouse&apos;s
+        table loads it once a day, after the UTC day ends, so &quot;right now&quot; is the latest hour the table holds, a day or more behind EIA. The
+        Network tab&apos;s hourly snapshot holds newer hours. Last week&apos;s line is moved forward seven days so the two days line up.
       </p>
       <Cite tables={[T]} note="EIA-930 hourly demand, MW; hour starts" />
     </>
@@ -220,7 +223,13 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
   const T = "carbon_intensity_hourly", TM = "carbon_intensity_monthly";
   const gen = d.ci.filter((r) => r.variable === "intensity_generation").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const last = gen.at(-1);
-  if (!last) return <NotYet what={`${g.iso}'s carbon intensity`} where="EIA publishes hourly CO2 estimates per grid in its Grid Monitor workbooks" href={EIA(g)} />;
+  // session 7565 (the Grid read, row 1): the block reads the last four days; an empty window is not an empty table (on 17
+  // November 2026 the newest hour of the table was 12 November 23:00 UTC, and the ranking beside this block showed it)
+  if (!last) return (
+    <p className="border border-dashed border-rule bg-panel px-3 py-2 text-sm text-muted" role="status" data-carbon-window-empty="1">
+      <span className="font-semibold text-ink">No hour in the last four days:</span> {CARBON_WINDOW_WORDS(g.iso)} EIA publishes hourly CO2 estimates per grid in its Grid Monitor workbooks: <a href={EIA(g)} className="break-all">{EIA(g)}</a>.
+    </p>
+  );
   const dem = d.ci.find((r) => r.variable === "intensity_demand" && r.ts_utc === last.ts_utc);
   const lt = Date.parse(last.ts_utc);
   // session 118: a month computed on an impossible hour, and California's months without hydro, are not shown
