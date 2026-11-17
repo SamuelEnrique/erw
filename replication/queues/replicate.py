@@ -63,7 +63,10 @@ def decimals(x):
     return 0 if "e" in s else len(s.split(".")[1])
 
 
-def summarize(reqs, past, min_share, min_median, last_year):
+PARTS = {"Battery": "battery", "Solar": "solar", "Wind": "wind", "Offshore Wind": "wind", "Gas": "gas", "Other Storage": "other_storage"}
+
+
+def summarize(reqs, past, min_share, min_median, last_year, all_rows=False):
     years = defaultdict(lambda: defaultdict(float))
     on = defaultdict(list)
     w = defaultdict(float)
@@ -108,6 +111,9 @@ def summarize(reqs, past, min_share, min_median, last_year):
     whole = {k: w.get(k, 0.0) for k in ("total_requests", "total_mw", "requests_without_year", "total_active_requests",
                                          "total_active_mw", "total_suspended_requests", "total_suspended_mw",
                                          "past_requests", "past_mw", "operating_requests")}
+    if all_rows:   # session 7051 (done-line request 190): the active MW of each part type, a hybrid's parts included
+        for kind in dict.fromkeys(PARTS.values()):
+            whole[f"active_mw_parts_{kind}"] = sum(mw for r in reqs if r["status"] == "active" for k, mw in r["parts"] if k == kind and mw and mw > 0)
     whole["years_to_operation_n"] = len(durations)
     if durations and len(durations) >= min_median:
         whole["median_years_to_operation"] = statistics.median(durations)
@@ -150,7 +156,9 @@ def main(argv=None):
         reqs.append(dict(grid="".join(ch for ch in (r["region"] or "").lower() if ch.isalnum()), tech=TECH.get(r["type_clean"], "other"),
                          status=STATUS.get((r["q_status"] or "").strip().lower()), mw=num(r["capacity_mw"]),
                          year=int(y) if y is not None else None, q_date=date(r["q_date"]), on_date=date(r["on_date"]),
-                         has_type=bool(r["type_clean"])))
+                         has_type=bool(r["type_clean"]),
+                         # session 7051: each part's type and MW (the note's active MW by part type)
+                         parts=[(PARTS.get((r.get(f"type_{k}") or "").strip()), num(r.get(f"mw_{k}"))) for k in (1, 2, 3)]))
     c = page["counts"]
     ops = [r for r in reqs if r["status"] == "operating"]
     mine_c = {"requests": len(reqs), "unknown_status": sum(1 for r in reqs if not r["status"]),
@@ -165,7 +173,7 @@ def main(argv=None):
     for key, theirs in page["views"].items():
         grid, tech = key.split("|")
         sel = [r for r in reqs if (grid == "us" or r["grid"] == grid) and (tech == "all" or r["tech"] == tech)]
-        mine = summarize(sel, page["past"], page["min_share"], page["min_median"], page["last_year"])
+        mine = summarize(sel, page["past"], page["min_share"], page["min_median"], page["last_year"], all_rows=(tech == "all"))
         for part in ("years", "on"):
             ks = set(theirs.get(part, {})) | set(mine[part])
             for y in sorted(ks):
