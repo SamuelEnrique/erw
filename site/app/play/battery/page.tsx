@@ -13,6 +13,7 @@ import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/l
 import { FAMOUS, todayLevel, TZ, type Level } from "@/lib/levels";
 import { attempt } from "@/lib/supabase";
 import { Game, type GameLevel } from "./Game";
+import { GameDecisions } from "./Decisions";
 
 // Session 38: the home battery game, MVP. Real prices (ERCOT HB_HUBAVG real-time, one operating day: today's level
 // from the live set, five famous days from the history); a fictional battery, home, brand and fleet.
@@ -116,7 +117,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           <ul className="max-w-3xl list-disc space-y-1 pl-5">
             <li><strong>The three modes:</strong> Easy: {DIFFICULTIES.easy.what}. Normal: {DIFFICULTIES.normal.what}. Hard: {DIFFICULTIES.hard.what}. Before each play, a few seconds of the day at a glance: its lowest, average and highest real price.</li>
             <li><strong>Money:</strong> every play starts with ${START_MONEY}. Buying power costs money and selling earns it; if the money falls below $0, the game ends there. The score is what you earned (the money less the ${START_MONEY}).</li>
-            <li><strong>Hard&apos;s grid emergency:</strong> in the day&apos;s dearest hour the price climbs toward the cap: each fifteen minutes {EMERGENCY.ramp.map((r) => `${Math.round(r * 100)}`).join(", ")} percent of the way from the real price to USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh (ERCOT&apos;s offer cap since 2023, used for every grid). Then the grid goes down for two hours: nothing can be bought or sold, and the house draws {EMERGENCY.houseKw} kW from the battery, its backup reserve included (that is what the reserve is for).</li>
+            <li><strong>Hard&apos;s grid emergency:</strong> in the day&apos;s dearest hour the price climbs toward the cap: each fifteen minutes {EMERGENCY.ramp.map((r) => `${Math.round(r * 100)}`).join(", ")} percent of the way from the real price to USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh (ERCOT&apos;s system-wide offer cap since 1 January 2022, used for every grid). Then the grid goes down for two hours: nothing can be bought or sold, and the house draws {EMERGENCY.houseKw} kW from the battery, its backup reserve included (that is what the reserve is for).</li>
             <li><strong>Lights out costs money (a game rule):</strong> if the battery cannot carry the house through the outage, the lights go out and the round ends. If the lights go out at any moment of the outage, you pay for the power the house needed in the whole outage, not only the part it missed: {EMERGENCY.houseKw} kW for all of it (less what a rooftop array makes), at USD {LIGHTS_OUT.usdPerMwh.toLocaleString("en-US")} per MWh. Without the roof that is USD {((LIGHTS_OUT.usdPerMwh * EMERGENCY.houseKw * EMERGENCY.outageIntervals) / 4000).toFixed(2)} for a two-hour outage. The money may end below $0. Why: a home without power in a grid emergency is the outcome the battery exists to prevent, so giving the house up must never be the best play.</li>
             <li><strong>Where USD {LIGHTS_OUT.usdPerMwh.toLocaleString("en-US")} per MWh comes from:</strong> it is the value of lost load, the worth of power that is not delivered, that the Public Utility Commission of Texas approved for the ERCOT region on 29 August 2024 (Project No. 55837; <a href={LIGHTS_OUT.release}>its press release of that day</a>). It rounds the one-hour, system-wide value of ERCOT&apos;s study by The Brattle Group, USD {LIGHTS_OUT.study.toLocaleString("en-US")} per MWh (<a href={LIGHTS_OUT.report}>the study</a>). It is the value for all customers together: the same study found a much lower one for residential customers alone, USD {LIGHTS_OUT.residential.toLocaleString("en-US")} per MWh for a one-hour outage. The Commission approved it for planning the grid&apos;s reliability; nobody is billed it. Charging a house at it is the game&apos;s rule, and the game uses the Texas figure on the California days too.</li>
             <li><strong>The perfect battery</strong> plays by the same rules: it never runs out of money, and it never gives up the house where the lights can be kept on.</li>
@@ -159,6 +160,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           trackers, no sound.
         </p>
       </Section>
+      {/* session 7535 (chain 304, part A): the decisions block, each choice that moves a score with its default and source */}
+      <GameDecisions />
       {/* session 7535 (faults file, row 2): seven famous days, not five, and the two California days' table named */}
       <Cite tables={[T, "ercot_all_hub_prices_history", "iso_hub_prices_history"]} note="Today's level from the live set; the seven famous days (five ERCOT, two CAISO) frozen from the warehouse (site/data/battery_levels.json, warehouse/derived/battery_levels.py)" />
       <p className="mt-2 text-xs text-muted">Real batteries on the grid: <Link href="/storage">storage</Link>; ERCOT: <Link href="/grid?grid=ercot">its grid page</Link>.</p>

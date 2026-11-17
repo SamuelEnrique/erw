@@ -64,7 +64,7 @@ export const DIFFICULTIES: Record<Difficulty, { label: string; forecastHours: nu
 export const START_MONEY = 5;
 /** Session 63: Hard's grid emergency (game rules). The spike: the day's dearest clock hour (vppHour on the real prices)
  * climbs toward the cap, each of its four intervals a share of the way from its real price to the cap; the cap is
- * ERCOT's system-wide offer cap since 2023 (USD 5,000/MWh), used for every grid. The outage: the eight intervals (two
+ * ERCOT's system-wide offer cap since 1 January 2022 (USD 5,000/MWh; ERCOT market notice M-A120721-01; session 7535 corrected "since 2023"), used for every grid. The outage: the eight intervals (two
  * hours) after the spike hour, the grid down: no buying or selling, and the house draws 1.5 kW from the battery (an
  * assumption: a home's evening load with air conditioning; the reserve is for exactly this). */
 export const EMERGENCY = { cap: 5000, ramp: [0.25, 0.5, 0.75, 0.9], outageIntervals: 8, houseKw: 1.5 };
