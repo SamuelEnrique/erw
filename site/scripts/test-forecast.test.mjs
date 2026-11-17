@@ -566,7 +566,7 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   // sales: Colorado's state share, Washington's refund, New York, New Jersey, Maryland, Kentucky, Rhode Island
   assert.equal(F.defaults(P, "utility_pv", "co").exempt, Math.round(10000 * 0.029 / (0.029 + 0.0499)) / 100, "the state rate over state and local: 36.76");
   assert.equal(F.defaults(P, "land_based_wind", "wa").exempt, 50);
-  assert.equal(F.defaults(P, "natural_gas", "ny").exempt, 100);
+  assert.equal(F.defaults(P, "natural_gas", "ny").exempt, 58.2524);   // ruling alternative 2 (wip/alt-impact-2, not a default on main): the machinery share; main: 100
   assert.equal(F.defaults(P, "utility_pv", "nj").exempt, 100);
   assert.equal(F.defaults(P, "utility_pv", "md").exempt, 100);
   assert.equal(F.defaults(P, "utility_pv", "ky").exempt, 67.2);
