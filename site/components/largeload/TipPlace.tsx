@@ -29,8 +29,19 @@ export function TipPlace() {
       if (!b) return;
       // measured as the style sheet sizes it, with no limit of ours left on it from the last time
       b.style.position = "fixed"; b.style.right = "auto"; b.style.bottom = "auto"; b.style.left = "0px"; b.style.top = "0px"; b.style.maxHeight = "";
-      const size = b.getBoundingClientRect();
+      b.style.width = ""; b.style.maxWidth = "";
+      let size = b.getBoundingClientRect();
       if (!size.width || !size.height) return;                // not shown: nothing to place
+      // Session 7602 (browser reads rows 52 and 62): a box too tall for the room above or below its mark at its own
+      // width (a decision's source of over 1,000 characters) is made wider where the window allows, up to 576 px, so
+      // it is read whole and not in a scrolled box; on a phone there is no width to give, and it scrolls as before
+      const tb = trigger.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+      const room = Math.max(window.innerHeight - 8 - (tb.bottom + 2), tb.top - 2 - 8);
+      const wide = Math.min(576, vw - 16);
+      if (size.height > room && wide > size.width + 24) {
+        b.style.width = `${wide}px`; b.style.maxWidth = "none";
+        size = b.getBoundingClientRect();
+      }
       // a headline's mark (components/tool/ToolPage.tsx, HeadlineNumber) opens above it: under it stands the figure
       const prefer = tip.closest('[data-tip-open="above"]') ? "above" : "below";
       const p = placeTip(trigger.getBoundingClientRect(), { width: size.width, height: size.height }, { width: document.documentElement.clientWidth, height: window.innerHeight }, 8, 2, prefer);
