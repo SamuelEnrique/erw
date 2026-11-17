@@ -83,5 +83,51 @@ export function ytdThrough(header: string[]): { month: number; year: number } | 
 }
 export const monthName = (m: number) => MONTH_NAMES[m - 1];
 
+// Ruling alternative 1 (session 7709, branch wip/alt-demand-growth-1; not a default on main): California's growth with
+// and without the batteries' charging, a second row beside the table's own. The rule is the method note's
+// (docs/methods/demand_growth.md, "California: the batteries' charging inside EIA's demand"; replication/demand_growth/
+// california_charging.py): a month's charging is, on that month's average day by CAISO's own data (shoulder_hours_monthly,
+// iso:caiso_own, avg_battery_mw_hHH), the sum of the hours below zero, sign turned, over 24; a window is the mean of its
+// months weighted by their days; "less the charging" takes the charging off the newer year only (2019's is not held: the
+// fleet was 186 MW at the end of 2019). CAISO's own data starts later than EIA's (its first month is the first month of the first window), so no whole year is given without it.
+export const SHOULDER_TABLE = "shoulder_hours_monthly";
+export const OWN_ENTITY = "iso:caiso_own";
+export const CHARGING_VARIABLES = Array.from({ length: 24 }, (_, h) => `avg_battery_mw_h${pad(h)}`);
+export const MONTH_VARIABLES = Array.from({ length: 12 }, (_, m) => `avg_demand_mw_m${pad(m + 1)}`);
+export type Charging = { year: number; months: number[]; base: number; eia: number; charging: number; growthPct: number; lessChargingPct: number };
+const daysIn = (y: number, m: number) => new Date(Date.UTC(y, m, 0)).getUTCDate();
+/** One window of months of a year, or null when a month lacks EIA's demand, 2019's or a whole day of charging. */
+export function chargingWindow(eia: Row[], own: Row[], year: number, months: number[]): Charging | null {
+  const e = entityOf("CISO");
+  let days = 0, sumE = 0, sumB = 0, sumC = 0;
+  for (const m of months) {
+    const ts = `${year}-${pad(m)}`;
+    const hours = CHARGING_VARIABLES.map((v) => own.find((r) => r.entity === OWN_ENTITY && r.variable === v && r.ts_utc.slice(0, 7) === ts)?.value);
+    const ev = valueOf(eia, e, `avg_demand_mw_m${pad(m)}`, year), bv = valueOf(eia, e, `avg_demand_mw_m${pad(m)}`, BASE);
+    if (ev === undefined || bv === undefined || hours.some((x) => x === undefined)) return null;
+    const d = daysIn(year, m);
+    days += d; sumE += ev * d; sumB += bv * d; sumC += (-(hours as number[]).filter((x) => x < 0).reduce((a, x) => a + x, 0) / 24) * d;
+  }
+  if (!days) return null;
+  const base = sumB / days, eiaMw = sumE / days, charging = sumC / days;
+  return { year, months, base, eia: eiaMw, charging, growthPct: 100 * (eiaMw / base - 1), lessChargingPct: 100 * ((eiaMw - charging) / base - 1) };
+}
+/** The windows the page gives: the last whole year's months CAISO's own data holds, and the newest year's months both hold. */
+export function chargingWindows(eia: Row[], own: Row[]): Charging[] {
+  const e = entityOf("CISO"), out: Charging[] = [];
+  const held = (y: number, m: number) => chargingWindow(eia, own, y, [m]) !== null;
+  // the two newest years with a month of EIA's demand (the page reads the twelve months' rows alone, not the year's)
+  const ys = Array.from(new Set(MONTH_VARIABLES.flatMap((v) => yearsOf(eia, e, v)))).filter((y) => y !== BASE).sort((a, b) => a - b).slice(-2);
+  for (const y of ys) {
+    const months = Array.from({ length: 12 }, (_, i) => i + 1).filter((m) => held(y, m));
+    // one run of months, from the first held to the last held with none missing between
+    const run: number[] = [];
+    for (const m of months) { if (run.length && m !== run[run.length - 1] + 1) break; run.push(m); }
+    const w = run.length ? chargingWindow(eia, own, y, run) : null;
+    if (w && !out.some((o) => o.year === y)) out.push(w);
+  }
+  return out;
+}
+
 /** The address of a view. */
 export const viewHref = (grid: string, win: string) => `/explore/demand-growth?grid=${grid}&window=${win}`;

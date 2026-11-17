@@ -10,12 +10,13 @@ import { ChartFrame, HeadlineNumber, HeadlineRow, Tip, ToolSection, ToolTable } 
 import { headers } from "@/lib/data";
 import { choose, isoKey, type Params } from "@/lib/explore";
 import {
-  BASE, DEFAULT_GRID, DEFAULT_WINDOW, GRIDS, TABLE, WINDOWS, entityOf, lastWhole, latestOf, monthName, newest, valueOf, variablesOf,
+  BASE, CHARGING_VARIABLES, DEFAULT_GRID, DEFAULT_WINDOW, GRIDS, MONTH_VARIABLES, OWN_ENTITY, SHOULDER_TABLE, TABLE, WINDOWS, chargingWindows, entityOf, lastWhole, latestOf, monthName, newest, valueOf, variablesOf,
   viewHref, windowOf, yearTs, yearsOf, ytdThrough, type Row,
 } from "@/lib/explore/demandgrowth";
 import { sourceOf } from "@/lib/explore/source";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { DemandGrowthDecisions } from "@/app/explore/demand-growth/Decisions";
+import { CaliforniaCharging } from "@/app/explore/demand-growth/Charging";   // ruling alternative 1 (wip/alt-demand-growth-1)
 
 // Session 404: the demand growth explorer (platform tool 5, the second signature explorer), in review. Growth since
 // 2019 by grid and by window of the year, from eia930_demand_growth as it stands in the live set: for any of the seven
@@ -98,6 +99,14 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
 
   const rows = read.data;
   const e = entityOf(grid.ba);
+  // ruling alternative 1 (wip/alt-demand-growth-1, not a default on main): on the CAISO view, the months of EIA's demand
+  // and CAISO's own batteries by hour, for a second row without the charging
+  const [readMonths, readOwn] = grid.ba === "CISO" ? await Promise.all([
+    attempt(() => rest<Row>("series", { select: SELECT, table_name: `eq.${TABLE}`, entity: `eq.${e}`, variable: `in.(${MONTH_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY)),
+    attempt(() => rest<Row>("series", { select: SELECT, table_name: `eq.${SHOULDER_TABLE}`, entity: `eq.${OWN_ENTITY}`, variable: `in.(${CHARGING_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY)),
+  ]) : [null, null];
+  const charging = readMonths && readOwn ? (readMonths.ok && readOwn.ok ? { windows: chargingWindows(readMonths.data, readOwn.data), unread: null }
+    : { windows: [], unread: !readMonths.ok ? readMonths.reason : !readOwn.ok ? readOwn.reason : null }) : null;
   const latest = latestOf(rows, e, win);
   const whole = lastWhole(rows, e);
   const recent = newest(rows, e);
@@ -194,6 +203,8 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
             };
           })} />
       </ToolSection>
+
+      {charging ? <CaliforniaCharging windows={charging.windows} unread={charging.unread} /> : null}
 
       <ChartFrame title={`${grid.name}: growth since ${BASE}, year by year, by window`}
         note={<>Each bar is a year&apos;s row of the table, against {BASE}; the three figures of a year are in its hover.{noPeak ? " No peak is given for the Lower 48 (the method note says why)." : ""}{through ? ` The year so far compares 1 January to the end of ${monthName(through.month)} of each year with the same months of ${BASE}; ${through.year} has only that window.` : ""}</>}>

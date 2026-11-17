@@ -50,7 +50,7 @@ class ThePage(unittest.TestCase):
 
     def test_it_reads_one_table_and_every_figure_carries_its_row_key(self):
         p = self.p
-        self.assertEqual(set(re.findall(r'table_name: `eq\.\$\{(\w+)\}`', p)), {"TABLE"})
+        self.assertEqual(set(re.findall(r'table_name: `eq\.\$\{(\w+)\}`', p)), {"TABLE", "SHOULDER_TABLE"})   # SHOULDER_TABLE: ruling alternative 1 (wip/alt-demand-growth-1), the CAISO view's charging; main: {"TABLE"}
         self.assertIn('export const TABLE = "eia930_demand_growth";', src(*LIB))
         self.assertIn("const key = (entity: string, variable: string, y: number) => `series|${TABLE}|${entity}|${variable}|${isoKey(yearTs(y))}`;", p)
         self.assertEqual(p.count("<Num "), 1)                     # one figure writer, N, keyed by the row it shows
