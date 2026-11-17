@@ -143,6 +143,14 @@ ok(!/text-muted[^>]*>[^<]*Sums of 12 months/.test(cons) && /title="[^"]*Sums of 
 const nm = ent((cons.match(/title="([^"]*)" data-no-data="NM\|RES"/) ?? ["", ""])[1]);
 ok(nm === "eia:retail_sales:NM:RES: no row for 2026-03, 2026-04, 2026-05, 2026-06 in eia_retail_sales_monthly as the site holds it, so no 12-month total is given.", "row 10: a 'no data' cell names the months it lacks");
 
+// ---- row 12: "On the year before" beside the All grids tab's twelve months, from the tab's own function
+const S = await import("../lib/siting.ts");
+const yoy = (h) => ent((h.match(/title="([^"]*)" data-yoy-why="1"/) ?? ["", ""])[1]);
+const gE = S.demandGrowth(D, "ercot"), gC = S.demandGrowth(D, "caiso");
+ok(yoy(views.ercot).includes("ERCOT, 2025 on 2024: +5.57 percent") && yoy(views.ercot).includes(`gives +${gE.pct.toFixed(2)} percent for November 2025 to October 2026`) && gE.pct.toFixed(2) === "5.21"
+  && yoy(views.caiso).includes("CAISO, 2025 on 2024: +0.24 percent") && yoy(views.caiso).includes("gives +5.18 percent") && gC.pct.toFixed(2) === "5.18",
+  "row 12: the column's hover gives the All grids tab's figure for the grid, from lib/siting.ts, and says it is another period (ERCOT +5.57 and +5.21, CAISO +0.24 and +5.18)");
+
 // ---- row 11: an empty answer for the energy review's table is said, not thrown (the stand-in answers it with no rows)
 ok(/Industrial and commercial energy, all fuels \(US\)[\s\S]*the table returned no rows/.test(words(cons)) && words(cons).includes("Sector shares and growth, by state"), "row 11: the energy review's empty read is said in its section, and the rest of the view draws");
 

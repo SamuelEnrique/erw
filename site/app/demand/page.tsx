@@ -21,6 +21,7 @@ import { DEMAND_DECISIONS } from "@/lib/decisions";
 import { ConsumptionView } from "../consumption/view";
 import { DEMAND_GROWTH_DECISIONS } from "../explore/demand-growth/Decisions";
 import faultsJson from "@/data/data_faults.json";
+import { demandGrowth } from "@/lib/siting";
 
 // Session 7543 (chain 304, part C: the read of /demand as a utility planner reads it,
 // docs/reviews/demand-read-2026-11-16.md). Three hovers the reader needed, each read from the file that holds the words
@@ -29,6 +30,15 @@ import faultsJson from "@/data/data_faults.json";
 // (data/data_faults.json), and how an hour is named (the explorer's "local-time" line, in this page's words).
 const AGAINST_SALES = (() => { const d = DEMAND_GROWTH_DECISIONS.find((x) => x.key === "against-sales")!; return `${d.text} ${d.def} Source: ${d.source}`; })();
 const faults = faultsJson as unknown as { rows: Fault[]; status_words: Record<string, string> };
+/** Session 7543 (the read, row 12): the All grids tab of the datacenter cost page computes its own demand growth from
+ *  this file (lib/siting.ts, demandGrowth: the last twelve months over the twelve before), another period from this
+ *  column's; the hover gives both for the grid shown, from the same function, so neither page reads as the other's error. */
+function yoyWhy(name: string, slug: string, last: { year: string; row: Record<string, number> }) {
+  const here = `${name}, ${last.year} on ${Number(last.year) - 1}: ${signed(last.row.avg_demand_growth_yoy_pct)} percent, a calendar year's average over the year before's.`;
+  const g = demandGrowth(file as never, slug);
+  if (!("pct" in g)) return here;
+  return `${here} The All grids tab of the datacenter cost page (/cost-of-power?view=allgrids) gives ${signed(g.pct)} percent for ${monthName(Number(g.from.slice(5, 7)))} ${g.from.slice(0, 4)} to ${monthName(Number(g.to.slice(5, 7)))} ${g.to.slice(0, 4)} on the twelve months before, from the same table: another period, not another figure for this one.`;
+}
 const CA_2019 = faults.rows.find((f) => f.id === CA_BASE_FAULT);
 
 // Demand growth, one page at one address (session 152), in review (lib/release.ts). Two views, both in the address
@@ -207,7 +217,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
               <Hover><YearsChart area={area} /></Hover>
             </ChartFrame>
             <ToolTable minWidth={760} caption={`${area.name}: average and peak demand by year`}
-              head={["Year", "Average, MW", `Since ${file.base}, percent`, "On the year before, percent", "Peak, MW", <span key="when" title={HOUR_WHY} data-hour-why="when" className="cursor-help border-b border-dotted border-muted">When, local time</span>, `Peak since ${file.base}, percent`, "Hours used"]}
+              head={["Year", "Average, MW", `Since ${file.base}, percent`, <span key="yoy" title={yoyWhy(area.name, slug, last)} data-yoy-why="1" className="cursor-help border-b border-dotted border-muted">On the year before, percent</span>, "Peak, MW", <span key="when" title={HOUR_WHY} data-hour-why="when" className="cursor-help border-b border-dotted border-muted">When, local time</span>, `Peak since ${file.base}, percent`, "Hours used"]}
               rows={[...ys.map(({ year, row }) => ({ key: year, cells: [year, <N key="a" k={`y|${year}|avg`}>{whole(row.avg_demand_mw)}</N>, gy(year, row.avg_demand_growth_since_2019_pct, `y|${year}|avg_growth`), gy(year, row.avg_demand_growth_yoy_pct, `y|${year}|yoy`),
                 row.peak_demand_mw !== undefined ? <N key="p" k={`y|${year}|peak`}>{whole(row.peak_demand_mw)}</N> : NOT, peakAt(year) ?? NOT, gy(year, row.peak_demand_growth_since_2019_pct, `y|${year}|peak_growth`),
                 <span key="h"><N k={`y|${year}|hours`}>{whole(row.hours_used)}</N> of {whole(row.hours_in_year)}</span>] })),
