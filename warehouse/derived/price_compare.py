@@ -69,6 +69,9 @@ DAM_VARS = {"lmp_dam", "spp_dam"}
 RTM_VARS = {"lmp_rtm_15m_mean", "spp_rtm", "lmp_rtm"}
 NEAR_HOURS = 0.95
 NEAR_DAYS = 0.90
+# Ruling alternative 2 of /prices/compare (session 7724, branch wip/alt-compare-2; not a default on main): the first month of
+# the monthly windows the site's copy carries, so a reader can choose any months; main: the two windows only
+MONTHS_FROM = "2025-01"
 HIGH = 200.0
 
 
@@ -195,6 +198,11 @@ def build(x, in_dir, end_month, hidden, log):
     end = (pd.Period(end_month) + 1).strftime("%Y-%m-01")
     windows = {"year": ((pd.Period(end_month) - 11).strftime("%Y-%m-01"), end, "P1Y"), "month": (f"{end_month}-01", end, "P1M")}
     rows, view, held_not_shown, skipped = [], {"year": [], "month": []}, [], []
+    # wip/alt-compare-2: every month from MONTHS_FROM to the end month, for the site's copy only
+    every = {w: v for w, v in windows.items()}
+    for p in pd.period_range(MONTHS_FROM, end_month, freq="M"):
+        every[f"m:{p}"] = (f"{p}-01", (p + 1).strftime("%Y-%m-01"), "P1M")
+        view[f"m:{p}"] = []
     for entity, e in x.groupby("entity"):
         iso, node = entity.split(":", 1)
         if iso in hidden:
@@ -202,7 +210,8 @@ def build(x, in_dir, end_month, hidden, log):
             continue
         g = GRIDS[iso]
         geo = e["geo"].iloc[0]
-        for wname, (start, stop, freq) in windows.items():
+        for wname, (start, stop, freq) in every.items():
+            table_row = not wname.startswith("m:")   # wip/alt-compare-2
             a, b, n = window_hours(start, stop, g["tz"])
             rec = {"entity": entity, "grid": g["name"], "node": node}
             wrote = False
@@ -226,17 +235,20 @@ def build(x, in_dir, end_month, hidden, log):
                 rec[f"{side}_basis"] = basis
                 for k, v in m.items():
                     unit = "pct" if k.endswith("pct") else "count" if (k.startswith("hours") or k.endswith("_days")) else "USD/MWh"
-                    rows.append(dict(entity=entity, variable=f"{side}_{k}", ts_utc=f"{start}T00:00:00Z", value=v, unit=unit, freq=freq, geo=geo, market="", node=node))
+                    if table_row:
+                        rows.append(dict(entity=entity, variable=f"{side}_{k}", ts_utc=f"{start}T00:00:00Z", value=v, unit=unit, freq=freq, geo=geo, market="", node=node))
                     rec[f"{side}_{k}"] = v
                 wrote = True
             if not wrote:
                 continue
             ci, days, due = carbon(in_dir, g["ba"], start, stop)
             rec["grid_carbon_days_held"], rec["grid_carbon_days_due"] = days, due
-            rows.append(dict(entity=entity, variable="grid_carbon_days_held", ts_utc=f"{start}T00:00:00Z", value=days, unit="count", freq=freq, geo=geo, market="", node=node))
+            if table_row:
+                rows.append(dict(entity=entity, variable="grid_carbon_days_held", ts_utc=f"{start}T00:00:00Z", value=days, unit="count", freq=freq, geo=geo, market="", node=node))
             if ci is not None:
                 rec["grid_carbon_intensity"] = ci
-                rows.append(dict(entity=entity, variable="grid_carbon_intensity", ts_utc=f"{start}T00:00:00Z", value=ci, unit="kgCO2/MWh", freq=freq, geo=geo, market="", node=node))
+                if table_row:
+                    rows.append(dict(entity=entity, variable="grid_carbon_intensity", ts_utc=f"{start}T00:00:00Z", value=ci, unit="kgCO2/MWh", freq=freq, geo=geo, market="", node=node))
             view[wname].append(rec)
     for line in skipped:
         log(f"  not written (under {NEAR_HOURS:.0%} of the window's hours, or an hour of the day missing): {line}")
@@ -265,7 +277,7 @@ def main(argv=None):
             p = paused[iso]
             hidden[iso] = f"{p['publisher']}'s terms are under review (pulls paused {p['paused_on']}); its terms forbid derivative works, so no figure is derived from its prices"
     log(f"  licenses: {len(internal)} of the {len(TABLES)} price tables are internal {internal}; publishers under review: {sorted(hidden)}")
-    x = read_prices(inputs, "2025-08-01", log)
+    x = read_prices(inputs, min("2025-08-01", f"{MONTHS_FROM}-01"), log)   # wip/alt-compare-2: from the first monthly window
     x = x[~x["table"].isin(internal)]
     end_month = a.end or last_whole_month(x[x["table"] == "iso_hub_prices_history"], hidden)
     rows, view, held_not_shown, windows = build(x, inputs, end_month, hidden, log)
@@ -304,7 +316,8 @@ def main(argv=None):
         with open(SITE_FILE, "w", encoding="utf-8", newline="\n") as f:
             json.dump(dict(table=NAME, built=retrieved, end_month=end_month, windows={k: {"start": v[0], "end": v[1], "freq": v[2]} for k, v in windows.items()},
                            near_hours=NEAR_HOURS, near_days=NEAR_DAYS, high=HIGH, year=view["year"], month=view["month"], held_not_shown=held_not_shown,
-                           internal_tables=internal, not_held=["PJM"]), f, separators=(",", ":"))
+                           internal_tables=internal, not_held=["PJM"],
+                           months={k[2:]: v for k, v in view.items() if k.startswith("m:")}), f, separators=(",", ":"))   # months: wip/alt-compare-2
     log.close()
     print(f"{NAME}: {len(out):,} rows; twelve months to {end_month}: {len(view['year'])} hubs; the month {end_month}: {len(view['month'])} hubs and zones; "
           f"held, not shown: {len(held_not_shown)}" + ("; the site's copy written" if a.snapshot else "") + (f" (trial, under {a.out_dir}; inputs read from {inputs})" if a.out_dir else ""))

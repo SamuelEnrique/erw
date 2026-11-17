@@ -14,6 +14,8 @@ export type Hidden = { entity: string; grid: string; node: string; reason: strin
 export type CompareFile = {
   table: string; built: string; end_month: string; windows: Record<"year" | "month", { start: string; end: string; freq: string }>;
   near_hours: number; near_days: number; high: number; year: Row[]; month: Row[]; held_not_shown: Hidden[]; internal_tables: string[]; not_held: string[];
+  /** ruling alternative 2 (wip/alt-compare-2): each month's rows from MONTHS_FROM (absent from main's file) */
+  months?: Record<string, Row[]>;
 };
 
 export const PERIODS = ["year", "month"] as const;
@@ -123,3 +125,28 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 export const monthName = (m: string) => `${MONTHS[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`;
 /** The window in words: "the twelve months to September 2026" or "September 2026". */
 export const periodName = (f: CompareFile, p: Period) => (p === "year" ? `the twelve months to ${monthName(f.end_month)}` : monthName(f.end_month));
+
+/** Ruling alternative 2 (session 7724, branch wip/alt-compare-2; not a default on main): any run of months the reader
+ *  chooses, from the site copy's monthly rows. A hub is given only when every month of the run holds it in the market;
+ *  the mean price and the two shares of hours are weighted by each month's hours held (so they are the run's own, as
+ *  if computed over its hours), the carbon intensity by each month's days held. On main the page has two windows. */
+export type AnyMonths = { entity: string; grid: string; node: string; months: number; hours: number; avg: number; neg: number; high: number; carbon: number | null };
+export function anyMonths(months: Record<string, Row[]>, from: string, to: string, market: "dam" | "rtm"): AnyMonths[] {
+  const run = Object.keys(months).filter((m) => m >= from && m <= to).sort();
+  if (!run.length) return [];
+  const by = new Map<string, Row[]>();
+  for (const m of run) for (const r of months[m]) (by.get(r.entity) ?? by.set(r.entity, []).get(r.entity)!).push(r);
+  const out: AnyMonths[] = [];
+  for (const [entity, rs] of by) {
+    const ok = rs.filter((r) => r[`${market}_avg_price`] !== undefined && (r[`${market}_hours_held`] ?? 0) > 0);
+    if (ok.length !== run.length) continue;
+    const h = (r: Row) => r[`${market}_hours_held`] as number;
+    const hours = ok.reduce((a, r) => a + h(r), 0);
+    const w = (f: "avg_price" | "negative_hours_share_pct" | "above_200_hours_share_pct") => ok.reduce((a, r) => a + (r[`${market}_${f}`] as number ?? 0) * h(r), 0) / hours;
+    const c = ok.filter((r) => r.grid_carbon_intensity !== undefined && r.grid_carbon_days_held > 0);
+    const cd = c.reduce((a, r) => a + r.grid_carbon_days_held, 0);
+    out.push({ entity, grid: ok[0].grid, node: ok[0].node, months: ok.length, hours, avg: w("avg_price"), neg: w("negative_hours_share_pct"), high: w("above_200_hours_share_pct"),
+      carbon: c.length === run.length && cd ? c.reduce((a, r) => a + (r.grid_carbon_intensity as number) * r.grid_carbon_days_held, 0) / cd : null });
+  }
+  return out.sort((a, b) => a.avg - b.avg || a.entity.localeCompare(b.entity));
+}

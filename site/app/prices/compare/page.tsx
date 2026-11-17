@@ -6,7 +6,7 @@ import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, 
 import fileJson from "@/data/price_compare.json";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { COMPARE_DECISIONS } from "@/lib/decisions";
-import { MARKETS, MEASURES, NAME_WORDS, TABLE, choices, heldGrids, hold, href, label, lacking, monthName, ordered, pairOf, periodName, two, valueOf, type CompareFile, type HeldRow, type Row } from "@/lib/pricecompare";
+import { MARKETS, MEASURES, NAME_WORDS, TABLE, anyMonths, choices, heldGrids, hold, href, label, lacking, monthName, ordered, pairOf, periodName, two, valueOf, type CompareFile, type HeldRow, type Row } from "@/lib/pricecompare";
 import { LICENSE_FROM, LICENSE_TITLE_SUFFIX, licenseHeldRow, licensePublishers, licenseTitle } from "@/lib/license";
 
 // Session 96: "Where power is cheap", in review (lib/release.ts), in the battery page's layout: every public hub and
@@ -239,6 +239,29 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               </ToolSection>
             </>
           )}
+
+          {/* ruling alternative 2 (wip/alt-compare-2, not a default on main): any run of months, from the copy's monthly rows */}
+          {file.months && Object.keys(file.months).length ? (() => {
+            const ms = Object.keys(file.months).sort();
+            const from = q.from && ms.includes(q.from) ? q.from : ms[Math.max(0, ms.length - 12)], to = q.to && ms.includes(q.to) && q.to >= from ? q.to : ms[ms.length - 1];
+            const list = anyMonths(file.months, from, to, c.market as "dam" | "rtm");
+            return (
+              <ToolSection title="Any months" id="months" note={<span title={`Each hub over the months chosen, its mean price and its shares of hours weighted by each month's hours held, the carbon intensity by each month's days; a hub missing a month of the run in this market is not listed. Default on the site: the two windows above only. Source: ${TABLE}, by month.`}>{monthName(from)} to {monthName(to)}, {MARKETS.find((m) => m.slug === c.market)!.name.toLowerCase()}.</span>}>
+                <form method="get" action="/prices/compare#months" className="mb-3 flex flex-wrap gap-2 text-sm">
+                  <input type="hidden" name="market" value={c.market} />
+                  {(["from", "to"] as const).map((k) => (
+                    <label key={k}>{k === "from" ? "From" : "To"}{" "}
+                      <select name={k} defaultValue={k === "from" ? from : to} className="border border-rule bg-white px-2 py-1">{ms.map((m) => <option key={m} value={m}>{monthName(m)}</option>)}</select>
+                    </label>
+                  ))}
+                  <button type="submit" className="border border-rule bg-white px-2 py-1">Show</button>
+                </form>
+                <ToolTable minWidth={620} caption={`Hubs and zones, ${monthName(from)} to ${monthName(to)}`}
+                  head={["Hub or zone", "Mean price, USD/MWh", "Hours below zero, percent", "Hours above USD 200, percent", "Grid carbon", "Hours held"]}
+                  rows={list.map((r) => ({ key: r.entity, cells: [label(r), <span key="a" data-months-avg={r.entity}>{two(r.avg)}</span>, two(r.neg), two(r.high), r.carbon === null ? NOT : two(r.carbon), r.hours.toLocaleString("en-US")] }))} />
+              </ToolSection>
+            );
+          })() : null}
 
           <ToolSection title="Held, not shown" id="held"
             note={<>A price the warehouse holds but whose publisher&apos;s terms do not allow a figure to be derived from it and published is named here and carries no number. A license, or the publisher&apos;s word, is needed.</>}>
