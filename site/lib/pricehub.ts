@@ -61,6 +61,21 @@ export const variableWords = (v: string) => VARIABLE_WORDS[v] ?? v;
 
 /** Session 7539 (the read, rows 2 and 5): an interval's start in UTC and in the grid's own clock, for a hover. */
 const ZONE: Record<string, string> = { ERCOT: "America/Chicago", SPP: "America/Chicago", MISO: "America/Chicago", CAISO: "America/Los_Angeles", NYISO: "America/New_York", "ISO-NE": "America/New_York" };
+/** Ruling alternative 2 of /prices (session 7723, branch wip/alt-prices-2; not a default on main): a calendar month's line
+ *  under the rolling 30 days, from hub_price_comparison's monthly row (freq P1M: its newest whole month), so the month can
+ *  be read whole although the live set keeps about 35 days of the hourly tables. Null when the table holds no month for
+ *  the hub. On main the month is on /prices/compare only. */
+export const MONTH_TABLE = "hub_price_comparison";
+export type MonthLine = { month: string; rt: number | null; da: number | null; rtHours: number | null; daHours: number | null; rtDue: number | null; daDue: number | null };
+export function monthLine(rows: SeriesRow[]): MonthLine | null {
+  const m = rows.filter((r) => r.freq === "P1M");
+  if (!m.length) return null;
+  const month = m.map((r) => r.ts_utc).sort().at(-1)!;
+  const v = (name: string) => m.find((r) => r.ts_utc === month && r.variable === name)?.value ?? null;
+  const out = { month: month.slice(0, 7), rt: v("rtm_avg_price"), da: v("dam_avg_price"), rtHours: v("rtm_hours_held"), daHours: v("dam_hours_held"), rtDue: v("rtm_hours_in_window"), daDue: v("dam_hours_in_window") };
+  return out.rt === null && out.da === null ? null : out;
+}
+
 export function whenWords(ts: string, iso: string): string {
   const z = ZONE[iso];
   const local = z ? new Date(ts).toLocaleString("en-US", { timeZone: z, year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZoneName: "short" }) : "";

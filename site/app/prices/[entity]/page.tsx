@@ -9,7 +9,7 @@ import { Num } from "@/components/Num";
 import { MARKETS, daysAgo, latestPrices, series, type SeriesRow } from "@/lib/data";
 import { count, node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
-import { heldOf, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
+import { MONTH_TABLE, heldOf, monthLine, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
 import { label } from "@/lib/pricecompare";
 
 export const revalidate = 3600;
@@ -47,10 +47,11 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   if (!m || !/^[a-z]+:[\w .\-]+$/.test(entity)) notFound();
 
   const since = daysAgo(30);
-  const [rt, da, latest] = await Promise.all([
+  const [rt, da, latest, monthRead] = await Promise.all([
     m.rt ? attempt(() => series(m.rt!.table, { entity, variable: m.rt!.variable, since })) : Promise.resolve(null),
     attempt(() => series(m.da.table, { entity, variable: m.da.variable, since })),
     attempt(latestPrices),
+    attempt(() => series(MONTH_TABLE, { entity })),   // wip/alt-prices-2: the hub's newest whole month
   ]);
   const rtRows = rt && rt.ok ? rt.data : [];
   const daRows = da.ok ? da.data : [];
@@ -69,6 +70,7 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   // session 7539 (the read, row 5): real time less day-ahead over the hours both hold
   const dart = m.rt ? realLessDayAhead(rtRows, daRows, m.rt.freq) : null;
   const name = label({ entity, grid: m.iso, node: node(entity) });
+  const month = monthRead.ok ? monthLine(monthRead.data) : null;   // wip/alt-prices-2
 
   return (
     <Brand>
@@ -157,6 +159,17 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
                 <td className="py-1 pr-4 text-xs">{utc(dart.last)}</td>
               </tr>
             ) : null}
+            {/* ruling alternative 2 (wip/alt-prices-2, not a default on main): the newest whole calendar month, from the monthly table */}
+            {month ? ([["Real time", month.rt, month.rtHours, month.rtDue], ["Day-ahead", month.da, month.daHours, month.daDue]] as const).map(([market, v, held, due]) => v === null ? null : (
+              <tr key={`month-${market}`} className="border-b border-rule/60" data-month={`${market}|${month.month}`}>
+                <td className="py-1 pr-4"><span title={`The mean of every hour of ${month.month}, as ${MONTH_TABLE} holds it (the month whole: the rolling window above is about 35 days of the hourly tables). Default on the site: the rolling 30 days only; months on /prices/compare.`}>{market}, {month.month}</span></td>
+                <td className="py-1 pr-4 font-mono text-xs">{MONTH_TABLE}</td>
+                <td className="py-1 pr-4 text-right tabular-nums">{held !== null ? count(held) : ""}{held !== null && due !== null && held !== due ? <> of {count(due)}</> : null}</td>
+                <td className="py-1 pr-4" />
+                <td className="py-1 pr-4 text-right tabular-nums" data-month-mean={`${market}|${month.month}`}>{price(v)}</td>
+                <td className="py-1 pr-4" colSpan={3} />
+              </tr>
+            )) : null}
           </tbody>
         </table>
         <p className="mt-1 text-xs text-muted">Min, mean and max of every interval in the window, USD/MWh, computed on this page from the rows charted above.</p>
