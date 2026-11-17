@@ -16,7 +16,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { Workbench } from "@/components/board/Workbench";
 import { GroupFold, NumberTile, NumberTileGrid } from "@/components/tool/ToolPage";
 import {
-  FREQ_WORDS, MOVES, PLACEHOLDER, THRESHOLDS, windowWords, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, gridExtremesWords, headDate, weekStale, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
+  FREQ_WORDS, MOVES, PLACEHOLDER, THRESHOLDS, windowWords, windowsShown, benchOf, benchQuery, closeAge, dateWords, extremeWords, fmt, gridExtremes, gridExtremesWords, headDate, weekStale, heldLines, heldNote, inputsWords, leadRow, nameTitle, noMove, pct, rangeExtremes, rowsOf, shortDate, shownMove, signed, sparkOf, topRows,
   type Bench, type BoardFile, type Group, type MoveKey, type Row, type WeekRow,
 } from "@/lib/board";
 
@@ -199,6 +199,8 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
   const last = row.last!;
   // session 1116: the close's age in its tip, and "stale" past the method's threshold (lib/board.ts, closeAge)
   const age = closeAge(row, file.built);
+  // ruling alternative 2 (wip/alt-board-2, not a default on main): a stale row blanks its two averages and its 30-day low to high
+  const staleCell = <span className="text-xs text-muted" title={`Not shown: the series is stale (${age?.words ?? ""}).`} data-stale-window={row.id}>stale</span>;
   return (
     <tr className={`cursor-pointer border-b border-rule/70 hover:bg-paper ${open ? "bg-paper outline outline-1 -outline-offset-1 outline-accent" : ""}`} data-row={row.id}
       onClick={() => onOpen(row.id)}>
@@ -210,12 +212,12 @@ function PriceRow({ row, group, open, onOpen, file, hidden, domId }: { row: Row;
         {age?.stale ? <span className="ml-1 border border-accent px-0.5 text-xs text-accent">stale</span> : null}
       </td>
       {MOVES.map(([k]) => <td key={k} className="py-1 pr-3 text-right text-xs"><MoveCell row={row} k={k} built={file.built} /></td>)}
-      <td className="py-1 pr-3 text-right text-xs">{row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
-      <td className="py-1 pr-3 text-right text-xs">{row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
+      <td className="py-1 pr-3 text-right text-xs">{!windowsShown(row, file.built) && row.avg7 ? staleCell : row.avg7 ? <span title={`the mean of the ${row.avg7.n} values held in the 7 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg7`}>{fmt(row.avg7.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 7-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
+      <td className="py-1 pr-3 text-right text-xs">{!windowsShown(row, file.built) && row.avg30 ? staleCell : row.avg30 ? <span title={`the mean of the ${row.avg30.n} values held in the 30 days to ${dateWords(last.t)}`} data-n={`${row.id}|avg30`}>{fmt(row.avg30.v, row.unit)}</span> : <span className="text-xs text-muted" title={`A ${FREQ_WORDS[row.freq]} series has no 30-day mean.`}>{FREQ_WORDS[row.freq]}</span>}</td>
       <td className="whitespace-nowrap py-1 pr-3 text-right text-xs"><Avg365Cell row={row} built={file.built} /></td>
       {/* session 1883 (audit row 43): a row with no 30-day low and high says its step, as the 7-day cell does; the cell was
           empty on every weekly, monthly and quarterly row, and its column collapsed with its header in five lines */}
-      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span> : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
+      <td className="whitespace-nowrap py-1 pr-3 text-right text-xs text-muted">{row.lo30 !== undefined ? (!windowsShown(row, file.built) ? staleCell : <span title="the lowest and highest value of the last 30 days">{fmt(row.lo30, row.unit)} to {fmt(row.hi30!, row.unit)}</span>) : row.freq && row.freq !== "D" ? <span title={`A ${FREQ_WORDS[row.freq]} series has no 30-day low and high.`} data-lo30-step={row.id}>{FREQ_WORDS[row.freq]}</span> : <span title="The last 30 days' lowest and highest values are not held for this row.">not held yet</span>}</td>
       <td className="py-0.5 pr-3 text-right" onClick={(e) => e.stopPropagation()}><Spark row={row} /></td>
       <td className="py-1 pr-2 text-right"><RangeBar row={row} /></td>
       {group.curve ? <td className="py-1 pr-2 text-left"><Curve row={row} /></td> : null}

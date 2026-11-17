@@ -82,6 +82,13 @@ export const FREQ_WORDS: Record<string, string> = { D: "daily", W: "weekly", M: 
 export const noMove = (freq: string, k: string) => (freq === "W" && k === "d") || (freq === "M" && (k === "d" || k === "w")) || (freq === "Q" && k !== "y" && k !== "ytd");
 /** Session 1608 (the chain's rule: a move on a stale series is blank, with its status): the move a row shows, null when the
  *  row is stale on the day the board was built or the move is not held. Pure; the page and scripts/check-board.mjs share it. */
+/** Ruling alternative 2 of /board (session 7722, branch wip/alt-board-2; not a default on main): a stale row blanks its
+ *  7-day and 30-day averages and its 30-day low to high too, as its moves and its 12-month average are blanked. Whether
+ *  those windows are drawn: false on a stale row. On main they are drawn, each stating its days on hover. */
+export function windowsShown(row: Row, built: string): boolean {
+  return !closeAge(row, built)?.stale;
+}
+
 export function shownMove(row: Row, k: MoveKey, built: string): Move | null {
   if (closeAge(row, built)?.stale) return null;
   return row.moves?.[k] ?? null;
