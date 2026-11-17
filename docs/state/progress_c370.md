@@ -37,6 +37,8 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 
 ## For Samuel's ruling
 
+- Request 182: build `site/data/curtailment/ercot.json` on the data machine too (after `dm_sync`), so it and `worth.json` read one span? Default: no; session 149's rule and test keep it on the runner. (7051)
+
 - Request 143: write SPP's CO2 generated (and so its intensity of generation) on days EIA leaves the consumed side blank? Default: no (session 6's ruling a stands); SPP's twelve months read "not held". (7051)
 
 ## Decisions made without you
