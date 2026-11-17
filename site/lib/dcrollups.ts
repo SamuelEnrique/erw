@@ -30,7 +30,9 @@ const STATE_GRID: Record<string, string> = {
 export const gridOf = (r: FacRow): string => r.extra?.grid || STATE_GRID[(r.extra?.state ?? "").toUpperCase()] || "";
 export const gridBasisOf = (r: FacRow): string =>
   r.extra?.grid ? (r.extra?.grid_basis ?? "") : STATE_GRID[(r.extra?.state ?? "").toUpperCase()] ? "state" : "";
-export const operatorOf = (r: FacRow): string => r.operator ?? "";
+// session 7628, the other choice of the ruling on the views by operator (wip/alt-datacenters-2, not landed): a facility
+// with no operator named is counted under its developer, "operator or developer", as the warehouse's rollup table does
+export const operatorOf = (r: FacRow): string => (r.operator ?? "").trim() || (r.extra?.developer ?? "").trim();
 
 /** The rollup of one dimension, the largest MW first, "" (none) last. */
 export function rollups(rows: FacRow[], dim: "grid" | "operator"): Rollup[] {
