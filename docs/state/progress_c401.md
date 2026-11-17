@@ -37,7 +37,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 303 | `wip/alt-battery-awards-4` | 100.0 | seen: battery-awards-4-1280.png with production's -default-1280 twins | 7800 |
 | B | 304 | `wip/alt-impact-5` | 100.0 | seen: impact-5-1280.png, impact-5-table-1280.png with production's -default-1280 twins | 7800 |
 | B | 305 | `wip/alt-impact-6` | 100.0 | seen: impact-6-1280.png, impact-6-california-wind-1280.png with production's -default-1280 twins | 7800 |
-| B | 306 | `wip/alt-impact-7` | 100.0 | wanted | |
+| B | 306 | `wip/alt-impact-7` | 100.0 | seen: impact-7-1280.png, impact-7-table-1280.png with production's -default-1280 twins | 7800 |
 | B | 308 | `wip/alt-site-ask-1` | 100.0 | wanted | |
 | B | 317 | `wip/alt-demand-growth-2` | 100.0 | wanted | |
 | B | 319 | `wip/alt-site-ask-2` | 100.0 | wanted | |
