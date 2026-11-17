@@ -159,3 +159,8 @@ export function gridWeather(rows: { ts_utc: string; value: number; variable: str
   for (const [d, a] of acc) if (a.h.length && a.c.length) out.set(d, { hdd: mean(a.h), cdd: mean(a.c) });
   return out;
 }
+/** Ruling alternative 4 of /events (session 7712, branch wip/alt-events-4; not a default on main): the 15-minute intervals
+ *  of 15 to 19 February 2021 (UTC days) in which HB_HUBAVG's real-time price stood at or above USD 8,900 per MWh, counted in
+ *  ercot_all_hub_prices_history (spp_rtm), which the site's database does not hold; tests/test_alt_events_4.py counts them
+ *  again in that table. The cap itself (USD 9,000) is in a document the warehouse does not hold, so it is not stated. */
+export const URI_NEAR_CAP = { threshold: 8900, intervals: 345, hours: 86.25, byDay: { "2021-02-15": 15, "2021-02-16": 80, "2021-02-17": 94, "2021-02-18": 96, "2021-02-19": 60 } as Record<string, number> };

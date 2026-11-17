@@ -13,6 +13,9 @@ import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
+import { Tip } from "@/components/tool/ToolPage";   // wip/alt-events-4
+import { URI_NEAR_CAP } from "@/lib/eventstudy";   // wip/alt-events-4
+
 
 // Session 36B: Historical Event Analyzer v0, Winter Storm Uri in ERCOT. Every number is a row of event_window_daily
 // (derived: docs/methods/events.md), which holds ERCOT's operating days 2021-02-07 to 2021-02-24 and the same calendar
@@ -97,6 +100,14 @@ export default async function Uri() {
             <p className="mt-1 text-sm">
               Highest 15-minute real-time price: <N r={rtPeak} /> USD/MWh on {day(rtPeak)}; the highest on the same days of 2019 and 2020 was{" "}
               <N r={rtBase} /> USD/MWh ({day(rtBase)}).
+            </p>
+            {/* ruling alternative 4 (wip/alt-events-4, not a default on main): one sentence on the price held near its ceiling */}
+            <p className="mt-1 text-sm" data-uri-near-cap={URI_NEAR_CAP.intervals}>
+              The hub average stood at or above USD {URI_NEAR_CAP.threshold.toLocaleString("en-US")} per MWh in {URI_NEAR_CAP.intervals} fifteen-minute intervals, about{" "}
+              {Math.round(URI_NEAR_CAP.hours)} hours, from 15 to 19 February<Tip id="uri-near-cap" label="the intervals near the ceiling"><span data-uri-near-cap-tip="1">Counted in
+              ercot_all_hub_prices_history, ERCOT&apos;s 15-minute real-time settlement point price at HB_HUBAVG, by UTC day: {Object.entries(URI_NEAR_CAP.byDay).map(([d, n]) => `${d.slice(8)} February ${n}`).join(", ")}.
+              Why the price stood there, ERCOT&apos;s offer cap, is set in a document the warehouse does not hold, so the cap&apos;s figure is not given here.
+              Default on the site: no such sentence. Source: ERCOT, real-time settlement point prices, as the warehouse holds them.</span></Tip>.
             </p>
             <Cite tables={[T]} note="Daily mean of ERCOT's 15-minute real-time settlement point price at the hub average (HB_HUBAVG), from ercot_all_hub_prices_history" />
           </Section>
