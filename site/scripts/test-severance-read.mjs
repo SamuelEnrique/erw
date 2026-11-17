@@ -93,7 +93,8 @@ ok(words(jal).includes("$267,933.75") && words(jal).includes("$23,112.77"), "cas
 const none = calc({ state: "NM", product: "oil", volume: 3000, price: 102.07, royaltyPct: 12.5 });
 const [tr, cells] = line(none, "nm_adval");
 ok(tr.includes('data-left-out="1"') && words(cells).includes("no district chosen: left out of the total (0.7105% to 1.7249% by district) left out") && !cells.includes("$0.00") && !words(cells).includes(", 0%"), "row 6: with no district the ad valorem line says left out, with the districts' range, not 0% and $0.00");
-ok(words(none).includes("Tax at the base rate $19,130.47"), "row 6: the total is the other three taxes, $19,130.47, as before");
+// ruling alternative 2 (wip/alt-severance-2, not a default on main): a hover now stands between the row's name and its figure
+ok(/Tax at the base rate i .*Source: Texas Comptroller[^$]* \$19,130\.47/.test(words(none)), "row 6: the total is the other three taxes, $19,130.47, as before (the collections hover between the name and the figure)");
 ok(!line(jal, "nm_adval")[0].includes("data-left-out"), "row 6: a district chosen draws its rate and its tax");
 const nmLease = lease(file([{ state: "NM", well_id: "JAL", month: "2026-10", oil_bbl: 3000, nm_district: "2541", royalty_pct: 12.5 }]));
 ok(words(nmLease).includes("$23,112.77") && /data-fees-held="0"/.test(nmLease) && words((nmLease.match(/<div[^>]*data-lease-card="3"[^>]*>([\s\S]*?)<\/div><\/div>/) ?? ["", ""])[1]).includes("not held"), "row 8: a New Mexico file's fees card reads not held; the Lease tab's tax is the calculator's, $23,112.77");

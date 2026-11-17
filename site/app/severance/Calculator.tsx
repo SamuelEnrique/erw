@@ -4,6 +4,14 @@
 import { useMemo, useState } from "react";
 import { Tip } from "@/components/tool/ToolPage";
 import { compute, type Input, type Option, type Rules } from "@/lib/severance";
+import collections from "@/data/severance_collections.json";
+
+// ruling alternative 2 (wip/alt-severance-2, not a default on main): the base rate read as a state's collections, said
+// on the page by a hover, with the Texas Comptroller's figures (data/severance_collections.json, from the replication)
+const whole = (v: number) => `$${v.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+const above = (ours: number, theirs: number) => ((ours / theirs - 1) * 100).toFixed(1);
+const DEFAULT_PRICE = collections.texas_oil.filter((r) => r.price.startsWith("WTI"));
+const FIRST_PURCHASE = collections.texas_oil.filter((r) => !r.price.startsWith("WTI"));
 
 const usd = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const pct = (r: number) => `${(r * 100).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
@@ -194,7 +202,13 @@ export function Calculator({ rules, prices }: { rules: Rules; prices: { oil: num
                     </tr>
                   );
                 })}
-                <tr className="border-t border-ink font-semibold"><td className="py-1">Tax at the base rate</td><td className="text-right font-mono">{usd(r.baseTotal)}</td><td /></tr>
+                <tr className="border-t border-ink font-semibold"><td className="py-1">Tax at the base rate
+                  <Tip id="sev-base-collections" label="the tax at the base rate and what a state collects">
+                    <span className="block">The base rate on a hub price is a ceiling, not what a state collects. For all of Texas&apos;s oil, 4.6 percent of EIA&apos;s production at this tool&apos;s default price (WTI Cushing monthly means) is {DEFAULT_PRICE.map((r) => `${whole(r.ours_usd)} for fiscal ${r.fiscal_year} against ${whole(r.collected_usd)} collected (${above(r.ours_usd, r.collected_usd)} percent above)`).join(", and ")}. At EIA&apos;s Texas first purchase price: {FIRST_PURCHASE.map((r) => `${above(r.ours_usd, r.collected_usd)} percent above for fiscal ${r.fiscal_year}`).join(" and ")}.</span>
+                    <span className="block">Not measured here: {collections.not_measured}.</span>
+                    <span className="block">Default on the site: said in the method note only. Source: {collections.source}.</span>
+                  </Tip>
+                </td><td className="text-right font-mono">{usd(r.baseTotal)}</td><td /></tr>
                 {r.applied.map((a) => (
                   <tr key={a.id}><td className="py-1 text-muted">{a.name}: {a.effect}</td><td /><td className="pl-2"><Cite id={a.cite} /></td></tr>
                 ))}
