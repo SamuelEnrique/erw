@@ -50,9 +50,10 @@ export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
     def: "Decided by the two rates typed. With one price for every hour it never pays.",
     source: "Arithmetic, stated in the method note. Austin Energy's secondary voltage rates of October 1, 2026 have one price for every hour." },
   { key: "twelve-months",
-    text: "The year is the month typed, twelve times. A tariff with seasons has a different month in each: type each season's rates in turn and add the months yourself.",
-    def: "Twelve months alike.",
-    source: "A choice of session 88. Salt River Project's E-32 prices two summer peak months, four summer months and six winter months; on the replication's case, twelve of its July are 52 percent more than the year added by season." },
+    // ruling alternative 2 (wip/alt-battery-customer-2, not a default on main): the year by the plan's own seasons
+    text: "The year is the sum over your plan's seasons: type up to two other seasons under the fields, each its months and its three rates; the rates in the fields hold for the months left. With no other season typed it is the month twelve times.",
+    def: "Twelve months alike until another season is typed (on the site: twelve months alike, no season to type).",
+    source: "A choice of session 88, and the ruling's other choice. Salt River Project's E-32 prices two summer peak months, four summer months and six winter months; on the replication's case, twelve of its July are 52 percent more than the year added by season." },
   { key: "bill-only",
     text: "The saving is the saving on the bill. The battery's price, its upkeep and its wear are not counted, nor taxes, riders, fixed charges, solar on the same meter or a utility program's payment.",
     def: "Left out.",

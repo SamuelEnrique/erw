@@ -128,3 +128,33 @@ export function range(f: Field): string {
 export function inDollars(f: Field): string {
   return f.unit === "USD per kWh" ? " The rate is typed in dollars: 12 cents is 0.12." : "";
 }
+
+// Ruling alternative 2 of /battery/customer (session 7704, branch wip/alt-battery-customer-2; not a default on main):
+// "Saved a year" by the plan's own seasons. A tariff with seasons (Salt River Project E-32: 2 summer peak months, 4
+// summer, 6 winter) charges a different demand charge and different energy rates in each; twelve of one month's saving
+// is then not the year. The reader may type up to two more seasons, each its months and its three rates; the rates in
+// the fields above hold for the months left. With no other season typed the year is twelve of the month, as on main.
+export type Season = { months: number; demandCharge: number; peakRate: number; offPeakRate: number };
+/** The fields of one more season: its months, then the three rates of the fields above with their limits. */
+export const SEASON_FIELDS: Field[] = [
+  { key: "days", label: "Months of this season", unit: "months",   // key: a Field needs one; the season's inputs are named by their place, not by it
+    hint: "How many months of the year these rates hold.", min: 1, max: 11 },
+  ...FIELDS.filter((f) => f.key === "demandCharge" || f.key === "peakRate" || f.key === "offPeakRate"),
+];
+/** One more season read from its four typed values: the season, "empty" when nothing is typed, or null when it is typed
+ * only in part or a value cannot be read (never a guess). */
+export function readSeason(text: string[]): Season | "empty" | null {
+  if (text.every((t) => t.trim() === "")) return "empty";
+  const v = SEASON_FIELDS.map((f, i) => read(text[i] ?? "", f));
+  if (v.some((n) => n === null)) return null;
+  return { months: v[0] as number, demandCharge: v[1] as number, peakRate: v[2] as number, offPeakRate: v[3] as number };
+}
+/** The year by seasons: the months left at the fields' own rates, and each season's months at its own. Null when the
+ * seasons typed take twelve months or more (no month is left for the rates above). */
+export function yearBySeasons(x: Inputs, seasons: Season[]): { year: number; firstMonths: number; parts: { months: number; month: number }[] } | null {
+  const taken = seasons.reduce((a, s) => a + s.months, 0);
+  if (taken >= 12) return null;
+  const parts = [{ months: 12 - taken, month: saving(x).monthSaved },
+    ...seasons.map((s) => ({ months: s.months, month: saving({ ...x, demandCharge: s.demandCharge, peakRate: s.peakRate, offPeakRate: s.offPeakRate }).monthSaved }))];
+  return { year: parts.reduce((a, p) => a + p.months * p.month, 0), firstMonths: 12 - taken, parts };
+}

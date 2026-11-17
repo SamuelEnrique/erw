@@ -6,16 +6,23 @@
 // Session 7504: a typed number is printed back as typed (typed, rate), and a refused one is told its range in words.
 import { useState } from "react";
 // Session 7513: a refused rate is told that the field takes dollars (inDollars), not its range alone.
-import { FIELDS, inDollars, qty, range, rate, readAll, saving, typed, usd } from "@/lib/customerbattery";
+import { FIELDS, SEASON_FIELDS, inDollars, qty, range, rate, readAll, readSeason, saving, typed, usd, yearBySeasons, type Season } from "@/lib/customerbattery";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
 export function Calc() {
   const [text, setText] = useState<Record<string, string>>(() => Object.fromEntries(FIELDS.map((f) => [f.key, f.start ?? ""])));
+  // ruling alternative 2 (wip/alt-battery-customer-2, not a default on main): up to two more seasons, four values each
+  const [seasons, setSeasons] = useState<string[][]>(() => [["", "", "", ""], ["", "", "", ""]]);
   const r = readAll(text);
   const s = r.ok ? saving(r.x) : null;
   const x = r.ok ? r.x : null;
   const bad = (k: string) => !r.ok && r.missing.includes(k) && text[k].trim() !== "";
+  const read = seasons.map((t) => readSeason(t));
+  const whole = read.filter((v): v is Season => v !== "empty" && v !== null);
+  const partly = read.findIndex((v) => v === null);
+  const by = x && whole.length && partly < 0 ? yearBySeasons(x, whole) : null;
+  const year = s ? (by ? by.year : s.yearSaved) : 0;
   return (
     <div className="grid gap-8 lg:grid-cols-[300px_minmax(0,1fr)]">
       <aside>
@@ -36,6 +43,23 @@ export function Calc() {
             ))}
           </div>
         </section>
+        <section className="mb-4 bg-paper px-4 py-4" aria-label="Other seasons" data-seasons="1">
+          <h2 className="mb-1 font-serif text-lg text-accent">Other seasons</h2>
+          <p className="mb-3 text-xs text-muted">If your plan charges other rates in some months, type each season&apos;s months and rates. The rates above hold for the months left.</p>
+          {seasons.map((t, i) => (
+            <fieldset key={i} className="mb-3 space-y-2 text-sm" data-season={i + 1}>
+              <legend className="font-semibold">Season {i + 2}</legend>
+              {SEASON_FIELDS.map((f, j) => (
+                <label key={j} className="block">
+                  <span>{f.label}</span> <span className="text-xs text-muted">{f.unit}</span>
+                  <input type="text" inputMode="decimal" autoComplete="off" name={`season${i + 2}-${j}`} data-season-field={`${i + 1}-${j}`} value={t[j]} className={field}
+                    onChange={(e) => setSeasons((all) => all.map((row, a) => (a === i ? row.map((v, b) => (b === j ? e.target.value : v)) : row)))} />
+                </label>
+              ))}
+              {read[i] === null ? <span className="block text-xs text-accent" data-season-bad={i + 1}>Season {i + 2} is not whole: every value is needed ({range(SEASON_FIELDS[0])} months; rates as above).</span> : null}
+            </fieldset>
+          ))}
+        </section>
       </aside>
 
       <div className="min-w-0" aria-live="polite">
@@ -47,14 +71,16 @@ export function Calc() {
           <>
             <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-result="summary">
               On your numbers, a {typed(x.batteryKw)} kW battery holding {typed(x.batteryKwh)} kWh ({qty(s.hours, 1)} hours) lowers the bill by{" "}
-              <span data-n="month">{usd(s.monthSaved)}</span> a month, <span data-n="year">{usd(s.yearSaved)}</span> a year:{" "}
+              <span data-n="month">{usd(s.monthSaved)}</span> a month, <span data-n="year">{usd(year)}</span> a year{by ? " by your seasons" : ""}:{" "}
               <span data-n="demand">{usd(s.demandSaved)}</span> a month from a lower peak and <span data-n="energy">{usd(s.energySaved)}</span> a month from moving energy.
             </p>
             <div className="mb-10 grid gap-6 sm:grid-cols-3">
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">Saved a year</div>
-                <div className="font-serif text-3xl">{usd(s.yearSaved)}</div>
-                <div className="text-xs text-muted">{usd(s.monthSaved)} a month, twelve months alike.</div>
+                <div className="font-serif text-3xl" data-n="year-tile">{usd(year)}</div>
+                <div className="text-xs text-muted" data-year-by={by ? "seasons" : "twelve"}>{by
+                  ? by.parts.map((p, i) => `${p.months} ${p.months === 1 ? "month" : "months"} at ${usd(p.month)}`).join(", ") + "."
+                  : `${usd(s.monthSaved)} a month, twelve months alike.`}{partly >= 0 ? ` Season ${partly + 2} is not whole, so it is not counted.` : ""}{whole.length && !by && partly < 0 ? " The seasons typed take twelve months or more: none is left for the rates above, so they are not counted." : ""}</div>
               </div>
               <div className="border-t-2 border-accent pt-2">
                 <div className="text-xs uppercase tracking-wide text-muted">From shaving the peak</div>
@@ -88,7 +114,8 @@ export function Calc() {
                       on the way is a cost: {usd(s.energySaved)} a month.</>
                   )}
                 </li>
-                <li><strong>The year</strong> is the month twelve times. It knows no season.</li>
+                <li><strong>The year</strong> {by ? <>is the sum over your seasons: {by.firstMonths} {by.firstMonths === 1 ? "month" : "months"} at the rates above and each other season&apos;s months at its own rates, the same peak, battery and days.</>
+                  : <>is the month twelve times. Type your plan&apos;s other seasons under the fields to count each at its own rates.</>}</li>
               </ul>
             </section>
           </>
