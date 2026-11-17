@@ -54,7 +54,7 @@ class TheFaults(unittest.TestCase):
 
     def test_11_the_table_of_a_and_b_fits_a_phone_and_its_missing_words_are_short(self):
         self.assertIn('sm:table sm:table-fixed" data-compare-table="1"', self.page)
-        self.assertIn('className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}', self.page)
+        self.assertIn('className="grid grid-cols-3 border-b border-rule align-top sm:table-row" data-row={l.key}', self.page)   # grid-cols-3: ruling alternative 26 (wip/alt-impact-26), A, B and B less A on a phone; main: grid-cols-2
         self.assertNotIn("{why ?? \"not held\"}</span>", self.page, "the reason is the hover, not the cell's text")
 
     def test_12_a_charts_words_are_a_tip_not_part_of_its_title(self):

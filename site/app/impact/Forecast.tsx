@@ -237,8 +237,8 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
         <table className="block w-full border-collapse text-left text-sm tabular-nums sm:table sm:table-fixed" data-compare-table="1">
           <caption className="sr-only">Scenarios A and B</caption>
           <thead className="block sm:table-header-group">
-            <tr className="grid grid-cols-2 bg-accent align-top text-white sm:table-row">
-              <th scope="col" className="col-span-2 px-3 py-1.5 font-normal sm:table-cell sm:w-[34%]">Figure</th>
+            <tr className="grid grid-cols-3 bg-accent align-top text-white sm:table-row">
+              <th scope="col" className="col-span-3 px-3 py-1.5 font-normal sm:table-cell sm:w-[30%]">Figure</th>
               {views.map((p) => (
                 <th key={p} scope="col" className="px-3 py-1.5 text-right font-normal sm:table-cell" data-head={p}>
                   <span className="font-semibold">{p.toUpperCase()}</span>
@@ -247,12 +247,16 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
                   <span className="block text-xs opacity-90">rate {plain(x[p].rate)}%, {x[p].start} to {x[p].start + x[p].build + x[p].life - 1}</span>
                 </th>
               ))}
+              {/* ruling alternative 26 (wip/alt-impact-26, not a default on main): a third column, B less A (main: none) */}
+              <th scope="col" className="px-3 py-1.5 text-right font-normal sm:table-cell" data-head="d">
+                <span className="font-semibold">B less A</span><Tip id="l-bless" label="B less A">Each figure of B less the same figure of A, in its own unit; blank where either has no figure. Default on the site: no such column.</Tip>
+              </th>
             </tr>
           </thead>
           <tbody className="block sm:table-row-group">
             {LINES.map((l) => (
-              <tr key={l.key} className="grid grid-cols-2 border-b border-rule align-top sm:table-row" data-row={l.key}>
-                <th scope="row" className="col-span-2 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip}</Tip></th>
+              <tr key={l.key} className="grid grid-cols-3 border-b border-rule align-top sm:table-row" data-row={l.key}>
+                <th scope="row" className="col-span-3 px-3 pb-0 pt-1.5 font-normal sm:table-cell sm:pb-1.5">{l.label}<Tip id={`l-${l.key}`} label={l.label}>{l.tipFor ? `${l.tip} ${l.tipFor(x, P)}` : l.tip}</Tip></th>
                 {views.map((p) => {
                   const res = r[p];
                   const cls = "px-3 py-1.5 text-right sm:table-cell";
@@ -263,6 +267,11 @@ function Compare({ x, r, names, P }: { x: Record<View, Inputs>; r: Record<View, 
                   if (v === null) return <td key={p} className={`${cls} italic text-muted`} data-cell={`${p}|${l.key}`}><span className="cursor-help border-b border-dotted border-muted" title={why ?? "not held"}>{l.key === "sev" && x[p].tech !== "natural_gas" ? "none" : "not held"}</span></td>;
                   return <td key={p} className={cls} data-cell={`${p}|${l.key}`}><Num check={`${inputsKey(x[p])}|${l.figure}`} raw={v}>{displayOf(l.figure, v)}</Num></td>;
                 })}
+                {(() => {
+                  const a = r.a.ok ? stat(r.a, l.figure) : null, b = r.b.ok ? stat(r.b, l.figure) : null;
+                  const d = a === null || b === null ? null : b - a;
+                  return <td className="px-3 py-1.5 text-right sm:table-cell" data-cell={`d|${l.key}`} data-diff={d ?? undefined}>{d === null ? "" : `${d > 0 ? "+" : ""}${displayOf(l.figure, d)}`}</td>;
+                })()}
               </tr>
             ))}
           </tbody>
