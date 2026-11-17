@@ -70,6 +70,33 @@ The first tab draws these at its foot (`site/lib/decisions.ts`, `PRICES_DECISION
 7. MISO is paused since 4 October 2026: its terms forbid automated access, so no request goes to MISO and its rows are those held before the pause, or none. **Default:** No request to MISO; what is held stays. **Source:** MISO's terms of use; docs/methods/miso_pause.md. (session 89)
 8. A hub's or zone's price stands for an average over many points of a grid; the price at one site differs from it by congestion and losses, and no figure of the page is priced at a node. **Default:** Hubs and zones only, never a node. **Source:** The operators' hub and zone definitions; docs/methods/power_prices.md, "The rules". (session 328)
 
+## A hub's page, as read by session 7539 (chain 304, part C)
+
+`/prices/<hub>` draws the hub's last 30 days (real time from the grid's real-time table where `site/data/markets.json`
+names one, day-ahead from its day-ahead table) and a table of the window's min, mean and max. Session 7539's read
+(`docs/reviews/prices-read-2026-11-16.md`) added, all computed on the page from the rows it charts, no figure read from
+anywhere else:
+
+- **Intervals held of those due.** The count of each market is followed by "of N" where N is the number of intervals the
+  span from its first row to its last holds at the table's step (`freq` in `markets.json`: 15 minutes or an hour). The
+  count's hover names the UTC days of the span with no row at all. The mean is of the intervals held.
+- **When the low and the high fell.** The min and max cells say on hover the interval's start in UTC and in the grid's
+  own clock (Central for ERCOT, SPP and MISO; Pacific for CAISO; Eastern for NYISO and ISO-NE). The first such interval
+  where two are equal.
+- **Real time less day-ahead, the hours both hold.** A real-time hour is the mean of its intervals, taken only when every
+  interval of the hour is held (4 at 15 minutes); it less the same hour's day-ahead price, over every hour both hold:
+  hours, min, mean, max. The two markets' means in the rows above are over different hours, so their difference is not
+  this figure (on 16 November 2026 at 23:20 UTC, ERCOT's Hub Average: 0.55 over 607 hours, against -0.01 from the two
+  means).
+- **Words.** The hub by name beside its code ("ERCOT, West hub", the names of `site/lib/pricecompare.ts`), and each
+  variable in words with its code on hover (`site/lib/pricehub.ts`, `VARIABLE_WORDS`).
+- **SPP's real time.** The live set holds SPP's 15-minute real-time hub prices in `iso_rtm_hub_prices` since 24 September
+  2026; `markets.json` names no real-time table for SPP, so the SPP hubs' pages draw none and say why. Whether to name it
+  is the read's ruling (row 14).
+
+On the first tab a grid whose tables are held (NYISO, ISO-NE, and MISO's rows) shows its main hub or zone with each price
+cell "license needed", the publisher's words on hover.
+
 ## What waits for the owner (session 7018)
 
 - PJM's prices (a license), NYISO's and ISO-NE's (the publishers' permission), MISO's (its review): each grid stands as it is until then.
