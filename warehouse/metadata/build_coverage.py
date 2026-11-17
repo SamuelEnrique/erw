@@ -608,6 +608,7 @@ SECTOR_RULES = [
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
+    (r"^caiso_outlook_demand$", "power"),  # session 7052: CAISO Today's Outlook demand, 5-minute, on the days asked (done-line request 201)
     (r"^caiso_fuel_supply$", "power"),  # session 73: CAISO's own supply by fuel source, hourly
     # session 133: the energy mix's added pulls
     (r"^caiso_fuel_supply_history$", "power"),            # CAISO's own supply by fuel, June 2018 to May 2025 (the hydro gap's months are read here)

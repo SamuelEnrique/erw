@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Brand } from "@/components/Brand";
 import { Fold, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
-import { FindingCard } from "@/components/analysis/FindingCard";
+import { FindingCard, heldMultiples } from "@/components/analysis/FindingCard";   // session 7605: heldMultiples, a held grid's panels out
 import { CardChart } from "@/components/analysis/CardChart";
 import { RequestForm } from "@/components/analysis/RequestForm";
 import { AskForm } from "@/components/analysis/AskForm";   // session 315: the reader's own question, first
 import { Num } from "@/components/Num";
 import { gridOfWords } from "@/components/analysis/FindingCard";
 import { catalogue as liveCatalogue } from "@/lib/data";
+import { licenseByGrid, licenseByRow, licenseNeeded } from "@/lib/license";
 import { ImpactForm } from "@/components/analysis/ImpactForm";
 import { ScannerFound } from "@/components/analysis/ScannerFound";
 import { RequestFlow } from "@/components/analysis/RequestFlow";
@@ -18,7 +19,7 @@ import { DOCS, analysisWeeks, digestChartDays, digestDates, weeklyWeeks } from "
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
 import { GRIDS, NO_GRID, OTHER_TOPIC, TOPIC_RULES, filesHeld, gridLabel, gridsOf, newestChartWeek, roundupChart, topicLabel, topicsOf } from "@/lib/research";
 import { ChartOfWeekView } from "./view";
-import { figureText } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them
+import { figureText, figureWords } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them; session 7605: their keys in plain words
 
 // Session 5503 (chain 269): what makes each chart, and when, in the words of the method note's "Final form"
 const TODAY_NOTE = "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date.";
@@ -62,7 +63,10 @@ export default async function ResearchPage() {
   // session 315: the public tables of the live set, for the reader's form (optional there: a failed read leaves the
   // list empty and the form says so; the page is not held back for it)
   let tables: string[] = [];
-  try { tables = (await liveCatalogue()).map((r) => r.table_name).sort(); } catch { tables = []; }
+  // chain 305 (session 7605, read as its reader): a table held whole (license needed, not by grid or by row:
+  // energy_deals, datacenter_facilities, news_index among them) is not offered, so the list is what its legend says,
+  // public tables; one held by grid or by row keeps its public rows and stays
+  try { tables = (await liveCatalogue()).map((r) => r.table_name).filter((t) => !(licenseNeeded(t) && !licenseByGrid(t) && !licenseByRow(t))).sort(); } catch { tables = []; }
   const weeks = analysisWeeks();
   const a = DOCS.analysis;
   const all = loadCards();
@@ -148,7 +152,7 @@ export default async function ResearchPage() {
                   {Object.keys(today.numbers ?? {}).length ? (
                     <p className="lead-numbers text-xs text-muted" data-today-numbers={Object.keys(today.numbers).length}>
                       The record&apos;s figures: {Object.entries(today.numbers).map(([k, v], i) => (
-                        <span key={k}>{i ? "; " : ""}{k.replace(/_/g, " ")} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{figureText(v)}</span></Num></span>
+                        <span key={k}>{i ? "; " : ""}{figureWords(k)} <Num check={`digest_chart|${today.date}|${today.table}|${k}`} raw={String(v)}><span className="font-mono">{figureText(v)}</span></Num></span>
                       ))}.
                     </p>
                   ) : null}
@@ -169,7 +173,7 @@ export default async function ResearchPage() {
             {wk?.card ? (
               <figure className="lead-chart" data-week-chart={wk.week} data-week-card={wk.card.card_id}>
                 <div>
-                  <CardChart spec={wk.card.chart} label={wk.card.title} height={360} />
+                  <CardChart spec={heldMultiples(wk.card.chart)} label={wk.card.title} height={360} />
                 </div>
                 <figcaption>
                   <p className="lead-date">Chosen for the Roundup of {wk.week}</p>
