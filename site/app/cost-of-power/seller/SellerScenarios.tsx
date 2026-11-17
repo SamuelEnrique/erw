@@ -80,6 +80,8 @@ export type Facts = {
 };
 /** The contract the arithmetic reads: the page's form of it and the last twelve months' energy (session 212); session
  * 353: its shape, and the flat price a block is settled against. */
+// Session 7620 (wip/alt-seller-2, not landed): the years a contracted plant's lowest month is taken from.
+export const LOWEST_YEARS = 3;
 const contractOf = (f: Pick<Facts, "contract" | "twelve" | "shape" | "flat">): Contract => ({ kind: f.contract, energyKw: f.twelve?.energyKw ?? 0, shape: f.shape ?? "generated", flat: f.flat ?? null });
 
 /** The parameters of the address the scenarios replace: their own, and the two old names read as scenario A's. */
@@ -232,10 +234,15 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
         // it; the market's worst month stays in the note. A block is drawn as before (its monthly volume is not held here).
         if (f.contract === "energy" && c.y.cshare > 0 && !block && f.heldMonths?.length) {
           const sh = c.y.cshare / 100;
-          const withIt = f.heldMonths.map((h) => ({ m: h.m, usd: (1 - sh) * h.usd + sh * h.mwh * c.y.cprice }));
+          // session 7620, the other choice of the ruling on the worst month (wip/alt-seller-2, not landed): a contracted
+          // plant's worst month is taken from the last three years, the 36 calendar months ending with the newest month
+          // held, as a lender may want, not from every month held since July 2018
+          const newest = f.heldMonths.reduce((a, h) => (h.m > a ? h.m : a), "");
+          const from = new Date(Date.UTC(Number(newest.slice(0, 4)), Number(newest.slice(5, 7)) - 1 - (LOWEST_YEARS * 12 - 1), 1)).toISOString().slice(0, 7);
+          const withIt = f.heldMonths.filter((h) => h.m >= from).map((h) => ({ m: h.m, usd: (1 - sh) * h.usd + sh * h.mwh * c.y.cprice }));
           const w = withIt.reduce((lo, h) => (h.usd < lo.usd ? h : lo), withIt[0]);
           const cw = monthCoverage(c.y, w.usd / scale);
-          return { v: usd(w.usd), raw: w.usd, note: `${longMonth(w.m)}, of ${withIt.length} months, with the contract (${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} per MWh on that month's energy, the market on the rest)${cw === null ? "" : `; coverage that month ${num(cw)} times`}. In the market alone: ${f.lowest.month}, ${usd(f.lowest.usd)}${cover === null ? "" : `, ${num(cover)} times`}` };
+          return { v: usd(w.usd), raw: w.usd, note: `${longMonth(w.m)}, of the ${withIt.length} months of the last ${LOWEST_YEARS} years (${longMonth(from)} to ${longMonth(newest)}), with the contract (${plain(c.y.cshare)} percent at USD ${plain(c.y.cprice)} per MWh on that month's energy, the market on the rest)${cw === null ? "" : `; coverage that month ${num(cw)} times`}. In the market alone: ${f.lowest.month}, ${usd(f.lowest.usd)}${cover === null ? "" : `, ${num(cover)} times`}` };
         }
         return { v: usd(f.lowest.usd), raw: f.lowest.usd, note: `${f.lowest.month}, of ${f.lowest.months} months; ${cover === null ? "no debt" : `coverage that month ${num(cover)} times, in the market`}` };
       }),
