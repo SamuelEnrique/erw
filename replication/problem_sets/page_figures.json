@@ -1632,7 +1632,7 @@
     },
     {
      "id": "c4",
-     "q": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
+     "q": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10; the price at ERCOT's hub average, HB_HUBAVG): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
      "tables": [
       "event_window_daily"
      ],
@@ -1644,7 +1644,7 @@
       "Read demand_max_mw and find the highest: 85,432 MW.",
       "Compare the dates."
      ],
-     "words": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day? | Highest price 2023-09-06,  | ; highest demand 2023-08-10,  | : different days. | max of rt_max =  |  on 2023-09-06; max of demand_max_mw =  |  on 2023-08-10 | Read rt_max (event ercot_heat_2023) and find the highest:  | . | Read demand_max_mw and find the highest:  | . | Compare the dates.",
+     "words": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10; the price at ERCOT's hub average, HB_HUBAVG): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day? | Highest price 2023-09-06,  | ; highest demand 2023-08-10,  | : different days. | max of rt_max =  |  on 2023-09-06; max of demand_max_mw =  |  on 2023-08-10 | Read rt_max (event ercot_heat_2023) and find the highest:  | . | Read demand_max_mw and find the highest:  | . | Compare the dates.",
      "figures": [
       {
        "where": "answer",
@@ -1698,7 +1698,7 @@
     },
     {
      "id": "c1",
-     "q": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "q": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24; the price at ERCOT's hub average, HB_HUBAVG): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
      "tables": [
       "event_window_daily"
      ],
@@ -1710,7 +1710,7 @@
       "The highest on the 2019 and 2020 days is 1,691.63 USD/MWh.",
       "Divide: 5.35 times."
      ],
-     "words": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-17:  | , against  |  (2020-02-10):  | . |  /  |  =  | Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is  | . | The highest on the 2019 and 2020 days is  | . | Divide:  | .",
+     "words": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24; the price at ERCOT's hub average, HB_HUBAVG): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-17:  | , against  |  (2020-02-10):  | . |  /  |  =  | Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is  | . | The highest on the 2019 and 2020 days is  | . | Divide:  | .",
      "figures": [
       {
        "where": "answer",
@@ -1788,7 +1788,7 @@
     },
     {
      "id": "c5",
-     "q": "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
+     "q": "Compare two ERCOT events, at ERCOT's hub average (HB_HUBAVG): Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
      "tables": [
       "event_window_daily"
      ],
@@ -1800,7 +1800,7 @@
       "The 2023 heat's highest rt_max: 5,075.46 USD/MWh.",
       "Divide: 1.78 times."
      ],
-     "words": "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's? |  (Uri) /  |  (2023) =  | . |  /  |  =  | Uri's highest rt_max:  | . | The 2023 heat's highest rt_max:  | . | Divide:  | .",
+     "words": "Compare two ERCOT events, at ERCOT's hub average (HB_HUBAVG): Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's? |  (Uri) /  |  (2023) =  | . |  /  |  =  | Uri's highest rt_max:  | . | The 2023 heat's highest rt_max:  | . | Divide:  | .",
      "figures": [
       {
        "where": "answer",

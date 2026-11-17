@@ -332,7 +332,7 @@ async function setC(): Promise<Built> {
   const U = r(u21, "uri_2021", "USD/MWh"), UB = r(ubase, "uri_2021", "USD/MWh");
   const q1: Question = {
     id: "c1", tables: [T],
-    q: `Winter Storm Uri (ERCOT, February 2021; the storm window is ${win("uri_2021")}): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?`,
+    q: `Winter Storm Uri (ERCOT, February 2021; the storm window is ${win("uri_2021")}; the price at ERCOT's hub average, HB_HUBAVG): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?`,
     answer: [`${day(u21.ts_utc)}: `, U, ", against ", UB, ` (${day(ubase.ts_utc)}): `, calc("ratio", U, UB, "times"), "."],
     line: [U, " / ", UB, " = ", calc("ratio", U, UB, "times")],
     steps: [["Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is ", U, "."], ["The highest on the 2019 and 2020 days is ", UB, "."], ["Divide: ", calc("ratio", U, UB, "times"), "."]],
@@ -370,7 +370,7 @@ async function setC(): Promise<Built> {
   const edem = pick((await ev("ercot_heat_2023", "eia930:ERCO", "demand_max_mw")).filter((x) => x.ts_utc >= "2023-08-01"), "max");
   const q4: Question = {
     id: "c4", tables: [T],
-    q: `ERCOT, summer 2023 (the window ${win("ercot_heat_2023")}): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?`,
+    q: `ERCOT, summer 2023 (the window ${win("ercot_heat_2023")}; the price at ERCOT's hub average, HB_HUBAVG): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?`,
     answer: [`Highest price ${day(etop.ts_utc)}, `, r(etop, "ercot_heat_2023", "USD/MWh"), `; highest demand ${day(edem.ts_utc)}, `, r(edem, "ercot_heat_2023", "MW"), day(etop.ts_utc) === day(edem.ts_utc) ? ": the same day." : ": different days."],
     line: ["max of rt_max = ", r(etop, "ercot_heat_2023", "USD/MWh"), ` on ${day(etop.ts_utc)}; max of demand_max_mw = `, r(edem, "ercot_heat_2023", "MW"), ` on ${day(edem.ts_utc)}`],
     steps: [["Read rt_max (event ercot_heat_2023) and find the highest: ", r(etop, "ercot_heat_2023", "USD/MWh"), "."], ["Read demand_max_mw and find the highest: ", r(edem, "ercot_heat_2023", "MW"), "."], ["Compare the dates."]],
@@ -379,7 +379,7 @@ async function setC(): Promise<Built> {
   const U2: V = r(etop, "ercot_heat_2023", "USD/MWh");
   const q5: Question = {
     id: "c5", tables: [T],
-    q: "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
+    q: "Compare two ERCOT events, at ERCOT's hub average (HB_HUBAVG): Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
     answer: [U, " (Uri) / ", U2, " (2023) = ", calc("ratio", U, U2, "times"), "."],
     line: [U, " / ", U2, " = ", calc("ratio", U, U2, "times")],
     steps: [["Uri's highest rt_max: ", U, "."], ["The 2023 heat's highest rt_max: ", U2, "."], ["Divide: ", calc("ratio", U, U2, "times"), "."]],
