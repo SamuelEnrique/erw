@@ -8,3 +8,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /severance | samueloldlaptop | 7571 | done | docs/reviews/ruling-impact-severance-2026-11-17.md |
 | /shoulder | samueloldlaptop | 7572 | done | docs/reviews/ruling-impact-shoulder-2026-11-17.md |
 | /battery/customer | samueloldlaptop | 7573 | done | docs/reviews/ruling-impact-battery-customer-2026-11-17.md |
+| /cost-of-power/battery/awards | samueloldlaptop | 7574 | claimed | docs/reviews/ruling-impact-battery-awards-2026-11-17.md |
