@@ -1,0 +1,17 @@
+== line 1: ERCOT, 1 November 2026 (the autumn clock change): the hour whose wind limit reads twice its neighbours
+   2026-11-01T05:00:00Z (2026-11-01 00:00): wind 5078.91 MW, limit 5253.83; below the limit 174.92000000000007
+   2026-11-01T08:00:00Z (2026-11-01 02:00): wind 4487.21 MW, limit 4875.1; below the limit 387.8900000000003
+the day's 23 hours held; wind below the limit 15,423.9 MWh, of which 0.0 in that hour; without it 15,423.9 (0.0 percent)
+November 2026 in the file: {"hours_held": 343, "hours_in_month": 721}
+the day is out of every month either way unless the day's rule changes too (23 of its 25 hours hold all four values); leaving the hour out lowers the day's own row by that much
+
+== line 2: the battery section (California, a battery of 4 hours) with one line of the battery page's revenue for the same hub and duration
+   2026-05: SP15, 4 hours, perfect foresight 7.50 USD per kW; on the day-ahead schedule 6.99
+   2026-06: SP15, 4 hours, perfect foresight 5.73 USD per kW; on the day-ahead schedule 5.57
+   2026-07: SP15, 4 hours, perfect foresight 7.02 USD per kW; on the day-ahead schedule 4.95
+   2026-08: SP15, 4 hours, perfect foresight 10.87 USD per kW; on the day-ahead schedule 6.97
+   2026-09: SP15, 4 hours, perfect foresight 6.84 USD per kW; on the day-ahead schedule 6.32
+   2026-10: SP15, 4 hours, perfect foresight 5.64 USD per kW; on the day-ahead schedule 5.84
+
+== line 3: ERCOT's view: three shares of output below the limit over three spans (the read's 6.23, 5.91 and 6.05 percent) or the head's alone
+the file: 47 whole days from 2026-09-28 to 2026-11-14; October 2026 wind share 6.38 percent. Showing the head's span only removes two figures from the view; none of the three is recomputed differently

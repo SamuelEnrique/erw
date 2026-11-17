@@ -1,0 +1,5 @@
+attention.json: 461 cells (sector, place, week); with a Friction Index 461; of them fewer than ten stories 363 (78.7 percent)
+   by place: all places 0, the US 0, a state 363
+   the indices that would go: [(0.0, 293), (100.0, 26), (50.0, 18), (33.3333, 12), (16.6667, 3), (20.0, 3)] (value: cells); 100 and 0 are a single story's whole weight
+in the newest week (2026-11-02): 42 of 60 indices go
+the 'together' rows (each sector over the classified weeks): fewer than ten stories in 0 of 16

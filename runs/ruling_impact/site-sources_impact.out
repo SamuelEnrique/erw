@@ -1,0 +1,21 @@
+== the gap, by table (ERCOT entities, Central days 1 to 16 November 2026: rows a day)
+iso_dam_hub_prices (retrieved 2026-11-16 14:17 UTC): 14 days held, 11-01 to 11-16; days absent ['11-07', '11-08']
+iso_rtm_hub_prices (retrieved 2026-11-16 14:18 UTC): 11 days held, 11-01 to 11-15; days absent ['11-05', '11-06', '11-07', '11-08']
+ercot_hub_prices_daily (retrieved 2026-11-16 14:59 UTC): 13 days held, 11-01 to 11-15; days absent ['11-06', '11-07']
+iso_trader_daily (retrieved 2026-11-16 14:38 UTC): 13 days held, 11-01 to 11-15; days absent ['11-06', '11-07']
+price_board_latest (retrieved 2026-11-16 14:59 UTC): 14 days held, 11-01 to 11-16; days absent ['11-06', '11-07']
+price_board_peak_offpeak (retrieved 2026-11-16 14:59 UTC): 13 days held, 11-01 to 11-15; days absent ['11-06', '11-07']
+price_board_spreads (retrieved 2026-11-16 14:59 UTC): 12 days held, 11-01 to 11-14; days absent ['11-06', '11-07']
+ercot_rtm_price_adders (retrieved 2026-11-15 17:50 UTC): 14 days held, 11-01 to 11-14; days absent none
+
+== 1 to 15 November (Central days; 1 November has 25 hours, the clock change), ERCOT hub average (HB_HUBAVG)
+day-ahead, the hourly table: 313 hours held of 361: mean 38.64 USD/MWh; 48 hours absent (13.3 percent)
+real time, the 15-minute table: 1060 intervals held of 1444: mean 41.15 USD/MWh; 384 absent (26.6 percent)
+
+== the price board's windows (price_board_latest), ERCOT entities
+ercot:HB_BUSAVG (as of 2026-11-15): da_avg_30d 34.5283; da_avg_7d 39.0609; da_days_30d 28; da_days_7d 7; rt_avg_30d 33.9944; rt_avg_7d 42.6182; rt_days_30d 26; rt_days_7d 7
+ercot:HB_HOUSTON (as of 2026-11-15): da_avg_30d 35.3393; da_avg_7d 35.9177; da_days_30d 28; da_days_7d 7; rt_avg_30d 35.1479; rt_avg_7d 35.9156; rt_days_30d 26; rt_days_7d 7
+ercot:HB_HUBAVG (as of 2026-11-15): da_avg_30d 35.6891; da_avg_7d 40.2966; da_days_30d 28; da_days_7d 7; rt_avg_30d 35.5152; rt_avg_7d 43.9824; rt_days_30d 26; rt_days_7d 7
+ercot:HB_NORTH (as of 2026-11-15): da_avg_30d 32.4045; da_avg_7d 37.2819; da_days_30d 28; da_days_7d 7; rt_avg_30d 31.3483; rt_avg_7d 40.6723; rt_days_30d 26; rt_days_7d 7
+ercot:HB_SOUTH (as of 2026-11-15): da_avg_30d 37.5118; da_avg_7d 41.0402; da_days_30d 28; da_days_7d 7; rt_avg_30d 37.5313; rt_avg_7d 45.9856; rt_days_30d 26; rt_days_7d 7
+ercot:HB_WEST (as of 2026-11-15): da_avg_30d 37.5007; da_avg_7d 46.9463; da_days_30d 28; da_days_7d 7; rt_avg_30d 38.0334; rt_avg_7d 53.3564; rt_days_30d 26; rt_days_7d 7

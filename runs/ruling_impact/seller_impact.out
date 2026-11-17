@@ -1,0 +1,26 @@
+# Energy Research Warehouse (ERW): the hours behind What a generator earns; the default case of /cost-of-power/seller (session 183)
+# Case: ERCOT; solar; priced at the hub average HB_HUBAVG in real time; per 1 MW of installed nameplate (the page's default size is 100 MW). A fleet average: not a site
+# Window: local (Central) months 2018-07 to 2026-10; every hour of the model's snapshot from 2018-07-01T05:00:00Z to its last hour 2026-10-03T04:00:00Z. in_last_twelve = 1 marks 2025-10 to 2026-09: the last twelve months of the model and of
+# Rows: one per hour that holds a real-time price; every hour of the window holds one (72384 rows). hour_utc is the hour's start; local_day and local_month are the hour's day and month in America/Chicago
+
+== line 1: where the page ends
+last twelve months 2025-10 to 2026-09 (12 held); months held 2018-07 to 2026-09 (99)
+the headline at the defaults (100 MW): revenue USD 59.85 per kW over the last twelve months; capture rate 72.3 percent; coverage 0.67 times; NPV USD -76.66 million
+October 2026 in the file: 48 hours (the snapshot's last hour 2026-10-03 04:00 UTC); a full month is 744
+
+== line 2: the worst month, every month held against the last three years
+-- scenario A, merchant, the default 100 MW
+  every month held (default): 2024-02, USD 139,299, coverage 0.06 times, of 99 months
+  the last three years (2023-10 to 2026-09): 2024-02, USD 139,299, coverage 0.06 times, of 36 months
+  the last five years (2021-10 to 2026-09): 2024-02, USD 139,299, coverage 0.06 times, of 60 months
+-- scenario B, all the energy at USD 38, 200 MW (the read's case 3)
+  every month held (default): 2018-12, USD 750,064, coverage 0.46 times, of 99 months
+  the last three years (2023-10 to 2026-09): 2025-12, USD 1,016,595, coverage 0.69 times, of 36 months
+  the last five years (2021-10 to 2026-09): 2022-12, USD 783,506, coverage 0.49 times, of 60 months
+-- scenario B, all the energy at USD 38, the default 100 MW
+  every month held (default): 2018-12, USD 375,032, coverage 0.46 times, of 99 months
+  the last three years (2023-10 to 2026-09): 2025-12, USD 508,297, coverage 0.69 times, of 36 months
+  the last five years (2021-10 to 2026-09): 2022-12, USD 391,753, coverage 0.49 times, of 60 months
+
+== line 3: the peaker's 'Degradation by 1 point'
+NPV lost to 1 point of degradation a year on USD 43.13 per kW, 35 years at 12 percent, 100 MW: USD 2.53 million (the page draws 2.38)

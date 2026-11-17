@@ -1,0 +1,171 @@
+{
+ "/board": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 244,
+  "text": 38
+ },
+ "/prices": {
+  "status": 200,
+  "held": [
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:CAPITL|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:CENTRL|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:DUNWOD|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:GENESE|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:HUD VL|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:LONGIL|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:MHK VL|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:MILLWD|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:N.Y.C.|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:NORTH|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|nyiso:WEST|lmp_rtm_5min|2026-11-17T08:25:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:ARKANSAS.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:ILLINOIS.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:INDIANA.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:LOUISIANA.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:MICHIGAN.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:MINN.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:MS.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|miso:TEXAS.HUB|lmp_rtm_5min|2026-10-04T06:10:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.H.INTERNAL_HUB|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.CONNECTICUT|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.MAINE|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.NEMASSBOST|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.NEWHAMPSHIRE|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.RHODEISLAND|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.SEMASS|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.VERMONT|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   },
+   {
+    "table": "latest_prices",
+    "key": "latest_prices|isone:.Z.WCMASS|lmp_rtm_5min|2026-11-17T08:30:00+00:00"
+   }
+  ],
+  "shown": 11,
+  "words": 86,
+  "text": 31
+ },
+ "/prices/compare": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 96,
+  "text": 0
+ },
+ "/supply": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 0,
+  "text": 0
+ },
+ "/storage": {
+  "status": 200,
+  "held": [],
+  "shown": 99,
+  "words": 0,
+  "text": 0
+ },
+ "/demand": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 0,
+  "text": 0
+ },
+ "/curtailment": {
+  "status": 200,
+  "held": [],
+  "shown": 28,
+  "words": 2,
+  "text": 0
+ },
+ "/queues": {
+  "status": 200,
+  "held": [],
+  "shown": 0,
+  "words": 0,
+  "text": 0
+ }
+}

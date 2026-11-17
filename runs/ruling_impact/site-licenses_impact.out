@@ -1,0 +1,142 @@
+== line 1: the held figures of EIA-930 whose key names no grid
+
+/events: 7 held, 2 checked figures shown; held by table {'event_window_daily': 7}
+      1     of which US48
+      2     of which caiso
+      4     of which pjm
+      6  EIA-930, a public grid's authority: shown under (a) and (b)
+      1  EIA-930, no grid (US48 or another authority): shown under (a) and (b)
+
+/events/caiso-heat-2020: 65 held, 0 checked figures shown; held by table {'event_window_daily': 65}
+     65     of which caiso
+     65  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/caiso-heat-2022: 53 held, 0 checked figures shown; held by table {'event_window_daily': 53}
+     53     of which caiso
+     53  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/cold-2025: 86 held, 10 checked figures shown; held by table {'event_window_daily': 86}
+      8     of which ercot
+     45     of which pjm
+      8     of which spp
+     25  EIA-930, a held grid's authority: held under (a), shown under (b)
+     61  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/cold-2026: 88 held, 10 checked figures shown; held by table {'event_window_daily': 88}
+      9     of which ercot
+     48     of which pjm
+      7     of which spp
+     24  EIA-930, a held grid's authority: held under (a), shown under (b)
+     64  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/covid-2020: 343 held, 7 checked figures shown; held by table {'event_window_daily': 343}
+    287     of which US48
+      8     of which caiso
+      8     of which ercot
+      8     of which pjm
+      8     of which spp
+     24  EIA-930, a held grid's authority: held under (a), shown under (b)
+     32  EIA-930, a public grid's authority: shown under (a) and (b)
+    287  EIA-930, no grid (US48 or another authority): shown under (a) and (b)
+
+/events/east-heat-2025: 67 held, 0 checked figures shown; held by table {'event_window_daily': 67}
+     41     of which pjm
+     26  EIA-930, a held grid's authority: held under (a), shown under (b)
+     41  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/elliott-2022: 112 held, 10 checked figures shown; held by table {'event_window_daily': 112}
+     11     of which ercot
+     54     of which pjm
+     13     of which spp
+     34  EIA-930, a held grid's authority: held under (a), shown under (b)
+     78  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/ercot-heat-2023: 145 held, 11 checked figures shown; held by table {'event_window_daily': 145}
+    145     of which ercot
+    145  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/events/uri-2021: 75 held, 9 checked figures shown; held by table {'event_window_daily': 75}
+     75     of which ercot
+     75  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/learn/bill: 0 held, 20 checked figures shown; held by table {}
+
+/learn/problems/know-your-grid: 0 held, 67 checked figures shown; held by table {}
+
+/learn/problems/prices-and-your-bill: 0 held, 69 checked figures shown; held by table {}
+
+/learn/problems/when-the-grid-broke: 23 held, 27 checked figures shown; held by table {'event_window_daily': 23}
+      6     of which caiso
+     11     of which ercot
+      6     of which pjm
+     23  EIA-930, a public grid's authority: shown under (a) and (b)
+
+/learn/problems/storage-and-taxes: 0 held, 79 checked figures shown; held by table {}
+
+/learn/problems/networks-and-money: 0 held, 60 checked figures shown; held by table {}
+
+all pages read:
+    133  EIA-930, a held grid's authority: held under (a), shown under (b)
+    643  EIA-930, a public grid's authority: shown under (a) and (b)
+    288  EIA-930, no grid (US48 or another authority): shown under (a) and (b)
+   1064  held
+    381  shown
+examples of held keys:
+  /events: series|event_window_daily|eia930:US48|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020
+  /events: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020
+  /events: series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022
+  /events/caiso-heat-2020: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020
+  /events/caiso-heat-2020: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-15T00:00:00+00:00|caiso_heat_2020
+  /events/caiso-heat-2020: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020
+  /events/caiso-heat-2022: series|event_window_daily|eia930:CISO|demand_max_mw|2022-09-06T00:00:00+00:00|caiso_heat_2022
+  /events/caiso-heat-2022: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-01T00:00:00+00:00|caiso_heat_2022
+  /events/caiso-heat-2022: series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2022-09-06T00:00:00+00:00|caiso_heat_2022
+  /events/cold-2025: series|event_window_daily|eia930:PJM|demand_max_mw|2025-01-22T00:00:00+00:00|cold_2025
+  /events/cold-2025: series|event_window_daily|eia930:MISO|demand_max_mw|2025-01-21T00:00:00+00:00|cold_2025
+  /events/cold-2025: series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2025-01-22T00:00:00+00:00|cold_2025
+  /events/cold-2026: series|event_window_daily|eia930:PJM|demand_max_mw|2026-01-29T00:00:00+00:00|cold_2026
+  /events/cold-2026: series|event_window_daily|eia930:ERCO|demand_max_mw|2026-01-26T00:00:00+00:00|cold_2026
+  /events/cold-2026: series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2026-01-30T00:00:00+00:00|cold_2026
+  /events/covid-2020: series|event_window_daily|eia930:CISO|demand_pct_vs_baseline_week|2020-04-12T00:00:00+00:00|covid_2020
+  /events/covid-2020: series|event_window_daily|eia930:ERCO|demand_pct_vs_baseline_week|2020-05-24T00:00:00+00:00|covid_2020
+  /events/covid-2020: series|event_window_daily|eia930:ISNE|demand_pct_vs_baseline_week|2020-05-17T00:00:00+00:00|covid_2020
+  /events/east-heat-2025: series|event_window_daily|eia930:PJM|demand_max_mw|2025-06-23T00:00:00+00:00|east_heat_2025
+  /events/east-heat-2025: series|event_window_daily|eia930:NYIS|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025
+  /events/east-heat-2025: series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2025-06-24T00:00:00+00:00|east_heat_2025
+  /events/elliott-2022: series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022
+  /events/elliott-2022: series|event_window_daily|eia930:ISNE|demand_max_pct_vs_baseline|2022-12-24T00:00:00+00:00|elliott_2022
+  /events/elliott-2022: series|event_window_daily|eia930:SWPP|demand_max_mw|2022-12-22T00:00:00+00:00|elliott_2022
+  /events/ercot-heat-2023: series|event_window_daily|eia930:ERCO|demand_max_mw|2023-09-06T00:00:00+00:00|ercot_heat_2023
+  /events/ercot-heat-2023: series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023
+  /events/ercot-heat-2023: series|event_window_daily|eia930:ERCO|demand_max_pct_vs_baseline|2023-08-13T00:00:00+00:00|ercot_heat_2023
+  /events/uri-2021: series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-24T00:00:00+00:00|uri_2021
+  /events/uri-2021: series|event_window_daily|eia930:ERCO|demand_min_mw|2021-02-15T00:00:00+00:00|uri_2021
+  /events/uri-2021: series|event_window_daily|eia930:ERCO|net_generation_mwh_day_change|2021-02-15T00:00:00+00:00|uri_2021
+  /learn/problems/when-the-grid-broke: series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021
+  /learn/problems/when-the-grid-broke: series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021
+  /learn/problems/when-the-grid-broke: series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021
+
+== line 2: ICE's indices as EIA republishes them
+live set rows of eia_ice_electricity_daily: 0
+coverage.csv: {'table': 'eia_ice_electricity_daily', 'iso': 'none', 'market': 'Midwest;New England;Northern California;Northwest;PJM;Southern California;Southwest', 'n_nodes': '7', 'interval': 'P1D', 'ts_min': '2025-12-29T00:00:00Z', 'ts_max': '2026-10-14T00:00:00Z', 'n_rows': '7056', 'source_report': 'eia:ice_wholesale_electricity', 'last_run': '2026-10-23T18:18:26Z', 'validator_status': 'pass', 'license': 'internal', 'sector': 'power', 'derived': 'no', 'tier': 'source'}
+
+== line 3: the held or paused grids on the data machine's eight tools
+/board (default view): drawn 'license needed' cells 38; held checked figures 0 ; checked figures shown 0
+/prices (default view): drawn 'license needed' cells 31; held checked figures 28 {'nyiso': 11, 'miso': 8, 'isone': 9}; checked figures shown 11
+/prices/compare (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 0
+/supply (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 0
+/storage (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 99
+/demand (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 0
+/curtailment (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 28
+/queues (default view): drawn 'license needed' cells 0; held checked figures 0 ; checked figures shown 0
+rows a grid of the tables the eight tools read (live set):
+price_board_latest: caiso 255; ercot 474; isone 711; miso 680; nyiso 858; spp 160
+price_board_peak_offpeak: caiso 906; ercot 1506; isone 792; miso 387; nyiso 804; spp 633
+price_board_spreads: caiso 246; eia 247; ercot 1233; erw 246; isone 240; miso 117; nyiso 240; spp 243
+hub_price_comparison: caiso 87; ercot 440; isone 100; nyiso 216; spp 37
+iso_dam_hub_prices: caiso 2568; ercot 4836; spp 1660
+iso_rtm_hub_prices: caiso 9696; ercot 17040; spp 5184
+iso_trader_daily: caiso 1146; ercot 2100; isone 3078; miso 32; nyiso 3806; spp 350
+iso_queue_statistics: caiso 1778; ercot 648; isone 1725; miso 803; nyiso 2056; spp 1980
+scarcity_hours_by_grid: iso 201873
+grid_stress_days: caiso 58; ercot 169; isone 12; miso 16; nyiso 10; spp 17

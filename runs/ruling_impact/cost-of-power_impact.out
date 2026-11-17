@@ -1,0 +1,28 @@
+== line 1: a Texas row's all-in figure with the Commission's transmission rate for all wires utilities (USD 7.83 per MWh) or the row's own utility's (Oncor 8.58)
+the read's case: +0.75 USD/MWh (+9.6 percent of the transmission part) on every row whose wires utility is Oncor; a 300 MW load at a 90 percent load factor: 1,773,900 USD a year more (an example load factor)
+ERCOT zones and the wires utilities their counties hold (the page's file): COASTAL: 4; HOUSTON: 2; NORTH: 3; PANHANDLE: 1; SOUTH: 5; WEST: 4
+
+== lines 3 and 4: ERCOT's four summer peaks: a way of running off in the forecast peak intervals; and which year's rate
+summer 2025's four coincident peak intervals (ERCOT): [('2025-06', '2025-06-19 17:00', 77485.834736), ('2025-07', '2025-07-30 17:00', 81908.321348), ('2025-08', '2025-08-18 17:00', 83968.463332), ('2025-09', '2025-09-04 17:30', 80076.465112)]
+   2025's rate, the newest approved when read: USD 68.547301 per kW a year: a 300 MW load off in all four intervals avoids USD 20,564,190 a year; off in none, 0
+   the 2026 rate the summer 2025 peaks set: USD 75.52727 per kW a year: a 300 MW load off in all four intervals avoids USD 22,658,181 a year; off in none, 0
+line 4: the saving under the 2026 rate is +10.18 percent (+USD 2,093,991 a year for 300 MW)
+line 3: today's ways follow prices and avoided 0 of 4 peaks in summer 2025 (the read); a way that is off in the forecast peak intervals avoids up to all four if the forecast is right; how many a forecast would have caught is not computed here (no forecast of the peaks is held)
+
+== line 7: the large-load rules read from hosts whose terms bar robots or ask permission, held
+rules shown 100, held 22 (blank 'license needed'); held by utility: {'Alabama Power Company': 1, 'Ohio Power Company (AEP Ohio)': 1, 'Indiana Michigan Power Company': 2, 'Appalachian Power Company and Wheeling Power Company (West Virginia)': 1, 'CenterPoint Energy Houston Electric, LLC': 1, 'CPS Energy (City Public Service Board of San Antonio)': 1, 'El Paso Electric Company': 3, 'Salt River Project Agricultural Improvement and Power District': 1, 'Public Utility District No. 1 of Chelan County (Chelan PUD)': 1, 'NorthWestern Corporation d/b/a NorthWestern Energy (Montana)': 1, 'Cheyenne Light, Fuel and Power Company d/b/a Black Hills Energy': 1, 'Omaha Public Power District (OPPD)': 1, 'DTE Electric Company': 1, 'Consumers Energy Company': 1, 'Wisconsin Electric Power Company (We Energies)': 1, 'NSTAR Electric Company d/b/a Eversource Energy; Massachusetts Electric Company and Nantucket Electric Company d/b/a National Grid; Fitchburg Gas and Electric Light Company d/b/a Unitil': 1, 'Tacoma Power (City of Tacoma Department of Public Utilities)': 3}
+made public, up to 22 rows by 8 fields (176 cells) would be drawn
+
+== line 6: Massachusetts Electric's filed rates, for ISO-NE's Boston rows' 'Transmission and 4CP' cell
+tariff rows naming Massachusetts in the page's file: 0; the cell stays blank until the rates are held: not computed
+
+== line 8: CAISO's large-load steps, the straw proposal's 60 to 90 days and the draft final proposal's none
+   2026-10-28: CAISO Board of Governors, Decision on Large Load Enhancements, motion of 28 October 2026 a | duration '' 
+   2026-09-24: CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC  | duration '' 
+   2026-09-24: CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC  | duration '' 
+   2026-09-24: CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC  | duration '' 
+   2026-09-24: CAISO, Large Load Enhancements, Draft Final Proposal, 24 September 2026 (a proposal; FERC  | duration '' 
+   2026-08-11: CAISO, Large Loads Considerations, Straw Proposal, 11 August 2026 (a proposal; FERC Docket | duration '' 
+   2026-08-11: CAISO, Large Loads Considerations, Straw Proposal, 11 August 2026 (a proposal; FERC Docket | duration '90' days
+   2026-08-11: CAISO, Large Loads Considerations, Straw Proposal, 11 August 2026 (a proposal; FERC Docket | duration '' 
+one cell: the draft final proposal's duration, blank, would read 60 to 90 days if the straw's figure stood for it
