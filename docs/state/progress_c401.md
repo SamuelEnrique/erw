@@ -51,7 +51,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 351 | `wip/alt-events-4` | 100.0 | seen: events-4-1280.png with production's -default-1280 twins | 7800 |
 | B | 352 | `wip/alt-events-6` | 100.0 | seen: events-6-1280.png with production's -default-1280 twins | 7800 |
 | B | 358 | `wip/alt-board-2` | 100.0 | not seen: no pictures | 7800 |
-| B | 362 | `wip/alt-prices-3` | 100.0 | wanted | |
+| B | 362 | `wip/alt-prices-3` | 100.0 | fault: prices-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 363 | `wip/alt-storage-1` | 100.0 | wanted | |
 | B | 364 | `wip/alt-supply-1` | 100.0 | wanted | |
 | B | 365 | `wip/alt-demand-1` | 100.0 | wanted | |
