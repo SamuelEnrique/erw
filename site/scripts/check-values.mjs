@@ -866,6 +866,13 @@ async function truth(check) {
       const ws = gridWeather(wx.filter((r) => STATION_BA[r.entity] === ENTITY_BA(entity)).map((r) => ({ ...r, value: Number(r.value) })));
       let t = null;
       try { t = ws.size ? studyOf(ev, rs, ws) : null; } catch { t = null; }
+      // ruling alternative 3 of /events (wip/alt-events-3): the three newest events read noaa_grid_weather_daily, as the page does
+      const { NOAA_DAILY_EVENTS, NOAA_GRID_ENTITY, NOAA_GRID_TABLE, noaaGridWeather } = await import("../lib/eventstudy.ts");
+      if (!t && NOAA_DAILY_EVENTS.includes(ev) && variable === "demand_mwh" && NOAA_GRID_ENTITY[entity]) {
+        const nr = await all("series", { select: "variable,ts_utc,value", table_name: `eq.${NOAA_GRID_TABLE}`, entity: `eq.${NOAA_GRID_ENTITY[entity]}`, order: "variable,ts_utc" });
+        const nw = noaaGridWeather(nr);
+        try { t = nw.size ? studyOf(ev, rs, nw) : null; } catch { t = null; }
+      }
       studies.set(k, { s: studyOf(ev, rs), t });
     }
     const { s, t } = studies.get(k);

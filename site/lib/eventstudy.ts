@@ -159,3 +159,29 @@ export function gridWeather(rows: { ts_utc: string; value: number; variable: str
   for (const [d, a] of acc) if (a.h.length && a.c.length) out.set(d, { hdd: mean(a.h), cdd: mean(a.c) });
   return out;
 }
+
+/** Ruling alternative 3 of /events (session 7712, branch wip/alt-events-3; not a default on main): the three newest events
+ * (January 2025 cold, June 2025 heat, January 2026 cold) have no station rows in event_window_daily, so the temperature
+ * version is read from noaa_grid_weather_daily: the grid's mean of NOAA ISD-Lite stations, base 65 F (that table's station
+ * set, not the event table's: a like method on other rows). NOAA_GRID_ENTITY names the table's entity of each grid. */
+export const NOAA_GRID_TABLE = "noaa_grid_weather_daily";
+/** The events whose temperature version reads NOAA_GRID_TABLE (no station row in event_window_daily). */
+export const NOAA_DAILY_EVENTS = ["cold_2025", "east_heat_2025", "cold_2026"];
+export const NOAA_GRID_ENTITY: Record<string, string> = {
+  "eia930:PJM": "iso:pjm", "eia930:ERCO": "iso:ercot", "eia930:SWPP": "iso:spp", "eia930:CISO": "iso:caiso",
+  "eia930:ISNE": "iso:isone", "eia930:MISO": "iso:miso", "eia930:NYIS": "iso:nyiso",
+};
+/** The grid's daily degree days from noaa_grid_weather_daily's rows of one entity (heating_degree_days, cooling_degree_days),
+ * the days holding both. */
+export function noaaGridWeather(rows: { ts_utc: string; value: number | string; variable: string }[]): Map<string, { hdd: number; cdd: number }> {
+  const acc = new Map<string, { hdd?: number; cdd?: number }>();
+  for (const r of rows) {
+    const d = r.ts_utc.slice(0, 10), a = acc.get(d) ?? {};
+    if (r.variable === "heating_degree_days") a.hdd = Number(r.value);
+    if (r.variable === "cooling_degree_days") a.cdd = Number(r.value);
+    acc.set(d, a);
+  }
+  const out = new Map<string, { hdd: number; cdd: number }>();
+  for (const [d, a] of acc) if (a.hdd !== undefined && a.cdd !== undefined && Number.isFinite(a.hdd) && Number.isFinite(a.cdd)) out.set(d, { hdd: a.hdd, cdd: a.cdd });
+  return out;
+}

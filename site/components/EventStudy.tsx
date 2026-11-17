@@ -8,8 +8,9 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
+import { Tip } from "@/components/tool/ToolPage";   // wip/alt-events-3
 import { series } from "@/lib/data";
-import { ENTITY_BA, gridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
+import { ENTITY_BA, gridWeather, NOAA_DAILY_EVENTS, NOAA_GRID_ENTITY, NOAA_GRID_TABLE, noaaGridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 
@@ -23,7 +24,7 @@ const OUTCOME: Record<string, { what: string; unit: string }> = {
   rt_mean: { what: "daily mean real-time price", unit: "USD/MWh" },
 };
 
-type Row = { entity: string; variable: string; s: Study; t: Study | null };
+type Row = { entity: string; variable: string; s: Study; t: Study | null; noaa?: boolean };   // noaa: wip/alt-events-3
 
 function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field: string; v: number }) {
   return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v}>{shown(v)}</Num>;
@@ -66,6 +67,7 @@ function Plot({ r, label }: { r: Row; label: string }) {
 }
 
 export async function EventStudy({ event, grids, primary, price }: { event: string; grids: string[]; primary: string; price?: boolean }) {
+  const noaaDaily = NOAA_DAILY_EVENTS.includes(event);   // ruling alternative 3 (wip/alt-events-3)
   const want = [...grids.map((g) => ({ entity: g, variable: "demand_mwh" })), ...(price ? [{ entity: "ercot:HB_HUBAVG", variable: "rt_mean" }] : [])];
   // session 49: the station rows of the event (temperature and degree days), for the temperature-controlled estimate
   const wx = await attempt(async () => (await series(T, { event })).filter((r) => r.entity.startsWith("noaa:") && (r.variable === "hdd_65f" || r.variable === "cdd_65f")));
@@ -74,7 +76,14 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
     const ws = wx.ok ? gridWeather(wx.data.filter((r) => STATION_BA[r.entity] === ENTITY_BA(w.entity))) : new Map();
     let t: Study | null = null;
     try { t = ws.size ? studyOf(event, rows, ws) : null; } catch { t = null; }
-    return { ...w, s: studyOf(event, rows), t } as Row;
+    // ruling alternative 3 (wip/alt-events-3, not a default on main): no station row in the event table, so the grid's
+    // daily degree days from noaa_grid_weather_daily; a read that fails leaves the estimate without temperature, as on main
+    let noaa = false;
+    if (!t && noaaDaily && w.variable === "demand_mwh" && NOAA_GRID_ENTITY[w.entity]) {
+      const nw = await attempt(async () => noaaGridWeather(await series(NOAA_GRID_TABLE, { entity: NOAA_GRID_ENTITY[w.entity] })));
+      if (nw.ok && nw.data.size) { try { t = studyOf(event, rows, nw.data); noaa = true; } catch { t = null; } }
+    }
+    return { ...w, s: studyOf(event, rows), t, noaa } as Row;
   })));
   if (!got.ok) return <Section title="What the estimates say"><NoData what="the event study" reason={got.reason} /></Section>;
   const rows = got.data;
@@ -94,7 +103,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
       </p>
       {lead.t ? (
         <p className="mb-2 max-w-3xl text-sm">
-          Controlling for temperature (the day&apos;s heating and cooling degree days at {name}&apos;s weather stations, and their squares), the effect is{" "}
+          Controlling for temperature (the day&apos;s heating and cooling degree days at {name}&apos;s weather stations, and their squares{lead.noaa ? <Tip id={`es-noaa-${event}`} label="where the degree days come from"><span data-es-noaa-tip="1">This event has no station rows in event_window_daily, so the degree days are the grid&apos;s mean of NOAA ISD-Lite stations at 65 F from noaa_grid_weather_daily: that table&apos;s stations, not the ones the six older events read, so a like method on other rows (ruling alternative 3). Default on the site: no temperature version for this event. Source: NOAA ISD-Lite, noaa_grid_weather_daily.</span></Tip> : null}), the effect is{" "}
           <strong><E ev={event} r={lead} term="pooled_temp" field="est" v={lead.t.pooled.estimate} /></strong> MWh a day (95 percent interval{" "}
           <E ev={event} r={lead} term="pooled_temp" field="lo" v={lead.t.pooled.lo} /> to <E ev={event} r={lead} term="pooled_temp" field="hi" v={lead.t.pooled.hi} />).{" "}
           {Math.sign(lead.t.pooled.estimate) === Math.sign(p.estimate) && Math.abs(lead.t.pooled.estimate) <= Math.abs(p.estimate) ? (
