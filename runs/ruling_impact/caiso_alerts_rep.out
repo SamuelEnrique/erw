@@ -1,0 +1,14 @@
+tables as retrieved: flex_alert_effects 20261002T051248Z, flex_alert_model 20261002T051248Z, caiso_grid_emergencies 20261013T075148Z
+alert days by the rule from the notices, 2018-07-01 to 2025-10-31: 39; held by the table: 38; by the rule and not held: 2021-07-12; held and not by the rule: none
+alert days in the notices after the sample (2025-10-31): 0; notices of any type after 2024-12-31: 9 (rmo, transmission_emergency)
+figures of the page: 634. Rebuilt from the public tables: 471, of which 467 agree inside half the page's last shown digit, 4 differ and are named, 0 fail. Not rebuildable from the public tables, named: 163.
+  series|flex_alert_effects|eia930:CISO|reduction_pct|2021-07-29T00:00:00Z | Every alert day, ranked | -0.18 | -0.174972 | 0.005028 | named difference: rounded twice: the table holds -0.175 (three decimals) of -0.17497, and the page rounds that to -0.18; from the hours, -0.17 (faults, row 6)
+  series|flex_alert_effects|eia930:CISO|train_days_as_hot|2023-07-26T00:00:00Z | Every alert day, ranked | 77 | 78.000000 | 1.000000 | named difference: a tie: two held-out days have the day's own high, 87.926 F, at the table's three decimals; the builder compared unrounded highs and counted one (faults, row 7)
+  series|flex_alert_effects|eia930:CISO|year_reduction_mwh|2024-01-01T00:00:00Z | Year by year | -16,893.33 | -16893.324900 | 0.005100 | named difference: rounded twice: the table holds -16,893.325 of -16,893.3249, and the page rounds that to -16,893.33; from the hours, -16,893.32 (faults, row 6)
+  notices|2020-10-01|types | Every alert day, ranked | Alert | Alert, Flex Alert |  | named difference: the Flex Alert for 1 October 2020 is dated 30 September in caiso_grid_emergencies (the day it was issued), so the page's notices cell for 2020-10-01 lacks it (faults, row 3, data machine)
+CAISO's own yearly day counts (revision 10/09/2026), 2018 to 2026: 66 of 71 year-type counts equal the notices table's
+  2018 transmission_emergency: CAISO 2, table 1
+  2019 transmission_emergency: CAISO 3, table 2
+  2020 rmo: CAISO 20, table 18
+  2022 transmission_emergency: CAISO 10, table 11
+  2022 eea2: CAISO 5, table 4
