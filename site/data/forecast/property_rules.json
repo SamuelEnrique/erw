@@ -1889,14 +1889,23 @@
      "kind": "valuation",
      "assessment_ratio": 0.105,
      "schedule_pct": [
-      100
+      89,
+      78,
+      67,
+      56,
+      45,
+      34,
+      23,
+      12,
+      10
      ],
-     "then_pct": 100,
+     "then_pct": 10,
      "cite": "sc_12_43_220",
-     "tip": "South Carolina: property of manufacturers and utilities is assessed at 10.5 percent of fair market value (Code 12-43-220(a)(1)); a fee in lieu agreed with the county (chapter 44), under which most solar farms pay, is not modeled. Property used by or leased to a utility, solar companies named (PT-300 Schedule E), is valued at cost less the straight-line allowances of Code 12-37-930, never below 10 percent of cost (12-37-935); but no allowance class names electric generation (class 6(a), 11 percent, is the manufacture of electrical machinery), and a utility's own plant is valued as a unit (12-4-540(B)) with no published table. The value is held at the capital cost, without depreciation: an upper bound.",
+     "tip": "South Carolina: property of manufacturers and utilities is assessed at 10.5 percent of fair market value (Code 12-43-220(a)(1)); a fee in lieu agreed with the county (chapter 44) is not modeled. Ruling alternative 9: the value is cost less the straight-line allowances of Code 12-37-930 by class 6(a), 11 percent a year (89, 78, 67 ... percent of cost), never below 10 percent of cost (12-37-935). Class 6(a) is the manufacture of electrical machinery; no class names electric generation. Default on the site: the capital cost, without depreciation, an upper bound.",
      "quote": "must be taxed on an assessment equal to ten and one-half percent of the fair market value of the property",
      "cite2": "sc_12_37_930",
-     "quote2": "(a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries, ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies. [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930."
+     "quote2": "(a) Electrical Equipment 11% Includes the manufacture of electric household appliances, electronic equipment, batteries, ignition systems, and machinery used in the generation and utilization of electrical energy. [PT-300:] Schedule E: Leased Utility Real or personal property used by Water, Heat, Light, Solar, Power, Telephone, Cable Television, and Sewer Companies. [...] The SCDOR applies depreciation for all taxable properties in accordance with SC Code Section 12-37-930.",
+     "branch": "ruling alternative 9 of /impact (wip/alt-impact-9, session 7706): not a default on main (main: at cost, schedule [100])"
     },
     {
      "id": "sc_kwh_excise",

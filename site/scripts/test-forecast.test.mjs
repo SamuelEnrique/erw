@@ -548,7 +548,7 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   near(T("land_based_wind", "tn", { levy: 50 }), 150e6 * 0.333333 * 0.55 * 0.05, 1e-6, "Tennessee wind: one third (session 6003; at cost before)");
   // New Mexico a third; South Carolina 10.5 percent plus half a mill per kWh; Texas market value; Ohio 7 percent
   near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.98 * 0.3333 * 0.03, 1e-12, "New Mexico solar: Table 20 (session 6003; at cost before)");
-  near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.105 * 0.3 + MWH * 0.5);
+  near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.89 * 0.105 * 0.3 + MWH * 0.5);   // ruling alternative 9 (wip/alt-impact-9): class 6(a), 89 percent the first year; main: at cost
   near(T("land_based_wind", "tx", { levy: 15 }), 150e6 * 0.015);
   near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.983 * 0.07 * 0.07);
   near(T("utility_pv", "oh", { levy: 70 }, 29), 150e6 * 0.15 * 0.07 * 0.07, 1e-12, "Ohio: the floor at 30");
@@ -654,7 +654,7 @@ test("session 6002: Kentucky's wind turbines are manufacturing machinery (Form 6
   assert.equal(T("natural_gas", "ky", 0), null, "gas: still a note");
   assert.match(P.property.states.ky.rules.find((r) => r.id === "ky_solar_machinery").tip, /Wind|wind turbines/);
   // South Carolina: 10.5 percent at cost, levy 300 mills, plus half a mill per kWh; the allowance class not assigned
-  near(T("natural_gas", "sc", 5, { levy: 300 }), 150e6 * 0.105 * 0.3 + 100 * 8760 * 0.3 * 0.5, 1e-12, "4,725,000 + 131,400");
+  near(T("natural_gas", "sc", 5, { levy: 300 }), 150e6 * 0.34 * 0.105 * 0.3 + 100 * 8760 * 0.3 * 0.5, 1e-12, "ruling alternative 9 (wip/alt-impact-9): 34 percent in the sixth year; main: 4,725,000 + 131,400");
   assert.match(P.property.states.sc.rules.find((r) => r.id === "sc_property").tip, /12-37-930/);
   // West Virginia solar: B&O on 8 percent of capacity plus property at cost, 60 percent, levy 19.2
   near(T("utility_pv", "wv", 5), 100 * 22.78 * 1000 * 0.08 + 150e6 * 0.89 * 0.6 * 0.0192, 1e-12, "table 9, age 6 (session 6005)");
