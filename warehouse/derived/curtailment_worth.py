@@ -33,7 +33,9 @@ The rules:
                 at full power, 1 MW, or at the curtailed MW when that is less, until it has taken in D MWh that local
                 day; then it stops. One cycle a day: what it takes in one day is assumed gone by the next. The figure is
                 energy taken in at the meter; round-trip losses are not credited and nothing is said of where it stands
-                (the data does not locate a curtailment).
+                (the data does not locate a curtailment). Session 7052 (done-line request 183): "charge_price", for each
+                hub and market and each D, the hub's price of each interval's hour weighted by the MWh the rule takes in
+                that interval (USD per MWh charged), written when at least 95 percent of the MWh taken are priced.
     The fleet.  CAISO's batteries (caiso_battery_storage, five-minute, from late August 2025), for a month in which
                 both tables hold at least 90 percent of the days, over the days both hold. The installed power of the
                 fleet is NOT in that data: the scale used is the fleet's highest five-minute charging rate of the month
@@ -129,6 +131,74 @@ def absorbed(iv, power, hours, tz):
     take = np.minimum(power * iv["dur"].values, iv["mwh"].values)
     day = iv["ts"].dt.tz_convert(tz).dt.strftime("%Y-%m-%d").values
     return pd.Series(take).groupby(day).sum().clip(upper=power * hours)
+
+
+def taken(iv, power, hours, tz):
+    """Session 7052 (chain 370, done-line request 183): the battery rule interval by interval, in time order: each
+    interval takes min(power x dur, the curtailed MWh) until the local day's total reaches power x hours, the interval
+    that reaches it takes only the rest, and the day's later intervals take nothing. Its day sums are absorbed()'s."""
+    if iv.empty:
+        return np.zeros(0)
+    iv = iv.sort_values("ts")
+    want = np.minimum(power * iv["dur"].values, iv["mwh"].values)
+    day = iv["ts"].dt.tz_convert(tz).dt.strftime("%Y-%m-%d").values
+    cum = pd.Series(want).groupby(day).cumsum().values
+    cap = power * hours
+    return pd.Series(np.clip(np.minimum(want, cap - (cum - want)), 0, None), index=iv.index)
+
+
+def charge_price(iv, take, p):
+    """What the battery paid for what it took in: the hub's price of each interval's hour (UTC), weighted by the MWh the
+    rule takes in that interval. Intervals whose hour has no price are left out of both. Returns (USD, MWh priced, MWh)."""
+    if len(take) == 0:
+        return 0.0, 0.0, 0.0
+    price = p.reindex(iv.loc[take.index, "ts"].dt.floor("h")).values
+    ok = ~np.isnan(price)
+    t = take.values
+    return float((t[ok] * price[ok]).sum()), float(t[ok].sum()), float(t.sum())
+
+
+def charge_record(iv, prices, nodes, iso, power, tz):
+    """For each hub and market held, and each duration: the battery's charge price (USD per MWh taken in), written only
+    when at least NEAR_HOURS of the MWh taken are priced; else the reason. Also the USD and MWh for a year's sums."""
+    out = {}
+    takes = {d: taken(iv, power, d, tz) for d in DURATIONS}
+    for node in nodes:
+        sides = prices.get(f"{iso}:{node}", {})
+        for k in ("rt", "da"):
+            if k not in sides:
+                continue
+            rec = {}
+            for d in DURATIONS:
+                usd, mp, mt = charge_price(iv, takes[d], sides[k])
+                if mt <= 0:
+                    rec[str(d)] = {"mwh_taken": 0.0, "missing": "the rule takes nothing in"}
+                elif mp < NEAR_HOURS * mt:
+                    rec[str(d)] = {"mwh_taken": round(mt, 2), "mwh_priced": round(mp, 2),
+                                   "missing": f"the hub's price is held for {mp / mt:.1%} of the MWh taken in, under {NEAR_HOURS:.0%}"}
+                else:
+                    rec[str(d)] = {"usd_per_mwh_charged": round(usd / mp, 2), "mwh_taken": round(mt, 2), "mwh_priced": round(mp, 2), "usd": round(usd, 2)}
+            out.setdefault(node, {})[k] = rec
+    return out
+
+
+def charge_year(months):
+    """A year's charge prices from its months' (each month written): the USD over the MWh priced, hub by hub."""
+    out = {}
+    for node in months[0]:
+        for k in months[0][node]:
+            rec = {}
+            for d in map(str, DURATIONS):
+                R = [m.get(node, {}).get(k, {}).get(d, {}) for m in months]
+                if all("usd_per_mwh_charged" in r for r in R):
+                    usd, mp = sum(r["usd"] for r in R), sum(r["mwh_priced"] for r in R)
+                    rec[d] = {"usd_per_mwh_charged": round(usd / mp, 2) if mp > 0 else None, "mwh_priced": round(mp, 2)}
+                elif all(r.get("mwh_taken", None) == 0.0 for r in R):
+                    rec[d] = {"missing": "the rule takes nothing in"}
+                else:
+                    rec[d] = {"missing": f"{sum('usd_per_mwh_charged' in r for r in R)} of the year's {len(R)} months have a charge price"}
+            out.setdefault(node, {})[k] = rec
+    return out
 
 
 def month_hours(month, tz):
@@ -227,6 +297,7 @@ def caiso(in_dir, log):
         r = {"days_held": len(covered[m]), "days_in_month": pd.Period(m).days_in_month, "curtailed_mwh": round(float(mine["mwh"].sum()), 1), "absorb_mwh_per_mw": {}}
         for d in DURATIONS:
             r["absorb_mwh_per_mw"][str(d)] = round(float(absorbed(mine, 1.0, d, tz).sum()), 2)
+        r["charge_price"] = charge_record(mine, prices, HUBS["caiso"], "caiso", 1.0, tz)  # session 7052: request 183
         both = [d for d in covered[m] if d in bat_days]
         if len(both) >= NEAR_DAYS * pd.Period(m).days_in_month:
             mb = mine[np.isin(mine["ts"].dt.tz_convert(tz).dt.strftime("%Y-%m-%d").values, both)]
@@ -255,6 +326,7 @@ def caiso(in_dir, log):
         if all(m in battery["months"] for m in due) and (y > whole[0][:4] or due[0] == whole[0]):
             battery["years"][y] = {"months": len(due), "curtailed_mwh": round(sum(battery["months"][m]["curtailed_mwh"] for m in due), 1),
                                    "absorb_mwh_per_mw": {str(d): round(sum(battery["months"][m]["absorb_mwh_per_mw"][str(d)] for m in due), 2) for d in DURATIONS}}
+            battery["years"][y]["charge_price"] = charge_year([battery["months"][m]["charge_price"] for m in due])  # session 7052
             fm = [m for m in due if "fleet" in battery["months"][m]]
             if len(fm) == len(due):
                 F = [battery["months"][m]["fleet"] for m in due]
@@ -338,7 +410,8 @@ def ercot(in_dir, ercot_dir, log):
     ivf = iv[days.isin(full).values]
     base["battery"] = {"window": {"days": len(full), "first_day": min(full) if full else None, "last_day": max(full) if full else None,
                                   "below_hsl_mwh": round(float(ivf["mwh"].sum()), 1),
-                                  "absorb_mwh_per_mw": {str(d): round(float(absorbed(ivf, 1.0, d, tz).sum()), 2) for d in DURATIONS}},
+                                  "absorb_mwh_per_mw": {str(d): round(float(absorbed(ivf, 1.0, d, tz).sum()), 2) for d in DURATIONS},
+                                  "charge_price": charge_record(ivf, prices, HUBS["ercot"], "ercot", 1.0, tz)},  # session 7052: request 183
                        "fleet_missing": "the battery-charging overlay holds CAISO's batteries only; no ERCOT fleet figure is compared here"}
     return base
 
