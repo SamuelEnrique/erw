@@ -1,0 +1,46 @@
+== line 1: the figures of the ten pages by what the hold does to them
+   eia930, a grid that does not decide (CAISO, ERCOT, PJM, SPP, Lower 48): 908
+   eia930, a held grid (ISO-NE, MISO, NYISO): 133
+   ercot: (a market's own price): 53
+   held figures counted by the page file: 27
+   spp: (a market's own price): 6
+of the 1100 figures in the replication's file (the rulings file counts 1,127 event numbers, 1,117 drawn 'license needed'): (a) EIA-930's entities named to their grids: 133 stay held, 908 are drawn; (b) rows of no grid: every EIA-930 figure is drawn, the three held grids' too; (c) as now
+   e.g. the index card's CAISO peak 51,104 MW (2022-09-06), drawn on /demand and /grid/caiso, blank here and on /learn/problems under (c)
+
+== line 2: the Elliott page: SPP's highest hour as EIA-930 holds it, beside FERC's published all-time winter peak
+EIA-930 SWPP highest hour in the window: 47,026 MW on 2022-12-22; FERC and NERC's report on Winter Storm Elliott (October 2023): 47,157 MW; difference +131 MW (+0.28 percent)
+
+== line 3: the three newest events, PJM (each page's primary grid), ERCOT and SPP: the estimate without temperature (as now) and with it
+cold_2025 eia930:PJM: pooled effect 412,096 MWh a day (+17.51 percent of the counterfactual) -> with temperature 90,681 [26,338, 155,025] on 30 days; weather share 78.0 percent
+cold_2025 eia930:ERCO: pooled effect 248,041 MWh a day (+21.63 percent of the counterfactual) -> with temperature 128,300 [105,304, 151,296] on 30 days; weather share 48.3 percent
+cold_2025 eia930:SWPP: pooled effect 110,081 MWh a day (+13.70 percent of the counterfactual) -> with temperature 72,827 [57,857, 87,796] on 30 days; weather share 33.8 percent
+east_heat_2025 eia930:PJM: pooled effect 380,844 MWh a day (+15.35 percent of the counterfactual) -> with temperature 149,728 [51,770, 247,685] on 27 days; weather share 60.7 percent
+cold_2026 eia930:PJM: pooled effect 677,815 MWh a day (+28.97 percent of the counterfactual) -> with temperature 154,838 [-90,945, 400,621] on 33 days; weather share 77.2 percent
+cold_2026 eia930:ERCO: pooled effect 346,005 MWh a day (+31.15 percent of the counterfactual) -> with temperature 116,860 [80,388, 153,331] on 33 days; weather share 66.2 percent
+cold_2026 eia930:SWPP: pooled effect 200,299 MWh a day (+26.29 percent of the counterfactual) -> with temperature 69,515 [49,803, 89,226] on 33 days; weather share 65.3 percent
+the six older events' temperature version reads station rows of event_window_daily; these read the grid's mean of NOAA ISD-Lite stations (noaa_grid_weather_daily, base 65 F), the station set of that table, not the event table's: a like method, not the same rows
+
+== line 4: Uri: the hub price near USD 9,000 per MWh (the reason, ERCOT's offer cap, is not in a table)
+HB_HUBAVG 15-minute intervals at or above USD 8,900 in February 2021: 345 (86 hours), by UTC day {'2021-02-15': 15, '2021-02-16': 80, '2021-02-17': 94, '2021-02-18': 96, '2021-02-19': 60}
+the sentence on the cap (USD 9,000, the PUCT's order of 15 February 2021) needs that document read: not held, so the words are not computed here
+
+== line 5: the September 2022 California heat page: each airport's hottest day in the window, from rows held
+noaa:SAC: 114.08 F on 2022-09-05
+noaa:LAX: 100.94 F on 2022-09-09
+
+== line 6: Elliott: ERCOT's highest hour set against ERCOT's own release
+EIA-930 ERCO highest hour: 73,976 MW on 2022-12-23. ERCOT's release of that week is not held (its robots file and terms are to be read first): the cross-check row is not computed
+
+== line 7: Elliott, PJM's estimate for each day, without temperature (as now) and with it (the event table's own station rows)
+2022-12-19: 300,948 MWh -> 413,103 MWh (+112,154; weather -37.3 percent of the day's effect)
+2022-12-20: 247,616 MWh -> 198,644 MWh (-48,972; weather 19.8 percent of the day's effect)
+2022-12-21: 283,343 MWh -> 276,550 MWh (-6,793; weather 2.4 percent of the day's effect)
+2022-12-22: 288,528 MWh -> 298,828 MWh (+10,300; weather -3.6 percent of the day's effect)
+2022-12-23: 619,177 MWh -> 1,419,061 MWh (+799,884; weather -129.2 percent of the day's effect)
+2022-12-24: 909,793 MWh -> 2,225,024 MWh (+1,315,231; weather -144.6 percent of the day's effect)
+2022-12-25: 635,254 MWh -> 1,425,642 MWh (+790,388; weather -124.4 percent of the day's effect)
+2022-12-26: 364,080 MWh -> 809,056 MWh (+444,976; weather -122.2 percent of the day's effect)
+2022-12-27: 267,009 MWh -> 389,267 MWh (+122,259; weather -45.8 percent of the day's effect)
+2022-12-28: 217,850 MWh -> 156,217 MWh (-61,633; weather 28.3 percent of the day's effect)
+2022-12-29: 123,403 MWh -> 558,439 MWh (+435,036; weather -352.5 percent of the day's effect)
+pooled: 387,000 -> 134,171 MWh a day; weather share 65.33 percent (the page's 65.33)
