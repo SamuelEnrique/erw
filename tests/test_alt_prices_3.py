@@ -33,7 +33,7 @@ class WestLessHouston(unittest.TestCase):
     def test_real_time(self):
         r = self.f["rt"]
         self.assertEqual((r["n"], round(r["mean"], 2), round(r["median"], 2), round(r["min"], 2), r["minAt"], round(r["max"], 2), r["maxAt"], r["below"]),
-                         (598, 1.14, 0.0, -217.67, "2026-11-02T22:00:00Z", 407.81, "2026-11-12T03:00:00Z", 297))
+                         (598, 1.14, 0.0, -217.67, "2026-11-02T22:00:00Z", 407.82, "2026-11-12T03:00:00Z", 297))   # 407.815 exactly: the impact file prints 407.81
 
     def test_day_ahead(self):
         d = self.f["da"]
