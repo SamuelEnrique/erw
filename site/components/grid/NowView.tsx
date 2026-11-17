@@ -14,6 +14,7 @@ import { ShareBar } from "@/components/ShareBar";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { HeadlineNumber, HeadlineRow, SourceLine, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { daysAgo, series, type SeriesRow } from "@/lib/data";
+import { alignHour } from "@/lib/gridalign";   // wip/alt-grid-1
 import { shown } from "@/lib/format";
 import { FUELS, fuelName, fuelOf, type GridData } from "@/lib/grid";
 import { gridHref, zoneWords, type GridChoice } from "@/lib/gridtool";
@@ -50,8 +51,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   ]);
   // demand: the latest hour held, and the same hour a week earlier
   const demand = dem.ok ? [...dem.data].sort(byTime) : [];
-  const d = demand.at(-1);
-  const dWeek = d ? demand.find((r) => Date.parse(r.ts_utc) === Date.parse(d.ts_utc) - 7 * 24 * H) : undefined;
+  const dLatest = demand.at(-1);   // wip/alt-grid-1: the three lead figures are put at one hour below
   // the mix: the latest hour that holds the total, its fuels largest first
   const withheld = grid.slug === "caiso";  // session 118: EIA-930's generation for California is not drawn
   const rows = gen.ok && !withheld ? gen.data : [];
@@ -61,7 +61,15 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   // the exchange: the network's snapshot, the newest hour every reporting pair holds
   const { snap } = pickSnapshot(fetched, committed);
   const complete = completeHour(snap.hours, snap.links);
-  const xHour = complete.hour ?? snap.hours[snap.hours.length - 1];
+  const xLatest = complete.hour ?? snap.hours[snap.hours.length - 1];
+  // ruling alternative 1 (wip/alt-grid-1, not a default on main): demand, the exchange and carbon at the newest hour all
+  // three hold (alignHour); each keeps its own newest hour when the snapshot does not hold that hour
+  const cgLatest = ci.ok ? ci.data.filter((r) => r.variable === "intensity_generation").sort(byTime).at(-1) : undefined;
+  const hour = alignHour([dLatest?.ts_utc, cgLatest?.ts_utc, xLatest], snap.hours);
+  const atHour = (r: SeriesRow) => hour !== null && Date.parse(r.ts_utc) === Date.parse(hour);
+  const d = hour ? demand.find(atHour) ?? dLatest : dLatest;
+  const dWeek = d ? demand.find((r) => Date.parse(r.ts_utc) === Date.parse(d.ts_utc) - 7 * 24 * H) : undefined;
+  const xHour = hour ?? xLatest;
   const ties = grid.slug === "us48" ? [] : tiesAt(snap, grid.ba, xHour);
   const net = ties.reduce((a, t) => a + t.mw, 0) || 0;
   // a net import is written as one: the same sum from the other side, with its own key
@@ -71,7 +79,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   const lag = Math.round((Date.parse(snap.built) - Date.parse(xHour)) / H);
   const lagNum = <Num check={`net|lag|${xHour}|${snap.built}`} raw={lag}>{shown(lag)}</Num>;
   // carbon: the latest hour EIA has estimated
-  const cg = ci.ok ? ci.data.filter((r) => r.variable === "intensity_generation").sort(byTime).at(-1) : undefined;
+  const cg = hour && ci.ok ? ci.data.find((r) => r.variable === "intensity_generation" && atHour(r)) ?? cgLatest : cgLatest;
   const cd = cg && ci.ok ? ci.data.find((r) => r.variable === "intensity_demand" && r.ts_utc === cg.ts_utc) : undefined;
 
   return (
