@@ -7,7 +7,9 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
-import { HEADLINE, PLACEHOLDER, choiceOf, dateWords, easternNow, fmt, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { licenseGridTitle, licenseHeldGrids } from "@/lib/license";
+import { GRID_CHOICES, gridHref } from "@/lib/gridtool";
 
 // Session 134: Supply and trade, for a trader in oil, gas and power. One question: is the market tighter or looser than
 // last week, last year and normal for the season. Every number stands against those three, and the week's change against
@@ -16,7 +18,15 @@ import { HEADLINE, PLACEHOLDER, choiceOf, dateWords, easternNow, fmt, nextReleas
 // docs/methods/supply_and_trade.md. The whole state is in the address.
 export const metadata: Metadata = { title: "Supply and trade", robots: { index: false, follow: false } };
 
-const file = withUnitWords(fileJson as unknown as SupplyFile);
+// session 7541: a grid held for a license on the day has its day-ahead cleared row drawn "license needed", made so
+// here, on the server, so no held figure is in what the browser receives (lib/supply.ts, holdRows)
+// (and, row 12 of the read, the states written in full in each place, as the price board names the same terminals)
+const file = holdRows(withPlaceWords(withUnitWords(fileJson as unknown as SupplyFile)), licenseHeldGrids(), licenseGridTitle);
+// session 7541: the grids of the fuel burned for power, each with the Grid page's Mix (generation by every source) and
+// Network (what it takes from and sends to each neighbour, the last twelve months) views
+const BURN_GRIDS = GRID_CHOICES.filter((g) => g.slug !== "us48");
+const LAST_YEAR = "The value 52 weeks before for a weekly series (364 days, the same weekday, or the nearest within 3 days), as EIA's storage report sets a week beside the same week a year before; the same month a year before for a monthly series. The price board's Year takes the newest value at least 365 days before, so for a weekly series its base can be a week older: the date of each base is on hover in both";
+const LAST_52 = "The last 52 values held: 52 weeks for a weekly series, 52 months (over four years) for a monthly one. A week or month not held is left out and the line closes over it, so a line can span more than 52 steps; each point's date is on hover";
 const METHOD = "/data/methods/supply_and_trade";
 // session 333: the tables the file is built from, as its sources name them in brackets ("CFTC, ... (cftc_cot_positions)")
 const TABLES = [...new Set((file.sources as string[]).flatMap((s) => [...s.matchAll(/\(([a-z0-9]+(?:_[a-z0-9]+)+)\)/g)].map((m) => m[1])))];
@@ -60,6 +70,14 @@ function Table({ group, c }: { group: Group; c: Choice }) {
   return (
     <section id={group.id} className="mb-7 scroll-mt-4" data-group={group.id}>
       <h2 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent">{group.title}</h2>
+      {group.id === "burn" ? (
+        <p className="mb-1 text-xs" data-grid-links="1">
+          <span title="The Grid page's Mix view: each grid's generation by every source (gas, coal, nuclear, wind, solar, hydro, batteries), hour by hour and month by month, from the same EIA-930 hours as the rows below. Its Network view: what the grid takes from and sends to each neighbour, the last twelve months.">Each grid&apos;s generation by every source, and what it takes from and sends to each neighbour, on the Grid page:</span>{" "}
+          {BURN_GRIDS.map((g, i) => (
+            <span key={g.slug} className="whitespace-nowrap">{i ? "; " : ""}{g.label} <SiteLink href={gridHref(g.slug, "mix")} data-grid-mix={g.slug}>mix</SiteLink>, <SiteLink href={gridHref(g.slug, "network")} data-grid-network={g.slug}>neighbours</SiteLink></span>
+          ))}
+        </p>
+      ) : null}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1080px] border-collapse text-sm tabular-nums">
           <thead>
@@ -68,11 +86,11 @@ function Table({ group, c }: { group: Group; c: Choice }) {
               <th className="pr-3 text-right font-normal">Latest</th>
               <th className="pr-3 text-right font-normal">Its date</th>
               <th className="pr-3 text-right font-normal" title="The latest less the value one step before: a week for a weekly series, a month for a monthly one">On the period before</th>
-              <th className="pr-3 text-right font-normal">On last year</th>
+              <th className="pr-3 text-right font-normal" title={LAST_YEAR} data-head="year">On last year</th>
               <th className="pr-3 text-right font-normal">Five-year average</th>
               <th className="pr-3 text-right font-normal">Against the average</th>
               <th className="pr-3 text-right font-normal" title="The period's change less the five-year average change of the same period">Change against the five-year average change</th>
-              <th className="pr-3 text-right font-normal">Last 52</th>
+              <th className="pr-3 text-right font-normal" title={LAST_52} data-head="last52">Last 52</th>
               {pos ? <><th className="pr-3 text-right font-normal">Long</th><th className="pr-3 text-right font-normal">Short</th><th className="pr-2 text-right font-normal">In its three-year range</th></> : null}
             </tr>
           </thead>
@@ -93,8 +111,8 @@ function Table({ group, c }: { group: Group; c: Choice }) {
               return (
                 <tr key={r.id} className={`border-b border-rule/70 ${c.s === r.id ? "bg-paper" : ""}`} data-row={r.id}>
                   {name}
-                  <td className="whitespace-nowrap py-1 pr-3 text-right font-semibold"><span data-n={`${r.id}|last`}>{fmt(last.v, r.unit)}</span><span className="ml-1 text-[10px] font-normal text-muted">{r.unit}</span></td>
-                  <td className="whitespace-nowrap py-1 pr-3 text-right text-[11px] text-muted" title={r.freq === "M" ? "a monthly series" : "a weekly series: the date its week ends"}>{dateWords(last.t, r.freq)}</td>
+                  <td className="whitespace-nowrap py-1 pr-3 text-right font-semibold"><span data-n={`${r.id}|last`} title={latestTitle(r)} data-latest-title={latestTitle(r) ? r.id : undefined}>{fmt(last.v, r.unit)}</span><span className="ml-1 cursor-help text-[10px] font-normal text-muted" title={unitTitle(r.unit)} data-unit={r.unit}>{r.unit}</span></td>
+                  <td className="whitespace-nowrap py-1 pr-3 text-right text-[11px] text-muted" title={burnWeekWords(file, r) ?? (r.freq === "M" ? "a monthly series" : "a weekly series: the date its week ends")} data-week-behind={burnWeekWords(file, r) ? r.id : undefined}>{dateWords(last.t, r.freq)}</td>
                   <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.prev?.ch} from={r.prev ?? undefined} what={r.freq === "M" ? "the month before" : "the week before"} /></td>
                   <td className="py-1 pr-3 text-right text-xs"><Against row={r} diff={r.year?.ch} percent={r.year?.pct} from={r.year ?? undefined} what="a year before" /></td>
                   <td className="py-1 pr-3 text-right text-xs">{r.avg5 ? <span title={`the five years before ran from ${fmt(r.avg5.lo, r.unit, last.v)} to ${fmt(r.avg5.hi, r.unit, last.v)} ${r.unit} at this point of the year`} data-n={`${r.id}|avg5`}>{fmt(r.avg5.v, r.unit, last.v)}</span> : <NH why="One of the five years before does not hold this point of the year." />}</td>
@@ -139,7 +157,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
           {head.map((r) => (
             <Link key={r.id} href={`${hrefOf(c, { s: r.id })}#chart`} className="block bg-white px-2 py-1.5 text-ink no-underline hover:bg-paper" title={`${r.label}, ${r.at}. Open its seasonal chart.`}>
               <span className="block text-[10px] uppercase tracking-wide text-muted">{r.label}, {r.at}</span>
-              <span className="block font-serif text-xl tabular-nums"><span data-n={`head|${r.id}`}>{fmt(r.last!.v, r.unit)}</span><span className="ml-1 font-sans text-[10px] text-muted">{r.unit}, {shortDate(r.last!.t)}</span></span>
+              <span className="block font-serif text-xl tabular-nums"><span data-n={`head|${r.id}`}>{fmt(r.last!.v, r.unit)}</span><span className="ml-1 font-sans text-[10px] text-muted"><span title={unitTitle(r.unit)} data-unit={r.unit}>{r.unit}</span>, {shortDate(r.last!.t)}</span></span>
               {([["Week", r.prev?.ch, null], ["Year", r.year?.ch, r.year?.pct], ["Normal", r.avg5?.ch, r.avg5?.pct]] as const).map(([k, d, p]) => (
                 <span key={k} className="block text-[11px] tabular-nums">
                   <span className="inline-block w-12 text-muted">{k}</span>

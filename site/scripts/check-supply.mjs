@@ -22,12 +22,15 @@
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env, withBrowser, unlockPost } from "./browser.mjs";
-import { HEADLINE, PLACEHOLDER, dateWords, easternNow, fmt, nextRelease, pct, releaseWords, signed, surprises } from "../lib/supply.ts";
+import { HEADLINE, PLACEHOLDER, dateWords, easternNow, fmt, holdRows, nextRelease, pct, releaseWords, signed, surprises, withPlaceWords } from "../lib/supply.ts";
+import { licenseGridTitle, licenseHeldGrids } from "../lib/license.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3134").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
-const file = JSON.parse(fs.readFileSync(new URL("../data/supply.json", import.meta.url), "utf-8"));
+// session 7541: the file as the page draws it, after the day's license hold (a held grid's cleared row has no figure)
+const file = holdRows(withPlaceWords(JSON.parse(fs.readFileSync(new URL("../data/supply.json", import.meta.url), "utf-8"))), licenseHeldGrids(), licenseGridTitle);
+const heldNow = new Set(licenseHeldGrids());
 const row = (id) => file.rows.find((r) => r.id === id);
 const unlock = await unlockPost(base, env("INTERNAL_COSTS_TOKEN") ?? "");
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
@@ -82,7 +85,9 @@ const text = plain(html);
   check(say("cleared-miso").includes("paused while terms are reviewed") && say("cleared-pjm").includes("licensed source needed") && say("ice-brent").includes("licensed source needed") && say("gasprod-weekly").includes("licensed source needed")
     && say("burn-caiso-oil").includes("not held yet"), "MISO paused, PJM and ICE and weekly gas production licensed, the rest not held yet");
   // session 136: the five operators that publish it openly hold a figure; a week is MWh a day
-  check(["cleared-ercot", "cleared-caiso", "cleared-nyiso", "cleared-iso-ne", "cleared-spp"].every((id) => /\d[\d,]* MWh\/d/.test(say(id))), "day-ahead energy cleared holds a figure in MWh a day for ERCOT, CAISO, NYISO, ISO-NE and SPP (a comparison that cannot be made yet stays a placeholder)");
+  // session 7541: a grid held for a license on the day reads "license needed" in place of its figure
+  const clearedIds = [["cleared-ercot", "ercot"], ["cleared-caiso", "caiso"], ["cleared-nyiso", "nyiso"], ["cleared-iso-ne", "isone"], ["cleared-spp", "spp"]];
+  check(clearedIds.every(([id, g]) => (heldNow.has(g) ? say(id).includes("license needed") && !/\d[\d,]* MWh\/d/.test(say(id)) : /\d[\d,]* MWh\/d/.test(say(id)))), "day-ahead energy cleared holds a figure in MWh a day for each of ERCOT, CAISO, NYISO, ISO-NE and SPP not held for a license on the day, and \"license needed\" for each held (a comparison that cannot be made yet stays a placeholder)");
 }
 {
   const rel = Object.fromEntries([...html.matchAll(/data-release="([^"]+)"[^>]*>([^<]*)</g)].map((m) => [m[1], m[2]]));
