@@ -45,6 +45,14 @@ export type RulesFile = {
 };
 
 export const RULES_TABLE = "utility_large_load_rules", CHANGES_TABLE = "utility_large_load_rule_changes", LAWS_TABLE = "state_large_load_laws";
+/** Session 7626, the other choice of the ruling on Michigan's law (wip/alt-policy-2, not landed): a law that sets no
+ * terms for a large load's connection or its rates, and states no smallest load, is outside the table's scope. One law
+ * of the file is: Michigan's Enrolled H.B. 4906 (Public Act 207 of 2024), a sales tax exemption for enterprise data
+ * centers. Taken out of every count and list that reads the laws. */
+export const OUT_OF_SCOPE_LAWS: Record<string, string> = {
+  "laws_midwest_northeast-05": "a sales tax exemption for enterprise data centers, with no smallest load: no term for a large load's connection or rates",
+};
+export const inScopeLaws = <T extends { id: string }>(laws: T[]): T[] => laws.filter((l) => !(l.id in OUT_OF_SCOPE_LAWS));
 export const LICENSE_NEEDED = "license needed";
 export const NOT_PUBLISHED = "not published";
 /** The anchors of the sections, which the tab's cells and /policy link to. */
@@ -291,7 +299,7 @@ export function lawSearchOf(searches: LawSearch[] | undefined, state: string): {
 export const rulesHref = (state?: string) => `/cost-of-power?view=allgrids${state ? `&rstate=${encodeURIComponent(state)}` : ""}#${RULES_ANCHOR}`;
 
 /** The states with a law or a bill, for the tab's link to /policy. */
-export const lawStates = (file: Pick<RulesFile, "laws" | "held_laws">): string[] => [...new Set([...file.laws.map((l) => l.state), ...file.held_laws.map((l) => l.state)].filter(Boolean))].sort();
+export const lawStates = (file: Pick<RulesFile, "laws" | "held_laws">): string[] => [...new Set([...inScopeLaws(file.laws).map((l) => l.state), ...file.held_laws.map((l) => l.state)].filter(Boolean))].sort();
 export const lawsHref = (state?: string) => `/policy?view=monitor${state ? `&state=${encodeURIComponent(state)}` : ""}#${LAWS_ANCHOR}`;
 export function lawStatusTip(l: Law): string {
   return `${LAW_STATUS_TIP[l.status] ?? ""} ${l.date_kind === "date read" ? `No date of its own is printed in the text read: ${dateWords(l.status_date)}.` : `Dated ${dateWords(l.status_date)} in the text.`} ${l.status_cite}`.trim();
@@ -387,9 +395,9 @@ export function largeLoadStat(file: RulesFile, key: string): number | undefined 
     if (p[2] === "group") return file.changes.filter((c) => c.group === p[3]).length;
   }
   if (p[1] === "laws") {
-    if (p[2] === "public") return file.laws.length;
+    if (p[2] === "public") return inScopeLaws(file.laws).length;   // session 7626 (wip/alt-policy-2)
     if (p[2] === "held") return file.held_laws.length;
-    if (p[2] === "status") return file.laws.filter((l) => l.status === p[3]).length;
+    if (p[2] === "status") return inScopeLaws(file.laws).filter((l) => l.status === p[3]).length;
     if (p[2] === "state") return file.laws.filter((l) => l.state === p[3]).length + file.held_laws.filter((l) => l.state === p[3]).length;
   }
   return undefined;

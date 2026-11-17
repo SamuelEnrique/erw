@@ -18,7 +18,7 @@ import { filtersOf, type MonitorFile } from "@/lib/policymonitor";
 import monitorFile from "@/data/policy/monitor.json";
 // chain 302 (session 7201): the states' laws on large loads (state_large_load_laws), from the large-load page file
 import largeLoadFile from "@/data/siting/large_load_rules.json";
-import { statesOf, type RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
+import { inScopeLaws, statesOf, type RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
 import { citeOf } from "@/lib/policyreads";
 import status from "@/data/license_status.json";
 
@@ -93,7 +93,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         <PausedLine file={pausedSources().file} names={pausedSources().names} />
         <Section title="The monitor">
           <MonitorView rows={m.rows} built={m.built} held={m.records} opened={filtersOf(q)} today={new Date(renderTime()).toISOString().slice(0, 10)}
-            laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],
+            laws={{ laws: inScopeLaws(ll.laws), held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],
               // session 7204: the utilities' rules and their changes by state, for the laws block's link to the All grids tab
               rules: countByState([...ll.rules, ...ll.held_rules].map((r) => r.state)), changes: countByState(ll.changes.map((c) => c.state)) }} />
           <Cite tables={["policy_actions", "policy_reads"]} note="One row a proceeding: the documents of policy_actions that name it, grouped by warehouse/policy/records.py; body, instrument, status, dates, next step and figure by the written rules of warehouse/policy/fields.py; the impact sentence's clause a model's, kept only when its words stand in the text" />

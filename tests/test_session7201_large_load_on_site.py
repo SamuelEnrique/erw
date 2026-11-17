@@ -70,7 +70,7 @@ class TheComponentsDrawn(unittest.TestCase):
     def test_the_blank_cells_are_counted_in_the_drawn_pages(self):
         self.assertRegex(self.out, r"(?m)^ok   the rules table draws 228 blank cells that say license needed: 220 of the 22 held rows, 8 fields of public rows")
         self.assertRegex(self.out, r"(?m)^ok   the changes open on the newest 12 of 94, and the 4 held are drawn blank \(16 cells\)")
-        self.assertRegex(self.out, r"(?m)^ok   the 27 laws and bills and the 1 held, whose four cells are blank")
+        self.assertRegex(self.out, r"(?m)^ok   the 26 laws and bills in scope and the 1 held, whose four cells are blank")
         self.assertRegex(self.out, r"(?m)^ok   \d+ values and cites of held rows and withheld fields, searched for in the drawn pages: none found")
 
     def test_every_hub_row_draws_its_rule_line(self):
@@ -167,7 +167,7 @@ class TheMonitor(unittest.TestCase):
         self.assertIn("{laws ? <StateLaws file={laws} states={f.states} clearStates={() => put({ ...f, states: [] })} /> : null}", m)
         p = src("site", "app", "policy", "page.tsx")
         # session 7204: the block also takes what the research records for a state with no law, and the rules' counts by state
-        self.assertIn("laws={{ laws: ll.laws, held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],", p)
+        self.assertIn("laws={{ laws: inScopeLaws(ll.laws), held: ll.held_laws, built: ll.built, retrieved: ll.retrieved, searches: ll.law_searches ?? [],", p)
         # session 7019 (done-line request 9): out of release v1, the table leaves the downloads line; the block's CSV stays
         self.assertNotIn('"state_large_load_laws"]} />', p)
         s = src("site", "app", "policy", "StateLaws.tsx")

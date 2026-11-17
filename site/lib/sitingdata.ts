@@ -19,7 +19,7 @@ import facilitiesJson from "@/data/siting/facilities.json";
 import cpJson from "@/data/siting/ercot_4cp.json";
 import nodesJson from "@/data/siting/nodes.json";
 import largeLoadJson from "@/data/siting/large_load_rules.json";
-import type { RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
+import { inScopeLaws, type RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
 import * as DCL from "@/lib/datacenter";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
 import { newestRate, type CapFile, type ConnectFile, type CpFile, type DC, type Files, type LoadStatus, type CarbonFile, type DemandYears, type FacilityGridFile, type UtilityFile, type TariffFile, type ConnRulesFile, type HeadroomFile, type NodeFile, type RulesFile, type WaitsFile } from "@/lib/siting";
@@ -27,7 +27,8 @@ import { newestRate, type CapFile, type ConnectFile, type CpFile, type DC, type 
 export const NODES = nodesJson as unknown as NodeFile;
 /** Chain 302 (session 7201): US utilities' large-load rules, their changes and the states' laws (data/siting/
  * large_load_rules.json, warehouse/derived/large_load_rules_page.py): the public rows, and the held rows' names only. */
-export const LARGE_LOAD = largeLoadJson as unknown as LargeLoadFile;
+// session 7626 (wip/alt-policy-2, not landed): the laws outside the table's scope are taken out (lib/largeloadrules.ts)
+export const LARGE_LOAD: LargeLoadFile = { ...(largeLoadJson as unknown as LargeLoadFile), laws: inScopeLaws((largeLoadJson as unknown as LargeLoadFile).laws) };
 /** Session 702: ERCOT's four summer peak intervals (data/siting/ercot_4cp.json, from ercot_4cp_intervals). */
 export const CP = cpJson as unknown as CpFile;
 /** Session 703: the Commission's newest approved postage stamp rate, as "Your load"'s four-peak block takes it. */

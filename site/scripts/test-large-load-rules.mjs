@@ -24,9 +24,10 @@ ok(file.rules.every((r) => L.RULE_STATUSES.includes(r.status)) && file.laws.ever
 ok(file.rules.every((r) => L.GRID_KEYS.includes(r.grid)) && file.held_rules.every((r) => L.GRID_KEYS.includes(r.grid)), "every grid is one the filter names");
 ok(file.changes.every((c) => L.CHANGE_GROUPS.some(([k]) => k === c.group)) && file.changes.every((c) => c.kind in L.CHANGE_KIND_WORDS), "every change's region and kind has its words");
 for (const s of L.RULE_STATUSES) ok(L.largeLoadStat(file, `largeload|rules|status|${s}`) === (file.counts.rules[s] ?? 0), `the count of rules ${s} is the file's (${file.counts.rules[s] ?? 0})`);
-for (const s of L.LAW_STATUSES) ok(L.largeLoadStat(file, `largeload|laws|status|${s}`) === (file.counts.laws[s] ?? 0), `the count of laws ${s} is the file's (${file.counts.laws[s] ?? 0})`);
+// session 7626 (wip/alt-policy-2): the counts are of the laws in scope (Michigan's sales tax exemption, in effect, out)
+for (const s of L.LAW_STATUSES) { const n = L.inScopeLaws(file.laws).filter((l) => l.status === s).length; ok(L.largeLoadStat(file, `largeload|laws|status|${s}`) === n && n === (file.counts.laws[s] ?? 0) - (s === "in effect" ? 1 : 0), `the count of laws ${s} is the laws' in scope (${n})`); }
 ok(L.largeLoadStat(file, "largeload|rules|all") === 122 && L.largeLoadStat(file, "largeload|rules|public") === 100 && L.largeLoadStat(file, "largeload|rules|held") === 22, "the rule counts: all, public, held");
-ok(L.largeLoadStat(file, "largeload|changes|public") === 94 && L.largeLoadStat(file, "largeload|changes|held") === 4 && L.largeLoadStat(file, "largeload|laws|public") === 27 && L.largeLoadStat(file, "largeload|laws|held") === 1, "the change and law counts");
+ok(L.largeLoadStat(file, "largeload|changes|public") === 94 && L.largeLoadStat(file, "largeload|changes|held") === 4 && L.largeLoadStat(file, "largeload|laws|public") === 26 && L.largeLoadStat(file, "largeload|laws|held") === 1, "the change and law counts");
 ok(L.CHANGE_GROUPS.reduce((s, [k]) => s + L.largeLoadStat(file, `largeload|changes|group|${k}`), 0) === 94, "the changes by region sum to 94");
 ok(L.largeLoadStat(file, "largeload|rules|state|TX") === all.filter((r) => /\bTX\b/.test(r.state)).length && L.largeLoadStat(file, "largeload|rules|state|TX") >= 8, "the rules of a state count public and held");
 ok(L.largeLoadStat(file, "allgrids|x") === undefined && L.largeLoadStat(file, "largeload|rules|nothing") === undefined, "a key that is not the section's is no figure");
@@ -97,7 +98,7 @@ const parts = file.laws.flatMap((l) => L.requirementsOf(l));
 ok(parts.length > 90 && parts.every((p) => p.topic && p.words && p.cite), `every requirement of every law parses to a topic, its words and its cite (${parts.length})`);
 ok(file.laws.every((l) => L.requirementsOf(l).map((p) => `${p.topic}: ${p.words} [${p.cite}]`).join(" || ") === l.requirements), "the parts put together are the table's own cell");
 ok(L.lawsOf(file, ["MD"]).laws.length === 2 && L.lawsOf(file, ["IN"]).held.length === 1 && L.lawsOf(file, []).laws.length === 27, "the laws of a state; Indiana's is held");
-ok(L.lawStates(file).includes("IN") && L.lawStates(file).length === 26 && L.lawsHref("TX") === "/policy?view=monitor&state=TX#large-load-laws", "26 states have a law or a bill; the tab's link to one");
+ok(L.lawStates(file).includes("IN") && L.lawStates(file).length === 25 && L.lawsHref("TX") === "/policy?view=monitor&state=TX#large-load-laws", "25 states have a law or a bill (Michigan out of scope, session 7626); the tab's link to one");
 ok(L.largeLoadStat(file, "largeload|laws|state|MD") === 2 && L.largeLoadStat(file, "largeload|laws|state|IN") === 1, "the laws of a state count the held one");
 
 // a state with no law in the table (session 7204): what the research records, never "no law"

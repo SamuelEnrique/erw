@@ -165,20 +165,21 @@ ok(tally.opens >= 15 && tally.grid === 1 && tally.opens + tally.state + tally.fo
 
 // ---- the states' laws in the monitor
 const byState = (rows) => { const o = {}; for (const r of rows) for (const s of L.statesOf(r.state)) o[s] = (o[s] ?? 0) + 1; return o; };
-const lawsProp = { laws: file.laws, held: file.held_laws, built: file.built, retrieved: file.retrieved, searches: file.law_searches,
+// session 7626 (wip/alt-policy-2): the policy page passes the laws in scope
+const lawsProp = { laws: L.inScopeLaws(file.laws), held: file.held_laws, built: file.built, retrieved: file.retrieved, searches: file.law_searches,
   rules: byState([...file.rules, ...file.held_rules]), changes: byState(file.changes) };
 const laws = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: [], clearStates: () => {} }));
-ok(laws.includes('id="large-load-laws"') && count(laws, /data-law="/g) === 28 && count(laws, /data-law-held="1"/g) === 1 && count(laws, /data-license-held="state_large_load_laws"/g) === 4, "the 27 laws and bills and the 1 held, whose four cells are blank");
+ok(laws.includes('id="large-load-laws"') && count(laws, /data-law="/g) === 27 && count(laws, /data-law-held="1"/g) === 1 && count(laws, /data-license-held="state_large_load_laws"/g) === 4, "the 26 laws and bills in scope and the 1 held, whose four cells are blank");
 const lawKeys = [...laws.matchAll(/data-check="(largeload\|[^"]+)" data-raw="([^"]+)"/g)];
 ok(lawKeys.length >= 8 && lawKeys.every(([, k, raw]) => Number(raw) === L.largeLoadStat(file, k)), `the laws' ${lawKeys.length} counts are each the file's`);
-ok(file.laws.every((l) => laws.includes(`href="${l.url.replace(/&/g, "&amp;")}"`) && L.requirementsOf(l).every((p) => laws.includes(`data-law-topic="${p.topic}"`))), "every law links its own text, and each requirement is a topic with its words and cite on hover");
+ok(L.inScopeLaws(file.laws).every((l) => laws.includes(`href="${l.url.replace(/&/g, "&amp;")}"`) && L.requirementsOf(l).every((p) => laws.includes(`data-law-topic="${p.topic}"`))), "every law links its own text, and each requirement is a topic with its words and cite on hover");
 // session 7204: a topic a law names twice is numbered in place
 const va = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["VA"], clearStates: () => {} }));
 const vaLaw = file.laws.find((l) => l.state === "VA"), vaTopics = L.requirementsOf(vaLaw).map((p) => p.topic);
 const twice = vaTopics.find((t) => vaTopics.filter((x) => x === t).length > 1);
 ok(twice && text(va).includes(`${twice} (1 of 2)`) && text(va).includes(`${twice} (2 of 2)`) && count(va, /data-law-topic="/g) === vaTopics.length, `Virginia's law names "${twice}" twice: the two are numbered, and each requirement is drawn once`);
 const md = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["MD"], clearStates: () => {} }));
-ok(count(md, /data-law="/g) === 2 && text(md).includes("2 of 28 shown (the State filter: MD;"), "the monitor's State filter chooses the laws: Maryland's two");
+ok(count(md, /data-law="/g) === 2 && text(md).includes("2 of 27 shown (the State filter: MD;"), "the monitor's State filter chooses the laws: Maryland's two");
 // session 7204 (the read of /policy): a state with no row is never "no law": what the research found, or did not reach
 const txLaws = renderToStaticMarkup(h(StateLaws, { file: lawsProp, states: ["TX"], clearStates: () => {} }));
 ok(text(txLaws).includes("TX: S.B. 6, read and not shown") && txLaws.includes('data-law-withheld="TX"') && count(txLaws, /data-not-shown="state_large_load_laws"/g) === 4 && count(txLaws, /aria-label="[^"]*: not shown"/g) === 4 && !/was read for/.test(text(txLaws)),
