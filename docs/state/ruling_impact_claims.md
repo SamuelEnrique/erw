@@ -14,5 +14,5 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /explore/ercot-peak-premium | samueloldlaptop | 7576 | done | docs/reviews/ruling-impact-ercot-peak-premium-2026-11-17.md |
 | /explore/demand-growth | samueloldlaptop | 7577 | done | docs/reviews/ruling-impact-demand-growth-2026-11-17.md |
 | /explore/interconnection | samueloldlaptop | 7578 | done | docs/reviews/ruling-impact-interconnection-2026-11-17.md |
-| Site-wide: the Digest and the Roundup | portable-laptop | 7612 | claimed | docs/reviews/ruling-impact-site-digest-2026-11-17.md |
+| Site-wide: the Digest and the Roundup | portable-laptop | 7612 | done | docs/reviews/ruling-impact-site-digest-2026-11-17.md |
 | /events | samueloldlaptop | 7579 | claimed | docs/reviews/ruling-impact-events-2026-11-17.md |
