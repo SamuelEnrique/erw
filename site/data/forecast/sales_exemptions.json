@@ -777,10 +777,11 @@
   },
   "mo": {
    "land_based_wind": {
-    "exempt_pct": 66.9358,
+    "exempt_pct": 100,
     "cite": "mo_144_030",
-    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
-    "machinery_cite": "nlr_jedi_wind_defaultdata"
+    "tip": "Missouri exempts the machinery used directly in producing electricity at a new or expanded plant, generation being manufacturing, and not foundation materials (Statutes 144.030.2(5); Letter Ruling 8180); JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound. Ruling alternative 6: the exemption is taken to reach the towers and foundations too, every taxable purchase: 100 percent, the bound, since the foundations' own share is not held. Default on the site: 66.9358 percent.",
+    "machinery_cite": "nlr_jedi_wind_defaultdata",
+    "branch": "ruling alternative 6 of /impact (wip/alt-impact-6, session 7706): not a default on main (main: 66.9358)"
    },
    "utility_pv": {
     "exempt_pct": 100,
@@ -827,17 +828,19 @@
   },
   "ca": {
    "utility_pv": {
-    "exempt_pct": 29.3081,
+    "exempt_pct": 43.6047,
     "cite": "ca_reg_1525_4",
-    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax, on the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent: 29.3 percent; foundations and special purpose buildings qualify too, so the tax shown is an upper bound.",
-    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power."
+    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax, on the modules and inverters, (0.368421 + 0.063158) / 0.642105 = 67.2 percent: 29.3 percent; foundations and special purpose buildings qualify too, so the tax shown is an upper bound. Ruling alternative 6: the 3.9375 points are taken to reach foundations too, on every taxable purchase: 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax, the bound, since the foundations' own share is not held. Default on the site: 29.3081 percent.",
+    "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power.",
+    "branch": "ruling alternative 6 of /impact (wip/alt-impact-6, session 7706): not a default on main (main: 29.3081)"
    },
    "land_based_wind": {
-    "exempt_pct": 29.1871,
+    "exempt_pct": 43.6047,
     "cite": "ca_reg_1525_4",
-    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases, times 43.6 percent of the tax: 29.2 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound.",
+    "tip": "California exempts 3.9375 points of the state rate on property used primarily in generating electric power, through 30 June 2030 and up to USD 200 million of purchases a year a buyer (Revenue and Taxation Code 6377.1, Regulation 1525.4(a)(4)): 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax; JEDI's taxable purchases are its balance of plant materials, turbines, blades and towers (their sum times its 6.35 percent equals its sales tax line), and the tool holds the turbines and blades, (193,738,619 + 45,356,867) / 357,201,093 = 66.9 percent of JEDI's taxable purchases, times 43.6 percent of the tax: 29.2 percent; towers, like a solar plant's mounting, are not counted, so the tax shown is an upper bound. Ruling alternative 6: the 3.9375 points are taken to reach foundations too, on every taxable purchase: 3.9375 / (7.25 + 1.78) = 43.6 percent of the tax, the bound, since the foundations' own share is not held. Default on the site: 29.1871 percent.",
     "quote": "(4) Qualified tangible personal property purchased for use by a qualified person to be used primarily in the generation or production, storage, or distribution of electric power.",
-    "machinery_cite": "nlr_jedi_wind_defaultdata"
+    "machinery_cite": "nlr_jedi_wind_defaultdata",
+    "branch": "ruling alternative 6 of /impact (wip/alt-impact-6, session 7706): not a default on main (main: 29.1871)"
    },
    "natural_gas": {
     "exempt_pct": 25.4008,

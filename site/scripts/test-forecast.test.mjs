@@ -353,7 +353,8 @@ test("sales tax: the 25 states read by session 6051, the generating machinery's 
     near(F.defaults(P, "natural_gas", s).exempt, gas, 1e-5, `${s}: the power generation equipment`);
     assert.equal(F.defaults(P, "geothermal", s).exempt, 0, `${s}: JEDI's geothermal model has no sales tax line`);
   }
-  near(F.defaults(P, "land_based_wind", "mo").exempt, wind, 1e-5); near(F.defaults(P, "natural_gas", "mo").exempt, gas, 1e-5);
+  assert.equal(F.defaults(P, "land_based_wind", "mo").exempt, 100);   // ruling alternative 6 (wip/alt-impact-6): foundations counted, the bound; main: wind
+  near(F.defaults(P, "natural_gas", "mo").exempt, gas, 1e-5);
   near(F.defaults(P, "land_based_wind", "wi").exempt, 80.9942, 1e-5, "Wisconsin names the tower");
   near(F.defaults(P, "natural_gas", "ca").exempt, 3.9375 / 9.03 * gas, 1e-5);
   const r = F.run({ ...F.defaults(P, "natural_gas", "ks"), mw: 500, capex: 1000 }, ROWS, P);
@@ -366,7 +367,7 @@ test("sales tax: the 25 states read by session 6051, the generating machinery's 
   assert.equal(F.defaults(P, "geothermal", "nm").exempt, 100, "New Mexico, Laws 2024 chapter 67 section 39");
   assert.equal(F.defaults(P, "utility_pv", "nm").exempt, 0, "a government buyer's only");
   near(F.defaults(P, "utility_pv", "wi").exempt, (0.105263 + 0.368421 + 0.063158) / 0.642105 * 100, 1e-5, "Wisconsin 77.54(56): with the mounting");
-  near(F.defaults(P, "utility_pv", "ca").exempt, 3.9375 / 9.03 * pv, 1e-3, "California: 3.9375 points of the rate on the machinery");
+  near(F.defaults(P, "utility_pv", "ca").exempt, 3.9375 / 9.03 * 100, 1e-3, "California: 3.9375 points of the rate on every purchase (ruling alternative 6, wip/alt-impact-6; main: on the machinery, 3.9375 / 9.03 * pv)");
   assert.equal(F.defaults(P, "utility_pv", "ut").exempt, 0, "Utah's exemption ends 30 June 2027");
   for (const s of ["al", "ar", "ca", "dc", "ga", "id", "in", "ks", "la", "ma", "mi", "mo", "ms", "nm", "nv", "oh", "ok", "pa", "sc", "tn", "ut", "vt", "wi", "wv", "wy"])
     for (const t of ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]) assert.ok(P.exemptions.states[s][t].tip, `${s} ${t}: a tip says what was read`);
