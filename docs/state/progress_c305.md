@@ -47,9 +47,18 @@ States: `done` with the commit, `needs the key` with the cost, `ruling` with the
 | Automated Analysis (`/research`) | done (same branch): as a fund analyst reading the week's findings; 8 rows: 4 site fixed (the page at 712 px on a phone; the record's figures in the scanner's words; held tables offered as public; **two cards' small multiples drew NYISO's and ISO-NE's held prices**, found by `check-holds.mjs`, on main too, now taken out on the server), 2 data machine (requests 262 and 263), 1 key, 1 ruling | 7605 |
 | Grid (`/grid`) | done (same branch): as a utility market analyst on ERCOT; 5 rows, no site fault, every shared figure agrees (`/storage`, the exchange, `/demand`); 1 ruling (ERCOT's own peak record not beside EIA-930's 91,075 MW) | 7606 |
 
+## The last session
+
+| Step | State | Session |
+|---|---|---|
+| The pack `docs/reviews/done-line-pack-portable-2026-11-16.md` | done (this commit) | 7607 |
+| The note `docs/state/note_2026-11-17_portable_c305.md` | done (this commit) | 7607 |
+| The resume file `queue/next/351-resume-chain-305.md` removed | done (its own commit, after this one) | 7607 |
+| The queue step | after the removal; exit 3 means part D, which has no tool left (every claims row read), and its first bullet, the browser reads wanted, is read to row 278 | 7607 |
+
 ## Needs the key
 
-- Nothing so far. No model was called by any session of this chain; no other key or route was tried.
+- No model was called by any session of this chain; no other key or route was tried. Two features were read and not used: "Ask the warehouse" on `/research` (about USD 0.05 a request) and "Ask ERCOT about this view" on `/grid` (about USD 0.02 a question): about USD 0.07 for one of each, not measured.
 
 ## For Samuel's ruling (each with the default taken)
 
