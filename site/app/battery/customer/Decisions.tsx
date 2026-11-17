@@ -23,8 +23,9 @@ export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
     source: "No published source: a starting value of session 88. The peak-rate hours of the tariffs read for the replication are longer: 4 hours at Seattle City Light (5 p.m. to 9 p.m.), 5 at Salt River Project (5 p.m. to 10 p.m.). The hours a demand charge counts can be longer still: Seattle City Light's peak demand charge counts 6 a.m. to midnight, Monday to Saturday. The hours to type are those your own demand stays near its highest inside them." },
   { key: "knows-the-peak",
     text: "The battery knows when the peak comes and is full when it does, in every month: all of the smallest of the three comes off the meter's peak, and the load outside the peak's hours is taken to be lower than the peak by at least that much.",
-    def: "All of it: a battery of 4 hours takes its whole power off a peak of 4 hours or less.",
-    source: "A choice of session 88. On the measured loads of 98 buildings, the National Renewable Energy Laboratory found about 85 percent of a 4 hour battery's power a reasonable expectation, and less for a shorter battery (Neubauer and Simpson, Deployment of Behind-The-Meter Energy Storage for Demand Charge Reduction, NREL/TP-5400-63162, January 2015, page 16)." },
+    // ruling alternative 3 (wip/alt-battery-customer-3, not a default on main): 85 percent of it comes off the bill
+    def: "85 percent of it comes off the billed peak (on the site: all of it, an upper bound).",
+    source: "The ruling's other choice, from the report that follows. On the measured loads of 98 buildings, the National Renewable Energy Laboratory found about 85 percent of a 4 hour battery's power a reasonable expectation, and less for a shorter battery (Neubauer and Simpson, Deployment of Behind-The-Meter Energy Storage for Demand Charge Reduction, NREL/TP-5400-63162, January 2015, page 16)." },
   { key: "one-demand-charge",
     text: "One demand charge on one monthly peak. Where a tariff charges each kW of the same peak twice, type the sum; where it has a second charge on another peak (the highest demand of the other hours, a ratchet), that charge is not lowered here.",
     def: "The one number typed in \"Demand charge\".",

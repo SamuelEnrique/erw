@@ -1,6 +1,6 @@
 {
  "about": "ERW, What a battery saves a customer (/battery/customer): every number the page's calculator prints for each case of cases.json, read off the calculator drawn to HTML by site/scripts/battery-customer-figures.mjs. 'shown' is the page's text; 'tolerance' is half of its last shown digit. Written by session 7504; rewrite with the script, never by hand.",
- "figures": 331,
+ "figures": 353,
  "cases": [
   {
    "id": "opens",
@@ -93,22 +93,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$5,608",
-     "value": 5608,
+     "shown": "$5,068",
+     "value": 5068,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$67,302",
-     "value": 67302,
+     "shown": "$60,822",
+     "value": 60822,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$3,600",
-     "value": 3600,
+     "shown": "$3,060",
+     "value": 3060,
      "tolerance": 0.5
     },
     {
@@ -121,29 +121,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$67,302",
-     "value": 67302,
+     "shown": "$60,822",
+     "value": 60822,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$5,608",
-     "value": 5608,
+     "shown": "$5,068",
+     "value": 5068,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$3,600",
-     "value": 3600,
+     "shown": "$3,060",
+     "value": 3060,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "200.0",
-     "value": 200,
+     "shown": "170.0",
+     "value": 170,
      "tolerance": 0.05
     },
     {
@@ -152,6 +152,13 @@
      "shown": "500",
      "value": 500,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "200.0",
+     "value": 200,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -231,6 +238,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "170.0",
+     "value": 170,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$18",
@@ -240,8 +254,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$3,600",
-     "value": 3600,
+     "shown": "$3,060",
+     "value": 3060,
      "tolerance": 0.5
     },
     {
@@ -320,22 +334,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$1,066",
-     "value": 1066,
+     "shown": "$986",
+     "value": 986,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$12,795",
-     "value": 12795,
+     "shown": "$11,830",
+     "value": 11830,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$536",
-     "value": 536,
+     "shown": "$456",
+     "value": 456,
      "tolerance": 0.5
     },
     {
@@ -348,29 +362,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$12,795",
-     "value": 12795,
+     "shown": "$11,830",
+     "value": 11830,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$1,066",
-     "value": 1066,
+     "shown": "$986",
+     "value": 986,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$536",
-     "value": 536,
+     "shown": "$456",
+     "value": 456,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "100.0",
-     "value": 100,
+     "shown": "85.0",
+     "value": 85,
      "tolerance": 0.05
     },
     {
@@ -379,6 +393,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -458,6 +479,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "85.0",
+     "value": 85,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$5.36",
@@ -467,8 +495,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$536",
-     "value": 536,
+     "shown": "$456",
+     "value": 456,
      "tolerance": 0.5
     },
     {
@@ -547,22 +575,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$1,811",
-     "value": 1811,
+     "shown": "$1,628",
+     "value": 1628,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$21,733",
-     "value": 21733,
+     "shown": "$19,539",
+     "value": 19539,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$1,219",
-     "value": 1219,
+     "shown": "$1,036",
+     "value": 1036,
      "tolerance": 0.5
     },
     {
@@ -575,29 +603,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$21,733",
-     "value": 21733,
+     "shown": "$19,539",
+     "value": 19539,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$1,811",
-     "value": 1811,
+     "shown": "$1,628",
+     "value": 1628,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$1,219",
-     "value": 1219,
+     "shown": "$1,036",
+     "value": 1036,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "100.0",
-     "value": 100,
+     "shown": "85.0",
+     "value": 85,
      "tolerance": 0.05
     },
     {
@@ -606,6 +634,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -685,6 +720,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "85.0",
+     "value": 85,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$12.19",
@@ -694,8 +736,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$1,219",
-     "value": 1219,
+     "shown": "$1,036",
+     "value": 1036,
      "tolerance": 0.5
     },
     {
@@ -774,22 +816,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$5,172",
-     "value": 5172,
+     "shown": "$4,783",
+     "value": 4783,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$62,059",
-     "value": 62059,
+     "shown": "$57,397",
+     "value": 57397,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$2,590",
-     "value": 2590,
+     "shown": "$2,202",
+     "value": 2202,
      "tolerance": 0.5
     },
     {
@@ -802,29 +844,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$62,059",
-     "value": 62059,
+     "shown": "$57,397",
+     "value": 57397,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$5,172",
-     "value": 5172,
+     "shown": "$4,783",
+     "value": 4783,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$2,590",
-     "value": 2590,
+     "shown": "$2,202",
+     "value": 2202,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "500.0",
-     "value": 500,
+     "shown": "425.0",
+     "value": 425,
      "tolerance": 0.05
     },
     {
@@ -833,6 +875,13 @@
      "shown": "2,000",
      "value": 2000,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "500.0",
+     "value": 500,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -912,6 +961,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "425.0",
+     "value": 425,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$5.18",
@@ -921,8 +977,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$2,590",
-     "value": 2590,
+     "shown": "$2,202",
+     "value": 2202,
      "tolerance": 0.5
     },
     {
@@ -1001,22 +1057,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$1,115",
-     "value": 1115,
+     "shown": "$1,034",
+     "value": 1034,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$13,376",
-     "value": 13376,
+     "shown": "$12,404",
+     "value": 12404,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$540",
-     "value": 540,
+     "shown": "$459",
+     "value": 459,
      "tolerance": 0.5
     },
     {
@@ -1029,29 +1085,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$13,376",
-     "value": 13376,
+     "shown": "$12,404",
+     "value": 12404,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$1,115",
-     "value": 1115,
+     "shown": "$1,034",
+     "value": 1034,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$540",
-     "value": 540,
+     "shown": "$459",
+     "value": 459,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "80.0",
-     "value": 80,
+     "shown": "68.0",
+     "value": 68,
      "tolerance": 0.05
     },
     {
@@ -1060,6 +1116,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -1139,6 +1202,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "68.0",
+     "value": 68,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$6.75",
@@ -1148,8 +1218,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$540",
-     "value": 540,
+     "shown": "$459",
+     "value": 459,
      "tolerance": 0.5
     },
     {
@@ -1228,22 +1298,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$743",
-     "value": 743,
+     "shown": "$682",
+     "value": 682,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$8,917",
-     "value": 8917,
+     "shown": "$8,189",
+     "value": 8189,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$404",
-     "value": 404,
+     "shown": "$343",
+     "value": 343,
      "tolerance": 0.5
     },
     {
@@ -1256,29 +1326,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$8,917",
-     "value": 8917,
+     "shown": "$8,189",
+     "value": 8189,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$743",
-     "value": 743,
+     "shown": "$682",
+     "value": 682,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$404",
-     "value": 404,
+     "shown": "$343",
+     "value": 343,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "80.0",
-     "value": 80,
+     "shown": "68.0",
+     "value": 68,
      "tolerance": 0.05
     },
     {
@@ -1287,6 +1357,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -1366,6 +1443,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "68.0",
+     "value": 68,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$5.05",
@@ -1375,8 +1459,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$404",
-     "value": 404,
+     "shown": "$343",
+     "value": 343,
      "tolerance": 0.5
     },
     {
@@ -1455,22 +1539,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$597",
-     "value": 597,
+     "shown": "$544",
+     "value": 544,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$7,164",
-     "value": 7164,
+     "shown": "$6,523",
+     "value": 6523,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$356",
-     "value": 356,
+     "shown": "$303",
+     "value": 303,
      "tolerance": 0.5
     },
     {
@@ -1483,29 +1567,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$7,164",
-     "value": 7164,
+     "shown": "$6,523",
+     "value": 6523,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$597",
-     "value": 597,
+     "shown": "$544",
+     "value": 544,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$356",
-     "value": 356,
+     "shown": "$303",
+     "value": 303,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "80.0",
-     "value": 80,
+     "shown": "68.0",
+     "value": 68,
      "tolerance": 0.05
     },
     {
@@ -1514,6 +1598,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "80.0",
+     "value": 80,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -1593,6 +1684,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "68.0",
+     "value": 68,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$4.45",
@@ -1602,8 +1700,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$356",
-     "value": 356,
+     "shown": "$303",
+     "value": 303,
      "tolerance": 0.5
     },
     {
@@ -1682,22 +1780,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$744",
-     "value": 744,
+     "shown": "$629",
+     "value": 629,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$8,931",
-     "value": 8931,
+     "shown": "$7,550",
+     "value": 7550,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$768",
-     "value": 768,
+     "shown": "$652",
+     "value": 652,
      "tolerance": 0.5
     },
     {
@@ -1710,29 +1808,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$8,931",
-     "value": 8931,
+     "shown": "$7,550",
+     "value": 7550,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$744",
-     "value": 744,
+     "shown": "$629",
+     "value": 629,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$768",
-     "value": 768,
+     "shown": "$652",
+     "value": 652,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "50.0",
-     "value": 50,
+     "shown": "42.5",
+     "value": 42.5,
      "tolerance": 0.05
     },
     {
@@ -1741,6 +1839,13 @@
      "shown": "200",
      "value": 200,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "50.0",
+     "value": 50,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -1820,6 +1925,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "42.5",
+     "value": 42.5,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$15.35",
@@ -1829,8 +1941,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$768",
-     "value": 768,
+     "shown": "$652",
+     "value": 652,
      "tolerance": 0.5
     },
     {
@@ -1895,22 +2007,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$4,440",
-     "value": 4440,
+     "shown": "$3,757",
+     "value": 3757,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$53,286",
-     "value": 53286,
+     "shown": "$45,087",
+     "value": 45087,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$4,555",
-     "value": 4555,
+     "shown": "$3,872",
+     "value": 3872,
      "tolerance": 0.5
     },
     {
@@ -1923,29 +2035,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$53,286",
-     "value": 53286,
+     "shown": "$45,087",
+     "value": 45087,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$4,440",
-     "value": 4440,
+     "shown": "$3,757",
+     "value": 3757,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$4,555",
-     "value": 4555,
+     "shown": "$3,872",
+     "value": 3872,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "250.0",
-     "value": 250,
+     "shown": "212.5",
+     "value": 212.5,
      "tolerance": 0.05
     },
     {
@@ -1954,6 +2066,13 @@
      "shown": "1,000",
      "value": 1000,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "250.0",
+     "value": 250,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -2033,6 +2152,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "212.5",
+     "value": 212.5,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$18.22",
@@ -2042,8 +2168,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$4,555",
-     "value": 4555,
+     "shown": "$3,872",
+     "value": 3872,
      "tolerance": 0.5
     },
     {
@@ -2108,22 +2234,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$3,677",
-     "value": 3677,
+     "shown": "$3,225",
+     "value": 3225,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$44,124",
-     "value": 44124,
+     "shown": "$38,698",
+     "value": 38698,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$3,014",
-     "value": 3014,
+     "shown": "$2,562",
+     "value": 2562,
      "tolerance": 0.5
     },
     {
@@ -2136,29 +2262,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$44,124",
-     "value": 44124,
+     "shown": "$38,698",
+     "value": 38698,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$3,677",
-     "value": 3677,
+     "shown": "$3,225",
+     "value": 3225,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$3,014",
-     "value": 3014,
+     "shown": "$2,562",
+     "value": 2562,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "100.0",
-     "value": 100,
+     "shown": "85.0",
+     "value": 85,
      "tolerance": 0.05
     },
     {
@@ -2167,6 +2293,13 @@
      "shown": "400",
      "value": 400,
      "tolerance": 0.5
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "100.0",
+     "value": 100,
+     "tolerance": 0.05
     },
     {
      "key": "tile_demand_before",
@@ -2246,6 +2379,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "85.0",
+     "value": 85,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$30.14",
@@ -2255,8 +2395,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$3,014",
-     "value": 3014,
+     "shown": "$2,562",
+     "value": 2562,
      "tolerance": 0.5
     },
     {
@@ -2335,22 +2475,22 @@
     {
      "key": "sum_month",
      "name": "The summary: saved a month (USD)",
-     "shown": "$44",
-     "value": 44,
+     "shown": "$40",
+     "value": 40,
      "tolerance": 0.5
     },
     {
      "key": "sum_year",
      "name": "The summary: saved a year (USD)",
-     "shown": "$533",
-     "value": 533,
+     "shown": "$485",
+     "value": 485,
      "tolerance": 0.5
     },
     {
      "key": "sum_demand",
      "name": "The summary: a month from a lower peak (USD)",
-     "shown": "$27",
-     "value": 27,
+     "shown": "$23",
+     "value": 23,
      "tolerance": 0.5
     },
     {
@@ -2363,29 +2503,29 @@
     {
      "key": "tile_year",
      "name": "Saved a year (USD)",
-     "shown": "$533",
-     "value": 533,
+     "shown": "$485",
+     "value": 485,
      "tolerance": 0.5
     },
     {
      "key": "tile_month",
      "name": "Saved a year: its line, a month (USD)",
-     "shown": "$44",
-     "value": 44,
+     "shown": "$40",
+     "value": 40,
      "tolerance": 0.5
     },
     {
      "key": "tile_demand",
      "name": "From shaving the peak (USD a month)",
-     "shown": "$27",
-     "value": 27,
+     "shown": "$23",
+     "value": 23,
      "tolerance": 0.5
     },
     {
      "key": "tile_shaved_kw",
      "name": "From shaving the peak: kW off the peak",
-     "shown": "5.0",
-     "value": 5,
+     "shown": "4.3",
+     "value": 4.3,
      "tolerance": 0.05
     },
     {
@@ -2393,6 +2533,13 @@
      "name": "From shaving the peak: the peak, as typed (kW)",
      "shown": "62.5",
      "value": 62.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "tile_could_kw",
+     "name": "From shaving the peak: kW the battery could take (alternative 3)",
+     "shown": "5.0",
+     "value": 5,
      "tolerance": 0.05
     },
     {
@@ -2473,6 +2620,13 @@
      "tolerance": null
     },
     {
+     "key": "how_billed_kw",
+     "name": "The peak: what the bill sees, 85 percent (kW; alternative 3)",
+     "shown": "4.3",
+     "value": 4.3,
+     "tolerance": 0.05
+    },
+    {
      "key": "how_demand_charge",
      "name": "The peak: the demand charge, as typed (USD per kW)",
      "shown": "$5.36",
@@ -2482,8 +2636,8 @@
     {
      "key": "how_demand",
      "name": "The peak: saved a month (USD)",
-     "shown": "$27",
-     "value": 27,
+     "shown": "$23",
+     "value": 23,
      "tolerance": 0.5
     },
     {

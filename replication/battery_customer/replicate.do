@@ -7,11 +7,11 @@
 * Not run: Stata is not on the machine that wrote this file. Its Python mirror printed these lines on 16 November 2026
 * (python replication/battery_customer/replicate.py --headline):
 *
-*   Seattle City Light, medium, City of Seattle, time of use: saved a year (USD): 12795.06
-*   Seattle City Light, medium, Downtown Network, time of use: saved a year (USD): 21732.89
-*   Salt River Project E-32, summer peak: saved a month (USD): 1114.70
-*   Austin Energy, secondary voltage 10 to under 300 kW: saved a year (USD): 8931.16
-*   Southern California Edison TOU-GS-2 B, summer 2013, as NREL prints it: saved a month (USD): 3676.97
+*   Seattle City Light, medium, City of Seattle, time of use: saved a year (USD): 11830.26
+*   Seattle City Light, medium, Downtown Network, time of use: saved a year (USD): 19538.69
+*   Salt River Project E-32, summer peak: saved a month (USD): 1033.70
+*   Austin Energy, secondary voltage 10 to under 300 kW: saved a year (USD): 7549.66
+*   Southern California Edison TOU-GS-2 B, summer 2013, as NREL prints it: saved a month (USD): 3224.87
 *
 * The page shows each to the whole dollar: $12,795, $21,733, $1,115, $8,931 and $3,677.
 
@@ -24,7 +24,7 @@ program define saving, rclass
     args peak dcharge prate orate bkw bkwh hours days rt
     * what comes off the peak: the smallest of the battery's power, its energy over the peak's hours, and the peak
     scalar shaved = min(`bkw', `bkwh' / `hours', `peak')
-    scalar demand = shaved * `dcharge'
+    scalar demand = shaved * 0.85 * `dcharge'   // ruling alternative 3 (wip/alt-battery-customer-3): NREL's 85 percent; main: all of it
     * one full cycle a day: the battery out at the peak rate, that over the round trip in at the off-peak rate
     scalar eta = `rt' / 100
     scalar perday = `bkwh' * `prate' - (`bkwh' / eta) * `orate'

@@ -47,17 +47,17 @@ class Arithmetic(unittest.TestCase):
         d = node(f"import * as c from './lib/customerbattery.ts'; const s = c.saving({BASE});"
                  "console.log(JSON.stringify({ s, usd: [c.usd(s.monthSaved), c.usd(-12.6), c.usd(0.4)], qty: [c.qty(1234.56, 1), c.qty(800)] }));")
         s = d["s"]
-        self.assertEqual((s["shavedKw"], s["limit"], s["demandSaved"], s["demandBefore"]), (200, "power", 3600, 9000))
+        self.assertEqual((s["shavedKw"], s["limit"], s["demandSaved"], s["demandBefore"]), (200, "power", 3060, 9000))   # ruling alternative 3 (wip/alt-battery-customer-3): 85 percent of 3,600; main: 3600
         self.assertEqual(s["dischargedKwh"], 800)
         self.assertAlmostEqual(s["chargedKwh"], 800 / 0.85, places=6)
         per_day = 800 * 0.22 - 800 / 0.85 * 0.09
         self.assertAlmostEqual(s["shiftPerDay"], per_day, places=6)
         self.assertTrue(s["shifts"])
         self.assertAlmostEqual(s["energySaved"], per_day * 22, places=6)
-        self.assertAlmostEqual(s["monthSaved"], 3600 + per_day * 22, places=6)
-        self.assertAlmostEqual(s["yearSaved"], 12 * (3600 + per_day * 22), places=6)
+        self.assertAlmostEqual(s["monthSaved"], 3060 + per_day * 22, places=6)
+        self.assertAlmostEqual(s["yearSaved"], 12 * (3060 + per_day * 22), places=6)
         self.assertEqual(s["hours"], 4)
-        self.assertEqual(d["usd"], ["$5,608", "-$13", "$0"])
+        self.assertEqual(d["usd"], ["$5,068", "-$13", "$0"])   # alternative 3 (wip/alt-battery-customer-3); main: $5,608
         self.assertEqual(d["qty"], ["1,234.6", "800"])
 
     def test_what_limits_the_peak_shaved(self):
@@ -65,7 +65,7 @@ class Arithmetic(unittest.TestCase):
                  f"const b = {BASE};"
                  "console.log(JSON.stringify([c.saving({ ...b, batteryKwh: 400 }), c.saving({ ...b, peakKw: 50 }), c.saving({ ...b, peakHours: 1 })]"
                  ".map((s) => [s.shavedKw, s.limit, s.demandSaved])));")
-        self.assertEqual(d, [[100, "energy", 1800], [50, "peak", 900], [200, "power", 3600]])
+        self.assertEqual(d, [[100, "energy", 1530], [50, "peak", 765], [200, "power", 3060]])   # alternative 3: 85 percent; main: 1800, 900, 3600
 
     def test_when_shifting_does_not_pay_the_battery_runs_for_the_peak_only_and_the_loss_is_counted(self):
         d = node("import * as c from './lib/customerbattery.ts';"
@@ -76,7 +76,7 @@ class Arithmetic(unittest.TestCase):
         cost = (800 * 0.10 - 800 / 0.85 * 0.09) * 22
         self.assertAlmostEqual(d["energySaved"], cost, places=6)
         self.assertLess(d["energySaved"], 0)                               # a cost, shown as one: never rounded up to nothing
-        self.assertAlmostEqual(d["monthSaved"], 3600 + cost, places=6)
+        self.assertAlmostEqual(d["monthSaved"], 3060 + cost, places=6)
         self.assertAlmostEqual(d["breakEvenRate"], 0.09 / 0.85, places=9)
 
     def test_a_field_is_a_number_or_it_is_nothing(self):
