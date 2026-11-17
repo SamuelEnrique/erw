@@ -1,0 +1,27 @@
+board.json built 2026-11-17T04:59:51Z: 1,315 rows; by status {'ok': 1204, 'not_held': 4, 'licensed': 88, 'paused': 19}
+
+== line 1: ICE's indices printed as EIA republishes them, without a licence
+rows whose note names ICE as the source: 3 (ttf, eua, rec), all 'licensed'; the board holds no value of them, so printing needs the values first. EIA's own pages carry ICE's daily spot prices with ICE's permission; the ERW's tables of them are held internal: their values are not printed here
+
+== line 3: buying access (a PJM membership, an ICE redistribution licence, USD 25,000 to 30,000 a year)
+licensed rows by who would have to grant the licence: {'NYISO': 25, 'ISO-NE': 21, 'PJM': 13, 'other': 11, 'S&P Global or Platts': 15, 'ICE': 3}
+
+== line 2: the grids held for a licence or paused (PJM, NYISO, ISO-NE, MISO): named with 'license needed', or shown
+rows of those grids on the board: {('NYISO', 'licensed'): 25, ('ISO-NE', 'licensed'): 21, ('MISO', 'paused'): 19, ('PJM', 'licensed'): 13, ('NYISO', 'ok'): 58, ('ISO-NE', 'ok'): 36}; each draws no figure today and would draw its latest, moves, averages and range once a permission is recorded (the same rows on /prices, /prices/compare and /supply)
+for scale, an ok power row draws 10.6 figure cells on average: about 1,819 cells for the 172 rows
+
+== line 4: ERCOT's missing day-ahead days of 7 to 9 November 2026: refilled or not
+   ercot-hb-hubavg-da: 30-day average 35.69 over 28 days; 7-day 40.30 over 7
+   ercot-hb-hubavg-da-peak: 30-day average 37.78 over 21 days; 7-day 43.34 over 5
+   ercot-hb-hubavg-da-offpeak: 30-day average 35.50 over 28 days; 7-day 41.71 over 7
+   ercot-hb-hubavg-da-peak-less-off: 30-day average 0.38 over 21 days; 7-day -2.97 over 5
+   ercot-hb-hubavg-da-battery: 30-day average 43.43 over 28 days; 7-day 42.55 over 7
+the missing days' prices are in no table on this machine either: the refilled averages are not computed. Each average would gain its missing days (28 to 30)
+
+== line 5: on a row marked stale, the 7-day and 30-day averages and the 30-day low to high drawn (default) or blanked
+stale rows that draw a 7-day average (age past closeAge's limit on 2026-11-17): 116; each would lose 4 cells (7-day, 30-day, 30-day low, 30-day high): 464 cells
+   ercot-system-rtrdpa (power, 4 days); ercot-hb-hubavg-rt-peak (peak, 4 days); ercot-hb-hubavg-rt-peak-less-off (peak, 4 days); spp-sppnorth-hub-rt-peak (peak, 4 days); spp-sppnorth-hub-rt-peak-less-off (peak, 4 days); nyiso-n-y-c-da-peak (peak, 28 days); nyiso-n-y-c-da-offpeak (peak, 28 days); nyiso-n-y-c-da-peak-less-off (peak, 28 days); nyiso-n-y-c-rt-peak (peak, 29 days); nyiso-n-y-c-rt-offpeak (peak, 29 days); nyiso-n-y-c-rt-peak-less-off (peak, 29 days); isone-h-internal-hub-da-peak (peak, 28 days); isone-h-internal-hub-da-offpeak (peak, 28 days); isone-h-internal-hub-da-peak-less-off (peak, 28 days); isone-h-internal-hub-rt-peak (peak, 29 days); isone-h-internal-hub-rt-offpeak (peak, 29 days); isone-h-internal-hub-rt-peak-less-off (peak, 29 days); nyiso-n-y-c-spark (spark, 11 days); nyiso-n-y-c-heat (spark, 11 days); isone-h-internal-hub-spark (spark, 11 days)
+
+== line 6: the strip's highest and lowest in their year's range: every step (default) or daily series only
+default: 30 candidates; highest imf-pcps-puran (M, latest 72.8876 of 2026-10-01, position 1.000); lowest imf-pcps-pcoba (M, latest 36288.2727 of 2026-10-01, position 0.000)
+daily only: 21 candidates; highest fred-dgs2 (D, latest 4.86 of 2026-11-12, position 0.961); lowest eia-henry-hub-spot (D, latest 3.0 of 2026-11-11, position 0.021)
