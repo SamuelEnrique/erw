@@ -19,8 +19,9 @@ export type CustomerBatteryDecision = { key: string; text: string; def: string; 
 export const CUSTOMER_BATTERY_DECISIONS: CustomerBatteryDecision[] = [
   { key: "peak-hours",
     text: "The battery must hold its discharge through the whole of your peak. What comes off the peak is the smallest of three: the battery's power, its energy divided by the hours the peak lasts, and the peak itself. Change the hours in the field \"How long your peak lasts\".",
-    def: "2 hours.",
-    source: "No published source: a starting value of session 88. The peak-rate hours of the tariffs read for the replication are longer: 4 hours at Seattle City Light (5 p.m. to 9 p.m.), 5 at Salt River Project (5 p.m. to 10 p.m.). The hours a demand charge counts can be longer still: Seattle City Light's peak demand charge counts 6 a.m. to midnight, Monday to Saturday. The hours to type are those your own demand stays near its highest inside them." },
+    // ruling alternative 1 (wip/alt-battery-customer-1, not a default on main): the field starts at 4 hours, not 2
+    def: "4 hours (2 hours on the site).",
+    source: "Seattle City Light's peak-rate hours, 5 p.m. to 9 p.m., the shortest of the peak-rate windows of the tariffs read for the replication; Salt River Project's are 5 (5 p.m. to 10 p.m.). The hours a demand charge counts can be longer still: Seattle City Light's peak demand charge counts 6 a.m. to midnight, Monday to Saturday. The hours to type are those your own demand stays near its highest inside them." },
   { key: "knows-the-peak",
     text: "The battery knows when the peak comes and is full when it does, in every month: all of the smallest of the three comes off the meter's peak, and the load outside the peak's hours is taken to be lower than the peak by at least that much.",
     def: "All of it: a battery of 4 hours takes its whole power off a peak of 4 hours or less.",

@@ -50,7 +50,7 @@ export default function CustomerBattery() {
           only, drawn by the server; no request, nothing stored (docs/methods/battery_customer.md). */}
       <CustomerBatteryDecisions />
       <p className="mt-8 border-t border-rule pt-3 text-xs leading-relaxed text-muted">
-        Source: none. No ERW table is read on this page and no number on it comes from the warehouse. The starting values of the last three fields (2 hours, 21 days, 86
+        Source: none. No ERW table is read on this page and no number on it comes from the warehouse. The starting values of the last three fields (4 hours, 21 days, 86
         percent) are starting values, not data; change them to yours.
       </p>
     </ToolPage>

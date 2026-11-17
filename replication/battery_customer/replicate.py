@@ -34,7 +34,7 @@ FIELDS = [
     ("offPeakRate", 0, 5, True, None),
     ("batteryKw", 0, 1e6, False, None),
     ("batteryKwh", 0, 1e7, False, None),
-    ("peakHours", 0, 24, False, "2"),
+    ("peakHours", 0, 24, False, "4"),   # ruling alternative 1 (wip/alt-battery-customer-1): Seattle City Light's peak-rate hours; main: "2"
     ("days", 0, 31, True, "21"),
     ("roundTrip", 1, 100, False, "86"),
 ]

@@ -196,7 +196,7 @@ class TheReplication(unittest.TestCase):
             self.assertEqual(t["peakRate"], t["offPeakRate"])
         p, t = by["sce-tou-gs-2-b-2013-summer"]["printed"], by["sce-tou-gs-2-b-2013-summer"]["typed"]
         self.assertAlmostEqual(float(t["demandCharge"]), p["facility_demand_usd_per_kw"] + p["summer_on_peak_demand_usd_per_kw"], places=9)
-        self.assertEqual(by["opens"]["typed"]["peakHours"], "2")
+        self.assertEqual(by["opens"]["typed"]["peakHours"], "4")   # ruling alternative 1, wip/alt-battery-customer-1 (main: 2)
         # the browser proof's case is the one the proof types
         typed = re.search(r"const TYPED = (\{.*?\});", src("site", "scripts", "check-no-request.mjs")).group(1)
         self.assertEqual(json.loads(re.sub(r"(\w+):", r'"\1":', typed)), by["browser-proof"]["typed"])
