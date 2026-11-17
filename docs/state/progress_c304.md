@@ -128,4 +128,4 @@ Samuel's words, typed into this machine's session at about 22:00 UTC: tools 11 t
 | The pack: a section "The second run: six more tools" in `docs/reviews/done-line-pack-oldlaptop-2026-11-16.md` | done (this commit): six sittings, rulings 98 to 151; no do-file run (Stata is not on this machine) | 7530 |
 | The note: a section "The second run" in `docs/state/note_2026-11-17_oldlaptop_c304.md` | done (this commit) | 7530 |
 | The report `archive/sessions/SESSION_7530_REPORT.md` | done (this commit) | 7530 |
-| The resume file removed; the queue step | (next commits) | 7530 |
+| The resume file removed; the queue step | done: the resume file removed at `90f963a33`, alone; the queue step exited 3 (nothing for this machine: 350 is the portable laptop's, 380 the data machine's); the precheck run again passed; part C has nothing left: every tool marked done line in the claims file has a read (24 of 24). Chain done | 7530 |
