@@ -9,7 +9,7 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /cost-of-power | portable-laptop | 7622 | claimed | docs/reviews/ruling-alternatives-cost-of-power-2026-11-17.md |
 | /contracts | samueloldlaptop | 7700 | done | docs/reviews/ruling-alternatives-contracts-2026-11-17.md |
 | /severance | samueloldlaptop | 7702 | claimed | docs/reviews/ruling-alternatives-severance-2026-11-17.md |
-| /shoulder | samueloldlaptop | 7703 | claimed | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
+| /shoulder | samueloldlaptop | 7703 | done | docs/reviews/ruling-alternatives-shoulder-2026-11-17.md |
 | /battery/customer | samueloldlaptop | 7704 | done | docs/reviews/ruling-alternatives-battery-customer-2026-11-17.md |
 | /cost-of-power/battery/awards | samueloldlaptop | 7705 | claimed | docs/reviews/ruling-alternatives-battery-awards-2026-11-17.md |
 | /impact | samueloldlaptop | 7706 | claimed | docs/reviews/ruling-alternatives-impact-2026-11-17.md |
