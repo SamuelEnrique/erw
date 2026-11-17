@@ -549,7 +549,7 @@ test("session 4296: each state's rule reproduces a hand-worked example from its 
   // New Mexico a third; South Carolina 10.5 percent plus half a mill per kWh; Texas market value; Ohio 7 percent
   near(T("utility_pv", "nm", { levy: 30 }), 150e6 * 0.98 * 0.3333 * 0.03, 1e-12, "New Mexico solar: Table 20 (session 6003; at cost before)");
   near(T("natural_gas", "sc", { levy: 300 }), 150e6 * 0.105 * 0.3 + MWH * 0.5);
-  near(T("land_based_wind", "tx", { levy: 15 }), 150e6 * 0.015);
+  assert.equal(T("land_based_wind", "tx", { levy: 15 }), null);   // ruling alternative 8 (wip/alt-impact-8): the Comptroller's rows left out; main: 150e6 * 0.015
   near(T("utility_pv", "oh", { levy: 70 }), 150e6 * 0.983 * 0.07 * 0.07);
   near(T("utility_pv", "oh", { levy: 70 }, 29), 150e6 * 0.15 * 0.07 * 0.07, 1e-12, "Ohio: the floor at 30");
   // New York: exempt 15 operating years if built before 2030, then the reader's rate
@@ -680,10 +680,11 @@ test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's o
   near(T("land_based_wind", "tn", 15, { levy: 50 }), 150e6 * 0.333333 * 0.55 * 0.05, 1e-6);
   near(T("natural_gas", "tn", 15, { levy: 50 }), 150e6 * 0.55 * 0.05, 1e-12, "gas: at cost");
   // Texas solar, levy 15 mills: Harris CAD's 10-year Solar/Ind column, 92 percent at age 1, 21 at age 10, 20 from age 11
-  near(T("utility_pv", "tx", 0, { levy: 15 }), 150e6 * 0.92 * 0.015, 1e-12, "150,000,000 x 0.92 x 0.015 = 2,070,000");
-  near(T("utility_pv", "tx", 9, { levy: 15 }), 150e6 * 0.21 * 0.015);
-  near(T("utility_pv", "tx", 30, { levy: 15 }), 150e6 * 0.20 * 0.015, 1e-12, "the 23.26 floor");
-  near(T("land_based_wind", "tx", 10, { levy: 15 }), 150e6 * 0.015, 1e-12, "wind: at cost, no schedule published");
+  // ruling alternative 8 (wip/alt-impact-8, not a default on main): the Comptroller's rows left out, no Texas property rule held; main: 150e6 x 0.92 x 0.015 and the schedule
+  assert.equal(T("utility_pv", "tx", 0, { levy: 15 }), null);
+  assert.equal(T("utility_pv", "tx", 9, { levy: 15 }), null);
+  assert.equal(T("utility_pv", "tx", 30, { levy: 15 }), null);
+  assert.equal(T("land_based_wind", "tx", 10, { levy: 15 }), null);
   for (const s of ["nm", "tn", "tx"]) for (const r of P.property.states[s].rules) for (const k of ["cite", "cite2", "cite3"]) if (r[k]) assert.ok(P.property.sources[r[k]], `${s} ${r.id} ${k}`);
 });
 
