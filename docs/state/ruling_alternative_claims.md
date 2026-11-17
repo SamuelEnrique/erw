@@ -19,3 +19,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | Site-wide: Ask (the chat) | samueloldlaptop | 7707 | done | docs/reviews/ruling-alternatives-site-ask-2026-11-17.md |
 | /explore/ercot-peak-premium | samueloldlaptop | 7708 | done | docs/reviews/ruling-alternatives-ercot-peak-premium-2026-11-17.md |
 | /explore/demand-growth | samueloldlaptop | 7709 | claimed | docs/reviews/ruling-alternatives-demand-growth-2026-11-17.md |
+| /explore/interconnection | samueloldlaptop | 7710 | claimed | docs/reviews/ruling-alternatives-interconnection-2026-11-17.md |
