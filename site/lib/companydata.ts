@@ -17,6 +17,21 @@ export function companyIndex(): CompanyIndex {
   return index;
 }
 
+/** Session 7624, the other choice of the ruling on parents' figures (wip/alt-companies-1, not landed): the companies
+ * whose stated parent is this one (`parent_id`), from every shard, read once and kept. */
+let children: Map<string, Company[]> | null = null;
+export function subsidiaries(id: string): Company[] {
+  if (!children) {
+    children = new Map();
+    for (const n of fs.readdirSync(path.join(DIR, "c"))) {
+      if (!n.endsWith(".json")) continue;
+      const s = JSON.parse(fs.readFileSync(path.join(DIR, "c", n), "utf8")) as Record<string, Company>;
+      for (const c of Object.values(s)) if (c.parent_id) children.set(c.parent_id, [...(children.get(c.parent_id) ?? []), c]);
+    }
+  }
+  return (children.get(id) ?? []).slice().sort((a, b) => b.figures.plants_mw - a.figures.plants_mw || a.name.localeCompare(b.name));
+}
+
 /** One company by its address part ("eia-6452"), or null when no listed company has it. */
 export function company(id: string): Company | null {
   if (!/^[a-z0-9-]{1,80}$/.test(id)) return null;

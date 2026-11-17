@@ -11,7 +11,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, HeadlineNumber, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import { GroupedBars } from "@/components/tool/GroupedBars";
 import { ROLE_WORDS, TABLE_WORDS, basisOf, count, leadRows, linksOf, liveSeries, mw, plural, ruleWords, seenLast, shareTitle, showDeals, yearGroups, type Company, type CompanyIndex, type Link as Row } from "@/lib/companydb";
-import { company, companyIndex } from "@/lib/companydata";
+import { company, companyIndex, subsidiaries } from "@/lib/companydata";
 
 export const dynamic = "force-dynamic";
 const SHOWN = 50;   // rows a table shows on the page, folded (session 3308: the page ran to 14,000 px open); every public row is in the download
@@ -127,6 +127,14 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
     { label: "Reactors", col: "n_reactors", v: f.n_reactors, t: "nrc_power_reactors", tip: `NRC power reactors it is the licensee or operator of: ${mw(f.reactors_mw)} MW as the NRC states them.` },
     { label: "Policy actions", col: "n_policy_actions", v: f.n_policy_actions, t: "policy_actions", tip: "Policy actions (Federal Register and agency news) that name it as an agency." },
   ].filter((h) => h.v > 0);
+  // session 7625, the other choice of the ruling on parents' figures (wip/alt-companies-1, not landed): a parent's page
+  // sums its listed subsidiaries' operating and owned MW into its own, each subsidiary listed below with its figures
+  const subs = subsidiaries(c.id).filter((s) => s.figures.plants_mw > 0 || s.figures.owned_mw > 0);
+  const subOp = subs.reduce((a, s) => a + s.figures.plants_mw, 0), subOwn = subs.reduce((a, s) => a + s.figures.owned_mw, 0);
+  const summed: { label: string; col: string; v: number; tip: string }[] = subs.length ? [
+    { label: "Operating, with its subsidiaries", col: "plants_mw_summed", v: f.plants_mw + subOp, tip: `Its own operating MW (${mw(f.plants_mw)}) and its ${plural(subs.length, "listed subsidiary's", "listed subsidiaries'")} (${mw(subOp)}), each listed under "Subsidiaries": a company is a subsidiary here when its own record states this company as its parent.` },
+    { label: "Owned share, with its subsidiaries", col: "owned_mw_summed", v: f.owned_mw + subOwn, tip: `Its own owned share (${mw(f.owned_mw)}) and its listed subsidiaries' (${mw(subOwn)}), EIA-860 schedule 4.` },
+  ].filter((h) => h.v > 0) : [];
   return (
     <Brand>
     <ToolPage>
@@ -159,14 +167,33 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
           </p>
         </aside>
         <div className="min-w-0">
-          {heads.length ? (
+          {heads.length || summed.length ? (
             <div className="mb-10 grid gap-6 sm:grid-cols-3">
+              {summed.map((h) => (
+                <HeadlineNumber key={h.col} label={h.label} unit="MW"
+                  tip={<Tip id={`h-${h.col}`} label={h.label}>{h.tip}</Tip>}
+                  value={<span data-summed={h.col}>{mw(h.v)}</span>} />
+              ))}
               {heads.map((h) => (
                 <HeadlineNumber key={h.col} label={h.label} unit={h.unit}
                   tip={<Tip id={`h-${h.col}`} label={h.label}>{h.tip}</Tip>}
                   value={<K c={c} col={h.col} raw={h.v} source={fromRows(h.col, h.t)}>{h.unit ? mw(h.v) : count(h.v)}</K>} />
               ))}
             </div>
+          ) : null}
+          {subs.length ? (
+            <ToolSection title="Subsidiaries" id="subsidiaries">
+              <p className="mb-2 max-w-3xl text-sm">The companies whose own record states {c.name} as their parent, with the MW each operates and owns, summed above. A subsidiary that does not state its parent is not found this way.</p>
+              <div className="overflow-x-auto" role="region" aria-label="Subsidiaries" tabIndex={0}>
+                <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth: 320 }} data-subsidiaries={subs.length}>
+                  <caption className="sr-only">Subsidiaries and their MW</caption>
+                  <thead><tr className="border-b border-rule text-xs text-muted"><th scope="col" className="py-1 pr-3 font-normal">Subsidiary</th><th scope="col" className="py-1 pr-3 text-right font-normal">Operating, MW</th><th scope="col" className="py-1 text-right font-normal">Owned share, MW</th></tr></thead>
+                  <tbody>
+                    {subs.map((s) => <tr key={s.id} className="border-b border-rule"><td className="py-1 pr-3"><Link href={`/companies/${s.id}`}>{s.name}</Link></td><td className="py-1 pr-3 text-right">{mw(s.figures.plants_mw)}</td><td className="py-1 text-right">{mw(s.figures.owned_mw)}</td></tr>)}
+                  </tbody>
+                </table>
+              </div>
+            </ToolSection>
           ) : null}
           {fuels.length ? (
             <ToolSection title="Operating MW by fuel">
