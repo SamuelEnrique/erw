@@ -24,7 +24,7 @@ Order: largest change first, the change being the first percent of the line's "F
 
 | Part | Row | Branch | Change (percent) | State | Session |
 |---|---|---|---|---|---|
-| B | 301 | `wip/alt-impact-4` | 170.8 | wanted | |
+| B | 301 | `wip/alt-impact-4` | 170.8 | seen: impact-4-1280.png, impact-4-table-1280.png, impact-4-own-1280.png with production's -default-1280 twins | 7800 |
 | B | 345 | `wip/alt-events-2` | 129.0 | wanted | |
 | B | 368 | `wip/alt-demand-3` | 117.7 | wanted | |
 | B | 370 | `wip/alt-grid-1` | 114.0 | wanted | |
