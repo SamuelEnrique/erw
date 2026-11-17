@@ -11,6 +11,11 @@ Energy Research Warehouse (ERW). The shape is the one the cost-of-power seller t
     workbook under warehouse/raw/eia930_emissions/), over the solar nameplate installed in that balancing authority at
     the start of the day's month (EIA-860M operating and retired generators, by operating and retirement month).
 
+Session 7052 (chain 370, done-line request 239): each level also gets `fleet`, the balancing authority's operating
+battery storage at the start of the level's month from the same two sheets (energy source MWH): MW, the MWh of the
+units that give an energy capacity, the unit count and the count giving MWh, with its source line. No level, date or
+price moves.
+
 It is a fleet average, not one roof, and the page says so. ERCOT levels read ERCO, CAISO levels CISO.
 
 Real data only. A level gets a shape only when every hour of its day is held with a number and the month's installed
@@ -65,7 +70,29 @@ def shape_for(level, fuel, cap_mw):
     return out, ""
 
 
-def build(levels, fuel_of, cap_of, built):
+def fleet_at(gens, ba, month):
+    """Session 7052 (chain 370, done-line request 239): the balancing authority's operating battery storage at the start of
+    the month, from the EIA-860M operating and retired generators (energy source MWH), the same rule as the solar nameplate:
+    a unit counts when its operating month is at or before the month's first day and it had not retired by then. Returns
+    (MW, MWh of the units that give an energy capacity, units, units giving an energy capacity). Nothing is filled: a unit
+    without an energy capacity adds to the MW and the unit count only."""
+    ms = pd.Timestamp(month + "-01")
+    g = gens[(gens["balancing_authority"] == ba) & (gens["energy_source"] == "MWH")]
+    g = g[(g["start"] <= ms) & (g["ret"].isna() | (g["ret"] > ms))]
+    e = pd.to_numeric(g["energy_capacity_mwh"], errors="coerce") if "energy_capacity_mwh" in g else pd.Series(dtype=float)
+    return float(g["nameplate_mw"].sum()), float(e.dropna().sum()), int(len(g)), int(e.notna().sum())
+
+
+def fleet_record(ba, month, fleet, vint, built):
+    mw, mwh, units, with_mwh = fleet
+    return {"ba": ba, "month": month, "mw": round(mw, 1), "mwh": round(mwh, 1), "units": units, "units_with_mwh": with_mwh,
+            "source": (f"{units:,} operating battery storage units ({mw:,.1f} MW) in {ba} at the start of {month}, {with_mwh:,} of "
+                       f"them giving an energy capacity ({mwh:,.1f} MWh), from the EIA-860M operating and retired generators "
+                       f"({', '.join(vint)}; energy source MWH, by operating and retirement month). EIA-860M lists some new "
+                       f"units late, so an early month can read low. Read {built} by warehouse/derived/battery_solar.py.")}
+
+
+def build(levels, fuel_of, cap_of, built, fleet_of=None):
     """Write `solar` and `solar_source` into each level that has a whole shape, remove them from each that has not.
     fuel_of(ba) -> (frame, where it was read from); cap_of(ba, month) -> (MW, the EIA-860M vintages). Returns the log."""
     log = []
@@ -77,8 +104,13 @@ def build(levels, fuel_of, cap_of, built):
         if ba is None:
             log.append(f"{lv['date']} ({lv['slug']}): no balancing authority for the grid {grid}; no shape")
             continue
-        fuel, where = fuel_of(ba)
         month = lv["date"][:7]
+        if fleet_of is not None:  # session 7052: the battery fleet on the level's month, whether or not a shape is held
+            fleet, fvint = fleet_of(ba, month)
+            lv["fleet"] = fleet_record(ba, month, fleet, fvint, built)
+            log.append(f"{lv['date']} ({lv['slug']}): battery fleet {fleet[2]:,} units, {fleet[0]:,.1f} MW, {fleet[1]:,.1f} MWh "
+                       f"({fleet[3]:,} units give MWh), {ba} at {month}")
+        fuel, where = fuel_of(ba)
         cap, vint = cap_of(ba, month)
         shape, why = shape_for(lv, fuel, cap)
         if shape is None:
@@ -114,7 +146,12 @@ def main(argv=None):
             fuels[ba] = (mr.fuel_hours(path), os.path.relpath(path, data_root).replace(os.sep, "/"))
         return fuels[ba]
 
-    log = build(doc["levels"], fuel_of, lambda ba, month: (mr.capacity(gens, ba, "SUN", month), vint), built)
+    log = build(doc["levels"], fuel_of, lambda ba, month: (mr.capacity(gens, ba, "SUN", month), vint), built,
+                fleet_of=lambda ba, month: (fleet_at(gens, ba, month), vint))
+    doc["fleet_note"] = ("Session 7052 (done-line request 239): `fleet` is the grid's operating battery storage at the start of the "
+                         "level's month (MW, MWh where EIA-860M gives an energy capacity, and the unit count), from the EIA-860M "
+                         "operating and retired generators. It moves no level, date or price. Written by "
+                         f"warehouse/derived/battery_solar.py on {built}.")
     doc["solar_log"] = log
     doc["solar_note"] = ("Session 66: `solar` is the grid's solar fleet on the level's day, output per MW installed, one value per "
                          "15-minute interval (each hour's value on its four intervals), as EIA reports it; a level without it has no "
