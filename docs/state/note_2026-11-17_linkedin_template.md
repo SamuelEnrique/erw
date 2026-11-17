@@ -7,6 +7,7 @@ Unattended session. Model spend USD 0: no model API was called. Nothing was post
 
 Status: in progress (the landing gate is waiting for the build lock). This section is completed when the branch lands.
 
+- 09:10 UTC: the gate still waits for the build lock, held by another window's gate (`c370-gate-n`) since 08:30.
 - Branch: `wip/linkedin-post-template`, first commit `686d69920` (the patch applied unchanged, the lock file, the spec
   and the four render files).
 
