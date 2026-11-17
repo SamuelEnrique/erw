@@ -10,7 +10,7 @@ import { headers } from "@/lib/data";
 import { choose, isoKey, longDay, longTime, type Params } from "@/lib/explore";
 import {
   MEASURES, METHOD, NOT_HELD, QUEUED_UP_GRIDS, QUEUES, QUEUE_COLUMNS, STATUSES, STATUS_WHY, STATUS_WORDS, TABLE, UNDATED, builtAt, entityOf, faultyBuild, figureText,
-  headerCount, headerKey, inputRetrieved, partialYear, queuedUpHref, statusWords, valueOf, waitTip, yearOf, yearTs, type Measure, type Row,
+  headerCount, headerKey, inputRetrieved, openingYear, partialYear, queuedUpHref, statusWords, valueOf, waitTip, yearOf, yearTs, type Measure, type Row,
 } from "@/lib/explore/interconnection";
 import { sourceOf } from "@/lib/explore/source";
 import { shown } from "@/lib/format";
@@ -112,7 +112,8 @@ export default async function InterconnectionExplorer({ searchParams }: { search
   const complete = years.filter((y) => !partial(y));
   const ys = years.map(String);
   const [fromS, badFrom] = choose(sp, "from", ys, String(years[0] ?? ""));
-  const [toS, badTo] = choose(sp, "to", ys, String(complete[complete.length - 1] ?? years[years.length - 1] ?? ""));
+  // ruling alternative 2 (wip/alt-interconnection-2, not a default on main): open on the newest complete year with tens of positions
+  const [toS, badTo] = choose(sp, "to", ys, String(openingYear(rows, iso, complete) ?? years[years.length - 1] ?? ""));
   const [lo, hi] = [Number(fromS), Number(toS)].sort((a, b) => a - b);
   const span = years.filter((y) => y >= lo && y <= hi);
   const asked = [badIso && "queue", badMeasure && "measure", badFrom && "first year", badTo && "last year"].filter(Boolean);
