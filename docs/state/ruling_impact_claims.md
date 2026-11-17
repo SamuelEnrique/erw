@@ -36,3 +36,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /queues | samueloldlaptop | 7593 | done | docs/reviews/ruling-impact-queues-2026-11-17.md |
 | /research | portable-laptop | 7617 | claimed | docs/reviews/ruling-impact-research-2026-11-17.md |
 | /datacenters | samueloldlaptop | 7594 | done | docs/reviews/ruling-impact-datacenters-2026-11-17.md |
+| /deals | samueloldlaptop | 7595 | claimed | docs/reviews/ruling-impact-deals-2026-11-17.md |
