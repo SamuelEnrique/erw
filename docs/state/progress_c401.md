@@ -62,7 +62,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 311 | `wip/alt-ercot-peak-premium-1` | 87.5 | wanted | |
 | B | 288 | `wip/alt-battery-customer-3` | 85.0 | wanted | |
 | B | 312 | `wip/alt-impact-11` | 84.5 | seen: impact-11-1280.png with production's -default-1280 twins | 7800 |
-| B | 318 | `wip/alt-impact-16` | 80.0 | wanted | |
+| B | 318 | `wip/alt-impact-16` | 80.0 | seen: impact-16-1280.png with production's -default-1280 twins | 7800 |
 | B | 350 | `wip/alt-events-3` | 78.0 | not seen: no pictures | 7800 |
 | B | 290 | `wip/alt-battery-customer-4` | 75.0 | wanted | |
 | B | 307 | `wip/alt-impact-8` | 66.8 | seen: impact-8-1280.png with production's -default-1280 twins | 7800 |
