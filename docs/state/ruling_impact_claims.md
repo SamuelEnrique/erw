@@ -25,3 +25,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | Site-wide: licenses and holds | portable-laptop | 7615 | claimed | docs/reviews/ruling-impact-site-licenses-2026-11-17.md |
 | /play/ev | samueloldlaptop | 7584 | done | docs/reviews/ruling-impact-ev-game-2026-11-17.md |
 | /map | samueloldlaptop | 7585 | done | docs/reviews/ruling-impact-map-2026-11-17.md |
+| /board | samueloldlaptop | 7586 | claimed | docs/reviews/ruling-impact-board-2026-11-17.md |
