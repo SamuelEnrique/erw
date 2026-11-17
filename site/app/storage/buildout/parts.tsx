@@ -206,7 +206,9 @@ export function GridTable({ v }: { v: View }) {
           <tr className={HEAD}>
             <th rowSpan={2} className="px-1.5 py-1 align-bottom font-normal">Grid</th>
             <th colSpan={4} className="border-b border-white/40 px-1.5 py-1 text-center font-normal">Operating</th>
-            <th colSpan={1 + v.plannedYears.length} className="border-b border-l border-white/40 px-1.5 py-1 text-center font-normal">Planned, MW, by the year expected online</th>
+            {/* session 7542 (the read of 16 November 2026, row 4): the fleet tab calls "planned" only the units not yet under construction; this column holds both */}
+            <th colSpan={1 + v.plannedYears.length} className="border-b border-l border-white/40 px-1.5 py-1 text-center font-normal" data-planned-head="1"
+              title="EIA's planned inventory: units under construction and units planned, together. The fleet tab gives the two apart (its columns Under construction MW and Planned MW); their sum is this column's All years.">Under construction and planned, MW, by the year expected online</th>
           </tr>
           <tr className={HEAD}>
             <th className={th}>MW</th>
