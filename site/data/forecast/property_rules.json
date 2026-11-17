@@ -1757,7 +1757,7 @@
       "utility_pv"
      ],
      "kind": "valuation",
-     "assessment_ratio": 0.3333,
+     "assessment_ratio": 0.23331,
      "cite": "nm_trd_general",
      "quote": "The tax ratio is thirty-three and one-third percent (33-1/3%).",
      "schedule_pct": [
@@ -1785,7 +1785,9 @@
      "then_pct": 20,
      "cite2": "nm_trd_electric_2021",
      "quote2": "UNREGULATED ELECTRIC 2021 Percent Good Tables [...] Assets in this industry are subject to 20% floor. [...] ASSET CLASS 00.3 Land Improvements, ASSET CLASS 49.15 Solar Panels: Table 20; ASSET CLASS 49.15 Wind Turbines: Table 25; ASSET CLASS 49.13 Geothermal Energy: Table 28 [...] 2020 98.0% 98.4% 98.6%",
-     "tip": "New Mexico: taxable value is one third of full value (NMSA 7-37-3); electric plant is valued by the Department at cost less straight-line depreciation over its useful life, not below 20 percent of cost (7-36-29, as 2016 SB 47 amends it); a plant outside a regulator's jurisdiction takes its class life under section 167 of the Internal Revenue Code (3.6.5.36(B)(2) NMAC). The Department's Unregulated Electric percent good tables put solar panels on Table 20: 98 percent at age 1, four points a year, to the 20 percent floor from age 21 (2021 edition, the newest read). The federal investment tax credit, which the rule deducts from a solar plant's cost (3.6.5.36(A)(2)), is not modeled. Industrial revenue bonds may exempt a plant by local approval (not modeled)."
+     "tip": "New Mexico: taxable value is one third of full value (NMSA 7-37-3); electric plant is valued by the Department at cost less straight-line depreciation over its useful life, not below 20 percent of cost (7-36-29, as 2016 SB 47 amends it); a plant outside a regulator's jurisdiction takes its class life under section 167 of the Internal Revenue Code (3.6.5.36(B)(2) NMAC). The Department's Unregulated Electric percent good tables put solar panels on Table 20: 98 percent at age 1, four points a year, to the 20 percent floor from age 21 (2021 edition, the newest read). The federal investment tax credit, which the rule deducts from a solar plant's cost (3.6.5.36(A)(2)), is not modeled. Industrial revenue bonds may exempt a plant by local approval (not modeled). Ruling alternative 17: the federal investment tax credit, 30 percent (the base credit; more with adders, a part of the ruling), is deducted from the cost taxed, so the taxable value is one third of 70 percent of the cost. Default on the site: not deducted.",
+     "itc_deducted": 0.3,
+     "branch": "ruling alternative 17 of /impact (wip/alt-impact-17, session 7706): not a default on main (main: assessment_ratio 0.3333, no credit deducted); the ratio here is 0.3333 x (1 - 0.30), the cost taxed less the base investment tax credit"
     },
     {
      "id": "nm_wind",
