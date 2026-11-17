@@ -166,3 +166,33 @@ the wholesale share; a demand charge (none of the five tariffs has one for a hom
 
 `site/scripts/test-bill.mjs` (the hand-computed bills, session 43), `site/scripts/test-bill-render.mjs` (session 7533:
 the faults fixed and the fold, drawn to HTML), `site/scripts/bill-figures.mjs --check`, `tests/test_session7533_bill.py`.
+
+## Read as a household with its own bill (session 7547, chain 304, part B, 16 November 2026)
+
+The page was read as a PG&E customer in Fresno, a CenterPoint customer in Houston and a student, each with a bill in
+hand, asking what part of it is wholesale power and why that part moved (`docs/reviews/bill-read-2026-11-16.md`).
+Four additions to Build a bill came of it; the cards are unchanged.
+
+- **The month field, "Wholesale price, month".** Every month `cost_of_power_monthly` holds for the bill's zone, newest
+  first, each with its load-weighted real-time price and "(partial)" when its `rt_hours` are not its `hours_in_month`;
+  the first option is the default, the cards' month (the latest complete month, as above). The bar's wholesale energy,
+  its share and "Everything else" are computed on the chosen month's price; every line of the bill stays at the
+  tariffs' rates as read, which the field's tip says (a bill of an earlier month was charged that month's rates, which
+  the page does not hold). "Reset this bill to its defaults" puts the month back to the default. A month not held for
+  the bill chosen falls back to the default.
+- **The power line under the bar.** The bill's own line for the power, set beside the wholesale energy: PG&E's and
+  SCE's "Generation", the Texas retailer's "Energy charge (your retail electric provider)"; SDG&E's TOU-DR1 is one total
+  line, so none is shown and a sentence says why. The line's amount is the line's own; its share is the amount over the
+  bill's total, times 100, printed as a whole percent. "Everything else" now names the rest of that line (for SDG&E,
+  the rest of the power inside its one line) before the wires, the grid, the fixed charges and the programs.
+- **The delivery lines together (Texas).** On the row of the group "Delivery (Oncor)" or "Delivery (CenterPoint)",
+  every line of the wires company added: the bill's total less the energy charge.
+- **The territory tip.** The field "Baseline territory" says where a home's letter is found: PG&E's Electric
+  Preliminary Statement Part A, Sheet 1 (Cal. P.U.C. Sheet No. 34601-E, Advice 4535-E-A), read as text on 16 November
+  2026: Fresno County below 3,500 feet is Territory R (the rules file, `default_territory.examples`; version
+  2026-11-16.2).
+
+The replication recomputes the four (`replicate.py`: `months_held`, `POWER_LINE`, the delivery sum) and four cases of the
+read were added to `cases.json`: **1209 of 1209** figures inside half the page's last shown digit (669 of 669 at session
+7533, before these figures existed). The read's site rows are held by `site/scripts/test-bill-read.mjs` and
+`tests/test_session7547_bill_read.py`.

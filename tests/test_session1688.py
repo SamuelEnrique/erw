@@ -20,7 +20,8 @@ class TheBillTable(unittest.TestCase):
         s = src()
         body = s[s.index("<tbody>"):s.index("</tbody>")]
         rows = re.findall(r"<tr[^>]*>\s*<(t[hd])", body)
-        self.assertEqual(len(rows), 4)
+        # session 7547: five row forms; the fifth is a Texas delivery group's row, its sum cell after the group's header
+        self.assertEqual(len(rows), 5)
         self.assertEqual(set(rows), {"th"})
 
     def test_the_scopes(self):
