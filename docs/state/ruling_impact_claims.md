@@ -42,5 +42,5 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /attention | samueloldlaptop | 7597 | done | docs/reviews/ruling-impact-attention-2026-11-17.md |
 | Across the five signed tools | samueloldlaptop | 7598 | done | docs/reviews/ruling-impact-five-signed-2026-11-17.md |
 | /cost-of-power | samueloldlaptop | 7599 | done | docs/reviews/ruling-impact-cost-of-power-2026-11-17.md |
-| /cost-of-power/seller | portable-laptop | 7619 | claimed | docs/reviews/ruling-impact-seller-2026-11-17.md |
+| /cost-of-power/seller | portable-laptop | 7619 | done | docs/reviews/ruling-impact-seller-2026-11-17.md |
 | /cost-of-power/battery | samueloldlaptop | 7599 | done | docs/reviews/ruling-impact-battery-2026-11-17.md |
