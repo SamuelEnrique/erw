@@ -1,8 +1,8 @@
 {
  "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
- "written": "2026-11-15T17:16Z",
+ "written": "2026-11-17T14:22Z",
  "green_days": 0,
- "counted_to": "2026-11-14",
+ "counted_to": "2026-11-16",
  "days": {
   "2026-10-02": {
    "rows": 91,
@@ -3502,6 +3502,188 @@
      "workflow": "daily prices",
      "step": "carb_lcfs",
      "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 61 days old (limit 28)"
+    }
+   ]
+  },
+  "2026-11-16": {
+   "rows": 729,
+   "failed": 16,
+   "missing": [],
+   "short": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 480,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "daily prices": {
+     "ok": 17,
+     "skipped": 7,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 5,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 2,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 26
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 88,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 9,
+     "runs": 102
+    },
+    "local:portable-laptop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "local:samueloldlaptop": {
+     "ok": 7,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 7
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-11-16T02:52",
+     "workflow": "energy roundup",
+     "step": "write the Roundup",
+     "reason": "news_roundup FAILED: anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will re"
+    },
+    {
+     "at": "2026-11-16T02:53",
+     "workflow": "energy roundup",
+     "step": "ledger: live set",
+     "reason": "held out of the live catalogue (live_set.yaml, catalogue_hold): abs_suriname_electricity_annual, aedg_alaska_generation_monthly, aeso_alberta_load_hourly, afdc_ev_charging_state_annual, afdc_station_c"
+    },
+    {
+     "at": "2026-11-16T14:49",
+     "workflow": "daily prices",
+     "step": "portwatch",
+     "reason": "portwatch_chokepoint_transits: portwatch portwatch_chokepoint_transits FAILED, no output file written: RuntimeError: PortWatch chokepoint6 offset 0 failed after 4 attempts: RuntimeError(\"PortWatch err"
+    },
+    {
+     "at": "2026-11-16T15:13",
+     "workflow": "daily prices",
+     "step": "imf_pcps",
+     "reason": "imf_pcps FAILED: RuntimeError: https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/PCPS/+/G001.PURAN+PLITH+PCOBA+PNICK+PCOPP+PCOALAU+PNGASEU+PNGASJP.USD.M?c%5BTIME_PERIOD%5D=ge:2019-01 failed "
+    },
+    {
+     "at": "2026-11-16T15:44",
+     "workflow": "daily prices",
+     "step": "policy_monitor_refresh",
+     "reason": "policy_monitor_refresh: FAILED for cpuc (recorded; the others ran): cpuc: not asked again today: the request failed: ConnectTimeout(MaxRetryError(\"HTTPSConnectionPool(host='apps.cpuc.ca.gov', po"
+    },
+    {
+     "at": "2026-11-16T15:49",
+     "workflow": "daily prices",
+     "step": "policy_monitor_records",
+     "reason": "policy_monitor_records FAILED: 1523 records, fewer than the 1533 held; not written"
+    },
+    {
+     "at": "2026-11-16T16:00",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED news_index: RuntimeError: refused, older than the live copy: it has 20,852 rows here and 21,252 in Supabase (no retrieved_at to compare); 198 rows differ in value, 400 only in Supabase. Sync th"
+    },
+    {
+     "at": "2026-11-16T17:25",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_storage_awards_rollup",
+     "reason": "ercot_storage_dam_awards_monthly FAILED: RuntimeError: 992 rows of the last run's table have no row now (the input lost a month?): nothing is written"
+    },
+    {
+     "at": "2026-11-16T17:26",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_storage_offers_rollup",
+     "reason": "ercot_storage_dam_offers_monthly FAILED: ValueError: Index contains duplicate entries, cannot reshape"
+    },
+    {
+     "at": "2026-11-16T17:58",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_ercot_storage_rt",
+     "reason": "ercot_storage_realtime FAILED: ValueError: Index contains duplicate entries, cannot reshape"
+    },
+    {
+     "at": "2026-11-16T19:27",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_dispatch_export",
+     "reason": "battery_dispatch_export FAILED: 8 monthly sums differ from battery_stack_monthly; nothing written"
+    },
+    {
+     "at": "2026-11-16T19:30",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_battery_scenario_steps",
+     "reason": "RuntimeError: ercot foresight 2h: the default cell is not battery_stack_monthly: 2026-10: this run 4325.355209658495, the table 4270.7523; 2026-10 days: 30 here, 29.0 in the table"
+    },
+    {
+     "at": "2026-11-16T19:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_dispatch",
+     "reason": "dm_battery_dispatch_export did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-16T19:31",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_battery_steps",
+     "reason": "dm_battery_scenario_steps did not finish; the group was put back as committed"
+    },
+    {
+     "at": "2026-11-16T19:32",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_test_replication",
+     "reason": "its tests exited 1 (tests.test_session190_replication tests.test_session1491 tests.test_session538 tests.test_session720 tests.test_session3701 tests.test_session5074.Datacenter tests.test_session5074"
+    },
+    {
+     "at": "2026-11-16T19:48",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_commit",
+     "reason": "git push exit 1"
+    }
+   ],
+   "stale": [
+    {
+     "at": "2026-11-16T15:04",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices SKIPPED: stale at source (no request: ruling 2 of 6 November 2026 (docs/state/rulings_2026-11-06.md): ERCOT's /misapp and /misdownload paths, which its robots file disallows, are not a"
+    },
+    {
+     "at": "2026-11-16T17:39",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_carb_lcfs",
+     "reason": "carb_lcfs SKIPPED: stale at source: RuntimeError: the newest week CARB holds is 2026-09-14, 63 days old (limit 28)"
+    },
+    {
+     "at": "2026-11-16T18:00",
+     "workflow": "local:SU-4QC3QR3",
+     "step": "dm_eia930_workbooks",
+     "reason": "eia930_emissions eia930_all_emissions SKIPPED: stale at source: RuntimeError: stale at source: no complete day of CO2 values in the window; EIA's newest workbooks hold none yet (ciso: https://www.eia."
     }
    ]
   }
