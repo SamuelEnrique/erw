@@ -239,6 +239,14 @@ def main(argv=None):
         lv.setdefault("grid", "ERCOT")
         lv.setdefault("tz", TZ)
     levels = ercot + caiso_levels(log, {lv["date"] for lv in ercot})
+    # session 7051 (chain 370): a CAISO level's rooftop solar shape is built from a window of EIA-930 hours that moves on;
+    # when this run cannot build it for the same day, the shape the file held is kept, so a rebuild never thins the file
+    if not rebuild:
+        held = {(lv.get("slug"), lv.get("date")): lv for lv in old["levels"]}
+        for lv in levels:
+            was = held.get((lv.get("slug"), lv.get("date")))
+            if was and lv.get("solar") is None and was.get("solar") is not None:
+                lv["solar"], lv["solar_source"] = was["solar"], was.get("solar_source")
     out = {
         "note": "ERW, session 38: the home battery game's famous days. ERCOT HB_HUBAVG real-time settlement point prices, "
                 "USD/MWh, every 15-minute interval of the operating day (Central time); session 56: two CAISO SP15 days, the 15-minute "

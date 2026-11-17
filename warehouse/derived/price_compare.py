@@ -20,6 +20,8 @@ For each hub or zone (entity <iso>:<node>), each market (dam: day-ahead; rtm: re
     <m>_above_200_hours_share_pct     pct       the share with a price above USD 200 per MWh
     <m>_day_spread_top4_bottom4       USD/MWh   on the average day (the mean price of each local hour of the day over the
                                                 window), the mean of its four dearest hours less the mean of its four cheapest
+    <m>_daily_spread_mean_top4_bottom4 USD/MWh  (session 7051) the mean over the window's whole local days of each day's four
+                                                dearest hours less its four cheapest; <m>_daily_spread_days the days used
     <m>_hours_held, <m>_hours_in_window   count
 and once per entity and window, the carbon intensity of its grid's generation:
     grid_carbon_intensity             kgCO2/MWh the mean of the daily intensities held (carbon_intensity_daily)
@@ -136,8 +138,17 @@ def measures(h, tz):
     if len(day) < 24:
         return None
     top, bottom = day.nlargest(4).mean(), day.nsmallest(4).mean()
-    return {"avg_price": round(float(h.mean()), 2), "negative_hours_share_pct": round(100 * float((h < 0).mean()), 2),
-            "above_200_hours_share_pct": round(100 * float((h > HIGH).mean()), 2), "day_spread_top4_bottom4": round(float(top - bottom), 2)}
+    out = {"avg_price": round(float(h.mean()), 2), "negative_hours_share_pct": round(100 * float((h < 0).mean()), 2),
+           "above_200_hours_share_pct": round(100 * float((h > HIGH).mean()), 2), "day_spread_top4_bottom4": round(float(top - bottom), 2)}
+    # session 7051 (chain 370, done-line request 141): each whole local day's four dearest less four cheapest hours, and the
+    # mean over the window's whole days (a day with an hour missing is left out; the count says how many were used)
+    ld = h.index.tz_convert(tz)
+    spreads = [g.nlargest(4).mean() - g.nsmallest(4).mean() for d, g in h.groupby(ld.date)
+               if len(g) == int((pd.Timestamp(d + pd.Timedelta(days=1), tz=tz) - pd.Timestamp(d, tz=tz)) / pd.Timedelta(hours=1))]
+    if spreads:
+        out["daily_spread_mean_top4_bottom4"] = round(float(sum(spreads) / len(spreads)), 2)
+        out["daily_spread_days"] = len(spreads)
+    return out
 
 
 def carbon(in_dir, ba, start, end):
@@ -213,7 +224,7 @@ def build(x, in_dir, end_month, hidden, log):
                 m.update(hours_held=int(len(h)), hours_in_window=n)
                 rec[f"{side}_basis"] = basis
                 for k, v in m.items():
-                    unit = "pct" if k.endswith("pct") else "count" if k.startswith("hours") else "USD/MWh"
+                    unit = "pct" if k.endswith("pct") else "count" if (k.startswith("hours") or k.endswith("_days")) else "USD/MWh"
                     rows.append(dict(entity=entity, variable=f"{side}_{k}", ts_utc=f"{start}T00:00:00Z", value=v, unit=unit, freq=freq, geo=geo, market="", node=node))
                     rec[f"{side}_{k}"] = v
                 wrote = True

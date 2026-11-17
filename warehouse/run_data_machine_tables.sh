@@ -144,7 +144,6 @@ TABLE_STEPS=(
   "dm_eia930_workbooks|-|weekly|warehouse/connectors/eia930_emissions.py --days 3 --dry-run"
   "dm_clean_energy|clean_energy_hourly,clean_energy_summary|weekly|warehouse/derived/mix_clean.py"
   "dm_noaa_weather|noaa_grid_weather_hourly,noaa_grid_weather_daily,noaa_grid_weather_stations,noaa_station_weather_hourly|weekly|warehouse/connectors/noaa_grid_weather.py --refresh"
-  "dm_demand_weather|eia930_demand_weather|weekly|warehouse/derived/demand_weather.py --snapshot --before warehouse/derived/reference/demand_weather_session126.json"
   "dm_zone_history_pull|-|weekly|warehouse/connectors/zone_price_history.py --pull --iso caiso --recent 9"
   "dm_zone_history_write|iso_zone_prices_history|weekly|warehouse/connectors/zone_price_history.py --write --iso caiso --recent 9"
   "dm_mix_profile|generation_mix_hourly_profile,generation_mix_records|weekly|warehouse/derived/mix_profile.py --snapshot"
@@ -154,6 +153,7 @@ TABLE_STEPS=(
   "dm_nuclear_fleet|nuclear_fleet_status|daily|warehouse/derived/nuclear_fleet_status.py"
   "dm_peak_premium|ercot_peak_premium_annual,ercot_peak_premium_monthly|daily|warehouse/derived/ercot_peak_premium.py --split"
   "dm_cost_of_power|cost_of_power_monthly,cost_of_power_hourly_profile,cost_of_power_carbon|daily|warehouse/derived/cost_of_power.py"
+  "dm_demand_weather|eia930_demand_weather|weekly|warehouse/derived/demand_weather.py --snapshot --before warehouse/derived/reference/demand_weather_session126.json"
 )
 # session 271: the weekly load of every table this block and warehouse/run_data_machine.sh write (the loader takes
 # only those a live-set rule names, and writes what changed)
