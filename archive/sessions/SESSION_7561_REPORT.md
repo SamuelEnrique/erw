@@ -1,0 +1,11 @@
+# Session 7561 report: the deal tracker read as a fund analyst (samueloldlaptop, 17 November 2026 UTC)
+
+- **Asked:** the second of the six reads: `/deals`. Checked first: no `deals-read` file on any branch; part A's 28 rows read so as not to repeat them (rows 1, 13 and 16 cited).
+- **The read:** `docs/reviews/deals-read-2026-11-16.md`. Five cases (Google and Constellation's 3,600 MW PPA; a nuclear PPA at USD 85 per MWh placed; the June 2025 comparables; the hyperscalers' deals on the AI view; Fermi beside the datacenter tracker), 10 rows: 2 site fixed, 1 data machine (request 305), 1 key, 1 license, 3 rulings, 2 browser (303, 304).
+- **Found:** 14 deals with a named AI party (Google, Amazon, Microsoft, Anthropic, OpenAI, Nvidia) are tagged "AI no", among them the autumn's two largest hyperscaler PPAs; the cause is in `warehouse/deals/fields.py` (`upgrade` keeps the model's tag on the 529 older rows). Not fixed here (a builder's table), request 305.
+- **Fixed on the page:** the opening line said "since 2025-10-01" while 42 rows are dated earlier; it is now written from the rows (`coverageWords`, `site/lib/deals2.ts`). The placing form says before any typing that no deal states a price. Test `site/scripts/test-deals-read.mjs`, 7 of 7; pytest of the eight tests naming the changed files, 90 passed, 2 skipped, 1 failed before the commit only (`test_session113` checks the file is committed).
+- **Also in this session:** the datacenters read cites part A's rows 16, 17 and 21; its queue labels read "queue position: ..." (`d5dddd492`).
+- **What to review:** `https://erw-flame.vercel.app/deals` (the opening line names the span); `https://erw-flame.vercel.app/deals?view=comparables#prices` (the form's line before typing).
+- **Needs the key:** scoring the held stories of June to September 2025 and running the deals step on them (row 3): USD 0.00365 a story times their count, which the data machine's dry run would give.
+- **Decisions made without you:** the line keeps no count of deals, since the rows and the folded deals differ (590 and 585).
+- **For Samuel's ruling:** rows 6 (what a dollar figure measures; default: as the words state it), 7 (no country filter; default: every row shown) and 8 (a one-party PPA; default: as the story gives it).

@@ -6,6 +6,8 @@ Energy Research Warehouse (ERW). Asked by Samuel: the reader's read of chain 304
 **The five cases:** (1) Abilene, Texas (32.4487, -99.7331; Taylor County, ERCOT), 300 MW; (2) New Albany, Ohio (40.0812, -82.8088; AEP Ohio, PJM), 300 MW; (3) Ashburn, Virginia (39.0438, -77.4874; Loudoun County, Dominion, PJM), 300 MW; (4) Phoenix, Arizona (33.4484, -112.0740) and Atlanta, Georgia (33.7490, -84.3880), outside the ISOs; (5) ERCOT's own queue and large-load figures for a Texas site. Each "near" is within 30 miles, on the table as the live set served it at 05:30 UTC on 17 November 2026 (vintage 2026-11-16, 458 facilities, 274 counted).
 **How it was read:** this machine cannot build the site. The rows were fetched with the replication's own reader (`replication/datacenter_tracker/fetch_rows.py`, the anon key, nothing committed: the table is held); distances by the haversine in `runs/7560_dc_cases.py` (not in git); the facilities table drawn to HTML by its own component (`site/scripts/test-datacenters-read.mjs`, 8 of 8). Not seen: no click, no hover in a browser, no layout at 390 px.
 
+**What a visitor sees today:** `datacenter_facilities` is held whole (license needed) since 21 October 2026, so a visitor meets the hold's one sentence, ERCOT's large-load section and the decisions, and no facility. This read is of the page as it draws the rows (the internal view, and the page once the hold is ruled: part A's rows 1 and 2), which is what the reader would bring the five cases to.
+
 Part A's rows (`docs/reviews/datacenter-faults-2026-11-11.md`) and the pack's cross-check are cited and not written again.
 
 ## The cases, in one line each
