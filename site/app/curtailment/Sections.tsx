@@ -22,6 +22,9 @@ import { Heat, XY } from "./Charts";
 export const TILE_WHITE = 0.655;
 
 export const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
+// Session 7631, the other choice of the ruling on ERCOT's shares (wip/alt-curtailment-2, not landed): one span, the head's
+// whole days, so the months' shares of the limit leave the view (their MWh stay)
+export const ONE_SPAN = true;
 /** A figure that is not held: a few words, and the reason on hover. Never a number. */
 export const Blank = ({ words = "not held yet", why }: { words?: string; why: string }) => (
   <span className="cursor-help text-muted underline decoration-dotted underline-offset-2" data-missing="1" title={why}>{words}</span>
@@ -366,7 +369,7 @@ export function Texas({ file, estimate }: { file: ErcotFile; estimate: string })
             r.both.share_pct === null ? <Blank key="p" why="the day holds no limit above nothing" /> : <N key="p" k={`tx|${d}|share`}>{two(r.both.share_pct)}</N>, `${r.hours_held} of ${r.hours_in_day}`] }; }),
           { key: "all", highlight: true, cells: [`The ${file.whole_days} whole days`, <N key="w" k="tx|window|wind">{whole(file.window.wind.below_hsl_mwh)}</N>, <N key="s" k="tx|window|solar">{whole(file.window.solar.below_hsl_mwh)}</N>,
             file.window.both.share_pct === null ? "" : <N key="p" k="tx|window|share">{two(file.window.both.share_pct)}</N>, ""] },
-          ...Object.keys(file.months).sort().map((m) => { const r = file.months[m]; return r.both ? { key: m, cells: [monthName(m), <N key="w" k={`tx|${m}|wind`}>{whole(r.wind!.below_hsl_mwh)}</N>, <N key="s" k={`tx|${m}|solar`}>{whole(r.solar!.below_hsl_mwh)}</N>, r.both.share_pct === null ? "" : <N key="p" k={`tx|${m}|share`}>{two(r.both.share_pct)}</N>, `${whole(r.hours_held)} of ${whole(r.hours_in_month)}`] }
+          ...Object.keys(file.months).sort().map((m) => { const r = file.months[m]; return r.both ? { key: m, cells: [monthName(m), <N key="w" k={`tx|${m}|wind`}>{whole(r.wind!.below_hsl_mwh)}</N>, <N key="s" k={`tx|${m}|solar`}>{whole(r.solar!.below_hsl_mwh)}</N>, ONE_SPAN || r.both.share_pct === null ? "" : <N key="p" k={`tx|${m}|share`}>{two(r.both.share_pct)}</N>, `${whole(r.hours_held)} of ${whole(r.hours_in_month)}`] }
             : { key: m, cells: [monthName(m)], wide: <span data-month-missing={m}><Blank why={r.missing ?? "the month is not held"} /></span> }; }),
           { key: "history", cells: ["2016 to the first reading"], wide: <span data-history="1"><Blank words={file.history} why={file.history_reason} /></span> },
         ]} />

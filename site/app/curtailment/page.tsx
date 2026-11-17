@@ -34,7 +34,7 @@ import { XY } from "./Charts";
 
 // session 215: the price table whose hold the free-energy and worth sections of a grid take their words from
 const priceTableOf = (grid: string) => (grid === "isone" ? "isone_dam_zone_prices" : grid === "nyiso" ? "nyiso_dam_zone_prices" : "iso_dam_hub_prices");
-import { Blank, FreeEnergy, N, Texas, Worth, ercotWholeMonths, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
+import { Blank, FreeEnergy, N, ONE_SPAN, Texas, Worth, ercotWholeMonths, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
 
 // Session 144: "Curtailment", one tool, one page, one address, in review (lib/release.ts), in the battery page's layout.
 // It holds what /curtailment showed (every grid by day and by month, from the curtailment tables in Supabase) and what
@@ -84,6 +84,7 @@ function DaysAndMonths({ g, monthly, daily, sg }: { g: GridRow; monthly: SeriesR
   // Texas: the days' share is the estimate's own, below the limit over the limit (the daily table holds both)
   const hsl = sum(lastDays, ["solar_hsl_mwh", "wind_hsl_mwh"]), below = sum(lastDays, ["solar_below_hsl_mwh", "wind_below_hsl_mwh"]);
   const shareCell = (m: string): ReactNode => {
+    if (estimate && ONE_SPAN) return <Blank words="over the head's days only" why="One span (session 7631's other choice of the ruling): ERCOT's share of the limit is given over the head's whole days alone, not by month or by the days of the chart." />;   // session 7631 (wip/alt-curtailment-2)
     if (estimate) { const r = ercot.months[m]; return r?.both?.share_pct != null ? <N k={`share|${m}`}>{two(r.both.share_pct)}</N> : <Blank why={r?.missing ?? ercot.month_reason} />; }
     const r = sg?.months[m];
     return r ? <span title={`${whole(r.days_held)} of ${r.days_in_month} days. Output: ${shares.basis_words[r.basis] ?? r.basis}`}><N k={`share|${m}`}>{two(r.share_pct)}</N></span> : <Blank why={sg ? shareReason(sg, m) : "no output is held for this grid"} />;
@@ -134,7 +135,7 @@ function DaysAndMonths({ g, monthly, daily, sg }: { g: GridRow; monthly: SeriesR
             head={["Month", ...parts.map(([, label]) => `${label}, MWh`), estimate ? "Share of the limit, percent" : "Share of available output, percent"]}
             rows={tableMonths.map((m) => ({ key: m, cells: [m, ...parts.map(([v]) => { const r = byMonth.get(`${v}|${m}`); return r ? <Num key={v} check={`series|${MONTHLY}|${g.entity}|${v}|${r.ts_utc}`} raw={r.value}>{exact(r.value)}</Num> : ""; }), shareCell(m)] }))} />
         ) : null}
-        {estimate ? <p className="mt-3 text-sm">{Object.keys(ercot.months).sort().map((m, i) => <span key={m} data-month-missing={m}>{i ? "; " : ""}{monthName(m)}: {shareCell(m)}</span>)}.</p> : null}
+        {estimate && !ONE_SPAN ? <p className="mt-3 text-sm">{Object.keys(ercot.months).sort().map((m, i) => <span key={m} data-month-missing={m}>{i ? "; " : ""}{monthName(m)}: {shareCell(m)}</span>)}.</p> : null}
       </ToolSection>
     </>
   );
@@ -309,7 +310,8 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
               <HeadlineNumber label={`Below the limit, the ${ercot.whole_days} days held`} value={<N k="head|below">{whole(ercot.window.both.below_hsl_mwh)}</N>} unit="MWh" note={<>Wind <N k="head|wind">{whole(ercot.window.wind.below_hsl_mwh)}</N>, solar <N k="head|solar">{whole(ercot.window.solar.below_hsl_mwh)}</N>.</>} />
               <HeadlineNumber label="As a share of the limit" value={<N k="head|share">{two(ercot.window.both.share_pct ?? 0)}</N>} unit="percent" note={(() => { const best = Object.entries(ercot.days).filter(([, d]) => d.whole && d.both.share_pct !== null).sort((a, b) => (b[1].both.share_pct ?? 0) - (a[1].both.share_pct ?? 0))[0]; return best ? <>The highest day: {dayName(best[0])}, <N k="head|highest">{two(best[1].both.share_pct ?? 0)}</N> percent.</> : undefined; })()} />
               {/* session 7544 (row 9): the newest whole month when the file holds one; it read "not held yet" above a table holding October 2026 whole */}
-              {(() => { const wm = ercotWholeMonths(ercot).at(-1), r = wm ? ercot.months[wm] : null;
+              {/* session 7631 (wip/alt-curtailment-2, not landed): one span, so no month's share in the head */}
+              {ONE_SPAN ? null : (() => { const wm = ercotWholeMonths(ercot).at(-1), r = wm ? ercot.months[wm] : null;
                 return r?.both && r.both.share_pct !== null
                   ? <HeadlineNumber label={`A whole month, ${monthName(wm!)}`} value={<span data-whole-month={wm}><N k="head|month">{two(r.both.share_pct)}</N></span>} unit="percent"
                       note={<>Of the limit: wind <N k="head|month_wind">{whole(r.wind!.below_hsl_mwh)}</N> MWh and solar <N k="head|month_solar">{whole(r.solar!.below_hsl_mwh)}</N> MWh below it, {whole(r.hours_held)} of {whole(r.hours_in_month)} hours. Before the first reading: <Blank words={ercot.history} why={ercot.history_reason} />.</>} />
