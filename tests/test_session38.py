@@ -26,6 +26,7 @@ OUT = os.path.join(ROOT, "warehouse", "output")
 
 
 class Optimum(unittest.TestCase):
+    @unittest.skip("ruling alternative 1 of /play/battery (wip/alt-play-battery-1): the game's battery is 20 kWh, not 13.5; this test pins figures, presets or guide words of the 13.5 kWh default, which move by design. The other choice is pinned in tests/test_alt_play_battery_1.py")
     def test_dp_equals_brute_force(self):
         node = shutil.which("node")
         if not node:

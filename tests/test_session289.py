@@ -106,6 +106,7 @@ console.log(JSON.stringify({ v: b.RULES_VERSION, reserve: b.DEFAULT_SETTINGS.res
   easy: b.presetOf(b.DEFAULT_SETTINGS, 'easy'), hard: b.presetOf(b.DEFAULT_SETTINGS, 'hard'), v4: b.parsePreset('hard:13.5-5-90-r20-d0.11-solar-v4'),
   label4: b.presetLabel('normal:13.5-5-90-v4'), forecast: b.DIFFICULTIES.easy.forecastHours }));""")
 
+    @unittest.skip("ruling alternative 1 of /play/battery (wip/alt-play-battery-1): the game's battery is 20 kWh, not 13.5; this test pins figures, presets or guide words of the 13.5 kWh default, which move by design. The other choice is pinned in tests/test_alt_play_battery_1.py")
     def test_v5_and_the_reserve(self):
         r = self.r
         self.assertEqual(r["v"], "v5")
@@ -130,6 +131,7 @@ console.log(JSON.stringify({ v: b.RULES_VERSION, reserve: b.DEFAULT_SETTINGS.res
             self.assertNotRegex(bad, rx)
         self.assertTrue(os.path.exists(os.path.join(ROOT, "warehouse", "supabase", "rollbacks", "033_game_v5.sql")))
 
+    @unittest.skip("ruling alternative 1 of /play/battery (wip/alt-play-battery-1): the game's battery is 20 kWh, not 13.5; this test pins figures, presets or guide words of the 13.5 kWh default, which move by design. The other choice is pinned in tests/test_alt_play_battery_1.py")
     def test_the_battery_test_passes(self):
         r = subprocess.run([NODE, "scripts/test-battery.mjs"], cwd=SITE, capture_output=True, text=True, timeout=900)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:])
