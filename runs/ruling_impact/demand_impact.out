@@ -1,0 +1,55 @@
+== line 1: California's base months (26 February to 31 March 2019): EIA's file, or CAISO's own load
+CAISO's own hourly load on this machine (caiso_area_load_hourly) starts on 17 September 2021: not computed here. The data machine's figures (note_2026-11-17_data_c301.md, request 38): California's change to 2025 is 1,089.3 MW on EIA's file, 847.5 MW with CAISO's own load in the base months (-241.8 MW, -22.2 percent)
+
+== line 2: a zone's own load growth (ERCOT's load zones; Dominion's and the other held grids' zones are not read)
+ercot:COAST: mean load 2019 12,354 MW (8760 hours), 2025 14,745 MW (8760 hours): +2,391 MW, +19.4 percent
+ercot:EAST: mean load 2019 1,485 MW (8760 hours), 2025 1,818 MW (8760 hours): +333 MW, +22.4 percent
+ercot:FWEST: mean load 2019 3,435 MW (8760 hours), 2025 7,478 MW (8760 hours): +4,043 MW, +117.7 percent
+ercot:NCENT: mean load 2019 13,819 MW (8760 hours), 2025 15,307 MW (8760 hours): +1,488 MW, +10.8 percent
+ercot:NORTH: mean load 2019 854 MW (8760 hours), 2025 1,689 MW (8760 hours): +835 MW, +97.8 percent
+ercot:SCENT: mean load 2019 6,970 MW (8760 hours), 2025 8,877 MW (8760 hours): +1,906 MW, +27.4 percent
+ercot:SOUTH: mean load 2019 3,608 MW (8760 hours), 2025 4,435 MW (8760 hours): +826 MW, +22.9 percent
+ercot:WEST: mean load 2019 1,292 MW (8760 hours), 2025 1,384 MW (8760 hours): +93 MW, +7.2 percent
+ercot:system: mean load 2019 43,817 MW (8760 hours), 2025 55,733 MW (8760 hours): +11,915 MW, +27.2 percent
+
+== line 3: the weather view's fit on 2019 to 2021 (default) or on 2019 to 2024
+ERCO 2019 to 2021: summer peak 2025: growth +12.88 percent, weather +0.16, unexplained +12.72 (uncertainty 6.32 on 3 left-out years); outside the fit's weather False; a finding: True
+ERCO 2019 to 2021: energy 2025: unexplained +23.86 (uncertainty 4.09); a finding: True
+ERCO 2019 to 2021: summer peak 2026: growth +22.98 percent, weather +7.60, unexplained +15.37 (uncertainty 6.32 on 3 left-out years); outside the fit's weather True; a finding: False
+ERCO 2019 to 2021: energy 2026: unexplained +28.75 (uncertainty 3.71); a finding: True
+ERCO 2019 to 2021: the fit's left-out hourly error 4.19 percent; hottest cooling degrees seen 36.5
+ERCO 2019 to 2024: summer peak 2025: growth +6.05 percent, weather -3.60, unexplained +9.64 (uncertainty 9.88 on 6 left-out years); outside the fit's weather False; a finding: False
+ERCO 2019 to 2024: energy 2025: unexplained +16.25 (uncertainty 13.23); a finding: True
+ERCO 2019 to 2024: summer peak 2026: growth +15.53 percent, weather +3.65, unexplained +11.89 (uncertainty 9.88 on 6 left-out years); outside the fit's weather False; a finding: True
+ERCO 2019 to 2024: energy 2026: unexplained +20.65 (uncertainty 12.82); a finding: True
+ERCO 2019 to 2024: the fit's left-out hourly error 7.71 percent; hottest cooling degrees seen 41.4
+CISO 2019 to 2021: summer peak 2025: growth -1.88 percent, weather -6.10, unexplained +4.21 (uncertainty 11.53 on 3 left-out years); outside the fit's weather False; a finding: False
+CISO 2019 to 2021: energy 2025: unexplained +4.88 (uncertainty 2.90); a finding: True
+CISO 2019 to 2021: summer peak 2026: growth +11.76 percent, weather +14.89, unexplained -3.13 (uncertainty 11.53 on 3 left-out years); outside the fit's weather False; a finding: False
+CISO 2019 to 2021: energy 2026: unexplained +6.06 (uncertainty 3.31); a finding: True
+CISO 2019 to 2021: the fit's left-out hourly error 6.99 percent; hottest cooling degrees seen 36.4
+CISO 2019 to 2024: summer peak 2025: growth -4.92 percent, weather -7.57, unexplained +2.65 (uncertainty 9.46 on 6 left-out years); outside the fit's weather False; a finding: False
+CISO 2019 to 2024: energy 2025: unexplained +3.31 (uncertainty 3.94); a finding: False
+CISO 2019 to 2024: summer peak 2026: growth +8.30 percent, weather +14.53, unexplained -6.23 (uncertainty 9.46 on 6 left-out years); outside the fit's weather False; a finding: False
+CISO 2019 to 2024: energy 2026: unexplained +4.28 (uncertainty 3.53); a finding: True
+CISO 2019 to 2024: the fit's left-out hourly error 6.83 percent; hottest cooling degrees seen 36.4
+PJM 2019 to 2021: summer peak 2025: growth +7.68 percent, weather +10.25, unexplained -2.57 (uncertainty 4.48 on 3 left-out years); outside the fit's weather True; a finding: False
+PJM 2019 to 2021: energy 2025: unexplained +6.78 (uncertainty 2.63); a finding: True
+PJM 2019 to 2021: summer peak 2026: growth +9.08 percent, weather +11.04, unexplained -1.96 (uncertainty 4.48 on 3 left-out years); outside the fit's weather True; a finding: False
+PJM 2019 to 2021: energy 2026: unexplained +8.90 (uncertainty 3.13); a finding: True
+PJM 2019 to 2021: the fit's left-out hourly error 3.77 percent; hottest cooling degrees seen 30.3
+PJM 2019 to 2024: summer peak 2025: growth +7.45 percent, weather +9.27, unexplained -1.82 (uncertainty 4.37 on 6 left-out years); outside the fit's weather False; a finding: False
+PJM 2019 to 2024: energy 2025: unexplained +5.42 (uncertainty 3.62); a finding: True
+PJM 2019 to 2024: summer peak 2026: growth +8.84 percent, weather +10.48, unexplained -1.64 (uncertainty 4.37 on 6 left-out years); outside the fit's weather True; a finding: False
+PJM 2019 to 2024: energy 2026: unexplained +7.58 (uncertainty 3.99); a finding: True
+PJM 2019 to 2024: the fit's left-out hourly error 3.71 percent; hottest cooling degrees seen 30.5
+SWPP 2019 to 2021: summer peak 2025: growth +8.79 percent, weather +0.03, unexplained +8.76 (uncertainty 3.74 on 3 left-out years); outside the fit's weather False; a finding: True
+SWPP 2019 to 2021: energy 2025: unexplained +12.50 (uncertainty 1.49); a finding: True
+SWPP 2019 to 2021: summer peak 2026: growth +15.89 percent, weather +8.03, unexplained +7.86 (uncertainty 3.74 on 3 left-out years); outside the fit's weather True; a finding: False
+SWPP 2019 to 2021: energy 2026: unexplained +14.24 (uncertainty 1.33); a finding: True
+SWPP 2019 to 2021: the fit's left-out hourly error 3.74 percent; hottest cooling degrees seen 33.0
+SWPP 2019 to 2024: summer peak 2025: growth +4.20 percent, weather -2.00, unexplained +6.20 (uncertainty 5.16 on 6 left-out years); outside the fit's weather False; a finding: True
+SWPP 2019 to 2024: energy 2025: unexplained +9.26 (uncertainty 6.76); a finding: True
+SWPP 2019 to 2024: summer peak 2026: growth +11.00 percent, weather +6.04, unexplained +4.96 (uncertainty 5.16 on 6 left-out years); outside the fit's weather False; a finding: False
+SWPP 2019 to 2024: energy 2026: unexplained +10.84 (uncertainty 6.75); a finding: True
+SWPP 2019 to 2024: the fit's left-out hourly error 4.73 percent; hottest cooling degrees seen 36.8
