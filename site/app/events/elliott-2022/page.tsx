@@ -76,7 +76,7 @@ export default function Elliott2022() {
       }}
     />
     {/* session 47: the event study */}
-    <EventStudy event="elliott_2022" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
+    <EventStudy event="elliott_2022" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price dayTemp />   {/* dayTemp: ruling alternative 2 (wip/alt-events-2, not a default on main) */}
     {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
     <EventDecisions event="elliott_2022" />
     </div>

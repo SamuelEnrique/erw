@@ -876,6 +876,8 @@ async function truth(check) {
     }
     if (term === "pooled_temp") return t ? { est: t.pooled.estimate, lo: t.pooled.lo, hi: t.pooled.hi }[field] : undefined;
     if (term === "weather_share") return t ? (1 - t.pooled.estimate / s.pooled.estimate) * 100 : undefined;
+    // ruling alternative 2 of /events (wip/alt-events-2): a day's estimate with temperature, es|...|day_temp|<day>|est
+    if (p[4] === "day_temp") { const dt = t ? t.days.find((x) => x.day === p[5]) : undefined; return dt ? { est: dt.estimate }[field] : undefined; }
     const d = s.days.find((x) => x.day === p[5]);
     return d ? { est: d.estimate, lo: d.lo, hi: d.hi }[field] : undefined;
   }

@@ -8,6 +8,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
+import { Tip } from "@/components/tool/ToolPage";   // wip/alt-events-2
 import { series } from "@/lib/data";
 import { ENTITY_BA, gridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
 import { shown } from "@/lib/format";
@@ -65,7 +66,7 @@ function Plot({ r, label }: { r: Row; label: string }) {
   );
 }
 
-export async function EventStudy({ event, grids, primary, price }: { event: string; grids: string[]; primary: string; price?: boolean }) {
+export async function EventStudy({ event, grids, primary, price, dayTemp = false }: { event: string; grids: string[]; primary: string; price?: boolean; dayTemp?: boolean }) {
   const want = [...grids.map((g) => ({ entity: g, variable: "demand_mwh" })), ...(price ? [{ entity: "ercot:HB_HUBAVG", variable: "rt_mean" }] : [])];
   // session 49: the station rows of the event (temperature and degree days), for the temperature-controlled estimate
   const wx = await attempt(async () => (await series(T, { event })).filter((r) => r.entity.startsWith("noaa:") && (r.variable === "hdd_65f" || r.variable === "cdd_65f")));
@@ -82,6 +83,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
   const p = lead.s.pooled, pct = (p.estimate / lead.s.counterfactualMean) * 100;
   const clear = p.lo > 0 || p.hi < 0;
   const name = GRID_LABEL[primary];
+  const dayT = dayTemp && !!lead.t;   // wip/alt-events-2
   return (
     <Section title="What the estimates say">
       <p className="mb-2 max-w-3xl text-sm">
@@ -139,15 +141,24 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
             page sideways once the fold was opened; it scrolls in its own frame, as the table above does */}
         <div className="overflow-x-auto">
         <table className="mt-1 text-left text-xs">
-          <thead><tr className="text-muted"><th className="pr-4">Day</th><th className="pr-4 text-right">Effect</th><th className="text-right">95 percent interval</th></tr></thead>
+          <thead><tr className="text-muted"><th className="pr-4">Day</th><th className="pr-4 text-right">Effect</th><th className="text-right">95 percent interval</th>
+            {/* ruling alternative 2 of /events (session 7712, wip/alt-events-2, not a default on main): each day with temperature */}
+            {dayT ? <th className="pl-4 text-right">Controlling for temperature<Tip id={`es-day-temp-${event}`} label="the days controlling for temperature"><span data-es-day-temp-tip="1">Each day&apos;s
+              demand less a fit on the baseline days with the day&apos;s heating and cooling degree days and their squares. The fit is carried to degree days colder or hotter than
+              any baseline day, where its square terms turn, so a day&apos;s figure here can be larger than without temperature: it is an extrapolation, not the weather&apos;s share of the day.
+              Default on the site: each day without temperature. Source: event_window_daily, the grid&apos;s NOAA station rows; docs/methods/event_study.md.</span></Tip></th> : null}</tr></thead>
           <tbody>
-            {lead.s.days.map((d) => (
+            {lead.s.days.map((d) => {
+              const dt = dayT ? lead.t!.days.find((x) => x.day === d.day) : undefined;
+              return (
               <tr key={d.day}>
                 <td className="pr-4">{d.day}</td>
                 <td className="pr-4 text-right tabular-nums"><E ev={event} r={lead} term={`day|${d.day}`} field="est" v={d.estimate} /></td>
                 <td className="text-right tabular-nums"><E ev={event} r={lead} term={`day|${d.day}`} field="lo" v={d.lo} /> to <E ev={event} r={lead} term={`day|${d.day}`} field="hi" v={d.hi} /></td>
+                {dayT ? <td className="pl-4 text-right tabular-nums">{dt ? <E ev={event} r={lead} term={`day_temp|${d.day}`} field="est" v={dt.estimate} /> : <span className="text-muted">no weather that day</span>}</td> : null}
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
         </div>
