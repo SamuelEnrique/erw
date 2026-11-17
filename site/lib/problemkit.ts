@@ -71,6 +71,22 @@ export function inOrder<Q extends { id: string }>(questions: Q[], order: string[
   return questions.map((q, i) => ({ q, i })).sort((a, b) => at(a.q) - at(b.q) || a.i - b.i).map((x) => x.q);
 }
 
+/** Session 7548 (chain 304, the read of the problem sets, row 1): a question's number on the live page (its place in the
+ *  guide's order, from 1), or null when the order does not name it. The live page asks the five from the easiest to the
+ *  hardest (session 3650); an edition built before that keeps its own order, so "question 1" of the live page and of the
+ *  edition of 15 October 2026 are two questions in every set, and each page now says the other's number. */
+export function liveNumber(slug: string, id: string): number | null {
+  const i = GUIDE[slug]?.order.indexOf(id) ?? -1;
+  return i < 0 ? null : i + 1;
+}
+
+/** Session 7548: a question's number in an edition's copy of a set (its place there, from 1), or null when the set or the
+ *  question is not in it. */
+export function numberIn(questions: { id: string }[] | undefined, id: string): number | null {
+  const i = questions?.findIndex((q) => q.id === id) ?? -1;
+  return i < 0 ? null : i + 1;
+}
+
 /** The words for one instructor, for the index's hover: each set's tables (the keys /data and the CSVs name) and the
  *  method note. */
 export function instructorNote(): string {

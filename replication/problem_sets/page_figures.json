@@ -1371,7 +1371,7 @@
    "questions": [
     {
      "id": "cx",
-     "q": "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "q": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?",
      "tables": [
       "event_window_daily"
      ],
@@ -1383,7 +1383,7 @@
       "The highest of the 2021 days: 69,215 MW, on 2021-02-14. The highest of the baseline days: 54,634 MW, on 2020-02-14.",
       "Divide: 69,215 MW / 54,634 MW = 1.27 times."
      ],
-     "words": "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-14:  | , against  |  (2020-02-14):  | . |  /  |  =  | Open event_window_daily and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline). | The highest of the 2021 days:  | , on 2021-02-14. The highest of the baseline days:  | , on 2020-02-14. | Divide:  |  /  |  =  | .",
+     "words": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-14:  | , against  |  (2020-02-14):  | . |  /  |  =  | Open event_window_daily and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline). | The highest of the 2021 days:  | , on 2021-02-14. The highest of the baseline days:  | , on 2020-02-14. | Divide:  |  /  |  =  | .",
      "figures": [
       {
        "where": "answer",
@@ -1477,7 +1477,7 @@
     },
     {
      "id": "c3",
-     "q": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
+     "q": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window (2022-12-19 to 2022-12-29), on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
      "tables": [
       "event_window_daily"
      ],
@@ -1488,7 +1488,7 @@
       "Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest: 135,328 MW.",
       "Read demand_max_pct_vs_baseline for that day: 41.76 %."
      ],
-     "words": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak? | 2022-12-23:  | ,  |  above the baseline. | max of demand_max_mw from 2022-12-19 =  | , on 2022-12-23; that day's demand_max_pct_vs_baseline =  | Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest:  | . | Read demand_max_pct_vs_baseline for that day:  | .",
+     "words": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window (2022-12-19 to 2022-12-29), on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak? | 2022-12-23:  | ,  |  above the baseline. | max of demand_max_mw from 2022-12-19 =  | , on 2022-12-23; that day's demand_max_pct_vs_baseline =  | Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest:  | . | Read demand_max_pct_vs_baseline for that day:  | .",
      "figures": [
       {
        "where": "answer",
@@ -1542,7 +1542,7 @@
     },
     {
      "id": "c2",
-     "q": "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
+     "q": "CAISO, August 2020 (the window 2020-08-10 to 2020-08-24): on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
      "tables": [
       "event_window_daily"
      ],
@@ -1550,11 +1550,11 @@
      "answer": "2020-08-18, 23.50 %; 12.75 percentage points above 2020-08-14 (10.74 %).",
      "line": "23.50 % - 10.74 % = 12.75 percentage points",
      "steps": [
-      "Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: 23.50 %.",
+      "Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: 23.50 %. The table holds no comparison for 2020-08-10, 2020-08-11 and 2020-08-23: an hour is missing in EIA's data on the day or on its baseline day (docs/methods/events.md).",
       "2020-08-14: 10.74 %.",
       "Subtract: 12.75 percentage points."
      ],
-     "words": "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages? | 2020-08-18,  | ;  |  above 2020-08-14 ( | ). |  -  |  =  | Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest:  | . | 2020-08-14:  | . | Subtract:  | .",
+     "words": "CAISO, August 2020 (the window 2020-08-10 to 2020-08-24): on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages? | 2020-08-18,  | ;  |  above 2020-08-14 ( | ). |  -  |  =  | Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest:  | . The table holds no comparison for 2020-08-10, 2020-08-11 and 2020-08-23: an hour is missing in EIA's data on the day or on its baseline day (docs/methods/events.md). | 2020-08-14:  | . | Subtract:  | .",
      "figures": [
       {
        "where": "answer",
@@ -1632,7 +1632,7 @@
     },
     {
      "id": "c4",
-     "q": "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
+     "q": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
      "tables": [
       "event_window_daily"
      ],
@@ -1644,7 +1644,7 @@
       "Read demand_max_mw and find the highest: 85,432 MW.",
       "Compare the dates."
      ],
-     "words": "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day? | Highest price 2023-09-06,  | ; highest demand 2023-08-10,  | : different days. | max of rt_max =  |  on 2023-09-06; max of demand_max_mw =  |  on 2023-08-10 | Read rt_max (event ercot_heat_2023) and find the highest:  | . | Read demand_max_mw and find the highest:  | . | Compare the dates.",
+     "words": "ERCOT, summer 2023 (the window 2023-08-01 to 2023-09-10): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day? | Highest price 2023-09-06,  | ; highest demand 2023-08-10,  | : different days. | max of rt_max =  |  on 2023-09-06; max of demand_max_mw =  |  on 2023-08-10 | Read rt_max (event ercot_heat_2023) and find the highest:  | . | Read demand_max_mw and find the highest:  | . | Compare the dates.",
      "figures": [
       {
        "where": "answer",
@@ -1698,7 +1698,7 @@
     },
     {
      "id": "c1",
-     "q": "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "q": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
      "tables": [
       "event_window_daily"
      ],
@@ -1710,7 +1710,7 @@
       "The highest on the 2019 and 2020 days is 1,691.63 USD/MWh.",
       "Divide: 5.35 times."
      ],
-     "words": "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-17:  | , against  |  (2020-02-10):  | . |  /  |  =  | Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is  | . | The highest on the 2019 and 2020 days is  | . | Divide:  | .",
+     "words": "Winter Storm Uri (ERCOT, February 2021; the storm window is 2021-02-07 to 2021-02-24): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-17:  | , against  |  (2020-02-10):  | . |  /  |  =  | Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is  | . | The highest on the 2019 and 2020 days is  | . | Divide:  | .",
      "figures": [
       {
        "where": "answer",
@@ -2114,11 +2114,11 @@
      "answer": "Discharged 167,897 MWh, charged 229,806 MWh: 73.06 % came back out, against 90 % assumed for the game's battery.",
      "line": "167,897 MWh / 229,806 MWh x 100 = 73.06 %",
      "steps": [
-      "Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days).",
+      "Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days): the days held are 2026-11-03 and 2026-11-09 to 2026-11-14.",
       "Energy out over energy in: 167,897 MWh / 229,806 MWh x 100 = 73.06 %.",
       "The game's battery is an assumption: 90 % round trip (lib/battery.ts)."
      ],
-     "words": "Over the seven latest days held (2026-11-03 to 2026-11-14), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery? | Discharged  | , charged  | :  |  came back out, against  |  assumed for the game's battery. |  /  |  x 100 =  | Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days). | Energy out over energy in:  |  /  |  x 100 =  | . | The game's battery is an assumption:  |  round trip (lib/battery.ts).",
+     "words": "Over the seven latest days held (2026-11-03 to 2026-11-14), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery? | Discharged  | , charged  | :  |  came back out, against  |  assumed for the game's battery. |  /  |  x 100 =  | Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days): the days held are 2026-11-03 and 2026-11-09 to 2026-11-14. | Energy out over energy in:  |  /  |  x 100 =  | . | The game's battery is an assumption:  |  round trip (lib/battery.ts).",
      "figures": [
       {
        "where": "answer",
@@ -2368,21 +2368,21 @@
     },
     {
      "id": "d3",
-     "q": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?",
+     "q": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of 10,000 homes earn?",
      "tables": [
       "cost_of_power_hourly_profile",
       "cost_of_power_monthly"
      ],
      "day": null,
      "answer": "One cycle earns 0.62 USD; the fleet 6,159.21 USD.",
-     "line": "(12.81 kWh x 73.13 USD/MWh - 14.23 kWh x 22.53 USD/MWh) / 1,000 = 0.62 USD; times the fleet's homes = 6,159.21 USD",
+     "line": "(12.81 kWh x 73.13 USD/MWh - 14.23 kWh x 22.53 USD/MWh) / 1,000 = 0.62 USD; times the fleet's 10,000 homes = 6,159.21 USD",
      "steps": [
       "The cheapest hour of the month's profile is 09:00, 22.53 USD/MWh; the dearest 20:00, 73.13 USD/MWh.",
       "To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys 14.23 kWh and delivers 12.81 kWh.",
       "Cash: (12.81 kWh x 73.13 USD/MWh - 14.23 kWh x 22.53 USD/MWh) / 1,000 = 0.62 USD.",
-      "Times the fleet's homes: 6,159.21 USD."
+      "Times the fleet's 10,000 homes: 6,159.21 USD."
      ],
-     "words": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn? | One cycle earns  | ; the fleet  | . | ( |  x  |  -  |  x  | ) / 1,000 =  | ; times the fleet's homes =  | The cheapest hour of the month's profile is 09:00,  | ; the dearest 20:00,  | . | To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys  |  and delivers  | . | Cash: ( |  x  |  -  |  x  | ) / 1,000 =  | . | Times the fleet's homes:  | .",
+     "words": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of 10,000 homes earn? | One cycle earns  | ; the fleet  | . | ( |  x  |  -  |  x  | ) / 1,000 =  | ; times the fleet's 10,000 homes =  | The cheapest hour of the month's profile is 09:00,  | ; the dearest 20:00,  | . | To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys  |  and delivers  | . | Cash: ( |  x  |  -  |  x  | ) / 1,000 =  | . | Times the fleet's 10,000 homes:  | .",
      "figures": [
       {
        "where": "answer",
@@ -3112,7 +3112,7 @@
     },
     {
      "id": "e5",
-     "q": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm?",
+     "q": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days (the same dates of earlier years)?",
      "tables": [
       "merchant_revenue_monthly",
       "event_window_daily"
@@ -3127,7 +3127,7 @@
       "As many normal days as the storm lasted: 8,758.96 USD x 18 days = 157,661.22 USD.",
       "The ratio: 12,382,219.96 USD / 157,661.22 USD = 78.54 times."
      ],
-     "words": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm? | Over the storm's  |  it earned  | ; as many normal days earned  | :  |  as much. |  / ( |  x  | ) =  | Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up. | Add the  |  of the event window:  | . | A normal day: the mean of the baseline days of the same event (the same dates of earlier years):  | . A normal week is seven of them,  | . | As many normal days as the storm lasted:  |  x  |  =  | . | The ratio:  |  /  |  =  | .",
+     "words": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days (the same dates of earlier years)? | Over the storm's  |  it earned  | ; as many normal days earned  | :  |  as much. |  / ( |  x  | ) =  | Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up. | Add the  |  of the event window:  | . | A normal day: the mean of the baseline days of the same event (the same dates of earlier years):  | . A normal week is seven of them,  | . | As many normal days as the storm lasted:  |  x  |  =  | . | The ratio:  |  /  |  =  | .",
      "figures": [
       {
        "where": "answer",

@@ -5,6 +5,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Section } from "@/components/Section";
 import { edition, editionPath, editions, longDate } from "@/lib/problemEditions";
 import { SETS } from "@/lib/problems";
+import { liveNumber } from "@/lib/problemkit";  // session 7548: each question's number on the live page
 import { FrozenParts } from "../../../Frozen";
 import { PrintButton } from "../../../PrintButton";
 
@@ -40,6 +41,7 @@ export default async function TeacherCopy({ params }: { params: Promise<{ slug: 
           <li key={q.id} className="break-inside-avoid">
             <Section title={`Question ${n + 1}`}>
               <p className="mb-2 max-w-3xl">{q.q}</p>
+              {liveNumber(slug, q.id) ? <p className="mb-2 max-w-3xl text-xs" data-live-number={q.id}>On the live page this is question {liveNumber(slug, q.id)}.</p> : null}
               <p className="mb-2 max-w-3xl"><strong>Answer.</strong> <FrozenParts parts={q.answer} /></p>
               <p className="font-semibold">Worked solution</p>
               <ol className="max-w-3xl list-decimal pl-6 text-sm">

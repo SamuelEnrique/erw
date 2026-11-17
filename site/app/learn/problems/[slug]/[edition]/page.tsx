@@ -5,6 +5,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Section } from "@/components/Section";
 import { edition, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { SETS } from "@/lib/problems";
+import { liveNumber } from "@/lib/problemkit";  // session 7548: each question's number on the live page
 
 // Session 293 (Samuel's ruling 8a of 14 October 2026): a dated edition of a problem set, the students' copy. The
 // questions as they were built on the edition's date, each with its tables and a download of the rows it needs; no
@@ -38,6 +39,7 @@ export default async function EditionPage({ params }: { params: Promise<{ slug: 
           <li key={q.id}>
             <Section title={`Question ${n + 1}`}>
               <p className="mb-1 max-w-3xl">{q.q}</p>
+              {liveNumber(slug, q.id) ? <p className="mb-1 max-w-3xl text-xs" data-live-number={q.id}>On <Link href={`/learn/problems/${slug}`}>the live page</Link> this is question {liveNumber(slug, q.id)}.</p> : null}
               <p className="max-w-3xl text-xs text-muted">
                 Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}.{" "}
                 <a href={q.csv} download data-rows={q.rows}>The {q.rows} rows this question needs (CSV)</a>.

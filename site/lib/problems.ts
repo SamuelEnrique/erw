@@ -288,6 +288,41 @@ async function setB(): Promise<Built> {
 }
 
 // ---------------------------------------------------------------- set C: when the grid broke
+/** Session 7548 (chain 304, the read of the problem sets, row 2): each event's window, first and last day, as
+ *  docs/methods/events.md and the event pages give it (app/events/page.tsx's `within`; site/scripts/
+ *  test-problem-sets-read.mjs holds the two equal). Set C's questions name it, so a student working from the table
+ *  knows which days the "storm window" is; the figures are picked as before. */
+export const EVENT_WINDOWS: Record<string, [string, string]> = {
+  uri_2021: ["2021-02-07", "2021-02-24"],
+  caiso_heat_2020: ["2020-08-10", "2020-08-24"],
+  elliott_2022: ["2022-12-19", "2022-12-29"],
+  ercot_heat_2023: ["2023-08-01", "2023-09-10"],
+};
+/** The window's days the rows hold no value for (each day YYYY-MM-DD), in order. */
+function windowGaps(rows: SeriesRow[], event: string): string[] {
+  const [a, b] = EVENT_WINDOWS[event];
+  const held = new Set(rows.map((x) => day(x.ts_utc)));
+  const out: string[] = [];
+  for (let t = Date.parse(`${a}T00:00:00Z`); t <= Date.parse(`${b}T00:00:00Z`); t += 86_400_000) {
+    const d = new Date(t).toISOString().slice(0, 10);
+    if (!held.has(d)) out.push(d);
+  }
+  return out;
+}
+const win = (event: string) => `${EVENT_WINDOWS[event][0]} to ${EVENT_WINDOWS[event][1]}`;
+/** Session 7548: days (YYYY-MM-DD, in order) as runs, when they are not one unbroken run: ": the days held are
+ *  2026-11-03 and 2026-11-09 to 2026-11-14"; "" when they are. */
+export function heldRuns(days: string[]): string {
+  const runs: [string, string][] = [];
+  for (const d of days) {
+    const last = runs.at(-1);
+    if (last && Date.parse(`${d}T00:00:00Z`) - Date.parse(`${last[1]}T00:00:00Z`) === 86_400_000) last[1] = d;
+    else runs.push([d, d]);
+  }
+  return runs.length < 2 ? "" : `: the days held are ${andList(runs.map(([a, b]) => (a === b ? a : `${a} to ${b}`)))}`;
+}
+const andList = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
+
 async function setC(): Promise<Built> {
   const T = "event_window_daily";
   const ev = async (event: string, entity: string, variable: string) => series(T, { event, entity, variable });
@@ -297,7 +332,7 @@ async function setC(): Promise<Built> {
   const U = r(u21, "uri_2021", "USD/MWh"), UB = r(ubase, "uri_2021", "USD/MWh");
   const q1: Question = {
     id: "c1", tables: [T],
-    q: "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
+    q: `Winter Storm Uri (ERCOT, February 2021; the storm window is ${win("uri_2021")}): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?`,
     answer: [`${day(u21.ts_utc)}: `, U, ", against ", UB, ` (${day(ubase.ts_utc)}): `, calc("ratio", U, UB, "times"), "."],
     line: [U, " / ", UB, " = ", calc("ratio", U, UB, "times")],
     steps: [["Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is ", U, "."], ["The highest on the 2019 and 2020 days is ", UB, "."], ["Divide: ", calc("ratio", U, UB, "times"), "."]],
@@ -306,12 +341,17 @@ async function setC(): Promise<Built> {
   const cai = await ev("caiso_heat_2020", "eia930:CISO", "demand_max_pct_vs_baseline");
   const chi = pick(cai, "max"), c14 = cai.find((x) => day(x.ts_utc) === "2020-08-14")!;
   const CH = r(chi, "caiso_heat_2020", "%"), C14 = r(c14, "caiso_heat_2020", "%");
+  // session 7548: the window's days with no comparison, named (each misses an hour in EIA's data, on the day or on its
+  // baseline day: docs/methods/events.md), so a student who counts the rows knows why there are fewer than the window's
+  const cgap = windowGaps(cai, "caiso_heat_2020");
   const q2: Question = {
     id: "c2", tables: [T],
-    q: "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
+    q: `CAISO, August 2020 (the window ${win("caiso_heat_2020")}): on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?`,
     answer: [`${day(chi.ts_utc)}, `, CH, "; ", calc("diff", CH, C14, "percentage points"), " above 2020-08-14 (", C14, ")."],
     line: [CH, " - ", C14, " = ", calc("diff", CH, C14, "percentage points")],
-    steps: [["Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: ", CH, "."], ["2020-08-14: ", C14, "."], ["Subtract: ", calc("diff", CH, C14, "percentage points"), "."]],
+    steps: [["Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: ", CH, "."
+      + (cgap.length ? ` The table holds no comparison for ${andList(cgap)}: an hour is missing in EIA's data on the day or on its baseline day (docs/methods/events.md).` : "")],
+      ["2020-08-14: ", C14, "."], ["Subtract: ", calc("diff", CH, C14, "percentage points"), "."]],
     why: "The outages came before demand peaked: supply fell short, not demand alone.",
   };
   const pj = await ev("elliott_2022", "eia930:PJM", "demand_max_mw");
@@ -319,7 +359,7 @@ async function setC(): Promise<Built> {
   const ppct = (await ev("elliott_2022", "eia930:PJM", "demand_max_pct_vs_baseline")).find((x) => x.ts_utc === ptop.ts_utc)!;
   const q3: Question = {
     id: "c3", tables: [T],
-    q: "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
+    q: `Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window (${win("elliott_2022")}), on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?`,
     answer: [`${day(ptop.ts_utc)}: `, r(ptop, "elliott_2022", "MW"), ", ", r(ppct, "elliott_2022", "%"), " above the baseline."],
     line: ["max of demand_max_mw from 2022-12-19 = ", r(ptop, "elliott_2022", "MW"), `, on ${day(ptop.ts_utc)}; that day's demand_max_pct_vs_baseline = `, r(ppct, "elliott_2022", "%")],
     steps: [["Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest: ", r(ptop, "elliott_2022", "MW"), "."], ["Read demand_max_pct_vs_baseline for that day: ", r(ppct, "elliott_2022", "%"), "."]],
@@ -330,7 +370,7 @@ async function setC(): Promise<Built> {
   const edem = pick((await ev("ercot_heat_2023", "eia930:ERCO", "demand_max_mw")).filter((x) => x.ts_utc >= "2023-08-01"), "max");
   const q4: Question = {
     id: "c4", tables: [T],
-    q: "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
+    q: `ERCOT, summer 2023 (the window ${win("ercot_heat_2023")}): on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?`,
     answer: [`Highest price ${day(etop.ts_utc)}, `, r(etop, "ercot_heat_2023", "USD/MWh"), `; highest demand ${day(edem.ts_utc)}, `, r(edem, "ercot_heat_2023", "MW"), day(etop.ts_utc) === day(edem.ts_utc) ? ": the same day." : ": different days."],
     line: ["max of rt_max = ", r(etop, "ercot_heat_2023", "USD/MWh"), ` on ${day(etop.ts_utc)}; max of demand_max_mw = `, r(edem, "ercot_heat_2023", "MW"), ` on ${day(edem.ts_utc)}`],
     steps: [["Read rt_max (event ercot_heat_2023) and find the highest: ", r(etop, "ercot_heat_2023", "USD/MWh"), "."], ["Read demand_max_mw and find the highest: ", r(edem, "ercot_heat_2023", "MW"), "."], ["Compare the dates."]],
@@ -354,7 +394,7 @@ async function setC(): Promise<Built> {
     const X = r(hi21, "uri_2021", "MW"), XB = r(hib, "uri_2021", "MW");
     return {
       id: "cx", tables: [T],
-      q: "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?",
+      q: `Winter Storm Uri (ERCOT, February 2021; the storm window is ${win("uri_2021")}): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?`,
       answer: [`${day(hi21.ts_utc)}: `, X, ", against ", XB, ` (${day(hib.ts_utc)}): `, calc("ratio", X, XB, "times"), "."],
       line: [X, " / ", XB, " = ", calc("ratio", X, XB, "times")],
       steps: [[`Open ${T} and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline).`],
@@ -406,7 +446,9 @@ async function setD(): Promise<Built> {
     q: `Over the ${howMany} latest days held (${last7[0]} to ${last7.at(-1)}), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?`,
     answer: ["Discharged ", out, ", charged ", inn, ": ", calc("pct", out, inn, "%"), " came back out, against ", rt, " assumed for the game's battery."],
     line: [out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%")],
-    steps: [[`Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over ${last7[0]} to ${last7.at(-1)} (local days).`],
+    // session 7548 (the read, row 5): the days added, by name, when the table has a gap inside the range (on 16 November
+    // the seven were 3 and 9 to 14 November: "2026-11-03 to 2026-11-14" alone reads as twelve days)
+    steps: [[`Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over ${last7[0]} to ${last7.at(-1)} (local days)${heldRuns(last7)}.`],
       ["Energy out over energy in: ", out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%"), "."],
       ["The game's battery is an assumption: ", rt, " round trip (lib/battery.ts)."]],
     why: "Every battery loses some energy in the round trip; a single day's ratio can even pass 100 percent when a charge and its discharge fall on different days, so a week is fairer.",
@@ -434,12 +476,13 @@ async function setD(): Promise<Built> {
   const bought: V = { v: fc.bought, k: "battery|bought_kwh", u: "kWh" }, delivered: V = { v: fc.delivered, k: "battery|delivered_kwh", u: "kWh" };
   const q3: Question = {
     id: "d3", tables: [P, "cost_of_power_monthly"],
-    q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?`,
+    // session 7548 (the read, row 4): the fleet's size is said, so a student can do the last step (it was in a hover only)
+    q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of ${FLEET.toLocaleString("en-US")} homes earn?`,
     answer: ["One cycle earns ", cash, "; the fleet ", fleet, "."],
-    line: ["(", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "; times the fleet's homes = ", fleet],
+    line: ["(", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, `; times the fleet's ${FLEET.toLocaleString("en-US")} homes = `, fleet],
     steps: [[`The cheapest hour of the month's profile is ${lo.variable.slice(-2)}:00, `, LO, `; the dearest ${hi.variable.slice(-2)}:00, `, HI, "."],
       ["To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys ", bought, " and delivers ", delivered, "."],
-      ["Cash: (", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "."], ["Times the fleet's homes: ", fleet, "."]],
+      ["Cash: (", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "."], [`Times the fleet's ${FLEET.toLocaleString("en-US")} homes: `, fleet, "."]],
     why: "The price spread between hours is a battery's whole business, and a home battery's share of it is small: what matters is scale.",
   };
   // session 4051: 400 days, not 75: the Texas gas question below needs a held month that has a certified price, and at
@@ -584,7 +627,7 @@ async function setE(): Promise<Built> {
   const nDays = mrs("days", st.days, "days"), baseDay = mrs("base_mean", st.baseMean, "USD"), normal = mrs("base_window", st.baseMean * st.days, "USD");
   const q5: Question = {
     id: "e5", tables: ["merchant_revenue_monthly", "event_window_daily"],
-    q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against as many normal days before the storm?`,
+    q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against as many normal days (the same dates of earlier years)?`,
     answer: ["Over the storm's ", nDays, " it earned ", tot, "; as many normal days earned ", normal, ": ", calc("ratio", tot, normal, "times"), " as much."],
     line: [tot, " / (", baseDay, " x ", nDays, ") = ", calc("ratio", tot, normal, "times")],
     steps: [["Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up."],

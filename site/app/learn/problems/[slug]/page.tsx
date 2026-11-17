@@ -7,9 +7,9 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
 import { problemSet, SETS, type Part, type Question } from "@/lib/problems";
-import { GUIDE, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
+import { GUIDE, numberIn, sourceOfKey } from "@/lib/problemkit";  // session 3650: the outcome line, and each figure's source as its hover
 import citations from "@/data/table_citations.json";
-import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
+import { edition, editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { attempt } from "@/lib/supabase";
 import { ProblemDecisions } from "../Decisions";  // session 7534 (chain 304): the decisions block
 
@@ -63,6 +63,10 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
   if (!SETS.some((s) => s.slug === slug)) notFound();
   const got = await attempt(() => problemSet(slug));
   const meta = SETS.find((s) => s.slug === slug)!;
+  // session 7548 (chain 304, the read, row 1): the newest edition's copy of this set, so each question says its number
+  // there (the edition of 15 October 2026 keeps the order it was built in; this page asks the easiest first)
+  const newest = editions()[0];
+  const inEdition = newest ? edition(newest)?.sets.find((s) => s.slug === slug)?.questions : undefined;
   return (
     <Brand>
     <div>
@@ -90,6 +94,11 @@ export default async function Problems({ params }: { params: Promise<{ slug: str
             <li key={q.id}>
               <Section title={`Question ${n + 1}`}>
                 <p className="mb-1 max-w-3xl">{q.q}</p>
+                {numberIn(inEdition, q.id) ? (
+                  <p className="mb-1 text-xs" data-edition-number={q.id}>
+                    In <Link href={editionPath(slug, newest)}>the edition of {longDate(newest)}</Link> this is question {numberIn(inEdition, q.id)}.
+                  </p>
+                ) : null}
                 {/* session 369: the day the figures belong to, checked by check-values with lib/gridday.ts (the page's own rule) */}
                 {q.day ? <p className="mb-1 text-xs text-muted" data-day>Figures of <Num check={q.day.k} raw={q.day.d}>{q.day.d}</Num>: {q.day.note}.</p> : null}
                 <p className="mb-2 text-xs text-muted">Tables: {q.tables.map((t, i) => <span key={t}>{i ? ", " : ""}<Link href={`/data#${t}`} className="font-mono">{t}</Link></span>)}</p>
