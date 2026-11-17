@@ -1,28 +1,28 @@
 {
- "built_at": "2026-10-15T00:25:39Z",
+ "built_at": "2026-11-17T07:34:57Z",
  "note": "Built by site/scripts/build-ev-prices.mjs from the ERW warehouse tables eia_retail_electricity_prices and eia_regional_retail_fuel_prices (EIA, public domain). Electricity: each state's average residential price, its newest month, USD/MWh. Gasoline: regular, weekly, the state's own where EIA publishes it, else its PADD region's.",
  "sources": {
   "eia_retail_electricity_prices": {
    "source": "eia:electricity/retail-sales Electric Power Monthly: average retail price of electricity (retail-sales), https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a",
-   "retrieved": "20260929T005932Z (UTC) by warehouse/connectors/eia_series.py via the EIA API v2"
+   "retrieved": "20261023T143750Z (UTC) by warehouse/connectors/eia_series.py via the EIA API v2"
   },
   "eia_regional_retail_fuel_prices": {
    "source": "eia:petroleum/pri/gnd:regional EIA, Gasoline and Diesel Fuel Update (weekly retail prices), https://www.eia.gov/petroleum/gasdiesel/",
-   "retrieved": "20261009T071900Z (UTC) by warehouse/connectors/eia_board.py"
+   "retrieved": "20261113T151645Z (UTC) by warehouse/connectors/eia_board.py"
   }
  },
  "us": {
   "power": {
-   "value": 183.1,
+   "value": 181.6,
    "unit": "USD/MWh",
-   "ts": "2026-07-01",
+   "ts": "2026-08-01",
    "entity": "eia:retail_price:US:RES",
    "table": "eia_retail_electricity_prices"
   },
   "gas": {
-   "value": 4.354,
+   "value": 3.995,
    "unit": "USD/gal",
-   "ts": "2026-10-05",
+   "ts": "2026-11-09",
    "entity": "eia:EMM_EPMR_PTE_NUS_DPG",
    "table": "eia_regional_retail_fuel_prices",
    "where": "us"
@@ -33,16 +33,16 @@
    "code": "AL",
    "name": "Alabama",
    "power": {
-    "value": 164,
+    "value": 163.3,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:AL:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.911,
+    "value": 3.481,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R30_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -53,16 +53,16 @@
    "code": "AK",
    "name": "Alaska",
    "power": {
-    "value": 288.3,
+    "value": 294.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:AK:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.116,
+    "value": 4.584,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R5XCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -73,16 +73,16 @@
    "code": "AZ",
    "name": "Arizona",
    "power": {
-    "value": 153.8,
+    "value": 150.5,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:AZ:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.116,
+    "value": 4.584,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R5XCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -93,16 +93,16 @@
    "code": "AR",
    "name": "Arkansas",
    "power": {
-    "value": 143.3,
+    "value": 143.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:AR:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.911,
+    "value": 3.481,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R30_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -113,16 +113,16 @@
    "code": "CA",
    "name": "California",
    "power": {
-    "value": 336.1,
+    "value": 297.5,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:CA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 6.227,
+    "value": 5.562,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -132,16 +132,16 @@
    "code": "CO",
    "name": "Colorado",
    "power": {
-    "value": 170,
+    "value": 171.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:CO:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.02,
+    "value": 3.746,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SCO_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -151,16 +151,16 @@
    "code": "CT",
    "name": "Connecticut",
    "power": {
-    "value": 241.6,
+    "value": 245.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:CT:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.343,
+    "value": 4.06,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1X_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -171,16 +171,16 @@
    "code": "DE",
    "name": "Delaware",
    "power": {
-    "value": 184.8,
+    "value": 187,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:DE:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.363,
+    "value": 4.146,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Y_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -191,16 +191,16 @@
    "code": "DC",
    "name": "District of Columbia",
    "power": {
-    "value": 252.1,
+    "value": 259.8,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:DC:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.363,
+    "value": 4.146,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Y_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -211,16 +211,16 @@
    "code": "FL",
    "name": "Florida",
    "power": {
-    "value": 150.3,
+    "value": 149.9,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:FL:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.97,
+    "value": 3.726,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SFL_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -230,16 +230,16 @@
    "code": "GA",
    "name": "Georgia",
    "power": {
-    "value": 162.7,
+    "value": 159,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:GA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.959,
+    "value": 3.609,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Z_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -250,16 +250,16 @@
    "code": "HI",
    "name": "Hawaii",
    "power": {
-    "value": 480,
+    "value": 471.8,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:HI:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.116,
+    "value": 4.584,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R5XCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -270,16 +270,16 @@
    "code": "ID",
    "name": "Idaho",
    "power": {
-    "value": 137.3,
+    "value": 133.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:ID:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.417,
+    "value": 3.946,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R40_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -290,16 +290,16 @@
    "code": "IL",
    "name": "Illinois",
    "power": {
-    "value": 192.2,
+    "value": 193.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:IL:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -310,16 +310,16 @@
    "code": "IN",
    "name": "Indiana",
    "power": {
-    "value": 167.3,
+    "value": 170.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:IN:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -330,16 +330,16 @@
    "code": "IA",
    "name": "Iowa",
    "power": {
-    "value": 159.9,
+    "value": 170.6,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:IA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -350,16 +350,16 @@
    "code": "KS",
    "name": "Kansas",
    "power": {
-    "value": 152.7,
+    "value": 154.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:KS:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -370,16 +370,16 @@
    "code": "KY",
    "name": "Kentucky",
    "power": {
-    "value": 138.1,
+    "value": 138,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:KY:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -390,16 +390,16 @@
    "code": "LA",
    "name": "Louisiana",
    "power": {
-    "value": 127.2,
+    "value": 128.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:LA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.911,
+    "value": 3.481,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R30_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -410,16 +410,16 @@
    "code": "ME",
    "name": "Maine",
    "power": {
-    "value": 324.1,
+    "value": 321.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:ME:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.343,
+    "value": 4.06,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1X_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -430,16 +430,16 @@
    "code": "MD",
    "name": "Maryland",
    "power": {
-    "value": 214.1,
+    "value": 214,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MD:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.363,
+    "value": 4.146,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Y_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -450,16 +450,16 @@
    "code": "MA",
    "name": "Massachusetts",
    "power": {
-    "value": 304.9,
+    "value": 304.8,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.302,
+    "value": 4.007,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SMA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -469,16 +469,16 @@
    "code": "MI",
    "name": "Michigan",
    "power": {
-    "value": 230.5,
+    "value": 229.9,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MI:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -489,16 +489,16 @@
    "code": "MN",
    "name": "Minnesota",
    "power": {
-    "value": 174.5,
+    "value": 172,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MN:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.2,
+    "value": 3.849,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SMN_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -508,16 +508,16 @@
    "code": "MS",
    "name": "Mississippi",
    "power": {
-    "value": 145.4,
+    "value": 144.3,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MS:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.911,
+    "value": 3.481,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R30_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -528,16 +528,16 @@
    "code": "MO",
    "name": "Missouri",
    "power": {
-    "value": 160.9,
+    "value": 160.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MO:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -548,16 +548,16 @@
    "code": "MT",
    "name": "Montana",
    "power": {
-    "value": 149.9,
+    "value": 155.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:MT:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.417,
+    "value": 3.946,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R40_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -568,16 +568,16 @@
    "code": "NE",
    "name": "Nebraska",
    "power": {
-    "value": 137.8,
+    "value": 135.4,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NE:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -588,16 +588,16 @@
    "code": "NV",
    "name": "Nevada",
    "power": {
-    "value": 127.7,
+    "value": 127.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NV:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.116,
+    "value": 4.584,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R5XCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -608,16 +608,16 @@
    "code": "NH",
    "name": "New Hampshire",
    "power": {
-    "value": 266,
+    "value": 276.4,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NH:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.343,
+    "value": 4.06,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1X_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -628,16 +628,16 @@
    "code": "NJ",
    "name": "New Jersey",
    "power": {
-    "value": 251.9,
+    "value": 246.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NJ:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.363,
+    "value": 4.146,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Y_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -648,16 +648,16 @@
    "code": "NM",
    "name": "New Mexico",
    "power": {
-    "value": 160.9,
+    "value": 165.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NM:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.911,
+    "value": 3.481,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R30_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -668,16 +668,16 @@
    "code": "NY",
    "name": "New York",
    "power": {
-    "value": 299,
+    "value": 286.5,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NY:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.38,
+    "value": 4.116,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SNY_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -687,16 +687,16 @@
    "code": "NC",
    "name": "North Carolina",
    "power": {
-    "value": 151.6,
+    "value": 149.5,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:NC:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.959,
+    "value": 3.609,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Z_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -707,16 +707,16 @@
    "code": "ND",
    "name": "North Dakota",
    "power": {
-    "value": 134.1,
+    "value": 133.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:ND:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -727,16 +727,16 @@
    "code": "OH",
    "name": "Ohio",
    "power": {
-    "value": 194.5,
+    "value": 193.8,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:OH:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.829,
+    "value": 3.768,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SOH_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -746,16 +746,16 @@
    "code": "OK",
    "name": "Oklahoma",
    "power": {
-    "value": 143.5,
+    "value": 148.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:OK:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -766,16 +766,16 @@
    "code": "OR",
    "name": "Oregon",
    "power": {
-    "value": 159.7,
+    "value": 159.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:OR:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.116,
+    "value": 4.584,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R5XCA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -786,16 +786,16 @@
    "code": "PA",
    "name": "Pennsylvania",
    "power": {
-    "value": 217.2,
+    "value": 217.7,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:PA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.363,
+    "value": 4.146,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Y_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -806,16 +806,16 @@
    "code": "RI",
    "name": "Rhode Island",
    "power": {
-    "value": 282.9,
+    "value": 281.8,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:RI:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.343,
+    "value": 4.06,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1X_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -826,16 +826,16 @@
    "code": "SC",
    "name": "South Carolina",
    "power": {
-    "value": 154.7,
+    "value": 157.6,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:SC:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.959,
+    "value": 3.609,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Z_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -846,16 +846,16 @@
    "code": "SD",
    "name": "South Dakota",
    "power": {
-    "value": 153.7,
+    "value": 151.5,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:SD:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -866,16 +866,16 @@
    "code": "TN",
    "name": "Tennessee",
    "power": {
-    "value": 137.1,
+    "value": 134.2,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:TN:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -886,16 +886,16 @@
    "code": "TX",
    "name": "Texas",
    "power": {
-    "value": 158.8,
+    "value": 159.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:TX:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.874,
+    "value": 3.408,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_STX_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -905,16 +905,16 @@
    "code": "UT",
    "name": "Utah",
    "power": {
-    "value": 131.2,
+    "value": 133.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:UT:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.417,
+    "value": 3.946,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R40_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -925,16 +925,16 @@
    "code": "VT",
    "name": "Vermont",
    "power": {
-    "value": 237.5,
+    "value": 238.4,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:VT:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.343,
+    "value": 4.06,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1X_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -945,16 +945,16 @@
    "code": "VA",
    "name": "Virginia",
    "power": {
-    "value": 175.5,
+    "value": 176.4,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:VA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.959,
+    "value": 3.609,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Z_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -965,16 +965,16 @@
    "code": "WA",
    "name": "Washington",
    "power": {
-    "value": 147.1,
+    "value": 146.3,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:WA:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 5.424,
+    "value": 4.874,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_SWA_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "state"
@@ -984,16 +984,16 @@
    "code": "WV",
    "name": "West Virginia",
    "power": {
-    "value": 157.8,
+    "value": 163.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:WV:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 3.959,
+    "value": 3.609,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R1Z_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -1004,16 +1004,16 @@
    "code": "WI",
    "name": "Wisconsin",
    "power": {
-    "value": 190.6,
+    "value": 194.1,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:WI:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.109,
+    "value": 3.868,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R20_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",
@@ -1024,16 +1024,16 @@
    "code": "WY",
    "name": "Wyoming",
    "power": {
-    "value": 143.6,
+    "value": 144.3,
     "unit": "USD/MWh",
-    "ts": "2026-07-01",
+    "ts": "2026-08-01",
     "entity": "eia:retail_price:WY:RES",
     "table": "eia_retail_electricity_prices"
    },
    "gas": {
-    "value": 4.417,
+    "value": 3.946,
     "unit": "USD/gal",
-    "ts": "2026-10-05",
+    "ts": "2026-11-09",
     "entity": "eia:EMM_EPMR_PTE_R40_DPG",
     "table": "eia_regional_retail_fuel_prices",
     "where": "region",

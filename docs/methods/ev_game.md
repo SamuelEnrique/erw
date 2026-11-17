@@ -80,6 +80,14 @@ the two tables on a machine that holds them, and the page reads the file when it
 was built on 15 October 2026 (electricity July 2026, gasoline the week of 5 October 2026). The code laptop holds neither
 table, so chain 198 did not rebuild it: a refresh is a data machine's run of the script.
 
+Session 7052 (chain 370, the data machine, done-line request 99) rebuilt it on 17 November 2026: electricity August 2026
+(the United States 181.6 USD/MWh), gasoline the week of 9 November 2026 (the United States 3.995 USD a gallon). The opening
+page's five figures are now a year of gasoline 2,219.44, of electricity 844.44, saved 1,375.00, payback 3.64 years and a
+net present value of 3,886.95 (shown $2,219, $844, $1,375, 3.6 years and $3,887); `replicate.py` reads 104 of 104 prices
+equal to the tables and 5,141 of 5,141 figures inside. The worked examples below (California, the three households) keep
+the prices of the 15 October file they were worked at, and `site/scripts/test-ev.mjs` holds the code to them at those
+prices, so a rebuilt file no longer unworks them.
+
 ### The model
 
 - **Fuel a year, gasoline:** miles a year / mpg x the gasoline price.
