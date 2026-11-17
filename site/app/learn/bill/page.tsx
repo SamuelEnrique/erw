@@ -6,7 +6,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import rules from "@/data/bill_rules.json";
-import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
+import { BILL_KEYS, defaultBill, monthPrices, type BillKey, type MonthPrice } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -31,14 +31,16 @@ function Chip() {
 }
 
 /** The load-weighted real-time price of the latest complete month, else the latest month held (partial). */
-async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean } | null> {
+async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean; months: MonthPrice[] } | null> {
   const rows = await series(M, { entity });
   const by = new Map<string, Record<string, SeriesRow>>();
   for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
   const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
   const full = months.filter((m) => by.get(m)!.rt_hours?.value === by.get(m)!.hours_in_month?.value);
   const m = full.at(-1) ?? months.at(-1);
-  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m) } : null;
+  // ruling alternative 3 (wip/alt-bill-3, not a default on main): every month held, for a meter-read span's price
+  const all: MonthPrice[] = monthPrices(rows);
+  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m), months: all } : null;
 }
 
 const GLOSSARY: [string, string, string][] = [
@@ -111,7 +113,7 @@ export default async function LearnBill() {
       </Section>
 
       <Section title="Build a bill">
-        <BillCalc rules={rules} wholesale={wholesale} />
+        <BillCalc rules={rules} wholesale={wholesale} months={Object.fromEntries(BILL_KEYS.map((s) => [s, W[s]?.months ?? []]))} />
         <p className="mt-3 max-w-3xl text-sm">
           What is the rest? Each line of the bill above names it, in the utility&apos;s own tariff: the local wires, poles and transformers
           (distribution), the high-voltage grid (transmission), the meter and fixed charges, and programs the state funds through the bill, such as

@@ -7,7 +7,7 @@
 // under the super off-peak share: SCE's summer has no super off-peak hours, so the share is billed in winter only.
 import { Fragment, useMemo, useState } from "react";
 import {
-  BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
+  BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, spanPrice, type BillKey, type CAInput, type Line, type MonthPrice, type TOUInput, type TXInput,
 } from "@/lib/bill";
 
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -15,7 +15,7 @@ const field = "w-full border border-rule bg-panel px-2 py-1 text-sm";
 const pct = (v: string) => Math.min(100, Math.max(0, Number(v))) / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey }) {
+export function BillCalc({ rules, wholesale, first = "CA", months = {} }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey; months?: Record<string, MonthPrice[]> }) {
   const [key, setKey] = useState<BillKey>(first);
   const [ca, setCa] = useState<CAInput>(defaultsCA(rules));
   const [tou, setTou] = useState<Record<"SCE" | "SDGE", TOUInput>>({ SCE: defaultsTOU(rules, "SCE"), SDGE: defaultsTOU(rules, "SDGE") });
@@ -23,7 +23,11 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
   const bill = useMemo(() => (key === "CA" ? billCA(rules, ca) : key === "SCE" || key === "SDGE" ? billTOU(rules, key, tou[key]) : key === "TX" ? billTX(rules, tx.TX) : billTDSP(rules, key, tx.TXC)),
     [rules, key, ca, tou, tx]);
   const b = rules.bills[key];
-  const w = wholesale[key];
+  // ruling alternative 3 (wip/alt-bill-3, not a default on main): a meter-read span prices the bar by its months' days
+  const [readFrom, setReadFrom] = useState(""), [readTo, setReadTo] = useState("");
+  const span = readFrom && readTo ? spanPrice(months[key] ?? [], readFrom, readTo) : null;
+  const w0 = wholesale[key];
+  const w = w0 && span ? { ...w0, price: span.price, partial: span.partial, month: `the read from ${readFrom} to ${readTo} (${span.parts.map((p) => `${p.days} days of ${p.month}`).join(", ")})` } : w0;
   const wholesaleUsd = w ? (bill.kwh * w.price) / 1000 : null;
   const src = (id: string) => rules.sources[id];
   const groups: Record<string, Line[]> = {};
@@ -66,6 +70,16 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
           <label className="flex flex-col">Electricity used this month, kWh (default 600, an assumption)
             <input type="number" min={0} step={10} value={kwh} onChange={(e) => setKwh(Math.max(0, Number(e.target.value)))} className={field} />
           </label>
+          {/* ruling alternative 3 (wip/alt-bill-3): the meter-read span, optional; empty, the bar reads one calendar month */}
+          <div className="grid grid-cols-2 gap-2" data-read-span="1">
+            <label className="flex flex-col">Meter read from (optional)
+              <input type="date" value={readFrom} onChange={(e) => setReadFrom(e.target.value)} className={field} data-read-from="1" />
+            </label>
+            <label className="flex flex-col">Meter read to
+              <input type="date" value={readTo} onChange={(e) => setReadTo(e.target.value)} className={field} data-read-to="1" />
+            </label>
+          </div>
+          {readFrom && readTo && !span ? <p className="text-xs text-accent" data-read-span-unpriced="1">The span is not priced: a read day is missing or out of order, or a month of it is not held. The bar reads one month.</p> : null}
           {key === "CA" ? (
             <>
               <label className="flex flex-col">Share of use from 4 to 9 p.m., percent (default 20, the tariff&apos;s own example)
@@ -164,7 +178,7 @@ export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; whole
                 <div style={{ width: `${(1 - share) * 100}%`, background: "var(--color-rule)" }} />
               </div>
               <p className="text-xs">
-                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
+                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {b.wholesale_label ?? (b.iso === "ercot" ? "ERCOT's hub average" : "the ISO's zone")}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? (span ? " (a month of it is held in part)" : " (a partial month, the latest held)") : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
               </p>
             </div>
           ) : null}

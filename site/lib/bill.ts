@@ -173,6 +173,35 @@ export function defaultsTDSP(rules: Rules, key: string): TXInput {
   return { kwh: rules.bills[key].defaults.kwh, energyRate: rules.bills[key].energy_default.rate };
 }
 
+/** Ruling alternative 3 of /learn/bill (session 7715, branch wip/alt-bill-3; not a default on main): the wholesale price
+ * of a meter-read span, each calendar month's price weighted by the days of the span inside it (both read days counted).
+ * main: one calendar month. A month the table holds in part is used as held and named partial; a month not held at all
+ * leaves the span unpriced (null), never filled. */
+export type MonthPrice = { month: string; price: number; partial: boolean };
+export function spanPrice(months: MonthPrice[], from: string, to: string): { price: number; parts: (MonthPrice & { days: number })[]; partial: boolean } | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(from) || !/^\d{4}-\d{2}-\d{2}$/.test(to) || to < from) return null;
+  const day = 86400e3, a = Date.parse(`${from}T00:00:00Z`), z = Date.parse(`${to}T00:00:00Z`);
+  const days = new Map<string, number>();
+  for (let t = a; t <= z; t += day) { const m = new Date(t).toISOString().slice(0, 7); days.set(m, (days.get(m) ?? 0) + 1); }
+  const parts: (MonthPrice & { days: number })[] = [];
+  for (const [m, d] of days) {
+    const p = months.find((x) => x.month === m);
+    if (!p) return null;
+    parts.push({ ...p, days: d });
+  }
+  const n = parts.reduce((s, p) => s + p.days, 0);
+  return { price: parts.reduce((s, p) => s + p.price * p.days, 0) / n, parts, partial: parts.some((p) => p.partial) };
+}
+
+/** The months a price point holds, each with its load-weighted real-time price; a month is partial when its real-time
+ * hours are not its hours (main's rule). The page and the branch's test read the months through this one function. */
+export function monthPrices(rows: { variable: string; ts_utc: string; value: number }[]): MonthPrice[] {
+  const by = new Map<string, Record<string, number>>();
+  for (const r of rows) { const m = r.ts_utc.slice(0, 7); (by.get(m) ?? by.set(m, {}).get(m)!)[r.variable] = r.value; }
+  return [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted !== undefined).sort()
+    .map((m) => ({ month: m, price: by.get(m)!.rt_load_weighted, partial: by.get(m)!.rt_hours !== by.get(m)!.hours_in_month }));
+}
+
 /** Every bill's default, by key: the page's five. */
 export const BILL_KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"] as const;
 export type BillKey = (typeof BILL_KEYS)[number];
