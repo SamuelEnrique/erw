@@ -148,6 +148,7 @@ with "changed by you" and a reset named for it, once moved; its tip says the def
 | Payback's tip | what the EV costs more to buy, after the credit when it is on | whole dollars |
 | Net present value, N years | sum over t = 1..N of saving / (1 + rate)^t, less the extra | whole dollars, a minus before the dollar below zero |
 | Net present value's tip | the rate | percent, one decimal |
+| Net present value's tip (session 7550) | the yearly saving the value is computed from: gasoline less electricity | dollars and cents |
 | A year of gasoline | miles / mpg x gasoline price | whole dollars |
 | A year of electricity | miles x kWh a mile x the price a kWh (home share at the home price, the rest at the typed public price) | whole dollars |
 | Saved a year with the EV, or Extra a year with the EV | gasoline less electricity; the name turns to "Extra" below zero and the amount is shown without its sign | whole dollars |
@@ -208,3 +209,15 @@ of October 5 where the table holds November 2. `replicate.do` rebuilds the five 
 Not read: fueleconomy.gov (its robots file twice refused the connection, so no request was made to it; the mpg, the
 kWh a mile and the 15,000 miles stand as read on 15 October 2026); PG&E's EV2-A schedule (fetched, but no PDF reader
 on this machine); Chevrolet's prices (no request: the defaults stay "to confirm").
+
+## The read as a household and a student (session 7550, chain 304 part B, 16 November 2026)
+
+`docs/reviews/ev-game-read-2026-11-16.md`: five cases (a commuter in Phoenix, a family in Minneapolis, a driver in Fresno on
+PG&E, a student checking the United States' answer, and A and B), 13 rows. What it changed on the page, held by
+`site/scripts/test-ev-game-read.mjs`: the gasoline tip of a state given its region's price spells out the Petroleum
+Administration for Defense District (PADD) and names the states the game gives that price; every electricity tip says
+the state's average is every utility's homes together, every hour, fixed charges included, and California's links
+`/learn/bill` for PG&E's, SCE's and SDG&E's own tariffs; the decisions fold no longer calls PG&E's E-TOU-C a rate made
+for EV owners (both its off-peak rates stand above California's average); the net present value's tip gives the yearly
+saving to the cent. No figure the game shows changed; the replication checks the new gasoline words from EIA's PADD
+definitions (5,245 of 5,245).
