@@ -304,7 +304,7 @@ console.log(JSON.stringify({
         stated = set(re.findall(r'v\.get\("([a-z0-9_]+)"\)', head + second))
         required = set(node("import { REQUIRED } from './lib/shoulder.ts'; console.log(JSON.stringify(REQUIRED));"))
         # held for some grids only, and the page says so in words where they are absent
-        optional = {"curtailed_mwh_per_day", "shoulder_runs_to_midnight", "shoulder2_runs_to_midnight"}
+        optional = {"curtailed_mwh_per_day", "shoulder_runs_to_midnight", "shoulder2_runs_to_midnight", "d2_batteries_mw"}   # d2_batteries_mw: wip/alt-shoulder-6, held after a rebuild
         self.assertEqual(stated - optional, required - {"days_held"}, "REQUIRED and the figures the page states have drifted apart")
         self.assertIn("choices(q, months, complete)", page)
         self.assertIn("opening(months[g.slug] ?? [], complete[g.slug] ?? [])", page, "the grid links still open the newest month")

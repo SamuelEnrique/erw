@@ -228,6 +228,25 @@ def fleet_metrics(shoulder_hours, shoulder_mwh, mw, mwh, shoulder2_hours=None, s
     return out
 
 
+DURATIONS = (2, 4, 8)   # ruling alternative 6 of /shoulder (wip/alt-shoulder-6): the battery durations the page names, as lib/batterystack.ts DURATIONS
+
+
+def duration_metrics(shoulder_hours, shoulder_mwh, fleet_mw):
+    """Ruling alternative 6 of /shoulder (session 7703, branch wip/alt-shoulder-6; not a default on main): for batteries of
+    2, 4 and 8 hours, the MW of them the shoulder's energy above the mean needs (its MWh over the duration), that MW over
+    the fleet's MW, and the hours of the shoulder they cover (the smaller of the duration and the shoulder's length).
+    Nothing when the shoulder or the fleet is not held."""
+    if shoulder_hours is None or shoulder_mwh is None or np.isnan(shoulder_hours) or np.isnan(shoulder_mwh) or not shoulder_hours > 0:
+        return {}
+    out = {}
+    for d in DURATIONS:
+        out[f"d{d}_batteries_mw"] = shoulder_mwh / d
+        out[f"d{d}_hours_covered"] = float(min(d, shoulder_hours))
+        if fleet_mw and fleet_mw > 0:
+            out[f"d{d}_fleet_share"] = shoulder_mwh / d / fleet_mw
+    return out
+
+
 def unit_of(k):
     """A variable's unit, from its name (session 80: one rule for every row; session 75's two rules left
     shoulder_mwh_above_mean of a month as a count)."""
@@ -235,6 +254,8 @@ def unit_of(k):
         return "MWh"
     if k.endswith("_mw") or "_mw_h" in k:
         return "MW"
+    if k.endswith("_fleet_share"):   # wip/alt-shoulder-6: MW needed over the fleet's MW
+        return "ratio"
     if k.startswith("year_") and k.endswith("runs_to_midnight"):
         return "ratio"
     if k.endswith(("_hours", "_covered", "_needed", "_hour")):
@@ -385,6 +406,7 @@ def build(grid, log):
             v.update(fleet_metrics(dm.get("shoulder_hours"), dm.get("shoulder_mwh_above_mean", 0.0),
                                    None if pd.isna(mw) else float(mw), None if pd.isna(mwh) else float(mwh),
                                    dm.get("shoulder2_hours"), dm.get("shoulder2_mwh_above_midpoint")))
+            v.update(duration_metrics(dm.get("shoulder_hours"), dm.get("shoulder_mwh_above_mean"), None if pd.isna(mw) else float(mw)))   # wip/alt-shoulder-6
         months.append((m, v))
         ts = f"{m}-01T00:00:00Z"
         for k, val in v.items():

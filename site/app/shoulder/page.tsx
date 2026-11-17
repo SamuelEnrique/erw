@@ -196,6 +196,18 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                   tip={nightLow ? <Tip id="shoulder-night-low" label="when this month's lowest hour falls"><span data-night-low={v.month}>In this month net load is lowest at {hourName(v.get("midday_low_hour")!.value)}, before the sun is up: the hours counted here run around that hour, so they are mostly the night&apos;s and the morning&apos;s, not only the midday&apos;s.</span></Tip> : undefined}
                   note={<>Net load below its daily mean for <V row={v.get("midday_surplus_hours")} /> hours around its low at <Hr row={v.get("midday_low_hour")} />.{v.get("curtailed_mwh_per_day") ? <> Curtailed: <V row={v.get("curtailed_mwh_per_day")} unit="MWh a day" /> (CAISO&apos;s own count).</> : <> Curtailment is not held for {grid.name}.</>}</>} />
               </HeadlineRow>
+              {/* ruling alternative 6 (wip/alt-shoulder-6, not a default on main): the shoulder's energy as batteries of 2, 4 or 8 hours, each a row of the table */}
+              {v.get("d2_batteries_mw") ? (
+                <div className="mb-8" data-by-duration={v.month}>
+                  <ToolTable caption={`${grid.name}, ${monthName(v.month)}: the shoulder's energy above the mean, as batteries of 2, 4 or 8 hours`} minWidth={560}
+                    head={["Batteries of", <span key="mw">MW needed<Tip id="shoulder-by-duration" label="what MW needed means"><span>The MW of batteries of that duration that would deliver all of the shoulder&apos;s energy above the daily mean, each running its full duration: the energy over the duration. A battery shorter than the shoulder covers only its own hours of it. Default on the site: no figure by duration, only the fleet&apos;s hours needed. Source: the shoulder&apos;s energy (EIA-930, the table&apos;s average day); the fleet&apos;s MW (EIA-860M).</span></Tip></span>, "Against the fleet's MW", "Hours of the shoulder covered"]}
+                    rows={DURATIONS.map((d) => ({
+                      key: `d${d}`,
+                      cells: [`${d} hours`, <V key="mw" row={v.get(`d${d}_batteries_mw`)} unit="MW" />, <><V key="sh" row={v.get(`d${d}_fleet_share`)} /> times</>,
+                        <><V key="c" row={v.get(`d${d}_hours_covered`)} /> of <V key="h" row={v.get("shoulder_hours")} /></>],
+                    }))} />
+                </div>
+              ) : null}
 
               <ToolSection title="The average day">
                 <ChartFrame title={`${grid.name}, ${monthName(v.month)}: MW by local hour`}
