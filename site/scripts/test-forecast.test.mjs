@@ -681,7 +681,7 @@ test("session 6003: New Mexico's Unregulated Electric tables, Tennessee wind's o
   near(T("natural_gas", "tn", 15, { levy: 50 }), 150e6 * 0.55 * 0.05, 1e-12, "gas: at cost");
   // Texas solar, levy 15 mills: Harris CAD's 10-year Solar/Ind column, 92 percent at age 1, 21 at age 10, 20 from age 11
   near(T("utility_pv", "tx", 0, { levy: 15 }), 150e6 * 0.92 * 0.015, 1e-12, "150,000,000 x 0.92 x 0.015 = 2,070,000");
-  near(T("utility_pv", "tx", 9, { levy: 15 }), 150e6 * 0.21 * 0.015);
+  near(T("utility_pv", "tx", 9, { levy: 15 }), 150e6 * 0.20 * 0.015);   // ruling alternative 22 (wip/alt-impact-22): the straight line's tenth year; main: 0.21
   near(T("utility_pv", "tx", 30, { levy: 15 }), 150e6 * 0.20 * 0.015, 1e-12, "the 23.26 floor");
   near(T("land_based_wind", "tx", 10, { levy: 15 }), 150e6 * 0.015, 1e-12, "wind: at cost, no schedule published");
   for (const s of ["nm", "tn", "tx"]) for (const r of P.property.states[s].rules) for (const k of ["cite", "cite2", "cite3"]) if (r[k]) assert.ok(P.property.sources[r[k]], `${s} ${r.id} ${k}`);

@@ -1930,20 +1930,21 @@
       92,
       84,
       76,
-      67,
-      58,
-      49,
-      39,
-      30,
-      24,
-      21
+      68,
+      60,
+      52,
+      44,
+      36,
+      28,
+      20
      ],
      "then_pct": 20,
      "cite2": "tx_96_1569",
      "quote2": "Tax Code Section 23.26(d)(3) requires that the depreciated value of the property be calculated using a useful life that does not exceed 10 years. Additionally, Tax Code Section 23.26(e) prohibits a chief appraiser from determining the depreciated value to be less than 20 percent of the total value adjusted for physical, functional, or economic obsolescence.",
      "cite3": "tx_hcad_2026",
      "quote3": "F. Solar Energy Device 10-Year Age/Life Original Cost x Index Factor x %GD Schedule [...] Solar/Ind 10YR [...] 2025 92, 2024 84, 2023 76, 2022 67, 2021 58, 2020 49, 2019 39, 2018 30, 2017 24, 2016 21, 2015 20",
-     "tip": "Texas: appraisal districts value property at market value as of 1 January (Tax Code 23.01, as the Comptroller states it); a commercial solar plant must be valued by the cost method over a useful life of no more than 10 years and never below 20 percent of its value (Tax Code 23.26, as the Comptroller's guidelines 96-1569 quote it). The fall by year is Harris Central Appraisal District's 2026 Solar/Ind 10-year schedule (92 percent at age 1 to 20 percent from age 11), the only district schedule read that names solar; other districts' schedules may differ. Whether 2025's SB 419 changed 23.26 could not be read (the Legislature's bill pages refuse automated reads). Local abatements (chapter 312) are negotiated and not modeled."
+     "tip": "Texas: appraisal districts value property at market value as of 1 January (Tax Code 23.01, as the Comptroller states it); a commercial solar plant must be valued by the cost method over a useful life of no more than 10 years and never below 20 percent of its value (Tax Code 23.26, as the Comptroller's guidelines 96-1569 quote it). The fall by year is Harris Central Appraisal District's 2026 Solar/Ind 10-year schedule (92 percent at age 1 to 20 percent from age 11), the only district schedule read that names solar; other districts' schedules may differ. Whether 2025's SB 419 changed 23.26 could not be read (the Legislature's bill pages refuse automated reads). Local abatements (chapter 312) are negotiated and not modeled. Ruling alternative 22: a straight line over 10 years to 20 percent (92, 84, 76, 68, 60, 52, 44, 36, 28, 20). Default on the site: the district's schedule, 92, 84, 76, 67, 58, 49, 39, 30, 24, 21.",
+     "branch": "ruling alternative 22 of /impact (wip/alt-impact-22, session 7706): not a default on main (main: 92, 84, 76, 67, 58, 49, 39, 30, 24, 21)"
     },
     {
      "id": "tx_property",
