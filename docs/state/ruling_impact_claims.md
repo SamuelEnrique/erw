@@ -5,3 +5,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | Tool | Machine | Session | State | File |
 |---|---|---|---|---|
 | /contracts | samueloldlaptop | 7570 | done | docs/reviews/ruling-impact-contracts-2026-11-17.md |
+| /severance | samueloldlaptop | 7571 | claimed | docs/reviews/ruling-impact-severance-2026-11-17.md |
