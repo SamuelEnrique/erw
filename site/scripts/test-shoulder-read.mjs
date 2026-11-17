@@ -148,5 +148,10 @@ for (const [name, html] of [["ERCOT, August 2025", e25], ["ERCOT, August 2023", 
 }
 ok(e23.includes('data-night-low="2023-08"') && !e25.includes("data-night-low"), "case 4: August 2023, lowest before dawn, keeps part A's tip beside the midday surplus; August 2025 has none");
 
+// ruling alternative 4 (wip/alt-shoulder-4, not a default on main): the worst days are ranked by the evening's highest net load, and the page says so
+ok(e25.includes('data-worst-by="evening-peak"') && e25.includes('id="tip-shoulder-worst-by"')
+  && words(e25).includes("ERCOT: the ten days of 2025 with the highest evening net load") && words(e25).includes("The ten with the highest evening net load (from the shoulder's start to midnight) in each local year are ranked"),
+  "alternative 4: the section's hover, the table's caption and the definition name the ranking by the evening's highest net load");
+
 console.log(`${n - failed} of ${n} passed`);
 if (failed) process.exitCode = 1;

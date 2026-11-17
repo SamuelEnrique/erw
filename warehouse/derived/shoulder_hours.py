@@ -40,8 +40,9 @@ Session 80, two additions (Samuel's ruling on session 75's "For Samuel", 2 and 3
   net load (the highest from the shoulder's start to midnight) in which net load is above the midpoint between its
   daily mean and that peak. Its MWh are the sum of (net load less the midpoint) over the run. The fleet against it:
   shoulder2_hours_covered and shoulder2_hours_needed, as for the first measure.
-- the worst days: for each grid and local year, the ten complete days with the largest evening shoulder energy above
-  the day's own mean (the first measure, on that day's 24 hours). One row set per such day (freq P1D, ts_utc the local
+- the worst days: for each grid and local year, the ten complete days with the highest evening net load (ruling alternative
+  4, wip/alt-shoulder-4; main: the largest evening shoulder energy above
+  the day's own mean, the first measure, on that day's 24 hours). One row set per such day (freq P1D, ts_utc the local
   day at 00:00:00Z): worst_rank, the day's shoulder by both measures, the hours of storage the month's fleet would need
   at its rated power, and what the fleet's batteries did in that shoulder where every hour of the day holds a battery
   output (day_battery_discharge_mwh, day_battery_peak_mw, day_battery_hours = discharge over the fleet's MW). Yearly
@@ -247,7 +248,7 @@ def entity_of(grid):
 
 
 def worst_days(h, fl, grid, log):
-    """The ten days of each local year with the largest evening shoulder energy above the day's own mean, among the days
+    """The ten days of each local year with the highest evening net load (ruling alternative 4, wip/alt-shoulder-4), among the days
     that hold all 24 local hours of demand, solar and wind. h: the grid's hours (day, hour, m, demand, solar, wind,
     net_load, bat). Returns ({day: figures}, {year: yearly figures})."""
     per = {}
@@ -280,7 +281,9 @@ def worst_days(h, fl, grid, log):
     for day, v in per.items():
         by_year.setdefault(day[:4], []).append((day, v))
     for y, dv in sorted(by_year.items()):
-        top = sorted(dv, key=lambda t: (-t[1]["day_shoulder_mwh_above_mean"], t[0]))[:WORST]
+        # ruling alternative 4 of /shoulder (wip/alt-shoulder-4, not a default on main): the ten days with the highest evening
+        # net load (day_evening_peak_mw), the tightest evenings; main ranks by the shoulder energy above the day's own mean
+        top = sorted(dv, key=lambda t: (-t[1]["day_evening_peak_mw"], t[0]))[:WORST]
         for rank, (day, v) in enumerate(top, 1):
             days[day] = dict(v, worst_rank=rank)
         yv = dict(year_days_ranked=len(dv), year_worst10_days=len(top),
