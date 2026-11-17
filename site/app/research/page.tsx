@@ -22,6 +22,12 @@ import { ChartOfWeekView } from "./view";
 import { figureText, figureWords } from "@/lib/researchrules";   // session 5501: the record's figures written as the chart-maker rounds them; session 7605: their keys in plain words
 
 // Session 5503 (chain 269): what makes each chart, and when, in the words of the method note's "Final form"
+// Session 7629 (wip/alt-research-2, not landed): a stored chart's correction, by its date, drawn under its record. The
+// 12 November record named July 2024 as the record until then, where July 2026 broke it first (eia_state_generation_monthly,
+// the data machine's copy: 1,034,451 MWh; docs/reviews/ruling-impact-research-2026-11-17.md, line 2).
+const CORRECTIONS: Record<string, string> = {
+  "2026-11-12": "Correction: the record until now was 1,034,451 MWh, in July 2026, not July 2024's 765,381 MWh, so August 2026 was above it by 26,053 MWh (2.5 percent), not by 295,122. It is still the highest monthly value held since January 2001.",
+};
 const TODAY_NOTE = "Chosen and drawn by code with each Digest: the scanner's strongest new flag of the day, or else the watch list's largest change. No person chooses it. A day with no Digest, or nothing new, has none, so the newest is shown with its date.";
 const WEEK_NOTE = "Chosen and drawn by code every Sunday at 23:00 UTC, by the rule in the method note: the week's most notable real change among the measures. No person chooses it.";
 
@@ -149,6 +155,9 @@ export default async function ResearchPage() {
                   <p className="lead-date">{day(today.date)}</p>
                   <h3>{today.title}</h3>
                   <p className="lead-fact" data-today-fact="1">{today.fact}</p>
+                  {/* session 7629, the other choice of the ruling on the stored chart of 12 November (wip/alt-research-2, not
+                      landed): a correction line under a stored record, the record left as it was stored */}
+                  {CORRECTIONS[today.date] ? <p className="text-sm" data-today-correction={today.date}>{CORRECTIONS[today.date]}</p> : null}
                   {Object.keys(today.numbers ?? {}).length ? (
                     <p className="lead-numbers text-xs text-muted" data-today-numbers={Object.keys(today.numbers).length}>
                       The record&apos;s figures: {Object.entries(today.numbers).map(([k, v], i) => (
