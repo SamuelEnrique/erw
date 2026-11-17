@@ -359,6 +359,16 @@ async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyG
                       {M.cp.newest && M.cp.perMw !== null ? <> In summer {M.cp.newest.year} the flexible way ({facts.words[1]}) drew {two(100 * (1 - M.cp.newest.avoided!))} percent of its load in those intervals, so it avoided {two(100 * M.cp.newest.avoided!)} percent of its four-peak demand: USD {two(M.cp.perMw / 1000)} per kW a year at the Commission&apos;s {M.cp.rate!.year} rate of USD {M.cp.rate!.value.toFixed(6)} per kW of four-peak demand, {M.cp.on ? "taken off the flexible way's cost at this site in scenario A and B" : 'not counted in scenario A and B ("Four summer peaks" in the box counts it)'}. The newest summer held is {M.cp.summers.at(-1)!.year}.</>
                         : <> {M.cpWhy || "The flexible way's hours are not held for every interval of a summer held."}</>}
                     </p>
+                    {/* session 7622, the other choice of the ruling on a fourth way of running (wip/alt-cost-of-power-1, not landed):
+                        a load off in the four intervals of the newest summer held, as they fell (no forecast of the peaks is held),
+                        beside the price-following ways; the energy of those four 15-minute intervals is not taken off */}
+                    {M.cp.newest && M.cp.rate ? (
+                      <p className="mt-1" data-fourth-way="peaks">
+                        A fourth way, off at the four peaks: a {size} load off in the four intervals of summer {M.cp.newest.year}, as they fell (no forecast of the peaks is held, so how many a forecast would have caught is not known), avoids all of its four-peak demand:
+                        USD {two(M.cp.rate.value)} per kW a year at the Commission&apos;s {M.cp.rate.year} rate, USD {Math.round(M.cp.rate.value * 1000 * x.mw).toLocaleString("en-US")} a year for {size}{M.cp.perMw !== null ? `, against USD ${Math.round(M.cp.perMw * x.mw).toLocaleString("en-US")} for the flexible way above` : ""}.
+                        The energy of those four 15-minute intervals is not taken off.
+                      </p>
+                    ) : null}
                     <details className="mt-1 text-xs">
                       <summary className="cursor-pointer py-1">Each summer held, its four intervals and the flexible way&apos;s load in each</summary>
                       <ul className="mt-1 space-y-1">
