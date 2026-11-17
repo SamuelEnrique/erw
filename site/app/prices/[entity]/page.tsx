@@ -9,7 +9,7 @@ import { Num } from "@/components/Num";
 import { MARKETS, daysAgo, latestPrices, series, type SeriesRow } from "@/lib/data";
 import { count, node, price, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
-import { heldOf, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
+import { heldOf, hubLessHub, realLessDayAhead, variableWords, whenWords } from "@/lib/pricehub";
 import { label } from "@/lib/pricecompare";
 
 export const revalidate = 3600;
@@ -41,7 +41,7 @@ function stats(rows: SeriesRow[]) {
   return { n: v.length, min: Math.min(...v), max: Math.max(...v), mean: v.reduce((a, b) => a + b, 0) / v.length, first: rows[0].ts_utc, last: rows.at(-1)!.ts_utc, minAt: lo.ts_utc, maxAt: hi.ts_utc };
 }
 
-export default async function EntityPrices({ params }: PageProps<"/prices/[entity]">) {
+export default async function EntityPrices({ params, searchParams }: PageProps<"/prices/[entity]">) {
   const entity = decode((await params).entity);
   const m = MARKETS.find((x) => x.main.split(":")[0] === entity.split(":")[0]);
   if (!m || !/^[a-z]+:[\w .\-]+$/.test(entity)) notFound();
@@ -68,6 +68,16 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
   ];
   // session 7539 (the read, row 5): real time less day-ahead over the hours both hold
   const dart = m.rt ? realLessDayAhead(rtRows, daRows, m.rt.freq) : null;
+  // ruling alternative 3 (wip/alt-prices-3, not a default on main): a second hub of the same grid, and A less B
+  const bRaw = (await searchParams)?.b, bEntity = typeof bRaw === "string" && bRaw.split(":")[0] === entity.split(":")[0] && /^[a-z]+:[\w .\-]+$/.test(bRaw) && bRaw !== entity ? bRaw : null;
+  const [bRt, bDa] = bEntity ? await Promise.all([
+    m.rt ? attempt(() => series(m.rt!.table, { entity: bEntity, variable: m.rt!.variable, since })) : Promise.resolve(null),
+    attempt(() => series(m.da.table, { entity: bEntity, variable: m.da.variable, since })),
+  ]) : [null, null];
+  const ab = bEntity ? [
+    { name: "Real time", d: m.rt && bRt?.ok ? hubLessHub(rtRows, bRt.data, m.rt.freq) : null },
+    { name: "Day-ahead", d: bDa?.ok ? hubLessHub(daRows, bDa.data, m.da.freq) : null },
+  ] : [];
   const name = label({ entity, grid: m.iso, node: node(entity) });
 
   return (
@@ -161,6 +171,39 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
         </table>
         <p className="mt-1 text-xs text-muted">Min, mean and max of every interval in the window, USD/MWh, computed on this page from the rows charted above.</p>
       </div>
+      {/* ruling alternative 3 (wip/alt-prices-3, not a default on main): a second hub of the same grid, A less B */}
+      <section className="mt-6" id="ab" data-ab={bEntity ?? "none"}>
+        <form method="get" action={`/prices/${encodeURIComponent(entity)}#ab`} className="mb-2 text-sm">
+          <label>
+            <span className="font-semibold">Second hub, B</span>{" "}
+            <input name="b" defaultValue={bEntity ?? ""} placeholder={`${entity.split(":")[0]}:...`} className="border border-rule bg-white px-2 py-1 font-mono text-xs" />
+          </label>{" "}
+          <button type="submit" className="border border-rule bg-white px-2 py-1">Compare</button>
+        </form>
+        {bEntity ? (
+          <table className="border-collapse text-sm" data-ab-table={bEntity}>
+            <tbody>
+              {ab.map(({ name: market, d }) => (
+                <tr key={market} className="border-b border-rule/60" data-ab-row={market}>
+                  <td className="py-1 pr-4">
+                    <span title={`Each hour's ${market.toLowerCase()} price at ${node(entity)} less the same hour's at ${node(bEntity)}, over the hours both hold whole, the same 30 days. Default on the site: no second hub.`}>{market}, {node(entity)} less {node(bEntity)}</span>
+                  </td>
+                  {d ? (
+                    <>
+                      <td className="py-1 pr-4 text-right tabular-nums">{count(d.n)} hours</td>
+                      <td className="py-1 pr-4 text-right tabular-nums" title={`The hour starting ${whenWords(d.minAt, m.iso)}`}>{price(d.min)}</td>
+                      <td className="py-1 pr-4 text-right tabular-nums" data-ab-mean={market}>{price(d.mean)}</td>
+                      <td className="py-1 pr-4 text-right tabular-nums" title="The median hour">{price(d.median)}</td>
+                      <td className="py-1 pr-4 text-right tabular-nums" title={`The hour starting ${whenWords(d.maxAt, m.iso)}`}>{price(d.max)}</td>
+                      <td className="py-1 pr-4 text-xs" title={`Hours in which ${node(entity)} was below ${node(bEntity)}`}>{count(d.below)} below</td>
+                    </>
+                  ) : <td colSpan={6} className="py-1 pr-4 text-xs text-muted">no hour held by both</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+      </section>
     </Brand>
   );
 }

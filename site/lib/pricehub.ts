@@ -61,6 +61,34 @@ export const variableWords = (v: string) => VARIABLE_WORDS[v] ?? v;
 
 /** Session 7539 (the read, rows 2 and 5): an interval's start in UTC and in the grid's own clock, for a hover. */
 const ZONE: Record<string, string> = { ERCOT: "America/Chicago", SPP: "America/Chicago", MISO: "America/Chicago", CAISO: "America/Los_Angeles", NYISO: "America/New_York", "ISO-NE": "America/New_York" };
+/** Ruling alternative 3 of /prices (session 7723, branch wip/alt-prices-3; not a default on main): hub A less hub B over the
+ *  hours both hold whole (an hour's mean of its intervals, taken only when every interval of the hour is held, as
+ *  realLessDayAhead takes real time). Null when no hour is held by both. On main a hub page has no second hub. */
+export function hubLessHub(a: SeriesRow[], b: SeriesRow[], freq: string | undefined) {
+  const step = stepMinutes(freq);
+  if (!step || !a.length || !b.length) return null;
+  const per = Math.max(1, Math.round(60 / step));
+  const hourly = (rows: SeriesRow[]) => {
+    const m = new Map<number, number[]>();
+    for (const r of rows) { const h = Math.floor(Date.parse(r.ts_utc) / 3_600_000); (m.get(h) ?? m.set(h, []).get(h)!).push(r.value); }
+    return m;
+  };
+  const A = hourly(a), B = hourly(b);
+  const out: { t: number; v: number }[] = [];
+  for (const [h, va] of A) {
+    const vb = B.get(h);
+    if (va.length === per && vb && vb.length === per) out.push({ t: h, v: va.reduce((x, y) => x + y, 0) / per - vb.reduce((x, y) => x + y, 0) / per });
+  }
+  if (!out.length) return null;
+  out.sort((x, y) => x.t - y.t);
+  const vs = out.map((o) => o.v).sort((x, y) => x - y), n = vs.length;
+  let lo = out[0], hi = out[0];
+  for (const o of out) { if (o.v < lo.v) lo = o; if (o.v > hi.v) hi = o; }
+  const iso = (t: number) => new Date(t * 3_600_000).toISOString().replace(/\.\d{3}Z$/, "Z");
+  return { n, mean: vs.reduce((x, y) => x + y, 0) / n, median: n % 2 ? vs[(n - 1) / 2] : (vs[n / 2 - 1] + vs[n / 2]) / 2, min: lo.v, max: hi.v,
+    minAt: iso(lo.t), maxAt: iso(hi.t), below: out.filter((o) => o.v < 0).length, first: iso(out[0].t), last: iso(out[out.length - 1].t) };
+}
+
 export function whenWords(ts: string, iso: string): string {
   const z = ZONE[iso];
   const local = z ? new Date(ts).toLocaleString("en-US", { timeZone: z, year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZoneName: "short" }) : "";
