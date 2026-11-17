@@ -17,8 +17,10 @@ How it is made: each tool's entries are in `runs/c402/entries/<tool>.json` on th
 
 - The scan of all 40 measurement files (sections, sizes, the ten largest headline changes): done, session 7900.
 - grid (2 entries), interconnection (3; its line 4 is already on main, to part B), policy (3), companies (1), shoulder (6), play-battery (4), battery-customer (5): done, session 7900.
-- board: lines 2 and 4 done; lines 1, 3 and 5 wait for the site-wide license tool's entries. impact: line 2 done, the rest not begun.
 - First push: 27 entries, the ten largest headline changes among them, session 7900.
+- Every tool written, session 7900: impact (26 entries), contracts (5), severance (3), battery-awards (4), bill (5), board (5), cost-of-power (5), battery (2), seller (2), events (6), ercot-peak-premium (1), demand-growth (3), caiso-alerts (2), ev-game (1), map (2), prices (4), compare (2), supply (3), storage (1), demand (3), curtailment (2), queues (2), datacenters (4), deals (3), attention (1), research (2), site-ask (3), site-data-machine (2), site-digest (1). The tools with no entry (five-signed, problem-sets, site-sources; site-licenses is merged into the events and board entries) go to part B.
+- The list as pushed: 129 entries (31 change a headline figure, 36 another figure, 62 add or remove one); keep 15, switch 26, no basis 88; 12 figures that do not agree.
+- The pass over the first 30 (figures against their sources, screenshot links against the desktop's pushes): not begun.
 
 ## Part B: the defaults list
 
