@@ -7,7 +7,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
 import { GRIDS as BATTERY_GRIDS, DURATIONS } from "@/lib/batterystack";
-import { GRIDS, OTHER_SOURCE, TABLE, bothHold, checkKey, choices, completeMonths, dayKey, dayName, hourName, index, monthName, monthOf, notShown, opening, shown, sourceName, view, type Row, type View } from "@/lib/shoulder";
+import { GRIDS, OTHER_SOURCE, TABLE, bothHold, oneSource, checkKey, choices, completeMonths, dayKey, dayName, hourName, index, monthName, monthOf, notShown, opening, shown, sourceName, view, type Row, type View } from "@/lib/shoulder";
 import { ShoulderDecisions } from "./Decisions";
 import { shoulderRows } from "./read";
 
@@ -104,14 +104,19 @@ function MonthChart({ v }: { v: View }) {
 
 export default async function Shoulder({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
+  const asked0 = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const read = await attempt(shoulderRows);
-  const rows = read.ok ? read.data : [];
+  // ruling alternative 3 (wip/alt-shoulder-3, not a default on main): one source for California in any month, CAISO's own where it holds the month
+  const one = oneSource(read.ok ? read.data : []);
+  const rows = one.rows;
   const months: Record<string, string[]> = Object.fromEntries(GRIDS.map((g) => [g.slug,
     [...new Set(rows.filter((r) => r.entity === g.entity && r.variable === "days_held").map((r) => monthOf(r.ts_utc)))].sort()]));
   // session 90: with no month named the page opens on the latest month that holds every figure, not on the newest
   // (whose fleet EIA has not published yet); the panel still lists every month held, and says which are incomplete
   const complete: Record<string, string[]> = Object.fromEntries(GRIDS.map((g) => [g.slug, completeMonths(rows, g)]));
+  // a month of California by EIA-930 that CAISO's own data measures opens on CAISO's own data, and the page says so
+  const moved = asked0.grid === "caiso" && !!asked0.month && one.dropped.includes(asked0.month);
+  const q = moved ? { ...asked0, grid: "caiso-own" } : asked0;
   const { grid, month } = choices(q, months, complete);
   const later = month ? (months[grid.slug] ?? []).filter((m) => m > month && !(complete[grid.slug] ?? []).includes(m)) : [];
   const v = month ? view(rows, grid, month) : null;
@@ -172,6 +177,12 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
             <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status"><span className="font-semibold">no data</span> for the shoulder hours: {read.ok ? `${TABLE} holds no month for ${grid.name}` : read.reason}</p>
           ) : (
             <>
+              {(moved || grid.slug === "caiso") && one.dropped.length ? (
+                <p className="mb-4 max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" role="status" data-one-source={moved ? "moved" : "eia930"}>
+                  {moved ? `${monthName(q.month!)} of California is measured on CAISO's own data alone, so CAISO's own data is shown. ` : ""}From {monthName(one.dropped[0])} California is measured on one source, CAISO&apos;s own data: EIA-930&apos;s figures for {monthName(one.dropped[0])} to {monthName(one.dropped[one.dropped.length - 1])} are not drawn.
+                  <Tip id="shoulder-one-source" label="why one source">EIA-930&apos;s demand counts the batteries&apos; charging and CAISO&apos;s own does not; over the months both hold the shoulder&apos;s energy above the mean is higher on CAISO&apos;s own data in every month. One source is the measure for each month, so no month shows two figures for one place. The yearly and the worst-day figures are drawn as the table holds them. Default on the site: both sources side by side for the months both hold. Source: EIA-930 hourly demand, solar and wind; CAISO&apos;s supply by fuel (Today&apos;s Outlook).</Tip>
+                </p>
+              ) : null}
               {asked.map((a) => (
                 <p key={a.key} className="mb-4 max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" role="status" data-not-shown={a.key}>
                   {a.words}{a.other ? <> {sourceName(a.other.grid)} holds it: <Link href={href(a.other.grid.slug, a.other.month)} className="text-accent" data-other-source={a.other.grid.slug}>{monthName(a.other.month)}, {a.other.grid.name}</Link>.</> : null}

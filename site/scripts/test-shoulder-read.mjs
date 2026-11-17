@@ -83,7 +83,8 @@ ok((first.match(/<t[dh][ >]/g) ?? []).length === 12, "row 6: twelve cells a day 
 // ---- case 2: California, April 2026 against April 2024: two sources
 const c26 = await draw({ grid: "caiso", month: "2026-04" });
 const ns = notShown(c26);
-ok(ns.length === 1 && ns[0][0] === "month" && ns[0][1].startsWith("April 2026 is not held for CAISO by EIA-930, which holds 7 months from April 2024 to November 2025, so August 2025 is shown."), `row 1: a month the grid does not hold is said, not replaced in silence: "${ns[0]?.[1].slice(0, 90)}..."`);
+// ruling alternative 3 (wip/alt-shoulder-3): EIA-930 keeps only the months CAISO's own data does not hold (main: 7 months, to November 2025)
+ok(ns.length === 1 && ns[0][0] === "month" && ns[0][1].startsWith("April 2026 is not held for CAISO by EIA-930, which holds 1 months from April 2024 to April 2024, so April 2024 is shown."), `row 1 under alternative 3: a month the grid does not hold is said, not replaced in silence: "${ns[0]?.[1].slice(0, 90)}..."`);
 ok(ns[0]?.[2].includes('data-other-source="caiso-own"') && ns[0][2].includes('href="/shoulder?grid=caiso-own&amp;month=2026-04"') && ns[0][1].includes("CAISO by its own data holds it: April 2026, CAISO, its own data"), "row 1: the line names California's other source, which holds April 2026, as a link to it");
 const o24 = notShown(await draw({ grid: "caiso-own", month: "2024-04" }));
 ok(o24.length === 1 && o24[0][2].includes('href="/shoulder?grid=caiso&amp;month=2024-04"') && o24[0][1].includes("is not held for CAISO by its own data"), "row 1: and the other way round, for April 2024 asked of CAISO's own data");
@@ -97,28 +98,25 @@ ok(notShown(await draw({ grid: "ercot" })).length === 0 && notShown(await draw({
 
 // ---- cases 2 and 5: California's two sources side by side over the months both hold
 const c25 = await draw({ grid: "caiso", month: "2025-08" }), o26 = await draw({ grid: "caiso-own", month: "2026-04" }), c24 = await draw({ grid: "caiso", month: "2024-04" });
-const both = S.bothHold(rows.map((r) => ({ ...r, value: Number(r.value) })), S.GRIDS[1], S.GRIDS[2]);
-ok(both.join(" ") === "2025-06 2025-07 2025-08 2025-09 2025-10 2025-11", "California's two sources both hold June to November 2025");
+// ruling alternative 3 (wip/alt-shoulder-3, not a default on main): one source for California in any month. Main sets the two
+// sources side by side over June to November 2025 (twelve rows); here CAISO's own data is the measure from June 2025, EIA-930's
+// rows for those months are not drawn, and the side-by-side section is gone
 const section = (html) => (html.match(/<section id="two-sources"[\s\S]*?<\/section>/) ?? [""])[0];
-for (const [name, html] of [["CAISO by EIA-930, August 2025", c25], ["CAISO's own data, April 2026", o26], ["CAISO by EIA-930, April 2024", c24]]) {
-  const sec = section(html);
-  const drawn = [...sec.matchAll(/data-two-sources-row="([a-z-]+)\|(\d{4}-\d\d)"/g)].map((m) => `${m[1]}|${m[2]}`);
-  const want = both.flatMap((m) => ["caiso", "caiso-own"].map((g) => `${g}|${m}`));
-  const figures = both.flatMap((m) => ["iso:caiso", "iso:caiso_own"].flatMap((e) => ["shoulder_hours", "shoulder_start_hour", "shoulder_mwh_above_mean", "net_load_mean_mw", "evening_peak_mw", "shoulder_hours_needed", "shoulder2_hours_needed"].map((v) => [e, v, m])));
-  ok(sec.includes('data-two-sources="6"') && drawn.join(" ") === want.join(" ") && figures.every(([e, v, m]) => raw(sec, key(e, v, `${m}-01`)) === held.get(`${e}|${v}|${m}-01`)),
-    `row 5: ${name}: the two sources side by side, 12 rows, ${figures.length} figures, each the table's row`);
-}
-const aug = section(c25);
-ok(two(raw(aug, key("iso:caiso", "shoulder_hours_needed", "2025-08-01"))) === "3.63" && two(raw(aug, key("iso:caiso_own", "shoulder_hours_needed", "2025-08-01"))) === "4.65", "row 5: August 2025 needs 3.63 hours by EIA-930 and 4.65 by CAISO's own data, in one table");
-ok((aug.match(/<tr class="[^"]*bg-paper font-semibold[^"]*"/g) ?? []).length === 1 && /<tr class="[^"]*bg-paper font-semibold[^"]*">\s*<th[^>]*><a[^>]*data-two-sources-row="caiso\|2025-08"/.test(aug), "row 5: the row of the view drawn is the one marked");
-ok((section(o26).match(/<tr class="[^"]*bg-paper font-semibold/g) ?? []).length === 0, "row 5: a month outside the six marks none");
-ok(aug.includes('id="tip-shoulder-two-sources"') && !/<p[^>]*text-muted/.test(aug) && words(aug).includes("The battery fleet (EIA-860M) and the curtailment (CAISO's own count) are the same rows for both."), "row 5: what is the same and what differs is a hover tip, no grey text");
+const both = S.bothHold(rows.map((r) => ({ ...r, value: Number(r.value) })), S.GRIDS[1], S.GRIDS[2]);
+ok(both.join(" ") === "2025-06 2025-07 2025-08 2025-09 2025-10 2025-11" && S.oneSource(rows.map((r) => ({ ...r, value: Number(r.value) }))).dropped.join(" ") === both.join(" "),
+  "alternative 3: the table's two sources both hold June to November 2025, and exactly those months are taken from EIA-930");
+const sumOf = (html) => words((html.match(/<p[^>]*data-summary="1"[^>]*>([\s\S]*?)<\/p>/) ?? ["", ""])[1]);
+ok(c25.includes('data-one-source="moved"') && sumOf(c25).startsWith("In August 2025, by CAISO's own data, CAISO's evening shoulder lasted 6 hours") && two(raw(c25, key("iso:caiso_own", "shoulder_hours_needed", "2025-08-01"))) === "4.65"
+  && raw(c25, key("iso:caiso", "shoulder_hours_needed", "2025-08-01")) === undefined, "alternative 3: August 2025 asked of CAISO by EIA-930 opens on CAISO's own data, 4.65 hours needed (EIA-930's 3.63 is not drawn), and says so");
+ok(c24.includes('data-one-source="eia930"') && words(c24).includes("From June 2025 California is measured on one source, CAISO's own data: EIA-930's figures for June 2025 to November 2025 are not drawn."), "alternative 3: a month of EIA-930 says from when CAISO's own data is the one source");
+ok(!o26.includes("data-one-source") && [c25, o26, c24].every((h) => section(h) === "" && !h.includes('data-two-sources="')), "alternative 3: no side-by-side section; CAISO's own data, April 2026, says nothing of it");
+ok(c25.includes('id="tip-shoulder-one-source"') && words(c25).includes("Default on the site: both sources side by side for the months both hold."), "alternative 3: the hover gives the default and the source");
 ok(section(e25) === "" && !e25.includes("two-sources"), "Texas, one source, has no such section");
 // row 7: the tip's sentence on demand, held on the real rows of August 2025 (the average day of each source, hour by hour)
 const hourOf = (e, s, h) => held.get(`${e}|avg_${s}_mw_h${String(h).padStart(2, "0")}|2025-08-01`);
 const hours = Array.from({ length: 24 }, (_, h) => h);
 const gap = hours.reduce((a, h) => a + hourOf("iso:caiso", "demand", h) - hourOf("iso:caiso_own", "demand", h), 0), charged = hours.reduce((a, h) => a - Math.min(0, hourOf("iso:caiso_own", "battery", h)), 0);
-ok(words(aug).includes("CAISO's own demand leaves the fleet's charging out; over these months EIA-930's demand is higher by about what the batteries charge, hour by hour") && charged > 30000 && Math.abs(gap - charged) / charged < 0.02
+ok(words(c25).includes("EIA-930's demand counts the batteries' charging and CAISO's own does not") /* alternative 3: the one-source hover carries the reason */ && charged > 30000 && Math.abs(gap - charged) / charged < 0.02
   && hours.filter((h) => hourOf("iso:caiso_own", "battery", h) < -1000).every((h) => { const g = hourOf("iso:caiso", "demand", h) - hourOf("iso:caiso_own", "demand", h), c = -hourOf("iso:caiso_own", "battery", h); return Math.abs(g - c) / c < 0.15; }),
   `row 7: the tip says why the two differ, and the rows bear it out: August 2025, EIA-930's demand above the sum of CAISO's sources by ${two(Math.round(gap))} MWh a day, the batteries' charging ${two(Math.round(charged))} MWh`);
 

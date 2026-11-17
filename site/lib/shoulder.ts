@@ -104,6 +104,17 @@ export function bothHold(rows: Row[], a: Grid, b: Grid): string[] {
   return [...of(a)].filter((m) => inB.has(m)).sort();
 }
 
+/** Ruling alternative 3 of /shoulder (session 7703, branch wip/alt-shoulder-3; not a default on main): one source is the
+ * measure for California in any month. CAISO's own data is the measure for every month it holds (June 2025 on), and
+ * EIA-930's monthly rows for those months are not drawn: EIA-930 keeps the months before. No month shows two sources.
+ * The yearly and daily rows are drawn as the table holds them. Returns the rows kept and the months taken from EIA-930. */
+export function oneSource(rows: Row[]): { rows: Row[]; dropped: string[] } {
+  const own = new Set(rows.filter((r) => r.entity === "iso:caiso_own" && r.variable === "days_held").map((r) => monthOf(r.ts_utc)));
+  const monthly = (r: Row) => !r.variable.startsWith("year_") && !r.variable.startsWith("day_") && r.variable !== "worst_rank";
+  const dropped = [...new Set(rows.filter((r) => r.entity === "iso:caiso" && r.variable === "days_held" && own.has(monthOf(r.ts_utc))).map((r) => monthOf(r.ts_utc)))].sort();
+  return { rows: rows.filter((r) => !(r.entity === "iso:caiso" && monthly(r) && own.has(monthOf(r.ts_utc)))), dropped };
+}
+
 export type Series = "demand" | "solar" | "wind" | "net_load" | "battery";
 export type View = {
   grid: Grid; month: string; months: string[];
