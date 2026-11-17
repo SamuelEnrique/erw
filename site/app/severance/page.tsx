@@ -5,7 +5,8 @@ import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
 import rulesJson from "@/data/severance_rules.json";
 import { latestMonthMean } from "@/lib/leaseprices";
-import type { Rules } from "@/lib/severance";
+import { periodMeans, type Rules } from "@/lib/severance";
+import { series } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { Tabs } from "@/components/tool/Tabs";
 import { ToolPage } from "@/components/tool/ToolPage";
@@ -57,6 +58,10 @@ export default async function Severance({ searchParams }: { searchParams: Promis
 /** The first tab: the calculator and every rule with its source (what /severance drew before session 239). */
 async function CalculatorView() {
   const [wti, hh] = await Promise.all([attempt(() => monthMean("eia:wti_cushing")), attempt(() => monthMean("eia:henry_hub"))]);
+  // ruling alternative 1 (wip/alt-severance-1, not a default on main): every month since the first certified report period
+  // (January 2025), so that the price box takes the chosen period's own mean
+  const [wd, hd] = await Promise.all([attempt(() => series(T, { entity: "eia:wti_cushing", variable: "spot_price", since: "2025-01-01T00:00:00Z" })), attempt(() => series(T, { entity: "eia:henry_hub", variable: "spot_price", since: "2025-01-01T00:00:00Z" }))]);
+  const means = { oil: wd.ok ? periodMeans(wd.data) : {}, gas: hd.ok ? periodMeans(hd.data) : {} };
   const w = wti.ok ? wti.data : null, h = hh.ok ? hh.data : null;
   const prices = {
     oil: w?.value ?? null, gas: h?.value ?? null,
@@ -85,7 +90,7 @@ async function CalculatorView() {
         </p>
       </div>
       <Section title="Calculator">
-        <Calculator rules={rules} prices={prices} />
+        <Calculator rules={rules} prices={prices} means={means} />
         <Cite tables={[T]} note="Default prices only: EIA daily spot prices (WTI Cushing, Henry Hub). The tax rules are site/data/severance_rules.json, each with its statute or agency citation" />
         <p className="text-xs text-muted">Rules version {rules.version}.</p>
       </Section>
