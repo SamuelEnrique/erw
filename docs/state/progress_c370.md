@@ -23,6 +23,12 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 - Chain 370's branch (`5926ae36f`: requests 59, 69, 79, 80, 119, 120 and the marks) passed gate f and landed through `task/7050-data` (run 44008498501) at `0ab3ec772`; snapshots `before-5926ae36`, `after-5926ae36`: 0 differences. (7050)
 - New requests filed by the old laptop since (rows 89, 129, 130, 139 to 143, 149 to 154, 159 to 162, 169, 170, 179 to 183, 189, 190, 260): open, next in order. Also open: 99, 109, 122 (October days). (7050)
 
+## Session 7051
+
+- Precheck passed. Desk stack b (`wip/c370-desk-b`: old laptop rows 37 to 43, merged without a conflict): gate g (`751c3e358`) suite passed, check-values failed 21 figures of `/demand?view=consumption` (twelve-month retail sales sums written whole); fixed (26 of 26 against gate g's build); gate h (`cb5a633c4`) started 04:12 UTC. (7051)
+- Requests: 139 done (held grids by name only in the public comparison copy); 159 done (the owners' copy, and `--snapshot` in its monthly step); 179 not a fault now; 181 done (ERCOT's whole months in the worth file); 89 done (the solar level's window end); 170 done (demand with the weather taken out, and a weekly step); 129 and 140 done (paused MISO no longer holds the comparison at September; twelve months to October); 130 and 121 ruling (ruling 2); 143 ruling (session 6's ruling a: SPP's consumed CO2 blank at EIA); 160, 161 done with 79 and 80; 162 checked (the outlook connectors' clock-change days; open); 169 not a fault (EIA holds no value); 260 read. (7051)
+- Open: 99 (the EV prices with their tests' worked examples), 109, 122 (October days), 141, 142, 149 to 154, 162 (connector), 180, 182, 183, 189, 190. (7051)
+
 ## Part B: the eight tools read as their reader
 
 - Not started. (7050)
@@ -30,5 +36,7 @@ The chain's code branch: `wip/c370-data` (worktree `C:\Users\Shared\Documents\er
 ## Needs the key
 
 ## For Samuel's ruling
+
+- Request 143: write SPP's CO2 generated (and so its intensity of generation) on days EIA leaves the consumed side blank? Default: no (session 6's ruling a stands); SPP's twelve months read "not held". (7051)
 
 ## Decisions made without you
