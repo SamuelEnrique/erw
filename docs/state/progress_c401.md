@@ -47,7 +47,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 332 | `wip/alt-impact-23` | 100.0 | seen: impact-23-1280.png, impact-23-new-hampshire-1280.png with production's -default-1280 twins | 7800 |
 | B | 337 | `wip/alt-impact-25` | 100.0 | seen: impact-25-1280.png with production's -default-1280 twins | 7800 |
 | B | 340 | `wip/alt-events-1` | 100.0 | seen: events-1-1280.png, events-1-elliott-1280.png with production's -default-1280 twins | 7800 |
-| B | 341 | `wip/alt-impact-26` | 100.0 | wanted | |
+| B | 341 | `wip/alt-impact-26` | 100.0 | fault: impact-26-1280.png with production's -default-1280 twins | 7800 |
 | B | 351 | `wip/alt-events-4` | 100.0 | wanted | |
 | B | 352 | `wip/alt-events-6` | 100.0 | wanted | |
 | B | 358 | `wip/alt-board-2` | 100.0 | wanted | |
