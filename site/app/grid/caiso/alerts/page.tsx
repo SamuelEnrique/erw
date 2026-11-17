@@ -21,6 +21,9 @@ export const metadata: Metadata = { title: "The Flex Alert scorecard, CAISO" };
 export const revalidate = 3600;
 
 const GEHR = "https://www.caiso.com/documents/grid-emergencies-history-report-1998-to-present.pdf";
+// Session 7546 (the read): the two published accounts set beside the page's figures for 2020-08-17 and 2022-09-06
+const RCA = "https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf";
+const EIA_TIE = "https://www.eia.gov/todayinenergy/detail.php?id=54039";
 const SHORT: Record<string, string> = {
   flex_alert: "Flex Alert", eea_watch: "EEA Watch", eea1: "EEA 1", eea2: "EEA 2", eea3: "EEA 3", alert: "Alert", warning: "Warning",
   stage1: "Stage 1", stage2: "Stage 2", stage3: "Stage 3", load_interruption: "Load interruption", rmo: "RMO", transmission_emergency: "Transmission",
@@ -43,8 +46,16 @@ function Usd({ r, table = EFFECTS }: { r?: SeriesRow; table?: string }) {
 const Interval = ({ lo, hi, table = EFFECTS, usd = false }: { lo?: SeriesRow; hi?: SeriesRow; table?: string; usd?: boolean }) =>
   usd ? <>(<Usd r={lo} table={table} /> to <Usd r={hi} table={table} />)</> : <>(<V r={lo} table={table} /> to <V r={hi} table={table} />)</>;
 
+const mwWhole = (v: number | undefined) => (v === undefined ? "not held" : Math.round(v).toLocaleString("en-US"));
+/** Session 7546 (the read, row 2): the words of one hour's hover in a day's chart, from the hour's PT1H rows. */
+export function hourTip(h: number, v: Record<string, number>): string {
+  const cut = v.predicted_mw !== undefined && v.actual_mw !== undefined ? v.predicted_mw - v.actual_mw : undefined;
+  return `${h}:00 to ${h + 1}:00: served ${mwWhole(v.actual_mw)} MW, model ${mwWhole(v.predicted_mw)} (band ${mwWhole(v.predicted_mw_lo)} to ${mwWhole(v.predicted_mw_hi)}), ` +
+    `predicted less served ${mwWhole(cut)}${v.alert_hour === 1 ? ", alert hour" : ""}`;
+}
+
 /** One alert day through the evening: actual (cardinal), predicted (dashed), its 90 percent band, the alert hours shaded. */
-function DayChart({ rows }: { rows: SeriesRow[] }) {
+function DayChart({ rows, day }: { rows: SeriesRow[]; day?: string }) {
   const by = new Map<number, Record<string, number>>();
   for (const r of rows) {
     const h = pacificHour(r.ts_utc);
@@ -70,6 +81,12 @@ function DayChart({ rows }: { rows: SeriesRow[] }) {
       <text x={2} y={10} fontSize={8} fill="var(--color-muted)">{Math.round(hi / 1000)} GW</text>
       <text x={2} y={Hh - B} fontSize={8} fill="var(--color-muted)">{Math.round(lo / 1000)} GW</text>
       {hs.filter((h) => h % 3 === 0).map((h) => <text key={h} x={x(h)} y={Hh - 4} fontSize={8} textAnchor="middle" fill="var(--color-muted)">{h}:00</text>)}
+      {/* session 7546 (the read, row 2): each hour's figures on hover, over a full-height strip of the hour (the chart drew no number per hour) */}
+      {hs.map((h) => (
+        <rect key={`t${h}`} data-alerts-hour={`${day ?? ""}|${h}`} x={x(h) - step / 2} y={2} width={step} height={Hh - B - 2} fill="transparent" pointerEvents="all">
+          <title>{hourTip(h, by.get(h)!)}</title>
+        </rect>
+      ))}
     </svg>
   );
 }
@@ -151,7 +168,11 @@ export default async function FlexAlertScorecard() {
   // the last caution said the report ran to 2025-04-30 while the table held the report revised on 9 October 2026)
   const firstYear = days[0]?.day.slice(0, 4), lastYear = lastAlert?.slice(0, 4);
   const noticesEnd = (ns.ok ? ns.data : []).reduce((m, n) => (n.event_date.slice(0, 10) > m ? n.event_date.slice(0, 10) : m), "");
-  const laterAlertDays = lastAlert ? [...new Set((ns.ok ? ns.data : []).filter((n) => ALERT_TYPES.has(n.event_type) && n.event_date.slice(0, 10) > lastAlert).map((n) => n.event_date.slice(0, 10)))].sort() : [];
+  // Session 7546 (the read, row 1): the two evenings with a published figure of their own; the model's highest hour of
+  // 2020-08-17 and the cut of 2022-09-06, from the rows, beside them
+  const peakPredicted = (d: string) => (hours.get(d) ?? []).filter((r) => r.variable === "predicted_mw").reduce<SeriesRow | undefined>((m, r) => (!m || r.value > m.value ? r : m), undefined);
+  const aug17 = peakPredicted("2020-08-17"), sep6 = days.find((d) => d.day === "2022-09-06");
+  const laterAlertDays = lastAlert ?[...new Set((ns.ok ? ns.data : []).filter((n) => ALERT_TYPES.has(n.event_type) && n.event_date.slice(0, 10) > lastAlert).map((n) => n.event_date.slice(0, 10)))].sort() : [];
 
   return (
     <Brand>
@@ -277,13 +298,15 @@ export default async function FlexAlertScorecard() {
       <Section title="Each alert day through the evening" aside="flex_alert_effects, PT1H">
         <p className="mb-3 max-w-3xl text-sm">
           Demand served each hour from noon to midnight (cardinal) against the model&apos;s prediction (dashed) and its 90 percent band (shaded), the alert
-          hours boxed. Where the cardinal line runs under the band through the boxed hours, the day shows a cut the model cannot explain.
+          hours boxed. Where the cardinal line runs under the band through the boxed hours, the day shows a cut the model cannot explain.{" "}
+          <span data-alerts-hover="1">Hover over an hour for its figures in MW: demand served, the model&apos;s prediction and its band, and predicted less
+          served.</span>
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {days.map((d) => (
             <div key={d.day} id={`d${d.day}`} className="scroll-mt-2 border border-rule bg-panel p-2">
               <p className="mb-1 text-xs"><span className="font-mono">{d.day}</span>: cut <V r={val(d, "reduction_mw")} /> MW</p>
-              <DayChart rows={hours.get(d.day) ?? []} />
+              <DayChart rows={hours.get(d.day) ?? []} day={d.day} />
             </div>
           ))}
         </div>
@@ -317,10 +340,22 @@ export default async function FlexAlertScorecard() {
         <ul className="max-w-3xl list-disc pl-5 text-sm">
           <li><strong>It is the combined demand-side effect of an alert day, not the Flex Alert message alone.</strong> On the same days the state dispatches
             paid programs (the Demand Side Grid Support program, DSGS, and the Emergency Load Reduction Program, ELRP), utilities call their own demand
-            response, and CAISO takes other actions; on 2020-08-14 and 2020-08-15 it ordered rotating outages, which also lower demand served.</li>
+            response, and CAISO takes other actions; on 2020-08-14 and 2020-08-15 it ordered rotating outages, which also lower demand served.{" "}
+            <span data-alerts-programs="1">ELRP began in 2021 (CPUC, Decision 21-03-056) and DSGS in 2022 (Assembly Bill 205), so neither ran in 2018 to
+            2020. In August 2020 CAISO dispatched its reliability demand response from the 16th to the 18th, and the Governor&apos;s proclamation of 16 August
+            allowed stationary and portable generators and ships&apos; auxiliary engines to run, to reduce load and add generation (<a href={RCA}>CAISO, CPUC and
+            CEC, Final Root Cause Analysis, 13 January 2021</a>, section 3.3.4).</span></li>
           <li><strong>The model&apos;s fit at extreme heat is the main risk.</strong> Alert days are hotter than nearly every day it learned from; the check above
             shows its error on the hottest days it did not see, and the table of models shows how much the answer moves with the specification.</li>
           <li><strong>Hourly data blurs short cuts.</strong> A conservation text can drop demand for twenty minutes; an hourly mean dilutes it.</li>
+          {/* session 7546 (the read, row 1): the published figures for two of these evenings, and what each is measured against */}
+          <li data-alerts-published="1"><strong>Published figures for these evenings are measured against a forecast, not against this model.</strong>{" "}
+            For 2020-08-17, CAISO, the CPUC and the CEC set CAISO&apos;s day-ahead peak forecast, 49,824 MW, against the peak, 45,169 MW: 4,655 MW lower, a
+            difference they say was largely realized due to the statewide efforts and includes the demand response dispatched (<a href={RCA}>Final Root Cause
+            Analysis, 13 January 2021</a>, Table 5.1). Given the weather that came, the model here predicted <V r={aug17} /> MW for that day&apos;s highest hour.
+            For 2022-09-06, the U.S. EIA reported that demand fell by more than 2,100 MW within five minutes of the state&apos;s text alert, against
+            CAISO&apos;s hour-ahead forecast (<a href={EIA_TIE}>Today in Energy, 28 September 2022</a>); this page&apos;s estimate for the alert hours of that day,
+            16:00 to 21:00, is <V r={sep6 ? val(sep6, "reduction_mw") : undefined} /> MW.</li>
           <li><strong>Demand is demand served</strong> (EIA-930, CAISO&apos;s balancing authority), net of rooftop solar behind the meter; the year effects absorb
             its growth. Weather is three airports, weighted 0.5 Los Angeles, 0.3 Sacramento, 0.2 Fresno: it can miss a coastal fog or a storm&apos;s clouds.</li>
           <li data-alerts-end={noticesEnd || "unread"}><strong>The alert days end in {lastYear ?? "the last year held"}:</strong> CAISO&apos;s <a href={GEHR}>Grid Emergencies History Report</a>,{" "}
@@ -331,7 +366,9 @@ export default async function FlexAlertScorecard() {
         </ul>
         <p className="mt-3 max-w-3xl text-sm">
           The notices themselves, and how tight each evening was, are in <Link href="/grid?grid=caiso#reliability">CAISO&apos;s Reliability section</Link>; the
-          two heat waves have their own pages, <Link href="/events/caiso-heat-2020">August 2020</Link> and <Link href="/events/caiso-heat-2022">September 2022</Link>.
+          two heat waves have their own pages, <Link href="/events/caiso-heat-2020">August 2020</Link> and <Link href="/events/caiso-heat-2022">September 2022</Link>.{" "}
+          <span data-alerts-events="1">Their &ldquo;effect of each event day&rdquo; is another measure: each whole day&apos;s demand served against the same
+          weekdays one and two years earlier, with and without temperature. It measures the heat, not an alert&apos;s cut.</span>
         </p>
       </Section>
       <Cite tables={[EFFECTS, MODEL, "caiso_grid_emergencies", "noaa_isd_hourly", "caiso_dam_alert_day_hub_prices"]} note="California ISO, Grid Emergencies History Report and OASIS PRC_LMP (credit the California ISO); EIA-930; NOAA NCEI Integrated Surface Database" />

@@ -60,7 +60,10 @@ export default async function CaisoHeat2022() {
           return (
             <p>
               <strong>The peak.</strong> CAISO&apos;s highest hour of demand served in the window was <N r={hi} event={EV} /> MW on {day(hi)}; against the baseline,
-              the peak hour rose most on {day(hiPct)}, <N r={hiPct} event={EV} />% above it, and on 2022-09-06 it was <N r={d6} event={EV} />% above.
+              the peak hour rose most on {day(hiPct)}, <N r={hiPct} event={EV} />% above it, and on 2022-09-06 it was <N r={d6} event={EV} />% above.{" "}
+              {/* session 7546: the page did not link the scorecard that estimates each of its alert evenings */}
+              <span data-events-scorecard="1"><Link href="/grid/caiso/alerts">The Flex Alert scorecard</Link> sets each alert day of 2022-08-31 to 2022-09-09,
+              hour by hour, against a weather-and-calendar model.</span>
             </p>
           );
         }}

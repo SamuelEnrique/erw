@@ -128,7 +128,9 @@ export function figuresOf(html) {
   // the charts' axis labels (svg text), by chart
   const svgs = [...html.matchAll(/<svg[^>]*aria-label="([^"]+)"[^>]*>([\s\S]*?)<\/svg>/g)].map((m) => ({
     label: ent(m[1]), texts: [...m[2].matchAll(/<text[^>]*>([\s\S]*?)<\/text>/g)].map((x) => text(x[1])),
-    rects: (m[2].match(/<rect /g) ?? []).length, circles: (m[2].match(/<circle /g) ?? []).length,
+    // session 7546: an hour's hover strip (data-alerts-hour) is not a box of the chart
+    rects: (m[2].match(/<rect (?![^>]*data-alerts-hour)/g) ?? []).length, circles: (m[2].match(/<circle /g) ?? []).length,
+    hours: [...m[2].matchAll(/<rect [^>]*data-alerts-hour="([^"]*)"[^>]*><title>([\s\S]*?)<\/title>/g)].map((x) => ({ at: x[1], tip: ent(x[2]) })),
   }));
   return { nums, ranked, panels, words, svgs };
 }

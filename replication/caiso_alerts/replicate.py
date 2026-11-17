@@ -343,6 +343,19 @@ def rebuild(series, notices):
         if t not in ticks:
             ticks.append(t)
     ours["chart|year|labels"] = [f"{round_half_up(t):,}" for t in ticks] + sorted(p1y)
+    # session 7546 (the read): each hour's hover in a day's chart, in whole MW (docs/methods/caiso_alerts.md, section 2),
+    # and the model's highest hour of 2020-08-17, set on the page beside CAISO's day-ahead forecast (section 2, the cautions)
+    def w(x):
+        return f"{round_half_up(x):,}" if x is not None else "not held"
+    for d in days:
+        for h, v in hourly[d].items():
+            a, p = v.get("actual_mw"), v.get("predicted_mw")
+            ours[f"hour|{d}|{h}"] = (f"{h}:00 to {h + 1}:00: served {w(a)} MW, model {w(p)} (band {w(v.get('predicted_mw_lo'))} to {w(v.get('predicted_mw_hi'))}), "
+                                     f"predicted less served {w(p - a if a is not None and p is not None else None)}" + (", alert hour" if v.get("alert_hour") == 1 else ""))
+    aug17 = [v for v in hourly["2020-08-17"].values() if "predicted_mw" in v]
+    if aug17:
+        top = max(aug17, key=lambda v: v["predicted_mw"])
+        ours[key(EFFECTS, E, "predicted_mw", top["ts"])] = top["predicted_mw"]
     return ours, named, notes, {"days": days, "rule_days": rule_days, "left_out": left_out, "notices": ad}
 
 
@@ -395,6 +408,11 @@ def compare(ours, named, fig):
         for k, got in ((f"chart|{d}|gw_top", s["texts"][0]), (f"chart|{d}|gw_bottom", s["texts"][1])):
             out.append((k, "Each alert day through the evening", got, ours[k], "", "agrees" if got == ours[k] else "DIFFERS"))
         out.append((f"chart|{d}|alert_boxes", "Each alert day through the evening", str(s["rects"]), str(ours[f"chart|{d}|alert_boxes"]), "", "agrees" if s["rects"] == ours[f"chart|{d}|alert_boxes"] else "DIFFERS"))
+        # session 7546: each hour's hover (a figures file drawn before the hover has none, and none is compared)
+        for t in s.get("hours", []):
+            hd, hh = t["at"].split("|")
+            k = f"hour|{hd}|{hh}"
+            out.append((k, "Each alert day through the evening, hover", t["tip"], ours.get(k, ""), "", "agrees" if hd == d and t["tip"] == ours.get(k) else "DIFFERS"))
     for label, k in (("Model error", "chart|check|labels"), ("Estimated demand reduction by year", "chart|year|labels")):
         s = next(x for x in fig["svgs"] if x["label"].startswith(label))
         out.append((k, "chart", " / ".join(s["texts"]), " / ".join(ours[k]), "", "agrees" if s["texts"] == ours[k] else "DIFFERS"))

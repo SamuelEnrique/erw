@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { EventStudy } from "@/components/EventStudy";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 7546: the link to the Flex Alert scorecard passes the release gate
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the August 2020 heat wave in CAISO, event caiso_heat_2020 of event_window_daily (docs/methods/events.md).
@@ -45,7 +46,10 @@ export default function CaisoHeat2020() {
             <strong>Not on the outage days.</strong> On 2020-08-14 and 15, the days of the rotating outages, the peak hour was <N r={d14} event={EV} />% and{" "}
             <N r={d15} event={EV} />% above the baseline; the highest came later, <N r={hi} event={EV} />% on {day(hi)}. The same report says &quot;August 17 through 19
             were projected to have much higher supply shortfalls&quot;, and that without a statewide mitigation effort and consumer conservation California was at
-            risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). The warehouse holds no weather or supply data to say more.
+            risk of further rotating outages on those days (<a href={RCA}>CAISO, CPUC and CEC</a>). {/* session 7546: it said "The warehouse holds no weather
+            or supply data to say more", while this page's own estimates control for temperature and the scorecard models these evenings on the weather */}
+            <span data-events-scorecard="1"><Link href="/grid/caiso/alerts">The Flex Alert scorecard</Link> sets each of 14 to 19 August, hour by hour,
+            against a weather-and-calendar model.</span>
           </p>
         );
       }}
