@@ -1435,10 +1435,8 @@ async function main() {
       // session 461's landing: the datacenter queue's active MW by grid, written whole (/datacenters?view=grids, session 468)
       // session 497: the queue's active MW on /datacenters?view=grids, written whole (app/datacenters/GridsView.tsx whole())
       // session 1069: and a placed node's county's planned generation, allgrids|nodeplanned (chain 073)
-      // chain 370 (session 7050, the landing desk): /grid/caiso/alerts writes a day's effect in USD whole under a million
-      // ("-479,791"; a million and over as "-1.33 million", which the rule below reads)
       // session 712: the All grids tab writes MW coming, the year's USD and MWh, B less A in USD and capacity over peak whole
-      const whole = /(^projects\|mw\|)|(^dcq\|[^|]+\|[^|]+\|active_mw$)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))|(^allgrids\|(planned|nodeplanned|year|mwh|yeardiff|capratio)\|)|(^allgrids\|signed\|)|(^allgrids\|queue\|)|(^series\|flex_alert_effects\|[^|]+\|value_usd\|)/.test(check);
+      const whole = /(^projects\|mw\|)|(^dcq\|[^|]+\|[^|]+\|active_mw$)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw|sites_mw|texas_mw))|(^series\|ercot_large_load_status\|)|(^series\|ercot_4cp_intervals\|)|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))|(^series\|eia930_demand_growth\|[^|]+\|(avg_demand_mw|peak_demand_mw|ytd_avg_demand_mw|growth_mw_))|(^allgrids\|(planned|nodeplanned|year|mwh|yeardiff|capratio)\|)|(^allgrids\|signed\|)|(^allgrids\|queue\|)/.test(check);
       // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
       // "16:00" passed the rule below by accident, "09:00" could not
       const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
@@ -1458,7 +1456,11 @@ async function main() {
       // session 4219 (chain 239): the forecast on /impact writes its figures as lib/forecast.ts's displayOf does (jobs to one
       // decimal under 100, whole above; dollars as "USD 41 million"), the text compared with that form of the raw
       const forecastOk = /^forecast\|/.test(check) && forecastLib !== null && text === forecastLib.displayOf(check.slice(check.lastIndexOf("|") + 1), Number(raw));
-      const textOk = hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne || forecastOk;
+      // chain 370 (session 7050, the landing desk): a <span data-format="usd"> amount under a million is written by the site's
+      // usdShort (lib/batterystack.ts) at the runtime's own precision; /grid/caiso/alerts' day effect shows "-479,791" for
+      // -479791.0043, so the whole dollars are the figure too
+      const usdWhole = usdFormat && Math.abs(Number(raw)) < 1e6 && text.startsWith(Math.round(Number(raw)).toLocaleString("en-US"));
+      const textOk = usdWhole || hourText || pText || text === raw || text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw)) || storyOk || chartOk || dcWhole || dcOne || forecastOk;
       let pass = t !== undefined && t !== null && same && textOk;
       // session 369 (todo 008): on an event page, the date the figure belongs to is named on its line; a series figure
       // is compared with the row of that date among its entity's rows (never another day's), an estimate of a day with
