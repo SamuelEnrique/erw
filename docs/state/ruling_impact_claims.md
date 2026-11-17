@@ -21,3 +21,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /learn/bill | samueloldlaptop | 7581 | done | docs/reviews/ruling-impact-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | portable-laptop | 7614 | claimed | docs/reviews/ruling-impact-site-sources-2026-11-17.md |
 | /learn/problems | samueloldlaptop | 7582 | done | docs/reviews/ruling-impact-problem-sets-2026-11-17.md |
+| /play/battery | samueloldlaptop | 7583 | claimed | docs/reviews/ruling-impact-play-battery-2026-11-17.md |
