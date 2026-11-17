@@ -160,7 +160,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** California, entry year 2021, the newest complete year with 20 or more projects: 361 projects entered (105,537 MW), 2 reached operation, withdrawn share 0.71, 104 waiting. Texas and the Southwest Power Pool open on 2025 either way (354 and 421 projects).
 - **Change:** Every headline of the opening view shows another year's figures: 4 projects to 361, withdrawn share 1.00 to 0.71. No figure is computed differently.
 - **Branch:** [wip/alt-interconnection-2](https://github.com/SamuelEnrique/erw/tree/wip/alt-interconnection-2)
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [interconnection-2-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/interconnection-2-1280.png); the page today: [interconnection-2-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/interconnection-2-default-1280.png)
 - **Recommendation:** **no basis to recommend**. Which year a page opens on is not settled by a published figure, an earlier ruling, the page standard or the method note. To weigh: the opening view now rests on 4 projects, all withdrawn, so its first three numbers read 4, 0 and 1.00; the other choice opens two years further back; the 20-project floor is itself a choice.
 - **Figures from:** [the measurement, interconnection explorer](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-interconnection-2026-11-17.md), [the record of the branches, interconnection explorer](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-interconnection-2026-11-17.md)
 
@@ -298,7 +298,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Question:** The game charges the electric car at the state's average home electricity price. A family that charges at night on a time-of-use plan pays that plan's off-peak rate. Which should be the default for California?
 - **Now:** The state's average. On the price file main holds since this morning (August 2026's average, 29.75 cents a kWh): saved a year USD 1,707, payback 2.9 years, net present value USD 6,030.
 - **Other choice:** Pacific Gas and Electric's off-peak rate on its time-of-use plan, 36.757 cents in winter (the branch's choice; eight months of the year): saved a year USD 1,381, payback 3.6 years, net present value USD 3,924. At the summer off-peak rate, 39.940 cents: USD 1,233, 4.1 years, USD 2,968. Only California has such a rate on the site; other states do not change.
-- **Change:** At the winter rate: saved a year -19.1 percent, net present value -34.9 percent, payback +0.7 years.
+- **Change:** At the winter rate: saved a year -19.1 percent, net present value -34.9 percent, payback 2.9 to 3.6 years.
 - **Branch:** [wip/alt-ev-game-1](https://github.com/SamuelEnrique/erw/tree/wip/alt-ev-game-1)
 - **Screenshots:** screenshot not taken yet
 - **Recommendation:** **no basis to recommend**. No recommendation: the measurement and the build give this figure differently (see the foot). To weigh: the off-peak rate of that plan is above the state's average price, so the other choice makes the electric car look worse; the plan is one utility's, applied to the whole state.
@@ -1046,7 +1046,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** (a) EIA's rows matched to their grids: 931 figures come back (Texas 267, California 134, PJM 206, the Southwest Power Pool 36, the Lower 48 states 288); 133 stay blank, the three held grids' own. (b) EIA's rows read as belonging to no grid: all 1,064 come back, the three held grids' 133 too.
 - **Change:** (a) 931 figures drawn, 87.5 percent of those held; (b) 1,064.
 - **Branch:** [wip/alt-events-1](https://github.com/SamuelEnrique/erw/tree/wip/alt-events-1). The branch builds (a). (b) is not built: it would draw the three held grids' figures. The desktop found a fault on the branch's build: one section of the December 2022 storm page reads only "license needed".
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [events-1-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/events-1-1280.png), [events-1-elliott-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/events-1-elliott-1280.png); the page today: [events-1-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/events-1-default-1280.png), [events-1-elliott-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/events-1-elliott-default-1280.png)
 - **Recommendation:** **switch**. Switch to (a). The hold as the license file records it is by grid, on three operators; the 931 figures are EIA's public data for other grids and for the Lower 48, under no hold, and (a) lifts none. (b) would draw the three held grids' figures, which the owner's rule of 16 November forbids (a hold is never lifted or worked around).
 - **Figures from:** [the measurement, event pages](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-events-2026-11-17.md), [the measurement, licenses and holds](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-site-licenses-2026-11-17.md), [the record of the branches, event pages](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-events-2026-11-17.md)
 
@@ -1284,7 +1284,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** 13 cells added, one a row, blank where either side has no figure. The read's Nevada plant, with the local option on (A) and off (B): first-year property tax B less A USD 1.07 million; over the life USD 16.55 million; taxes in present value USD 8.94 million; the jobs rows 0.
 - **Change:** 13 cells added; no figure that stands moves.
 - **Branch:** [wip/alt-impact-26](https://github.com/SamuelEnrique/erw/tree/wip/alt-impact-26)
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [impact-26-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-26-1280.png); the page today: [impact-26-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-26-default-1280.png)
 - **Recommendation:** **no basis to recommend**. The page standard asks for two cases side by side and is silent on a difference column. To weigh: the datacenter cost page already has a "B against A" row; the battery and generator pages do not.
 - **Figures from:** [the measurement, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-impact-2026-11-17.md), [the record of the branches, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-impact-2026-11-17.md)
 
@@ -1312,7 +1312,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** Those 11 read "not held", with the reason in the cell: geothermal in Alaska, Florida, New Hampshire, Nevada, South Dakota, Tennessee, Texas and Wyoming, and wind, gas and solar in New Hampshire. The page as it opens still reads USD 19.92 million.
 - **Change:** 11 cells go from USD 0 to "not held"; no other figure moves.
 - **Branch:** [wip/alt-impact-23](https://github.com/SamuelEnrique/erw/tree/wip/alt-impact-23)
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [impact-23-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-23-1280.png), [impact-23-new-hampshire-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-23-new-hampshire-1280.png); the page today: [impact-23-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-23-default-1280.png), [impact-23-new-hampshire-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-23-new-hampshire-default-1280.png)
 - **Recommendation:** **switch**. The page standard says real numbers only, never a placeholder: a USD 0 that stands for taxes the tool does not hold reads as "no tax", which is not what is known.
 - **Figures from:** [the measurement, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-impact-2026-11-17.md), [the record of the branches, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-impact-2026-11-17.md)
 
@@ -1466,7 +1466,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** A section with both: June to December 2025 +2.81 percent with the charging and -3.60 percent without (the batteries charged 1,690 MW on average); January to August 2026 +10.75 and +2.05 percent (2,114 MW, 81 percent of the growth). No whole-year figure without charging: the grid operator's own data starts in June 2025. The other grids get no second row.
 - **Change:** A second row added; for June to December 2025 it differs by 6.41 points and in sign. The page's whole-year headline (+4.45 percent) does not move.
 - **Branch:** [wip/alt-demand-growth-1](https://github.com/SamuelEnrique/erw/tree/wip/alt-demand-growth-1)
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [demand-growth-1-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/demand-growth-1-1280.png); the page today: [demand-growth-1-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/demand-growth-1-default-1280.png)
 - **Recommendation:** **switch**. A published figure checks it: EIA's retail sales of electricity in California fell 2.28 percent over June to December 2025 against 2019, the same direction as demand without the charging (-3.60 percent) and the opposite of the row the page shows (+2.81 percent). The other choice adds the row and removes nothing.
 - **Figures from:** [the measurement, demand growth explorer](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-demand-growth-2026-11-17.md), [the record of the branches, demand growth explorer](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-demand-growth-2026-11-17.md)
 
@@ -1620,7 +1620,7 @@ Energy Research Warehouse (ERW). Written by chain 402 (sessions 7900 on, the old
 - **Other choice:** Two rows, the total unmoved. As it opens: USD 15.18 million to the state (6.25 points) and USD 4.74 million at the average local rate (1.95 points). The gas plant: 46.48 and 14.50 million.
 - **Change:** Two figures added; the total does not move.
 - **Branch:** [wip/alt-impact-25](https://github.com/SamuelEnrique/erw/tree/wip/alt-impact-25)
-- **Screenshots:** screenshot not taken yet
+- **Screenshots:** the other choice: [impact-25-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-25-1280.png); the page today: [impact-25-default-1280.png](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives/impact-25-default-1280.png)
 - **Recommendation:** **no basis to recommend**. No allowed ground decides it. To weigh: a county reader wants the local part; the local part is a statewide average, not that county's rate.
 - **Figures from:** [the measurement, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-impact-impact-2026-11-17.md), [the record of the branches, Local impact](https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/ruling-alternatives-impact-2026-11-17.md)
 
