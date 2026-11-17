@@ -6,7 +6,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import rules from "@/data/bill_rules.json";
-import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
+import { BILL_KEYS, defaultBill, wholesaleMonth, type BillKey } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -32,13 +32,8 @@ function Chip() {
 
 /** The load-weighted real-time price of the latest complete month, else the latest month held (partial). */
 async function wholesaleOf(entity: string): Promise<{ row: SeriesRow; partial: boolean } | null> {
-  const rows = await series(M, { entity });
-  const by = new Map<string, Record<string, SeriesRow>>();
-  for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
-  const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
-  const full = months.filter((m) => by.get(m)!.rt_hours?.value === by.get(m)!.hours_in_month?.value);
-  const m = full.at(-1) ?? months.at(-1);
-  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m) } : null;
+  // ruling alternative 1 (wip/alt-bill-1, not a default on main): lib/bill.ts wholesaleMonth counts a month one hour short as whole
+  return wholesaleMonth(await series(M, { entity }));
 }
 
 const GLOSSARY: [string, string, string][] = [

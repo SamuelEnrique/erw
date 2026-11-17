@@ -173,6 +173,26 @@ export function defaultsTDSP(rules: Rules, key: string): TXInput {
   return { kwh: rules.bills[key].defaults.kwh, energyRate: rules.bills[key].energy_default.rate };
 }
 
+/** Ruling alternative 1 of /learn/bill (session 7715, branch wip/alt-bill-1; not a default on main): a month missing at
+ * most this many hours of real-time prices is counted whole, so a month short of one hour (CAISO's October 2025, 743 of
+ * 744) is not passed over for the month before. main: 0 (whole months only). */
+export const MISSING_HOURS_WHOLE = 1;
+export type WholesaleRow = { variable: string; ts_utc: string; value: number; entity?: string; unit?: string };
+/** The month the wholesale bar reads: the newest month counted whole (rt_hours no more than MISSING_HOURS_WHOLE short of
+ * hours_in_month), else the newest month held, partial; null when no month holds rt_load_weighted. */
+export function wholesaleMonth<R extends WholesaleRow>(rows: R[]): { row: R; partial: boolean } | null {
+  const by = new Map<string, Record<string, R>>();
+  for (const r of rows) (by.get(r.ts_utc.slice(0, 7)) ?? by.set(r.ts_utc.slice(0, 7), {}).get(r.ts_utc.slice(0, 7))!)[r.variable] = r;
+  const months = [...by.keys()].filter((m) => by.get(m)!.rt_load_weighted).sort();
+  const whole = (m: string) => {
+    const h = by.get(m)!.rt_hours?.value, n = by.get(m)!.hours_in_month?.value;
+    return h !== undefined && n !== undefined && Number(h) <= Number(n) && Number(h) >= Number(n) - MISSING_HOURS_WHOLE;
+  };
+  const full = months.filter(whole);
+  const m = full.at(-1) ?? months.at(-1);
+  return m ? { row: by.get(m)!.rt_load_weighted, partial: !full.includes(m) } : null;
+}
+
 /** Every bill's default, by key: the page's five. */
 export const BILL_KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"] as const;
 export type BillKey = (typeof BILL_KEYS)[number];

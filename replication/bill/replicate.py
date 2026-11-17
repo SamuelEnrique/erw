@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RULES = os.path.join(ROOT, "site", "data", "bill_rules.json")
 KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"]
+MISSING_HOURS_WHOLE = 1   # ruling alternative 1 (wip/alt-bill-1, not a default on main): main 0
 
 
 def load_json(path):
@@ -54,7 +55,9 @@ def wholesale(rows, entity):
         if r["entity"] == entity:
             by.setdefault(r["month"], {})[r["variable"]] = r["value"]
     months = sorted(m for m, v in by.items() if "rt_load_weighted" in v)
-    full = [m for m in months if by[m].get("rt_hours") is not None and by[m].get("rt_hours") == by[m].get("hours_in_month")]
+    # ruling alternative 1 (wip/alt-bill-1): a month at most MISSING_HOURS_WHOLE short of its hours counts whole; main: equal only
+    full = [m for m in months if by[m].get("rt_hours") is not None and by[m].get("hours_in_month") is not None
+            and by[m]["hours_in_month"] - MISSING_HOURS_WHOLE <= by[m]["rt_hours"] <= by[m]["hours_in_month"]]
     if not months:
         return None
     m = full[-1] if full else months[-1]
