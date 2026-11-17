@@ -425,7 +425,17 @@ export function newestRate(rows: { quantity: string; status: string; matrix: str
  * Hours run a year: the profile's hours over its twelve months (ProfileTwelve.run). A node is charged as its hub's hours
  * (HB_HUBAVG; node_basis_daily is daily). */
 export type CpCharge = { year: number; rate: Rate; hours: number; share: number | null; firm: number; curtailing: number | null; own: number | null;
-  intervals: { ts: string; local: string; w: number | null }[]; region: string };
+  intervals: { ts: string; local: string; w: number | null }[]; region: string;
+  /** session 7622 (wip/alt-cost-of-power-3): the row's wires utility whose own rate stands in for the Commission's */
+  utility?: string };
+/** Session 7622 (wip/alt-cost-of-power-3, not landed): the delivery file's utility a row's delivery-only company is,
+ * matched by its name's first word (EIA names "Oncor Electric Delivery Company LLC", the tariff file "Oncor"). */
+export function txUtilityOf(f: Files, r: Row): string | null {
+  const w = wiresUtility(f, r), rates = f.utilRates ?? {};
+  if (!w) return null;
+  const first = String(w.utility ?? "").split(/[\s-]+/)[0].toLowerCase();
+  return Object.keys(rates).find((u) => u.split(/[\s-]+/)[0].toLowerCase() === first) ?? null;
+}
 /** data/siting/tariffs.json (warehouse/derived/siting_page.py, from utility_large_load_tariffs; session 3764): each
  * utility's filed large-load schedules by EIA id, every figure as printed with its page, the filing and its status; held
  * lists the EIA ids of schedules held for a license (ruling 4 of 6 November 2026), whose figures are not in the file. */
@@ -469,8 +479,11 @@ export function filedSteps(f: Files, r: Row): string | null {
 export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profile" | "lf" | "strike">): CpCharge | { why: string; words: string } {
   if (r.blank) return { why: r.blank.why, words: r.grid === "miso" ? "paused" : "not held" };
   if (r.grid !== "ercot") return tariffWords(f, r) ?? { why: `The transmission and delivery charge a large load pays in ${GRID_NAMES[r.grid]} is set by its utility's large-load tariff, and no such tariff of the row's utility is held in the warehouse. Only ERCOT's four-peak charge is held (ercot_4cp_intervals, at the Commission's rate).`, words: "not held" };
-  const rate = f.rate;
-  if (!rate) return { why: "The Commission's approved postage stamp rate is not in the page's files (texas_transmission_matrix).", words: "not held" };
+  if (!f.rate) return { why: "The Commission's approved postage stamp rate is not in the page's files (texas_transmission_matrix).", words: "not held" };
+  // session 7622, the other choice of the ruling on a Texas row's transmission rate (wip/alt-cost-of-power-3, not landed):
+  // where the row's wires utility is one of the four whose tariffs are held, its own rate stands in for the Commission's
+  const utility = txUtilityOf(f, r);
+  const rate: Rate = utility ? { year: f.rate.year, value: f.utilRates![utility] } : f.rate;
   const summer = [...(f.cp?.summers ?? [])].filter((s) => s.intervals.length === 4).at(-1);
   if (!summer) return { why: "ercot_4cp_intervals holds no whole summer.", words: "not held" };
   const region = r.kind === "node" ? NODE_HUB : r.region;
@@ -494,7 +507,7 @@ export function cpCharge(dc: DC, f: Files, r: Row, x: Pick<SitingInputs, "profil
   const per = (share: number | null) => (share === null ? null : (rate.value * 1000 * share) / hours);
   const share = mean(own);
   return { year: summer.year, rate, hours, share, firm: per(1) as number, curtailing: per(mean(off)), own: per(share),
-    intervals: summer.intervals.map((iv, k) => ({ ts: iv.ts, local: iv.local, w: own[k] })), region };
+    intervals: summer.intervals.map((iv, k) => ({ ts: iv.ts, local: iv.local, w: own[k] })), region, ...(utility ? { utility } : {}) };
 }
 /** The grids with no capacity market: their capacity part is zero by market design, with why (session 703). */
 export const NO_CAPACITY_MARKET: Record<string, string> = {
@@ -1101,6 +1114,9 @@ export function allIn(parts: Record<"energy" | "transmission" | "capacity", Part
 export type Files = { index: Pick<Index, "grids" | "blank">; nodes: Pick<NodeFile, "nodes" | "projects" | "planned">; years: (grid: string) => YearFile[]; cp?: CpFile;
   /** session 703: the Commission's newest approved postage stamp rate (newestRate over texas_delivery.json's matrix) */
   rate?: Rate | null;
+  /** session 7622 (wip/alt-cost-of-power-3, not landed): the four large wires utilities' own transmission rates, USD per
+   * kW of four-peak demand a year (sitingdata.ts, UTILITY_TX_RATES) */
+  utilRates?: Record<string, number>;
   /** session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json) */
   cap?: CapFile;
   /** session 705: the queue durations (data/siting/connect.json), the rules, ERCOT's large-load reports and the waits */

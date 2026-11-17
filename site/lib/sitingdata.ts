@@ -22,6 +22,7 @@ import largeLoadJson from "@/data/siting/large_load_rules.json";
 import type { RulesFile as LargeLoadFile } from "@/lib/largeloadrules";
 import * as DCL from "@/lib/datacenter";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
+import { deliveryOf, utilitiesOf } from "@/lib/datacenter/delivery";
 import { newestRate, type CapFile, type ConnectFile, type CpFile, type DC, type Files, type LoadStatus, type CarbonFile, type DemandYears, type FacilityGridFile, type UtilityFile, type TariffFile, type ConnRulesFile, type HeadroomFile, type NodeFile, type RulesFile, type WaitsFile } from "@/lib/siting";
 
 export const NODES = nodesJson as unknown as NodeFile;
@@ -32,13 +33,21 @@ export const LARGE_LOAD = largeLoadJson as unknown as LargeLoadFile;
 export const CP = cpJson as unknown as CpFile;
 /** Session 703: the Commission's newest approved postage stamp rate, as "Your load"'s four-peak block takes it. */
 export const RATE = newestRate(DELIVERY.matrix ?? []);
+/** Session 7622, the other choice of the ruling on a Texas row's transmission rate (wip/alt-cost-of-power-3, not
+ * landed): each of the four large wires utilities' own transmission rate, USD per kW of four-peak demand a year: the
+ * transmission component of its tariff lines for a flat 100 MW load (lib/datacenter/delivery.ts, USD per MWh) times
+ * 8,760 hours over 1,000. A row whose wires utility is one of them takes it in place of the Commission's rate. */
+export const UTILITY_TX_RATES: Record<string, number> = Object.fromEntries(utilitiesOf(DELIVERY.rows).map((u) => {
+  const t = deliveryOf(DELIVERY.rows, u, 100).components.find((c) => c.kind === "transmission");
+  return [u, t ? (t.perMwh * 8760) / 1000 : 0];
+}).filter(([, v]) => (v as number) > 0));
 /** Session 704: the capacity tables' newest periods and zones, no price (data/siting/capacity.json). */
 export const CAP = capJson as unknown as CapFile;
 /** Session 705: the queue durations, and "Your load"'s own files of rules, ERCOT's reports and the measured waits. */
 export const CONNECT = connectJson as unknown as ConnectFile;
 /** Session 719: where a tracked datacenter sits on the tab (data/siting/facilities.json). */
 export const FACILITY_GRID = facilitiesJson as unknown as FacilityGridFile;
-export const SITING_FILES: Files = { index: INDEX, nodes: NODES, years: yearFiles, cp: CP, rate: RATE, cap: CAP, connect: CONNECT,
+export const SITING_FILES: Files = { index: INDEX, nodes: NODES, years: yearFiles, cp: CP, rate: RATE, utilRates: UTILITY_TX_RATES, cap: CAP, connect: CONNECT,
   rules: rulesJson as unknown as RulesFile, status: loadJson as unknown as LoadStatus, waits: howSoonJson as unknown as WaitsFile,
   demand: demandJson as unknown as DemandYears, headroom: headroomJson as unknown as HeadroomFile, carbon: carbonJson as unknown as CarbonFile,
   utility: utilityJson as unknown as UtilityFile,
