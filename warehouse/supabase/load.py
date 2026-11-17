@@ -375,8 +375,24 @@ def eqr_largest(top=EQR_TOP, out_dir=None):
             "lists": lists}
 
 
+def buyer_counted_as(df):
+    """Ruling alternative 4 of /contracts (session 7701, wip/alt-contracts-4; not a default on main): each contract row
+    carries x_buyer_counted_as, the name its buyer is counted under (ferc_eqr_buyer_names, the rules of
+    warehouse/derived/eqr_buyers.py), so that the first view can count buyers by merged name. The names table itself
+    stays out of the live set (session 102's rule). A name the table does not hold is left as filed."""
+    if not os.path.exists(os.path.join(OUT, "ferc_eqr_buyer_names.csv")) or "x_customer_company_name" not in df.columns:
+        return df
+    names = read_table("ferc_eqr_buyer_names")
+    shown = dict(zip(names["name"], names["x_counted_as"]))
+    df = df.copy()
+    df["x_buyer_counted_as"] = df["x_customer_company_name"].map(lambda n: shown.get(n, n))
+    return df
+
+
 def filtered(name, days, now):
     df = read_table(name)
+    if name == EQR:
+        df = buyer_counted_as(df)   # wip/alt-contracts-4
     shape = shape_of(df)
     # session 16: live_set.yaml "select" keeps some extra columns and leaves out some rows of
     # a table, so a large table fits the size limit; Redivis and the CSV keep everything

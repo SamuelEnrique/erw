@@ -6,7 +6,7 @@ import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHea
 import { attempt } from "@/lib/supabase";
 import { GRID_CHOICES } from "@/lib/gridtool";
 import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, baName, baOf, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, heldFrom, inForce, largestHref, listed, mwHref, quarterDates, quarterNotListed, quarters,
-  rateText, some, termDays, termYears, viewOf, zeroPriced, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
+  rateText, some, termDays, termYears, viewOf, zeroPriced, contractCounts, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { ContractsDecisions } from "./Decisions";
 import { contractRows, contractSummary } from "./read";
 
@@ -54,7 +54,10 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const read = quarter && v.view === "quarter" ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
   const all: Contract[] = read?.ok ? read.data : [];
   const rows = filter(all, product, ba);
-  const c = counts(rows), zero = zeroPriced(rows);   // session 7510: the priced rows whose number is 0
+  // ruling alternative 4 (wip/alt-contracts-4, not a default on main): contracts by filer and identifier, buyers by merged name
+  const k = contractCounts(rows);
+  const c = { ...counts(rows), agreements: k.agreements, sellers: k.sellers, buyers: k.buyers }, zero = zeroPriced(rows);   // session 7510: the priced rows whose number is 0
+  const unit = k.byContract ? "contract" : "agreement";
   const bas = byBa(filter(all, product, null));
   const ercot = summary.ok ? summary.data.by_ba.filter((b) => baOf(b.ba) === "ERCO").reduce((a, b) => a + b.rows, 0) : 0;   // session 7501: whatever its capitals
   const href = (qq: string, p: string, b?: string | null) => `/contracts?q=${qq}&product=${p}${b ? `&ba=${encodeURIComponent(b)}` : ""}`;
@@ -131,11 +134,11 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                 {/* session 7510: one row is "1 row ... was signed", not "1 rows ... were" */}
                 <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                   Among the contracts filed with FERC, <span data-n="rows">{count(c.rows)}</span> {some(c.rows, "row")} of {product.label.toLowerCase()}{ba ? ` delivered in ${ba}` : ""} {some(c.rows, "was", "were")}{" "}
-                  signed in {quarter.replace("-", " ")}: <span data-n="agreements">{count(c.agreements)}</span> {some(c.agreements, "agreement")} between <span data-n="sellers">{count(c.sellers)}</span> {some(c.sellers, "seller")}{" "}
-                  and <span data-n="buyers">{count(c.buyers)}</span> {some(c.buyers, "buyer")}. <span data-n="priced">{count(c.priced)}</span> of the rows {some(c.priced, "states", "state")} a price as a number.
+                  signed in {quarter.replace("-", " ")}: <span data-n="agreements">{count(c.agreements)}</span> {some(c.agreements, unit)} between <span data-n="sellers">{count(c.sellers)}</span> {some(c.sellers, "seller")}{" "}
+                  and <span data-n="buyers">{count(c.buyers)}</span> {some(c.buyers, "buyer")}{k.byContract ? <Tip id="contracts-by-contract" label="how contracts, sellers and buyers are counted"><span data-by-contract="1">Counted as the other three views count: a contract by its filer and FERC&apos;s contract identifier, a seller by its filer, a buyer under one name by the rules of the buyers list (two spellings of one company are one buyer). Default on the site: agreements by seller name and service agreement, names as filed. Source: FERC Electric Quarterly Reports; the buyer names by rule, docs/methods/eqr_buyers.md.</span></Tip> : null}. <span data-n="priced">{count(c.priced)}</span> of the rows {some(c.priced, "states", "state")} a price as a number.
                 </p>
                 <HeadlineRow>
-                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, "agreement")}; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
+                  <HeadlineNumber label="Contract rows signed that quarter" value={count(c.rows)} note={<>{count(c.agreements)} {some(c.agreements, unit)}; one row per product of an agreement.{all.length >= 5000 ? " The quarter holds more than the 5,000 rows read." : ""}</>} />
                   <HeadlineNumber label="Rows with a price as a number" value={count(c.priced)} note={<>The other {count(c.rows - c.priced)} {some(c.rows - c.priced, "gives", "give")} words: a market-based rate, a formula, or nothing.{zero > 0
                     ? <span data-zero={zero}> {count(zero)} of the {count(c.priced)} {some(zero, "files", "file")} the number 0.</span> : null}</>} />
                   <HeadlineNumber label="Between affiliates" value={count(c.affiliate)} note="Rows the seller marked as a contract with an affiliate." />

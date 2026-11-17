@@ -13,6 +13,8 @@ export type Contract = {
   commencement: string | null; termination: string | null; quantity: string | null; units: string | null;
   rate: string | null; rate_units: string | null; rate_description: string | null;
   pod_ba: string | null; pod_location: string | null; quarter: string | null;
+  /** Ruling alternative 4 (wip/alt-contracts-4, migration 038): the filer, the contract's identifier and the buyer's merged name (absent from main's function). */
+  filer?: string | null; contract_id?: string | null; buyer_merged?: string | null;
 };
 export type Summary = {
   rows: number; priced: number; first: string | null; last: string | null; quarters: string[];
@@ -226,6 +228,24 @@ export function counts(rows: Contract[]) {
  * priced rows; the page says how many they are. Its own function: `counts` stays what session 83's test holds it to. */
 export function zeroPriced(rows: Contract[]): number {
   return rows.filter((r) => (r.rate ?? "").trim() !== "" && Number((r.rate ?? "").trim()) === 0).length;
+}
+
+/** Ruling alternative 4 of /contracts (session 7701, branch wip/alt-contracts-4; not a default on main): the list counted
+ * as the other three views count, contracts by filer and contract identifier, sellers by filer, buyers by merged name.
+ * byContract is false when the rows carry none of the three fields (main's function, migration 037): the counts are then
+ * main's, by seller name and service agreement and buyer name as filed. */
+export function contractCounts(rows: Contract[]): { agreements: number; sellers: number; buyers: number; byContract: boolean } {
+  const byContract = rows.length > 0 && rows.every((r) => !!r.filer && !!r.contract_id);
+  if (!byContract) {
+    const c = counts(rows);
+    return { agreements: c.agreements, sellers: c.sellers, buyers: c.buyers, byContract: false };
+  }
+  return {
+    agreements: new Set(rows.map((r) => `${r.filer}|${r.contract_id}`)).size,
+    sellers: new Set(rows.map((r) => r.filer)).size,
+    buyers: new Set(rows.map((r) => r.buyer_merged || r.buyer).filter((v): v is string => !!v)).size,
+    byContract: true,
+  };
 }
 
 /** The delivery balancing authorities of the rows, most rows first. */

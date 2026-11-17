@@ -127,6 +127,21 @@ for (const view of ["largest", "mw"]) {
   sound(html, `the ${view} view`);
 }
 
+// ---- ruling alternative 4 (session 7701, wip/alt-contracts-4, not a default on main): the list counted by filer and contract
+// identifier, buyers by merged name, when the rows carry migration 038's three fields
+{
+  const before = await draw({});
+  ok(marked(before, "agreements") === "8" && /8 agreements between/.test(text(before)) && !/data-by-contract=/.test(before), "alternative 4: rows without the three fields are counted as on main, by agreement");
+  Q2.forEach((r, i) => Object.assign(r, { filer: "F1", contract_id: i < 4 ? "K1" : "K2", buyer_merged: "Example Buyer, merged" }));
+  const alt = await draw({});
+  ok(marked(alt, "agreements") === "2" && marked(alt, "sellers") === "1" && marked(alt, "buyers") === "1" && /2 contracts between 1 seller and 1 buyer/.test(text(alt)),
+    "alternative 4: the eight rows of one filer's two contracts with one merged buyer read 2 contracts between 1 seller and 1 buyer");
+  ok(/data-by-contract="1"/.test(alt) && /a contract by its filer and FERC's contract identifier/.test(text(alt)) && /2 contracts; one row per product of an agreement/.test(text(alt)), "alternative 4: the hover says how they are counted, and the headline's note counts contracts");
+  sound(alt, "alternative 4, the list by quarter signed");
+  Q2.forEach((r) => { delete r.filer; delete r.contract_id; delete r.buyer_merged; });
+  ok(C.contractCounts([]).byContract === false, "alternative 4: no rows, no contract counting");
+}
+
 // ---- the decisions
 const D = CONTRACTS_DECISIONS;
 ok(D.length >= 15 && new Set(D.map((d) => d.key)).size === D.length && D.every((d) => d.text && d.session && d.def && d.source), `${D.length} decisions, each with its own key, its session, its default and its source`);
