@@ -8,7 +8,7 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { SUPPLY_DECISIONS } from "@/lib/decisions";
 import fileJson from "@/data/supply.json";
-import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
+import { HEADLINE, PLACEHOLDER, burnWeekWords, choiceOf, dateWords, easternNow, fmt, holdRows, latestTitle, nextRelease, hrefOf, pct, reading, releaseWords, rowsOf, shortDate, signed, surprises, toggled, unitTitle, withPlaceWords, withUnitWords, burnPair, type BurnPair, type Choice, type Group, type Row, type SupplyFile } from "@/lib/supply";
 import { licenseGridTitle, licenseHeldGrids } from "@/lib/license";
 import { GRID_CHOICES, gridHref } from "@/lib/gridtool";
 
@@ -65,7 +65,7 @@ function Surprise({ row }: { row: Row }) {
   );
 }
 
-function Table({ group, c }: { group: Group; c: Choice }) {
+function Table({ group, c, ab = null }: { group: Group; c: Choice; ab?: { a: string; b: string; rows: BurnPair[] } | null }) {
   const rows = rowsOf(file, group.id);
   const pos = group.id === "position";
   return (
@@ -134,12 +134,57 @@ function Table({ group, c }: { group: Group; c: Choice }) {
           </tbody>
         </table>
       </div>
+      {/* ruling alternative 2 (wip/alt-supply-2, not a default on main): two grids side by side over the weeks both hold */}
+      {group.id === "burn" ? (
+        <div id="ab" className="mt-3 border border-rule bg-paper px-3 py-2 text-sm" data-burn-ab={ab ? `${ab.a}|${ab.b}` : "none"}>
+          <form method="get" action="/supply#ab" className="mb-2 flex flex-wrap items-end gap-2">
+            {(["a", "b"] as const).map((k) => (
+              <label key={k} className="block">
+                <span className="font-semibold">Grid {k.toUpperCase()}</span>{" "}
+                <select name={k} defaultValue={ab ? ab[k] : ""} className="border border-rule bg-white px-2 py-1">
+                  <option value="">Choose</option>
+                  {BURN_GRIDS.map((g) => <option key={g.slug} value={g.slug}>{g.label}</option>)}
+                </select>
+              </label>
+            ))}
+            <button type="submit" className="border border-rule bg-white px-2 py-1">Side by side</button>
+          </form>
+          {ab ? (ab.rows.length ? (
+            <table className="border-collapse text-sm tabular-nums">
+              <thead><tr className="text-[10px] uppercase tracking-wide text-muted">
+                <th className="py-1 pr-3 text-left font-normal">Fuel</th>
+                <th className="pr-3 text-right font-normal" title="The newest week both grids hold">Common week</th>
+                <th className="pr-3 text-right font-normal">{ab.a.toUpperCase()}</th><th className="pr-3 text-right font-normal">{ab.b.toUpperCase()}</th>
+                <th className="pr-3 text-right font-normal">A less B</th>
+                <th className="pr-3 text-right font-normal" title="The means over every week both grids hold, in the rows' last 52 weeks">Means over the common weeks</th>
+              </tr></thead>
+              <tbody>
+                {ab.rows.map((p) => (
+                  <tr key={p.fuel} className="border-t border-rule" data-burn-ab-row={p.fuel}>
+                    <td className="py-1 pr-3"><span title={`Fuel burned for power, ${p.unit}, derived from EIA-930's hourly generation at stated heat rates, as the rows above. Default on the site: each grid's own newest week in one column.`}>{p.fuel.replace("-", " ")}</span></td>
+                    <td className="pr-3 text-right">{dateWords(p.week)}</td>
+                    <td className="pr-3 text-right" data-burn-ab-a={p.fuel}>{fmt(p.a, p.unit)}</td>
+                    <td className="pr-3 text-right" data-burn-ab-b={p.fuel}>{fmt(p.b, p.unit)}</td>
+                    <td className="pr-3 text-right">{signed(p.a - p.b, p.unit, p.a)}</td>
+                    <td className="pr-3 text-right" title={`over ${p.weeks} weeks`}>{fmt(p.meanA, p.unit)} and {fmt(p.meanB, p.unit)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : <p>The two grids hold no common week of any fuel.</p>) : null}
+        </div>
+      ) : null}
     </section>
   );
 }
 
 export default async function Supply({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const c = choiceOf(await searchParams, file);
+  const q = await searchParams;
+  const c = choiceOf(q, file);
+  // ruling alternative 2 (wip/alt-supply-2, not a default on main): two grids' burn rows over the weeks both hold
+  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+  const slugs: string[] = BURN_GRIDS.map((g) => g.slug), ga = one(q.a), gb = one(q.b);
+  const ab = ga && gb && ga !== gb && slugs.includes(ga) && slugs.includes(gb) ? { a: ga, b: gb, rows: burnPair(file, ga, gb) } : null;
   const shown = file.groups.filter((g) => !c.groups.length || c.groups.includes(g.id));
   const open = c.s ? file.rows.find((r) => r.id === c.s) ?? null : null;
   const head = HEADLINE.map((id) => file.rows.find((r) => r.id === id && r.status === "ok")).filter((r): r is Row => !!r);
@@ -228,7 +273,7 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
         </section>
       ) : null}
 
-      {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
+      {shown.map((g) => <Table key={g.id} group={g} c={c} ab={g.id === "burn" ? ab : null} />)}
       {/* session 333: the tables to download, as CSV with a Python and a Stata reader (session 328's shared line) */}
       <DecisionsBlock id="7018-supply" title="Decisions on this page (each with its default and its source on hover)" items={SUPPLY_DECISIONS} />
       <TableDownloads tables={TABLES} />
