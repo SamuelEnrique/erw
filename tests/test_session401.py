@@ -47,7 +47,10 @@ class TheFixes(unittest.TestCase):
         for parts in (("cost-of-power", "page.tsx"), ("cost-of-power", "LoadAnswers.tsx"), ("cost-of-power", "battery", "page.tsx"), ("cost-of-power", "seller", "page.tsx")):
             s = src(*parts)
             self.assertNotIn('<summary className="cursor-pointer">', s, parts)
-            self.assertIn('<summary className="cursor-pointer py-1">', s, parts)
+            # session 7620 (wip/alt-battery-2, the other choice of the ruling on the fold): the battery page's one fold
+            # left the page for its CSV, so the page holds no summary to hold to 24 px
+            if parts != ("cost-of-power", "battery", "page.tsx"):
+                self.assertIn('<summary className="cursor-pointer py-1">', s, parts)
         self.assertIn('<summary className="cursor-pointer py-1 text-accent">', src("grid", "page.tsx"))
         self.assertIn('<summary className="cursor-pointer py-1">Citations</summary>', src("research", "view.tsx"))
         # session 541: the link is named for what it puts back (brand section 7), the 24 px target unchanged

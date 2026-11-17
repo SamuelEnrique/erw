@@ -266,16 +266,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                         10th percentile, {nodeMean("spread_4h_p50").toFixed(2)} at the median and {nodeMean("spread_4h_p90").toFixed(2)} at the 90th, against {nodeMean("hub_spread_4h").toFixed(2)} at the hub;
                         {" "}{nodeMean("share_wider_pct").toFixed(1)} percent of storage nodes had a wider spread than the hub. The median node&apos;s spread is {(100 * nodeMean("spread_4h_p50") / nodeMean("hub_spread_4h")).toFixed(1)} percent
                         of the hub&apos;s: the energy this page counts at the hub would scale about with it, the reserves not at all. Added to no figure (node_basis_summary).
+                        {/* session 7620, the other choice of the ruling on the fold (wip/alt-battery-2, not landed): each month's six figures are in the CSV alone, as the ruling of 12 October 2026 moved monthly rows */}
+                        {" "}<span data-node-monthly="csv">Each month&apos;s days held, the three spreads, the hub&apos;s and the share wider: in <a href={monthsHref} download>Every month, CSV</a>.</span>
                       </p>
-                      <details className="mt-1">
-                        <summary className="cursor-pointer py-1">Each month: days held; the storage nodes&apos; four-hour spread at the 10th percentile, median and 90th; the hub&apos;s; the share wider</summary>
-                        <ul className="mt-1 space-y-0.5">
-                          {nodeMonths.map((r) => {
-                            const k = (v: string) => `series|node_basis_summary|ercot:HB_HUBAVG|dam_storage_${v}|${r.ts}`;
-                            return <li key={r.m}>{monthName(r.m)}: <Num check={k("days")} raw={r.days}>{r.days}</Num> days; <Num check={k("spread_4h_p10")} raw={r.spread_4h_p10}>{r.spread_4h_p10.toFixed(2)}</Num>, <Num check={k("spread_4h_p50")} raw={r.spread_4h_p50}>{r.spread_4h_p50.toFixed(2)}</Num>, <Num check={k("spread_4h_p90")} raw={r.spread_4h_p90}>{r.spread_4h_p90.toFixed(2)}</Num>; hub <Num check={k("hub_spread_4h")} raw={r.hub_spread_4h}>{r.hub_spread_4h.toFixed(2)}</Num>; <Num check={k("share_wider_pct")} raw={r.share_wider_pct}>{r.share_wider_pct.toFixed(2)}</Num> percent wider</li>;
-                          })}
-                        </ul>
-                      </details>
                     </div>
                   ) : nodeWhy ? <p className="mt-2 max-w-3xl text-xs text-muted" data-node-band="none">At its own node: {nodeWhy}</p> : null}
                   <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
