@@ -125,7 +125,7 @@ class TheBlock(unittest.TestCase):
         r = run(["--list"])
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = r.stdout.strip().splitlines()
-        self.assertEqual(len(lines), 29)                                                           # ten steps since session 254, eight more since session 271, two since 277, the two loads, and two since session 3795 (the per-reactor outages' new days and the fleet table), and two since session 7015 (the curtailment profile, the queue statistics), and one since session 7020 (the peak premium), and one since session 7050 (the cost of power)
+        self.assertEqual(len(lines), 30)                                                           # ten steps since session 254, eight more since session 271, two since 277, the two loads, and two since session 3795 (the per-reactor outages' new days and the fleet table), and two since session 7015 (the curtailment profile, the queue statistics), and one since session 7020 (the peak premium), and one since session 7050 (the cost of power), and one since session 7051 (demand with the weather taken out)
         self.assertTrue(lines[0].startswith("dm_eia930_total_interchange: eia930_daily_total_interchange (daily): python warehouse/connectors/"), lines[0])
         self.assertTrue(lines[-2].startswith("dm_live_set: python warehouse/supabase/load.py --no-vacuum --only"), lines[-2])
         self.assertTrue(lines[-1].startswith("dm_live_set_weekly (weekly): python warehouse/supabase/load.py --no-vacuum --only"), lines[-1])

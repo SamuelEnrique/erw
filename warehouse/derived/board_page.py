@@ -182,6 +182,16 @@ def stats(series, freq="D"):
         cands = [d for d in days if d0 - dt.timedelta(days=n + SLACK) <= d <= d0 - dt.timedelta(days=n)]
         return max(cands) if cands else None
 
+    def year_back():
+        """Session 7051 (chain 370, done-line request 149): a weekly series' year base is the value 364 days back (the same
+        weekday, 52 weeks), or the nearest within 3 days, as warehouse/derived/supply_page.py and EIA's own reports set a
+        week beside the same week a year before; back(365) took EIA's storage week ending 2025-10-31 for 2026-11-06."""
+        if freq != "W":
+            return back(365)
+        target = d0 - dt.timedelta(days=364)
+        cands = [d for d in days if abs((d - target).days) <= 3]
+        return min(cands, key=lambda d: (abs((d - target).days), d)) if cands else None
+
     def move(d):
         if d is None:
             return None
@@ -189,7 +199,7 @@ def stats(series, freq="D"):
         return dict(t=d.isoformat(), v=round(v, 4), ch=round(v0 - v, 4), pct=round(100 * (v0 - v) / v, 2) if v > 0 and v0 >= 0 else None)
     prev = days[-2] if freq == "D" and len(days) > 1 and (d0 - days[-2]).days <= 1 + SLACK else None
     moves = {"d": move(prev), "w": move(back(7)) if freq in ("D", "W") else None,
-             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(back(365)), "ytd": move(year_end(days, d0, freq))}
+             "m": None if freq == "Q" else move(back(30) if freq != "M" else back(28)), "y": move(year_back()), "ytd": move(year_end(days, d0, freq))}
     window = [series[d] for d in days if d0 - dt.timedelta(days=365) < d <= d0]
     rng = None
     if len(window) >= RANGE_MIN[freq]:

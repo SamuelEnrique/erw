@@ -126,6 +126,8 @@ Berkeley Lab's own summary of the same edition, "Queued Up: 2026 Edition, Charac
 
 Solar, gas and wind agree within 0.4 GW. Storage does not: the summary does not say on that page how its storage figure is built, and the difference (about 196 GW) is not reconciled here. The page's own technology groups count a request once by its cleaned type (a solar and storage hybrid is "solar with storage"), so its figures by group are not the summary's figures by part. The count of active requests is 4 percent above the summary's approximate count of projects.
 
+**Active MW by part type (session 7051, done-line request 190).** Each grid's `all` row also holds `active_mw_parts_battery`, `_solar`, `_wind` (onshore and offshore), `_gas` and `_other_storage`: over the active requests, the MW of every part (`type_1` to `type_3` with `mw_1` to `mw_3`) of that type, so a hybrid's battery counts beside a battery standing alone. In the 2026 edition the United States' battery parts are 544,128 MW, the cross-check's 544.1 GW above (ERCOT 165,315; CAISO 109,820; the West outside CAISO 118,927). `replication/queues/replicate.py` recomputes them.
+
 The replication recomputes every figure of the page's file from the table (17,254 of 17,254).
 
 ## The decisions on the page (session 7018, chain 301)

@@ -114,7 +114,28 @@ def prepared(d):
     years = (on - q).dt.days / 365.25
     x["years_to_operation"] = years.where((x["status"] == "operating") & (years >= 0))
     x["on_year"] = on.dt.year.where(x["years_to_operation"].notna())
+    # session 7051 (chain 370, done-line request 190): each request's parts (type_1 to type_3 with mw_1 to mw_3), so the
+    # active MW of a part type counts a hybrid's battery as well as a battery standing alone
+    for k in (1, 2, 3):
+        if f"type_{k}" in d and f"mw_{k}" in d:
+            pm = pd.to_numeric(d[f"mw_{k}"], errors="coerce")
+            x[f"part_type_{k}"] = d[f"type_{k}"].map(PART_TYPES.get)
+            x[f"part_mw_{k}"] = pm.where(pm > 0, 0.0)
     return x
+
+
+PART_TYPES = {"Battery": "battery", "Solar": "solar", "Wind": "wind", "Offshore Wind": "wind", "Gas": "gas", "Other Storage": "other_storage"}
+
+
+def part_mw(act):
+    """{part type: MW} over the active requests' parts: battery, solar, wind (onshore and offshore), gas, other storage."""
+    out = {v: 0.0 for v in dict.fromkeys(PART_TYPES.values())}
+    for k in (1, 2, 3):
+        if f"part_type_{k}" not in act:
+            continue
+        for kind, mw in act.groupby(f"part_type_{k}")[f"part_mw_{k}"].sum().items():
+            out[kind] += float(mw)
+    return {f"active_mw_parts_{kind}": round(v, 1) for kind, v in out.items()}
 
 
 def summarize(x, last_year):
@@ -152,6 +173,8 @@ def summarize(x, last_year):
                     whole[f"past_{name}_share_pct"] = round(100 * float(mask.sum()) / len(p), 2)
                     if p["mw"].sum() > 0:
                         whole[f"past_mw_{name}_share_pct"] = round(100 * float(p.loc[mask, "mw"].sum()) / float(p["mw"].sum()), 2)
+            if tech == "all":   # session 7051: the active MW of each part type, hybrids' parts included
+                whole.update(part_mw(act))
             dated = t["years_to_operation"].dropna()
             whole["operating_requests"] = int((t["status"] == "operating").sum())
             whole["years_to_operation_n"] = int(len(dated))

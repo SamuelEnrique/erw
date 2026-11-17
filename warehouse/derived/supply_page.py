@@ -38,6 +38,7 @@ for that week (warehouse/metadata/release_schedule.json, written by warehouse/co
 """
 
 import argparse
+import csv
 import datetime as dt
 import json
 import os
@@ -384,9 +385,33 @@ def cleared_weekly(name, tz, entity=None):
     return {end: sum(v) / 7 for end, v in wk.items() if len(v) == 7}
 
 
-def cleared_rows(p, log=None):
+def cleared_held(grids=None, licenses=None):
+    """Session 7051 (chain 370, done-line request 154): {grid: note} for the cleared rows the public page file may not carry
+    with figures: a grid held for license on the day (warehouse/metadata/license_status.py, NYISO from 21 October 2026) and
+    a table whose own license is not public (coverage.csv: isone_dam_cleared_energy is internal)."""
+    if grids is None:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+        import license_status as ls
+        grids = {g: ls.note(g) for g in ls.held_grids()}
+    if licenses is None:
+        with open(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), encoding="utf-8") as f:
+            licenses = {r["table"]: r["license"] for r in csv.DictReader(f)}
+    out = {}
+    for grid, (name, *_rest) in CLEARED.items():
+        if grid in grids:
+            out[grid] = grids[grid]
+        elif licenses.get(name, "public") != "public":
+            out[grid] = f"{name} is held internal (its publisher's terms do not allow republishing): held, not shown."
+    return out
+
+
+def cleared_rows(p, log=None, held=None):
     newest = dt.date.today()
+    held = cleared_held() if held is None else held
     for grid, (name, tz, src, *only) in CLEARED.items():
+        if grid in held:   # session 7051: status and note only, no figure in the public file
+            p.grey("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "licensed", held[grid], "MWh/d")
+            continue
         w = cleared_weekly(name, tz, only[0] if only else None)
         if w is None:
             p.grey("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "not_held", "The operator's day-ahead cleared energy is not on this machine in this run.", "MWh/d")
