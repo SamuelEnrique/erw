@@ -57,7 +57,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 365 | `wip/alt-demand-1` | 100.0 | not seen: no pictures | 7800 |
 | B | 366 | `wip/alt-supply-2` | 100.0 | fault: supply-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 369 | `wip/alt-supply-3` | 100.0 | seen: supply-3-1280.png with production's -default-1280 twins | 7800 |
-| B | 371 | `wip/alt-compare-1` | 100.0 | wanted | |
+| B | 371 | `wip/alt-compare-1` | 100.0 | seen: compare-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 313 | `wip/alt-impact-12` | 92.5 | wanted | |
 | B | 311 | `wip/alt-ercot-peak-premium-1` | 87.5 | wanted | |
 | B | 288 | `wip/alt-battery-customer-3` | 85.0 | wanted | |
