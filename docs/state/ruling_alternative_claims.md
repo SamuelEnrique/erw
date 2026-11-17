@@ -28,3 +28,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /grid/caiso/alerts | samueloldlaptop | 7714 | done | docs/reviews/ruling-alternatives-caiso-alerts-2026-11-17.md |
 | /learn/bill | samueloldlaptop | 7715 | claimed | docs/reviews/ruling-alternatives-bill-2026-11-17.md |
 | Site-wide: the warehouse's sources and publishers' terms | samueloldlaptop | 7716 | claimed | docs/reviews/ruling-alternatives-site-sources-2026-11-17.md |
+| /learn/problems | samueloldlaptop | 7717 | claimed | docs/reviews/ruling-alternatives-problem-sets-2026-11-17.md |
