@@ -21,7 +21,7 @@ export const NOT_HELD: Record<string, string> = {
   // through (gridstatus 0.36.0, ercot.py) writes "Completed" when the report's "IA Signed" date is filled, so the table's
   // positions_operating for ERCOT is the positions with a signed agreement: on the pull of 30 September 2026 all 44 such
   // positions of entry year 2025 have a projected operation date still to come and none a date of approval to synchronize
-  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held, and \"Entered\" counts the positions of an entry year that are still in the report, not every request made that year. For ERCOT the count other queues call \"Reached operation\" is the positions whose interconnection agreement is signed, most of a recent year's not yet built, so it is headed \"Agreement signed\" here, and \"No agreement yet\" is the rest; \"Waits counted\" is the positions the report gives a day of approval to synchronize, and the wait runs from the day the screening study started to that day.",
+  ercot: "ERCOT's report lists active and completed positions only, so no withdrawn count and no withdrawal rate are held, and \"Entered\" counts the positions of an entry year that are still in the report, not every request made that year. For ERCOT \"Reached operation\" is the positions the report gives a day of approval to synchronize; a position whose interconnection agreement is signed and that has no such day is still waiting (ruling alternative 1, branch wip/alt-interconnection-1; on the site, \"Agreement signed\" and \"No agreement yet\"); \"Waits counted\" is the positions the report gives a day of approval to synchronize, and the wait runs from the day the screening study started to that day.",
   miso: "MISO's queue holds no in-service date, so no wait is held.",
   isone: "ISO-NE's queue holds no in-service date, so no wait is held.",
   spp: "SPP's wait reads its Commercial Operation Date, which its queue fills for active and withdrawn positions too: for an operating position it may be the date requested, not achieved.",
@@ -44,11 +44,11 @@ export type StatusKey = (typeof STATUSES)[number]["key"];
  *  interconnection agreement, and its `waiting` group those with none (NOT_HELD.ercot; the method note, "What a queue
  *  does not hold"). The variables keep their names (positions_operating, mw_waiting): only the words drawn change. */
 export const STATUS_WORDS: Record<string, Partial<Record<StatusKey, { label: string; short: string }>>> = {
-  ercot: { operating: { label: "Agreement signed", short: "Signed" }, waiting: { label: "No agreement yet", short: "No agreement" } },
+  // ruling alternative 1 (wip/alt-interconnection-1): ERCOT's statuses take the common words; on the site its own
 };
 /** Why a queue has words of its own, for the tip beside its name in the six queues' table (whose columns keep the common words). */
 export const STATUS_WHY: Record<string, string> = {
-  ercot: "ERCOT's report has no word for a plant in operation. A position is counted in the first when the report gives a day its interconnection agreement was signed, most of a recent year's not yet built, and in the second when it gives none.",
+  // ruling alternative 1 (wip/alt-interconnection-1): no words of its own, so no tip
 };
 /** The words one queue's status is drawn with: its own where it has them, else the common ones. */
 export function statusWords(iso: string, key: StatusKey): { label: string; short: string } {

@@ -52,6 +52,7 @@ ISOS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"]
 LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO", "spp": "SPP", "isone": "ISO-NE"}
 NO_WITHDRAWN = {"ercot"}               # the GIS report lists active and completed positions only
 NO_IN_SERVICE = {"miso", "isone"}      # their tables hold no in-service date
+OPERATION_BY_DAY = {"ercot"}           # wip/alt-interconnection-1: operating only with a day of approval to synchronize
 REQUESTED_COD = {"spp"}                # the date may be requested rather than achieved
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/energy_projects.md"  # no fragment: a "#" in a row ends it for a reader that skips comments
 X_COLS = ["x_iso", "x_entry_year", "x_rule", "x_input_run"]
@@ -60,6 +61,14 @@ X_COLS = ["x_iso", "x_entry_year", "x_rule", "x_input_run"]
 def stats(q, iso):
     """{variable: (value, unit)} for one ISO's positions of one entry year."""
     s = q["status"].fillna("")
+    if iso in OPERATION_BY_DAY and "actual_in_service_date" in q.columns:
+        # ruling alternative 1 of /explore/interconnection (session 7710, branch wip/alt-interconnection-1; not a default on
+        # main): an ERCOT position has reached operation only with a day of approval to synchronize, which the queue
+        # connector writes as actual_in_service_date. The connector reads it so from its pull after session 7022; this
+        # applies the same reading to the pulls before it, where "completed" was a signed agreement. A completed position
+        # without that day is waiting.
+        day = q["actual_in_service_date"].fillna("").astype(str).str.strip()
+        s = s.where(~((s == "completed") & (day == "")), "active")
     mw = pd.to_numeric(q["capacity_mw"], errors="coerce")
     out = {}
     groups = {"entered": pd.Series(True, index=s.index), "operating": s == "completed", "waiting": s.isin(["active", "suspended"]),
