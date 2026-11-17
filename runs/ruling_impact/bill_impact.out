@@ -1,0 +1,52 @@
+the cards as they open: CA 229.63 USD at 600 kWh, wholesale 2026-09 44.85 USD/MWh; SCE 224.76 USD at 600 kWh, wholesale 2026-09 38.52 USD/MWh; SDGE 332.91 USD at 600 kWh, wholesale 2026-09 38.52 USD/MWh; TX 95.27 USD at 600 kWh, wholesale 2026-09 39.50 USD/MWh; TXC 95.28 USD at 600 kWh, wholesale 2026-09 39.50 USD/MWh
+
+== line 1: the rules re-read on a schedule: CenterPoint's TC5 Refund went to 0 on 13 November 2026
+TC5 Refund -0.000278 -> 0 USD/kWh: the CenterPoint card at 600 kWh 95.28 -> 95.45 (+0.17, +0.18%); the derived default energy charge would fall by the same per kWh, -0.000278, to keep the default bill at EIA's average: 0.0853 -> 0.085022 (rounded 0.085)
+
+== line 2: SDG&E with a 0 kWh baseline allowance (default) or a climate zone's allowance
+the SDG&E card: 332.91 USD at 600 kWh (55.48 cents a kWh; EIA's 2024 SDG&E residential average 43.63)
+   an allowance of 100 kWh for the month (an example; the zones' allowances are not held): 319.00 USD (-13.91, -4.18%), 53.17 cents a kWh
+   an allowance of 200 kWh for the month (an example; the zones' allowances are not held): 305.08 USD (-27.83, -8.36%), 50.85 cents a kWh
+   an allowance of 300 kWh for the month (an example; the zones' allowances are not held): 291.17 USD (-41.74, -12.54%), 48.53 cents a kWh
+the credit is -0.10702 USD a kWh on use up to 130 percent of the allowance; the climate zones' allowances (SDG&E's baseline sheet) are not held: the default's own figure is not computed
+
+== line 3: the wholesale share on metered kWh (default) or with about 5 percent lost on the wires; Texas homes against their load zone
+CA: wholesale share 11.7 -> 12.3 percent (+0.6 points); wholesale dollars 26.91 -> 28.25
+SCE: wholesale share 10.3 -> 10.8 percent (+0.5 points); wholesale dollars 23.11 -> 24.27
+SDGE: wholesale share 6.9 -> 7.3 percent (+0.3 points); wholesale dollars 23.11 -> 24.27
+TX: wholesale share 24.9 -> 26.1 percent (+1.2 points); wholesale dollars 23.70 -> 24.89
+TXC: wholesale share 24.9 -> 26.1 percent (+1.2 points); wholesale dollars 23.70 -> 24.89
+the load zones (Houston, North): ERCOT's zone prices are not in cost_of_power_monthly (data request row 209) nor held on this machine: not computed
+
+== line 4: only whole months (default) or a month missing one hour counted whole
+CA: the month stays 2026-09
+SCE: the month stays 2026-09
+SDGE: the month stays 2026-09
+TX: the month stays 2026-09
+TXC: the month stays 2026-09
+the months held that miss exactly one hour, and what the card would have read while each was the newest:
+   caiso:TH_NP15_GEN-APND 2024-10 (743 of 744 hours): the page fell back to 2024-09 at 34.30 USD/MWh; counted whole it reads 52.58 (+53.27%); 600 kWh's wholesale 20.58 -> 31.55 USD
+   caiso:TH_NP15_GEN-APND 2025-10 (743 of 744 hours): the page fell back to 2025-09 at 46.43 USD/MWh; counted whole it reads 42.76 (-7.91%); 600 kWh's wholesale 27.86 -> 25.65 USD
+   caiso:TH_NP15_GEN-APND 2025-12 (743 of 744 hours): the page fell back to 2025-09 at 46.43 USD/MWh; counted whole it reads 36.99 (-20.33%); 600 kWh's wholesale 27.86 -> 22.19 USD
+   caiso:TH_SP15_GEN-APND 2024-10 (743 of 744 hours): the page fell back to 2024-09 at 33.07 USD/MWh; counted whole it reads 35.91 (+8.59%); 600 kWh's wholesale 19.84 -> 21.55 USD
+   caiso:TH_SP15_GEN-APND 2025-10 (743 of 744 hours): the page fell back to 2025-09 at 36.36 USD/MWh; counted whole it reads 29.97 (-17.58%); 600 kWh's wholesale 21.82 -> 17.98 USD
+   caiso:TH_SP15_GEN-APND 2025-12 (743 of 744 hours): the page fell back to 2025-09 at 36.36 USD/MWh; counted whole it reads 33.50 (-7.88%); 600 kWh's wholesale 21.82 -> 20.10 USD
+
+== line 5: an SDG&E climate credit box, as SCE's and PG&E's
+CA's credit in the rules file: -36.18 USD
+SCE's credit in the rules file: -36.0 USD
+SDG&E's credit amount is not in the rules file (its tariff sheet was not read): the box's figure is not computed; the card's total would fall by that amount in a credit month
+
+== line 6: the Texas default energy charges from EIA's July 2026 average (default) or August's (0.0910 and 0.0856)
+TX: 0.0907 -> 0.091 USD/kWh: the card at 600 kWh 95.27 -> 95.45 (+0.18, +0.19%)
+TXC: 0.0853 -> 0.0856 USD/kWh: the card at 600 kWh 95.28 -> 95.46 (+0.18, +0.19%)
+
+== line 7: today's rates for any bill month (default) or the rates in force in the bill's month
+no tariff sheet in force before the read of 1 October 2026 is held: the January 2026 bill's figures are not computed
+
+== line 8: one calendar month's price (default) or the read span's months weighted by their days (e.g. a read from the 16th to the 15th)
+CA: 2026-09 44.85 USD/MWh -> the span 2026-09-16 to 2026-10-15 47.48 (+5.87%); wholesale 26.91 -> 28.49 USD
+SCE: 2026-09 38.52 USD/MWh -> the span 2026-09-16 to 2026-10-15 38.50 (-0.04%); wholesale 23.11 -> 23.10 USD
+SDGE: 2026-09 38.52 USD/MWh -> the span 2026-09-16 to 2026-10-15 38.50 (-0.04%); wholesale 23.11 -> 23.10 USD
+TX: 2026-09 39.50 USD/MWh -> the span 2026-09-16 to 2026-10-15 41.06 (+3.95%); wholesale 23.70 -> 24.64 USD
+TXC: 2026-09 39.50 USD/MWh -> the span 2026-09-16 to 2026-10-15 41.06 (+3.95%); wholesale 23.70 -> 24.64 USD
