@@ -127,6 +127,23 @@ for (const view of ["largest", "mw"]) {
   sound(html, `the ${view} view`);
 }
 
+// ---- ruling alternative 1 (session 7701, wip/alt-contracts-1, not a default on main): "MW filed" leaves out a row above
+// the megawatts view's ceiling, and says so on the column's head and on the cell of a party that had one
+{
+  const keep = summary.largest.lists.buyer.energy;
+  summary.largest.lists.buyer.energy = { ...list, top: [{ ...party(1), mw_filed: 6700, rows_with_mw: 1, rows_over_mw: 2 }, { ...party(2), rows_over_mw: 1 }, party(3)] };
+  const alt = await draw({ view: "largest", product: "energy" });
+  const at = text(alt);
+  const cell = (key) => (alt.match(new RegExp(`data-n="${key.replace(/\|/g, "\\|")}">([^<]*)<`)) ?? [])[1];
+  ok(cell("buyer|1|mw") === "6,700" && /data-over="buyer\|1"/.test(alt) && /2 rows of this party file more megawatts than the largest station operating in the United States \(6,809 MW, EIA-860M\)/.test(at),
+    "alternative 1: a party with rows above the ceiling shows the figure without them and says on hover how many were left out, and the ceiling");
+  ok(/data-over="buyer\|2"/.test(alt) && /1 row of this party files more megawatts/.test(at) && /none filed/.test(at), "alternative 1: a party whose only MW row was above the ceiling reads \"none filed\" and says why on hover");
+  ok(!/data-over="buyer\|3"/.test(alt) && !/data-over="seller\|/.test(alt), "alternative 1: a party with no row above the ceiling has no such hover");
+  ok(/data-mw-ceiling-head="1"/.test(alt) && /A row filed above 6,809 MW, the largest station operating in the United States \(EIA-860M\), is left out/.test(at), "alternative 1: the column's head says the rule, the ceiling and its source on hover");
+  sound(alt, "alternative 1, the largest view");
+  summary.largest.lists.buyer.energy = keep;
+}
+
 // ---- the decisions
 const D = CONTRACTS_DECISIONS;
 ok(D.length >= 15 && new Set(D.map((d) => d.key)).size === D.length && D.every((d) => d.text && d.session && d.def && d.source), `${D.length} decisions, each with its own key, its session, its default and its source`);

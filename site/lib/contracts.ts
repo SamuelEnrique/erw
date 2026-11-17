@@ -56,7 +56,9 @@ export const STORAGE_FIELDS = [
 export function changesOf(t: Terms, product: string): Change[] {
   return t.changes.filter((c) => c.product === product).sort((a, b) => a.quarter.localeCompare(b.quarter));
 }
-export type Party = { rank: number; name: string; contracts: number; rows: number; counterparties: number; mw_filed: number; rows_with_mw: number };
+export type Party = { rank: number; name: string; contracts: number; rows: number; counterparties: number; mw_filed: number; rows_with_mw: number;
+  /** Ruling alternative 1 (wip/alt-contracts-1): rows filed above the megawatts ceiling, left out of mw_filed and rows_with_mw (absent until a load of the branch's builder). */
+  rows_over_mw?: number };
 export type PartyList = { parties: number; contracts: number; rows: number; top: Party[] };
 export type Largest = {
   quarter: string | null; top: number;
