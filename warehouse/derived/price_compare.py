@@ -151,9 +151,13 @@ def carbon(in_dir, ba, start, end):
     return round(float(c["value"].mean()), 2), len(c), due
 
 
-def last_whole_month(x):
+def last_whole_month(x, hidden=()):
     """The last calendar month every market side of the hub history holds to its end: the month before the month of the
-    earliest of the sides' newest timestamps."""
+    earliest of the sides' newest timestamps. Session 7051 (chain 370, done-line requests 129 and 140): a grid whose pulls
+    are paused (hidden: MISO since 4 October 2026) is not compared, so its stopped history no longer holds every other
+    grid's window at September."""
+    if len(hidden):
+        x = x[~x["entity"].str.split(":").str[0].isin(list(hidden))]
     newest = x.groupby(["entity", "side"])["ts"].max().min()
     return (newest.tz_convert("UTC").to_period("M") - 1).strftime("%Y-%m")
 
@@ -251,7 +255,7 @@ def main(argv=None):
     log(f"  licenses: {len(internal)} of the {len(TABLES)} price tables are internal {internal}; publishers under review: {sorted(hidden)}")
     x = read_prices(inputs, "2025-08-01", log)
     x = x[~x["table"].isin(internal)]
-    end_month = a.end or last_whole_month(x[x["table"] == "iso_hub_prices_history"])
+    end_month = a.end or last_whole_month(x[x["table"] == "iso_hub_prices_history"], hidden)
     rows, view, held_not_shown, windows = build(x, inputs, end_month, hidden, log)
     out = pd.DataFrame(rows)
     out["source"], out["source_url"], out["retrieved_at"], out["vintage"] = SOURCE, METHOD_URL, retrieved, ""

@@ -188,10 +188,11 @@ class ThePage(unittest.TestCase):
         self.assertEqual(d["c"], [["year", "dam", "avg", "asc"], ["month", "rtm", "spread", "desc"], ["year", "dam", "avg", "asc"]])
         self.assertEqual(d["o"], sorted(d["o"]))
         self.assertEqual(d["lastCarbon"], "spp:SPPNORTH_HUB")                    # a hub that lacks the measure goes last, whatever the direction
-        self.assertEqual((d["n"], d["rt"], d["lack"]), (11, 10, ["isone:.H.INTERNAL_HUB"]))
+        # session 7051 (request 139): ISO-NE's and NYISO's rows are held for license and written to the copy by name only
+        self.assertEqual((d["n"], d["rt"], d["lack"]), (9, 9, []))
         self.assertEqual(d["href"], "/prices/compare?period=year&market=dam&sort=neg")
         self.assertEqual(d["label"], ["ERCOT, North hub", "X, Y"])
-        self.assertEqual(d["when"], ["the twelve months to September 2026", "September 2026"])
+        self.assertEqual(d["when"], ["the twelve months to October 2026", "October 2026"])
         self.assertTrue(d["named"])                                              # every hub and zone shown has a reader's name
 
     def test_the_page_is_in_review_says_a_hub_is_not_a_site_and_reads_its_own_copy(self):
