@@ -87,7 +87,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 323 | `wip/alt-impact-19` | 21.4 | wanted | |
 | B | 353 | `wip/alt-ev-game-1` | 19.1 | wanted | |
 | B | 299 | `wip/alt-shoulder-5` | 18.2 | wanted | |
-| B | 372 | `wip/alt-compare-2` | 18.0 | wanted | |
+| B | 372 | `wip/alt-compare-2` | 18.0 | seen: compare-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 280 | `wip/alt-contracts-3` | 15.4 | wanted | |
 | B | 281 | `wip/alt-contracts-2` | 15.2 | wanted | |
 | B | 367 | `wip/alt-grid-2` | 13.42 | wanted | |
