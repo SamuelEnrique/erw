@@ -24,4 +24,4 @@ For the chain that builds, tool by tool, the other choice of each line of `docs/
 | /explore/interconnection | samueloldlaptop | 7710 | done | docs/reviews/ruling-alternatives-interconnection-2026-11-17.md |
 | Site-wide: the Digest and the Roundup | samueloldlaptop | 7711 | claimed | docs/reviews/ruling-alternatives-site-digest-2026-11-17.md |
 | /events | samueloldlaptop | 7712 | claimed | docs/reviews/ruling-alternatives-events-2026-11-17.md |
-| Site-wide: the data machine and its tables | samueloldlaptop | 7713 | claimed | docs/reviews/ruling-alternatives-site-data-machine-2026-11-17.md |
+| Site-wide: the data machine and its tables | samueloldlaptop | 7713 | done | docs/reviews/ruling-alternatives-site-data-machine-2026-11-17.md |
