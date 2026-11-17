@@ -7,260 +7,261 @@
  "states": {
   "ak": {
    "state_rate": 0.0,
-   "avg_local_rate": 0.0182,
+   "avg_local_rate": 0,
    "row": "Alaska"
   },
   "al": {
    "state_rate": 0.04,
-   "avg_local_rate": 0.0546,
+   "avg_local_rate": 0,
    "row": "Alabama"
   },
   "ar": {
    "state_rate": 0.065,
-   "avg_local_rate": 0.0298,
+   "avg_local_rate": 0,
    "row": "Arkansas"
   },
   "az": {
    "state_rate": 0.056,
-   "avg_local_rate": 0.0294,
+   "avg_local_rate": 0,
    "row": "Arizona"
   },
   "ca": {
    "state_rate": 0.0725,
-   "avg_local_rate": 0.0178,
+   "avg_local_rate": 0,
    "row": "California"
   },
   "co": {
    "state_rate": 0.029,
-   "avg_local_rate": 0.0499,
+   "avg_local_rate": 0,
    "row": "Colorado"
   },
   "ct": {
    "state_rate": 0.0635,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Connecticut"
   },
   "dc": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "DC"
   },
   "de": {
    "state_rate": 0.0,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Delaware"
   },
   "fl": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0098,
+   "avg_local_rate": 0,
    "row": "Florida"
   },
   "ga": {
    "state_rate": 0.04,
-   "avg_local_rate": 0.0356,
+   "avg_local_rate": 0,
    "row": "Georgia"
   },
   "hi": {
    "state_rate": 0.04,
-   "avg_local_rate": 0.005,
+   "avg_local_rate": 0,
    "row": "Hawaii"
   },
   "ia": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0094,
+   "avg_local_rate": 0,
    "row": "Iowa"
   },
   "id": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0003,
+   "avg_local_rate": 0,
    "row": "Idaho"
   },
   "il": {
    "state_rate": 0.0625,
-   "avg_local_rate": 0.0273,
+   "avg_local_rate": 0,
    "row": "Illinois"
   },
   "in": {
    "state_rate": 0.07,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Indiana"
   },
   "ks": {
    "state_rate": 0.065,
-   "avg_local_rate": 0.0221,
+   "avg_local_rate": 0,
    "row": "Kansas"
   },
   "ky": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Kentucky"
   },
   "la": {
    "state_rate": 0.05,
-   "avg_local_rate": 0.0513,
+   "avg_local_rate": 0,
    "row": "Louisiana"
   },
   "ma": {
    "state_rate": 0.0625,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Massachusetts"
   },
   "md": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Maryland"
   },
   "me": {
    "state_rate": 0.055,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Maine"
   },
   "mi": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Michigan"
   },
   "mn": {
    "state_rate": 0.0688,
-   "avg_local_rate": 0.0126,
+   "avg_local_rate": 0,
    "row": "Minnesota"
   },
   "mo": {
    "state_rate": 0.0423,
-   "avg_local_rate": 0.0422,
+   "avg_local_rate": 0,
    "row": "Missouri"
   },
   "ms": {
    "state_rate": 0.07,
-   "avg_local_rate": 0.0006,
+   "avg_local_rate": 0,
    "row": "Mississippi"
   },
   "mt": {
    "state_rate": 0.0,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Montana"
   },
   "nc": {
    "state_rate": 0.0475,
-   "avg_local_rate": 0.0235,
+   "avg_local_rate": 0,
    "row": "North Carolina"
   },
   "nd": {
    "state_rate": 0.05,
-   "avg_local_rate": 0.0209,
+   "avg_local_rate": 0,
    "row": "North Dakota"
   },
   "ne": {
    "state_rate": 0.055,
-   "avg_local_rate": 0.0148,
+   "avg_local_rate": 0,
    "row": "Nebraska"
   },
   "nh": {
    "state_rate": 0.0,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "New Hampshire"
   },
   "nj": {
    "state_rate": 0.0663,
-   "avg_local_rate": -0.0002,
+   "avg_local_rate": 0,
    "row": "New Jersey"
   },
   "nm": {
    "state_rate": 0.0488,
-   "avg_local_rate": 0.028,
+   "avg_local_rate": 0,
    "row": "New Mexico"
   },
   "nv": {
    "state_rate": 0.0685,
-   "avg_local_rate": 0.0139,
+   "avg_local_rate": 0,
    "row": "Nevada"
   },
   "ny": {
    "state_rate": 0.04,
-   "avg_local_rate": 0.0454,
+   "avg_local_rate": 0,
    "row": "New York"
   },
   "oh": {
    "state_rate": 0.0575,
-   "avg_local_rate": 0.0154,
+   "avg_local_rate": 0,
    "row": "Ohio"
   },
   "ok": {
    "state_rate": 0.045,
-   "avg_local_rate": 0.0456,
+   "avg_local_rate": 0,
    "row": "Oklahoma"
   },
   "or": {
    "state_rate": 0.0,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Oregon"
   },
   "pa": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0034,
+   "avg_local_rate": 0,
    "row": "Pennsylvania"
   },
   "ri": {
    "state_rate": 0.07,
-   "avg_local_rate": 0.0,
+   "avg_local_rate": 0,
    "row": "Rhode Island"
   },
   "sc": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0149,
+   "avg_local_rate": 0,
    "row": "South Carolina"
   },
   "sd": {
    "state_rate": 0.042,
-   "avg_local_rate": 0.0191,
+   "avg_local_rate": 0,
    "row": "South Dakota"
   },
   "tn": {
    "state_rate": 0.07,
-   "avg_local_rate": 0.0261,
+   "avg_local_rate": 0,
    "row": "Tennessee"
   },
   "tx": {
    "state_rate": 0.0625,
-   "avg_local_rate": 0.0195,
+   "avg_local_rate": 0,
    "row": "Texas"
   },
   "ut": {
    "state_rate": 0.061,
-   "avg_local_rate": 0.0132,
+   "avg_local_rate": 0,
    "row": "Utah"
   },
   "va": {
    "state_rate": 0.053,
-   "avg_local_rate": 0.0047,
+   "avg_local_rate": 0,
    "row": "Virginia"
   },
   "vt": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.0043,
+   "avg_local_rate": 0,
    "row": "Vermont"
   },
   "wa": {
    "state_rate": 0.065,
-   "avg_local_rate": 0.0307,
+   "avg_local_rate": 0,
    "row": "Washington"
   },
   "wi": {
    "state_rate": 0.05,
-   "avg_local_rate": 0.0072,
+   "avg_local_rate": 0,
    "row": "Wisconsin"
   },
   "wv": {
    "state_rate": 0.06,
-   "avg_local_rate": 0.006,
+   "avg_local_rate": 0,
    "row": "West Virginia"
   },
   "wy": {
    "state_rate": 0.04,
-   "avg_local_rate": 0.0139,
+   "avg_local_rate": 0,
    "row": "Wyoming"
   }
  },
  "written_at": "2026-11-13T10:37:25Z",
- "written_by": "warehouse/forecast/params.py"
+ "written_by": "warehouse/forecast/params.py",
+ "branch": "ruling alternative 18 of /impact (wip/alt-impact-18, session 7706): not a default on main (main: the Tax Foundation's table, state rate and average local rate). The Foundation's table is licensed for no commercial use; a state's own rate is a statute figure and stands (it would not move where the Foundation copied it right; not checked here against each statute), and the average local rate, which no statute gives, is left out: 0 in every state. The income tax brackets are statute figures and stay."
 }

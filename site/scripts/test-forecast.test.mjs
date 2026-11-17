@@ -42,7 +42,7 @@ test("defaults: EIA's state capex in 2025 dollars, its construction time rounded
   near(ca.capex, Math.round((cities.reduce((a, b) => a + b, 0) / cities.length) * (idx["2025"] / idx["2023"]) * 100) / 100, 1e-12, "California: the mean of its cities");
   const pv = F.defaults(P, "utility_pv", "tx");
   assert.equal(pv.ilr, P.capacity.utility_pv_ilr.states.tx.median);
-  near(pv.sales, (0.0625 + 0.0195) * 100, 1e-12, "Texas sales tax 6.25 plus 1.95");
+  near(pv.sales, 0.0625 * 100, 1e-12, "Texas sales tax 6.25, the statute's; ruling alternative 18 (wip/alt-impact-18): the average local rate left out; main: plus 1.95");
 });
 
 test("construction at JEDI's own spending gives JEDI's own figure, and scales with spending only", () => {
