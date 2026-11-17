@@ -220,7 +220,8 @@ const LINES: Line[] = [
   { key: "income", label: "State income tax over the life", tip: "Each job taxed as one single filer on the average earnings, by the state's 2026 brackets, every year of the build and the operation.", figure: "sum:income", fmt: usd },
   { key: "sev", label: "Severance, each year", tip: "On the gas a gas plant burns that is produced in the state, by /severance's rules (Texas, Louisiana, New Mexico).", figure: "y1:severance", fmt: usd,
     why: (r) => (r.severance.held ? null : r.severance.note) },
-  { key: "pvtax", label: "Taxes, present value", tip: "Property, sales, income and severance taxes, each year discounted to the first construction year at the scenario's real rate.", figure: "pv:taxes", fmt: usd },
+  { key: "pvtax", label: "Taxes, present value", tip: "Property, sales, income and severance taxes, each year discounted to the first construction year at the scenario's real rate.", figure: "pv:taxes", fmt: usd,
+    why: (r) => (r.pv.taxes === null ? "not held: every tax of this case is missing or a true zero (ruling alternative 23; on the site USD 0)" : null) },
   { key: "pvearn", label: "Earnings, present value", tip: "Every year's earnings discounted the same way.", figure: "pv:earnings", fmt: usd },
 ];
 
@@ -348,7 +349,7 @@ function OtherStates({ P, jedi, x, v, view, sev }: { P: Params; jedi: Packed; x:
     const st = k.split(":")[1];
     const ix = STATE_LIST.findIndex(([s]) => s === st);
     const res = run(resolve(P, { ...v, state: ix, proj: NaN }), unpack(jedi, x.tech, st), P, sev);
-    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes, prop: res.property.held };
+    return { k: st, name: stateName(st), ok: res.ok, c: res.construction.jobs, taxes: res.pv.taxes ?? 0, prop: res.property.held };   // ?? 0: wip/alt-impact-23, a case whose taxes are not held is drawn at 0 in the chart, as on main
   }).filter((v) => v.ok).sort((a, b) => b.c.total - a.c.total);
   if (per.length < 2) return null;
   const shown = per.filter((v, i) => i < 10 || i >= per.length - 5 || v.k === x.state);

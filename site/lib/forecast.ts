@@ -125,7 +125,8 @@ export type Result = {
   ok: boolean; why?: string;
   years: Year[];
   sums: Streams;
-  pv: Streams & { taxes: number };
+  /** taxes: null (ruling alternative 23, wip/alt-impact-23) when the sum is 0 and made only of taxes not held */
+  pv: Streams & { taxes: number | null };
   construction: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
   operations: { jobs: Record<Effect, number>; earnings: Record<Effect, number>; output: Record<Effect, number> };
   /** production: a tax on MWh was applied in some year (fault 20: the page's MWh column asks this, not a rule's id) */
@@ -347,7 +348,11 @@ export function run(x: Inputs, rows: Row[], P: Params, sev?: Severance | null): 
     property: propHeld && !propGap ? sum((y) => y.property, true) : null, sales: sum((y) => y.sales, true), income: sum((y) => y.income, true)!,
     severance: sevYear === null ? null : sum((y) => y.severance, true),
   };
-  const taxes = (pvS.property ?? 0) + (pvS.sales ?? 0) + pvS.income + (pvS.severance ?? 0);
+  const taxSum = (pvS.property ?? 0) + (pvS.sales ?? 0) + pvS.income + (pvS.severance ?? 0);
+  // ruling alternative 23 (wip/alt-impact-23, not a default on main): a sum of 0 made only of taxes not held reads "not held"
+  // (main: USD 0); a tax is missing when its figure is null (severance only for a gas plant)
+  const anyMissing = pvS.property === null || pvS.sales === null || (x.tech === "natural_gas" && pvS.severance === null);
+  const taxes = taxSum === 0 && anyMissing ? null : taxSum;
   const rules = propertyRules(P, x);
   const exempt = rules.find((r) => r.kind === "exempt_years") ?? (x.iaval ? rules.find((r) => r.kind === "capacity_option") : undefined);
   const propNote = propHeld && propGap && exempt ? `exempt for its first ${exempt.years} years; no rule held after them (the reader's own rate fills them)`
