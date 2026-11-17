@@ -7,7 +7,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, Tip, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
 import { GRIDS as BATTERY_GRIDS, DURATIONS } from "@/lib/batterystack";
-import { GRIDS, OTHER_SOURCE, TABLE, bothHold, checkKey, choices, completeMonths, dayKey, dayName, hourName, index, monthName, monthOf, notShown, opening, shown, sourceName, view, type Row, type View } from "@/lib/shoulder";
+import { GRIDS, MONITOR_DOCS, OTHER_SOURCE, TABLE, bothHold, checkKey, choices, completeMonths, dayKey, dayName, hourName, index, monthName, monthOf, notShown, opening, shown, sourceName, view, type Row, type View } from "@/lib/shoulder";
 import { ShoulderDecisions } from "./Decisions";
 import { shoulderRows } from "./read";
 
@@ -120,6 +120,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const worstNeeded = v?.year.get("year_worst10_mean_shoulder_hours_needed");
   const nightLow = (v?.get("midday_low_hour")?.value ?? 12) < 8;   // session 7503: the day's lowest hour of net load falls before 08:00
   const neededRow = v?.get("shoulder_hours_needed"), fleetHoursRow = v?.get("fleet_hours");
+  // ruling alternative 5 (wip/alt-shoulder-5, not a default on main): a month whose fleet is a market monitor's count says so
+  const monitorFleet = v?.get("fleet_from_monitor") ? <Tip id="shoulder-monitor-fleet" label="whose count of the fleet this is"><span data-monitor-fleet={v.grid.entity}>The fleet this month is the market monitor's year-end count, not EIA-860M's: {MONITOR_DOCS[v.grid.entity] ?? "a monitor's report"}. The monitors publish a year-end count only, so every other month is EIA-860M's. Default on the site: EIA-860M, the batteries operating that month. Source: the monitor's report named.</span></Tip> : null;
   const href = (g: string, m: string) => `/shoulder?grid=${g}&month=${m}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
@@ -188,7 +190,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 <HeadlineNumber label="The evening shoulder" value={<V row={v.get("shoulder_hours")} />} unit="hours"
                   note={<><Hr row={v.get("shoulder_start_hour")} /> to <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? ", cut at midnight: net load stays above its daily mean" : ""}. <V row={v.get("shoulder_mwh_above_mean")} unit="MWh" /> of net load above the day&apos;s mean.</>} />
                 <HeadlineNumber label="Hours the battery fleet covers" value={<V row={v.get("shoulder_hours_covered")} />} unit="hours"
-                  note={<><V row={v.get("fleet_mw")} unit="MW" /> holding <V row={v.get("fleet_mwh")} unit="MWh" />. At that power, all of the shoulder&apos;s MWh above the mean would take <V row={v.get("shoulder_hours_needed")} unit="hours" />{neededRow && fleetHoursRow
+                  note={<><V row={v.get("fleet_mw")} unit="MW" />{monitorFleet}{v.get("fleet_mwh") || !v.get("fleet_from_monitor") ? <> holding <V row={v.get("fleet_mwh")} unit="MWh" /></> : <span data-monitor-mwh="none"> (the monitor gives no MWh, so no hours covered)</span>}. At that power, all of the shoulder&apos;s MWh above the mean would take <V row={v.get("shoulder_hours_needed")} unit="hours" />{neededRow && fleetHoursRow
                     // session 7512: the two figures set against each other in words, since "covers 3.43 of 6 hours" beside "would need 3.27 hours" left the reader to work out which way it fell
                     ? <span data-needed-against-held={neededRow.value < fleetHoursRow.value ? "less" : neededRow.value > fleetHoursRow.value ? "more" : "same"}>, {neededRow.value < fleetHoursRow.value ? "less than" : neededRow.value > fleetHoursRow.value ? "more than" : "the same as"} the <V row={fleetHoursRow} /> hours it holds</span> : null}.</>} />
                 {/* session 7503: the run is around net load's lowest hour of the whole day; in most Texas months that hour is before dawn, and the tip says so */}

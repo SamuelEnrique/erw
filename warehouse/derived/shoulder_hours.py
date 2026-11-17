@@ -215,11 +215,18 @@ def day_metrics(avg):
     return out
 
 
-def fleet_metrics(shoulder_hours, shoulder_mwh, mw, mwh, shoulder2_hours=None, shoulder2_mwh=None):
+def fleet_metrics(shoulder_hours, shoulder_mwh, mw, mwh, shoulder2_hours=None, shoulder2_mwh=None, mw_only=False):
     """The fleet's hours against the shoulder. Hours covered never exceed the fleet's MWh over its MW. Session 80: the
     same against the second measure, when it is given."""
-    if mw is None or mwh is None or not mw > 0 or shoulder_hours is None or np.isnan(shoulder_hours):
+    if mw is None or not mw > 0 or shoulder_hours is None or np.isnan(shoulder_hours):
         return {}
+    if mwh is None:   # ruling alternative 5 (wip/alt-shoulder-5): with mw_only, a market monitor's count of MW alone gives hours needed, no duration
+        if not mw_only:
+            return {}
+        out = dict(fleet_mw=mw, shoulder_hours_needed=shoulder_mwh / mw)
+        if shoulder2_mwh is not None and shoulder2_hours is not None and not np.isnan(shoulder2_hours):
+            out["shoulder2_hours_needed"] = shoulder2_mwh / mw
+        return out
     fh = mwh / mw
     out = dict(fleet_mw=mw, fleet_mwh=mwh, fleet_hours=fh, shoulder_hours_covered=min(shoulder_hours, fh),
                shoulder_hours_needed=shoulder_mwh / mw)
@@ -330,6 +337,28 @@ def curtailment_by_month():
     return c.groupby("m")["value"].sum(), days
 
 
+# Ruling alternative 5 of /shoulder (session 7703, branch wip/alt-shoulder-5; not a default on main): for the month a
+# market monitor counts the fleet, its count stands in place of EIA-860M's. The figures are the monitors' own words as
+# quoted in docs/reviews/ruling-impact-shoulder-2026-11-17.md ("more than 17,000 MW and 31,500 MWh"; "over 17 GW"), read
+# as 17,000 MW and 31,500 MWh; the monitors publish a year-end count, not a monthly series, so no other month has one.
+MONITOR_FLEET = {
+    ("ercot", "2025-12"): (17000.0, 31500.0, "Potomac Economics, 2025 State of the Market Report for the ERCOT Electricity Markets, June 2026, page ii"),
+    ("caiso", "2025-12"): (17000.0, None, "CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, page 23"),
+}
+
+
+def fleet_for(fleet_grid, m, fl):
+    """The fleet's MW and MWh for a month, and whether a market monitor's count gave them (wip/alt-shoulder-5): the
+    monitor's count where MONITOR_FLEET holds the month, EIA-860M's (storage_buildout_monthly) otherwise."""
+    if (fleet_grid, m) in MONITOR_FLEET:
+        mw, mwh, _ = MONITOR_FLEET[(fleet_grid, m)]
+        return mw, mwh, True
+    if m in fl.index and "battery_operating_mw" in fl.columns:
+        mw, mwh = fl.loc[m].get("battery_operating_mw"), fl.loc[m].get("battery_operating_mwh")
+        return (None if pd.isna(mw) else float(mw)), (None if mwh is None or pd.isna(mwh) else float(mwh)), False
+    return None, None, False
+
+
 def fleet_by_month(grid):
     f = pb.read_table("storage_buildout_monthly")
     f = f[f["entity"] == f"iso:{grid}"]
@@ -379,12 +408,12 @@ def build(grid, log):
         v.update({k: val for k, val in dm.items() if not (isinstance(val, float) and np.isnan(val))})
         if curt is not None and m in curt.index and curt_days.get(m, 0) == dim:
             v["curtailed_mwh_per_day"] = float(curt[m]) / dim
-        if m in fl.index and "battery_operating_mw" in fl.columns:
-            mw = fl.loc[m].get("battery_operating_mw")
-            mwh = fl.loc[m].get("battery_operating_mwh")
-            v.update(fleet_metrics(dm.get("shoulder_hours"), dm.get("shoulder_mwh_above_mean", 0.0),
-                                   None if pd.isna(mw) else float(mw), None if pd.isna(mwh) else float(mwh),
-                                   dm.get("shoulder2_hours"), dm.get("shoulder2_mwh_above_midpoint")))
+        mw, mwh, monitor = fleet_for(g.get("fleet", grid), m, fl)
+        if mw is not None:
+            v.update(fleet_metrics(dm.get("shoulder_hours"), dm.get("shoulder_mwh_above_mean", 0.0), mw, mwh,
+                                   dm.get("shoulder2_hours"), dm.get("shoulder2_mwh_above_midpoint"), mw_only=monitor))
+            if monitor:
+                v["fleet_from_monitor"] = 1   # ruling alternative 5 (wip/alt-shoulder-5): the fleet is the market monitor's count
         months.append((m, v))
         ts = f"{m}-01T00:00:00Z"
         for k, val in v.items():
@@ -406,7 +435,8 @@ def build(grid, log):
         withfleet = [v for _, v in mv if "fleet_mw" in v]  # the year's last month that has a fleet (EIA-860M lags)
         if withfleet:
             for k in ("fleet_mw", "fleet_mwh", "fleet_hours"):
-                yv[f"year_end_{k}"] = withfleet[-1][k]
+                if k in withfleet[-1]:   # wip/alt-shoulder-5: a monitor's count may give no MWh
+                    yv[f"year_end_{k}"] = withfleet[-1][k]
         for k, val in yv.items():
             rows.append(row(grid, g, k, f"{y}-01-01T00:00:00Z", val, "P1Y", now))
     # session 80: the worst days of each year, and each year's ten beside its average day

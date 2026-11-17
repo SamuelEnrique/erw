@@ -104,6 +104,15 @@ export function bothHold(rows: Row[], a: Grid, b: Grid): string[] {
   return [...of(a)].filter((m) => inB.has(m)).sort();
 }
 
+/** Ruling alternative 5 of /shoulder (session 7703, branch wip/alt-shoulder-5; not a default on main): where the table's
+ * month carries fleet_from_monitor, its fleet is a market monitor's year-end count (warehouse/derived/shoulder_hours.py
+ * MONITOR_FLEET), and the page names the document. */
+export const MONITOR_DOCS: Record<string, string> = {
+  "iso:ercot": "Potomac Economics, 2025 State of the Market Report for the ERCOT Electricity Markets, June 2026, page ii: \"more than 17,000 MW\" and 31,500 MWh, read as 17,000 MW",
+  "iso:caiso": "CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, page 23: \"over 17 GW\", read as 17,000 MW; no MWh is given",
+  "iso:caiso_own": "CAISO Department of Market Monitoring, 2025 Annual Report on Market Issues and Performance, June 2026, page 23: \"over 17 GW\", read as 17,000 MW; no MWh is given",
+};
+
 export type Series = "demand" | "solar" | "wind" | "net_load" | "battery";
 export type View = {
   grid: Grid; month: string; months: string[];
