@@ -6,6 +6,7 @@ import { SETS } from "@/lib/problems";
 import { editionPath, editions, longDate, teacherPath } from "@/lib/problemEditions";
 import { GUIDE, instructorNote } from "@/lib/problemkit";  // session 3650: each set's grids, tables and skills; the instructors' hover
 import { Tip } from "@/components/tool/ToolPage";
+import { ProblemDecisions } from "./Decisions";  // session 7534 (chain 304): the decisions block
 
 // Session 44: the problem sets' index (lib/problems.ts).
 export const metadata: Metadata = { title: "Problem sets" };
@@ -46,6 +47,8 @@ export default function ProblemSets() {
           ))}
         </ul>
       </Section>
+      {/* session 7534 (chain 304): every set's decisions, each with its default and source on hover */}
+      <ProblemDecisions />
     </div>
     </Brand>
   );

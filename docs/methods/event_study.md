@@ -230,3 +230,18 @@ Each number `/events/<slug>` shows carries its key (`site/components/Num.tsx`), 
 
 - `es|`, `demand_mwh`: the estimates of daily demand served, MWh a day, for each grid the event page studies, in its block "What the estimates say" (`site/components/EventStudy.tsx`). The page computes them at build time from `event_window_daily` with `site/lib/eventstudy.ts`, the twin of `warehouse/derived/event_study.py`. A key is `es|<event>|<entity>|demand_mwh|<term>|<field>`. The term is `pooled` (the window's pooled effect), `pooled_temp` (with the degree-day terms), `weather_share` (the percent of the estimate without the weather terms that they account for) or `day|<date>` (one event day). The field is `est`, `lo` and `hi` (the 95 percent interval), `pct` (percent of the expected) or `cf` (the MWh a day expected).
 - `es|`, `rt_mean`: the same estimates for the daily mean real-time price at ERCOT's hub average (`ercot:HB_HUBAVG`), USD/MWh, a row of the block's table on the event pages that show a price.
+
+## The nine windows, and a fourth implementation (session 7531, 16 November 2026)
+
+- **The table of event days above lists five events.** Four more are estimated the same way, each against the same
+  weekday 364 and 728 days earlier: `caiso_heat_2022` (2022-08-31 to 2022-09-09, session 58), `cold_2025`
+  (2025-01-17 to 2025-01-26) and `east_heat_2025` (2025-06-20 to 2025-06-28, session 64), and `cold_2026`
+  (2026-01-23 to 2026-02-02, session 308). The three of 2025 and 2026 have no weather station held, so no
+  temperature-controlled estimate; the hubs beyond ERCOT's have no baseline days, so no estimate at all.
+- **`replication/events/replicate.py`** (session 7531) is a fourth implementation, written from this note alone in
+  standard-library Python: on the table retrieved 19 October 2026 it gives every estimate the nine pages print
+  (inside half the last shown digit) and the 62 pooled estimates of `event_study_estimates` not held with their
+  intervals, 186 numbers (relative 1e-6), the temperature-controlled ones included. (195 of 195 before session 7531's
+  held-row fix: the 3 pooled estimates of ISO-NE's, MISO's and NYISO's hubs are held by grid and counted, not
+  recomputed or copied, since the replication sits in a public repository.) `replication/events/replicate.do` gives two of them in Stata. The tool's
+  note, with the pages' figures and decisions: [`events.md`](events.md), "The tool as a reader meets it".

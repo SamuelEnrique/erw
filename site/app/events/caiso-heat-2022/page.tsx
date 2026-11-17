@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { EventStudy } from "@/components/EventStudy";
+import { EventDecisions } from "../Decisions";
 import { gridNotices } from "@/lib/reliability";
 import { attempt } from "@/lib/supabase";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
@@ -81,6 +82,8 @@ export default async function CaisoHeat2022() {
         </p>
       </section>
       <EventStudy event={EV} grids={[E]} primary={E} />
+      {/* session 7531: the page's decisions (Decisions.tsx), each with its default and source on hover */}
+      <EventDecisions event="caiso_heat_2022" />
     </div>
     </Brand>
   );

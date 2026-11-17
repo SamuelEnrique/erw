@@ -1,0 +1,3546 @@
+{
+ "about": "ERW, What is on an electricity bill (/learn/bill): every number the page prints, read off the page drawn to HTML by site/scripts/bill-figures.mjs: the page as it opens on the rows of source_rows.csv, and the calculator for each case of cases.json. 'shown' is the page's text; 'tolerance' is half of its last shown digit; a line's 'detail' is the words under its name. Written by session 7533; rewrite with the script, never by hand.",
+ "rules_version": "2026-11-16.1",
+ "wholesale": {
+  "CA": {
+   "price": 44.8469,
+   "month": "2026-09",
+   "partial": false,
+   "entity": "caiso:TH_NP15_GEN-APND"
+  },
+  "SCE": {
+   "price": 38.5194,
+   "month": "2026-09",
+   "partial": false,
+   "entity": "caiso:TH_SP15_GEN-APND"
+  },
+  "SDGE": {
+   "price": 38.5194,
+   "month": "2026-09",
+   "partial": false,
+   "entity": "caiso:TH_SP15_GEN-APND"
+  },
+  "TX": {
+   "price": 39.5037,
+   "month": "2026-09",
+   "partial": false,
+   "entity": "ercot:HB_HUBAVG"
+  },
+  "TXC": {
+   "price": 39.5037,
+   "month": "2026-09",
+   "partial": false,
+   "entity": "ercot:HB_HUBAVG"
+  }
+ },
+ "figures": 439,
+ "cases": [
+  {
+   "id": "page",
+   "name": "The page as it opens (the five cards and the calculator on PG&E)",
+   "bill": null,
+   "typed": null,
+   "figures": [
+    {
+     "key": "card|CA|total",
+     "name": "CA card: total (USD)",
+     "shown": "229.63",
+     "value": 229.63,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|CA|kwh",
+     "name": "CA card: kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "card|CA|wholesale_usd",
+     "name": "CA card: wholesale energy (USD)",
+     "shown": "26.91",
+     "value": 26.91,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|CA|share_pct",
+     "name": "CA card: wholesale share (percent)",
+     "shown": "11.72",
+     "value": 11.72,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|CA|price",
+     "name": "CA card: wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|CA|month",
+     "name": "CA card: the price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "card|SCE|total",
+     "name": "SCE card: total (USD)",
+     "shown": "224.76",
+     "value": 224.76,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SCE|kwh",
+     "name": "SCE card: kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "card|SCE|wholesale_usd",
+     "name": "SCE card: wholesale energy (USD)",
+     "shown": "23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SCE|share_pct",
+     "name": "SCE card: wholesale share (percent)",
+     "shown": "10.28",
+     "value": 10.28,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SCE|price",
+     "name": "SCE card: wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SCE|month",
+     "name": "SCE card: the price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "card|SDGE|total",
+     "name": "SDGE card: total (USD)",
+     "shown": "332.91",
+     "value": 332.91,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SDGE|kwh",
+     "name": "SDGE card: kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "card|SDGE|wholesale_usd",
+     "name": "SDGE card: wholesale energy (USD)",
+     "shown": "23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SDGE|share_pct",
+     "name": "SDGE card: wholesale share (percent)",
+     "shown": "6.94",
+     "value": 6.94,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SDGE|price",
+     "name": "SDGE card: wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|SDGE|month",
+     "name": "SDGE card: the price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "card|TX|total",
+     "name": "TX card: total (USD)",
+     "shown": "95.27",
+     "value": 95.27,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TX|kwh",
+     "name": "TX card: kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "card|TX|wholesale_usd",
+     "name": "TX card: wholesale energy (USD)",
+     "shown": "23.70",
+     "value": 23.7,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TX|share_pct",
+     "name": "TX card: wholesale share (percent)",
+     "shown": "24.88",
+     "value": 24.88,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TX|price",
+     "name": "TX card: wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TX|month",
+     "name": "TX card: the price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "card|TX|energy_rate",
+     "name": "TX card: the energy charge of the default (USD per kWh)",
+     "shown": "0.0907",
+     "value": 0.0907,
+     "tolerance": 0.00005
+    },
+    {
+     "key": "card|TXC|total",
+     "name": "TXC card: total (USD)",
+     "shown": "95.28",
+     "value": 95.28,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TXC|kwh",
+     "name": "TXC card: kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "card|TXC|wholesale_usd",
+     "name": "TXC card: wholesale energy (USD)",
+     "shown": "23.70",
+     "value": 23.7,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TXC|share_pct",
+     "name": "TXC card: wholesale share (percent)",
+     "shown": "24.88",
+     "value": 24.88,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TXC|price",
+     "name": "TXC card: wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "card|TXC|month",
+     "name": "TXC card: the price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "card|TXC|energy_rate",
+     "name": "TXC card: the energy charge of the default (USD per kWh)",
+     "shown": "0.0853",
+     "value": 0.0853,
+     "tolerance": 0.00005
+    },
+    {
+     "key": "opens|line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$69.45",
+     "value": 69.45,
+     "tolerance": 0.005,
+     "detail": "600 kWh, 20% at $0.1371, the rest at $0.11042"
+    },
+    {
+     "key": "opens|line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$6.07",
+     "value": -6.07,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.01011"
+    },
+    {
+     "key": "opens|line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$88.27",
+     "value": 88.27,
+     "tolerance": 0.005,
+     "detail": "600 kWh, 20% at $0.14977, the rest at $0.14645"
+    },
+    {
+     "key": "opens|line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0"
+    },
+    {
+     "key": "opens|line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "$13.81",
+     "value": 13.81,
+     "tolerance": 0.005,
+     "detail": "225 kWh within the baseline at -$0.02786, 375 kWh above at $0.05354"
+    },
+    {
+     "key": "opens|line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$27.83",
+     "value": 27.83,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.04638"
+    },
+    {
+     "key": "opens|line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$2.72",
+     "value": 2.72,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00453"
+    },
+    {
+     "key": "opens|line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.08",
+     "value": 0.08,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00013"
+    },
+    {
+     "key": "opens|line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$3.68",
+     "value": 3.68,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00614"
+    },
+    {
+     "key": "opens|line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.01",
+     "value": -0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.00002"
+    },
+    {
+     "key": "opens|line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.16",
+     "value": 0.16,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00027"
+    },
+    {
+     "key": "opens|line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.01",
+     "value": 0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00002"
+    },
+    {
+     "key": "opens|line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$3.55",
+     "value": 3.55,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00591"
+    },
+    {
+     "key": "opens|line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$2.35",
+     "value": 2.35,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00391"
+    },
+    {
+     "key": "opens|line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$5.14",
+     "value": 5.14,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00857"
+    },
+    {
+     "key": "opens|line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$5.14",
+     "value": -5.14,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.00857"
+    },
+    {
+     "key": "opens|line|Base Services Charge (Income Tier 3)",
+     "name": "Fixed: Base Services Charge (Income Tier 3) (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "opens|total",
+     "name": "Total (USD)",
+     "shown": "$229.63",
+     "value": 229.63,
+     "tolerance": 0.005
+    },
+    {
+     "key": "opens|per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.38",
+     "value": 0.38,
+     "tolerance": 0.005
+    },
+    {
+     "key": "opens|bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$26.91",
+     "value": 26.91,
+     "tolerance": 0.005
+    },
+    {
+     "key": "opens|bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "12",
+     "value": 12,
+     "tolerance": 0.5
+    },
+    {
+     "key": "opens|bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "opens|bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "opens|bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "opens|bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$202.72",
+     "value": 202.72,
+     "tolerance": 0.005
+    },
+    {
+     "key": "opens|territory|P|summer",
+     "name": "Territory P: kWh a day in summer",
+     "shown": "13.5",
+     "value": 13.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|P|winter",
+     "name": "Territory P: kWh a day in winter",
+     "shown": "11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "opens|territory|Q|summer",
+     "name": "Territory Q: kWh a day in summer",
+     "shown": "9.8",
+     "value": 9.8,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|Q|winter",
+     "name": "Territory Q: kWh a day in winter",
+     "shown": "11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "opens|territory|R|summer",
+     "name": "Territory R: kWh a day in summer",
+     "shown": "17.7",
+     "value": 17.7,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|R|winter",
+     "name": "Territory R: kWh a day in winter",
+     "shown": "10.4",
+     "value": 10.4,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|S|summer",
+     "name": "Territory S: kWh a day in summer",
+     "shown": "15",
+     "value": 15,
+     "tolerance": 0.5
+    },
+    {
+     "key": "opens|territory|S|winter",
+     "name": "Territory S: kWh a day in winter",
+     "shown": "10.2",
+     "value": 10.2,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|T|summer",
+     "name": "Territory T: kWh a day in summer",
+     "shown": "6.5",
+     "value": 6.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|T|winter",
+     "name": "Territory T: kWh a day in winter",
+     "shown": "7.5",
+     "value": 7.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|V|summer",
+     "name": "Territory V: kWh a day in summer",
+     "shown": "7.1",
+     "value": 7.1,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|V|winter",
+     "name": "Territory V: kWh a day in winter",
+     "shown": "8.1",
+     "value": 8.1,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|W|summer",
+     "name": "Territory W: kWh a day in summer",
+     "shown": "19.2",
+     "value": 19.2,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|W|winter",
+     "name": "Territory W: kWh a day in winter",
+     "shown": "9.8",
+     "value": 9.8,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|X|summer",
+     "name": "Territory X: kWh a day in summer",
+     "shown": "9.8",
+     "value": 9.8,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|X|winter",
+     "name": "Territory X: kWh a day in winter",
+     "shown": "9.7",
+     "value": 9.7,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|Y|summer",
+     "name": "Territory Y: kWh a day in summer",
+     "shown": "10.5",
+     "value": 10.5,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|Y|winter",
+     "name": "Territory Y: kWh a day in winter",
+     "shown": "11.1",
+     "value": 11.1,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|Z|summer",
+     "name": "Territory Z: kWh a day in summer",
+     "shown": "5.9",
+     "value": 5.9,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|territory|Z|winter",
+     "name": "Territory Z: kWh a day in winter",
+     "shown": "7.8",
+     "value": 7.8,
+     "tolerance": 0.05
+    },
+    {
+     "key": "opens|tier|1",
+     "name": "Income tier 1: USD a day",
+     "shown": "0.19713",
+     "value": 0.19713,
+     "tolerance": 0.000005
+    },
+    {
+     "key": "opens|tier|2",
+     "name": "Income tier 2: USD a day",
+     "shown": "0.39688",
+     "value": 0.39688,
+     "tolerance": 0.000005
+    },
+    {
+     "key": "opens|tier|3",
+     "name": "Income tier 3: USD a day",
+     "shown": "0.79343",
+     "value": 0.79343,
+     "tolerance": 0.000005
+    }
+   ]
+  },
+  {
+   "id": "ca_default",
+   "name": "PG&E E-TOU-C, the defaults",
+   "bill": "CA",
+   "typed": {},
+   "figures": [
+    {
+     "key": "line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$69.45",
+     "value": 69.45,
+     "tolerance": 0.005,
+     "detail": "600 kWh, 20% at $0.1371, the rest at $0.11042"
+    },
+    {
+     "key": "line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$6.07",
+     "value": -6.07,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.01011"
+    },
+    {
+     "key": "line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$88.27",
+     "value": 88.27,
+     "tolerance": 0.005,
+     "detail": "600 kWh, 20% at $0.14977, the rest at $0.14645"
+    },
+    {
+     "key": "line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0"
+    },
+    {
+     "key": "line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "$13.81",
+     "value": 13.81,
+     "tolerance": 0.005,
+     "detail": "225 kWh within the baseline at -$0.02786, 375 kWh above at $0.05354"
+    },
+    {
+     "key": "line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$27.83",
+     "value": 27.83,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.04638"
+    },
+    {
+     "key": "line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$2.72",
+     "value": 2.72,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00453"
+    },
+    {
+     "key": "line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.08",
+     "value": 0.08,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00013"
+    },
+    {
+     "key": "line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$3.68",
+     "value": 3.68,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00614"
+    },
+    {
+     "key": "line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.01",
+     "value": -0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.00002"
+    },
+    {
+     "key": "line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.16",
+     "value": 0.16,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00027"
+    },
+    {
+     "key": "line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.01",
+     "value": 0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00002"
+    },
+    {
+     "key": "line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$3.55",
+     "value": 3.55,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00591"
+    },
+    {
+     "key": "line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$2.35",
+     "value": 2.35,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00391"
+    },
+    {
+     "key": "line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$5.14",
+     "value": 5.14,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00857"
+    },
+    {
+     "key": "line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$5.14",
+     "value": -5.14,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.00857"
+    },
+    {
+     "key": "line|Base Services Charge (Income Tier 3)",
+     "name": "Fixed: Base Services Charge (Income Tier 3) (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$229.63",
+     "value": 229.63,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.38",
+     "value": 0.38,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$26.91",
+     "value": 26.91,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "12",
+     "value": 12,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$202.72",
+     "value": 202.72,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sce_default",
+   "name": "SCE TOU-D-4-9PM, the defaults",
+   "bill": "SCE",
+   "typed": {},
+   "figures": [
+    {
+     "key": "line|Delivery service energy charge",
+     "name": "Delivery: Delivery service energy charge (USD)",
+     "shown": "$166.45",
+     "value": 166.45,
+     "tolerance": 0.005,
+     "detail": "120 kWh mid-peak at $0.33156, 200 kWh super off-peak at $0.25153, 280 kWh off-peak at $0.2727"
+    },
+    {
+     "key": "line|Fixed Recovery Charge",
+     "name": "Delivery: Fixed Recovery Charge (USD)",
+     "shown": "$3.71",
+     "value": 3.71,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00619"
+    },
+    {
+     "key": "line|Generation",
+     "name": "Energy: Generation (USD)",
+     "shown": "$67.14",
+     "value": 67.14,
+     "tolerance": 0.005,
+     "detail": "120 kWh mid-peak at $0.17956, 200 kWh super off-peak at $0.08452, 280 kWh off-peak at $0.10245"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$36.36",
+     "value": -36.36,
+     "tolerance": 0.005,
+     "detail": "360 kWh within the Region 9 baseline at -$0.10099"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.82",
+     "value": 23.82,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.794 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$224.76",
+     "value": 224.76,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.37",
+     "value": 0.37,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "10",
+     "value": 10,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$201.65",
+     "value": 201.65,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sdge_default",
+   "name": "SDG&E TOU-DR1, the defaults",
+   "bill": "SDGE",
+   "typed": {},
+   "figures": [
+    {
+     "key": "line|Energy charge (delivery and commodity, total)",
+     "name": "Energy and delivery: Energy charge (delivery and commodity, total) (USD)",
+     "shown": "$309.11",
+     "value": 309.11,
+     "tolerance": 0.005,
+     "detail": "120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh (up to 130 percent of your 0 kWh allowance) at -$0.10702"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$332.91",
+     "value": 332.91,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.55",
+     "value": 0.55,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "7",
+     "value": 7,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$309.80",
+     "value": 309.8,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "tx_default",
+   "name": "Oncor, the defaults",
+   "bill": "TX",
+   "typed": {},
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$54.42",
+     "value": 54.42,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.0907"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (Oncor): Customer Charge (USD)",
+     "shown": "$1.48",
+     "value": 1.48,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (Oncor): Metering Charge (USD)",
+     "shown": "$2.58",
+     "value": 2.58,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (Oncor): Distribution System Charge (USD)",
+     "shown": "$21.63",
+     "value": 21.63,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.036043"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$11.43",
+     "value": 11.43,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.019046"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$0.89",
+     "value": 0.89,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.001487"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.05",
+     "value": 0.05,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.000086"
+    },
+    {
+     "key": "line|Mobile Generation Rider (MG)",
+     "name": "Delivery (Oncor): Mobile Generation Rider (MG) (USD)",
+     "shown": "$0.62",
+     "value": 0.62,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.001027"
+    },
+    {
+     "key": "line|Interim Surcharge (IS)",
+     "name": "Delivery (Oncor): Interim Surcharge (IS) (USD)",
+     "shown": "$2.18",
+     "value": 2.18,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.003633"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$95.27",
+     "value": 95.27,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.16",
+     "value": 0.16,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.70",
+     "value": 23.7,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "25",
+     "value": 25,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$71.57",
+     "value": 71.57,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "txc_default",
+   "name": "CenterPoint, the defaults",
+   "bill": "TXC",
+   "typed": {},
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$51.18",
+     "value": 51.18,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.0853"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (CenterPoint): Customer Charge (USD)",
+     "shown": "$2.11",
+     "value": 2.11,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (CenterPoint): Metering Charge (USD)",
+     "shown": "$2.79",
+     "value": 2.79,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (CenterPoint): Distribution System Charge (USD)",
+     "shown": "$13.94",
+     "value": 13.94,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.02324"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$18.49",
+     "value": 18.49,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.030812"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$3.68",
+     "value": 3.68,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.006137"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$0.95",
+     "value": 0.95,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.001576"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.01",
+     "value": 0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.000013"
+    },
+    {
+     "key": "line|Temporary Emergency Electric Energy Facilities (TEEEF)",
+     "name": "Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD)",
+     "shown": "$0.45",
+     "value": 0.45,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.000742"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.03",
+     "value": 0.03,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.000048"
+    },
+    {
+     "key": "line|Inflation Reduction Act 2022 (IRA)",
+     "name": "Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0"
+    },
+    {
+     "key": "line|System Restoration Charge II (SRC II)",
+     "name": "Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD)",
+     "shown": "$0.38",
+     "value": 0.38,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.000636"
+    },
+    {
+     "key": "line|ADFIT Credit II",
+     "name": "Delivery (CenterPoint): ADFIT Credit II (USD)",
+     "shown": "-$0.01",
+     "value": -0.01,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.000023"
+    },
+    {
+     "key": "line|System Restoration Charge III (SRC III)",
+     "name": "Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD)",
+     "shown": "$1.71",
+     "value": 1.71,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.002848"
+    },
+    {
+     "key": "line|ADFIT Credit III",
+     "name": "Delivery (CenterPoint): ADFIT Credit III (USD)",
+     "shown": "-$0.25",
+     "value": -0.25,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.000418"
+    },
+    {
+     "key": "line|TC5 Refund",
+     "name": "Delivery (CenterPoint): TC5 Refund (USD)",
+     "shown": "-$0.17",
+     "value": -0.17,
+     "tolerance": 0.005,
+     "detail": "600 kWh at -$0.000278"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$95.28",
+     "value": 95.28,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.16",
+     "value": 0.16,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.70",
+     "value": 23.7,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "25",
+     "value": 25,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$71.58",
+     "value": 71.58,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "ca_eia_avg",
+   "name": "PG&E, winter, EIA's 2024 California average month (503 kWh)",
+   "bill": "CA",
+   "typed": {
+    "kwh": 503
+   },
+   "figures": [
+    {
+     "key": "line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$58.23",
+     "value": 58.23,
+     "tolerance": 0.005,
+     "detail": "503 kWh, 20% at $0.1371, the rest at $0.11042"
+    },
+    {
+     "key": "line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$5.09",
+     "value": -5.09,
+     "tolerance": 0.005,
+     "detail": "503 kWh at -$0.01011"
+    },
+    {
+     "key": "line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$74.00",
+     "value": 74,
+     "tolerance": 0.005,
+     "detail": "503 kWh, 20% at $0.14977, the rest at $0.14645"
+    },
+    {
+     "key": "line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0"
+    },
+    {
+     "key": "line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "$8.62",
+     "value": 8.62,
+     "tolerance": 0.005,
+     "detail": "225 kWh within the baseline at -$0.02786, 278 kWh above at $0.05354"
+    },
+    {
+     "key": "line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$23.33",
+     "value": 23.33,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.04638"
+    },
+    {
+     "key": "line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$2.28",
+     "value": 2.28,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00453"
+    },
+    {
+     "key": "line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.07",
+     "value": 0.07,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00013"
+    },
+    {
+     "key": "line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$3.09",
+     "value": 3.09,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00614"
+    },
+    {
+     "key": "line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.01",
+     "value": -0.01,
+     "tolerance": 0.005,
+     "detail": "503 kWh at -$0.00002"
+    },
+    {
+     "key": "line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.14",
+     "value": 0.14,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00027"
+    },
+    {
+     "key": "line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.01",
+     "value": 0.01,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00002"
+    },
+    {
+     "key": "line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$2.97",
+     "value": 2.97,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00591"
+    },
+    {
+     "key": "line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$1.97",
+     "value": 1.97,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00391"
+    },
+    {
+     "key": "line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$4.31",
+     "value": 4.31,
+     "tolerance": 0.005,
+     "detail": "503 kWh at $0.00857"
+    },
+    {
+     "key": "line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$4.31",
+     "value": -4.31,
+     "tolerance": 0.005,
+     "detail": "503 kWh at -$0.00857"
+    },
+    {
+     "key": "line|Base Services Charge (Income Tier 3)",
+     "name": "Fixed: Base Services Charge (Income Tier 3) (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$193.39",
+     "value": 193.39,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.38",
+     "value": 0.38,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$22.56",
+     "value": 22.56,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "12",
+     "value": 12,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "503",
+     "value": 503,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$170.84",
+     "value": 170.84,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "tx_eia_avg",
+   "name": "Oncor, EIA's 2024 Texas average month (1,096 kWh), the default energy charge",
+   "bill": "TX",
+   "typed": {
+    "kwh": 1096
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$99.41",
+     "value": 99.41,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.0907"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (Oncor): Customer Charge (USD)",
+     "shown": "$1.48",
+     "value": 1.48,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (Oncor): Metering Charge (USD)",
+     "shown": "$2.58",
+     "value": 2.58,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (Oncor): Distribution System Charge (USD)",
+     "shown": "$39.50",
+     "value": 39.5,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.036043"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$20.87",
+     "value": 20.87,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.019046"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$1.63",
+     "value": 1.63,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.001487"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.09",
+     "value": 0.09,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.000086"
+    },
+    {
+     "key": "line|Mobile Generation Rider (MG)",
+     "name": "Delivery (Oncor): Mobile Generation Rider (MG) (USD)",
+     "shown": "$1.13",
+     "value": 1.13,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.001027"
+    },
+    {
+     "key": "line|Interim Surcharge (IS)",
+     "name": "Delivery (Oncor): Interim Surcharge (IS) (USD)",
+     "shown": "$3.98",
+     "value": 3.98,
+     "tolerance": 0.005,
+     "detail": "1096 kWh at $0.003633"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$170.68",
+     "value": 170.68,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.16",
+     "value": 0.16,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$43.30",
+     "value": 43.3,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "25",
+     "value": 25,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "1096",
+     "value": 1096,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$127.38",
+     "value": 127.38,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "ca_summer_r",
+   "name": "PG&E, summer, territory R, 850 kWh, 25 percent at peak, Income Tier 1, the climate credit",
+   "bill": "CA",
+   "typed": {
+    "kwh": 850,
+    "peakShare": 0.25,
+    "season": "summer",
+    "territory": "R",
+    "tier": "1",
+    "climateCredit": true
+   },
+   "figures": [
+    {
+     "key": "line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$110.98",
+     "value": 110.98,
+     "tolerance": 0.005,
+     "detail": "850 kWh, 25% at $0.20782, the rest at $0.10482"
+    },
+    {
+     "key": "line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$8.59",
+     "value": -8.59,
+     "tolerance": 0.005,
+     "detail": "850 kWh at -$0.01011"
+    },
+    {
+     "key": "line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$160.55",
+     "value": 160.55,
+     "tolerance": 0.005,
+     "detail": "850 kWh, 25% at $0.20388, the rest at $0.18388"
+    },
+    {
+     "key": "line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0"
+    },
+    {
+     "key": "line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "$2.29",
+     "value": 2.29,
+     "tolerance": 0.005,
+     "detail": "531 kWh within the baseline at -$0.02786, 319 kWh above at $0.05354"
+    },
+    {
+     "key": "line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$39.42",
+     "value": 39.42,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.04638"
+    },
+    {
+     "key": "line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$3.85",
+     "value": 3.85,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00453"
+    },
+    {
+     "key": "line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.11",
+     "value": 0.11,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00013"
+    },
+    {
+     "key": "line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$5.22",
+     "value": 5.22,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00614"
+    },
+    {
+     "key": "line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.02",
+     "value": -0.02,
+     "tolerance": 0.005,
+     "detail": "850 kWh at -$0.00002"
+    },
+    {
+     "key": "line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.23",
+     "value": 0.23,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00027"
+    },
+    {
+     "key": "line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.02",
+     "value": 0.02,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00002"
+    },
+    {
+     "key": "line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$5.02",
+     "value": 5.02,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00591"
+    },
+    {
+     "key": "line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$3.32",
+     "value": 3.32,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00391"
+    },
+    {
+     "key": "line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$7.28",
+     "value": 7.28,
+     "tolerance": 0.005,
+     "detail": "850 kWh at $0.00857"
+    },
+    {
+     "key": "line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$7.28",
+     "value": -7.28,
+     "tolerance": 0.005,
+     "detail": "850 kWh at -$0.00857"
+    },
+    {
+     "key": "line|Base Services Charge (Income Tier 1)",
+     "name": "Fixed: Base Services Charge (Income Tier 1) (USD)",
+     "shown": "$5.91",
+     "value": 5.91,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.19713 a day"
+    },
+    {
+     "key": "line|California Climate Credit",
+     "name": "Credits: California Climate Credit (USD)",
+     "shown": "-$36.18",
+     "value": -36.18,
+     "tolerance": 0.005,
+     "detail": "once, in the August or September bill"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$292.14",
+     "value": 292.14,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.34",
+     "value": 0.34,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$38.12",
+     "value": 38.12,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "13",
+     "value": 13,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "850",
+     "value": 850,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$254.02",
+     "value": 254.02,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "ca_low",
+   "name": "PG&E, winter, 200 kWh (all of it inside the baseline)",
+   "bill": "CA",
+   "typed": {
+    "kwh": 200
+   },
+   "figures": [
+    {
+     "key": "line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$23.15",
+     "value": 23.15,
+     "tolerance": 0.005,
+     "detail": "200 kWh, 20% at $0.1371, the rest at $0.11042"
+    },
+    {
+     "key": "line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$2.02",
+     "value": -2.02,
+     "tolerance": 0.005,
+     "detail": "200 kWh at -$0.01011"
+    },
+    {
+     "key": "line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$29.42",
+     "value": 29.42,
+     "tolerance": 0.005,
+     "detail": "200 kWh, 20% at $0.14977, the rest at $0.14645"
+    },
+    {
+     "key": "line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0"
+    },
+    {
+     "key": "line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "-$5.57",
+     "value": -5.57,
+     "tolerance": 0.005,
+     "detail": "200 kWh within the baseline at -$0.02786, 0 kWh above at $0.05354"
+    },
+    {
+     "key": "line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$9.28",
+     "value": 9.28,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.04638"
+    },
+    {
+     "key": "line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$0.91",
+     "value": 0.91,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00453"
+    },
+    {
+     "key": "line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.03",
+     "value": 0.03,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00013"
+    },
+    {
+     "key": "line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$1.23",
+     "value": 1.23,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00614"
+    },
+    {
+     "key": "line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "200 kWh at -$0.00002"
+    },
+    {
+     "key": "line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.05",
+     "value": 0.05,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00027"
+    },
+    {
+     "key": "line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00002"
+    },
+    {
+     "key": "line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$1.18",
+     "value": 1.18,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00591"
+    },
+    {
+     "key": "line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$0.78",
+     "value": 0.78,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00391"
+    },
+    {
+     "key": "line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$1.71",
+     "value": 1.71,
+     "tolerance": 0.005,
+     "detail": "200 kWh at $0.00857"
+    },
+    {
+     "key": "line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$1.71",
+     "value": -1.71,
+     "tolerance": 0.005,
+     "detail": "200 kWh at -$0.00857"
+    },
+    {
+     "key": "line|Base Services Charge (Income Tier 3)",
+     "name": "Fixed: Base Services Charge (Income Tier 3) (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$82.24",
+     "value": 82.24,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.41",
+     "value": 0.41,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$8.97",
+     "value": 8.97,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "200",
+     "value": 200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$73.27",
+     "value": 73.27,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "ca_x_tier2",
+   "name": "PG&E, winter, territory X, 1,000 kWh, 35 percent at peak, Income Tier 2",
+   "bill": "CA",
+   "typed": {
+    "kwh": 1000,
+    "peakShare": 0.35,
+    "territory": "X",
+    "tier": "2"
+   },
+   "figures": [
+    {
+     "key": "line|Generation",
+     "name": "Generation: Generation (USD)",
+     "shown": "$119.76",
+     "value": 119.76,
+     "tolerance": 0.005,
+     "detail": "1000 kWh, 35% at $0.1371, the rest at $0.11042"
+    },
+    {
+     "key": "line|Bundled Power Charge Indifference Adjustment",
+     "name": "Generation: Bundled Power Charge Indifference Adjustment (USD)",
+     "shown": "-$10.11",
+     "value": -10.11,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.01011"
+    },
+    {
+     "key": "line|Distribution",
+     "name": "Distribution: Distribution (USD)",
+     "shown": "$147.61",
+     "value": 147.61,
+     "tolerance": 0.005,
+     "detail": "1000 kWh, 35% at $0.14977, the rest at $0.14645"
+    },
+    {
+     "key": "line|New System Generation Charge",
+     "name": "Distribution: New System Generation Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0"
+    },
+    {
+     "key": "line|Conservation Incentive Adjustment",
+     "name": "Distribution: Conservation Incentive Adjustment (USD)",
+     "shown": "$29.85",
+     "value": 29.85,
+     "tolerance": 0.005,
+     "detail": "291 kWh within the baseline at -$0.02786, 709 kWh above at $0.05354"
+    },
+    {
+     "key": "line|Transmission",
+     "name": "Transmission: Transmission (USD)",
+     "shown": "$46.38",
+     "value": 46.38,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.04638"
+    },
+    {
+     "key": "line|Transmission Rate Adjustments",
+     "name": "Transmission: Transmission Rate Adjustments (USD)",
+     "shown": "$4.53",
+     "value": 4.53,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00453"
+    },
+    {
+     "key": "line|Reliability Services",
+     "name": "Transmission: Reliability Services (USD)",
+     "shown": "$0.13",
+     "value": 0.13,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00013"
+    },
+    {
+     "key": "line|Public Purpose Programs",
+     "name": "Other charges: Public Purpose Programs (USD)",
+     "shown": "$6.14",
+     "value": 6.14,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00614"
+    },
+    {
+     "key": "line|Nuclear Decommissioning",
+     "name": "Other charges: Nuclear Decommissioning (USD)",
+     "shown": "-$0.02",
+     "value": -0.02,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.00002"
+    },
+    {
+     "key": "line|Competition Transition Charges",
+     "name": "Other charges: Competition Transition Charges (USD)",
+     "shown": "$0.27",
+     "value": 0.27,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00027"
+    },
+    {
+     "key": "line|Energy Cost Recovery Amount",
+     "name": "Other charges: Energy Cost Recovery Amount (USD)",
+     "shown": "$0.02",
+     "value": 0.02,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00002"
+    },
+    {
+     "key": "line|Wildfire Fund Charge",
+     "name": "Other charges: Wildfire Fund Charge (USD)",
+     "shown": "$5.91",
+     "value": 5.91,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00591"
+    },
+    {
+     "key": "line|Wildfire Hardening Charge",
+     "name": "Other charges: Wildfire Hardening Charge (USD)",
+     "shown": "$3.91",
+     "value": 3.91,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00391"
+    },
+    {
+     "key": "line|Recovery Bond Charge",
+     "name": "Other charges: Recovery Bond Charge (USD)",
+     "shown": "$8.57",
+     "value": 8.57,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.00857"
+    },
+    {
+     "key": "line|Recovery Bond Credit",
+     "name": "Other charges: Recovery Bond Credit (USD)",
+     "shown": "-$8.57",
+     "value": -8.57,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.00857"
+    },
+    {
+     "key": "line|Base Services Charge (Income Tier 2)",
+     "name": "Fixed: Base Services Charge (Income Tier 2) (USD)",
+     "shown": "$11.91",
+     "value": 11.91,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.39688 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$366.29",
+     "value": 366.29,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.37",
+     "value": 0.37,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "12",
+     "value": 12,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "1000",
+     "value": 1000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "44.85",
+     "value": 44.85,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$321.44",
+     "value": 321.44,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sce_summer_9",
+   "name": "SCE, summer, Region 9, 600 kWh (the baseline is 16.9 x 30)",
+   "bill": "SCE",
+   "typed": {
+    "season": "summer"
+   },
+   "figures": [
+    {
+     "key": "line|Delivery service energy charge",
+     "name": "Delivery: Delivery service energy charge (USD)",
+     "shown": "$170.68",
+     "value": 170.68,
+     "tolerance": 0.005,
+     "detail": "85.7 kWh on-peak at $0.33156, 34.3 kWh mid-peak at $0.33156, 480 kWh off-peak at $0.2727"
+    },
+    {
+     "key": "line|Fixed Recovery Charge",
+     "name": "Delivery: Fixed Recovery Charge (USD)",
+     "shown": "$3.71",
+     "value": 3.71,
+     "tolerance": 0.005,
+     "detail": "600 kWh at $0.00619"
+    },
+    {
+     "key": "line|Generation",
+     "name": "Energy: Generation (USD)",
+     "shown": "$61.77",
+     "value": 61.77,
+     "tolerance": 0.005,
+     "detail": "85.7 kWh on-peak at $0.25321, 34.3 kWh mid-peak at $0.13326, 480 kWh off-peak at $0.07396"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$51.20",
+     "value": -51.2,
+     "tolerance": 0.005,
+     "detail": "507 kWh within the Region 9 baseline at -$0.10099"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.82",
+     "value": 23.82,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.794 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$208.79",
+     "value": 208.79,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.35",
+     "value": 0.35,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$185.68",
+     "value": 185.68,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sce_summer_13",
+   "name": "SCE, summer, Region 13, 1,200 kWh, 30 percent from 4 to 9 p.m., the climate credit",
+   "bill": "SCE",
+   "typed": {
+    "season": "summer",
+    "region": "13",
+    "kwh": 1200,
+    "peakShare": 0.3,
+    "climateCredit": true
+   },
+   "figures": [
+    {
+     "key": "line|Delivery service energy charge",
+     "name": "Delivery: Delivery service energy charge (USD)",
+     "shown": "$348.43",
+     "value": 348.43,
+     "tolerance": 0.005,
+     "detail": "257.1 kWh on-peak at $0.33156, 102.9 kWh mid-peak at $0.33156, 840 kWh off-peak at $0.2727"
+    },
+    {
+     "key": "line|Fixed Recovery Charge",
+     "name": "Delivery: Fixed Recovery Charge (USD)",
+     "shown": "$7.43",
+     "value": 7.43,
+     "tolerance": 0.005,
+     "detail": "1200 kWh at $0.00619"
+    },
+    {
+     "key": "line|Generation",
+     "name": "Energy: Generation (USD)",
+     "shown": "$140.94",
+     "value": 140.94,
+     "tolerance": 0.005,
+     "detail": "257.1 kWh on-peak at $0.25321, 102.9 kWh mid-peak at $0.13326, 840 kWh off-peak at $0.07396"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$67.26",
+     "value": -67.26,
+     "tolerance": 0.005,
+     "detail": "666 kWh within the Region 13 baseline at -$0.10099"
+    },
+    {
+     "key": "line|California Climate Credit",
+     "name": "Credits: California Climate Credit (USD)",
+     "shown": "-$36.00",
+     "value": -36,
+     "tolerance": 0.005,
+     "detail": "once, twice a year"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.82",
+     "value": 23.82,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.794 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$417.36",
+     "value": 417.36,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.35",
+     "value": 0.35,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$46.22",
+     "value": 46.22,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "11",
+     "value": 11,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "1200",
+     "value": 1200,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$371.14",
+     "value": 371.14,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sce_winter_6",
+   "name": "SCE, winter, Region 6, 450 kWh, 30 percent from 4 to 9 p.m., 20 percent super off-peak",
+   "bill": "SCE",
+   "typed": {
+    "region": "6",
+    "kwh": 450,
+    "peakShare": 0.3,
+    "superShare": 0.2
+   },
+   "figures": [
+    {
+     "key": "line|Delivery service energy charge",
+     "name": "Delivery: Delivery service energy charge (USD)",
+     "shown": "$128.76",
+     "value": 128.76,
+     "tolerance": 0.005,
+     "detail": "135 kWh mid-peak at $0.33156, 90 kWh super off-peak at $0.25153, 225 kWh off-peak at $0.2727"
+    },
+    {
+     "key": "line|Fixed Recovery Charge",
+     "name": "Delivery: Fixed Recovery Charge (USD)",
+     "shown": "$2.79",
+     "value": 2.79,
+     "tolerance": 0.005,
+     "detail": "450 kWh at $0.00619"
+    },
+    {
+     "key": "line|Generation",
+     "name": "Energy: Generation (USD)",
+     "shown": "$54.90",
+     "value": 54.9,
+     "tolerance": 0.005,
+     "detail": "135 kWh mid-peak at $0.17956, 90 kWh super off-peak at $0.08452, 225 kWh off-peak at $0.10245"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$33.33",
+     "value": -33.33,
+     "tolerance": 0.005,
+     "detail": "330 kWh within the Region 6 baseline at -$0.10099"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.82",
+     "value": 23.82,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.794 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$176.93",
+     "value": 176.93,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.39",
+     "value": 0.39,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$17.33",
+     "value": 17.33,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "10",
+     "value": 10,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "450",
+     "value": 450,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$159.60",
+     "value": 159.6,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sdge_allow_333",
+   "name": "SDG&E, winter, a 333 kWh allowance (130 percent is 432.9 kWh)",
+   "bill": "SDGE",
+   "typed": {
+    "baselineKwh": 333
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (delivery and commodity, total)",
+     "name": "Energy and delivery: Energy charge (delivery and commodity, total) (USD)",
+     "shown": "$309.11",
+     "value": 309.11,
+     "tolerance": 0.005,
+     "detail": "120 kWh on-peak at $0.61471, 207.1 kWh super off-peak at $0.43719, 272.9 kWh off-peak at $0.5306"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$46.33",
+     "value": -46.33,
+     "tolerance": 0.005,
+     "detail": "432.9 kWh (up to 130 percent of your 333 kWh allowance) at -$0.10702"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$286.58",
+     "value": 286.58,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.48",
+     "value": 0.48,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$23.11",
+     "value": 23.11,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "8",
+     "value": 8,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "600",
+     "value": 600,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$263.47",
+     "value": 263.47,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "sdge_summer",
+   "name": "SDG&E, summer, 450 kWh, a 250 kWh allowance, 25 percent from 4 to 9 p.m., 30 percent super off-peak",
+   "bill": "SDGE",
+   "typed": {
+    "season": "summer",
+    "kwh": 450,
+    "baselineKwh": 250,
+    "peakShare": 0.25,
+    "superShare": 0.3
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (delivery and commodity, total)",
+     "name": "Energy and delivery: Energy charge (delivery and commodity, total) (USD)",
+     "shown": "$222.31",
+     "value": 222.31,
+     "tolerance": 0.005,
+     "detail": "112.5 kWh on-peak at $0.69135, 135 kWh super off-peak at $0.37433, 202.5 kWh off-peak at $0.46421"
+    },
+    {
+     "key": "line|Baseline credit",
+     "name": "Credits: Baseline credit (USD)",
+     "shown": "-$34.78",
+     "value": -34.78,
+     "tolerance": 0.005,
+     "detail": "325 kWh (up to 130 percent of your 250 kWh allowance) at -$0.10702"
+    },
+    {
+     "key": "line|Base Services Charge",
+     "name": "Fixed: Base Services Charge (USD)",
+     "shown": "$23.80",
+     "value": 23.8,
+     "tolerance": 0.005,
+     "detail": "30 days at $0.79343 a day"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$211.34",
+     "value": 211.34,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.47",
+     "value": 0.47,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$17.33",
+     "value": 17.33,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "8",
+     "value": 8,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "450",
+     "value": 450,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "38.52",
+     "value": 38.52,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$194.00",
+     "value": 194,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "tx_1000_efl",
+   "name": "Oncor, 1,000 kWh, an energy charge of USD 0.1399 per kWh",
+   "bill": "TX",
+   "typed": {
+    "kwh": 1000,
+    "energyRate": 0.1399
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$139.90",
+     "value": 139.9,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.1399"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (Oncor): Customer Charge (USD)",
+     "shown": "$1.48",
+     "value": 1.48,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (Oncor): Metering Charge (USD)",
+     "shown": "$2.58",
+     "value": 2.58,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (Oncor): Distribution System Charge (USD)",
+     "shown": "$36.04",
+     "value": 36.04,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.036043"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$19.05",
+     "value": 19.05,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.019046"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$1.49",
+     "value": 1.49,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.001487"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.09",
+     "value": 0.09,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.000086"
+    },
+    {
+     "key": "line|Mobile Generation Rider (MG)",
+     "name": "Delivery (Oncor): Mobile Generation Rider (MG) (USD)",
+     "shown": "$1.03",
+     "value": 1.03,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.001027"
+    },
+    {
+     "key": "line|Interim Surcharge (IS)",
+     "name": "Delivery (Oncor): Interim Surcharge (IS) (USD)",
+     "shown": "$3.63",
+     "value": 3.63,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.003633"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$205.28",
+     "value": 205.28,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.21",
+     "value": 0.21,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "19",
+     "value": 19,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "1000",
+     "value": 1000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$165.78",
+     "value": 165.78,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "tx_2000",
+   "name": "Oncor, 2,000 kWh, the default energy charge",
+   "bill": "TX",
+   "typed": {
+    "kwh": 2000
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$181.40",
+     "value": 181.4,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.0907"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (Oncor): Customer Charge (USD)",
+     "shown": "$1.48",
+     "value": 1.48,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (Oncor): Metering Charge (USD)",
+     "shown": "$2.58",
+     "value": 2.58,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (Oncor): Distribution System Charge (USD)",
+     "shown": "$72.09",
+     "value": 72.09,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.036043"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (Oncor): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$38.09",
+     "value": 38.09,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.019046"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (Oncor): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$2.97",
+     "value": 2.97,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.001487"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (Oncor): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (Oncor): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (Oncor): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.17",
+     "value": 0.17,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.000086"
+    },
+    {
+     "key": "line|Mobile Generation Rider (MG)",
+     "name": "Delivery (Oncor): Mobile Generation Rider (MG) (USD)",
+     "shown": "$2.05",
+     "value": 2.05,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.001027"
+    },
+    {
+     "key": "line|Interim Surcharge (IS)",
+     "name": "Delivery (Oncor): Interim Surcharge (IS) (USD)",
+     "shown": "$7.27",
+     "value": 7.27,
+     "tolerance": 0.005,
+     "detail": "2000 kWh at $0.003633"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$308.10",
+     "value": 308.1,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.15",
+     "value": 0.15,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$79.01",
+     "value": 79.01,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "26",
+     "value": 26,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "2000",
+     "value": 2000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$229.10",
+     "value": 229.1,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "txc_1000",
+   "name": "CenterPoint, 1,000 kWh, an energy charge of USD 0.125 per kWh",
+   "bill": "TXC",
+   "typed": {
+    "kwh": 1000,
+    "energyRate": 0.125
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$125.00",
+     "value": 125,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.125"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (CenterPoint): Customer Charge (USD)",
+     "shown": "$2.11",
+     "value": 2.11,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (CenterPoint): Metering Charge (USD)",
+     "shown": "$2.79",
+     "value": 2.79,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (CenterPoint): Distribution System Charge (USD)",
+     "shown": "$23.24",
+     "value": 23.24,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.02324"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$30.81",
+     "value": 30.81,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.030812"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$6.14",
+     "value": 6.14,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.006137"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$1.58",
+     "value": 1.58,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.001576"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.01",
+     "value": 0.01,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.000013"
+    },
+    {
+     "key": "line|Temporary Emergency Electric Energy Facilities (TEEEF)",
+     "name": "Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD)",
+     "shown": "$0.74",
+     "value": 0.74,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.000742"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.05",
+     "value": 0.05,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.000048"
+    },
+    {
+     "key": "line|Inflation Reduction Act 2022 (IRA)",
+     "name": "Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0"
+    },
+    {
+     "key": "line|System Restoration Charge II (SRC II)",
+     "name": "Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD)",
+     "shown": "$0.64",
+     "value": 0.64,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.000636"
+    },
+    {
+     "key": "line|ADFIT Credit II",
+     "name": "Delivery (CenterPoint): ADFIT Credit II (USD)",
+     "shown": "-$0.02",
+     "value": -0.02,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.000023"
+    },
+    {
+     "key": "line|System Restoration Charge III (SRC III)",
+     "name": "Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD)",
+     "shown": "$2.85",
+     "value": 2.85,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at $0.002848"
+    },
+    {
+     "key": "line|ADFIT Credit III",
+     "name": "Delivery (CenterPoint): ADFIT Credit III (USD)",
+     "shown": "-$0.42",
+     "value": -0.42,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.000418"
+    },
+    {
+     "key": "line|TC5 Refund",
+     "name": "Delivery (CenterPoint): TC5 Refund (USD)",
+     "shown": "-$0.28",
+     "value": -0.28,
+     "tolerance": 0.005,
+     "detail": "1000 kWh at -$0.000278"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$195.23",
+     "value": 195.23,
+     "tolerance": 0.005
+    },
+    {
+     "key": "per_kwh",
+     "name": "Per kWh, all in (USD)",
+     "shown": "$0.20",
+     "value": 0.2,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "20",
+     "value": 20,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "1000",
+     "value": 1000,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$155.73",
+     "value": 155.73,
+     "tolerance": 0.005
+    }
+   ]
+  },
+  {
+   "id": "txc_zero",
+   "name": "CenterPoint, 0 kWh (the fixed charges alone)",
+   "bill": "TXC",
+   "typed": {
+    "kwh": 0
+   },
+   "figures": [
+    {
+     "key": "line|Energy charge (your retail electric provider)",
+     "name": "Energy: Energy charge (your retail electric provider) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.0853"
+    },
+    {
+     "key": "line|Customer Charge",
+     "name": "Delivery (CenterPoint): Customer Charge (USD)",
+     "shown": "$2.11",
+     "value": 2.11,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Metering Charge",
+     "name": "Delivery (CenterPoint): Metering Charge (USD)",
+     "shown": "$2.79",
+     "value": 2.79,
+     "tolerance": 0.005,
+     "detail": "per month"
+    },
+    {
+     "key": "line|Distribution System Charge",
+     "name": "Delivery (CenterPoint): Distribution System Charge (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.02324"
+    },
+    {
+     "key": "line|Transmission Cost Recovery Factor (TCRF)",
+     "name": "Delivery (CenterPoint): Transmission Cost Recovery Factor (TCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.030812"
+    },
+    {
+     "key": "line|Distribution Cost Recovery Factor (DCRF)",
+     "name": "Delivery (CenterPoint): Distribution Cost Recovery Factor (DCRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.006137"
+    },
+    {
+     "key": "line|Energy Efficiency Cost Recovery Factor (EECRF)",
+     "name": "Delivery (CenterPoint): Energy Efficiency Cost Recovery Factor (EECRF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.001576"
+    },
+    {
+     "key": "line|Nuclear Decommissioning Charge (NDC)",
+     "name": "Delivery (CenterPoint): Nuclear Decommissioning Charge (NDC) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.000013"
+    },
+    {
+     "key": "line|Temporary Emergency Electric Energy Facilities (TEEEF)",
+     "name": "Delivery (CenterPoint): Temporary Emergency Electric Energy Facilities (TEEEF) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.000742"
+    },
+    {
+     "key": "line|Rate Case Expense Surcharge (RCE)",
+     "name": "Delivery (CenterPoint): Rate Case Expense Surcharge (RCE) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.000048"
+    },
+    {
+     "key": "line|Inflation Reduction Act 2022 (IRA)",
+     "name": "Delivery (CenterPoint): Inflation Reduction Act 2022 (IRA) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0"
+    },
+    {
+     "key": "line|System Restoration Charge II (SRC II)",
+     "name": "Delivery (CenterPoint): System Restoration Charge II (SRC II) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.000636"
+    },
+    {
+     "key": "line|ADFIT Credit II",
+     "name": "Delivery (CenterPoint): ADFIT Credit II (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at -$0.000023"
+    },
+    {
+     "key": "line|System Restoration Charge III (SRC III)",
+     "name": "Delivery (CenterPoint): System Restoration Charge III (SRC III) (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at $0.002848"
+    },
+    {
+     "key": "line|ADFIT Credit III",
+     "name": "Delivery (CenterPoint): ADFIT Credit III (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at -$0.000418"
+    },
+    {
+     "key": "line|TC5 Refund",
+     "name": "Delivery (CenterPoint): TC5 Refund (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005,
+     "detail": "0 kWh at -$0.000278"
+    },
+    {
+     "key": "total",
+     "name": "Total (USD)",
+     "shown": "$4.90",
+     "value": 4.9,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|wholesale_usd",
+     "name": "The bar: wholesale energy (USD)",
+     "shown": "$0.00",
+     "value": 0,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|share_pct",
+     "name": "The bar: wholesale energy's share of the bill (percent)",
+     "shown": "0",
+     "value": 0,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|kwh",
+     "name": "The bar: the kWh",
+     "shown": "0",
+     "value": 0,
+     "tolerance": 0.5
+    },
+    {
+     "key": "bar|price",
+     "name": "The bar: the wholesale price (USD/MWh)",
+     "shown": "39.50",
+     "value": 39.5,
+     "tolerance": 0.005
+    },
+    {
+     "key": "bar|month",
+     "name": "The bar: the wholesale price's month",
+     "shown": "2026-09",
+     "value": "2026-09",
+     "tolerance": null
+    },
+    {
+     "key": "bar|rest_usd",
+     "name": "The bar: everything else (USD)",
+     "shown": "$4.90",
+     "value": 4.9,
+     "tolerance": 0.005
+    }
+   ]
+  }
+ ]
+}

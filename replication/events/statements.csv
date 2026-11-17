@@ -1,0 +1,16 @@
+page,words,true,the rows
+uri-2021,Lowest hour of demand served in the window ... after the storm,yes,27719 MW on 2021-02-24
+uri-2021,during the outages [15 to 18 February] net generation stayed above that average,yes,"2021-02-15 +259,176.5, 2021-02-16 +189,074.5, 2021-02-17 +197,647.5, 2021-02-18 +265,623.5"
+uri-2021 (events.md),Demand served stayed above the 2019 and 2020 baseline on every day from 2021-02-09 to 2021-02-20,yes,12 of 12 days above
+caiso-heat-2020,Not on the outage days ... the highest came later,yes,23.50 percent on 2020-08-18
+elliott-2022,"PJM's highest hour in EIA's data agrees with the report's ""about 136,000 MW"" on Dec. 23",yes,"135,328 MW on 2022-12-23, -0.49 percent"
+elliott-2022,SPP's highest hour of the window is on 2022-12-22 (00:00 UTC on Dec. 23),yes,"47,026 MW on 2022-12-22"
+elliott-2022,ISO-NE barely moved (the least of the six grids against the baseline),yes,ISO-NE at most 10.80 percent; the six at most 65.01
+ercot-heat-2023,The emergency [2023-09-06] did not come on the day of the highest demand,yes,"highest hour 85,432 MW on 2023-08-10"
+ercot-heat-2023,The price tells the emergency: the highest 15-minute real-time price of the window came on the emergency's day,yes,"5,075.46 USD/MWh on 2023-09-06"
+ercot-heat-2023,"On 2023-09-06 EIA's highest hour was ... beside the 82,705 MW ERCOT announced that evening as its September record (events.md: 13 MW under it)",yes,"82,692 MW, -13 MW"
+ercot-heat-2023,"ERCOT's later September records (83,911 MW on 7 September, 84,182 MW on 8 September) stand above the 82,705 MW of 6 September in EIA's hours too",yes,"EIA 83,913 MW on 7 September, 84,185 MW on 8 September"
+cold-2025,"PJM, MISO, NYISO and ISO-NE each served their highest winter hour of demand on January 21 or 22, 2025 (inside the window)",yes,PJM 2025-01-22; MISO 2025-01-21; NYIS 2025-01-22; ISNE 2025-01-21
+east-heat-2025,"PJM, NYISO and ISO-NE each served their highest hour of demand on June 23 or 24, 2025 (inside the window)",yes,PJM 2025-06-23; NYIS 2025-06-24; ISNE 2025-06-24
+cold-2026,"ERCOT and SPP on 26 January 2026, ISO-NE on 25 January, MISO on 27 January and PJM on 29 January (inside the window)",yes,ERCO 2026-01-26; SWPP 2026-01-26; ISNE 2026-01-25; MISO 2026-01-27; PJM 2026-01-29
+caiso-heat-2022,"CAISO's notices, day by day (each day and its types as caiso_grid_emergencies holds them)",yes,10 days: 2022-08-31 eea_watch+eea1+flex_alert+rmo; 2022-09-01 rmo+flex_alert+eea_watch; 2022-09-02 flex_alert+rmo; 2022-09-03 flex_alert+rmo+eea_watch; 2022-09-04 rmo+eea_watch+flex_alert; 2022-09-05 eea1+flex_alert+rmo+eea2+eea_watch+transmission_emergency; 2022-09-06 flex_alert+eea_watch+rmo+eea3+transmission_emergency+eea1+eea2; 2022-09-07 eea2+eea1+flex_alert+eea_watch+rmo+transmission_emergency; 2022-09-08 transmission_emergency+eea1+flex_alert+eea2+rmo+eea_watch; 2022-09-09 eea1+eea_watch+flex_alert+rmo

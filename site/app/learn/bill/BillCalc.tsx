@@ -2,6 +2,9 @@
 // Session 43: the bill explainer's calculator. The rates are data/bill_rules.json (each cites its tariff page); the
 // arithmetic is lib/bill.ts. The wholesale reference arrives from the server (cost_of_power_monthly).
 // Session 52: five bills: PG&E (E-TOU-C), SCE (TOU-D-4-9PM), SDG&E (TOU-DR1), Oncor and CenterPoint.
+// Session 7533 (chain 304): `first`, the bill the calculator opens on (the page passes none: PG&E, as before), so a script
+// can draw each of the five without a click (site/scripts/bill-figures.mjs, replication/bill/). And the SCE summer line
+// under the super off-peak share: SCE's summer has no super off-peak hours, so the share is billed in winter only.
 import { Fragment, useMemo, useState } from "react";
 import {
   BILL_KEYS, billCA, billTDSP, billTOU, billTX, clampShares, defaultsCA, defaultsTDSP, defaultsTOU, defaultsTX, type BillKey, type CAInput, type Line, type TOUInput, type TXInput,
@@ -12,8 +15,8 @@ const field = "w-full border border-rule bg-panel px-2 py-1 text-sm";
 const pct = (v: string) => Math.min(100, Math.max(0, Number(v))) / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null> }) {
-  const [key, setKey] = useState<BillKey>("CA");
+export function BillCalc({ rules, wholesale, first = "CA" }: { rules: any; wholesale: Record<string, { price: number; month: string; partial: boolean } | null>; first?: BillKey }) {
+  const [key, setKey] = useState<BillKey>(first);
   const [ca, setCa] = useState<CAInput>(defaultsCA(rules));
   const [tou, setTou] = useState<Record<"SCE" | "SDGE", TOUInput>>({ SCE: defaultsTOU(rules, "SCE"), SDGE: defaultsTOU(rules, "SDGE") });
   const [tx, setTx] = useState<Record<"TX" | "TXC", TXInput>>({ TX: defaultsTX(rules), TXC: defaultsTDSP(rules, "TXC") });
@@ -91,6 +94,9 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
                 <input type="number" min={0} max={100} step={1} value={Math.round(t.peakShare * 1000) / 10} onChange={(e) => setShare("peakShare", pct(e.target.value))} className={field} />
               </label>
               <label className="flex flex-col">Share in super off-peak hours, percent ({b.defaults.labels.super_share})
+                {key === "SCE" && t.season === "summer" ? (
+                  <span className="text-xs" data-sce-summer-super="1">Not billed in summer: SCE&apos;s summer has no super off-peak hours (8 a.m. to 4 p.m. is off-peak then), so this share moves nothing until the season is winter. It still counts toward the 100 percent the two shares can hold.</span>
+                ) : null}
                 <input type="number" min={0} max={100} step={1} value={Math.round(t.superShare * 1000) / 10} onChange={(e) => setShare("superShare", pct(e.target.value))} className={field} />
               </label>
               {held ? <p className="text-xs text-muted" role="status">{held}</p> : null}

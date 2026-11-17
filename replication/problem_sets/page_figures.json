@@ -1,0 +1,3391 @@
+{
+ "now": "2026-11-16T22:51:27Z",
+ "sets": {
+  "know-your-grid": {
+   "title": "Know your grid: ERCOT and CAISO side by side",
+   "example": "ax",
+   "order": [
+    "a4",
+    "a3",
+    "a1",
+    "a2",
+    "a5"
+   ],
+   "questions": [
+    {
+     "id": "ax",
+     "q": "On 2026-11-14 (UTC), what was the highest hour of demand in ERCOT and in CAISO, and ERCOT's peak was how many times CAISO's?",
+     "tables": [
+      "eia930_all_demand"
+     ],
+     "day": null,
+     "answer": "2026-11-14: ERCOT 53,695 MW, CAISO 26,746 MW; ERCOT's peak was 2.01 times CAISO's.",
+     "line": "53,695 MW / 26,746 MW = 2.01 times",
+     "steps": [
+      "Open eia930_all_demand and keep the rows of variable demand_mw for eia930:ERCO and eia930:CISO from 2026-11-14T00:00:00Z to 2026-11-15T00:00:00Z: 24 hours each.",
+      "Take the largest of each grid's 24 values: ERCOT 53,695 MW, CAISO 26,746 MW.",
+      "Divide the first by the second: 53,695 MW / 26,746 MW = 2.01 times."
+     ],
+     "words": "On 2026-11-14 (UTC), what was the highest hour of demand in ERCOT and in CAISO, and ERCOT's peak was how many times CAISO's? | 2026-11-14: ERCOT  | , CAISO  | ; ERCOT's peak was  |  CAISO's. |  /  |  =  | Open eia930_all_demand and keep the rows of variable demand_mw for eia930:ERCO and eia930:CISO from 2026-11-14T00:00:00Z to 2026-11-15T00:00:00Z: 24 hours each. | Take the largest of each grid's 24 values: ERCOT  | , CAISO  | . | Divide the first by the second:  |  /  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 53695,
+       "u": "MW",
+       "shown": "53,695"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:CISO",
+       "v": 26746,
+       "u": "MW",
+       "shown": "26,746"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:CISO",
+       "v": 2.0075899199880354,
+       "u": "times",
+       "shown": "2.01"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 53695,
+       "u": "MW",
+       "shown": "53,695"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:CISO",
+       "v": 26746,
+       "u": "MW",
+       "shown": "26,746"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:CISO",
+       "v": 2.0075899199880354,
+       "u": "times",
+       "shown": "2.01"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 53695,
+       "u": "MW",
+       "shown": "53,695"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:CISO",
+       "v": 26746,
+       "u": "MW",
+       "shown": "26,746"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 53695,
+       "u": "MW",
+       "shown": "53,695"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-14T00:00:00Z|2026-11-15T00:00:00Z|eia930:CISO",
+       "v": 26746,
+       "u": "MW",
+       "shown": "26,746"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-14T00:00:00Z~2026-11-15T00:00:00Z~eia930:CISO",
+       "v": 2.0075899199880354,
+       "u": "times",
+       "shown": "2.01"
+      }
+     ]
+    },
+    {
+     "id": "a4",
+     "q": "On the latest day both are held, what was the carbon intensity of generation in ERCOT and in CAISO, and how much higher was ERCOT's?",
+     "tables": [
+      "carbon_intensity_daily"
+     ],
+     "day": null,
+     "answer": "2026-11-12: ERCOT 368.48 kg CO2/MWh, CAISO 179.35 kg CO2/MWh; ERCOT's is higher by 189.13 kg CO2/MWh.",
+     "line": "368.48 kg CO2/MWh - 179.35 kg CO2/MWh = 189.13 kg CO2/MWh",
+     "steps": [
+      "Read intensity_generation for each grid: the day's CO2 from generation over its net generation.",
+      "Subtract: 368.48 kg CO2/MWh - 179.35 kg CO2/MWh = 189.13 kg CO2/MWh."
+     ],
+     "words": "On the latest day both are held, what was the carbon intensity of generation in ERCOT and in CAISO, and how much higher was ERCOT's? | 2026-11-12: ERCOT  | , CAISO  | ; ERCOT's is higher by  | . |  -  |  =  | Read intensity_generation for each grid: the day's CO2 from generation over its net generation. | Subtract:  |  -  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 368.4813,
+       "u": "kg CO2/MWh",
+       "shown": "368.48"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 179.3481,
+       "u": "kg CO2/MWh",
+       "shown": "179.35"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-12T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-12T00:00:00+00:00",
+       "v": 189.1332,
+       "u": "kg CO2/MWh",
+       "shown": "189.13"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 368.4813,
+       "u": "kg CO2/MWh",
+       "shown": "368.48"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 179.3481,
+       "u": "kg CO2/MWh",
+       "shown": "179.35"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-12T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-12T00:00:00+00:00",
+       "v": 189.1332,
+       "u": "kg CO2/MWh",
+       "shown": "189.13"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|carbon_intensity_daily|eia930:ERCO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 368.4813,
+       "u": "kg CO2/MWh",
+       "shown": "368.48"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|carbon_intensity_daily|eia930:CISO|intensity_generation|2026-11-12T00:00:00+00:00",
+       "v": 179.3481,
+       "u": "kg CO2/MWh",
+       "shown": "179.35"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "calc|diff|series~carbon_intensity_daily~eia930:ERCO~intensity_generation~2026-11-12T00:00:00+00:00|series~carbon_intensity_daily~eia930:CISO~intensity_generation~2026-11-12T00:00:00+00:00",
+       "v": 189.1332,
+       "u": "kg CO2/MWh",
+       "shown": "189.13"
+      }
+     ]
+    },
+    {
+     "id": "a3",
+     "q": "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's?",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "day": null,
+     "answer": "2026-11-14: ERCOT 3,755 MWh, CAISO 43,912.75 MWh; CAISO's was 11.69 times ERCOT's.",
+     "line": "43,912.75 MWh / 3,755 MWh = 11.69 times",
+     "steps": [
+      "Read mwh_discharged for 2026-11-14 (each grid's local day): ERCOT (eia930:ERCO, EIA-930) 3,755 MWh, CAISO (caiso:ISO, CAISO's own data) 43,912.75 MWh.",
+      "Divide: 43,912.75 MWh / 3,755 MWh = 11.69 times."
+     ],
+     "words": "On the latest day both are held, how many MWh did batteries discharge in ERCOT and in CAISO? CAISO's discharge was how many times ERCOT's? | 2026-11-14: ERCOT  | , CAISO  | ; CAISO's was  |  ERCOT's. |  /  |  =  | Read mwh_discharged for 2026-11-14 (each grid's local day): ERCOT (eia930:ERCO, EIA-930)  | , CAISO (caiso:ISO, CAISO's own data)  | . | Divide:  |  /  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 43912.75,
+       "u": "MWh",
+       "shown": "43,912.75"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+       "v": 11.694474034620505,
+       "u": "times",
+       "shown": "11.69"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 43912.75,
+       "u": "MWh",
+       "shown": "43,912.75"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+       "v": 11.694474034620505,
+       "u": "times",
+       "shown": "11.69"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step1",
+       "i": 3,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 43912.75,
+       "u": "MWh",
+       "shown": "43,912.75"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|storage_daily_cycle|caiso:ISO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 43912.75,
+       "u": "MWh",
+       "shown": "43,912.75"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "calc|ratio|series~storage_daily_cycle~caiso:ISO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00",
+       "v": 11.694474034620505,
+       "u": "times",
+       "shown": "11.69"
+      }
+     ]
+    },
+    {
+     "id": "a1",
+     "q": "On 2026-11-15 (UTC), the latest day both grids' demand and generation are held in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's?",
+     "tables": [
+      "eia930_all_demand"
+     ],
+     "day": {
+      "d": "2026-11-15",
+      "k": "fullday|know-your-grid|2026-11-15",
+      "note": "the newest UTC day both eia930_all_demand and eia930_all_generation hold in full (24 hours, both grids)"
+     },
+     "answer": "2026-11-15: ERCOT 54,008 MW, CAISO 25,964 MW; ERCOT's peak was 2.08 times CAISO's.",
+     "line": "54,008 MW / 25,964 MW = 2.08 times",
+     "steps": [
+      "Take the 24 hourly demand values of 2026-11-15 (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw).",
+      "The highest ERCOT hour is 54,008 MW; the highest CAISO hour is 25,964 MW.",
+      "Divide: 54,008 MW / 25,964 MW = 2.08 times."
+     ],
+     "words": "On 2026-11-15 (UTC), the latest day both grids' demand and generation are held in full, what was the highest hour of demand in ERCOT and in CAISO? ERCOT's peak was how many times CAISO's? | 2026-11-15: ERCOT  | , CAISO  | ; ERCOT's peak was  |  CAISO's. |  /  |  =  | Take the 24 hourly demand values of 2026-11-15 (UTC) for each grid (entity eia930:ERCO and eia930:CISO, variable demand_mw). | The highest ERCOT hour is  | ; the highest CAISO hour is  | . | Divide:  |  /  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 54008,
+       "u": "MW",
+       "shown": "54,008"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 25964,
+       "u": "MW",
+       "shown": "25,964"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 2.080110922816207,
+       "u": "times",
+       "shown": "2.08"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 54008,
+       "u": "MW",
+       "shown": "54,008"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 25964,
+       "u": "MW",
+       "shown": "25,964"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 2.080110922816207,
+       "u": "times",
+       "shown": "2.08"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 54008,
+       "u": "MW",
+       "shown": "54,008"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 25964,
+       "u": "MW",
+       "shown": "25,964"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 54008,
+       "u": "MW",
+       "shown": "54,008"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series_max|eia930_all_demand|demand_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 25964,
+       "u": "MW",
+       "shown": "25,964"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|ratio|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_max~eia930_all_demand~demand_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 2.080110922816207,
+       "u": "times",
+       "shown": "2.08"
+      },
+      {
+       "where": "day",
+       "i": 0,
+       "k": "fullday|know-your-grid|2026-11-15",
+       "v": null,
+       "u": "",
+       "shown": "2026-11-15"
+      }
+     ]
+    },
+    {
+     "id": "a2",
+     "q": "On the same day, 2026-11-15 (UTC), what share of each grid's net generation came from natural gas?",
+     "tables": [
+      "eia930_all_generation"
+     ],
+     "day": {
+      "d": "2026-11-15",
+      "k": "fullday|know-your-grid|2026-11-15",
+      "note": "the newest UTC day both eia930_all_demand and eia930_all_generation hold in full (24 hours, both grids)"
+     },
+     "answer": "2026-11-15: ERCOT 47.74 %, CAISO 34.72 %.",
+     "line": "ERCOT 555,509 MWh / 1,163,690 MWh x 100 = 47.74 %; CAISO 135,523 MWh / 390,314 MWh x 100 = 34.72 %",
+     "steps": [
+      "Add the 24 hourly values of net_generation_natural_gas_mw and of net_generation_mw for 2026-11-15 (UTC).",
+      "ERCOT: 555,509 MWh from gas of 1,163,690 MWh in all: 47.74 %.",
+      "CAISO: 135,523 MWh from gas of 390,314 MWh in all: 34.72 %."
+     ],
+     "words": "On the same day, 2026-11-15 (UTC), what share of each grid's net generation came from natural gas? | 2026-11-15: ERCOT  | , CAISO  | . | ERCOT  |  /  |  x 100 =  | ; CAISO  |  /  |  x 100 =  | Add the 24 hourly values of net_generation_natural_gas_mw and of net_generation_mw for 2026-11-15 (UTC). | ERCOT:  |  from gas of  |  in all:  | . | CAISO:  |  from gas of  |  in all:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO",
+       "v": 47.73685431687133,
+       "u": "%",
+       "shown": "47.74"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 34.72153189483339,
+       "u": "%",
+       "shown": "34.72"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 555509,
+       "u": "MWh",
+       "shown": "555,509"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 1163690,
+       "u": "MWh",
+       "shown": "1,163,690"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO",
+       "v": 47.73685431687133,
+       "u": "%",
+       "shown": "47.74"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 135523,
+       "u": "MWh",
+       "shown": "135,523"
+      },
+      {
+       "where": "line",
+       "i": 9,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 390314,
+       "u": "MWh",
+       "shown": "390,314"
+      },
+      {
+       "where": "line",
+       "i": 11,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 34.72153189483339,
+       "u": "%",
+       "shown": "34.72"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 555509,
+       "u": "MWh",
+       "shown": "555,509"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:ERCO",
+       "v": 1163690,
+       "u": "MWh",
+       "shown": "1,163,690"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:ERCO",
+       "v": 47.73685431687133,
+       "u": "%",
+       "shown": "47.74"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series_sum|eia930_all_generation|net_generation_natural_gas_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 135523,
+       "u": "MWh",
+       "shown": "135,523"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series_sum|eia930_all_generation|net_generation_mw|2026-11-15T00:00:00Z|2026-11-16T00:00:00Z|eia930:CISO",
+       "v": 390314,
+       "u": "MWh",
+       "shown": "390,314"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|pct|series_sum~eia930_all_generation~net_generation_natural_gas_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO|series_sum~eia930_all_generation~net_generation_mw~2026-11-15T00:00:00Z~2026-11-16T00:00:00Z~eia930:CISO",
+       "v": 34.72153189483339,
+       "u": "%",
+       "shown": "34.72"
+      },
+      {
+       "where": "day",
+       "i": 0,
+       "k": "fullday|know-your-grid|2026-11-15",
+       "v": null,
+       "u": "",
+       "shown": "2026-11-15"
+      }
+     ]
+    },
+    {
+     "id": "a5",
+     "q": "What share of ERCOT's demand on 2026-11-14 (Central time) did its batteries' discharge equal?",
+     "tables": [
+      "storage_daily_cycle",
+      "eia930_all_demand"
+     ],
+     "day": null,
+     "answer": "0.33 % of the day's demand.",
+     "line": "3,755 MWh / 1,139,244 MWh x 100 = 0.33 %",
+     "steps": [
+      "ERCOT's batteries discharged 3,755 MWh on that local day.",
+      "Add ERCOT's hourly demand_mw from 2026-11-14T06:00:00Z to 2026-11-15T06:00:00Z (the Central-time day in UTC): 1,139,244 MWh.",
+      "Divide: 3,755 MWh / 1,139,244 MWh x 100 = 0.33 %."
+     ],
+     "words": "What share of ERCOT's demand on 2026-11-14 (Central time) did its batteries' discharge equal? |  of the day's demand. |  /  |  x 100 =  | ERCOT's batteries discharged  |  on that local day. | Add ERCOT's hourly demand_mw from 2026-11-14T06:00:00Z to 2026-11-15T06:00:00Z (the Central-time day in UTC):  | . | Divide:  |  /  |  x 100 =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 0,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+       "v": 0.32960454476828493,
+       "u": "%",
+       "shown": "0.33"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+       "v": 1139244,
+       "u": "MWh",
+       "shown": "1,139,244"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+       "v": 0.32960454476828493,
+       "u": "%",
+       "shown": "0.33"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+       "v": 1139244,
+       "u": "MWh",
+       "shown": "1,139,244"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series_sum|eia930_all_demand|demand_mw|2026-11-14T06:00:00Z|2026-11-15T06:00:00Z|eia930:ERCO",
+       "v": 1139244,
+       "u": "MWh",
+       "shown": "1,139,244"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series_sum~eia930_all_demand~demand_mw~2026-11-14T06:00:00Z~2026-11-15T06:00:00Z~eia930:ERCO",
+       "v": 0.32960454476828493,
+       "u": "%",
+       "shown": "0.33"
+      }
+     ]
+    }
+   ],
+   "drawn": {
+    "figures": 65,
+    "found": 65,
+    "held": 0,
+    "missing": [],
+    "held_keys": []
+   },
+   "held": 0,
+   "decisions": [
+    "live",
+    "full-day",
+    "battery-day",
+    "local-day"
+   ]
+  },
+  "prices-and-your-bill": {
+   "title": "Prices and your bill",
+   "example": "bx",
+   "order": [
+    "b1",
+    "b3",
+    "b4",
+    "b5",
+    "b2"
+   ],
+   "questions": [
+    {
+     "id": "bx",
+     "q": "For ERCOT's hub average in 2026-08, what were the load-weighted and the simple average real-time prices, and what is the shape premium?",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "2026-08: load-weighted 36.70 USD/MWh, simple 35.45 USD/MWh, shape premium 1.24 USD/MWh.",
+     "line": "36.70 USD/MWh - 35.45 USD/MWh = 1.24 USD/MWh",
+     "steps": [
+      "Open cost_of_power_monthly and keep the rows of entity ercot:HB_HUBAVG for 2026-08; check that rt_hours equals hours_in_month (every hour held).",
+      "Read rt_load_weighted, 36.70 USD/MWh, and rt_simple_mean, 35.45 USD/MWh.",
+      "Subtract: 36.70 USD/MWh - 35.45 USD/MWh = 1.24 USD/MWh."
+     ],
+     "words": "For ERCOT's hub average in 2026-08, what were the load-weighted and the simple average real-time prices, and what is the shape premium? | 2026-08: load-weighted  | , simple  | , shape premium  | . |  -  |  =  | Open cost_of_power_monthly and keep the rows of entity ercot:HB_HUBAVG for 2026-08; check that rt_hours equals hours_in_month (every hour held). | Read rt_load_weighted,  | , and rt_simple_mean,  | . | Subtract:  |  -  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-08-01T00:00:00+00:00",
+       "v": 36.6951,
+       "u": "USD/MWh",
+       "shown": "36.70"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-08-01T00:00:00+00:00",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-08-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-08-01T00:00:00+00:00",
+       "v": 1.2445999999999984,
+       "u": "USD/MWh",
+       "shown": "1.24"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-08-01T00:00:00+00:00",
+       "v": 36.6951,
+       "u": "USD/MWh",
+       "shown": "36.70"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-08-01T00:00:00+00:00",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-08-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-08-01T00:00:00+00:00",
+       "v": 1.2445999999999984,
+       "u": "USD/MWh",
+       "shown": "1.24"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-08-01T00:00:00+00:00",
+       "v": 36.6951,
+       "u": "USD/MWh",
+       "shown": "36.70"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-08-01T00:00:00+00:00",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-08-01T00:00:00+00:00",
+       "v": 36.6951,
+       "u": "USD/MWh",
+       "shown": "36.70"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-08-01T00:00:00+00:00",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-08-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-08-01T00:00:00+00:00",
+       "v": 1.2445999999999984,
+       "u": "USD/MWh",
+       "shown": "1.24"
+      }
+     ]
+    },
+    {
+     "id": "b1",
+     "q": "For ERCOT's hub average in its latest complete month, what were the load-weighted and the simple average real-time prices, and what is the shape premium?",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "2026-09: load-weighted 39.50 USD/MWh, simple 38.39 USD/MWh, shape premium 1.12 USD/MWh.",
+     "line": "39.50 USD/MWh - 38.39 USD/MWh = 1.12 USD/MWh",
+     "steps": [
+      "Load-weighted: each hour's price times ERCOT's demand that hour, over the month's demand: 39.50 USD/MWh.",
+      "Simple: the plain mean of the same hours: 38.39 USD/MWh.",
+      "Shape premium = load-weighted - simple = 1.12 USD/MWh."
+     ],
+     "words": "For ERCOT's hub average in its latest complete month, what were the load-weighted and the simple average real-time prices, and what is the shape premium? | 2026-09: load-weighted  | , simple  | , shape premium  | . |  -  |  =  | Load-weighted: each hour's price times ERCOT's demand that hour, over the month's demand:  | . | Simple: the plain mean of the same hours:  | . | Shape premium = load-weighted - simple =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 39.5037,
+       "u": "USD/MWh",
+       "shown": "39.50"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-09-01T00:00:00+00:00",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-09-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-09-01T00:00:00+00:00",
+       "v": 1.1163000000000025,
+       "u": "USD/MWh",
+       "shown": "1.12"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 39.5037,
+       "u": "USD/MWh",
+       "shown": "39.50"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-09-01T00:00:00+00:00",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-09-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-09-01T00:00:00+00:00",
+       "v": 1.1163000000000025,
+       "u": "USD/MWh",
+       "shown": "1.12"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 39.5037,
+       "u": "USD/MWh",
+       "shown": "39.50"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_simple_mean|2026-09-01T00:00:00+00:00",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "calc|diff|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_load_weighted~2026-09-01T00:00:00+00:00|series~cost_of_power_monthly~ercot:HB_HUBAVG~rt_simple_mean~2026-09-01T00:00:00+00:00",
+       "v": 1.1163000000000025,
+       "u": "USD/MWh",
+       "shown": "1.12"
+      }
+     ]
+    },
+    {
+     "id": "b3",
+     "q": "On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "26.91 USD of 229.63 USD: 11.72 %.",
+     "line": "600 kWh x 44.85 USD/MWh / 1,000 = 26.91 USD; 26.91 USD / 229.63 USD x 100 = 11.72 %",
+     "steps": [
+      "The bill: 229.63 USD (the tariff lines on /learn/bill).",
+      "Wholesale: 600 kWh x 44.85 USD/MWh / 1,000 (2026-09) = 26.91 USD.",
+      "Share: 26.91 USD / 229.63 USD x 100 = 11.72 %."
+     ],
+     "words": "On the default PG&E (California) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that? |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 0,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 26.90814,
+       "u": "USD",
+       "shown": "26.91"
+      },
+      {
+       "where": "answer",
+       "i": 2,
+       "k": "bill|CA|total",
+       "v": 229.6299,
+       "u": "USD",
+       "shown": "229.63"
+      },
+      {
+       "where": "answer",
+       "i": 4,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+       "v": 11.718047170686397,
+       "u": "%",
+       "shown": "11.72"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 44.8469,
+       "u": "USD/MWh",
+       "shown": "44.85"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 26.90814,
+       "u": "USD",
+       "shown": "26.91"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 26.90814,
+       "u": "USD",
+       "shown": "26.91"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "bill|CA|total",
+       "v": 229.6299,
+       "u": "USD",
+       "shown": "229.63"
+      },
+      {
+       "where": "line",
+       "i": 9,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+       "v": 11.718047170686397,
+       "u": "%",
+       "shown": "11.72"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "bill|CA|total",
+       "v": 229.6299,
+       "u": "USD",
+       "shown": "229.63"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 44.8469,
+       "u": "USD/MWh",
+       "shown": "44.85"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 26.90814,
+       "u": "USD",
+       "shown": "26.91"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 26.90814,
+       "u": "USD",
+       "shown": "26.91"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "bill|CA|total",
+       "v": 229.6299,
+       "u": "USD",
+       "shown": "229.63"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "bill|CA|share|2026-09-01T00:00:00+00:00",
+       "v": 11.718047170686397,
+       "u": "%",
+       "shown": "11.72"
+      }
+     ]
+    },
+    {
+     "id": "b4",
+     "q": "On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that?",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "23.70 USD of 95.27 USD: 24.88 %.",
+     "line": "600 kWh x 39.50 USD/MWh / 1,000 = 23.70 USD; 23.70 USD / 95.27 USD x 100 = 24.88 %",
+     "steps": [
+      "The bill: 95.27 USD (the tariff lines on /learn/bill).",
+      "Wholesale: 600 kWh x 39.50 USD/MWh / 1,000 (2026-09) = 23.70 USD.",
+      "Share: 23.70 USD / 95.27 USD x 100 = 24.88 %."
+     ],
+     "words": "On the default Oncor (Texas) bill of /learn/bill (600 kWh), how many dollars are wholesale energy, and what share of the bill is that? |  of  | :  | . | 600 kWh x  |  / 1,000 =  | ;  |  /  |  x 100 =  | The bill:  |  (the tariff lines on /learn/bill). | Wholesale: 600 kWh x  |  / 1,000 (2026-09) =  | . | Share:  |  /  |  x 100 =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 0,
+       "k": "bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 23.70222,
+       "u": "USD",
+       "shown": "23.70"
+      },
+      {
+       "where": "answer",
+       "i": 2,
+       "k": "bill|TX|total",
+       "v": 95.27319999999999,
+       "u": "USD",
+       "shown": "95.27"
+      },
+      {
+       "where": "answer",
+       "i": 4,
+       "k": "bill|TX|share|2026-09-01T00:00:00+00:00",
+       "v": 24.87816090988862,
+       "u": "%",
+       "shown": "24.88"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 39.5037,
+       "u": "USD/MWh",
+       "shown": "39.50"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 23.70222,
+       "u": "USD",
+       "shown": "23.70"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 23.70222,
+       "u": "USD",
+       "shown": "23.70"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "bill|TX|total",
+       "v": 95.27319999999999,
+       "u": "USD",
+       "shown": "95.27"
+      },
+      {
+       "where": "line",
+       "i": 9,
+       "k": "bill|TX|share|2026-09-01T00:00:00+00:00",
+       "v": 24.87816090988862,
+       "u": "%",
+       "shown": "24.88"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "bill|TX|total",
+       "v": 95.27319999999999,
+       "u": "USD",
+       "shown": "95.27"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|2026-09-01T00:00:00+00:00",
+       "v": 39.5037,
+       "u": "USD/MWh",
+       "shown": "39.50"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 23.70222,
+       "u": "USD",
+       "shown": "23.70"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+       "v": 23.70222,
+       "u": "USD",
+       "shown": "23.70"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "bill|TX|total",
+       "v": 95.27319999999999,
+       "u": "USD",
+       "shown": "95.27"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "bill|TX|share|2026-09-01T00:00:00+00:00",
+       "v": 24.87816090988862,
+       "u": "%",
+       "shown": "24.88"
+      }
+     ]
+    },
+    {
+     "id": "b5",
+     "q": "In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they?",
+     "tables": [
+      "cost_of_power_hourly_profile",
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "2026-09: cheapest 09:00, 22.53 USD/MWh; dearest 20:00, 73.13 USD/MWh; spread 50.60 USD/MWh.",
+     "line": "73.13 USD/MWh - 22.53 USD/MWh = 50.60 USD/MWh",
+     "steps": [
+      "The latest month every hour of which is held (cost_of_power_monthly: rt_hours equals hours_in_month): 2026-09. Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time).",
+      "The lowest is 22.53 USD/MWh, at 09:00; the highest 73.13 USD/MWh, at 20:00.",
+      "Spread = 73.13 USD/MWh - 22.53 USD/MWh = 50.60 USD/MWh."
+     ],
+     "words": "In the latest complete month of ERCOT's hour-of-day profile, which hour was cheapest and which dearest on average, and how far apart were they? | 2026-09: cheapest 09:00,  | ; dearest 20:00,  | ; spread  | . |  -  |  =  | The latest month every hour of which is held (cost_of_power_monthly: rt_hours equals hours_in_month): 2026-09. Read the 24 values rt_mean_h00 to rt_mean_h23 for that month (Central time). | The lowest is  | , at 09:00; the highest  | , at 20:00. | Spread =  |  -  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h20~2026-09-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h09~2026-09-01T00:00:00+00:00",
+       "v": 50.5953,
+       "u": "USD/MWh",
+       "shown": "50.60"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h20~2026-09-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h09~2026-09-01T00:00:00+00:00",
+       "v": 50.5953,
+       "u": "USD/MWh",
+       "shown": "50.60"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|diff|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h20~2026-09-01T00:00:00+00:00|series~cost_of_power_hourly_profile~ercot:HB_HUBAVG~rt_mean_h09~2026-09-01T00:00:00+00:00",
+       "v": 50.5953,
+       "u": "USD/MWh",
+       "shown": "50.60"
+      }
+     ]
+    },
+    {
+     "id": "b2",
+     "q": "The table's public rows hold 4 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, SPP North hub. In the latest month all 4 hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest?",
+     "tables": [
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "2026-09: largest SPP North hub, 2.84 USD/MWh; smallest CAISO SP15, 0.21 USD/MWh.",
+     "line": "max over the 4 hubs = 2.84 USD/MWh (SPP North hub); min = 0.21 USD/MWh (CAISO SP15)",
+     "steps": [
+      "Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: 2026-09. Every hub holds every hour.",
+      "Read rt_shape_premium of each hub for that month: CAISO NP15 0.59 USD/MWh; CAISO SP15 0.21 USD/MWh; ERCOT hub average 1.12 USD/MWh; SPP North hub 2.84 USD/MWh.",
+      "Rank them."
+     ],
+     "words": "The table's public rows hold 4 hubs: CAISO NP15, CAISO SP15, ERCOT hub average, SPP North hub. In the latest month all 4 hold at least 95 percent of their hours, which had the largest shape premium, and which the smallest? | 2026-09: largest SPP North hub,  | ; smallest CAISO SP15,  | . | max over the 4 hubs =  |  (SPP North hub); min =  |  (CAISO SP15) | Find the latest month in which every hub's rt_hours is at least 95 percent of its hours_in_month: 2026-09.  | Every hub holds every hour | . | Read rt_shape_premium of each hub for that month:  | CAISO NP15  | ; CAISO SP15  | ; ERCOT hub average  | ; SPP North hub  | . | Rank them.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 2.8403,
+       "u": "USD/MWh",
+       "shown": "2.84"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 0.2102,
+       "u": "USD/MWh",
+       "shown": "0.21"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 2.8403,
+       "u": "USD/MWh",
+       "shown": "2.84"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 0.2102,
+       "u": "USD/MWh",
+       "shown": "0.21"
+      },
+      {
+       "where": "step2",
+       "i": 2,
+       "k": "series|cost_of_power_monthly|caiso:TH_NP15_GEN-APND|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 0.5921,
+       "u": "USD/MWh",
+       "shown": "0.59"
+      },
+      {
+       "where": "step2",
+       "i": 4,
+       "k": "series|cost_of_power_monthly|caiso:TH_SP15_GEN-APND|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 0.2102,
+       "u": "USD/MWh",
+       "shown": "0.21"
+      },
+      {
+       "where": "step2",
+       "i": 6,
+       "k": "series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 1.1163,
+       "u": "USD/MWh",
+       "shown": "1.12"
+      },
+      {
+       "where": "step2",
+       "i": 8,
+       "k": "series|cost_of_power_monthly|spp:SPPNORTH_HUB|rt_shape_premium|2026-09-01T00:00:00+00:00",
+       "v": 2.8403,
+       "u": "USD/MWh",
+       "shown": "2.84"
+      }
+     ]
+    }
+   ],
+   "drawn": {
+    "figures": 67,
+    "found": 43,
+    "held": 24,
+    "missing": [],
+    "held_keys": [
+     "b3 bill|CA|wholesale|2026-09-01T00:00:00+00:00",
+     "b3 bill|CA|total",
+     "b3 bill|CA|share|2026-09-01T00:00:00+00:00",
+     "b4 bill|TX|wholesale|2026-09-01T00:00:00+00:00",
+     "b4 bill|TX|total",
+     "b4 bill|TX|share|2026-09-01T00:00:00+00:00"
+    ]
+   },
+   "held": 24,
+   "decisions": [
+    "live",
+    "complete-month",
+    "public-hubs",
+    "bill"
+   ]
+  },
+  "when-the-grid-broke": {
+   "title": "When the grid broke: four events",
+   "example": "cx",
+   "order": [
+    "c3",
+    "c2",
+    "c4",
+    "c1",
+    "c5"
+   ],
+   "questions": [
+    {
+     "id": "cx",
+     "q": "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "2021-02-14: 69,215 MW, against 54,634 MW (2020-02-14): 1.27 times.",
+     "line": "69,215 MW / 54,634 MW = 1.27 times",
+     "steps": [
+      "Open event_window_daily and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline).",
+      "The highest of the 2021 days: 69,215 MW, on 2021-02-14. The highest of the baseline days: 54,634 MW, on 2020-02-14.",
+      "Divide: 69,215 MW / 54,634 MW = 1.27 times."
+     ],
+     "words": "Winter Storm Uri (ERCOT, February 2021): the highest hour of demand in the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-14:  | , against  |  (2020-02-14):  | . |  /  |  =  | Open event_window_daily and keep the rows of event uri_2021, entity eia930:ERCO, variable demand_max_mw: each day's highest hour, in the storm window and on the same days of 2019 and 2020 (the baseline). | The highest of the 2021 days:  | , on 2021-02-14. The highest of the baseline days:  | , on 2020-02-14. | Divide:  |  /  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021",
+       "v": 69215,
+       "u": "MW",
+       "shown": "69,215"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021",
+       "v": 54634,
+       "u": "MW",
+       "shown": "54,634"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|ratio|series~event_window_daily~eia930:ERCO~demand_max_mw~2021-02-14T00:00:00+00:00~uri_2021|series~event_window_daily~eia930:ERCO~demand_max_mw~2020-02-14T00:00:00+00:00~uri_2021",
+       "v": 1.2668850898707764,
+       "u": "times",
+       "shown": "1.27"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021",
+       "v": 69215,
+       "u": "MW",
+       "shown": "69,215"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021",
+       "v": 54634,
+       "u": "MW",
+       "shown": "54,634"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series~event_window_daily~eia930:ERCO~demand_max_mw~2021-02-14T00:00:00+00:00~uri_2021|series~event_window_daily~eia930:ERCO~demand_max_mw~2020-02-14T00:00:00+00:00~uri_2021",
+       "v": 1.2668850898707764,
+       "u": "times",
+       "shown": "1.27"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021",
+       "v": 69215,
+       "u": "MW",
+       "shown": "69,215"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021",
+       "v": 54634,
+       "u": "MW",
+       "shown": "54,634"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021",
+       "v": 69215,
+       "u": "MW",
+       "shown": "69,215"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021",
+       "v": 54634,
+       "u": "MW",
+       "shown": "54,634"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|ratio|series~event_window_daily~eia930:ERCO~demand_max_mw~2021-02-14T00:00:00+00:00~uri_2021|series~event_window_daily~eia930:ERCO~demand_max_mw~2020-02-14T00:00:00+00:00~uri_2021",
+       "v": 1.2668850898707764,
+       "u": "times",
+       "shown": "1.27"
+      }
+     ]
+    },
+    {
+     "id": "c3",
+     "q": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "2022-12-23: 135,328 MW, 41.76 % above the baseline.",
+     "line": "max of demand_max_mw from 2022-12-19 = 135,328 MW, on 2022-12-23; that day's demand_max_pct_vs_baseline = 41.76 %",
+     "steps": [
+      "Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest: 135,328 MW.",
+      "Read demand_max_pct_vs_baseline for that day: 41.76 %."
+     ],
+     "words": "Winter Storm Elliott (December 2022): what was PJM's highest hour of demand served in the window, on which day, and how far above the same weekdays of 2021 and 2020 was that day's peak? | 2022-12-23:  | ,  |  above the baseline. | max of demand_max_mw from 2022-12-19 =  | , on 2022-12-23; that day's demand_max_pct_vs_baseline =  | Read demand_max_mw (event elliott_2022, eia930:PJM) from 2022-12-19 on and find the highest:  | . | Read demand_max_pct_vs_baseline for that day:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 135328,
+       "u": "MW",
+       "shown": "135,328"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 41.7611,
+       "u": "%",
+       "shown": "41.76"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 135328,
+       "u": "MW",
+       "shown": "135,328"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 41.7611,
+       "u": "%",
+       "shown": "41.76"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 135328,
+       "u": "MW",
+       "shown": "135,328"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+       "v": 41.7611,
+       "u": "%",
+       "shown": "41.76"
+      }
+     ]
+    },
+    {
+     "id": "c2",
+     "q": "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "2020-08-18, 23.50 %; 12.75 percentage points above 2020-08-14 (10.74 %).",
+     "line": "23.50 % - 10.74 % = 12.75 percentage points",
+     "steps": [
+      "Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest: 23.50 %.",
+      "2020-08-14: 10.74 %.",
+      "Subtract: 12.75 percentage points."
+     ],
+     "words": "CAISO, August 2020: on which day was the peak hour furthest above the same weekdays of earlier years, and by how many percentage points did it exceed 2020-08-14, the first day of rotating outages? | 2020-08-18,  | ;  |  above 2020-08-14 ( | ). |  -  |  =  | Read demand_max_pct_vs_baseline (event caiso_heat_2020) for each day and find the highest:  | . | 2020-08-14:  | . | Subtract:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+       "v": 23.4955,
+       "u": "%",
+       "shown": "23.50"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+       "v": 12.7517,
+       "u": "percentage points",
+       "shown": "12.75"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+       "v": 10.7438,
+       "u": "%",
+       "shown": "10.74"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+       "v": 23.4955,
+       "u": "%",
+       "shown": "23.50"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+       "v": 10.7438,
+       "u": "%",
+       "shown": "10.74"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+       "v": 12.7517,
+       "u": "percentage points",
+       "shown": "12.75"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+       "v": 23.4955,
+       "u": "%",
+       "shown": "23.50"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+       "v": 10.7438,
+       "u": "%",
+       "shown": "10.74"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "calc|diff|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-18T00:00:00+00:00~caiso_heat_2020|series~event_window_daily~eia930:CISO~demand_max_pct_vs_baseline~2020-08-14T00:00:00+00:00~caiso_heat_2020",
+       "v": 12.7517,
+       "u": "percentage points",
+       "shown": "12.75"
+      }
+     ]
+    },
+    {
+     "id": "c4",
+     "q": "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "Highest price 2023-09-06, 5,075.46 USD/MWh; highest demand 2023-08-10, 85,432 MW: different days.",
+     "line": "max of rt_max = 5,075.46 USD/MWh on 2023-09-06; max of demand_max_mw = 85,432 MW on 2023-08-10",
+     "steps": [
+      "Read rt_max (event ercot_heat_2023) and find the highest: 5,075.46 USD/MWh.",
+      "Read demand_max_mw and find the highest: 85,432 MW.",
+      "Compare the dates."
+     ],
+     "words": "ERCOT, summer 2023: on which day was the highest 15-minute real-time price, and on which day the highest hour of demand? Were they the same day? | Highest price 2023-09-06,  | ; highest demand 2023-08-10,  | : different days. | max of rt_max =  |  on 2023-09-06; max of demand_max_mw =  |  on 2023-08-10 | Read rt_max (event ercot_heat_2023) and find the highest:  | . | Read demand_max_mw and find the highest:  | . | Compare the dates.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+       "v": 85432,
+       "u": "MW",
+       "shown": "85,432"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+       "v": 85432,
+       "u": "MW",
+       "shown": "85,432"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023",
+       "v": 85432,
+       "u": "MW",
+       "shown": "85,432"
+      }
+     ]
+    },
+    {
+     "id": "c1",
+     "q": "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "2021-02-17: 9,051.55 USD/MWh, against 1,691.63 USD/MWh (2020-02-10): 5.35 times.",
+     "line": "9,051.55 USD/MWh / 1,691.63 USD/MWh = 5.35 times",
+     "steps": [
+      "Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is 9,051.55 USD/MWh.",
+      "The highest on the 2019 and 2020 days is 1,691.63 USD/MWh.",
+      "Divide: 5.35 times."
+     ],
+     "words": "Winter Storm Uri (ERCOT, February 2021): the highest 15-minute real-time price during the storm window was how many times the highest on the same days of 2019 and 2020? | 2021-02-17:  | , against  |  (2020-02-10):  | . |  /  |  =  | Read rt_max (event uri_2021, ercot:HB_HUBAVG) for every day; the highest in 2021 is  | . | The highest on the 2019 and 2020 days is  | . | Divide:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+       "v": 1691.63,
+       "u": "USD/MWh",
+       "shown": "1,691.63"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+       "v": 5.350785928364949,
+       "u": "times",
+       "shown": "5.35"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+       "v": 1691.63,
+       "u": "USD/MWh",
+       "shown": "1,691.63"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+       "v": 5.350785928364949,
+       "u": "times",
+       "shown": "5.35"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2020-02-10T00:00:00+00:00|uri_2021",
+       "v": 1691.63,
+       "u": "USD/MWh",
+       "shown": "1,691.63"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2020-02-10T00:00:00+00:00~uri_2021",
+       "v": 5.350785928364949,
+       "u": "times",
+       "shown": "5.35"
+      }
+     ]
+    },
+    {
+     "id": "c5",
+     "q": "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's?",
+     "tables": [
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "9,051.55 USD/MWh (Uri) / 5,075.46 USD/MWh (2023) = 1.78 times.",
+     "line": "9,051.55 USD/MWh / 5,075.46 USD/MWh = 1.78 times",
+     "steps": [
+      "Uri's highest rt_max: 9,051.55 USD/MWh.",
+      "The 2023 heat's highest rt_max: 5,075.46 USD/MWh.",
+      "Divide: 1.78 times."
+     ],
+     "words": "Compare two ERCOT events: Winter Storm Uri's highest 15-minute real-time price was how many times the summer 2023 heat's? |  (Uri) /  |  (2023) =  | . |  /  |  =  | Uri's highest rt_max:  | . | The 2023 heat's highest rt_max:  | . | Divide:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 0,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "answer",
+       "i": 2,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "answer",
+       "i": 4,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+       "v": 1.783395002620452,
+       "u": "times",
+       "shown": "1.78"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+       "v": 1.783395002620452,
+       "u": "times",
+       "shown": "1.78"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2021-02-17T00:00:00+00:00|uri_2021",
+       "v": 9051.55,
+       "u": "USD/MWh",
+       "shown": "9,051.55"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|event_window_daily|ercot:HB_HUBAVG|rt_max|2023-09-06T00:00:00+00:00|ercot_heat_2023",
+       "v": 5075.46,
+       "u": "USD/MWh",
+       "shown": "5,075.46"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "calc|ratio|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2021-02-17T00:00:00+00:00~uri_2021|series~event_window_daily~ercot:HB_HUBAVG~rt_max~2023-09-06T00:00:00+00:00~ercot_heat_2023",
+       "v": 1.783395002620452,
+       "u": "times",
+       "shown": "1.78"
+      }
+     ]
+    }
+   ],
+   "drawn": {
+    "figures": 50,
+    "found": 27,
+    "held": 23,
+    "missing": [],
+    "held_keys": [
+     "cx series|event_window_daily|eia930:ERCO|demand_max_mw|2021-02-14T00:00:00+00:00|uri_2021",
+     "cx series|event_window_daily|eia930:ERCO|demand_max_mw|2020-02-14T00:00:00+00:00|uri_2021",
+     "c3 series|event_window_daily|eia930:PJM|demand_max_mw|2022-12-23T00:00:00+00:00|elliott_2022",
+     "c3 series|event_window_daily|eia930:PJM|demand_max_pct_vs_baseline|2022-12-23T00:00:00+00:00|elliott_2022",
+     "c2 series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-18T00:00:00+00:00|caiso_heat_2020",
+     "c2 series|event_window_daily|eia930:CISO|demand_max_pct_vs_baseline|2020-08-14T00:00:00+00:00|caiso_heat_2020",
+     "c4 series|event_window_daily|eia930:ERCO|demand_max_mw|2023-08-10T00:00:00+00:00|ercot_heat_2023"
+    ]
+   },
+   "held": 23,
+   "decisions": [
+    "live",
+    "baseline"
+   ]
+  },
+  "storage-and-taxes": {
+   "title": "Storage and taxes",
+   "example": "dx",
+   "order": [
+    "d2",
+    "d1",
+    "d4",
+    "d3",
+    "d5"
+   ],
+   "questions": [
+    {
+     "id": "dx",
+     "q": "On 2026-11-14 alone, how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out?",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "day": null,
+     "answer": "2026-11-14: discharged 3,755 MWh, charged 24,833 MWh: 15.12 % came back out.",
+     "line": "3,755 MWh / 24,833 MWh x 100 = 15.12 %",
+     "steps": [
+      "Open storage_daily_cycle and keep the rows of entity eia930:ERCO for 2026-11-14 (a local day).",
+      "Read mwh_discharged, 3,755 MWh, and mwh_charged, 24,833 MWh.",
+      "Energy out over energy in: 3,755 MWh / 24,833 MWh x 100 = 15.12 %. One day's charge can be discharged the next, so a single day can read above or below the true round trip: the problem on a week below adds seven days."
+     ],
+     "words": "On 2026-11-14 alone, how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? | 2026-11-14: discharged  | , charged  | :  |  came back out. |  /  |  x 100 =  | Open storage_daily_cycle and keep the rows of entity eia930:ERCO for 2026-11-14 (a local day). | Read mwh_discharged,  | , and mwh_charged,  | . | Energy out over energy in:  |  /  |  x 100 =  | . One day's charge can be discharged the next, so a single day can read above or below the true round trip: the problem on a week below adds seven days.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_charged|2026-11-14T00:00:00+00:00",
+       "v": 24833,
+       "u": "MWh",
+       "shown": "24,833"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_charged~2026-11-14T00:00:00+00:00",
+       "v": 15.12100833568236,
+       "u": "%",
+       "shown": "15.12"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_charged|2026-11-14T00:00:00+00:00",
+       "v": 24833,
+       "u": "MWh",
+       "shown": "24,833"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_charged~2026-11-14T00:00:00+00:00",
+       "v": 15.12100833568236,
+       "u": "%",
+       "shown": "15.12"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_charged|2026-11-14T00:00:00+00:00",
+       "v": 24833,
+       "u": "MWh",
+       "shown": "24,833"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_discharged|2026-11-14T00:00:00+00:00",
+       "v": 3755,
+       "u": "MWh",
+       "shown": "3,755"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|mwh_charged|2026-11-14T00:00:00+00:00",
+       "v": 24833,
+       "u": "MWh",
+       "shown": "24,833"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|pct|series~storage_daily_cycle~eia930:ERCO~mwh_discharged~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~mwh_charged~2026-11-14T00:00:00+00:00",
+       "v": 15.12100833568236,
+       "u": "%",
+       "shown": "15.12"
+      }
+     ]
+    },
+    {
+     "id": "d2",
+     "q": "On 2026-11-14, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "day": null,
+     "answer": "Charging peaked in hour 10, discharging in hour 17: 7 hours apart.",
+     "line": "17 - 10 = 7 hours",
+     "steps": [
+      "Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time).",
+      "Subtract: 17 - 10 = 7 hours."
+     ],
+     "words": "On 2026-11-14, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they? | Charging peaked in hour  | , discharging in hour  | :  |  apart. |  -  |  =  | Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time). | Subtract:  |  -  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+       "v": 10,
+       "u": "",
+       "shown": "10"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+       "v": 17,
+       "u": "",
+       "shown": "17"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+       "v": 7,
+       "u": "hours",
+       "shown": "7"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+       "v": 17,
+       "u": "",
+       "shown": "17"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+       "v": 10,
+       "u": "",
+       "shown": "10"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+       "v": 7,
+       "u": "hours",
+       "shown": "7"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_discharge_hour|2026-11-14T00:00:00+00:00",
+       "v": 17,
+       "u": "",
+       "shown": "17"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series|storage_daily_cycle|eia930:ERCO|peak_charge_hour|2026-11-14T00:00:00+00:00",
+       "v": 10,
+       "u": "",
+       "shown": "10"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "calc|diff|series~storage_daily_cycle~eia930:ERCO~peak_discharge_hour~2026-11-14T00:00:00+00:00|series~storage_daily_cycle~eia930:ERCO~peak_charge_hour~2026-11-14T00:00:00+00:00",
+       "v": 7,
+       "u": "hours",
+       "shown": "7"
+      }
+     ]
+    },
+    {
+     "id": "d1",
+     "q": "Over the seven latest days held (2026-11-03 to 2026-11-14), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?",
+     "tables": [
+      "storage_daily_cycle"
+     ],
+     "day": null,
+     "answer": "Discharged 167,897 MWh, charged 229,806 MWh: 73.06 % came back out, against 90 % assumed for the game's battery.",
+     "line": "167,897 MWh / 229,806 MWh x 100 = 73.06 %",
+     "steps": [
+      "Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days).",
+      "Energy out over energy in: 167,897 MWh / 229,806 MWh x 100 = 73.06 %.",
+      "The game's battery is an assumption: 90 % round trip (lib/battery.ts)."
+     ],
+     "words": "Over the seven latest days held (2026-11-03 to 2026-11-14), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery? | Discharged  | , charged  | :  |  came back out, against  |  assumed for the game's battery. |  /  |  x 100 =  | Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over 2026-11-03 to 2026-11-14 (local days). | Energy out over energy in:  |  /  |  x 100 =  | . | The game's battery is an assumption:  |  round trip (lib/battery.ts).",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 167897,
+       "u": "MWh",
+       "shown": "167,897"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 229806,
+       "u": "MWh",
+       "shown": "229,806"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+       "v": 73.06032044420077,
+       "u": "%",
+       "shown": "73.06"
+      },
+      {
+       "where": "answer",
+       "i": 7,
+       "k": "battery|round_trip_pct",
+       "v": 90,
+       "u": "%",
+       "shown": "90"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 167897,
+       "u": "MWh",
+       "shown": "167,897"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 229806,
+       "u": "MWh",
+       "shown": "229,806"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+       "v": 73.06032044420077,
+       "u": "%",
+       "shown": "73.06"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "series_sum|storage_daily_cycle|mwh_discharged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 167897,
+       "u": "MWh",
+       "shown": "167,897"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "series_sum|storage_daily_cycle|mwh_charged|2026-11-03T00:00:00Z|2026-11-15T00:00:00Z|eia930:ERCO",
+       "v": 229806,
+       "u": "MWh",
+       "shown": "229,806"
+      },
+      {
+       "where": "step2",
+       "i": 5,
+       "k": "calc|pct|series_sum~storage_daily_cycle~mwh_discharged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO|series_sum~storage_daily_cycle~mwh_charged~2026-11-03T00:00:00Z~2026-11-15T00:00:00Z~eia930:ERCO",
+       "v": 73.06032044420077,
+       "u": "%",
+       "shown": "73.06"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "battery|round_trip_pct",
+       "v": 90,
+       "u": "%",
+       "shown": "90"
+      }
+     ]
+    },
+    {
+     "id": "d4",
+     "q": "A well produces 1,000 barrels of oil in 2026-10, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?",
+     "tables": [
+      "eia_fuel_spot_prices"
+     ],
+     "day": null,
+     "answer": "At 102.07 USD/bbl: Texas 4,695.05 USD, Louisiana 12,758.30 USD, New Mexico 7,287.54 USD; Louisiana's is 2.72 times Texas's.",
+     "line": "1,000 bbl x 102.07 USD/bbl x each state's rate: Texas 4,695.05 USD, Louisiana 12,758.30 USD, New Mexico 7,287.54 USD; 12,758.30 USD / 4,695.05 USD = 2.72 times",
+     "steps": [
+      "The mean of 2026-10's daily WTI Cushing spot prices: 102.07 USD/bbl.",
+      "Texas: 4.6 percent of value, or 4.6 cents a barrel if more: 4,695.05 USD.",
+      "Louisiana: 12.5 percent of value: 12,758.30 USD.",
+      "New Mexico: severance 3.75, emergency school 3.15, conservation 0.24 percent of value, the rates the rules file states for 2026-04-01 to 2026-08-31 (TRD table) (the newest it holds; 2026-10 is later): 7,287.54 USD.",
+      "Louisiana over Texas: 2.72 times."
+     ],
+     "words": "A well produces 1,000 barrels of oil in 2026-10, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)? | At  | : Texas  | , Louisiana  | , New Mexico  | ; Louisiana's is  |  Texas's. | 1,000 bbl x  |  x each state's rate: Texas  | , Louisiana  | , New Mexico  | ;  |  /  |  =  | The mean of 2026-10's daily WTI Cushing spot prices:  | . | Texas: 4.6 percent of value, or 4.6 cents a barrel if more:  | . | Louisiana: 12.5 percent of value:  | . | New Mexico: severance 3.75, emergency school 3.15, conservation 0.24 percent of value, the rates the rules file states for 2026-04-01 to 2026-08-31 (TRD table) (the newest it holds; 2026-10 is later):  | . | Louisiana over Texas:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "spotmean|eia:wti_cushing|2026-10",
+       "v": 102.06636363636366,
+       "u": "USD/bbl",
+       "shown": "102.07"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "v": 4695.052727272729,
+       "u": "USD",
+       "shown": "4,695.05"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "v": 12758.295454545458,
+       "u": "USD",
+       "shown": "12,758.30"
+      },
+      {
+       "where": "answer",
+       "i": 7,
+       "k": "sev|NM|oil|1000|2026-10|base",
+       "v": 7287.538363636365,
+       "u": "USD",
+       "shown": "7,287.54"
+      },
+      {
+       "where": "answer",
+       "i": 9,
+       "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+       "v": 2.717391304347826,
+       "u": "times",
+       "shown": "2.72"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "spotmean|eia:wti_cushing|2026-10",
+       "v": 102.06636363636366,
+       "u": "USD/bbl",
+       "shown": "102.07"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "v": 4695.052727272729,
+       "u": "USD",
+       "shown": "4,695.05"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "v": 12758.295454545458,
+       "u": "USD",
+       "shown": "12,758.30"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "sev|NM|oil|1000|2026-10|base",
+       "v": 7287.538363636365,
+       "u": "USD",
+       "shown": "7,287.54"
+      },
+      {
+       "where": "line",
+       "i": 9,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "v": 12758.295454545458,
+       "u": "USD",
+       "shown": "12,758.30"
+      },
+      {
+       "where": "line",
+       "i": 11,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "v": 4695.052727272729,
+       "u": "USD",
+       "shown": "4,695.05"
+      },
+      {
+       "where": "line",
+       "i": 13,
+       "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+       "v": 2.717391304347826,
+       "u": "times",
+       "shown": "2.72"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "spotmean|eia:wti_cushing|2026-10",
+       "v": 102.06636363636366,
+       "u": "USD/bbl",
+       "shown": "102.07"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "sev|TX|oil|1000|2026-10|base",
+       "v": 4695.052727272729,
+       "u": "USD",
+       "shown": "4,695.05"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "sev|LA|oil|1000|2026-10|base",
+       "v": 12758.295454545458,
+       "u": "USD",
+       "shown": "12,758.30"
+      },
+      {
+       "where": "step4",
+       "i": 1,
+       "k": "sev|NM|oil|1000|2026-10|base",
+       "v": 7287.538363636365,
+       "u": "USD",
+       "shown": "7,287.54"
+      },
+      {
+       "where": "step5",
+       "i": 1,
+       "k": "calc|ratio|sev~LA~oil~1000~2026-10~base|sev~TX~oil~1000~2026-10~base",
+       "v": 2.717391304347826,
+       "u": "times",
+       "shown": "2.72"
+      }
+     ]
+    },
+    {
+     "id": "d3",
+     "q": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?",
+     "tables": [
+      "cost_of_power_hourly_profile",
+      "cost_of_power_monthly"
+     ],
+     "day": null,
+     "answer": "One cycle earns 0.62 USD; the fleet 6,159.21 USD.",
+     "line": "(12.81 kWh x 73.13 USD/MWh - 14.23 kWh x 22.53 USD/MWh) / 1,000 = 0.62 USD; times the fleet's homes = 6,159.21 USD",
+     "steps": [
+      "The cheapest hour of the month's profile is 09:00, 22.53 USD/MWh; the dearest 20:00, 73.13 USD/MWh.",
+      "To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys 14.23 kWh and delivers 12.81 kWh.",
+      "Cash: (12.81 kWh x 73.13 USD/MWh - 14.23 kWh x 22.53 USD/MWh) / 1,000 = 0.62 USD.",
+      "Times the fleet's homes: 6,159.21 USD."
+     ],
+     "words": "The home battery game's battery charges once from empty at ERCOT's cheapest average hour of 2026-09 (the latest complete month) and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn? | One cycle earns  | ; the fleet  | . | ( |  x  |  -  |  x  | ) / 1,000 =  | ; times the fleet's homes =  | The cheapest hour of the month's profile is 09:00,  | ; the dearest 20:00,  | . | To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys  |  and delivers  | . | Cash: ( |  x  |  -  |  x  | ) / 1,000 =  | . | Times the fleet's homes:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 0.6159207727180706,
+       "u": "USD",
+       "shown": "0.62"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 6159.207727180706,
+       "u": "USD",
+       "shown": "6,159.21"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "battery|delivered_kwh",
+       "v": 12.807224523681937,
+       "u": "kWh",
+       "shown": "12.81"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "battery|bought_kwh",
+       "v": 14.230249470757707,
+       "u": "kWh",
+       "shown": "14.23"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "line",
+       "i": 9,
+       "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 0.6159207727180706,
+       "u": "USD",
+       "shown": "0.62"
+      },
+      {
+       "where": "line",
+       "i": 11,
+       "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 6159.207727180706,
+       "u": "USD",
+       "shown": "6,159.21"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "step1",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "battery|bought_kwh",
+       "v": 14.230249470757707,
+       "u": "kWh",
+       "shown": "14.23"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "battery|delivered_kwh",
+       "v": 12.807224523681937,
+       "u": "kWh",
+       "shown": "12.81"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "battery|delivered_kwh",
+       "v": 12.807224523681937,
+       "u": "kWh",
+       "shown": "12.81"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h20|2026-09-01T00:00:00+00:00",
+       "v": 73.128,
+       "u": "USD/MWh",
+       "shown": "73.13"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "battery|bought_kwh",
+       "v": 14.230249470757707,
+       "u": "kWh",
+       "shown": "14.23"
+      },
+      {
+       "where": "step3",
+       "i": 7,
+       "k": "series|cost_of_power_hourly_profile|ercot:HB_HUBAVG|rt_mean_h09|2026-09-01T00:00:00+00:00",
+       "v": 22.5327,
+       "u": "USD/MWh",
+       "shown": "22.53"
+      },
+      {
+       "where": "step3",
+       "i": 9,
+       "k": "battery|cycle|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 0.6159207727180706,
+       "u": "USD",
+       "shown": "0.62"
+      },
+      {
+       "where": "step4",
+       "i": 1,
+       "k": "battery|cycle_fleet|cost_of_power_hourly_profile|ercot:HB_HUBAVG|2026-09-01T00:00:00+00:00|rt_mean_h09|rt_mean_h20",
+       "v": 6159.207727180706,
+       "u": "USD",
+       "shown": "6,159.21"
+      }
+     ]
+    },
+    {
+     "id": "d5",
+     "q": "A Texas gas well produced 2,400 Mcf in 2026-08 (77.4 Mcf a day over its 31 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?",
+     "tables": [
+      "eia_fuel_spot_prices"
+     ],
+     "day": null,
+     "answer": "Tax 501.34 USD; the Comptroller certified 1.36 USD/Mcf (2005 dollars) for the month, a 100 % credit, so it owes 0 USD.",
+     "line": "2,400 Mcf x 2.79 USD/MMBtu x Texas's gas rate = 501.34 USD; less the 100 % credit = 0 USD",
+     "steps": [
+      "The mean of 2026-08's daily Henry Hub spot prices, applied per Mcf: 2.79 USD/MMBtu.",
+      "7.5 percent of value: 501.34 USD.",
+      "The well averages 90 Mcf a day or less, so it may claim the credit, set by the Comptroller's certified price for the month in 2005 dollars: 1.36 USD/Mcf (2005 dollars), which gives 100 %.",
+      "With the credit: 0 USD."
+     ],
+     "words": "A Texas gas well produced 2,400 Mcf in 2026-08 (77.4 Mcf a day over its 31 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit? | Tax  | ; the Comptroller certified  |  for the month, a  |  credit, so it owes  | . | 2,400 Mcf x  |  x Texas's gas rate =  | ; less the  |  credit =  | The mean of 2026-08's daily Henry Hub spot prices, applied per Mcf:  | . | 7.5 percent of value:  | . | The well averages 90 Mcf a day or less, so it may claim the credit, set by the Comptroller's certified price for the month in 2005 dollars:  | , which gives  | . | With the credit:  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "sev|TX|gas|2400|2026-08|base",
+       "v": 501.34285714285704,
+       "u": "USD",
+       "shown": "501.34"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "sevcert|tx_lp_gas|2026-08",
+       "v": 1.36,
+       "u": "USD/Mcf (2005 dollars)",
+       "shown": "1.36"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "sevcredit|tx_lp_gas|2026-08",
+       "v": 100,
+       "u": "%",
+       "shown": "100"
+      },
+      {
+       "where": "answer",
+       "i": 7,
+       "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+       "v": 0,
+       "u": "USD",
+       "shown": "0"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "spotmean|eia:henry_hub|2026-08",
+       "v": 2.785238095238095,
+       "u": "USD/MMBtu",
+       "shown": "2.79"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "sev|TX|gas|2400|2026-08|base",
+       "v": 501.34285714285704,
+       "u": "USD",
+       "shown": "501.34"
+      },
+      {
+       "where": "line",
+       "i": 5,
+       "k": "sevcredit|tx_lp_gas|2026-08",
+       "v": 100,
+       "u": "%",
+       "shown": "100"
+      },
+      {
+       "where": "line",
+       "i": 7,
+       "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+       "v": 0,
+       "u": "USD",
+       "shown": "0"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "spotmean|eia:henry_hub|2026-08",
+       "v": 2.785238095238095,
+       "u": "USD/MMBtu",
+       "shown": "2.79"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "sev|TX|gas|2400|2026-08|base",
+       "v": 501.34285714285704,
+       "u": "USD",
+       "shown": "501.34"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "sevcert|tx_lp_gas|2026-08",
+       "v": 1.36,
+       "u": "USD/Mcf (2005 dollars)",
+       "shown": "1.36"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "sevcredit|tx_lp_gas|2026-08",
+       "v": 100,
+       "u": "%",
+       "shown": "100"
+      },
+      {
+       "where": "step4",
+       "i": 1,
+       "k": "sev|TX|gas|2400|2026-08|tx_lp_gas",
+       "v": 0,
+       "u": "USD",
+       "shown": "0"
+      }
+     ]
+    }
+   ],
+   "drawn": {
+    "figures": 79,
+    "found": 79,
+    "held": 0,
+    "missing": [],
+    "held_keys": []
+   },
+   "held": 0,
+   "decisions": [
+    "live",
+    "battery-day",
+    "complete-month",
+    "seven-days",
+    "game-battery",
+    "tax",
+    "credit"
+   ]
+  },
+  "networks-and-money": {
+   "title": "Networks and money",
+   "example": "ex",
+   "order": [
+    "e3",
+    "e1",
+    "e2",
+    "e4",
+    "e5"
+   ],
+   "questions": [
+    {
+     "id": "ex",
+     "q": "The same merchant solar plant at ERCOT's hub average, in 2026-08: what price did its output capture, and what is that as a share of the month's flat price?",
+     "tables": [
+      "merchant_revenue_monthly"
+     ],
+     "day": null,
+     "answer": "2026-08: it captured 28.82 USD/MWh against a flat price of 35.45 USD/MWh: a capture rate of 81.30 %.",
+     "line": "28.82 USD/MWh / 35.45 USD/MWh x 100 = 81.30 %",
+     "steps": [
+      "On /cost-of-power/seller pick solar at ERCOT, or read merchant_revenue_monthly for the month: the capture price is the month's revenue over the MWh made, 28.82 USD/MWh.",
+      "The flat price is the plain mean of every hour's real-time price, 35.45 USD/MWh.",
+      "Divide and multiply by 100: 28.82 USD/MWh / 35.45 USD/MWh x 100 = 81.30 %."
+     ],
+     "words": "The same merchant solar plant at ERCOT's hub average, in 2026-08: what price did its output capture, and what is that as a share of the month's flat price? | 2026-08: it captured  |  against a flat price of  | : a capture rate of  | . |  /  |  x 100 =  | On /cost-of-power/seller pick solar at ERCOT, or read merchant_revenue_monthly for the month: the capture price is the month's revenue over the MWh made,  | . | The flat price is the plain mean of every hour's real-time price,  | . | Divide and multiply by 100:  |  /  |  x 100 =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-08",
+       "v": 28.82033429791699,
+       "u": "USD/MWh",
+       "shown": "28.82"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-08",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-08",
+       "v": 81.29739862037768,
+       "u": "%",
+       "shown": "81.30"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-08",
+       "v": 28.82033429791699,
+       "u": "USD/MWh",
+       "shown": "28.82"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-08",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-08",
+       "v": 81.29739862037768,
+       "u": "%",
+       "shown": "81.30"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-08",
+       "v": 28.82033429791699,
+       "u": "USD/MWh",
+       "shown": "28.82"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-08",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-08",
+       "v": 28.82033429791699,
+       "u": "USD/MWh",
+       "shown": "28.82"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-08",
+       "v": 35.4505,
+       "u": "USD/MWh",
+       "shown": "35.45"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-08",
+       "v": 81.29739862037768,
+       "u": "%",
+       "shown": "81.30"
+      }
+     ]
+    },
+    {
+     "id": "e3",
+     "q": "A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In 2026-09, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price?",
+     "tables": [
+      "merchant_revenue_monthly"
+     ],
+     "day": null,
+     "answer": "It captured 33.42 USD/MWh against a flat price of 38.39 USD/MWh: a capture rate of 87.05 %.",
+     "line": "33.42 USD/MWh / 38.39 USD/MWh x 100 = 87.05 %",
+     "steps": [
+      "Capture price: the month's revenue from its sales over the MWh it made (the Texas solar fleet's hourly shape, per MW of nameplate): 33.42 USD/MWh.",
+      "Flat price: the mean of every hour's real-time price in the month: 38.39 USD/MWh.",
+      "Capture rate: 33.42 USD/MWh / 38.39 USD/MWh x 100 = 87.05 %."
+     ],
+     "words": "A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In 2026-09, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price? | It captured  |  against a flat price of  | : a capture rate of  | . |  /  |  x 100 =  | Capture price: the month's revenue from its sales over the MWh it made (the Texas solar fleet's hourly shape, per MW of nameplate):  | . | Flat price: the mean of every hour's real-time price in the month:  | . | Capture rate:  |  /  |  x 100 =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "v": 33.416187279987554,
+       "u": "USD/MWh",
+       "shown": "33.42"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+       "v": 87.04988428491525,
+       "u": "%",
+       "shown": "87.05"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "v": 33.416187279987554,
+       "u": "USD/MWh",
+       "shown": "33.42"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+       "v": 87.04988428491525,
+       "u": "%",
+       "shown": "87.05"
+      },
+      {
+       "where": "step1",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "v": 33.416187279987554,
+       "u": "USD/MWh",
+       "shown": "33.42"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|capture:2026-09",
+       "v": 33.416187279987554,
+       "u": "USD/MWh",
+       "shown": "33.42"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|flat:2026-09",
+       "v": 38.3874,
+       "u": "USD/MWh",
+       "shown": "38.39"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|rate:2026-09",
+       "v": 87.04988428491525,
+       "u": "%",
+       "shown": "87.05"
+      }
+     ]
+    },
+    {
+     "id": "e1",
+     "q": "In the newest hour of the network snapshot, 2026-11-15 04:00 UTC (Nov 14, 23:00 Eastern), with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?",
+     "tables": [
+      "eia930_all_interchange"
+     ],
+     "day": null,
+     "answer": "ERCOT exchanged power with 2 neighbors; the largest flow, 144 MW, in from Southwest Power Pool.",
+     "line": "count of ERCOT's ties with a flow = 2 neighbors; the largest flow in size = 144 MW",
+     "steps": [
+      "On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour.",
+      "Count the neighbors with a reported flow: 2 neighbors: Southwest Power Pool (SWPP), Centro Nacional de Control de Energia (CEN).",
+      "The largest in size, whichever way it runs: 144 MW, ERCOT importing. EIA's sign: positive when the reporting balancing authority exports."
+     ],
+     "words": "In the newest hour of the network snapshot, 2026-11-15 04:00 UTC (Nov 14, 23:00 Eastern), with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow? | ERCOT exchanged power with  | ; the largest flow,  | ,  | in from  | Southwest Power Pool | . | count of ERCOT's ties with a flow =  | ; the largest flow in size =  | On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour. | Count the neighbors with a reported flow:  | :  | Southwest Power Pool (SWPP), Centro Nacional de Control de Energia (CEN) | . | The largest in size, whichever way it runs:  | ,  | ERCOT importing | . EIA's sign: positive when the reporting balancing authority exports.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "net|ties|ERCO|2026-11-15T04:00:00Z",
+       "v": 2,
+       "u": "neighbors",
+       "shown": "2"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "net|maxflow|ERCO|2026-11-15T04:00:00Z",
+       "v": 144,
+       "u": "MW",
+       "shown": "144"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "net|ties|ERCO|2026-11-15T04:00:00Z",
+       "v": 2,
+       "u": "neighbors",
+       "shown": "2"
+      },
+      {
+       "where": "line",
+       "i": 3,
+       "k": "net|maxflow|ERCO|2026-11-15T04:00:00Z",
+       "v": 144,
+       "u": "MW",
+       "shown": "144"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "net|ties|ERCO|2026-11-15T04:00:00Z",
+       "v": 2,
+       "u": "neighbors",
+       "shown": "2"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "net|maxflow|ERCO|2026-11-15T04:00:00Z",
+       "v": 144,
+       "u": "MW",
+       "shown": "144"
+      }
+     ]
+    },
+    {
+     "id": "e2",
+     "q": "In the same hour, which balancing authority exported the most power, net, to its neighbors?",
+     "tables": [
+      "eia930_all_interchange"
+     ],
+     "day": null,
+     "answer": "Salt River Project Agricultural Improvement and Power District (SRP), a net export of 5,559 MW.",
+     "line": "the largest, over every balancing authority, of the sum of its tie flows = 5,559 MW (SRP)",
+     "steps": [
+      "For each balancing authority, add the flows on all its ties in that hour, exports positive and imports negative.",
+      "The largest sum: Salt River Project Agricultural Improvement and Power District (SRP), 5,559 MW; the next, Southern Company Services, Inc. - Trans (SOCO), about 2,284 MW.",
+      "The sum covers the ties between balancing authorities in the snapshot; EIA's regions and its country totals are left out, since they repeat the same flows."
+     ],
+     "words": "In the same hour, which balancing authority exported the most power, net, to its neighbors? | Salt River Project Agricultural Improvement and Power District (SRP), a net export of  | . | the largest, over every balancing authority, of the sum of its tie flows =  |  (SRP) | For each balancing authority, add the flows on all its ties in that hour, exports positive and imports negative. | The largest sum:  | Salt River Project Agricultural Improvement and Power District (SRP),  | ; the next, Southern Company Services, Inc. - Trans (SOCO), about 2,284 MW. | The sum covers the ties between balancing authorities in the snapshot; EIA's regions and its country totals are left out, since they repeat the same flows.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "net|topexport|2026-11-15T04:00:00Z",
+       "v": 5559,
+       "u": "MW",
+       "shown": "5,559"
+      },
+      {
+       "where": "line",
+       "i": 1,
+       "k": "net|topexport|2026-11-15T04:00:00Z",
+       "v": 5559,
+       "u": "MW",
+       "shown": "5,559"
+      },
+      {
+       "where": "step2",
+       "i": 2,
+       "k": "net|topexport|2026-11-15T04:00:00Z",
+       "v": 5559,
+       "u": "MW",
+       "shown": "5,559"
+      }
+     ]
+    },
+    {
+     "id": "e4",
+     "q": "A default merchant battery at ERCOT's hub average, 100 MW / 400 MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes 6,783,357 USD of debt service a year. In how many of the months held, 2018-07 to 2026-09, could its cash flow at best cover that month's share?",
+     "tables": [
+      "merchant_revenue_monthly"
+     ],
+     "day": null,
+     "answer": "At best, in 26 of 99 months; it fell short in 73 months even with perfect foresight. A real battery, which cannot see the day's prices in advance, earns less and covers fewer.",
+     "line": "99 months - 73 months = 26",
+     "steps": [
+      "Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio.",
+      "Months held: 99 months; months below 1.0x: 73 months.",
+      "Months covered, at best: 99 months - 73 months = 26.",
+      "At best, because the revenue is an upper bound, as the seller's tab notes: the battery knows each day's prices in advance; a real one captures a fraction of this."
+     ],
+     "words": "A default merchant battery at ERCOT's hub average, 100 MW / 400 MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes 6,783,357 USD of debt service a year. In how many of the months held, 2018-07 to 2026-09, could its cash flow at best cover that month's share? | At best, in  |  of  | ; it fell short in  |  even with perfect foresight. A real battery, which cannot see the day's prices in advance, earns less and covers fewer. |  -  |  =  | Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio. | Months held:  | ; months below 1.0x:  | . | Months covered, at best:  |  -  |  =  | . | At best, because the revenue is an upper bound, as the seller's tab notes: the battery knows each day's prices in advance; a real one captures a fraction of this.",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1",
+       "v": 26,
+       "u": "",
+       "shown": "26"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "v": 99,
+       "u": "months",
+       "shown": "99"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "v": 73,
+       "u": "months",
+       "shown": "73"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "v": 99,
+       "u": "months",
+       "shown": "99"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "v": 73,
+       "u": "months",
+       "shown": "73"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1",
+       "v": 26,
+       "u": "",
+       "shown": "26"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "v": 99,
+       "u": "months",
+       "shown": "99"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "v": 73,
+       "u": "months",
+       "shown": "73"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|n",
+       "v": 99,
+       "u": "months",
+       "shown": "99"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22|under1",
+       "v": 73,
+       "u": "months",
+       "shown": "73"
+      },
+      {
+       "where": "step3",
+       "i": 5,
+       "k": "calc|diff|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~n|mr~iso=ercot&asset=battery&mw=100&mwh=400&ds=6783357&hr=10.725&vom=4.25&fom=22~under1",
+       "v": 26,
+       "u": "",
+       "shown": "26"
+      }
+     ]
+    },
+    {
+     "id": "e5",
+     "q": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm?",
+     "tables": [
+      "merchant_revenue_monthly",
+      "event_window_daily"
+     ],
+     "day": null,
+     "answer": "Over the storm's 18 days it earned 12,382,219.96 USD; as many normal days earned 157,661.22 USD: 78.54 times as much.",
+     "line": "12,382,219.96 USD / (8,758.96 USD x 18 days) = 78.54 times",
+     "steps": [
+      "Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up.",
+      "Add the 18 days of the event window: 12,382,219.96 USD.",
+      "A normal day: the mean of the baseline days of the same event (the same dates of earlier years): 8,758.96 USD. A normal week is seven of them, 61,312.70 USD.",
+      "As many normal days as the storm lasted: 8,758.96 USD x 18 days = 157,661.22 USD.",
+      "The ratio: 12,382,219.96 USD / 157,661.22 USD = 78.54 times."
+     ],
+     "words": "During Winter Storm Uri, February 2021 (the 18 days from 2021-02-07 to 2021-02-24), what did the same 100 MW merchant solar plant at ERCOT's hub average earn, against as many normal days before the storm? | Over the storm's  |  it earned  | ; as many normal days earned  | :  |  as much. |  / ( |  x  | ) =  | Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up. | Add the  |  of the event window:  | . | A normal day: the mean of the baseline days of the same event (the same dates of earlier years):  | . A normal week is seven of them,  | . | As many normal days as the storm lasted:  |  x  |  =  | . | The ratio:  |  /  |  =  | .",
+     "figures": [
+      {
+       "where": "answer",
+       "i": 1,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "v": 18,
+       "u": "days",
+       "shown": "18"
+      },
+      {
+       "where": "answer",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "v": 12382219.96,
+       "u": "USD",
+       "shown": "12,382,219.96"
+      },
+      {
+       "where": "answer",
+       "i": 5,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+       "v": 157661.22000000003,
+       "u": "USD",
+       "shown": "157,661.22"
+      },
+      {
+       "where": "answer",
+       "i": 7,
+       "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+       "v": 78.53687774330301,
+       "u": "times",
+       "shown": "78.54"
+      },
+      {
+       "where": "line",
+       "i": 0,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "v": 12382219.96,
+       "u": "USD",
+       "shown": "12,382,219.96"
+      },
+      {
+       "where": "line",
+       "i": 2,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+       "v": 8758.956666666669,
+       "u": "USD",
+       "shown": "8,758.96"
+      },
+      {
+       "where": "line",
+       "i": 4,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "v": 18,
+       "u": "days",
+       "shown": "18"
+      },
+      {
+       "where": "line",
+       "i": 6,
+       "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+       "v": 78.53687774330301,
+       "u": "times",
+       "shown": "78.54"
+      },
+      {
+       "where": "step2",
+       "i": 1,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "v": 18,
+       "u": "days",
+       "shown": "18"
+      },
+      {
+       "where": "step2",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "v": 12382219.96,
+       "u": "USD",
+       "shown": "12,382,219.96"
+      },
+      {
+       "where": "step3",
+       "i": 1,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+       "v": 8758.956666666669,
+       "u": "USD",
+       "shown": "8,758.96"
+      },
+      {
+       "where": "step3",
+       "i": 3,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_week:uri_2021",
+       "v": 61312.696666666685,
+       "u": "USD",
+       "shown": "61,312.70"
+      },
+      {
+       "where": "step4",
+       "i": 1,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_mean",
+       "v": 8758.956666666669,
+       "u": "USD",
+       "shown": "8,758.96"
+      },
+      {
+       "where": "step4",
+       "i": 3,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|days",
+       "v": 18,
+       "u": "days",
+       "shown": "18"
+      },
+      {
+       "where": "step4",
+       "i": 5,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+       "v": 157661.22000000003,
+       "u": "USD",
+       "shown": "157,661.22"
+      },
+      {
+       "where": "step5",
+       "i": 1,
+       "k": "mr|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|stress_total:uri_2021",
+       "v": 12382219.96,
+       "u": "USD",
+       "shown": "12,382,219.96"
+      },
+      {
+       "where": "step5",
+       "i": 3,
+       "k": "mrs|iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5|uri_2021|base_window",
+       "v": 157661.22000000003,
+       "u": "USD",
+       "shown": "157,661.22"
+      },
+      {
+       "where": "step5",
+       "i": 5,
+       "k": "calc|ratio|mr~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~stress_total:uri_2021|mrs~iso=ercot&asset=solar&mw=100&mwh=0&ds=7078769&hr=10.725&vom=4.25&fom=12.5~uri_2021~base_window",
+       "v": 78.53687774330301,
+       "u": "times",
+       "shown": "78.54"
+      }
+     ]
+    }
+   ],
+   "drawn": {
+    "figures": 60,
+    "found": 60,
+    "held": 0,
+    "missing": [],
+    "held_keys": []
+   },
+   "held": 0,
+   "decisions": [
+    "live",
+    "network-hour",
+    "seller",
+    "storm-days"
+   ]
+  }
+ },
+ "edition": {
+  "2026-10-15": {
+   "know-your-grid": {
+    "teacher": {
+     "figures": 36,
+     "found": 36,
+     "missing": []
+    },
+    "students_frozen": 0,
+    "students_rows_links": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   "prices-and-your-bill": {
+    "teacher": {
+     "figures": 43,
+     "found": 43,
+     "missing": []
+    },
+    "students_frozen": 0,
+    "students_rows_links": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   "when-the-grid-broke": {
+    "teacher": {
+     "figures": 26,
+     "found": 26,
+     "missing": []
+    },
+    "students_frozen": 0,
+    "students_rows_links": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   "storage-and-taxes": {
+    "teacher": {
+     "figures": 45,
+     "found": 45,
+     "missing": []
+    },
+    "students_frozen": 0,
+    "students_rows_links": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   "networks-and-money": {
+    "teacher": {
+     "figures": 36,
+     "found": 36,
+     "missing": []
+    },
+    "students_frozen": 0,
+    "students_rows_links": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   }
+  }
+ },
+ "index_decisions": [
+  "live",
+  "full-day",
+  "battery-day",
+  "local-day",
+  "complete-month",
+  "public-hubs",
+  "bill",
+  "baseline",
+  "seven-days",
+  "game-battery",
+  "tax",
+  "credit",
+  "network-hour",
+  "seller",
+  "storm-days"
+ ]
+}

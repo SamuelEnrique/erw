@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { Brand } from "@/components/Brand";
 import { EvGame, type StatePrices } from "./EvGame";
+import { EvDecisions } from "./Decisions";
 
 // Session 294 (Samuel's ruling 17 of 14 October 2026): the EV game, EV only (the solar half is a later game). The prices
 // are the warehouse's, built into data/ev_prices.json by scripts/build-ev-prices.mjs (the two tables are not in the live
@@ -22,6 +23,8 @@ export default function EvPage() {
         left; point at or tap a small square to see where a number comes from.
       </p>
       <EvGame states={d.states} us={{ code: "US", name: "United States", power: d.us.power, gas: d.us.gas }} built={d.built_at} />
+      {/* session 7536 (chain 304): the choices that move the game's figures, each with its default and source on hover */}
+      <EvDecisions />
     </div>
     </Brand>
   );
