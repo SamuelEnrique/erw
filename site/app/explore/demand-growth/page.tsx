@@ -120,7 +120,8 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
   const ytdWords = (y: number | undefined) => (y === undefined ? "" : `${y}${so(y) || (through ? ` (January to ${monthName(through.month)})` : "")}`);
   const signedText = (v: number) => `${v > 0 ? "+" : ""}${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-  // the thesis chart: growth since the base year by grid, in the window chosen, each grid at its own latest year
+  // the thesis chart: growth since the base year by grid, in the window chosen, each grid at its own latest year (for a
+  // month, wip/alt-demand-growth-2: the newest year when the table writes its growth for that month)
   const byGrid = GRIDS.map((g) => {
     const ge = entityOf(g.ba), y = latestOf(rows, ge, win);
     return { g, y, v: val(ge, win.growth, y) };
@@ -167,7 +168,7 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
       ) : null}
 
       <ChartFrame title={`The headline chart: growth since ${BASE} by grid, ${win.short}`}
-        note={<>One bar a grid, at its {win.latest === "newest" ? "newest year, the year so far against the same months of " + BASE : "last whole year"}, largest first; {grid.name} is marked &quot;shown below&quot;. Each bar is one row of the table; its figure is in the table under the chart.{byGrid.some((x) => x.v === undefined) ? <> A grid without a bar has no row for this window{win.slug === "peak" ? " (the Lower 48 has no peak: the method note says why)" : ""}.</> : null}</>}>
+        note={<>One bar a grid, at its {win.latest === "newest" ? "newest year, the year so far against the same months of " + BASE : win.growthMw && win.slug.startsWith("m") ? "newest year that holds the whole month (the last whole year when the newest does not)" : "last whole year"}, largest first; {grid.name} is marked &quot;shown below&quot;. Each bar is one row of the table; its figure is in the table under the chart.{byGrid.some((x) => x.v === undefined) ? <> A grid without a bar has no row for this window{win.slug === "peak" ? " (the Lower 48 has no peak: the method note says why)" : ""}.</> : null}</>}>
           <GroupedBars id="growth-by-grid" unit="percent" label={`Growth since ${BASE} of ${win.short}, by grid, percent`}
             series={[{ name: `Growth since ${BASE}: ${win.label}`, tone: "accent" }]}
             fmt={signedText}
@@ -177,7 +178,7 @@ export default async function DemandGrowthExplorer({ searchParams }: { searchPar
             }))} />
       </ChartFrame>
 
-      <ToolSection title={`Every grid: ${win.short}`} note={`Each grid at its ${win.latest === "newest" ? "newest year (the year so far)" : "last whole year"}; a grid's name opens it in this window.`}>
+      <ToolSection title={`Every grid: ${win.short}`} note={`Each grid at its ${win.latest === "newest" ? "newest year (the year so far)" : win.growthMw && win.slug.startsWith("m") ? "newest year that holds the whole month, else its last whole year" : "last whole year"}; a grid's name opens it in this window.`}>
         <ToolTable caption={`Growth since ${BASE} of ${win.short}, by grid`} minWidth={win.growthMw ? 520 : 440}
           head={["Grid", `${BASE}${win.latest === "newest" && through ? `, January to ${monthName(through.month)}` : ""}, MW`, `${latest ?? (win.latest === "newest" ? "Newest year" : "Last whole year")}, MW`, `Growth since ${BASE}, percent`, ...(win.growthMw ? ["Change, MW"] : [])]}
           rows={byGrid.map(({ g, y }) => {

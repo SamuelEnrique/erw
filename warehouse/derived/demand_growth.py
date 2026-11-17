@@ -46,6 +46,8 @@ and, on the row of the last whole year, the change from 2019 to that year:
     avg_demand_growth_since_2019_mw, peak_demand_growth_since_2019_mw   (session 7022) the year's average and its peak, MW
 and, on the newest year's row (session 7022): ytd_avg_demand_growth_since_2019_mw, the year so far against 2019's
 same months, MW. Each is the difference of the two means as the table rounds them, to one decimal.
+Ruling alternative 2 (branch wip/alt-demand-growth-2, not a default on main): growth_mw_mMM and growth_pct_mMM also on
+the newest year's row, for each whole month it holds, against 2019's same month (newest_month_growth).
 """
 
 import argparse
@@ -190,7 +192,24 @@ def summarize(d, tz, last_month=None, peak=True):
     newest_r = out.get(newest, {})
     if newest != BASE and "ytd_avg_demand_mw" in newest_r and "ytd_avg_demand_mw" in base:
         newest_r["ytd_avg_demand_growth_since_2019_mw"] = round(newest_r["ytd_avg_demand_mw"] - base["ytd_avg_demand_mw"], 1)
+    newest_month_growth(out, newest)   # ruling alternative 2 of /explore/demand-growth (wip/alt-demand-growth-2)
     return out, at, last_month
+
+
+def newest_month_growth(out, newest):
+    """Ruling alternative 2 of /explore/demand-growth (session 7709, branch wip/alt-demand-growth-2; not a default on
+    main): the newest (partial) year's own months against 2019's, on the newest year's row: growth_mw_mMM and
+    growth_pct_mMM for every whole month that year holds (avg_demand_mw_mMM). On main a month's growth is written on the
+    last whole year's row only, so March 2026 shows its MW and no growth. The hours of the day are not written: the
+    newest year holds no hour of the day."""
+    base, r = out.get(BASE, {}), out.get(newest)
+    if newest == BASE or r is None or "avg_demand_mw" in r:   # a newest year that is whole has its growth already
+        return
+    for m in range(1, 13):
+        k = f"avg_demand_mw_m{m:02d}"
+        if k in r and k in base and base[k]:
+            r[f"growth_mw_m{m:02d}"] = round(r[k] - base[k], 1)
+            r[f"growth_pct_m{m:02d}"] = round(100 * (r[k] - base[k]) / base[k], 2)
 
 
 def break_check(d, tz):
