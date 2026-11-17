@@ -296,3 +296,81 @@ Each number `/play/battery` shows carries its key (`site/components/Num.tsx`), w
   the perfect battery 60.97 on Easy and Normal, 48.36 on Hard, 88.34 with the roof; the roof alone 34.32; the calm day's
   0.44) from `data/battery_levels.json` with the game's model, and exits 1 on a difference. On 23 October 2026 all ten
   match. When the rules change, the note and the script's list change in the same commit.
+
+## The done line (session 7535, chain 304, 16 November 2026)
+
+This section is the game as a player meets it, each figure with its rule, so that every number can be recomputed from
+this note and the frozen prices alone. The sections above stay as they are; where one of them was wrong it is marked.
+
+### The views
+
+| View | When | What it shows | Figures and their rule |
+|---|---|---|---|
+| The mode picker and the day list | always | Easy, Normal, Hard; one select of the days, grouped by grid, the chosen day's line under it | the day lines' figures are the builder's (`warehouse/derived/battery_levels.py`), each from the day's own prices: the heat day's highest interval (3,842.89), the solar-noon day's 10:00 to 15:00 Pacific mean (-22.13), the duck day's two means and their rise (53.37, 462.27, 408.90) |
+| The day at a glance | five seconds after Start | the day's lowest, average and highest real price, and "most prices" between the average less and plus one standard deviation | `glance`: the 96 real prices' minimum, mean, maximum; the standard deviation over the count (not count less one); the range kept within the lowest and the highest; "below about the average is cheap" |
+| The play | 90 seconds | the price (a spiked one labelled), the battery's charge, the money, the fleet's money, Easy's whole-day line, the fleet call's notice, Hard's notice and the outage banner | the rules of "The battery's settings", "Version 3" and "Version 4"; Hard's notice: the house's need in the outage, the sum over the outage's intervals of (1.5 kW x 0.25 h less the roof's output, never below zero) over sqrt(round trip), against the reserve: "enough by itself" when the reserve covers it, else "keep at least" the need; the banner: the need times sqrt(round trip) times USD 35,000 per MWh, or, when the roof carries the house through the whole outage, that it does (session 7535) |
+| The end table | after every play | you, the perfect battery, no battery: earned; kWh bought and their average price; kWh sold and theirs; one sentence on why | "The end table (session 290)"; the sentence's loss is 1 less the round trip, in whole percent; on Hard the wear per kWh drawn out of the battery |
+| The early end | a play that went bankrupt or dark | when, and on lights out the unserved kWh, the price, the charge, the outage's need and what the battery held at its start | "Version 3" and "Lights out costs money" |
+| The hour lost the most | Normal and Hard | the clock hour where the play earned least against the perfect battery, what the perfect battery did in most of its intervals (on a tie: sold, then charged, then waited), their mean price (a spiked price labelled with the real one), and what each earned in it | `worstHour` over the two plays' earnings per interval, summed by clock hour from the day's first interval; the first such hour on a tie; "grid down" when the perfect battery only waited and the hour meets the outage |
+| In detail and the fleets | after every play (in detail: Normal and Hard) | the market cash, the wear, the fleet bonus, the roof's sales, the lights-out charge; your fleet and the perfect battery's | each a sum of the play's own intervals; a fleet is the score times 10,000 |
+| The debrief | Normal and Hard | the day's real peak and low with their times, the fleet call's start, the perfect battery's runs of charging and of selling (the first four, then "and N more"), the battery's limits | the runs are the perfect plan's trades: an interval is a charge or a sale when the charge moved; the outage is no trade and is not a run (faults file, row 7) |
+| The replay and the share card | after a play (replay: Normal and Hard) | the two charges over the day with the reasons at each switch; the three rows' earnings and the percent of perfect | `explain` ("The replay"); the percent is the score over the perfect battery's, rounded, and none when the perfect battery earns nothing |
+| The rules, the fleet call, the fleets, what is stored | always | the rules' constants; ERCOT's real operating battery fleet beside the game's 50 MW | the rules: `START_MONEY`, `EMERGENCY`, `LIGHTS_OUT`, `SOLAR`, `SETTINGS`; the fleet: "The figures on the page and their keys" |
+| The decisions block (session 7535) | always, folded, at the foot | 15 choices, each with its default, source and session on hover | below |
+
+### The decisions block
+
+`site/app/play/battery/Decisions.tsx` lists each choice that moves a score or a price played; its defaults are read from
+`lib/battery.ts`'s constants. The first five are the player's, editable in place in the game's settings on Normal and
+Hard (on Easy the defaults are played); the rest are fixed game rules.
+
+| Key | The choice | Default | Source |
+|---|---|---|---|
+| `kwh` | usable energy | 13.5 kWh (5 to 30) | "The battery's settings" |
+| `kw` | continuous power | 5 kW (1 to 11.5) | the same |
+| `rte` | round-trip efficiency, split evenly | 90 percent (75 to 95) | the same |
+| `reserve` | backup reserve, Hard only | 25 percent, 3.38 kWh (0 to 50) | the same; Samuel's ruling 1a |
+| `deg` | wear per kWh drawn out of the battery, Hard only | USD 0.11 (0 to 0.30) | Lazard LCOS v10.0 |
+| `start` | the battery starts half full | half | the session 38 game |
+| `money` | USD 5 to start; below zero ends the play | USD 5 | "Version 3" |
+| `price` | the real-time hub price, no retail rate | ERCOT HB_HUBAVG; CAISO SP15 | "What is real and what is not" |
+| `call` | the fleet call: the dearest clock hour, the hour's mean again as a bonus | one hour, never below zero | "The fleet call" |
+| `spike` | Hard's spike toward the cap, 25, 50, 75, 90 percent | USD 5,000 on every grid | ERCOT market notice M-A120721-01 |
+| `outage` | two hours after the spike, the house at 1.5 kW | eight intervals | "Version 3" |
+| `voll` | lights out pays the whole outage at the value of lost load | USD 35,000 per MWh | "Lights out costs money" |
+| `roof` | Hard's 5 kW rooftop add-on on the fleet's shape | off | "Hard's add-ons" |
+| `fleet` | the fictional fleet | 10,000 homes | Samuel's ruling 3a |
+| `perfect` | the perfect battery: the exact optimum; a move that moves no charge is not a move | a nanowatt-hour's grain | "The perfect-foresight optimum" |
+
+### Two corrections (session 7535)
+
+- **The perfect plan keeps no move that moves nothing.** A charge into a full battery, a sale from an empty one or one
+  at its reserve, or a sale of a rounding residue (under a nanowatt-hour) is waiting in every respect; `optimum` no
+  longer keeps it as a move, so the debrief and the replay never say the perfect battery charged while it sat full. No
+  score changes (faults file, rows 3 and 4).
+- **The cap's date.** USD 5,000 per MWh is ERCOT's high system-wide offer cap since 1 January 2022, not 2023 (row 6;
+  "Version 3" above is corrected in place).
+
+### What the game does not hold
+
+Beyond "What the game leaves out": no score is a real battery's or a real home's; Easy's forecast is the day's real
+prices, without a real forecast's error; the California days use ERCOT's cap and Texas's value of lost
+load; today's level has no solar shape; the leaderboard's scores are stored, the research record never shown.
+
+### The replication, the cross-check and the faults
+
+- **The replication** (`replication/battery_game/replicate.py`): written from this note's rules, not from the page's
+  code. 105 plays (the seven days; Easy, Normal, Hard, Hard with the roof; the perfect plan, waiting, the plain rule of
+  the 8 cheapest and 8 dearest intervals, charging all day, and on Hard with no reserve selling all day, which goes dark)
+  and every figure the end screen, the debrief, Hard's words, the day at a glance and the rules section print: 3,290
+  figures read off the page's own components drawn to HTML (`site/scripts/battery-game-figures.mjs`), plus the day
+  list's five figures and, with the tables, the 672 frozen prices against their rows and the two claims about the
+  tables (the lowest daily mean since 2015, the narrowest spring range): 3,304 of 3,304, each inside half the page's
+  last shown digit, times and words equal. `replicate.do` recomputes the five headline figures (the heat day's glance,
+  the perfect battery's 60.97 and the plain rule's 43.89 on Normal, the fleet's 609,710.12, the duck day's rise 408.90);
+  it has not been run (no Stata on the machine).
+- **The cross-check** (`docs/reviews/battery-game-crosscheck-2026-11-16.md`): Uri's day and the heat day against
+  Potomac Economics' 2021 and 2023 reports, the cap against ERCOT's notice, the value of lost load against the market's,
+  the real fleet against the market monitor's 2025 figure.
+- **The faults** (`docs/reviews/battery-game-faults-2026-11-16.md`): 10, of which 6 site faults fixed, 1 for the data
+  machine (the solar day's line), 3 rulings.
