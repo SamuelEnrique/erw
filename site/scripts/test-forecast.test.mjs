@@ -350,16 +350,16 @@ test("sales tax: the 25 states read by session 6051, the generating machinery's 
   for (const s of ["ks", "wv", "ma", "mi", "sc", "vt", "pa", "in", "oh"]) {
     near(F.defaults(P, "utility_pv", s).exempt, pv, 1e-5, `${s}: the modules and inverters`);
     near(F.defaults(P, "land_based_wind", s).exempt, wind, 1e-5, `${s}: the turbines and blades`);
-    near(F.defaults(P, "natural_gas", s).exempt, gas, 1e-5, `${s}: the power generation equipment`);
+    near(F.defaults(P, "natural_gas", s).exempt, 84.5, 1e-5, `${s}: ruling alternative 11 (wip/alt-impact-11), with the plant equipment; main: the power generation equipment`);
     assert.equal(F.defaults(P, "geothermal", s).exempt, 0, `${s}: JEDI's geothermal model has no sales tax line`);
   }
-  near(F.defaults(P, "land_based_wind", "mo").exempt, wind, 1e-5); near(F.defaults(P, "natural_gas", "mo").exempt, gas, 1e-5);
+  near(F.defaults(P, "land_based_wind", "mo").exempt, wind, 1e-5); near(F.defaults(P, "natural_gas", "mo").exempt, 84.5, 1e-5);   // alternative 11; main: gas
   near(F.defaults(P, "land_based_wind", "wi").exempt, 80.9942, 1e-5, "Wisconsin names the tower");
   near(F.defaults(P, "natural_gas", "ca").exempt, 3.9375 / 9.03 * gas, 1e-5);
   const r = F.run({ ...F.defaults(P, "natural_gas", "ks"), mw: 500, capex: 1000 }, ROWS, P);
   assert.equal(r.sales.note, "after the exemption");
   // session 6053's second read: Georgia's manufacturer includes NAICS 22111; Mississippi's 1.5 percent machinery rate reaches generation
-  near(F.defaults(P, "utility_pv", "ga").exempt, pv, 1e-5); near(F.defaults(P, "natural_gas", "ga").exempt, gas, 1e-5);
+  near(F.defaults(P, "utility_pv", "ga").exempt, pv, 1e-5); near(F.defaults(P, "natural_gas", "ga").exempt, 84.5, 1e-5);   // alternative 11 (wip/alt-impact-11); main: gas
   near(F.defaults(P, "land_based_wind", "ms").exempt, wind * 5.5 / 7.06, 1e-5, "Mississippi: 5.5 of 7.06 points on the machinery");
   for (const t of ["land_based_wind", "utility_pv", "natural_gas", "geothermal"]) assert.equal(F.defaults(P, t, "id").exempt, 0, "Idaho excludes utilities");
   assert.equal(F.defaults(P, "utility_pv", "mo").exempt, 100, "Missouri 144.030.2(46): the systems and their materials");
