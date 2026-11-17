@@ -49,7 +49,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 340 | `wip/alt-events-1` | 100.0 | seen: events-1-1280.png, events-1-elliott-1280.png with production's -default-1280 twins | 7800 |
 | B | 341 | `wip/alt-impact-26` | 100.0 | fault: impact-26-1280.png with production's -default-1280 twins | 7800 |
 | B | 351 | `wip/alt-events-4` | 100.0 | seen: events-4-1280.png with production's -default-1280 twins | 7800 |
-| B | 352 | `wip/alt-events-6` | 100.0 | wanted | |
+| B | 352 | `wip/alt-events-6` | 100.0 | seen: events-6-1280.png with production's -default-1280 twins | 7800 |
 | B | 358 | `wip/alt-board-2` | 100.0 | wanted | |
 | B | 362 | `wip/alt-prices-3` | 100.0 | wanted | |
 | B | 363 | `wip/alt-storage-1` | 100.0 | wanted | |
