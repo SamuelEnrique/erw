@@ -91,7 +91,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 280 | `wip/alt-contracts-3` | 15.4 | seen: contracts-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 281 | `wip/alt-contracts-2` | 15.2 | seen: contracts-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 367 | `wip/alt-grid-2` | 13.42 | wanted | |
-| B | 314 | `wip/alt-site-ask-3` | 11.55 | wanted | |
+| B | 314 | `wip/alt-site-ask-3` | 11.55 | not seen: no pictures | 7800 |
 | B | 356 | `wip/alt-map-1` | 11.3 | seen: map-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 296 | `wip/alt-battery-awards-3` | 11.0 | seen: battery-awards-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 309 | `wip/alt-impact-9` | 10.0 | seen: impact-9-1280.png with production's -default-1280 twins | 7800 |
