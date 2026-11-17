@@ -34,7 +34,7 @@ import { XY } from "./Charts";
 
 // session 215: the price table whose hold the free-energy and worth sections of a grid take their words from
 const priceTableOf = (grid: string) => (grid === "isone" ? "isone_dam_zone_prices" : grid === "nyiso" ? "nyiso_dam_zone_prices" : "iso_dam_hub_prices");
-import { Blank, FreeEnergy, N, Texas, Worth, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
+import { Blank, FreeEnergy, N, Texas, Worth, ercotWholeMonths, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
 
 // Session 144: "Curtailment", one tool, one page, one address, in review (lib/release.ts), in the battery page's layout.
 // It holds what /curtailment showed (every grid by day and by month, from the curtailment tables in Supabase) and what
@@ -59,6 +59,15 @@ const exact = (v: number) => (Number.isInteger(v) ? count(v) : price(v));
 const iso = (t: number) => new Date(t).toISOString().replace(/\.\d{3}Z$/, "Z");
 const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
 const sum = (rows: SeriesRow[], vars: string[]) => rows.filter((r) => vars.includes(r.variable)).reduce((a, r) => a + r.value, 0);
+// session 7544 (the read as a developer, row 3): a share's curtailed MWh are those of the days its output is held; where
+// that leaves a day of the month out, the cell says so on hover with California's whole month (the figure of "By month"
+// and of the battery section), so the two figures for one month on this page are seen to be two spans of days
+function shareCurtailed(grid: string, m: string, mwh: number, held: number, days: number): ReactNode {
+  const p = grid === "caiso" ? profile.months[m] : undefined;
+  if (held >= days || !p) return whole(mwh);
+  const all = p.curtailed_solar_mwh + p.curtailed_wind_mwh;
+  return <span data-share-days={m} className="cursor-help underline decoration-dotted" title={`Over the ${held} of ${days} days for which CAISO's wind and solar output is held; a day without it is left out of both sides of the share. Every day held of the month, from CAISO's record by the hour: ${whole(all)} MWh over ${p.days_held} of ${p.days_in_month} days`}>{whole(mwh)}</span>;
+}
 const LOCAL = "Turned down to relieve a congested line somewhere on the grid", SYSTEM = "Turned down because the whole system had more supply than it could use or export";
 
 /** By day and by month, from the curtailment tables (what /curtailment showed), with the shares of shares.json. */
@@ -108,7 +117,7 @@ function DaysAndMonths({ g, monthly, daily, sg }: { g: GridRow; monthly: SeriesR
                 ...(sg ? [{ name: "Share of available output", color: "var(--color-ink)", kind: "line" as const, axis: 1 as const, digits: 2, unit: "percent", values: months.map((m) => sg.months[m]?.share_pct ?? null) }] : [])]}
               notes={months.map((m) => (sg && !sg.months[m] ? `Share not held yet: ${shareReason(sg, m)}` : !byMonth.has(`${parts[0]?.[0]}|${m}`) && sg?.months[m] ? `Curtailed over the ${sg.months[m].days_held} days held: ${whole(sg.months[m].curtailed_mwh)} MWh` : null))} />
           </ChartFrame>
-        ) : (
+        ) : estimate && ercotWholeMonths(ercot).length ? null : (
           <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-months="none">{g.name}, a whole month: <Blank why={estimate ? ercot.month_reason : `${MONTHLY} holds no complete month for ${g.entity} yet`} /></p>
         )}
         {sg ? (() => {
@@ -175,7 +184,7 @@ function California({ c, period, r }: { c: Choice; period: string; r: Row }) {
             {period !== battMonth ? <p className="mb-3 max-w-3xl text-sm" data-battery-month={battMonth}>Shown for {periodName(battMonth)}, the newest month of {label} with the batteries. Other months: {bm.map((m, i) => <span key={m}>{i ? ", " : ""}<Link href={link({ ...c, period: m }, "batteries")} className={item(m === battMonth)}>{m}</Link></span>)}.</p> : null}
             <HeadlineRow>
               <HeadlineNumber label={`Curtailed, ${periodName(battMonth)}`} value={<N k="batt|curtailed">{whole(br.curtailed_mwh_battery_days)}</N>} unit="MWh" note={<>Wind and solar, over the <N k="batt|days">{whole(br.battery_days_held)}</N> days both tables hold.</>} />
-              <HeadlineNumber label="Taken in by the batteries" value={<N k="batt|charging">{whole(br.battery_charging_mwh)}</N>} unit="MWh" note={<>Over the same days, at every hour.</>} />
+              <HeadlineNumber label="Taken in by the batteries" value={<N k="batt|charging">{whole(br.battery_charging_mwh)}</N>} unit="MWh" note={<>Over the same days, at every hour: each five-minute value below zero, added up. <span data-storage-count="1">The <SiteLink href="/storage">storage page</SiteLink>&apos;s daily charging nets each hour first, so it is never higher.</span></>} />
               <HeadlineNumber label="Curtailed while they charged" value={br.curtailed_while_charging_share_pct !== undefined ? <N k="batt|while">{two(br.curtailed_while_charging_share_pct)}</N> : <Blank why="no hour of the month has both figures" />} unit="percent" note={<>Of the curtailed MWh, the share in hours in which the batteries took in more than they gave back.</>} />
             </HeadlineRow>
             <ChartFrame title={`The average day of ${periodName(battMonth)}, MW`} legend={[{ label: "Wind and solar curtailed", color: "var(--color-fuel-solar)" }, { label: "Battery charging", color: "var(--color-fuel-storage)" }]} note="Pacific time.">
@@ -256,7 +265,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
               return (
                 <>In {periodName(period)}, California curtailed <N k="sum|solar">{whole(r.curtailed_solar_mwh)}</N> MWh of solar and <N k="sum|wind">{whole(r.curtailed_wind_mwh)}</N> MWh of wind{ps ? <>, <N k="sum|share">{two(ps.share)}</N> percent of its available wind and solar output</> : null}, more in the hour from {hourName(peak.hour)} than in any other.{" "}
                   {cover === "none" ? <>CAISO published no reason for it then.</> : <><N k="sum|local">{whole(r.curtailed_solar_local_mwh + r.curtailed_wind_local_mwh)}</N> MWh was for local congestion and <N k="sum|system">{whole(r.curtailed_solar_system_mwh + r.curtailed_wind_system_mwh)}</N> MWh for system-wide oversupply{cover === "part" ? ", with no reason published for the rest" : ""}.</>}{" "}
-                  {br && br.curtailed_while_charging_share_pct !== undefined ? <>In {periodName(battMonth!)}, <N k="sum|while">{two(br.curtailed_while_charging_share_pct)}</N> percent of it fell in hours in which the batteries were already charging.</> : null}</>
+                  {br && br.curtailed_while_charging_share_pct !== undefined ? <>In {periodName(battMonth!)}, <N k="sum|while">{two(br.curtailed_while_charging_share_pct)}</N> percent of that month&apos;s curtailment fell in hours in which the batteries were already charging.</> : null}</>
               );
             })() : c.grid === "spp" && sg && marks ? (
               <>In {monthName(marks.last)}, SPP curtailed <N k="sum|curtailed">{whole(sg.months[marks.last].curtailed_mwh)}</N> MWh of wind and solar, <N k="sum|share">{two(sg.months[marks.last].share_pct)}</N> percent of its available output; its highest month held is {monthName(marks.highest)}, at <N k="sum|highest">{two(sg.months[marks.highest].share_pct)}</N> percent. {cheap}</>
@@ -299,7 +308,12 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
             <HeadlineRow>
               <HeadlineNumber label={`Below the limit, the ${ercot.whole_days} days held`} value={<N k="head|below">{whole(ercot.window.both.below_hsl_mwh)}</N>} unit="MWh" note={<>Wind <N k="head|wind">{whole(ercot.window.wind.below_hsl_mwh)}</N>, solar <N k="head|solar">{whole(ercot.window.solar.below_hsl_mwh)}</N>.</>} />
               <HeadlineNumber label="As a share of the limit" value={<N k="head|share">{two(ercot.window.both.share_pct ?? 0)}</N>} unit="percent" note={(() => { const best = Object.entries(ercot.days).filter(([, d]) => d.whole && d.both.share_pct !== null).sort((a, b) => (b[1].both.share_pct ?? 0) - (a[1].both.share_pct ?? 0))[0]; return best ? <>The highest day: {dayName(best[0])}, <N k="head|highest">{two(best[1].both.share_pct ?? 0)}</N> percent.</> : undefined; })()} />
-              <HeadlineNumber label="A whole month" value={<Blank why={Object.values(ercot.months).find((m) => m.missing)?.missing ?? ercot.month_reason} />} note={<>Before the first reading: <Blank words={ercot.history} why={ercot.history_reason} />.</>} />
+              {/* session 7544 (row 9): the newest whole month when the file holds one; it read "not held yet" above a table holding October 2026 whole */}
+              {(() => { const wm = ercotWholeMonths(ercot).at(-1), r = wm ? ercot.months[wm] : null;
+                return r?.both && r.both.share_pct !== null
+                  ? <HeadlineNumber label={`A whole month, ${monthName(wm!)}`} value={<span data-whole-month={wm}><N k="head|month">{two(r.both.share_pct)}</N></span>} unit="percent"
+                      note={<>Of the limit: wind <N k="head|month_wind">{whole(r.wind!.below_hsl_mwh)}</N> MWh and solar <N k="head|month_solar">{whole(r.solar!.below_hsl_mwh)}</N> MWh below it, {whole(r.hours_held)} of {whole(r.hours_in_month)} hours. Before the first reading: <Blank words={ercot.history} why={ercot.history_reason} />.</>} />
+                  : <HeadlineNumber label="A whole month" value={<Blank why={Object.values(ercot.months).find((m) => m.missing)?.missing ?? ercot.month_reason} />} note={<>Before the first reading: <Blank words={ercot.history} why={ercot.history_reason} />.</>} />; })()}
             </HeadlineRow>
           ) : (
             <HeadlineRow>
@@ -343,7 +357,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
                 <ToolTable minWidth={620} caption={`${g.name}: the share of available wind and solar output curtailed, every month`}
                   head={["Month", "Curtailed, MWh", "Wind and solar output, MWh", "Share, percent", "Days held"]}
                   rows={[...Object.keys(sg.months), ...Object.keys(sg.missing)].sort().reverse().map((m) => { const x = sg.months[m]; return x
-                    ? { key: m, cells: [<span key="m" title={`Output: ${shares.basis_words[x.basis] ?? x.basis}`}>{m}</span>, whole(x.curtailed_mwh), whole(x.output_mwh), <span key="s" data-share-month={m}>{two(x.share_pct)}</span>, `${x.days_held} of ${x.days_in_month}`] }
+                    ? { key: m, cells: [<span key="m" title={`Output: ${shares.basis_words[x.basis] ?? x.basis}`}>{m}</span>, shareCurtailed(c.grid, m, x.curtailed_mwh, x.days_held, x.days_in_month), whole(x.output_mwh), <span key="s" data-share-month={m}>{two(x.share_pct)}</span>, `${x.days_held} of ${x.days_in_month}`] }
                     : { key: m, muted: true, cells: [m], wide: <span data-share-missing={m}><Blank why={sg.missing[m]} /></span> }; })} />
               </Fold>
             ) : null}

@@ -67,13 +67,16 @@ function thin(points: Pt[], columns: number): Pt[] {
   const held = points.filter((p) => p[1] !== null) as [number, number][];
   if (!held.length) return [];
   const t0 = held[0][0], t1 = held[held.length - 1][0], w = (t1 - t0) / columns || 1;
-  const out: [number, number][] = [];
+  const out: Pt[] = [];
   let bucket = -1, lo: [number, number] | null = null, hi: [number, number] | null = null;
   const flush = () => {
     if (lo && hi) { const first = lo[0] <= hi[0] ? lo : hi, second = lo[0] <= hi[0] ? hi : lo; out.push(first); if (first !== second) out.push(second); }
     lo = hi = null;
   };
-  for (const p of held) {
+  // session 7542: a break in the line (a null point) is kept through the thinning, so a narrow chart breaks where a wide one does
+  for (const q of points) {
+    if (q[1] === null) { flush(); out.push(q); bucket = -1; continue; }
+    const p = q as [number, number];
     const b = Math.floor((p[0] - t0) / w);
     if (b !== bucket) { flush(); bucket = b; }
     if (!lo || p[1] < lo[1]) lo = p;

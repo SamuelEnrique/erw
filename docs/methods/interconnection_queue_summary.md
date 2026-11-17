@@ -144,6 +144,18 @@ The page draws these at its foot (`site/lib/decisions.ts`, `QUEUES_DECISIONS`), 
 8. Years to operation are the days from the request to the operation date over 365.25, for requests that reached operation with both dates in order; a request dated the other way round is left out, and ISO-NE, whose operating requests carry no date, has no median. **Default:** Dated requests only, both dates in order. **Source:** The data file's request and operation dates. (session 95)
 9. The figures are of what the queues record: operators keep finished and withdrawn requests for different lengths of time, and the file holds no cost, developer, network upgrade or reason for a withdrawal, and no forecast of what will be built. **Default:** What the queues record, nothing inferred. **Source:** docs/methods/interconnection_queue_summary.md, "What the table does not hold". (session 95)
 
+## What the reader meets (session 7545, chain 304, part C)
+
+The page read as a developer choosing where to file (`docs/reviews/queues-read-2026-11-16.md`). Added to the page, every figure still a row of this table:
+
+- **Every grid for one technology** in one table under the technology table (the same five columns).
+- **Each year entered as counts** (requests entered, MW entered, reached operation, withdrawn, still active, suspended, MW still active), in a fold under the chart of outcomes: the `By year entered` rows of this note.
+- **One operation year** that holds a median is written in a sentence with its median and its count, where two or more draw the line.
+- **ERCOT's solar with storage: withdrawn 0.00 percent.** The 2026 edition holds no withdrawn and no suspended ERCOT request with a second part: of ERCOT's 1,158 withdrawn and 190 suspended requests, none has a `type_2`, and all 558 ERCOT requests with one are active or operational (read from `lbnl_interconnection_queue` on 16 November 2026). So ERCOT's solar-with-storage view (66 past requests) has a share withdrawn of 0.00 that is the file's labels, not a count of hybrids that stayed; its withdrawn hybrids are, it appears, filed under one technology. The page says so on the figure wherever it is drawn (`noneWithdrawn` in `site/lib/queues.ts`: a view with enough past requests for a share and no withdrawn or suspended request in any year; in this edition only this one). The cause is a question for the data machine (`docs/state/data_requests_done_line.md`, the row of session 7545).
+- **ISO-NE's "not held" wait** says on hover that none of its built requests carries an operation date.
+- **No load.** Every request in the file is a power plant or a battery; the page says so and links ERCOT's large-load report (`/datacenters`) and the All grids tab of `/cost-of-power`.
+- **The operators' own lists** (`iso_queue_statistics`, on `/explore/interconnection` and `/map?tab=queues`) are another source read on another day; the lead names them. Their count for a grid and an entry year is not this table's.
+
 ## What waits for the owner (session 7018)
 
 - The storage difference against Berkeley Lab's summary (552.7 GW in the file's parts, approximately 749 GW in the summary): a question for Berkeley Lab, or a reading of its slide deck.

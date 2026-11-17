@@ -11,7 +11,7 @@ import {
   RANKS, TABLE, byHour, byMonth, cells, choices, extremes, hourName, href, localHour, monthName, ranking, signed, slugOf, whole, wholeYears, yearToDate,
   type Area, type DemandFile,
 } from "@/lib/demandgrowth";
-import { METHODS, viewHref, viewOf } from "@/lib/demandpage";
+import { CA_BASE_FAULT, HOUR_WHY, METHODS, caBaseWhy, viewHref, viewOf, type Fault } from "@/lib/demandpage";
 import { Brand } from "@/components/Brand";
 import { Related } from "@/components/Related";
 import { Tabs } from "@/components/tool/Tabs";
@@ -19,6 +19,27 @@ import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { DEMAND_DECISIONS } from "@/lib/decisions";
 import { ConsumptionView } from "../consumption/view";
+import { DEMAND_GROWTH_DECISIONS } from "../explore/demand-growth/Decisions";
+import faultsJson from "@/data/data_faults.json";
+import { demandGrowth } from "@/lib/siting";
+
+// Session 7543 (chain 304, part C: the read of /demand as a utility planner reads it,
+// docs/reviews/demand-read-2026-11-16.md). Three hovers the reader needed, each read from the file that holds the words
+// on another page, so the two pages cannot say different things: the explorer's line on demand against retail sales
+// (app/explore/demand-growth/Decisions.tsx, "against-sales"), the register's entry on California's early 2019
+// (data/data_faults.json), and how an hour is named (the explorer's "local-time" line, in this page's words).
+const AGAINST_SALES = (() => { const d = DEMAND_GROWTH_DECISIONS.find((x) => x.key === "against-sales")!; return `${d.text} ${d.def} Source: ${d.source}`; })();
+const faults = faultsJson as unknown as { rows: Fault[]; status_words: Record<string, string> };
+/** Session 7543 (the read, row 12): the All grids tab of the datacenter cost page computes its own demand growth from
+ *  this file (lib/siting.ts, demandGrowth: the last twelve months over the twelve before), another period from this
+ *  column's; the hover gives both for the grid shown, from the same function, so neither page reads as the other's error. */
+function yoyWhy(name: string, slug: string, last: { year: string; row: Record<string, number> }) {
+  const here = `${name}, ${last.year} on ${Number(last.year) - 1}: ${signed(last.row.avg_demand_growth_yoy_pct)} percent, a calendar year's average over the year before's.`;
+  const g = demandGrowth(file as never, slug);
+  if (!("pct" in g)) return here;
+  return `${here} The All grids tab of the datacenter cost page (/cost-of-power?view=allgrids) gives ${signed(g.pct)} percent for ${monthName(Number(g.from.slice(5, 7)))} ${g.from.slice(0, 4)} to ${monthName(Number(g.to.slice(5, 7)))} ${g.to.slice(0, 4)} on the twelve months before, from the same table: another period, not another figure for this one.`;
+}
+const CA_2019 = faults.rows.find((f) => f.id === CA_BASE_FAULT);
 
 // Demand growth, one page at one address (session 152), in review (lib/release.ts). Two views, both in the address
 // (lib/demandpage.ts):
@@ -152,7 +173,9 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
     <div data-view-body="metered">
       <p className="mb-8 text-sm" data-weather="1">
         <Hint words="Weather is not removed." why={`A year's demand is what was metered that year, hot summer and cold snap included. A grid whose ${file.last_year} was mild shows less growth than its customers added, and a single heat wave can set a peak. These are differences between years, not a trend line.`} />
-        {" "}<SiteLink href={viewHref("weather")}>The same growth with the weather taken out</SiteLink> is the second view.
+        {" "}<SiteLink href={viewHref("weather")}>The same growth with the weather taken out</SiteLink> is the second view.{" "}
+        <span data-against-sales="1"><Hint words="Demand at the grid is not retail sales." why={AGAINST_SALES} />{" "}<SiteLink href={viewHref("consumption")}>Retail sales by state and sector</SiteLink> are the third.</span>
+        {ba === "CISO" && CA_2019 ? <>{" "}<span data-ca-base="1"><Hint words="California's base year is low in its early months." why={caBaseWhy(CA_2019, faults.status_words)} />{" "}<SiteLink href={`/data/faults#${CA_2019.id}`}>The register&apos;s entry</SiteLink>.</span></> : null}
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
@@ -194,7 +217,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
               <Hover><YearsChart area={area} /></Hover>
             </ChartFrame>
             <ToolTable minWidth={760} caption={`${area.name}: average and peak demand by year`}
-              head={["Year", "Average, MW", `Since ${file.base}, percent`, "On the year before, percent", "Peak, MW", "When, local time", `Peak since ${file.base}, percent`, "Hours used"]}
+              head={["Year", "Average, MW", `Since ${file.base}, percent`, <span key="yoy" title={yoyWhy(area.name, slug, last)} data-yoy-why="1" className="cursor-help border-b border-dotted border-muted">On the year before, percent</span>, "Peak, MW", <span key="when" title={HOUR_WHY} data-hour-why="when" className="cursor-help border-b border-dotted border-muted">When, local time</span>, `Peak since ${file.base}, percent`, "Hours used"]}
               rows={[...ys.map(({ year, row }) => ({ key: year, cells: [year, <N key="a" k={`y|${year}|avg`}>{whole(row.avg_demand_mw)}</N>, gy(year, row.avg_demand_growth_since_2019_pct, `y|${year}|avg_growth`), gy(year, row.avg_demand_growth_yoy_pct, `y|${year}|yoy`),
                 row.peak_demand_mw !== undefined ? <N key="p" k={`y|${year}|peak`}>{whole(row.peak_demand_mw)}</N> : NOT, peakAt(year) ?? NOT, gy(year, row.peak_demand_growth_since_2019_pct, `y|${year}|peak_growth`),
                 <span key="h"><N k={`y|${year}|hours`}>{whole(row.hours_used)}</N> of {whole(row.hours_in_year)}</span>] })),
@@ -204,7 +227,7 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
           </ToolSection>
 
           <ToolSection title="Where the growth is" id="where"
-            note={<Hint words="How to read the cells" why={`Each cell is one hour of the day in one month: the average demand of that hour over the month in ${file.last_year}, against the same in ${file.base}. Red is growth, green a fall; the deeper, the larger. One hot or mild month colors a whole row, which is the weather and not a trend.`} />}>
+            note={<Hint words="How to read the cells" why={`Each cell is one hour of the day in one month: the average demand of that hour over the month in ${file.last_year}, against the same in ${file.base}. Red is growth, dark grey a fall; the deeper, the larger. One hot or mild month colors a whole row, which is the weather and not a trend. ${HOUR_WHY}`} />}>
             <ChartFrame title={`${area.name}: change from ${file.base} to ${file.last_year}, percent, by month and hour of the day`} legend={[{ label: "Growth", color: UP }, { label: "Fall", color: DOWN }]}>
               <Hover><Heat area={area} /></Hover>
             </ChartFrame>
@@ -256,6 +279,8 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
             <Tabs page="/demand" active={view} />
             {/* session 331: the view's method note (docs/methods/consumption.md) and its two tables to download */}
             <p className="mb-4 text-xs text-muted" data-method="1"><SiteLink href="/data/methods/consumption">Method, sources and gaps</SiteLink></p>
+            {/* session 7543: the same line as the as-metered view's, so a reader setting a state's sales beside a grid's demand meets it on both */}
+            <p className="mb-4 text-sm" data-against-sales="1"><Hint words="Retail sales are not demand at the grid." why={AGAINST_SALES} />{" "}<SiteLink href={viewHref("metered")}>Demand at the grid, as metered</SiteLink> is the first view.</p>
             <ConsumptionView />
             <TableDownloads tables={["eia_retail_sales_monthly", "eia_sector_energy_consumption_monthly"]} />
             <Related href="/demand" />

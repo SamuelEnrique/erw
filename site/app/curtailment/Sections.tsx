@@ -174,6 +174,23 @@ const batOf = (g: WorthGrid, p: string | null): Bat | null => (!p ? null : (p.le
 const daysOf = (g: WorthGrid, p: string): number => (p.length === 7 ? g.battery?.months?.[p]?.days_held ?? 0 : Object.entries(g.battery?.months ?? {}).filter(([m]) => m.startsWith(`${p}-`)).reduce((a, [, r]) => a + (r.days_held ?? 0), 0));
 const MARKET: Record<string, string> = { rt: "real time", da: "day-ahead" };
 const periodWords = (p: string) => (p.length === 7 ? monthName(p) : p);
+// session 7544 (the read as a solar or battery developer, row 6): "an 8-hour battery", not "a 8-hour battery"
+export const an = (d: number | string) => (String(d).startsWith("8") ? "an" : "a");
+export const An = (d: number | string) => (an(d) === "an" ? "An" : "A");
+// session 7544 (row 8): the two ERCOT averages a reader meets by ERCOT's id alone, said in words on hover (ERCOT's
+// Protocols: the Hub Average 345 kV Hub is the simple average of the four trading hubs' prices; the Bus
+// Average Hub is the simple average of the hub buses' prices)
+export const HUB_WORDS: Record<string, string> = {
+  HB_HUBAVG: "ERCOT's hub average: the simple average of the prices of its four trading hubs, North, South, Houston and West",
+  HB_BUSAVG: "ERCOT's bus average: the simple average of the prices of the buses of its four trading hubs",
+};
+/** The curtailed MWh of a period, priced or not: the month's own, or a year's months added when each of them holds it. */
+export function curtailedOf(side: Side | undefined, p: string): number | null {
+  if (!side) return null;
+  if (p.length === 7) return side.months?.[p]?.curtailed_mwh ?? null;
+  const ms = Object.entries(side.months ?? {}).filter(([m]) => m.startsWith(`${p}-`)).map(([, v]) => v);
+  return ms.length && ms.every((v) => v.curtailed_mwh !== undefined) ? ms.reduce((a, v) => a + (v.curtailed_mwh ?? 0), 0) : null;
+}
 
 function HubTable({ g, grid, pick, caption }: { g: WorthGrid; grid: string; pick: (s: Side) => Val | null; caption: string }) {
   const rows = Object.entries(g.hubs ?? {}).flatMap(([hub, sides]) => Object.entries(sides).map(([mk, side]) => ({ hub, mk, v: pick(side), side })));
@@ -184,7 +201,7 @@ function HubTable({ g, grid, pick, caption }: { g: WorthGrid; grid: string; pick
       rows={rows.map(({ hub, mk, v, side }) => {
         const k = `worth|${grid}|${hub}|${mk}`;
         return v ? { key: `${hub}${mk}`, highlight: hub === g.main_hub && mk === "rt",
-          cells: [<span key="h" title={`${whole(v.hours_curtailed_priced)} hours with a price`}>{placeName(hub)}, {MARKET[mk]}</span>, <N key="v" k={`${k}|value`}>{usd(v.value_usd)}</N>, <N key="p" k={`${k}|per`}>{two(v.usd_per_mwh_curtailed)}</N>, <N key="n" k={`${k}|neg`}>{two(v.share_mwh_negative_pct)}</N>,
+          cells: [<span key="h" title={`${HUB_WORDS[hub] ? `${HUB_WORDS[hub]}. ` : ""}${whole(v.hours_curtailed_priced)} of the ${whole(v.hours_priced)} hours with a price had ${grid === "ercot" ? "output below the limit" : "any curtailment"}`}>{placeName(hub)}, {MARKET[mk]}</span>, <N key="v" k={`${k}|value`}>{usd(v.value_usd)}</N>, <N key="p" k={`${k}|per`}>{two(v.usd_per_mwh_curtailed)}</N>, <N key="n" k={`${k}|neg`}>{two(v.share_mwh_negative_pct)}</N>,
             <N key="u" k={`${k}|under5`}>{two(v.share_mwh_under5_pct)}</N>, <N key="f" k={`${k}|flat`}>{two(v.price_curtailed_hours_mean)}</N>, <N key="a" k={`${k}|all`}>{two(v.price_all_hours_mean)}</N>] }
           : { key: `${hub}${mk}`, cells: [`${placeName(hub)}, ${MARKET[mk]}`], wide: <Blank why={typeof side.missing === "string" ? side.missing : "the hub's prices do not hold this period"} /> };
       })} />
@@ -198,7 +215,7 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
   const caisoSide = file.grids.caiso?.hubs?.[file.grids.caiso.main_hub ?? ""]?.rt;
   const across = (
     <ToolTable minWidth={720} caption="What curtailed energy is worth, grid by grid" words
-      head={["Grid", "Curtailed energy at the hub's prices", `A ${dur}-hour battery against what the fleet charged`]}
+      head={["Grid", "Curtailed energy at the hub's prices", `${An(dur)} ${dur}-hour battery against what the fleet charged`]}
       rows={GRIDS.map((x) => {
         const w = file.grids[x.id];
         if (!x.open) return { key: x.id, muted: true, cells: [x.name], wide: <span data-blank={x.id}>{file.blank[x.id]?.words ?? x.words}</span> };
@@ -209,7 +226,7 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
         }
         if (x.id === "ercot" && w?.hubs) {
           const v = w.hubs[w.main_hub ?? ""]?.rt?.window;
-          return { key: x.id, cells: [x.name, <span key="v" className="block text-left">{v ? <>USD <N k="across|ercot|value">{usd(v.value_usd)}</N> over {whole(v.hours_priced)} hours, <N k="across|ercot|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh, at {placeName(w.main_hub ?? "")}: the ERW&apos;s estimate</> : <Blank why="no price is held for these hours" />}</span>,
+          return { key: x.id, cells: [x.name, <span key="v" className="block text-left">{v ? <>USD <N k="across|ercot|value">{usd(v.value_usd)}</N> over {whole(v.hours_priced)} hours, <N k="across|ercot|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh, at <span title={HUB_WORDS[w.main_hub ?? ""]}>{placeName(w.main_hub ?? "")}</span>: the ERW&apos;s estimate</> : <Blank why="no price is held for these hours" />}</span>,
             <span key="b" className="block text-left"><Blank why={w.battery?.fleet_missing ?? "no fleet figure is held"} /></span>] };
         }
         return { key: x.id, cells: [x.name], wide: <Blank words={w?.missing ? "not held yet" : "not held"} why={w?.missing ?? file.not_held[x.id] ?? "no hourly curtailment series is held"} /> };
@@ -225,7 +242,9 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
       <ToolSection title="What it is worth" id="worth">
         <HeadlineRow>
           <HeadlineNumber label={`Curtailed energy at ${placeName(g.main_hub ?? "")} prices, ${periodWords(p)}`} value={<>USD <N k="worth|value">{usd(v.value_usd)}</N></>}
-            note={<>USD <N k="worth|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh curtailed, over <N k="worth|mwh">{whole(v.curtailed_mwh_priced)}</N> MWh, each hour at its real-time price{v.months ? `, ${v.months} months` : ""}.</>} />
+            note={<>USD <N k="worth|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh curtailed, over <N k="worth|mwh">{whole(v.curtailed_mwh_priced)}</N> MWh, each hour at its real-time price{v.months ? `, ${v.months} months` : ""}.
+              {(() => { const all = curtailedOf(caisoSide, p); return all !== null && all - v.curtailed_mwh_priced >= 0.5
+                ? <span data-unpriced="1"> Of the <N k="worth|mwh_all">{whole(all)}</N> MWh curtailed in {periodWords(p)}, <N k="worth|unpriced">{whole(all - v.curtailed_mwh_priced)}</N> fell in hours with no real-time price held and are left out.</span> : null; })()}</>} />
           <HeadlineNumber label="Curtailed in hours priced below zero" value={<N k="worth|neg">{two(v.share_mwh_negative_pct)}</N>} unit="percent"
             note={<><N k="worth|under5">{two(v.share_mwh_under5_pct)}</N> percent in hours under USD 5, the hours below zero among them.</>} />
           <HeadlineNumber label="A flat load in those hours paid" value={<N k="worth|flat">{two(v.price_curtailed_hours_mean)}</N>} unit="USD per MWh"
@@ -242,18 +261,18 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
         <div className="mt-10" id="battery-rule">
           <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 border-b border-rule pb-1"><h3 className="font-serif text-lg text-accent">A battery of {dur} hours, against what the fleet charged</h3>{durLinks}</div>
           <HeadlineRow>
-            <HeadlineNumber label={`A ${dur}-hour battery could have taken in, ${periodWords(p)}`} value={b ? <N k="bat|per_mw">{whole(b.absorb_mwh_per_mw[dur])}</N> : <Blank why="the period is not held" />} unit={b ? "MWh per MW" : undefined}
+            <HeadlineNumber label={`${An(dur)} ${dur}-hour battery could have taken in, ${periodWords(p)}`} value={b ? <N k="bat|per_mw">{whole(b.absorb_mwh_per_mw[dur])}</N> : <Blank why="the period is not held" />} unit={b ? "MWh per MW" : undefined}
               note={b && fill !== null ? <><N k="bat|fill">{two(fill)}</N> percent of one full charge a day over the <N k="bat|days">{whole(days)}</N> days held.</> : undefined} />
             <HeadlineNumber label="The fleet charged in the curtailed hours" value={b?.fleet ? <N k="bat|fleet">{whole(b.fleet.fleet_charged_in_curtailed_hours_mwh)}</N> : <Blank why={b?.fleet_missing ?? "the fleet is not held for this period"} />} unit={b?.fleet ? "MWh" : undefined}
               note={b ? <>Curtailed in {periodWords(p)}: <N k="bat|curtailed">{whole(b.curtailed_mwh)}</N> MWh.</> : undefined} />
-            <HeadlineNumber label={`What a ${dur}-hour fleet could have absorbed, as a share of that`} value={b?.fleet ? <N k="bat|share">{two(b.fleet.absorbable_pct_of_fleet_charged[dur])}</N> : <Blank why={b?.fleet_missing ?? "the fleet is not held for this period"} />} unit={b?.fleet ? "percent" : undefined}
+            <HeadlineNumber label={`What ${an(dur)} ${dur}-hour fleet could have absorbed, as a share of that`} value={b?.fleet ? <N k="bat|share">{two(b.fleet.absorbable_pct_of_fleet_charged[dur])}</N> : <Blank why={b?.fleet_missing ?? "the fleet is not held for this period"} />} unit={b?.fleet ? "percent" : undefined}
               note={b?.fleet ? <><N k="bat|absorb">{whole(b.fleet.absorb_fleet_mwh[dur])}</N> MWh, at the fleet&apos;s own highest charging rate.</> : undefined} />
           </HeadlineRow>
-          <ChartFrame title={`By month: curtailed, what a ${dur}-hour fleet could have absorbed, and what the fleet charged`}
-            legend={[{ label: "Curtailed", color: "var(--color-fuel-solar)" }, { label: `A ${dur}-hour fleet could have absorbed`, color: "var(--color-accent)" }, { label: "The fleet charged in those hours", color: "var(--color-fuel-storage)" }]}>
-            <XY id="battery-months" x={fm} unit="MWh" label={`California: curtailed energy, what a ${dur}-hour battery fleet could have absorbed and what the fleet charged in the curtailed hours, by month`}
+          <ChartFrame title={`By month: curtailed, what ${an(dur)} ${dur}-hour fleet could have absorbed, and what the fleet charged`}
+            legend={[{ label: "Curtailed", color: "var(--color-fuel-solar)" }, { label: `${An(dur)} ${dur}-hour fleet could have absorbed`, color: "var(--color-accent)" }, { label: "The fleet charged in those hours", color: "var(--color-fuel-storage)" }]}>
+            <XY id="battery-months" x={fm} unit="MWh" label={`California: curtailed energy, what ${an(dur)} ${dur}-hour battery fleet could have absorbed and what the fleet charged in the curtailed hours, by month`}
               series={[{ name: "Curtailed", color: "var(--color-fuel-solar)", values: fm.map((m) => g.battery!.months![m].curtailed_mwh) },
-                { name: `A ${dur}-hour fleet could have absorbed`, color: "var(--color-accent)", values: fm.map((m) => g.battery!.months![m].fleet!.absorb_fleet_mwh[dur]) },
+                { name: `${An(dur)} ${dur}-hour fleet could have absorbed`, color: "var(--color-accent)", values: fm.map((m) => g.battery!.months![m].fleet!.absorb_fleet_mwh[dur]) },
                 { name: "The fleet charged in those hours", color: "var(--color-fuel-storage)", values: fm.map((m) => g.battery!.months![m].fleet!.fleet_charged_in_curtailed_hours_mwh) }]}
               notes={fm.map((m) => `${two(g.battery!.months![m].fleet!.absorbable_pct_of_fleet_charged[dur])} percent of what the fleet charged`)} />
           </ChartFrame>
@@ -275,9 +294,9 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
         <p className="mb-4 max-w-3xl text-sm" data-estimate="1">{estimate}{g.first_hour && g.last_hour ? ` The ${whole(g.hours_held ?? 0)} hours held, ${dayName(g.first_hour.slice(0, 10))} to ${dayName(g.last_hour.slice(0, 10))}.` : ""}</p>
         <HeadlineRow>
           <HeadlineNumber label={`Output below the limit at ${placeName(g.main_hub ?? "")} prices`} value={v ? <>USD <N k="worth|value">{usd(v.value_usd)}</N></> : <Blank why="no price is held for these hours" />}
-            note={v ? <>USD <N k="worth|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh over the <N k="worth|hours">{whole(v.hours_priced)}</N> of {whole(v.hours ?? 0)} hours with a real-time price.</> : undefined} />
+            note={v ? <>USD <N k="worth|per">{two(v.usd_per_mwh_curtailed)}</N> per MWh over the <N k="worth|hours">{whole(v.hours_priced)}</N> of {whole(v.hours ?? 0)} hours with a real-time price{HUB_WORDS[g.main_hub ?? ""] ? <>, at <span data-hub-words="1" className="cursor-help underline decoration-dotted" title={HUB_WORDS[g.main_hub ?? ""]}>{placeName(g.main_hub ?? "")}</span></> : null}.</> : undefined} />
           <HeadlineNumber label="A month's worth" value={<Blank why={g.months_missing ?? "no whole month is held"} />} />
-          <HeadlineNumber label={`A ${dur}-hour battery could have taken in`} value={bw ? <N k="bat|per_mw">{whole(bw.absorb_mwh_per_mw[dur])}</N> : <Blank why="no whole day is held" />} unit={bw ? "MWh per MW" : undefined}
+          <HeadlineNumber label={`${An(dur)} ${dur}-hour battery could have taken in`} value={bw ? <N k="bat|per_mw">{whole(bw.absorb_mwh_per_mw[dur])}</N> : <Blank why="no whole day is held" />} unit={bw ? "MWh per MW" : undefined}
             note={bw ? <>Over the <N k="bat|days">{whole(bw.days)}</N> whole days held. Against what the fleet charged: <Blank why={g.battery?.fleet_missing ?? "no fleet figure is held"} />.</> : undefined} />
         </HeadlineRow>
         <div className="mb-3 flex justify-end">{durLinks}</div>
@@ -292,7 +311,7 @@ export function Worth({ file, c, estimate }: { file: WorthFile; c: Choice; estim
       <HeadlineRow>
         <HeadlineNumber label={`Curtailed energy at the hub's prices, ${g?.name ?? gridName(c.grid)}`} value={<Blank words={g?.missing ? "not held yet" : "not held"} why={g?.missing ?? file.not_held[c.grid] ?? "no hourly curtailment series is held"} />} />
         <HeadlineNumber label="A flat load in those hours" value={<Blank words={g?.missing ? "not held yet" : "not held"} why={g?.missing ?? file.not_held[c.grid] ?? "no hourly curtailment series is held"} />} />
-        <HeadlineNumber label={`A ${dur}-hour battery against the fleet`} value={<Blank words={g?.missing ? "not held yet" : "not held"} why={g?.missing ?? file.not_held[c.grid] ?? "no hourly curtailment series is held"} />} />
+        <HeadlineNumber label={`${An(dur)} ${dur}-hour battery against the fleet`} value={<Blank words={g?.missing ? "not held yet" : "not held"} why={g?.missing ?? file.not_held[c.grid] ?? "no hourly curtailment series is held"} />} />
       </HeadlineRow>
       <h3 className="mb-3 border-b border-rule pb-1 font-serif text-lg text-accent">Grid by grid</h3>{across}
     </ToolSection>
@@ -316,6 +335,8 @@ export type ErcotFile = {
   years: Record<string, { hours_in_year: number; wind_hours_held: number; wind_generation_mwh: number; solar_hours_held: number; solar_generation_mwh: number; whole: boolean }>; year_limit: string; year_reason: string;
   history: string; history_reason: string;
 };
+/** Session 7544: the months of Texas's file held whole (95 percent of their hours, a share written), oldest first. */
+export const ercotWholeMonths = (f: Pick<ErcotFile, "months">): string[] => Object.keys(f.months).sort().filter((m) => f.months[m].both && f.months[m].both!.share_pct !== null);
 const twh = (mwh: number) => (mwh / 1e6).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const WIND = "var(--color-fuel-wind)", SOLAR = "var(--color-fuel-solar)";
 

@@ -12,6 +12,7 @@ import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
 import { STORAGE_DECISIONS } from "@/lib/decisions";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 import { count, day, shown } from "@/lib/format";
+import { DISCHARGED_TITLE, inventory, notHeld } from "@/lib/storagefleet"; // session 7542: the read of 16 November 2026
 import { attempt } from "@/lib/supabase";
 import { one, tabOf } from "@/lib/tabs";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
@@ -223,7 +224,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
         <thead>
           <tr className="border-b border-rule text-left text-[11px] text-muted">
             <th className="py-0.5 font-normal">Balancing authority, latest complete local day</th>
-            <th className="pr-2 text-right font-normal">Discharged MWh</th>
+            <th className="pr-2 text-right font-normal" title={DISCHARGED_TITLE} data-discharged-title="1">Discharged MWh</th>
             <th className="pr-2 text-right font-normal">Charged MWh</th>
             <th className="pr-2 text-right font-normal">Out over in</th>
             <th className="pr-2 text-right font-normal">Peak discharge hour</th>
@@ -247,7 +248,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
                 <td className="pr-2 text-right">{N(at("peak_discharge_hour"), true)}{at("peak_discharge_hour") ? ":00" : ""}</td>
                 <td className="pr-2 text-right">{N(at("peak_charge_hour"), true)}{at("peak_charge_hour") ? ":00" : ""}</td>
                 <td>
-                  <InlineSpark values={dis.slice(-30).map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${b.label} battery MWh discharged per day, last 30 days`} />
+                  <InlineSpark values={dis.slice(-30).map((r) => ({ t: r.ts_utc, v: r.value }))} label={`${b.label} battery MWh discharged per day, the last 30 days held${notHeld(dis.slice(-30))}`} />
                 </td>
               </tr>
             );
@@ -303,12 +304,13 @@ async function FleetView() {
       ? [
           ...BAS.filter((b) => b.code !== "us48").map((b) => ({
             label: b.label,
+            gap: 3_600, // session 7542: hours EIA has not published are a break in the line, not a straight line across
             color: b.color,
             points: hourly.data.filter((r) => r.entity === b.entity && new Date(r.ts_utc).getTime() >= from)
               .map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })),
           })),
           ...(caisoPoints.length
-            ? [{ label: "CAISO (CAISO's data)", color: CAISO.color, points: caisoPoints.filter((p) => p.t * 1000 >= from && p.t * 1000 <= newest) }]
+            ? [{ label: "CAISO (CAISO's data)", color: CAISO.color, gap: 3_600, points: caisoPoints.filter((p) => p.t * 1000 >= from && p.t * 1000 <= newest) }]
             : []),
         ]
       : [];
@@ -333,7 +335,7 @@ async function FleetView() {
       {units.ok ? (
         <HeadlineRow>
           <HeadlineNumber label="Batteries operating in the US" value={<MW units={operating} check="mw|operating" />} unit="MW"
-            note={<><Num check="storage|n|operating" raw={operating.length}>{count(operating.length)}</Num> units in EIA&apos;s monthly generator inventory (EIA-860M), nameplate power.</>} />
+            note={<><Num check="storage|n|operating" raw={operating.length}>{count(operating.length)}</Num> units in EIA&apos;s monthly generator inventory (EIA-860M){inventory(operating) ? ` of ${inventory(operating)}` : ""}, nameplate power.</>} />
         </HeadlineRow>
       ) : null}
 
@@ -370,7 +372,7 @@ async function FleetView() {
         {hourly.ok && newest ? (
           <>
             <LineChart lines={lines(newest - 30 * 86_400_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, hourly, last 30 days" />
-            <LineChart lines={[{ label: "US Lower 48", color: "ink", points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
+            <LineChart lines={[{ label: "US Lower 48", color: "ink", gap: 3_600, points: us48.map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }]}
               unit="MW" height={180} ariaLabel="US Lower 48 battery net generation, hourly, last 30 days" />
           </>
         ) : (

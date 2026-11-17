@@ -342,12 +342,13 @@ export type StorageUnit = {
   iso: string | null;
   planned_year: string | null;
   mwh: string | null; // session 34: EIA's Nameplate Energy Capacity (MWh); none for planned units
+  vintage?: string | null; // session 7542: the EIA-860M inventory the row is of ("2026-09"), so the fleet tab can name its month
 };
 
 export async function storageUnits(): Promise<StorageUnit[]> {
   return rest<StorageUnit>(
     "entities",
-    { select: "entity_id,capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year,mwh:extra->>energy_capacity_mwh", table_name: "eq.storage_capacity", order: "entity_id" },
+    { select: "entity_id,capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year,mwh:extra->>energy_capacity_mwh,vintage", table_name: "eq.storage_capacity", order: "entity_id" },
     HOURLY,
     20_000,
   );

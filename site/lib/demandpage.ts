@@ -23,3 +23,13 @@ export const METHODS: Record<Exclude<View, "consumption">, { href: string; name:
   metered: { href: "/data/methods/demand_growth", name: "demand growth" },
   weather: { href: "/data/methods/demand_weather", name: "demand growth with the weather taken out" },
 };
+
+// Session 7543 (chain 304, part C, docs/reviews/demand-read-2026-11-16.md): words of two hovers of the page, here
+// because a page file may export only what Next.js allows.
+/** How the page names an hour (the explorer's "local-time" line says the same: an hour is named by its start). */
+export const HOUR_WHY = "The grid's own clock time, daylight saving included: Central for ERCOT, MISO and SPP, Pacific for CAISO, Eastern for PJM, NYISO, ISO-NE and the Lower 48. An hour is named by its start: 17:00 is the hour from 17:00 to 18:00, which the operators' own files call hour ending 18.";
+/** The register's entry (data/data_faults.json) on California's demand of early 2019, the base of every CAISO growth. */
+export const CA_BASE_FAULT = "eia930_ciso_demand_low_early_2019";
+export type Fault = { id: string; title: string; first: string; last: string; dates_note: string; status: string; evidence: string; erw_does: string };
+export const caBaseWhy = (f: Fault, words: Record<string, string>) =>
+  `${f.title}: ${f.first} to ${f.last} (${f.dates_note}). Status: ${words[f.status] ?? f.status}. What the ERW does: ${f.erw_does} ${f.evidence}`;

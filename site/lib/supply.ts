@@ -5,7 +5,8 @@
 // the warehouse); the functions here only choose and write them. A figure that is not held is null and the page shows
 // a short placeholder. Method, sources and gaps: docs/methods/supply_and_trade.md.
 
-export type Status = "ok" | "paused" | "licensed" | "not_held" | "working";
+// Session 7541: "held" is a row of a grid held for a license on the day (holdRows below); its figures never reach the page.
+export type Status = "ok" | "paused" | "licensed" | "not_held" | "working" | "held";
 export type Row = {
   id: string; group: string; label: string; at: string; unit: string; freq: "W" | "M" | ""; sense: -1 | 0 | 1; status: Status; note?: string; source?: number;
   last?: { t: string; v: number };
@@ -29,7 +30,83 @@ export type SupplyFile = {
 
 export const PLACEHOLDER: Record<Exclude<Status, "ok">, string> = {
   paused: "paused while terms are reviewed", licensed: "licensed source needed", not_held: "not held yet", working: "working on it",
+  held: "license needed",
 };
+
+/** Session 7541 (the read of /supply, docs/reviews/supply-read-2026-11-16.md, row 1): the day-ahead cleared rows are
+ *  each grid operator's own figures. A grid held for a license on the day (lib/license.ts, licenseHeldGrids: the
+ *  operators whose own page asks for permission) has its row drawn "license needed", as the price board draws a held
+ *  grid's rows (lib/board.ts, holdRows): the row keeps its name and loses every figure, on the server, before the page
+ *  draws, so none reaches the browser. The hold itself is lib/license.ts's; this only applies it. */
+export const CLEARED_GRID: Record<string, string> = {
+  "cleared-ercot": "ercot", "cleared-caiso": "caiso", "cleared-nyiso": "nyiso", "cleared-iso-ne": "isone",
+  "cleared-spp": "spp", "cleared-spp-west": "spp", "cleared-miso": "miso", "cleared-pjm": "pjm",
+};
+export function holdRows(file: SupplyFile, heldGrids: string[], title: (grid: string) => string): SupplyFile {
+  const held = new Set(heldGrids.map((g) => g.toLowerCase()));
+  return {
+    ...file,
+    rows: file.rows.map((r) => {
+      const g = CLEARED_GRID[r.id];
+      if (!g || !held.has(g) || r.status !== "ok") return r;
+      return { id: r.id, group: r.group, label: r.label, at: r.at, unit: r.unit, freq: "", sense: 0, status: "held", note: title(g) };
+    }),
+  };
+}
+
+/** Session 7541 (row 7): the units in words, for the hover on each unit the page writes short. */
+export const UNIT_LONG: Record<string, string> = {
+  "kb/d": "thousand barrels a day", "Bcf/d": "billion cubic feet a day", Bcf: "billion cubic feet", "million bbl": "million barrels",
+  "k short tons/d": "thousand short tons a day", "MWh/d": "megawatt-hours a day", contracts: "futures contracts", "%": "percent",
+};
+export const unitTitle = (unit: string) => UNIT_LONG[unit] ?? unit;
+
+/** Session 7541 (row 12): the states the builder writes short in a place ("Sabine Pass, LA, monthly"), in full, as the
+ *  price board names the same terminals ("Sabine Pass, Louisiana"). Only the words change. */
+export const STATE_WORDS: Record<string, string> = { LA: "Louisiana", TX: "Texas", MD: "Maryland", GA: "Georgia" };
+export const placeWords = (at: string) => at.replace(/, (LA|TX|MD|GA)(?=,|$)/g, (_m, s: string) => `, ${STATE_WORDS[s]}`);
+export const withPlaceWords = (file: SupplyFile): SupplyFile => ({ ...file, rows: file.rows.map((r) => ({ ...r, at: placeWords(r.at) })) });
+
+const MONTH_LONG = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+/** Session 7541 (rows 11 and 14): the hover of a row's latest value, where the figure needs a word a reader would ask
+ *  for. A monthly gas trade figure (the month's volume over its days, in Bcf a day) is also written as the month's
+ *  volume, the unit the price board uses for the same month. A net import below zero is a net export. */
+export function latestTitle(r: Row): string | undefined {
+  if (!r.last) return undefined;
+  const v = r.last.v;
+  if (r.group === "gastrade" && r.freq === "M" && r.unit === "Bcf/d") {
+    const [y, m] = r.last.t.slice(0, 10).split("-").map(Number);
+    const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const bcf = (v * days).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const mmcf = (Math.round(v * days * 10) * 100).toLocaleString("en-US");
+    return `${fmt(v, r.unit)} Bcf a day over the ${days} days of ${MONTH_LONG[m - 1]} ${y}: ${bcf} Bcf in the month, about ${mmcf} MMcf (million cubic feet), the unit the price board writes the month's volume in`;
+  }
+  if (/net imports/i.test(r.label) && v < 0) {
+    return `Below zero: the United States exported ${fmt(-v, r.unit)} ${r.unit} more than it imported (net exports)`;
+  }
+  return undefined;
+}
+
+/** Session 7541 (row 6): fuel burned for power, a row whose newest whole week is older than another grid's of the same
+ *  fuel. "The seven grids together" is the sum only when all seven hold the week, so it stops at the oldest grid's
+ *  newest week; the hover names the grids that hold the newer week and those that do not. Null when the row is current. */
+export function burnWeekWords(file: SupplyFile, r: Row): string | null {
+  const m = /^burn-([a-z]+)-(.+)$/.exec(r.id);
+  if (!m || !r.last) return null;
+  const fuel = m[2];
+  const grids = file.rows.filter((x) => x.group === "burn" && x.status === "ok" && x.last && x.id !== `burn-all-${fuel}` && x.id.endsWith(`-${fuel}`));
+  if (!grids.length) return null;
+  const newest = grids.map((x) => x.last!.t).sort().at(-1)!;
+  if (r.last.t >= newest) return null;
+  const at = (x: Row) => x.at;
+  const ahead = grids.filter((x) => x.last!.t >= newest).map(at);
+  const behind = grids.filter((x) => x.last!.t < newest).map(at);
+  const week = dateWords(newest);
+  if (m[1] === "all") {
+    return `The newest week all seven grids hold whole. The week ending ${week} is held for ${ahead.join(", ")}; not yet for ${behind.join(", ")}, whose hours of that week are not all held yet in the hourly generation by fuel the rows are built from`;
+  }
+  return `This grid's newest whole week. The week ending ${week} is held for ${ahead.join(", ")}; this grid's hours of that week are not all held yet in the hourly generation by fuel the rows are built from`;
+}
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 /** "25 Sep 2026" from a day; a monthly value is written "Jul 2026". */
 export function dateWords(t: string, freq = "W"): string {

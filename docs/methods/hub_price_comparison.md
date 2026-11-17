@@ -138,6 +138,27 @@ The page draws these at its foot (`site/lib/decisions.ts`, `COMPARE_DECISIONS`),
 - MISO's hubs (its terms, under review) and PJM's prices (a license).
 - Whether a grid's own scarcity signal should stand beside the round USD 200 threshold.
 
+## The page read as a fund analyst (session 7540, chain 304, part C)
+
+`docs/reviews/compare-read-2026-11-16.md`: five cases of a fund analyst setting two hubs side by side, 22 rows. What
+changed on the page, none of it in the table or its builder:
+
+- **The license hold.** `hub_price_comparison` is held for ISO-NE, MISO and NYISO from 21 October 2026
+  (`site/data/license_status.json`). The page holds ISO-NE's and NYISO's rows on the server (`lib/pricecompare.ts`
+  `hold`, with `licenseHeldRow`): each is named in the table and the chart, last, every cell "license needed", and the
+  sentence and the headline numbers are of the rows shown. MISO's hubs stay as before (held, not shown).
+- **A and B.** Two rows of the period side by side, every measure of both markets and the grid's carbon, B less A on
+  the figures drawn (from the address, `a` and `b`, entities as the table writes them).
+- **Words.** The windows are in each grid's clock time, daylight saving included (the cost of power tool's year files
+  are in standard time, so a month read on both can differ by a few cents at its two ends). The spread is the average
+  day's, not the mean of each day's own spread, which is larger. ERCOT's Hub Average and Bus Average say what they
+  average. ERCOT's load zones are named as held and not compared.
+
+Asked of the data machine (the read's rows 2, 5, 9, 11 and 14): the site copy to carry a held grid's rows as names
+only; the windows' end month taken over the grids compared, not MISO's paused hub (which holds every window at
+September 2026 while the pause lasts); the mean of each day's own four-hour spread; ERCOT's eight load zones; SPP's
+missing days of carbon intensity.
+
 ## Sign-off
 
 - Signed off by:

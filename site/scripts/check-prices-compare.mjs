@@ -16,7 +16,11 @@
 import fs from "node:fs";
 import { env, unlockPost } from "./browser.mjs";
 import * as p from "../lib/pricecompare.ts";
+import { licenseHeldRow } from "../lib/license.ts";
 
+// session 7540: the page holds the rows of the grids that hold hub_price_comparison under a license (ISO-NE, MISO,
+// NYISO: lib/pricecompare.ts hold); every figure is checked against the rows the page shows, and a held row must carry none
+const shownOf = (rows) => p.hold(rows, (e) => licenseHeldRow(p.TABLE, e));
 const base = (process.argv[2] ?? "http://localhost:3096").replace(/\/$/, "");
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
@@ -36,7 +40,10 @@ async function view(q) {
   const { status, html } = await get(path);
   const tag = `${path}:`;
   check(status === 200 && !html.includes('data-in-review="1"'), `${tag} opens in the internal view`);
-  const got = marked(html), rows = p.ordered(file[c.period], c);
+  const { shown, held } = shownOf(file[c.period]);
+  const got = marked(html), rows = p.ordered(shown, c);
+  check(held.every((h) => html.includes(`data-held-row="${h.entity}"`)) && !Object.keys(got).some((k) => held.some((h) => k.startsWith(`${h.entity}|`))),
+    `${tag} ${held.length} held row${held.length === 1 ? "" : "s"} named, "license needed", no number of theirs`);
   const wrong = [];
   const want = (k, val) => { if (got[k] !== val) wrong.push(`${k}: page ${got[k]}, copy ${val}`); };
   for (const r of rows) {
@@ -47,14 +54,14 @@ async function view(q) {
     want(`${r.entity}|hours`, r[`${c.market}_hours_held`].toLocaleString("en-US"));
   }
   want("count", String(rows.length));
-  const first = (slug, dir) => p.ordered(file[c.period], { ...c, sort: p.MEASURES.find((m) => m.slug === slug), dir })[0];
+  const first = (slug, dir) => p.ordered(shown, { ...c, sort: p.MEASURES.find((m) => m.slug === slug), dir })[0];
   want("sum|cheapest", p.two(p.valueOf(first("avg", "asc"), c.market, p.MEASURES[0])));
   want("sum|dearest", p.two(p.valueOf(first("avg", "desc"), c.market, p.MEASURES[0])));
   want("head|spread", p.two(p.valueOf(first("spread", "desc"), c.market, p.MEASURES[3])));
   want("head|negative", p.two(p.valueOf(first("neg", "desc"), c.market, p.MEASURES[1])));
   check(wrong.length === 0, `${tag} every marked number is the copy's (${Object.keys(got).length} on the page)${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`);
   const bars = [...html.matchAll(/data-bar="([^"]+)"/g)].map((x) => x[1].replace(/&amp;/g, "&"));
-  check(bars.join("|") === rows.map((r) => r.entity).join("|"), `${tag} ${bars.length} bars, in the order of ${c.sort.slug}, ${c.dir}`);
+  check(bars.join("|") === [...rows, ...held].map((r) => r.entity).join("|"), `${tag} ${bars.length} bars, in the order of ${c.sort.slug}, ${c.dir}, a held row last`);
   const inTable = [...html.matchAll(/<span data-n="([^"|]+)\|avg">/g)].map((x) => x[1]);
   check(inTable.join("|") === rows.map((r) => r.entity).join("|"), `${tag} the table's rows in the same order`);
   const heads = [...html.matchAll(/<a [^>]*data-sort="([a-z]+)"[^>]*href="([^"]+)"/g)].map((x) => [x[1], x[2].replace(/&amp;/g, "&")]);
@@ -62,7 +69,7 @@ async function view(q) {
   check(heads.length === p.MEASURES.length && heads.every(([s, h]) => h.includes(`sort=${s}`)) && own && own[1].includes(`dir=${c.dir === "asc" ? "desc" : "asc"}`),
     `${tag} five headings that sort, and the one sorted by turns the order round`);
   const t = text(html);
-  const none = p.lacking(file[c.period], c.market);
+  const none = p.lacking(shown, c.market);
   check(none.every((r) => t.includes(p.label(r))) && (none.length === 0) === !html.includes("data-lacking="), `${tag} ${none.length} hub${none.length === 1 ? "" : "s"} not held for this market, named with no number`);
   check(html.includes('data-not-a-site="1"') && t.includes("A hub is not a site."), `${tag} "a hub is not a site"`);
   check(file.held_not_shown.every((h) => html.includes(`data-hidden="${h.entity}"`)) && !Object.keys(got).some((k) => k.startsWith("miso:")) && !bars.some((b) => b.startsWith("miso:")),
@@ -82,7 +89,7 @@ await view({ period: "month", market: "rtm", sort: "avg", dir: "desc" });
 }
 {
   const d = await get("/prices/compare?period=decade&market=spot&sort=luck");
-  check(d.status === 200 && marked(d.html).count === String(p.ordered(file.year, p.choices({})).length), "an address it does not understand opens the default view");
+  check(d.status === 200 && marked(d.html).count === String(p.ordered(shownOf(file.year).shown, p.choices({})).length), "an address it does not understand opens the default view");
   const v = await get(p.href({ period: "month", market: "dam", sort: "avg" }), false);
   check(v.status === 200 && v.html.includes('data-in-review="1"') && !v.html.includes("data-n="), "as a visitor: the in-review page, and no number of the tool");
   const node = await get("/prices/ercot%3AHB_HUBAVG");

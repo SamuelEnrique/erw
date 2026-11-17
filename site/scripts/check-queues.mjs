@@ -72,7 +72,9 @@ async function view(grid, tech) {
   check(outs.join() === ys.filter((y) => q.outcome(y.row)).map((y) => y.year).join(), `${tag} an outcome bar for each year with a request (${outs.length})`);
   const on = Object.keys(v.on).map(Number).filter((y) => y >= 2000).sort();
   const pts = [...html.matchAll(/data-on="(\d{4})"/g)].map((x) => Number(x[1]));
-  check(on.length >= 2 ? pts.join() === on.join() : html.includes('data-chart="years-none"') && pts.length === 0, `${tag} ${on.length >= 2 ? `a point for each of ${on.length} operation years` : "too few dated years: a sentence, no line"}`);
+  // session 7545 (the read, row 2): one operation year with a median is written in a sentence with its figure
+  check(on.length >= 2 ? pts.join() === on.join() : html.includes(on.length === 1 ? 'data-chart="years-one"' : 'data-chart="years-none"') && pts.length === 0,
+    `${tag} ${on.length >= 2 ? `a point for each of ${on.length} operation years` : on.length === 1 ? "one dated year: a sentence with its median, no line" : "no dated year: a sentence, no line"}`);
   const t = text(html);
   check(t.includes("Lawrence Berkeley National Laboratory and GridTracker") && t.includes("CC BY 4.0"), `${tag} the attribution the license asks for`);
   check(!/\bundefined\b|NaN/.test(t), `${tag} no "undefined" and no NaN in the text`);
