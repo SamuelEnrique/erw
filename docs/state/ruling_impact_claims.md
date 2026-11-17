@@ -39,4 +39,4 @@ For the chain that measures, tool by tool, what each line marked "Changes a figu
 | /deals | samueloldlaptop | 7595 | done | docs/reviews/ruling-impact-deals-2026-11-17.md |
 | /policy | portable-laptop | 7618 | claimed | docs/reviews/ruling-impact-policy-2026-11-17.md |
 | /companies | samueloldlaptop | 7596 | done | docs/reviews/ruling-impact-companies-2026-11-17.md |
-| /attention | samueloldlaptop | 7597 | claimed | docs/reviews/ruling-impact-attention-2026-11-17.md |
+| /attention | samueloldlaptop | 7597 | done | docs/reviews/ruling-impact-attention-2026-11-17.md |
