@@ -131,7 +131,7 @@ TABLE_STEPS=(
   "dm_caiso_emergencies|caiso_grid_emergencies|daily|warehouse/connectors/caiso_emergencies.py"
   "dm_caiso_reliability|caiso_reliability_daily|daily|warehouse/derived/caiso_reliability.py"
   "dm_caiso_curtailment|caiso_curtailment_intervals|monthly pull|warehouse/connectors/caiso_curtailment_intervals.py --new-only"
-  "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py"
+  "dm_storage_owners|storage_owners_monthly|monthly|warehouse/derived/storage_owners.py --snapshot"
   "dm_shoulder_hours|shoulder_hours_monthly|monthly|warehouse/derived/shoulder_hours.py"
   "dm_scarcity_hours|scarcity_hours_by_grid|monthly|warehouse/derived/scarcity_hours_by_grid.py"
   "dm_ercot_large_load|ercot_large_load_status|daily|warehouse/connectors/ercot_large_load_status.py"

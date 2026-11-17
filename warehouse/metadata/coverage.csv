@@ -624,7 +624,7 @@ statsmu_mauritius_electricity_annual,statsmu,,1,P1Y,2017-01-01T00:00:00Z,2025-01
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,21382,erw:storage_buildout,2026-11-15T15:19:12Z,pass,public,power,yes,derived
 storage_capacity,none,,1648,snapshot,2026-11-15T15:19:10Z,2026-11-15T15:19:10Z,1648,erw:storage_capacity,2026-11-15T15:19:10Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-11-15T00:00:00Z,15085,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-11-16T23:43:39Z,pass,public,power,yes,derived
-storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,967,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,19180,erw:storage_owners,2026-11-03T17:31:49Z,pass,public,power,yes,derived
+storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,967,P1M,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,19180,erw:storage_owners,2026-11-17T03:40:06Z,pass,public,power,yes,derived
 subregion_demand_growth,subregion,,90,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,3918,erw:subregion_demand_growth,2026-11-05T22:06:29Z,pass,public,power,yes,derived
 svk_sweden_production_hourly,svk,,1,PT1H,2019-12-31T23:00:00Z,2025-03-18T22:00:00Z,274176,svk:mimer_production_statistics,2026-10-24T07:10:46Z,pass,internal,power,no,source
 texas_delivery_charges,none,,5,event,2020-09-01T00:00:00Z,2026-10-07T00:00:00Z,73,5 outlets,2026-10-07T02:03:00Z,pass,internal,power,no,model_extracted
