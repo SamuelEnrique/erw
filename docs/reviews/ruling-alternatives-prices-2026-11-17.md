@@ -18,3 +18,4 @@ Session 7723 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.
 Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; none is fixed here.
 
 - Browser row 362 (session 7800): `wip/alt-prices-3` (browser row 362): at 390 px the hub page with `?b=` is 504 px wide (production 390); the rows at 1280 are drawn (real time HB_WEST less HB_HOUSTON: 584 hours, mean 2.83, low -217.67, high 407.82).
+- Browser row 357 (session 7800): `wip/alt-prices-2` (browser row 357): on SPP North only "Day-ahead, 2026-10" (33.16, 720 of 744 hours) is drawn; the record's "Real time, 2026-10" (near 33.56) is not, the real-time line reading "no data: no real-time table named for SPP in site/data/markets.json".
