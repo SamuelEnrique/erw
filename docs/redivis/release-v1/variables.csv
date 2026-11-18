@@ -763,6 +763,8 @@ census_c30_construction_monthly,value_put_in_place_saar,series variable,USD
 census_cbp_hosting_annual,annual_payroll,series variable,USD
 census_cbp_hosting_annual,employment,series variable,count
 census_cbp_hosting_annual,establishments,series variable,count
+census_county_population,population_census_2020,series variable,count
+census_county_population,population_estimate,series variable,count
 census_metro_population,population_2025,series variable,count
 census_metro_population,population_base_2020,series variable,count
 census_qss_utilities_hosting_quarterly,revenue_from_businesses,series variable,USD
@@ -3501,6 +3503,30 @@ eia_coal_receipts_annual,price,series variable,USD/short_ton
 eia_coal_receipts_annual,quantity,series variable,short_ton
 eia_coal_receipts_annual,sulfur_content,series variable,pct
 eia_coal_trade_price_annual,price,series variable,USD/short_ton
+eia_county_region,entity_id,column,
+eia_county_region,entity_type,column,
+eia_county_region,name,column,
+eia_county_region,geo,column,
+eia_county_region,lat,column,
+eia_county_region,lon,column,
+eia_county_region,capacity_mw,column,
+eia_county_region,status,column,
+eia_county_region,status_date,column,
+eia_county_region,operator,column,
+eia_county_region,source,column,
+eia_county_region,source_url,column,
+eia_county_region,retrieved_at,column,
+eia_county_region,vintage,column,
+eia_county_region,x_state,column,
+eia_county_region,x_fips,column,
+eia_county_region,x_ba_primary,column,
+eia_county_region,x_region,column,
+eia_county_region,x_shared,column,
+eia_county_region,x_bas,column,
+eia_county_region,x_regions,column,
+eia_county_region,x_ba_by_count,column,
+eia_county_region,x_utilities,column,
+eia_county_region,x_basis,column,
 eia_crude_first_purchase_prices,first_purchase_price,series variable,USD/bbl
 eia_crude_imports_by_country,imports,series variable,kbbl/d
 eia_crude_imports_detail_monthly,imports,series variable,kbbl
@@ -6524,6 +6550,8 @@ iso_curtailment_monthly,share_hours_in_month,series variable,count
 iso_curtailment_monthly,share_output_mwh,series variable,MWh
 iso_curtailment_monthly,solar_generation_mwh,series variable,MWh
 iso_curtailment_monthly,wind_generation_mwh,series variable,MWh
+iso_hub_prices_history_2018,lmp_dam,series variable,USD/MWh
+iso_hub_prices_history_2018,lmp_rtm_15m_mean,series variable,USD/MWh
 iso_queue_snapshot_summary,active_count,series variable,count
 iso_queue_snapshot_summary,active_mw,series variable,MW
 iso_queue_snapshot_summary,completed_count,series variable,count
@@ -6949,6 +6977,16 @@ noaa_ncei_storm_events,x_end_lat,column,
 noaa_ncei_storm_events,x_end_lon,column,
 noaa_ncei_storm_events,x_data_source,column,
 noaa_ncei_storm_events,x_file_created,column,
+noaa_region_station_hourly_2018,temperature_f,series variable,degF
+noaa_region_station_hourly_2019,temperature_f,series variable,degF
+noaa_region_station_hourly_2020,temperature_f,series variable,degF
+noaa_region_station_hourly_2021,temperature_f,series variable,degF
+noaa_region_station_hourly_2022,temperature_f,series variable,degF
+noaa_region_station_hourly_2023,temperature_f,series variable,degF
+noaa_region_station_hourly_2024,temperature_f,series variable,degF
+noaa_region_station_hourly_2025,temperature_f,series variable,degF
+noaa_region_station_hourly_2026,temperature_f,series variable,degF
+noaa_region_stations,station_weight,series variable,ratio
 noaa_station_weather_hourly,dew_point_f,series variable,degF
 noaa_station_weather_hourly,temperature_f,series variable,degF
 noaa_uscrn_solar_monthly,solar_radiation,series variable,MJ/m2-day
@@ -7996,6 +8034,7 @@ ree_spain_balance_monthly,steam_turbine,series variable,MWh
 ree_spain_balance_monthly,storage_balance,series variable,MWh
 ree_spain_balance_monthly,thermal_solar,series variable,MWh
 ree_spain_balance_monthly,wind,series variable,MWh
+region_weather_hourly,temperature_f,series variable,degF
 rrc_lease_production_monthly,casinghead_gas_mcf,series variable,Mcf
 rrc_lease_production_monthly,condensate_bbl,series variable,bbl
 rrc_lease_production_monthly,gas_mcf,series variable,Mcf

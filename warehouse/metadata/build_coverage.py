@@ -102,6 +102,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^eia930_demand_growth$"),
+    ("derived", r"^(noaa_region_stations|region_weather_hourly|eia_county_region)$"),  # session 7802 and 7803: ERW rules over Census, EIA and NOAA data
     ("derived", r"^eia930_(region_hourly|region_pair_hourly)$"),  # session 7801: sums of EIA-930's balancing authorities by region and by region pair
     ("derived", r"^subregion_demand_growth$"),  # session 2877: ERW code (warehouse/derived/subregion_demand_growth.py) over EIA-930 sub-regions  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
@@ -667,11 +668,14 @@ SECTOR_RULES = [
     (r"^(eia930_daily_total_interchange|eia930_event_hourly_interchange|ba_supply_monthly)$", "power"),
     (r"^eia930_daily_demand$", "power"),  # session 109: EIA's daily demand of every balancing authority (the replay's share of demand)
     (r"^iso_hub_prices_history$", "power"),
+    (r"^iso_hub_prices_history_2018$", "power"),  # session 7803: the hub prices of July 2018 to July 2023 (SPP)
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
     (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
     (r"^noaa_station_weather_hourly$", "power"),                # session 129: the stations' own measured hours
     (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
+    (r"^(census_county_population|eia_county_region)$", "power"),  # session 7802: county populations, and each county's balancing authority and region
+    (r"^(noaa_region_stations|noaa_region_station_hourly_\d{4}|region_weather_hourly)$", "power"),  # session 7803: the thirteen regions' stations and weather
     (r"^rrc_lease_production_monthly$", "oil;gas"),
     # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
     (r"^generation_mix_(hourly_profile|records)$", "power;carbon"),  # session 94: the energy mix by hour and its records
@@ -743,6 +747,8 @@ def iso_of(table):
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
+    if table == "iso_hub_prices_history_2018":  # session 7803: July 2018 to July 2023, SPP alone (the other operators: its method note)
+        return "SPP"
     if table == "iso_zone_prices_history":  # session 140: NYISO's zones, CAISO's ZP26 and SPP South (ISO-NE's are isone_zone_prices_history, internal)
         return "CAISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
@@ -752,6 +758,11 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
         return "none"
+    if table in ("census_county_population",):  # session 7802: every county, no ISO
+        return "none"
+    if (table in ("eia_county_region", "noaa_region_stations", "region_weather_hourly")
+            or re.match(r"^noaa_region_station_hourly_\d{4}$", table)):  # session 7802 and 7803: the thirteen regions of the lower 48, the seven ISOs among them
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
         return "none"
     if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies
