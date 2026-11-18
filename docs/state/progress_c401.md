@@ -102,7 +102,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 285 | `wip/alt-severance-1` | 6.7 | seen: severance-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 322 | `wip/alt-impact-18` | 6.25 | seen: impact-18-1280.png with production's -default-1280 twins | 7800 |
 | B | 336 | `wip/alt-caiso-alerts-2` | 5.6 | not seen: no pictures | 7800 |
-| B | 361 | `wip/alt-board-4` | 4.86 | wanted | |
+| B | 361 | `wip/alt-board-4` | 4.86 | seen: board-4-1280.png with production's -default-1280 twins | 7800 |
 | B | 359 | `wip/alt-map-2` | 4.1 | seen: map-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 300 | `wip/alt-impact-3` | 3.3 | seen: impact-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 343 | `wip/alt-impact-28` | 3.0 | seen: impact-28-1280.png with production's -default-1280 twins | 7800 |
