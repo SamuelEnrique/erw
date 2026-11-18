@@ -123,10 +123,10 @@ Order: largest change first, the change being the first percent of the line's "F
 | Part | Table | State | Session |
 |---|---|---|---|
 | C | 1 to 3 eia930_region_hourly, eia930_ba_demand_hourly, eia930_ba_supply_hourly, eia930_region_pair_hourly, eia930_ba_interchange_hourly_2018 to _2026 | written under the lock from the 34 six-month files, each passes the validator, archived (13 tables, 43,631,539 rows), records on wip/c401-eia930 (coverage, license, release list held out, live catalogue held, test 7801); the gate: first run failed one test (the llms catalogue, fixed), second run under way | landed (b9adc1225, merged 02:12:47 UTC; the gate passed every step, its worktree removed by hand; 0 differences in the 25 pages before and after) | 7801 |
-| C | 4 census_county_population | written under the lock (28,293 rows, 3,152 counties), passes, archived; records and gate on wip/c401-county | written | 7802 |
-| C | 5 eia_county_region | written under the lock (3,117 counties, 1,027 shared, 24 with none), passes with the branch validator (county joins the entity types, Decision 79) | written | 7802 |
-| C | 6 and 7 noaa_region_stations, noaa_region_station_hourly_2018 to _2026, region_weather_hourly | written under the lock (271 counties, 216 stations, 879,553 region-hours), each passes, archived with tables 4 and 5 (13 tables, 16,623,190 rows); records and gate on wip/c401-county with table 8 | written | 7803 |
-| C | 8 iso_hub_prices_history_2018 | written under the lock (219,720 rows: SPP SPPNORTH_HUB, 43,944 day-ahead hours and 175,776 real-time quarter hours, 2018-07-01 to 2023-07-05, no day missing), passes, archived; CAISO: OASIS keeps about 39 months; NYISO and ISO-NE held (license needed), MISO paused, PJM not pulled; gate with tables 4 to 7 | gate | 7803 |
+| C | 4 census_county_population | written under the lock (28,293 rows, 3,152 counties), passes, archived; records and gate on wip/c401-county | landed 3c5c99e9f | 7802 |
+| C | 5 eia_county_region | written under the lock (3,117 counties, 1,027 shared, 24 with none), passes with the branch validator (county joins the entity types, Decision 79) | landed 3c5c99e9f | 7802 |
+| C | 6 and 7 noaa_region_stations, noaa_region_station_hourly_2018 to _2026, region_weather_hourly | written under the lock (271 counties, 216 stations, 879,553 region-hours), each passes, archived with tables 4 and 5 (13 tables, 16,623,190 rows); records and gate on wip/c401-county with table 8 | landed 3c5c99e9f | 7803 |
+| C | 8 iso_hub_prices_history_2018 | written under the lock (219,720 rows: SPP SPPNORTH_HUB, 43,944 day-ahead hours and 175,776 real-time quarter hours, 2018-07-01 to 2023-07-05, no day missing), passes, archived; CAISO: OASIS keeps about 39 months; NYISO and ISO-NE held (license needed), MISO paused, PJM not pulled; gate with tables 4 to 7 | landed 3c5c99e9f | 7803 |
 
 ## Part D: the filed large-load tariffs
 
