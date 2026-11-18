@@ -130,5 +130,7 @@ Order: largest change first, the change being the first percent of the line's "F
 
 ## Part D: the filed large-load tariffs
 
+The count (session 7803, from large_load_statements.GROUPS and warehouse/sources/large_load_tariffs/ of origin/main): 80 groups; 6 are grid operators that file no retail tariff (PJM Interconnection, ERCOT, Southwest Power Pool, California ISO with the California Energy Commission, New York ISO, ISO New England); 74 are utility groups, 11 of them generation and transmission cooperatives that sell to member cooperatives (Tri-State, Basin Electric, Great River Energy, Western Farmers, Associated Electric, East Kentucky, Big Rivers, Old Dominion, Oglethorpe, Hoosier Energy, Wabash Valley). 31 registry files cover 19 groups: American Electric Power (AEP Ohio, Indiana Michigan Power), Georgia Power (Southern Company, with Alabama Power), Ameren, Arizona Public Service, CenterPoint Energy Houston Electric, Consolidated Edison, Dominion Energy Virginia, Duke Energy, Entergy, Evergy, National Grid (Niagara Mohawk), NV Energy, Avangrid (NYSEG), Oncor, Pacific Gas and Electric, PacifiCorp, Portland General Electric, Salt River Project, Xcel Energy. 55 utility groups have none. Order of work, most rows in large_load_public first: El Paso Electric 21, FirstEnergy 20, PPL 10, Southern California Edison 9, Exelon 9, DTE Energy 8, WEC Energy Group 7, Hoosier Energy 7, Tampa Electric 6, Tucson Electric Power 4, then the groups of 3 rows or fewer.
+
 | Part | Utility | State | Session |
 |---|---|---|---|
