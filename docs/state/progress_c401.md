@@ -122,6 +122,7 @@ Order: largest change first, the change being the first percent of the line's "F
 
 | Part | Table | State | Session |
 |---|---|---|---|
+| C | 1 eia930_region_hourly, eia930_ba_demand_hourly, eia930_ba_supply_hourly | built from the 17 six-month files (2018 Jul_Dec to 2026 Jul_Dec) under the lock: 3,064,131, 7,829,972 and 9,137,257 rows, 2018-07-01 to 2026-11-18, each passes the validator; the hour convention matches EIA API demand (0.01 MW); registrations, method note, coverage, archive and the gate to come | building | 7801 |
 
 ## Part D: the filed large-load tariffs
 
