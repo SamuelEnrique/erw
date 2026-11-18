@@ -116,6 +116,8 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 375 | `wip/alt-bill-3` | added by chain 402 | seen: bill-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 376 | `wip/alt-bill-4` | added by chain 402 | seen: bill-4-1280.png with production's -default-1280 twins | 7800 |
 
+| B | all | 91 rows marked (87 of 13:20 PST and 373 to 376 added by chain 402): 68 seen, 6 fault, 17 not seen; report archive/sessions/SESSION_7800_REPORT.md | done | 7800 |
+
 ## Part C: the thirteen regions
 
 | Part | Table | State | Session |
