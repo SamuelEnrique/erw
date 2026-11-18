@@ -668,6 +668,7 @@ SECTOR_RULES = [
     (r"^(eia930_daily_total_interchange|eia930_event_hourly_interchange|ba_supply_monthly)$", "power"),
     (r"^eia930_daily_demand$", "power"),  # session 109: EIA's daily demand of every balancing authority (the replay's share of demand)
     (r"^iso_hub_prices_history$", "power"),
+    (r"^iso_hub_prices_history_2018$", "power"),  # session 7803: the hub prices of July 2018 to July 2023 (SPP)
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
     (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
