@@ -1,0 +1,33 @@
+# Session 7803 (chain 401 part D): read whole by this session from Santee Cooper's (the South Carolina Public Service
+# Authority's) own copy of Schedule L-25-LL (L-25-LL-FINAL.pdf, 12 pages, linked from santeecooper.com's Rates page under
+# Industrial and Wholesale), read as the PDF's own text (saved under runs/c401/santee/, not in git). Public: Santee Cooper
+# is a state agency setting its own rates; santeecooper.com's robots file allows its rate pages, and its Legal Notices page
+# links only its terms and conditions of retail electric service, privacy policy and standards of conduct, with no limit
+# on reuse of the site's content (read 18 November 2026). Pages are the PDF's.
+utility: South Carolina Public Service Authority (Santee Cooper)
+eia_id: 17543
+state: SC
+grid: SC
+sector: data centers with an aggregate monthly maximum demand of greater than 50,000 kW, mobile large loads (including cryptocurrency mining) over 1,000 kW, and other high load factor facilities over 50,000 kW, otherwise eligible for Large Light and Power Schedule L
+status: adopted
+schedule: Schedule L-25-LL, Large Light and Power, Experimental Large Load Service
+tariff_sheet: Rate Code L, Schedule L-25-LL, pages 1 to 12 (adopted April 25, 2025; expires no later than April 24, 2029)
+effective: 2025-04-25
+voltage: {text: "at one of the Authority's standard nominal voltages of 480 volts or higher ... Only one transformation will be provided hereunder from the available transmission voltage", page: 1}
+commission: Santee Cooper Board of Directors (the Authority sets its own rates; South Carolina Code section 58-31-730(F) limits this experimental schedule's class share)
+document: South Carolina Public Service Authority (Santee Cooper), Large Light and Power, Experimental Large Load Service, Schedule L-25-LL, adopted April 25, 2025, effective for bills rendered on and after April 25, 2025
+document_url: https://www.santeecooper.com/Rates/_pdfs/Industrial-Wholesale/L-25-LL-FINAL.pdf
+retrieved_at: 2026-11-18T04:44:00Z
+license: public
+notes: "Demand: the first 300 kW or less of firm billing demand 8,223.00 USD, all additional kW 21.08 USD/kW (less 0.70 USD/kW when the customer takes delivery at 69 kV or more and provides the transformation), excess on-peak demand 13.00 USD/kW more, and a coincident peak demand charge of 7.00 USD/kW. Energy: 0.0497 USD/kWh summer and winter on-peak, 0.0375 USD/kWh off-peak (plus an off-peak energy premium of 0.02287 USD/kWh for energy under the off-peak demand provision), with the fuel adjustment clause (FAC-25, Fb/Sb 0.03641 USD/kWh) and deferred cost recovery (DCR-25); no single energy charge is printed. The minimum firm billing demand factor is 100% for months 1 to 60, 95% for 61 to 120 and 90% after; the minimum coincident peak demand billing factor 50%, 65% and 80%. Before the service agreement the customer pays in full for delivery point and transmission costs (interconnection, network upgrades, redundant facilities). Experimental: available through no later than April 24, 2029; customers with loads of 100 MW or more are excluded from the 12% class size limit."
+terms:
+  min_bill: {text: "The Minimum Monthly Bill shall consist of the sum of (i) the Monthly Customer Charge, (ii) the Monthly Facilities Maintenance Charge, if any, (iii) the Monthly Demand Charge for Large Load Service, (iv) the Monthly Coincident Peak Demand Charge, and (v) the minimum monthly charges, if any, determined pursuant to any applicable rider", page: 5}
+  collateral: {text: "the Customer shall provide to the Authority collateral and/or financial assurances equivalent to the value of the initial one hundred eighty months (180) months of Minimum Bills ... At least twelve (12) months of Minimum Bills shall be in the form of a mandatory cash deposit", page: 11}
+  term: {text: "An initial term of service of not less than one hundred and eighty (180) months.", page: 10}
+figures:
+  - {variable: min_demand_mw, value: 50, printed: "a centralized facility used for the management, storage, processing, and dissemination of data ... that has an aggregate monthly maximum demand of greater than 50,000 kW", page: 1}
+  - {variable: fixed_charge, value: 3605.00, printed: "A monthly charge for each Delivery Point of ... $3,605.00", page: 2}
+  - {variable: demand_charge, value: 21.08, printed: "All Additional kW of Firm Billing Demand @ ... $21.08/kW", page: 2}
+  - {variable: min_contract_years, value: 15, printed: "An initial term of service of not less than one hundred and eighty (180) months.", page: 10}
+  - {variable: collateral_months, value: 180, printed: "collateral and/or financial assurances equivalent to the value of the initial one hundred eighty months (180) months of Minimum Bills", page: 11}
+  - {variable: min_bill_pct, value: 100, printed: "The Customers Minimum Firm Billing Demand Factor shall be: (a) Months 1 through 60: 100%", page: 9}
