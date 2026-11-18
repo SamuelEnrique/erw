@@ -154,8 +154,8 @@ def pair_rows(d, file_tag, after):
     for c in ("s_first", "s_second", "whole_first", "whole_second", "n_first", "n_second"):
         if c not in w:
             w[c] = float("nan") if c.startswith(("s_", "n_")) else False
-    f_ok = w["whole_first"].fillna(False).astype(bool)
-    s_ok = w["whole_second"].fillna(False).astype(bool)
+    f_ok = w["whole_first"].eq(True)
+    s_ok = w["whole_second"].eq(True)
     fr = w["s_first"].where(f_ok)
     sr = w["s_second"].where(s_ok)
     keep = f_ok | s_ok
@@ -193,14 +193,26 @@ def main(argv=None):
         if args.download_only:
             log.close()
             return 0
-        paths = {t: os.path.join(ip.OUT_DIR, t + ".csv") for t in (BA_TABLE, PAIR_TABLE)}
-        for t, p in paths.items():
-            ip._require_lock(p, f"writing {t}")
-        h = {t: open(p + ".body", "w", encoding="utf-8", newline="") for t, p in paths.items()}
-        stats = {t: dict(rows=0, tmin=None, tmax=None) for t in paths}
+        # table 2 is one table per UTC year of the hour (eia930_ba_interchange_hourly_<year>, as eia930_subba_demand_hourly
+        # is, session 612): about 2.6 million rows a year; one table of every year would be more than the validator reads
+        paths = {PAIR_TABLE: os.path.join(ip.OUT_DIR, PAIR_TABLE + ".csv")}
+        ip._require_lock(paths[PAIR_TABLE], f"writing {PAIR_TABLE}")
+        h = {PAIR_TABLE: open(paths[PAIR_TABLE] + ".body", "w", encoding="utf-8", newline="")}
+        stats = {PAIR_TABLE: dict(rows=0, tmin=None, tmax=None)}
+        files_of = {PAIR_TABLE: []}
         src_lines, carry, last_pair = [], None, None
+
+        def year_table(year):
+            t = f"{BA_TABLE}_{year}"
+            if t not in h:
+                paths[t] = os.path.join(ip.OUT_DIR, t + ".csv")
+                ip._require_lock(paths[t], f"writing {t}")
+                h[t] = open(paths[t] + ".body", "w", encoding="utf-8", newline="")
+                csv.writer(h[t], lineterminator="\n").writerow(BA_COLS)
+                stats[t], files_of[t] = dict(rows=0, tmin=None, tmax=None), []
+            return t
+
         try:
-            csv.writer(h[BA_TABLE], lineterminator="\n").writerow(BA_COLS)
             csv.writer(h[PAIR_TABLE], lineterminator="\n").writerow(PAIR_COLS)
             for name in names:
                 got = saved_copy(name)
@@ -217,14 +229,17 @@ def main(argv=None):
                     last_pair = pr["ts"].max()
                 carry = None if last else d[d["ts"] > d["ts"].max() - pd.Timedelta(hours=60)]
                 pr = pr[PAIR_COLS]
-                for t, part in ((BA_TABLE, b), (PAIR_TABLE, pr)):
+                pieces = [(year_table(y), part) for y, part in b.groupby(b["ts_utc"].str[:4], sort=True)] + [(PAIR_TABLE, pr)]
+                for t, part in pieces:
+                    if name not in files_of[t]:
+                        files_of[t].append(name)
                     part.to_csv(h[t], header=False, index=False, lineterminator="\n")
                     s = stats[t]
                     s["rows"] += len(part)
                     if len(part):
                         lo, hi = part["ts_utc"].min(), part["ts_utc"].max()
                         s["tmin"], s["tmax"] = min(s["tmin"] or lo, lo), max(s["tmax"] or hi, hi)
-                src_lines.append(f"  file: {BASE + name} (x_file {tag(name)}; Last-Modified {lm}; downloaded {retrieved})")
+                src_lines.append((name, f"  file: {BASE + name} (x_file {tag(name)}; Last-Modified {lm}; downloaded {retrieved})"))
                 log(f"{name}: {len(b):,} BA rows, {len(pr):,} region pair rows")
                 print(f"  {name}: {len(b):,} BA rows, {len(pr):,} region pair rows", flush=True)
         finally:
@@ -255,12 +270,16 @@ def main(argv=None):
         }
         for t, p in paths.items():
             s = stats[t]
-            header = heads[t] + [
+            kind = BA_TABLE if t.startswith(BA_TABLE + "_") else t
+            lines = [line for n, line in src_lines if n in files_of[t]]
+            year_note = ([f"This table holds the hours of {t[-4:]} (UTC); the other years are {BA_TABLE}_<year>, one table a year "
+                          "because all of them in one would be more than the validator reads in memory."] if kind == BA_TABLE else [])
+            header = heads[kind] + year_note + [
                 f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930_ba_interchange_hourly.py",
                 f"Run log: warehouse/output/logs/{CONNECTOR}_{run_id}.log",
                 f"Raw files: warehouse/raw/{CONNECTOR}/<run>/ (not in git; manifest.csv lists each file and URL)",
-                *src_lines,
-                "License: public (U.S. Energy Information Administration)." if t == BA_TABLE else
+                *lines,
+                "License: public (U.S. Energy Information Administration)." if kind == BA_TABLE else
                 "License: public (derived by the ERW from U.S. Energy Information Administration data).",
                 f"File holds {s['rows']} rows, {s['tmin']} to {s['tmax']}. Rebuilt whole by this run from the files above. Per row, "
                 "source and x_file say where it came from; earlier run logs are in warehouse/output/logs/."]
@@ -279,7 +298,7 @@ def main(argv=None):
         ip.update_sources([
             dict(source=SOURCE, publisher="U.S. Energy Information Administration (EIA)",
                  report="EIA-930 six-month files (Hourly Electric Grid Monitor)", report_url=PAGE, document_list=BASE,
-                 license="public", tables=[BA_TABLE]),
+                 license="public", tables=sorted(t for t in paths if t.startswith(BA_TABLE + "_"))),
             dict(source=PAIR_SOURCE, publisher="Energy Research Warehouse (from U.S. Energy Information Administration data)",
                  report="EIA-930 interchange summed by region pair",
                  report_url="https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_region_hourly.md",
