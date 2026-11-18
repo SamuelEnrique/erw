@@ -449,6 +449,12 @@ for _t in ("eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_ba_supply_
            *(f"eia930_ba_interchange_hourly_{_y}" for _y in range(2018, 2027))):
     STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, session 7801), after the v1 package was prepared; "
                         "not on Redivis (about 3.6 GB for the thirteen tables): in v1 when the owner adds it to the package's list")
+# Sessions 7802 and 7803 (chain 401 part C, tables 4 to 8): county population, county to region, the regions' stations and
+# weather, and the hub prices of July 2018 to July 2023, public, written after the v1 package was prepared: held the same way
+for _t in ("census_county_population", "eia_county_region", "noaa_region_stations", "region_weather_hourly",
+           "iso_hub_prices_history_2018", *(f"noaa_region_station_hourly_{_y}" for _y in range(2018, 2027))):
+    STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, sessions 7802 and 7803), after the v1 package was "
+                        "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
