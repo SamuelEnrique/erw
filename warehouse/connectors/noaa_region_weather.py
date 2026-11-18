@@ -64,6 +64,8 @@ SEAM = ngw.SEAM
 SHARE, MAX_COUNTIES, MIN_HOURS, MAX_KM = 0.80, 25, 0.95, 150.0
 UA = ngw.UA
 RAW_READ = ip.RAW_DIR
+END = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=2)).date()  # the last day of LCD asked for
+OFFSETS = {}  # station: (its local standard time offset, its July 2025 agreement)
 
 
 def get(url, timeout=120):
@@ -196,9 +198,18 @@ def select(log):
                 sid = f"{s[0]}-{s[1]}"
                 if sid not in tried:
                     ser = lite_series(s[0], s[1])
-                    tried[sid] = complete(ser)
-                    if tried[sid]:
-                        series[sid] = ser
+                    ok = complete(ser)
+                    if ok:
+                        # session 7803: a station whose Local Climatological Data do not line up with its ISD-Lite (no
+                        # offset agrees in 80 percent of July 2025) has no hours after the seam and would empty its
+                        # region from August 2025, so it is not complete either: the next nearest is tried
+                        lcd, off, share = lcd_series(s[1], ser, END, log)
+                        ok = off is not None
+                        if ok:
+                            series[sid] = pd.concat([ser, lcd]).sort_index()
+                            OFFSETS[sid] = (off, share)
+                            log(f"  {sid}: ISD-Lite and LCD, offset {off}, July 2025 agreement {share:.3f}, {len(series[sid]):,} hours")
+                    tried[sid] = ok
                 if tried[sid]:
                     pick = (d, s)
                     break
@@ -223,14 +234,8 @@ def main(argv=None):
     try:
         ip.RAW.open(NAME, run_id)
         sel, series = select(log)
-        end = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=2)).date()
-        offsets, lcd_share = {}, {}
-        for sid in sorted(set(sel["station"]) - {""}):
-            wban = sid.split("-")[1]
-            lcd, off, share = lcd_series(wban, series[sid], end, log)
-            offsets[sid], lcd_share[sid] = off, share
-            series[sid] = pd.concat([series[sid], lcd]).sort_index()
-            log(f"  {sid}: ISD-Lite and LCD, offset {off}, July 2025 agreement {share:.3f}, {len(series[sid]):,} hours")
+        offsets = {sid: v[0] for sid, v in OFFSETS.items()}
+        lcd_share = {sid: v[1] for sid, v in OFFSETS.items()}
         if args.fetch_only:
             log.close()
             return 0
