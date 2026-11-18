@@ -1,0 +1,34 @@
+# Session 7803 (chain 401 part D): read whole by this session from PPL Electric's filed tariff book, Electric Pa. P.U.C.
+# No. 202 as the company posts it (402master4_posted-10-2-26.pdf, 132 pages; Rate Schedule LP-6 on First Revised Pages
+# 35C to 35F, pages 109 to 112 of the PDF), read as the PDF's own text (saved under runs/c401/tariffs/, not in git). Public
+# as PG&E's book is (session 2921): pplelectric.com's robots file addresses only Googlebot, and no terms of use were found
+# on the site or by search (18 November 2026); whether a utility's own book may stand public without the Commission's copy
+# is the question session 2921 left for the owner. Pages are the PDF's.
+utility: PPL Electric Utilities Corporation
+eia_id: 14715
+state: PA
+grid: PJM
+sector: large load (data center) customers, 50 MW or greater at a single facility
+status: adopted
+schedule: Rate Schedule LP-6, Large Load Interconnections
+tariff_sheet: Supplement No. 2 to Electric Pa. P.U.C. No. 202, First Revised Pages No. 35C to 35F (canceling Original Pages No. 35C to 35F)
+effective: 2026-07-01
+voltage: {text: "large general service supplied from available lines of 69,000 volts or higher", page: 109}
+commission: Pennsylvania Public Utility Commission
+docket: R-2025-3057164
+document: PPL Electric Utilities Corporation, General Tariff, Electric Pa. P.U.C. No. 202 as posted 2 October 2026, Rate Schedule LP-6, issued June 30, 2026, effective July 1, 2026
+document_url: https://pplelectric.com/site/-/media/PPLElectric/At-Your-Service/Docs/Current-Electric-Tariff/2026/October/402master4_posted-10-2-26.pdf
+retrieved_at: 2026-11-18T01:44:32Z
+license: public
+notes: "Distribution is a Customer Charge only ($999.11 per month); transmission is billed under the TSC rate schedule on the customer's peak load contribution to the PJM peak load, and generation under GSC-2, so no demand or energy charge is printed on LP-6. Applies to large load (data center) customers that commenced service on or after October 1, 2025, with a peak of 50 MW or greater at a single facility or at least 75 MW in the aggregate within a 10-mile radius at or above 69 kV; a 50 to 75 MW facility that causes no transmission network upgrade costs may be petitioned into Rate LP-5. Voluntary interruptible option: the minimum load guarantee falls to 60% for the first five years and 30% for the second five (page 111)."
+terms:
+  min_bill: {text: "Until the LP-6 customer's Rate Base Security Obligation is satisfied, the ESA will require the customer to pay applicable rates based on the greater of actual peak demand values, or 80% of the load provided in the load ramp schedule; after it ... 80% ... for the first (5) years of the initial term and 50% for the second five (5) years of the initial term", page: 111}
+  collateral: {text: "The ESA will require the LP-6 customer to provide security in an amount equal to the cost of upgrades needed to serve the customer ... that are placed into rate base and recovered through transmission rates (such amount is referred to as the \"Rate Base Security Obligation\")", page: 110}
+  exit_fee: {text: "The ESA will contain an exit fee that is equal to the remaining minimum load guarantee obligation during the ESA term at the time the customer terminates the ESA, or the remaining amount of the Rate Base Security Obligation, whichever is greater", page: 111}
+  ramp: {text: "The ESA will require the customer to provide an initial load ramp schedule for up to the first five (5) years of the initial term", page: 110}
+  term: {text: "The ESA will contain an initial term of not less than ten (10) years", page: 110}
+figures:
+  - {variable: min_demand_mw, value: 50, printed: "a peak electric demand of 50 MW or greater at a single facility", page: 109}
+  - {variable: fixed_charge, value: 999.11, printed: "Distribution Charge $999.11 per month (Customer Charge)", page: 109}
+  - {variable: min_contract_years, value: 10, printed: "an initial term of not less than ten (10) years", page: 110}
+  - {variable: min_bill_pct, value: 80, printed: "the greater of actual peak demand values, or 80% of the load provided in the load ramp schedule", page: 111}
