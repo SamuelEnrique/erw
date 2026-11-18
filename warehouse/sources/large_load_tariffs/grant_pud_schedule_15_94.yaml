@@ -1,0 +1,32 @@
+# Session 7803 (chain 401 part D): read whole by this session from Public Utility District No. 2 of Grant County's own
+# copies on grantpud.org's Rates & Fees page: Rate Schedule No. 15, Large Industrial Service (2026-Rate-Schedule-15.pdf,
+# Resolution No. 9114, one page) and Rate Schedule No. 94, New Large Load Service (Sch_94_Jan_1_2016_-_Final.pdf,
+# Resolution 8802, one page), with the definition of a New Large Load in its Customer Service Policy (effective 1 November
+# 2026, page 8), read as the PDFs' own text (saved under runs/c401/grant/, not in git). A New Large Load is served only
+# under Schedule 94, which sets the energy charge and keeps "all Demand Charges ... on the underlying Rate Schedule 14,
+# 15, 16, or 85": for a load of 10 MW or more that is Schedule 15, so the figures are Schedule 15's and no energy charge
+# is recorded. Public: Grant PUD is a public utility district set by its elected Commission; grantpud.org's robots file
+# allows every agent but SemrushBot, and its statement of privacy, the one legal page it links, sets no reuse limit (read 18
+# November 2026). Pages are the PDFs'.
+utility: Public Utility District No. 2 of Grant County
+eia_id: 14624
+state: WA
+grid: GCPD
+sector: industrial customers whose billing demand is 10 MW/MVA or more; a New Large Load (an increase of over 10 average MW above the customer's highest annual average load since 2010) takes its energy under Rate Schedule No. 94
+status: adopted
+schedule: Rate Schedule No. 15, Large Industrial Service, with Rate Schedule No. 94, New Large Load Service
+tariff_sheet: Rate Schedule No. 15 (Resolution No. 9114) and Rate Schedule No. 94 (Resolution 8802), one page each
+effective: 2026-04-01
+commission: Grant PUD Commission (the District's elected board; Washington's Utilities and Transportation Commission does not set public utility district rates)
+document: Public Utility District No. 2 of Grant County, Rate Schedule No. 15, Large Industrial Service, Resolution No. 9114, effective with meter readings after April 1, 2026; and Rate Schedule No. 94, New Large Load Service, Resolution 8802, effective with meter readings on and after January 1, 2016
+document_url: https://www.grantpud.org/images/2026/2026-Rates/2026-Rate-Schedule-15.pdf
+retrieved_at: 2026-11-18T04:39:19Z
+license: public
+notes: "Schedule 94 (https://www.grantpud.org/templates/galaxy/images/images/Downloads/Rates/NewLargeLoadService94/Sch_94_Jan_1_2016_-_Final.pdf): a New Large Load's monthly energy charge is the greater of the month's weighted average ICE Mid-C index price (peak and off-peak) or the largest energy block on Schedule 15, plus a 5% premium; its demand charges are those of the underlying schedule. Schedule 15's own energy charges (PRP 0.02548, incremental 0.00260 and temporary stabilization 0.00520 USD per kWh) apply to loads that are not New Large Loads. Billing demand is the larger of the contract demand or the month's highest 15-minute demand adjusted up to a 95 percent power factor. Customer Service Policy section 2.3: \"Service to New Large Loads will only be made pursuant to Rate Schedule No. 94\"; section 8 sets the large power application, inquiry form and fees."
+terms:
+  min_bill: {text: "The Minimum shall be computed as Demand Charge times 75% of the Customer's Maximum Billing Demand during the most recent 12-month period.", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 10, printed: "To industrial customers whose Billing Demand is greater than or equal to 10 MW/MVA", page: 1}
+  - {variable: fixed_charge, value: 1061.08, printed: "Basic Charge $1,061.08 per month", page: 1}
+  - {variable: demand_charge, value: 6.03, printed: "Demand Charge $6.03 per kW of Billing Demand", page: 1}
+  - {variable: min_bill_pct, value: 75, printed: "Demand Charge times 75% of the Customer's Maximum Billing Demand during the most recent 12-month period", page: 1}
