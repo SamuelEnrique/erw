@@ -85,7 +85,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 344 | `wip/alt-play-battery-1` | 25.5 | seen: play-battery-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 346 | `wip/alt-play-battery-2` | 24.3 | seen: play-battery-2-1280.png, play-battery-2-negative-1280.png with production's -default-1280 twins | 7800 |
 | B | 323 | `wip/alt-impact-19` | 21.4 | seen: impact-19-1280.png with production's -default-1280 twins | 7800 |
-| B | 353 | `wip/alt-ev-game-1` | 19.1 | wanted | |
+| B | 353 | `wip/alt-ev-game-1` | 19.1 | seen: ev-game-1-1280.png with production's -default-1280 twins | 7800 |
 | B | 299 | `wip/alt-shoulder-5` | 18.2 | not seen: no pictures | 7800 |
 | B | 372 | `wip/alt-compare-2` | 18.0 | seen: compare-2-1280.png with production's -default-1280 twins | 7800 |
 | B | 280 | `wip/alt-contracts-3` | 15.4 | seen: contracts-3-1280.png with production's -default-1280 twins | 7800 |
