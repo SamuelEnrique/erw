@@ -109,7 +109,7 @@ Order: largest change first, the change being the first percent of the line's "F
 | B | 325 | `wip/alt-demand-growth-3` | 2.52 | seen: demand-growth-3-1280.png with production's -default-1280 twins | 7800 |
 | B | 330 | `wip/alt-impact-22` | 1.9 | seen: impact-22-1280.png with production's -default-1280 twins | 7800 |
 | B | 327 | `wip/alt-impact-20` | 1.249 | seen: impact-20-1280.png with production's -default-1280 twins | 7800 |
-| B | 347 | `wip/alt-play-battery-4` | 0.28 | wanted | |
+| B | 347 | `wip/alt-play-battery-4` | 0.28 | seen: play-battery-4-1280.png with production's -default-1280 twins | 7800 |
 | B | 354 | `wip/alt-events-5` | 0.28 | wanted | |
 
 ## Part C: the thirteen regions
