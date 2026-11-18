@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-17",
+ "written": "2026-11-18",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -1764,6 +1764,50 @@
     "/storage"
    ]
   },
+  "eia930_ba_demand_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2018": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2019": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2020": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2021": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2022": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2023": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2024": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2025": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_interchange_hourly_2026": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_ba_supply_hourly": {
+   "status": "public",
+   "pages": []
+  },
   "eia930_daily_demand": {
    "status": "public",
    "pages": [
@@ -1815,6 +1859,14 @@
     "/data",
     "/grid"
    ]
+  },
+  "eia930_region_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_region_pair_hourly": {
+   "status": "public",
+   "pages": []
   },
   "eia930_subba_demand_hourly": {
    "status": "public",
