@@ -17,6 +17,7 @@ The chain: `queue/done/401-day-17-november-desktop-screenshots-regions-tariffs.m
 | A | data_requests_five_tools row 2 | merchant snapshot: waits on Samuel's ruling on six tests (default: the steps stay off) | ruling, not new | 7800 |
 | A | data_requests_five_tools row 5 | `scripts/price_years_rebuild.py` and `tests/test_session5504.py` are on main; `price_years_by_window` rebuilt 14 November (chain 301, battery row 10) | done before this chain | 7800 |
 | A | data_requests_forecast row 5 | Texas rates by taxing unit: comptroller.texas.gov's robots file refuses it (session 3938) | stopped by robots, not new | 7800 |
+| A | the desk at the close | landing_request_*.md and data_requests_*.md read again on origin/main (18 November about 04:55 UTC): no row marked requested | nothing requested | 7803 |
 
 ## Part B: the screenshots of the ruling alternatives
 
@@ -183,3 +184,4 @@ The count (session 7803, from large_load_statements.GROUPS and warehouse/sources
 | D | Public Service Enterprise Group, Colorado Springs Utilities and Los Angeles Department of Water and Power (0 rows each) | no website terms found from pseg.com's or csu.org's home pages, and ladwp.com's terms page renders by script; schedules not read | open | 7803 |
 | D | (Kentucky PSC, for Big Rivers and East Kentucky) | psc.ky.gov's robots file disallows Python-urllib and Python-requests, the ERW reader's libraries: not read | note | 7803 |
 | D | (Florida PSC, for FPL, Tampa Electric and Duke Energy Florida) | no robots file; its current copyright and disclaimer page was not found (a search found only its 2008 footer link and its Chapter 119 public-records notices); its docket copies would stand public on the PG&E precedent unless its terms say otherwise: to read before any Florida row | note | 7803 |
+| last | the closing note, docs/state/note_2026-11-17_data_c401.md; the resume file removed; chain_queue next | done | 7803 |
