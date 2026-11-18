@@ -134,3 +134,7 @@ The count (session 7803, from large_load_statements.GROUPS and warehouse/sources
 
 | Part | Utility | State | Session |
 |---|---|---|---|
+| D | El Paso Electric (21 rows) | Schedule No. 33A, Large Economic Development Service Rate (Texas, data centers over 50,000 kW, effective 2025-08-01), read whole; held internal: epelectric.com's terms allow personal, noncommercial use and the PUCT's ask permission; New Mexico's Rates 50 and 51 are proposed, not read | done, held | 7803 |
+| D | FirstEnergy (20 rows) | no adopted retail large-load schedule found (Ohio ordered one in May 2026; Pennsylvania's model tariff of May 2026); the largest transmission-level schedule still to read | open | 7803 |
+| D | PPL (10 rows) | Rate Schedule LP-6, Large Load Interconnections (Electric Pa. P.U.C. No. 202, pages 35C to 35F, effective 2026-07-01), read whole; public as PG&E's book (no terms found on pplelectric.com); 4 rows | done | 7803 |
+| D | Southern California Edison (9 rows) | sce.com's robots allow the regulatory pages; its terms page and library.sce.com not yet read | open | 7803 |
