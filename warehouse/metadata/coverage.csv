@@ -161,6 +161,17 @@ eia930_all_generation,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08
 eia930_all_history,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2018-01-01T05:00:00Z,2018-07-01T06:00:00Z,60084,eia:gridmonitor/sixMonthFiles,2026-10-01T03:50:16Z,pass,public,power,no,source
 eia930_all_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,348,PT1H,2026-09-13T00:00:00Z,2026-11-13T23:00:00Z,434760,eia:electricity/rto/interchange-data,2026-11-15T14:54:56Z,pass,public,power,no,source
 eia930_all_storage,ERCOT;ISO-NE;MISO;SPP;US48,,5,PT1H,2024-11-01T00:00:00Z,2026-11-15T23:00:00Z,76104,eia:electricity/rto/fuel-type-data,2026-11-16T23:43:30Z,pass,public,power,no,source
+eia930_ba_demand_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,58,PT1H,2018-07-01T04:00:00Z,2026-11-18T07:00:00Z,7829972,eia:gridmonitor/sixMonthFiles,2026-11-18T00:33:52Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2018,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,310,PT1H,2018-07-01T04:00:00Z,2018-12-31T23:00:00Z,1304086,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2019,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,308,PT1H,2019-01-01T00:00:00Z,2019-12-31T23:00:00Z,2649713,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2020,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,315,PT1H,2020-01-01T00:00:00Z,2020-12-31T23:00:00Z,2587992,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2021,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,305,PT1H,2021-01-01T00:00:00Z,2021-12-31T23:00:00Z,2649346,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2022,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,301,PT1H,2022-01-01T00:00:00Z,2022-12-31T23:00:00Z,2610602,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2023,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,297,PT1H,2023-01-01T00:00:00Z,2023-12-31T23:00:00Z,2579265,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2024,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,295,PT1H,2024-01-01T00:00:00Z,2024-12-31T23:00:00Z,2578905,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2025,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,303,PT1H,2025-01-01T00:00:00Z,2025-12-31T23:00:00Z,2588990,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_interchange_hourly_2026,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,316,PT1H,2026-01-01T00:00:00Z,2026-11-16T07:00:00Z,2231146,eia:gridmonitor/sixMonthFiles,2026-11-18T00:47:15Z,pass,public,power,no,source
+eia930_ba_supply_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,70,PT1H,2018-07-01T04:00:00Z,2026-11-17T07:00:00Z,9137257,eia:gridmonitor/sixMonthFiles,2026-11-18T00:33:52Z,pass,public,power,no,source
 eia930_daily_demand,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,71,P1D,2019-01-01T00:00:00Z,2026-11-14T00:00:00Z,193114,eia930:daily_demand,2026-11-15T15:39:03Z,pass,public,power,no,source
 eia930_daily_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,390,P1D,2019-01-01T00:00:00Z,2026-11-13T00:00:00Z,958451,eia930:daily_interchange,2026-11-15T15:38:13Z,pass,public,power,no,source
 eia930_daily_total_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,83,P1D,2019-01-01T00:00:00Z,2026-11-15T00:00:00Z,216952,eia930:daily_total_interchange;eia:gridmonitor/sixMonthFiles,2026-11-16T17:39:46Z,pass,public,power,no,source
@@ -168,6 +179,8 @@ eia930_demand_growth,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1Y,2019-01-0
 eia930_demand_weather,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,1057,erw:demand_weather,2026-11-17T04:00:27Z,pass,public,power,yes,derived
 eia930_event_hourly_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,424,PT1H,2021-02-07T06:00:00Z,2025-06-29T03:00:00Z,266833,eia:electricity/rto/interchange-data;eia:electricity/rto/region-data,2026-10-02T22:56:19Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-11-14T10:00:00Z,2026-11-15T06:00:00Z,1561,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-11-16T10:25:07Z,pass,public,power,no,source
+eia930_region_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T04:00:00Z,2026-11-18T07:00:00Z,3064131,eia:gridmonitor/sixMonthFiles,2026-11-18T00:33:52Z,pass,public,power,no,derived
+eia930_region_pair_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,25,PT1H,2018-07-01T04:00:00Z,2026-11-16T07:00:00Z,1820134,erw:eia930_ba_interchange_hourly,2026-11-18T00:47:15Z,pass,public,power,no,derived
 eia930_subba_demand_hourly,SUBBA,,89,PT1H,2026-07-24T00:00:00Z,2026-10-21T06:00:00Z,186177,eia:electricity/rto/region-sub-ba-data,2026-10-22T00:46:07Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2019,SUBBA,,82,PT1H,2019-01-01T00:00:00Z,2019-12-31T23:00:00Z,687952,eia:electricity/rto/region-sub-ba-data,2026-10-23T02:03:15Z,pass,public,power,no,source
 eia930_subba_demand_hourly_2020,SUBBA,,82,PT1H,2020-01-01T00:00:00Z,2020-12-31T23:00:00Z,719312,eia:electricity/rto/region-sub-ba-data,2026-10-23T00:56:51Z,pass,public,power,no,source
@@ -645,7 +658,7 @@ uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:3
 utility_large_load_queue_totals,none,,1,event,2025-10-28T00:00:00Z,2026-11-13T00:00:00Z,34,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_rule_changes,none,,1,event,2026-08-18T00:00:00Z,2026-11-13T00:00:00Z,94,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_rules,none,,1,event,2010-01-01T00:00:00Z,2026-11-13T00:00:00Z,100,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
-utility_large_load_tariffs,utility,,15,,2018-02-15T00:00:00Z,2027-01-01T00:00:00Z,60,filed:large_load_tariffs,2026-11-14T11:27:51Z,pass,public,power,no,source
+utility_large_load_tariffs,utility,,16,,2018-02-15T00:00:00Z,2027-01-01T00:00:00Z,64,filed:large_load_tariffs,2026-11-18T01:45:35Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source

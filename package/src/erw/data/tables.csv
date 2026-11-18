@@ -46,6 +46,7 @@ caiso_fuel_supply,public,,,,CAISO,"Public: every publisher's terms the ERW read 
 caiso_fuel_supply_history,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_grid_emergencies,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 caiso_interconnection_queue,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+caiso_outlook_demand,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 caiso_reliability_daily,public,,,,CAISO; EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 caiso_wind_solar_forecast,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 carb_auction_allowance_prices,public,,,,CARB,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -160,6 +161,17 @@ eia930_all_generation,public,,,,EIA,"Public: every publisher's terms the ERW rea
 eia930_all_history,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_all_interchange,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_all_storage,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",35 days
+eia930_ba_demand_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2018,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2019,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2020,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2021,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2022,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2023,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2024,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2025,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_interchange_hourly_2026,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_ba_supply_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_daily_demand,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_daily_interchange,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_daily_total_interchange,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -167,6 +179,8 @@ eia930_demand_growth,public,,,,EIA,"Public: every publisher's terms the ERW read
 eia930_demand_weather,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_event_hourly_interchange,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_generation_latest,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+eia930_region_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia930_region_pair_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_subba_demand_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_subba_demand_hourly_2019,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_subba_demand_hourly_2020,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

@@ -443,6 +443,12 @@ STORAGE_HELD["ercot_storage_rt_offers_monthly"] = ("held: first written on 16 No
 # Session 7052 (chain 370): CAISO's 5-minute demand on the Flex Alert days (done-line request 201), the same
 STORAGE_HELD["caiso_outlook_demand"] = ("held: first written on 17 November 2026 (chain 370, session 7052), after the v1 "
                                         "package was prepared: in v1 when the owner adds it to the package's list")
+# Session 7801 (chain 401): EIA-930 hour by hour for every balancing authority and region (part C, tables 1 to 3), public,
+# written after the v1 package was prepared, about 3.6 GB together: held as the other late tables are, and not uploaded
+for _t in ("eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_ba_supply_hourly", "eia930_region_pair_hourly",
+           *(f"eia930_ba_interchange_hourly_{_y}" for _y in range(2018, 2027))):
+    STORAGE_HELD[_t] = ("held: first written on 18 November 2026 (chain 401, session 7801), after the v1 package was prepared; "
+                        "not on Redivis (about 3.6 GB for the thirteen tables): in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
