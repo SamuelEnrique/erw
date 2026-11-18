@@ -122,7 +122,11 @@ Order: largest change first, the change being the first percent of the line's "F
 
 | Part | Table | State | Session |
 |---|---|---|---|
-| C | 1 eia930_region_hourly, eia930_ba_demand_hourly, eia930_ba_supply_hourly | built from the 17 six-month files (2018 Jul_Dec to 2026 Jul_Dec) under the lock: 3,064,131, 7,829,972 and 9,137,257 rows, 2018-07-01 to 2026-11-18, each passes the validator; the hour convention matches EIA API demand (0.01 MW); registrations, method note, coverage, archive and the gate to come | building | 7801 |
+| C | 1 to 3 eia930_region_hourly, eia930_ba_demand_hourly, eia930_ba_supply_hourly, eia930_region_pair_hourly, eia930_ba_interchange_hourly_2018 to _2026 | written under the lock from the 34 six-month files, each passes the validator, archived (13 tables, 43,631,539 rows), records on wip/c401-eia930 (coverage, license, release list held out, live catalogue held, test 7801); the gate: first run failed one test (the llms catalogue, fixed), second run under way | gate | 7801 |
+| C | 4 census_county_population | written under the lock (28,293 rows, 3,152 counties, the 2020 count and 1 July 2018 to 2025), passes; records and gate with tables 5 to 7 on wip/c401-county | written | 7802 |
+| C | 5 eia_county_region | written under the lock (3,117 counties, 1,027 shared, 24 with none), passes with the branch validator (county joins the entity types, Decision 79) | written | 7802 |
+| C | 6 and 7 noaa_region_stations, noaa_region_station_hourly_<year>, region_weather_hourly | stations chosen and ISD-Lite and LCD pulled (detached) | pulling | 7803 |
+| C | 8 iso_hub_prices_history_2018 | SPP backfill 2018-07-01 to 2023-07-05 running (detached); CAISO: OASIS keeps about 39 months, so its own archive holds nothing before July 2023; NYISO and ISO-NE held (license needed), MISO paused, PJM not pulled: not pulled | pulling | 7803 |
 
 ## Part D: the filed large-load tariffs
 
