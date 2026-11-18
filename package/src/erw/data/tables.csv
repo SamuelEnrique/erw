@@ -64,6 +64,7 @@ censtatd_hk_electricity,public,,,,"Census and Statistics Department, Hong Kong (
 census_bps_state_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_c30_construction_monthly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_cbp_hosting_annual,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+census_county_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_metro_population,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 census_qss_utilities_hosting_quarterly,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 cer_electricity_trade,public,,,,Canada Energy Regulator (CER),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -208,6 +209,7 @@ eia_coal_prices_annual,public,,,,EIA,"Public: every publisher's terms the ERW re
 eia_coal_production_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_receipts_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_coal_trade_price_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_county_region,public,,,,Census Bureau,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_first_purchase_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 eia_crude_imports_by_country,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_crude_imports_detail_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -474,6 +476,7 @@ iso_all_capacity_prices,internal,,,PJM,ISO-NE; MISO; NYISO; PJM,The ERW holds it
 iso_curtailment_monthly,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 iso_dam_hub_prices,unsettled,license needed,2026-10-21,MISO,CAISO; ERCOT; MISO; SPP,"MISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",35 days
 iso_hub_prices_history,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
+iso_hub_prices_history_2018,public,,,,SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_queue_snapshot_summary,public,,,,CAISO; ERCOT; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 iso_queue_statistics,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,"ISO-NE; MISO; NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
 iso_reserve_margin_reports,public,,,,CAISO,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -536,6 +539,16 @@ noaa_grid_weather_stations,public,,,,NOAA NCEI,"Public: every publisher's terms 
 noaa_isd_hourly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_ncei_billion_disasters,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_ncei_storm_events,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2018,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2019,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2020,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2021,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2022,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2023,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2024,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2025,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_station_hourly_2026,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+noaa_region_stations,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_station_weather_hourly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 noaa_uscrn_solar_monthly,public,,,,NOAA NCEI,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 node_basis_daily,public,,,,ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -586,6 +599,7 @@ price_board_spreads,unsettled,license needed,2026-10-21,ISO-NE; MISO; NYISO,CAIS
 price_years_by_window,public,,,,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 pse_poland_balance_15min,internal,,,,PSE S.A. (Polskie Sieci Elektroenergetyczne),The ERW holds it for its own use only (not settled (needs written permission by default)); it is never redistributed.,none
 ree_spain_balance_monthly,public,,,,Red Electrica (REE),"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+region_weather_hourly,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ren_portugal_balance_annual,internal,,,REN (Redes Energeticas Nacionais),REN (Redes Energeticas Nacionais),The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 rggi_auction_allowance_prices,internal,,,RGGI,RGGI,The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 rrc_lease_production_monthly,public,,,,RRC,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none

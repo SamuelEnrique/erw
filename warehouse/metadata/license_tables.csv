@@ -64,6 +64,7 @@ censtatd_hk_electricity,"Census and Statistics Department, Hong Kong (C&SD)",the
 census_bps_state_annual,Census Bureau,the source registry
 census_c30_construction_monthly,Census Bureau,the source registry
 census_cbp_hosting_annual,Census Bureau,the source registry
+census_county_population,Census Bureau,the source registry
 census_metro_population,Census Bureau,the source registry
 census_qss_utilities_hosting_quarterly,Census Bureau,the source registry
 cer_electricity_trade,Canada Energy Regulator (CER),the source registry
@@ -208,6 +209,7 @@ eia_coal_prices_annual,EIA,the source registry
 eia_coal_production_annual,EIA,the source registry
 eia_coal_receipts_annual,EIA,the source registry
 eia_coal_trade_price_annual,EIA,the source registry
+eia_county_region,Census Bureau,the source registry
 eia_crude_first_purchase_prices,EIA,the source registry
 eia_crude_imports_by_country,EIA,the source registry
 eia_crude_imports_detail_monthly,EIA,the source registry
@@ -474,6 +476,7 @@ iso_all_capacity_prices,ISO-NE; MISO; NYISO; PJM,the source registry
 iso_curtailment_monthly,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_curtailment_daily, ercot_wind_solar_hsl_daily, spp_curtailment_daily"
 iso_dam_hub_prices,CAISO; ERCOT; MISO; SPP,the grids its coverage row lists (a table of several operators' own prices)
 iso_hub_prices_history,CAISO; ISO-NE; MISO; NYISO; SPP,the source registry
+iso_hub_prices_history_2018,SPP,the source registry
 iso_queue_snapshot_summary,CAISO; ERCOT; SPP,"the source registry and the tables its header derives it from: caiso_interconnection_queue, ercot_interconnection_queue, spp_interconnection_queue"
 iso_queue_statistics,CAISO; ERCOT; ISO-NE; MISO; NYISO; SPP,by hand: its header: the six ISOs' interconnection queues it counts (session 348)
 iso_reserve_margin_reports,CAISO,the source registry
@@ -536,6 +539,16 @@ noaa_grid_weather_stations,NOAA NCEI,the source registry
 noaa_isd_hourly,NOAA NCEI,the source registry
 noaa_ncei_billion_disasters,NOAA NCEI,the source registry
 noaa_ncei_storm_events,NOAA NCEI,the source registry
+noaa_region_station_hourly_2018,NOAA NCEI,the source registry
+noaa_region_station_hourly_2019,NOAA NCEI,the source registry
+noaa_region_station_hourly_2020,NOAA NCEI,the source registry
+noaa_region_station_hourly_2021,NOAA NCEI,the source registry
+noaa_region_station_hourly_2022,NOAA NCEI,the source registry
+noaa_region_station_hourly_2023,NOAA NCEI,the source registry
+noaa_region_station_hourly_2024,NOAA NCEI,the source registry
+noaa_region_station_hourly_2025,NOAA NCEI,the source registry
+noaa_region_station_hourly_2026,NOAA NCEI,the source registry
+noaa_region_stations,ERW,the source registry
 noaa_station_weather_hourly,NOAA NCEI,the source registry
 noaa_uscrn_solar_monthly,NOAA NCEI,the source registry
 node_basis_daily,ERCOT,"the source registry and the tables its header derives it from: ercot_all_hub_prices_history, ercot_zone_prices_history"
@@ -586,6 +599,7 @@ price_board_spreads,CAISO; EIA; ERCOT; ISO-NE; MISO; NYISO; SPP,"the source regi
 price_years_by_window,CAISO; EIA; ERCOT; NOAA NCEI; SPP,"the source registry and the tables its header derives it from: battery_stack_monthly, battery_stack_review_monthly, battery_stack_stress_daily, ercot_all_hub_prices_history, ercot_zone_prices_history, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, merchant_revenue_monthly"
 pse_poland_balance_15min,PSE S.A. (Polskie Sieci Elektroenergetyczne),the source registry
 ree_spain_balance_monthly,Red Electrica (REE),the source registry
+region_weather_hourly,ERW,the source registry
 ren_portugal_balance_annual,REN (Redes Energeticas Nacionais),the source registry
 rggi_auction_allowance_prices,RGGI,the source registry
 rrc_lease_production_monthly,RRC,the source registry

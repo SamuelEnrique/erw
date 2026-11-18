@@ -877,7 +877,9 @@
   },
   "caiso_outlook_demand": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "caiso_reliability_daily": {
    "status": "public",
@@ -973,6 +975,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "census_county_population": {
+   "status": "public",
+   "pages": []
   },
   "census_metro_population": {
    "status": "public",
@@ -1766,47 +1772,69 @@
   },
   "eia930_ba_demand_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2018": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2019": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2020": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2021": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2022": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2023": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2024": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2025": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_interchange_hourly_2026": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_ba_supply_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_daily_demand": {
    "status": "public",
@@ -1862,11 +1890,15 @@
   },
   "eia930_region_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_region_pair_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia930_subba_demand_hourly": {
    "status": "public",
@@ -2027,6 +2059,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "eia_county_region": {
+   "status": "public",
+   "pages": []
   },
   "eia_crude_first_purchase_prices": {
    "status": "public",
@@ -3519,6 +3555,10 @@
     "/play/battery"
    ]
   },
+  "iso_hub_prices_history_2018": {
+   "status": "public",
+   "pages": []
+  },
   "iso_queue_snapshot_summary": {
    "status": "public",
    "pages": [
@@ -3912,6 +3952,46 @@
     "/data"
    ]
   },
+  "noaa_region_station_hourly_2018": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2019": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2020": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2021": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2022": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2023": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2024": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2025": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_station_hourly_2026": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_region_stations": {
+   "status": "public",
+   "pages": []
+  },
   "noaa_station_weather_hourly": {
    "status": "public",
    "pages": [
@@ -4242,6 +4322,10 @@
    "pages": [
     "/data"
    ]
+  },
+  "region_weather_hourly": {
+   "status": "public",
+   "pages": []
   },
   "rrc_lease_production_monthly": {
    "status": "public",
@@ -4758,7 +4842,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 491
+   "public": 505
   },
   "/data/faults": {
    "label": "Known faults in source data",
