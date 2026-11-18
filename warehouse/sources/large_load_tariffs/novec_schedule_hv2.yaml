@@ -1,0 +1,32 @@
+# Session 7803 (chain 401 part D): read whole by this session from Northern Virginia Electric Cooperative's own copy of
+# Schedule HV-2 (Large-Power-Dedicated-Facilities-Contract-Service-HV-2-3-22-23.pdf, 3 pages, linked from novec.com's
+# Regulated Rates page, stamped "Filed for informational purposes only, March 22, 2023"). The PDF is a scan with no text
+# layer: its pages were rendered and read as images, the charges again at 300 dpi (saved under runs/c401/novec/, not in
+# git). Public: novec.com's robots file allows every agent (with a crawl delay of 20 seconds, kept), and no limit on reuse
+# was found in its Legal Terms and Conditions (2026, read 18 November 2026). The Virginia State Corporation Commission is paused
+# for the ERW (10 October 2026) and was not asked. Pages are the PDF's.
+utility: Northern Virginia Electric Cooperative
+eia_id: 13640
+state: VA
+grid: PJM
+sector: large commercial or industrial consumers with a minimum contract billing demand of 65,000 kW, or 45,000 kW when served at 34.5 kV or higher from dedicated facilities at a 230 kV delivery point
+status: adopted
+schedule: Schedule HV-2, Large Power Dedicated Facilities Contract Service
+tariff_sheet: Unbundled Rates, Regulated Rates, Large Power Dedicated Facilities Contract Service, Schedule HV-2, pages 1 to 3
+effective: 2023-04-01
+voltage: {text: "a delivery voltage of 34.5 kV or greater where service is: i) at the low voltage side of dedicated substation facilities served from a 230 kV transmission delivery point, or ii) from dedicated sub-transmission or primary distribution facilities emanating directly from a NOVEC delivery point served at the low side of 230 kV transmission delivery source", page: 1}
+commission: State Corporation Commission of Virginia
+document: Northern Virginia Electric Cooperative, Unbundled Rates, Regulated Rates, Large Power Dedicated Facilities Contract Service, Schedule HV-2, effective April 1, 2023 (filed for informational purposes only, March 22, 2023)
+document_url: https://www.novec.com/About_NOVEC/upload/Large-Power-Dedicated-Facilities-Contract-Service-HV-2-3-22-23.pdf
+retrieved_at: 2026-11-18T03:57:42Z
+license: public
+notes: "The charges are NOVEC's distribution charges (Part B); energy supply (Part A) is bought from NOVEC under the Market Based Rate Option, \"to be determined on a case by case basis\", so no supply price is printed. Billing demand is the higher of the month's highest 30-minute kW or the contract minimum times the contract's ramp-up percentages; billing energy the higher of metered kWh or billing demand times the month's hours times 0.85. An rKVA charge of $0.16 per rKVA is printed beside the demand charge, and monthly fixed charge rates on contributed capital for excess facilities (0.442% high voltage line, 0.644% substation, 0.893% primary distribution). The minimum monthly distribution charge is the amount in the contract. Not for back-up or standby service. NOVEC announced a filing to update its terms and conditions in July 2026 (news release nr071726); this schedule is the one its Regulated Rates page links on 18 November 2026."
+terms:
+  min_bill: {text: "The minimum monthly distribution charge shall be the amount as specified in the contract for service plus any Excess Facilities Charge.", page: 3}
+  ramp: {text: "the contract minimum billing demand times the applicable ramp-up percentages as specified in the contract", page: 2}
+  term: {text: "The ESA term for distribution service shall be negotiable between the customer and the Cooperative, but the term shall be structured to recover the full cost of distribution and/or sub-transmission plant investment, maintenance and operation", page: 1}
+figures:
+  - {variable: min_demand_mw, value: 45, printed: "Agree to a minimum contract billing demand of 65,000 kW; or, Be served at a delivery voltage of 34.5 kV or greater ... and, agrees to a contract billing demand of no less than 45,000 kW", page: 1}
+  - {variable: fixed_charge, value: 1420.23, printed: "Service Charge $1420.23 per month", page: 2}
+  - {variable: demand_charge, value: 0.793, printed: "Demand Charge $0.793 per kW", page: 2}
+  - {variable: energy_charge, value: 0.337, printed: "Energy Charge $0.000337 per kWh", page: 2}
