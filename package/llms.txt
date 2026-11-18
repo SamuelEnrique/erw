@@ -775,7 +775,7 @@ docs/guide.md, the reader's guide.
 
 ## 10. Every table: the catalogue (generated)
 
-Generated: 2026-11-18T04:00:33Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-18T04:00:12Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
+Generated: 2026-11-18T04:09:36Z by scripts/build_llms.py from warehouse/metadata/coverage.csv (newest last_run: 2026-11-18T04:09:13Z), warehouse/metadata/sources.csv, the package's license record (erw/data/tables.csv), the Redivis release records (docs/redivis/) and site/lib/pages.ts. Not edited by hand. The chat's briefing leaves this section out; its list_tables tool reads the same record.
 
 670 tables: 496 public, 174 held. Spans and rows move daily: erw.coverage() gives today's.
 

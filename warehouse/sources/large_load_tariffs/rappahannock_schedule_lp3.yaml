@@ -1,0 +1,34 @@
+# Session 7803 (chain 401 part D): read whole by this session from Rappahannock Electric Cooperative's own copy of
+# Schedule LP-3 (Large Power Service LP-3.pdf, 4 pages, linked from myrec.coop's Electric Rates page, stamped "Accepted for
+# filing, Division of Public Utility Regulation, VA State Corporation Commission, October 2, 2024"), read as the PDF's own
+# text (saved under runs/c401/rec/, not in git). REC prints no schedule for loads of 100 MW or more; LP-3 is its largest
+# transmission-level schedule (5,000 kW or more from a 138/34.5 kV substation, or at the low side of a wholesale substation
+# fed at 34.5 kV or more), the chain's rule when no large-load schedule exists. Public: myrec.coop's robots file allows its
+# pages, and its site's privacy policy, the one legal page it links, places no limit on reuse (read 18 November 2026). The
+# Virginia State Corporation Commission is paused for the ERW (10 October 2026) and was not asked. Pages are the PDF's.
+utility: Rappahannock Electric Cooperative
+eia_id: 40228
+state: VA
+grid: PJM
+sector: customers with monthly capacity requirements of 5,000 kW or more served from a 138,000/34,500 volt load center substation within five miles, or at the low voltage side of a wholesale supplier substation fed at 34,500 volts or more
+status: adopted
+schedule: Schedule LP-3, Large Power Substation Direct Service
+tariff_sheet: Schedule LP-3, pages 1 to 4 (accepted for filing October 2, 2024)
+effective: 2024-10-01
+voltage: {text: "served from a 138,000/34,500 volt load center substation located within five (5) miles of the point of delivery to the Customer. Also applicable to Customers whose delivery point is at the low voltage side of a wholesale supplier substation where high side delivery is from transmission facilities of at least 34,500 volts", page: 1}
+commission: State Corporation Commission of Virginia
+document: Rappahannock Electric Cooperative, Large Power Substation Direct Service, Schedule LP-3, effective on all bills issued on and after October 1, 2024 (accepted for filing by the Division of Public Utility Regulation, October 2, 2024)
+document_url: https://www.myrec.coop/sites/default/files/documents/Electric%20Rates/Large%20Power%20Service%20LP-3.pdf
+retrieved_at: 2026-11-18T04:08:45Z
+license: public
+notes: "The figures are the distribution delivery charges of section IV-A-3, open to every qualifying customer (A-1 and A-2 are closed: demand 1.68 and 2.77 USD/kW). Electricity supply is billed at the prevailing ODEC transmission level demand and energy rates adjusted for distribution losses, with an excess demand charge of 42.5% of ODEC's owned resources demand charge, so no supply price is printed. Distribution billing demand is the greater of the month's highest 15-minute kW or 500 kW. A facilities charge applies to dedicated local facilities (1.43% a month of installed cost for standard plant without a contribution, down to 0.82% with one). A customer may end its facilities contract by paying the unamortized value of the facilities plus removal."
+terms:
+  min_bill: {text: "The minimum monthly delivery charge under the above rate shall be the greater of the amount determined in accordance with Section IV-A or the amount specified in any contract currently in force.", page: 3}
+  exit_fee: {text: "making a one-time payment equal to the un-amortized value of the facilities supplied under the contract, plus, if applicable, the cost to remove the facilities", page: 4}
+  term: {text: "in no case shall the term of contract be less than one (1) year ... in no case, shall the term of the contract be less than seven (7) years", page: 4}
+figures:
+  - {variable: min_demand_mw, value: 5, printed: "Applicable to Customers with monthly capacity requirements of 5,000 kilowatts (kW) or more", page: 1}
+  - {variable: fixed_charge, value: 397.10, printed: "Access Charge: @ $397.10 per month", page: 2}
+  - {variable: demand_charge, value: 0.378, printed: "Demand Delivery Charge: @ $0.378 per kW", page: 2}
+  - {variable: energy_charge, value: 1.31, printed: "Energy Delivery Charge: @ $0.00131 per kWh", page: 2}
+  - {variable: min_contract_years, value: 7, printed: "in no case, shall the term of the contract be less than seven (7) years", page: 4}
