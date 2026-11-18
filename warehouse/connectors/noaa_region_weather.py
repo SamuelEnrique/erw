@@ -115,8 +115,10 @@ def lite_year(usaf, wban, year):
 
 
 def lite_series(usaf, wban):
-    parts = [lite_year(usaf, wban, y) for y in range(2018, 2026)]
-    s = pd.concat([p["temp_c"] for p in parts if len(p)]) if any(len(p) for p in parts) else pd.Series(dtype=float)
+    parts = [p for p in (lite_year(usaf, wban, y) for y in range(2018, 2026)) if len(p) and isinstance(p.index, pd.DatetimeIndex)]
+    if not parts:
+        return pd.Series(dtype=float, index=pd.DatetimeIndex([], tz="UTC"))
+    s = pd.concat([p["temp_c"] for p in parts])
     s = s[(s.index >= START) & (s.index < SEAM)].dropna()
     return s[~s.index.duplicated()]
 
