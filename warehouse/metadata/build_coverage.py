@@ -746,6 +746,8 @@ def iso_of(table):
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
+    if table == "iso_hub_prices_history_2018":  # session 7803: July 2018 to July 2023, SPP alone (the other operators: its method note)
+        return "SPP"
     if table == "iso_zone_prices_history":  # session 140: NYISO's zones, CAISO's ZP26 and SPP South (ISO-NE's are isone_zone_prices_history, internal)
         return "CAISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
