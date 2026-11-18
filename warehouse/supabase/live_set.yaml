@@ -265,6 +265,21 @@ catalogue_hold:
   # session 483: node_basis_daily, out of the live set (no reader in Supabase) and held for Redivis's storage: not in the
   # live catalogue either, so /data does not name a table it cannot link
   - node_basis_daily
+  # session 7801 (chain 401 part C, internal tier): EIA-930 hour by hour for every balancing authority and region, read by
+  # no page, not in the live set and not on Redivis (about 3.6 GB): in coverage and the archive, not in the live catalogue
+  - eia930_region_hourly
+  - eia930_ba_demand_hourly
+  - eia930_ba_supply_hourly
+  - eia930_region_pair_hourly
+  - eia930_ba_interchange_hourly_2018
+  - eia930_ba_interchange_hourly_2019
+  - eia930_ba_interchange_hourly_2020
+  - eia930_ba_interchange_hourly_2021
+  - eia930_ba_interchange_hourly_2022
+  - eia930_ba_interchange_hourly_2023
+  - eia930_ba_interchange_hourly_2024
+  - eia930_ba_interchange_hourly_2025
+  - eia930_ba_interchange_hourly_2026
   # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link

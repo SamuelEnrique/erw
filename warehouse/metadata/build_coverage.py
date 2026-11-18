@@ -102,6 +102,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^eia930_demand_growth$"),
+    ("derived", r"^eia930_(region_hourly|region_pair_hourly)$"),  # session 7801: sums of EIA-930's balancing authorities by region and by region pair
     ("derived", r"^subregion_demand_growth$"),  # session 2877: ERW code (warehouse/derived/subregion_demand_growth.py) over EIA-930 sub-regions  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
     ("derived", r"^interconnection_durations$"),  # session 671: ERW code over the Queued Up file (an entities table)
     ("derived", r"^interconnection_agreements_signed$"),  # session 854: the same, the requests with a signed agreement
@@ -722,6 +723,9 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;NYISO;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
+    if (table in ("eia930_region_hourly", "eia930_ba_demand_hourly", "eia930_ba_supply_hourly", "eia930_region_pair_hourly")
+            or re.match(r"^eia930_ba_interchange_hourly_\d{4}$", table)):  # session 7801: every BA EIA reports and its thirteen regions, the seven ISOs among them
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly", "eia930_daily_demand"):  # session 68: every BA EIA reports
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links", "eia930_daily_interchange",  # session 49: every BA EIA reports
