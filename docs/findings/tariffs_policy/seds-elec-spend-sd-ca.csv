@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_elec_spend, region sd_ca (California)
+# Computed 2026-11-19T12:30:33Z by warehouse/analysis/findings/deep/tariffs_policy.py (seds_elec_spend); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total expenditure on electricity (billion USD), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_ca,1990,18.4152,1.0,1
+sd_ca,1991,19.4079,1.0,1
+sd_ca,1992,20.373,1.0,1
+sd_ca,1993,20.1596,1.0,1
+sd_ca,1994,20.6564,1.0,1
+sd_ca,1995,20.8248,1.0,1
+sd_ca,1996,20.4815,1.0,1
+sd_ca,1997,21.5581,1.0,1
+sd_ca,1998,20.9187,1.0,1
+sd_ca,1999,20.8744,1.0,1
+sd_ca,2000,22.9047,1.0,1
+sd_ca,2001,27.4786,1.0,1
+sd_ca,2002,28.3839,1.0,1
+sd_ca,2003,28.3921,1.0,1
+sd_ca,2004,28.3404,1.0,1
+sd_ca,2005,29.3027,1.0,1
+sd_ca,2006,33.433,1.0,1
+sd_ca,2007,33.5459,1.0,1
+sd_ca,2008,33.2072,1.0,1
+sd_ca,2009,34.0972,1.0,1
+sd_ca,2010,33.381800000000005,1.0,1
+sd_ca,2011,33.9191,1.0,1
+sd_ca,2012,34.8525,1.0,1
+sd_ca,2013,37.0281,1.0,1
+sd_ca,2014,39.4241,1.0,1
+sd_ca,2015,39.9792,1.0,1
+sd_ca,2016,38.7872,1.0,1
+sd_ca,2017,40.96,1.0,1
+sd_ca,2018,41.9722,1.0,1
+sd_ca,2019,41.9714,1.0,1
+sd_ca,2020,44.682,1.0,1
+sd_ca,2021,48.2037,1.0,1
+sd_ca,2022,55.9177,1.0,1
+sd_ca,2023,59.189,1.0,1
+sd_ca,2024,66.0183,1.0,1

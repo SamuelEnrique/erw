@@ -1,0 +1,40 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate seds_total, region sd_fl (Florida)
+# Computed 2026-11-19T12:27:14Z by warehouse/analysis/findings/deep/demand.py (seds_total); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the state's total energy consumption (TBtu), the observations it rests on, and whether the year is full
+# Tables: eia_seds_state_energy
+region,year,value,n_observations,full_year
+sd_fl,1990,3275.218,1.0,1
+sd_fl,1991,3236.549,1.0,1
+sd_fl,1992,3306.983,1.0,1
+sd_fl,1993,3338.698,1.0,1
+sd_fl,1994,3458.32,1.0,1
+sd_fl,1995,3604.864,1.0,1
+sd_fl,1996,3677.088,1.0,1
+sd_fl,1997,3699.302,1.0,1
+sd_fl,1998,3850.212,1.0,1
+sd_fl,1999,3907.612,1.0,1
+sd_fl,2000,4067.861,1.0,1
+sd_fl,2001,4051.572,1.0,1
+sd_fl,2002,4161.068,1.0,1
+sd_fl,2003,4180.999,1.0,1
+sd_fl,2004,4334.599,1.0,1
+sd_fl,2005,4406.875,1.0,1
+sd_fl,2006,4460.801,1.0,1
+sd_fl,2007,4405.2300000000005,1.0,1
+sd_fl,2008,4250.476,1.0,1
+sd_fl,2009,4099.568,1.0,1
+sd_fl,2010,4306.344,1.0,1
+sd_fl,2011,4152.521,1.0,1
+sd_fl,2012,4053.147,1.0,1
+sd_fl,2013,4113.0380000000005,1.0,1
+sd_fl,2014,4157.928,1.0,1
+sd_fl,2015,4308.804,1.0,1
+sd_fl,2016,4344.354,1.0,1
+sd_fl,2017,4324.156,1.0,1
+sd_fl,2018,4412.68,1.0,1
+sd_fl,2019,4338.003,1.0,1
+sd_fl,2020,3954.381,1.0,1
+sd_fl,2021,4257.1810000000005,1.0,1
+sd_fl,2022,4337.403,1.0,1
+sd_fl,2023,4307.54,1.0,1
+sd_fl,2024,4357.609,1.0,1
