@@ -48,8 +48,11 @@ export type PairEvent = { flow_mw?: Arr; baseline_mw?: Arr };
 export type EventRegionsFile = {
   built?: string; tables?: string[]; method?: string; license?: string; fixture?: string;
   event: string; title?: string; start: string; end: string;
-  baseline?: string | { how?: string; text?: string; rule?: string; baseline_offsets_days?: number[] };
-  baseline_offsets_days?: number[];
+  baseline?: string | { how?: string; text?: string; rule?: string; baseline_offsets_days?: (number | string)[] };
+  /** days back for a baseline by weekday (364, 728); words for one by calendar year ("1 calendar year(s)"), as the builder writes them */
+  baseline_offsets_days?: (number | string)[];
+  /** the builder's own words on which hours the file's window holds */
+  window?: string;
   hours: Hours;
   regions: Record<string, RegionEvent>;
   pairs?: Record<string, PairEvent>;
@@ -76,7 +79,7 @@ export function readRegionFile<T>(rel: string): T | null {
 export const eventRegionsFile = (event: string) => readRegionFile<EventRegionsFile>(`events/${event}.json`);
 
 /** How the file says its baseline is formed, in its own words, and the offsets in days. */
-export function baselineOf(file: EventRegionsFile): { words: string; offsets: number[] } {
+export function baselineOf(file: EventRegionsFile): { words: string; offsets: (number | string)[] } {
   const b = file.baseline;
   const words = typeof b === "string" ? b : b ? b.how ?? b.text ?? b.rule ?? "" : "";
   const offsets = file.baseline_offsets_days ?? (typeof b === "object" && b ? b.baseline_offsets_days ?? [] : []);
