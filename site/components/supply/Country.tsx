@@ -62,6 +62,9 @@ const SOURCE_WORDS = "Source: EIA Form EIA-930, interchange as each side filed i
 /** A name's possessive: "Tennessee's", "Texas's", and "Carolinas'" for the one name that is a plural. */
 const poss = (name: string) => (name === "Carolinas" ? "Carolinas'" : `${name}'s`);
 const months = (held: number, of: number) => `${held} of the ${of} month${of === 1 ? "" : "s"} of the year in the file`;
+/** Why the other side's report of a flow across the border is never in the file (session 8460: the cell read "not held
+ *  yet" and its hover gave no reason). Empty for a region of the lower 48. */
+export const abroadWhy = (code: string) => (code === "CAN" || code === "MEX" ? ` No balancing authority of ${placeName(code)} files Form EIA-930: a flow across the border stands by the report of the balancing authorities of the United States alone.` : "");
 
 function regionWords(code: string): string {
   if (code === "CAN" || code === "MEX") return `${placeName(code)}: a neighbour outside the lower 48. EIA's Form EIA-930 holds the flows across the border as the balancing authorities of the United States file them.`;
@@ -107,11 +110,11 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
           cell(n.code, n.own ? <span title={`${poss(name)} own report of its net imports from ${n.name} in ${year}, summed over ${months(n.own.held, n.own.of)}${n.hoursOwn ? `, ${whole(n.hoursOwn.mwh)} hours` : ""}. Above zero ${name} imported; below zero it exported.`}><N k={`trade|${code}|${year}|${n.code}|own`}>{signedGwh(n.own.mwh)}</N></span> : null,
             `The file holds no report by ${name} of its flow with ${n.name} in ${year}.`),
           cell(n.code, n.their ? <span title={`The same flow as ${n.name} reported it, with the same sign (above zero ${name} imported), summed over ${months(n.their.held, n.their.of)}${n.hoursTheir ? `, ${whole(n.hoursTheir.mwh)} hours` : ""}.`}><N k={`trade|${code}|${year}|${n.code}|their`}>{signedGwh(n.their.mwh)}</N></span> : null,
-            `The file holds no report by ${n.name} of its flow with ${name} in ${year}.`),
+            `The file holds no report by ${n.name} of its flow with ${name} in ${year}.${abroadWhy(n.code)}`),
           cell(n.code, n.gap ? <span title={`${poss(name)} report less ${poss(n.name)}, over the hours both reported${n.hoursBoth ? ` (${whole(n.hoursBoth.mwh)} hours)` : ""}, summed over ${months(n.gap.held, n.gap.of)}. Each of the two columns before it runs over that side's own hours, so this is not always their difference.`}><N k={`trade|${code}|${year}|${n.code}|gap`}>{signedGwh(n.gap.mwh)}</N></span> : null,
-            `The file holds no hour of ${year} that both ${name} and ${n.name} reported.`),
+            `The file holds no hour of ${year} that both ${name} and ${n.name} reported.${abroadWhy(n.code)}`),
           cell(n.code, n.pct !== null ? <GapPct k={`trade|${code}|${year}|${n.code}|gap_pct`} pct={n.pct} large={n.large} words={facts} /> : null,
-            `A percent needs both reports and their gap in the same months of ${year}, and two reports that are not both zero.`),
+            `A percent needs both reports and their gap in the same months of ${year}, and two reports that are not both zero.${abroadWhy(n.code)}`),
           cell(n.code, n.own ? <span><N k={`trade|${code}|${year}|${n.code}|months`}>{String(n.own.held)}</N> of {n.own.of}</span> : null, `The file holds no month of ${year} for ${name} and ${n.name}.`),
         ],
       };
@@ -141,7 +144,7 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
           const nbName = placeName(nb);
           if (c.own === null) return cell(nb, null, `The file holds no report by ${name} of its flow with ${nbName} in ${monthWords(m)}.`);
           const inMonth = file.hours_in_month?.[i];
-          const words = `${name} reported ${signedGwh(c.own)} GWh of net imports from ${nbName} in ${monthWords(m)}${c.hoursOwn !== null ? ` (${whole(c.hoursOwn)}${typeof inMonth === "number" ? ` of the month's ${whole(inMonth)}` : ""} hours)` : ""}. ${c.their !== null ? `${nbName} reported the same flow as ${signedGwh(c.their)} GWh${c.hoursTheir !== null ? ` (${whole(c.hoursTheir)} hours)` : ""}.` : `${poss(nbName)} report of the same flow is not held.`}${c.gap !== null ? ` Over the ${c.hoursBoth !== null ? `${whole(c.hoursBoth)} ` : ""}hours both reported, the gap is ${signedGwh(c.gap)} GWh${c.pct !== null ? `, ${pct1(c.pct)} percent of the mean size of the two reports` : ""}.` : ""}`;
+          const words = `${name} reported ${signedGwh(c.own)} GWh of net imports from ${nbName} in ${monthWords(m)}${c.hoursOwn !== null ? ` (${whole(c.hoursOwn)}${typeof inMonth === "number" ? ` of the month's ${whole(inMonth)}` : ""} hours)` : ""}. ${c.their !== null ? `${nbName} reported the same flow as ${signedGwh(c.their)} GWh${c.hoursTheir !== null ? ` (${whole(c.hoursTheir)} hours)` : ""}.` : `${poss(nbName)} report of the same flow is not held.${abroadWhy(nb)}`}${c.gap !== null ? ` Over the ${c.hoursBoth !== null ? `${whole(c.hoursBoth)} ` : ""}hours both reported, the gap is ${signedGwh(c.gap)} GWh${c.pct !== null ? `, ${pct1(c.pct)} percent of the mean size of the two reports` : ""}.` : ""}`;
           return cell(nb, c.large
             ? <span className="cursor-help border-b border-dotted border-ink font-semibold" data-gap-large="1" title={`${words} That is large by this page's rule: ${LARGE_GAP_PCT} percent or more. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it. ${SOURCE_WORDS}`}><N k={`trade|${code}|${m}|${nb}`}>{signedGwh(c.own)}</N></span>
             : <span className="cursor-help" title={`${words} ${SOURCE_WORDS}`}><N k={`trade|${code}|${m}|${nb}`}>{signedGwh(c.own)}</N></span>, "");
@@ -183,7 +186,7 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
 }
 
 /** The pairs of a year as table rows: which side sent and which received, each side's report, the mean and the gap. */
-function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null) {
+function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null, whyNone: (c: string) => string = () => "") {
   return pairs.map((p) => {
     const h = heldOf(p.a) ?? heldOf(p.b);
     const blank = (v: ReactNode | null, missing: string) => (h ? <Held why={h} /> : v ?? <NOT why={missing} />);
@@ -199,8 +202,8 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
       cells: [
         <span key="s" data-wc-pair={p.key} data-wc-kind={kind}>{p.from ? named(p.from) : <>{named(p.a)} and {named(p.b)}</>}</span>,
         p.to ? named(p.to) : p.mean === 0 ? "no net flow" : <NOT why={`The file gives no direction for ${nameOf(p.a)} and ${nameOf(p.b)} in ${year}: it holds no mean of the two reports.`} />,
-        blank(p.fromReport !== null ? <span title={`${poss(nameOf(one))} report of the power it sent to ${nameOf(two)} over ${year}, as the file gives it.${hrs(p.hoursFrom)}${p.fromReport < 0 ? ` Below zero: ${other(one)}` : ""}`}><N k={`${kind}|${p.key}|${year}|from_report`}>{gwh(p.fromReport)}</N></span> : null, `The file holds no report by ${nameOf(one)} of this flow in ${year}.`),
-        blank(p.toReport !== null ? <span title={`${poss(nameOf(two))} report of the power ${nameOf(one)} sent to it over ${year}, as the file gives it.${hrs(p.hoursTo)}${p.toReport < 0 ? ` Below zero: ${other(two)}` : ""}`}><N k={`${kind}|${p.key}|${year}|to_report`}>{gwh(p.toReport)}</N></span> : null, `The file holds no report by ${nameOf(two)} of this flow in ${year}.`),
+        blank(p.fromReport !== null ? <span title={`${poss(nameOf(one))} report of the power it sent to ${nameOf(two)} over ${year}, as the file gives it.${hrs(p.hoursFrom)}${p.fromReport < 0 ? ` Below zero: ${other(one)}` : ""}`}><N k={`${kind}|${p.key}|${year}|from_report`}>{gwh(p.fromReport)}</N></span> : null, `The file holds no report by ${nameOf(one)} of this flow in ${year}.${whyNone(one)}`),
+        blank(p.toReport !== null ? <span title={`${poss(nameOf(two))} report of the power ${nameOf(one)} sent to it over ${year}, as the file gives it.${hrs(p.hoursTo)}${p.toReport < 0 ? ` Below zero: ${other(two)}` : ""}`}><N k={`${kind}|${p.key}|${year}|to_report`}>{gwh(p.toReport)}</N></span> : null, `The file holds no report by ${nameOf(two)} of this flow in ${year}.${whyNone(two)}`),
         blank(p.mean !== null ? <N k={`${kind}|${p.key}|${year}|mean`}>{gwh(p.mean)}</N> : null, `The file holds no mean of the two reports for this pair in ${year}.`),
         blank(p.gap !== null ? <span title={`${poss(nameOf(one))} report less ${poss(nameOf(two))}, over the hours both reported${p.hoursBoth !== null ? ` (${whole(p.hoursBoth)} hours)` : ""}, as the file gives it. Each of the two reports runs over that side's own hours, so this is not always their difference.`}><N k={`${kind}|${p.key}|${year}|gap`}>{signedGwh(p.gap)}</N></span> : null, `The file holds no gap for this pair in ${year}: one side's report is not held.`),
         blank(p.pct !== null ? <GapPct k={`${kind}|${p.key}|${year}|gap_pct`} pct={p.pct} large={p.large} words={facts} /> : null, "A percent needs both reports and their gap, and two reports that are not both zero."),
@@ -224,7 +227,11 @@ function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; in
   const why = heldWhy(file);
   const heldOf = (c: string) => why ?? regionHeld(c);
   const bas = new Map((index?.bas ?? []).map((x) => [x.code, x]));
-  const baTip = (c: string) => { const x = bas.get(c); return x ? `${x.name ?? c}, balancing authority ${c}${x.region ? `, in EIA's region ${placeName(x.region)}` : ""}.` : c === "CAN" || c === "MEX" ? regionWords(c) : `Balancing authority ${c}, by its EIA-930 code. Its name stands here once the index of the regions (site/data/regions/index.json) is on the site.`; };
+  // session 8460: with the index on the site, a code it does not list is no authority of the lower 48 (the index
+  // lists those only), and the hover no longer says its name will come with the index
+  const unlisted = (c: string) => bas.size > 0 && !bas.has(c) && c !== "CAN" && c !== "MEX";
+  const baTip = (c: string) => { const x = bas.get(c); return x ? `${x.name ?? c}, balancing authority ${c}${x.region ? `, in EIA's region ${placeName(x.region)}` : ""}.` : c === "CAN" || c === "MEX" ? regionWords(c) : unlisted(c) ? `Balancing authority ${c}, by its EIA-930 code. The index of the regions (site/data/regions/index.json) lists the balancing authorities of the lower 48 and does not list this one.` : `Balancing authority ${c}, by its EIA-930 code. Its name stands here once the index of the regions (site/data/regions/index.json) is on the site.`; };
+  const baWhyNone = (c: string) => (unlisted(c) ? ` The index of the regions lists the balancing authorities of the lower 48 and does not list ${c}; an authority outside the lower 48 files no Form EIA-930.` : abroadWhy(c));
   const baHeld = (c: string) => why ?? regionHeld(bas.get(c)?.region ?? c);
   const regionPairs = pairsOfYear(file.region_pairs, year), baPairs = pairsOfYear(file.ba_pairs, year), partners = partnersOfYear(file, year);
   const lit = [a, ...(b ? [b] : [])];
@@ -234,13 +241,13 @@ function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; in
     <div data-wc-matrix={year}>
       {regionPairs.length ? (
         <ToolTable minWidth={860} caption={`Each pair of regions in ${year}: which sent and which received, each side's report, their mean and the gap`}
-          head={pairHead("regions")} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null))} />
+          head={pairHead("regions")} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null), abroadWhy)} />
       ) : <p className="text-sm"><NOT why={`The file holds no pair of regions for ${year}.`} /></p>}
       <details className="mt-3 border-t border-rule pt-1" data-wc-fold="bapairs">
         <summary className="cursor-pointer text-sm font-semibold">Balancing authorities, pair by pair, {year}: <span data-cn={`bapairs|${year}|n`}>{String(baPairs.length)}</span> pairs</summary>
         {baPairs.length ? (
           <ToolTable minWidth={860} caption={`Each pair of balancing authorities in ${year}: which sent and which received, each side's report, their mean and the gap`}
-            head={pairHead("balancing authorities")} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas)} />
+            head={pairHead("balancing authorities")} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas, undefined, baWhyNone)} />
         ) : <p className="text-sm"><NOT why={`The file holds no pair of balancing authorities for ${year}.`} /></p>}
       </details>
       <details className="mt-2 border-t border-rule pt-1" data-wc-fold="partners">
@@ -315,7 +322,7 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
           head={[
             "Month",
             ...SOURCES.map((s) => <Head key={s.key} mark={`mix-${s.key}`} words={s.label} why={`${s.label}: its share of the region's net generation in the month, as the file writes it. ${s.key === "storage" ? "Storage is below zero in a month it charged more than it discharged. " : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a figure for the energy. Source: EIA Form EIA-930, generation by energy source.`} />),
-            <Head key="net" mark="mix-net" words="Net generation, GWh" why="The region's net generation in the month. A month is in the file when at least 90 percent of its days are complete." />,
+            <Head key="net" mark="mix-net" words="Net generation, GWh" why={`The region's net generation in the month. A month is in the file when at least 90 percent of its days are complete. A month here is ${poss(name)} own local month${file.tz ? ` (time zone ${file.tz})` : ""}; the net imports above run by EIA's Eastern months.`} />,
             <Head key="d" mark="mix-days" words="Days held" why="The days of the month whose every hour the file holds, of the days in the month." />,
           ]}
           rows={tableRows} />
@@ -407,7 +414,7 @@ export function Country({ q, keep = {}, read = READERS }: { q: { region?: string
 
       <h3 className="mb-1 mt-6 font-serif text-base text-accent" id="wc-mix">
         Generation mix by month{" "}
-        <span className="font-sans text-xs font-normal"><Hint words="shares of net generation" why="The tables above this section draw no generation mix of their own: they link each of the seven grids' Mix view on the Grid page. For a region, each source's share of net generation by month stands here, from the region's own file: a chart over every month held and a table of the chosen year. The year's row is each source's energy over the year's held months as a percent of the net generation of those same months." /></span>
+        <span className="font-sans text-xs font-normal"><Hint words="shares of net generation" why="The tables above this section draw no generation mix of their own: they link each of the seven grids' Mix view on the Grid page. For a region, each source's share of net generation by month stands here, from the region's own file: a chart over every month held and a table of the chosen year. The year's row is each source's energy over the year's held months as a percent of the net generation of those same months. The file holds an hour when its sources add up to its net generation within 5 percent, so a month's shares need not add up to exactly 100. A month of the mix is the region's own local month; a month of the net imports above is EIA's Eastern month." /></span>
       </h3>
       <div className={two}>
         <Mix code={a} file={mix[a]} year={year} mark="a" />
