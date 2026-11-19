@@ -254,6 +254,24 @@ One file a balancing authority of `index.json` that files Form EIA-930 in the lo
 | `size.growth_since_2019_pct` | percent | the newest whole year's demand against 2019's, from the demand file's `growth`; `size.growth_year` |
 | `large_loads.rows[]` | list | `large_load_public` rows whose grid or utility group lies in the authority: `{ date, group, row_kind, mw, mw_low, mw_high, document_title, source_url, stage_class }`, newest first; `large_loads.count`; `large_loads.how` says how the rows were placed |
 
+## 11. `site/data/regions/forecast/<region>.json` and `forecast/ba/<code>.json` (chain 505, part D1)
+
+The day-ahead demand forecast each authority files on Form EIA-930, beside the demand that came, from July 2018. Method: `docs/methods/forecast_error.md`. Builder: `warehouse/derived/forecast_error.py`, in the data machine's daily run. Tables: `eia930_forecast_error_hourly`, `eia930_forecast_error_daily`.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `code`, `name`, `level`, `region`, `tz` | | as in the other files; `level` is `ba` or `region` |
+| `first_hour`, `last_hour` | UTC | the first and last hour with both a forecast and a demand |
+| `overall` | object | `{ hours, mape_pct, wape_pct, bias_pct, mae_mw, bias_mw, screened_hours, screen }` over every hour not screened |
+| `by_hour.<measure>` | array of 24 | `mape_pct`, `wape_pct`, `bias_pct`, `hours` by the local hour of day (0 is the hour starting at midnight) |
+| `by_season.<DJF, MAM, JJA, SON>` | object | the measures over each season, with `words` |
+| `by_year.<YYYY>` | object | the measures over each local year |
+| `daily.days`, `daily.<measure>` | arrays | every whole local day (no hour missing or screened): `mape_pct`, `bias_mw`, `peak_forecast_mw`, `peak_demand_mw`, `peak_miss_pct` |
+| `hottest_days[]`, `coldest_days[]` | list of 10 | `{ day, temp_f, mape_pct, bias_mw, peak_forecast_mw, peak_demand_mw, peak_miss_pct }` by the region's daily mean temperature; `weather` names the table and basis; `null` with `weather.why` where no weather is held |
+| `events[]` | list of 9 | `{ event, title, start, end, hours, mape_pct, wape_pct, bias_pct, mae_mw, bias_mw, peak_forecast_mw, peak_demand_mw, peak_miss_pct }` over each event's window, local days |
+
+Signs: a miss is the forecast less the demand; above zero the forecast was high.
+
 ## Changes
 
 - 19 November 2026, session 8000: first version.
@@ -269,3 +287,4 @@ One file a balancing authority of `index.json` that files Form EIA-930 in the lo
 - 19 November 2026, session 8011 (data request 551, section 4; on `wip/c501-desk-d`): a source no authority of a region has printed in any held hour since July 2018 is `null` in that region's mix file (its `avg`, `<source>_mwh`, `<source>_share_pct` and hourly array), and the file names such sources in a new key, `sources_not_printed`.
 - 19 November 2026, session 8011 (data request 552, section 8; on `wip/c501-desk-e`): in `layers/coal_fields.json` `value` is now in square miles (`value_unit` says so, the entry's `unit` too), with a new property `AREA_KM2`, the square kilometres; the entry's `notes_for_method` is the sentence without the method note's file name, which moves to a new key, `method_note`.
 - 19 November 2026, session 8012 (chain 505, part C): section 10, every balancing authority's own facts (`authority/<code>.json`, `authority/region-<code>.json`); no key of another section moves.
+- 19 November 2026, session 8012 (chain 505, part D1): section 11, the day-ahead demand forecast beside the demand that came (`forecast/<region>.json`, `forecast/ba/<code>.json`); no key of another section moves.
