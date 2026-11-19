@@ -47,6 +47,7 @@ type Chosen = { on: string[]; fuel: string[] | null };
 
 const NO_VALUE = "no value in the source here";
 const ASPECT = (R.HOME.spanLon * R.KX) / R.HOME.spanLat;
+const NARROW_MAP = 480;       // session 8614: a map narrower than this many px is a phone's; its hover card takes the map's width
 const BINS = 12;              // steps of color for points drawn by value
 const HEAVY_VERTICES = 30000; // a set of shapes with more corners than this is drawn from a still picture while the map moves
 const HEAVY_POINTS = 6000;    // and so is a set of points with more rows than this
@@ -882,13 +883,22 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           <button type="button" className={btn} onClick={() => step(1, 0)} aria-label="Move east" data-map-button="east">&rarr;</button>
           {R.PLACES.map((pl) => <button key={pl.id} type="button" className={btn} onClick={() => moved({ z: pl.z, lon: pl.lon, lat: pl.lat })} data-map-button={pl.id}>{pl.label}</button>)}
         </div>
-        <div ref={box} className="relative w-full border border-rule" data-map="1" onPointerLeave={() => { lastPointer.current = null; setHover(null); }}>
+        {/* session 8614: a finger that lifts also "leaves" the map (a touch pointer cannot hover, so the browser sends
+            the leave with the lift), and the card a tap had just put up was taken off some 10 ms later: on a phone no
+            value could be read. A touch's leave is now let pass. The card of a tap stays until the next tap, a drag or
+            a press of one of the map's buttons, so a long card can be read to its end by scrolling the page. */}
+        <div ref={box} className="relative w-full border border-rule" data-map="1" onPointerLeave={(e) => { if (e.pointerType === "touch") return; lastPointer.current = null; setHover(null); }}>
           <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each"
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
           {hover ? (
             // session 8611 (docs/brand.md, sections 3 and 6): the hover card is fog with a rule-colored edge and no shadow (it was white with a shadow)
             <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-paper px-3 py-2 text-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
-              style={{ left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
+              data-hover-wide={hover.w < NARROW_MAP ? "1" : "0"}
+              // session 8614: on a map narrower than NARROW_MAP px (a phone) the card takes the map's width, under or
+              // over the finger; beside the finger it was a column some 160 px wide and longer than the screen
+              style={hover.w < NARROW_MAP
+                ? { left: 6, right: 6, maxWidth: "none", top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }
+                : { left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
               <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}{hover.state ? <>, in <span data-hover-state={hover.state}>{hover.state}</span></> : null}</div>
               {hover.rows.length === 0 ? <div className="text-muted">No layer has anything here.</div> : hover.rows.map((r, i) => (
                 <div key={`${r.id}-${i}`} className="mt-1" data-hover-layer={r.id} data-hover-value={r.value ?? ""} data-hover-feature={r.feature ?? ""} data-hover-empty={r.empty ? "1" : "0"}>

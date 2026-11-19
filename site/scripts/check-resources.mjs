@@ -592,6 +592,40 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     }
   }
 
+  // session 8614, a finger on a phone: until this session a tap put the card up and the finger's lift took it off some
+  // 10 ms later (the lift is also the touch pointer's leave), so no value could be read on a phone, and every check
+  // above points with a mouse. Here the map is tapped with a finger at 390 px: the card must be there after the lift,
+  // name the layer, take the map's width and stay inside the screen; a drag of the finger takes it off.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the finger's tap was not tried");
+    else {
+      await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+      await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+      await go("about:blank");
+      await go(`${base}/map?tab=resources&on=${g.id}`);
+      await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map on a phone");
+      await ready([g.id]);
+      const at = await evaluate(`(() => { const c = document.querySelector('[data-map] canvas'); c.scrollIntoView({ block: 'center' }); const b = c.getBoundingClientRect(); return { x: Math.round(b.left + b.width / 2), y: Math.round(b.top + b.height / 2) }; })()`);
+      const card = () => evaluate(`(() => { const h = document.querySelector('[data-hover]'); if (!h) return null; const b = h.getBoundingClientRect(); return { left: b.left, right: b.right, wide: h.dataset.hoverWide, layers: [...h.querySelectorAll('[data-hover-layer]')].map((r) => r.dataset.hoverLayer), text: h.innerText.replace(/\\s+/g, ' ').slice(0, 90), screen: window.innerWidth, page: document.documentElement.scrollWidth }; })()`);
+      await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: at.x, y: at.y }] });
+      await sleep(120);
+      await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await sleep(700);
+      const c = await card();
+      check(c && c.layers.includes(g.id) && c.wide === "1" && c.left >= 0 && c.right <= c.screen && c.page <= c.screen,
+        `on a phone (390 px) a finger's tap shows the value and it stays after the finger lifts (${c ? `${c.text}; the card from ${Math.round(c.left)} to ${Math.round(c.right)} of ${c.screen} px` : "no card 700 ms after the lift"})`);
+      await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: at.x, y: at.y }] });
+      for (let i = 1; i <= 5; i += 1) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: at.x + i * 12, y: at.y }] }); await sleep(40); }
+      await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await sleep(500);
+      const m = await mapData();
+      check((await card()) === null && m.lon < -95.75, `a drag of the finger moves the map (its centre to ${m.lon.toFixed(2)}) and takes the card off`);
+      await send("Emulation.setTouchEmulationEnabled", { enabled: false });
+      await send("Emulation.clearDeviceMetricsOverride");
+    }
+  }
+
   const made = requests.slice(start), off = made.filter((r) => !r.url.startsWith(`${base}/`) && !/^(data|blob|about|chrome|devtools):/.test(r.url));
   check(made.length > 20 && off.length === 0, `the page asks nothing of any other site: ${made.length} requests of its own while it was open, all to this one${off.length ? ` but ${off.length} (${off[0].url.slice(0, 120)})` : ""} (its grid reader, off the page's thread, asks only for the address the page hands it, which tests/test_session146_page.py holds to this site)`);
   check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 200)}` : ""}`);
