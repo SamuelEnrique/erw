@@ -1,0 +1,24 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_revision, region pa_51 (Duke Energy Carolinas, LLC (FERC 714 planning area 51))
+# Computed 2026-11-19T12:53:46Z by warehouse/analysis/findings/deep/forecasts.py (summer_revision); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: how much a filing changed its forecast of the year 5 ahead against the filing a year before (percent), the observations it rests on, and whether the year is full
+# Tables: ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+pa_51,2007,-1.7449848859576789,1.0,1
+pa_51,2008,-5.6921383359324835,1.0,1
+pa_51,2009,-1.31067261990494,1.0,1
+pa_51,2010,1.2468827930174564,1.0,1
+pa_51,2011,2.205163991625958,1.0,1
+pa_51,2012,-3.680135279458885,1.0,1
+pa_51,2013,-3.9996368093703216,1.0,1
+pa_51,2014,-1.0723736131098782,1.0,1
+pa_51,2015,-1.2490747594374518,1.0,1
+pa_51,2016,-4.5927089590167665,1.0,1
+pa_51,2017,0.0,1.0,1
+pa_51,2018,5.20763402704516,1.0,1
+pa_51,2019,-0.9805250553522216,1.0,1
+pa_51,2020,-4.260150785720773,1.0,1
+pa_51,2021,-2.982389698920662,1.0,1
+pa_51,2022,5.905511811023612,1.0,1
+pa_51,2023,2.0582261340555075,1.0,1
+pa_51,2024,0.26502150584351014,1.0,1
+pa_51,2025,7.903853556306406,1.0,1
