@@ -193,6 +193,10 @@ The check failed two layers on some runs and not on others ("0 cells in view", o
 
 **A finger on a phone (the same session, the second read).** Until this session a tap on the map showed nothing on a phone. A touch pointer cannot hover, so the browser sends the map a "leave" with the finger's lift, and the leave took off the card the tap had just put up: measured on a build, the card was on the page for 11 ms. It had been so since the page was built; every read at 390 px had pointed with a mouse. A touch's leave is now let pass. The card of a tap stays until the next tap, a drag of the map or a press of one of its buttons, so a long card is read to its end by scrolling the page. On a map narrower than 480 px the card takes the map's width, under or over the finger, where it was a column some 160 px wide beside it. A wide screen is as it was. The check now taps with a finger at 390 px and drags: 102 checks. Rows 11 and 12 of the read; held by the same test file.
 
+## Session 8615 (19 November 2026): the map read by the keyboard
+
+The brand asks that whatever a hover card says be reachable by keyboard. On this map the arrow keys moved the map, plus and minus zoomed it, and no value could be read. When the map takes the keyboard's focus, the card now reads the place at the map's centre, marked by a small ring, and reads it again after each move or zoom; the card is announced to a screen reader as it changes, and only then (under a pointer it is silent, as it was). A pointer takes the reading back, and leaving the map ends it. The map's label says what the keys do. No figure and no picture of a layer is touched; the keys are the ones they were. The check uses the Tab key and an arrow: 105 checks. Row 15 of the read; held by `tests/test_session8615_resources.py`. What the brand also asks, a table under the chart, is not given for a map of up to 150,000 cells: the layers' entries under the map say what each file holds.
+
 ## Sign-off
 
 Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:

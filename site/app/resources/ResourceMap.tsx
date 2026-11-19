@@ -38,7 +38,7 @@ type Plants = {
 type Queue = { rows: number; drawn: number; counties: number; not_placed: number; no_shape: number; withheld?: number; grids?: R.QueueGridCount[]; vintage_first: string; vintage_last: string; shapes: { features: { properties: Record<string, unknown>; geometry: R.Geometry }[] }; points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] };
 type Centers = { rows: number; drawn: number; not_placed: number; vintage: string; points: { lon: number; lat: number; id: string; operator: string; site: string; mw: number | null; status: string; state: string; city: string; county: string; prec: string; src: string }[] };
 type HoverRow = { id: string; title: string; text: string; sub: string; value: number | null; feature?: string; empty?: boolean };
-type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; /** session 8608: the state under the pointer, or null */ state: string | null; rows: HoverRow[] };
+type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; /** session 8608: the state under the pointer, or null */ state: string | null; rows: HoverRow[]; /** session 8615: read for the keyboard, at the map's centre */ keys?: boolean };
 /** The longest of each kind of work so far, in ms: what the frame-time script reads to say where a slow frame came from. */
 type Slow = { moving: number; rest: number; decode: number; kept?: number };
 /** The picture last drawn in full, with the view it was drawn at: what a heavy map shows of itself while it moves. */
@@ -209,7 +209,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0, slow: { moving: 0, rest: 0, decode: 0, kept: 0 } as Slow,
     kept: null as Kept | null, heavy: false,
   });
-  const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
+  // `keys` (session 8615): the keyboard was the last to act on the map, so the value read is the one at its centre
+  const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false, keys: false });
   const pal = useRef<{ ink: R.Rgb; none: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
   const base = useRef<{ nation: Path2D; states: Path2D } | null>(null);
   const stateShapes = useRef<R.StateShape[]>([]);   // session 8608: each state's outline with its box, for the hover's "in Arizona"
@@ -581,7 +582,9 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         el.dataset.drawn = JSON.stringify(S.drawn); el.dataset.frames = String(S.frames); el.dataset.slow = JSON.stringify(S.slow); el.dataset.settled = String(Date.now());
       }
       const lp = lastPointer.current;
-      if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
+      // session 8615: after a key, the place read is the map's centre (the keyboard has no pointer to read under)
+      if (L.keys && readRef.current) { const r = readRef.current(size.current.w / 2, size.current.h / 2); setHover(r ? { ...r, keys: true } : null); }
+      else if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
       if (L.ready && L.touched) window.history.replaceState(null, "", `${window.location.pathname}${R.shownQuery({ on: L.on, view: v, fuel: L.fuel }).replace("?", TAB)}`);
     }, 160);
   }, [draw, load, pyramids, redraw]);
@@ -747,6 +750,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const onDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     pointer.current = { id: e.pointerId, x: e.clientX - r.left, y: e.clientY - r.top, lon: view.current.lon, lat: view.current.lat };
+    live.current.keys = false;
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* a synthetic pointer has nothing to capture */ }
   };
   const onMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -759,7 +763,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       moved({ z: view.current.z, lon: d.lon - (x - d.x) / (R.KX * k), lat: d.lat + (y - d.y) / k });
       return;
     }
-    lastPointer.current = { x, y };
+    lastPointer.current = { x, y }; live.current.keys = false;
     if (!hoverRaf.current) hoverRaf.current = requestAnimationFrame(() => { hoverRaf.current = 0; const p = lastPointer.current; if (p && !live.current.dragging) setHover(readAt(p.x, p.y)); });
   };
   const onUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -771,8 +775,15 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const zoom = (f: number) => moved(R.zoomAbout(view.current, size.current.w, size.current.h, size.current.w / 2, size.current.h / 2, f));
   const onKey = (e: React.KeyboardEvent) => {
     const keys: Record<string, () => void> = { ArrowLeft: () => step(-1, 0), ArrowRight: () => step(1, 0), ArrowUp: () => step(0, -1), ArrowDown: () => step(0, 1), "+": () => zoom(1.5), "=": () => zoom(1.5), "-": () => zoom(1 / 1.5) };
-    if (keys[e.key]) { e.preventDefault(); keys[e.key](); }
+    // session 8615: a key that acts on the map makes the keyboard the reader; the rest after the move reads the centre
+    if (keys[e.key]) { e.preventDefault(); live.current.keys = true; keys[e.key](); }
   };
+  // Session 8615 (docs/brand.md: whatever a hover card says is also reachable by keyboard). The keyboard moved the map
+  // and could read no value from it. When the map takes the keyboard's focus the card reads the place at the map's
+  // centre, marked by a small ring, and reads it again after each move or zoom; a pointer takes the reading back.
+  const readCentre = () => { const r = readRef.current?.(size.current.w / 2, size.current.h / 2); if (r) setHover({ ...r, keys: true }); };
+  const onFocus = (e: React.FocusEvent<HTMLCanvasElement>) => { if (e.currentTarget.matches(":focus-visible")) { live.current.keys = true; readCentre(); } };
+  const onBlur = () => { if (live.current.keys) { live.current.keys = false; setHover(null); } };
 
   const toggle = (id: string) => { live.current.touched = true; setChosen({ on: on.includes(id) ? on.filter((x) => x !== id) : [...on, id], fuel }); };
   const toggleFuel = (slug: string, all: string[]) => {
@@ -888,11 +899,13 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
             value could be read. A touch's leave is now let pass. The card of a tap stays until the next tap, a drag or
             a press of one of the map's buttons, so a long card can be read to its end by scrolling the page. */}
         <div ref={box} className="relative w-full border border-rule" data-map="1" onPointerLeave={(e) => { if (e.pointerType === "touch") return; lastPointer.current = null; setHover(null); }}>
-          <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each"
-            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
+          <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each. With the keyboard: the arrow keys move the map, plus and minus zoom, and the value at the map's centre is read out"
+            onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onFocus={onFocus} onBlur={onBlur}onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
           {hover ? (
             // session 8611 (docs/brand.md, sections 3 and 6): the hover card is fog with a rule-colored edge and no shadow (it was white with a shadow)
             <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-paper px-3 py-2 text-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
+              // session 8615: read for the keyboard, the card is announced as it changes; under a pointer it is not
+              role="status" aria-live={hover.keys ? "polite" : "off"} data-hover-keys={hover.keys ? "1" : "0"}
               data-hover-wide={hover.w < NARROW_MAP ? "1" : "0"}
               // session 8614: on a map narrower than NARROW_MAP px (a phone) the card takes the map's width, under or
               // over the finger; beside the finger it was a column some 160 px wide and longer than the screen
@@ -908,6 +921,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               ))}
             </div>
           ) : null}
+          {/* session 8615: the place the keyboard's card reads, a small ring at the map's centre */}
+          {hover?.keys ? <div aria-hidden="true" data-centre-mark="1" className="pointer-events-none absolute z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-ink" style={{ left: hover.x, top: hover.y }} /> : null}
         </div>
 
         <div className="mt-3 grid gap-x-8 gap-y-3 sm:grid-cols-2" data-legends="1">

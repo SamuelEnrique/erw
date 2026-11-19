@@ -592,6 +592,40 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     }
   }
 
+  // session 8615, the keyboard (docs/brand.md: whatever a hover card says is also reachable by keyboard): the Tab key
+  // brings the map into focus and the card reads the place at the map's centre, marked by a ring; an arrow key moves
+  // the map and the card reads the new centre; the mouse takes the reading back.
+  {
+    const g = LAYERS.find((x) => x.kind === "grid");
+    if (!g) console.log("note: no grid layer on this machine; the keyboard's reading was not tried");
+    else {
+      await go("about:blank");
+      await go(`${base}/map?tab=resources&on=${g.id}`);
+      await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map for the keyboard");
+      await ready([g.id]);
+      const key = async (k, code, vk) => { for (const type of ["keyDown", "keyUp"]) await send("Input.dispatchKeyEvent", { type: type === "keyDown" ? "rawKeyDown" : "keyUp", key: k, code, windowsVirtualKeyCode: vk }); };
+      const card = () => evaluate(`(() => { const h = document.querySelector('[data-hover]'), m = document.querySelector('[data-centre-mark]'), el = document.querySelector('[data-map]'), c = el.querySelector('canvas'); const b = c.getBoundingClientRect(), r = m?.getBoundingClientRect();
+        return { focus: document.activeElement === c, keys: h?.dataset.hoverKeys ?? null, live: h?.getAttribute('aria-live') ?? null, lon: h ? Number(h.dataset.hoverLon) : null, lat: h ? Number(h.dataset.hoverLat) : null, layers: h ? [...h.querySelectorAll('[data-hover-layer]')].map((x) => x.dataset.hoverLayer) : [],
+          text: h ? h.innerText.replace(/\\s+/g, ' ').slice(0, 80) : '', mark: r ? [Math.round(r.left + r.width / 2 - b.left), Math.round(r.top + r.height / 2 - b.top)] : null, middle: [Math.round(b.width / 2), Math.round(b.height / 2)], centre: [Number(el.dataset.lon), Number(el.dataset.lat)] }; })()`);
+      // the last of the map's buttons takes the focus, and the Tab key goes on from it to the map
+      await evaluate(`(() => { const b = [...document.querySelectorAll('[data-map-button]')].pop(); b.focus(); return true; })()`);
+      await key("Tab", "Tab", 9);
+      await sleep(400);
+      const a = await card();
+      check(a.focus && a.keys === "1" && a.live === "polite" && a.layers.includes(g.id) && Math.abs(a.lon - a.centre[0]) < 0.01 && Math.abs(a.lat - a.centre[1]) < 0.01 && a.mark && Math.abs(a.mark[0] - a.middle[0]) <= 1 && Math.abs(a.mark[1] - a.middle[1]) <= 1,
+        `the Tab key brings the map into focus and the card reads its centre, marked by a ring (${a.text || "no card"}${a.focus ? "" : "; the map does not hold the focus"})`);
+      await key("ArrowRight", "ArrowRight", 39);
+      await sleep(900);
+      const b2 = await card();
+      check(b2.keys === "1" && b2.centre[0] > a.centre[0] + 1 && Math.abs(b2.lon - b2.centre[0]) < 0.01 && b2.layers.includes(g.id), `the right arrow moves the map east (its centre from ${a.centre[0].toFixed(2)} to ${b2.centre[0].toFixed(2)}) and the card reads the new centre (${b2.text || "no card"})`);
+      const m = await mapData();
+      await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: m.box.left + m.box.w * 0.3, y: m.box.top + m.box.h * 0.3 });
+      await sleep(400);
+      const c3 = await card();
+      check(c3.keys === "0" && c3.live === "off" && c3.mark === null && c3.lon < b2.centre[0], `the mouse takes the reading back: the card reads under the pointer and is not announced (${c3.text || "no card"})`);
+    }
+  }
+
   // session 8614, a finger on a phone: until this session a tap put the card up and the finger's lift took it off some
   // 10 ms later (the lift is also the touch pointer's leave), so no value could be read on a phone, and every check
   // above points with a mouse. Here the map is tapped with a finger at 390 px: the card must be there after the lift,

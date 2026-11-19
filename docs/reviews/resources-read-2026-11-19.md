@@ -71,3 +71,14 @@ Session 8614, 19 November 2026, about 17:36 to 17:47 UTC, on a build of `wip/860
 ### What the second read changed on the page
 
 Three site faults fixed at their cause, each with a test in `tests/test_session8614_resources.py` (rows 11, 12 and 13). One row is the data machine's (request 553). One ruling with the default taken (row 9). On a build: `check-resources.mjs` 99 of 102, the three that fail the datacenter overlay's license hold.
+
+## The keyboard (session 8615)
+
+Session 8615, 19 November 2026, about 17:56 to 18:03 UTC, on a build. The brand asks that whatever a hover card says be reachable by keyboard (`docs/brand.md`, the hover card). The map was read with the Tab key and the arrow keys alone (picture `docs/reviews/resources-2026-11-19/keyboard_centre_1280.png`).
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 15 | all | With the keyboard, the arrow keys moved the map and plus and minus zoomed it, and no value could be read from it | Site gap since the page was built: a value came up only under a pointer | fixed (session 8615): when the map takes the keyboard's focus the card reads the place at the map's centre, marked by a small ring, and reads it again after each move or zoom; it is announced as it changes; a pointer takes the reading back. The check does it with the Tab key and an arrow |
+| 16 | all | A reason given on hover as a plain tooltip (the greyed "not held" beside a layer that is not held, a figure drawn blank) does not come up under a finger; a phone has no hover | The site's way of giving a reason everywhere: the browser's own tooltip, which a touch screen never shows (about 1,100 such tooltips across the site's pages, 12 in this map) | ruling: for Samuel (a site-wide matter: should a reason on hover also open on a tap?). Default taken: left as the site has it |
+
+One site gap fixed at its cause with a test in `tests/test_session8615_resources.py` (row 15). One ruling with the default taken (row 16). On a build: `check-resources.mjs` 102 of 105, the three that fail the datacenter overlay's license hold.
