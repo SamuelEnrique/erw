@@ -4,7 +4,7 @@ Resumed chain 505 from `queue/done/550-resume-chain-505.md` (551 put back). The 
 
 ## What a reader now sees
 
-- (filled in at each landing)
+- **Stack i landed** (`3125fbde1`, 22:56 UTC): the project map (`/map`) has its proposed in-service dates back. The daily copy of 19 November had written none for all 3,684 positions; now 3,252 positions carry a date, as on 17 November. The Grid tool shows EIA's thirteen regions under its grid picker (`/grid?region=se` and the rest; the portable laptop's row 42). The resource map (`/resources`) carries the portable's fifth replicated layer and its fixes (row 43). Read on production at 1280 and 390 px: `/map`, `/grid?region=se` and `/resources` all open, with no sideways scroll and no console error. Snapshots `c505-deski-before2` against `c505-deski-after`: 0 differences on the 25 addresses (every page is in review), as expected.
 
 ## Commits
 
@@ -23,6 +23,10 @@ Resumed chain 505 from `queue/done/550-resume-chain-505.md` (551 put back). The 
 - Data request 30: the archive keyed every series table by `(entity, variable, ts_utc)`, so a table whose header says `Revisions: kept, one row per vintage` came back from `restore.py` with one vintage a key. Before and after, from the local archive: `ferc714_planning_area_forecasts` 11,934 to 67,215 rows, `ferc714_forecast_growth` 38,332 to 198,354, `eia_steo_forecasts` 5,107 to 10,195, each now equal to `warehouse/output`. No archived line rewritten.
 - Data requests 554 to 556: answered in a new file (the layers and `manifest.json` unchanged).
 
+- Data requests 557 and 558 (the old laptop's findings audit, check 2): 48 of 48 hourly drafts and 47 of 47 FERC 714 drafts reproduce from this machine's whole tables.
+- Part F: the GitHub daily prices job committed nothing to main from 16 to 19 November. Its merge tests failed in test 7014 (`75 != 0`, health.py's skip exit). Session 8009's fix reached main after the 14:00 UTC run of 19 November, so 20 November's run is the first with it (`queue/summary/2026-11-19-daily-prices-refused.md`).
+- Part E4: the price file's replication gives 152 of 152. The cross-check against the operators' own published averages is not done. CAISO's market monitor publishes calendar-year and quarterly figures, and its monthly market performance page (April 2026, read after the robots file) gives day-ahead prices by load-aggregation point in charts only. No published hub average fits the file's windows, and the third-party monthly figures found do not count as the operators' own.
+
 ## Needs the key
 
 - Nothing.
@@ -38,5 +42,8 @@ Resumed chain 505 from `queue/done/550-resume-chain-505.md` (551 put back). The 
 - Contract sections 12 (D2) went into the branch with the files, not to main ahead of them, so main gets no extra deploy.
 
 ## For Samuel's ruling
+
+- The daily prices job's evening run counts the day done when the morning run's daily step passed, even when its merge tests then refused the commit, so a refused commit is not retried the same day. Counting only a "Daily prices <day>" commit would retry, but a retry can send the digest twice (session 61's reason for the gate). Default: the gate is unchanged.
+- Where `/industry` and `/ai-energy` sit in the menu. Default: in no menu (they are reachable from the tour and by address).
 
 - For leases where BOEM's two tables disagree on the lease type (OCS-A 0497, OCS-A 0506, OCS-G 37334 Provisional), which type a hover should show. Default: both, in the new file. The layer is unchanged.
