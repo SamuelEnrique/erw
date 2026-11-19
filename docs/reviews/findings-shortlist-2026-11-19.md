@@ -359,6 +359,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.png
 - **Compared with:** the same measure in 2003
 - **Already known?** Known: EIA's Uranium Marketing Annual Report 2025 (https://www.eia.gov/uranium/marketing/, July 2026) gives the weighted-average price of 58.46 USD a pound U3O8e for 2025, 11 percent above 2024; the draft repeats EIA's headline. Seen in search results, page not opened.
+- **A publisher's own headline:** yes: the figure is EIA (Uranium Marketing Annual Report)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** EIA's weighted average of what owners paid on delivery, spot and long-term contracts together; 2025 is preliminary in EIA's report.
 - **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/uranium-price-us-uranium-price.reproduce.py)
@@ -374,6 +375,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.png
 - **Compared with:** the same measure in 2003
 - **Already known?** Known: EIA's Today in Energy (https://www.eia.gov/todayinenergy/detail.php?id=68044, 2026) says US-origin material was 7 percent of deliveries in 2025; ours 7.2 percent. The draft repeats EIA's own figure. Seen in search results, page not opened.
+- **A publisher's own headline:** yes: the figure is EIA (Today in Energy)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** Origin as reported by owners in EIA's survey; 2025 is preliminary.
 - **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-origin-uranium-us-uranium-origin.reproduce.py)
@@ -419,6 +421,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.png
 - **Compared with:** the same measure in 2003
 - **Already known?** Known: EIA's Uranium Marketing Annual Report 2025 (https://www.eia.gov/uranium/marketing/) gives a US-origin share of enrichment of 23 percent in 2025; ours 22.8 percent. The draft repeats EIA's own figure. Seen in search results, page not opened.
+- **A publisher's own headline:** yes: the figure is EIA (Uranium Marketing Annual Report)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** Origin as reported by owners in EIA's survey; 2025 is preliminary.
 - **Tables and license:** `eia_uranium_marketing_annual` (public; eia:uranium_marketing_annual)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/coal_uranium_metals/us-enrichment-share-us-enrich-origin.reproduce.py)
@@ -479,6 +482,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.png
 - **Compared with:** the same measure in 2001
 - **Already known?** Known: EIA Electric Power Monthly table 5.1 (https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_1, opened 19 November 2026) prints 1,503,310 thousand MWh of commercial sales for 2025 and 1,450,941 for 2024; the draft repeats EIA own total and sets it against 2001 (1,083.1 TWh).
+- **A publisher's own headline:** yes: the figure is EIA (Electric Power Monthly table 5.1)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** EIA's 2025 months are preliminary; EIA notes that 2023 to 2024 changes in commercial and industrial sales largely reflect better reporting of data centers and crypto mining (table 2.8).
 - **Tables and license:** `eia_retail_sales_monthly` (public; eia:electricity/retail-sales)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/tariffs_policy/commercial-sales-com-sales-us.reproduce.py)
@@ -494,6 +498,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.png
 - **Compared with:** the same measure in 2017
 - **Already known?** Known: Ember European Electricity Review 2026 (https://ember-energy.org/EER2026) says Greece cut coal to about 5 percent of its electricity in 2025; ours, from Eurostat net production, 5.3 percent. The draft repeats Ember headline. Seen in search results, page not opened.
+- **A publisher's own headline:** yes: the figure is Ember (European Electricity Review 2026)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** Eurostat's 2025 months are provisional; coal here includes manufactured gases.
 - **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-coal-eu-el.reproduce.py)
@@ -524,6 +529,7 @@ The sentence as the draft now says it; the figure as this machine's run printed 
 - **The chart:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.png
 - **Compared with:** the same measure in 2017
 - **Already known?** Known: Ember's European Electricity Review 2026 (https://ember-energy.org/EER2026, January 2026) gives solar 13 percent of EU electricity in 2025 (369 TWh), from 11.1 percent in 2024; ours, from Eurostat's net production, is 13.0 percent. The draft repeats Ember's headline. Seen in search results, page not opened.
+- **A publisher's own headline:** yes: the figure is Ember (European Electricity Review 2026)'s own printed figure, so the draft repeats it rather than finding it (part A of chain 507, from the answer above).
 - **The one thing that would make it wrong:** Eurostat's monthly figures for 2025 are provisional and revised.
 - **Tables and license:** `eurostat_electricity_monthly` (public; eurostat:nrg_cb_pem_nrg_cb_em)
 - **For Samuel's Stata run:** https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.do (the Python: https://github.com/SamuelEnrique/erw/blob/main/docs/findings/world_power/eu-share-solar-eu-eu27-2020.reproduce.py)
