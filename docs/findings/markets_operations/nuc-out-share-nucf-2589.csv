@@ -1,0 +1,25 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuc_out_share, region nucf_2589 (the Nine Mile Point Nuclear Station nuclear plant)
+# Computed 2026-11-19T12:24:27Z by warehouse/analysis/findings/deep/markets_operations.py (nuc_out_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: a facility's mean share of its capacity on outage over the year (percent), the observations it rests on, and whether the year is full
+# Tables: eia_nuclear_outages_facility_daily
+region,year,value,n_observations,full_year
+nucf_2589,2007,8.69100813898811,365.0,1
+nucf_2589,2008,6.2821756149710195,366.0,1
+nucf_2589,2009,2.8058448338662765,365.0,1
+nucf_2589,2010,7.20893153775429,365.0,1
+nucf_2589,2011,7.698365337542028,365.0,1
+nucf_2589,2012,18.15631784511462,366.0,1
+nucf_2589,2013,5.107045586115947,365.0,1
+nucf_2589,2014,8.660337621374671,365.0,1
+nucf_2589,2015,4.182917709261066,365.0,1
+nucf_2589,2016,7.207589770147443,366.0,1
+nucf_2589,2017,3.920067961931834,365.0,1
+nucf_2589,2018,7.122414206605172,365.0,1
+nucf_2589,2019,5.511634535263241,365.0,1
+nucf_2589,2020,6.445430678751885,366.0,1
+nucf_2589,2021,2.2498890286101503,365.0,1
+nucf_2589,2022,8.230765691597867,365.0,1
+nucf_2589,2023,5.79442156783156,365.0,1
+nucf_2589,2024,6.48279703136808,366.0,1
+nucf_2589,2025,3.5671201559224146,365.0,1
+nucf_2589,2026,6.853221620964255,294.0,0
