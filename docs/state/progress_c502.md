@@ -26,3 +26,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, second round, weather: 3 drafts (degree days), 18 of 18 reproduce; code `wip/8202-findings` (30b477cec); session 8216.
 - Part D, second round, gas: 10 drafts (pipeline capacity between states), 27 of 27 reproduce; code `wip/8202-findings` (0258ae10b); session 8217.
 - Part D, second round, oil_products_world: 12 drafts (US exports by product and destination), 30 of 30 reproduce; code `wip/8202-findings` (0596b3be6); session 8218.
+- Part D, second round, forecasts: 12 drafts (revisions of the forecast of five years ahead), 30 of 30 reproduce; code `wip/8202-findings` (04106bd55); session 8219.
