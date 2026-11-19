@@ -73,8 +73,25 @@ export function PriceControls({ on, setOn, measure, setMeasure, m }: { on: boole
             {m === null ? "Reading the prices..." : m === "none" ? "The price file is not on the site yet." : r ? <>Green {fmt(r[0], measure)} to red {fmt(r[1], measure)}, each grid&apos;s main hub (the price board&apos;s). </> : "No area holds this measure. "}
             {held.length ? <span className="cursor-help border-b border-dotted border-muted" title="A grid whose prices docs/licenses.md holds for a license is drawn blank, its hover saying license needed; MISO is paused; an authority with no public hub price in the warehouse is blank too.">Blank: {held.join(", ")} (license needed or paused), and areas with no public price</span> : null}
           </span>
+          <details className="w-full text-xs" data-decisions="map-price">
+            <summary className="cursor-pointer text-accent">Decisions behind the price colors (session 8013)</summary>
+            <ul className="mt-1 list-disc space-y-0.5 pl-5">
+              {PRICE_DECISIONS.map((d) => <li key={d.key} data-decision={d.key} title={`Default: ${d.def}. Source: ${d.source}`} className="cursor-help">{d.text}</li>)}
+            </ul>
+          </details>
         </>
       ) : null}
     </div>
   );
 }
+
+/** The choices that move the price colors, each with its default and source (the form of the five tools' decisions). */
+export const PRICE_DECISIONS = [
+  { key: "main-hub", text: "An authority's area takes its grid's main hub, the one the price board shows first.", def: "the main hub of site/data/markets.json (ERCOT HB_HUBAVG, CAISO SP15, SPP North)", source: "warehouse/derived/price_board.py, MAIN" },
+  { key: "day-ahead", text: "Day-ahead prices only: the market a buyer locks in a day before.", def: "day-ahead", source: "docs/methods/prices_map.md" },
+  { key: "newest-day", text: "The day is the newest local day before the file was built that holds every hour.", def: "the newest whole day held; the hover names it", source: "warehouse/derived/prices_map.py" },
+  { key: "on-peak", text: "On-peak hours begin 06:00 to 21:00 local, Monday to Friday (CAISO to Saturday), NERC holidays off.", def: "the price board's rule", source: "warehouse/derived/price_board.py, is_peak" },
+  { key: "coverage", text: "A 30-day or twelve-month figure is drawn only when 95 percent of its hours are held; otherwise the area is blank and the hover gives the count.", def: "95 percent", source: "warehouse/derived/price_compare.py, NEAR_HOURS" },
+  { key: "held", text: "A grid held for a license is blank with \"license needed\"; MISO is paused; an authority with no public hub price is blank.", def: "no figure is drawn for them", source: "docs/licenses.md and warehouse/metadata/license_status.py" },
+  { key: "scale", text: "Green is the cheapest area shown and red the dearest, for the measure chosen; the legend gives both ends.", def: "the carbon color's own scale", source: "app/network/Network.tsx, colorOf" },
+];
