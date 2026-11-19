@@ -23,3 +23,7 @@ One file for each balancing authority of `index.json` that files Form EIA-930 in
 ## Build
 
 `python warehouse/derived/authority_facts.py` (about 30 seconds); `--site-dir` writes elsewhere for a trial; `--only CODE` builds named authorities alone. It reads the six-month files EIA's daily step of the data machine's run already saves.
+
+## On the page (session 8013, chain 505)
+
+The Grid tool's panel, which opens on a click of the map or the network, shows these facts under what it showed before, in a block "Its own facts", and the region's sum in a fold below it. The page reads one file at a time from `/grid/authority/<code>` (a static address made for each file when the site is built) when the panel opens. Each heading names its table and vintage on hover. A block the file does not hold says "Not held" with the file's own reason; nothing is drawn as a zero. Planned additions and retirements are summed from the current year on, by source. The block is drawn only where the whole country's index is on the server, so the panel of `/network` is unchanged.
