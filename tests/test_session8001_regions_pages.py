@@ -72,11 +72,25 @@ class RegionRule(unittest.TestCase):
         got = dict(zip(rows["variable"], rows["value"]))
         self.assertEqual(got["net_generation_storage_mw"], -10.0)
 
-    def test_small_authority_within_one_mw(self):
-        d = frame([dict(ba="A", region="NW", ts="2025-07-01T20:00Z", ng=2.0, wind=1.2)])
+    def test_the_rule_is_the_regions_not_each_authoritys(self):
+        # session 8009: a small authority a few megawatts off its own net generation no longer leaves its region out
+        d = frame([dict(ba="A", region="NW", ts="2025-07-01T20:00Z", ng=1000.0, hydro=1000.0),
+                   dict(ba="B", region="NW", ts="2025-07-01T20:00Z", ng=2.0, wind=1.2)])
         rows, short = fuel.region_rows(d, "t", None, None)
         self.assertEqual(short, 0)
-        self.assertTrue(len(rows))
+        self.assertEqual(dict(zip(rows["variable"], rows["value"]))["net_generation_hydro_mw"], 1000.0)
+
+    def test_the_mid_atlantic_takes_pjms_tolerance(self):
+        rows_hours = [dict(ba="PJM", region=r, ts="2025-07-01T20:00Z", ng=100.0, natural_gas=90.0) for r in ("MIDA", "TEN")]
+        rows, short = fuel.region_rows(frame(rows_hours), "t", None, None)
+        self.assertEqual(short, 1)                                   # 10 percent off: held in the Mid-Atlantic only
+        self.assertEqual(set(rows["entity"]), {"eia930:MIDA"})
+
+    def test_an_authority_without_net_generation_leaves_the_hour_out(self):
+        d = frame([dict(ba="A", region="SE", ts="2025-07-01T20:00Z", ng=100.0, coal=100.0),
+                   dict(ba="B", region="SE", ts="2025-07-01T20:00Z", ng=None, coal=5.0)])
+        rows, short = fuel.region_rows(d, "t", None, None)
+        self.assertEqual((short, len(rows)), (1, 0))
 
 
 def ref_of(**kw):
