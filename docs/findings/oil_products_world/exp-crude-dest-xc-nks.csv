@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_crude_dest, region xc_nks (South Korea)
+# Computed 2026-11-19T12:51:15Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_crude_dest); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US crude oil exports to the destination (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xc_nks,2015,2.663013698630137,1.0,0
+xc_nks,2016,10.639344262295081,3.0,0
+xc_nks,2017,55.59452054794521,12.0,1
+xc_nks,2018,241.9013698630137,11.0,1
+xc_nks,2019,418.95342465753424,12.0,1
+xc_nks,2020,269.39071038251365,12.0,1
+xc_nks,2021,349.46301369863016,12.0,1
+xc_nks,2022,369.2958904109589,12.0,1
+xc_nks,2023,403.36986301369865,12.0,1
+xc_nks,2024,473.75956284153006,12.0,1
+xc_nks,2025,504.7917808219178,12.0,1
+xc_nks,2026,372.50958904109586,7.0,0

@@ -1,0 +1,17 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate exp_product, region xp_eppr (residual fuel oil)
+# Computed 2026-11-19T12:51:15Z by warehouse/analysis/findings/deep/oil_products_world.py (exp_product); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: US exports of the product to the world (thousand barrels a day), the observations it rests on, and whether the year is full
+# Tables: eia_petroleum_exports_by_destination
+region,year,value,n_observations,full_year
+xp_eppr,2015,326.1397260273973,12.0,1
+xp_eppr,2016,297.75409836065575,12.0,1
+xp_eppr,2017,307.5041095890411,12.0,1
+xp_eppr,2018,321.2739726027397,12.0,1
+xp_eppr,2019,228.8739726027397,12.0,1
+xp_eppr,2020,147.81967213114754,12.0,1
+xp_eppr,2021,97.35616438356165,12.0,1
+xp_eppr,2022,110.15616438356165,12.0,1
+xp_eppr,2023,125.2986301369863,12.0,1
+xp_eppr,2024,136.62021857923497,12.0,1
+xp_eppr,2025,112.65753424657534,12.0,1
+xp_eppr,2026,71.43835616438356,7.0,0

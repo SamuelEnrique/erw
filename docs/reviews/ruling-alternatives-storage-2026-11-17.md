@@ -14,3 +14,7 @@ Session 7727 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.
 Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; none is fixed here.
 
 - Browser row 363 (session 7800): `wip/alt-storage-1` (browser row 363): the column "Discharged, newest whole month" reads "no whole month" for all six rows on a build reading the live set of 17 November, where the record expects October 2026's totals; the live set's `storage_daily_cycle` appears to hold no calendar month whole for any grid.
+
+## The screenshot faults of 17 November, read against the branch (session 8401, chain 503, 19 November 2026)
+
+- Browser row 363 (session 8401): fixed on `wip/alt-storage-1` at `3858e0432`: the column was summed from the panel's last 45 days, in which no calendar month is whole; it reads the discharge from the first day of the month two before. The live set holds October whole for the Lower 48, ERCOT and CAISO, and 29 of its days for SPP (asked of the data machine). Not seen in a browser, the row is `wanted` again.

@@ -19,3 +19,8 @@ Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; n
 
 - Browser row 362 (session 7800): `wip/alt-prices-3` (browser row 362): at 390 px the hub page with `?b=` is 504 px wide (production 390); the rows at 1280 are drawn (real time HB_WEST less HB_HOUSTON: 584 hours, mean 2.83, low -217.67, high 407.82).
 - Browser row 357 (session 7800): `wip/alt-prices-2` (browser row 357): on SPP North only "Day-ahead, 2026-10" (33.16, 720 of 744 hours) is drawn; the record's "Real time, 2026-10" (near 33.56) is not, the real-time line reading "no data: no real-time table named for SPP in site/data/markets.json".
+
+## The screenshot faults of 17 November, read against the branch (session 8401, chain 503, 19 November 2026)
+
+- Browser row 362 (session 8401): fixed on `wip/alt-prices-3` at `e0d5fc2ac`: the table of A less B scrolls inside its own frame, as the table above it; not seen in a browser, the row is `wanted` again.
+- Browser row 357 (session 8401): a data fault, `wip/alt-prices-2` unchanged: the live `hub_price_comparison` holds no real-time row for SPP North for October 2026 (the builder's 95 percent rule; about 74 percent of the month's real-time hours are held), asked of the data machine in `docs/state/data_requests_done_line.md`.

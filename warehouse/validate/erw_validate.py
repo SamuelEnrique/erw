@@ -211,6 +211,7 @@ ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "ut
                 "equipment",  # session 896: a plant's boiler, cooling system or emissions control (EIA-860; Decision 54)
                 "dam",  # session 982: a dam and its reservoir, the National Inventory of Dams (usace_nid_dams; Decision 57)
                 "county",  # session 7802: a county of the Census Bureau (eia_county_region; Decision 79)
+                "balancing_authority",  # session 8000: a balancing authority and its area (ba_boundaries; Decision 80)
                 "platform",  # session 2007: an offshore oil and gas structure, BOEM's platform files (boem_offshore_platforms; Decision 58)
                 "company_alias",  # session 3302: a name a company goes by, in one table and role (company_aliases; Decision 76)
                 "company_link"}  # session 3302: a company named in one row of an input table (company_links; Decision 76)

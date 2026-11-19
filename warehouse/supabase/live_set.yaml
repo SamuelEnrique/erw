@@ -295,6 +295,8 @@ catalogue_hold:
   - noaa_region_station_hourly_2024
   - noaa_region_station_hourly_2025
   - noaa_region_station_hourly_2026
+  # session 8000 (chain 501, step B2): the balancing authority areas, read by no page from the live set (the page reads site/data/regions/ba_boundaries.json)
+  - ba_boundaries
   # session 489: the public tables of sessions 485 to 496 and 507, held on the data machine and in the archive, not loaded, and
   # not on Redivis (an upload is a person's, and the account's free 10 GB is full, session 363): not in the live
   # catalogue, so /data does not name tables it cannot link

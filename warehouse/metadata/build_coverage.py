@@ -102,6 +102,7 @@ TIER_RULES = [
     ("derived", r"^grid_stress_days$"),  # session 306: ERW code over the hub prices and CAISO's notices
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^eia930_demand_growth$"),
+    ("derived", r"^ba_boundaries$"),  # session 8000: HIFLD's polygons keyed to EIA-930 codes, with the ERW's centroid and area
     ("derived", r"^(noaa_region_stations|region_weather_hourly|eia_county_region)$"),  # session 7802 and 7803: ERW rules over Census, EIA and NOAA data
     ("derived", r"^eia930_(region_hourly|region_pair_hourly)$"),  # session 7801: sums of EIA-930's balancing authorities by region and by region pair
     ("derived", r"^subregion_demand_growth$"),  # session 2877: ERW code (warehouse/derived/subregion_demand_growth.py) over EIA-930 sub-regions  # session 2298: ERW code (warehouse/derived/demand_growth.py) over EIA-930's workbooks
@@ -674,7 +675,8 @@ SECTOR_RULES = [
     (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
     (r"^noaa_station_weather_hourly$", "power"),                # session 129: the stations' own measured hours
     (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
-    (r"^(census_county_population|eia_county_region)$", "power"),  # session 7802: county populations, and each county's balancing authority and region
+    (r"^(census_county_population|eia_county_region)$", "power"),
+    (r"^ba_boundaries$", "power"),  # session 8000: the balancing authority areas (HIFLD Control Areas)  # session 7802: county populations, and each county's balancing authority and region
     (r"^(noaa_region_stations|noaa_region_station_hourly_\d{4}|region_weather_hourly)$", "power"),  # session 7803: the thirteen regions' stations and weather
     (r"^rrc_lease_production_monthly$", "oil;gas"),
     # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
@@ -760,7 +762,7 @@ def iso_of(table):
         return "none"
     if table in ("census_county_population",):  # session 7802: every county, no ISO
         return "none"
-    if (table in ("eia_county_region", "noaa_region_stations", "region_weather_hourly")
+    if (table in ("eia_county_region", "noaa_region_stations", "region_weather_hourly", "ba_boundaries")
             or re.match(r"^noaa_region_station_hourly_\d{4}$", table)):  # session 7802 and 7803: the thirteen regions of the lower 48, the seven ISOs among them
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
