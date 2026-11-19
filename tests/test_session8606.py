@@ -292,5 +292,64 @@ class TheReplicationOfTheMap(unittest.TestCase):
         self.assertNotIn(EM, s + src("replication", "grid", "replicate_map.py"))
 
 
+class TheMapsCrossCheck(unittest.TestCase):
+    """replication/grid/crosscheck_map.py and the file it wrote on 19 November."""
+
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(ROOT, "replication", "grid", "crosscheck_map.csv"), encoding="utf-8") as f:
+            lines = f.readlines()
+        cls.head = "".join(l for l in lines if l.startswith("#"))
+        cls.rows = list(csv.DictReader(l for l in lines if not l.startswith("#")))
+
+    def test_every_pair_is_the_report_eia_publishes(self):
+        pairs = [r for r in self.rows if r["what"].startswith("a pair's flow")]
+        self.assertEqual(len(pairs), 159)
+        self.assertEqual({r["same"] for r in pairs}, {"yes"})
+
+    def test_the_net_exchange_is_not_the_authoritys_own_total_and_the_file_says_by_how_much(self):
+        nets = [r for r in self.rows if r["what"].startswith("an authority's net exchange")]
+        compared = [r for r in nets if r["same"]]
+        self.assertEqual((len(compared), sum(r["same"] == "yes" for r in compared)), (60, 39))
+        pjm = next(r for r in nets if r["which"] == "PJM")
+        self.assertEqual((pjm["snapshot_mw"], pjm["eia_mw"]), ("811", "82"))
+
+    def test_the_header_and_the_key(self):
+        self.assertIn("Form EIA-930", self.head)
+        self.assertIn("# Retrieved: 2026-11-", self.head)
+        self.assertIn("the hour's end", self.head)
+        self.assertNotIn("api_key", self.head + "".join(r["source_url"] for r in self.rows))
+        s = src("replication", "grid", "crosscheck_map.py")
+        self.assertIn('("api_key", k)', s)
+        self.assertNotIn("print(k", s)
+        self.assertNotIn(EM, s)
+
+
+class TheDecisionsOnThePage(unittest.TestCase):
+    def test_the_maps_block_is_inside_the_maps_frame_and_every_line_has_a_rule_and_a_source(self):
+        d = src("site", "app", "network", "MapDecisions.tsx")
+        self.assertEqual(d.count('  { what: "'), 9)
+        self.assertEqual(d.count('    rule: "'), 9)
+        self.assertEqual(d.count('    source: "'), 9)
+        m = src("site", "app", "network", "NetworkMap.tsx")
+        self.assertIn("<MapDecisions />", m)
+        self.assertNotIn("MapDecisions", src("site", "app", "network", "Network.tsx"))      # the Network shape is as it was
+        self.assertNotIn("MapDecisions", src("site", "components", "grid", "NetworkView.tsx"))
+        self.assertNotIn(EM, d)
+
+    def test_the_maps_figures_are_the_cross_checks(self):
+        d = src("site", "app", "network", "MapDecisions.tsx")
+        self.assertIn("each of the 159 pairs is the report EIA publishes, to 1 MW", d)
+        self.assertIn("for 21 of the 60 authorities EIA holds a total for", d)
+        self.assertIn("PJM's pairs sum to 811 MW exported; its own total is 82 MW exported.", d)
+
+    def test_the_regions_block_says_the_later_choices(self):
+        r = src("site", "app", "grid", "RegionTool.tsx")
+        for key in ("hours", "months", "part-month", "storage", "crosscheck"):
+            self.assertIn(f'data-decision="{key}"', r)
+        self.assertIn("383 of 430 figures are the same to 1 MW", r)
+        self.assertIn('data-decisions="8602"', r)                                            # the fold session 8602 pinned still stands
+
+
 if __name__ == "__main__":
     unittest.main()
