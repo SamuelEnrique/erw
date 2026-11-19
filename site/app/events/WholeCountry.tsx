@@ -5,7 +5,7 @@ import { LineChart, type Line } from "@/components/LineChart";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
 import {
-  ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, lineGap,
+  ABROAD, GRID_NAME, REACHED_PCT, REGION_CODES, REGION_NAME, SOURCES, STORAGE_FROM, apartSources, baselineFirstHour, baselineOf, drawnByDay, eventRegionsFile, gwh, heldApart, lineGap,
   localHour, pairs, points, reached, regionOf, regionZones, shortSources, signedGwh, signedPct, signedWhole, summarize, utcHour, whole, NEW_REGIONS,
   type Against, type EventRegionsFile, type RegionSummary,
 } from "@/lib/countryfiles";
@@ -156,6 +156,13 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
   const baseFirst = baselineFirstHour(file);
   const beforeStorage = file.hours.start < STORAGE_FROM || (baseFirst !== null && baseFirst < STORAGE_FROM);
   const noStorage = (name: string) => `The file holds no storage for ${name} with its baseline in this window.${beforeStorage ? ` EIA's six-month files carry no storage columns before July 2024, and this window${file.hours.start < STORAGE_FROM ? "" : "'s baseline"} reaches back before then.` : ""}`;
+  // session 8470 (case 3, the Northwest over Uri): a source not held says which side holds it, where one does
+  const sideWords = (code: string, key: string) => {
+    const h = heldApart(file, code, key);
+    return h.event || h.base ? ` The window holds ${h.event ? `${whole(h.event)} hours of it` : "no hour of it"} and the baseline ${h.base ? `${whole(h.base)} hours` : "none"}, and no hour is held by both.` : "";
+  };
+  const apart = why ? [] : apartSources(file, rows, REGIONS_HELD);
+  const poss = (name: string) => (name.endsWith("s") ? `${name}'` : `${name}'s`);
 
   const regionRows = rows.map((r) => ({
     key: r.code, highlight: r.code === a || r.code === b,
@@ -178,7 +185,7 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
       <Link key="n" href={pick(r.code)} title={regionWords(r)}>{r.name}</Link>,
       ...SOURCES.map((s) => {
         const x = r.sources[s.key];
-        return cell(r.code, x ? <span title={againstTip(`${r.name}, ${s.label.toLowerCase()}`, x)}><N k={`wc|${r.code}|gen|${s.key}`}>{signedGwh(x.diff_mwh)}</N></span> : null, s.key === "storage" ? noStorage(r.name) : `The file holds no ${s.label.toLowerCase()} for ${r.name} with its baseline in this window.`);
+        return cell(r.code, x ? <span title={againstTip(`${r.name}, ${s.label.toLowerCase()}`, x)}><N k={`wc|${r.code}|gen|${s.key}`}>{signedGwh(x.diff_mwh)}</N></span> : null, (s.key === "storage" ? noStorage(r.name) : `The file holds no ${s.label.toLowerCase()} for ${r.name} with its baseline in this window.`) + sideWords(r.code, s.key));
       }),
       cell(r.code, r.generation ? <span title={againstTip(`${r.name}, net generation`, r.generation)}><N k={`wc|${r.code}|gen|net`}>{signedGwh(r.generation.diff_mwh)}</N></span> : null, `The file holds no net generation for ${r.name} with its baseline.`),
     ],
@@ -241,11 +248,12 @@ export function WholeCountry({ event, path, file, q, first, second, firstWhy }: 
         head={["Region", ...SOURCES.map((s) => <Head key={s.key} mark={`src-${s.key}`} words={s.label} why={`${s.label}: the region's generation from this source over the window less the baseline's, over the hours both hold. ${s.key === "storage" ? "Storage is negative while it charges. " : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a cell for the two sums. Source: EIA Form EIA-930, generation by energy source.`} />),
           <Head key="net" mark="src-net" words="Net generation" why="The region's net generation over the window less the baseline's, over the hours both hold." />]}
         rows={sourceRows} />
-      {short.length || shortStore.length ? (
-        <p className="mt-1 max-w-3xl text-sm" data-wc-short-sources={short.map((s) => s.code).join(",")} data-wc-short-storage={shortStore.map((s) => s.code).join(",")}>
+      {short.length || shortStore.length || apart.length ? (
+        <p className="mt-1 max-w-3xl text-sm" data-wc-short-sources={short.map((s) => s.code).join(",")} data-wc-short-storage={shortStore.map((s) => s.code).join(",")} data-wc-apart-sources={apart.map((s) => s.code).join(",")}>
           Fewer hours than the window&apos;s {whole(file.hours.n)}:{" "}
-          {short.length ? `${short.map((s) => `${s.name.endsWith("s") ? `${s.name}'` : `${s.name}'s`} sources rest on ${whole(s.hours)} hours${s.net !== null && s.net > s.hours ? ` (its net generation on ${whole(s.net)})` : ""}`).join("; ")}.` : null}
-          {shortStore.length ? `${short.length ? " " : ""}Storage, counted apart${beforeStorage ? ", its columns beginning in July 2024" : ""}: ${storeGroups.join("; ")} hours.` : null}{" "}
+          {short.length ? `${short.map((s) => `${poss(s.name)} sources rest on ${whole(s.hours)} hours${s.net !== null && s.net > s.hours ? ` (its net generation on ${whole(s.net)})` : ""}`).join("; ")}.` : null}
+          {apart.length ? `${short.length ? " " : ""}${apart.map((s) => `${poss(s.name)} sources are held for ${s.event ? `${whole(s.event)} hours of the window` : "no hour of the window"} and ${s.base ? `${whole(s.base)} of the baseline, never the same hour` : "no hour of the baseline"}, so none is set against it`).join("; ")}.` : null}
+          {shortStore.length ? `${short.length || apart.length ? " " : ""}Storage, counted apart${beforeStorage ? ", its columns beginning in July 2024" : ""}: ${storeGroups.join("; ")} hours.` : null}{" "}
           <Hint words="Why" why="EIA's files leave some hours of a region's generation by source empty while they hold its net generation, so the sources in that row are summed over fewer hours and do not add up to the net generation beside them. Nothing is filled: each cell's hover gives the hours it rests on. Source: EIA Form EIA-930, generation by energy source." />
         </p>
       ) : null}

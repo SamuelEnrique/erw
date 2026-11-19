@@ -159,6 +159,31 @@ export function shortSources(rows: RegionSummary[], n: number, skip: string[] = 
   return out;
 }
 
+/** Session 8470 (case 3 of the reader's read, the real files): the hours of a region's source that the window holds and
+ *  the hours its baseline holds, counted apart. A cell drawn "not held" (no hour held by both) can then say which side
+ *  holds it: over Winter Storm Uri the window holds 435 hours of each of the Northwest's sources and its baseline
+ *  (February 2020 and 2019) none. */
+export function heldApart(file: EventRegionsFile, code: string, key: string): { event: number; base: number } {
+  const r = file.regions?.[code];
+  return { event: (r?.gen?.[key] ?? []).filter(num).length, base: (r?.baseline?.gen?.[key] ?? []).filter(num).length };
+}
+
+/** Session 8470: the regions none of whose sources (storage aside) has an hour held by both the window and the baseline
+ *  while one side holds some (the Northwest over Uri and over COVID-19, the Southwest over the August 2020 heat), with the
+ *  most hours any source holds in each. Their row reads "not held" from end to end beside a net generation, and
+ *  shortSources does not name them (it counts only the hours both hold). A region held aside (`skip`) is left out. */
+export function apartSources(file: EventRegionsFile, rows: RegionSummary[], skip: string[] = []): { code: string; name: string; event: number; base: number }[] {
+  const out: { code: string; name: string; event: number; base: number }[] = [];
+  const keys = SOURCES.map((s) => s.key).filter((k) => k !== "storage");
+  for (const r of rows) {
+    if (skip.includes(r.code) || !r.held || keys.some((k) => r.sources[k])) continue;
+    const h = keys.map((k) => heldApart(file, r.code, k));
+    const event = Math.max(...h.map((x) => x.event)), base = Math.max(...h.map((x) => x.base));
+    if (event || base) out.push({ code: r.code, name: r.name, event, base });
+  }
+  return out;
+}
+
 /** The share of the baseline by which a region's demand over the window must differ from it to be counted as reached,
  *  in percent, either way. The session's own default (8410): no publisher's threshold stands behind it. */
 export const REACHED_PCT = 5;

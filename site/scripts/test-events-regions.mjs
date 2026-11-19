@@ -150,6 +150,16 @@ ok(C.shortSources(C.summarize(storeShort), N).map((s) => s.code).join() === "SW"
   && !pageText(draw({ file: (() => { const x = clone(late); x.baseline_offsets_days = [7]; for (let h = 6; h < N; h++) x.regions.CAL.baseline.gen.storage[h] = null; return x; })() })).includes("its columns beginning in July 2024")
   && (() => { const c = clone(file); for (let h = 0; h < 3; h++) c.regions.CAR.gen.coal[h] = null; return pageText(draw({ file: c })).includes(`Carolinas' sources rest on ${N - 3} hours`); })(),
   "storage resting on a few hours (its columns begin in July 2024) is named apart and does not mark the region's other sources short");
+// session 8470, case 3 (the Northwest over Uri): every source held in the window and none in the baseline
+const apartFile = clone(file); for (const s of C.SOURCES) if (s.key !== "storage" && apartFile.regions.TEN.baseline.gen[s.key]) apartFile.regions.TEN.baseline.gen[s.key] = Array(N).fill(null);
+const apartRows = C.summarize(apartFile), apartHtml = draw({ file: apartFile }), apartText = pageText(apartHtml);
+ok(C.apartSources(apartFile, apartRows).map((s) => `${s.code} ${s.event} ${s.base}`).join() === `TEN ${N} 0` && C.apartSources(file, rows).length === 0 && C.apartSources(apartFile, apartRows, ["TEN"]).length === 0
+  && !C.shortSources(apartRows, N).some((s) => s.code === "TEN") && apartHtml.includes('data-wc-apart-sources="TEN"') && html.includes('data-wc-apart-sources=""')
+  && apartText.includes(`Southwest's sources rest on ${N - 6} hours. Tennessee's sources are held for ${N} hours of the window and no hour of the baseline, so none is set against it.`)
+  && apartText.includes(`The file holds no natural gas for Tennessee with its baseline in this window. The window holds ${N} hours of it and the baseline none, and no hour is held by both.`)
+  && C.heldApart(apartFile, "TEN", "coal").event === N && C.heldApart(apartFile, "TEN", "coal").base === 0 && C.heldApart(file, "NW", "coal").event === 0
+  && !/The window holds/.test(storeWords(noStore)),
+  "a region whose sources the window holds and its baseline does not is named under the sources table, and each cell says which side holds it");
 ok(text.includes(`${N} steps of 1 hour each, from 2022-12-19 05:00 UTC`) && text.includes("An hour the file does not hold has no point, and the line breaks there"), "the hours' words read plainly");
 
 // ---- held, and not built
