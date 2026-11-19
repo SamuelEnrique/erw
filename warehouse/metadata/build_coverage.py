@@ -103,6 +103,7 @@ TIER_RULES = [
     ("derived", r"^eia_annual_crosscheck_ba$"),  # session 323: ERW code over EIA-923's sums and EIA-930's hours
     ("derived", r"^eia930_demand_growth$"),
     ("derived", r"^ba_boundaries$"),
+    ("derived", r"^resource_layer_features$"),  # session 8006: the ERW's reduction of each resource layer, and the USGS coal fields
     ("derived", r"^(interchange_pair_daily|interchange_pair_monthly|ba_trade_partners|interchange_event_pairs)$"),  # session 8002: who trades with whom, sums and means of EIA-930's two reports  # session 8000: HIFLD's polygons keyed to EIA-930 codes, with the ERW's centroid and area
     ("derived", r"^(noaa_region_stations|region_weather_hourly|eia_county_region)$"),  # session 7802 and 7803: ERW rules over Census, EIA and NOAA data
     ("derived", r"^eia930_(region_hourly|region_pair_hourly|region_fuel_hourly)$"),  # session 8001: region_fuel_hourly; session 7801: sums of EIA-930's balancing authorities by region and by region pair
@@ -680,6 +681,8 @@ SECTOR_RULES = [
     (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
     (r"^(census_county_population|eia_county_region)$", "power"),
     (r"^ba_boundaries$", "power"),
+    (r"^resource_layer_features$", "power;gas;oil;coal"),  # session 8006: the natural resource map's layers
+    (r"^ai_energy_published$", "power"),  # session 8005: energy per AI query, as published
     (r"^(interchange_pair_daily|interchange_pair_monthly|ba_trade_partners|interchange_event_pairs)$", "power"),  # session 8002: who trades with whom  # session 8000: the balancing authority areas (HIFLD Control Areas)  # session 7802: county populations, and each county's balancing authority and region
     (r"^(noaa_region_stations|noaa_region_station_hourly_\d{4}|region_weather_hourly)$", "power"),  # session 7803: the thirteen regions' stations and weather
     (r"^rrc_lease_production_monthly$", "oil;gas"),
@@ -724,6 +727,8 @@ def iso_of(table):
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
         return "none"
     if table in ("company_directory", "company_aliases", "company_links"):  # session 3302: companies, no one ISO
+        return "none"
+    if table in ("resource_layer_features", "ai_energy_published"):  # sessions 8005 and 8006: places of the resource map, and published figures: no ISO
         return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"

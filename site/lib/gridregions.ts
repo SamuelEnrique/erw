@@ -52,9 +52,10 @@ export function readIndex(v: unknown): RegionIndex | null {
 }
 
 /** Each balancing authority's region, for the network's panel and the map's hover: { TVA: { code: "TEN", name: "Tennessee" } }. */
-export function regionOfBa(index: RegionIndex): Record<string, { code: string; name: string }> {
+export function regionOfBa(index: RegionIndex): Record<string, { code: string; name: string; tz?: string }> {
   const names = new Map(index.regions.map((r) => [r.code, r.name]));
-  return Object.fromEntries(index.bas.filter((b) => names.has(b.region)).map((b) => [b.code, { code: b.region, name: names.get(b.region) as string }]));
+  // session 8604: with the authority's own time zone, as the index gives it, so the panel can say its local time
+  return Object.fromEntries(index.bas.filter((b) => names.has(b.region)).map((b) => [b.code, { code: b.region, name: names.get(b.region) as string, ...(b.tz ? { tz: b.tz } : {}) }]));
 }
 
 // ------------------------------------------------------------------ hourly arrays (the contract's common rules)
@@ -96,12 +97,62 @@ export function latestHour(file: RegionMix): { i: number; ts: string; demand: nu
 }
 
 /** The hourly part cut to its last `days` days, by position: the labels of the hours (UTC) and each series; null where there is no hourly part. */
-export function lastHours(file: RegionMix, days: number): { from: number; x: string[]; get: (key: string) => (number | null)[] } | null {
+export function lastHours(file: RegionMix, days: number): { from: number; x: string[]; /** session 8605: each hour's start, in milliseconds, for a chart on a time axis */ t: number[]; get: (key: string) => (number | null)[] } | null {
   const h = file.hourly;
   if (!h || !h.hours || !h.hours.n) return null;
   const from = Math.max(0, h.hours.n - days * 24);
-  const x = Array.from({ length: h.hours.n - from }, (_, k) => hourAt(h.hours, from + k).slice(0, 13).replace("T", " "));
-  return { from, x, get: (key) => series(h, key).slice(from, h.hours.n).map((v) => (v === undefined ? null : v)) };
+  const stamps = Array.from({ length: h.hours.n - from }, (_, k) => hourAt(h.hours, from + k));
+  return { from, x: stamps.map((s) => s.slice(0, 13).replace("T", " ")), t: stamps.map((s) => Date.parse(s)), get: (key) => series(h, key).slice(from, h.hours.n).map((v) => (v === undefined ? null : v)) };
+}
+
+/** Session 8605: one hour of a stack of sources, drawn as the mix library's own rule says for the average day
+ * (lib/mix2.ts `stack`): what is above zero is stacked up from zero, what is below zero (batteries charging, a pumped
+ * storage plant pumping, a solar plant's own use at night) down from zero, so such an hour is not hidden inside the
+ * stack and no source is drawn across zero. For each source, in the order given: the band it takes, or null when its
+ * value is zero or not held. `top` and `bottom` are the stack's two ends. */
+export function hourStack(values: (number | null | undefined)[]): { bands: ([number, number] | null)[]; top: number; bottom: number } {
+  let top = 0, bottom = 0;
+  const bands = values.map((v) => {
+    if (v === null || v === undefined || v === 0 || !Number.isFinite(v)) return null;
+    if (v > 0) { const band: [number, number] = [top, top + v]; top += v; return band; }
+    const band: [number, number] = [bottom + v, bottom]; bottom += v; return band;
+  });
+  return { bands, top, bottom };
+}
+
+/** Session 8605 (the reader's read on the real files: California's chips went from October 2026 to January 2026 with
+ * no word): the months from a mix file's first held month to its newest that the file does not hold, oldest first,
+ * and how many months that span is. The data machine writes a month when at least 90 percent of its days hold every
+ * hour of every source (docs/methods/regions_pages.md); the others are absent from the file, not zero. */
+export function monthsNotHeld(file: Pick<RegionMix, "months"> & { built?: string }): { span: number; missing: string[]; /** the whole months after the newest held and before the month the file was built in (the Northwest's file of 19 November 2026 held none of 2026) */ after: string[] } {
+  const held = Object.keys(file.months).filter((k) => /^\d{4}-(0[1-9]|1[0-2])$/.test(k)).sort();
+  if (!held.length) return { span: 0, missing: [], after: [] };
+  const has = new Set(held), missing: string[] = [], after: string[] = [];
+  let [y, m] = held[0].split("-").map(Number), span = 0;
+  const last = held[held.length - 1];
+  const built = typeof file.built === "string" && /^\d{4}-(0[1-9]|1[0-2])/.test(file.built) ? file.built.slice(0, 7) : last;
+  for (;;) {
+    const k = `${y}-${String(m).padStart(2, "0")}`;
+    if (k > last && k >= built) break;
+    if (k > last) after.push(k);
+    else { span += 1; if (!has.has(k)) missing.push(k); }
+    m += 1;
+    if (m > 12) { m = 1; y += 1; }
+  }
+  return { span, missing, after };
+}
+
+/** Session 8605: the seven grids that file no battery series in Form EIA-930, by their balancing authority's code, as
+ * the Storage page has said since session 34 ("CAISO reports no battery series in EIA-930. NYISO and PJM report none"). */
+export const NO_BATTERY_SERIES: Record<string, string> = { CISO: "CAISO", NYIS: "NYISO", PJM: "PJM" };
+/** What the Storage row of a region says on hover when one of its balancing authorities files no battery series, or
+ * null. A fact of the filing and no reading of the figure. */
+export function storageNote(region: { name: string; bas: string[] }): string | null {
+  const none = region.bas.filter((b) => NO_BATTERY_SERIES[b]);
+  if (!none.length) return null;
+  const who = none.map((b) => NO_BATTERY_SERIES[b]).join(" and ");
+  const others = region.bas.length - none.length;
+  return `${who} files no battery series in Form EIA-930. ${others ? `This row holds what ${region.name}'s other ${others === 1 ? "balancing authority reports" : `${others} balancing authorities report`}` : `It is ${region.name}'s one balancing authority, so this row is the figure the region's file holds`}, not ${who}'s batteries.${none.includes("CISO") ? " CAISO's own battery data is on the Storage page." : ""}`;
 }
 
 /** The months a file holds, newest first. */
@@ -109,7 +160,17 @@ export const monthsOf = (file: RegionMix) => Object.keys(file.months).sort().rev
 
 // ------------------------------------------------------------------ a region's trade (section 5 of the contract)
 export type TradeNeighbor = { net_imports_mwh: (number | null)[]; their_report_mwh: (number | null)[]; gap_mwh: (number | null)[]; hours_own: (number | null)[]; hours_their: (number | null)[]; hours_both: (number | null)[] };
-export type RegionTrade = { built: string; tables: string[]; method: string; license: string; code: string; name: string; months: string[]; net_imports_mwh: (number | null)[]; neighbors: Record<string, TradeNeighbor> };
+export type RegionTrade = { built: string; tables: string[]; method: string; license: string; code: string; name: string; months: string[]; /** the hours of each Eastern month */ hours_in_month?: number[]; net_imports_mwh: (number | null)[]; neighbors: Record<string, TradeNeighbor> };
+
+/** Session 8605 (the reader's read: November 2026 stood beside whole months with 336 of its 721 hours): for a month of
+ * a trade file, the most hours any neighbour's row holds of the region's own report, and the hours of the month, when
+ * the first is short of the second; null for a whole month, or when the file does not say the month's hours. */
+export function partMonth(file: RegionTrade, month: string): { hours: number; of: number } | null {
+  const i = file.months.indexOf(month), of = file.hours_in_month?.[i];
+  if (i < 0 || typeof of !== "number" || !(of > 0)) return null;
+  const hours = Math.max(0, ...Object.values(file.neighbors).map((n) => n.hours_own?.[i] ?? 0));
+  return hours < of ? { hours, of } : null;
+}
 
 export function readTrade(v: unknown): RegionTrade | null {
   const f = v as Partial<RegionTrade> | null;

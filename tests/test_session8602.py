@@ -85,8 +85,9 @@ class TheFilesOfTheContract(unittest.TestCase):
 
     def test_the_index(self):
         self.assertEqual((self.d["regions"], self.d["bas"]), (13, 49))
-        self.assertEqual(self.d["of"]["TVA"], {"code": "TEN", "name": "Tennessee"})
-        self.assertEqual(self.d["of"]["ERCO"], {"code": "TEX", "name": "Texas"})
+        # session 8604: with the authority's own time zone, for the panel's local time
+        self.assertEqual(self.d["of"]["TVA"], {"code": "TEN", "name": "Tennessee", "tz": "America/Chicago"})
+        self.assertEqual(self.d["of"]["ERCO"], {"code": "TEX", "name": "Texas", "tz": "America/Chicago"})
 
     def test_the_latest_hour_is_the_newest_that_holds_a_net_generation(self):
         now = self.d["now"]
