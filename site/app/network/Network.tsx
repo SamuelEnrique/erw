@@ -487,7 +487,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   const mapFigures = (id: string): MapFigures => {
     let net = 0, n = 0;
     for (const l of view.links) { if (l.a !== id && l.b !== id) continue; const v = l.mw[hour]; if (v === null || v === undefined) continue; net += l.a === id ? -v : v; n += 1; }
-    return { intensity: view.intensity(id, hour), demand: view.demand(id, hour), net: n ? net : null, ties: n };
+    const c = view.intensity(id, hour);
+    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), net: n ? net : null, ties: n };
   };
   const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
   const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);

@@ -126,7 +126,13 @@ export function insidePoint(rings: Ring[]): [number, number] | null {
       if ((yi > y) !== (yj > y)) xs.push(((xj - xi) * (y - yi)) / (yj - yi) + xi);
     }
     xs.sort((p, q) => p - q);
-    for (let k = 0; k + 1 < xs.length; k += 2) if (xs[k + 1] - xs[k] > width) { width = xs[k + 1] - xs[k]; pick = [(xs[k] + xs[k + 1]) / 2, y]; }
+    // a stretch counts only when its middle is inside the shape a little above and a little below the line too (a line
+    // that runs along an edge of a hole would otherwise give a point on that edge)
+    const eps = (hi - lo) * 0.01;
+    for (let k = 0; k + 1 < xs.length; k += 2) {
+      const mid = (xs[k] + xs[k + 1]) / 2;
+      if (xs[k + 1] - xs[k] > width && insideRings([mid, y + eps], rings) && insideRings([mid, y - eps], rings)) { width = xs[k + 1] - xs[k]; pick = [mid, y]; }
+    }
   }
   return pick ? round(pick) : round(c);
 }
@@ -189,8 +195,10 @@ export const batteryFill = (mw: number, max: number) => Math.max(0.02, Math.min(
 /** An arc of a circle as an SVG path: from the top, clockwise, `share` of the way round (the network's ring starts at
  * the top and runs the same way). */
 export function arcPath(cx: number, cy: number, r: number, share: number): string {
-  const f = Math.max(0, Math.min(0.9999, share)), t = 2 * Math.PI * f;
+  const f = Math.max(0, Math.min(1, share)), t = 2 * Math.PI * f;
   const n = (v: number) => Math.round(v * 100) / 100;
+  // the whole circle is two halves: an arc that ends where it starts is not drawn
+  if (f >= 0.999) return `M${n(cx)},${n(cy - r)}A${n(r)},${n(r)} 0 1 1 ${n(cx)},${n(cy + r)}A${n(r)},${n(r)} 0 1 1 ${n(cx)},${n(cy - r)}`;
   return `M${n(cx)},${n(cy - r)}A${n(r)},${n(r)} 0 ${f > 0.5 ? 1 : 0} 1 ${n(cx + r * Math.sin(t))},${n(cy - r * Math.cos(t))}`;
 }
 

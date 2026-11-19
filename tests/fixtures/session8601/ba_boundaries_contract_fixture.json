@@ -1,0 +1,339 @@
+{
+ "type": "FeatureCollection",
+ "built": "2026-11-19T00:00:00Z",
+ "tables": [
+  "ba_boundaries"
+ ],
+ "method": "docs/methods/grid_network.md",
+ "license": "public",
+ "source": "TEST FIXTURE: made-up squares, not boundaries",
+ "source_url": "fixture://tests/fixtures/session8601/make_contract_8601.py",
+ "retrieved_at": "2026-11-19T00:00:00Z",
+ "simplify_tolerance_deg": 0.01,
+ "bas_without_polygon": [
+  "NYIS",
+  "ISNE"
+ ],
+ "polygons_without_ba": [
+  {
+   "id": "fixture-stray",
+   "name": "A square that matches no code"
+  }
+ ],
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BANC",
+    "name": "Square for BANC",
+    "region": "CAL",
+    "source_id": "fixture-BANC",
+    "area_km2": 9683.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -121.5,
+       38
+      ],
+      [
+       -120.5,
+       38
+      ],
+      [
+       -120.5,
+       39
+      ],
+      [
+       -121.5,
+       39
+      ],
+      [
+       -121.5,
+       38
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ERCO",
+    "name": "Square for ERCO",
+    "region": "TEX",
+    "source_id": "fixture-ERCO",
+    "area_km2": 265989.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -101,
+       28
+      ],
+      [
+       -96,
+       28
+      ],
+      [
+       -96,
+       33
+      ],
+      [
+       -101,
+       33
+      ],
+      [
+       -101,
+       28
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SWPP",
+    "name": "Ring for SWPP",
+    "region": "CENT",
+    "source_id": "fixture-SWPP",
+    "area_km2": 414654.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -102,
+       34
+      ],
+      [
+       -95,
+       34
+      ],
+      [
+       -95,
+       40
+      ],
+      [
+       -102,
+       40
+      ],
+      [
+       -102,
+       34
+      ]
+     ],
+     [
+      [
+       -100,
+       35.5
+      ],
+      [
+       -97,
+       35.5
+      ],
+      [
+       -97,
+       38.5
+      ],
+      [
+       -100,
+       38.5
+      ],
+      [
+       -100,
+       35.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MISO",
+    "name": "Square for MISO",
+    "region": "MIDW",
+    "source_id": "fixture-MISO",
+    "area_km2": 441218.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -94,
+       38
+      ],
+      [
+       -88,
+       38
+      ],
+      [
+       -88,
+       46
+      ],
+      [
+       -94,
+       46
+      ],
+      [
+       -94,
+       38
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "PJM",
+    "name": "Two squares for PJM",
+    "region": "MIDA",
+    "source_id": "fixture-PJM",
+    "area_km2": 307583.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -84,
+        37
+       ],
+       [
+        -76,
+        37
+       ],
+       [
+        -76,
+        41
+       ],
+       [
+        -84,
+        41
+       ],
+       [
+        -84,
+        37
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -75.5,
+        39
+       ],
+       [
+        -75,
+        39
+       ],
+       [
+        -75,
+        39.5
+       ],
+       [
+        -75.5,
+        39.5
+       ],
+       [
+        -75.5,
+        39
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "CISO",
+    "name": "Square for CISO",
+    "region": "CAL",
+    "source_id": "fixture-CISO",
+    "area_km2": 355428.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -123,
+       34
+      ],
+      [
+       -117,
+       34
+      ],
+      [
+       -117,
+       40
+      ],
+      [
+       -123,
+       40
+      ],
+      [
+       -123,
+       34
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZZZZ",
+    "name": "Square for no grid of the network",
+    "region": "NW",
+    "source_id": "fixture-ZZZZ",
+    "area_km2": 30000.0,
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -110,
+       44
+      ],
+      [
+       -108,
+       44
+      ],
+      [
+       -108,
+       46
+      ],
+      [
+       -110,
+       46
+      ],
+      [
+       -110,
+       44
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}

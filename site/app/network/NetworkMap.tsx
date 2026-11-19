@@ -15,8 +15,8 @@
 // Session 8601 (chain 504, 19 November 2026): the map made whole, with nothing it drew taken away.
 // - The file: the whole country's boundary file (data/regions/ba_boundaries.json, read through /grid/boundaries) when
 //   the server holds it; until then the derived file above, with its label, exactly as before.
-// - A grid with no shape in the file is listed beside the map by name (under it on a narrow screen), with the same
-//   hover and the same click as a region: it is not dropped.
+// - A grid with no shape in the file is listed by name in the map's frame, right under the map, with the same hover
+//   and the same click as a region: it is not dropped.
 // - Hovering a region gives its name and its figures for the frame shown; hovering a tie gives both names, the
 //   megawatts, the frame and which side reported it.
 // - The Batteries switch draws the network's ring on the map, at the point inside each region its ties meet at.
@@ -36,7 +36,7 @@ const project = (p: [number, number]) => projection(p) as [number, number] | nul
 export type MapNode = { id: string; name: string };
 export type MapFlow = { source: string; target: string; mw: number; a: string; b: string };
 /** Session 8601: a grid's figures for the frame shown, from the network's own view (the panel's numbers). */
-export type MapFigures = { intensity: number | null; demand: number | null; /** the sum of its ties, positive when it imports; null when no tie reported */ net: number | null; ties: number };
+export type MapFigures = { intensity: number | null; /** the intensity as the panel writes it for this view (two decimals in the live week, whole in a story or a day) */ intensityShown?: string; demand: number | null; /** the sum of its ties, positive when it imports; null when no tie reported */ net: number | null; ties: number };
 /** Session 8601: the frame shown, in the words of the slider's own line, and the tables its figures come from. */
 export type MapFrame = { when: string; unit: "hour" | "day"; tables: string };
 
@@ -178,7 +178,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     const fig = figures?.(hover.id);
     const lines: string[] = [];
     if (fig) {
-      lines.push(`Carbon intensity of generation: ${fig.intensity !== null ? `${whole(fig.intensity)} kg CO2/MWh` : "not held"}`);
+      lines.push(`Carbon intensity of generation: ${fig.intensity !== null ? `${fig.intensityShown ?? whole(fig.intensity)} kg CO2/MWh` : "not held"}`);
       lines.push(`Demand: ${fig.demand !== null ? `${whole(fig.demand)} MW${unit === "day" ? " on average" : ""}` : `not held for this ${unit}`}`);
       lines.push(fig.net !== null && fig.ties ? `Net ${fig.net >= 0 ? "imports" : "exports"}: ${whole(Math.abs(fig.net))} MW over ${fig.ties} tie${fig.ties === 1 ? "" : "s"}` : `No tie reported this ${unit}`);
       if (battery) { const b = battery(hover.id); lines.push(`Batteries: ${!b ? "not reported for this period" : b.mw === null ? `not reported for this ${unit}` : b.mw >= 0 ? `discharging ${whole(b.mw)} MW` : `charging ${whole(-b.mw)} MW`}`); }
@@ -187,13 +187,12 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     }
     return { attr: { "data-map-hover": hover.id }, head: names.get(hover.id) ?? hover.id, lines, source: fig && frame ? frame.tables : "" };
   })();
-  const beside = pick === null && noShape.length > 0;
   const ring = 10 / Math.sqrt(t.k);
   return (
     <div className={`${frameBox} self-start bg-paper`} data-map-state="held" data-map-regions={regions.length} data-map-matched={held.file.matched}
       data-map-flows={drawnFlows.length} data-map-flows-all={flows.length} data-map-no-shape={noShape.map((n) => n.id).join(",")} data-map-sha={held.file.provenance.raw_sha256}
       data-map-derived={derived ? "1" : "0"} data-map-zoom={t.k} data-map-source={held.file.provenance.source}>
-      <div className={beside ? "lg:grid lg:grid-cols-[minmax(0,1fr)_13rem]" : ""}>
+      <div>
       {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
       <div className="relative" style={style}>
       <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet" style={{ touchAction: t.k > MAP_ZOOM[0] ? "none" : "pan-y", cursor: t.k > MAP_ZOOM[0] ? "grab" : undefined }}
@@ -234,7 +233,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         </g>
         {/* session 8601: each tie answers to the mouse along its own line, a little wider than it is drawn */}
         <g fill="none" stroke="transparent" pointerEvents="stroke">
-          {drawnFlows.map((f) => {
+          {/* the longest first, so a short tie lies on top of the long ones that cross it and can be reached */}
+          {drawnFlows.slice().sort((p, q) => { const d = (f: MapFlow) => { const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number]; return Math.hypot(s[0] - e[0], s[1] - e[1]); }; return d(q) - d(p); }).map((f) => {
             const s = at.get(f.source) as [number, number], e = at.get(f.target) as [number, number];
             return <line key={`${f.a}-${f.b}`} x1={s[0]} y1={s[1]} x2={e[0]} y2={e[1]} strokeWidth={Math.max(7, flowWidth(f.mw, maxMw) + 4) / t.k} data-flow-hit={`${f.source}>${f.target}`}
               onPointerMove={(ev) => { if (!moving()) setHover(place(ev, "flow", `${f.a}-${f.b}`)); }} onPointerLeave={() => setHover(null)} />;
@@ -275,13 +275,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       {/* the dash runs from the exporter to the importer, faster as the flow is larger; still where the reader asks for less motion */}
       <style>{`@keyframes erw-flow { to { stroke-dashoffset: var(--erw-dash, -12); } } .erw-flow-dash { animation: erw-flow 1.2s linear infinite; } @media (prefers-reduced-motion: reduce) { .erw-flow-dash { animation: none; } }`}</style>
       </div>
-      {/* session 8601: the grids with no shape in the file, by name: beside the map on a wide screen, under it on a narrow one */}
+      {/* session 8601: the grids with no shape in the file, by name, in the map's own frame, right under it: at 1280 px a
+          column beside the map took a quarter of the map's width (seen in the browser), so the names run in lines */}
       {noShape.length ? (
-        <div className={`border-t border-rule bg-panel px-2 py-1 text-xs ${beside ? "lg:max-h-[min(72vh,620px)] lg:overflow-y-auto lg:border-l lg:border-t-0" : ""}`} data-map-listed={noShape.length}>
+        <div className="border-t border-rule bg-panel px-2 py-1 text-xs" data-map-listed={noShape.length}>
           <div className="mb-1 cursor-help text-ink" title={`These ${noShape.length} balancing authorities of the network have no boundary in the file the map draws, so they have no region here. Each keeps its hover and its panel; its ties are drawn in the Network view. ${drawnFlows.length} of the ${flows.length} ties moving power in the ${unit} shown have both ends on the map.`}>
             Not on the map: no boundary in the file ({noShape.length})
           </div>
-          <ul className={beside ? "flex flex-wrap gap-x-3 gap-y-0.5 lg:block lg:space-y-0.5" : "flex flex-wrap gap-x-3 gap-y-0.5"}>
+          <ul className="flex flex-wrap gap-x-3 gap-y-0.5">
             {noShape.map((n) => (
               <li key={n.id}>
                 <button type="button" className={`text-left underline decoration-dotted underline-offset-2 ${pick === n.id ? "text-accent" : "text-ink"}`} data-listed={n.id} onClick={() => onPick(n.id)}

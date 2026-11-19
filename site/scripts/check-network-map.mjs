@@ -171,7 +171,9 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
 
   // drawing: the test's own made-up squares in place of the boundary file
   const inject = await send("Page.addScriptToEvaluateOnNewDocument", { source: `(() => { const real = window.fetch; const f = ${JSON.stringify(fixture)};
-    window.fetch = (u, o) => (String(u).includes('/network/ba_boundaries.json') ? Promise.resolve(new Response(JSON.stringify(f), { status: 200, headers: { 'content-type': 'application/json' } })) : real(u, o)); })()` });
+    // session 8601: the map asks for the whole country's file first (/grid/boundaries); here it is answered "not held", so the squares are what the map draws whatever the site holds
+    const json = (v) => Promise.resolve(new Response(JSON.stringify(v), { status: 200, headers: { 'content-type': 'application/json' } }));
+    window.fetch = (u, o) => (String(u).includes('/network/ba_boundaries.json') ? json(f) : String(u).includes('/grid/boundaries') ? json({ held: false }) : real(u, o)); })()` });
   await go(`${base}/network?view=day&t=2021-02-15&shape=map`);
   await wait(READY, 30000, "the page to be ready");
   s = await wait(`(() => { const s = ${MAP}; return s.state === 'held' && s.view === 'day' && s.t === '2021-02-15' ? s : null; })()`, 30000, "the fixture's map");
@@ -192,7 +194,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   // hover names the region, as hovering a sphere names it
   c = await evaluate(centre("SWPP"));
   await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: c.x, y: c.y });
-  const hov = await wait(`(() => { const h = document.querySelector('[data-map-hover]'); return h ? { id: h.getAttribute('data-map-hover'), text: h.innerText } : null; })()`, 5000, "the hover");
+  const hov = await wait(`(() => { const h = document.querySelector('[data-map-hover]'); return h ? { id: h.getAttribute('data-map-hover'), text: h.querySelector('[data-map-hover-name]')?.innerText ?? h.innerText } : null; })()`, 5000, "the hover");  // session 8601: the hover holds the name and, under it, the grid's figures (check-grid-map.mjs)
   check(hov.id === "SWPP" && hov.text === snap.nodes.find((x) => x.id === "SWPP").name, `hovering a region names the grid (${hov.text})`);
   // a click opens the same panel
   c = await evaluate(centre("ERCO"));
@@ -240,9 +242,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await go(`${base}/network?grid=CISO&shape=map`);
   await wait(READY, 30000, "the page at a phone's width");
   await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held' && !!document.querySelector('[data-panel]')`, 30000, "the map and the panel at a phone's width");
-  const ph = await evaluate(`(() => { const r = (e) => e.getBoundingClientRect(); const t = [...document.querySelectorAll('[data-shape-toggle] button')].map(r); const m = r(document.querySelector('[data-map-state]')); const p = r(document.querySelector('[data-panel]'));
+  const ph = await evaluate(`(() => { const r = (e) => e.getBoundingClientRect(); const t = [...document.querySelectorAll('[data-shape-toggle] button')].map(r); const fr = r(document.querySelector('[data-map-state]')); const m = r(document.querySelector('[data-map-state] svg')); const p = r(document.querySelector('[data-panel]'));
+    // session 8601: the frame now also holds the names of the grids with no boundary and the width key, under the map; the map itself is the drawing
     return { scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth, toggle: t.map((b) => [Math.round(b.left), Math.round(b.right), Math.round(b.height)]), mapW: Math.round(m.width), mapH: Math.round(m.height),
-      mapBottom: Math.round(m.bottom), panelTop: Math.round(p.top), panelW: Math.round(p.width) }; })()`);
+      mapBottom: Math.round(fr.bottom), panelTop: Math.round(p.top), panelW: Math.round(p.width) }; })()`);
   check(ph.scroll <= ph.client + 1 && ph.toggle.every((b) => b[0] >= 0 && b[1] <= 390 && b[2] >= 30), `at 390 px nothing is wider than the screen (${ph.scroll} of ${ph.client}) and both toggle buttons are on it, ${ph.toggle.map((b) => b[2]).join(" and ")} px tall`);
   check(ph.mapW <= 390 && ph.mapW >= 320 && ph.mapH >= 190 && Math.abs(ph.mapW / ph.mapH - 975 / 610) < 0.06 && ph.panelTop >= ph.mapBottom && ph.panelW <= 390, `the map is ${ph.mapW} by ${ph.mapH} px, the whole country with no empty band, and the panel is under it, ${ph.panelW} px wide`);
   if (shotFile) {
