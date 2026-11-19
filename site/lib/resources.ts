@@ -60,6 +60,17 @@ export function hoverPairs(v: unknown): [string, string][] | undefined {
   return out.length ? out : undefined;
 }
 
+/** Session 8615: a document shown inside a page, under one of the page's own headings. The document's headings keep
+ *  their tags (and so their look) and are given the level they hold in the page's outline: `under` is the level of the
+ *  page's heading above the document, so with 3 the document's h1 is read as level 4, its h2 as 5, and its h3 and
+ *  deeper as 6, the deepest there is. A heading that already says its level is left as it is. The page then has one
+ *  heading of level 1, its own. */
+export function headingsUnder(html: string, under: number): string {
+  if (!(under >= 1)) return html;
+  return html.replace(/<h([1-6])(\s[^>]*)?>/g, (tag, n: string, rest: string | undefined) =>
+    (rest && /\saria-level\s*=/.test(rest) ? tag : `<h${n}${rest ?? ""} aria-level="${Math.min(6, Number(n) + Math.floor(under))}">`));
+}
+
 /** Every file a layer names, in the manifest's order: a grid's levels, or the one file of its shapes or points. */
 export function filesOf(l: Layer): string[] {
   const out: string[] = [];

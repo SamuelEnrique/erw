@@ -603,6 +603,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       await go(`${base}/map?tab=resources&on=${g.id}`);
       await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map for the keyboard");
       await ready([g.id]);
+      // the page's outline: one heading of level 1, with the method document open too (its own title is read as level 4)
+      const outline = await evaluate(`(() => { const lv = (h) => Number(h.getAttribute('aria-level') ?? h.tagName[1]); const hs = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].map((h) => [lv(h), h.tagName, h.innerText.trim().slice(0, 40), !!h.closest('[data-method-doc-under]')]);
+        return { one: hs.filter((h) => h[0] === 1).map((h) => h[2]), doc: hs.filter((h) => h[3]).length, docMin: Math.min(...hs.filter((h) => h[3]).map((h) => h[0])), docH1: hs.filter((h) => h[3] && h[1] === 'H1').length }; })()`);
+      check(outline.one.length === 1 && outline.doc > 0 && outline.docMin >= 4, `the page has one heading of level 1 ("${outline.one.join('", "')}"); the method document's ${outline.doc} headings are read from level ${outline.docMin} down, its own title among them (${outline.docH1} h1 tag kept for its look)`);
       const key = async (k, code, vk) => { for (const type of ["keyDown", "keyUp"]) await send("Input.dispatchKeyEvent", { type: type === "keyDown" ? "rawKeyDown" : "keyUp", key: k, code, windowsVirtualKeyCode: vk }); };
       const card = () => evaluate(`(() => { const h = document.querySelector('[data-hover]'), m = document.querySelector('[data-centre-mark]'), el = document.querySelector('[data-map]'), c = el.querySelector('canvas'); const b = c.getBoundingClientRect(), r = m?.getBoundingClientRect();
         return { focus: document.activeElement === c, keys: h?.dataset.hoverKeys ?? null, live: h?.getAttribute('aria-live') ?? null, lon: h ? Number(h.dataset.hoverLon) : null, lat: h ? Number(h.dataset.hoverLat) : null, layers: h ? [...h.querySelectorAll('[data-hover-layer]')].map((x) => x.dataset.hoverLayer) : [],
