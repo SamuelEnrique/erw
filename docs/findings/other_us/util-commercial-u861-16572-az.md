@@ -2,7 +2,7 @@
 
 Draft `scan-deep-077d3b859569` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to commercial customers of Salt River Project in AZ was 14.70 TWh in 2025, against 11.54 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to commercial customers of Salt River Project in AZ were 14.70 TWh in 2025, against 11.54 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to commercial customers, Salt River Project in AZ](util-commercial-u861-16572-az.png)
 

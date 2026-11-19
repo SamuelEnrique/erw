@@ -2,7 +2,7 @@
 
 Draft `scan-deep-0342ef98178d` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to the Netherlands was 862 thousand barrels a day in 2025, against 92 thousand barrels a day in 2017, the first year with all twelve months listed.
+**The finding.** US crude oil exports to the Netherlands were 862 thousand barrels a day in 2025, against 92 thousand barrels a day in 2017, the first year with all twelve months listed.
 
 ![Where us crude goes, the Netherlands](exp-crude-dest-xc-nnl.png)
 

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-9288fafd220e` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The dry natural gas exports of Qatar was 4,439 billion cubic feet in 2024, against 0 billion cubic feet in 1990, the first full year the ERW holds.
+**The finding.** The dry natural gas exports of Qatar were 4,439 billion cubic feet in 2024, against 0 billion cubic feet in 1990, the first full year the ERW holds.
 
 ![By country: dry natural gas exports, Qatar](wog-gas-exports-wog-qat.png)
 

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-f7a932c0685c` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The dry natural gas exports of Australia was 3,740 billion cubic feet in 2024, against 99 billion cubic feet in 1990, the first full year the ERW holds.
+**The finding.** The dry natural gas exports of Australia were 3,740 billion cubic feet in 2024, against 99 billion cubic feet in 1990, the first full year the ERW holds.
 
 ![By country: dry natural gas exports, Australia](wog-gas-exports-wog-aus.png)
 

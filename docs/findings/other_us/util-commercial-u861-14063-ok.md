@@ -2,7 +2,7 @@
 
 Draft `scan-deep-7f0f8e202fcb` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to commercial customers of Oklahoma Gas & Electric Co in OK was 14.62 TWh in 2025, against 9.76 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to commercial customers of Oklahoma Gas & Electric Co in OK were 14.62 TWh in 2025, against 9.76 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to commercial customers, Oklahoma Gas & Electric Co in OK](util-commercial-u861-14063-ok.png)
 

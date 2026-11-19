@@ -2,7 +2,7 @@
 
 Draft `scan-deep-cba407a2d1b7` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The coal exports of Russia was 200.6 million short tons in 2024, against 20.4 million short tons in 1992, the first full year the ERW holds.
+**The finding.** The coal exports of Russia were 200.6 million short tons in 2024, against 20.4 million short tons in 1992, the first full year the ERW holds.
 
 ![Coal by country: exports, Russia](wc-exports-wc-rus.png)
 

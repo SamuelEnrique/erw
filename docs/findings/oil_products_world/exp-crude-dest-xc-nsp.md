@@ -2,7 +2,7 @@
 
 Draft `scan-deep-7a9268841c79` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to Spain was 191 thousand barrels a day in 2025, against 47 thousand barrels a day in 2019, the first year with all twelve months listed.
+**The finding.** US crude oil exports to Spain were 191 thousand barrels a day in 2025, against 47 thousand barrels a day in 2019, the first year with all twelve months listed.
 
 ![Where us crude goes, Spain](exp-crude-dest-xc-nsp.png)
 

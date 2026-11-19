@@ -2,7 +2,7 @@
 
 Draft `scan-deep-8650698d9d92` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to South Korea was 505 thousand barrels a day in 2025, against 56 thousand barrels a day in 2017, the first year with all twelve months listed.
+**The finding.** US crude oil exports to South Korea were 505 thousand barrels a day in 2025, against 56 thousand barrels a day in 2017, the first year with all twelve months listed.
 
 ![Where us crude goes, South Korea](exp-crude-dest-xc-nks.png)
 

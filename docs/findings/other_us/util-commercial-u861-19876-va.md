@@ -2,7 +2,7 @@
 
 Draft `scan-deep-e7375da4bac2` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to commercial customers of Virginia Electric & Power Co in VA was 60.09 TWh in 2025, against 41.54 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to commercial customers of Virginia Electric & Power Co in VA were 60.09 TWh in 2025, against 41.54 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to commercial customers, Virginia Electric & Power Co in VA](util-commercial-u861-19876-va.png)
 

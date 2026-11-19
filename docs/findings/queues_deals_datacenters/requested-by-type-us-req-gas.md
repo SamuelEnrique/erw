@@ -2,7 +2,7 @@
 
 Draft `scan-deep-58c11e815e84` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The MW of gas requests, the United States was 77,929 MW in 2024, against 28,602 MW in 2005, the first year this measure counts.
+**The finding.** The MW of gas requests in the United States was 77,929 MW in 2024, against 28,602 MW in 2005, the first year this measure counts.
 
 ![What was asked for, gas requests, the United States](requested-by-type-us-req-gas.png)
 

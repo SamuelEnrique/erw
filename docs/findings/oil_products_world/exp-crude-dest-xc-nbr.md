@@ -2,7 +2,7 @@
 
 Draft `scan-deep-c30883b9241a` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to Brazil was 70 thousand barrels a day in 2025, against 48 thousand barrels a day in 2019, the first year with all twelve months listed.
+**The finding.** US crude oil exports to Brazil were 70 thousand barrels a day in 2025, against 48 thousand barrels a day in 2019, the first year with all twelve months listed.
 
 ![Where us crude goes, Brazil](exp-crude-dest-xc-nbr.png)
 

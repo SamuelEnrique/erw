@@ -2,7 +2,7 @@
 
 Draft `scan-deep-fc2e875ea6e1` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US pipeline exports of natural gas to Mexico was 2,423 Bcf in 2025, against 14 Bcf in 1973, the first full year the ERW holds.
+**The finding.** US pipeline exports of natural gas to Mexico were 2,423 Bcf in 2025, against 14 Bcf in 1973, the first full year the ERW holds.
 
 ![Pipeline gas to mexico, US pipeline exports to Mexico](mexico-exports-us-mexico.png)
 

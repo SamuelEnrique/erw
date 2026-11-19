@@ -2,7 +2,7 @@
 
 Draft `scan-deep-99bfc0c7e209` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to industrial customers of MidAmerican Energy Co in IA was 19.38 TWh in 2025, against 12.18 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to industrial customers of MidAmerican Energy Co in IA were 19.38 TWh in 2025, against 12.18 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to industry, MidAmerican Energy Co in IA](util-industrial-u861-12341-ia.png)
 

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-91917ef36f46` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The dry natural gas exports of the world was 43,810 billion cubic feet in 2024, against 10,898 billion cubic feet in 1990, the first full year the ERW holds.
+**The finding.** The dry natural gas exports of the world were 43,810 billion cubic feet in 2024, against 10,898 billion cubic feet in 1990, the first full year the ERW holds.
 
 ![By country: dry natural gas exports, the world](wog-gas-exports-wog-worl.png)
 

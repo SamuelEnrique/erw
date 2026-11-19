@@ -2,7 +2,7 @@
 
 Draft `scan-deep-1622d4e19218` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of ethane was 577 thousand barrels a day in 2025, against 65 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of ethane were 577 thousand barrels a day in 2025, against 65 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, ethane](exp-product-xp-epllea.png)
 

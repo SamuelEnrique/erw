@@ -2,7 +2,7 @@
 
 Draft `scan-deep-a222729a0c70` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The nameplate capacity of solar photovoltaic, the United States that entered service in the year and operates today was 29,709 MW in 2025, against 243 MW in 2010, the first year this measure counts.
+**The finding.** The nameplate capacity of the solar photovoltaic units in the United States that entered service in the year and still operate was 29,709 MW in 2025, against 243 MW in 2010, the first year this measure counts.
 
 ![What entered service, solar photovoltaic, the United States](added-mw-add-solar-us.png)
 

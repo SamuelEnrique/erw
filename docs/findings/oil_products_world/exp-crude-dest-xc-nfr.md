@@ -2,7 +2,7 @@
 
 Draft `scan-deep-891fb72648a6` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to France was 118 thousand barrels a day in 2025, against 88 thousand barrels a day in 2019, the first year with all twelve months listed.
+**The finding.** US crude oil exports to France were 118 thousand barrels a day in 2025, against 88 thousand barrels a day in 2019, the first year with all twelve months listed.
 
 ![Where us crude goes, France](exp-crude-dest-xc-nfr.png)
 

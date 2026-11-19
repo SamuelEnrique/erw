@@ -2,7 +2,7 @@
 
 Draft `scan-deep-4ff2bcb0d82f` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The net imports of electricity of Greece as a percent of the electricity available to it was -6.5 percent in 2025, against 15.5 percent in 2016, the first full year the ERW holds.
+**The finding.** The net imports of electricity of Greece as a percent of the electricity available to it were -6.5 percent in 2025, against 15.5 percent in 2016, the first full year the ERW holds.
 
 ![Europe's electricity: net imports, Greece](eu-net-imports-eu-el.png)
 

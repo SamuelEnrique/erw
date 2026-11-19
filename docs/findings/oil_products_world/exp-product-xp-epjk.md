@@ -2,7 +2,7 @@
 
 Draft `scan-deep-2cbabef143b0` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of kerosene-type jet fuel was 216 thousand barrels a day in 2025, against 168 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of kerosene-type jet fuel were 216 thousand barrels a day in 2025, against 168 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, kerosene-type jet fuel](exp-product-xp-epjk.png)
 

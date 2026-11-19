@@ -2,7 +2,7 @@
 
 Draft `scan-deep-a980d2a74e65` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to commercial customers of Arizona Public Service Co in AZ was 17.34 TWh in 2025, against 12.42 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to commercial customers of Arizona Public Service Co in AZ were 17.34 TWh in 2025, against 12.42 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to commercial customers, Arizona Public Service Co in AZ](util-commercial-u861-803-az.png)
 

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-3339c97be60c` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The coal exports of the world was 1,688.1 million short tons in 2024, against 298.2 million short tons in 1980, the first full year the ERW holds.
+**The finding.** The coal exports of the world were 1,688.1 million short tons in 2024, against 298.2 million short tons in 1980, the first full year the ERW holds.
 
 ![Coal by country: exports, the world](wc-exports-wc-worl.png)
 

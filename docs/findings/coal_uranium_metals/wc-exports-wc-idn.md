@@ -2,7 +2,7 @@
 
 Draft `scan-deep-8fe6e7776fc5` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The coal exports of Indonesia was 614.8 million short tons in 2024, against 0.4 million short tons in 1980, the first full year the ERW holds.
+**The finding.** The coal exports of Indonesia were 614.8 million short tons in 2024, against 0.4 million short tons in 1980, the first full year the ERW holds.
 
 ![Coal by country: exports, Indonesia](wc-exports-wc-idn.png)
 

@@ -2,7 +2,7 @@
 
 Draft `scan-deep-2712f475c08e` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to industrial customers of Portland General Electric Co in OR was 5.98 TWh in 2025, against 3.00 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to industrial customers of Portland General Electric Co in OR were 5.98 TWh in 2025, against 3.00 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to industry, Portland General Electric Co in OR](util-industrial-u861-15248-or.png)
 

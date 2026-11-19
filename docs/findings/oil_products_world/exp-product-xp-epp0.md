@@ -2,7 +2,7 @@
 
 Draft `scan-deep-08067f5a918f` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of all petroleum products was 6,823 thousand barrels a day in 2025, against 4,273 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of all petroleum products were 6,823 thousand barrels a day in 2025, against 4,273 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, all petroleum products](exp-product-xp-epp0.png)
 

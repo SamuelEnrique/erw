@@ -2,7 +2,7 @@
 
 Draft `scan-deep-b300df04e3ec` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The dry natural gas exports of the United States was 7,707 billion cubic feet in 2024, against 49 billion cubic feet in 1980, the first full year the ERW holds.
+**The finding.** The dry natural gas exports of the United States were 7,707 billion cubic feet in 2024, against 49 billion cubic feet in 1980, the first full year the ERW holds.
 
 ![By country: dry natural gas exports, the United States](wog-gas-exports-wog-usa.png)
 

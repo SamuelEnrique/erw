@@ -2,7 +2,7 @@
 
 Draft `scan-deep-203bbd89f068` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales of Florida Power & Light Co in FL was 129.98 TWh in 2025, against 108.51 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales of Florida Power & Light Co in FL were 129.98 TWh in 2025, against 108.51 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells, Florida Power & Light Co in FL](util-total-u861-6452-fl.png)
 

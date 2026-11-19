@@ -2,7 +2,7 @@
 
 Draft `scan-deep-1db607c0194f` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US crude oil exports to Taiwan was 217 thousand barrels a day in 2025, against 131 thousand barrels a day in 2018, the first year with all twelve months listed.
+**The finding.** US crude oil exports to Taiwan were 217 thousand barrels a day in 2025, against 131 thousand barrels a day in 2018, the first year with all twelve months listed.
 
 ![Where us crude goes, Taiwan](exp-crude-dest-xc-ntw.png)
 

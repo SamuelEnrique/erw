@@ -2,7 +2,7 @@
 
 Draft `scan-deep-516ff5645088` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The net imports of electricity of Portugal as a percent of the electricity available to it was 17.7 percent in 2025, against -10.0 percent in 2016, the first full year the ERW holds.
+**The finding.** The net imports of electricity of Portugal as a percent of the electricity available to it were 17.7 percent in 2025, against -10.0 percent in 2016, the first full year the ERW holds.
 
 ![Europe's electricity: net imports, Portugal](eu-net-imports-eu-pt.png)
 

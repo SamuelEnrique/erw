@@ -2,7 +2,7 @@
 
 Draft `scan-deep-7aafd49adf1e` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The year's net exports of the Central region (EIA's region) as a share of its demand was 2.4 percent in 2025, against 3.8 percent in 2019, the first full year the ERW holds.
+**The finding.** The year's net exports of the Central region (EIA's region) as a share of its demand were 2.4 percent in 2025, against 3.8 percent in 2019, the first full year the ERW holds.
 
 ![Net exports and imports by region, the Central region (EIA's region), a net exporter over 2019 to 2025](region-net-rn-cent.png)
 

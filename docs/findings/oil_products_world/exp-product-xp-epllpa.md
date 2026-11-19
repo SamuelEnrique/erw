@@ -2,7 +2,7 @@
 
 Draft `scan-deep-87f03367a49a` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of propane was 1,775 thousand barrels a day in 2025, against 615 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of propane were 1,775 thousand barrels a day in 2025, against 615 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, propane](exp-product-xp-epllpa.png)
 

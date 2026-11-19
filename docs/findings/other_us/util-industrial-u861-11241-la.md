@@ -2,7 +2,7 @@
 
 Draft `scan-deep-9069dd42f5a2` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to industrial customers of Entergy Louisiana LLC in LA was 35.98 TWh in 2025, against 29.75 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to industrial customers of Entergy Louisiana LLC in LA were 35.98 TWh in 2025, against 29.75 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to industry, Entergy Louisiana LLC in LA](util-industrial-u861-11241-la.png)
 

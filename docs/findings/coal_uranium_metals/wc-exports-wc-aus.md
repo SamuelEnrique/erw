@@ -2,7 +2,7 @@
 
 Draft `scan-deep-2beb8a1fa493` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The coal exports of Australia was 399.1 million short tons in 2024, against 46.7 million short tons in 1980, the first full year the ERW holds.
+**The finding.** The coal exports of Australia were 399.1 million short tons in 2024, against 46.7 million short tons in 1980, the first full year the ERW holds.
 
 ![Coal by country: exports, Australia](wc-exports-wc-aus.png)
 

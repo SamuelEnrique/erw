@@ -2,7 +2,7 @@
 
 Draft `scan-deep-47f67551e2cc` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to commercial customers of Omaha Public Power District in NE was 7.88 TWh in 2025, against 3.67 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to commercial customers of Omaha Public Power District in NE were 7.88 TWh in 2025, against 3.67 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to commercial customers, Omaha Public Power District in NE](util-commercial-u861-14127-ne.png)
 

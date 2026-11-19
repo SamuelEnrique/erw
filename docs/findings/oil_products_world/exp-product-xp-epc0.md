@@ -2,7 +2,7 @@
 
 Draft `scan-deep-ea98c36eb6c9` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of crude oil was 3,961 thousand barrels a day in 2025, against 465 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of crude oil were 3,961 thousand barrels a day in 2025, against 465 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, crude oil](exp-product-xp-epc0.png)
 

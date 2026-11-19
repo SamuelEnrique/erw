@@ -2,7 +2,7 @@
 
 Draft `scan-deep-cf8550f568c9` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The retail electricity sales to industrial customers of Entergy Arkansas LLC in AR was 12.06 TWh in 2025, against 7.53 TWh in 2017, the first full year the ERW holds.
+**The finding.** The retail electricity sales to industrial customers of Entergy Arkansas LLC in AR were 12.06 TWh in 2025, against 7.53 TWh in 2017, the first full year the ERW holds.
 
 ![What a utility sells to industry, Entergy Arkansas LLC in AR](util-industrial-u861-814-ar.png)
 

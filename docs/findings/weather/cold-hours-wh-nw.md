@@ -2,7 +2,7 @@
 
 Draft `scan-deep-5987edda5477` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The hours of the year at or below 20 F in the Northwest (EIA's region) was 52 hours in 2024, against 10 hours in 2019, the first full year the ERW holds.
+**The finding.** The hours of the year at or below 20 F in the Northwest (EIA's region) were 52 hours in 2024, against 10 hours in 2019, the first full year the ERW holds.
 
 ![Hours at or below 20 f, the Northwest (EIA's region)](cold-hours-wh-nw.png)
 

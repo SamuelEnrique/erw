@@ -2,7 +2,7 @@
 
 Draft `scan-deep-188786c7a181` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** US exports of residual fuel oil was 113 thousand barrels a day in 2025, against 326 thousand barrels a day in 2015, the first full year the ERW holds.
+**The finding.** US exports of residual fuel oil were 113 thousand barrels a day in 2025, against 326 thousand barrels a day in 2015, the first full year the ERW holds.
 
 ![What the us exports, residual fuel oil](exp-product-xp-eppr.png)
 

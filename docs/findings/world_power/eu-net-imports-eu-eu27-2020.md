@@ -2,7 +2,7 @@
 
 Draft `scan-deep-452a9453718a` of the findings hunt over the whole warehouse (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The net imports of electricity of the European Union (27) as a percent of the electricity available to it was -1.0 percent in 2025, against -0.0 percent in 2016, the first full year the ERW holds.
+**The finding.** The net imports of electricity of the European Union (27) as a percent of the electricity available to it were -1.0 percent in 2025, against -0.0 percent in 2016, the first full year the ERW holds.
 
 ![Europe's electricity: net imports, the European Union (27)](eu-net-imports-eu-eu27-2020.png)
 
