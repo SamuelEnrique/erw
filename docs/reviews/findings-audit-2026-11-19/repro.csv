@@ -4,7 +4,7 @@ brent-wti-spread-us-brent-wti,prices,no,pass,"got 1988 -1.04343, 2025 3.58193; t
 ba-co2-intensity-ba-erco,authorities,yes,not checked,table not on this machine: eia930_ba_supply_hourly,,
 ba-co2-intensity-ba-isne,authorities,yes,not checked,table not on this machine: eia930_ba_supply_hourly,,
 ba-co2-intensity-ba-miso,authorities,yes,not checked,table not on this machine: eia930_ba_supply_hourly,,
-ba-coal-co2-share-ba-erco,authorities,yes,not checked,a table larger than 400 MB for this machine's memory: eia930_all_emissions 1105 MB,,
+ba-coal-co2-share-ba-erco,authorities,yes,not checked,a table larger than 300 MB for this machine's memory: eia930_all_emissions 410 MB,,
 ba-gen-ratio-ba-bpat,authorities,yes,not checked,"table not on this machine: eia930_ba_supply_hourly, eia930_ba_demand_hourly",,
 ba-gen-ratio-ba-gcpd,authorities,yes,not checked,"table not on this machine: eia930_ba_supply_hourly, eia930_ba_demand_hourly",,
 ba-gen-ratio-ba-pacw,authorities,yes,not checked,"table not on this machine: eia930_ba_supply_hourly, eia930_ba_demand_hourly",,
@@ -183,9 +183,9 @@ wog-gas-wog-chn,gas,yes,not checked,table not on this machine: eia_world_oil_gas
 wog-gas-wog-irn,gas,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
 wog-gas-wog-usa,gas,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
 wog-gas-wog-worl,gas,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
-tariff-min-bill-pct,large_load,yes,not checked,table not on this machine: utility_large_load_tariffs,,
-tariff-min-contract-years,large_load,yes,not checked,table not on this machine: utility_large_load_tariffs,,
-tariff-min-demand-mw,large_load,yes,not checked,table not on this machine: utility_large_load_tariffs,,
+tariff-min-bill-pct,large_load,yes,not checked,no Expected line this runner can read: ,runs/archive_restore,1
+tariff-min-contract-years,large_load,yes,not checked,no Expected line this runner can read: ,runs/archive_restore,1
+tariff-min-demand-mw,large_load,yes,not checked,no Expected line this runner can read: ,runs/archive_restore,1
 wait-alberta-electric-system-operat-in-stage-then-withdrawn,large_load,yes,not checked,a table that is internal or held (large_load_wait_summary (internal: license needed)=unknown): no public download,,
 wait-alberta-electric-system-operat-in-stage,large_load,yes,not checked,a table that is internal or held (large_load_wait_summary (internal: license needed)=unknown): no public download,,
 wait-alberta-electric-system-operat-request-to-energized,large_load,yes,not checked,a table that is internal or held (large_load_wait_summary (internal: license needed)=unknown): no public download,,
@@ -235,8 +235,8 @@ wog-oil-use-wog-chn,oil_products_world,yes,not checked,table not on this machine
 wog-oil-use-wog-ind,oil_products_world,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
 wog-oil-use-wog-usa,oil_products_world,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
 wog-oil-use-wog-worl,oil_products_world,yes,not checked,table not on this machine: eia_world_oil_gas_annual,,
-quakes-m3-eq-new-mexico,other_us,yes,not checked,table not on this machine: usgs_comcat_earthquakes_south_central,,
-quakes-m3-eq-texas,other_us,yes,not checked,table not on this machine: usgs_comcat_earthquakes_south_central,,
+quakes-m3-eq-new-mexico,other_us,yes,pass,"got 2010 5, 2025 83; the draft says 5, 83 (tolerance 0.39)",runs/archive_restore,1
+quakes-m3-eq-texas,other_us,yes,pass,"got 2010 9, 2025 67; the draft says 9, 67 (tolerance 0.29)",runs/archive_restore,1
 util-commercial-price-u861-13756-in,other_us,yes,not checked,table not on this machine: eia861m_utility_sales_monthly,,
 util-commercial-price-u861-15500-wa,other_us,yes,not checked,table not on this machine: eia861m_utility_sales_monthly,,
 util-commercial-price-u861-19547-hi,other_us,yes,not checked,table not on this machine: eia861m_utility_sales_monthly,,
@@ -293,21 +293,21 @@ seds-price-ind-sd-ak,tariffs_policy,yes,not checked,table not on this machine: e
 seds-price-ind-sd-ca,tariffs_policy,yes,not checked,table not on this machine: eia_seds_state_energy,,
 seds-price-ind-sd-hi,tariffs_policy,yes,not checked,table not on this machine: eia_seds_state_energy,,
 seds-price-ind-sd-us,tariffs_policy,yes,not checked,table not on this machine: eia_seds_state_energy,,
-pair-against-rp-can-ne,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-against-rp-cent-nw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-against-summer-rp-can-ny,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-against-summer-rp-se-car,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-can-midw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-can-ne,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-can-ny,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-car-mida,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-cent-midw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-cent-nw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-midw-ten,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-flow-rp-se-car,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-side-gap-rg-cal-sw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-side-gap-rg-cent-midw,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
-pair-side-gap-rg-midw-se,trade,yes,not checked,table not on this machine: eia930_region_pair_hourly,,
+pair-against-rp-can-ne,trade,yes,pass,"got 2019 0, 2025 29.5091; the draft says 0, 29.5091 (tolerance 0.1475)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-against-rp-cent-nw,trade,yes,pass,"got 2019 50.742, 2025 15.6525; the draft says 50.742, 15.6525 (tolerance 0.1754)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-against-summer-rp-can-ny,trade,yes,pass,"got 2019 0, 2025 49.8188; the draft says 0, 49.8188 (tolerance 0.2491)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-against-summer-rp-se-car,trade,yes,pass,"got 2019 39.221, 2025 7.88044; the draft says 39.221, 7.88044 (tolerance 0.1567)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-can-midw,trade,yes,pass,"got 2019 1972.51, 2025 277.023; the draft says 1972.51, 277.023 (tolerance 8.477)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-can-ne,trade,yes,pass,"got 2019 1945.43, 2025 432.337; the draft says 1945.43, 432.337 (tolerance 7.565)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-can-ny,trade,yes,pass,"got 2019 1991.6, 2025 211.028; the draft says 1991.6, 211.028 (tolerance 8.903)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-car-mida,trade,yes,pass,"got 2019 362.544, 2025 767.141; the draft says 362.544, 767.141 (tolerance 2.023)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-cent-midw,trade,yes,pass,"got 2019 1019.35, 2025 562.552; the draft says 1019.35, 562.552 (tolerance 2.284)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-cent-nw,trade,yes,pass,"got 2019 7.1629, 2025 253.995; the draft says 7.1629, 253.995 (tolerance 1.234)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-midw-ten,trade,yes,pass,"got 2019 1082.89, 2025 1789.38; the draft says 1082.89, 1789.38 (tolerance 3.532)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-flow-rp-se-car,trade,yes,pass,"got 2019 414.026, 2025 1059.34; the draft says 414.026, 1059.34 (tolerance 3.227)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-side-gap-rg-cal-sw,trade,yes,pass,"got 2019 7.16257, 2025 244.195; the draft says 7.16257, 244.195 (tolerance 1.185)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-side-gap-rg-cent-midw,trade,yes,pass,"got 2021 38.4032, 2024 28.1006; the draft says 38.4032, 28.1006 (tolerance 0.05151)",runs/c506/tables/eia930_region_pair_hourly.csv,1
+pair-side-gap-rg-midw-se,trade,yes,pass,"got 2019 30.2691, 2025 125.462; the draft says 30.2691, 125.462 (tolerance 0.476)",runs/c506/tables/eia930_region_pair_hourly.csv,1
 region-against-rn-cal,trade,yes,not checked,table not on this machine: eia930_region_hourly,,
 region-against-rn-ne,trade,yes,not checked,table not on this machine: eia930_region_hourly,,
 region-net-rn-cal,trade,yes,not checked,"table not on this machine: eia930_region_hourly, eia930_ba_demand_hourly",,
@@ -365,12 +365,12 @@ fr-mean-gas-fr,world_power,yes,not checked,table not on this machine: rte_eco2mi
 fr-mean-solar-fr,world_power,yes,not checked,table not on this machine: rte_eco2mix_france_halfhourly,,
 fr-mean-wind-fr,world_power,yes,not checked,table not on this machine: rte_eco2mix_france_halfhourly,,
 appalachia-share-app-coal,coal_uranium_metals,no,not checked,table not on this machine: eia_coal_production_annual,,
-power-coal-price-us-power-coal,coal_uranium_metals,no,not checked,table not on this machine: eia_coal_delivered_price_annual,,
+power-coal-price-us-power-coal,coal_uranium_metals,no,pass,"got 2001 24.68, 2025 45.85; the draft says 24.68, 45.85 (tolerance 0.1059)",runs/archive_restore,1
 tons-per-employee-us-tons-employee,coal_uranium_metals,no,not checked,table not on this machine: eia_coal_production_annual,,
 underground-share-us-underground,coal_uranium_metals,no,not checked,table not on this machine: eia_coal_production_annual,,
-uranium-price-us-uranium-price,coal_uranium_metals,no,not checked,table not on this machine: eia_uranium_marketing_annual,,
-us-enrichment-share-us-enrich-origin,coal_uranium_metals,no,not checked,table not on this machine: eia_uranium_marketing_annual,,
-us-origin-uranium-us-uranium-origin,coal_uranium_metals,no,not checked,table not on this machine: eia_uranium_marketing_annual,,
+uranium-price-us-uranium-price,coal_uranium_metals,no,pass,"got 2003 10.81, 2025 58.46; the draft says 10.81, 58.46 (tolerance 0.2382)",runs/archive_restore,1
+us-enrichment-share-us-enrich-origin,coal_uranium_metals,no,pass,"got 2003 13.8831, 2025 22.8346; the draft says 13.8831, 22.8346 (tolerance 0.04476)",runs/archive_restore,1
+us-origin-uranium-us-uranium-origin,coal_uranium_metals,no,pass,"got 2003 18.0365, 2025 7.24947; the draft says 18.0365, 7.24947 (tolerance 0.05394)",runs/archive_restore,1
 wyoming-share-wy-coal,coal_uranium_metals,no,not checked,table not on this machine: eia_coal_production_annual,,
 battery-per-peak-caiso-bat-peak,cross_family,no,pass,"got 2019 0.554036, 2025 46.5676; the draft says 0.554036, 46.6193 (tolerance 0.2303)",warehouse/output;warehouse/output,1
 battery-per-peak-ercot-bat-peak,cross_family,no,pass,"got 2019 0.181353, 2025 19.9236; the draft says 0.181353, 19.9236 (tolerance 0.09871)",warehouse/output;warehouse/output,1
@@ -432,8 +432,8 @@ nuclear-share-state-nuc-us,generation_pipeline,no,pass,"got 2001 20.5753, 2025 1
 nuclear-share-state-nuc-vt,generation_pipeline,no,pass,"got 2001 76.1068, 2025 0; the draft says 76.1068, 0 (tolerance 0.3805)",warehouse/output,2
 reactor-outage-days-nuc-6038-1,generation_pipeline,no,not checked,table not on this machine: eia_nuclear_outages_generator_daily,,
 reactor-outage-days-nuc-6152-2,generation_pipeline,no,not checked,table not on this machine: eia_nuclear_outages_generator_daily,,
-res-pv-price-tts-res-ca,generation_pipeline,no,not checked,table not on this machine: lbnl_tracking_the_sun,,
-res-pv-price-tts-res-ma,generation_pipeline,no,not checked,table not on this machine: lbnl_tracking_the_sun,,
+res-pv-price-tts-res-ca,generation_pipeline,no,pass,"got 2001 8308.19, 2023 4150; the draft says 8308.19, 4150 (tolerance 20.79)",runs/archive_restore,1
+res-pv-price-tts-res-ma,generation_pipeline,no,pass,"got 2009 8024.95, 2023 3916.32; the draft says 8024.95, 3916.32 (tolerance 20.54)",runs/archive_restore,1
 small-solar-ratio-state-dpv-ma,generation_pipeline,no,pass,"got 2014 2.00897, 2025 18.7121; the draft says 2.00897, 18.7121 (tolerance 0.08352)",warehouse/output,1
 small-solar-ratio-state-dpv-us,generation_pipeline,no,pass,"got 2014 0.274398, 2025 2.1026; the draft says 0.274398, 2.1026 (tolerance 0.009141)",warehouse/output,1
 solar-midday-share-caiso-mix,generation_pipeline,no,pass,"got 2019 36.9611, 2025 47.8941; the draft says 36.9611, 47.8941 (tolerance 0.05467)",warehouse/output,1
@@ -452,7 +452,7 @@ tight-solar-ercot-tight-solar,markets_operations,no,pass,"got 2019 71.103, 2025 
 tight-solar-pjm-tight-solar,markets_operations,no,pass,"got 2019 19.33, 2025 34.355; the draft says 19.33, 34.355 (tolerance 0.07512)",warehouse/output,1
 tight-wind-ercot-tight-wind,markets_operations,no,pass,"got 2019 17.693, 2025 20.562; the draft says 17.693, 20.562 (tolerance 0.01435)",warehouse/output,1
 wind-solar-cf-ercot-wind-solar-cf,markets_operations,no,pass,"got 2019 32.5883, 2025 29.7117; the draft says 32.5883, 29.7117 (tolerance 0.01438)",warehouse/output,1
-api-gravity-us-api-gravity,oil_products_world,no,not checked,table not on this machine: eia_crude_quality_monthly,,
+api-gravity-us-api-gravity,oil_products_world,no,pass,"got 1985 32.4633, 2025 33.7533; the draft says 32.4633, 33.7533 (tolerance 0.00645)",runs/archive_restore,1
 diesel-premium-us-diesel-premium,oil_products_world,no,pass,"got 1995 -0.001712, 2025 0.562635; the draft says -0.001712, 0.562635 (tolerance 0.002822)",warehouse/output,1
 gas-premium-gasprem-r30,oil_products_world,no,pass,"got 2019 -0.320423, 2025 -0.420423; the draft says -0.320423, -0.420423 (tolerance 0.0005)",warehouse/output,1
 gas-premium-gasprem-sca,oil_products_world,no,pass,"got 2019 0.998231, 2025 1.31219; the draft says 0.998231, 1.31219 (tolerance 0.00157)",warehouse/output,1
@@ -466,58 +466,58 @@ pump-over-spot-us-pump-spot,oil_products_world,no,pass,"got 1991 0.462322, 2025 
 refining-capacity-us-refining-capacity,oil_products_world,no,not checked,table not on this machine: eia_refinery_utilization_monthly,,
 state-crude-share-crude-ak,oil_products_world,no,not checked,table not on this machine: eia_crude_production_state_monthly,,
 state-crude-share-crude-tx,oil_products_world,no,not checked,table not on this machine: eia_crude_production_state_monthly,,
-sulfur-content-us-sulfur,oil_products_world,no,not checked,table not on this machine: eia_crude_quality_monthly,,
+sulfur-content-us-sulfur,oil_products_world,no,pass,"got 1985 0.911667, 2025 1.29917; the draft says 0.911667, 1.29917 (tolerance 0.001938)",runs/archive_restore,1
 supplied-gasoline-us-supplied-gasoline,oil_products_world,no,not checked,table not on this machine: eia_product_supplied_monthly,,
 us-liquids-share-us-world-liquids,oil_products_world,no,not checked,table not on this machine: eia_world_oil_monthly,,
 us-ngpl-share-us-world-ngpl,oil_products_world,no,not checked,table not on this machine: eia_world_oil_monthly,,
-dcfast-ports-dcfast-ca,other_us,no,not checked,table not on this machine: afdc_ev_charging_state_annual,,
-dcfast-ports-dcfast-us,other_us,no,not checked,table not on this machine: afdc_ev_charging_state_annual,,
-ev-share-ev-ca,other_us,no,not checked,table not on this machine: afdc_vehicle_registrations_annual,,
-ev-share-ev-us,other_us,no,not checked,table not on this machine: afdc_vehicle_registrations_annual,,
+dcfast-ports-dcfast-ca,other_us,no,pass,"got 2014 381, 2025 17344; the draft says 381, 17344 (tolerance 84.81)",runs/archive_restore,1
+dcfast-ports-dcfast-us,other_us,no,pass,"got 2014 1494, 2025 68599; the draft says 1494, 68599 (tolerance 335.5)",runs/archive_restore,1
+ev-share-ev-ca,other_us,no,pass,"got 2016 0.460962, 2025 4.81793; the draft says 0.460962, 4.81793 (tolerance 0.02178)",runs/archive_restore,1
+ev-share-ev-us,other_us,no,pass,"got 2016 0.106689, 2025 1.93611; the draft says 0.106689, 1.93611 (tolerance 0.009147)",runs/archive_restore,1
 home-electric-spend-home-elec-dc,other_us,no,not checked,table not on this machine: eia_seds_residential_annual,,
 home-electric-spend-home-elec-us,other_us,no,not checked,table not on this machine: eia_seds_residential_annual,,
 renewable-share-us-renewable-share,other_us,no,pass,"got 1973 4.01907, 2025 8.61838; the draft says 4.01907, 8.61838 (tolerance 0.023)",warehouse/output,1
 carb-allowance-price-us-ca-allowance,prices,no,pass,"got 2013 12.83, 2025 28.055; the draft says 12.83, 28.055 (tolerance 0.07612)",warehouse/output,1
-cheapest-hour-ercot-hb-north,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-cheapest-hour-ercot-hb-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-da-above-rt-share-ercot-lz-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-da-above-rt-share-ercot-lz-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-daily-spread-ercot-hb-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-daily-spread-ercot-hb-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-europe-gas-premium-us-europe-gas,prices,no,not checked,table not on this machine: wb_commodity_prices_monthly,,
-evening-premium-ercot-hb-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-evening-premium-ercot-lz-houston,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
+cheapest-hour-ercot-hb-north,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+cheapest-hour-ercot-hb-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+da-above-rt-share-ercot-lz-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+da-above-rt-share-ercot-lz-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+daily-spread-ercot-hb-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+daily-spread-ercot-hb-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+europe-gas-premium-us-europe-gas,prices,no,pass,"got 2000 -0.45, 2025 8.43667; the draft says -0.45, 8.43667 (tolerance 0.04443)",runs/archive_restore,1
+evening-premium-ercot-hb-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+evening-premium-ercot-lz-houston,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
 henry-hub-volatility-us-henry-hub,prices,no,pass,"got 1997 2.01344, 2025 3.18841; the draft says 2.01344, 3.18841 (tolerance 0.005875)",warehouse/output,1
-hour-to-hour-move-ercot-hb-houston,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-hour-to-hour-move-ercot-hb-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
+hour-to-hour-move-ercot-hb-houston,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+hour-to-hour-move-ercot-hb-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
 industrial-vs-citygate-state-ind-ca,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
 industrial-vs-citygate-state-ind-mi,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
-japan-lng-premium-us-japan-lng,prices,no,not checked,table not on this machine: wb_commodity_prices_monthly,,
+japan-lng-premium-us-japan-lng,prices,no,pass,"got 2000 0.404167, 2025 8.51083; the draft says 0.404167, 8.51083 (tolerance 0.04053)",runs/archive_restore,1
 lcfs-credit-price-us-ca-lcfs,prices,no,pass,"got 2019 191.603, 2025 59.2583; the draft says 191.603, 59.2583 (tolerance 0.6617)",warehouse/output,1
-midday-discount-ercot-lz-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-midday-discount-ercot-lz-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-midday-minus-night-ercot-lz-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
+midday-discount-ercot-lz-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+midday-discount-ercot-lz-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+midday-minus-night-ercot-lz-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
 power-vs-citygate-state-pow-ne,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
 power-vs-citygate-state-pow-wv,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
 residential-markup-state-res-ca,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
 residential-markup-state-res-vt,prices,no,not checked,table not on this machine: eia_gas_prices_state_monthly,,
-spread-4h-ercot-hb-hubavg,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-spread-4h-ercot-hb-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-top-days-share-ercot-hb-houston,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-top-days-share-ercot-hb-south,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_all_hub_prices_history 707 MB,,
-wide-spread-days-ercot-lz-north,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-wide-spread-days-ercot-lz-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-winter-top-share-ercot-lz-north,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
-winter-top-share-ercot-lz-west,prices,no,not checked,a table larger than 400 MB for this machine's memory: ercot_zone_prices_history 573 MB,,
+spread-4h-ercot-hb-hubavg,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+spread-4h-ercot-hb-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+top-days-share-ercot-hb-houston,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+top-days-share-ercot-hb-south,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_all_hub_prices_history 592 MB,,
+wide-spread-days-ercot-lz-north,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+wide-spread-days-ercot-lz-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+winter-top-share-ercot-lz-north,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
+winter-top-share-ercot-lz-west,prices,no,not checked,a table larger than 300 MB for this machine's memory: ercot_zone_prices_history 481 MB,,
 dc-construction-us-dc-build,queues_deals_datacenters,no,not checked,table not on this machine: census_c30_construction_monthly,,
 dc-share-us-dc-share,queues_deals_datacenters,no,not checked,table not on this machine: census_c30_construction_monthly,,
-hosting-jobs-jobs518-ca,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
-hosting-jobs-jobs518-us,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
-hosting-pay-pay518-ny,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
-hosting-pay-pay518-us,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
-hosting-revenue-us-rev518,queues_deals_datacenters,no,not checked,table not on this machine: census_qss_utilities_hosting_quarterly,,
-hosting-sites-est518-ca,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
-hosting-sites-est518-us,queues_deals_datacenters,no,not checked,table not on this machine: census_cbp_hosting_annual,,
+hosting-jobs-jobs518-ca,queues_deals_datacenters,no,pass,"got 2012 70508, 2023 123859; the draft says 70508, 123859 (tolerance 266.8)",runs/archive_restore,1
+hosting-jobs-jobs518-us,queues_deals_datacenters,no,pass,"got 2012 433438, 2023 629527; the draft says 433438, 629527 (tolerance 980.4)",runs/archive_restore,1
+hosting-pay-pay518-ny,queues_deals_datacenters,no,pass,"got 2012 101.094, 2023 247.172; the draft says 101.094, 247.172 (tolerance 0.7304)",runs/archive_restore,1
+hosting-pay-pay518-us,queues_deals_datacenters,no,pass,"got 2012 89.983, 2023 147.665; the draft says 89.983, 147.665 (tolerance 0.2884)",runs/archive_restore,1
+hosting-revenue-us-rev518,queues_deals_datacenters,no,pass,"got 2004 55.394, 2024 374.936; the draft says 55.394, 374.936 (tolerance 1.598)",runs/archive_restore,1
+hosting-sites-est518-ca,queues_deals_datacenters,no,pass,"got 2012 2097, 2023 2698; the draft says 2097, 2698 (tolerance 3.005)",runs/archive_restore,1
+hosting-sites-est518-us,queues_deals_datacenters,no,pass,"got 2012 13950, 2023 18544; the draft says 13950, 18544 (tolerance 22.97)",runs/archive_restore,1
 hybrid-share-southeast-lbnl-hybrid,queues_deals_datacenters,no,pass,"got 2009 0, 2024 13.5957; the draft says 0, 13.5957 (tolerance 0.06798)",warehouse/output,1
 hybrid-share-us-lbnl-hybrid,queues_deals_datacenters,no,pass,"got 2005 0, 2024 37.0398; the draft says 0, 37.0398 (tolerance 0.1852)",warehouse/output,1
 months-by-region-pjm-lbnl-months,queues_deals_datacenters,no,pass,"got 2005 14.9651, 2024 70.3244; the draft says 14.9651, 70.3244 (tolerance 0.2768)",warehouse/output,1
@@ -536,12 +536,12 @@ storage-share-us-req-battery-share,queues_deals_datacenters,no,pass,"got 2005 0,
 withdrawn-by-type-us-type-solar-wd,queues_deals_datacenters,no,pass,"got 2008 99.9833, 2024 76.0316; the draft says 99.9833, 76.0316 (tolerance 0.1198)",warehouse/output,1
 withdrawn-share-pjm-lbnl-wd,queues_deals_datacenters,no,pass,"got 2005 72.1057, 2024 93.3901; the draft says 72.1057, 93.3901 (tolerance 0.1064)",warehouse/output,1
 withdrawn-share-us-lbnl-wd,queues_deals_datacenters,no,pass,"got 2005 65.8044, 2024 88.6678; the draft says 65.8044, 88.6678 (tolerance 0.1143)",warehouse/output,1
-ami-share-ami-il,tariffs_policy,no,not checked,table not on this machine: eia_meters_state_annual,,
-ami-share-ami-us,tariffs_policy,no,not checked,table not on this machine: eia_meters_state_annual,,
+ami-share-ami-il,tariffs_policy,no,pass,"got 2013 6.44129, 2019 92.8218; the draft says 6.44129, 92.8218 (tolerance 0.4319)",runs/archive_restore,1
+ami-share-ami-us,tariffs_policy,no,pass,"got 2013 38.6334, 2019 60.5429; the draft says 38.6334, 60.5429 (tolerance 0.1095)",runs/archive_restore,1
 commercial-sales-com-sales-tx,tariffs_policy,no,pass,"got 2001 87.9121, 2025 174.683; the draft says 87.9121, 174.683 (tolerance 0.4339)",warehouse/output,1
 commercial-sales-com-sales-us,tariffs_policy,no,pass,"got 2001 1083.07, 2025 1503.31; the draft says 1083.07, 1503.31 (tolerance 2.101)",warehouse/output,1
-net-metered-nem-ca,tariffs_policy,no,not checked,table not on this machine: eia_net_metering_state_annual,,
-net-metered-nem-us,tariffs_policy,no,not checked,table not on this machine: eia_net_metering_state_annual,,
+net-metered-nem-ca,tariffs_policy,no,pass,"got 2013 2125.31, 2024 18822.4; the draft says 2125.31, 18822.4 (tolerance 83.49)",runs/archive_restore,1
+net-metered-nem-us,tariffs_policy,no,pass,"got 2013 5461.6, 2024 55808.8; the draft says 5461.6, 55808.8 (tolerance 251.7)",runs/archive_restore,1
 res-over-ind-res-ind-gap-mi,tariffs_policy,no,pass,"got 2001 31.425, 2025 115.192; the draft says 31.425, 115.192 (tolerance 0.4188)",warehouse/output,1
 res-over-ind-res-ind-gap-us,tariffs_policy,no,pass,"got 2001 35.425, 2025 87.7; the draft says 35.425, 87.7 (tolerance 0.2614)",warehouse/output,1
 res-price-res-price-hi,tariffs_policy,no,pass,"got 2001 163.358, 2025 404.75; the draft says 163.358, 404.75 (tolerance 1.207)",warehouse/output,1
