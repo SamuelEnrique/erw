@@ -1,3 +1,5 @@
+Withdrawn by the audit of 19 November 2026 (chain 506): the figure does not reproduce (got filings 14, the draft says 13).
+
 # Large-load tariffs: the minimum contract term
 
 Draft `scan-deep-035a684f6018` of the findings hunt (chain 502), 2026-11-19. State: draft, not reviewed. Review at `/internal/findings`.

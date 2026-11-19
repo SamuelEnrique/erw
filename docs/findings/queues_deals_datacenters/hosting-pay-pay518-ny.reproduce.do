@@ -20,9 +20,13 @@ generate double pay = value if variable == "annual_payroll"
 
 generate double emp = value if variable == "employment"
 
-collapse (sum) pay (sum) emp, by(year entity)
+generate byte haspay = !missing(pay)
 
-drop if pay == 0 | emp == 0
+generate byte hasemp = !missing(emp)
+
+collapse (sum) pay (sum) emp (max) haspay (max) hasemp, by(year entity)
+
+drop if haspay == 0 | hasemp == 0
 
 collapse (sum) pay (sum) emp, by(year)
 
