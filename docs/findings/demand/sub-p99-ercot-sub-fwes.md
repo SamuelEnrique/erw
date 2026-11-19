@@ -2,7 +2,7 @@
 
 Draft `scan-deep-fa9adfc32032` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The 99th-percentile hour of demand in Far West (FWES, a sub-region of ERCO) was 8,763 MW in 2025, against 4,337 MW in 2020, the first full year the ERW holds.
+**The finding.** The 99th-percentile hour of demand in Far West (FWES, a sub-region of ERCO) was 8,763 MW in 2025, against 4,337 MW in 2020, the first year of the window the hunt read; the table holds the measure from 2019.
 
 ![A sub-region's peak hours, Far West (FWES, a sub-region of ERCO)](sub-p99-ercot-sub-fwes.png)
 

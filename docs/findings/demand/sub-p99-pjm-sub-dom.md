@@ -2,7 +2,7 @@
 
 Draft `scan-deep-19bbb7ecebde` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The 99th-percentile hour of demand in Dominion Virginia Power zone (DOM, a sub-region of PJM) was 22,436 MW in 2025, against 18,003 MW in 2019, the first full year the ERW holds.
+**The finding.** The 99th-percentile hour of demand in Dominion Virginia Power zone (DOM, a sub-region of PJM) was 22,436 MW in 2025, against 18,003 MW in 2019, the first year of the window the hunt read; the table holds the measure from 2018.
 
 ![A sub-region's peak hours, Dominion Virginia Power zone (DOM, a sub-region of PJM)](sub-p99-pjm-sub-dom.png)
 

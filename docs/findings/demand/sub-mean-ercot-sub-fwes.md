@@ -2,7 +2,7 @@
 
 Draft `scan-deep-5d357242de6d` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean hour of demand in Far West (FWES, a sub-region of ERCO) was 7,606 MW in 2025, against 3,682 MW in 2020, the first full year the ERW holds.
+**The finding.** The mean hour of demand in Far West (FWES, a sub-region of ERCO) was 7,606 MW in 2025, against 3,682 MW in 2020, the first year of the window the hunt read; the table holds the measure from 2019.
 
 ![A sub-region's mean hour, Far West (FWES, a sub-region of ERCO)](sub-mean-ercot-sub-fwes.png)
 

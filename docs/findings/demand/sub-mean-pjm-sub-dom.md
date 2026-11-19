@@ -2,7 +2,7 @@
 
 Draft `scan-deep-99a9fa233018` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean hour of demand in Dominion Virginia Power zone (DOM, a sub-region of PJM) was 15,403 MW in 2025, against 11,687 MW in 2019, the first full year the ERW holds.
+**The finding.** The mean hour of demand in Dominion Virginia Power zone (DOM, a sub-region of PJM) was 15,403 MW in 2025, against 11,687 MW in 2019, the first year of the window the hunt read; the table holds the measure from 2018.
 
 ![A sub-region's mean hour, Dominion Virginia Power zone (DOM, a sub-region of PJM)](sub-mean-pjm-sub-dom.png)
 
