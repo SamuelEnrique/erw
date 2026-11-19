@@ -5,6 +5,7 @@
 //
 //   node --import ./scripts/battery-awards-page-register.mjs scripts/demand-regions-figures.mjs <out.json> [--places ten,ba-tva]
 //   node --import ./scripts/battery-awards-page-register.mjs scripts/demand-regions-figures.mjs --fixture <dir>
+//   node --import ./scripts/battery-awards-page-register.mjs scripts/demand-regions-figures.mjs --draw <out.html> [--address a=tex&b=ba-erco]
 //
 // The files are read where the site reads them (site/data/regions/, or ERW_REGIONS_DIR in a test). With --fixture the
 // test's fixture (scripts/regions-fixture-demand.mjs: values made by a rule, not data) is written to <dir> as the data
@@ -105,8 +106,18 @@ if (args[0] === "--fixture") {
   const dir = args[1];
   if (!dir) { console.error("usage: demand-regions-figures.mjs --fixture <dir>"); process.exitCode = 2; }
   else { writeFixtureFolder(dir); console.log(`wrote the fixture to ${dir}`); }
+} else if (args[0] === "--draw") {
+  // the view at one address, as the site's own component draws it from the files, written as HTML (for a test, or to read)
+  const C = await import("../lib/countrydemand.ts");
+  const V = await import("../components/demand/Country.tsx");
+  if (!args[1]) { console.error("usage: demand-regions-figures.mjs --draw <out.html> [--address a=tex&b=ba-erco]"); process.exitCode = 2; }
+  else {
+    const q = Object.fromEntries(new URLSearchParams(opt("--address") ?? ""));
+    fs.writeFileSync(args[1], renderToStaticMarkup(createElement(V.Country, { q, index: C.regionsIndex(), fileOf: C.demandPlaceFile })));
+    console.log(`wrote ${args[1]}`);
+  }
 } else if (!args[0] || args[0].startsWith("--")) {
-  console.error("usage: demand-regions-figures.mjs <out.json> [--places ten,ba-tva] | --fixture <dir>");
+  console.error("usage: demand-regions-figures.mjs <out.json> [--places ten,ba-tva] | --fixture <dir> | --draw <out.html> [--address a=tex&b=ba-erco]");
   process.exitCode = 2;
 } else {
   const C = await import("../lib/countrydemand.ts");

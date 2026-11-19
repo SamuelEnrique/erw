@@ -85,6 +85,13 @@ const hasGrowth = (s: Slot) => !!s.area && !!s.period && Number.isFinite(s.perio
 /** The month the year so far runs to, by name, or null when the file does not say. */
 const throughOf = (p: Period) => (typeof p.ytd_through === "string" && /^\d{4}-\d{2}$/.test(p.ytd_through) ? monthName(Number(p.ytd_through.slice(5))) : null);
 
+/** Session 8450 (the reader's read, row 3): a balancing authority that is one of the seven grids is drawn on two views
+ *  from two files, this one's (demand/ba/<code>.json) and the as-metered view's own (data/demand_growth.json). Its name
+ *  as the other views write it, or null for any other place. */
+export const gridOf = (p: Place): string | null => (p.level === "ba" && GRID_NAME[p.code] && slugOf(p.code) ? GRID_NAME[p.code] : null);
+/** The hover beside that link: which file each view reads, and that both figures stand. */
+export const gridFileWhy = (p: Place, name: string) => `The as-metered view draws ${GRID_NAME[p.code]} from the page's own file of the seven grids (EIA's Form EIA-930, read for that one authority; docs/methods/demand_growth.md). This view draws ${name} from the file written for every balancing authority (site/data/regions/${placeFilePath(p)}). The two files are built apart, so a figure here can stand apart from the same figure there. Both stand; neither is corrected to the other.`;
+
 /** The summary of one place, in the form of the as-metered view's first sentence. */
 function Lead({ s, index }: { s: Slot; index: IndexFile | null }) {
   const k = (x: string) => `cd|${s.mark}|sum|${x}`;
@@ -103,6 +110,8 @@ function Lead({ s, index }: { s: Slot; index: IndexFile | null }) {
         {g !== undefined && Number(first.year) === s.period.base ? <>, a change of <N k={k("avg_growth")}>{signed(g)}</N> percent</> : null}
         {first.row.peak_demand_mw !== undefined && last.row.peak_demand_mw !== undefined ? <>, and the highest hour from <N k={k("peak0")}>{whole(first.row.peak_demand_mw)}</N> MW to <N k={k("peak1")}>{whole(last.row.peak_demand_mw)}</N> MW{pg !== undefined && Number(first.year) === s.period.base ? <> (<N k={k("peak_growth")}>{signed(pg)}</N> percent)</> : null}</> : null}.
         {ytd && yg !== undefined ? <>{" "}January to {through} of {ytd.year} ran <N k={k("ytd_growth")}>{signed(yg)}</N> percent against the same months of {s.period.base}.</> : null} Weather is not removed.
+        {/* session 8450 (the reader's read, row 4): a sentence with no percent says why it has none */}
+        {Number(first.year) !== s.period.base ? <>{" "}<span className="font-sans text-xs" data-cd-no-base={s.mark}><Hint words={`no growth since ${s.period.base}`} why={`The file of ${s.name} holds no whole year ${s.period.base}: its first whole year is ${first.year}. A growth since ${s.period.base} needs the same measure in ${s.period.base}, so none is written here; the table of years gives each year's growth on the year before.`} /></span></> : null}
       </p>
     );
   }
@@ -112,6 +121,7 @@ function Lead({ s, index }: { s: Slot; index: IndexFile | null }) {
       <h2 className="mb-1 font-serif text-xl text-accent">
         <span title={placeWords(s, index)} className="cursor-help" data-cd-name={s.mark}>{s.name}</span>
         {s.place.level === "region" && isNewRegion(s.place.code) ? <span className="ml-2 font-sans text-xs" data-cd-new={s.place.code}><Hint words="new to the site" why={`${s.name} is one of the six regions no page of the site drew before 19 November 2026 (${NEW_REGIONS.map((c) => REGION_NAME[c]).join(", ")}): none of the seven grids is in them.`} /></span> : null}
+        {gridOf(s.place) ? <span className="ml-2 font-sans text-xs" data-cd-grid={s.place.code}><Link href={`/demand?area=${slugOf(s.place.code)}`}>{gridOf(s.place)} as metered</Link>{" "}<Hint words="another file" why={gridFileWhy(s.place, s.name)} /></span> : null}
       </h2>
       {body}
     </div>
@@ -277,7 +287,9 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
         lead={<>Demand in each of EIA&apos;s thirteen regions of the lower 48 and in every balancing authority that files with EIA: day by day, year by year since {bases.length === 1 ? bases[0] : "the base year"}, by month and hour of the day, and for a region with the weather taken out. Any two places side by side, from EIA&apos;s hourly record.</>} />
       <p className="mb-6 text-xs text-muted" data-method="1"><SiteLink href={METHODS.country.href}>Method, sources and gaps</SiteLink></p>
 
-      <form method="get" action="/demand" className="mb-3 flex flex-wrap items-end gap-3 bg-paper px-4 py-3 text-sm" data-cd-form="1">
+      {/* session 8450 (the reader's read, row 1): a list is as wide as its longest name, and EIA's names of the balancing
+          authorities are longer than a phone's window; each list is held to the form's width */}
+      <form method="get" action="/demand" className="mb-3 flex flex-wrap items-end gap-3 bg-paper px-4 py-3 text-sm [&_label]:min-w-0 [&_label]:max-w-full [&_select]:max-w-full" data-cd-form="1">
         <input type="hidden" name="view" value="country" />
         <AutoSubmitSelect name="a" value={slots[0].key} options={options} label="Place A" />
         <AutoSubmitSelect name="b" value={slots[1]?.key ?? "none"} options={[{ value: "none", label: "None" }, ...options]} label="Place B" />
@@ -346,7 +358,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
           <ToolSection title="Year by year" id="years"
             note={<>{grown.filter(counted).map((s) =><span key={s.mark} data-cd-screened={s.mark}>Hours left out for {s.name}: <N k={`cd|${s.mark}|screen|jumps`}>{whole(s.file!.screened!.jumps)}</N> that stand apart from their neighbours, <N k={`cd|${s.mark}|screen|zero`}>{whole(s.file!.screened!.not_positive)}</N> at or below zero, <N k={`cd|${s.mark}|screen|blank`}>{whole(s.file!.screened!.blank)}</N> blank.{" "}</span>)}
-              <Hint words="Which hours are used" why="From EIA-930's hourly demand, by the screen of the as-metered view (docs/methods/demand_growth.md): an hour is used when its demand is above zero and does not stand apart from the hours around it, because EIA's file holds faulty hours and a faulty high hour would otherwise be a year's peak. A region's hour needs every one of its balancing authorities that file demand. A year is written when nearly all its hours are used; its average is the mean of those hours. Nothing is filled." />{" "}
+              <Hint words="Which hours are used" why="From EIA-930's hourly demand, by the screen of the as-metered view (docs/methods/demand_growth.md): an hour is used when its demand is above zero and does not stand apart from the hours around it, because EIA's file holds faulty hours and a faulty high hour would otherwise be a year's peak. A region's hour needs every one of its balancing authorities that file demand. A year is written when nearly all its hours are used; its average is the mean of those hours. Nothing is filled. The hours left out are counted from 1 January of the base year to the file's last hour." />{" "}
               <Hint words="The last row of a place" why="The last row of each place compares January to the last whole month of the newest year with the same months of the base year: its growth is against those months, not against the whole base year." /></>}>
             <div className={cols}>
               {slots.map((s) => (
@@ -412,14 +424,17 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
                 <Head key="g" mark="growth" words="Growth" why={wc ? `Percent of the mean of ${t0} to ${t1}. Growth is the sum of the two columns after it.` : "Percent of the mean of the years the fit was made on. Growth is the sum of the two columns after it."} />,
                 <Head key="t" mark="temperature" words="Weather" why="The growth the year's weather explains, percent." />,
                 <Head key="u" mark="unexplained" words="Not explained" why="The growth the weather does not explain, percent." />,
-                <Head key="p" mark="pm" words="Give or take" why="The largest miss, in absolute value, the method made on a year left out of the fit." />,
+                <Head key="p" mark="pm" words="Give or take" why="The largest miss, in absolute value, the method made on a year left out of the fit. In percent, as the column before it." />,
                 <Head key="f" mark="finding" words="Finding" why="Yes only when the part not explained is larger than its give or take. Beyond: the peak hour was hotter (summer) or colder (winter) than any hour of the fit's years, so the fit is reaching past what it was made on and the figure is not called a finding." />]}
               rows={weatherRows} />
             {wc ? (
               <Fold title="The check: years the fit had not seen">
                 <p className="mb-3"><Hint words="What this check is" why={`Each of ${train.join(", ")} is left out in turn; the fit is made on the others and the left-out year is read against them. A place whose customers did not change comes back near zero. What comes back is the method's miss plus whatever really changed that year. The largest of them, in absolute value, is the uncertainty in the table above.`} /></p>
                 <ToolTable minWidth={640} caption={`${figure.name}: growth the weather does not explain in a year left out of the fit, percent`}
-                  head={["Place", ...train.map((y) => `${y} left out`), "Error on an hour left out, percent", "On a day left out"]}
+                  head={["Place",
+                    ...train.map((y) => <Head key={y} mark={`out-${y}`} words={`${y} left out`} why={`The growth of ${figure.name.toLowerCase()} in ${y} that the weather does not explain when the fit is made on the other years and ${y} is read against them, percent.`} />),
+                    <Head key="e" mark="out-hour" words="Error on an hour left out, percent" why="The fit's mean absolute error on an hour of a year it was not made on, as a percent of the hour's demand: each of the fit's years is predicted by a fit made on the others. Source: the fit of the place's file." />,
+                    <Head key="d" mark="out-day" words="On a day left out" why="The same error on a day in place of an hour: mean absolute error, as a percent of the day's demand. Source: the fit of the place's file." />]}
                   rows={wSlots.map((s) => { const w = s.file!.weather!; const none = `The file of ${s.name} does not hold it.`; return { key: s.mark, cells: [s.name,
                     ...train.map((y) => { const h = w.holdout[String(y)]?.[figure.key]; return h ? <N key={y} k={`cd|${s.mark}|h|${y}`}>{signed1(h.unexplained_pct)}</N> : <NOT key={y} why={none} />; }),
                     typeof w.fit?.oos_mape_pct === "number" ? <N key="e" k={`cd|${s.mark}|h|hour`}>{one(w.fit.oos_mape_pct)}</N> : <NOT key="e" why={none} />,

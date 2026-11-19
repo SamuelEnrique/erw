@@ -25,13 +25,15 @@ show fails too, and so does a figure the page shows that the rule does not give.
 view passes (also when no file is on the site yet: nothing to compare, said so), 1 when one does not, 2 on bad input.
 
     python replication/demand/replicate_regions.py --figures <figures.json> [--files <the folder of the page files>]
-                                                   [--strict]
+                                                   [--metered <demand_growth.json>] [--strict]
 
 After the count the script reads each file against itself and against the contract (the growth rows against the
 averages they are formed from, the difference of a region and its grid against the two averages, the days in order
 and each array as long as the days, a year's highest hour against its days' highest hours, a whole day against its
 hours). What does not agree is printed as a note for the data machine and fails nothing, unless --strict is given: a
-file's fault is not the page's.
+file's fault is not the page's. Last, each of the seven grids drawn here as a balancing authority is set beside the
+as-metered view's own file, year by year: two files built apart, both standing, so a difference is a note and never
+a failure.
 
 No row of a warehouse table is read and nothing is written. The files are public (EIA's Form EIA-930, public domain);
 a file whose license line is not "public", or that the figures file gives as held, is not recomputed: the page draws
@@ -391,6 +393,7 @@ def inner(key, file):
         slack = 0.005 + 100 * (0.05 / abs(old) + 0.05 * abs(new) / (old * old))
         return abs(shown - (new - old) / old * 100) <= slack + 1e-9
 
+    check(isinstance(file.get("tz"), str) and "/" in file["tz"], f"tz is {file.get('tz')!r}, not the name of a time zone (the page would write its hours in the server's own)")
     growth = file.get("growth") or {}
     years = growth.get("years") or {}
     base = years.get(str(int(growth["base"]))) if num(growth.get("base")) else None
@@ -453,10 +456,34 @@ def inner(key, file):
     return ok, n, notes
 
 
+def beside_metered(files, metered):
+    """(equal, compared, notes): each of the seven grids drawn here as a balancing authority, its average of each whole
+    year beside the as-metered view's own file (site/data/demand_growth.json). Two files built apart: both stand."""
+    areas = metered.get("areas") or {}
+    notes = []
+    n = same = 0
+    for key, file in sorted(files.items()):
+        area = areas.get(file.get("code")) if key.startswith("ba-") else None
+        if not area:
+            continue
+        for y in whole_years(file.get("growth")):
+            here = file["growth"]["years"][y]["avg_demand_mw"]
+            there = ((area.get("years") or {}).get(y) or {}).get("avg_demand_mw")
+            if not num(there):
+                continue
+            n += 1
+            if abs(here - there) <= 0.051:
+                same += 1
+            else:
+                notes.append(f"  note {key} {y}: this view's file gives {here} MW, the as-metered view's {there} MW ({(here - there) / there * 100:+.2f} percent)")
+    return same, n, notes
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--figures", required=True)
     ap.add_argument("--files", default=os.path.join(ROOT, "site", "data", "regions"))
+    ap.add_argument("--metered", default=None, help="the as-metered view's own file; default: demand_growth.json beside the folder of the page files")
     ap.add_argument("--strict", action="store_true", help="a file that does not agree with itself fails the run")
     a = ap.parse_args()
     try:
@@ -519,6 +546,17 @@ def main():
         if len(notes) > 12:
             print(f"  note {key}: and {len(notes) - 12} more")
     print(f"the files against themselves: {agree} of {checked} checks agree")
+    metered_at = a.metered or os.path.join(os.path.dirname(os.path.abspath(a.files)), "demand_growth.json")
+    if os.path.exists(metered_at):
+        try:
+            with open(metered_at, encoding="utf-8") as f:
+                same, n, notes = beside_metered(files, json.load(f))
+        except (OSError, ValueError) as e:
+            print(f"the as-metered view's file cannot be read: {e}")
+            return 2
+        for line in notes:
+            print(line)
+        print(f"the seven grids as balancing authorities beside the as-metered view: {same} of {n} year averages are equal (both stand)")
     if passed != total:
         return 1
     return 1 if a.strict and agree != checked else 0
