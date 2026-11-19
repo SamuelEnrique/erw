@@ -45,6 +45,10 @@ export const RESOURCE_DECISIONS: ResourceDecision[] = [
     text: "The resource map is a tab of the project map, and the address /resources opens it.",
     def: "A tab of /map.",
     source: "The owner's menu of 12 October 2026 (six pages hold what thirteen held); site/next.config.ts." },
+  { key: "two-lists", session: "session 8607",
+    text: "The layers come in two lists: the first, and a list of layers added beside it. The page reads them as one. Where both name a layer, the first list's entry is the one drawn.",
+    def: "The first list wins a name; with no second list the page is as it was.",
+    source: "site/data/resources/manifest.json and manifest_added.json, both the data side's (data request 542: the coal fields)." },
 ];
 
 export function ResourceDecisions() {

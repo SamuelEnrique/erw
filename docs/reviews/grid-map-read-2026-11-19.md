@@ -85,7 +85,44 @@ Session 8605, 19 November 2026, about 13:40 to 14:10 UTC. The thirteen regions' 
 | 28 | 2, 5 | The average day's chart draws a thin line down to zero where a source crosses zero (solar at dusk, storage, California's "Other") | The seven grids' own chart (`components/mix/Charts.tsx`, the same on CAISO's Mix tab). Changing it changes the seven grids' tabs, which this chain leaves as they are | ruling: for Samuel. Default taken: left as the grids have it |
 | 29 | 1 | A hover read "Carolinas's own balancing authorities" | Site fault: a name ending in s | fixed: "the region's own" |
 | 30 | 1 | New York's own report less its neighbour's is not the gap shown (minus 595,806 and minus 739,194 give 143,388; the gap is 92,049) | Not a fault: the gap is over the hours both reported (336), the neighbour's report over its own 361; the column heads say so on hover | not a fault |
+| 31 | 1 of the first read | The map and the panel say PJM was a net exporter of 811 MW late on 16 November. PJM's own total interchange for that hour, as it files it with EIA, is 82 MW exported | Found by the done line's cross-check (session 8606, `replication/grid/crosscheck_map.csv`): the map's net exchange is the sum of the pairs, each read from one side by the pair rule, and the two sides of a tie need not agree. Each of the 159 pairs is the report EIA publishes, to 1 MW; the sum differs from the authority's own total for 21 of 60 authorities (CAISO: 4,119 MW imported by the pairs, 5,076 MW by its own total) | ruling: whether the hover and the panel should carry the authority's own total beside the sum. Default taken: the sum, as the Network view has had it; the difference is now said in the map's decisions block, with the two figures and their source |
+| 32 | 3, 5 | "Wind 0 MW, 0.0%" for the Carolinas; storage 0 MW for New York and the Mid-Atlantic | Found by the cross-check (`replication/grid/crosscheck_regions.csv`): EIA returns no code at all for those sources in those regions, and the files write 0. A figure not held drawn as zero | data machine: request 551, point 1 |
+| 33 | 5 | California's "other" below zero at midday (row 23) | The cross-check settles what the figure is: in the hour to 2026-11-08 19:00 UTC EIA's own code OTH for California is minus 10,253 MW and its battery code BAT minus 151 MW; the file's "other" is EIA's four codes summed, to the megawatt. What is inside EIA's OTH is EIA's to say | ruling: whether the page should say that California's "other" goes below zero, and how. Default taken: the page says nothing beyond the figure and the Storage row's hover |
 
 ### What this read changed on the page
 
 Six site faults or gaps fixed at their cause, each with a test in `tests/test_session8605.py` (rows 18, 19, 20, 21, 22, 26) and one wording (29). Four rows are the data machine's, in one request (544: rows 19 and 20's cause, 23, 24, 25). One is a ruling with the default taken (28). `site/scripts/check-grid-regions.mjs` on the real files: 25 of 25.
+
+## A second read of the map (session 8612)
+
+Session 8612, 19 November 2026, about 16:25 to 16:35 UTC, on a build of `wip/8602-grid-regions`. The same five readers, each with a case on what the first read did not touch, by `runs/c504_read_map2.mjs` (what the page said: `runs/c504_read_map2.out`; pictures `docs/reviews/grid-map-2026-11-19/case6*.png` to `case10*.png`).
+
+### The five cases
+
+6. **The transmission planner.** "A day from the archive: Winter Storm Elliott, 23 December 2022. Where did PJM send power that day?" The map, then 2022-12-23 in "A day since 2019".
+7. **The power trader.** "The June 2025 heat: what was New England taking, from whom, at what price?" The map, then the story "The June 2025 heat".
+8. **The student.** "The Southwest as a region: which balancing authorities, and the Salt River Project among them on the map." `/grid?region=sw&view=network&shape=map`, at 1280 and 390 px.
+9. **The siting analyst.** "Play the year: how does Arizona's trade move through 2026?" The map, then "Play the year".
+10. **The battery developer.** "ERCOT's batteries this week: charging or discharging, and how much?" `/grid?grid=ercot&view=network&shape=map&batteries=1`.
+
+### What each reader got
+
+- **Case 6.** Answered. On 23 December 2022 (EIA's Eastern day, the day's average) PJM was a net exporter of 7,481 MW over seven ties: 3,197 MW to MISO, 1,879 MW to the Tennessee Valley Authority, 1,226 MW to NYISO. PJM's demand averaged 112,989 MW; TVA was a net importer of 5,789 MW. The address holds the day (`net=day&t=2022-12-23`); the slider steps day by day through the year.
+- **Case 7.** Answered. Early on 20 June 2025 New England was a net importer of 1,160 MW over three ties (848 MW from New York), on 13,057 MW of demand; its panel gives the hub price that hour (35.52 USD/MWh in real time). The story plays as soon as it is pressed, so three hovers a moment apart read three hours (row 38).
+- **Case 8.** Answered after the fix of row 35. The list names the region's ten authorities; the Salt River Project's hover on the map gives its figures. Before the fix a click on it in the list opened its panel in the 3D network and the map was gone.
+- **Case 9.** Answered. The year plays at about five days a second (8 January to 8 March 2026 in twelve seconds); a hover answers while it plays (Arizona Public Service on 9 March: demand 3,916 MW on average, net imports 1,607 MW over eight ties); stopped, the address holds the day.
+- **Case 10.** Not answered as the page stood: at the hour the map opens on, ERCOT's batteries read "not reported for this hour" and no ring is drawn anywhere, with no word on where a report is. Thirty hours back five grids report (ERCOT charging 978 MW at 2026-11-15 22:00 UTC). After the fix of row 36 the map says so and names the newest hour that holds a report.
+
+### The rows
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 34 | 7, 9 | While a story or the year plays, the address does not name it (it reads `?grid=us48&view=network&shape=map`); paused, it does (`net=east_heat_2025&t=...`). The page says "The address holds what you are looking at: copy it to share the view" | The network's own rule, in both shapes and on production: "while it plays the address would change five times a second" (`site/app/network/Network.tsx`) | ruling: whether the address should take the story's name at once and the hour when it is paused. Default taken: left as the network has it |
+| 35 | 8 | In the Map shape, a click on an authority in a region's list opened its panel in the 3D network: the map was gone | Site fault of session 8602: the list's links are drawn on the server, which does not know the shape the reader switched to | fixed (session 8612): the link keeps the shape (`site/components/grid/BaLink.tsx`, `keepShape`); a check clicks one in the Map shape |
+| 36 | 10 | With the Batteries switch on, the map opened on an hour with no battery report: no ring, and nothing said | Site gap, made visible by the live set's lag (request 543) | fixed (session 8612): under the map, "No battery is reported for this hour. The newest hour of this view that holds a report: 2026-11-16 07:00 UTC (1 grid). Move the slider there to see the rings." With a ring drawn the line is not there |
+| 37 | 6 | In a replayed day a region's carbon intensity is a whole number (405 kg CO2/MWh) where the live hour gives two decimals (405.71) | Two tables: the day's figure is `carbon_intensity_daily`, the hour's `carbon_intensity_hourly`; each is shown as the Network view's panel shows it | not a fault |
+| 38 | 7 | A story plays as soon as it is pressed, so a hover's hour moves on under the reader | "Watch" plays; Pause stops it, and the address then holds the hour | not a fault |
+
+### What the second read changed on the page
+
+Two site faults fixed at their cause, each with a test in `tests/test_session8612.py` (rows 35 and 36). One ruling with the default taken (34). On a build: `check-grid-map.mjs` 53 of 53, `check-grid-regions.mjs` 26 of 26.

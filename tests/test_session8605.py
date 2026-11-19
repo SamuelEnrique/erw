@@ -185,7 +185,7 @@ class TheStorageRow(unittest.TestCase):
     def test_the_row_carries_the_hover_in_both_tables(self):
         v = src("site", "components", "grid", "RegionViews.tsx")
         self.assertIn('data-storage-note="1"', v)
-        self.assertEqual(v.count("{named(s.key)}"), 2)
+        self.assertEqual(v.count("{named(s.key)}"), 3)                       # the latest hour's rows, the shares' rows, and (session 8610) the shares' blank rows
 
 
 class TheRest(unittest.TestCase):

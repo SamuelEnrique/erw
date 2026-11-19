@@ -32,6 +32,8 @@ U.S. Geological Survey Open-File Report 2012-1205: East, J.A., 2013, Coal fields
 
 The web file draws each polygon simplified (Douglas-Peucker with topology kept, coordinates to three decimals): 544,878 bytes at a tolerance of 0.005 degrees on the first build.
 
+The map's layer form (`site/data/resources/layers/coal_fields.json`, its entry in `site/data/resources/manifest_added.json`; session 8009, data request 542) gives each field's area as `value` in square miles, the unit of the map's other outlines (EIA's basins and plays), and the square kilometres beside it as `AREA_KM2`: the area is computed on a sphere from the source's polygon in square kilometres and divided by 2.589988110336 (session 8011, data request 552). Its entry's `notes_for_method` is the sentence alone; this note is named in `method_note`. Rebuild only the map's form with `resource_tables.py --map-only`.
+
 ## Not pulled, and why (for Samuel's ruling, default "not pulled")
 
 - **Uranium and critical-mineral deposits.** USGS's mineral deposit databases (MRDS, USMIN) are served from `mrdata.usgs.gov`, whose robots file opens with `User-agent: *` and `Disallow: /` (a second group for `*` disallows only some paths; the stricter reading is kept), and from ScienceBase (`www.sciencebase.gov`), whose robots file disallows ClaudeBot, Claude-User and anthropic-ai by name. Neither was read. EIA's U.S. Energy Atlas catalog (read 19 November 2026) lists no uranium or mineral deposit layer. The held `usgs_mcs_critical_minerals` is national commodity statistics, not places, so it draws no layer.
