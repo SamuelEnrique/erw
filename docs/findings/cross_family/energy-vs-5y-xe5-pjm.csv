@@ -1,0 +1,11 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate energy_vs_5y, region xe5_pjm (PJM (PJM; FERC 714 planning area 119))
+# Computed 2026-11-19T12:19:48Z by warehouse/analysis/findings/deep/cross_family.py (energy_vs_5y); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's actual demand against what the area's filing of 5 years before forecast, percent (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly, ferc714_planning_area_forecasts
+region,year,value,n_observations,full_year
+xe5_pjm,2019,-9.48762627405032,1.0,1
+xe5_pjm,2020,-8.458100176893879,1.0,1
+xe5_pjm,2021,-2.949592096682774,1.0,1
+xe5_pjm,2023,-3.499588827013478,1.0,1
+xe5_pjm,2024,0.009562949827901512,1.0,1
+xe5_pjm,2025,6.0727360461019675,1.0,1
