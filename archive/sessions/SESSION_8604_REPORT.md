@@ -1,10 +1,10 @@
 # Session 8604 report (portable-laptop, 19 November 2026)
 
-Energy Research Warehouse (ERW). Chain 504, part E: the reader's read of the Grid tool's map. About 13:10 to 14:05 UTC. Branch `wip/8602-grid-regions` at `41f2cdb14` (landing request row 42, its head moved). Model spend USD 0; no model was called.
+Energy Research Warehouse (ERW). Chain 504, part E: the reader's read of the Grid tool's map. About 13:10 to 13:35 UTC. Branch `wip/8602-grid-regions` at `0211e5b36` (landing request row 42, its head moved). Model spend USD 0; no model was called.
 
 ## At the top: one thing the chain did not ask for
 
-**The 3D network now draws, as it opens, the hour its own slider names.** The chain says the network stays exactly as it is. The read found a fault in it, on production too: the scene is built on the week's newest hour, but since session 124 the page opens on the newest hour every reporting pair holds, usually earlier. Until the slider was moved the scene drew the newest hour's ties under a line that named the other hour (on production at about 13:55 UTC: 139 ties drawn for 2026-11-17 04:00 UTC, whose own count is 148). It is fixed: the scene takes the hour shown as soon as it is ready. Against a build of main on the same snapshot the page's markup is identical (0 characters differ), the spheres' colors and places are the same, and the scene's ties are 148 where main's are 139. If you would rather the network were left as it was, this is one line of `site/app/network/Network.tsx` to put back.
+**The 3D network now draws, as it opens, the hour its own slider names.** The chain says the network stays exactly as it is. The read found a fault in it, on production too: the scene is built on the week's newest hour, but since session 124 the page opens on the newest hour every reporting pair holds, usually earlier. Until the slider was moved the scene drew the newest hour's ties under a line that named the other hour (on production at about 13:20 UTC: 139 ties drawn for 2026-11-17 04:00 UTC, whose own count is 148). It is fixed: the scene takes the hour shown as soon as it is ready. Against a build of main on the same snapshot the page's markup is identical (0 characters differ), the spheres' colors and places are the same, and the scene's ties are 148 where main's are 139. If you would rather the network were left as it was, this is one line of `site/app/network/Network.tsx` to put back.
 
 ## What was done
 
