@@ -459,6 +459,13 @@ for _t in ("census_county_population", "eia_county_region", "noaa_region_station
 # Session 8000 (chain 501, step B2): the balancing authority areas, public, written after the v1 package was prepared: held the same way
 STORAGE_HELD["ba_boundaries"] = ("held: first written on 19 November 2026 (chain 501, session 8000), after the v1 package was "
                                  "prepared; not on Redivis: in v1 when the owner adds it to the package's list")
+# Session 8001 (chain 501, step B5): net generation by source for the thirteen regions, public, about 740 MB: held the same way
+STORAGE_HELD["eia930_region_fuel_hourly"] = ("held: first written on 19 November 2026 (chain 501, session 8001), after the v1 package "
+                                             "was prepared; not on Redivis (about 740 MB): in v1 when the owner adds it to the package's list")
+# Session 8002 (chain 501, part C): who trades with whom, four derived tables, public: held the same way
+for _t in ("interchange_pair_daily", "interchange_pair_monthly", "ba_trade_partners", "interchange_event_pairs"):
+    STORAGE_HELD[_t] = ("held: first written on 19 November 2026 (chain 501, session 8002), after the v1 package was prepared; "
+                        "not on Redivis: in v1 when the owner adds it to the package's list")
 
 
 UNSETTLED_WHY = "its ERW verdict is unsettled (docs/licenses.md: a publisher's terms not read or not settled); out of v1 until it is settled (chain 229, session 4109)"
