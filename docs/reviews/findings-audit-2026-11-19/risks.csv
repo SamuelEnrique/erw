@@ -2,5 +2,7 @@ slug,risk
 quakes-m3-eq-new-mexico,"The table is one snapshot of exactly 16,000 earthquakes (its header); if USGS's answer was cut at a count, the early years could be short. The header does not say the query began on 1 January 2010."
 quakes-m3-eq-texas,"The table is one snapshot of exactly 16,000 earthquakes (its header); if USGS's answer was cut at a count, the early years could be short. The header does not say the query began on 1 January 2010."
 gas-evening-share-caiso-mix,"CAISO changed how it collects natural gas output in December 2023 (a search result), so 2019 and 2025 may not be measured alike."
-tariff-min-bill-pct,"The table of filed tariffs grows as filings are read: a filing added later moves the median and the count (the contract-term draft was withdrawn for that)."
-tariff-min-demand-mw,"The table of filed tariffs grows as filings are read: a filing added later moves the median and the count (the contract-term draft was withdrawn for that)."
+tariff-min-bill-pct,The table of filed tariffs grows as filings are read: a filing added later moves the median and the count (the contract-term draft was withdrawn for that).
+tariff-min-demand-mw,The table of filed tariffs grows as filings are read: a filing added later moves the median and the count (the contract-term draft was withdrawn for that).
+gulf-gas-gulf,"BOEM lease reports count gas as produced at the lease (gross); EIA counts marketed gas, about 1.7 to 1.8 Bcf a day in 2025 against the draft 2.08. The sentence says production, which a reader may take as EIA marketed."
+sub-mean-pjm-sub-dom,EIA-930 subregion demand as PJM reports it to EIA; a change in the zone or in how PJM reports it would move the level.
