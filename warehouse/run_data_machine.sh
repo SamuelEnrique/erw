@@ -309,6 +309,9 @@ soft_step dm_forecast_error "$PYTHON" warehouse/derived/forecast_error.py
 # Session 8013 (chain 505, part D2): the operators' wind and solar forecasts beside the output (site/data/regions/
 # renewables_forecast.json), from caiso_wind_solar_forecast and ercot_wind_solar_forecast; no table of its own
 soft_step dm_renewable_forecast_error "$PYTHON" warehouse/derived/renewable_forecast_error.py
+# Session 8013 (chain 505, part E2): what power costs across the map (site/data/regions/prices_map.json), from the public
+# price tables price_compare.py reads; no table of its own
+soft_step dm_prices_map "$PYTHON" warehouse/derived/prices_map.py
 for t in eia930_forecast_error_hourly eia930_forecast_error_daily; do soft_step "dm_stores_$t" "$PYTHON" warehouse/table_stores.py "$t" --no-redivis; done
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
@@ -533,7 +536,7 @@ if grep -qE "^(dm_mix_profile|dm_curtailment_profile) ok" "$status"; then
 fi
 # Session 8008 (chain 501 step B8): the whole country's page files and industry.json, with the tests that hold them to
 # their contract (docs/state/page_files_regions.md); a refused build is put back whole.
-group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_authority_facts dm_forecast_error dm_renewable_forecast_error" "tests.test_session8001_regions_pages tests.test_session8002_interchange_pairs tests.test_session8012_authority_facts tests.test_session8012_forecast_error tests.test_session8013_renewable_forecast" --   site/data/regions site/data/industry.json
+group dm_test_regions "dm_region_files dm_interchange_pairs dm_industry_page dm_authority_facts dm_forecast_error dm_renewable_forecast_error dm_prices_map" "tests.test_session8001_regions_pages tests.test_session8002_interchange_pairs tests.test_session8012_authority_facts tests.test_session8012_forecast_error tests.test_session8013_renewable_forecast tests.test_session8013_prices_map" --   site/data/regions site/data/industry.json
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"

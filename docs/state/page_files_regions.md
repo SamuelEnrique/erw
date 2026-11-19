@@ -292,6 +292,19 @@ The operator's own day-ahead forecast of wind and solar output beside the output
 
 Signs: a miss is the forecast less the output; above zero the forecast was high. `wape_pct` is the absolute misses summed over the output summed, in percent.
 
+## 13. `site/data/regions/prices_map.json` (chain 505, part E2)
+
+What power costs across the map: every hub and load zone whose day-ahead price a page may show, with the authority and region it sits in, for the "Price" switch of the Grid tool's map. Computed from the public price tables `warehouse/derived/price_compare.py` reads, with its reader, hourly rule and license and pause handling; no table of its own. Method: `docs/methods/prices_map.md`. Builder: `warehouse/derived/prices_map.py`, in the data machine's daily run.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `measures`, `rules` | | as in the other files; `measures` gives each measure's unit |
+| `grids[]` | list | `{ grid, iso, ba, region, tz, state }`: `state` is `shown`, `held` (license needed) or `paused`, with `why` for the last two; `hubs` counts a shown grid's hubs and zones |
+| `hubs[]` | list | one object a shown hub or zone: `entity`, `node`, `grid`, `ba`, `region`, `table`, `day` (the newest whole local day before the build's day), `day_avg`, `day_on_peak`, `day_off_peak`, `day_spread_top4_bottom4` (USD/MWh), `avg_30d`, `negative_share_30d_pct`, `avg_12m`, `negative_share_12m_pct`; a window short of 95 percent of its hours is `null` with `window_30d_why` or `window_12m_why` |
+| `bas.<code>` | object | what the map colors an authority's area by: the grid's main hub (`hub`, the board's choice) and its measures, or `state` and `why` |
+
+A held grid carries its key with no figure and the words "license needed".
+
 ## Changes
 
 - 19 November 2026, session 8000: first version.
@@ -310,3 +323,4 @@ Signs: a miss is the forecast less the output; above zero the forecast was high.
 - 19 November 2026, session 8012 (chain 505, part C): section 10, every balancing authority's own facts (`authority/<code>.json`, `authority/region-<code>.json`); no key of another section moves.
 - 19 November 2026, session 8012 (chain 505, part D1): section 11, the day-ahead demand forecast beside the demand that came (`forecast/<region>.json`, `forecast/ba/<code>.json`); no key of another section moves.
 - 19 November 2026, session 8013 (chain 505, part D2): section 12, the operators' wind and solar forecasts beside the output (`renewables_forecast.json`); no key of another section moves.
+- 19 November 2026, session 8013 (chain 505, part E2): section 13, what power costs across the map (`prices_map.json`); section 12's file is `renewables_forecast.json`, beside the folder `forecast/`, which keeps the region files alone. No key of another section moves.
