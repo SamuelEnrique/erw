@@ -8,7 +8,7 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part A, family 1, who trades with whom: done, 34 drafts in `docs/findings/trade/` (6349e6206), 34 of 34 reproduce, loaded to scanner_drafts; code `wip/8201-findings` (84d106e33), landing row 1 requested; session 8201.
 - Part A, family 2, the six regions: done, 27 drafts in `docs/findings/regions/`, 27 of 27 reproduce, loaded; code `wip/8202-findings` (53dd21ebe); session 8202.
 - Part A, family 3, demand against temperature: done, 15 drafts in `docs/findings/weather/`, 15 of 15 reproduce, loaded; code `wip/8202-findings` (11ca02472); session 8203.
-- Part A, family 4, the nine events: not started.
+- Part A, family 4, the nine events: done, 30 drafts in `docs/findings/events/`, 30 of 30 reproduce, loaded; code `wip/8202-findings`; session 8204.
 - Part A, family 5, balancing authorities: not started.
 - Part A, family 6, large loads: not started.
 - Part A, family 7, the rest: not started.
