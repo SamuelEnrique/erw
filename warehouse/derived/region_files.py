@@ -203,7 +203,13 @@ def daily(used, raw, tz):
     v = df.dropna()
     idx = v.groupby("day")["v"].idxmax()
     days = list(n_hours.index)
-    whole = {d_: bool(n_used[d_] == n_hours[d_]) for d_ in days}
+    # session 8009 (data request 328 of the old laptop): a day is whole when every hour of the local calendar day is used,
+    # 23, 24 or 25 of them, not every hour the record happens to hold of it: the first and last local days of a record
+    # hold only part of themselves and are not whole
+    def day_hours(d_):
+        a = pd.Timestamp(d_, tz=tz)
+        return int(((a + pd.DateOffset(days=1)) - a) / pd.Timedelta(hours=1))   # a calendar day: 23, 24 or 25 hours
+    whole = {d_: bool(n_used[d_] == day_hours(d_)) for d_ in days}
     return {"days": days,
             "demand_mwh": [round(float(s[d_]), 1) if whole[d_] else None for d_ in days],
             "peak_mw": [round(float(mx[d_]), 1) if whole[d_] else None for d_ in days],
@@ -528,6 +534,18 @@ def main(argv=None):
                     continue
                 doc = demand_doc(c, x["name"], x["tz"] or tz_of[x["region"]], "ba", s, "ba", None)
                 doc["region"] = x["region"]
+                if c in GRIDS:   # session 8009 (data request 329): one of the seven grids, beside its own file's yearly averages
+                    ga = grids_growth.get(c, {}).get("years", {})
+                    yrs = {}
+                    for y, row in doc["growth"]["years"].items():
+                        a_, b_ = row.get("avg_demand_mw"), ga.get(y, {}).get("avg_demand_mw")
+                        if a_ is not None and b_ is not None:
+                            yrs[y] = {"region_avg_demand_mw": a_, "grid_avg_demand_mw": b_, "difference_pct": round(100 * (a_ - b_) / b_, 2)}
+                    doc["alike"] = {"grid": c, "grid_file": "site/data/demand_growth.json", "years": yrs,
+                                    "why": ("this file reads the authority's demand from EIA's six-month files (eia930_ba_demand_hourly: EIA's "
+                                            "adjusted demand where the file prints it, else as reported); the grid's file reads EIA's workbook "
+                                            "of that one authority, with California's late hours of November 2023 to December 2025 set back; "
+                                            "this file moves no hour")}
                 sizes[f"demand/ba/{c.lower()}.json"] = write(site, f"demand/ba/{c.lower()}.json", doc)
             print(f"{now()} demand of the authorities", flush=True)
     fuel = None
