@@ -1,6 +1,6 @@
 # Chain 504, the portable laptop, 19 November 2026: where it stands
 
-Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
+Energy Research Warehouse (ERW). Sessions 8600 to 8620 so far (10:40 to 19:52 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
 
 ## Read these first
 
@@ -16,7 +16,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 - **Part A, the browser reads.** About forty rows settled over the day; 5 left, each waiting for the old laptop's next landing (418 to 422).
 - **Part B, the map of balancing authorities.** Done to the done line. Landed through session 8605 (the desk's stack d, 16:50 UTC) and read on production at 1280 and 390 px: main's own check 49 of 49. The rest waits at the desk.
   - The toggle Map, Network, Gravity in the address; regions colored on the spheres' scale; ties with width and motion; hovers; the same controls; a phone.
-  - Opens in 0.4 to 0.8 s after "Map" is chosen, and is not loaded before.
+  - Not loaded before "Map" is chosen. On production it opens about 0.2 s after the press (0.9 s the first time) and 0.7 to 1.1 s from a cold open of its address, at both widths.
   - Replication 439 of 439. Cross-check: each of 159 pairs is the report EIA publishes, to 1 MW.
   - Accessibility: two faults found and fixed (a keyboard and a screen reader now reach each region).
 - **Part C, the thirteen regions in the Grid tool.** Done to the done line on the data machine's real files.
@@ -32,7 +32,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 
 ## Waiting at the landing desk (`docs/state/landing_request_portable.md`)
 
-- Row 42, `wip/8602-grid-regions` at `6ebefa10a` (main merged in). Landed through `c527a0bb7` (stacks e and f, the second at 18:28 UTC); what came after waits for the desk's next gate.
+- Row 42, `wip/8602-grid-regions` at `cd7a504d4` (main merged in). Landed through `c527a0bb7` (stacks e and f, the second at 18:28 UTC); what came after waits for the desk's next gate.
 - Row 43, `wip/8603-resources` at `60edf1b72` (main merged in). Landed through `4e2b2b54c` (stacks e and f); what came after waits for the desk's next gate.
 
 ## Asked of the data machine (`docs/state/data_requests_done_line.md`)
@@ -78,9 +78,9 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8619 so far (10:40 to 19:49 UT
 
 ## To finish (the laptop ran short of memory at about 19:00 UTC)
 
-- The system stopped the whole suite (after 4 of 33 batches) and the two local servers. I did not start them again.
+- The system stopped the whole suite (after 4 of 33 batches) and the two local servers. I did not start them again. Memory came back at about 19:48 UTC (3.4 GB free); they stay stopped until you say.
 - Not seen in a browser at all: the hover's new words for the wind sites and the hot-water systems (session 8618), which need a build with the data machine's file.
 - Not proven on this laptop since: the whole suite on either branch; a browser check of the resources head `5659bf6ae` on a build. The landing gate runs both.
 - To run them: from a branch's root, `ERW_LOCK_EXEMPT=1 .venv\Scripts\python.exe scripts\suite_batches.py --batch 40`; then `runs\c504_rebuild.ps1`, serve, and `node scripts/check-resources.mjs http://localhost:3505` (expect 102 of 105).
 
-Last written: 19:49 UTC, session 8619.
+Last written: 19:52 UTC, session 8620.
