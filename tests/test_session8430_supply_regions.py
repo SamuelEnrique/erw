@@ -136,8 +136,9 @@ class TheSource(unittest.TestCase):
         # server trace does not find the files on its own: next.config.ts names such a folder for its page
         # (outputFileTracingIncludes, as data/datacenter and data/seller/hubs are named). Until the files land there is
         # nothing to name; from the day they are on a branch, a build without the line would draw "not built yet" for good.
-        if not os.path.isdir(os.path.join(SITE, "data", "regions")):
-            self.skipTest("site/data/regions is not on this branch yet")
+        folder = os.path.join(SITE, "data", "regions")
+        if not any(os.path.exists(os.path.join(folder, name)) for name in ("trade", "mix", "trade_matrix.json")):
+            self.skipTest("the trade, matrix and mix files are not on this branch yet")
         m = re.search(r'"/supply": \[([^\]]*)\]', src("site", "next.config.ts"))
         self.assertTrue(m and "./data/regions/" in m.group(1), 'next.config.ts: outputFileTracingIncludes needs "/supply": ["./data/regions/**/*.json"]')
 
