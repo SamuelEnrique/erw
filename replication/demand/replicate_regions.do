@@ -32,6 +32,9 @@
 version 16
 clear all
 set more off
+capture program drop erw_local
+capture program drop erw_screen
+capture program drop erw_place
 
 program define erw_local
     * args: zone ("central" or "eastern"); makes local_year from ts (UTC, Stata clock)
