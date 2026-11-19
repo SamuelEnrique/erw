@@ -353,6 +353,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   const opened = await evaluate(`new URLSearchParams(window.location.search).get('node')`);
   check(!!focused && focused[0] === kbd.region[2] && focused.some((l) => /^Net (imports|exports)|^No tie reported/.test(l)) && opened === kbd.region[3],
     `with the keyboard alone: a region focused shows its name and figures (${(focused ?? []).slice(0, 3).join(" | ").slice(0, 120)}), and Enter opens its panel (node=${opened})`);
+  // session 8612 (the second read, row 37 of the review): with the Batteries switch on and no ring at the hour shown,
+  // the map says so and where the newest report of the view is; with a ring drawn it says nothing
+  await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  await go(`${base}/grid?view=network&shape=map&batteries=1`);
+  await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "the map");
+  await sleep(1500);
+  const bat = await evaluate(`({ rings: document.querySelectorAll('[data-battery-ring]').length, line: document.querySelector('[data-map-battery-none]')?.innerText.replace(/\\s+/g, ' ') ?? null, when: document.querySelector('[data-map-battery-none]')?.getAttribute('data-map-battery-none') ?? null })`);
+  check(bat.rings > 0 ? bat.line === null : !!bat.line && /^No battery is reported for this hour\./.test(bat.line) && (bat.when === "none" ? /None is reported in this view/.test(bat.line) : bat.line.includes(bat.when)),
+    bat.rings > 0 ? `the batteries on: ${bat.rings} rings at the hour shown, and no line saying there is none` : `the batteries on and no ring at the hour shown: the map says so and where the newest report is (${bat.line})`);
   return bad ? 1 : 0;
 });
 if (code === null) { console.log("not proven here: no browser on this machine (the pure checks above stand)"); process.exit(bad ? 1 : 0); }

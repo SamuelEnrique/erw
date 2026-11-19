@@ -30,7 +30,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
-import { clampDay, dayFrame, easternHours, eveningDay, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
+import { clampDay, dayFrame, easternHours, eveningDay, newestBatteryFrame, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
 import type { MapFigures, MapFrame } from "./NetworkMap";
 import { useBaRegions } from "@/components/grid/BaRegions";
@@ -498,6 +498,15 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
     return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour), region: baRegions?.[id]?.name };
   };
   const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
+  // session 8612 (the second read of the map, row 37): where the newest battery report of the view is, for the map to
+  // say when the frame shown holds none. Read only while the map is shown with its batteries on.
+  const mapBatteryNewest = useMemo(() => {
+    if (shape !== "map" || !batteriesOn) return undefined;
+    const at = newestBatteryFrame(view.hours.length, snap.nodes.map((n) => n.id).filter((id) => view.batteryReported(id)), view.battery);
+    if (!at) return null;
+    const t = view.hours[at.frame];
+    return { when: view.frame === "day" ? t.slice(0, 10) : `${t.slice(0, 13).replace("T", " ")}:00 UTC`, grids: at.grids };
+  }, [shape, batteriesOn, view, snap.nodes]);
   const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);
   // session 266: what the gravity shape draws, from the same view, hour and ties as the panel
   const gravity = useMemo(() => {
@@ -577,7 +586,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         {shape === "map" ? (
           <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
             onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)}
-            frame={mapFrame} figures={mapFigures} battery={batteriesOn ? mapBattery : undefined} sideOf={mapSide} />
+            frame={mapFrame} figures={mapFigures} battery={batteriesOn ? mapBattery : undefined} batteryNewest={mapBatteryNewest} sideOf={mapSide} />
         ) : shape === "gravity" && gravity ? (
           <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
             pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />

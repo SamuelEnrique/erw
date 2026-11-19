@@ -49,7 +49,7 @@ type Hover = { kind: "region" | "listed" | "flow"; id: string; x: number; y: num
 /** Session 8604: a state's outline, for the thin lines that let a reader find a place, and for the state a hover names. */
 type StateShape = { name: string; d: string; feature: GeoPermissibleObjects };
 
-export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, sideOf }: {
+export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onPick, frame, figures, battery, batteryNewest, sideOf }: {
   nodes: MapNode[]; flows: MapFlow[]; maxMw: number;
   /** the color the grid's sphere has for the hour shown (Network.tsx colorOf: the same measure, the same scale) */
   colorOf: (id: string) => string;
@@ -62,6 +62,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   figures?: (id: string) => MapFigures;
   /** session 8601: given while the Batteries switch is on: a grid's batteries in the frame shown and the period's most, or null when none is reported for the period */
   battery?: (id: string) => { mw: number | null; max: number } | null;
+  /** session 8612: the newest frame of the view that holds a battery report and how many grids report in it; null when no frame does. Said under the map when the frame shown draws no ring */
+  batteryNewest?: { when: string; grids: number } | null;
   /** session 8601: which side's report a pair's flow is in the frame shown (lib/networkMap.ts reportedBy) */
   sideOf?: (a: string, b: string) => "first" | "second" | null;
 }) {
@@ -355,6 +357,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       </div>
       {/* session 8601: the grids with no shape in the file, by name, in the map's own frame, right under it: at 1280 px a
           column beside the map took a quarter of the map's width (seen in the browser), so the names run in lines */}
+      {/* session 8612 (the second read of the map, row 37): the Batteries switch is on and the frame shown draws no ring.
+          The map says so, and where the newest report of the view is, so a reader does not take an empty map for no batteries */}
+      {battery && !regions.some((r) => { const b = battery(r.id); return !!b && b.mw !== null && !!b.max; }) ? (
+        <p className="border-t border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink" data-map-battery-none={batteryNewest ? batteryNewest.when : "none"}>
+          No battery is reported for this {unit}.{" "}
+          {batteryNewest ? <>The newest {unit} of this view that holds a report: {batteryNewest.when} ({batteryNewest.grids} grid{batteryNewest.grids === 1 ? "" : "s"}). Move the slider there to see the rings.</> : <>None is reported in this view.</>}
+        </p>
+      ) : null}
       {noShape.length ? (
         <div className="border-t border-rule bg-panel px-2 py-1 text-xs" data-map-listed={noShape.length}>
           <div className="mb-1 cursor-help text-ink" title={`These ${noShape.length} balancing authorities of the network have no boundary in the file the map draws, so they have no region here. Each keeps its hover and its panel; its ties are drawn in the Network view. ${drawnFlows.length} of the ${flows.length} ties moving power in the ${unit} shown have both ends on the map.`}>

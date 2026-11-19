@@ -169,6 +169,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       const pr = await wait(`(() => { const p = document.querySelector('[data-panel="${one}"]'); const r = p?.querySelector('[data-panel-region]'); return p ? { region: r?.getAttribute('data-panel-region') ?? null, href: r?.querySelector('a')?.getAttribute('href') ?? null, search: window.location.search } : null; })()`, 30000, "the authority's panel");
       check(pr.region === pick.code && pr.href === `/grid?region=${slug}` && pr.search.includes(`region=${slug}`) && pr.search.includes(`node=${one}`), `a click on ${one} opens its panel in the network, with the region still in the address; the panel's line "EIA region" opens the region (${pr.href})`);
       await shot(`region_${slug}_network_1280.png`);
+      // session 8612 (the second read of the map): in the Map shape the same click keeps the map (it dropped back to the 3D network)
+      await open(`/grid?region=${slug}&view=network&shape=map`);
+      await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "the map");
+      await evaluate(`document.querySelector('[data-region-ba="${one}"]').click()`);
+      const kept = await wait(`(() => { const p = document.querySelector('[data-panel="${one}"]'); return p ? { search: window.location.search } : null; })()`, 30000, "the authority's panel");
+      await sleep(1500);
+      const shapeNow = await evaluate(`({ search: window.location.search, map: document.querySelector('[data-map-state]')?.getAttribute('data-map-state') ?? null })`);
+      check(kept.search.includes("shape=map") && shapeNow.search.includes(`node=${one}`) && shapeNow.search.includes("shape=map") && shapeNow.map === "held",
+        `in the Map shape a click on ${one} in the region's list opens its panel and the map stays (${shapeNow.search})`);
     }
     // clean
     await open(`/grid?region=${slug}&view=clean`);

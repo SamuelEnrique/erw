@@ -18,6 +18,7 @@ import { Lines } from "@/components/mix/Charts";
 import { Missing } from "@/components/mix/Now";
 import { Chips } from "@/components/mix/views";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { BaLink } from "@/components/grid/BaLink";
 import { RegionHours } from "@/components/grid/RegionHours";
 import { CategoryChart } from "@/components/svgchart";
 import { ToolPicker } from "@/components/tool/Choose";
@@ -285,7 +286,8 @@ export function RegionAuthorities({ region, index, node }: { region: IndexRegion
         {region.bas.map((code) => {
           const b = by.get(code);
           const tip = b ? `${b.name} (${code})${b.generation_only ? ": it files generation and no demand" : ""}${b.retired ? `; retired ${b.retired}` : ""}${b.grid ? "; one of the seven grids" : ""}.` : code;
-          return <li key={code}><Link href={regionHref(region.code, "network", { node: code })} title={tip} aria-current={node === code ? "true" : undefined} className={node === code ? "font-semibold" : ""} data-region-ba={code}>{b?.name ?? code}</Link> <span className="font-mono text-xs">{code}</span></li>;
+          // session 8612: BaLink keeps the Map or Gravity shape the reader is in (the plain link dropped back to the 3D network)
+          return <li key={code}><BaLink href={regionHref(region.code, "network", { node: code })} title={tip} aria-current={node === code ? "true" : undefined} className={node === code ? "font-semibold" : ""} data-region-ba={code}>{b?.name ?? code}</BaLink> <span className="font-mono text-xs">{code}</span></li>;
         })}
       </ul>
     </div>

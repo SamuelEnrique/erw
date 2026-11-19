@@ -37,6 +37,21 @@ export function regionHref(code: string, view: RegionView = "mix", more: Record<
   return `/grid?${q.toString()}`;
 }
 
+/** Session 8612 (the second read of the map, row 36): a link of the Network tab followed while the Map or the Gravity
+ *  shape is shown keeps that shape. The shape is in the address the reader is at (`shape=map`), written by the network
+ *  as it is toggled; the links of a region's list are drawn on the server and do not know it. Given a link and the
+ *  address's query, the link with the shape added; the link as it is when the address names no shape, names one this
+ *  tool does not have, or the link already names one. */
+export function keepShape(href: string, search: string): string {
+  const shape = new URLSearchParams(search).get("shape");
+  if (shape !== "map" && shape !== "gravity") return href;
+  const [path, query = ""] = href.split("?");
+  const q = new URLSearchParams(query);
+  if (q.has("shape")) return href;
+  q.set("shape", shape);
+  return `${path}?${q.toString()}`;
+}
+
 // ------------------------------------------------------------------ the index (section 2 of the contract)
 export type IndexRegion = { code: string; name: string; tz: string; bas: string[]; grids: string[]; first_hour?: string; last_hour?: string };
 export type IndexBa = { code: string; name: string; region: string; tz?: string; grid?: string | null; region_grids?: string[]; generation_only?: boolean; active?: boolean; retired?: string | null; first_hour?: string; last_hour?: string; files?: string[] };
