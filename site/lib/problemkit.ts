@@ -161,6 +161,17 @@ export function keyWords(k: string): string | undefined {
   }
 }
 
+/** Session 8901: the page files (paths under site/data) a key reads, a calc's both parts included, once each. */
+export function pageFilesOfKey(k: string): string[] {
+  return [...new Set([...k.matchAll(/(?:^|[|~])pf[|~]([^|~]+\.json)(?=[|~])/g)].map((m) => m[1]))];
+}
+/** Session 8901: every page file the figures of a question read, in the order a reader meets them. */
+export function pageFilesOf(q: KitQuestion): string[] {
+  const out: string[] = [];
+  for (const part of [...q.answer, ...(q.line ?? []), ...q.steps.flat()]) if (typeof part !== "string") for (const f of pageFilesOfKey(part.k)) if (!out.includes(f)) out.push(f);
+  return out;
+}
+
 /** Every table a key reads, a calc's both parts included, in order and once each. */
 export function tablesOfKey(k: string): string[] {
   const p = k.split("|");

@@ -121,6 +121,11 @@ no input, so nothing is editable in place.
 | `network-hour` | E1 and E2's hour | the newest hour ERCOT's ties report | `site/lib/network.ts` |
 | `seller` | E3 to E5's plants | the seller's model at its defaults | `docs/methods/cost_of_power.md` |
 | `storm-days` | E5's normal days | as many days as the storm | ruling 6a |
+| `page-file` | The four sets of the whole country read committed page files | every figure a `pf\|` key; it moves when the data machine rebuilds the file | `site/lib/pagefile.ts`; session 8901 |
+| `trade-month` | Who trades with whom: the month and the years | the newest month ended when the file was built; years both sides reported in all twelve months | `site/data/regions/trade/ten.json`, `trade_matrix.json` |
+| `storm-hour` | A storm across the country: the hour | each region's highest hour of demand in the window, the first if two are equal | `site/data/regions/events/*.json` |
+| `layer-by-id` | Under the ground and in the wind: the layer | found by its id; the legend's range and the totals as the list of layers gives them | `site/data/resources/manifest.json` |
+| `industry-pick` | Where energy goes: the month, the industries, the year | the newest month with a total and the same month a year before; the first two ranked industries; the newest year both states hold | `site/data/industry.json` |
 
 ### What the sets do not hold
 
