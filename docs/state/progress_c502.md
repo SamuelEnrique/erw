@@ -29,3 +29,4 @@ Chain file: `queue/done/502-day-19-november-desktop-window2-findings-industry.md
 - Part D, second round, forecasts: 12 drafts (revisions of the forecast of five years ahead), 30 of 30 reproduce; code `wip/8202-findings` (04106bd55); session 8219.
 - Part D, second round, authorities: 7 drafts (peak season, load factor), 26 of 26 reproduce; code `wip/8202-findings` (ed384eb87); session 8220.
 - Part D, second round, other_us 2 drafts (earthquakes) and markets_operations 3 drafts (reactor power), both families reproduce in full; code `wip/8202-findings` (caff6b853); session 8221.
+- Part D, second round, cross_family: 8 drafts (utilities' sales against their own FERC 714 forecasts), 25 of 25 reproduce; code `wip/8202-findings` (68c824ce0); session 8222.
