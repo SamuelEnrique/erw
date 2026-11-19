@@ -19,6 +19,14 @@ const [base, out = path.join(here, "regions_page_figures.json")] = process.argv.
 if (!base) { console.error("usage: node replication/grid/regions_figures.mjs <base-url> [out.json]"); process.exit(2); }
 const index = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "site", "data", "regions", "index.json"), "utf-8"));
 
+// session 8613: when each region's two files were built, kept beside the figures. The data machine rebuilt the mix
+// files on 19 November without rebuilding the index, so the index's own stamp does not say that a file changed.
+function filesBuilt() {
+  const dir = path.join(here, "..", "..", "site", "data", "regions");
+  const built = (kind, code) => { try { return JSON.parse(fs.readFileSync(path.join(dir, kind, `${code.toLowerCase()}.json`), "utf-8")).built ?? null; } catch { return null; } };
+  return Object.fromEntries(index.regions.map((r) => [r.code, { mix: built("mix", r.code), trade: built("trade", r.code) }]));
+}
+
 const MIX = `(() => { const v = document.querySelector('[data-region-view="mix"]'); if (!v) return null;
   const t = (e) => (e ? e.innerText.replace(/\\s+/g, ' ').trim() : null);
   const rows = (name) => [...document.querySelectorAll('[data-region-table="' + name + '"] tbody tr')].map((r) => [...r.children].map((c) => t(c)));
@@ -49,7 +57,7 @@ await withBrowser(async ({ go, evaluate, unlock, sleep, send, errors }) => {
     console.log(`${r.code}: now ${mix?.now ?? "none"}, period ${mix?.period ?? "none"}, ${mix?.now_rows.length ?? 0} sources, ${mix?.years_rows.length ?? 0} years; trade ${trade?.month ?? "none"}, ${trade?.rows.length ?? 0} rows`);
   }
   fs.writeFileSync(out, `${JSON.stringify({ what: "the figures the Grid tool's region tabs draw, read from the page", base: base.replace(/^https?:\/\/localhost:\d+/, "a local build"), taken: new Date().toISOString().replace(/\.\d+Z$/, "Z"),
-    index_built: index.built, regions }, null, 1)}\n`);
+    index_built: index.built, files_built: filesBuilt(), regions }, null, 1)}\n`);
   console.log(`${Object.keys(regions).length} regions written to ${path.relative(process.cwd(), out)}; errors in the pages: ${JSON.stringify(errors.slice(0, 4))}`);
   return errors.length ? 1 : 0;
 });

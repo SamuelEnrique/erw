@@ -23,7 +23,7 @@ import { RegionHours } from "@/components/grid/RegionHours";
 import { CategoryChart } from "@/components/svgchart";
 import { ToolPicker } from "@/components/tool/Choose";
 import { SourceLine } from "@/components/tool/ToolPage";
-import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsNotHeld, monthsOf, neighborName, netLoadFile, newestTradeMonth, notPrinted, partMonth, regionHref, storageNote, tradeMonth, whyBlank, whySentence,
+import { ALIKE, MIX_SOURCES, NEW_REGIONS, lastHours, latestHour, monthsNotHeld, monthsOf, neighborName, netLoadFile, newestTradeMonth, notPrinted, partMonth, regionHref, storageNote, tradeMonth, tradeYears, whyBlank, whySentence, yearMonths,
   type Alike, type IndexRegion, type RegionCode, type RegionIndex, type RegionMix, type RegionTrade, type RegionView } from "@/lib/gridregions";
 import * as mix from "@/lib/mix2";
 import { HOURS, n0, n1 } from "@/lib/mixpage";
@@ -115,6 +115,7 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
   // session 8605, the reader's read on the real files: the months the file does not hold are said under the chips, and
   // the Storage row says when one of the region's balancing authorities files no battery series
   const gaps = monthsNotHeld(mixFile);
+  const ofYear = asked && asked.length === 4 ? yearMonths(mixFile.years[asked]) : null;   // session 8613: a year's own months
   const never = notPrinted(mixFile);   // session 8610: the sources the file names as never printed by any authority of the region
   const battery = storageNote(region);
   const named = (key: string) => (key === "storage" && battery ? <span title={battery} className="cursor-help border-b border-dotted border-muted" data-storage-note="1">{label(key)}</span> : label(key));
@@ -193,7 +194,8 @@ export function RegionMixView({ region, mixFile, period, cal }: { region: IndexR
                 <NH key="s" words="not held" why={whyBlank(s.label, region.name, never.includes(s.key), "this period")} />, <NH key="m" words="not held" why={whyBlank(s.label, region.name, never.includes(s.key), "this period")} />] })),
               { key: "all", on: true, cells: ["Net generation", "", typeof p.net_generation_mwh === "number" ? n0(p.net_generation_mwh) : <NH key="g" words="not held" why="The period carries no total." />] }]} />
         ) : <p className="text-sm"><NH words="not held" why={`${region.name} holds no ${asked ? mix.periodName(asked) : "such period"}.`} /></p>}
-        {p ? <p className="mt-1 text-sm">{n0(p.days_held)} days held{typeof p.days_in_month === "number" ? <> of {p.days_in_month}</> : null}.</p> : null}
+        {/* session 8613 (row 40): a year says of which months its days are: the file's own count of months held and due, and the months not held */}
+        {p ? <p className="mt-1 text-sm">{n0(p.days_held)} days held{typeof p.days_in_month === "number" ? <> of {p.days_in_month}</> : null}{ofYear ? <span data-year-months={`${ofYear.months} of ${ofYear.due}`}>, in {ofYear.months} of the year&apos;s {ofYear.due} months{ofYear.due === 12 ? "" : " so far"}{ofYear.missing.length ? <> (not held: {ofYear.missing.map((k) => mix.periodName(k)).join(", ")})</> : null}</span> : null}.</p> : null}
       </Block>
       {/* one calendar month across the years */}
       <Block title={`Year after year: net load by hour in ${calAsked ? mix.calName(calAsked) : ""}`} id="years">
@@ -241,6 +243,7 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
   const asked = month && trade.months.includes(month) ? month : newest;
   const m = asked ? tradeMonth(trade, asked) : null;
   const last = trade.months.slice(-36);
+  const years = tradeYears(trade);
   // session 8605: a month still in progress (or one a side reported in part) is said, beside the table and under the chart
   const part = asked ? partMonth(trade, asked) : null;
   const lastPart = last.length ? partMonth(trade, last[last.length - 1]) : null;
@@ -250,7 +253,11 @@ export function RegionTradeView({ region, trade, month }: { region: IndexRegion;
   return (
     <div data-region-view="trade" data-region-trade={code} data-region-month={asked ?? ""}>
       <Block title={`${region.name}: power exchanged with each neighbour, ${asked ? mix.periodName(asked) : ""}`} id="trade">
-        <div className="mb-2"><Chips label="Month" items={trade.months.slice(-13).reverse().map((x) => ({ key: x, label: mix.periodName(x), href: regionHref(code, "gravity", { month: x === newest ? undefined : x }), on: x === asked }))} /></div>
+        {/* session 8613 (the second read, row 39): every year the file holds can be reached; the months offered are those of the year shown (it offered the newest thirteen and no way to an older one) */}
+        <div className="mb-2 space-y-1">
+          <Chips label="Month" items={(years.find((y) => y.year === (asked ?? "").slice(0, 4))?.months ?? []).map((x) => ({ key: x, label: mix.periodName(x), href: regionHref(code, "gravity", { month: x === newest ? undefined : x }), on: x === asked }))} />
+          <Chips label="Year" items={years.map((y) => ({ key: y.year, label: y.year, href: regionHref(code, "gravity", { month: y.months[0] === newest ? undefined : y.months[0] }), on: y.year === (asked ?? "").slice(0, 4) }))} />
+        </div>
         {m ? (
           <Table name="trade" caption={`Net imports of ${region.name} from each neighbour, ${asked}`}
             head={["Neighbour", <Head key="o" tip={`Net imports from the neighbour over the month as the region's own balancing authorities reported them, MWh: positive when the region imported, negative when it exported.`}>Net imports, own report, MWh</Head>,
