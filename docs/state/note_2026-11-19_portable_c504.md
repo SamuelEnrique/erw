@@ -1,11 +1,12 @@
 # Chain 504, the portable laptop, 19 November 2026: where it stands
 
-Energy Research Warehouse (ERW). Sessions 8600 to 8613 so far (10:40 to 17:17 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
+Energy Research Warehouse (ERW). Sessions 8600 to 8614 so far (10:40 to 17:55 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
 
 ## Read these first
 
 - **The 3D network changed in one thing.** As it opens it now draws the hour its own slider names (148 ties where it drew the newest hour's 139). It was a fault, on production too. One line of `site/app/network/Network.tsx` to put back if you would rather.
 - **Two packs to sign, about 45 minutes together, no Stata:** `docs/reviews/grid-map-regions-signature-pack-2026-11-19.md` (on `wip/8602-grid-regions`) and `docs/reviews/resources-signature-pack-2026-11-19.md` (on `wip/8603-resources`).
+- **On a phone, a tap on the resource map shows no value; on production since the page was built.** A finger's lift counted as leaving the map and took the card off after 11 ms. The same on a region's hour by hour chart. Both fixed on the branches (session 8614); every earlier read at 390 px had pointed with a mouse.
 - **On production until the desk's stack e lands (in review, so no visitor sees it):** the data machine's rebuilt region files are there with the page of session 8605. For the Carolinas, October's shares read "Wind 0.0%" and "0" MWh where the file holds blank, and the net load by hour is empty. The fix (session 8610) is in stack e, at the gate since 17:08 UTC.
 - **Two faults on the old laptop's page `/demand?view=country`, on production** (its rows 386 and 391): a list keeps its old value after a click on a region; a table lists 500 of 3,061 days and the view opens three times slower than its neighbour.
 
@@ -24,12 +25,12 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8613 so far (10:40 to 17:17 UT
 - **Part D, the natural resource map.** Done to the done line. The coal fields are on main; the branch draws them (602 fields) and its check switches them on. Production has the page of session 8603, which says "Coal fields not held" until row 43's newer head lands.
   - Replication of one layer 556 of 556; two cross-checks; ten decisions; a sign-off block.
   - Uranium and critical minerals: not fetched (the two hosts refuse automated reading).
-- **Part E, the readers' reads.** Five reads, five readers each: the map twice (22 rows), the regions twice (19 rows), the resource map (8 rows). Every site fault fixed at its cause with a test.
+- **Part E, the readers' reads.** Six reads, five readers each: the map twice, the regions twice (42 rows together), the resource map twice (14 rows). The phone read with a finger. Every site fault fixed at its cause with a test.
 
 ## Waiting at the landing desk (`docs/state/landing_request_portable.md`)
 
-- Row 42, `wip/8602-grid-regions` at `c527a0bb7` (main merged in). Stack e holds `43863e85d`; the two commits after it wait for the gate after that.
-- Row 43, `wip/8603-resources` at `4e2b2b54c` (main merged in). Stack e holds `180880ef6`.
+- Row 42, `wip/8602-grid-regions` at `ca7ba644e` (main merged in). Stack e holds `43863e85d`; what came after waits for the gate after that.
+- Row 43, `wip/8603-resources` at `21e16543d` (main merged in). Stack e holds `180880ef6`.
 
 ## Asked of the data machine (`docs/state/data_requests_done_line.md`)
 
@@ -38,6 +39,7 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8613 so far (10:40 to 17:17 UT
 - 544, 549, 551: the region files (months left out, zeros for a source never reported, hours that differ from EIA's). Answered or done on its branches.
 - 542: coal done; uranium and critical minerals not fetched.
 - 552: the coal fields' unit and one sentence. Requested.
+- 553: plain words and units for the hover of the wind sites and the hot-water systems (they read as raw column names). Requested.
 
 ## Needs the key
 
@@ -55,6 +57,8 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8613 so far (10:40 to 17:17 UT
 8. A wind or sun layer's hover repeats its vintage sentence. Default: left.
 9. Uranium and critical minerals by a person's hand? Default: not fetched.
 10. The 3D network's opening hour (first line above). Default: kept.
+11. A sun layer on Alaska is blank north of 60 degrees north (the source ends there): say so in the hover? Default: left; the layer's entry says it.
+12. A card that stays after a tap on a phone: a close mark? Default: none; the next tap or a drag takes it off.
 
 ## Not done
 
@@ -62,4 +66,4 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8613 so far (10:40 to 17:17 UT
 - A balancing authority's own mix is in no file.
 - No Stata do-file for the map or the regions; the resource map's has not been run.
 
-Last written: 17:17 UTC, session 8613.
+Last written: 17:55 UTC, session 8614.
