@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate max_temp, region wt_midw (the Midwest (EIA's region))
+# Computed 2026-11-19T11:23:50Z by warehouse/analysis/findings/deep/weather.py (max_temp); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's hottest hour (F), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wt_midw,2018,89.4,4342.0,0
+wt_midw,2019,90.08,8526.0,1
+wt_midw,2020,90.25,8059.0,1
+wt_midw,2021,90.64,8545.0,1
+wt_midw,2022,93.8,8665.0,1
+wt_midw,2023,90.9,8528.0,1
+wt_midw,2024,93.17,8266.0,1
+wt_midw,2025,93.35,8190.0,1
+wt_midw,2026,92.43,3424.0,0
