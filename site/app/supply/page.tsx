@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
+import { SupplyCountry } from "@/components/supply/Country";
 import { Band, Trend } from "@/components/supply/SupplyCharts";
 import { TableDownloads } from "@/components/tool/TableDownloads";
 import { DecisionsBlock } from "@/components/tool/DecisionsBlock";
@@ -229,6 +230,9 @@ export default async function Supply({ searchParams }: { searchParams: Promise<R
       ) : null}
 
       {shown.map((g) => <Table key={g.id} group={g} c={c} />)}
+      {/* session 8430 (chain 503): EIA's thirteen regions, from the data machine's files of the whole country; it stands
+          between its own marks, reads its own choices of the address (region, b, year) and carries this page's (g, s) */}
+      <SupplyCountry searchParams={searchParams} keep={{ g: c.groups.join(","), s: c.s ?? "" }} />
       {/* session 333: the tables to download, as CSV with a Python and a Stata reader (session 328's shared line) */}
       <DecisionsBlock id="7018-supply" title="Decisions on this page (each with its default and its source on hover)" items={SUPPLY_DECISIONS} />
       <TableDownloads tables={TABLES} />
