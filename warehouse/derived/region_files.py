@@ -5,11 +5,11 @@ of the seven grids' files (session 8001, chain 501 part B).
 Energy Research Warehouse (ERW). Writes new files under site/data/regions/ only; no table, no request. The contract:
 docs/state/page_files_regions.md. Method: docs/methods/regions_pages.md.
 
-    python warehouse/derived/regions_pages.py                         # every file (index, demand, mix, trade, events)
-    python warehouse/derived/regions_pages.py --only demand mix       # some of them
-    python warehouse/derived/regions_pages.py --weather               # also the regions' demand with the weather taken out
+    python warehouse/derived/region_files.py                         # every file (index, demand, mix, trade, events)
+    python warehouse/derived/region_files.py --only demand mix       # some of them
+    python warehouse/derived/region_files.py --weather               # also the regions' demand with the weather taken out
                                                                       # (without it, each file keeps the weather object it had)
-    python warehouse/derived/regions_pages.py --site-dir DIR          # a trial: the files under DIR
+    python warehouse/derived/region_files.py --site-dir DIR          # a trial: the files under DIR
 
 Inputs, all in warehouse/output: eia930_region_hourly (the regions' net generation and total interchange),
 eia930_ba_demand_hourly and eia930_ba_supply_hourly (every balancing authority), eia930_region_fuel_hourly (net

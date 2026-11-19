@@ -86,6 +86,11 @@ READS_THE_DISK = {
     "app/severance/lease/real/page.tsx": r"if (!fs.existsSync(idx) || !/^[OG]-[0-9A-Z]{2}-\d{1,6}$/.test(lease)) return null;",
     "lib/chat/pagefiles.ts": 'path.join(process.cwd(), "data", "resources", "manifest.json")',   # the Ask engine's (window P3's file): its names come from the manifest and the tools' indexes
     "lib/companydata.ts": "if (!/^[a-z0-9-]{1,80}$/.test(id)) return null;",
+    # session 8004 (chain 501's desk): the whole country's page files under data/regions/. Every caller names a fixed
+    # file or one built from a code the site holds (countrydemand.placeOf: /^(ba-)?([a-z0-9]{2,8})$/ and the index;
+    # the region codes; the event pages' own names), so no visitor's words reach a path
+    "lib/countryfiles.ts": 'return process.env.ERW_REGIONS_DIR ?? path.join(process.cwd(), "data", "regions");',
+    "lib/regionsdata.ts": 'return regionsFile("ba_boundaries.json");',
     "lib/datacenterdata.ts": "const g = INDEX.grids[grid];",
     "lib/finder.ts": "const f = `${outDir()}/${SUMMARY}`;",
     "lib/findings.ts": "if (!/^[a-z0-9_.-]+$/i.test(cardId) || !fs.existsSync(f)) return null;",

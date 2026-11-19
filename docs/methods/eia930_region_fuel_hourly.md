@@ -36,7 +36,7 @@ Before July 2024 EIA's files have no storage columns and count batteries under O
 
 ## A check against the seven grids
 
-Texas is one balancing authority (ERCOT). The region's monthly shares, built from this table by `regions_pages.py`, equal those of `site/data/mix/ercot.json`, built from EIA's API by `mix_profile.py`, to the hundredth of a percent in each month read (August 2025: natural gas 50.39, coal 12.81, nuclear 7.50, wind 14.39, solar 15.01 percent in both; January 2024 and March 2019 likewise), except storage before July 2024, which this table leaves blank and the ERCOT file shows as zero.
+Texas is one balancing authority (ERCOT). The region's monthly shares, built from this table by `region_files.py`, equal those of `site/data/mix/ercot.json`, built from EIA's API by `mix_profile.py`, to the hundredth of a percent in each month read (August 2025: natural gas 50.39, coal 12.81, nuclear 7.50, wind 14.39, solar 15.01 percent in both; January 2024 and March 2019 likewise), except storage before July 2024, which this table leaves blank and the ERCOT file shows as zero.
 
 ## The first build (19 November 2026)
 
