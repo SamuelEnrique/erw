@@ -72,7 +72,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   useEffect(() => {
     const el = svg.current;
     if (!el || typeof ResizeObserver === "undefined") return;
-    const read = () => { const w = el.getBoundingClientRect().width; if (w > 0) setPx(Math.max(W / w, H / (el.getBoundingClientRect().height || 1))); };
+    const read = () => { const b = el.getBoundingClientRect(); if (b.width > 0) setPx(Math.max(W / b.width, H / (b.height || 1))); };
     read();
     const seen = new ResizeObserver(read);
     seen.observe(el);
@@ -126,6 +126,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     return () => el.removeEventListener("wheel", onWheel);
   }, [held.state, t.k]);
 
+  const small = Math.max(0.6, Math.min(1, W / px / 748));   // session 8601: the frame's width against the desk's 748 px, for the sizes drawn in screen pixels
   const derived = held.state === "held" ? derivedLabel(held.file) : null;
   const frameBox = "w-full min-w-0 overflow-hidden border border-rule";
   // the frame has the map's own proportions, so a phone shows the whole country with no empty band above and below it
@@ -157,7 +158,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     // not at a tie's ends (eight screen pixels): there the pointer is on a grid's own point, and the grid answers
     if (!near || !onTheLine(near, 8 / (t.k * m.a))) return null;
     const f = drawnFlows[near.index];
-    return near.distance * t.k * m.a <= reach + flowWidth(f.mw, maxMw) / 2 ? f : null;
+    return near.distance * t.k * m.a <= reach + (flowWidth(f.mw, maxMw) * small) / 2 ? f : null;
   };
   // two fingers zoom about the point between them; one finger, or the mouse held down, moves a map that is zoomed
   const down = (e: ReactPointerEvent<SVGSVGElement>) => {
@@ -227,9 +228,14 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     return { attr: { "data-map-hover": hover.id }, head: names.get(hover.id) ?? hover.id, lines, source: fig && frame ? frame.tables : "" };
   })();
   // session 8601: one screen pixel in the drawing's own units, at the zoom shown: a line's width, the dash and the ring
-  // are sizes on the screen (a tie's width is the rule's own pixels on a phone as on a desk, zoomed or not)
-  const u = px / t.k;
+  // are sizes on the screen, zoomed or not. On a frame narrower than 748 px (a phone, or the map beside an open panel)
+  // they shrink with the frame, to six tenths at most: at full size the arrowheads of the West ran into each other
+  // on a phone (seen in the browser).
+  const u = (px * small) / t.k;
   const ring = 10 * u;
+  // a short frame has no room for a hover beside the pointer (its top was cut off on a phone): there the hover stands
+  // right under the map, across the frame, over the list of names
+  const docked = H / px < 360;
   return (
     <div className={`${frameBox} self-start bg-paper`} data-map-state="held" data-map-regions={regions.length} data-map-matched={held.file.matched}
       data-map-flows={drawnFlows.length} data-map-flows-all={flows.length} data-map-no-shape={noShape.map((n) => n.id).join(",")} data-map-sha={held.file.provenance.raw_sha256}
@@ -298,8 +304,8 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         <button type="button" onClick={() => setT(MAP_HOME)} disabled={t.k === 1 && t.x === 0 && t.y === 0} className="h-8 border border-rule bg-panel px-2 text-ink disabled:text-muted" title="Show the whole map" data-zoom="reset">Reset</button>
       </div>
       {card ? (
-        <div className="pointer-events-none absolute z-10 max-w-[18rem] border border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink" {...card.attr}
-          style={hover!.x < 0 ? { left: 8, top: 8 } : { ...(hover!.right ? { right: `calc(100% - ${hover!.x - 12}px)` } : { left: hover!.x + 12 }), ...(hover!.low ? { bottom: `calc(100% - ${hover!.y - 12}px)` } : { top: hover!.y + 12 }) }}>
+        <div className={`pointer-events-none absolute z-10 border border-rule bg-panel px-2 py-1 text-xs leading-snug text-ink ${docked ? "" : "max-w-[18rem]"}`} {...card.attr} data-map-hover-docked={docked ? "1" : "0"}
+          style={docked ? { left: 0, right: 0, top: "100%" } : hover!.x < 0 ? { left: 8, top: 8 } : { ...(hover!.right ? { right: `calc(100% - ${hover!.x - 12}px)` } : { left: hover!.x + 12 }), ...(hover!.low ? { bottom: `calc(100% - ${hover!.y - 12}px)` } : { top: hover!.y + 12 }) }}>
           <div className="text-sm" data-map-hover-name="1">{card.head}</div>
           {card.lines.map((l) => <div key={l} className="tabular-nums">{l}</div>)}
           {card.source ? <div className="text-muted" data-map-hover-source="1">Tables: {card.source}</div> : null}
@@ -332,7 +338,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
         <span>Line width, megawatts:</span>
         {[1, 1 / 4, 1 / 16].map((share) => (
           <span key={share} className="flex items-center gap-1 tabular-nums">
-            <svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" stroke="var(--color-muted)" strokeWidth={flowWidth(maxMw * share, maxMw)} /></svg>
+            <svg width="28" height="10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" stroke="var(--color-muted)" strokeWidth={flowWidth(maxMw * share, maxMw) * small} /></svg>
             {whole(maxMw * share)}{share === 1 ? " (the largest of the period shown)" : ""}
           </span>
         ))}

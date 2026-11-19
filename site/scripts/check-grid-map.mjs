@@ -285,6 +285,9 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   await touch("touchEnd", []);
   const tapped = await wait(`document.querySelector('[data-map-flow-hover]')?.innerText ?? null`, 5000, "a tie's figures under a finger").catch(() => null);
   check(!!tapped && / MW/.test(tapped) && /Reported by /.test(tapped) && !(await evaluate(`!!document.querySelector('[data-panel]')`)) && (await evaluate(WIDE)), `a tap on a tie shows its figures and opens no panel (${(tapped ?? "nothing shown").split("\n").slice(0, 2).join(" | ")})`);
+  const where = await evaluate(`(() => { const h = document.querySelector('[data-map-flow-hover]'); if (!h) return null; const b = h.getBoundingClientRect(), m = document.querySelector('[data-map-state] svg').getBoundingClientRect(), f = document.querySelector('[data-map-state]').getBoundingClientRect();
+    return { docked: h.getAttribute('data-map-hover-docked'), under: b.top >= m.bottom - 1, inside: b.left >= f.left - 1 && b.right <= f.right + 1 && b.bottom <= f.bottom + 1, head: h.querySelector('[data-map-hover-name]').getBoundingClientRect().height > 0 }; })()`);
+  check(!!where && where.docked === "1" && where.under && where.inside && where.head, "on a phone the tie's figures stand whole right under the map, inside its frame (none of it cut off)");
   await shot("map_390_tie.png");
   await evaluate(`document.querySelector('[data-map-state] svg').scrollIntoView({ block: 'center' })`);
   await touch("touchStart", [{ x: c.x - 20, y: c.y }, { x: c.x + 20, y: c.y }]);
