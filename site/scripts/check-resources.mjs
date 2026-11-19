@@ -41,7 +41,23 @@ const DASH = String.fromCharCode(0x2014);
 // the data side's files, read here from the disk
 const manifestPath = path.join(here, "..", "data", "resources", "manifest.json");
 if (!fs.existsSync(manifestPath)) { console.log("FAILED: site/data/resources/manifest.json is not on this machine: there is no layer to check"); process.exit(1); }
-const MANIFEST = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+const FIRST = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+// session 8613: the data machine's second list (manifest_added.json, data request 542) is read with the first, by the
+// page's rule written out here on its own: the first's layers, then each added layer whose id the first does not hold;
+// the first's missing entries, then each added one not named there and not now held as a layer. Until this session the
+// check read the first list alone, so an added layer (the coal fields) was never switched on by it.
+const addedPath = path.join(here, "..", "data", "resources", "manifest_added.json");
+const ADDED = fs.existsSync(addedPath) ? JSON.parse(fs.readFileSync(addedPath, "utf-8")) : null;
+const ADDED_IDS = [];
+const MANIFEST = (() => {
+  if (!ADDED) return FIRST;
+  const layers = [...(FIRST.layers ?? [])];
+  for (const l of ADDED.layers ?? []) if (l && typeof l.id === "string" && !layers.some((x) => x.id === l.id)) { layers.push(l); ADDED_IDS.push(l.id); }
+  const missing = [...(FIRST.missing ?? [])];
+  for (const x of ADDED.missing ?? []) if (x && !(x.id && (missing.some((y) => y.id === x.id) || layers.some((l) => l.id === x.id)))) missing.push(x);
+  return { ...FIRST, layers, missing };
+})();
+console.log(`note: the list of layers is ${FIRST.layers?.length ?? 0} of manifest.json${ADDED ? ` and ${ADDED_IDS.length} added beside it (${ADDED_IDS.join(", ") || "none"})` : "; no manifest_added.json on this machine"}`);
 const DIRS = [path.join(here, "..", "data", "resources", "layers"), path.join(here, "..", "public", "resources-data")];
 const diskPath = (f) => DIRS.map((d) => path.join(d, f)).find((p) => fs.existsSync(p)) ?? null;
 const filesOf = (l) => [...(l.levels ?? []).map((v) => v.file), ...(l.other_extents ?? []).flatMap((x) => (x.levels ?? []).map((v) => v.file)), ...(typeof l.file === "string" ? [l.file] : [])];
