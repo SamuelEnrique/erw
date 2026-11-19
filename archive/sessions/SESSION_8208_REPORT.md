@@ -1,6 +1,6 @@
 # Session 8208 report (chain 502, lab-desktop second window)
 
-19 November 2026, 12:20 to 12:40 UTC. Opus 5.5. Model spend: USD 0. Parts B and C checked at the start: both still waiting.
+19 November 2026, 12:08 to 12:14 UTC. Opus 5.5. Model spend: USD 0. Parts B and C checked at the start: both still waiting.
 
 ## Part D, first pass: 20 drafts in the three families with the fewest
 

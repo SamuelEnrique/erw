@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_commercial_price, region u861_13756_in (Northern Indiana Pub Serv Co in IN)
+# Computed 2026-11-19T12:15:34Z by warehouse/analysis/findings/deep/other_us.py (util_commercial_price); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's commercial revenue over commercial sales (USD per MWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_13756_in,2017,132.60380456897684,12.0,1
+u861_13756_in,2018,128.61154575937476,12.0,1
+u861_13756_in,2019,129.92133958364346,12.0,1
+u861_13756_in,2020,135.80726238561343,12.0,1
+u861_13756_in,2021,145.0701297922524,12.0,1
+u861_13756_in,2022,154.6707052590975,12.0,1
+u861_13756_in,2023,160.509823401982,12.0,1
+u861_13756_in,2024,168.3298625703115,12.0,1
+u861_13756_in,2025,192.4340897043523,12.0,1
+u861_13756_in,2026,202.24528152648614,7.0,0

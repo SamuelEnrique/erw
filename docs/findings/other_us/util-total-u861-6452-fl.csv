@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_total, region u861_6452_fl (Florida Power & Light Co in FL)
+# Computed 2026-11-19T12:15:30Z by warehouse/analysis/findings/deep/other_us.py (util_total); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to all customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_6452_fl,2017,108.513593,12.0,1
+u861_6452_fl,2018,110.072761,12.0,1
+u861_6452_fl,2019,111.955726,12.0,1
+u861_6452_fl,2020,113.665999,12.0,1
+u861_6452_fl,2021,112.395916,12.0,1
+u861_6452_fl,2022,126.70893686,12.0,1
+u861_6452_fl,2023,127.52261306999999,12.0,1
+u861_6452_fl,2024,129.41574297999998,12.0,1
+u861_6452_fl,2025,129.98367235999999,12.0,1
+u861_6452_fl,2026,76.85509067,7.0,0
