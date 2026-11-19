@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_side_gap, region rg_cent_midw (the Central region and the Midwest)
+# Computed 2026-11-19T11:05:26Z by warehouse/analysis/findings/deep/trade.py (pair_side_gap); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean absolute difference between the two regions' reports of the hour's flow (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rg_cent_midw,2018,43.30004580852039,4366.0,0
+rg_cent_midw,2019,48.23441471071909,6689.0,0
+rg_cent_midw,2020,64.54116743471582,6510.0,0
+rg_cent_midw,2021,38.403212069594844,8219.0,1
+rg_cent_midw,2022,38.42311411992263,8272.0,1
+rg_cent_midw,2023,36.108392012005076,8663.0,1
+rg_cent_midw,2024,28.10064316341115,8396.0,1
+rg_cent_midw,2025,54.98629952988583,7445.0,0
+rg_cent_midw,2026,597.8071854125293,5539.0,0
