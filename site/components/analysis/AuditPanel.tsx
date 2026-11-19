@@ -81,6 +81,13 @@ export function SheetHead({ id, row }: { id: string; row: AuditRow }) {
       <p className="mt-1" data-sheet-sentence={id}>{row.sentence}</p>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={picture} alt={`Chart: ${row.title}`} loading="lazy" className="mt-2 h-auto w-full max-w-xl border border-rule" data-sheet-chart={id} />
+      {/* chain 507, part E: the audit mended the sentence of some drafts after their pictures were drawn; the picture's
+          line under its title keeps the old words until the picture is drawn again */}
+      {/PNG/.test(row.changed) ? (
+        <p className="mt-1 text-xs" data-sheet-old-words={id}>
+          The picture&apos;s line under its title has the sentence&apos;s old words<Tip label="old words in the picture" id={tipId(id, "png")}>{row.changed}. The sentence above is the draft&apos;s as it now stands.</Tip>
+        </p>
+      ) : null}
       <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-1 text-xs sm:grid-cols-[10rem_1fr]">
         <dt>The figure</dt><dd data-sheet-figure={id}>{s.figure}</dd>
         <dt>Compared with</dt><dd>{s.compared}</dd>
@@ -90,6 +97,7 @@ export function SheetHead({ id, row }: { id: string; row: AuditRow }) {
         <summary className="cursor-pointer">
           Stata do-file, <span className="font-mono">{name}</span>: read here{" "}
           <a href={href} download={name} className="ml-2 underline" data-sheet-do-save={id}>save</a>
+          <Tip label="what the do-file reads" id={tipId(id, "do")}>This do-file recomputes the figure from the whole tables named in the audit panel below (the Redivis copy, or the ERW&apos;s own files with their # lines deleted); the site&apos;s download holds only the live set&apos;s window of some tables. The draft&apos;s own files further down hold a shorter do-file that checks the claim from the draft&apos;s yearly CSV.</Tip>
         </summary>
         <pre className="mt-1 max-h-96 overflow-auto whitespace-pre-wrap break-words border border-rule bg-paper p-2" data-sheet-do-text={id}>{s.do_text}</pre>
       </details>

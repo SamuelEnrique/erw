@@ -55,6 +55,8 @@ SHEET.forEach(({ id, row }, i) => {
   const href = unesc(html.match(/data-sheet-do-save="[^"]*"|href="(data:text\/plain[^"]*)"/g)?.find((x) => x.startsWith("href=")) ?? "").replace(/^href="|"$/g, "");
   check(decodeURIComponent(href.replace("data:text/plain;charset=utf-8,", "")) === disk, `sheet ${i + 1}: the saved file is not the do-file`);
   check(html.includes(`name=${id}_1200x627.png&amp;show=1`), `sheet ${i + 1}: the chart is not the draft's own picture`);
+  // chain 507 part E: a picture drawn before the audit mended the sentence says so beside it
+  check(/PNG/.test(row.changed) === html.includes(`data-sheet-old-words="${id}"`), `sheet ${i + 1}: the old words in the picture are not said`);
 });
 
 // each verdict: the panel draws it with its four checks; the blocked ones say why and the control is disabled
