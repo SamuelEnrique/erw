@@ -59,6 +59,10 @@ const NotBuilt = ({ file, what }: { file: string; what: string }) => (
 
 const GAP_RULE = `A gap of ${LARGE_GAP_PCT} percent or more of the mean size of the two reports is marked as large. Default: ${LARGE_GAP_PCT} percent, this page's own choice (session 8430); no publisher's threshold stands behind it.`;
 const SOURCE_WORDS = "Source: EIA Form EIA-930, interchange as each side filed it.";
+/** Session 8490, on the real files: storage is blank in Form EIA-930 before 1 July 2024 (UTC), June 2024 as a local
+ *  month holds only its last hours, and every region held in 2024 reads exactly zero for months after (the Mid-Atlantic
+ *  in every month), which a reader took for a region with no batteries. */
+export const STORAGE_WORDS = "Form EIA-930 carries storage from 1 July 2024 (UTC): a month before reads not held yet, and June 2024, a local month, holds only its last hours. A region can read exactly zero for months after that: zero is what its balancing authorities filed, not a count of the batteries on its ground.";
 /** A name's possessive: "Tennessee's", "Texas's", and "Carolinas'" for the one name that is a plural. */
 const poss = (name: string) => (name === "Carolinas" ? "Carolinas'" : `${name}'s`);
 const months = (held: number, of: number) => `${held} of the ${of} month${of === 1 ? "" : "s"} of the year in the file`;
@@ -186,7 +190,7 @@ function Trade({ code, file, year, mark }: { code: string; file: TradeFile | nul
 }
 
 /** The pairs of a year as table rows: which side sent and which received, each side's report, the mean and the gap. */
-function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null, whyNone: (c: string) => string = () => "") {
+function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", nameOf: (c: string) => string, tip: (c: string) => string, heldOf: (c: string) => string | null, lit: string[], pick?: (c: string) => string | null, whyNone: (c: string) => string = () => "", counted = false) {
   return pairs.map((p) => {
     const h = heldOf(p.a) ?? heldOf(p.b);
     const blank = (v: ReactNode | null, missing: string) => (h ? <Held why={h} /> : v ?? <NOT why={missing} />);
@@ -207,11 +211,14 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
         blank(p.mean !== null ? <N k={`${kind}|${p.key}|${year}|mean`}>{gwh(p.mean)}</N> : null, `The file holds no mean of the two reports for this pair in ${year}.`),
         blank(p.gap !== null ? <span title={`${poss(nameOf(one))} report less ${poss(nameOf(two))}, over the hours both reported${p.hoursBoth !== null ? ` (${whole(p.hoursBoth)} hours)` : ""}, as the file gives it. Each of the two reports runs over that side's own hours, so this is not always their difference.`}><N k={`${kind}|${p.key}|${year}|gap`}>{signedGwh(p.gap)}</N></span> : null, `The file holds no gap for this pair in ${year}: one side's report is not held.`),
         blank(p.pct !== null ? <GapPct k={`${kind}|${p.key}|${year}|gap_pct`} pct={p.pct} large={p.large} words={facts} /> : null, "A percent needs both reports and their gap, and two reports that are not both zero."),
+        // session 8490: the months the pair's year holds (data request 325, in the contract since session 8004); the
+        // column stands when the file carries the counts, as every file the data machine builds since then does
+        ...(counted ? [blank(p.monthsHeld !== null ? <span><N k={`${kind}|${p.key}|${year}|months`}>{String(p.monthsHeld)}</N> of {p.monthsInYear}</span> : null, `The file gives no count of the months it holds for this pair in ${year}.`)] : []),
       ],
     };
   });
 }
-const pairHead = (who: string) => [
+const pairHead = (who: string, counted = false) => [
   <Head key="s" mark="sent" words="Sent" why={`Over the year the net flow between the two ${who} ran from this one to the other, by the file's own direction (the sign of the mean of the two reports).${who === "balancing authorities" ? " A balancing authority is the operator that keeps supply and demand in balance over its own area hour by hour (a utility, a federal power agency or a grid operator); each one of the lower 48 files Form EIA-930." : ""}`} />,
   <Head key="t" mark="received" words="Received" why="The one the net flow ran to over the year, by the same direction." />,
   <Head key="a" mark="from-report" words="Sender's report, GWh" why={`The flow over the year as the sending side filed it with EIA. A figure below zero says that side counted the year's net flow the other way. ${SOURCE_WORDS}`} />,
@@ -219,7 +226,10 @@ const pairHead = (who: string) => [
   <Head key="m" mark="mean" words="Mean, GWh" why="The file's own figure for the pair: the mean of the two reports over the hours both sides reported, and the one side's report for a month in which the other reported no hour. Its sign gives the direction." />,
   <Head key="g" mark="gap" words="Gap, GWh" why="The sender's report less the receiver's over the hours both reported, as the file gives it." />,
   <Head key="p" mark="gappct" words="Gap, percent" why={`The gap as a percent of the mean size of the two reports (the mean of their absolute values). ${GAP_RULE}`} />,
+  ...(counted ? [<Head key="mh" mark="pair-months" words="Months held" why="The months of the year that hold a report of this flow from either side, of the year's months in the file: six in 2018, whose months begin in July, and fewer in the year still running. A pair's year is the sum of EIA's Eastern months of that year, as in the net imports above. A month that is not held is left out of the sums, never filled." />] : []),
 ];
+/** Whether a matrix file carries the pairs' counts of months (the contract's section 7 since session 8004). */
+const hasMonthCounts = (file: MatrixFile) => [...(file.region_pairs ?? []), ...(file.ba_pairs ?? [])].some((r) => typeof r.months_held === "number");
 
 /** Who trades with whom in a year: the pairs of regions, the pairs of balancing authorities and each authority's partners. */
 function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; index: IndexFile | null; year: string; a: string; b: string | null; pick: (code: string) => string }) {
@@ -235,19 +245,20 @@ function Matrix({ file, index, year, a, b, pick }: { file: MatrixFile | null; in
   const baHeld = (c: string) => why ?? regionHeld(bas.get(c)?.region ?? c);
   const regionPairs = pairsOfYear(file.region_pairs, year), baPairs = pairsOfYear(file.ba_pairs, year), partners = partnersOfYear(file, year);
   const lit = [a, ...(b ? [b] : [])];
+  const counted = hasMonthCounts(file);
   const litBas = [...bas.values()].filter((x) => x.region && lit.includes(x.region)).map((x) => x.code);
   const list = (codes: string[] | null, ba: string, what: string) => (baHeld(ba) ? <Held why={baHeld(ba)!} /> : codes === null ? <NOT why={`The file holds no list of ${ba}'s partners by ${what} in ${year}.`} /> : codes.length ? <span title={codes.map((c) => bas.get(c)?.name ?? placeName(c)).join("; ")}>{codes.join(", ")}</span> : "none");
   return (
     <div data-wc-matrix={year}>
       {regionPairs.length ? (
         <ToolTable minWidth={860} caption={`Each pair of regions in ${year}: which sent and which received, each side's report, their mean and the gap`}
-          head={pairHead("regions")} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null), abroadWhy)} />
+          head={pairHead("regions", counted)} rows={pairRows(regionPairs, year, "pair", placeName, regionWords, heldOf, lit, (c) => (regionOf(c) ? pick(c) : null), abroadWhy, counted)} />
       ) : <p className="text-sm"><NOT why={`The file holds no pair of regions for ${year}.`} /></p>}
       <details className="mt-3 border-t border-rule pt-1" data-wc-fold="bapairs">
         <summary className="cursor-pointer text-sm font-semibold">Balancing authorities, pair by pair, {year}: <span data-cn={`bapairs|${year}|n`}>{String(baPairs.length)}</span> pairs</summary>
         {baPairs.length ? (
           <ToolTable minWidth={860} caption={`Each pair of balancing authorities in ${year}: which sent and which received, each side's report, their mean and the gap`}
-            head={pairHead("balancing authorities")} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas, undefined, baWhyNone)} />
+            head={pairHead("balancing authorities", counted)} rows={pairRows(baPairs, year, "bapair", (c) => c, baTip, baHeld, litBas, undefined, baWhyNone, counted)} />
         ) : <p className="text-sm"><NOT why={`The file holds no pair of balancing authorities for ${year}.`} /></p>}
       </details>
       <details className="mt-2 border-t border-rule pt-1" data-wc-fold="partners">
@@ -321,7 +332,7 @@ function Mix({ code, file, year, mark }: { code: string; file: MixFile | null; y
         <ToolTable minWidth={900} caption={`${name}: each source's share of net generation in each month of ${year}, percent`}
           head={[
             "Month",
-            ...SOURCES.map((s) => <Head key={s.key} mark={`mix-${s.key}`} words={s.label} why={`${s.label}: its share of the region's net generation in the month, as the file writes it. ${s.key === "storage" ? "Storage is below zero in a month it charged more than it discharged. " : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a figure for the energy. Source: EIA Form EIA-930, generation by energy source.`} />),
+            ...SOURCES.map((s) => <Head key={s.key} mark={`mix-${s.key}`} words={s.label} why={`${s.label}: its share of the region's net generation in the month, as the file writes it. ${s.key === "storage" ? `Storage is below zero in a month it charged more than it discharged. ${STORAGE_WORDS} ` : ""}${s.key === "hydro" ? "Hydro includes pumped storage. " : ""}${s.key === "other" ? "Other is petroleum, geothermal, other and unknown sources. " : ""}Hover a figure for the energy. Source: EIA Form EIA-930, generation by energy source.`} />),
             <Head key="net" mark="mix-net" words="Net generation, GWh" why={`The region's net generation in the month. A month is in the file when at least 90 percent of its days are complete. A month here is ${poss(name)} own local month${file.tz ? ` (time zone ${file.tz})` : ""}; the net imports above run by EIA's Eastern months.`} />,
             <Head key="d" mark="mix-days" words="Days held" why="The days of the month whose every hour the file holds, of the days in the month." />,
           ]}

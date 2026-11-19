@@ -21,6 +21,9 @@ export type TradeFile = FileHead & { code: string; name?: string; months: string
 export type PairRow = {
   a: string; b: string; year: number | string; a_report_mwh?: number | null; b_report_mwh?: number | null; mean_mwh?: number | null; gap_mwh?: number | null; direction?: string | null;
   hours_a?: number | null; hours_b?: number | null; hours_both?: number | null;
+  /** session 8490: the Eastern months of the year holding a report from either side, and the months of that year the
+   *  file holds (the contract's section 7 since session 8004, data request 325) */
+  months_held?: number | null; months_in_year?: number | null;
 };
 export type Partners = { by_gross?: string[]; by_net?: string[]; net_import_share_of_demand_pct?: number | null };
 /** `site/data/regions/trade_matrix.json` (the contract's section 7). */
@@ -131,6 +134,8 @@ export type PairView = {
   pct: number | null; large: boolean;
   /** the hours each side reported and the hours both did, where the file gives them */
   hoursFrom: number | null; hoursTo: number | null; hoursBoth: number | null;
+  /** the months of the year that hold a report from either side, and the year's months in the file, where it gives both */
+  monthsHeld: number | null; monthsInYear: number | null;
 };
 /** The pairs of one year, each turned to its own direction, in the contract's order of the first code and then the
  *  second (no pair is ranked against another). */
@@ -148,6 +153,7 @@ export function pairsOfYear(rows: PairRow[] | undefined, year: string, threshold
       fromReport: v(dir === "b_to_a" ? r.b_report_mwh : r.a_report_mwh), toReport: v(dir === "b_to_a" ? r.a_report_mwh : r.b_report_mwh),
       mean: v(r.mean_mwh), gap: num(r.gap_mwh) ? r.gap_mwh : null, pct, large: isLarge(pct, threshold),
       hoursFrom: h(dir === "b_to_a" ? r.hours_b : r.hours_a), hoursTo: h(dir === "b_to_a" ? r.hours_a : r.hours_b), hoursBoth: h(r.hours_both),
+      ...(num(r.months_held) && num(r.months_in_year) ? { monthsHeld: r.months_held, monthsInYear: r.months_in_year } : { monthsHeld: null, monthsInYear: null }),
     });
   }
   return out.sort((x, y) => place(x.a) - place(y.a) || x.a.localeCompare(y.a) || place(x.b) - place(y.b) || x.b.localeCompare(y.b));
