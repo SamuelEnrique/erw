@@ -264,7 +264,9 @@ CANDIDATES = [
 ]
 # session 8202: one story once. Tennessee's net generation against demand is the trade family's draft of its net imports
 # (rn_ten); the Southeast's and Tennessee's share of winter in the top hours is their winter peak against summer's.
-SKIP = {("gen_ratio", "rg_ten"), ("top_winter", "rd_se"), ("top_winter", "rd_ten")}
+# session 8205: the Southeast's and Tennessee's winter peak against summer's are chain 164's drafts of Southern Company and
+# TVA (docs/findings/demand/winter-vs-summer-ba-soco.md, -tva.md); loaded before this was seen, they wait for Samuel's ruling
+SKIP = {("gen_ratio", "rg_ten"), ("top_winter", "rd_se"), ("top_winter", "rd_ten"), ("winter_summer", "rd_se"), ("winter_summer", "rd_ten")}
 for _P in CANDIDATES:
     if _P["unit"] == "MW":
         _P["rank"] = lambda c: abs(c["change"] / c["first"]) if c["first"] else 0.0
