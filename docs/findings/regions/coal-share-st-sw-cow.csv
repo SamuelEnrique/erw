@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_share, region st_sw_cow (Arizona and New Mexico (the core of EIA's Southwest region))
+# Computed 2026-11-19T11:17:47Z by warehouse/analysis/findings/deep/regions.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_sw_cow,2001,55.42589486331342,12.0,1
+st_sw_cow,2002,52.189879576053436,12.0,1
+st_sw_cow,2003,52.62587107386999,12.0,1
+st_sw_cow,2004,50.23432195055007,12.0,1
+st_sw_cow,2005,51.30559811282883,12.0,1
+st_sw_cow,2006,49.62782710389039,12.0,1
+st_sw_cow,2007,46.12650817711163,12.0,1
+st_sw_cow,2008,45.28340373815799,12.0,1
+st_sw_cow,2009,45.38485160767248,12.0,1
+st_sw_cow,2010,46.797585282999485,12.0,1
+st_sw_cow,2011,48.42106260509011,12.0,1
+st_sw_cow,2012,44.1299411135826,12.0,1
+st_sw_cow,2013,45.33446974359626,12.0,1
+st_sw_cow,2014,43.593774814091546,12.0,1
+st_sw_cow,2015,38.81333188183261,12.0,1
+st_sw_cow,2016,34.42279293194032,12.0,1
+st_sw_cow,2017,35.71955153491877,12.0,1
+st_sw_cow,2018,30.530091938062505,12.0,1
+st_sw_cow,2019,25.489499376094432,12.0,1
+st_sw_cow,2020,18.50698745542283,12.0,1
+st_sw_cow,2021,18.66304181997037,12.0,1
+st_sw_cow,2022,18.36792849439505,12.0,1
+st_sw_cow,2023,12.865229594521358,12.0,1
+st_sw_cow,2024,11.71721834612733,12.0,1
+st_sw_cow,2025,11.160536521112254,12.0,1

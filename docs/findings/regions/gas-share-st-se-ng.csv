@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_share, region st_se_ng (Georgia and Alabama (the core of EIA's Southeast region))
+# Computed 2026-11-19T11:17:47Z by warehouse/analysis/findings/deep/regions.py (gas_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: natural gas's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_se_ng,2001,5.53166290859727,12.0,1
+st_se_ng,2002,8.78578463971935,12.0,1
+st_se_ng,2003,6.316078125933926,12.0,1
+st_se_ng,2004,8.368429982891127,12.0,1
+st_se_ng,2005,8.608545828516577,12.0,1
+st_se_ng,2006,11.605293813575814,12.0,1
+st_se_ng,2007,13.60319961302194,12.0,1
+st_se_ng,2008,12.690013007909503,12.0,1
+st_se_ng,2009,19.16605197113574,12.0,1
+st_se_ng,2010,21.78581066603544,12.0,1
+st_se_ng,2011,26.40614780426323,12.0,1
+st_se_ng,2012,35.70092227868687,12.0,1
+st_se_ng,2013,32.010202300498484,12.0,1
+st_se_ng,2014,32.42663989739968,12.0,1
+st_se_ng,2015,37.79434395620407,12.0,1
+st_se_ng,2016,40.13050117866349,12.0,1
+st_se_ng,2017,39.52820841215718,12.0,1
+st_se_ng,2018,40.38410230718063,12.0,1
+st_se_ng,2019,42.67860820731288,12.0,1
+st_se_ng,2020,44.39974909735881,12.0,1
+st_se_ng,2021,41.62866053989055,12.0,1
+st_se_ng,2022,44.99745276709491,12.0,1
+st_se_ng,2023,45.37106615776852,12.0,1
+st_se_ng,2024,42.98684949346617,12.0,1
+st_se_ng,2025,42.21207287377151,12.0,1

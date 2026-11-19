@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate solar_share, region st_nw_sun (the eight states of EIA's Northwest region (WA, OR, ID, MT, UT, WY, CO, NV))
+# Computed 2026-11-19T11:17:51Z by warehouse/analysis/findings/deep/regions.py (solar_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: utility-scale solar's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_nw_sun,2001,0.0,12.0,1
+st_nw_sun,2002,0.0,12.0,1
+st_nw_sun,2003,0.0,12.0,1
+st_nw_sun,2004,0.0,12.0,1
+st_nw_sun,2005,0.0,12.0,1
+st_nw_sun,2006,0.0,12.0,1
+st_nw_sun,2007,0.012149180059216743,12.0,1
+st_nw_sun,2008,0.04439469954797969,12.0,1
+st_nw_sun,2009,0.052767958525848084,12.0,1
+st_nw_sun,2010,0.06887398861055623,12.0,1
+st_nw_sun,2011,0.10083658161660077,12.0,1
+st_nw_sun,2012,0.16282075394568332,12.0,1
+st_nw_sun,2013,0.25345904961555255,12.0,1
+st_nw_sun,2014,0.3192678904924858,12.0,1
+st_nw_sun,2015,0.4982860471426095,12.0,1
+st_nw_sun,2016,1.2067517481105607,12.0,1
+st_nw_sun,2017,1.9925443636881413,12.0,1
+st_nw_sun,2018,2.2486174662610794,12.0,1
+st_nw_sun,2019,2.4722657889361854,12.0,1
+st_nw_sun,2020,2.914944842042416,12.0,1
+st_nw_sun,2021,3.5364363789276694,12.0,1
+st_nw_sun,2022,4.347208551701857,12.0,1
+st_nw_sun,2023,5.384945800350048,12.0,1
+st_nw_sun,2024,6.837656288546606,12.0,1
+st_nw_sun,2025,8.011874464346391,12.0,1
