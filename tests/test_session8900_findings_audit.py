@@ -24,7 +24,8 @@ def load():
 
 class AuditFile(unittest.TestCase):
     def test_the_file_is_what_the_audit_says(self):
-        r = subprocess.run([sys.executable, SCRIPT, "--check"], capture_output=True, text=True, cwd=ROOT, timeout=300)
+        # --check-structure: the "already known?" answers grow through the day on main (part A); the rest must agree
+        r = subprocess.run([sys.executable, SCRIPT, "--check-structure"], capture_output=True, text=True, cwd=ROOT, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_every_draft_of_docs_findings_has_a_row(self):

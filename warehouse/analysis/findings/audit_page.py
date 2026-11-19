@@ -205,6 +205,8 @@ def dump(data):
 def main():
     ap = argparse.ArgumentParser(description="The findings audit made into site/data/findings_audit.json (chain 507)")
     ap.add_argument("--check", action="store_true", help="write nothing; exit 1 when the committed file differs")
+    ap.add_argument("--check-structure", action="store_true",
+                    help="write nothing; exit 1 when the committed file differs in anything but the 'already known?' answers, which part A adds to through the day")
     a = ap.parse_args()
     try:
         data = build()
@@ -212,6 +214,19 @@ def main():
         print(f"audit_page: {e}", file=sys.stderr)
         return 2
     text = dump(data)
+    if a.check_structure:
+        def bare(d):
+            d = json.loads(json.dumps(d))
+            d.pop("known_counts", None)
+            for r in d["drafts"].values():
+                r.pop("known", None)
+            return d
+        old = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+        if not old or bare(old) != bare(data):
+            print("audit_page: site/data/findings_audit.json differs from the audit beyond the 'already known?' answers; run the script")
+            return 1
+        print(f"audit_page: the file agrees but for the 'already known?' answers ({len(data['drafts'])} drafts)")
+        return 0
     if a.check:
         old = open(OUT, encoding="utf-8").read() if os.path.exists(OUT) else ""
         if old.replace("\r\n", "\n") != text:
