@@ -347,7 +347,10 @@ class TheDecisionsOnThePage(unittest.TestCase):
         r = src("site", "app", "grid", "RegionTool.tsx")
         for key in ("hours", "months", "part-month", "storage", "crosscheck"):
             self.assertIn(f'data-decision="{key}"', r)
-        self.assertIn("383 of 430 figures are the same to 1 MW", r)
+        # the count on the page is the kept file's own (the cross-check was read again on the rebuilt files in session 8613)
+        with open(os.path.join(ROOT, "replication", "grid", "crosscheck_regions.csv"), encoding="utf-8") as f:
+            end = [x for x in csv.DictReader(l for l in f if not l.startswith("#")) if x["eia_period_is"] == "the hour's end" and x["same"]]
+        self.assertIn(f"{sum(x['same'] == 'yes' for x in end)} of {len(end)} figures are the same to 1 MW", r)
         self.assertIn('data-decisions="8602"', r)                                            # the fold session 8602 pinned still stands
 
 

@@ -61,18 +61,18 @@ Energy Research Warehouse (ERW). Written by session 8606 of chain 504 (`queue/do
 
 **Replication** (run it: `python replication/grid/replicate_regions.py`; exit 0):
 
-- Every figure of the Mix and trade tabs of the thirteen regions, read from a built page (`regions_figures.mjs`), against the same figures computed from the region files with none of the page's code: **1,375 of 1,375 met** on 19 November 2026 (1,349 at the first run; session 8610 added two checks a region).
+- Every figure of the Mix and trade tabs of the thirteen regions, read from a built page (`regions_figures.mjs`), against the same figures computed from the region files with none of the page's code: **1,483 of 1,483 met** on 19 November 2026, on the data machine's rebuilt files (1,349 on the first files; the rebuilt ones hold more months, and session 8610 added two checks a region).
 - It replicates the page from its files. The files from the warehouse's tables are the data machine's replication.
 
 **Cross-check** (`python replication/grid/crosscheck_regions.py`; needs `EIA_API_KEY`; about 160 requests, two minutes):
 
 | Our figure | Published figure | Source | Result |
 |---|---|---|---|
-| Three hours of each region: demand, net imports, the eight sources, their sum | EIA's own regional series for the same hour | EIA open data, `region-data` and `fuel-type-data`, read 19 November 14:37 UTC | 383 of 430 the same to 1 MW |
-| Net generation (the sum of the eight sources) | EIA's reported total | the same | 17 of 37: EIA's total is not always the sum of its own codes (the Central region by 315 and 424 MW) |
+| Three hours of each region: demand, net imports, the eight sources, their sum | EIA's own regional series for the same hour | EIA open data, `region-data` and `fuel-type-data`, read 19 November 16:55 UTC on the data machine's rebuilt files | 388 of 439 the same to 1 MW (383 of 430 on the first files, at 14:37) |
+| Net generation (the sum of the eight sources) | EIA's reported total | the same | 17 of 39: EIA's total is not always the sum of its own codes (the Central region by 315 and 424 MW) |
 | The Southeast, 2026-11-11 19:00 UTC: demand 23,757 MW | 24,859 MW | the same | 1,102 MW under; data request 551 |
 | California's "other", hour to 2026-11-08 19:00 UTC: minus 9,070 MW | EIA's OTH minus 10,253 MW with petroleum, geothermal and unknown: minus 9,070 MW | the same | the same to the megawatt; EIA's battery code that hour: minus 151 MW |
-| Storage for New York and the Mid-Atlantic, wind for the Carolinas and Florida, coal for New England: 0 MW | no series at all | the same | a figure not held written as zero; data request 551 |
+| Storage for New York and the Mid-Atlantic, wind for the Carolinas and Florida: 0 MW on the first files | no series at all | the same | a figure not held written as zero; data request 551, answered the same day: the rebuilt files hold them blank, and the page draws them blank with why |
 
 **What to look at** (five minutes):
 1. `/grid?region=cal`: the chart of the last 35 days; rest the mouse on "Storage"; under the month chips, the count of months not held.

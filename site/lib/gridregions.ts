@@ -233,6 +233,29 @@ export function tradeMonth(file: RegionTrade, month: string): { month: string; t
   return { month, total: at(file.net_imports_mwh), rows };
 }
 
+/** Session 8613 (the second read of the regions, row 39): every year a trade file holds, newest first, each with its
+ *  months in which any neighbour's own report is held, newest first. The trade tab offered the newest thirteen months
+ *  and no way to an older one, though the files go back to July 2018. A year with no such month is left out. */
+export function tradeYears(file: RegionTrade): { year: string; months: string[] }[] {
+  const by = new Map<string, string[]>();
+  file.months.forEach((m, i) => {
+    if (!Object.values(file.neighbors).some((n) => n.net_imports_mwh?.[i] !== null && n.net_imports_mwh?.[i] !== undefined)) return;
+    const y = m.slice(0, 4);
+    by.set(y, [m, ...(by.get(y) ?? [])]);
+  });
+  return [...by.entries()].sort((a, b) => b[0].localeCompare(a[0])).map(([year, months]) => ({ year, months: months.sort().reverse() }));
+}
+
+/** Session 8613 (row 40): what a year of a mix file says of its own months: how many it holds, how many were due, and
+ *  which are not held, as the file writes them (`months`, `months_due`, `missing`). Null for a month, or for a year
+ *  whose entry does not say. */
+export function yearMonths(p: MixPeriod | null | undefined): { months: number; due: number; missing: string[] } | null {
+  const months = p?.months, due = p?.months_due;
+  if (typeof months !== "number" || typeof due !== "number") return null;
+  const missing = Array.isArray(p?.missing) ? (p!.missing as unknown[]).filter((k): k is string => typeof k === "string") : [];
+  return { months, due, missing };
+}
+
 /** The newest month in which any neighbour's own report is held. */
 export function newestTradeMonth(file: RegionTrade): string | null {
   for (let i = file.months.length - 1; i >= 0; i -= 1) if (Object.values(file.neighbors).some((n) => n.net_imports_mwh?.[i] !== null && n.net_imports_mwh?.[i] !== undefined)) return file.months[i];

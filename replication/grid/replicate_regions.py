@@ -244,6 +244,7 @@ def main(argv):
         print(f"the page's figures were read from files built {page.get('index_built')}; the files here were built {index.get('built')}. Read the page again (regions_figures.mjs) before comparing.")
         return 2
     t = Tally()
+    stamps = page.get("files_built") or {}
     for region in index["regions"]:
         code = region["code"]
         got = page["regions"].get(code)
@@ -251,8 +252,15 @@ def main(argv):
             t.same(code, "the region is in the page's figures", bool(got), True)
             continue
         try:
-            mix_tab(code, load(os.path.join(a.regions, "mix", code.lower() + ".json")), got["mix"], t)
-            trade_tab(code, load(os.path.join(a.regions, "trade", code.lower() + ".json")), got["trade"], t)
+            mix, trade = load(os.path.join(a.regions, "mix", code.lower() + ".json")), load(os.path.join(a.regions, "trade", code.lower() + ".json"))
+            # session 8613: a file rebuilt since the page was read is said, and nothing is compared (the index's stamp
+            # alone did not move when the data machine rebuilt the mix files on 19 November)
+            was = stamps.get(code)
+            if was and (was.get("mix") != mix.get("built") or was.get("trade") != trade.get("built")):
+                print(f"{code}: its files were rebuilt since the page was read (mix {was.get('mix')} then, {mix.get('built')} now; trade {was.get('trade')} then, {trade.get('built')} now). Read the page again (regions_figures.mjs) before comparing.")
+                return 2
+            mix_tab(code, mix, got["mix"], t)
+            trade_tab(code, trade, got["trade"], t)
         except (OSError, ValueError, KeyError) as e:
             print(f"{code}: cannot read its files: {e!r}")
             return 2

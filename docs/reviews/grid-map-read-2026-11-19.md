@@ -126,3 +126,35 @@ Session 8612, 19 November 2026, about 16:25 to 16:35 UTC, on a build of `wip/860
 ### What the second read changed on the page
 
 Two site faults fixed at their cause, each with a test in `tests/test_session8612.py` (rows 35 and 36). One ruling with the default taken (34). On a build: `check-grid-map.mjs` 53 of 53, `check-grid-regions.mjs` 26 of 26.
+
+## A second read of the regions (session 8613)
+
+Session 8613, 19 November 2026, about 16:42 to 16:50 UTC, on a build of `wip/8602-grid-regions` with the data machine's real files, by `runs/c504_region_read2.mjs` (what the page said: `runs/c504_region_read2b.out`; pictures `docs/reviews/grid-regions-2026-11-19/case11*.png` to `case15*.png`). The same five readers, each on a control the first read did not exercise.
+
+### The five cases
+
+11. **The transmission planner.** "New England and Canada in January 2026, and the months before." The trade tab, a past month, the chart's Table.
+12. **The power trader.** "The Midwest over the whole of 2025: what made the power?" The Mix tab with a year as the period.
+13. **The student.** "New York in July, year after year; and how New York the region differs from NYISO." The calendar months, the picker's hover, the Clean tab.
+14. **The siting analyst.** "From the Central region to the Southwest, then to ERCOT, without losing the tab." The two pickers.
+15. **The battery developer.** "Texas's batteries hour by hour: when do they charge, when do they discharge, and how much?" The hour by hour chart, its Table, a phone.
+
+### What each reader got
+
+- **Case 11.** Answered for January 2026: New England took 951,533 MWh from New York (New York's own report: 953,454) and 184,354 MWh from Canada, whose side files nothing. The chart's Table lists 36 months with the same figures. Before the fix of row 39 no control reached a month older than November 2025, though the file goes back to July 2018.
+- **Case 12.** Answered. Over 2025 the Midwest made 35.4 percent of its power from natural gas, 31.7 from coal, 13.6 from wind, 12.8 from nuclear. Before the fix of row 40 the line under the shares read "301 days held", with no word that January and February are not in the year.
+- **Case 13.** Answered for the load: New York's July net load by hour for nine years, with each year's midday low, evening high and ramp, and a box of every year's figure under the pointer. The picker's hover says why New York and NYISO can differ. Not answered: how clean (the Clean tab is blank for every region; request 540).
+- **Case 14.** Answered. The region picker keeps the tab (Central's trade to the Southwest's trade); the grid picker opens ERCOT on the same tab.
+- **Case 15.** Answered. On 6 and 7 November the batteries of Texas charged 2,622 MW at 18:00 UTC with 27,865 MW of solar, discharged 5,213 MW at 00:00 UTC as the sun was gone, and charged 3,866 MW at 17:00 UTC the next day. The Table holds the 840 hours with its head kept in place; at 390 px the names stand at the right, inside the screen.
+
+### The rows
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 39 | 11 | The trade tab offered the newest thirteen months and no way to an older one; the file holds 101, from July 2018 | Site gap of session 8602 | fixed (session 8613): a row of years, every year the file holds; the months offered are those of the year shown; a year opens on its newest month. The check opens 2018 and reads the file's figures |
+| 40 | 12 | With a year as the period, "301 days held" and not of which months | Site gap: the file's year says how many months it holds, how many were due and which are missing, and the page did not use it | fixed (session 8613): "301 days held, in 10 of the year's 12 months (not held: January 2025, February 2025)"; for the year in progress, "of the year's 11 months so far" |
+| 41 | 11 | The chart of trade draws the newest 36 months, whatever month is chosen | The chart's own span, said in its title ("2023-12 to 2026-11"); the months before are reached by the years' row and read in the table | not a fault |
+
+### What the second read of the regions changed on the page
+
+Two site gaps fixed at their cause, each with a test in `tests/test_session8613.py` (rows 39 and 40). On a build of the real files: `check-grid-regions.mjs` 28 of 28; the replication read again, 1,375 of 1,375.

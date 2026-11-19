@@ -22,7 +22,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { withBrowser } from "./browser.mjs";
-import { ALIKE, latestHour, monthsNotHeld, netLoadFile, newestTradeMonth, notPrinted, partMonth, readAlike, readIndex, readMix, readTrade, regionHref, storageNote, tradeMonth, whySentence } from "../lib/gridregions.ts";
+import { ALIKE, latestHour, monthsNotHeld, netLoadFile, newestTradeMonth, notPrinted, partMonth, readAlike, readIndex, readMix, readTrade, regionHref, storageNote, tradeMonth, tradeYears, whySentence, yearMonths } from "../lib/gridregions.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3504").replace(/\/$/, "");
 const shots = process.argv[3] ?? null;
@@ -137,6 +137,15 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       await wait(`document.querySelector('[data-region-view]')?.getAttribute('data-region-period') === '${other}'`, 20000, "the other month");
       check((await evaluate(`window.location.search`)) === `?region=${slug}&period=${other}`, `a month chosen is in the address (?region=${slug}&period=${other}) and the tab draws it`);
     }
+    // session 8613 (the second read, row 40): a whole year as the period says of which months its days are, from the file's own count
+    const yearKey = Object.keys(mixFile.years).sort().reverse().find((y) => yearMonths(mixFile.years[y]));
+    if (yearKey) {
+      const ym = yearMonths(mixFile.years[yearKey]);
+      await open(`/grid?region=${slug}&period=${yearKey}`);
+      const line = await evaluate(`({ period: document.querySelector('[data-region-view]').getAttribute('data-region-period'), months: document.querySelector('[data-year-months]')?.getAttribute('data-year-months') ?? null, text: document.querySelector('#shares p')?.innerText.replace(/\\s+/g, ' ') ?? null })`);
+      check(line.period === yearKey && line.months === `${ym.months} of ${ym.due}` && !!line.text && line.text.startsWith(`${whole(mixFile.years[yearKey].days_held)} days held, in ${ym.months} of the year's ${ym.due} months`),
+        `the year ${yearKey} as the period says of which months its days are (${line.text})`);
+    }
     await open(`/grid?region=${slug}`);
     await shot(`region_${slug}_mix_1280.png`);
 
@@ -156,6 +165,16 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
       check((part ? !!said.table && said.table.includes(`${whole(part.hours)} of its ${whole(part.of)} hours`) : said.table === null) && (lastPart ? !!said.chart && said.chart.includes(`${whole(lastPart.hours)} of its ${whole(lastPart.of)} hours`) : said.chart === null),
         `a month the reports hold in part is said so, with the file's hours (${said.table ?? "the month shown is whole"}${said.chart ? `; ${said.chart}` : ""})`);
       await shot(`region_${slug}_trade_1280.png`);
+      // session 8613 (the second read, row 39): every year the file holds is a chip; the oldest opens its newest month, with the file's figures
+      const yrs = tradeYears(trade), old = yrs[yrs.length - 1];
+      const chips = await evaluate(`({ years: [...document.querySelectorAll('[data-chip^="Year:"]')].map((a) => a.innerText.trim()), months: document.querySelectorAll('[data-chip^="Month:"]').length })`);
+      await evaluate(`document.querySelector('[data-chip="Year:${old.year}"]').click()`);
+      await wait(`document.querySelector('[data-region-view]')?.getAttribute('data-region-month') === '${old.months[0]}'`, 20000, "the oldest year");
+      const om = tradeMonth(trade, old.months[0]);
+      const ot = await evaluate(`({ search: window.location.search, rows: [...document.querySelectorAll('[data-region-table="trade"] tbody tr')].map((r) => [...r.children].map((c) => c.innerText.replace(/\\s+/g, ' ').trim())), months: [...document.querySelectorAll('[data-chip^="Month:"]')].length })`);
+      check(chips.years.join(",") === yrs.map((y) => y.year).join(",") && chips.months === yrs[0].months.length && ot.search.includes(`month=${old.months[0]}`) && ot.months === old.months.length && om.rows.every((r, i) => ot.rows[i][0].endsWith(r.code) && ot.rows[i][1] === mwh(r.own)),
+        `the trade tab offers the file's ${yrs.length} years (${yrs[yrs.length - 1].year} to ${yrs[0].year}); ${old.year} opens ${old.months[0]} with the file's own reports (${ot.rows.slice(0, 2).map((r) => `${r[0]} ${r[1]}`).join("; ")}) and its ${old.months.length} months`);
+      await open(`/grid?region=${slug}&view=gravity`);
     }
 
     // network: the region's authorities, one opened, and back to the region from its panel

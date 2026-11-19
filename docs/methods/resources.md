@@ -181,6 +181,12 @@ Left as they are, each a row of the read: the coal fields' area is in square kil
 
 Measured in a browser on a build at 390 and 1280 px against `docs/brand.md`. Two things did not follow it and now do: on a phone the map's nine controls (zoom in and out, the four moves, the three places) are 44 px in both directions, where they were 24 px tall at every width (section 3); and the hover card is fog with a rule-colored edge and no shadow, where it was white with a shadow (sections 3 and 6). Left as it is: the small "i" beside each decision, 16 px, which is the site's shared button on every page with a decisions fold. No figure is touched. Held by `tests/test_session8611_resources.py`.
 
+## Session 8613 (19 November 2026): the coal fields from main, and the check that reads them
+
+The data machine's coal layer and its list reached main on 19 November (the landing desk's stack d), and the branch was merged with main: the layer on the page is now the file main holds, the same bytes the trial of session 8607 used. Seen in a browser on a build at 1280 and 390 px: the Coal group holds "Coal fields" as a switch, 602 fields drawn, the legend in square kilometres, a field's name, area, vintage and publisher on hover; Uranium and Critical minerals stay "not held" with their reasons; the foot names both lists with their dates; no sideways scroll at 390 px.
+
+One gap in the check itself, fixed: `site/scripts/check-resources.mjs` read the first list alone, so an added layer was never switched on by it. It now joins the two lists by the page's rule, written out on its own (the first list wins a name), and checks the coal fields as it checks the other fourteen: 99 checks where there were 97. Three fail, on main too, and all three are the datacenter overlay, which is held for a license and is not read. Held by `tests/test_session8613_resources.py`.
+
 ## Sign-off
 
 Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:
