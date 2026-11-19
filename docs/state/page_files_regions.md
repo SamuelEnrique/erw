@@ -232,6 +232,46 @@ Samples (first build): June 2025 of `monthly.by_source`; Chemicals (NAICS 325) i
 {"consumption_tbtu": {"total": 7672.8, "natural_gas": 2550.695, "petroleum": 3780.276, "electricity": 539.946, "coal": 4.647, "renewables": 100.96}, "price_usd_per_mmbtu": 9.41}
 ```
 
+## 10. `site/data/regions/authority/<code>.json` (chain 505, part C)
+
+One file a balancing authority of `index.json` that files Form EIA-930 in the lower 48 (`us` and `files_eia930` true; code in lower case), and one a region (`authority/region-<code>.json`, the thirteen, the region's authorities summed where a sum is meaningful). Method: `docs/methods/authority_facts.md`. Builder: `warehouse/derived/authority_facts.py`, in the data machine's daily run. Every part carries `table` (the ERW table it is read from), `vintage` (the source's own period) and `source` (the publication in words). A part a source does not cover is present with `null` values and `why` in words, never a zero.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `code`, `name`, `region`, `level` | | as in the other files; `level` is `ba` or `region`; a region's file has `bas` (the authorities summed) |
+| `owns.capacity_mw.<technology_group>` | MW | operating generators' capacity (EIA-860M `capacity_mw`, net summer) by the plant's balancing authority, by the ERW's technology group; `owns.generators` the count; `owns.total_mw` |
+| `owns.largest_plants[]` | list of 10 | `{ plant_id, name, state, mw, technology_group, operator }`, largest first by the plant's operating capacity |
+| `coming.additions[]` | list | `{ year, technology_group, mw, generators }`: planned generators by their planned operation year (EIA-860M planned sheet) |
+| `coming.retirements[]` | list | `{ year, technology_group, mw, generators }`: operating generators with a planned retirement date, by its year |
+| `coming.retired_recent[]` | list | `{ year, technology_group, mw, generators }`: generators EIA-860M lists as retired, by year |
+| `burns.months` | `[first, last]` `YYYY-MM` | the twelve complete months read (Form EIA-930, the six-month files) |
+| `burns.generation_mwh.<source>` | MWh | net generation by EIA's eight sources (`coal`, `natural_gas`, `nuclear`, `petroleum`, `hydro`, `solar`, `wind`, `other`), `storage` where filed; `burns.share_pct.<source>`; `burns.hours_held` |
+| `burns.co2` | object or null part | `{ tco2_generated, intensity_kg_per_mwh }` from EIA's own hourly CO2 estimates over the same months (`eia930_all_emissions`, the seven ISOs and the Lower 48 only); else `null` with `why` |
+| `trades.year` | year | the newest whole year of `ba_trade_partners` |
+| `trades.partners[]` | list of up to 5 | `{ code, name, exchange_gross_mwh, net_import_mwh }`, largest gross exchange first |
+| `trades.net_import_share_of_demand_pct` | percent | the authority's net imports as a share of its demand that year (`ba_trade_partners`); `null` with `why` where not held |
+| `size.peak_mw`, `size.peak_at` | MW, UTC hour | the highest whole-day peak in the demand file (`demand/ba/<code>.json`, `daily`); `size.peak_local` the hour in the authority's time zone |
+| `size.growth_since_2019_pct` | percent | the newest whole year's demand against 2019's, from the demand file's `growth`; `size.growth_year` |
+| `large_loads.rows[]` | list | `large_load_public` rows whose grid or utility group lies in the authority: `{ date, group, row_kind, mw, mw_low, mw_high, document_title, source_url, stage_class }`, newest first; `large_loads.count`; `large_loads.how` says how the rows were placed |
+
+## 11. `site/data/regions/forecast/<region>.json` and `forecast/ba/<code>.json` (chain 505, part D1)
+
+The day-ahead demand forecast each authority files on Form EIA-930, beside the demand that came, from July 2018. Method: `docs/methods/forecast_error.md`. Builder: `warehouse/derived/forecast_error.py`, in the data machine's daily run. Tables: `eia930_forecast_error_hourly`, `eia930_forecast_error_daily`.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `code`, `name`, `level`, `region`, `tz` | | as in the other files; `level` is `ba` or `region` |
+| `first_hour`, `last_hour` | UTC | the first and last hour with both a forecast and a demand |
+| `overall` | object | `{ hours, mape_pct, wape_pct, bias_pct, mae_mw, bias_mw, screened_hours, screen }` over every hour not screened |
+| `by_hour.<measure>` | array of 24 | `mape_pct`, `wape_pct`, `bias_pct`, `hours` by the local hour of day (0 is the hour starting at midnight) |
+| `by_season.<DJF, MAM, JJA, SON>` | object | the measures over each season, with `words` |
+| `by_year.<YYYY>` | object | the measures over each local year |
+| `daily.days`, `daily.<measure>` | arrays | every whole local day (no hour missing or screened): `mape_pct`, `bias_mw`, `peak_forecast_mw`, `peak_demand_mw`, `peak_miss_pct` |
+| `hottest_days[]`, `coldest_days[]` | list of 10 | `{ day, temp_f, mape_pct, bias_mw, peak_forecast_mw, peak_demand_mw, peak_miss_pct }` by the region's daily mean temperature; `weather` names the table and basis; `null` with `weather.why` where no weather is held |
+| `events[]` | list of 9 | `{ event, title, start, end, hours, mape_pct, wape_pct, bias_pct, mae_mw, bias_mw, peak_forecast_mw, peak_demand_mw, peak_miss_pct }` over each event's window, local days |
+
+Signs: a miss is the forecast less the demand; above zero the forecast was high.
+
 ## Changes
 
 - 19 November 2026, session 8000: first version.
@@ -247,3 +287,5 @@ Samples (first build): June 2025 of `monthly.by_source`; Chemicals (NAICS 325) i
 - 19 November 2026, session 8011 (data request 551, section 4; on `wip/c501-desk-d`): a source no authority of a region has printed in any held hour since July 2018 is `null` in that region's mix file (its `avg`, `<source>_mwh`, `<source>_share_pct` and hourly array), and the file names such sources in a new key, `sources_not_printed`.
 - 19 November 2026, session 8011 (data request 552, section 8; on `wip/c501-desk-e`): in `layers/coal_fields.json` `value` is now in square miles (`value_unit` says so, the entry's `unit` too), with a new property `AREA_KM2`, the square kilometres; the entry's `notes_for_method` is the sentence without the method note's file name, which moves to a new key, `method_note`.
 - 19 November 2026, session 8011 (data request 553, section 8; on `wip/c501-desk-g`): a new file, `site/data/resources/hover_fields_added.json`: `{ built_at_utc, note, layers: { <layer id>: { hover_fields: [[column, words]], name_column: { column, source_column, words, unit }, source_file, source_sha256, how } } }`, for `wind_capacity_factor` and `geothermal_hydrothermal_sites`, the two point layers `manifest.json` gives no `hover_fields`; a page uses a layer's list here when `manifest.json` gives none.
+- 19 November 2026, session 8012 (chain 505, part C): section 10, every balancing authority's own facts (`authority/<code>.json`, `authority/region-<code>.json`); no key of another section moves.
+- 19 November 2026, session 8012 (chain 505, part D1): section 11, the day-ahead demand forecast beside the demand that came (`forecast/<region>.json`, `forecast/ba/<code>.json`); no key of another section moves.
