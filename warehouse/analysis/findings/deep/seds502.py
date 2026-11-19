@@ -32,7 +32,9 @@ import partd  # noqa: E402
 
 FAMILY = "demand"
 TBTU_PER_TWH = 3.412
-SERIES = {"seds_total": ("TETCB", None), "seds_elec_comm": ("ESCCB", TBTU_PER_TWH), "seds_elec_ind": ("ESICB", TBTU_PER_TWH), "seds_gas_power": ("NGEIB", None)}
+SERIES = {"seds_total": ("TETCB", None), "seds_elec_comm": ("ESCCB", TBTU_PER_TWH), "seds_elec_ind": ("ESICB", TBTU_PER_TWH), "seds_gas_power": ("NGEIB", None),
+          # session 8213, family tariffs_policy: prices in USD per MMBtu times 3.412 give USD per MWh (a division by 1/3.412); expenditures in billion USD
+          "seds_price_comm": ("ESCCD", 1 / TBTU_PER_TWH), "seds_price_ind": ("ESICD", 1 / TBTU_PER_TWH), "seds_elec_spend": ("ESTCV", 1e9)}
 SKIP = {("seds_elec_comm", "sd_tx"), ("seds_elec_comm", "sd_us")}
 CTX = {}
 
@@ -70,7 +72,8 @@ def _series(name):
     return f
 
 
-seds_total, seds_elec_comm, seds_elec_ind, seds_gas_power = (_series(n) for n in SERIES)
+FN = {n: _series(n) for n in SERIES}
+seds_total, seds_elec_comm, seds_elec_ind, seds_gas_power = FN["seds_total"], FN["seds_elec_comm"], FN["seds_elec_ind"], FN["seds_gas_power"]
 
 
 def seds_renew_share(in_dir=None):
@@ -139,6 +142,16 @@ CANDIDATES = [
     C("seds_renew_share", FAMILY, seds_renew_share, "percent", 1, 1, 2.0, "RENEWABLES' SHARE OF A STATE'S ENERGY", "renewable energy's share of the state's total energy consumption",
       lambda w: f"renewable energy's share of the total energy consumption of {w}", L + " Renewables as SEDS counts them, wood and biofuels included.", reproduce("seds_renew_share"), consequence=2),
 ]
+LP = L + " Nominal dollars; SEDS's price is the sector's revenue over its sales in the state, USD per MMBtu times 3.412."
+TARIFF = [
+    C("seds_price_comm", "tariffs_policy", FN["seds_price_comm"], "USD per MWh", 1, 1, 10.0, "WHAT COMMERCIAL CUSTOMERS PAY, BY STATE", "the state's average electricity price to its commercial sector",
+      lambda w: f"the average electricity price to the commercial sector of {w}", LP, reproduce("seds_price_comm"), consequence=3),
+    C("seds_price_ind", "tariffs_policy", FN["seds_price_ind"], "USD per MWh", 1, 1, 10.0, "WHAT INDUSTRY PAYS, BY STATE", "the state's average electricity price to its industrial sector",
+      lambda w: f"the average electricity price to the industrial sector of {w}", LP, reproduce("seds_price_ind"), consequence=3),
+    C("seds_elec_spend", "tariffs_policy", FN["seds_elec_spend"], "billion USD", 2, 1, 1.0, "WHAT A STATE SPENDS ON ELECTRICITY", "the state's total expenditure on electricity",
+      lambda w: f"the total expenditure on electricity of {w}", L + " Nominal dollars.", reproduce("seds_elec_spend"), consequence=3),
+]
+CANDIDATES += TARIFF
 for _P in CANDIDATES:
     _P["rank"] = lambda c: abs(c["change"])
     _P["rank_region"] = lambda r: 1e9 if r == "sd_us" else 0.0
@@ -149,12 +162,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="The findings hunt of chain 502, part D, demand (SEDS)")
     ap.add_argument("--in-dir", default=None)
     ap.add_argument("--max-drafts", type=int, default=18)
+    ap.add_argument("--tariffs", action="store_true", help="session 8213: only the three tariffs_policy candidates")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--dry-run", action="store_true")
     g.add_argument("--load", action="store_true")
     a = ap.parse_args(argv)
     CTX["in_dir"] = a.in_dir or common.DEFAULT_IN_DIR
-    builder.run("seds502", CANDIDATES, CTX["in_dir"], dry_run=not a.load, max_drafts=a.max_drafts)
+    cands = TARIFF if a.tariffs else [P for P in CANDIDATES if P not in TARIFF]
+    builder.run("seds502_tariffs" if a.tariffs else "seds502", cands, CTX["in_dir"], dry_run=not a.load, max_drafts=a.max_drafts)
     return 0
 
 
