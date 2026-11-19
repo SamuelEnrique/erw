@@ -19,7 +19,12 @@ def load(rel):
 
 class TheArithmetic(unittest.TestCase):
     def setUp(self):
-        import forecast_error as fe
+        # session 8013: loaded under its own name; warehouse/analysis/templates/forecast_error.py is another module of
+        # the same name, and the template loader of the same test run would be handed this one from sys.modules
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("derived_forecast_error", os.path.join(ROOT, "warehouse", "derived", "forecast_error.py"))
+        fe = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(fe)
         self.fe = fe
 
     def test_miss_is_forecast_less_demand_and_the_screen(self):
