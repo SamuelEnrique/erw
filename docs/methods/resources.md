@@ -111,6 +111,16 @@ Chain 504 set the map beside the owner's list of 7 October 2026 as that chain gi
 - **Result: 556 of 556 figures are the publisher's.** The count of plays (50); for each play its name, its area in square miles (the hover's figure, the source's `Area_sq_mi`) and the nine fields of the source the layer keeps; the smallest, mean and largest area (184.8, 10,280.3 and 59,054.2 square miles). `replication/resources/oil_gas_plays_figures.csv` holds every figure, the map's and the publisher's.
 - **Stata:** `replication/resources/replicate.do` prints the five headline figures from the same table. It has not been run (Stata is not on the machine that wrote it).
 
+### Replication: sedimentary basins (`oil_gas_basins`), the second layer (session 8619)
+
+`replication/resources/replicate_basins.py` does the same for the basins, from this note and the publisher's file, with the same two readers and the same area on the ellipsoid.
+
+- **The file:** <https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip>, 440,871 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`02a017ccb84bdcc1...`): it is the same file. The same robots file and terms as the plays' file.
+- **Result: 199 of 199 figures are the publisher's.** The count of basins (32); for each its name as shown, its area in square miles (the hover's figure, the source's `Area_sq_mi`), the unit, and the three fields of the source the layer keeps; the smallest, mean and largest area (1,289.0, 35,362.7 and 160,408.4 square miles). `replication/resources/oil_gas_basins_figures.csv`.
+- **Its cross-checks.** The 32 areas sum to 1,131,605 square miles by the publisher's field and 1,131,631 by its outlines, 0.002 percent apart; every basin agrees within 0.2 percent (the widest: Valley and Ridge, 18,886.4 against 18,920.5). The publisher's square kilometres are its square miles times 2.589988 in every basin. `replication/resources/crosscheck_basins.csv`.
+- **One rule is the layer's own:** a basin's name. EIA writes names in capitals; the layer shows each word with a capital first. The rule is reproduced as it is, with the one name it serves badly: EIA's "TX-LA-MS SALT", three states' codes, reads "Tx-La-Ms Salt" on the map (data request 554).
+- Held by `tests/test_session8619_resources.py`, which builds a small file of the same kind and tries the comparison on it (an altered area and an altered name are each caught), since the publisher's file is not kept in the repository.
+
 Why this layer and not the geothermal one, which is smaller: the geothermal files are on ScienceBase, whose robots file names Claude's agents and disallows every path for them, so that host was not read by the session that wrote this (19 November 2026). The layer itself was fetched on 7 October by the data machine's connector under the terms recorded below.
 
 ### Cross-check 1: the publisher's area against the area of its own outline

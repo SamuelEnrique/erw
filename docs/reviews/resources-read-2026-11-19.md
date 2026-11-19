@@ -83,3 +83,11 @@ Session 8615, 19 November 2026, about 17:56 to 18:03 UTC, on a build. The brand 
 | 17 | all | With the method note under the map open, a screen reader finds two headings of level 1: the page's and the method document's own title | Site gap of session 146: the document is shown inside the page with its headings as written (found by `runs/c504_a11y_probe.mjs`, which also found every control named, every field labelled, no id used twice and no level skipped) | ruling: for Samuel (the level of a document's headings can only be set inside the site's one renderer, `site/lib/markdown.ts`, which every page shares). Default taken: left as it is. A fix tried in session 8615 wrote the levels from the page, round the renderer; the site's rule is that markup reaches a page only through the renderer (tests 177 and 5153), the landing desk's suite caught it, and session 8616 took it out |
 
 One site gap fixed at its cause with a test in `tests/test_session8615_resources.py` (row 15). Two rulings with the default taken (rows 16 and 17). On a build: `check-resources.mjs` 102 of 105, the three that fail the datacenter overlay's license hold.
+
+## Found while replicating a second layer (session 8619)
+
+Session 8619, 19 November 2026. The sedimentary basins were replicated against EIA's own file (199 of 199 figures; `replication/resources/replicate_basins.py`). One thing a reader meets came out of it.
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 18 | 2 | One basin's name on the map is "Tx-La-Ms Salt" | Data: EIA writes the basins' names in capitals ("TX-LA-MS SALT", the codes of three states and the word salt), and the layer shows each word with a capital first, which is right for the other 31 ("Fort Worth") and wrong for this one. "Valley And Ridge" has its "And" with a capital for the same reason | data machine: request 554 (the name as a reader would write it, or EIA's own spelling kept). The page shows the name as its file gives it |
