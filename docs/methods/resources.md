@@ -141,6 +141,16 @@ Chain 504 set the map beside the owner's list of 7 October 2026 as that chain gi
 - **Cross-check.** The sites lie from 25.40 to 49.33 degrees north and from 124.66 to 67.07 degrees west; the dataset's own page states its coverage as 24.91 to 49.49 north and 125.45 to 66.53 west, and the sites of all 49 states of the file lie inside it. The page states no total of sites, capacity or area, so none is set beside the file's (13,662,438 MW on 5,680,243 square kilometres of developable land, summed from its rows). A first cross-check tried, capacity over developable area against the file's capacity density, was dropped: that column is over another area, and the two are not meant to agree. `replication/resources/crosscheck_wind_sites.csv`.
 - Held by `tests/test_session8622_resources.py`, on rows made up for the test.
 
+### Replication: offshore wind lease areas (`offshore_wind_leases`), the fifth layer (session 8623)
+
+`replication/resources/replicate_leases.py` compares the layer with the outlines table of BOEM's own archive.
+
+- **The file:** <https://www.boem.gov/renewable-energy/boem-renewable-energy-shapefiles>, a zip of 1,031,812 bytes. Its sha256 on 19 November 2026 is the one the layer recorded on 7 October (`47c5f33f5d16cede...`): it is the same file. BOEM is an agency of the United States government; its robots file allows the path.
+- **Result: 1,129 of 1,129 figures are the publisher's.** The count of outlines (51); for each its name, its kind (lease area, with the source's `LEASE_TYPE`), its area in acres (the hover's figure, the source's `ACRES`; none where that is 0) and the 18 fields kept; the smallest, mean and largest area. `replication/resources/offshore_wind_leases_figures.csv`.
+- **Cross-check 1: BOEM's acres against the area of its own outline.** For the 46 outlines with an area, the stated acres sum to 3,455,708 and the outlines' own areas to 3,458,946, 0.09 percent apart; 45 agree within 1 percent. The one that does not is the easement of lease OCS-A 0517 (South Fork Wind): 2,723 acres stated against 4,086 for the shape the map draws. The hover shows the stated figure.
+- **Cross-check 2: a lease's type in BOEM's two tables.** The archive also holds a table of lease blocks. For 48 of the 50 outlines found in it, the outline's type is one that table gives the lease. For two it is not, and the map shows the outlines table's word: OCS-A 0497 (Virginia Department of Energy) reads "lease area (Commercial)" and is "Research" and "Easement" in the blocks table; OCS-A 0506 (The Narragansett Electric Company, a cable) reads "lease area (Commercial)" and is "Right-of-Way Grant" there. Data request 556 puts the two before the data machine. `replication/resources/crosscheck_leases.csv`.
+- Held by `tests/test_session8623_resources.py`, on outlines made up for the test.
+
 Why this layer and not the geothermal one, which is smaller: the geothermal files are on ScienceBase, whose robots file names Claude's agents and disallows every path for them, so that host was not read by the session that wrote this (19 November 2026). The layer itself was fetched on 7 October by the data machine's connector under the terms recorded below.
 
 ### Cross-check 1: the publisher's area against the area of its own outline
