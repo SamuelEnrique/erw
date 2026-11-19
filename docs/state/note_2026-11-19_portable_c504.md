@@ -1,6 +1,6 @@
 # Chain 504, the portable laptop, 19 November 2026: where it stands
 
-Energy Research Warehouse (ERW). Sessions 8600 to 8610 so far (10:40 to 16:13 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
+Energy Research Warehouse (ERW). Sessions 8600 to 8611 so far (10:40 to 16:25 UTC). Written at 16:13 UTC and kept current; the last line says when. Model spend USD 0. Nothing published; `site/lib/release.ts` not touched; every page in review.
 
 ## Read these first
 
@@ -26,8 +26,8 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8610 so far (10:40 to 16:13 UT
 
 ## Waiting at the landing desk (`docs/state/landing_request_portable.md`)
 
-- Row 42, `wip/8602-grid-regions` at `0e7bc3289`. Lands before or after the data machine's files.
-- Row 43, `wip/8603-resources` at `2a7dfd3fb`. Lands before or after the data machine's coal layer.
+- Row 42, `wip/8602-grid-regions` at `420e3930e`. Lands before or after the data machine's files.
+- Row 43, `wip/8603-resources` at `180880ef6`. Lands before or after the data machine's coal layer.
 
 ## Asked of the data machine (`docs/state/data_requests_done_line.md`)
 
@@ -60,4 +60,4 @@ Energy Research Warehouse (ERW). Sessions 8600 to 8610 so far (10:40 to 16:13 UT
 - A balancing authority's own mix is in no file.
 - No Stata do-file for the map or the regions; the resource map's has not been run.
 
-Last written: 16:13 UTC, session 8610.
+Last written: 16:25 UTC, session 8611.
