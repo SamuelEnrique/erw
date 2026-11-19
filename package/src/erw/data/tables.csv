@@ -19,6 +19,7 @@ attention_index_weekly,public,,,,ERW,"Public: every publisher's terms the ERW re
 attention_story_links,public,,,,ERW,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 ba_boundaries,public,,,,"Homeland Infrastructure Foundation-Level Data (HIFLD), served by Penn State PASDA","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 ba_supply_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",430 days
+ba_trade_partners,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 battery_sourced_ranges,public,,,,"National Laboratory of the Rockies (NLR, formerly NREL)","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 battery_stack_monthly,public,,,,CAISO; ERCOT,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
 battery_stack_review_monthly,unsettled,license needed,2026-10-21,NYISO,NYISO; SPP,"NYISO's terms ask for written permission, which the ERW has not recorded (license needed since 2026-10-21).",none
@@ -181,6 +182,7 @@ eia930_demand_growth,public,,,,EIA,"Public: every publisher's terms the ERW read
 eia930_demand_weather,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_event_hourly_interchange,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_generation_latest,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",whole
+eia930_region_fuel_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_region_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_region_pair_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia930_subba_demand_hourly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -193,6 +195,7 @@ eia930_subba_demand_hourly_2024,public,,,,EIA,"Public: every publisher's terms t
 eia930_subba_demand_hourly_2025,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_aeo_electricity,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_aeo_emm_regions,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+eia_aeo_industrial,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_all_futures_prices,internal,,,"CME Group (NYMEX), whose prices EIA republished","CME Group (NYMEX), whose prices EIA republished; EIA",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 eia_annual_crosscheck_ba,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_annual_generation_ba,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -285,6 +288,7 @@ eia_retail_electricity_prices,public,,,,EIA,"Public: every publisher's terms the
 eia_retail_fuel_prices,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_retail_sales_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",850 days
 eia_sector_energy_consumption_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",850 days
+eia_seds_industrial_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_seds_residential_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_seds_state_energy,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 eia_shale_gas_reserves_annual,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
@@ -466,6 +470,9 @@ impact_tax_rules,unsettled,license needed,2026-10-21,Louisiana Department of Rev
 ine_es_dwellings_electricity_2021,public,,,,"Instituto Nacional de Estadistica (INE), Spain","Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 inseed_togo_electricity_annual,internal,,,"Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo","Institut National de la Statistique et des Etudes Economiques et Demographiques (INSEED), Togo",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
 instat_madagascar_electricity_monthly,internal,,,"Institut National de la Statistique (INSTAT), Madagascar","Institut National de la Statistique (INSTAT), Madagascar",The ERW holds it for its own use only (needs written permission); it is never redistributed.,none
+interchange_event_pairs,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+interchange_pair_daily,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
+interchange_pair_monthly,public,,,,EIA,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_agreements_by_grid,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_agreements_signed,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
 interconnection_durations,public,,,,Berkeley Lab,"Public: every publisher's terms the ERW read allow it to be shared, with credit to the publisher.",none
