@@ -237,23 +237,23 @@ wog-oil-use-wog-usa,oil_products_world,yes,pass,"got 1980 17055.4, 2025 20736.1;
 wog-oil-use-wog-worl,oil_products_world,yes,pass,"got 1980 63137, 2024 103110; the draft says 63137, 103110 (tolerance 199.9)",runs/archive_restore/eia_world_oil_gas_annual.csv,1
 quakes-m3-eq-new-mexico,other_us,yes,pass,"got 2010 5, 2025 83; the draft says 5, 83 (tolerance 0.39)",runs/archive_restore,1
 quakes-m3-eq-texas,other_us,yes,pass,"got 2010 9, 2025 67; the draft says 9, 67 (tolerance 0.29)",runs/archive_restore,1
-util-commercial-price-u861-13756-in,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-price-u861-15500-wa,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-price-u861-19547-hi,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-14063-ok,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-14127-ne,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-16572-az,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-19876-va,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-6452-fl,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-commercial-u861-803-az,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-industrial-u861-11241-la,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-industrial-u861-12341-ia,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-industrial-u861-15248-or,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-industrial-u861-814-ar,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-total-u861-12341-ia,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-total-u861-14063-ok,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-total-u861-19876-va,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
-util-total-u861-6452-fl,other_us,yes,not checked,a table larger than 250 MB for this machine's memory: eia861m_utility_sales_monthly 262 MB,,
+util-commercial-price-u861-13756-in,other_us,yes,pass,"got 2017 132.604, 2025 192.434; the draft says 132.604, 192.434 (tolerance 0.2992)",runs/archive_restore/eia861m_utility_sales_monthly.csv,3
+util-commercial-price-u861-15500-wa,other_us,yes,pass,"got 2017 99.4354, 2025 156.619; the draft says 99.4354, 156.619 (tolerance 0.2859)",runs/archive_restore/eia861m_utility_sales_monthly.csv,3
+util-commercial-price-u861-19547-hi,other_us,yes,pass,"got 2017 250.138, 2025 346.66; the draft says 250.138, 346.66 (tolerance 0.4826)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-14063-ok,other_us,yes,pass,"got 2017 9.76472, 2025 14.6204; the draft says 9.76472, 14.6204 (tolerance 0.02428)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-14127-ne,other_us,yes,pass,"got 2017 3.66636, 2025 7.87521; the draft says 3.66636, 7.87521 (tolerance 0.02104)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-16572-az,other_us,yes,pass,"got 2017 11.5442, 2025 14.701; the draft says 11.5442, 14.701 (tolerance 0.01578)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-19876-va,other_us,yes,pass,"got 2017 41.5356, 2025 60.0882; the draft says 41.5356, 60.0882 (tolerance 0.09276)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-6452-fl,other_us,yes,pass,"got 2017 47.4948, 2025 54.1687; the draft says 47.4948, 54.1687 (tolerance 0.03337)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-commercial-u861-803-az,other_us,yes,pass,"got 2017 12.4167, 2025 17.3363; the draft says 12.4167, 17.3363 (tolerance 0.0246)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-industrial-u861-11241-la,other_us,yes,pass,"got 2017 29.7542, 2025 35.9825; the draft says 29.7542, 35.9825 (tolerance 0.03114)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-industrial-u861-12341-ia,other_us,yes,pass,"got 2017 12.1816, 2025 19.3774; the draft says 12.1816, 19.3774 (tolerance 0.03598)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-industrial-u861-15248-or,other_us,yes,pass,"got 2017 3.00025, 2025 5.97599; the draft says 3.00025, 5.97599 (tolerance 0.01488)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-industrial-u861-814-ar,other_us,yes,pass,"got 2017 7.52829, 2025 12.0625; the draft says 7.52829, 12.0625 (tolerance 0.02267)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-total-u861-12341-ia,other_us,yes,pass,"got 2017 22.3651, 2025 30.8107; the draft says 22.3651, 30.8107 (tolerance 0.04223)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-total-u861-14063-ok,other_us,yes,pass,"got 2017 23.73, 2025 30.9235; the draft says 23.73, 30.9235 (tolerance 0.03597)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-total-u861-19876-va,other_us,yes,pass,"got 2017 76.6192, 2025 94.5594; the draft says 76.6192, 94.5594 (tolerance 0.0897)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
+util-total-u861-6452-fl,other_us,yes,pass,"got 2017 108.514, 2025 129.984; the draft says 108.514, 129.984 (tolerance 0.1074)",runs/archive_restore/eia861m_utility_sales_monthly.csv,2
 coal-share-st-car-cow,regions,yes,pass,"got 2001 53.0628, 2025 15.1177; the draft says 53.0628, 15.1177 (tolerance 0.1897)",warehouse/output,2
 coal-share-st-se-cow,regions,yes,pass,"got 2001 60.2307, 2025 14.4272; the draft says 60.2307, 14.4272 (tolerance 0.229)",warehouse/output,2
 coal-share-st-sw-cow,regions,yes,pass,"got 2001 55.4259, 2025 11.1605; the draft says 55.4259, 11.1605 (tolerance 0.2213)",warehouse/output,2

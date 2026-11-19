@@ -349,23 +349,23 @@ home-electric-spend-home-elec-us,pass,"figure, unit, place, period and compariso
 quakes-m3-eq-new-mexico,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 quakes-m3-eq-texas,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 renewable-share-us-renewable-share,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-util-commercial-price-u861-13756-in,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont)"
-util-commercial-price-u861-15500-wa,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont)"
-util-commercial-price-u861-19547-hi,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont)"
-util-commercial-u861-14063-ok,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-commercial-u861-14127-ne,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-commercial-u861-16572-az,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-commercial-u861-19876-va,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-commercial-u861-6452-fl,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-commercial-u861-803-az,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-industrial-u861-11241-la,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-industrial-u861-12341-ia,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-industrial-u861-15248-or,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-industrial-u861-814-ar,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-total-u861-12341-ia,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-total-u861-14063-ok,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-total-u861-19876-va,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
-util-total-u861-6452-fl,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: eia861m_utility_sales_mont); wording mended: see Changed"
+util-commercial-price-u861-13756-in,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+util-commercial-price-u861-15500-wa,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+util-commercial-price-u861-19547-hi,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+util-commercial-u861-14063-ok,fixed,wording mended: see Changed
+util-commercial-u861-14127-ne,fixed,wording mended: see Changed
+util-commercial-u861-16572-az,fixed,wording mended: see Changed
+util-commercial-u861-19876-va,fixed,wording mended: see Changed
+util-commercial-u861-6452-fl,fixed,wording mended: see Changed
+util-commercial-u861-803-az,fixed,wording mended: see Changed
+util-industrial-u861-11241-la,fixed,wording mended: see Changed
+util-industrial-u861-12341-ia,fixed,wording mended: see Changed
+util-industrial-u861-15248-or,fixed,wording mended: see Changed
+util-industrial-u861-814-ar,fixed,wording mended: see Changed
+util-total-u861-12341-ia,fixed,wording mended: see Changed
+util-total-u861-14063-ok,fixed,wording mended: see Changed
+util-total-u861-19876-va,fixed,wording mended: see Changed
+util-total-u861-6452-fl,fixed,wording mended: see Changed
 brent-wti-spread-us-brent-wti,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 carb-allowance-price-us-ca-allowance,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 cheapest-hour-ercot-hb-north,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_all_hub_prices_histo)"
