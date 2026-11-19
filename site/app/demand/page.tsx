@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Hint } from "@/components/demand/Hint";
 import { Hover } from "@/components/demand/Hover";
+import { CountryView } from "@/components/demand/Country";
+import { ChangeBars, DOWN, Heat, UP, YearsChart } from "@/components/demand/Growth";
 import { FIT_YEARS, WeatherView } from "@/components/demand/Weather";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -9,7 +11,7 @@ import fileJson from "@/data/demand_growth.json";
 import { caisoJoinDay } from "@/lib/caisoJoin";
 import {
   RANKS, TABLE, byHour, byMonth, cells, choices, extremes, hourName, href, localHour, monthName, ranking, signed, slugOf, whole, wholeYears, yearToDate,
-  type Area, type DemandFile,
+  type DemandFile,
 } from "@/lib/demandgrowth";
 import { CA_BASE_FAULT, HOUR_WHY, METHODS, caBaseWhy, viewHref, viewOf, type Fault } from "@/lib/demandpage";
 import { Brand } from "@/components/Brand";
@@ -58,98 +60,6 @@ export const metadata: Metadata = { title: "Demand growth", robots: { index: fal
 const file = fileJson as unknown as DemandFile;
 const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}>{children}</span>;
 const NOT = <span className="text-muted">not held</span>;
-const UP = "var(--color-accent)", DOWN = "var(--color-down)";
-
-/** Average demand by year as bars, the peak as a mark above each. */
-function YearsChart({ area }: { area: Area }) {
-  const W = 760, H = 300, L = 70, R = 12, top = 18, bot = 30;
-  const ys = wholeYears(area);
-  const hasPeak = ys.some((y) => y.row.peak_demand_mw !== undefined);
-  const hi = Math.max(...ys.map((y) => y.row.peak_demand_mw ?? y.row.avg_demand_mw)) * 1.08;
-  const step = [1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000].find((s) => hi / s <= 6) ?? 200000;
-  const bw = (W - L - R) / ys.length;
-  const y = (v: number) => top + ((hi - v) / hi) * (H - top - bot);
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" data-chart="years" aria-label={`${area.name}: average demand by year${hasPeak ? " and the year's peak hour" : ""}, MW`}>
-      {Array.from({ length: Math.floor(hi / step) + 1 }, (_, i) => i * step).map((t) => (
-        <g key={t}>
-          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="var(--color-rule)" strokeWidth={t === 0 ? 1.5 : 0.75} />
-          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--color-muted)">{t.toLocaleString("en-US")}</text>
-        </g>
-      ))}
-      {ys.map((d, i) => {
-        const tip = `${area.name}, ${d.year}: average ${whole(d.row.avg_demand_mw)} MW${d.row.peak_demand_mw !== undefined ? `, highest hour ${whole(d.row.peak_demand_mw)} MW` : ""}`;
-        return (
-          <g key={d.year} data-year={d.year} data-tip={tip}>
-            <rect x={L + i * bw} y={top} width={bw} height={H - top - bot} fill="transparent" />
-            <rect x={L + i * bw + bw * 0.18} y={y(d.row.avg_demand_mw)} width={bw * 0.64} height={y(0) - y(d.row.avg_demand_mw)} fill="var(--color-accent)" aria-label={tip} />
-            {d.row.peak_demand_mw !== undefined ? <line x1={L + i * bw + bw * 0.1} x2={L + (i + 1) * bw - bw * 0.1} y1={y(d.row.peak_demand_mw)} y2={y(d.row.peak_demand_mw)} stroke="var(--color-ink)" strokeWidth="2.5" /> : null}
-            <text x={L + (i + 0.5) * bw} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{d.year}</text>
-          </g>
-        );
-      })}
-      <text x={L} y={11} fontSize="11" fill="var(--color-muted)">MW</text>
-    </svg>
-  );
-}
-
-/** Where growth concentrates: a cell per month and hour of the day, shaded by the percent change since the base year. */
-function Heat({ area }: { area: Area }) {
-  const cs = cells(file, area);
-  if (!cs.length) return <p className="border border-rule bg-paper px-3 py-2 text-sm"><Hint words="not held" why={`The table has no month-and-hour cell for ${area.name} in both ${file.base} and ${file.last_year}.`} /></p>;
-  const W = 760, L = 84, R = 8, top = 22, ch = 20;
-  const cw = (W - L - R) / 24;
-  const H = top + 12 * ch + 6;
-  const max = Math.max(...cs.map((c) => Math.abs(c.pct)));
-  const at = new Map(cs.map((c) => [`${c.month}|${c.hour}`, c]));
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" data-chart="heat" data-cells={cs.length} aria-label={`${area.name}: change in average demand from ${file.base} to ${file.last_year}, by month and local hour of the day, percent`}>
-      {[0, 3, 6, 9, 12, 15, 18, 21].map((h) => <text key={h} x={L + (h + 0.5) * cw} y={14} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{hourName(h)}</text>)}
-      {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-        <g key={m}>
-          <text x={L - 8} y={top + (m - 1) * ch + 14} textAnchor="end" fontSize="11" fill="var(--color-ink)">{monthName(m)}</text>
-          {Array.from({ length: 24 }, (_, h) => {
-            const c = at.get(`${m}|${h}`);
-            return c
-              ? <rect key={h} x={L + h * cw} y={top + (m - 1) * ch} width={cw - 1} height={ch - 1} fill={c.pct >= 0 ? UP : DOWN} fillOpacity={0.08 + 0.92 * (Math.abs(c.pct) / max)} data-cell={`${m}|${h}`} data-tip={`${monthName(m)}, ${hourName(h)}: ${signed(c.pct)} percent, ${c.mw > 0 ? "+" : ""}${whole(c.mw)} MW`} />
-              : <rect key={h} x={L + h * cw} y={top + (m - 1) * ch} width={cw - 1} height={ch - 1} fill="transparent" stroke="var(--color-rule)" data-tip={`${monthName(m)}, ${hourName(h)}: not held`} />;
-          })}
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-/** The change since the base year by month or by hour: a bar each, percent. */
-function ChangeBars({ items, what }: { items: { label: string; pct: number | undefined }[]; what: string }) {
-  const W = 760, H = 200, L = 46, R = 8, top = 14, bot = 28;
-  const vals = items.map((i) => i.pct ?? 0);
-  const hi = Math.max(0, ...vals) * 1.1 || 1, lo = Math.min(0, ...vals) * 1.1;
-  const bw = (W - L - R) / items.length;
-  const y = (v: number) => top + ((hi - v) / (hi - lo)) * (H - top - bot);
-  const step = [1, 2, 5, 10, 20].find((s) => (hi - lo) / s <= 6) ?? 20;
-  const ticks: number[] = [];
-  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(t);
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" data-chart={what} aria-label={`Change in average demand from ${file.base} to ${file.last_year}, ${what}, percent`}>
-      {ticks.map((t) => (
-        <g key={t}>
-          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="var(--color-rule)" strokeWidth={t === 0 ? 1.5 : 0.75} />
-          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--color-muted)">{t}</text>
-        </g>
-      ))}
-      {items.map((it, i) => (
-        <g key={it.label} data-tip={it.pct !== undefined ? `${it.label}: ${signed(it.pct)} percent from ${file.base} to ${file.last_year}` : `${it.label}: not held`}>
-          <rect x={L + i * bw} y={top} width={bw} height={H - top - bot} fill="transparent" />
-          {it.pct !== undefined ? <rect x={L + i * bw + bw * 0.15} y={Math.min(y(0), y(it.pct))} width={bw * 0.7} height={Math.max(1, Math.abs(y(it.pct) - y(0)))} fill={it.pct >= 0 ? UP : DOWN} /> : null}
-          {items.length <= 12 || i % 3 === 0 ? <text x={L + (i + 0.5) * bw} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-muted)">{items.length <= 12 ? it.label.slice(0, 3) : it.label}</text> : null}
-        </g>
-      ))}
-      <text x={L} y={10} fontSize="11" fill="var(--color-muted)">percent</text>
-    </svg>
-  );
-}
-
 /** The first view: growth as metered (what /demand showed before session 152). */
 function MeteredView({ q }: { q: Record<string, string | undefined> }) {
   const { ba, rank } = choices(q);
@@ -229,12 +139,12 @@ function MeteredView({ q }: { q: Record<string, string | undefined> }) {
           <ToolSection title="Where the growth is" id="where"
             note={<Hint words="How to read the cells" why={`Each cell is one hour of the day in one month: the average demand of that hour over the month in ${file.last_year}, against the same in ${file.base}. Red is growth, dark grey a fall; the deeper, the larger. One hot or mild month colors a whole row, which is the weather and not a trend. ${HOUR_WHY}`} />}>
             <ChartFrame title={`${area.name}: change from ${file.base} to ${file.last_year}, percent, by month and hour of the day`} legend={[{ label: "Growth", color: UP }, { label: "Fall", color: DOWN }]}>
-              <Hover><Heat area={area} /></Hover>
+              <Hover><Heat area={area} file={file} /></Hover>
             </ChartFrame>
             {ex ? <p className="mb-6 max-w-3xl text-sm" data-extremes="1">Largest: {monthName(ex.most.month)} at {hourName(ex.most.hour)}, <N k="cell|most|pct">{signed(ex.most.pct)}</N> percent (<N k="cell|most|mw">{whole(ex.most.mw)}</N> MW). Smallest: {monthName(ex.least.month)} at {hourName(ex.least.hour)}, <N k="cell|least|pct">{signed(ex.least.pct)}</N> percent (<N k="cell|least|mw">{whole(ex.least.mw)}</N> MW).</p> : null}
             <div className="grid gap-x-6 xl:grid-cols-2">
-              <ChartFrame title="By month"><Hover><ChangeBars items={byMonth(file, area).map((m) => ({ label: monthName(m.month), pct: m.pct }))} what="by month" /></Hover></ChartFrame>
-              <ChartFrame title="By hour of the day"><Hover><ChangeBars items={byHour(file, area).map((h) => ({ label: hourName(h.hour), pct: h.pct }))} what="by hour" /></Hover></ChartFrame>
+              <ChartFrame title="By month"><Hover><ChangeBars file={file} items={byMonth(file, area).map((m) => ({ label: monthName(m.month), pct: m.pct }))} what="by month" /></Hover></ChartFrame>
+              <ChartFrame title="By hour of the day"><Hover><ChangeBars file={file} items={byHour(file, area).map((h) => ({ label: hourName(h.hour), pct: h.pct }))} what="by hour" /></Hover></ChartFrame>
             </div>
           </ToolSection>
 
@@ -284,6 +194,20 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
             <ConsumptionView />
             <TableDownloads tables={["eia_retail_sales_monthly", "eia_sector_energy_consumption_monthly"]} />
             <Related href="/demand" />
+          </div>
+        </ToolPage>
+      </Brand>
+    );
+  }
+  // session 8420 (chain 503, part C): the whole country, the fourth view: any of EIA's thirteen regions and any
+  // balancing authority, two side by side (components/demand/Country.tsx). The three views before it are not touched.
+  if (view === "country") {
+    return (
+      <Brand>
+        <ToolPage>
+          <div data-demand={view}>
+            <Tabs page="/demand" active={view} />
+            <CountryView q={q} />
           </div>
         </ToolPage>
       </Brand>

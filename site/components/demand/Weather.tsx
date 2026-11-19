@@ -24,9 +24,14 @@ const N = ({ k, children }: { k: string; children: string }) => <span data-n={k}
 const NOT = <span className="text-muted">not held</span>;
 const WEATHER = "var(--color-muted)", REST = "var(--color-accent)";
 
-/** For each grid, two bars: the growth the weather explains and the growth it does not, the second with its uncertainty. */
-function Explained({ year, fig }: { year: string; fig: (typeof FIGURES)[number] }) {
-  const rows = ORDER.map((ba) => ({ ba, name: file.grids[ba].name, g: figureOf(file, ba, year, fig.key) }));
+/** For each grid, two bars: the growth the weather explains and the growth it does not, the second with its uncertainty.
+ *  Session 8420 (chain 503, part C): exported, with three optional props, so the view of the whole country
+ *  (components/demand/Country.tsx) draws one or two regions with this same chart: `of` is the fit's years and the grid
+ *  objects read (a region's `weather` object has a grid object's form), `order` their codes, `by` the word of the
+ *  chart's label. Without them it draws the seven grids from the page's file, as before. */
+export function Explained({ year, fig, of, order = ORDER, by = "grid" }: { year: string; fig: (typeof FIGURES)[number]; of?: Pick<WeatherFile, "train" | "grids">; order?: readonly string[]; by?: string }) {
+  const f = of ?? file;
+  const rows = order.map((ba) => ({ ba, name: f.grids[ba].name, g: figureOf(f, ba, year, fig.key) }));
   const W = 760, L = 78, R = 64, top = 26, rh = 50, H = top + rows.length * rh + 8;
   const ends = rows.flatMap((r) => (r.g ? [r.g.weather_pct, r.g.unexplained_pct - (r.g.uncertainty_pct ?? 0), r.g.unexplained_pct + (r.g.uncertainty_pct ?? 0)] : []));
   const low = Math.min(0, ...ends), high = Math.max(0, ...ends) || 1;
@@ -39,7 +44,7 @@ function Explained({ year, fig }: { year: string; fig: (typeof FIGURES)[number] 
     <rect x={Math.min(x(0), x(v))} y={y} width={Math.max(1, Math.abs(x(v) - x(0)))} height={14} fill={fill} data-tip={label} aria-label={label} />
   );
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" data-chart="explained" aria-label={`${fig.name}, ${year}: growth against the average of ${file.train[0]} to ${file.train[file.train.length - 1]}, the part the weather explains and the part it does not, by grid, percent`}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" data-chart="explained" aria-label={`${fig.name}, ${year}: growth against the average of ${f.train[0]} to ${f.train[f.train.length - 1]}, the part the weather explains and the part it does not, by ${by}, percent`}>
       {ticks.map((t) => (
         <g key={t}>
           <line x1={x(t)} x2={x(t)} y1={top - 4} y2={H - 6} stroke="var(--color-rule)" strokeWidth={t === 0 ? 1.5 : 0.75} />

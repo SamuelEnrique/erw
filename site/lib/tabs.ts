@@ -21,7 +21,7 @@ export const TABBED = {
   "/storage": { param: "tab", name: "Storage", tabs: [["fleet", "The fleet"], ["buildout", "The build-out"], ["owners", "The owners"]] },
   "/severance": { param: "tab", name: "Severance tax", tabs: [["calculator", "Calculator"], ["lease", "Lease"]] },
   "/prices": { param: "tab", name: "Prices", tabs: [["now", "Every hub and zone"], ["ercot", "ERCOT"]] },
-  "/demand": { param: "view", name: "Demand", tabs: [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"]] },
+  "/demand": { param: "view", name: "Demand", tabs: [["metered", "As metered"], ["weather", "With the weather taken out"], ["consumption", "Consumption"], ["country", "The whole country"]] },  // session 8420: the whole country, a new tab (no page folded into it)
   "/deals": { param: "tab", name: "Deals", tabs: [["deals", "Deals"], ["tracker", "Tracker"], ["companies", "Companies"]] },
   "/map": { param: "tab", name: "Project map", tabs: [["projects", "Projects"], ["resources", "Resources"], ["queues", "Queues"]] },  // session 349: Queues
   "/datacenters": { param: "view", name: "Datacenter tracker", tabs: [["facilities", "Facilities"], ["grids", "By grid"]] },  // session 468: the view by grid
