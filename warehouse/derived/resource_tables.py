@@ -194,6 +194,67 @@ def coal_web(feats, m, path):
     return len(text), tol
 
 
+MAP_LAYER = os.path.join(ROOT, "site", "data", "resources", "layers", "coal_fields.json")
+MANIFEST_ADDED = os.path.join(ROOT, "site", "data", "resources", "manifest_added.json")
+USGS_TERMS = {"terms_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+              "terms_quote": "USGS-authored or produced data and information are considered to be in the U.S. Public Domain. [...] When using "
+                             "information from USGS information products, publications, or websites, we ask that proper credit be given.",
+              "terms_file": "usgs/terms/usgs_copyrights_and_credits.html",
+              "terms_sha256": "be68d363d1ab447ea0bea87e436ad6c8614e0f5dc4e17643e2393f7e18504820"}
+
+
+def coal_map_layer(feats, m, layer_path, manifest_path):
+    """Session 8009 (data request 542 of the portable laptop): the coal fields in the form the resource map's layer files
+    have (properties name, kind, value, value_unit, the source's own fields beside them), written to layers/, and their
+    entry in manifest_added.json, a new file in the manifest's form, so the map draws the layer without manifest.json
+    changing (chain 501's rule: no existing page file changes)."""
+    from shapely.geometry import mapping
+    fc, lons, lats = [], [], []
+    for geom, props, area in feats:
+        s = mapping(geom.simplify(0.01, preserve_topology=True))
+
+        def rnd(c):
+            if isinstance(c, (list, tuple)) and c and isinstance(c[0], (int, float)):
+                lons.append(c[0]); lats.append(c[1])
+                return [round(c[0], 3), round(c[1], 3)]
+            return [rnd(x) for x in c]
+        fc.append({"type": "Feature", "properties": {"name": f"{props['name']} ({props['province']})", "kind": "coal field",
+                                                     "value": area, "value_unit": "square kilometres", "PROVINCE": props["province"],
+                                                     "NAME": props["name"], "AGE": props["age"], "RANK": props["rank"]},
+                   "geometry": {"type": s["type"], "coordinates": rnd(s["coordinates"])}})
+    text = json.dumps({"type": "FeatureCollection", "features": fc}, separators=(",", ":"), allow_nan=False)
+    os.makedirs(os.path.dirname(layer_path), exist_ok=True)
+    with open(layer_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    vals = [p[2] for p in feats]
+    entry = {"id": "coal_fields", "group": "coal", "title": "Coal fields", "kind": "shapes",
+             "measure": "Where coal lies in the ground in the lower 48, by field, with its age and rank, as the U.S. Geological Survey maps it.",
+             "source_url": COAL_URL, **USGS_TERMS, "retrieved_at_utc": m["retrieved_utc"], "source_file": "usgs_coal_fields/GIS.zip",
+             "source_bytes": int(m["bytes"]), "source_sha256": m["sha256"], "unit": "square kilometres",
+             "value_label": "area of the coal field (computed on a sphere from the source's polygon)",
+             "publisher": "U.S. Geological Survey (USGS)",
+             "source_title": "Coal fields of the conterminous United States, National Coal Resource Assessment updated version (Open-File Report 2012-1205, East 2013), Updated Coal Fields/Coal_Fields.shp",
+             "vintage": "2013", "extent": "contiguous United States", "source_resolution": "polygons, the report's map at 1:5,000,000",
+             "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time); coordinates to 3 decimals; no feature dropped",
+             "file": "coal_fields.json", "bytes": len(text), "features": len(fc),
+             "bounds": [round(min(lons), 3), round(min(lats), 3), round(max(lons), 3), round(max(lats), 3)],
+             "legend": {"kinds": ["coal field"]},
+             "stats": {"n": len(vals), "min": min(vals), "mean": sum(vals) / len(vals), "max": max(vals)},
+             "hover_fields": ["PROVINCE", "NAME", "AGE", "RANK"],
+             "acknowledgment": "Source: U.S. Geological Survey, Open-File Report 2012-1205 (2013)",
+             "notes_for_method": "docs/methods/resource_layers_table.md. An outline of where coal fields lie and their rank, not a measure of coal in place or of what can be mined."}
+    doc = {"built_at_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "note": "Layers added after manifest.json, in its form; manifest.json is not changed (chain 501). A page reads both.",
+           "layers": [entry],
+           "missing": [{"id": "uranium_deposits", "group": "uranium", "title": "Uranium deposits",
+                        "reason": "Not fetched: USGS's mineral deposit databases are served from mrdata.usgs.gov, whose robots file disallows every path to every agent, and from ScienceBase, whose robots file disallows Claude by name; EIA's atlas lists no uranium deposit layer."},
+                       {"id": "critical_mineral_deposits", "group": "critical minerals", "title": "Critical mineral deposits",
+                        "reason": "Not fetched: the same two USGS hosts; the warehouse's usgs_mcs_critical_minerals is national statistics, not places."}]}
+    with open(manifest_path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(doc, f, ensure_ascii=False, indent=1)
+    return len(text)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out-dir")
@@ -238,6 +299,11 @@ def main(argv=None):
     web = os.path.join(a.out_dir, "site", "coal_fields.json") if a.out_dir else COAL_WEB
     size, tol = coal_web(feats, m, web)
     log(f"  coal fields web file: {size:,} bytes at tolerance {tol}")
+    if a.out_dir:
+        msize = coal_map_layer(feats, m, os.path.join(a.out_dir, "site", "layers", "coal_fields.json"), os.path.join(a.out_dir, "site", "manifest_added.json"))
+    else:
+        msize = coal_map_layer(feats, m, MAP_LAYER, MANIFEST_ADDED)
+    log(f"  the map's layer file: {msize:,} bytes; manifest_added.json written")
     log.close()
     print(f"{NAME}: {len(t):,} rows ({counts}); coal_fields.json {size:,} bytes, tolerance {tol}")
     return 0
