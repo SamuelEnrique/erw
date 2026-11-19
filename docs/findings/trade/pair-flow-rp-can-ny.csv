@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate pair_flow, region rp_can_ny (Canada to New York)
+# Computed 2026-11-19T11:05:19Z by warehouse/analysis/findings/deep/trade.py (pair_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow between two of EIA's regions, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_region_pair_hourly
+region,year,value,n_observations,full_year
+rp_can_ny,2018,2034.8751133272892,4412.0,0
+rp_can_ny,2019,1991.598515981735,8760.0,1
+rp_can_ny,2020,1974.5724043715848,8784.0,1
+rp_can_ny,2021,1889.0203196347031,8760.0,1
+rp_can_ny,2022,1654.9240867579908,8760.0,1
+rp_can_ny,2023,777.827397260274,8760.0,1
+rp_can_ny,2024,552.9400045537341,8784.0,1
+rp_can_ny,2025,211.0280821917808,8760.0,1
+rp_can_ny,2026,218.78279597963711,7661.0,0

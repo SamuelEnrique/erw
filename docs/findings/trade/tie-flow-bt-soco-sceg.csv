@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_soco_sceg (Southern Company (SOCO) to Dominion Energy South Carolina (SCEG))
+# Computed 2026-11-19T11:05:21Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_soco_sceg,2018,470.7032634032634,4290.0,0
+bt_soco_sceg,2019,430.20068689181454,8735.0,1
+bt_soco_sceg,2020,452.9549180327869,8784.0,1
+bt_soco_sceg,2021,540.5189497716894,8760.0,1
+bt_soco_sceg,2022,702.9479452054794,8760.0,1
+bt_soco_sceg,2023,812.6672374429223,8760.0,1
+bt_soco_sceg,2024,1006.94706284153,8784.0,1
+bt_soco_sceg,2025,1116.0938356164384,8760.0,1
+bt_soco_sceg,2026,1247.0690420255808,7662.0,0
