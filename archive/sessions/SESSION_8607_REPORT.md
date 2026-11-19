@@ -1,6 +1,6 @@
 # Session 8607 report (portable-laptop, 19 November 2026)
 
-Energy Research Warehouse (ERW). Chain 504: part A again, the proof that nothing else of the Grid tool moved, and part D's coal fields. About 15:00 to 15:40 UTC. Branches `wip/8602-grid-regions` at `eb6bb737c` (row 42, unchanged this session) and `wip/8603-resources` at `37001e69b` (row 43, its head moved). Model spend USD 0; no model was called.
+Energy Research Warehouse (ERW). Chain 504: part A again, the proof that nothing else of the Grid tool moved, and part D's coal fields. About 15:00 to 15:37 UTC. Branches `wip/8602-grid-regions` at `eb6bb737c` (row 42, unchanged this session) and `wip/8603-resources` at `37001e69b` (row 43, its head moved). Model spend USD 0; no model was called.
 
 ## At the top
 
