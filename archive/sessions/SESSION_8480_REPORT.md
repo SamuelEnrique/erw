@@ -9,9 +9,9 @@ Old laptop (samueloldlaptop, code machine), unattended, 19 November 2026, about 
 - **The five cases** of `docs/reviews/demand-regions-read-2026-11-19.md`, each taken start to finish on the view drawn with the site's own code: cases 1, 2, 3 and 5 answered; case 4 is not answerable from these files (the weather figures it asks for are not in them). Rows 12 to 24 of the document; rows 12 to 21 fixed at their cause with tests (`91e0d0abb`, `0f84ed5c2`, `027b4d116`, `e520f37df`).
 - **The replication on the real files: 449,440 of 449,440 figures over 783 views of 71 places**, no difference, run after the last change. Files against themselves 2,563 of 2,565 (the two days above). The seven grids as authorities beside the as-metered file: 47 of 49 year averages equal (CAISO 2023 and 2025 differ by 0.1 and 0.4 MW). Written in the method note and the document.
 - **The Stata do-file** `replication/demand/replicate_regions.do` (`c3e07fd19`): five headline figures with expected values at its top, from `eia930_ba_demand_hourly`. Stata is not installed here; it has not been run.
-- **The cross-check** against published figures: CROSSCHECK
+- **The cross-check** against published figures (read by a helper agent under the web rules; hosts table and figures table in the document): ERCOT's records and EIA's Today in Energy agree within 0.4 percent (0.03 to 0.09 on the same day). SRP's own records are 1.8 and 2.8 percent below the page in 2024 and 2025 (a narrower measure), but 12 percent below its 2023 figure, 9,283 MW at 14:00 on 22 July 2023. That hour looks faulty and gets past the screen (row 25, a data request). TVA, Duke Energy and APS refused the reader (robots files answering 403, terms out of reach, or terms forbidding automated reading). There was no published figure for Tennessee, the Carolinas, the Southeast or Florida. No figure was adjusted.
 - **The decisions**: every choice inside the view says its default and whose choice it is on hover; the region's hour rule and the screen of hours did not and now do (row 21).
-- **Tests**: `site/scripts/test-demand-regions.mjs` 114 of 114; `site/scripts/test-demand-pin.mjs` passes (no figure for the seven grids moved); Python PYTESTS.
+- **Tests**: `site/scripts/test-demand-regions.mjs` 114 of 114; `site/scripts/test-demand-pin.mjs` passes (no figure for the seven grids moved); Python 112 of 112 (`tests/test_session8420_demand_regions.py`, `8450`, `8440`, `8460`, `5171`, `152`, `239`, every file that imports or names a changed module).
 
 ## What to review
 
@@ -38,4 +38,5 @@ The branch is not landed; until it is, the addresses show main's version. After 
 - Row 22: the weather view of the regions holds 53 of 256 figures (the Southeast none). Lower the 95 percent rule for the regions, or wait for the weather table's missing hours? Default taken: 95 percent, as for the seven grids, and a data request.
 - Row 23: a region's hour needs every one of its authorities, so Florida has no whole 2019 (Seminole's 2019). Keep the rule? Default taken: as built.
 - Row 24: count, in the "another file" hover, whether a grid's two files agree year by year (it needs the as-metered file inside this view)? Default taken: the hover as built.
+- Row 25: a tighter screen of hours, which would leave out SRP's 14:00 hours of 22 and 23 July 2023? Default taken: as built (the as-metered view's 25 percent rule), and a data request.
 - Rows 8 to 11 of the document stand as session 8450 left them (two charts of days, the words "the data machine" and zone names, the as-metered forms, the unsorted table).
