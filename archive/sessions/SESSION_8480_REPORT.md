@@ -13,6 +13,8 @@ Old laptop (samueloldlaptop, code machine), unattended, 19 November 2026, about 
 - **The decisions**: every choice inside the view says its default and whose choice it is on hover; the region's hour rule and the screen of hours did not and now do (row 21).
 - **Tests**: `site/scripts/test-demand-regions.mjs` 114 of 114; `site/scripts/test-demand-pin.mjs` passes (no figure for the seven grids moved); Python 112 of 112 (`tests/test_session8420_demand_regions.py`, `8450`, `8440`, `8460`, `5171`, `152`, `239`, every file that imports or names a changed module).
 
+- **The data machine's answer, read at the end** (main, session 8009, contract line of 19 November): its builder now writes a day only on every hour of the local day (request 328, on `wip/c501-desk-b`), the same rule the page now holds, so the page's guard will have nothing to catch once those files land. Each of the seven grids' authority files will also carry `alike`. The view should then draw "A region beside its grid" for those authorities too, which may answer row 24. That needs a read once the files land.
+
 ## What to review
 
 The branch is not landed; until it is, the addresses show main's version. After landing (landing row 52's new head):
