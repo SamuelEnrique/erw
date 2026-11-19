@@ -51,9 +51,19 @@ class AuditFile(unittest.TestCase):
                 self.assertEqual(r["checks"][1]["state"], "withdrawn")
 
     def test_counts_are_the_audits(self):
+        # the counts table of the audit document, verdict by verdict, is the file's
         a = load()
-        self.assertEqual(a["counts"], {"held": 13, "not checked": 95, "passed": 364, "passed after a fix": 76, "withdrawn": 1})
+        doc = open(os.path.join(ROOT, "docs", "reviews", "findings-audit-2026-11-19.md"), encoding="utf-8").read()
+        words = {"passed": "passed", "passed after a fix": "passed after a fix", "not checked": "not checked",
+                 "held: internal table, not for the sheet": "held", "withdrawn: the figure does not reproduce": "withdrawn"}
+        table = {}
+        for m in re.finditer(r"^\| ([a-z][^|]*?) \| (\d+) \|$", doc, re.M):
+            if m.group(1) in words:
+                table[words[m.group(1)]] = int(m.group(2))
+        self.assertEqual({k: v for k, v in a["counts"].items() if k != "not audited"}, table)
         self.assertEqual(sum(a["counts"].values()), len(a["drafts"]))
+        for r in a["drafts"].values():
+            self.assertFalse(r["title"].startswith("Withdrawn"), r["slug"])
 
     def test_the_sheet_of_forty(self):
         a = load()

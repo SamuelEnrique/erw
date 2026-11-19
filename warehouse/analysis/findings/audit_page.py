@@ -121,7 +121,8 @@ def draft_files():
         did = re.search(r"Draft `(scan-[a-z]+-[0-9a-f]{12})`", text)
         if not did:
             continue
-        title = text.splitlines()[0].lstrip("# ").strip()
+        # a withdrawn draft's first line is the audit's one line; its title is the first heading
+        title = next((ln[2:].strip() for ln in text.splitlines() if ln.startswith("# ")), slug)
         sm = re.search(r"\*\*The finding\.\*\* (.*)", text)
         out[slug] = {"family": fam, "slug": slug, "id": did.group(1), "title": title, "sentence": sm.group(1).strip() if sm else ""}
     return out
