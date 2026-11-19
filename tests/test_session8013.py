@@ -79,5 +79,69 @@ class TheFile(unittest.TestCase):
         self.assertNotIn("wind speed", red)
 
 
+# ---------------------------------------------------------------- data request 30: the archive keys revisions by vintage
+
+sys.path.insert(0, os.path.join(REPO, "warehouse", "archive"))
+import archive as A  # noqa: E402
+import restore as R  # noqa: E402
+import pandas as pd  # noqa: E402
+
+
+def lines_of(rows):
+    """Archive lines as archive.py wrote them before session 8013: _key_sha without the vintage."""
+    df = pd.DataFrame(rows, columns=["_run_id", "_archived_at", "_op", "entity", "variable", "ts_utc", "value",
+                                     "vintage"]).fillna("")
+    ups = df["_op"] == "upsert"
+    keys = pd.Series([""] * len(df))
+    keys[ups.to_numpy()] = A.hexes(A.key_hashes(df[ups], "series"))
+    df.insert(3, "_key_sha", keys.to_numpy())
+    return df
+
+
+class TheVintageKey(unittest.TestCase):
+    def test_the_header_line_is_read_as_the_validator_reads_it(self):
+        self.assertTrue(A.keeps_revisions(["Source: x", "Revisions: kept, one row per vintage (decision 77)"]))
+        self.assertTrue(A.keeps_revisions("a\n# Revisions: kept, one row per vintage"))
+        self.assertFalse(A.keeps_revisions(["Source: x"]))
+        self.assertFalse(A.keeps_revisions(float("nan")))
+
+    def test_the_key_carries_the_vintage_only_when_the_table_keeps_revisions(self):
+        df = pd.DataFrame({"entity": ["a", "a"], "variable": ["v", "v"], "ts_utc": ["2030", "2030"],
+                           "value": ["1", "2"], "vintage": ["2020", "2021"]})
+        old, new = A.key_hashes(df, "series"), A.key_hashes(df, "series", True)
+        self.assertEqual(old[0], old[1])
+        self.assertNotEqual(new[0], new[1])
+
+    def test_old_lines_restore_every_vintage(self):
+        lines = lines_of([["r1", "t1", "upsert", "a", "v", "2030", "1", "2020"],
+                          ["r1", "t1", "upsert", "a", "v", "2030", "2", "2021"],
+                          ["r1", "t1", "upsert", "b", "v", "2030", "3", "2021"]])
+        rows = R.rekey_revisions(lines)
+        self.assertEqual(sorted(rows["value"]), ["1", "2", "3"])
+
+    def test_a_later_upsert_of_the_same_vintage_replaces_it(self):
+        lines = lines_of([["r1", "t1", "upsert", "a", "v", "2030", "1", "2020"],
+                          ["r2", "t2", "upsert", "a", "v", "2030", "9", "2020"]])
+        self.assertEqual(list(R.rekey_revisions(lines)["value"]), ["9"])
+
+    def test_an_old_delete_removes_every_earlier_vintage_of_its_observation(self):
+        lines = lines_of([["r1", "t1", "upsert", "a", "v", "2030", "1", "2020"],
+                          ["r1", "t1", "upsert", "a", "v", "2030", "2", "2021"],
+                          ["r1", "t1", "upsert", "b", "v", "2030", "3", "2021"]])
+        gone = lines.iloc[0]["_key_sha"]
+        dl = pd.DataFrame([{"_run_id": "r2", "_archived_at": "t2", "_op": "delete", "_key_sha": gone}])
+        later = lines_of([["r3", "t3", "upsert", "a", "v", "2030", "5", "2022"]])
+        rows = R.rekey_revisions(pd.concat([lines, dl, later], ignore_index=True).fillna(""))
+        self.assertEqual(sorted(rows["value"]), ["3", "5"])
+
+    def test_a_new_delete_removes_one_vintage(self):
+        lines = lines_of([["r1", "t1", "upsert", "a", "v", "2030", "1", "2020"],
+                          ["r1", "t1", "upsert", "a", "v", "2030", "2", "2021"]])
+        one = A.hexes(A.key_hashes(lines.iloc[[0]], "series", True))[0]
+        dl = pd.DataFrame([{"_run_id": "r2", "_archived_at": "t2", "_op": "delete", "_key_sha": one}])
+        rows = R.rekey_revisions(pd.concat([lines, dl], ignore_index=True).fillna(""))
+        self.assertEqual(list(rows["value"]), ["2"])
+
+
 if __name__ == "__main__":
     unittest.main()
