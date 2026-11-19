@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate region_against, region rn_ne (New England (EIA's region), a net importer over 2019 to 2025)
+# Computed 2026-11-19T11:05:26Z by warehouse/analysis/findings/deep/trade.py (region_against); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the share of the year's hours a standing exporter imported, or a standing importer exported (percent of hours), the observations it rests on, and whether the year is full
+# Tables: eia930_region_hourly
+region,year,value,n_observations,full_year
+rn_ne,2018,0.04533091568449683,4412.0,0
+rn_ne,2019,0.045662100456621,8760.0,1
+rn_ne,2020,0.0,8784.0,1
+rn_ne,2021,0.091324200913242,8760.0,1
+rn_ne,2022,1.5753424657534247,8760.0,1
+rn_ne,2023,2.237442922374429,8760.0,1
+rn_ne,2024,16.074681238615664,8784.0,1
+rn_ne,2025,27.780315140443022,8758.0,1
+rn_ne,2026,23.860973704764383,7682.0,0

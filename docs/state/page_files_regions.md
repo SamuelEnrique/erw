@@ -32,7 +32,11 @@ A GeoJSON FeatureCollection, longitude and latitude in degrees (WGS 84), coordin
 | `features[].properties.source_id` | text | the polygon's own identifier in the layer |
 | `features[].properties.area_km2` | km2 | the polygon's area before simplification |
 
-Sample: written when the layer is read (step B2; until then the file does not exist and a page must say so).
+Sample of `features[].properties` (TVA, from the first build; its geometry a MultiPolygon). On main since `792dbb50d` (19 November 2026): 67 features, `bas_without_polygon` BHBA, GLHB, HGMA, SIKE, SWPW and WAUE, `polygons_without_ba` four (Chugach, Hawaiian Electric, New Harquahala, Gridforce South), tolerance 0.01 degrees, 979,100 bytes.
+
+```json
+{"code": "TVA", "name": "Tennessee Valley Authority", "region": "TEN", "source_id": "18642", "area_km2": 200530.8}
+```
 
 ## 2. `index.json` (step B3)
 
@@ -114,7 +118,13 @@ The form of `site/data/mix/*.json`, keys unchanged, plus the newest 35 days by h
 
 An hour is held when every balancing authority of the region that files net generation holds it and the sources add up to the net generation within 5 percent (the rule of `mix_profile.hours_of`); a month is written when at least 90 percent of its days are complete.
 
-Sample: written with the first build from the new table `eia930_region_fuel_hourly` (generation by source is not in `eia930_ba_supply_hourly`, which holds net generation and total interchange only; the new table reads the same saved six-month files, whose source columns chain 401 did not keep).
+Generation by source comes from the new table `eia930_region_fuel_hourly` (it is not in `eia930_ba_supply_hourly`, which holds net generation and total interchange only; the new table reads the same saved six-month files, whose source columns chain 401 did not keep). `storage` is absent (null) before July 2024, when EIA's files have no storage columns.
+
+Sample of `months["2025-08"]` without `avg` (TEN, first build); `avg.nuclear` begins `[7750.8, 7764.7, 7775.6, ...]`:
+
+```json
+{"side": "eia930", "natural_gas_mwh": 5169263.0, "natural_gas_share_pct": 34.45, "coal_mwh": 2386824.0, "coal_share_pct": 15.9, "nuclear_mwh": 5813603.0, "nuclear_share_pct": 38.74, "wind_mwh": 0.0, "wind_share_pct": 0.0, "solar_mwh": 302084.0, "solar_share_pct": 2.01, "hydro_mwh": 1311897.0, "hydro_share_pct": 8.74, "storage_mwh": 0.0, "storage_share_pct": 0.0, "other_mwh": 23102.0, "other_share_pct": 0.15, "net_generation_mwh": 15006773.0, "days_held": 31.0, "days_in_month": 31.0}
+```
 
 ## 5. `trade/<region>.json` (step B6)
 
@@ -152,7 +162,7 @@ One file for each of the nine events of `/events`, named by its event code (`uri
 | `pairs.<A-B>.flow_mw` | MW array | power from A to B (A before B by EIA's code), the first side's report where held, else the second's |
 | `pairs.<A-B>.baseline_mw` | MW array | the baseline as above |
 
-Sample: written with the first build.
+Values are whole megawatts. Sample (Uri, the 201st hour of the window): `hours` `{"start": "2021-02-07T05:00:00Z", "step_hours": 1, "n": 435}`, `baseline` "the same calendar days of 2019 and 2020", Texas's `demand_mw` 51402 against `baseline.demand_mw` 40754, `gen.natural_gas` 33203, and `pairs["CENT-TEX"].flow_mw` 823.
 
 ## 7. `trade_matrix.json` (step C4)
 
@@ -165,8 +175,53 @@ Sample: written with the first build.
 | `ba_pairs[]` | object | the same for each pair of balancing authorities |
 | `partners.<BA>.<year>` | object | `{ "by_gross": [codes], "by_net": [codes], "net_import_share_of_demand_pct" }` from `ba_trade_partners` |
 
-Sample: written with the first build of part C.
+Samples (first build): the Carolinas and the Southeast in 2025, and TVA's partners in 2025:
+
+```json
+{"a": "CAR", "b": "SE", "year": 2025, "a_report_mwh": -9183611.0, "b_report_mwh": -9270277.0, "mean_mwh": -9159008.5, "gap_mwh": 14073.0, "hours_a": 8662, "hours_b": 8713, "hours_both": 8616, "direction": "b_to_a"}
+```
+
+```json
+{"by_gross": ["MISO", "PJM", "SOCO", "LGEE", "AECI", "DUK", "CPLW"], "by_net": ["MISO", "PJM", "SOCO", "LGEE", "AECI", "DUK", "CPLW"], "net_import_share_of_demand_pct": 4.868}
+```
+
+## 8. `site/data/resources/<layer>.json` (step D1)
+
+Added with the layers of step D1; see the dated line under "Changes".
+
+## 9. `site/data/industry.json` (step D2)
+
+Not under `regions/`: one file for the page "Energy use by industry". Method: `docs/methods/industry_page.md`.
+
+| Key | Unit or form | Meaning |
+|---|---|---|
+| `built`, `tables`, `method`, `license`, `sources` | | as above; `sources` names each part's publication |
+| `monthly.months` | list of `YYYY-MM` | from 1973-01 |
+| `monthly.by_source.<key>` | TBtu array | the industrial sector by source (Monthly Energy Review, Table 2.4): `total`, `end_use_total`, `coal`, `natural_gas`, `petroleum`, `renewables`, `electricity_retail_sales`, `electrical_system_losses`; `monthly.labels` gives each in words |
+| `industries.industries.<naics>` | object | MECS 2022: `naics`, `name`, `rank_us_total` (three-digit industries), `by_region.<us, northeast, midwest, south, west>.<fuel>` TBtu (fuels: `total`, `net_electricity`, `natural_gas`, `coal`, `coke_and_breeze`, `residual_fuel_oil`, `distillate_fuel_oil`, `hgl`, `hydrogen`, `other`), `electricity_mwh.<region>.<component>` MWh |
+| `industries.ranked_3_digit` | list | three-digit NAICS codes by 2022 total, largest first |
+| `states_annual.years` | list | 1990 to 2024 |
+| `states_annual.states.<ST>.consumption_tbtu.<source>` | TBtu array | SEDS: `total`, `end_use_total`, `coal`, `natural_gas`, `petroleum`, `electricity`, `renewables`, `wood_and_waste`, `hgl`, `distillate_fuel_oil`, `residual_fuel_oil`, `petroleum_coke`, `electrical_system_losses` (`US` is the nation) |
+| `states_annual.states.<ST>.expenditures_usd.<source>` | USD array | `total`, `coal`, `petroleum`, `natural_gas`, `electricity` (nominal) |
+| `states_annual.states.<ST>.price_usd_per_mmbtu` | USD/MMBtu array | the total average price |
+| `electricity_sales_monthly.months`, `.states.<ST>` | MWh arrays | electricity sold to industrial customers, from 2001-01 (EIA-861M; `US` the nation) |
+| `outlook` | object | AEO2026 projections: `release`, `years`, `cases` (id: name), `history_years`, `industries.<industry>.<series name>.<case>` TBtu arrays (industries: `refining`, `food`, `paper`, `bulk_chemicals`, `glass`, `cement_and_lime`, `iron_and_steel`, `aluminum`, `metal_based_durables`, `other_manufacturing`, `nonmanufacturing`) |
+
+Samples (first build): June 2025 of `monthly.by_source`; Chemicals (NAICS 325) in MECS; Texas in 2023.
+
+```json
+{"total": 2617.221, "end_use_total": 2171.246, "coal": 68.042, "natural_gas": 851.268, "petroleum": 755.915, "renewables": 193.224, "electricity_retail_sales": 307.156, "electrical_system_losses": 445.975}
+```
+
+```json
+{"naics": "325", "name": "Chemicals", "rank_us_total": 1, "by_region": {"us": {"coal": 63.0, "coke_and_breeze": 0.0, "distillate_fuel_oil": 8.0, "hgl": 16.0, "hydrogen": 94.0, "natural_gas": 2585.0, "net_electricity": 512.0, "other": 698.0, "total": 3976.0}}}
+```
+
+```json
+{"consumption_tbtu": {"total": 7672.8, "natural_gas": 2550.695, "petroleum": 3780.276, "electricity": 539.946, "coal": 4.647, "renewables": 100.96}, "price_usd_per_mmbtu": 9.41}
+```
 
 ## Changes
 
 - 19 November 2026, session 8000: first version.
+- 19 November 2026, session 8003: real samples for sections 1, 4, 6 and 7 from the first builds; section 6's values are whole megawatts; section 4's `storage` is null before July 2024; sections 8 (placeholder) and 9 (`site/data/industry.json`) added. No key of the first version moved.

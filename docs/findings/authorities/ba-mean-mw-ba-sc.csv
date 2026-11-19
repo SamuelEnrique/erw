@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_mean_mw, region ba_sc (Santee Cooper (SC, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:44Z by warehouse/analysis/findings/deep/authorities.py (ba_mean_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_sc,2018,2835.2278394921786,4411.0,0
+ba_sc,2019,2452.9990866537278,8759.0,1
+ba_sc,2020,2492.205055220312,8783.0,1
+ba_sc,2021,2838.625,8760.0,1
+ba_sc,2022,2982.187785388128,8760.0,1
+ba_sc,2023,2978.2269406392693,8760.0,1
+ba_sc,2024,3055.7620673952642,8784.0,1
+ba_sc,2025,3146.7334474885843,8760.0,1
+ba_sc,2026,3317.5562784645413,7685.0,0

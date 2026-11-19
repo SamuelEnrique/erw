@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_coal_co2_share, region ba_erco (ERCOT (ERCO, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:46Z by warehouse/analysis/findings/deep/authorities.py (ba_coal_co2_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal's share of the CO2 its generators emitted (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_all_emissions
+region,year,value,n_observations,full_year
+ba_erco,2018,57.81274990952989,4248.0,0
+ba_erco,2019,51.42819725706674,8712.0,1
+ba_erco,2020,50.481599142740066,8784.0,1
+ba_erco,2021,52.97621606804991,8712.0,1
+ba_erco,2022,49.93020484507573,8760.0,1
+ba_erco,2023,44.52800099637611,8640.0,1
+ba_erco,2024,42.84782613642245,8760.0,1
+ba_erco,2025,45.10010477601511,8664.0,1
+ba_erco,2026,43.90645459105209,7584.0,0

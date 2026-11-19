@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_side_gap, region bg_bpat_pge (the Bonneville Power Administration (BPAT) and Portland General Electric (PGE))
+# Computed 2026-11-19T11:05:24Z by warehouse/analysis/findings/deep/trade.py (tie_side_gap); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean absolute difference between the two balancing authorities' reports on their tie (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bg_bpat_pge,2018,90.76931896354047,4361.0,0
+bg_bpat_pge,2019,3.5555045344966136,8711.0,1
+bg_bpat_pge,2020,4.104166666666667,8784.0,1
+bg_bpat_pge,2021,3.686986301369863,8760.0,1
+bg_bpat_pge,2022,30.67933789954338,8760.0,1
+bg_bpat_pge,2023,31.504566210045663,8760.0,1
+bg_bpat_pge,2024,34.40403005464481,8784.0,1
+bg_bpat_pge,2025,520.9341324200914,8760.0,1
+bg_bpat_pge,2026,713.8800887265136,7664.0,0

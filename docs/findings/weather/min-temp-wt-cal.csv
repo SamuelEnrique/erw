@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate min_temp, region wt_cal (California (EIA's region))
+# Computed 2026-11-19T11:23:49Z by warehouse/analysis/findings/deep/weather.py (min_temp); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's coldest hour (F), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wt_cal,2018,40.32,4354.0,0
+wt_cal,2019,38.79,8452.0,1
+wt_cal,2020,39.02,8603.0,1
+wt_cal,2021,38.5,8671.0,1
+wt_cal,2022,38.64,8670.0,1
+wt_cal,2023,39.46,8595.0,1
+wt_cal,2024,40.68,8565.0,1
+wt_cal,2025,42.98,8200.0,1
+wt_cal,2026,40.79,7090.0,0

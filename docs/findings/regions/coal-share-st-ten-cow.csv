@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate coal_share, region st_ten_cow (Tennessee (the state, the core of the Tennessee Valley Authority))
+# Computed 2026-11-19T11:17:47Z by warehouse/analysis/findings/deep/regions.py (coal_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: coal's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_ten_cow,2001,62.07524983689796,12.0,1
+st_ten_cow,2002,62.119479997266595,12.0,1
+st_ten_cow,2003,59.5534920808467,12.0,1
+st_ten_cow,2004,59.490654878414,12.0,1
+st_ten_cow,2005,60.804365502546155,12.0,1
+st_ten_cow,2006,64.4203344500455,12.0,1
+st_ten_cow,2007,63.33211156203041,12.0,1
+st_ten_cow,2008,62.93408859574464,12.0,1
+st_ten_cow,2009,52.22637382694029,12.0,1
+st_ten_cow,2010,53.030874546902766,12.0,1
+st_ten_cow,2011,50.27778349123362,12.0,1
+st_ten_cow,2012,45.570465878838014,12.0,1
+st_ten_cow,2013,40.78489682233323,12.0,1
+st_ten_cow,2014,45.121351851120984,12.0,1
+st_ten_cow,2015,40.6653982730195,12.0,1
+st_ten_cow,2016,39.28331836512242,12.0,1
+st_ten_cow,2017,35.062123451399636,12.0,1
+st_ten_cow,2018,25.70870518850512,12.0,1
+st_ten_cow,2019,22.704755146545942,12.0,1
+st_ten_cow,2020,17.681491759095692,12.0,1
+st_ten_cow,2021,23.09694018289066,12.0,1
+st_ten_cow,2022,20.356669568483397,12.0,1
+st_ten_cow,2023,20.30166379716808,12.0,1
+st_ten_cow,2024,22.890387575768724,12.0,1
+st_ten_cow,2025,23.88366451450773,12.0,1

@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event cold_2026, region CENT (the Central region (EIA's region))
+# Computed 2026-11-19T11:32:42Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 01-23 to 02-02, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+CENT,2019,40344.0,264,0
+CENT,2020,35049.0,264,0
+CENT,2021,36911.0,264,0
+CENT,2022,39196.0,264,0
+CENT,2023,40683.0,264,0
+CENT,2024,37307.0,264,0
+CENT,2025,43266.0,264,0
+CENT,2026,45653.0,264,1

@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event elliott_2022, region TEN (Tennessee (EIA's region))
+# Computed 2026-11-19T11:32:36Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 12-19 to 12-29, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+TEN,2018,22240.0,264,0
+TEN,2019,26124.0,264,0
+TEN,2020,25592.0,264,0
+TEN,2021,24073.0,264,0
+TEN,2022,33225.0,264,1
+TEN,2023,26034.0,264,0
+TEN,2024,25623.0,264,0
+TEN,2025,24016.0,264,0

@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate nuclear_share, region st_se_nuc (Georgia and Alabama (the core of EIA's Southeast region))
+# Computed 2026-11-19T11:17:52Z by warehouse/analysis/findings/deep/regions.py (nuclear_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: nuclear's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_se_nuc,2001,26.28184042609107,12.0,1
+st_se_nuc,2002,24.270115096046613,12.0,1
+st_se_nuc,2003,24.825124479833917,12.0,1
+st_se_nuc,2004,24.75077273476536,12.0,1
+st_se_nuc,2005,23.024285947442937,12.0,1
+st_se_nuc,2006,22.91703527265213,12.0,1
+st_se_nuc,2007,23.13993850151738,12.0,1
+st_se_nuc,2008,25.061307382869018,12.0,1
+st_se_nuc,2009,26.25399914386853,12.0,1
+st_se_nuc,2010,24.662093004564223,12.0,1
+st_se_nuc,2011,25.494564880961075,12.0,1
+st_se_nuc,2012,27.175475403210527,12.0,1
+st_se_nuc,2013,27.14978945229214,12.0,1
+st_se_nuc,2014,26.824077271128406,12.0,1
+st_se_nuc,2015,26.94315811345928,12.0,1
+st_se_nuc,2016,26.973112027443648,12.0,1
+st_se_nuc,2017,28.554671471776487,12.0,1
+st_se_nuc,2018,26.91440472459926,12.0,1
+st_se_nuc,2019,28.465842837006054,12.0,1
+st_se_nuc,2020,29.640420777086995,12.0,1
+st_se_nuc,2021,29.965649663415668,12.0,1
+st_se_nuc,2022,28.15875522945931,12.0,1
+st_se_nuc,2023,30.878042214201674,12.0,1
+st_se_nuc,2024,32.704046450032344,12.0,1
+st_se_nuc,2025,32.52612747190093,12.0,1
