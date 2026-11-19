@@ -97,14 +97,18 @@ class TheLineUnderEachSwitch(unittest.TestCase):
         self.assertEqual([i.get("id") for i in by["wind"]["items"] if i["held"]], ["wind_speed_100m", "wind_capacity_factor"])
 
     def test_no_layer_file_of_the_three_kinds_was_written_by_this_session(self):
+        # session 8607: the data machine may add such a layer in its own list (manifest_added.json, data request 542).
+        # A file of the three kinds is the data side's only when a list of layers names it with its publisher's file and
+        # that file's sha256; any other such file would be one somebody made up.
         names = os.listdir(os.path.join(SITE, "data", "resources", "layers"))
-        ids = [l["id"] for l in MANIFEST["layers"]]
-        # session 8009 (chain 501's desk): the data machine adds a layer in manifest_added.json, a new file in the
-        # manifest's form (manifest.json itself is not changed under chain 501's rule); its layers count as listed
+        entries = list(MANIFEST["layers"])
         added = os.path.join(SITE, "data", "resources", "manifest_added.json")
         if os.path.exists(added):
-            ids += [l["id"] for l in json.load(open(added, encoding="utf-8"))["layers"]]
-        made_up = [n for n in names if re.search(r"coal|uranium|mineral", n) and not any(n.startswith(i) for i in ids)]
+            with open(added, encoding="utf-8") as f:
+                entries += json.load(f).get("layers", [])
+        sourced = {l.get("file") for l in entries if l.get("source_url") and l.get("source_sha256") and l.get("retrieved_at_utc")}
+        ids = [l["id"] for l in MANIFEST["layers"]]
+        made_up = [n for n in names if re.search(r"coal|uranium|mineral", n) and not any(n.startswith(i) for i in ids) and n not in sourced]
         self.assertEqual(made_up, [])
 
 
@@ -112,7 +116,7 @@ class TheDecisions(unittest.TestCase):
     def test_the_fold_and_the_note_are_one_list(self):
         page = src("site", "app", "resources", "Decisions.tsx")
         keys = re.findall(r'\{ key: "([a-z-]+)", session: "', page)
-        self.assertEqual(keys, ["one-file", "the-resource", "kinds-named", "plain-line", "opens-on-wind", "grid-level", "outline-area", "simplified", "one-tab"])
+        self.assertEqual(keys, ["one-file", "the-resource", "kinds-named", "plain-line", "opens-on-wind", "grid-level", "outline-area", "simplified", "one-tab", "two-lists"])   # the tenth is session 8607's
         note = src("docs", "methods", "resources.md").split("### Decisions (session 8603)")[1].split("<!-- The sections below")[0]
         self.assertEqual(re.findall(r"^\| `([a-z-]+)` \|", note, re.M), keys)
         for field in ("text:", "def:", "source:"):

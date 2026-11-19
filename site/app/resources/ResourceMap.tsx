@@ -38,7 +38,7 @@ type Plants = {
 type Queue = { rows: number; drawn: number; counties: number; not_placed: number; no_shape: number; withheld?: number; grids?: R.QueueGridCount[]; vintage_first: string; vintage_last: string; shapes: { features: { properties: Record<string, unknown>; geometry: R.Geometry }[] }; points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] };
 type Centers = { rows: number; drawn: number; not_placed: number; vintage: string; points: { lon: number; lat: number; id: string; operator: string; site: string; mw: number | null; status: string; state: string; city: string; county: string; prec: string; src: string }[] };
 type HoverRow = { id: string; title: string; text: string; sub: string; value: number | null; feature?: string; empty?: boolean };
-type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; rows: HoverRow[] };
+type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; /** session 8608: the state under the pointer, or null */ state: string | null; rows: HoverRow[] };
 /** The longest of each kind of work so far, in ms: what the frame-time script reads to say where a slow frame came from. */
 type Slow = { moving: number; rest: number; decode: number; kept?: number };
 /** The picture last drawn in full, with the view it was drawn at: what a heavy map shows of itself while it moves. */
@@ -211,6 +211,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
   const pal = useRef<{ ink: R.Rgb; none: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
   const base = useRef<{ nation: Path2D; states: Path2D } | null>(null);
+  const stateShapes = useRef<R.StateShape[]>([]);   // session 8608: each state's outline with its box, for the hover's "in Arizona"
   const settleRef = useRef<() => void>(() => {}), readRef = useRef<((x: number, y: number) => Hover) | null>(null);
   // the reader of grid files, off this thread (grid.worker.ts); null where the browser gives none, and the page reads them itself
   const reader = useRef<{ worker: Worker; next: number; waiting: Map<number, { file: string; ok: (g: R.Grid) => void; no: (e: Error) => void }> } | null>(null);
@@ -600,6 +601,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     for (const f of feature(topo, topo.objects.nation).features) trace(nation, f.geometry as R.Geometry);
     trace(states, mesh(topo, topo.objects.states, (a, b) => a !== b) as R.Geometry);
     base.current = { nation, states };
+    stateShapes.current = R.stateShapes(feature(topo, topo.objects.states).features.map((f) => ({ name: (f.properties as { name?: string } | null)?.name, geometry: f.geometry as R.Geometry })));
 
     try {
       const worker = new Worker(new URL("./grid.worker.ts", import.meta.url));
@@ -727,7 +729,10 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       const d = S.centers.points.find((x) => near(x.lon, x.lat, 7));
       if (d) rows.push({ id: "datacenters", title: "Datacenter", value: d.mw, feature: d.operator || d.site, text: `${d.operator || "Operator not stated"}${d.site ? `, ${d.site}` : ""}: ${d.mw === null ? "MW not stated" : `${whole(d.mw)} MW`}`, sub: `${[d.city, d.county, d.state].filter(Boolean).join(", ")}. ${d.prec === "operator" || d.prec === "point" ? "At the operator's coordinates" : "At a county or city point, not the site"}. Table of ${S.centers.vintage}.` });
     }
-    return { x, y, w, h, lon, lat, rows };
+    // session 8608 (the reader's read, row 34): the state under the pointer, from the outlines the map already draws,
+    // so that a pair of coordinates says where it is. Null at sea and outside the United States.
+    const state = R.stateAt(stateShapes.current, lon, lat);
+    return { x, y, w, h, lon, lat, state, rows };
   }, [byId, pyramids]);
   useEffect(() => { settleRef.current = settle; readRef.current = readAt; });
 
@@ -782,7 +787,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const fuelsHeld = plants ? plants.techs.filter((t, i) => plants.t.includes(i)).map((t) => t.slug) : [];
   const plantCount = (operating: boolean) => (plants ? plants.st.reduce((a, s, i) => a + ((s === 0) === operating && (!fuel || fuel.includes(plants.techs[plants.t[i]].slug)) ? 1 : 0), 0) : 0);
   const check = "mr-2 align-middle accent-[var(--color-accent)]";
-  const btn = "border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent";
+  // session 8611 (docs/brand.md, section 3): a target a finger presses is 44 px tall on a phone; these were 24 at every width
+  const btn = "inline-flex min-h-11 min-w-11 items-center justify-center border border-rule bg-white px-2 py-0.5 text-sm leading-tight hover:text-accent sm:min-h-6 sm:min-w-0";
   const hint = "cursor-help border-b border-dotted border-muted";
 
   return (
@@ -874,9 +880,10 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           <canvas ref={canvas} className="block w-full cursor-crosshair touch-none" role="img" tabIndex={0} aria-label="Map of the United States with the resource layers that are switched on; the legend below names each"
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey} onDoubleClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, 2)); }} />
           {hover ? (
-            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-white px-3 py-2 text-sm shadow-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
+            // session 8611 (docs/brand.md, sections 3 and 6): the hover card is fog with a rule-colored edge and no shadow (it was white with a shadow)
+            <div className="pointer-events-none absolute z-10 max-w-xs border border-rule bg-paper px-3 py-2 text-sm" data-hover="1" data-hover-lon={hover.lon} data-hover-lat={hover.lat}
               style={{ left: hover.x > hover.w * 0.6 ? undefined : hover.x + 14, right: hover.x > hover.w * 0.6 ? hover.w - hover.x + 14 : undefined, top: hover.y > hover.h * 0.6 ? undefined : hover.y + 14, bottom: hover.y > hover.h * 0.6 ? hover.h - hover.y + 14 : undefined }}>
-              <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}</div>
+              <div className="text-xs tabular-nums text-muted">{Math.abs(hover.lat).toFixed(2)} {hover.lat >= 0 ? "N" : "S"}, {Math.abs(hover.lon).toFixed(2)} {hover.lon >= 0 ? "E" : "W"}{hover.state ? <>, in <span data-hover-state={hover.state}>{hover.state}</span></> : null}</div>
               {hover.rows.length === 0 ? <div className="text-muted">No layer has anything here.</div> : hover.rows.map((r, i) => (
                 <div key={`${r.id}-${i}`} className="mt-1" data-hover-layer={r.id} data-hover-value={r.value ?? ""} data-hover-feature={r.feature ?? ""} data-hover-empty={r.empty ? "1" : "0"}>
                   <div><span className="text-xs uppercase tracking-wide text-muted">{r.title}</span><br /><span className={r.empty ? "text-muted" : "font-semibold"} data-hover-text="1">{r.text}</span></div>

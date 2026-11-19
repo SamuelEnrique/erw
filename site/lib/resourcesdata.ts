@@ -13,7 +13,7 @@ import countiesTopo from "us-atlas/counties-10m.json";
 import mapJson from "@/data/map_v2.json";
 import type { MapFile } from "@/lib/map2";
 import { STATES } from "@/lib/regions";
-import { QUEUE_GRIDS, boxOf, filesOf, inGeometry, queueGridOf, stemOf, type Geometry, type Layer, type Manifest, type QueueGridCount } from "@/lib/resources";
+import { QUEUE_GRIDS, boxOf, filesOf, inGeometry, mergeManifests, queueGridOf, stemOf, type Geometry, type Layer, type Manifest, type QueueGridCount } from "@/lib/resources";
 import { HOURLY, rest } from "@/lib/supabase";
 
 // Where a layer's file may be: the site's own data folder first (not served to visitors), then the folder the data
@@ -30,12 +30,23 @@ function fileOnDisk(file: string): string | null {
 
 /** The manifest as the page uses it: the layers whose files are on the server; a layer that names a file that is not
  *  there joins the missing list with that reason. `reason` is set when the manifest itself cannot be read. */
-export function readManifest(): { manifest: Manifest; reason: string | null } {
-  let raw: Manifest;
+export function readManifest(): { manifest: Manifest & { added_built_at_utc?: string }; reason: string | null } {
+  let raw: Manifest & { added_built_at_utc?: string };
   try {
     raw = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "resources", "manifest.json"), "utf8")) as Manifest;
   } catch (e) {
     return { manifest: { layers: [], missing: [] }, reason: `The list of resource layers could not be read on the server (${(e as NodeJS.ErrnoException).code ?? (e as Error).message}).` };
+  }
+  // session 8607: the list of layers added beside the first (the data machine's, data request 542). No such file is
+  // the common case and no fault; a file that is there and cannot be read is said, and the first list stands alone.
+  let reason: string | null = null;
+  const addedPath = path.join(process.cwd(), "data", "resources", "manifest_added.json");
+  if (fs.existsSync(addedPath)) {
+    try {
+      raw = mergeManifests(raw, JSON.parse(fs.readFileSync(addedPath, "utf8")) as Manifest);
+    } catch (e) {
+      reason = `The list of added resource layers (manifest_added.json) could not be read on the server (${(e as Error).message.slice(0, 80)}); the first list's layers are drawn.`;
+    }
   }
   const layers: Layer[] = [], missing = [...(raw.missing ?? [])];
   for (const l of raw.layers ?? []) {
@@ -48,7 +59,7 @@ export function readManifest(): { manifest: Manifest; reason: string | null } {
     const parts = Array.isArray(l.other_extents) ? l.other_extents.filter((x) => x && Array.isArray(x.levels)).map((x) => ({ ...x, levels: x.levels.filter((v) => there.includes(v.file)) })).filter((x) => x.levels.length) : undefined;
     layers.push(l.kind === "grid" ? { ...l, legend, levels: (l.levels ?? []).filter((v) => there.includes(v.file)), other_extents: parts } : { ...l, legend });
   }
-  return { manifest: { built_at_utc: raw.built_at_utc, layers, missing }, reason: null };
+  return { manifest: { built_at_utc: raw.built_at_utc, added_built_at_utc: raw.added_built_at_utc, layers, missing }, reason };
 }
 
 /** The name in the address of every file the manifest's layers name. */

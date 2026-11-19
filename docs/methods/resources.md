@@ -137,7 +137,7 @@ No figure is adjusted to match. The two documents answer different questions und
 
 ### Decisions (session 8603)
 
-The page's fold "Decisions on this page" under the map (`site/app/resources/Decisions.tsx`) carries nine choices, each with its default and its source on hover; `tests/test_session8603.py` holds this list and the page's to one list.
+The page's fold "Decisions on this page" under the map (`site/app/resources/Decisions.tsx`) carries ten choices (nine of session 8603 and one of session 8607), each with its default and its source on hover; `tests/test_session8603.py` holds this list and the page's to one list.
 
 | Key | The choice | Default |
 |---|---|---|
@@ -150,6 +150,52 @@ The page's fold "Decisions on this page" under the map (`site/app/resources/Deci
 | `outline-area` | A play's or a basin's area is the publisher's figure for its outline, not the formation's extent | The file's own area |
 | `simplified` | A shape's outline is simplified for the web and no feature is dropped | As each layer's `reduction` says |
 | `one-tab` | The resource map is a tab of the project map, and `/resources` opens it | A tab of `/map` |
+| `two-lists` | The layers come in two lists, the first and one of layers added beside it; they are read as one (session 8607) | The first list wins a name |
+
+## Session 8607 (19 November 2026): a second list of layers, read beside the first
+
+Data request 542 asked the data machine for the coal fields, uranium and critical minerals in the map's form. Its answer is a second list, `site/data/resources/manifest_added.json`, in the first list's form (`built_at_utc`, `layers`, `missing`), because chain 501's rule is that an existing page file is not changed. It holds one layer, the coal fields (602 polygons of the U.S. Geological Survey's Open-File Report 2012-1205, `layers/coal_fields.json`), and names uranium deposits and critical mineral deposits as missing, each with why (the two USGS hosts that serve them refuse automated reading).
+
+What the page does with it (`mergeManifests` in `site/lib/resources.ts`, read on the server in `site/lib/resourcesdata.ts`):
+
+- The two lists are one: the first's layers in their order, then each added layer whose id the first does not hold. Where both name a layer, the first list's entry is drawn.
+- The missing lists are joined: an entry already named in the first, or one that is now a layer, is not repeated. A missing entry's own reason is the one its greyed switch shows.
+- With no second list on the server the page is as it was. A second list that is there and cannot be read is said under the switches ("layers not read", with why on hover), and the first list's layers are drawn.
+- An added layer's file is checked and served like any other: a layer whose file is not on the server joins the missing list with that reason; its address is under `/resources/layer`, behind the release gate.
+- A layer may ask the hover to list fields of its source. The first list writes each as a pair, the field and the words for it; the added list writes the field alone, and then the words are the field's own name in sentence case (`PROVINCE` reads "Province"). No value is computed: a field is printed as the file holds it.
+- The line under the coal fields' switch is the entry's own `measure`. The foot of the method note says when each list was built.
+
+Seen on a build with the data machine's two files copied in from its branch (`wip/c501-desk-b`; they are not on main and are not committed by this session): the switch "Coal fields" is live in its own group with its line; uranium and critical minerals are greyed, each with the data machine's reason on hover; switched on, the fields draw in the coal color over any other layer, and a hover reads, for example, "Blackfeet-Valier Region (Northern Great Plains) (coal field): 7,729.5 square kilometres. Province: Northern Great Plains; Name: Blackfeet-Valier Region; Age: Cretaceous; Rank: Medium and High Volatile Bituminous. Vintage: 2013. U.S. Geological Survey (USGS)". At 390 px nothing is wider than the screen. Pictures: `docs/reviews/resources-2026-11-19/resources-coal-1280.png`, `-390.png` and the two of the switches.
+
+The area in that hover is the data machine's, computed on a sphere from the source's polygon; it is the outline's area and not a measure of coal in place, as the layer's own note says. Held by `tests/test_session8607.py`.
+
+## Session 8608 (19 November 2026): the reader's read, and the state in the hover
+
+Five cases a reader would bring were taken on a build that holds the coal layer (`docs/reviews/resources-read-2026-11-19.md`: a transmission planner on the wind of the Plains, a power trader on the Permian's basin and plays, a student on Appalachia's coal, an AI lab's siting analyst at Phoenix, a battery developer on central Nevada's sun). Four were answered on the page and one half answered (the datacenters are held for a license). The read's one site gap is fixed:
+
+- **The hover names the state under the pointer.** It gave a latitude and a longitude and no place. After the coordinates it now says the state ("33.45 N, 112.07 W, in Arizona"), found among the states' outlines the map already draws (the Census Bureau's cartographic boundaries as `us-atlas` holds them; `stateAt` in `site/lib/resources.ts`). A point at sea, or in no state's outline, names none: the nearest state is never given. No layer's value is touched by it.
+
+Left as they are, each a row of the read: the coal fields' area is in square kilometres where the basins' and plays' are in square miles, and the coal fields' "What it is not" begins with a file's name (both the data machine's, data request 552); a wind or sun layer's hover repeats its vintage sentence with every value (for the owner's ruling). Held by `tests/test_session8608.py`.
+
+## Session 8611 (19 November 2026): the map against the brand
+
+Measured in a browser on a build at 390 and 1280 px against `docs/brand.md`. Two things did not follow it and now do: on a phone the map's nine controls (zoom in and out, the four moves, the three places) are 44 px in both directions, where they were 24 px tall at every width (section 3); and the hover card is fog with a rule-colored edge and no shadow, where it was white with a shadow (sections 3 and 6). Left as it is: the small "i" beside each decision, 16 px, which is the site's shared button on every page with a decisions fold. No figure is touched. Held by `tests/test_session8611_resources.py`.
+
+## Sign-off
+
+Session 8609 (chain 504) added this block; the note had none. A session never signs it. Signing it accepts, as the map's rules:
+- each switch is one publisher's file, drawn as published; nothing is computed across layers, and two layers that are on are never added or blended;
+- the layers are the resource itself; what is built or planned is a separate set of switches;
+- every kind the owner's list names has a switch, and a kind with no layer is greyed and says why (uranium and critical minerals today);
+- a play's, a basin's or a coal field's area is the area of the outline drawn, not the formation's extent and not a measure of what is in the ground;
+- the layers come in two lists read as one, the first winning a name;
+- the hover gives the place (coordinates and the state), the value, its unit, the vintage and the publisher.
+
+It leaves open the rulings the signature pack lists (`docs/reviews/resources-signature-pack-2026-11-19.md`), each with its default taken, and data requests 542 (uranium and critical minerals) and 552.
+
+- Signed off by:
+- Date:
+- Items left open ruled, and how:
 
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
