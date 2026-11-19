@@ -23,14 +23,15 @@ Each host's robots file was read first; none names Claude or Anthropic, and none
 | Power Hungry Processing: Watts Driving the Cost of AI Deployment? (arXiv 2311.16863; ACM FAccT '24) | Hugging Face and Carnegie Mellon | June 2024 | 3 |
 | Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model (arXiv 2211.02001) | Hugging Face (BigScience) | 3 November 2022 | 3 |
 | Energy and Policy Considerations for Deep Learning in NLP (arXiv 1906.02243; ACL 2019) | UMass Amherst | 5 June 2019 | 2 |
+| 2025 Environmental Data Index (sustainability.atmeta.com) | Meta | 12 September 2025 (the report's launch, as Meta's news page dates it) | 1 |
 
 Read and with no row: Mistral AI's note of July 2025, "Our contribution to a global environmental standard for AI", prints greenhouse gas emissions (1.14 gCO2e for a 400-token response), water (45 mL) and resource depletion, and no energy figure. "From Words to Watts" (arXiv 2310.03003, MIT and others) prints "about 3-4 Joules for a output token" for its tested model; its arXiv page names no venue, so it is not counted as peer-reviewed and has no row by the rule above.
 
 ## Limits
 
-- Twenty-one figures from seven publications: the first reading, not every figure ever printed. A later session adds rows by the same rule.
+- Twenty-two figures from eight publications: the first reading, not every figure ever printed. A later session adds rows by the same rule.
 - Several figures are one publisher's estimate of another's model (Patterson and others on GPT-3; Strubell and others on BERT and a neural architecture search); `x_basis` says so.
-- The fleet figures are what the papers cite from the companies' own reports; the reports themselves were not read in this session.
+- Google's and Microsoft's fleet figures are what the papers cite from the companies' reports. Google's environmental reports are served from `www.gstatic.com/gumdrop/`, which that host's robots file disallows, so they were not read; Meta's data index was read on its own site.
 
 ## Build
 
