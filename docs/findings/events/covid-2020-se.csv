@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event covid_2020, region SE (the Southeast (EIA's region))
+# Computed 2026-11-19T11:32:40Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's mean hour of demand (MW) from 03-01 to 05-31, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+SE,2019,25476.66213768116,2208,0
+SE,2020,22943.584239130436,2208,1
+SE,2021,23902.01947463768,2208,0
+SE,2022,25355.278985507248,2208,0
+SE,2023,23616.733242753624,2208,0
+SE,2024,24321.228260869564,2208,0
+SE,2025,24670.985960144928,2208,0
+SE,2026,25119.479619565216,2208,0

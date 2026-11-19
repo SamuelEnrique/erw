@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_miso_tva (MISO (MISO) to the Tennessee Valley Authority (TVA))
+# Computed 2026-11-19T11:05:20Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_miso_tva,2018,1354.2879165722059,4411.0,0
+bt_miso_tva,2019,1263.6292237442922,8760.0,1
+bt_miso_tva,2020,1305.7140255009108,8784.0,1
+bt_miso_tva,2021,1542.2180614225367,8759.0,1
+bt_miso_tva,2022,2165.008790957872,8759.0,1
+bt_miso_tva,2023,1658.7140084484531,8759.0,1
+bt_miso_tva,2024,2162.8226118638277,8783.0,1
+bt_miso_tva,2025,2014.6765612512843,8759.0,1
+bt_miso_tva,2026,2422.812581571391,7662.0,0

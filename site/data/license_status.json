@@ -1,6 +1,6 @@
 {
  "from": "2026-10-21",
- "written": "2026-11-18",
+ "written": "2026-11-19",
  "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
@@ -669,6 +669,10 @@
     "/data"
    ]
   },
+  "ba_boundaries": {
+   "status": "public",
+   "pages": []
+  },
   "ba_supply_monthly": {
    "status": "public",
    "pages": [
@@ -978,7 +982,9 @@
   },
   "census_county_population": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "census_metro_population": {
    "status": "public",
@@ -2062,7 +2068,9 @@
   },
   "eia_county_region": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "eia_crude_first_purchase_prices": {
    "status": "public",
@@ -3557,7 +3565,9 @@
   },
   "iso_hub_prices_history_2018": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "iso_queue_snapshot_summary": {
    "status": "public",
@@ -3954,43 +3964,63 @@
   },
   "noaa_region_station_hourly_2018": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2019": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2020": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2021": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2022": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2023": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2024": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2025": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_station_hourly_2026": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_region_stations": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "noaa_station_weather_hourly": {
    "status": "public",
@@ -4325,7 +4355,9 @@
   },
   "region_weather_hourly": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/data"
+   ]
   },
   "rrc_lease_production_monthly": {
    "status": "public",
@@ -4842,7 +4874,7 @@
     "scarcity_hours_by_grid"
    ],
    "internal": 0,
-   "public": 505
+   "public": 519
   },
   "/data/faults": {
    "label": "Known faults in source data",

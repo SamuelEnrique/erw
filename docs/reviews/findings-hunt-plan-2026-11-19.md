@@ -76,6 +76,11 @@ The large-load tables named in the chain file, as held today: `large_load_waits`
 - The Northwest's net generation and total interchange hold only 104 and 50 hours of 2020 (Puget Sound Energy's 2020 file is nearly empty).
 - This hunt sums a region's demand itself from `eia930_ba_demand_hourly`: every authority the files place in the region that files demand in the month, the hour held only when all of them have a value after the demand fault rule (`warehouse/analysis/findings/deep/hourly930.py`, `region_demand`). Any page file of the six regions built from the region table's demand would be empty for four of them.
 
+## A gap in the region temperatures found on the way (session 8203, for the data machine)
+
+- `region_weather_hourly` writes a region's hour only when every one of its chosen stations holds one. Hours held in 2025 (of 8,760): Texas 5,084, none from late August to December; the Carolinas 5,843, none after September 2025 and none in 2026; Florida 7,042 (November 114, December 273); the Northwest 7,360 (November 246, December 284). Counted by `runs/c502/wx_hours.py`.
+- Any page or finding that reads these regions' temperature for late 2025 reads nothing. The station that empties each region is in the connector's run log (`warehouse/connectors/noaa_region_weather.py`).
+
 ## Decisions this plan takes
 
 - **EIA's regions and authorities named as EIA names them.** Chain 164's demand module never drafted an authority of MISO, SPP, NYISO or ISO-NE "whoever published the rows". The rows here are EIA's (public; `docs/licenses.md` lists every EIA-930 table as may be public, no license needed), and the chain file asks for all thirteen regions, so drafts name EIA's New York, New England, Midwest and Central regions and, at the tie level, MISO, SPP, NYISO and ISO-NE as EIA-930 balancing authorities. Under "For Samuel's ruling" in the note.

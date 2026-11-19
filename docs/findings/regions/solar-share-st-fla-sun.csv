@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate solar_share, region st_fla_sun (Florida (the state))
+# Computed 2026-11-19T11:17:51Z by warehouse/analysis/findings/deep/regions.py (solar_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: utility-scale solar's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_fla_sun,2001,0.0,12.0,1
+st_fla_sun,2002,0.0,12.0,1
+st_fla_sun,2003,0.0,12.0,1
+st_fla_sun,2004,0.0,12.0,1
+st_fla_sun,2005,0.0,12.0,1
+st_fla_sun,2006,0.0,12.0,1
+st_fla_sun,2007,0.0,12.0,1
+st_fla_sun,2008,0.0,12.0,1
+st_fla_sun,2009,0.004344987244725828,12.0,1
+st_fla_sun,2010,0.03511192814059484,12.0,1
+st_fla_sun,2011,0.05666024530595586,12.0,1
+st_fla_sun,2012,0.08757095149664405,12.0,1
+st_fla_sun,2013,0.09438084781805782,12.0,1
+st_fla_sun,2014,0.10507279748806028,12.0,1
+st_fla_sun,2015,0.09432241115815092,12.0,1
+st_fla_sun,2016,0.09400695417203775,12.0,1
+st_fla_sun,2017,0.3676080141460762,12.0,1
+st_fla_sun,2018,0.9875303140549876,12.0,1
+st_fla_sun,2019,1.5885138158482006,12.0,1
+st_fla_sun,2020,2.5952474244102257,12.0,1
+st_fla_sun,2021,3.6500446125918335,12.0,1
+st_fla_sun,2022,4.380729617283801,12.0,1
+st_fla_sun,2023,5.411663797115274,12.0,1
+st_fla_sun,2024,7.007818567501954,12.0,1
+st_fla_sun,2025,9.287824750233083,12.0,1

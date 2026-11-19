@@ -11,16 +11,18 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 ## Part A: the evidence behind the rulings
 
 - A1 and A2, the 88 entries, five groups looked up side by side, each entry's block merged into the ranked list in the list's order as it arrives:
-  - taxes (entries 17, 32, 34, 35, 36, 38, 42, 43, 45, 50, 51, 52, 54, 66, 88, 97, 112, 124): in work, session 8400 (the entries merged so far are in the list)
-  - storage (6, 12, 13, 16, 18, 25, 46, 47, 67, 78, 83, 99, 106, 107, 109, 127): in work, session 8400
+  - taxes (entries 17, 32, 34, 35, 36, 38, 42, 43, 45, 50, 51, 52, 54, 66, 88, 97, 112, 124): done, all 18 in the list (keep 10, switch 6, no basis 2), session 8400
+  - storage (6, 12, 13, 16, 18, 25, 46, 47, 67, 78, 83, 99, 106, 107, 109, 127): done, all 16 in the list (keep 2, switch 6, no basis 8), session 8400
   - prices (7, 21, 44, 53, 73, 77, 86, 87, 89, 98, 105, 111, 113, 117, 118, 122): done, all 16 in the list (keep 5, switch 5, no basis 6), session 8400
   - grid (2, 23, 24, 26, 49, 59, 61, 62, 69, 82, 94, 95, 110, 116, 119, 129): done, all 16 in the list (keep 5, switch 5, no basis 6), session 8400
-  - trackers (3, 5, 8, 14, 20, 28, 29, 31, 37, 48, 55, 57, 58, 64, 74, 75, 80, 81, 92, 120, 121, 128): in work, session 8400
-  - The blocks are written one file an entry under `runs/c503/evidence/` on this machine and merged by `runs/c503/merge_evidence.py` (it skips an entry that already holds its block); a restarted session runs it first, then looks up only the entries its printout says wait for a file.
-  - Still to do when all 88 are in: the wording faults the groups found in the entries themselves (entry 23 says EIA runs "above" the operator where it runs under; entry 77 gives ICE's fee as PJM's; entry 94 says load zones for weather zones; entry 7's line is older than its method note), each corrected with one line at the list's foot.
+  - trackers (3, 5, 8, 14, 20, 28, 29, 31, 37, 48, 55, 57, 58, 64, 74, 75, 80, 81, 92, 120, 121, 128): done, all 22 in the list (keep 11, switch 6, no basis 5), session 8400
+  - All 88 are in the list (`27e616d3a`): keep 33, switch 28, still no basis 27. The whole list: switch 54, keep 48, no basis 27 (before: 26, 15, 88).
+  - The wording faults the groups found in the entries themselves (23, 75, 77, 94, 107): done, corrected with a section at the list's foot (`27e616d3a`).
+  - The terms of use of every host a page was read from (the rule asks for them as well as the robots file; the taxes group read none): done, session 8403, `docs/reviews/rulings-evidence-hosts-2026-11-19.md`. 42 hosts: one bars automated reading (`www.pge.com`; its one sentence withdrawn from entry 61, whose recommendation did not rest on it), one asks permission beyond fair use (entry 34 stands on the rule read elsewhere), three not readable, fourteen with no terms page. No recommendation moved.
 - A3, the 12 figures that do not agree: done (`86e038f0c`), session 8402. Each traced; entries 48, 118, 119 and 127 corrected in their own lines; one request to the data machine (row 320 of `docs/state/data_requests_done_line.md`).
-- A4, the six screenshot faults (rows 341, 345, 357, 362, 363, 366): in work, session 8401 (one worktree a branch, `erw-c503-*`)
-- A5, the sheet for one sitting: not started (after all 88 are in)
+- A4, the six screenshot faults (rows 341, 345, 357, 362, 363, 366): done (`c0668e4e2`), session 8401. Four fixed on their branches with a test, pushed, back to `wanted` (341 `e313c0d4f`, 362 `e0d5fc2ac`, 366 `9b4d3f1c8`, 363 `3858e0432`); 357 is a data fault (request row 321; a second small one, row 322); 345 is the hold as it stands. Report: `archive/sessions/SESSION_8401_REPORT.md`.
+- A5, the sheet for one sitting: done (`1bd09b3cb`), `docs/reviews/rulings-one-sitting-2026-11-19.md`, session 8400. Built by `runs/c503/build_sheet.py` from the list; run it again if a recommendation moves (the terms check).
+- Reports: `archive/sessions/SESSION_8400_REPORT.md`, `SESSION_8402_REPORT.md`.
 
 ## Part B: the events pages for the whole country
 
@@ -29,12 +31,25 @@ The chain file: `queue/done/503-day-19-november-oldlaptop-rulings-evidence-whole
 
 ## Part C: `/demand` for the whole country
 
-- not started
+- `/demand` for the whole country, session 8420: done on `wip/8420-demand-regions` at `fc0d257f5` (pushed; made from `wip/8410-events-regions` and merged with it again, the one conflict in `site/next.config.ts` settled with part B's lines, which hold `/demand`'s). Landing requested, row 52; browser reads wanted, rows 383 to 391; one request to the data machine, row 327 (the contract's section 3). Report: `archive/sessions/SESSION_8420_REPORT.md` on the branch.
+  - the view: a fourth view "The whole country" (`/demand?view=country`): any of the thirteen regions or any balancing authority, two side by side: demand by day, year by year, where the growth is, a region's weather view, a region beside its grid with the data machine's own sentence on the difference, a table of every region and authority with the six new regions named. The page's own charts are reused (moved unchanged into `site/components/demand/Growth.tsx`).
+  - add, never change: the pin of 50 addresses, 101 of 101; the view's test 93 of 93; pytest 92 passed after the merge (887 over 65 files before it). Two older tests follow the new tab (`tests/test_session152.py`, `tests/test_session239.py`).
+  - waiting for the files `site/data/regions/index.json`, `demand/<region>.json`, `demand/ba/<code>.json` (not on origin/main): until then each place reads "not built yet". First step when they land: the view's test on the real files (its last block), then browser rows 385 to 391. If `site/data/demand_growth.json` or `demand_weather.json` is rebuilt before landing, the pin says DATA MOVED: row 52's block gives the two commands to pin again from main.
+  - for Samuel's ruling, defaults taken: Tennessee and the Carolinas drawn first; every day held drawn; the tab's name and its place as fourth; New England, New York and the Midwest drawn; generation-only authorities listed.
 
 ## Part D: `/supply` for the whole country
 
-- not started
+- `/supply` for the whole country, session 8430: done on `wip/8430-supply-regions` at `a2fbb2eaa` (pushed; made from `wip/8410-events-regions` and merged with it again after the config line). Landing requested, row 53; browser reads wanted, rows 393 to 400; one request to the data machine, row 323 (keys its builders write that the contract does not list). Report: `archive/sessions/SESSION_8430_REPORT.md` on the branch.
+  - the views: net imports by month and by neighbour with each side's report and the gap (a gap of 10 percent or more marked and said in words on hover); who trades with whom by year, pairs of regions, pairs of balancing authorities and each authority's partners; the generation mix by month (the page showed no mix of its own, so each region has a chart of shares and a table of the year); two regions side by side; the six new regions by name.
+  - add, never change: the pin of 103 addresses holds, 208 of 208; the section's test 109 of 109; Python 25 passed, 1 skipped after the merge.
+  - waiting for the files `site/data/regions/trade/<region>.json`, `trade_matrix.json`, `mix/<region>.json` (not on origin/main): the views read on real files. First step when they land: merge origin/main into the branch, run the two node tests, draw the page with `supply-read-page.mjs` and read it.
+  - the line of `site/next.config.ts` that names `data/regions` for `/events`, `/demand` and `/supply` (without it the files are not found on Vercel): done on `wip/8410-events-regions` (`f4ab254fa`), with a test; found by session 8430.
+  - for Samuel's ruling, defaults taken: the 10 percent; California and the Carolinas first; the year 2025 first; the share of demand not drawn; New England, New York and the Midwest drawn.
 
 ## Part E
 
-- not started
+- The events pages' new views, session 8440, branch `wip/8440-events-regions-done` (`59a1f2e76`, pushed; made from `wip/8410-events-regions`):
+  - the replication `replication/events/replicate_regions.py` with `site/scripts/events-regions-figures.mjs`: done, 203 of 203 on the fixture; on the site as it stands it says no file is there.
+  - the reader's five cases written (`docs/reviews/events-regions-read-2026-11-19.md` on the branch); three gaps found before any file.
+  - waiting for the files `site/data/regions/events/<event>.json` (not on origin/main): the read of the five cases on the page, the replication's count on real files, the Stata do-file's expected values, the cross-check against published figures. First step when a file lands: merge origin/main into the branch, run the two commands the method note gives, then read the five cases.
+- `/demand` and `/supply`: after parts C and D hand back.

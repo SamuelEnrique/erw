@@ -1,0 +1,9 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), wait_new_york_iso_in_stage
+# Computed 2026-11-19T11:54:26Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: large_load_wait_summary (internal: license needed)
+variable,value
+median_at_least,5.22
+median_at_most,11.17
+requests,57.0
+measured,47.0
+lower_bounds,53.0

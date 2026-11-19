@@ -1,0 +1,9 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), wait_alberta_electric_system_operat_in_stage
+# Computed 2026-11-19T11:54:24Z by warehouse/analysis/findings/deep/large_load.py
+# Tables: large_load_wait_summary (internal: license needed)
+variable,value
+median_at_least,3.01
+median_at_most,8.0
+requests,181.0
+measured,136.0
+lower_bounds,124.0
