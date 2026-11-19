@@ -163,7 +163,7 @@ Two site gaps fixed at their cause, each with a test in `tests/test_session8613.
 
 Session 8614, 19 November 2026, about 17:47 to 17:53 UTC. The read of the resource map found that a finger's tap showed no value there, and that every read at 390 px so far had pointed with a mouse. The Grid tool's two new views were then tapped with a finger at 390 px on a build (`runs/c504_finger_tap.mjs`).
 
-- **The map of balancing authorities.** Built for a finger since session 8601: a tap on a region opens its panel, a finger on a tie shows the tie's figures, two fingers zoom. Its check uses fingers. Nothing to change.
+- **The map of balancing authorities.** Built for a finger since session 8601: a tap on a region opens its panel, a finger on a tie shows the tie's figures, two fingers zoom. Its check uses fingers. Nothing to change. (Session 8616: the check had tried the tie, the two fingers and the one finger's move, and not the tap on a region; it does now, and the tap opens the region's panel with the address naming it. Picture `docs/reviews/grid-map-2026-11-19/map_390_region_tap.png`; `check-grid-map.mjs` 54 of 54.)
 - **The hour by hour chart of a region.** A tap showed nothing (row 42).
 
 | # | Case | What the reader met | What it is | State |
@@ -171,3 +171,17 @@ Session 8614, 19 November 2026, about 17:47 to 17:53 UTC. The read of the resour
 | 42 | 15 | On a phone a tap on the hour by hour chart showed no card; the hour's figures could be read only in the chart's Table | Site fault of session 8605: the card came up on a pointer's move, and a tap is a press and a lift with no move; the lift is also the touch pointer's leave | fixed (session 8614): a finger's press reads the hour, and a touch's leave is let pass, so the card stays until the next tap. The check taps with a finger at 390 px (picture `region_car_mix_390_tap.png`) |
 
 One site fault fixed at its cause with a test in `tests/test_session8614.py`. On a build: `check-grid-regions.mjs` 30 of 30, `check-grid-map.mjs` 53 of 53.
+
+## The 3D network under a finger (session 8617)
+
+Session 8617, 19 November 2026, about 19:20 to 19:23 UTC, on production (`erw-flame.vercel.app`, the internal view) at 390 px with a finger, by `runs/c504_network_finger.mjs`. The network is the centerpiece and is not this chain's to change; it was read because every read of it at 390 px so far had pointed with a mouse. Picture `docs/reviews/grid-map-2026-11-19/network_390_tap.png`.
+
+- The scene is fetched when its frame comes near the screen. On a phone it starts below the fold; it was on the page 270 ms after the scroll reached it.
+- A tap on a sphere opens its panel (Southwestern Power Administration: net imports 18 MW, who supplies it), the address names it (`node=SPA`), the others dim, and nothing scrolls sideways. "Close" closes it.
+
+| # | Case | What the reader met | What it is | State |
+|---:|---|---|---|---|
+| 43 | all | On a phone the line at the foot of the 3D scene reads "Left-click: rotate, Mouse-wheel/middle-click: zoom, Right-click: pan" | The drawing library's own hint, written for a mouse; a finger rotates with one finger and zooms with two | ruling: for Samuel (the centerpiece's own; the hint can be switched off or said in the page's words for a finger). Default taken: left as it is |
+| 44 | all | The panel's "Close" is 48 by 24 px on a phone | The panel is the network's own, shared with the map; the brand asks 44 px tall for a target on a phone, and the map's own buttons were made so in session 8611 | ruling: for Samuel (one class on the centerpiece's panel). Default taken: left as it is |
+
+No fault of the new views. Two rulings with the default taken (rows 43 and 44).

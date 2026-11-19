@@ -362,6 +362,40 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, send,
   const bat = await evaluate(`({ rings: document.querySelectorAll('[data-battery-ring]').length, line: document.querySelector('[data-map-battery-none]')?.innerText.replace(/\\s+/g, ' ') ?? null, when: document.querySelector('[data-map-battery-none]')?.getAttribute('data-map-battery-none') ?? null })`);
   check(bat.rings > 0 ? bat.line === null : !!bat.line && /^No battery is reported for this hour\./.test(bat.line) && (bat.when === "none" ? /None is reported in this view/.test(bat.line) : bat.line.includes(bat.when)),
     bat.rings > 0 ? `the batteries on: ${bat.rings} rings at the hour shown, and no line saying there is none` : `the batteries on and no ring at the hour shown: the map says so and where the newest report is (${bat.line})`);
+  // session 8616: a finger's tap on a region opens its panel (said since session 8601, and until now not tried with a
+  // finger). It is the last thing done, on a page of its own, so the open panel upsets no other check. The place tapped
+  // is one where the region itself is the topmost thing and no tie is within a finger's reach.
+  {
+    await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+    await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 2 });
+    await go(`${base}/grid?view=network&shape=map`);
+    await wait(`document.querySelector('[data-map-state]')?.getAttribute('data-map-state') === 'held'`, 30000, "the map on a phone");
+    await sleep(1500);
+    await evaluate(`document.querySelector('[data-map-state] svg').scrollIntoView({ block: 'center' })`);
+    await sleep(300);
+    const spot = await evaluate(`(() => {
+      const lines = [...document.querySelectorAll('[data-flow] line')].map((l) => l.getBoundingClientRect());
+      const far = (x, y) => lines.every((b) => x < b.left - 16 || x > b.right + 16 || y < b.top - 16 || y > b.bottom + 16);
+      const area = (e) => { const b = e.getBoundingClientRect(); return b.width * b.height; };
+      for (const r of [...document.querySelectorAll('path[data-region]')].sort((a, b) => area(b) - area(a))) {
+        const b = r.getBoundingClientRect();
+        for (let fy = 0.2; fy < 0.85; fy += 0.1) for (let fx = 0.2; fx < 0.85; fx += 0.1) {
+          const x = b.left + b.width * fx, y = b.top + b.height * fy;
+          if (y > 60 && y < window.innerHeight - 60 && document.elementFromPoint(x, y) === r && far(x, y)) return { id: r.getAttribute('data-region'), name: r.getAttribute('aria-label'), x, y };
+        }
+      }
+      return null; })()`);
+    if (!spot) check(false, "on a phone a region has a place a finger can tap clear of every tie");
+    else {
+      await touch("touchStart", [{ x: spot.x, y: spot.y }]);
+      await touch("touchEnd", []);
+      const panel = await wait(`document.querySelector('[data-panel]')?.innerText ?? null`, 5000, "a region's panel under a finger").catch(() => null);
+      const address = await evaluate("location.search");
+      check(!!panel && panel.includes(spot.name) && new RegExp(`[?&]node=${spot.id}(&|$)`).test(address) && (await evaluate(WIDE)), `on a phone a finger's tap on a region opens its panel (${spot.name}; the address names it: ${address}) and nothing scrolls sideways`);
+      await shot("map_390_region_tap.png");
+    }
+    await send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  }
   return bad ? 1 : 0;
 });
 if (code === null) { console.log("not proven here: no browser on this machine (the pure checks above stand)"); process.exit(bad ? 1 : 0); }
