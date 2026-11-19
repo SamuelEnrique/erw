@@ -176,6 +176,8 @@ const noIndex = draw({ q: { region: "ten", b: "car" }, read: fixtureReaders({ wi
 ok(/Balancing authority TVA, by its EIA-930 code\. Its name stands here once the index/.test(noIndex) && figs(noIndex)["bapair|DUK-TVA|2025|mean"] !== undefined && !/bg-paper font-semibold/.test(rowOf(noIndex, 'data-wc-pair="DUK-TVA"')), "without the index file the authorities stand by their codes, and their figures still stand");
 const otherOnly = draw({ q: { region: "fla", b: "none" }, read: fixtureReaders({ without: ["trade/fla", "mix/fla", "matrix"] }) });
 ok(otherOnly.includes('data-wc-state="drawn"') && (otherOnly.match(/not built yet/g) ?? []).length === 3, "a chosen region with no file, while other regions have theirs: each view says not built yet");
+const noMonths = draw({ q: { region: "ten", b: "none" }, read: { ...fixtureReaders(), trade: () => ({ code: "TEN", neighbors: {} }) } });
+ok(noMonths.includes('data-wc-not-built="trade/ten.json"') && !Object.keys(figs(noMonths)).some((x) => x.startsWith("trade|")) && "mix|TEN|2025|net" in figs(noMonths), "a trade file with no list of months is not in the contract's form: its view says not built yet");
 
 // ---- the rules of the page, on everything drawn above
 for (const [name, h] of [["two regions", html], ["one region", one], ["a year held in part", y18], ["held", heldHtml], ["a region on hold", seHeld], ["in part", part], ["not built", none]]) {

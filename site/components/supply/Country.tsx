@@ -338,7 +338,9 @@ export function Country({ q, keep = {}, read = READERS }: { q: { region?: string
   const bAsked = q.b === undefined ? FIRST_B : regionOf(q.b);
   const b = bAsked && bAsked !== a ? bAsked : null;
   const shown = [a, ...(b ? [b] : [])];
-  const trade = Object.fromEntries(shown.map((c) => [c, read.trade(c)])) as Record<string, TradeFile | null>;
+  // a trade file with no list of months cannot be read as the contract's form: it is treated as not built
+  const formed = (f: TradeFile | null) => (f && Array.isArray(f.months) ? f : null);
+  const trade = Object.fromEntries(shown.map((c) => [c, formed(read.trade(c))])) as Record<string, TradeFile | null>;
   const mix = Object.fromEntries(shown.map((c) => [c, read.mix(c)])) as Record<string, MixFile | null>;
   const matrix = read.matrix();
   const held: FileHead[] = [...shown.flatMap((c) => [trade[c], mix[c]]), matrix].filter((f): f is TradeFile | MixFile | MatrixFile => !!f);
