@@ -255,6 +255,66 @@ the pin, with the clock standing still, so a weekly rebuild of `site/data/supply
   `site/components/supply/Country.tsx` (the views), `site/scripts/test-supply-regions.mjs` and
   `site/scripts/regions-fixture-trade.mjs` (the test and its fixtures, whose values are made by a rule and are not
   data), `tests/test_session8430_supply_regions.py`.
+- **The rules above, made exact (session 8460).** The replication below was written from this section and the
+  contract; where the lines above did not settle a figure, the rule is written here, as the page applies it.
+  - **Units and digits.** Energy is the file's MWh shown as GWh to one decimal; a percent is shown to one decimal. A
+    region's own report, a neighbour's report, a gap and a total carry a plus sign above zero; a pair's two reports
+    and its mean carry none.
+  - **A year with a neighbour.** The own report, the neighbour's report and the gap are each the sum of that array
+    over the months of the year in which that array holds a value. "Months held" is the count of the year's months
+    that hold the own report, of the year's months in the file. The percent is taken on three sums over the months
+    that hold all three arrays: the size of the summed gap over the mean of the sizes of the two summed reports. It
+    is not drawn when no month holds all three or when both summed reports are zero.
+  - **A month with a neighbour.** The month's own report is on the face. Its hover gives the neighbour's report and
+    the gap as the file holds them and the percent on the month's own three values; the hours on the hover are the
+    file's own counts.
+  - **Large.** A gap is large when its percent before rounding is 10 or more, so a percent shown as 10.0 can stand
+    without the mark (9.95 to 9.99). In the year's table and in the pairs the mark stands on the percent; in the
+    month table it stands on the month's own report.
+  - **A pair.** The direction is the file's `direction` when it reads `a_to_b` or `b_to_a`; else the sign of the
+    file's mean; with a mean of zero or none there is no direction. With a direction, the sender's report, the
+    receiver's report and the mean are the file's values turned to it (times minus one when power ran from the second
+    to the first), so a mean is not below zero unless the file's direction and its mean disagree. The gap is the
+    file's value unturned: the first side's report less the second's is also the sender's less the receiver's when
+    power ran the other way. With no direction the pair stands in the file's order, the first side's report first,
+    and the second column reads "no net flow" at a mean of zero. The percent is the size of the file's gap over the
+    mean of the sizes of the two reports, and needs all three and two reports that are not both zero.
+  - **The counts in the two folds.** The pairs of balancing authorities the file holds for the year, and the
+    authorities for which it lists partners in the year; zero in a year the matrix does not hold.
+  - **The mix.** A month's share is the file's `<source>_share_pct`, its net generation the file's
+    `net_generation_mwh`, its days the file's `days_held` of `days_in_month`. The year's row counts the year's months
+    in the file; a source's share of the year is its energy over the months that hold both it and the net generation,
+    over the net generation of those same months; the year's net generation is the sum over the months that hold it.
+    A mix month is the region's own local month (the file's `tz`); a trade month is EIA's Eastern month.
+  - **The year drawn first.** Of the files read for the two regions drawn first and the matrix: the last calendar
+    year that had ended when the newest of them was built, when they hold it; else the newest year they hold before
+    it; else the newest year they hold.
+- **Five hovers completed (session 8460).** No word on the section's face and no figure moved
+  (`site/scripts/test-supply-regions-8460.mjs`, 20 of 20; session 8430's two tests hold). A flow with Canada or
+  Mexico: the cells that read "not held yet" for the other side's report, the gap and the percent now say why on
+  hover (no balancing authority of Canada or Mexico files Form EIA-930). A balancing authority the index of the
+  regions does not list says so, where its hover said its name would come with the index. The mix table's net
+  generation says whose local month a month is and that the net imports run by EIA's Eastern months. The hover beside
+  the mix's heading says why a month's shares need not add up to 100 (the file holds an hour when its sources add up
+  to its net generation within 5 percent). The head of the balancing authorities' pairs says what a balancing
+  authority is.
+- **The replication (session 8460).** `replication/supply/replicate_regions.py`, written from this section and the
+  contract alone and not from the page's code, recomputes every figure the section prints from the trade, matrix and
+  mix files and sets it beside the figure the site's own code draws (`site/scripts/supply-regions-figures.mjs`
+  draws the section once for each region and each year and writes what it prints): every checked figure on the
+  face, the month hover's neighbour's report, gap and percent, the counts of months and days, which figures carry
+  the mark of a large gap, which side each pair's row says sent and which received, and the regions and the year
+  drawn first. A figure passes within half the last digit shown; a figure the rule gives that the page does not show
+  fails, and so does one the page shows that the rule does not give. Not compared: the hours on the hovers (the
+  file's own counts) and the charts' boxes and tables, which a browser draws from the same arrays as the month
+  tables. Run from `site/`: `node --import ./scripts/tsx-register.mjs scripts/supply-regions-figures.mjs
+  <figures.json>`, then `python replication/supply/replicate_regions.py --figures <figures.json>`; with
+  `--same-flow` it also sets a pair's year in the matrix beside the same year's months in each region's trade file
+  (the same flow in two files; a difference there is a matter of the files). While no file is on the site it says so
+  and compares nothing. On the test's fixtures: 33,132 of 33,132 over 27 files
+  (`tests/test_session8460_supply_regions_replication.py`). The count on the real files, the Stata do-file's five
+  headline figures and the cross-check against published figures are written when the files land
+  (`docs/reviews/supply-regions-read-2026-11-19.md` says what waits).
 
 ## The cross-checks (session 7018, chain 301)
 

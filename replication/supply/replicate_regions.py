@@ -202,7 +202,7 @@ def expected_matrix(file, years, figs, large, words):
     partners = file.get("partners") or {}
     for year in years:
         figs[f"bapairs|{year}|n"] = float(sum(1 for r in file.get("ba_pairs") or [] if str(r.get("year")) == year and r.get("a") and r.get("b")))
-        figs[f"partners|{year}|n"] = float(sum(1 for p in partners.values() if isinstance(p, dict) and p.get(year)))
+        figs[f"partners|{year}|n"] = float(sum(1 for p in partners.values() if isinstance(p, dict) and isinstance(p.get(year), dict)))
 
 
 def first_year(read):

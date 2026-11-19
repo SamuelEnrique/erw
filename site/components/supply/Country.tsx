@@ -212,7 +212,7 @@ function pairRows(pairs: PairView[], year: string, kind: "pair" | "bapair", name
   });
 }
 const pairHead = (who: string) => [
-  <Head key="s" mark="sent" words="Sent" why={`Over the year the net flow between the two ${who} ran from this one to the other, by the file's own direction (the sign of the mean of the two reports).`} />,
+  <Head key="s" mark="sent" words="Sent" why={`Over the year the net flow between the two ${who} ran from this one to the other, by the file's own direction (the sign of the mean of the two reports).${who === "balancing authorities" ? " A balancing authority is the operator that keeps supply and demand in balance over its own area hour by hour (a utility, a federal power agency or a grid operator); each one of the lower 48 files Form EIA-930." : ""}`} />,
   <Head key="t" mark="received" words="Received" why="The one the net flow ran to over the year, by the same direction." />,
   <Head key="a" mark="from-report" words="Sender's report, GWh" why={`The flow over the year as the sending side filed it with EIA. A figure below zero says that side counted the year's net flow the other way. ${SOURCE_WORDS}`} />,
   <Head key="b" mark="to-report" words="Receiver's report, GWh" why="The same flow as the receiving side filed it. Both ends of a line file with EIA, each from its own meters and schedules; the two need not agree." />,

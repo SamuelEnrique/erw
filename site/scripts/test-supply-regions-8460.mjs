@@ -1,5 +1,5 @@
 // Energy Research Warehouse (ERW) site, session 8460 (chain 503, part E): the faults the reader's read of "The whole
-// country" on /supply found and fixed at their cause (docs/reviews/supply-regions-read-2026-11-19.md, rows 1 to 4),
+// country" on /supply found and fixed at their cause (docs/reviews/supply-regions-read-2026-11-19.md, rows 1 to 5),
 // held without a build. The section is drawn to HTML with the site's own code from session 8430's fixtures
 // (scripts/regions-fixture-trade.mjs: values made by a rule, not data). Each fix is words on a hover; nothing on the
 // section's face and no figure moved, which this test holds too. Session 8430's own tests are not changed.
@@ -56,9 +56,13 @@ ok(/A month here is Carolinas&#x27; own local month; the net imports above run b
 ok(/The file holds an hour when its sources add up to its net generation within 5 percent, so a month&#x27;s shares need not add up to exactly 100\. A month of the mix is the region&#x27;s own local month; a month of the net imports above is EIA&#x27;s Eastern month\./.test(car),
   "the hover beside the mix's heading says why a month's shares need not add up to 100, and the two kinds of month");
 
+// ---- row 5: the fold of the balancing authorities says what one is
+ok((car.match(/A balancing authority is the operator that keeps supply and demand in balance over its own area hour by hour \(a utility, a federal power agency or a grid operator\); each one of the lower 48 files Form EIA-930\./g) ?? []).length === 1
+  && /data-wc-head="sent"/.test(car) && /ran from this one to the other, by the file&#x27;s own direction \(the sign of the mean of the two reports\)\."/.test(car), "the head of the authorities' pairs says what a balancing authority is; the regions' head is as it was");
+
 // ---- nothing on the face moved, and no figure
 const base = draw({ region: "ten", b: "car" });
-ok(!/files Form EIA-930|does not list|local month|within 5 percent/.test(seen(tex)) && !/files Form EIA-930|does not list|local month|within 5 percent/.test(seen(car)) && !/local month|within 5 percent/.test(seen(base)), "every word added stands on a hover, none on the section's face");
+ok(!/files Form EIA-930|does not list|local month|within 5 percent|keeps supply and demand/.test(seen(tex)) && !/files Form EIA-930|does not list|local month|within 5 percent|keeps supply and demand/.test(seen(car)) && !/local month|within 5 percent/.test(seen(base)), "every word added stands on a hover, none on the section's face");
 const f = figs(base);
 ok(Object.keys(f).length === 451 &&f["trade|TEN|2025|SE|gap_pct"] === "22.2" && f["pair|SE-TEN|2025|gap_pct"] === "66.7" && f["mix|TEN|2025|natural_gas"] === "3.6" && (base.match(/data-gap-large="1"/g) ?? []).length === 14,
   "Tennessee and the Carolinas in 2025: the same figures, the same marks of a large gap");
