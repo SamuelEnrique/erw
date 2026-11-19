@@ -2,7 +2,7 @@
 
 Draft `scan-deep-0f5a1fecd0f8` of the findings hunt over the whole warehouse (chain 164), 2026-11-06. State: draft, not reviewed. Review at `/internal/findings`.
 
-**The finding.** The mean night demand (midnight to 6 AM) in Baltimore Gas & Electric zone (BC, a sub-region of PJM) was 86.9 percent of the all-hours mean in 2025, against 84.2 percent of the all-hours mean in 2019, the first year of the window the hunt read; the table holds the measure from 2018.
+**The finding.** The mean night demand (midnight to 6 AM) in Baltimore Gas & Electric zone (BC, a sub-region of PJM) was 86.9 percent of the all-hours mean in 2025, against 84.2 percent of the all-hours mean in 2019, the first full year the ERW holds.
 
 ![A sub-region's night, Baltimore Gas & Electric zone (BC, a sub-region of PJM)](sub-night-share-pjm-sub-bc.png)
 
