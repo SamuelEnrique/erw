@@ -290,12 +290,14 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a button {
   cursor: pointer;
 }
-/* a button that is not the form's one action and not the segment in view: ink on white, a captions edge */
-.brand-a button[type="button"]:not([aria-pressed="true"]):not([data-bar]) {
+/* a button that is not the form's one action and not the segment in view: ink on white, a captions edge.
+   Session 8601: a switch that is on (role="switch", aria-checked="true": the network's Batteries and Prices) is a
+   segment in view too. Without this its label was ink on its own ink ground and could not be read. */
+.brand-a button[type="button"]:not([aria-pressed="true"]):not([aria-checked="true"]):not([data-bar]) {
   color: var(--color-ink);
   border-color: var(--color-muted);
 }
-.brand-a button[type="button"]:not([aria-pressed="true"]):not([data-bar]):hover:not(:disabled) {
+.brand-a button[type="button"]:not([aria-pressed="true"]):not([aria-checked="true"]):not([data-bar]):hover:not(:disabled) {
   background: var(--color-paper);
 }
 .brand-a button:disabled {

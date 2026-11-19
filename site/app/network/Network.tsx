@@ -31,7 +31,8 @@ import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
-import { parseShape, withShape, type Shape } from "@/lib/networkMap";
+import { netOf, parseShape, reportedBy, withShape, type Shape } from "@/lib/networkMap";
+import type { MapFigures, MapFrame } from "./NetworkMap";
 import { netFromPage, netToPage } from "@/lib/gridtool";
 import { GRAVITY_CENTER, GRAVITY_GRIDS, netImportAt } from "@/lib/networkGravity";
 
@@ -44,7 +45,9 @@ export type NetNode = { id: string; name: string; iso: string | null; demand_mw:
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
   // session 54: set by the hourly refresh (warehouse/derived/network_hourly.py) on the seven ISO BAs
   demand_src?: "hourly"; demand_recent?: Record<string, number> };
-export type NetLink = { a: string; b: string; mw: (number | null)[] };
+export type NetLink = { a: string; b: string; mw: (number | null)[];
+  /** session 8601: the frames read from the second side's report, when the file marks them (lib/networkMap.ts reportedBy); no file does yet */
+  other?: number[] };
 export type Snapshot = { built: string; window: [string, string]; hours: string[]; rule: string; nodes: NetNode[]; links: NetLink[];
   // session 54: the hourly snapshot's newest complete hour and the daily build it was merged onto
   newest_hour?: string; refresh?: "hourly"; base_built?: string };
@@ -476,6 +479,17 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
   // session 180: what the map draws, from the same view, hour and selection as the network
   const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
   const mapNeighbours = useMemo(() => new Set(pick && shape !== "network" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
+  // session 8601 (chain 504): what the map's hovers say and its batteries' ring draws, from the same view, frame and
+  // switches as the panel. Read only while the map is the shape shown; the network's own drawing asks for none of it.
+  const mapFrame: MapFrame | undefined = shape !== "map" ? undefined : { when: isDayView ? `${ts.slice(0, 10)}, EIA's Eastern day` : `${ts.slice(0, 13).replace("T", " ")}:00 UTC, ${ET.format(new Date(ts))} Eastern`,
+    unit: isDayView ? "day" : "hour",
+    tables: isDayView ? "eia930_daily_interchange, eia930_daily_demand, carbon_intensity_daily" : view.kind === "live" ? "eia930_all_interchange, eia930_all_demand, carbon_intensity_hourly" : "eia930_event_hourly_interchange, carbon_intensity_daily" };
+  const mapFigures = (id: string): MapFigures => {
+    const c = view.intensity(id, hour);
+    return { intensity: c, intensityShown: c === null ? undefined : view.kind === "live" ? shown(c) : String(fmt(c)), demand: view.demand(id, hour), ...netOf(view.links, id, hour) };
+  };
+  const mapBattery = (id: string) => (view.batteryReported(id) ? { mw: view.battery(id, hour), max: batteryMax[id] ?? 0 } : null);
+  const mapSide = (a: string, b: string) => reportedBy(view.links.find((l) => l.a === a && l.b === b)?.other, hour);
   // session 266: what the gravity shape draws, from the same view, hour and ties as the panel
   const gravity = useMemo(() => {
     if (shape !== "gravity") return null;
@@ -553,7 +567,8 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {shape === "map" ? (
           <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
-            onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
+            onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)}
+            frame={mapFrame} figures={mapFigures} battery={batteriesOn ? mapBattery : undefined} sideOf={mapSide} />
         ) : shape === "gravity" && gravity ? (
           <NetworkGravity gen={gravity.gen} net={gravity.net} held={gravity.held} names={new Map(snap.nodes.map((n) => [n.id, n.name]))} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)}
             pick={pick?.id ?? null} neighbours={mapNeighbours} onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
@@ -666,12 +681,12 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
+        <span>{shape === "map" ? "Hover a region for its name and figures, click it for its panel; hover a tie for its megawatts. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger. Zoom with the wheel, two fingers or the buttons; drag to move a zoomed map." : shape === "gravity" ? "Hover a circle for its name, click it for its panel." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, var(--color-intensity-low), var(--color-intensity-mid), var(--color-intensity-high))" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
         {shape === "gravity" ? <span data-gravity-key="1">Circle: the grid&apos;s net generation in the hour shown (EIA-930), its area to scale with the Lower 48&apos;s at the center. Nearer the center: a net importer; farther out: a net exporter, by its net imports as a share of its generation (a quarter or more is the full pull); on the dashed ring: neither. The other {snap.nodes.length - GRAVITY_GRIDS.length} balancing authorities are drawn in the Network and Map shapes: their generation is not in the live set. A dashed outline: generation not held for the hour.</span>
-          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+          : shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. {batteriesOn ? <>Ring: batteries reported for the {unit}, fuller as they discharge, emptier as they charge, as in the Network view. </> : null}The prices&apos; ring is drawn in the Network view; the panel holds its numbers here.</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
         {batteriesOn && shape === "network" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
         {pricesOn && shape === "network" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
