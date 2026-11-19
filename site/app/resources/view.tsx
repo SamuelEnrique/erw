@@ -1,6 +1,6 @@
 import { ToolHeader } from "@/components/tool/ToolPage";
 import { DOCS, render } from "@/lib/markdown";
-import { filesOf, headingsUnder, hoverPairs, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
+import { filesOf, hoverPairs, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
 import { readManifest } from "@/lib/resourcesdata";
 import { ResourceDecisions } from "./Decisions";
 import { ResourceMap } from "./ResourceMap";
@@ -111,8 +111,7 @@ export function ResourcesView() {
             <section data-method-doc="1">
               <h3 className="mb-1 font-serif text-base text-accent">The method document</h3>
               <p className="mb-2 text-xs text-muted"><code className="font-mono">docs/methods/resources.md</code>, as committed.</p>
-              {/* session 8615: the document's headings keep their look and take their place in the page's outline, under this h3 (its own title was a second h1 on the page) */}
-              <article className="prose-erw" data-method-doc-under="3" dangerouslySetInnerHTML={{ __html: headingsUnder(render(doc, "docs/methods/resources.md"), 3) }} />
+              <article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md") }} />
             </section>
           ) : (
             <p className="text-xs text-muted" data-method-doc="0">The method document <code className="font-mono">docs/methods/resources.md</code> was not in the repository when this page was built.</p>

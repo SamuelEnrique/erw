@@ -63,14 +63,14 @@ Nine plays are set beside the 2011 review in `replication/resources/crosscheck_p
 | 5 | With a sun layer on, Alaska is blank north of 60 degrees north (the source's file ends there). Should the hover say so where the reader points? | Left; the layer's entry under the map says it |
 | 6 | A card that stays after a tap on a phone: a close mark? | None; the next tap, a drag or a map button takes it off |
 | 7 | **Site-wide:** a reason given on hover ("not held" beside a greyed layer) is the browser's own tooltip, which a finger never opens (about 1,100 on the site, 12 on this map) | Left as the site has it |
+| 8 | With the method note under the map open, the page has two headings of level 1 (the page's and the note's own title). The level can only be set inside the site's one renderer, which every page shares | Left as it is; a fix from the page went round the renderer and was taken out |
 
 ## 5a. Since this pack was first written (sessions 8611 to 8616, the same day)
 
 - **On a phone a tap now shows the value** (session 8614). It had shown nothing since the page was built: a finger's lift counted as leaving the map. On a narrow map the card takes the map's width.
 - **The keyboard reads the map** (8615): the place at the map's centre, under a small ring, after each key; announced to a screen reader.
-- **One heading of level 1 on the page** (8615): the method note in the fold keeps its look and is read at its place in the outline.
 - **The map's controls are 44 px on a phone**, and its card is the brand's (8611).
-- **The check** switches the coal fields on, taps with a finger, uses the Tab key, and holds frames back to try the map's own record: 103 of 106, the three that fail the datacenter overlay's license hold.
+- **The check** switches the coal fields on, taps with a finger, uses the Tab key, and holds frames back to try the map's own record: 102 of 105, the three that fail the datacenter overlay's license hold.
 - **Data request 553**: plain words and units for the hover of the wind sites and the hot-water systems, which read as raw column names. Done by the data machine on its next stack.
 
 ## 6. What is not done

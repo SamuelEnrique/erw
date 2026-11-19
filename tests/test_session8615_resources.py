@@ -8,15 +8,11 @@ pointer takes the reading back. The browser check does it with the Tab key and a
 (site/scripts/check-resources.mjs). Nothing here sets the environment or makes a request.
 """
 
-import json
 import os
 import re
-import shutil
-import subprocess
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-NODE = shutil.which("node")
 EM = chr(0x2014)
 
 
@@ -59,35 +55,22 @@ class TheKeyboardReadsTheCentre(unittest.TestCase):
         self.assertIn('ArrowLeft: () => step(-1, 0), ArrowRight: () => step(1, 0), ArrowUp: () => step(0, -1), ArrowDown: () => step(0, 1), "+": () => zoom(1.5), "=": () => zoom(1.5), "-": () => zoom(1 / 1.5)', self.m)
 
 
-@unittest.skipUnless(NODE, "node is not installed")
-class OneHeadingOfLevelOne(unittest.TestCase):
-    """Row 17: the method document shown in the fold under the map brought its own h1, a second on the page."""
+class MarkupOnlyThroughTheRenderer(unittest.TestCase):
+    """Row 17, and what this session got wrong. The method document shown in the fold brings its own title as a second
+    heading of level 1. The first fix wrote the levels into the renderer's markup from the page (a function wrapped
+    round render()), and the site's rule is that markup reaches a page only through the renderer (tests 177 and 5153):
+    the landing desk's suite caught it, because only the map's own tests had been run here. The change was taken out;
+    the row waits for a ruling. This holds the page to the rule."""
 
-    @classmethod
-    def setUpClass(cls):
-        r = subprocess.run([NODE, "--input-type=module", "-e",
-                            "import { headingsUnder as u } from './lib/resources.ts';"
-                            "console.log(JSON.stringify({ a: u('<h1>T</h1><p>x</p><h2 id=\"s\">S</h2><h3>a</h3><h4>b</h4>', 3), kept: u('<h2 aria-level=\"2\">S</h2>', 3),"
-                            " none: u('<h1>T</h1>', 0), text: u('<p>the h1 of a page</p><header>x</header>', 3) }));"],
-                           cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, encoding="utf-8", timeout=120)
-        assert r.returncode == 0, r.stderr
-        cls.d = json.loads(r.stdout.strip().splitlines()[-1])
-
-    def test_each_heading_keeps_its_tag_and_takes_its_level_in_the_page(self):
-        self.assertEqual(self.d["a"], '<h1 aria-level="4">T</h1><p>x</p><h2 id="s" aria-level="5">S</h2><h3 aria-level="6">a</h3><h4 aria-level="6">b</h4>')
-
-    def test_a_level_already_said_is_kept_and_no_level_above_changes_nothing(self):
-        self.assertEqual(self.d["kept"], '<h2 aria-level="2">S</h2>')
-        self.assertEqual(self.d["none"], "<h1>T</h1>")
-
-    def test_only_heading_tags_are_touched(self):
-        self.assertEqual(self.d["text"], "<p>the h1 of a page</p><header>x</header>")
-
-    def test_the_page_puts_the_document_under_its_h3(self):
+    def test_the_method_document_is_set_by_the_renderer_and_nothing_else(self):
         v = src("site", "app", "resources", "view.tsx")
-        self.assertIn('dangerouslySetInnerHTML={{ __html: headingsUnder(render(doc, "docs/methods/resources.md"), 3) }}', v)
-        a = v.index('<section data-method-doc="1">')
-        self.assertIn("<h3 ", v[a:a + 200])
+        self.assertIn('<article className="prose-erw" dangerouslySetInnerHTML={{ __html: render(doc, "docs/methods/resources.md") }} />', v)
+        self.assertEqual(re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+)", v), ["render"])
+
+    def test_no_function_that_rewrites_markup_is_left_behind(self):
+        self.assertNotIn("headingsUnder", src("site", "lib", "resources.ts"))
+        self.assertNotIn("headingsUnder", src("site", "app", "resources", "view.tsx"))
+        self.assertNotIn("data-method-doc-under", src("site", "scripts", "check-resources.mjs"))
 
 
 class TheCheckAndTheRead(unittest.TestCase):
@@ -106,7 +89,7 @@ class TheCheckAndTheRead(unittest.TestCase):
         self.assertEqual(rows, list(range(1, len(rows) + 1)))
         self.assertGreaterEqual(rows[-1], 17)
         self.assertRegex(r, r"(?m)^\| 15 \|.*\| fixed \(session 8615\)")
-        self.assertRegex(r, r"(?m)^\| 17 \|.*\| fixed \(session 8615\)")
+        self.assertRegex(r, r"(?m)^\| 17 \|.*\| ruling: for Samuel")
 
     def test_no_em_dash(self):
         for p in (("site", "app", "resources", "ResourceMap.tsx"), ("site", "scripts", "check-resources.mjs"), ("tests", "test_session8615_resources.py"), ("docs", "reviews", "resources-read-2026-11-19.md"), ("docs", "methods", "resources.md")):
