@@ -9,7 +9,7 @@
 // `stack`, lib/gridregions.ts `hourStack`): what is above zero up from zero, what is below zero down from zero. An hour
 // a source does not hold is a gap in that source, never a filled point. Demand is a line over the columns.
 // The mouse reads the hour and every source's megawatts; a table holds the same hours.
-import { useMemo, useState } from "react";
+import { useMemo, useState, type PointerEvent } from "react";
 import { DataTable, Toggle, bounds, num, ticksOf, useWidth } from "@/components/svgchart";
 import { LINE, stackNames, wrapName } from "@/lib/chartwrap";
 import { hourStack } from "@/lib/gridregions";
@@ -79,6 +79,8 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
   }, [t, n, W]);
   const local = (ms: number) => new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(ms));
   const show = (v: number | null | undefined) => (v === null || v === undefined ? "not held" : `${num(Math.round(v) || 0, 0)} MW`);
+  /** The hour under the pointer, or none where the pointer is outside the plot. */
+  const point = (e: PointerEvent<SVGSVGElement>) => { const box = e.currentTarget.getBoundingClientRect(); const i = Math.floor((e.clientX - box.left - L) / bw); setAt(i >= 0 && i < n ? i : null); };
   return (
     <div ref={wrap} className="relative" data-region-hours-chart={id} data-hours={n}>
       <Toggle label={label} table={table} setTable={setTable} id={id} />
@@ -90,7 +92,12 @@ export function RegionHours({ id, t, layers, demand, tz, label, height = 300 }: 
       ) : (
         <>
           <svg width={W} height={height} role="img" aria-label={`${label}. Each hour is a column: sources above zero are stacked up from zero, sources below zero down from zero. The table holds every hour.`} className="block max-w-full"
-            onPointerMove={(e) => { const box = e.currentTarget.getBoundingClientRect(); const i = Math.floor((e.clientX - box.left - L) / bw); setAt(i >= 0 && i < n ? i : null); }} onPointerLeave={() => setAt(null)}>
+            // session 8614: a finger. A tap is a press and a lift with no move between, and the lift is also the touch
+            // pointer's leave, so on a phone the card never came up. The press now reads the hour as a move does, and
+            // a touch's leave is let pass: the card of a tap stays until the next tap. A mouse is as it was.
+            data-hours-finger="1"
+            onPointerDown={(e) => { if (e.pointerType === "touch") point(e); }}
+            onPointerMove={point} onPointerLeave={(e) => { if (e.pointerType !== "touch") setAt(null); }}>
             <text x={L} y={TOP + 4} className="fill-muted" fontSize="12" textAnchor="end" dx={-6}>MW</text>
             {ticksOf(b).map((v) => (
               <g key={v}>
