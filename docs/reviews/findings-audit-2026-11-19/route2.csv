@@ -7,3 +7,20 @@ sub-p99-ercot-sub-fwes,disagree,"Disagree: ERCOT own Far West weather-zone load 
 sub-mean-ercot-sub-fwes,disagree,"Disagree: ERCOT own Far West weather-zone load gives a mean hour of 7,478 MW in 2025 and 3,719 in 2020, against the draft 7,606 and 3,682 from EIA-930: 1.7 percent apart in 2025."
 pair-flow-rp-can-ny,in part,"In part: EIA-930 daily interchange between NYIS and the Canadian authorities (table eia930_daily_interchange) gives 1,991 MW on average in 2019 against the draft 1,992; for 2025 the daily table holds 318 of 365 days (265.8 MW on those days), so the two cannot be set side by side for 2025."
 daily-spread-ercot-hb-south,other measure,"Not the same measure: ERCOT daily hub table (ercot_hub_prices_daily) gives a median rt_max less rt_min of 63.26 USD per MWh in 2025 and 27.65 in 2015 against the draft 50.76 and 18.12; its daily maximum and minimum are not of hourly prices, so it is not a second route."
+util-commercial-u861-19876-va,agree,"Agree: EIA-861 annual sales (table eia861_utility_sales, part A) give Virginia Electric and Power 41.60 TWh of commercial sales in 2017 and 60.09 in 2025, against the draft 41.54 and 60.09 from EIA-861M. The 2025 annual value equals the monthly sum exactly, so for 2025 the two may not be independent; 2017 is."
+util-commercial-u861-14127-ne,agree,"Agree: EIA-861 annual sales give Omaha Public Power District 3.67 TWh of commercial sales in 2017 and 7.88 in 2025, against the draft 3.67 and 7.88. The annual series jumps 42 percent from 2022 (3.80) to 2023 (5.39) in one year."
+seds-elec-comm-sd-va,agree,"Agree within 1 percent: EIA-861 annual sales summed over Virginia utilities (parts A and B) give 77.99 TWh of commercial sales in 2024, against the draft 78.7 from the State Energy Data System."
+lng-share-us-lng,none found,No second route in the warehouse: EIA annual gas balance (eia_gas_balance_annual) has dry production but no LNG line.
+sub-mean-pjm-sub-dom,none found,No second route in the warehouse: it holds no PJM zone load of its own; EIA-930 subregion demand is the only source.
+tight-solar-ercot-tight-solar,none found,No second route in the warehouse: the tightest hours exist only in grid_stress_yearly.
+midday-discount-ercot-lz-west,none found,No second route in the warehouse for hourly real-time zone prices before 28 September 2026 (ercot_rtm_node_prices begins then).
+evening-premium-ercot-hb-south,none found,"No second route in the warehouse for hourly real-time hub prices before 28 September 2026; ercot_hub_prices_daily holds daily means, not the evening hours."
+cheapest-hour-ercot-hb-north,none found,No second route in the warehouse for hourly real-time hub prices before 28 September 2026.
+wide-spread-days-ercot-lz-west,none found,No second route in the warehouse for hourly real-time zone prices before 28 September 2026.
+region-against-rn-ne,none found,"No second route in the warehouse: the only other interchange tables are daily, and a share of hours needs hours."
+battery-per-peak-caiso-bat-peak,none found,No second route in the warehouse: the fleet is EIA-860M and the peak days EIA-930; caiso_battery_storage begins in August 2025.
+gas-heat-rate-hr-gas-us,none found,No second route in the warehouse: EIA-923 plant fuel is the only source of fuel and generation by plant for 2001 and 2024.
+henry-hub-volatility-us-henry-hub,none found,No second route in the warehouse: Henry Hub daily spot prices are only in eia_fuel_spot_prices.
+gasoline-crack-crack-gasoline,none found,No second route in the warehouse: both spot series are only in eia_fuel_spot_prices.
+tariff-min-bill-pct,agree,"Agree with the publisher: Berkeley Lab review of rate designs for large loads (August 2026) gives a median minimum bill of 80 percent of contracted demand, as ours."
+ba-co2-intensity-ba-erco,none found,No second route in the warehouse: EIA-930 emissions estimates are the only hourly CO2 by authority.
