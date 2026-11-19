@@ -36,6 +36,8 @@ Time zones: the zone of most of the region's demand by EIA's reference (Pacific 
 
 The form of `site/data/mix/*.json`. A day is complete when every one of its local hours is held in `eia930_region_fuel_hourly` (storage aside, which is blank before July 2024); a month is written when at least 90 percent of its days are complete. For each month and year, the mean of each local hour over the complete days, for each source, demand and net generation (the sum of the eight sources), and each source's energy and share. The newest 35 local days are carried hour by hour (`hourly`), with net imports (EIA's total interchange with its sign turned).
 
+A source no authority of the region has printed in any held hour since July 2018 (every value zero) is drawn blank, not as 0 MW: its averages, energy and share are null, and the file names it in `sources_not_printed` (session 8011, data request 551; on 19 November 2026: wind in the Carolinas, Florida and the Southeast, storage in the Mid-Atlantic and Tennessee, coal, solar and storage in New York).
+
 Check: Texas's monthly shares equal those of `site/data/mix/ercot.json` to the hundredth of a percent in every month read.
 
 ## Trade files

@@ -292,6 +292,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
     full = pd.date_range(idx.min(), idx.max(), freq="h")
     f = pd.DataFrame({s: srcs[s].reindex(full) for s in SOURCES})
     held = f.drop(columns=["storage"]).notna().all(axis=1)
+    # session 8011 (data request 551 of the portable laptop): a source no authority of the region ever prints (every
+    # held hour zero, July 2018 on: New York's and the Mid-Atlantic's storage, Florida's and the Carolinas' wind, New
+    # England's coal) is drawn blank, not as 0 MW: its averages, energy and share are null, and it stays out of no sum
+    absent = [s_ for s_ in SOURCES if srcs[s_].notna().any() and (srcs[s_].fillna(0) == 0).all()]
     f["demand"] = demand.reindex(full)
     f["net_generation"] = f[SOURCES].sum(axis=1, min_count=1).where(held)
     f["net_imports"] = (-interchange).reindex(full)
@@ -312,10 +316,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
         r = {"avg": {}, "side": "eia930"}
         for k in SOURCES + ["demand", "net_generation"]:
             by = c.groupby("hour")[k].mean()
-            r["avg"][k] = [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
+            r["avg"][k] = [None] * 24 if k in absent else [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
         tot = float(c["net_generation"].sum())
         for s in SOURCES:
-            mwh = float(c[s].sum()) if c[s].notna().any() else None
+            mwh = float(c[s].sum()) if c[s].notna().any() and s not in absent else None
             r[f"{s}_mwh"] = mwh
             r[f"{s}_share_pct"] = round(100 * mwh / tot, 2) if mwh is not None and tot else None
         r["net_generation_mwh"], r["days_held"], r["days_in_month"] = tot, float(days_held), float(days_in)
@@ -330,10 +334,10 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
              "days_held": int(c["day"].nunique())}
         for k in SOURCES + ["demand", "net_generation"]:
             by = c.groupby("hour")[k].mean()
-            r["avg"][k] = [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
+            r["avg"][k] = [None] * 24 if k in absent else [round(float(by.get(h, np.nan)), 1) if pd.notna(by.get(h, np.nan)) else None for h in range(24)]
         tot = float(c["net_generation"].sum())
         for s in SOURCES:
-            mwh = float(c[s].sum()) if c[s].notna().any() else None
+            mwh = float(c[s].sum()) if c[s].notna().any() and s not in absent else None
             r[f"{s}_mwh"] = mwh
             r[f"{s}_share_pct"] = round(100 * mwh / tot, 2) if mwh is not None and tot else None
         r["net_generation_mwh"] = tot
@@ -348,11 +352,11 @@ def mix_doc(region, name, tz, fuel, net_gen, interchange, demand):
         h = f[(f.index >= start.tz_convert("UTC")) & (f.index < end.tz_convert("UTC"))]
         hourly = {"hours": {"start": ip.utc_iso(h.index.min()), "step_hours": 1, "n": int(len(h))}}
         for k in SOURCES + ["demand", "net_generation", "net_imports"]:
-            hourly[k] = [None if pd.isna(v) else round(float(v), 1) for v in h[k]]
+            hourly[k] = [None] * len(h) if k in absent else [None if pd.isna(v) else round(float(v), 1) for v in h[k]]
     ms = sorted(months)
     return {**common(["eia930_region_fuel_hourly", "eia930_region_hourly", "eia930_ba_demand_hourly"]),
             "grid": region.lower(), "name": name, "tz": tz, "join": None, "first": ms[0] if ms else None, "upto": ms[-1] if ms else None,
-            "sources": SOURCES, "months": months, "years": years, "hourly": hourly}
+            "sources": SOURCES, "sources_not_printed": absent, "months": months, "years": years, "hourly": hourly}
 
 
 # ------------------------------------------------------------------------------------------------ trade

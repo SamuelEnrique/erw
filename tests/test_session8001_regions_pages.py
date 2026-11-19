@@ -194,6 +194,14 @@ class Contract(unittest.TestCase):
             for s in ("natural_gas", "coal", "nuclear", "wind", "solar"):
                 self.assertAlmostEqual(a["months"][m][f"{s}_share_pct"], b["months"][m][f"{s}_share_pct"], places=2, msg=(m, s))
 
+    def test_a_source_never_printed_is_blank(self):
+        # session 8011 (data request 551): Florida prints no wind; its wind is null, not 0 MW
+        d = json.load(open(os.path.join(SITE, "mix", "fla.json"), encoding="utf-8"))
+        if "wind" in d.get("sources_not_printed", []):
+            m = sorted(d["months"])[-1]
+            self.assertIsNone(d["months"][m]["wind_mwh"])
+            self.assertEqual(set(d["months"][m]["avg"]["wind"]), {None})
+
     def test_every_region_has_its_files(self):
         for r in rp.REGIONS:
             for part in ("demand", "mix", "trade"):
