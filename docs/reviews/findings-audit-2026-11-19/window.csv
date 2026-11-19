@@ -25,7 +25,7 @@ sub-night-share-pjm-sub-ce,demand,,,table not on this machine
 sub-p99-ercot-sub-fwes,demand,,,table not on this machine
 sub-p99-pjm-sub-dom,demand,,,table not on this machine
 coal-co2-share-us-coal-co2-share,emissions_climate,,,table not on this machine
-conus-temperature-conus-temp,emissions_climate,,,table not on this machine
+conus-temperature-conus-temp,emissions_climate,2000,2000 1.240833 12; 2001 1.67 12; 2002 1.185 12; 2003 1.233333 12,
 power-co2-per-mwh-co2mwh-ia,emissions_climate,,,table not on this machine
 power-co2-per-mwh-co2mwh-us,emissions_climate,,,table not on this machine
 power-co2-share-us-power-co2-share,emissions_climate,,,table not on this machine
@@ -35,10 +35,10 @@ added-mw-add-battery-us,generation_pipeline,1900,1900 0.0 1; 1901 0.0 1; 1902 0.
 added-mw-add-solar-us,generation_pipeline,1900,1900 0.0 1; 1901 0.0 1; 1902 0.0 1; 1903 0.0 1,
 turbine-kw-us-turbine-kw,generation_pipeline,,,table not on this machine
 turbine-rotor-us-turbine-rotor,generation_pipeline,,,table not on this machine
-quakes-m3-eq-new-mexico,other_us,,,table not on this machine
-quakes-m3-eq-texas,other_us,,,table not on this machine
-europe-gas-premium-us-europe-gas,prices,,,table not on this machine
-japan-lng-premium-us-japan-lng,prices,,,table not on this machine
+quakes-m3-eq-new-mexico,other_us,1900,1900 0 1; 1901 0 1; 1902 0 1; 1903 0 1,
+quakes-m3-eq-texas,other_us,1900,1900 0 1; 1901 0 1; 1902 0 1; 1903 0 1,
+europe-gas-premium-us-europe-gas,prices,1960,1960 0.26 12; 1961 0.25 12; 1962 0.24 12; 1963 0.23 12,
+japan-lng-premium-us-japan-lng,prices,1977,1977 1.98 12; 1978 2.134167 12; 1979 2.51 12; 1980 4.110833 12,
 hybrid-share-southeast-lbnl-hybrid,queues_deals_datacenters,2009,2009 0.0 1; 2010 0.0 1; 2011 0.0 1; 2012 0.0 1,
 hybrid-share-us-lbnl-hybrid,queues_deals_datacenters,2000,2000 0.0 1; 2003 0.0 1; 2005 0.0 1; 2006 15.435831 1,
 months-by-region-pjm-lbnl-months,queues_deals_datacenters,2000,2000 3.088296 1; 2001 17.790554 1; 2002 31.737166 1; 2003 31.901437 1,

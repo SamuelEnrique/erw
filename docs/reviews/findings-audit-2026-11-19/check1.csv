@@ -118,7 +118,7 @@ co2-total-co2-idn,not checked,"the claim ""the first full year the ERW holds"" n
 co2-total-co2-ind,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_world_energy_co2_annual)"
 co2-total-co2-worl,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_world_energy_co2_annual)"
 coal-co2-share-us-coal-co2-share,pending,"the claim ""the first year this measure counts"" waits for the opened-window run (table not on this machine)"
-conus-temperature-conus-temp,pending,"the claim ""the first year this measure counts"" waits for the opened-window run (table not on this machine)"
+conus-temperature-conus-temp,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 ghg-onshore-basin-ghgon-345,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: epa_ghgrp_facility_emissions)"
 ghg-onshore-basin-ghgon-360,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: epa_ghgrp_facility_emissions)"
 ghg-onshore-basin-ghgon-430,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: epa_ghgrp_facility_emissions)"
@@ -264,7 +264,7 @@ us-nuclear-capacity-us-nuclear-cap,pass,"figure, unit, place, period and compari
 wind-share-state-wnd-sd,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 wind-share-state-wnd-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 tariff-min-bill-pct,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-tariff-min-contract-years,fixed,
+tariff-min-contract-years,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 tariff-min-demand-mw,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 wait-alberta-electric-system-operat-in-stage-then-withdrawn,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 wait-alberta-electric-system-operat-in-stage,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
@@ -295,9 +295,9 @@ nuc-out-share-nucf-6023,not checked,"the claim ""the first full year the ERW hol
 reactor-power-rp-surry-1,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 reactor-power-rp-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 reactor-power-rp-watts-bar-1,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-tight-solar-ercot-tight-solar,fixed,
-tight-solar-pjm-tight-solar,fixed,
-tight-wind-ercot-tight-wind,fixed,
+tight-solar-ercot-tight-solar,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+tight-solar-pjm-tight-solar,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+tight-wind-ercot-tight-wind,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 wind-solar-cf-ercot-wind-solar-cf,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 api-gravity-us-api-gravity,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 diesel-premium-us-diesel-premium,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
@@ -346,8 +346,8 @@ ev-share-ev-ca,pass,"figure, unit, place, period and comparison given; no cause,
 ev-share-ev-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 home-electric-spend-home-elec-dc,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 home-electric-spend-home-elec-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-quakes-m3-eq-new-mexico,pending,"the claim ""the first full year the ERW holds"" waits for the opened-window run (table not on this machine)"
-quakes-m3-eq-texas,pending,"the claim ""the first full year the ERW holds"" waits for the opened-window run (table not on this machine)"
+quakes-m3-eq-new-mexico,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+quakes-m3-eq-texas,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 renewable-share-us-renewable-share,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 util-commercial-price-u861-13756-in,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia861m_utility_sales_monthly)"
 util-commercial-price-u861-15500-wa,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia861m_utility_sales_monthly)"
@@ -374,7 +374,7 @@ da-above-rt-share-ercot-lz-south,not checked,"the claim ""the first full year th
 da-above-rt-share-ercot-lz-west,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_zone_prices_history )"
 daily-spread-ercot-hb-south,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_all_hub_prices_histo)"
 daily-spread-ercot-hb-west,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_all_hub_prices_histo)"
-europe-gas-premium-us-europe-gas,pending,"the claim ""the first year this comparison counts"" waits for the opened-window run (table not on this machine)"
+europe-gas-premium-us-europe-gas,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 evening-premium-ercot-hb-south,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_all_hub_prices_histo)"
 evening-premium-ercot-lz-houston,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_zone_prices_history )"
 henry-hub-volatility-us-henry-hub,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
@@ -382,7 +382,7 @@ hour-to-hour-move-ercot-hb-houston,not checked,"the claim ""the first full year 
 hour-to-hour-move-ercot-hb-south,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_all_hub_prices_histo)"
 industrial-vs-citygate-state-ind-ca,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_gas_prices_state_monthly)"
 industrial-vs-citygate-state-ind-mi,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: eia_gas_prices_state_monthly)"
-japan-lng-premium-us-japan-lng,pending,"the claim ""the first year this comparison counts"" waits for the opened-window run (table not on this machine)"
+japan-lng-premium-us-japan-lng,fixed,the first-year claim was untrue of the table and is mended: see Changed; wording mended: see Changed
 lcfs-credit-price-us-ca-lcfs,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 midday-discount-ercot-lz-south,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_zone_prices_history )"
 midday-discount-ercot-lz-west,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (a table larger than 250 MB for this machine's memory: ercot_zone_prices_history )"
@@ -403,8 +403,8 @@ dc-construction-us-dc-build,not checked,"the claim ""the first full year the ERW
 dc-share-us-dc-share,not checked,"the claim ""the first full year the ERW holds"" not tested against the table: the reproduction did not run here (table not on this machine: census_c30_construction_monthly)"
 hosting-jobs-jobs518-ca,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hosting-jobs-jobs518-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
-hosting-pay-pay518-ny,fixed,
-hosting-pay-pay518-us,fixed,
+hosting-pay-pay518-ny,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
+hosting-pay-pay518-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hosting-revenue-us-rev518,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hosting-sites-est518-ca,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
 hosting-sites-est518-us,pass,"figure, unit, place, period and comparison given; no cause, forecast or advice; the first-year claim holds against the reproduction's output"
