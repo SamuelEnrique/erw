@@ -1,0 +1,15 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate util_total, region u861_14063_ok (Oklahoma Gas & Electric Co in OK)
+# Computed 2026-11-19T12:15:32Z by warehouse/analysis/findings/deep/other_us.py (util_total); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's retail sales to all customers (TWh), the observations it rests on, and whether the year is full
+# Tables: eia861m_utility_sales_monthly
+region,year,value,n_observations,full_year
+u861_14063_ok,2017,23.730041246,12.0,1
+u861_14063_ok,2018,25.39803668,12.0,1
+u861_14063_ok,2019,25.797421305,12.0,1
+u861_14063_ok,2020,24.590220093000003,12.0,1
+u861_14063_ok,2021,25.095562375,12.0,1
+u861_14063_ok,2022,27.295200177999998,12.0,1
+u861_14063_ok,2023,27.218839051,12.0,1
+u861_14063_ok,2024,29.384975259,12.0,1
+u861_14063_ok,2025,30.923512125,12.0,1
+u861_14063_ok,2026,18.151852281,7.0,0

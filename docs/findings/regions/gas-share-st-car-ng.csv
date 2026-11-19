@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_share, region st_car_ng (North and South Carolina (EIA's Carolinas region))
+# Computed 2026-11-19T11:17:48Z by warehouse/analysis/findings/deep/regions.py (gas_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: natural gas's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_car_ng,2001,1.3115923086456998,12.0,1
+st_car_ng,2002,3.646172175456998,12.0,1
+st_car_ng,2003,1.4651347581730896,12.0,1
+st_car_ng,2004,2.8343137720171647,12.0,1
+st_car_ng,2005,3.691311591713145,12.0,1
+st_car_ng,2006,4.126659295550985,12.0,1
+st_car_ng,2007,4.4627078558197075,12.0,1
+st_car_ng,2008,4.379125608772705,12.0,1
+st_car_ng,2009,6.695595268205361,12.0,1
+st_car_ng,2010,8.321238698311648,12.0,1
+st_car_ng,2011,10.883307736448913,12.0,1
+st_car_ng,2012,15.75819406207838,12.0,1
+st_car_ng,2013,18.001387775175647,12.0,1
+st_car_ng,2014,17.817968187493268,12.0,1
+st_car_ng,2015,23.60561423050409,12.0,1
+st_car_ng,2016,24.419017563636267,12.0,1
+st_car_ng,2017,25.161981879344523,12.0,1
+st_car_ng,2018,27.866335628132617,12.0,1
+st_car_ng,2019,28.135647577639045,12.0,1
+st_car_ng,2020,29.444385691065683,12.0,1
+st_car_ng,2021,30.960428381514475,12.0,1
+st_car_ng,2022,35.31634800289287,12.0,1
+st_car_ng,2023,33.19139311521719,12.0,1
+st_car_ng,2024,33.260424529690354,12.0,1
+st_car_ng,2025,32.427984376757706,12.0,1
