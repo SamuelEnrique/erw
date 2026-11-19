@@ -29,6 +29,37 @@ export type Layer = {
 export type Missing = { id?: string; group?: string; title?: string; reason?: string; why?: string };
 export type Manifest = { built_at_utc?: string; layers: Layer[]; missing?: Missing[] };
 
+/** Session 8607 (chain 504, data request 542): the data machine adds layers in a second list beside the first
+ *  (data/resources/manifest_added.json, in the first's form; the first is not changed, chain 501's rule). The page
+ *  reads both as one: the first's layers in their order, then each added layer whose id the first does not hold (the
+ *  first wins a name); the first's missing list, then each added entry not named there and not now held as a layer.
+ *  `built_at_utc` stays the first's; `added_built_at_utc` is the second's. With no second list, the first as it is. */
+export function mergeManifests(first: Manifest, added: Manifest | null | undefined): Manifest & { added_built_at_utc?: string } {
+  if (!added || typeof added !== "object") return first;
+  const layers = [...(first.layers ?? [])];
+  for (const l of Array.isArray(added.layers) ? added.layers : []) if (l && typeof l.id === "string" && !layers.some((x) => x.id === l.id)) layers.push(l);
+  const missing = [...(first.missing ?? [])];
+  for (const x of Array.isArray(added.missing) ? added.missing : []) {
+    if (!x || (x.id && (missing.some((y) => y.id === x.id) || layers.some((l) => l.id === x.id)))) continue;
+    missing.push(x);
+  }
+  return { built_at_utc: first.built_at_utc, layers, missing, added_built_at_utc: typeof added.built_at_utc === "string" ? added.built_at_utc : undefined };
+}
+
+/** Session 8607: the fields a layer's entry asks the hover to list. The first list writes each as a pair, the field
+ *  and the words to show for it; the added list may write the field alone, and then the words are the field's own name
+ *  as the source writes it, in sentence case ("PROVINCE" reads "Province", "gen_mwh_yr" reads "Gen mwh yr"). Anything
+ *  else is left out; undefined when nothing is asked. */
+export function hoverPairs(v: unknown): [string, string][] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out: [string, string][] = [];
+  for (const f of v) {
+    if (Array.isArray(f) && typeof f[0] === "string" && typeof f[1] === "string") out.push([f[0], f[1]]);
+    else if (typeof f === "string" && f.trim()) { const words = f.trim().replace(/_+/g, " ").toLowerCase(); out.push([f, words.charAt(0).toUpperCase() + words.slice(1)]); }
+  }
+  return out.length ? out : undefined;
+}
+
 /** Every file a layer names, in the manifest's order: a grid's levels, or the one file of its shapes or points. */
 export function filesOf(l: Layer): string[] {
   const out: string[] = [];
