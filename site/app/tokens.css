@@ -1315,3 +1315,15 @@ body:has(.brand-a) > footer :focus-visible {
 .brand-a [data-llr] .overflow-x-auto table td .tip:is(:hover, :focus-within) {
   z-index: auto;
 }
+/* session 8401 (chain 503), browser row 341; ruling alternative 26 of /impact (wip/alt-impact-26, not a default on
+   main). With the third column, B less A, a phone's row holds three cells, each with about 95 px for its words at
+   390 px, and the rule above ("a figure and its unit stay on one line") kept "+USD 16.6 million" on one line in the
+   mono face, about 143 px: it ran past its cell and the screen (the page 409 px wide). Under 640 px the A and B
+   table's figures break at their spaces, as the scenario table's cells do above; a word wider than its cell (none is
+   today) breaks inside it. From 640 px up the table is a table again and its figures stay on one line */
+@media (max-width: 639px) {
+  .brand-a [data-compare-table] tbody td.text-right {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

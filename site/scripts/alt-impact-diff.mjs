@@ -26,4 +26,8 @@ const start = U.withProjects(U.parse(Object.fromEntries(new URLSearchParams(proc
 const html = renderToStaticMarkup(h(Forecast, { P, jedi, start, rules: D.gasSeverance(), planned: [] }));
 const out = { head: /data-head="d"/.test(html), diffs: {} };
 for (const m of html.matchAll(/data-cell="d\|([a-z0-9]+)"(?: data-diff="([^"]+)")?>([^<]*)</g)) out.diffs[m[1]] = { raw: m[2] === undefined ? null : Number(m[2]), text: m[3] };
+// session 8401 (browser row 341): every cell's words as drawn (A, B and B less A), by "<column>|<row key>", so a test can
+// hold what a phone's column has room for
+out.cells = {};
+for (const m of html.matchAll(/data-cell="([abd])\|([a-z0-9]+)"[^>]*>(?:<span[^>]*>)?([^<]*)</g)) out.cells[`${m[1]}|${m[2]}`] = m[3];
 process.stdout.write(JSON.stringify(out));
