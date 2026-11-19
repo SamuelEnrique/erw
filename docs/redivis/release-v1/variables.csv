@@ -3445,6 +3445,8 @@ eia930_demand_weather,winter_peak_unexplained_pct,series variable,pct
 eia930_demand_weather,winter_peak_weather_pct,series variable,pct
 eia930_event_hourly_interchange,demand_mw,series variable,MW
 eia930_event_hourly_interchange,interchange_mw,series variable,MW
+eia930_forecast_error_daily,demand_forecast_ape_pct,series variable,pct
+eia930_forecast_error_hourly,demand_forecast_miss_mw,series variable,MW
 eia930_generation_latest,net_generation_battery_mw,series variable,MW
 eia930_generation_latest,net_generation_coal_mw,series variable,MW
 eia930_generation_latest,net_generation_geothermal_mw,series variable,MW

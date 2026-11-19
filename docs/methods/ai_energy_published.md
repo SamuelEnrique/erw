@@ -37,3 +37,22 @@ Read and with no row: Mistral AI's note of July 2025, "Our contribution to a glo
 ## Build
 
     python warehouse/lock.py run --task ai -- <python> warehouse/connectors/ai_energy_published.py
+
+## The page (session 8012, chain 505)
+
+The page "Energy per AI query, as published" (`/ai-energy`, in review, in no menu) reads `site/data/ai_energy.json`, the table's rows as they stand, written by `warehouse/derived/ai_energy_page.py` (run after the connector, whenever its rows change). It shows every figure with its publisher, the publication and its date, what the figure measures and of what, the number in its own unit, and the publication's own words with their page; the basis, the period, the peer review and the saved copy are on hover. It can be put in order of publisher, of what is measured or of date, and filtered by what is measured. It computes nothing from the figures: no average, no sum, no conversion, no order by size, no comparison of one publisher's figure with another's.
+
+### Replication and cross-check
+
+`replication/ai_energy/replicate.py` reads the page as served and sets every figure it marks beside the file (the 23 figures, the count of figures and of publications). Its cross-check finds each row's printed words again, word for word, in the text of the saved copy of its publication (on the data machine, where `warehouse/raw/ai_energy_published/` is); it writes `figures.csv` and `crosscheck.csv`.
+
+### Decisions (session 8012)
+
+| Key | Choice | Default |
+|---|---|---|
+| `as-printed` | Every figure is the number its publication printed, in its own unit, beside its own words; no unit converted | the printed number and unit |
+| `no-sum` | Nothing averaged, summed or set against another figure; the publications measure different things | no figure of the ERW's own |
+| `order` | Publisher A to Z, then date; or what is measured, or date; never by size | publisher, A to Z |
+| `no-pair` | No two figures set side by side, since no two publications measure the same thing the same way | one table of every figure |
+| `which-publications` | The publications a session found and could read; a host that refuses automated reading is named under Limits | nine publications on 19 November 2026 |
+
