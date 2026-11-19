@@ -212,5 +212,85 @@ class TheReplicationOfTheRegionTabs(unittest.TestCase):
         self.assertNotIn(EM, s + r)
 
 
+def map_replication():
+    spec = importlib.util.spec_from_file_location("replicate_map", os.path.join(ROOT, "replication", "grid", "replicate_map.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+class TheReplicationOfTheMap(unittest.TestCase):
+    """replication/grid/replicate_map.py: what the map draws, computed again from the snapshot and the boundary file."""
+
+    LINKS = [{"a": "A", "b": "B", "mw": [5, None, 10, -4]}, {"a": "A", "b": "C", "mw": [1, 2, 0, 3]}, {"a": "B", "b": "D", "mw": [None, None, None, None]}]
+
+    def test_the_hour_the_week_opens_on(self):
+        m = map_replication()
+        hours = ["h0", "h1", "h2", "h3"]
+        # a pair reports when it held a flow in the last `quiet` hours: two of these four hours here, 48 of the week's 168 on the page
+        self.assertEqual(m.complete_hour(hours, self.LINKS, 2), (3, 3, 2))             # the pair that never reported is not waited for
+        late = [{"a": "A", "b": "B", "mw": [5, 6, 7, None]}, {"a": "A", "b": "C", "mw": [1, 2, None, 3]}]
+        self.assertEqual(m.complete_hour(hours, late, 2), (1, 2, 2))                    # the newest hour both hold
+        self.assertEqual(m.complete_hour(hours, [{"a": "A", "b": "B", "mw": [None] * 4}], 2), (None, 1, 0))
+
+    def test_a_tie_runs_from_its_exporter_and_a_zero_flow_is_not_drawn(self):
+        m = map_replication()
+        self.assertEqual(m.flows_at(self.LINKS, 3), {"B>A": 4.0, "A>C": 3.0})
+        self.assertEqual(m.flows_at(self.LINKS, 2), {"A>B": 10.0})                      # A-C is zero in that hour
+        self.assertEqual(m.flows_at(self.LINKS, 1), {"A>C": 2.0})
+
+    def test_a_regions_net_exchange_counts_a_zero_flow_as_a_tie(self):
+        m = map_replication()
+        self.assertEqual(m.net_of(self.LINKS, "A", 3), (1.0, 2))                        # 4 in from B, 3 out to C
+        self.assertEqual(m.net_of(self.LINKS, "A", 2), (-10.0, 2))
+        self.assertEqual(m.net_of(self.LINKS, "C", 2), (0.0, 1))
+        self.assertEqual(m.net_of(self.LINKS, "D", 3), (None, 0))
+
+    def test_it_is_the_pages_own_rule_read_in_its_code(self):
+        net = src("site", "app", "network", "Network.tsx")
+        self.assertIn("l.mw[h] !== 0).map((l) => {", net)
+        self.assertIn("source: v > 0 ? l.a : l.b, target: v > 0 ? l.b : l.a, mw: Math.abs(v)", net)
+        lib = src("site", "lib", "networkMap.ts")
+        self.assertIn("net += l.a === id ? -v : v; ties += 1;", lib)
+
+    def test_the_run_kept_on_the_branch_met_every_figure(self):
+        with open(os.path.join(ROOT, "replication", "grid", "map_figures_met.csv"), encoding="utf-8") as f:
+            lines = f.readlines()
+        rows = list(csv.DictReader(l for l in lines if not l.startswith("#")))
+        self.assertGreaterEqual(len(rows), 400)
+        self.assertEqual({r["met"] for r in rows}, {"yes"})
+        names = [r["figure"] for r in rows]
+        self.assertEqual(sum(1 for n in names if n.endswith(": net exchange, MW")), 60 - sum(1 for n in names if n.endswith(": no tie reported this hour")))
+        self.assertIn("# Retrieved: the page read 2026-11-", "".join(lines[:5]))
+
+    def test_an_altered_figure_is_caught(self):
+        import contextlib
+        import io
+        import json
+        import tempfile
+        m = map_replication()
+        with open(os.path.join(ROOT, "replication", "grid", "map_page_figures.json"), encoding="utf-8") as f:
+            page = json.load(f)
+        page["page"]["ties"][0]["mw"] += 2
+        page["page"]["width_key"] += 9
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "altered.json")
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(page, f)
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = m.main(["--page", p])
+        self.assertEqual(code, 1)
+        self.assertEqual(out.getvalue().count("NOT MET"), 2)
+
+    def test_the_harvest_reads_the_page_and_the_snapshot_it_drew(self):
+        s = src("replication", "grid", "map_figures.mjs")
+        self.assertIn('const OBJECT = "storage/v1/object/public/erw-public/network/grid_network.json";', s)
+        self.assertIn('export const NETWORK_OBJECT = "storage/v1/object/public/erw-public/network/grid_network.json";', src("site", "lib", "network.ts"))
+        self.assertIn("The hour rolled between the two: run again.", s)
+        self.assertNotIn("lib/networkMap", s)
+        self.assertNotIn(EM, s + src("replication", "grid", "replicate_map.py"))
+
+
 if __name__ == "__main__":
     unittest.main()
