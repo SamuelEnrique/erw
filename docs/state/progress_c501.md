@@ -22,3 +22,4 @@ The chain: `queue/done/501-day-19-november-desktop-whole-country-data.md`. One l
 | Part | Item | What | State | Session |
 |---|---|---|---|---|
 | B1 | contract | `docs/state/page_files_regions.md` (`733e7d3d5`, 10:30 UTC) | done | 8000 |
+| B2 | ba_boundaries | HIFLD Control Areas from PASDA (71 polygons, 67 keyed through EIA-861 BA IDs), table 71 rows validated and archived, web file 979,100 bytes; DataLumos not read (robots name ClaudeBot), NASA mirror unreachable; branch `wip/c501-data` at `23760f290`, gate started 10:50 UTC | gating | 8000 |
