@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_gen_ratio, region ba_bpat (the Bonneville Power Administration (BPAT, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:43Z by warehouse/analysis/findings/deep/authorities.py (ba_gen_ratio); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the authority's net generation as a percent of its demand (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_supply_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_bpat,2018,157.88097222915252,4409.0,0
+ba_bpat,2019,156.2540207395459,8760.0,1
+ba_bpat,2020,175.1553079369322,8784.0,1
+ba_bpat,2021,159.17771415818828,8760.0,1
+ba_bpat,2022,168.39403093433992,8760.0,1
+ba_bpat,2023,138.3860083142071,8760.0,1
+ba_bpat,2024,136.34601089952346,8784.0,1
+ba_bpat,2025,134.6570560118199,8760.0,1
+ba_bpat,2026,140.59173726232993,7688.0,0

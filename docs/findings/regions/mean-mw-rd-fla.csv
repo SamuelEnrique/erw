@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate mean_mw, region rd_fla (Florida (EIA's region))
+# Computed 2026-11-19T11:17:50Z by warehouse/analysis/findings/deep/regions.py (mean_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's mean hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+rd_fla,2018,27906.068597035504,2901.0,0
+rd_fla,2019,26749.09683225342,2778.0,0
+rd_fla,2020,28545.03090536035,7798.0,0
+rd_fla,2021,27821.221989528796,8595.0,1
+rd_fla,2022,29186.54680875444,8727.0,1
+rd_fla,2023,29992.428784917807,8699.0,1
+rd_fla,2024,30260.070687492873,8771.0,1
+rd_fla,2025,30560.114772857305,8739.0,1
+rd_fla,2026,32014.20748068844,7379.0,0

@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event elliott_2022, region SE (the Southeast (EIA's region))
+# Computed 2026-11-19T11:32:38Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 12-19 to 12-29, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+SE,2018,31608.0,264,0
+SE,2019,38799.0,264,0
+SE,2020,37508.0,264,0
+SE,2021,34756.0,264,0
+SE,2022,45131.0,264,1
+SE,2023,37890.0,264,0
+SE,2024,35604.0,264,0
+SE,2025,33520.0,264,0

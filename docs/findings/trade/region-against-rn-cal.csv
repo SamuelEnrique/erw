@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate region_against, region rn_cal (California (EIA's region), a net importer over 2019 to 2025)
+# Computed 2026-11-19T11:05:26Z by warehouse/analysis/findings/deep/trade.py (region_against); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the share of the year's hours a standing exporter imported, or a standing importer exported (percent of hours), the observations it rests on, and whether the year is full
+# Tables: eia930_region_hourly
+region,year,value,n_observations,full_year
+rn_cal,2018,0.0,4053.0,0
+rn_cal,2019,0.39242843951985223,8664.0,1
+rn_cal,2020,0.0,8714.0,1
+rn_cal,2021,0.4210033914162086,8551.0,1
+rn_cal,2022,0.45662100456621,8760.0,1
+rn_cal,2023,9.152621722846442,8544.0,1
+rn_cal,2024,8.425584255842558,6504.0,0
+rn_cal,2025,5.020775623268698,8664.0,1
+rn_cal,2026,4.478198245384314,7637.0,0

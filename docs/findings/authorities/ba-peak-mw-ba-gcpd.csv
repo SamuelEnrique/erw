@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_peak_mw, region ba_gcpd (Grant County PUD (GCPD, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:45Z by warehouse/analysis/findings/deep/authorities.py (ba_peak_mw); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the year's highest hour of demand (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_gcpd,2018,858.0,4409.0,0
+ba_gcpd,2019,846.0,8760.0,1
+ba_gcpd,2020,859.0,8782.0,1
+ba_gcpd,2021,947.0,8760.0,1
+ba_gcpd,2022,990.0,8760.0,1
+ba_gcpd,2023,978.0,8760.0,1
+ba_gcpd,2024,1058.0,8784.0,1
+ba_gcpd,2025,1053.0,8760.0,1
+ba_gcpd,2026,1020.0,7688.0,0

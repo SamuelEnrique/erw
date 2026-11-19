@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_co2_intensity, region ba_miso (MISO (MISO, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:42Z by warehouse/analysis/findings/deep/authorities.py (ba_co2_intensity); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the CO2 its generators emitted per MWh they generated (kg CO2 per MWh), the observations it rests on, and whether the year is full
+# Tables: eia930_all_emissions, eia930_ba_supply_hourly
+region,year,value,n_observations,full_year
+ba_miso,2018,604.798213799608,4320.0,0
+ba_miso,2019,535.8457560643782,8592.0,1
+ba_miso,2020,494.7155649506958,8760.0,1
+ba_miso,2021,519.8374178419932,8640.0,1
+ba_miso,2022,493.4259272593778,8712.0,1
+ba_miso,2023,460.487361801525,8760.0,1
+ba_miso,2024,441.6586083975044,8664.0,1
+ba_miso,2025,452.9029622276463,8712.0,1
+ba_miso,2026,428.3017564184116,7512.0,0

@@ -1,0 +1,30 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate gas_share, region st_sw_ng (Arizona and New Mexico (the core of EIA's Southwest region))
+# Computed 2026-11-19T11:17:48Z by warehouse/analysis/findings/deep/regions.py (gas_share); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: natural gas's share of the states' net generation (percent), the observations it rests on, and whether the year is full
+# Tables: eia_state_generation_monthly
+region,year,value,n_observations,full_year
+st_sw_ng,2001,14.377470771313972,12.0,1
+st_sw_ng,2002,16.61526983857612,12.0,1
+st_sw_ng,2003,17.659888901185834,12.0,1
+st_sw_ng,2004,22.732067404940164,12.0,1
+st_sw_ng,2005,24.214323825414187,12.0,1
+st_sw_ng,2006,27.36068875878757,12.0,1
+st_sw_ng,2007,30.221885798497343,12.0,1
+st_sw_ng,2008,29.902685458512202,12.0,1
+st_sw_ng,2009,28.61952172388721,12.0,1
+st_sw_ng,2010,25.802283551215837,12.0,1
+st_sw_ng,2011,21.74796346168695,12.0,1
+st_sw_ng,2012,26.497094029173162,12.0,1
+st_sw_ng,2013,25.911973442187087,12.0,1
+st_sw_ng,2014,25.053046273407404,12.0,1
+st_sw_ng,2015,29.498566574565068,12.0,1
+st_sw_ng,2016,31.155960395063424,12.0,1
+st_sw_ng,2017,27.768076098721096,12.0,1
+st_sw_ng,2018,33.745953414672805,12.0,1
+st_sw_ng,2019,38.922155533734895,12.0,1
+st_sw_ng,2020,43.78518429302693,12.0,1
+st_sw_ng,2021,40.436399057472926,12.0,1
+st_sw_ng,2022,38.48633759319801,12.0,1
+st_sw_ng,2023,44.37114644370897,12.0,1
+st_sw_ng,2024,42.85647418425871,12.0,1
+st_sw_ng,2025,40.52063883257029,12.0,1

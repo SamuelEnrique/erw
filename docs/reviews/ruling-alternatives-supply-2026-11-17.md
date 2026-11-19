@@ -23,3 +23,7 @@ Session 7726 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.
 Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; none is fixed here.
 
 - Browser row 366 (session 7800): `wip/alt-supply-2` (browser row 366): at 390 px `/supply?a=pjm&b=miso` is 490 px wide (production 390); at 1280 the box and its figures are as recorded (gas PJM 6.08 against MISO 4.92 Bcf a day, week of 30 October 2026).
+
+## The screenshot faults of 17 November, read against the branch (session 8401, chain 503, 19 November 2026)
+
+- Browser row 366 (session 8401): fixed on `wip/alt-supply-2` at `9b4d3f1c8`: the side by side table scrolls inside its own frame in the box, the frame in the box's colour; not seen in a browser, the row is `wanted` again.

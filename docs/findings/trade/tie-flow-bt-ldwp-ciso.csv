@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate tie_flow, region bt_ldwp_ciso (the Los Angeles Department of Water and Power (LDWP) to the California ISO (CISO))
+# Computed 2026-11-19T11:05:19Z by warehouse/analysis/findings/deep/trade.py (tie_flow); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean hourly flow on a tie between two balancing authorities, in its standing direction over 2019 to 2025 (MW), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_interchange_hourly_2018, eia930_ba_interchange_hourly_2019, eia930_ba_interchange_hourly_2020, eia930_ba_interchange_hourly_2021, eia930_ba_interchange_hourly_2022, eia930_ba_interchange_hourly_2023, eia930_ba_interchange_hourly_2024, eia930_ba_interchange_hourly_2025, eia930_ba_interchange_hourly_2026
+region,year,value,n_observations,full_year
+bt_ldwp_ciso,2018,2351.8906781583128,4409.0,0
+bt_ldwp_ciso,2019,2128.276712328767,8760.0,1
+bt_ldwp_ciso,2020,2081.1114526411657,8784.0,1
+bt_ldwp_ciso,2021,1339.7646118721461,8760.0,1
+bt_ldwp_ciso,2022,955.4627853881278,8760.0,1
+bt_ldwp_ciso,2023,295.0343607305936,8760.0,1
+bt_ldwp_ciso,2024,216.08861340679522,8712.0,1
+bt_ldwp_ciso,2025,443.9624655647383,8712.0,1
+bt_ldwp_ciso,2026,725.3454617102325,7613.0,0

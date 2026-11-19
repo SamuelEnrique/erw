@@ -23,3 +23,7 @@ Session 7712 (samueloldlaptop, claimed in `docs/state/ruling_alternative_claims.
 Faults seen on a build of a branch, from `docs/state/browser_reads_wanted.md`; none is fixed here.
 
 - Browser row 345 (session 7800): `wip/alt-events-2` with `wip/alt-events-1` beside it cannot show its numbers: on `wip/alt-events-1` (alone or merged) the Elliott page's whole section "What the estimates say" reads only "license needed" (the component's NoData: one of its reads is refused), where main draws the section with "license needed" cells. Alone, `wip/alt-events-2` draws its new column and hover with "license needed" cells (`events-2-1280.png`).
+
+## The screenshot faults of 17 November, read against the branch (session 8401, chain 503, 19 November 2026)
+
+- Browser row 345 (session 8401): not a fault of `wip/alt-events-2`, nothing changed: its column reads "license needed" because `event_window_daily` is held by grid and an EIA-930 entity names no grid, the hold as it stands. With `wip/alt-events-1` the section goes whole because that branch refuses the three held grids' reads and `EventStudy` makes all six in one attempt; left for the owner's ruling on alternative 1.

@@ -1,0 +1,13 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), event cold_2026, region TEX (Texas (EIA's region))
+# Computed 2026-11-19T11:32:41Z by warehouse/analysis/findings/deep/events.py; plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the window's highest hour of demand (MW) from 01-23 to 02-02, the hours it rests on, and whether it is the event year
+# Tables: eia930_ba_demand_hourly
+region,year,value,n_observations,event_year
+TEX,2019,54656.0,264,0
+TEX,2020,47074.0,264,0
+TEX,2021,51607.0,264,0
+TEX,2022,53813.0,264,0
+TEX,2023,65552.0,264,0
+TEX,2024,54806.0,264,0
+TEX,2025,70603.0,264,0
+TEX,2026,75599.0,264,1

@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate ba_gen_ratio, region ba_pacw (PacifiCorp West (PACW, EIA-930 balancing authority))
+# Computed 2026-11-19T11:43:43Z by warehouse/analysis/findings/deep/authorities.py (ba_gen_ratio); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the authority's net generation as a percent of its demand (percent), the observations it rests on, and whether the year is full
+# Tables: eia930_ba_supply_hourly, eia930_ba_demand_hourly
+region,year,value,n_observations,full_year
+ba_pacw,2018,76.30670989758622,4409.0,0
+ba_pacw,2019,64.35274622203396,8760.0,1
+ba_pacw,2020,59.570975929455585,8784.0,1
+ba_pacw,2021,61.087273937975816,8760.0,1
+ba_pacw,2022,39.09905923905333,8760.0,1
+ba_pacw,2023,24.96483523247971,8760.0,1
+ba_pacw,2024,24.752835692543375,8784.0,1
+ba_pacw,2025,34.44613025344737,8760.0,1
+ba_pacw,2026,48.49589493734459,7688.0,0

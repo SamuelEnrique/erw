@@ -1,0 +1,14 @@
+# Energy Research Warehouse (ERW): findings hunt (chain 502), candidate summer_temp, region wt_fla (Florida (EIA's region))
+# Computed 2026-11-19T11:23:50Z by warehouse/analysis/findings/deep/weather.py (summer_temp); plan https://github.com/SamuelEnrique/erw/blob/main/docs/reviews/findings-hunt-plan-2026-11-19.md
+# Rows: one per year held: the mean temperature of the year's June to August hours (F), the observations it rests on, and whether the year is full
+# Tables: region_weather_hourly
+region,year,value,n_observations,full_year
+wt_fla,2018,82.3060643394935,1461.0,0
+wt_fla,2019,82.636922705314,2070.0,1
+wt_fla,2020,82.7198458478369,2011.0,1
+wt_fla,2021,82.22134748500231,2167.0,1
+wt_fla,2022,83.12786348761104,2139.0,1
+wt_fla,2023,83.55732905002294,2179.0,1
+wt_fla,2024,83.54228558182662,2157.0,1
+wt_fla,2025,83.15379492600422,1892.0,0
+wt_fla,2026,83.16710179640718,835.0,0
