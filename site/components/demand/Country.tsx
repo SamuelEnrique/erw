@@ -80,17 +80,22 @@ function slotOf(mark: "a" | "b", place: Place, index: IndexFile | null, fileOf: 
   return { mark, place, key, name, file, state: why ? "held" : "drawn", why: why ?? "", area: areaOf(file), period: file.growth ? periodOf(file.growth) : null };
 }
 
+/** True when a place's file holds what the charts of the years read: the base year, the last whole year, a whole year. */
+const hasGrowth = (s: Slot) => !!s.area && !!s.period && Number.isFinite(s.period.base) && Number.isFinite(s.period.last_year) && wholeYears(s.area).length > 0;
+/** The month the year so far runs to, by name, or null when the file does not say. */
+const throughOf = (p: Period) => (typeof p.ytd_through === "string" && /^\d{4}-\d{2}$/.test(p.ytd_through) ? monthName(Number(p.ytd_through.slice(5))) : null);
+
 /** The summary of one place, in the form of the as-metered view's first sentence. */
 function Lead({ s, index }: { s: Slot; index: IndexFile | null }) {
   const k = (x: string) => `cd|${s.mark}|sum|${x}`;
   let body: ReactNode;
   if (s.state === "held") body = <p className="text-sm" data-cd-held={s.mark}><Held why={s.why} /> {LICENSE_NEEDED}</p>;
   else if (s.state !== "drawn") body = <p className="text-sm"><Hint words={s.state === "not-built" ? "not built yet" : "not held"} why={s.why} /></p>;
-  else if (!s.area || !s.period || !wholeYears(s.area).length) body = <p className="text-sm"><NOT why={`The file of ${s.name} holds no whole year of demand.`} /></p>;
+  else if (!s.area || !s.period || !hasGrowth(s)) body = <p className="text-sm"><NOT why={`The file of ${s.name} holds no whole year of demand.`} /></p>;
   else {
     const ys = wholeYears(s.area), first = ys[0], last = ys[ys.length - 1];
-    const ytd = yearToDate(s.period, s.area);
-    const through = monthName(Number(s.period.ytd_through.slice(5)));
+    const through = throughOf(s.period);
+    const ytd = through ? yearToDate(s.period, s.area) : null;
     const g = last.row.avg_demand_growth_since_2019_pct, pg = last.row.peak_demand_growth_since_2019_pct, yg = ytd?.row.ytd_avg_demand_growth_since_2019_pct;
     body = (
       <p className="max-w-3xl font-serif text-lg leading-snug" data-cd-summary={s.mark}>
@@ -200,9 +205,9 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
   const yearRows = slots.flatMap((s): Row[] => {
     if (!s.file) return [{ key: s.mark, cells: [s.name], wide: wide(s) }];
     const ar = s.area, p = s.period;
-    if (!ar || !p || !wholeYears(ar).length) return [{ key: s.mark, cells: [s.name], wide: s.state === "held" ? <><Held why={s.why} /> {LICENSE_NEEDED}</> : <NOT why={`The file of ${s.name} holds no whole year of demand.`} /> }];
-    const ys = wholeYears(ar), ytd = yearToDate(p, ar);
-    const through = monthName(Number(p.ytd_through.slice(5)));
+    if (!ar || !p || !hasGrowth(s)) return [{ key: s.mark, cells: [s.name], wide: s.state === "held" ? <><Held why={s.why} /> {LICENSE_NEEDED}</> : <NOT why={`The file of ${s.name} holds no whole year of demand.`} /> }];
+    const through = throughOf(p);
+    const ys = wholeYears(ar), ytd = through ? yearToDate(p, ar) : null;
     const k = (y: string, x: string) => `cd|${s.mark}|y|${y}|${x}`;
     const peakAt = (y: string, key = "peak_demand_mw") => (ar.at[y]?.[key] ? localHour(ar.at[y][key], ar.tz) : null);
     const g = (y: string, v: number | undefined, x: string) => (v === undefined && Number(y) === p.base && s.state !== "held"
@@ -224,9 +229,10 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
     });
     return rows;
   });
-  const bases = [...new Set(slots.filter((s) => s.period).map((s) => s.period!.base))];
+  const bases = [...new Set(slots.filter((s) => s.period && Number.isFinite(s.period.base)).map((s) => s.period!.base))];
   const base = bases.length === 1 ? String(bases[0]) : "the base year";
-  const grown = drawn.filter((s) => s.area && s.period && wholeYears(s.area).length);
+  const grown = drawn.filter(hasGrowth);
+  const counted = (s: Slot) => { const x = s.file?.screened; return !!x && [x.jumps, x.not_positive, x.blank].every((v) => typeof v === "number"); };
 
   // ---- with the weather taken out: the weather view's own chart and table, for the regions that hold it
   const t0 = train[0], t1 = train[train.length - 1];
@@ -250,7 +256,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
       return {
         key: `${s.mark}|${y}`, highlight: y === wc.year, muted: false,
         cells: [s.name, part && g.window !== "the season" ? `${y}, part` : y, <span key="a" title={why} data-cd-metered-why={`${s.mark}|${y}`}><N k={`${k}|mw`}>{whole(g.actual)}</N></span>, <N key="g" k={`${k}|g`}>{signed1(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed1(g.weather_pct)}</N>,
-          <N key="u" k={`${k}|u`}>{signed1(g.unexplained_pct)}</N>, g.uncertainty_pct === null ? <NOT key="p" why={`No year left out of the fit gives ${s.name} an uncertainty for this figure.`} /> : <N key="p" k={`${k}|pm`}>{one(g.uncertainty_pct)}</N>,
+          <N key="u" k={`${k}|u`}>{signed1(g.unexplained_pct)}</N>, typeof g.uncertainty_pct !== "number" ? <NOT key="p" why={`No year left out of the fit gives ${s.name} an uncertainty for this figure.`} /> : <N key="p" k={`${k}|pm`}>{one(g.uncertainty_pct)}</N>,
           <span key="r" data-reading={g.finding ? "finding" : "no"} title={reading(g)}>{g.finding ? "yes" : g.outside ? "beyond" : "no"}</span>],
       };
     });
@@ -338,7 +344,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
           </ToolSection>
 
           <ToolSection title="Year by year" id="years"
-            note={<>{grown.filter((s) => s.file!.screened).map((s) => <span key={s.mark} data-cd-screened={s.mark}>Hours left out for {s.name}: <N k={`cd|${s.mark}|screen|jumps`}>{whole(s.file!.screened!.jumps)}</N> that stand apart from their neighbours, <N k={`cd|${s.mark}|screen|zero`}>{whole(s.file!.screened!.not_positive)}</N> at or below zero, <N k={`cd|${s.mark}|screen|blank`}>{whole(s.file!.screened!.blank)}</N> blank.{" "}</span>)}
+            note={<>{grown.filter(counted).map((s) =><span key={s.mark} data-cd-screened={s.mark}>Hours left out for {s.name}: <N k={`cd|${s.mark}|screen|jumps`}>{whole(s.file!.screened!.jumps)}</N> that stand apart from their neighbours, <N k={`cd|${s.mark}|screen|zero`}>{whole(s.file!.screened!.not_positive)}</N> at or below zero, <N k={`cd|${s.mark}|screen|blank`}>{whole(s.file!.screened!.blank)}</N> blank.{" "}</span>)}
               <Hint words="Which hours are used" why="From EIA-930's hourly demand, by the screen of the as-metered view (docs/methods/demand_growth.md): an hour is used when its demand is above zero and does not stand apart from the hours around it, because EIA's file holds faulty hours and a faulty high hour would otherwise be a year's peak. A region's hour needs every one of its balancing authorities that file demand. A year is written when nearly all its hours are used; its average is the mean of those hours. Nothing is filled." />{" "}
               <Hint words="The last row of a place" why="The last row of each place compares January to the last whole month of the newest year with the same months of the base year: its growth is against those months, not against the whole base year." /></>}>
             <div className={cols}>

@@ -198,6 +198,14 @@ const thin = { ...ten, growth: undefined, daily: undefined, weather: undefined }
 const thinHtml = renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => thin }));
 ok(Object.keys(figs(thinHtml)).length === 0 && count(thinHtml, 'data-not-held="1"') >= 5 && !/NaN|undefined|Infinity/.test(wordsOf(thinHtml)) && !thinHtml.includes("<svg"), "a file with no daily series, no growth and no weather: not held with why, section by section, nothing drawn");
 
+const lone = (file) => renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => file }));
+const noMonth = lone({ ...ten, growth: { ...ten.growth, ytd_through: undefined }, screened: undefined }), fm = figs(noMonth);
+ok(fm["cd|a|y|2025|avg"] === "12,600" && fm["cd|a|sum|avg_growth"] === "+5.00" && !("cd|a|y|ytd|avg" in fm) && !("cd|a|sum|ytd_growth" in fm) && !noMonth.includes("data-cd-screened") && !/NaN|undefined|Infinity/.test(wordsOf(noMonth)),
+  "a file that does not say which month the year so far runs to, or how many hours were left out: the whole years stand and nothing is made up");
+const noBase = lone({ ...ten, growth: { ...ten.growth, base: undefined } }), fb = figs(noBase);
+ok(!Object.keys(fb).some((k) => k.startsWith("cd|a|y|") || k.startsWith("cd|a|sum|") || k.startsWith("cd|a|cell|")) && fb["cd|a|day|top_mw"] === "12,660" && count(noBase, 'data-chart="years"') === 0 && !/NaN|undefined|Infinity/.test(wordsOf(noBase)),
+  "a file whose growth names no base year: its years read not held, its days are still drawn");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
