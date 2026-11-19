@@ -32,7 +32,7 @@ DASHES = (chr(0x2014), chr(0x2013))
 WRITTEN = [
     "replication/supply/replicate_regions.py", "site/scripts/supply-regions-figures.mjs", "site/scripts/test-supply-regions-8460.mjs",
     "tests/test_session8460_supply_regions_replication.py", "docs/reviews/supply-regions-read-2026-11-19.md", "docs/methods/supply_and_trade.md",
-    "site/components/supply/Country.tsx",
+    "site/components/supply/Country.tsx", "archive/sessions/SESSION_8460_REPORT.md",
 ]
 
 
