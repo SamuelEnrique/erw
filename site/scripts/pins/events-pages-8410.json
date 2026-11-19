@@ -1,0 +1,110 @@
+{
+ "what": "The ten /events pages as drawn from origin/main before session 8410 (chain 503), by scripts/test-events-pin.mjs: a hash of each page's HTML, its length and its count of checked figures, as a visitor's build draws it and with the hold stood aside.",
+ "from_commit": "2bca0266c",
+ "modes": {
+  "visitor": {
+   "index": {
+    "sha256": "e63c739d046a14a2986ed44dca4706e37acf41da6e8bf5668592ddafbf830354",
+    "bytes": 25454,
+    "figures": 2
+   },
+   "uri-2021": {
+    "sha256": "3f9485a15f56ccfb9e9728ee8df8eb2dc36860250926b4dc65a937daf012a48c",
+    "bytes": 73124,
+    "figures": 9
+   },
+   "covid-2020": {
+    "sha256": "b8bee26d5c8aef369c3e5f42cf8b5f5dac37425f5a86252ca4a40159987d298a",
+    "bytes": 271357,
+    "figures": 7
+   },
+   "caiso-heat-2020": {
+    "sha256": "23dfce991d1d5e2c9eb44a735c9542b6cdb1039687d393a72a63490f2dd11090",
+    "bytes": 58077,
+    "figures": 0
+   },
+   "caiso-heat-2022": {
+    "sha256": "1d5742bd0f16010825a9dbb5d5f5cd05caaf25b4e5c73cacc766fe6968f42ae0",
+    "bytes": 55240,
+    "figures": 0
+   },
+   "elliott-2022": {
+    "sha256": "b216cd62d207a1f173e9ed0db650087ac475ba61f77355a1e6a45caeb2a3e4df",
+    "bytes": 108811,
+    "figures": 10
+   },
+   "ercot-heat-2023": {
+    "sha256": "8dcbe8e472bfdb2c1c7698d1463616f1560fb94706112f4f5702bedf1ebd57cb",
+    "bytes": 104912,
+    "figures": 11
+   },
+   "cold-2025": {
+    "sha256": "66150e76a4ecaa94ce2b2b2d20d8440f65248f24b2812d6a2d0ba2c8c00bb293",
+    "bytes": 104932,
+    "figures": 10
+   },
+   "east-heat-2025": {
+    "sha256": "6eaf272a01fccbb91c6656bba4206fd0edba2b6d47687b37893802ba5aa63c03",
+    "bytes": 80695,
+    "figures": 0
+   },
+   "cold-2026": {
+    "sha256": "41d83421e0421de25005845439c95a6fdbce64c4cf575d8f839e7bb416fa2e5c",
+    "bytes": 108778,
+    "figures": 10
+   }
+  },
+  "unheld": {
+   "index": {
+    "sha256": "e3ea58b5346d331486a4b98fff9374e2b6416d8a0d10d8f6036bfc0682135a37",
+    "bytes": 25132,
+    "figures": 9
+   },
+   "uri-2021": {
+    "sha256": "fbef9ea8489ab538e7a54f5dbad41816467d17e5833af5f40728ec3c4ea54fd8",
+    "bytes": 67983,
+    "figures": 84
+   },
+   "covid-2020": {
+    "sha256": "e14687a99eec805e252ba5724bc23e0b04cac78d01ab5bf48d5fca1130ee5818",
+    "bytes": 249498,
+    "figures": 350
+   },
+   "caiso-heat-2020": {
+    "sha256": "b0a924c4f419b14558fd66a2b34c3fee5f5804090a4891039fa45de9181b72e8",
+    "bytes": 54152,
+    "figures": 65
+   },
+   "caiso-heat-2022": {
+    "sha256": "4144e8cb67ba34b8df16b023adcdde1a2db3ff9e97f0133771f5154d91b95e17",
+    "bytes": 52061,
+    "figures": 53
+   },
+   "elliott-2022": {
+    "sha256": "68311879ae08325ca6853c262414757a17b350e48bc0d9fe9c8ba280c13abbbd",
+    "bytes": 101829,
+    "figures": 122
+   },
+   "ercot-heat-2023": {
+    "sha256": "12b4d0289b4b6b64886d1757757cbe6c923702099124e833dbb610d0e836f014",
+    "bytes": 96126,
+    "figures": 156
+   },
+   "cold-2025": {
+    "sha256": "a06d347524dd9d74f4e72e609b00aefbd9419515956cb0c6045ca3b15d6fa638",
+    "bytes": 99350,
+    "figures": 96
+   },
+   "east-heat-2025": {
+    "sha256": "b6493d1b3dac0f0519ca9f2c1ba4900f3d3c945d1b8526d8f8fb6a51663a68e2",
+    "bytes": 76678,
+    "figures": 67
+   },
+   "cold-2026": {
+    "sha256": "f5362ae0c3604200928c75dc09f1f81916357f476dad73bd15da371b144804be",
+    "bytes": 103111,
+    "figures": 98
+   }
+  }
+ }
+}

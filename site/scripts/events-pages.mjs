@@ -54,7 +54,7 @@ const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
 /** One page drawn on the rows `rowsOf(table)` gives (objects with the table's columns, or null for a table that cannot be
  * read, which answers as a failed request). Returns the HTML and the reads the page made. */
-export async function drawPage(file, rowsOf) {
+export async function drawPage(file, rowsOf, props = {}) {  // session 8410: `props` are the page's own (its searchParams)
   process.env.SUPABASE_URL = "http://localhost:9/";
   process.env.SUPABASE_ANON_KEY = "stand-in";
   const asked = [];
@@ -92,7 +92,7 @@ export async function drawPage(file, rowsOf) {
   console.error = () => {};
   try {
     const mod = await import(new URL(file, import.meta.url).href);
-    const el = await mod.default();
+    const el = await mod.default(props);
     // an async component inside the page (EventWindow, EventStudy) is drawn by resolving it first: react-dom/server's
     // static renderer does not await, so each async child is called and its result put in its place
     return { html: renderToStaticMarkup(await resolveAsync(el)), asked };
