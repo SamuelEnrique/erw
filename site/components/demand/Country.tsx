@@ -190,7 +190,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
 
   // ---- demand by day
   const dayRows = slots.map((s): Row => {
-    const sum = s.file ? dailySummary(s.file.daily, days) : null;
+    const sum = s.file ? dailySummary(s.file.daily, days, s.file.tz) : null;
     const k = (x: string) => `cd|${s.mark}|day|${x}`;
     const none = `The file of ${s.name} holds no day${days === "all" ? "" : ` of ${days}`}.`;
     if (!s.file) return { key: s.mark, cells: [s.name], wide: wide(s) };
@@ -210,15 +210,19 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
       ],
     };
   });
-  const newest = [...new Set(drawn.flatMap((s) => newestDays(s.file!.daily, NEWEST_DAYS).map((r) => r.day)))].sort().reverse().slice(0, NEWEST_DAYS);
+  const newest = [...new Set(drawn.flatMap((s) => newestDays(s.file!.daily, NEWEST_DAYS, s.file!.tz).map((r) => r.day)))].sort().reverse().slice(0, NEWEST_DAYS);
   const newestRows = newest.map((day): Row => ({
     key: day,
     cells: [
       day,
       ...slots.flatMap((s): ReactNode[] => {
-        const r = s.file ? newestDays(s.file.daily, NEWEST_DAYS * 2).find((x) => x.day === day) : undefined;
+        const r = s.file ? newestDays(s.file.daily, NEWEST_DAYS * 2, s.file.tz).find((x) => x.day === day) : undefined;
         const k = (x: string) => `cd|${s.mark}|new|${day}|${x}`;
-        const part = r && r.hours !== null ? `${s.name}, ${day}: ${whole(r.hours)} of the day's hours are used, so no demand of the whole day is given.` : `The file of ${s.name} does not hold ${day}.`;
+        // session 8480 (data request row 328): the day's own count of hours where the zone gives it, and why a day the
+        // file wrote as whole on fewer hours is not given
+        const part = r && r.hours !== null
+          ? `${s.name}, ${day}: ${whole(r.hours)} of the day's ${r.of !== null ? `${whole(r.of)} ` : ""}hours are used, so no demand of the whole day is given.${r.of !== null && r.hours < r.of && typeof s.file?.daily?.demand_mwh?.[s.file.daily.days.lastIndexOf(day)] === "number" ? " The file writes a demand for the day; the page does not count it as a whole day's, since the record begins or ends inside the day." : ""}`
+          : `The file of ${s.name} does not hold ${day}.`;
         if (!s.file) return [wide(s), ""];
         return [
           cell(s, r && r.mwh !== null ? <N k={k("gwh")}>{gwh(r.mwh)}</N> : null, part),
@@ -335,7 +339,7 @@ export function Country({ q, index, fileOf }: { q: Q; index: IndexFile | null; f
               <Hint words="Days drawn" why={`Every day the files hold, or the days of one year: the list "Days drawn" above. Default: every day held, this page's own choice (session 8420). The table under the charts counts the days drawn. Shown now: ${days === "all" ? "every day held" : days}.`} /></>}>
             <div className={cols}>
               {slots.map((s) => {
-                const peak = s.state === "drawn" ? dailyPoints(s.file!.daily, "peak", days) : [], avg = s.state === "drawn" ? dailyPoints(s.file!.daily, "average", days) : [];
+                const peak = s.state === "drawn" ? dailyPoints(s.file!.daily, "peak", days, s.file!.tz) : [], avg = s.state === "drawn" ? dailyPoints(s.file!.daily, "average", days, s.file!.tz) : [];
                 return (
                   <div key={s.mark} className="min-w-0" data-cd-daily={s.mark} data-cd-points={peak.length}>
                     <ChartFrame title={`${s.name}: demand by day, MW`}>

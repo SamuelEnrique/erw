@@ -234,6 +234,20 @@ const pmHtml = ent(draw({ a: "ten", b: "none" }));
 ok(noPmHtml.includes('data-reading="no" title="Not called a finding: no year left out of the fit gives Tennessee an uncertainty') && !pmHtml.includes("Not called a finding"),
   "a weather row with no uncertainty: its 'no' says why it is not a finding; rows with an uncertainty keep the weather view's own hover");
 
+// ---- session 8480 (data request row 328): a day's demand is a whole day's only on all the hours of the local day
+ok(C.dayHours("2025-07-01", "America/New_York") === 24 && C.dayHours("2025-03-09", "America/New_York") === 23 && C.dayHours("2025-11-02", "America/Chicago") === 25
+  && C.dayHours("2025-03-09", "America/Phoenix") === 24 && C.dayHours("2025-03-09", "Mars/Olympus") === null && C.dayHours("2025-03-09", undefined) === null,
+  "the hours of a local day: 24, 23 and 25 when the clocks change, none changed in Arizona, none without a zone");
+const lastI = ten.daily.days.length - 1, lastDay = ten.daily.days[lastI];
+const cut = { ...ten, daily: { ...ten.daily, hours: ten.daily.hours.map((h, i) => (i === lastI ? 23 : h)) } };
+const sumAll = C.dailySummary(ten.daily, "all", ten.tz), sumCut = C.dailySummary(cut.daily, "all", cut.tz);
+ok(ten.daily.hours[lastI] === 24 && typeof ten.daily.demand_mwh[lastI] === "number" && sumCut.held === sumAll.held - 1 && C.dailySummary(cut.daily, "all").held === sumAll.held
+  && C.newestDays(cut.daily, 1, cut.tz)[0].mwh === null && C.newestDays(cut.daily, 1, cut.tz)[0].of === 24 && C.dailyPoints(cut.daily, "average", "all", cut.tz).at(-1)[1] === null && C.dailyPoints(cut.daily, "peak", "all", cut.tz).at(-1)[1] === ten.daily.peak_mw[lastI],
+  "a day the file writes as whole on 23 of its 24 hours: not counted, not a point of the average line, its highest hour still drawn; without the zone the file stands");
+const cutHtml = ent(renderToStaticMarkup(createElement(V.Country, { q: { a: "ten", b: "none" }, index, fileOf: () => cut }))), fcut = figs(cutHtml);
+ok(!(`cd|a|new|${lastDay}|gwh` in fcut) && `cd|a|new|${lastDay}|mw` in fcut && cutHtml.includes(`Tennessee, ${lastDay}: 23 of the day's 24 hours are used, so no demand of the whole day is given. The file writes a demand for the day; the page does not count it as a whole day's`)
+  && fcut["cd|a|day|held"] === String(sumAll.held - 1), "the newest day on 23 hours reads not held, with the hours of the day and why; the count of days held leaves it out");
+
 // ---- the reader: a fixture is never read from the site's own folder; the whole page
 ok(process.env.ERW_REGIONS_DIR === undefined, "ERW_REGIONS_DIR is not set as the test starts");
 const onSite = (rel) => fs.existsSync(here(`../data/regions/${rel}`));
@@ -289,6 +303,12 @@ if (onSite("index.json")) {
     const abroadReal = (real?.bas ?? []).filter((x) => C.acrossTheBorder(x));
     ok(abroadReal.every((x) => !page.includes(`data-cd-ba="${x.code}"`) && !page.includes(`value="ba-${x.code.toLowerCase()}"`)) && page.includes(`The balancing authorities (${real.bas.length - abroadReal.length})`),
       `the real index's ${abroadReal.length} authorities across the border are not in the form's list or the table of the lower 48 (session 8480, row 12)`);
+    const partial = [];
+    for (const p of [...real.regions.map((r) => reg(r.code)), ...real.bas.map((x) => ba(x.code))]) {
+      const f = C.demandPlaceFile(p);
+      f?.daily?.days?.forEach((d, i) => { if (typeof f.daily.demand_mwh?.[i] === "number" && C.wholeDayMwh(f.daily, i, f.tz) === null) partial.push(`${p.code} ${d} (${f.daily.hours[i]} of ${C.dayHours(d, f.tz)} hours)`); });
+    }
+    console.log(`note the real files: ${partial.length} days written as whole on fewer hours than the local day has (data request row 328), not counted by the page${partial.length ? `: ${partial.join("; ")}` : ""}`);
     const D = JSON.parse(fs.readFileSync(here("../data/demand_growth.json"), "utf-8"));
     for (const [code, grid] of Object.entries(ALIKE)) {
       const a = C.demandPlaceFile(reg(code))?.alike;

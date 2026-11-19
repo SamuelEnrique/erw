@@ -181,11 +181,23 @@ def drawn_days(daily, days):
     return [i for i, d in enumerate(daily.get("days") or []) if days == "all" or d.startswith(f"{days}-")]
 
 
-def of_days(out, k, daily, days, points):
+def whole_mwh(daily, i, tz):
+    """Session 8480 (data request row 328): a day's demand only where the file gives it all the hours the local day has
+    in the place's zone (24, or 23 and 25 when the clocks change). Without the zone or the day's hours, as the file
+    stands."""
+    e = at(daily.get("demand_mwh"), i)
+    if not num(e):
+        return None
+    h = at(daily.get("hours"), i)
+    length = day_hours(daily["days"][i], tz) if tz else None
+    return None if length is not None and num(h) and h != length else e
+
+
+def of_days(out, k, daily, days, points, tz=None):
     pos = drawn_days(daily, days)
     if not pos:
         return
-    mwh = [at(daily.get("demand_mwh"), i) for i in pos]
+    mwh = [whole_mwh(daily, i, tz) for i in pos]
     peak = [at(daily.get("peak_mw"), i) for i in pos]
     held = [v for v in mwh if num(v)]
     out[f"{k}|day|days"] = float(len(pos))
@@ -198,7 +210,7 @@ def of_days(out, k, daily, days, points):
         out[f"{k}|day|top_mw"] = float(max(tops))
     if points:
         for i in pos:
-            day, p, e, h = daily["days"][i], at(daily.get("peak_mw"), i), at(daily.get("demand_mwh"), i), at(daily.get("hours"), i)
+            day, p, e, h = daily["days"][i], at(daily.get("peak_mw"), i), whole_mwh(daily, i, tz), at(daily.get("hours"), i)
             if num(p):
                 out[f"{k}|pt|{day}|peak"] = float(p)
             if num(e) and num(h) and h > 0:
@@ -218,7 +230,7 @@ def of_newest(out, drawn, n):
             if day not in all_days:
                 continue
             i = len(all_days) - 1 - all_days[::-1].index(day)
-            e, p = at(daily.get("demand_mwh"), i), at(daily.get("peak_mw"), i)
+            e, p = whole_mwh(daily, i, file.get("tz")), at(daily.get("peak_mw"), i)
             if num(e):
                 out[f"{k}|new|{day}|gwh"] = e / 1000
             if num(p):
@@ -309,7 +321,7 @@ def expected(view, files, newest_days):
             of_years(out, k, file)
             of_months_and_hours(out, k, growth)
         if (file.get("daily") or {}).get("days"):
-            of_days(out, k, file["daily"], view.get("days") or "all", view["kind"] == "place")
+            of_days(out, k, file["daily"], view.get("days") or "all", view["kind"] == "place", file.get("tz"))
         of_alike(out, k, file.get("alike"))
     of_newest(out, drawn, newest_days)
     of_weather(out, drawn, view.get("figure") or FIGURES[0], view.get("year") or "")
