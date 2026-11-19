@@ -728,6 +728,8 @@ def iso_of(table):
         return "none"
     if table in ("company_directory", "company_aliases", "company_links"):  # session 3302: companies, no one ISO
         return "none"
+    if table in ("resource_layer_features", "ai_energy_published"):  # sessions 8005 and 8006: places of the resource map, and published figures: no ISO
+        return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"
     if table in ("storage_buildout_monthly", "storage_owners_monthly"):  # session 72 (session 69): the seven grids, and the US outside them; session 87

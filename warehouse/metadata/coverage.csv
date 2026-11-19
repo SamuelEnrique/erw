@@ -5,6 +5,7 @@ aeso_alberta_load_hourly,aeso,,1,PT1H,2025-01-01T07:00:00Z,2026-10-23T19:00:00Z,
 afdc_ev_charging_state_annual,afdc,,51,P1Y,2014-01-01T00:00:00Z,2025-01-01T00:00:00Z,3060,afdc:historical_station_counts,2026-10-24T00:02:46Z,pass,public,power,no,source
 afdc_station_counts_annual,afdc,,21,P1Y,2007-01-01T00:00:00Z,2025-01-01T00:00:00Z,13520,doe:afdc_station_counts,2026-10-24T00:17:41Z,pass,public,power,no,source
 afdc_vehicle_registrations_annual,afdc,,12,P1Y,2016-01-01T00:00:00Z,2025-01-01T00:00:00Z,6240,doe:afdc_vehicle_registrations,2026-10-23T19:50:27Z,pass,public,power;products,no,source
+ai_energy_published,none,,1,event,2019-06-05T00:00:00Z,2025-08-21T00:00:00Z,21,1 outlets,,pass,public,power,no,source
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
 amm_guatemala_generation_monthly,amm,,1,P1M,2017-01-01T00:00:00Z,2025-12-01T00:00:00Z,1739,amm:generacion_mensual_por_planta,2026-10-24T10:58:47Z,pass,internal,power,no,source
 aneel_siga_plants,aneel,,25042,snapshot,2026-10-24T06:57:16Z,2026-10-24T06:57:16Z,25042,aneel:siga,2026-10-24T07:39:34Z,pass,public,power,no,source
@@ -609,6 +610,7 @@ pse_poland_balance_15min,pse,,1,PT15M,2024-06-13T21:45:00Z,2026-10-23T21:45:00Z,
 ree_spain_balance_monthly,ree,,1,P1M,2020-01-01T00:00:00Z,2026-09-01T00:00:00Z,1890,ree:redata_balance_electrico,2026-10-24T04:09:31Z,pass,public,power,no,source
 region_weather_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,13,PT1H,2018-07-01T00:00:00Z,2026-11-07T14:00:00Z,879553,erw:region_weather_hourly,2026-11-18T02:45:59Z,pass,public,power,no,derived
 ren_portugal_balance_annual,ren,,1,P1Y,2020-01-01T00:00:00Z,2025-01-01T00:00:00Z,146,ren:datahub_monthly_balance,2026-10-24T05:54:07Z,pass,internal,power,no,source
+resource_layer_features,none,,1371628,snapshot,2026-10-07T21:26:20Z,2026-11-19T12:39:54Z,1371628,erw:resource_layer_features;usgs:of2012_1205_coal_fields,,pass,public,power;gas;oil;coal,no,derived
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-11-15T15:15:30Z,pass,internal,carbon,no,source
 rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:00:00Z,212252,rrc:pdq_dump,2026-10-01T04:46:13Z,pass,public,oil;gas,no,source
 rte_eco2mix_france_halfhourly,rte,,1,PT30M,2019-12-31T23:00:00Z,2026-08-31T21:30:00Z,1448927,rte:eco2mix_national,2026-10-24T04:08:26Z,pass,public,power,no,source
@@ -680,7 +682,7 @@ uswtdb_wind_turbines,uswtdb,,77839,snapshot,2026-10-21T18:33:12Z,2026-10-21T18:3
 utility_large_load_queue_totals,none,,1,event,2025-10-28T00:00:00Z,2026-11-13T00:00:00Z,34,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_rule_changes,none,,1,event,2026-08-18T00:00:00Z,2026-11-13T00:00:00Z,94,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
 utility_large_load_rules,none,,1,event,2010-01-01T00:00:00Z,2026-11-13T00:00:00Z,100,1 outlets,2026-11-16T16:46:58Z,pass,public,power;datacenters,no,model_extracted
-utility_large_load_tariffs,utility,,20,,2018-02-15T00:00:00Z,2027-01-01T00:00:00Z,83,filed:large_load_tariffs,2026-11-18T04:44:51Z,pass,public,power,no,source
+utility_large_load_tariffs,utility,,21,,2018-02-15T00:00:00Z,2027-01-01T00:00:00Z,86,filed:large_load_tariffs,2026-11-19T13:10:14Z,pass,public,power,no,source
 utility_service_territories,utility,,11893,snapshot,2026-10-21T16:56:34Z,2026-10-21T16:56:34Z,11893,eia:eia861_territory,2026-10-22T09:46:54Z,pass,public,power,no,source
 vmme_paraguay_electricity_annual,vmme,,19,P1Y,2023-01-01T00:00:00Z,2024-01-01T00:00:00Z,38,vmme_py:ben_2024_cuadro_3,2026-10-25T01:31:16Z,pass,internal,power,no,source
 wapa_energy_sales_annual,wapa,,12,P1Y,2007-10-01T00:00:00Z,2024-10-01T00:00:00Z,307,wapa:rates_and_sales_data,2026-10-25T22:04:40Z,pass,public,power,no,source
